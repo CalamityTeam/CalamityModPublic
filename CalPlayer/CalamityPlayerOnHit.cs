@@ -1607,7 +1607,7 @@ namespace CalamityMod.CalPlayer
             if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && !Player.moonLeech)
             {
                 // Increases the degree to which Spectre Healing set contributes to the lifesteal cap
-                if (Player.ghostHeal)
+                if (Player.ghostHeal && proj.CountsAsClass<MagicDamageClass>())
                 {
                     float cooldownMult = 0.2f;
                     cooldownMult -= proj.numHits * 0.05f;

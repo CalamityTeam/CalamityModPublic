@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Crags
         public override void SetDefaults()
         {
             NPC.lavaImmune = true;
-            NPC.aiStyle = 2;
+            NPC.aiStyle = NPCAIStyleID.DemonEye;
             NPC.damage = 40;
             NPC.width = 30;
             NPC.height = 30;

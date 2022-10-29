@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.lavaImmune = false;
             NPC.width = 18;
             NPC.height = 44;
-            NPC.aiStyle = 7;
+            NPC.aiStyle = NPCAIStyleID.Passive;
             NPC.damage = 10;
             NPC.defense = 15;
             NPC.lifeMax = 250; //Im not special :(

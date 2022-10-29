@@ -57,6 +57,10 @@ namespace CalamityMod.Projectiles.Ranged
             // Determine rotation.
             Projectile.rotation = Projectile.velocity.ToRotation();
 
+            // Emit light.
+            DelegateMethods.v3_1 = Color.Lerp(Color.Lime, Color.White, 0.55f).ToVector3() * 0.65f;
+            Utils.PlotTileLine(Projectile.Center - Projectile.velocity * 0.5f, Projectile.Center + Projectile.velocity * 0.5f, 16f, DelegateMethods.CastLightOpen);
+
             Time++;
         }
 

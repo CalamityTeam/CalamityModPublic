@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override void SetDefaults()
         {
-            NPC.aiStyle = 86;
+            NPC.aiStyle = NPCAIStyleID.AncientVision;
             NPC.damage = 33;
             NPC.width = 40;
             NPC.height = 40;

@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
         {
             NPC.npcSlots = 2f;
             NPC.damage = 80;
-            NPC.aiStyle = 39;
+            NPC.aiStyle = NPCAIStyleID.GiantTortoise;
             NPC.width = 46;
             NPC.height = 32;
             NPC.defense = 32;

@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            NPC.aiStyle = 1;
+            NPC.aiStyle = NPCAIStyleID.Slime;
             AIType = NPCID.ToxicSludge;
             NPC.damage = 80;
             NPC.width = 40;

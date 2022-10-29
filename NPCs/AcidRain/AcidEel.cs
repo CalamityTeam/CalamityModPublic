@@ -180,12 +180,20 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            Vector2 headDrawPosition = NPC.Center - screenPos;
+            if (NPC.IsABestiaryIconDummy)
+            {
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AcidRain/AcidEelBestiary").Value;
+                Rectangle eelArea = NPC.frame with { Width = 74 };
+                Main.EntitySpriteDraw(texture, headDrawPosition, eelArea, NPC.GetAlpha(Color.White), NPC.rotation, eelArea.Size() * 0.5f, NPC.scale, SpriteEffects.None, 0);
+                return false;
+            }
+
             // Initialize the segment drawer.
             SegmentDrawer ??= new(SegmentWidthFunction, _ => NPC.GetAlpha(Color.White), null, GameShaders.Misc["CalamityMod:PrimitiveTexture"]);
 
             Texture2D headTexture = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D tailTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AcidRain/AcidEelTail").Value;
-            Vector2 headDrawPosition = NPC.Center - screenPos;
             Vector2[] segmentPositions = (Vector2[])NPC.oldPos.Clone();
 
             Vector2 segmentAreaTopLeft = Vector2.One * 999999f;

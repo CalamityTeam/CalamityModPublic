@@ -24,6 +24,8 @@ namespace CalamityMod.FluidSimulation
 
         internal FluidFieldState ColorField;
 
+        internal RenderTarget2D OutputTarget;
+
         public float Viscosity;
 
         public float DiffusionFactor;
@@ -85,6 +87,8 @@ namespace CalamityMod.FluidSimulation
 
             DivergenceField = new(Main.instance.GraphicsDevice, Size, Size, true, SurfaceFormat.Vector4, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
             DivergencePoissonField = new(Main.instance.GraphicsDevice, Size, Size, true, SurfaceFormat.Vector4, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+
+            OutputTarget = new(Main.instance.GraphicsDevice, Size, Size, true, SurfaceFormat.Color, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
         }
 
         internal void ApplyThingToTarget(RenderTarget2D currentField, Action shaderPreparationsAction)
@@ -239,6 +243,7 @@ namespace CalamityMod.FluidSimulation
 
             UpdateVelocityFields();
             UpdateDensityFields();
+            UpdateOutputTarget();
 
             ShouldSkipDivergenceClearingStep = false;
         }
@@ -265,6 +270,20 @@ namespace CalamityMod.FluidSimulation
             CalculateAdvection(ColorField.PreviousState, ColorField.NextState, VelocityField.NextState, true);
         }
 
+        public void UpdateOutputTarget()
+        {
+            Main.instance.GraphicsDevice.SetRenderTarget(OutputTarget);
+            Main.instance.GraphicsDevice.Clear(Color.Transparent);
+
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
+            Main.instance.GraphicsDevice.Textures[5] = ColorField.NextState;
+            CalamityShaders.FluidShaders.CurrentTechnique.Passes["DrawFluidPass"].Apply();
+            Main.spriteBatch.Draw(DensityField.NextState, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, 0, 0f);
+            Main.spriteBatch.End();
+
+            Main.instance.GraphicsDevice.SetRenderTarget(null);
+        }
+
         public void Dispose()
         {
             // Prevent disposing twice.
@@ -280,6 +299,7 @@ namespace CalamityMod.FluidSimulation
             VelocityField?.Dispose();
             ColorField?.Dispose();
             DensityField?.Dispose();
+            OutputTarget?.Dispose();
         }
 
         public void CreateSource(int x, int y, float density, Color color, Vector2 velocity)
@@ -291,19 +311,21 @@ namespace CalamityMod.FluidSimulation
 
             ColorField.PendingChanges.Enqueue(new PixelQueueValue(pos, color));
 
-            VelocityField.PendingChanges.Enqueue(new(pos, new Vector4(velocity.X, velocity.Y, 0f, 0f)));
+            if (velocity != Vector2.Zero)
+                VelocityField.PendingChanges.Enqueue(new(pos, new Vector4(velocity.X, velocity.Y, 0f, 0f)));
             DensityField.PendingChanges.Enqueue(new PixelQueueValue(pos, new Color(density, 0f, 0f)));
         }
 
-        public void Draw(Vector2 drawPosition, bool needsToCallEnd, Matrix drawPerspective, Matrix previousPerspective)
+        public void Draw(Vector2 drawPosition, bool needsToCallEnd, Matrix drawPerspective, Matrix previousPerspective, Action<RenderTarget2D> shaderPreparations = null)
         {
             if (needsToCallEnd)
                 Main.spriteBatch.End();
 
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, drawPerspective);
-            Main.instance.GraphicsDevice.Textures[5] = ColorField.NextState;
-            CalamityShaders.FluidShaders.CurrentTechnique.Passes["DrawFluidPass"].Apply();
-            Main.spriteBatch.Draw(DensityField.NextState, drawPosition, null, Color.White, 0f, DensityField.NextState.Size() * 0.5f, Scale, 0, 0f);
+
+            shaderPreparations?.Invoke(OutputTarget);
+
+            Main.spriteBatch.Draw(OutputTarget, drawPosition, null, Color.White, 0f, OutputTarget.Size() * 0.5f, Scale, 0, 0f);
             Main.spriteBatch.End();
 
             if (needsToCallEnd)

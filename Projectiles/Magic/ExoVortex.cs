@@ -61,6 +61,9 @@ namespace CalamityMod.Projectiles.Magic
             // Rotate.
             Projectile.rotation += Projectile.velocity.X * 0.04f;
 
+            // Emit light.
+            Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.9f);
+
             // Re-determine the hitbox size.
             Projectile.Opacity = Utils.GetLerpValue(0f, 20f, Time, true);
             Projectile.scale = Utils.Remap(Time, 0f, Projectile.MaxUpdates * 15f, 0.01f, 1.5f) * Utils.GetLerpValue(0f, Projectile.MaxUpdates * 16f, Projectile.timeLeft, true);

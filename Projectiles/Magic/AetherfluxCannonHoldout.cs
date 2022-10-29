@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Update damage based on curent magic damage stat (so Mana Sickness affects it)
             Item weaponItem = Owner.ActiveItem();
-            Projectile.damage = (int)Owner.GetTotalDamage<MagicDamageClass>().ApplyTo(weaponItem?.damage ?? 0);
+            Projectile.damage = weaponItem is null ? 0 : Owner.GetWeaponDamage(weaponItem);
 
             // Get the original weapon's use time.
             int itemUseTime = weaponItem?.useAnimation ?? AetherfluxCannon.UseTime;

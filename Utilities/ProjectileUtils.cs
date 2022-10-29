@@ -505,6 +505,37 @@ namespace CalamityMod
             return false;
         }
 
+        public static void DrawBackglow(this Projectile projectile, Color backglowColor, float backglowArea, Rectangle? frame = null)
+        {
+            Texture2D texture = TextureAssets.Projectile[projectile.type].Value;
+
+            // Use a fallback for the frame.
+            frame ??= texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+
+            Vector2 drawPosition = projectile.Center - Main.screenPosition;
+            Vector2 origin = frame.Value.Size() * 0.5f;
+            Color backAfterimageColor = backglowColor * projectile.Opacity;
+            for (int i = 0; i < 10; i++)
+            {
+                Vector2 drawOffset = (MathHelper.TwoPi * i / 10f).ToRotationVector2() * backglowArea;
+                Main.spriteBatch.Draw(texture, drawPosition + drawOffset, frame, backAfterimageColor, projectile.rotation, origin, projectile.scale, 0, 0f);
+            }
+        }
+
+        public static void DrawProjectileWithBackglow(this Projectile projectile, Color backglowColor, Color lightColor, float backglowArea, Rectangle? frame = null)
+        {
+            Texture2D texture = TextureAssets.Projectile[projectile.type].Value;
+
+            // Use a fallback for the frame.
+            frame ??= texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+
+            Vector2 drawPosition = projectile.Center - Main.screenPosition;
+            Vector2 origin = frame.Value.Size() * 0.5f;
+
+            projectile.DrawBackglow(backglowColor, backglowArea, frame);
+            Main.spriteBatch.Draw(texture, drawPosition, frame, projectile.GetAlpha(lightColor), projectile.rotation, origin, projectile.scale, 0, 0f);
+        }
+
         public static void ExplodeandDestroyTiles(Projectile projectile, int explosionRadius, bool checkExplosions, List<int> tilesToCheck, List<int> wallsToCheck)
         {
             int minTileX = (int)projectile.position.X / 16 - explosionRadius;

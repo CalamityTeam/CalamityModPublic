@@ -860,7 +860,9 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.EaterofWorldsHead:
-                    // Expert+ drops are also available on Normal, also stuff that would be in the bag otherwise
+                case NPCID.EaterofWorldsBody:
+                case NPCID.EaterofWorldsTail:
+                    // Expert+ drops are also available on Normal. Drop what would be in the bag otherwise
                     LeadingConditionRule EoWKill = new(DropHelper.If((info) => info.npc.boss));
                     EoWKill.Add(DropHelper.PerPlayer(ItemID.WormScarf));
                     EoWKill.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);

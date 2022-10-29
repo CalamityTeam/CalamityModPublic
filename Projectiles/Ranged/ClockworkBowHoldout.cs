@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Ranged
                 return;
 
             Item heldItem = Owner.ActiveItem();
-            float individualBoltDamage = Owner.GetTotalDamage<RangedDamageClass>().ApplyTo(heldItem.damage);
+            float individualBoltDamage = heldItem is null ? 0 : Owner.GetWeaponDamage(heldItem);
             int BoltDamage = (int)(individualBoltDamage * (LoadedBolts + 1) / (float)(ClockworkBow.MaxBolts + 1));
             float shootSpeed = heldItem.shootSpeed * 1f;
             float knockback = heldItem.knockBack;

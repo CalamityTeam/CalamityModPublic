@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetDefaults()
         {
-            NPC.aiStyle = 1;
+            NPC.aiStyle = NPCAIStyleID.Slime;
             NPC.GetNPCDamage();
             NPC.width = 40;
             NPC.height = 30;

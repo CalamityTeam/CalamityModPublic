@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.value = 0f;
             NPC.knockBackResist = 0f;
             NPC.netAlways = true;
-            NPC.aiStyle = 0;
+            NPC.aiStyle = NPCAIStyleID.FaceClosestPlayer;
         }
 
         public override void UpdateLifeRegen(ref int damage)

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.NPCs.Cryogen;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -66,10 +67,7 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, 255, 255, Projectile.alpha);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(1f, 1f, 1f, 1f) * Projectile.Opacity;
 
         public override void Kill(int timeLeft)
         {
@@ -78,7 +76,7 @@ namespace CalamityMod.Projectiles.Boss
             for (int num498 = 0; num498 < num497; num498++)
             {
                 int num499 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, 0f, 0f, 0, default, 1f);
-                if (Main.rand.Next(3) != 0)
+                if (!Main.rand.NextBool(3))
                 {
                     Dust dust = Main.dust[num499];
                     dust.velocity *= 2f;
@@ -105,8 +103,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            Projectile.DrawProjectileWithBackglow(Cryogen.BackglowColor, lightColor, 4f);
             return false;
         }
     }

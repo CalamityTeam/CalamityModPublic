@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.defense = 20;
             NPC.scale *= 0.5f;
             NPC.lifeMax = 200;
-            NPC.aiStyle = 5;
+            NPC.aiStyle = NPCAIStyleID.Flying;
             AIType = NPCID.Bee;
             NPC.knockBackResist = 0f;
             AnimationType = NPCID.Bee;

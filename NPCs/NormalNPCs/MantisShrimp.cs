@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 10;
             NPC.DR_NERD(0.1f);
             NPC.lifeMax = 30;
-            NPC.aiStyle = 3;
+            NPC.aiStyle = NPCAIStyleID.Fighter;
             AIType = NPCID.Crab;
             NPC.value = Item.buyPrice(0, 0, 1, 0);
             NPC.HitSound = SoundID.NPCHit1;
@@ -120,7 +120,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.OceanMonster.Chance * 0.2f;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => NPC.downedPlantBoss, ModContent.ItemType<MantisClaws>(), 5);
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+            npcLoot.Add(ItemID.ShrimpPoBoy, 50);
+			npcLoot.AddIf(() => NPC.downedPlantBoss, ModContent.ItemType<MantisClaws>(), 5);
+		}
 
         public override void HitEffect(int hitDirection, double damage)
         {
