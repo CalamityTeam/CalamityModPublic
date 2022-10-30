@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.shoot = ProjectileType<ExobladeProj>();
             Item.shootSpeed = 9f;
-            Item.rare = ModContent.RarityType<Violet>();
+            Item.rare = RarityType<Violet>();
         }
 
         public override bool CanShoot(Player player)

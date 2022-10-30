@@ -192,7 +192,6 @@ namespace CalamityMod
         /// </summary>
         /// <param name="dividend"></param>
         /// <param name="divisor"></param>
-        /// <returns></returns>
         public static float Modulo(this float dividend, float divisor)
         {
             return dividend - (float)Math.Floor(dividend / divisor) * divisor;
@@ -214,6 +213,12 @@ namespace CalamityMod
         /// <param name="otherAngle">The target angle</param>
         /// <returns></returns>
         public static float AngleBetween(this float angle, float otherAngle) => ((otherAngle - angle) + MathHelper.Pi).Modulo(MathHelper.TwoPi) - MathHelper.Pi;
+
+        /// <summary>
+        /// Gets the sign of the number, but without the zero case. If 0 is inputted into this method, 1 is returned/
+        /// </summary>
+        /// <param name="x">The input value.</param>
+        public static int DirectionalSign(this float x) => (x > 0f).ToDirectionInt();
 
         #region Easings
         /// <summary>
@@ -280,6 +285,11 @@ namespace CalamityMod
             /// This is the degree of the polynomial, if the easing mode chosen is a polynomial one
             /// </summary>
             public int degree;
+
+            /// <summary>
+            /// The height of the segment after the elevation shift is taken into account.
+            /// </summary>
+            public float EndingHeight => startingHeight + elevationShift;
 
             /// <summary>
             /// Legacy constructor
@@ -349,7 +359,6 @@ namespace CalamityMod
         }
 
         #endregion
-
 
         // REMOVE THIS IN CALAMITY 1.4, it's a 1.4 World.cs function.
         // Due to its temporary state, this method will not receive an XML documentation comment.

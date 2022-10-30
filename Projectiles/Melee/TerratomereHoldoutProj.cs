@@ -1,0 +1,287 @@
+﻿using Terraria;
+using Terraria.ModLoader;
+using Terraria.ID;
+using Microsoft.Xna.Framework;
+using CalamityMod.Items.Weapons.Melee;
+using System;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.Graphics.Shaders;
+using System.Collections.Generic;
+using static CalamityMod.CalamityUtils;
+using Terraria.Audio;
+using CalamityMod.Buffs.StatDebuffs;
+
+namespace CalamityMod.Projectiles.Melee
+{
+    public class TerratomereHoldoutProj : ModProjectile
+    {
+        public PrimitiveTrail SlashDrawer = null;
+
+        public Player Owner => Main.player[Projectile.owner];
+
+        public int Direction => Projectile.velocity.X.DirectionalSign();
+
+        public float SwingCompletion => MathHelper.Clamp(Time / Terratomere.SwingTime, 0f, 1f);
+
+        public float SwingCompletionAtStartOfTrail
+        {
+            get
+            {
+                float swingCompletion = SwingCompletion - 0.2f;
+                return MathHelper.Clamp(swingCompletion, 0.37f, 1f);
+            }
+        }
+
+        public float SwordRotation
+        {
+            get
+            {
+                float swordRotation = InitialRotation + GetSwingOffsetAngle(SwingCompletion) * Projectile.spriteDirection + MathHelper.PiOver4;
+                if (Projectile.spriteDirection == -1)
+                    swordRotation += MathHelper.PiOver2;
+                return swordRotation;
+            }
+        }
+
+        public Vector2 SwordDirection => SwordRotation.ToRotationVector2() * Direction;
+
+        public ref float Time => ref Projectile.ai[0];
+
+        public ref float InitialRotation => ref Projectile.ai[1];
+
+        // Easings for things such as rotation.
+        public static float SwingCompletionRatio => 0.37f;
+
+        public static float RecoveryCompletionRatio => 0.84f;
+
+        public static CurveSegment AnticipationWait => new(EasingType.PolyOut, 0f, -1.67f, 0f);
+
+        public static CurveSegment Anticipation => new(EasingType.PolyOut, 0.14f, AnticipationWait.EndingHeight, -1.05f, 2);
+
+        public static CurveSegment Swing => new(EasingType.PolyIn, SwingCompletionRatio, Anticipation.EndingHeight, 4.43f, 5);
+
+        public static CurveSegment Recovery => new(EasingType.PolyOut, RecoveryCompletionRatio, Swing.EndingHeight, 0.97f, 3);
+
+        public static float GetSwingOffsetAngle(float completion) => PiecewiseAnimation(completion, AnticipationWait, Anticipation, Swing, Recovery);
+
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/Terratomere";
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Terratomere");
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Type] = 100;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 60;
+            Projectile.height = 66;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
+            Projectile.timeLeft = Terratomere.SwingTime;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.MaxUpdates = 2;
+            Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 7;
+            Projectile.noEnchantments = true;
+        }
+
+        #region AI and Behaviors
+
+        public override void AI()
+        {
+            // Initialize the initial rotation if necessary.
+            if (InitialRotation == 0f)
+            {
+                InitialRotation = Projectile.velocity.ToRotation();
+                Projectile.netUpdate = true;
+            }
+
+            // Perform squish effects.
+            Projectile.scale = Utils.GetLerpValue(0f, 0.13f, SwingCompletion, true) * Utils.GetLerpValue(1f, 0.87f, SwingCompletion, true) * 0.8f + 0.3f;
+
+            AdjustPlayerValues();
+            StickToOwner();
+            EmitSlashDust();
+
+            // Determine rotation.
+            Projectile.rotation = SwordRotation;
+            Time++;
+        }
+
+        public void AdjustPlayerValues()
+        {
+            Projectile.spriteDirection = Projectile.direction = Direction;
+            Owner.heldProj = Projectile.whoAmI;
+            Owner.itemTime = 2;
+            Owner.itemAnimation = 2;
+            Owner.itemRotation = (Projectile.direction * Projectile.velocity).ToRotation();
+
+            // Create the slash.
+            if (Time == (int)(Terratomere.SwingTime * (SwingCompletionRatio + 0.15f)))
+                SoundEngine.PlaySound(SoundID.Item60 with { Pitch = 0.1f }, Projectile.Center);
+            if (Main.myPlayer == Projectile.owner && Time == (int)(Terratomere.SwingTime * (SwingCompletionRatio + 0.34f))) 
+            {
+                Vector2 bigSlashVelocity = Projectile.SafeDirectionTo(Main.MouseWorld) * 60f;
+                if (bigSlashVelocity.AngleBetween(InitialRotation.ToRotationVector2()) > 1.456f)
+                    bigSlashVelocity = InitialRotation.ToRotationVector2() * bigSlashVelocity.Length();
+
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - bigSlashVelocity * 0.4f, bigSlashVelocity, ModContent.ProjectileType<TerratomereBigSlash>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            }
+
+            // Decide the arm rotation for the owner.
+            float armRotation = SwordRotation - Direction * 1.67f;
+            Owner.SetCompositeArmFront(Math.Abs(armRotation) > 0.01f, Player.CompositeArmStretchAmount.Full, armRotation);
+        }
+
+        public void StickToOwner()
+        {
+            // Glue the sword to its owner.
+            Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, true) + SwordDirection * new Vector2(7f, 16f) * Projectile.scale;
+            Projectile.Center -= Projectile.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(26f, 14f);
+            Owner.heldProj = Projectile.whoAmI;
+            Owner.SetDummyItemTime(2);
+            Owner.direction = Direction;
+        }
+
+        public void EmitSlashDust()
+        {
+            float dustSpawnChance = 0f;
+            if (SwingCompletion > SwingCompletionRatio + 0.15f)
+                dustSpawnChance = Utils.GetLerpValue(0.95f, RecoveryCompletionRatio, SwingCompletion, true) * 0.67f;
+
+            // Randomly create lingering terra sparkle effects.
+            for (int i = 0; i < 2; i++)
+            {
+                if (Main.rand.NextFloat() < dustSpawnChance)
+                {
+                    Color dustColor = Color.Lerp(Color.Lime, Color.Turquoise, Main.rand.NextFloat());
+                    dustColor = Color.Lerp(dustColor, Color.White, 0.6f);
+
+                    Vector2 offsetDirection = (GetSwingOffsetAngle(SwingCompletion) * Direction - InitialRotation).ToRotationVector2();
+                    Vector2 dustSpawnPosition = Projectile.Center + offsetDirection * Projectile.width * Main.rand.NextFloat();
+                    Vector2 dustVelocity = offsetDirection.RotatedBy(MathHelper.PiOver2) * Main.rand.NextFloat(1f, 7f);
+                    Dust terraDust = Dust.NewDustPerfect(dustSpawnPosition, 267, dustVelocity, 0, dustColor);
+                    terraDust.scale = 0.4f;
+                    terraDust.fadeIn = Main.rand.NextFloat() * 2f;
+                    terraDust.noGravity = true;
+                }
+            }
+        }
+        #endregion AI and Behaviors
+
+        #region Drawing
+
+        public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            // Draw the slash effect.
+            DrawSlash();
+
+            // Draw the blade.
+            DrawBlade(lightColor);
+
+            return false;
+        }
+
+        public float SlashWidthFunction(float completionRatio) => Projectile.scale * 22f;
+
+        public Color SlashColorFunction(float completionRatio) => Color.Lime * Utils.GetLerpValue(0.9f, 0.4f, completionRatio, true) * Projectile.Opacity;
+
+        public IEnumerable<Vector2> GenerateSlashPoints()
+        {
+            List<Vector2> result = new();
+
+            for (int i = 0; i < 40; i++)
+            {
+                float progress = MathHelper.Lerp(SwingCompletion, SwingCompletionAtStartOfTrail, i / 40f);
+                float reelBackAngle = Math.Abs(Projectile.oldRot[0] - Projectile.oldRot[1]) * 0.8f;
+                if (SwingCompletion > 0.84f)
+                    reelBackAngle = 0.21f;
+
+                float offsetAngle = (GetSwingOffsetAngle(progress) - reelBackAngle) * Direction + InitialRotation;
+                result.Add(offsetAngle.ToRotationVector2() * Projectile.scale * 54f);
+            }
+
+            return result;
+        }
+
+        public void DrawSlash()
+        {
+            // Initialize the primitives drawers.
+            SlashDrawer ??= new(SlashWidthFunction, SlashColorFunction, null, GameShaders.Misc["CalamityMod:ExobladeSlash"]);
+
+            // Draw the slash effect.
+            Main.spriteBatch.EnterShaderRegion();
+
+            GameShaders.Misc["CalamityMod:ExobladeSlash"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/VoronoiShapes"));
+            GameShaders.Misc["CalamityMod:ExobladeSlash"].UseColor(Terratomere.TerraColor1);
+            GameShaders.Misc["CalamityMod:ExobladeSlash"].UseSecondaryColor(Terratomere.TerraColor2);
+            GameShaders.Misc["CalamityMod:ExobladeSlash"].Shader.Parameters["fireColor"].SetValue(Terratomere.TerraColor1.ToVector3());
+            GameShaders.Misc["CalamityMod:ExobladeSlash"].Shader.Parameters["flipped"].SetValue(Direction == 1);
+            GameShaders.Misc["CalamityMod:ExobladeSlash"].Apply();
+
+            if (SwingCompletionAtStartOfTrail > 0.38f)
+                SlashDrawer.Draw(GenerateSlashPoints(), Projectile.Center - Main.screenPosition, 95);
+
+            Main.spriteBatch.ExitShaderRegion();
+        }
+
+        public void DrawBlade(Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Vector2 origin = texture.Size() * Vector2.UnitY;
+            if (Projectile.spriteDirection == -1)
+                origin.X += texture.Width;
+
+            SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            Main.spriteBatch.Draw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0f);
+        }
+        #endregion Drawing
+
+        #region Hit Effects and Collision
+
+        public void OnHitHealEffect()
+        {
+            if (Owner.moonLeech)
+                return;
+            
+            Owner.statLife += Terratomere.TrueMeleeHitHeal;
+            Owner.HealEffect(Terratomere.TrueMeleeHitHeal);
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float _ = 0f;
+            Vector2 direction = (InitialRotation + GetSwingOffsetAngle(SwingCompletion)).ToRotationVector2() * new Vector2(Projectile.spriteDirection, 1f);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + direction * Projectile.height * Projectile.scale, Projectile.width * 0.25f, ref _);
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<GlacialState>(), Terratomere.TrueMeleeGlacialStateTime);
+            if (target.canGhostHeal)
+                OnHitHealEffect();
+
+            // Create a slash creator on top of the hit target.
+            int slashCreatorID = ModContent.ProjectileType<TerratomereSlashCreator>();
+            if (Owner.ownedProjectileCounts[slashCreatorID] < 5)
+            {
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, slashCreatorID, Projectile.damage, Projectile.knockBack, Projectile.owner, target.whoAmI, Main.rand.NextFloat(MathHelper.TwoPi));
+                Owner.ownedProjectileCounts[slashCreatorID]++;
+            }
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<GlacialState>(), Terratomere.TrueMeleeGlacialStateTime);
+            OnHitHealEffect();
+        }
+        #endregion Hit Effects and Collision
+    }
+}
