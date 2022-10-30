@@ -76,7 +76,8 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     // Importantly, the squishing function ensures that its inputs range from 0-1, such that power doesn't result in values beyond 1.
     // This is also where the "white hot edge" and trail fade effect comes from, due to the incorporation of the X and Y coordinate. In this context, the X coordinate exists to
     // create lower opacities (which then are squished to make the trail look like it's vanishing) the further along the trail the point is. The Y coordinate, meanwhile, is multiplied
-    // with the noise such that values close to 1 (the top of the trail) are given more weight and recieve a greater brightness.
+    // with the noise and subtracted such that values close to 1 (the bottom of the trail) are given less weight and recieve less brightness. The inverse is true, with values closer to 0
+    // recieving more brightness.
     float opacity = noise * pow(saturate((1 - coords.x) - noise * coords.y * 0.54), 3);
     
     // Fade to the second primary color based on one of the noise values.
