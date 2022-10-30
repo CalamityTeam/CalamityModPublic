@@ -67,7 +67,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     // X Mod 1 cuttoff, which would essentially "cut off" the texture and return the start, turning a value of 1.1 to 0.1, 1.32 to 0.32, etc.
     noiseCoords.x = sin(noiseCoords.x * 5.4) * 0.5 + 0.5;
     
-    // Sample noise colors based on the original base noise coordination. These all vary somewhat to create more varied detail.
+    // Sample noise colors based on the original base noise coordinates. These all vary somewhat to create more varied detail.
     float noise = tex2D(uImage1, noiseCoords).r;
     float noise2 = pow(tex2D(uImage1, noiseCoords * 2.2).r, 1.6);
     float noise3 = pow(tex2D(uImage1, noiseCoords * 1.1).r, 1.3);
