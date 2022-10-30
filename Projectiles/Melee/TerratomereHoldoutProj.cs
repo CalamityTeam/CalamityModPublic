@@ -28,7 +28,9 @@ namespace CalamityMod.Projectiles.Melee
             get
             {
                 float swingCompletion = SwingCompletion - 0.2f;
-                return MathHelper.Clamp(swingCompletion, 0.37f, 1f);
+
+                // Ensure that the trail does not attempt to "start" in the anticipation state, as the trail only exists after the charge begins.
+                return MathHelper.Clamp(swingCompletion, SwingCompletionRatio, 1f);
             }
         }
 
@@ -54,12 +56,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public static float RecoveryCompletionRatio => 0.84f;
 
+        // Brief delay before the animations begin, with the blade simply being held upright for a time.
         public static CurveSegment AnticipationWait => new(EasingType.PolyOut, 0f, -1.67f, 0f);
 
+        // Period of time where the blade reels back in anticipation of a swing.
         public static CurveSegment Anticipation => new(EasingType.PolyOut, 0.14f, AnticipationWait.EndingHeight, -1.05f, 2);
 
+        // A short, powerful swing that rapidly approaches it destination.
         public static CurveSegment Swing => new(EasingType.PolyIn, SwingCompletionRatio, Anticipation.EndingHeight, 4.43f, 5);
 
+        // Period of time after the swing where the blade reels back further before it disappears.
         public static CurveSegment Recovery => new(EasingType.PolyOut, RecoveryCompletionRatio, Swing.EndingHeight, 0.97f, 3);
 
         public static float GetSwingOffsetAngle(float completion) => PiecewiseAnimation(completion, AnticipationWait, Anticipation, Swing, Recovery);
@@ -125,7 +131,7 @@ namespace CalamityMod.Projectiles.Melee
                 SoundEngine.PlaySound(SoundID.Item60 with { Pitch = 0.1f }, Projectile.Center);
             if (Main.myPlayer == Projectile.owner && Time == (int)(Terratomere.SwingTime * (SwingCompletionRatio + 0.34f))) 
             {
-                Vector2 bigSlashVelocity = Projectile.SafeDirectionTo(Main.MouseWorld) * 60f;
+                Vector2 bigSlashVelocity = Projectile.SafeDirectionTo(Main.MouseWorld) * Owner.ActiveItem().shootSpeed;
                 if (bigSlashVelocity.AngleBetween(InitialRotation.ToRotationVector2()) > 1.456f)
                     bigSlashVelocity = InitialRotation.ToRotationVector2() * bigSlashVelocity.Length();
 
@@ -139,18 +145,24 @@ namespace CalamityMod.Projectiles.Melee
 
         public void StickToOwner()
         {
-            // Glue the sword to its owner.
+            // Glue the sword to its owner. This applies a handful of offsets to make the blade look like it's roughly inside of the owner's hand.
             Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, true) + SwordDirection * new Vector2(7f, 16f) * Projectile.scale;
             Projectile.Center -= Projectile.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(26f, 14f);
+
+            // Set the owner's held projectile to this and register a false item time calculation.
             Owner.heldProj = Projectile.whoAmI;
             Owner.SetDummyItemTime(2);
+
+            // Make the owner turn in the direction of the blade.
             Owner.direction = Direction;
         }
 
         public void EmitSlashDust()
         {
             float dustSpawnChance = 0f;
-            if (SwingCompletion > SwingCompletionRatio + 0.15f)
+
+            // Dust may begin spawning once the blade has started being swung. However, it will dissipate as the blade transitions to the recovery animation state.
+            if (SwingCompletion > SwingCompletionRatio + 0.12f)
                 dustSpawnChance = Utils.GetLerpValue(0.95f, RecoveryCompletionRatio, SwingCompletion, true) * 0.67f;
 
             // Randomly create lingering terra sparkle effects.
@@ -158,15 +170,18 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (Main.rand.NextFloat() < dustSpawnChance)
                 {
+                    // Use a tinted lime/turquoise color for the dust.
                     Color dustColor = Color.Lerp(Color.Lime, Color.Turquoise, Main.rand.NextFloat());
                     dustColor = Color.Lerp(dustColor, Color.White, 0.6f);
-
+                    
+                    // Ensure that the dust moves in the direction of the blade swing.
                     Vector2 offsetDirection = (GetSwingOffsetAngle(SwingCompletion) * Direction - InitialRotation).ToRotationVector2();
                     Vector2 dustSpawnPosition = Projectile.Center + offsetDirection * Projectile.width * Main.rand.NextFloat();
                     Vector2 dustVelocity = offsetDirection.RotatedBy(MathHelper.PiOver2) * Main.rand.NextFloat(1f, 7f);
+
                     Dust terraDust = Dust.NewDustPerfect(dustSpawnPosition, 267, dustVelocity, 0, dustColor);
                     terraDust.scale = 0.4f;
-                    terraDust.fadeIn = Main.rand.NextFloat() * 2f;
+                    terraDust.fadeIn = Main.rand.NextFloat(0.2f, 1.7f);
                     terraDust.noGravity = true;
                 }
             }
@@ -218,6 +233,7 @@ namespace CalamityMod.Projectiles.Melee
             // Draw the slash effect.
             Main.spriteBatch.EnterShaderRegion();
 
+            // Prepare shader parameters. This relies on the same shader as the Exoblade, albeit with a less contrasted palette.
             GameShaders.Misc["CalamityMod:ExobladeSlash"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/VoronoiShapes"));
             GameShaders.Misc["CalamityMod:ExobladeSlash"].UseColor(Terratomere.TerraColor1);
             GameShaders.Misc["CalamityMod:ExobladeSlash"].UseSecondaryColor(Terratomere.TerraColor2);
@@ -225,7 +241,7 @@ namespace CalamityMod.Projectiles.Melee
             GameShaders.Misc["CalamityMod:ExobladeSlash"].Shader.Parameters["flipped"].SetValue(Direction == 1);
             GameShaders.Misc["CalamityMod:ExobladeSlash"].Apply();
 
-            if (SwingCompletionAtStartOfTrail > 0.38f)
+            if (SwingCompletionAtStartOfTrail > SwingCompletionRatio)
                 SlashDrawer.Draw(GenerateSlashPoints(), Projectile.Center - Main.screenPosition, 95);
 
             Main.spriteBatch.ExitShaderRegion();

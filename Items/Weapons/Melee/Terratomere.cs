@@ -22,6 +22,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public const float SmallSlashDamageFactor = 0.4f;
 
+        public const float ExplosionExpandFactor = 1.013f;
+
         public static readonly Color TerraColor1 = new(141, 203, 50);
 
         public static readonly Color TerraColor2 = new(83, 163, 136);
@@ -42,8 +44,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.damage = 203;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 21;
-            Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 21;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.knockBack = 7f;
             Item.autoReuse = true;
@@ -52,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.rare = ModContent.RarityType<Turquoise>();
             Item.shoot = ModContent.ProjectileType<TerratomereHoldoutProj>();
-            Item.shootSpeed = 20f;
+            Item.shootSpeed = 60f;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

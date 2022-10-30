@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 150;
-            Projectile.extraUpdates = 2;
+            Projectile.MaxUpdates = 3;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 14;
             Projectile.scale = 0.2f;
@@ -31,21 +31,25 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            // Play an explosion sound.
+            // Play an explosion sound on the first frame of this projectile's existence.
             if (Projectile.localAI[0] == 0f)
             {
                 SoundEngine.PlaySound(SubsumingVortex.ExplosionSound, Projectile.Center);
                 Projectile.localAI[0] = 1f;
             }
 
+            // Emit a strong white light.
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 1.5f);
+
+            // Determine frames. Once the maximum frame is reached the projectile dies.
             Projectile.frameCounter++;
             if (Projectile.frameCounter % 8 == 7)
                 Projectile.frame++;
-
             if (Projectile.frame >= 18)
                 Projectile.Kill();
-            Projectile.scale *= 1.013f;
+            
+            // Exponentially accelerate.
+            Projectile.scale *= Terratomere.ExplosionExpandFactor;
             Projectile.Opacity = Utils.GetLerpValue(5f, 36f, Projectile.timeLeft, true);
         }
 

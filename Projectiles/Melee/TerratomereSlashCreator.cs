@@ -50,8 +50,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (maxOffset > 300f)
                         maxOffset = 300f;
 
-                    Vector2 spawnOffset = SlashDirection.ToRotationVector2();
-                    spawnOffset *= Main.rand.NextFloatDirection() * maxOffset;
+                    Vector2 spawnOffset = SlashDirection.ToRotationVector2() * Main.rand.NextFloatDirection() * maxOffset;
                     Vector2 sliceVelocity = spawnOffset.SafeNormalize(Vector2.UnitY) * 0.1f;
 
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Target.Center + spawnOffset, sliceVelocity, ModContent.ProjectileType<TerratomereSlash>(), (int)(Projectile.damage * Terratomere.SmallSlashDamageFactor), 0f, Projectile.owner);
