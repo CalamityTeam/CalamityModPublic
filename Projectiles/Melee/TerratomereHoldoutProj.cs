@@ -111,7 +111,6 @@ namespace CalamityMod.Projectiles.Melee
 
             AdjustPlayerValues();
             StickToOwner();
-            EmitSlashDust();
 
             // Determine rotation.
             Projectile.rotation = SwordRotation;
@@ -147,7 +146,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             // Glue the sword to its owner. This applies a handful of offsets to make the blade look like it's roughly inside of the owner's hand.
             Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, true) + SwordDirection * new Vector2(7f, 16f) * Projectile.scale;
-            Projectile.Center -= Projectile.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(26f, 14f);
+            Projectile.Center -= Projectile.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(66f, 54f + Projectile.scale * 8f);
 
             // Set the owner's held projectile to this and register a false item time calculation.
             Owner.heldProj = Projectile.whoAmI;
@@ -155,36 +154,6 @@ namespace CalamityMod.Projectiles.Melee
 
             // Make the owner turn in the direction of the blade.
             Owner.direction = Direction;
-        }
-
-        public void EmitSlashDust()
-        {
-            float dustSpawnChance = 0f;
-
-            // Dust may begin spawning once the blade has started being swung. However, it will dissipate as the blade transitions to the recovery animation state.
-            if (SwingCompletion > SwingCompletionRatio + 0.12f)
-                dustSpawnChance = Utils.GetLerpValue(0.95f, RecoveryCompletionRatio, SwingCompletion, true) * 0.67f;
-
-            // Randomly create lingering terra sparkle effects.
-            for (int i = 0; i < 2; i++)
-            {
-                if (Main.rand.NextFloat() < dustSpawnChance)
-                {
-                    // Use a tinted lime/turquoise color for the dust.
-                    Color dustColor = Color.Lerp(Color.Lime, Color.Turquoise, Main.rand.NextFloat());
-                    dustColor = Color.Lerp(dustColor, Color.White, 0.6f);
-                    
-                    // Ensure that the dust moves in the direction of the blade swing.
-                    Vector2 offsetDirection = (GetSwingOffsetAngle(SwingCompletion) * Direction - InitialRotation).ToRotationVector2();
-                    Vector2 dustSpawnPosition = Projectile.Center + offsetDirection * Projectile.width * Main.rand.NextFloat();
-                    Vector2 dustVelocity = offsetDirection.RotatedBy(MathHelper.PiOver2) * Main.rand.NextFloat(1f, 7f);
-
-                    Dust terraDust = Dust.NewDustPerfect(dustSpawnPosition, 267, dustVelocity, 0, dustColor);
-                    terraDust.scale = 0.4f;
-                    terraDust.fadeIn = Main.rand.NextFloat(0.2f, 1.7f);
-                    terraDust.noGravity = true;
-                }
-            }
         }
         #endregion AI and Behaviors
 
