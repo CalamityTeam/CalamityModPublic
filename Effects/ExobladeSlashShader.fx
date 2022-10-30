@@ -77,7 +77,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     
     float4 noiseColor = color * opacity * (noise3 * 2.4 + 2.4);
     noiseColor.a = lerp(noiseColor.a, 0, 1 - fireColorWeight);
-    return noiseColor;
+    return noiseColor * input.Color.a;
 }
 
 technique Technique1

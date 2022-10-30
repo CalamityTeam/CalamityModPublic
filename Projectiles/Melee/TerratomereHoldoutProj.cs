@@ -1,15 +1,16 @@
-﻿using Terraria;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Weapons.Melee;
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using CalamityMod.Items.Weapons.Melee;
-using System;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.Graphics.Shaders;
+using System;
 using System.Collections.Generic;
-using static CalamityMod.CalamityUtils;
+using Terraria.Graphics.Shaders;
 using Terraria.Audio;
-using CalamityMod.Buffs.StatDebuffs;
+using static CalamityMod.CalamityUtils;
+using System.Linq;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             get
             {
-                float swingCompletion = SwingCompletion - 0.2f;
+                float swingCompletion = SwingCompletion - Terratomere.TrailOffsetCompletionRatio;
 
                 // Ensure that the trail does not attempt to "start" in the anticipation state, as the trail only exists after the charge begins.
                 return MathHelper.Clamp(swingCompletion, SwingCompletionRatio, 1f);
@@ -107,10 +108,11 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             // Perform squish effects.
-            Projectile.scale = Utils.GetLerpValue(0f, 0.13f, SwingCompletion, true) * Utils.GetLerpValue(1f, 0.87f, SwingCompletion, true) * 0.8f + 0.3f;
+            Projectile.scale = Utils.GetLerpValue(0f, 0.13f, SwingCompletion, true) * Utils.GetLerpValue(1f, 0.87f, SwingCompletion, true) * 0.7f + 0.3f;
 
             AdjustPlayerValues();
             StickToOwner();
+            CreateProjectiles();
 
             // Determine rotation.
             Projectile.rotation = SwordRotation;
@@ -124,18 +126,6 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
             Owner.itemRotation = (Projectile.direction * Projectile.velocity).ToRotation();
-
-            // Create the slash.
-            if (Time == (int)(Terratomere.SwingTime * (SwingCompletionRatio + 0.15f)))
-                SoundEngine.PlaySound(SoundID.Item60 with { Pitch = 0.1f }, Projectile.Center);
-            if (Main.myPlayer == Projectile.owner && Time == (int)(Terratomere.SwingTime * (SwingCompletionRatio + 0.34f))) 
-            {
-                Vector2 bigSlashVelocity = Projectile.SafeDirectionTo(Main.MouseWorld) * Owner.ActiveItem().shootSpeed;
-                if (bigSlashVelocity.AngleBetween(InitialRotation.ToRotationVector2()) > 1.456f)
-                    bigSlashVelocity = InitialRotation.ToRotationVector2() * bigSlashVelocity.Length();
-
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - bigSlashVelocity * 0.4f, bigSlashVelocity, ModContent.ProjectileType<TerratomereBigSlash>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-            }
 
             // Decide the arm rotation for the owner.
             float armRotation = SwordRotation - Direction * 1.67f;
@@ -154,6 +144,35 @@ namespace CalamityMod.Projectiles.Melee
 
             // Make the owner turn in the direction of the blade.
             Owner.direction = Direction;
+        }
+
+        public void CreateProjectiles()
+        {
+            // Create the slash.
+            if (Time == (int)(Terratomere.SwingTime * (SwingCompletionRatio + 0.15f)))
+                SoundEngine.PlaySound(SoundID.Item60 with { Pitch = 0.1f }, Projectile.Center);
+            if (Main.myPlayer == Projectile.owner && Time == (int)(Terratomere.SwingTime * (SwingCompletionRatio + 0.34f)))
+            {
+                Vector2 bigSlashVelocity = Projectile.SafeDirectionTo(Main.MouseWorld) * Owner.ActiveItem().shootSpeed;
+                if (bigSlashVelocity.AngleBetween(InitialRotation.ToRotationVector2()) > 1.456f)
+                    bigSlashVelocity = InitialRotation.ToRotationVector2() * bigSlashVelocity.Length();
+
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - bigSlashVelocity * 0.4f, bigSlashVelocity, ModContent.ProjectileType<TerratomereBigSlash>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            }
+
+            // Create a terra blade-like slash when the slash terminates.
+            if (Main.myPlayer == Projectile.owner && Time == (int)(Terratomere.SwingTime * RecoveryCompletionRatio) + 5f)
+            {
+                Vector2 bigSlashVelocity = InitialRotation.ToRotationVector2() * Owner.ActiveItem().shootSpeed / 6f;
+                Vector2 bigSlashSpawnPosition = Projectile.Center + bigSlashVelocity.SafeNormalize(Vector2.UnitY) * 64f;
+
+                int slash = Projectile.NewProjectile(Projectile.GetSource_FromThis(), bigSlashSpawnPosition, bigSlashVelocity, ModContent.ProjectileType<TerratomereBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                if (Main.projectile.IndexInRange(slash))
+                {
+                    Main.projectile[slash].ai[0] = (Direction == 1f).ToInt();
+                    Main.projectile[slash].ModProjectile<TerratomereBeam>().ControlPoints = GenerateSlashPoints().ToArray();
+                }
+            }
         }
         #endregion AI and Behaviors
 
@@ -178,37 +197,28 @@ namespace CalamityMod.Projectiles.Melee
 
         public IEnumerable<Vector2> GenerateSlashPoints()
         {
-            List<Vector2> result = new();
-
-            for (int i = 0; i < 40; i++)
+            for (int i = 0; i < 20; i++)
             {
-                float progress = MathHelper.Lerp(SwingCompletion, SwingCompletionAtStartOfTrail, i / 40f);
+                float progress = MathHelper.Lerp(SwingCompletion, SwingCompletionAtStartOfTrail, i / 20f);
                 float reelBackAngle = Math.Abs(Projectile.oldRot[0] - Projectile.oldRot[1]) * 0.8f;
                 if (SwingCompletion > 0.84f)
                     reelBackAngle = 0.21f;
 
                 float offsetAngle = (GetSwingOffsetAngle(progress) - reelBackAngle) * Direction + InitialRotation;
-                result.Add(offsetAngle.ToRotationVector2() * Projectile.scale * 54f);
+                yield return offsetAngle.ToRotationVector2() * Projectile.scale * 54f;
             }
-
-            return result;
         }
 
         public void DrawSlash()
         {
-            // Initialize the primitives drawers.
+            // Initialize the primitive drawer.
             SlashDrawer ??= new(SlashWidthFunction, SlashColorFunction, null, GameShaders.Misc["CalamityMod:ExobladeSlash"]);
 
             // Draw the slash effect.
             Main.spriteBatch.EnterShaderRegion();
 
             // Prepare shader parameters. This relies on the same shader as the Exoblade, albeit with a less contrasted palette.
-            GameShaders.Misc["CalamityMod:ExobladeSlash"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/VoronoiShapes"));
-            GameShaders.Misc["CalamityMod:ExobladeSlash"].UseColor(Terratomere.TerraColor1);
-            GameShaders.Misc["CalamityMod:ExobladeSlash"].UseSecondaryColor(Terratomere.TerraColor2);
-            GameShaders.Misc["CalamityMod:ExobladeSlash"].Shader.Parameters["fireColor"].SetValue(Terratomere.TerraColor1.ToVector3());
-            GameShaders.Misc["CalamityMod:ExobladeSlash"].Shader.Parameters["flipped"].SetValue(Direction == 1);
-            GameShaders.Misc["CalamityMod:ExobladeSlash"].Apply();
+            PrepareSlashShader(Direction == 1);
 
             if (SwingCompletionAtStartOfTrail > SwingCompletionRatio)
                 SlashDrawer.Draw(GenerateSlashPoints(), Projectile.Center - Main.screenPosition, 95);
@@ -226,6 +236,16 @@ namespace CalamityMod.Projectiles.Melee
 
             SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             Main.spriteBatch.Draw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0f);
+        }
+
+        public static void PrepareSlashShader(bool flipped)
+        {
+            GameShaders.Misc["CalamityMod:ExobladeSlash"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/VoronoiShapes"));
+            GameShaders.Misc["CalamityMod:ExobladeSlash"].UseColor(Terratomere.TerraColor1);
+            GameShaders.Misc["CalamityMod:ExobladeSlash"].UseSecondaryColor(Terratomere.TerraColor2);
+            GameShaders.Misc["CalamityMod:ExobladeSlash"].Shader.Parameters["fireColor"].SetValue(Terratomere.TerraColor1.ToVector3());
+            GameShaders.Misc["CalamityMod:ExobladeSlash"].Shader.Parameters["flipped"].SetValue(flipped);
+            GameShaders.Misc["CalamityMod:ExobladeSlash"].Apply();
         }
         #endregion Drawing
 
@@ -255,7 +275,7 @@ namespace CalamityMod.Projectiles.Melee
 
             // Create a slash creator on top of the hit target.
             int slashCreatorID = ModContent.ProjectileType<TerratomereSlashCreator>();
-            if (Owner.ownedProjectileCounts[slashCreatorID] < 5)
+            if (Owner.ownedProjectileCounts[slashCreatorID] < 4)
             {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, slashCreatorID, Projectile.damage, Projectile.knockBack, Projectile.owner, target.whoAmI, Main.rand.NextFloat(MathHelper.TwoPi));
                 Owner.ownedProjectileCounts[slashCreatorID]++;

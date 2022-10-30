@@ -24,6 +24,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public const float ExplosionExpandFactor = 1.013f;
 
+        public const float TrailOffsetCompletionRatio = 0.2f;
+
         public static readonly Color TerraColor1 = new(141, 203, 50);
 
         public static readonly Color TerraColor2 = new(83, 163, 136);
@@ -41,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 60;
             Item.height = 66;
-            Item.damage = 203;
+            Item.damage = 303;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 21;
             Item.useTime = 21;
