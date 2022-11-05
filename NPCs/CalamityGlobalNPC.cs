@@ -5778,17 +5778,19 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Any Events
-        public static bool AnyEvents(Player player)
+        public static bool AnyEvents(Player player, bool checkBloodMoon = false)
         {
-            if (Main.invasionType > InvasionID.None)
+            if (Main.invasionType > InvasionID.None && Main.invasionProgressNearInvasion)
                 return true;
             if (player.PillarZone())
                 return true;
-            if (DD2Event.Ongoing)
+            if (DD2Event.Ongoing && player.ZoneOldOneArmy)
                 return true;
-            if ((player.ZoneOverworldHeight || player.ZoneSkyHeight) && (Main.eclipse || Main.bloodMoon || Main.pumpkinMoon || Main.snowMoon))
+            if ((player.ZoneOverworldHeight || player.ZoneSkyHeight) && (Main.eclipse || Main.pumpkinMoon || Main.snowMoon))
                 return true;
             if (AcidRainEvent.AcidRainEventIsOngoing && player.InSulphur())
+                return true;
+            if ((player.ZoneOverworldHeight || player.ZoneSkyHeight) && Main.bloodMoon && checkBloodMoon)
                 return true;
             return false;
         }

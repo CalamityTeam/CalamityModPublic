@@ -3422,6 +3422,18 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+            // Add a cooldown display for the vanilla lifesteal cooldown, which is active when negative
+            if (Player.whoAmI == Main.myPlayer && Player.lifeSteal < 0f)
+            {
+                float duration = Player.lifeSteal;
+                float baseCooldown = Main.expertMode ? 0.5f : 0.6f;
+                float lifeStealNerf = BossRushEvent.BossRushActive ? 0.3f : CalamityWorld.death ? 0.25f : CalamityWorld.revenge ? 0.2f : Main.expertMode ? 0.15f : 0.1f;
+                duration /= baseCooldown - lifeStealNerf;
+                duration *= -1f;
+                if (!Player.HasCooldown(LifeSteal.ID) || (cooldowns[LifeSteal.ID].duration < (int)duration))
+                    Player.AddCooldown(LifeSteal.ID, (int)duration);
+            }
+
             ForceVariousEffects();
         }
         #endregion

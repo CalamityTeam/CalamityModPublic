@@ -337,21 +337,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             return false;
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
-            {
-                if (projectile.penetrate == -1 && !projectile.minion)
-                {
-                    projectile.penetrate = 1;
-                }
-                else if (projectile.penetrate >= 1)
-                {
-                    projectile.penetrate = 1;
-                }
-            }
-        }
-
         public override bool CheckActive()
         {
             return false;
