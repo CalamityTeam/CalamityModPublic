@@ -27,6 +27,7 @@ namespace CalamityMod.NPCs.TownNPCs
             "Xplizzy", // <@!98826096237109248> Whitegiraffe#6342
             "Freakish", // <@!750363283520749598> Freakish#0001
             "Calder", // <@!601897959176798228> Paltham#8859
+			"Hunter Jinx", // <@!757401399783850134> Jinx_enthusiast#1580
 
             // Original names
             "Laura", "Mie", "Bonnie",
