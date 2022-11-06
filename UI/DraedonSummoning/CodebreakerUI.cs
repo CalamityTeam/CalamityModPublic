@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using CalamityMod.Items.DraedonMisc;
+using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.TileEntities;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -16,16 +17,64 @@ using Terraria.UI.Chat;
 
 namespace CalamityMod.UI.DraedonSummoning
 {
-    public static class CodebreakerUI
+    public partial class CodebreakerUI : ModSystem
     {
-        public static int ViewedTileEntityID = -1;
-        public static bool AwaitingCloseConfirmation = false;
-        public static bool AwaitingDecryptionTextClose = false;
-        public static float VerificationButtonScale = 1f;
-        public static float CancelButtonScale = 0.75f;
-        public static float ContactButtonScale = 1f;
-        public static float MechIconScale = 1f;
-        public static Vector2 BackgroundCenter => new Vector2(500f, Main.screenHeight * 0.5f + 115f);
+        public static int ViewedTileEntityID
+        {
+            get;
+            set;
+        } = -1;
+
+        public static bool AwaitingCloseConfirmation
+        {
+            get;
+            set;
+        } = false;
+
+        public static bool AwaitingDecryptionTextClose
+        {
+            get;
+            set;
+        } = false;
+
+        public static bool DisplayingCommunicationText
+        {
+            get;
+            set;
+        } = false;
+
+        public static float VerificationButtonScale
+        {
+            get;
+            set;
+        } = 1f;
+
+        public static float CancelButtonScale
+        {
+            get;
+            set;
+        } = 0.75f;
+
+        public static float ContactButtonScale
+        {
+            get;
+            set;
+        } = 1f;
+
+        public static float CommunicateButtonScale
+        {
+            get;
+            set;
+        } = 1f;
+
+        public static float MechIconScale
+        {
+            get;
+            set;
+        } = 1f;
+
+        public static Vector2 BackgroundCenter => new(500f, Main.screenHeight * 0.5f + 115f);
+        
         public static float GeneralScale => MathHelper.Lerp(1f, 0.7f, Utils.GetLerpValue(1325f, 750f, Main.screenWidth, true)) * Main.UIScale;
 
         public static Rectangle MouseScreenArea => Utils.CenteredRectangle(Main.MouseScreen, Vector2.One * 2f);
@@ -36,32 +85,62 @@ namespace CalamityMod.UI.DraedonSummoning
         {
             // If not viewing the specific tile entity's interface anymore, if the ID is for some reason invalid, or if the player is not equipped to continue viewing the UI
             // don't do anything other than resetting necessary data.
-            if (!TileEntity.ByID.ContainsKey(ViewedTileEntityID) || !(TileEntity.ByID[ViewedTileEntityID] is TECodebreaker codebreakerTileEntity) || !Main.LocalPlayer.WithinRange(codebreakerTileEntity.Center, 270f) || !Main.playerInventory)
+            if (!TileEntity.ByID.ContainsKey(ViewedTileEntityID) || TileEntity.ByID[ViewedTileEntityID] is not TECodebreaker codebreakerTileEntity || !Main.LocalPlayer.WithinRange(codebreakerTileEntity.Center, 270f) || !Main.playerInventory)
             {
                 VerificationButtonScale = 1f;
                 CancelButtonScale = 0.75f;
                 ContactButtonScale = 1f;
+                CommunicateButtonScale = 1f;
+                CommunicationPanelScale = 0f;
                 ViewedTileEntityID = -1;
                 AwaitingCloseConfirmation = false;
+                DisplayingCommunicationText = false;
                 MechIconScale = 1f;
                 return;
             }
 
             // Draw the background.
             Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonDecrypterBackground").Value;
-            spriteBatch.Draw(backgroundTexture, BackgroundCenter, null, Color.White, 0f, backgroundTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(backgroundTexture, BackgroundCenter, null, Color.White, 0f, backgroundTexture.Size() * 0.5f, GeneralScale * (1f - CommunicationPanelScale), 0, 0f);
 
             Rectangle backgroundArea = Utils.CenteredRectangle(BackgroundCenter, backgroundTexture.Size() * GeneralScale);
-            if (MouseScreenArea.Intersects(backgroundArea))
+            if (MouseScreenArea.Intersects(backgroundArea) && !DisplayingCommunicationText)
                 Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
 
+            // Display communication stuff as necessary.
+            if (DisplayingCommunicationText && CommunicationPanelScale == 0f)
+            {
+                CommunicationPanelScale = 1f;
+                DraedonScreenStaticInterpolant = 1f;
+            }
+            if (!DisplayingCommunicationText && CommunicationPanelScale != 0f)
+            {
+                CommunicationPanelScale = 0f;
+                DraedonScreenStaticInterpolant = 0f;
+            }
+
+            if (DisplayingCommunicationText)
+            {
+                DisplayCommunicationPanel();
+                DraedonScreenStaticInterpolant = MathHelper.Clamp(DraedonScreenStaticInterpolant - 0.01408f, 0f, 1f);
+                return;
+            }
+
+            // Reset communication things.
+            DraedonTextCreationTimer = 0;
+            if (!string.IsNullOrEmpty(DraedonText) && DraedonTextComplete == DraedonDialogRegistry.DialogOptions[0].Inquiry)
+                Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
+
+            DraedonText = DraedonTextComplete = string.Empty;
+            DialogHistory.Clear();
+
             bool canSummonDraedon = codebreakerTileEntity.ReadyToSummonDraedon && CalamityWorld.AbleToSummonDraedon;
+            bool canTalkToDraedon = codebreakerTileEntity.ReadyToSummonDraedon && DownedBossSystem.downedExoMechs;
             Vector2 backgroundTopLeft = BackgroundCenter - backgroundTexture.Size() * GeneralScale * 0.5f;
 
             // Draw the cell payment slot icon.
             Texture2D emptyCellIconTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonsArsenal/PowerCellSlot_Empty").Value;
             Texture2D occupiedCellIconTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonsArsenal/PowerCellSlot_Filled").Value;
-            Texture2D textPanelTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonDecrypterScreen").Value;
             Texture2D cellTexture = codebreakerTileEntity.InputtedCellCount > 0 ? occupiedCellIconTexture : emptyCellIconTexture;
             Vector2 cellDrawCenter = backgroundTopLeft + Vector2.One * GeneralScale * 60f;
 
@@ -69,6 +148,7 @@ namespace CalamityMod.UI.DraedonSummoning
             Vector2 costDisplayLocation = schematicSlotDrawCenter + Vector2.UnitY * GeneralScale * 20f;
             Vector2 costVerificationLocation = costDisplayLocation + Vector2.UnitY * GeneralScale * 60f;
             Vector2 summonButtonCenter = backgroundTopLeft + new Vector2(58f, backgroundTexture.Height - 48f) * GeneralScale;
+            Vector2 talkButtonCenter = summonButtonCenter + Vector2.UnitX * GeneralScale * 172f;
 
             // Display some error text if the codebreaker isn't strong enough to decrypt the schematic.
             if (codebreakerTileEntity.HeldSchematicID != 0 && !codebreakerTileEntity.CanDecryptHeldSchematic)
@@ -95,6 +175,8 @@ namespace CalamityMod.UI.DraedonSummoning
 
             if (canSummonDraedon)
                 HandleDraedonSummonButton(codebreakerTileEntity, summonButtonCenter);
+            if (canTalkToDraedon)
+                HandleDraedonTalkButton(talkButtonCenter);
 
             if (codebreakerTileEntity.DecryptionCountdown > 0 || AwaitingDecryptionTextClose)
                 HandleDecryptionStuff(codebreakerTileEntity, backgroundTexture, backgroundTopLeft, schematicSlotDrawCenter + Vector2.UnitY * GeneralScale * 80f);
@@ -118,9 +200,9 @@ namespace CalamityMod.UI.DraedonSummoning
             if (schematicType == ModContent.ItemType<EncryptedSchematicIce>())
                 schematicIconTexture = ModContent.Request<Texture2D>("CalamityMod/Items/DraedonMisc/EncryptedSchematicIce").Value;
 
-            spriteBatch.Draw(schematicIconBG, schematicSlotDrawCenter, null, Color.White, 0f, schematicIconBG.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(schematicIconBG, schematicSlotDrawCenter, null, Color.White, 0f, schematicIconBG.Size() * 0.5f, GeneralScale, 0, 0f);
             if (codebreakerTileEntity.HeldSchematicID != 0)
-                spriteBatch.Draw(schematicIconTexture, schematicSlotDrawCenter, null, Color.White, 0f, schematicIconTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(schematicIconTexture, schematicSlotDrawCenter, null, Color.White, 0f, schematicIconTexture.Size() * 0.5f, GeneralScale, 0, 0f);
             HandleSchematicSlotInteractions(codebreakerTileEntity, schematicSlotDrawCenter, cellTexture.Size() * GeneralScale);
 
             // Create a temporary item for drawing purposes.
@@ -279,7 +361,7 @@ namespace CalamityMod.UI.DraedonSummoning
             // And draw the cells to the right of the text.
             Texture2D cellTexture = ModContent.Request<Texture2D>("CalamityMod/Items/DraedonMisc/DraedonPowerCell").Value;
             Vector2 offsetDrawPosition = new Vector2(drawPosition.X + ChatManager.GetStringSize(FontAssets.MouseText.Value, text, Vector2.One, -1f).X * GeneralScale + GeneralScale * 15f, drawPosition.Y + GeneralScale * 30f);
-            Main.spriteBatch.Draw(cellTexture, offsetDrawPosition, null, Color.White, 0f, cellTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(cellTexture, offsetDrawPosition, null, Color.White, 0f, cellTexture.Size() * 0.5f, GeneralScale, 0, 0f);
 
             // Display the cell quantity numerically below the drawn cells.
             Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.ItemStack.Value, totalCellsCost.ToString(), offsetDrawPosition.X - GeneralScale * 11f, offsetDrawPosition.Y, Color.White, Color.Black, new Vector2(0.3f), GeneralScale * 0.75f);
@@ -315,7 +397,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 VerificationButtonScale = MathHelper.Clamp(VerificationButtonScale - 0.05f, 1f, 1.35f);
 
             // Draw the confirmation icon.
-            Main.spriteBatch.Draw(confirmationTexture, drawPosition, null, Color.White, 0f, confirmationTexture.Size() * 0.5f, VerificationButtonScale * GeneralScale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(confirmationTexture, drawPosition, null, Color.White, 0f, confirmationTexture.Size() * 0.5f, VerificationButtonScale * GeneralScale, 0, 0f);
         }
 
         public static void DisplayDecryptCancelButton(TECodebreaker codebreakerTileEntity, Vector2 drawPosition)
@@ -359,7 +441,7 @@ namespace CalamityMod.UI.DraedonSummoning
             }
 
             // Draw the cancel icon.
-            Main.spriteBatch.Draw(cancelTexture, drawPosition, null, Color.White, 0f, cancelTexture.Size() * 0.5f, CancelButtonScale * GeneralScale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(cancelTexture, drawPosition, null, Color.White, 0f, cancelTexture.Size() * 0.5f, CancelButtonScale * GeneralScale, 0, 0f);
         }
 
         public static void DrawDecryptCancelConfirmationText(Vector2 drawPosition)
@@ -368,7 +450,7 @@ namespace CalamityMod.UI.DraedonSummoning
             drawPosition.X += GeneralScale * 196f;
 
             Vector2 scale = new Vector2(1f, 0.3f) * GeneralScale;
-            Main.spriteBatch.Draw(textPanelTexture, drawPosition, null, Color.White, 0f, textPanelTexture.Size() * 0.5f, scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(textPanelTexture, drawPosition, null, Color.White, 0f, textPanelTexture.Size() * 0.5f, scale, 0, 0);
 
             string confirmationText = "Are you sure?";
             Vector2 confirmationTextPosition = drawPosition - FontAssets.MouseText.Value.MeasureString(confirmationText) * GeneralScale * 0.5f + Vector2.UnitY * GeneralScale * 4f;
@@ -379,7 +461,7 @@ namespace CalamityMod.UI.DraedonSummoning
         {
             Texture2D textPanelTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonDecrypterScreen").Value;
             Vector2 textPanelCenter = backgroundTopLeft + Vector2.UnitX * backgroundTexture.Width * GeneralScale + textPanelTexture.Size() * new Vector2(-0.5f, 0.5f) * GeneralScale;
-            Main.spriteBatch.Draw(textPanelTexture, textPanelCenter, null, Color.White, 0f, textPanelTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(textPanelTexture, textPanelCenter, null, Color.White, 0f, textPanelTexture.Size() * 0.5f, GeneralScale, 0, 0f);
 
             // Generate gibberish and use slowly insert the real text.
             // When decryption is done the gibberish will go away and only the underlying text will remain.
@@ -421,9 +503,9 @@ namespace CalamityMod.UI.DraedonSummoning
             // Draw a small bar at the bottom to indicate how much work is left.
             Texture2D borderTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/CodebreakerDecyptionBar").Value;
             Texture2D barTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/CodebreakerDecyptionBarCharge").Value;
-            Main.spriteBatch.Draw(borderTexture, barCenter, null, Color.White, 0f, borderTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(borderTexture, barCenter, null, Color.White, 0f, borderTexture.Size() * 0.5f, GeneralScale, 0, 0);
             Rectangle barRectangle = new Rectangle(0, 0, (int)(barTexture.Width * codebreakerTileEntity.DecryptionCompletion), barTexture.Width);
-            Main.spriteBatch.Draw(barTexture, barCenter, barRectangle, Color.White, 0f, barTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(barTexture, barCenter, barRectangle, Color.White, 0f, barTexture.Size() * 0.5f, GeneralScale, 0, 0);
 
             // Display a completion percentage below the bar as a more precise indicator.
             string completionText = $"{codebreakerTileEntity.DecryptionCompletion * 100f:n2}%";
@@ -468,17 +550,54 @@ namespace CalamityMod.UI.DraedonSummoning
                 ContactButtonScale = MathHelper.Clamp(ContactButtonScale - 0.05f, 1f, 1.35f);
 
             // Draw the contact button.
-            Main.spriteBatch.Draw(contactButton, drawPosition, null, Color.White, 0f, contactButton.Size() * 0.5f, ContactButtonScale * GeneralScale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(contactButton, drawPosition, null, Color.White, 0f, contactButton.Size() * 0.5f, ContactButtonScale * GeneralScale, 0, 0f);
 
             // And display a text indicator that describes the function of the button.
             // The color of the text cycles through the exo mech crystal palette.
             string contactText = "Contact";
+            if (DownedBossSystem.downedExoMechs)
+                contactText = "Summon";
+
             Color contactTextColor = CalamityUtils.MulticolorLerp((float)Math.Cos(Main.GlobalTimeWrappedHourly * 0.7f) * 0.5f + 0.5f, CalamityUtils.ExoPalette);
 
             // Center the draw position.
             drawPosition.X -= FontAssets.MouseText.Value.MeasureString(contactText).X * GeneralScale * 0.5f;
             drawPosition.Y += GeneralScale * 20f;
             Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, contactText, drawPosition.X, drawPosition.Y, contactTextColor, Color.Black, Vector2.Zero, GeneralScale);
+        }
+
+        public static void HandleDraedonTalkButton(Vector2 drawPosition)
+        {
+            Texture2D communicateButton = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/CommunicateIcon").Value;
+
+            Rectangle clickArea = Utils.CenteredRectangle(drawPosition, communicateButton.Size() * VerificationButtonScale);
+
+            // Check if the mouse is hovering over the communicate button area.
+            if (MouseScreenArea.Intersects(clickArea))
+            {
+                // If so, cause the button to inflate a little bit.
+                CommunicateButtonScale = MathHelper.Clamp(CommunicateButtonScale + 0.035f, 1f, 1.35f);
+
+                // If a click is done, do a check. This triggers the communicate panel opening animation.
+                if (Main.mouseLeft && Main.mouseLeftRelease)
+                    DisplayingCommunicationText = true;
+            }
+
+            // Otherwise, if not hovering, cause the button to deflate back to its normal size.
+            else
+                CommunicateButtonScale = MathHelper.Clamp(CommunicateButtonScale - 0.05f, 1f, 1.35f);
+
+            // Draw the communication button.
+            Main.spriteBatch.Draw(communicateButton, drawPosition, null, Color.White, 0f, communicateButton.Size() * 0.5f, CommunicateButtonScale * GeneralScale, 0, 0f);
+
+            // And display a text indicator that describes the function of the button.
+            // The color of the text is the same as Draedon's talk color.
+            string communicateText = "Communicate";
+
+            // Center the draw position.
+            drawPosition.X -= FontAssets.MouseText.Value.MeasureString(communicateText).X * GeneralScale * 0.5f;
+            drawPosition.Y += GeneralScale * 20f;
+            Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, communicateText, drawPosition.X, drawPosition.Y, Draedon.TextColor, Color.Black, Vector2.Zero, GeneralScale);
         }
 
         public static void DisplayNotStrongEnoughErrorText(Vector2 drawPosition)

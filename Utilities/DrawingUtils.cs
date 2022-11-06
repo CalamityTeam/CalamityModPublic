@@ -670,6 +670,42 @@ namespace CalamityMod
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
+        /// <summary>
+        /// Restarts a given <see cref="SpriteBatch"/> such that it enforces a rectangular area where pixels outside of said area are not drawn.<br></br>
+        /// This is incredible convenient for UI sections where you need to ensure things only appear inside a box panel.<br></br>
+        /// This method should be followed by a call to <see cref="ReleaseCutoffRegion(SpriteBatch, Matrix, SpriteSortMode)"/> once you're ready to flush the contents drawn under these conditions.
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch to enforce the cutoff region on.</param>
+        /// <param name="cutoffRegion">The cutoff region. This should be in screen coordinates.</param>
+        /// <param name="perspective">The perspective matrix that should be used across drawn contents.</param>
+        /// <param name="sortMode">The sort mode that should be used across drawn contents. Use <see cref="SpriteSortMode.Immediate"/> if you additionally need to draw shaders.</param>
+        /// <param name="newBlendState">The blend state that should be used across drawn contents. This defaults to <see cref="BlendState.AlphaBlend"/>.</param>
+        public static void EnforceCutoffRegion(this SpriteBatch spriteBatch, Rectangle cutoffRegion, Matrix perspective, SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState newBlendState = null)
+        {
+            var rasterizer = Main.Rasterizer;
+            rasterizer.ScissorTestEnable = true;
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, newBlendState ?? BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, rasterizer, null, perspective);
+            spriteBatch.GraphicsDevice.ScissorRectangle = cutoffRegion;
+        }
+
+        /// <summary>
+        /// Flushes contents drawn under restrictions enforced by the <see cref="EnforceCutoffRegion(SpriteBatch, Rectangle, Matrix, SpriteSortMode, BlendState)"/> method and returns the <see cref="SpriteBatch"/> to a more typical state.
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch to flush the contents of.</param>
+        /// <param name="perspective">The perspective matrix that was used before the cutoff region was enforced. Take care to ensure that this has the correct input.</param>
+        /// <param name="sortMode">The sort mode that should be used across drawn contents. Use <see cref="SpriteSortMode.Immediate"/> if you additionally need to draw shaders.</param>
+        public static void ReleaseCutoffRegion(this SpriteBatch spriteBatch, Matrix perspective, SpriteSortMode sortMode = SpriteSortMode.Deferred)
+        {
+            int width = spriteBatch.GraphicsDevice.Viewport.Width;
+            int height = spriteBatch.GraphicsDevice.Viewport.Height;
+
+            spriteBatch.End();
+            spriteBatch.Begin(sortMode, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, perspective);
+            spriteBatch.GraphicsDevice.ScissorRectangle = new(-1, -1, width + 2, height + 2);
+        }
+
         public static IEnumerable<DrawData> DrawAuroras(Player player, float auroraCount, float opacity, Color color)
         {
             float time = Main.GlobalTimeWrappedHourly % 3f / 3f;
