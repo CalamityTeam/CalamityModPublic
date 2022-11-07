@@ -1632,7 +1632,11 @@ namespace CalamityMod.CalPlayer
                 {
                     float heal = MathHelper.Clamp(damage * 0.011f, 0f, 5f);
                     if ((int)heal > 0)
+					{
                         CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileID.VampireHeal, 1200f, 3f);
+						float cooldown = heal * 2f;
+						Main.player[Main.myPlayer].lifeSteal -= cooldown;
+					}
                 }
 
                 if (bloodyGlove && proj.CountsAsClass<RogueDamageClass>() && modProj.stealthStrike)
