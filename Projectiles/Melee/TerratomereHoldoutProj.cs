@@ -219,7 +219,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 float progress = MathHelper.Lerp(SwingCompletion, SwingCompletionAtStartOfTrail, i / 20f);
                 float reelBackAngle = Math.Abs(Projectile.oldRot[0] - Projectile.oldRot[1]) * 0.8f;
-                if (SwingCompletion > 0.84f)
+                if (SwingCompletion > RecoveryCompletionRatio)
                     reelBackAngle = 0.21f;
 
                 float offsetAngle = (GetSwingOffsetAngle(progress) - reelBackAngle) * Direction + InitialRotation;
