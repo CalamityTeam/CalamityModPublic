@@ -113,6 +113,8 @@ namespace CalamityMod.Projectiles.Melee
             AdjustPlayerValues();
             StickToOwner();
             CreateProjectiles();
+            if (SwingCompletion > SwingCompletionRatio + 0.2f && SwingCompletion < RecoveryCompletionRatio)
+                CreateSlashSparkleDust();
 
             // Determine rotation.
             Projectile.rotation = SwordRotation;
@@ -160,7 +162,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - bigSlashVelocity * 0.4f, bigSlashVelocity, ModContent.ProjectileType<TerratomereBigSlash>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
 
-            // Create a terra blade-like slash when the slash terminates.
+            // Create a terra blade-like beam when the slash terminates.
             if (Main.myPlayer == Projectile.owner && Time == (int)(Terratomere.SwingTime * RecoveryCompletionRatio) + 5f)
             {
                 Vector2 bigSlashVelocity = InitialRotation.ToRotationVector2() * Owner.ActiveItem().shootSpeed / 6f;
@@ -173,6 +175,22 @@ namespace CalamityMod.Projectiles.Melee
                     Main.projectile[slash].ModProjectile<TerratomereBeam>().ControlPoints = GenerateSlashPoints().ToArray();
                 }
             }
+        }
+
+        public void CreateSlashSparkleDust()
+        {
+            Vector2 initialDirection = InitialRotation.ToRotationVector2();
+            Vector2 bladeEnd = Projectile.Center + (GetSwingOffsetAngle(SwingCompletion) * Direction + InitialRotation).ToRotationVector2() * Main.rand.NextFloat(8f, 66f) + initialDirection * 76f;
+
+            int dustID = Main.rand.NextBool() ? 267 : 264;
+            Dust magic = Dust.NewDustPerfect(bladeEnd, dustID, Vector2.Zero);
+            magic.color = Color.Lerp(Terratomere.TerraColor1, Terratomere.TerraColor2, Main.rand.NextFloat());
+            magic.color = Color.Lerp(magic.color, Color.Yellow, (float)Math.Pow(Main.rand.NextFloat(), 1.63));
+            magic.fadeIn = Main.rand.NextFloat(1f, 2f);
+            magic.scale = 0.4f;
+            magic.velocity = initialDirection * Main.rand.NextFloat(0.5f, 15f);
+            magic.noLight = true;
+            magic.noGravity = true;
         }
         #endregion AI and Behaviors
 
