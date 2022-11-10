@@ -143,7 +143,7 @@ namespace CalamityMod.UI.DraedonSummoning
             Vector2 panelScale = GeneralScale * new Vector2(panelWidthScale, panelHeightScale) * 1.4f;
             Texture2D panelTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonContactPanel").Value;
             float basePanelHeight = GeneralScale * panelTexture.Height * 1.4f;
-            Vector2 panelCenter = new Vector2(Main.screenWidth * 0.5f, BackgroundCenter.Y + panelTexture.Height * panelScale.Y * 0.5f - basePanelHeight * 0.5f);
+            Vector2 panelCenter = new Vector2(Main.screenWidth * 0.5f, Main.screenHeight * 0.5f + panelTexture.Height * panelScale.Y * 0.5f - basePanelHeight * 0.5f);
             Rectangle panelArea = Utils.CenteredRectangle(panelCenter, panelTexture.Size() * panelScale);
 
             Main.spriteBatch.Draw(panelTexture, panelCenter, null, Color.White, 0f, panelTexture.Size() * 0.5f, panelScale, 0, 0f);
@@ -189,8 +189,6 @@ namespace CalamityMod.UI.DraedonSummoning
             Vector2 draedonIconScale = panelScale * 0.5f;
             Vector2 draedonIconCenter = draedonIconDrawTopRight + iconTexture.Size() * new Vector2(0.5f, 0.5f) * draedonIconScale;
             Rectangle draedonIconArea = Utils.CenteredRectangle(draedonIconCenter, iconTexture.Size() * draedonIconScale * 0.9f);
-            draedonIconArea.Y += 12;
-            draedonIconArea.Height -= 12;
             Main.spriteBatch.Draw(iconTexture, draedonIconDrawTopRight, null, Color.White * draedonIconDrawInterpolant, 0f, Vector2.Zero, draedonIconScale, 0, 0f);
 
             // Draw Draedon's face inside the panel.
@@ -417,7 +415,7 @@ namespace CalamityMod.UI.DraedonSummoning
                         Vector2 anchorPoint = new(dialogArea.Center.X, markerDrawPosition.Y);
                         markerDrawPosition.X = anchorPoint.X + (anchorPoint.X - markerDrawPosition.X);
                         localTextTopLeft.X = anchorPoint.X + (anchorPoint.X - localTextTopLeft.X);
-                        localTextTopLeft.X -= DialogFont.MeasureString(line).X * 1.15f;
+                        localTextTopLeft.X -= DialogFont.MeasureString(line).X * GeneralScale * 0.725f;
                         localTextTopLeft.Y -= markerScale.Y * 4f;
 
                         // Use a neutral grey-ish color if text is being said by the player.
