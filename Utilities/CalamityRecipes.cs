@@ -1811,15 +1811,6 @@ namespace CalamityMod
             r.AddTile(TileID.CrystalBall);
             r.Register();
 
-            // Terra Blade w/ True Bloody Edge
-            r = Recipe.Create(ItemID.TerraBlade);
-            r.AddIngredient(ModContent.ItemType<TrueBloodyEdge>());
-            r.AddIngredient(ItemID.TrueExcalibur);
-            r.AddIngredient(ItemID.BrokenHeroSword);
-            r.AddIngredient(ModContent.ItemType<LivingShard>(), 12);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
             // Turtle Shell with Giant Tortoise Shell
             r = Recipe.Create(ItemID.TurtleShell);
             r.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
