@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<MolluskHusk>(15).
                 AddIngredient<Lumenyl>(40).
                 AddIngredient<DepthCells>(40).
-                AddIngredient<Tenebris>(15).
+                AddIngredient<PlantyMush>(15).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

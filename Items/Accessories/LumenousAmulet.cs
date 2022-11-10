@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<AbyssalAmulet>().
                 AddIngredient<Lumenyl>(15).
-                AddIngredient<Tenebris>(5).
+                AddIngredient<PlantyMush>(5).
                 AddIngredient<SeaPrism>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();

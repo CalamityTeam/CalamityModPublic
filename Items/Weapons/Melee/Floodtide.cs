@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddRecipeGroup("AnyAdamantiteBar", 5).
                 AddIngredient<DepthCells>(10).
                 AddIngredient<Lumenyl>(10).
-                AddIngredient<Tenebris>(5).
+                AddIngredient<PlantyMush>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

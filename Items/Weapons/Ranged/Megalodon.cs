@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient<Archerfish>().
                 AddIngredient<DepthCells>(10).
                 AddIngredient<Lumenyl>(10).
-                AddIngredient<Tenebris>(5).
+                AddIngredient<PlantyMush>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

@@ -449,7 +449,6 @@ namespace CalamityMod
             TileType<AbyssGravel>(),
             TileType<Voidstone>(),
             TileType<PlantyMush>(),
-            TileType<Tenebris>(),
             TileType<ChaoticOre>(),
         });
 

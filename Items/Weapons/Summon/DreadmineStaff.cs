@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Summon
             CreateRecipe().
                 AddIngredient<DepthCells>(10).
                 AddIngredient<Lumenyl>(30).
-                AddIngredient<Tenebris>(10).
+                AddIngredient<PlantyMush>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

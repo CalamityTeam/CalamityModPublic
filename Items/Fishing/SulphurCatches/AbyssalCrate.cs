@@ -72,7 +72,6 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             tier2AbyssAvailable.Add(ModContent.ItemType<DepthCells>(), 5, 2, 5);
             tier2AbyssAvailable.Add(ModContent.ItemType<Lumenyl>(), 5, 2, 5);
             tier2AbyssAvailable.Add(ModContent.ItemType<PlantyMush>(), 5, 2, 5);
-            tier2AbyssAvailable.Add(ModContent.ItemType<Tenebris>(), 5, 2, 5);
             scoriaAvailable.Add(ModContent.ItemType<ScoriaOre>(), 5, 16, 28);
             scoriaAvailable.Add(ModContent.ItemType<ScoriaBar>(), new Fraction(15, 100), 4, 7);
             tier3AcidRain.Add(ModContent.ItemType<ReaperTooth>(), 10, 1, 5);

@@ -38,9 +38,9 @@ namespace CalamityMod.World
             AbyssChasmBottom = abyssChasmY - 100; //850 small 1450 medium 2050 large
             int abyssChasmX = AtLeftSideOfWorld ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135); //2100 - 1965 = 135 : 2100 + 1965 = 4065
 
-            bool tenebrisSide = true;
+            bool plantyMushSide = true;
             if (abyssChasmX < genLimit)
-                tenebrisSide = false;
+                plantyMushSide = false;
 
             if (AtLeftSideOfWorld)
             {
@@ -261,31 +261,31 @@ namespace CalamityMod.World
                 {
                     case 0:
                         AbyssIsland(islandLocationX, islandLocationY, 60, 66, 30, 36, true, false, hasVoidstone);
-                        AbyssIsland(islandLocationX + 40, islandLocationY + 15, 60, 66, 30, 36, false, tenebrisSide, hasVoidstone);
-                        AbyssIsland(islandLocationX - 40, islandLocationY + 15, 60, 66, 30, 36, false, !tenebrisSide, hasVoidstone);
+                        AbyssIsland(islandLocationX + 40, islandLocationY + 15, 60, 66, 30, 36, false, plantyMushSide, hasVoidstone);
+                        AbyssIsland(islandLocationX - 40, islandLocationY + 15, 60, 66, 30, 36, false, !plantyMushSide, hasVoidstone);
                         break;
                     case 1:
                         AbyssIsland(islandLocationX + 30, islandLocationY, 60, 66, 30, 36, true, false, hasVoidstone);
-                        AbyssIsland(islandLocationX, islandLocationY + 15, 60, 66, 30, 36, false, tenebrisSide, hasVoidstone);
-                        AbyssIsland(islandLocationX - 40, islandLocationY + 10, 60, 66, 30, 36, false, !tenebrisSide, hasVoidstone);
+                        AbyssIsland(islandLocationX, islandLocationY + 15, 60, 66, 30, 36, false, plantyMushSide, hasVoidstone);
+                        AbyssIsland(islandLocationX - 40, islandLocationY + 10, 60, 66, 30, 36, false, !plantyMushSide, hasVoidstone);
                         islandLocationX += 30;
                         break;
                     case 2:
                         AbyssIsland(islandLocationX - 30, islandLocationY, 60, 66, 30, 36, true, false, hasVoidstone);
-                        AbyssIsland(islandLocationX + 30, islandLocationY + 10, 60, 66, 30, 36, false, tenebrisSide, hasVoidstone);
-                        AbyssIsland(islandLocationX, islandLocationY + 15, 60, 66, 30, 36, false, !tenebrisSide, hasVoidstone);
+                        AbyssIsland(islandLocationX + 30, islandLocationY + 10, 60, 66, 30, 36, false, plantyMushSide, hasVoidstone);
+                        AbyssIsland(islandLocationX, islandLocationY + 15, 60, 66, 30, 36, false, !plantyMushSide, hasVoidstone);
                         islandLocationX -= 30;
                         break;
                     case 3:
                         AbyssIsland(islandLocationX + 25, islandLocationY, 60, 66, 30, 36, true, false, hasVoidstone);
-                        AbyssIsland(islandLocationX - 5, islandLocationY + 5, 60, 66, 30, 36, false, tenebrisSide, hasVoidstone);
-                        AbyssIsland(islandLocationX - 35, islandLocationY + 15, 60, 66, 30, 36, false, !tenebrisSide, hasVoidstone);
+                        AbyssIsland(islandLocationX - 5, islandLocationY + 5, 60, 66, 30, 36, false, plantyMushSide, hasVoidstone);
+                        AbyssIsland(islandLocationX - 35, islandLocationY + 15, 60, 66, 30, 36, false, !plantyMushSide, hasVoidstone);
                         islandLocationX += 25;
                         break;
                     case 4:
                         AbyssIsland(islandLocationX - 25, islandLocationY, 60, 66, 30, 36, true, false, hasVoidstone);
-                        AbyssIsland(islandLocationX + 5, islandLocationY + 15, 60, 66, 30, 36, false, tenebrisSide, hasVoidstone);
-                        AbyssIsland(islandLocationX + 35, islandLocationY + 5, 60, 66, 30, 36, false, !tenebrisSide, hasVoidstone);
+                        AbyssIsland(islandLocationX + 5, islandLocationY + 15, 60, 66, 30, 36, false, plantyMushSide, hasVoidstone);
+                        AbyssIsland(islandLocationX + 35, islandLocationY + 5, 60, 66, 30, 36, false, !plantyMushSide, hasVoidstone);
                         islandLocationX -= 25;
                         break;
                 }
@@ -373,7 +373,7 @@ namespace CalamityMod.World
         }
 
         #region Houses
-        public static void AbyssIsland(int i, int j, int sizeMin, int sizeMax, int sizeMin2, int sizeMax2, bool hasChest, bool hasTenebris, bool isVoid)
+        public static void AbyssIsland(int i, int j, int sizeMin, int sizeMax, int sizeMin2, int sizeMax2, bool hasChest, bool hasPlantyMush, bool isVoid)
         {
             float islandWidth = WorldGen.genRand.Next(sizeMin, sizeMax); //100 150
             float smallIslandWidth = (float)WorldGen.genRand.Next(sizeMin, sizeMax) / (float)5; //20 30
@@ -502,7 +502,7 @@ namespace CalamityMod.World
                     }
                 }
             }
-            if (hasTenebris)
+            if (hasPlantyMush)
             {
                 int p = islandPositionX;
                 int num150;
@@ -515,7 +515,7 @@ namespace CalamityMod.World
                     }
                     num14 += WorldGen.genRand.Next(-3, 4); //-3 4
                     num150 = 1; //4 8
-                    int num16 = ModContent.TileType<Tenebris>();
+                    int num16 = ModContent.TileType<PlantyMush>();
                     for (int n = p - num150; n <= p + num150; n++)
                     {
                         for (int num17 = num14 - num150; num17 <= num14 + num150; num17++)
