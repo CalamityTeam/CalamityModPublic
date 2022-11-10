@@ -404,7 +404,6 @@ namespace CalamityMod.CalPlayer
             #region Adrenaline
             // This is how much Adrenaline will be changed by this frame.
             float adrenalineDiff = 0;
-            bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
             bool wofAndNotHell = Main.wofNPCIndex >= 0 && Player.position.Y < (float)((Main.maxTilesY - 200) * 16);
 
             // If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
@@ -452,10 +451,6 @@ namespace CalamityMod.CalPlayer
                 // Stress Pills make Adrenaline charge 20% faster (meaning it takes 83.333% standard time to charge it).
                 if (stressPills)
                     adrenalineDiff *= 1.2f;
-                
-                // In the SCal fight, adrenaline charges 33% slower (meaning it takes 50% longer to fully charge it).
-                if (SCalAlive)
-                    adrenalineDiff *= 0.67f;
             }
 
 
