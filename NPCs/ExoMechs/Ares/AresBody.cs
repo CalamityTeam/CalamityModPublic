@@ -852,10 +852,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                         if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration)
                         {
                             // Start the loop sound if the start sound finished.
-                            if (deathraySound is null || !deathraySound.IsPlaying)
+                            if (deathraySound is null || !deathraySound.IsPlaying || calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration + 180f)
                             {
                                 if (deathraySound is null || deathraySound.Style == LaserStartSound)
+                                {
+                                    deathraySound?.Stop();
                                     DeathraySoundSlot = SoundEngine.PlaySound(LaserLoopSound, NPC.Center);
+                                }
                                 else if (deathraySound is not null)
                                     deathraySound.Resume();
                             }

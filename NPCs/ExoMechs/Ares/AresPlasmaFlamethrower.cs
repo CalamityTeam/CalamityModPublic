@@ -198,6 +198,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             if (NPC.life > Main.npc[(int)NPC.ai[1]].life)
                 NPC.life = Main.npc[(int)NPC.ai[1]].life;
 
+            AresBody aresBody = Main.npc[(int)NPC.ai[2]].ModNPC<AresBody>();
             CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)NPC.ai[2]].Calamity();
 
             // Passive phase check
@@ -473,10 +474,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             // Smooth movement towards the location Ares Plasma Flamethrower is meant to be at
             CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
 
-            //Update the telegraph sound if it's being done.
-            if (TelegraphSoundSlot != null && SoundEngine.TryGetActiveSound(TelegraphSoundSlot, out var telSound) && telSound.IsPlaying)
+            // Update the telegraph sound if it's being played. Immediately stop it if Ares just begun transitioning to his laserbeam attack, since that automatically resets all impending cannon shots.
+            if (SoundEngine.TryGetActiveSound(TelegraphSoundSlot, out var telSound) && telSound.IsPlaying)
             {
                 telSound.Position = NPC.Center;
+                if (aresBody.AIState == (int)AresBody.Phase.Deathrays && calamityGlobalNPC_Body.newAI[2] <= 10f)
+                    telSound.Stop();
             }
         }
 

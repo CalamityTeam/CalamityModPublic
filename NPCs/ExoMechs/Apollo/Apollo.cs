@@ -891,7 +891,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
                     // Artemis does nothing while immune
                     if (exoMechTwinRedAlive)
-                        Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[0] = (float)Artemis.Artemis.Phase.Normal;
+                        Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[0] = (float)ArtemisBoss.Phase.Normal;
 
                     // Do nothing while immune
                     AIState = (float)Phase.Normal;
@@ -1073,9 +1073,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     calamityGlobalNPC.newAI[2] += 1f;
                     if (calamityGlobalNPC.newAI[2] % (rocketPhaseDuration / numRockets) == 0f && canFire)
                     {
-                        // Play a firing sound once the first missile has been shot.
-                        if (calamityGlobalNPC.newAI[2] == rocketPhaseDuration / numRockets)
-                            SoundEngine.PlaySound(MissileLaunchSound, NPC.Center);
+                        // Play a missile firing sound.
+                        SoundEngine.PlaySound(MissileLaunchSound, NPC.Center);
 
                         pickNewLocation = true;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
