@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public SlotId TelegraphSoundSlot;
 
         // Telegraph sound.
-        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresPlasmaArmCharge");
+        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresPlasmaArmCharge");
 
         public override void SetStaticDefaults()
         {
@@ -439,7 +439,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                             NPC.ai[3] += 1f;
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(PlasmaCaster.FireSound, NPC.Center);
+                                SoundEngine.PlaySound(CommonCalamitySounds.ExoPlasmaShootSound, NPC.Center);
                                 Vector2 plasmaBoltVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
                                 int type = ModContent.ProjectileType<AresPlasmaFireball>();
                                 int damage = NPC.GetProjectileDamage(type);

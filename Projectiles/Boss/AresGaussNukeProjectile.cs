@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
+using CalamityMod.NPCs.ExoMechs.Ares;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -179,8 +180,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            // Nuke explosion sound
-            SoundEngine.PlaySound(TeslaCannon.FireSound, Projectile.Center);
+            // Nuke explosion sound.
+            SoundEngine.PlaySound(AresGaussNuke.NukeExplosionSound, Projectile.Center);
 
             if (Main.netMode != NetmodeID.Server)
             {

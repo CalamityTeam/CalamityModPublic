@@ -19,6 +19,7 @@ using CalamityMod.Skies;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Sounds;
+using ArtemisBoss = CalamityMod.NPCs.ExoMechs.Artemis.Artemis;
 
 namespace CalamityMod.NPCs.ExoMechs.Apollo
 {
@@ -120,6 +121,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
         public PrimitiveTrail RibbonTrail = null;
 
         public const string NameToDisplay = "XS-03 Apollo";
+
+        public static readonly SoundStyle MissileLaunchSound = new("CalamityMod/Sounds/Custom/ExoMechs/ApolloMissileLaunch") { Volume = 1.3f };
 
         public override void SetStaticDefaults()
         {
@@ -1007,7 +1010,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     {
                         if (firingPlasma)
                         {
-                            // Fire plasma
+                            // Fire plasma.
                             float divisor = nerfedAttacks ? 60f : lastMechAlive ? 40f : 45f;
                             float plasmaTimer = calamityGlobalNPC.newAI[3] - 2f;
                             if (plasmaTimer % divisor == 0f && canFire)
@@ -1018,7 +1021,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                                 {
                                     int type = ModContent.ProjectileType<ApolloFireball>();
                                     int damage = NPC.GetProjectileDamage(type);
-                                    SoundEngine.PlaySound(PlasmaCaster.FireSound, NPC.Center);
+                                    SoundEngine.PlaySound(CommonCalamitySounds.ExoPlasmaShootSound, NPC.Center);
                                     Vector2 plasmaVelocity = Vector2.Normalize(aimedVector) * projectileVelocity;
                                     Vector2 offset = Vector2.Normalize(plasmaVelocity) * 70f;
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, plasmaVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
@@ -1043,6 +1046,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                                     chargeLocations[i] = default;
 
                                 NPC.TargetClosest();
+                                PlayTargetingSound();
                             }
                             else if (doBigAttack)
                             {
@@ -1069,12 +1073,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     calamityGlobalNPC.newAI[2] += 1f;
                     if (calamityGlobalNPC.newAI[2] % (rocketPhaseDuration / numRockets) == 0f && canFire)
                     {
+                        // Play a firing sound once the first missile has been shot.
+                        if (calamityGlobalNPC.newAI[2] == rocketPhaseDuration / numRockets)
+                            SoundEngine.PlaySound(MissileLaunchSound, NPC.Center);
+
                         pickNewLocation = true;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             int type = ModContent.ProjectileType<ApolloRocket>();
                             int damage = NPC.GetProjectileDamage(type);
-                            SoundEngine.PlaySound(SoundID.Item36, NPC.Center);
                             Vector2 rocketVelocity = Vector2.Normalize(aimedVector) * projectileVelocity * 1.2f;
                             Vector2 offset = Vector2.Normalize(rocketVelocity) * 70f;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, rocketVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
@@ -1088,6 +1095,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         AIState = (float)Phase.Normal;
                         NPC.localAI[2] = shouldGetBuffedByBerserkPhase ? 1f : 0f;
                         calamityGlobalNPC.newAI[2] = 0f;
+                        PlayTargetingSound();
+
                         NPC.TargetClosest();
                     }
 
@@ -1152,6 +1161,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         // Don't move
                         NPC.velocity = Vector2.Zero;
 
+                        // Play a sound to accompany the telegraph.
+                        SoundEngine.PlaySound(ArtemisBoss.ChargeTelegraphSound with { Volume = 1.6f }, NPC.Center);
+
                         // Go to charge phase, create lightning bolts in the sky, and reset
                         calamityGlobalNPC.newAI[2] += 1f;
                         if (calamityGlobalNPC.newAI[2] >= timeToLineUpCharge)
@@ -1172,7 +1184,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     // Set charge velocity and fire halos of plasma bolts
                     if (NPC.localAI[2] == 0f)
                     {
-                        SoundEngine.PlaySound(CommonCalamitySounds.ELRFireSound, NPC.Center);
+                        // Play a charge sound.
+                        SoundEngine.PlaySound(ArtemisBoss.ChargeSound, NPC.Center);
+
                         NPC.velocity = Vector2.Normalize(chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1] - chargeLocations[(int)calamityGlobalNPC.newAI[2]]) * chargeVelocity;
                         NPC.localAI[2] = 1f;
                         NPC.netUpdate = true;
@@ -1241,8 +1255,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
                             Dust dust2 = Main.dust[dust1];
                             dust2.velocity *= 0.5f;
-                            dust2.velocity.X = dust2.velocity.X + dustVelX;
-                            dust2.velocity.Y = dust2.velocity.Y + dustVelY;
+                            dust2.velocity.X += dustVelX;
+                            dust2.velocity.Y += dustVelY;
                             dust2.scale = scale;
                             dust2.noGravity = true;
                         }
@@ -1287,6 +1301,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         NPC.ai[3] = 61f;
 
                         NPC.TargetClosest();
+                        PlayTargetingSound();
+
                         NPC.netUpdate = true;
                     }
 
@@ -1320,10 +1336,23 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         calamityGlobalNPC.newAI[2] = 0f;
                         calamityGlobalNPC.newAI[3] = 0f;
                         NPC.TargetClosest();
+                        PlayTargetingSound();
                     }
 
                     break;
             }
+        }
+
+        // Plays the targeting sound from both Exo Twins, indicating that they're syncing up.
+        public static void PlayTargetingSound()
+        {
+            // Play for Artemis.
+            if (CalamityGlobalNPC.draedonExoMechTwinRed >= 0 && Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
+                SoundEngine.PlaySound(ArtemisBoss.AttackSelectionSound, Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Center);
+
+            // Play for Apollo.
+            if (CalamityGlobalNPC.draedonExoMechTwinGreen >= 0 && Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+                SoundEngine.PlaySound(ArtemisBoss.AttackSelectionSound, Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Center);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -1440,7 +1469,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
         public float FlameTrailWidthFunctionBig(float completionRatio) => MathHelper.SmoothStep(34f, 12f, completionRatio) * ChargeComboFlash;
 
-        public float RibbonTrailWidthFunction(float completionRatio)
+        public static float RibbonTrailWidthFunction(float completionRatio)
         {
             float baseWidth = Utils.GetLerpValue(1f, 0.54f, completionRatio, true) * 5f;
             float endTipWidth = CalamityUtils.Convert01To010(Utils.GetLerpValue(0.96f, 0.89f, completionRatio, true)) * 2.4f;

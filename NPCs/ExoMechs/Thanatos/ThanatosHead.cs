@@ -25,8 +25,13 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         public static int normalIconIndex;
         public static int vulnerableIconIndex;
 
-        public static readonly SoundStyle VentSound = new("CalamityMod/Sounds/Custom/ThanatosVent");
-        public static readonly SoundStyle LaserSound = new("CalamityMod/Sounds/Custom/THanosLaser");
+        public static readonly SoundStyle VentSound = new("CalamityMod/Sounds/Custom/ExoMechs/ThanatosVent");
+
+        public static readonly SoundStyle LaserSound = new("CalamityMod/Sounds/Custom/ExoMechs/THanosLaser");
+
+        public static readonly SoundStyle ThanatosHitSoundOpen = new("CalamityMod/Sounds/NPCHit/ThanatosHitOpen", 2) { Volume = 0.5f };
+
+        public static readonly SoundStyle ThanatosHitSoundClosed = new("CalamityMod/Sounds/NPCHit/ThanatosHitClosed", 3) { Volume = 0.4f };
 
         public SlotId LaserSoundSlot;
 
@@ -168,8 +173,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 //We'll probably want a custom background for Exos like ML has.
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Under every armored plate on this machine lies an advanced weapon. This sacrifices the machine’s durability, but it makes it a very effective mass murderer.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Under every armored plate on this machine lies an advanced weapon. This sacrifices the machine’s durability, but it makes it a very effective mass murderer.")
             });
         }
 
@@ -1220,16 +1225,15 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         {
             if (NPC.soundDelay == 0)
             {
-
                 if (vulnerable)
                 {
                     NPC.soundDelay = 8;
-                    SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
+                    SoundEngine.PlaySound(ThanatosHitSoundOpen, NPC.Center);
                 }
                 else
                 {
                     NPC.soundDelay = 3;
-                    SoundEngine.PlaySound(CommonCalamitySounds.ExoHitSound, NPC.Center);
+                    SoundEngine.PlaySound(ThanatosHitSoundClosed, NPC.Center);
                 }
             }
 

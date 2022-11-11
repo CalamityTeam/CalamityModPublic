@@ -65,7 +65,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public SlotId DeathraySoundSlot;
 
         // Telegraph sound.
-        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresLaserArmCharge") { Volume = 1.1f};
+        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresLaserArmCharge") { Volume = 1.1f };
+
+        public static readonly SoundStyle LaserbeamShootSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresLaserArmShoot") { Volume = 1.1f };
 
         public override void SetStaticDefaults()
         {
@@ -479,7 +481,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                     float offset = 84f;
                                     float offset2 = 16f;
                                     Vector2 source = horizontalLaserSweep ? new Vector2(NPC.Center.X - offset2 * NPC.direction, NPC.Center.Y + offset) : new Vector2(NPC.Center.X + offset * NPC.direction, NPC.Center.Y + offset2);
-                                    SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, source);
+                                    SoundEngine.PlaySound(LaserbeamShootSound, source);
                                     Vector2 laserVelocity = Vector2.Normalize(lookAt - source);
                                     if (laserVelocity.HasNaNs())
                                         laserVelocity = -Vector2.UnitY;
@@ -513,11 +515,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             EnergyDrawer.Update();
 
-            //Update the deathray sound if it's being done.
-            if (DeathraySoundSlot != null && SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
-            {
+            // Update the deathray sound if it's being played.
+            if (SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
                 deathraySound.Position = NPC.Center;
-            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;

@@ -32,6 +32,7 @@ using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using CalamityMod.Sounds;
 using CalamityMod.Items.Weapons.Summon;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -91,6 +92,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 
+        // Drawers for arm segments.
+        public PrimitiveTrail LightningDrawer;
+        public PrimitiveTrail LightningBackgroundDrawer;
+
+        // This stores the sound slot of the deathray sound Ares makes, so it may be properly updated in terms of position and looped.
+        public SlotId DeathraySoundSlot;
+
         // Spawn rate for enrage steam
         public const int ventCloudSpawnRate = 3;
 
@@ -134,11 +142,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public const float plasmaArmStartTimer = 260f;
         public const float teslaArmStartTimer = 80f;
 
-        // Drawers for arm segments.
-        public PrimitiveTrail LightningDrawer;
-        public PrimitiveTrail LightningBackgroundDrawer;
+        public static readonly SoundStyle EnragedSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresEnraged");
 
-        public static readonly SoundStyle EnragedSound = new("CalamityMod/Sounds/Custom/AresEnraged");
+        public static readonly SoundStyle LaserStartSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresCircleLaserStart");
+
+        public static readonly SoundStyle LaserLoopSound = new SoundStyle("CalamityMod/Sounds/Custom/ExoMechs/AresCircleLaserLoop") with { IsLooped = true };
+
+        public static readonly SoundStyle LaserEndSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresCircleLaserEnd");
 
         public override void SetStaticDefaults()
         {
@@ -820,9 +830,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                             // Fire deathrays
                             if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration)
                             {
+                                DeathraySoundSlot = SoundEngine.PlaySound(LaserStartSound, NPC.Center);
+                                
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    SoundEngine.PlaySound(TeslaCannon.FireSound, NPC.Center);
                                     int type = ModContent.ProjectileType<AresDeathBeamStart>();
                                     int damage = NPC.GetProjectileDamage(type);
                                     Vector2 spawnPoint = NPC.Center + new Vector2(-1f, 23f);
@@ -832,6 +843,21 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                         Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnPoint + Vector2.Normalize(laserVelocity) * 35f, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                     }
                                 }
+                            }
+                        }
+
+                        // Update the deathray sound if it's being played.
+                        if (SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
+                            deathraySound.Position = NPC.Center;
+                        if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration)
+                        {
+                            // Start the loop sound if the start sound finished.
+                            if (deathraySound is null || !deathraySound.IsPlaying)
+                            {
+                                if (deathraySound is null || deathraySound.Style == LaserStartSound)
+                                    DeathraySoundSlot = SoundEngine.PlaySound(LaserLoopSound, NPC.Center);
+                                else if (deathraySound is not null)
+                                    deathraySound.Resume();
                             }
                         }
 
@@ -861,6 +887,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                 if (NPC.ai[3] > 3f)
                                     NPC.ai[3] -= 2f;
                             }
+
+                            // Stop the laser loop and play the end sound.
+                            deathraySound?.Stop();
+                            SoundEngine.PlaySound(LaserEndSound, NPC.Center);
 
                             NPC.localAI[0] += 1f;
                             NPC.TargetClosest();

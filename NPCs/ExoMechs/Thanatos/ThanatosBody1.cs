@@ -301,7 +301,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                                             }
                                         }
 
-                                        SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound with { Volume = 0.1f * CommonCalamitySounds.LaserCannonSound.Volume}, NPC.Center);
+                                        SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound with { Volume = 0.1f * CommonCalamitySounds.ExoLaserShootSound.Volume}, NPC.Center);
 
                                         for (int i = 0; i < numProjectiles; i++)
                                         {
@@ -371,7 +371,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
                                         int type = ModContent.ProjectileType<ThanatosLaser>();
                                         int damage = NPC.GetProjectileDamage(type);
-                                        SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
+                                        SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound, NPC.Center);
                                         for (int i = 0; i < numProjectiles; i++)
                                         {
                                             // Fire normal lasers if head is in passive state
@@ -614,16 +614,15 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         {
             if (NPC.soundDelay == 0)
             {
-
                 if (vulnerable)
                 {
                     NPC.soundDelay = 8;
-                    SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
+                    SoundEngine.PlaySound(ThanatosHead.ThanatosHitSoundOpen, NPC.Center);
                 }
                 else
                 {
                     NPC.soundDelay = 3;
-                    SoundEngine.PlaySound(CommonCalamitySounds.ExoHitSound, NPC.Center);
+                    SoundEngine.PlaySound(ThanatosHead.ThanatosHitSoundClosed, NPC.Center);
                 }
             }
 

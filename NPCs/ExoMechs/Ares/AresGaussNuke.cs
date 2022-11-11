@@ -66,7 +66,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public const float gaussNukeReloadDuration = 360f;
 
         // Telegraph sound.
-        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresGaussNukeArmCharge") { Volume = 1.1f};
+        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresGaussNukeArmCharge") { Volume = 1.1f };
+
+        public static readonly SoundStyle NukeExplosionSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresGaussNukeExplosion") { Volume = 1.45f };
 
         public override void SetStaticDefaults()
         {

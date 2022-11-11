@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -151,7 +152,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.Center = Projectile.position;
             Projectile.Damage();
 
-            SoundEngine.PlaySound(SoundID.Item93, Projectile.Center);
+            SoundEngine.PlaySound(CommonCalamitySounds.ExoPlasmaExplosionSound, Projectile.Center);
 
             if (Main.myPlayer == Projectile.owner && Projectile.ai[1] != -1f)
             {
