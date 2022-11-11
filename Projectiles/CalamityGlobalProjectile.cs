@@ -634,14 +634,7 @@ namespace CalamityMod.Projectiles
                 return false;
             }
 
-            bool adultWyrmAlive = false;
-            if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
-                    adultWyrmAlive = true;
-            }
-
-            if (adultWyrmAlive || (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses))
+            if (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses)
             {
                 if (projectile.type == ProjectileID.CultistBossFireBallClone)
                 {

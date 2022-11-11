@@ -133,10 +133,9 @@ namespace CalamityMod.UI
             39 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Yharon>()]].Value,
             40 => ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIcon").Value,
             41 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AresBody>()]].Value,
-            42 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AdultEidolonWyrmHead>()]].Value,
-            43 => TextureAssets.NpcHeadBoss[38].Value, // Queen Slime
-            44 => TextureAssets.NpcHeadBoss[37].Value, // Empress of Light
-            45 => TextureAssets.NpcHeadBoss[39].Value, // Deerclops
+            42 => TextureAssets.NpcHeadBoss[38].Value, // Queen Slime
+            43 => TextureAssets.NpcHeadBoss[37].Value, // Empress of Light
+            44 => TextureAssets.NpcHeadBoss[39].Value, // Deerclops
             _ => null
         };
     }

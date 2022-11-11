@@ -769,24 +769,6 @@ namespace CalamityMod
                 string bossHeadTex = "CalamityMod/NPCs/SupremeCalamitas/HoodedHeadIcon";
                 AddBoss(bossChecklist, calamity, "Supreme Calamitas", order, type, DownedSCal, summons, collection, instructions, despawn, () => true, null, bossHeadTex);
             }
-
-            // Adult Eidolon Wyrm
-            {
-                BossDifficulty.TryGetValue("AdultEidolonWyrm", out float order);
-                int type = NPCType<AdultEidolonWyrmHead>();
-                int summon = ItemID.RodofDiscord;
-                List<int> collection = new List<int>() { ItemType<ThankYouPainting>() };
-                string instructions = $"While in the Abyss, use an item that inflicts Chaos State";
-                string despawn = CalamityUtils.ColorMessage("...", new Color(0x7F, 0xFF, 0xD4));
-                string bossLogTex = "CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmHead_Head_Boss";
-
-                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
-                    Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrm_BossChecklist").Value;
-                    Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
-                    sb.Draw(texture, centered, color);
-                };
-                AddBoss(bossChecklist, calamity, "Adult Eidolon Wyrm", order, type, DownedAdultEidolonWyrm, summon, collection, instructions, despawn, () => true, portrait, bossLogTex);
-            }
         }
 
         private static void AddCalamityInvasions(Mod bossChecklist, Mod calamity)

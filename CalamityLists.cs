@@ -2344,10 +2344,9 @@ namespace CalamityMod
                 { NPCType<ThanatosHead>(), 41 },
                 { NPCType<Artemis>(), 41 },
                 { NPCType<Apollo>(), 41 },
-                { NPCType<AdultEidolonWyrmHead>(), 42 },
-                { NPCID.QueenSlimeBoss, 43 },
-                { NPCID.HallowBoss, 44 },
-                { NPCID.Deerclops, 45 }
+                { NPCID.QueenSlimeBoss, 42 },
+                { NPCID.HallowBoss, 43 },
+                { NPCID.Deerclops, 44 }
             };
 
             bossMinionList = new List<int>()

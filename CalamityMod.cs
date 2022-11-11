@@ -274,9 +274,6 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:SupremeCalamitas"] = new Filter(new SCalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:SupremeCalamitas"] = new SCalSky();
 
-            Filters.Scene["CalamityMod:AdultEidolonWyrm"] = new Filter(new AEWScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0.25f).UseOpacity(0.35f), EffectPriority.VeryHigh);
-            SkyManager.Instance["CalamityMod:AdultEidolonWyrm"] = new AEWSky();
-
             Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:Signus"] = new SignusSky();
 
@@ -676,8 +673,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody1>(), 21600 },
                 { ModContent.NPCType<ThanatosBody2>(), 21600 },
                 { ModContent.NPCType<ThanatosTail>(), 21600 },
-                { ModContent.NPCType<SupremeCalamitas>(), 18000 }, // 5:00 (300 seconds)
-                { ModContent.NPCType<AdultEidolonWyrmHead>(), 18000 } // 5:00 (300 seconds)
+                { ModContent.NPCType<SupremeCalamitas>(), 18000 } // 5:00 (300 seconds)
             };
         }
         #endregion
@@ -794,8 +790,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<ThanatosBody1>(), velocityScaleMin },
                 { ModContent.NPCType<ThanatosBody2>(), velocityScaleMin },
-                { ModContent.NPCType<ThanatosTail>(), velocityScaleMin },
-                { ModContent.NPCType<AdultEidolonWyrmHead>(), bitingEnemeyVelocityScale }
+                { ModContent.NPCType<ThanatosTail>(), velocityScaleMin }
             };
         }
         #endregion

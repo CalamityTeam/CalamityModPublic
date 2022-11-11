@@ -290,8 +290,6 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody1>(), 0.8 },
                 { ModContent.NPCType<ThanatosBody2>(), 0.8 },
                 { ModContent.NPCType<ThanatosTail>(), 0.8 },
-
-                { ModContent.NPCType<AdultEidolonWyrmHead>(), 0.8 }
             };
 
             EnemyStats.ContactDamageValues = new SortedDictionary<int, int[]>
@@ -808,12 +806,7 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<AresLaserCannon>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 240, 408, 432, 456, 630 } },
                 { new Tuple<int, int>(ModContent.NPCType<AresPlasmaFlamethrower>(), ModContent.ProjectileType<AresPlasmaFireball>()), new int[] { 240, 408, 432, 456, 630 } },
                 { new Tuple<int, int>(ModContent.NPCType<AresTeslaCannon>(), ModContent.ProjectileType<AresTeslaOrb>()), new int[] { 240, 408, 432, 456, 630 } },
-                { new Tuple<int, int>(ModContent.NPCType<AresGaussNuke>(), ModContent.ProjectileType<AresGaussNukeProjectile>()), new int[] { 400, 608, 640, 658, 960 } },
-
-                { new Tuple<int, int>(ModContent.NPCType<AdultEidolonWyrmHead>(), ProjectileID.CultistBossIceMist), new int[] { 400, 600, 632, 648, 948 } },
-                { new Tuple<int, int>(ModContent.NPCType<AdultEidolonWyrmHead>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 500, 752, 788, 808, 1182 } },
-                { new Tuple<int, int>(ModContent.NPCType<AdultEidolonWyrmHead>(), ProjectileID.AncientDoomProjectile), new int[] { 400, 600, 632, 648, 948 } },
-                { new Tuple<int, int>(ModContent.NPCType<AdultEidolonWyrmBodyAlt>(), ProjectileID.CultistBossFireBallClone), new int[] { 400, 600, 632, 648, 948 } }
+                { new Tuple<int, int>(ModContent.NPCType<AresGaussNuke>(), ModContent.ProjectileType<AresGaussNukeProjectile>()), new int[] { 400, 608, 640, 658, 960 } }
             };
         }
 

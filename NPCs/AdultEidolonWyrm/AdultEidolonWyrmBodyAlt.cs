@@ -58,19 +58,15 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
         {
             NPC.damage = 0;
 
-            // Difficulty modes
-            bool death = CalamityWorld.death;
-            bool revenge = CalamityWorld.revenge;
-            bool expertMode = Main.expertMode;
+            // Fade in.
+            NPC.Opacity = MathHelper.Clamp(NPC.Opacity + 0.2f, 0f, 1f);
 
-            if (NPC.ai[2] > 0f)
-                NPC.realLife = (int)NPC.ai[2];
-
-            // Check if other segments are still alive, if not, die
+            // Check if other segments are still alive. If not, die.
             bool shouldDespawn = true;
+            int wyrmHeadID = ModContent.NPCType<AdultEidolonWyrmHead>();
             for (int i = 0; i < Main.maxNPCs; i++)
             {
-                if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<AdultEidolonWyrmHead>())
+                if (Main.npc[i].active && Main.npc[i].type == wyrmHeadID)
                 {
                     shouldDespawn = false;
                     break;
@@ -91,103 +87,27 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 NPC.active = false;
             }
 
-            CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)NPC.ai[2]].Calamity();
-
-            float chargePhaseGateValue = death ? 180f : revenge ? 210f : expertMode ? 240f : 300f;
-            float lightningChargePhaseGateValue = death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
-
-            bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.FastCharge);
-            bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.LightningCharge;
-            bool invisiblePhase = calamityGlobalNPC_Head.newAI[0] == 1f || calamityGlobalNPC_Head.newAI[0] == 5f || calamityGlobalNPC_Head.newAI[0] == 7f;
-            if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
+            // Decide segment offset stuff.
+            NPC aheadSegment = Main.npc[(int)NPC.ai[1]];
+            Vector2 directionToNextSegment = aheadSegment.Center - NPC.Center;
+            if (aheadSegment.rotation != NPC.rotation)
             {
-                if (Main.npc[(int)NPC.ai[1]].Opacity > 0.5f)
-                {
-                    NPC.Opacity += 0.2f;
-                    if (NPC.Opacity > 1f)
-                        NPC.Opacity = 1f;
-                }
-            }
-            else
-            {
-                NPC.Opacity -= 0.05f;
-                if (NPC.Opacity < 0f)
-                    NPC.Opacity = 0f;
+                directionToNextSegment = directionToNextSegment.RotatedBy(MathHelper.WrapAngle(aheadSegment.rotation - NPC.rotation) * 0.08f);
+                directionToNextSegment = directionToNextSegment.MoveTowards((aheadSegment.rotation - NPC.rotation).ToRotationVector2(), 1f);
             }
 
-            bool shootShadowFireballs = (calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ShadowFireballSpin && calamityGlobalNPC_Head.newAI[2] > 0f) ||
-                (calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.FinalPhase && calamityGlobalNPC_Head.newAI[1] > 0f);
-            if (shootShadowFireballs && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                if (Vector2.Distance(NPC.Center, Main.player[Main.npc[(int)NPC.ai[2]].target].Center) > 160f)
-                {
-                    NPC.localAI[0] += 1f;
-                    float shootShadowFireballGateValue = death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
-                    float divisor = 2f;
-                    if (NPC.ai[3] % divisor == 0f && NPC.localAI[0] >= shootShadowFireballGateValue)
-                    {
-                        NPC.localAI[0] = 0f;
-                        float distanceVelocityBoost = MathHelper.Clamp((Vector2.Distance(Main.npc[(int)NPC.ai[2]].Center, Main.player[Main.npc[(int)NPC.ai[2]].target].Center) - 1600f) * 0.025f, 0f, 16f);
-                        float fireballVelocity = (Main.player[Main.npc[(int)NPC.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 6f : 8f) + distanceVelocityBoost;
-                        Vector2 destination = Main.player[Main.npc[(int)NPC.ai[2]].target].Center - NPC.Center;
-                        Vector2 velocity = Vector2.Normalize(destination) * fireballVelocity;
-                        int type = ProjectileID.CultistBossFireBallClone;
-                        int damage = NPC.GetProjectileDamage(type);
-                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, type, damage, 0f, Main.myPlayer);
-                        Main.projectile[proj].tileCollide = false;
-                    }
-                }
-            }
-
-            Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-            float num191 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
-            float num192 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2);
-            num191 = (int)(num191 / 16f) * 16;
-            num192 = (int)(num192 / 16f) * 16;
-            vector18.X = (int)(vector18.X / 16f) * 16;
-            vector18.Y = (int)(vector18.Y / 16f) * 16;
-            num191 -= vector18.X;
-            num192 -= vector18.Y;
-
-            float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
-            if (NPC.ai[1] > 0f && NPC.ai[1] < Main.npc.Length)
-            {
-                try
-                {
-                    vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                    num191 = Main.npc[(int)NPC.ai[1]].position.X + (Main.npc[(int)NPC.ai[1]].width / 2) - vector18.X;
-                    num192 = Main.npc[(int)NPC.ai[1]].position.Y + (Main.npc[(int)NPC.ai[1]].height / 2) - vector18.Y;
-                } catch
-                {
-                }
-
-                NPC.rotation = (float)Math.Atan2(num192, num191) + MathHelper.PiOver2;
-                num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
-                int num194 = NPC.width;
-                num193 = (num193 - num194) / num193;
-                num191 *= num193;
-                num192 *= num193;
-                NPC.velocity = Vector2.Zero;
-                NPC.position.X = NPC.position.X + num191;
-                NPC.position.Y = NPC.position.Y + num192;
-
-                if (num191 < 0f)
-                    NPC.spriteDirection = -1;
-                else if (num191 > 0f)
-                    NPC.spriteDirection = 1;
-            }
+            NPC.rotation = directionToNextSegment.ToRotation() + MathHelper.PiOver2;
+            NPC.Center = aheadSegment.Center - directionToNextSegment.SafeNormalize(Vector2.Zero) * NPC.scale * NPC.width;
+            NPC.spriteDirection = (directionToNextSegment.X > 0).ToDirectionInt();
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
-            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
             Vector2 vector = center - screenPos;
-            vector -= new Vector2(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmBodyAltGlow").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmBodyAltGlow").Value.Height) * 0.5f;
-            vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
             Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmBodyAltGlow").Value, vector,
-                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), Color.White, NPC.rotation, vector11, 1f, spriteEffects, 0f);
+                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), Color.White, NPC.rotation, NPC.frame.Size() * 0.5f, 1f, spriteEffects, 0f);
         }
 
         public override bool CheckActive() => false;

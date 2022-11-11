@@ -82,19 +82,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            bool adultWyrmAlive = false;
-            if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
-                    adultWyrmAlive = true;
-            }
-
             NPC.Opacity += 0.15f;
             if (NPC.Opacity > 1f)
                 NPC.Opacity = 1f;
 
             Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0f, 0.4f, 0.5f);
-            if (NPC.justHit || adultWyrmAlive)
+            if (NPC.justHit)
             {
                 hasBeenHit = true;
             }
@@ -151,7 +144,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 return;
             }
             NPC.noTileCollide = true;
-            float num1446 = adultWyrmAlive ? 14f : 7f;
+            float num1446 = 7f;
             float num1447 = 480f;
             if (NPC.localAI[1] == 1f)
             {
@@ -174,7 +167,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 NPC.netUpdate = true;
                 if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                 {
-                    float speed = adultWyrmAlive ? 10f : 5f;
+                    float speed = 5f;
                     Vector2 vector = new Vector2(NPC.Center.X, NPC.Center.Y);
                     float xDist = Main.player[NPC.target].Center.X - vector.X + Main.rand.NextFloat(-10f, 10f);
                     float yDist = Main.player[NPC.target].Center.Y - vector.Y + Main.rand.NextFloat(-10f, 10f);
@@ -183,7 +176,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     targetDist = speed / targetDist;
                     targetVec.X *= targetDist;
                     targetVec.Y *= targetDist;
-                    int damage = adultWyrmAlive ? (Main.expertMode ? 150 : 200) : (Main.expertMode ? 30 : 40);
+                    int damage = (Main.expertMode ? 30 : 40);
                     if (Main.rand.NextBool(2))
                     {
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, targetVec, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
@@ -345,20 +338,14 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            // Never drop anything if this Eidolon Wyrm is a minion during an AEW fight.
-            var aewMinionCondition = npcLoot.DefineConditionalDropSet(AdultEidolonWyrmHead.CanMinionsDropThings);
-
             LeadingConditionRule notDuringCultistFight = new LeadingConditionRule(DropHelper.If(() => !NPC.LunarApocalypseIsUp));
             notDuringCultistFight.Add(ModContent.ItemType<EidolonTablet>(), 4);
-            aewMinionCondition.Add(notDuringCultistFight);
 
             LeadingConditionRule postClone = new LeadingConditionRule(DropHelper.PostCal());
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenyl>(), 1, 8, 10, 10, 14));
-            aewMinionCondition.Add(postClone);
 
             LeadingConditionRule postPlant = new LeadingConditionRule(DropHelper.PostPlant());
             postPlant.Add(ItemID.Ectoplasm, 1, 3, 5);
-            aewMinionCondition.Add(postPlant);
         }
     }
 }
