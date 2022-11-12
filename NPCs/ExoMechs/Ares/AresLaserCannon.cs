@@ -447,7 +447,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
                             if (calamityGlobalNPC.newAI[2] % divisor == 0f && canFire)
                             {
-                                SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
+                                SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound, NPC.Center);
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     int type = ModContent.ProjectileType<ThanatosLaser>();
