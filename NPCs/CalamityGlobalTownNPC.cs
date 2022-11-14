@@ -153,6 +153,7 @@ namespace CalamityMod.NPCs
             "Catalyst", // <@!156672312425316352> (xAqult#1122)
             "Nyapano", // <@!120976656826368003> (Emi - Nyapano She/Her#4040)
             "Jade", // <@!187395834625785869> (VeryMasterNinja#7728)
+			"Nyavi Aceso", // <@!270260920888852480> (Navigator#8739)
         };
         private static readonly string[] SkeletonMerchantNames =
         {
