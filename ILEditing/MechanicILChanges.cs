@@ -62,6 +62,8 @@ namespace CalamityMod.ILEditing
 
         private static readonly MethodInfo textureGetValueMethod = typeof(Asset<Texture2D>).GetMethod("get_Value", BindingFlags.Public | BindingFlags.Instance);
 
+        public static event Func<VertexColors, int, Point, VertexColors> ExtraColorChangeConditions;
+
         #region Dash Fixes and Improvements
         private static void MakeShieldSlamIFramesConsistent(ILContext il)
         {
@@ -802,6 +804,9 @@ namespace CalamityMod.ILEditing
                 if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
                     SelectSulphuricWaterColor(x, y, ref initialColor);
 
+                // Apply any extra color conditions.
+                initialColor = ExtraColorChangeConditions?.Invoke(initialColor, liquidType, new(x, y)) ?? initialColor;
+
                 return initialColor;
             });
         }
@@ -810,12 +815,24 @@ namespace CalamityMod.ILEditing
         {
             ILCursor cursor = new ILCursor(il);
 
-            // Locate the local index for the liquid color.
+            // Locate the local index for the liquid color and tile coordinates.
+            int xCoordLocalIndex = 0;
+            int yCoordLocalIndex = 0;
             int liquidColorLocalIndex = 0;
             MethodInfo lightingGetColorMethod = typeof(Lighting).GetMethod("GetColor", new Type[] { typeof(int), typeof(int) });
             if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchCallOrCallvirt(lightingGetColorMethod)))
             {
                 LogFailure("Custom Lava Drawing", "Could not lighting GetColor call.");
+                return;
+            }
+            if (!cursor.TryGotoPrev(c => c.MatchLdloc(out xCoordLocalIndex)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not X coordinate local variable index.");
+                return;
+            }
+            if (!cursor.TryGotoPrev(c => c.MatchLdloc(out yCoordLocalIndex)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not Y coordinate local variable index.");
                 return;
             }
             if (!cursor.TryGotoNext(c => c.MatchStloc(out liquidColorLocalIndex)))
@@ -850,7 +867,17 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldloc, liquidTypeLocalIndex);
             cursor.Emit(OpCodes.Ldelem_Ref);
             cursor.Emit(OpCodes.Call, textureGetValueMethod);
-            cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
+            cursor.Emit(OpCodes.Ldloc, xCoordLocalIndex);
+            cursor.Emit(OpCodes.Ldloc, yCoordLocalIndex);
+            cursor.EmitDelegate<Func<Color, Texture2D, int, int, Color>>((initialColor, initialTexture, x, y) =>
+            {
+                Color c = SelectLavaColor(initialTexture, initialColor);
+
+                if (ExtraColorChangeConditions is not null)
+                    c = ExtraColorChangeConditions(new(c), Main.waterStyle, new(x, y)).TopLeftColor;
+
+                return c;
+            });
             cursor.Emit(OpCodes.Stloc, liquidColorLocalIndex);
 
             // Go back to the start and change textures as necessary.
@@ -860,7 +887,7 @@ namespace CalamityMod.ILEditing
             {
                 // Move to the end of the get_Value() call and then use the resulting texture to check if a new one should replace it.
                 // Adding to the index directly would seem like a simple, direct way of achieving this since the operation is incredibly light, but
-                // it also unsafe due to the potential for NOP operations to appear.
+                // it is unsafe due to the potential for NOP operations to appear.
                 if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallvirt(textureGetValueMethod)))
                 {
                     LogFailure("Custom Lava Drawing", "Could not locate the liquid texture Value call.");
