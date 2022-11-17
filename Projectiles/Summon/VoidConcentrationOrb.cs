@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    class VoidConcentrationOrb : ModProjectile
+    public class VoidConcentrationOrb : ModProjectile
     {
 
         public override void SetStaticDefaults()

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    class PhantomicDagger : ModProjectile
+    public class PhantomicDagger : ModProjectile
     {
         private bool homing = false;
 
