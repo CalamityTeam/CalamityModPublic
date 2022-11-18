@@ -242,6 +242,39 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_I4, 10 - BalancingConstants.ShieldOfCthulhuBonkNoCollideFrames);
         }
+
+        private static void ApplyDashKeybind(On.Terraria.Player.orig_DoCommonDashHandle orig, Player self, out int dir, out bool dashing, Player.DashStartAction dashStartAction)
+        {
+            if (CalamityKeybinds.DashHotkey.JustPressed)
+            {
+                dir = self.direction;
+                dashing = true;
+                if (self.dashTime > 0)
+                    self.dashTime--;
+                if (self.dashTime < 0)
+                    self.dashTime++;
+
+                if ((self.dashTime <= 0 && self.direction == -1) || (self.dashTime >= 0 && self.direction == 1))
+                {
+                    self.dashTime = 15;
+                    return;
+                }
+                
+                dashing = true;
+                self.dashTime = 0;
+                self.timeSinceLastDashStarted = 0;
+                dashStartAction?.Invoke(dir);
+                return;
+            }
+
+            if (!CalamityKeybinds.DashHotkey.HasValidBinding())
+                orig(self, out dir, out dashing, dashStartAction);
+            else
+            {
+                dir = 1;
+                dashing = false;
+            }
+        }
         #endregion Dash Fixes and Improvements
 
         #region Allow Empress to Enrage in Boss Rush

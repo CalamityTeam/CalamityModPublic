@@ -59,6 +59,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.NPC.ApplyTileCollision += AllowTriggeredFallthrough;
             IL.Terraria.Player.Hurt += RemoveRNGFromDodges;
             IL.Terraria.Player.DashMovement += FixAllDashMechanics;
+            On.Terraria.Player.DoCommonDashHandle += ApplyDashKeybind;
             IL.Terraria.Player.GiveImmuneTimeForCollisionAttack += MakeShieldSlamIFramesConsistent;
             IL.Terraria.Player.Update_NPCCollision += NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor += OpenDoor_LabDoorOverride;
@@ -178,6 +179,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.NPC.ApplyTileCollision -= AllowTriggeredFallthrough;
             IL.Terraria.Player.Hurt -= RemoveRNGFromDodges;
             IL.Terraria.Player.DashMovement -= FixAllDashMechanics;
+            On.Terraria.Player.DoCommonDashHandle -= ApplyDashKeybind;
             IL.Terraria.Player.GiveImmuneTimeForCollisionAttack -= MakeShieldSlamIFramesConsistent;
             IL.Terraria.Player.Update_NPCCollision -= NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor -= OpenDoor_LabDoorOverride;
