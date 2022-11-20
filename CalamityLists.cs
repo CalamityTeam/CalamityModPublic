@@ -2214,14 +2214,14 @@ namespace CalamityMod
 
                 { NPCID.Deerclops, 315000 }, // 30 seconds
 
-                { NPCID.SkeletronHead, 160000 }, // 30 seconds
+                { NPCID.SkeletronHead, 150000 }, // 30 seconds
                 { NPCID.SkeletronHand, 60000 },
 
                 { NPCID.WallofFlesh, 450000 }, // 30 seconds
                 { NPCID.WallofFleshEye, 450000 },
 
                 // Tier 2
-                { NPCID.QueenSlimeBoss, 100000 }, // 30 seconds
+                { NPCID.QueenSlimeBoss, 150000 }, // 30 seconds
                 { NPCID.QueenSlimeMinionBlue, 6000 },
                 { NPCID.QueenSlimeMinionPink, 6000 },
                 { NPCID.QueenSlimeMinionPurple, 5000 },
@@ -2234,7 +2234,7 @@ namespace CalamityMod
                 { NPCID.TheDestroyerTail, 250000 },
                 { NPCID.Probe, 10000 },
 
-                { NPCID.SkeletronPrime, 150000 }, // 30 seconds
+                { NPCID.SkeletronPrime, 160000 }, // 30 seconds
                 { NPCID.PrimeVice, 54000 },
                 { NPCID.PrimeCannon, 45000 },
                 { NPCID.PrimeSaw, 45000 },
@@ -2250,7 +2250,7 @@ namespace CalamityMod
                 { NPCID.GolemFistLeft, 25000 },
                 { NPCID.GolemFistRight, 25000 },
 
-                { NPCID.HallowBoss, 180000 }, // 30 seconds
+                { NPCID.HallowBoss, 200000 }, // 30 seconds
 
                 { NPCID.DukeFishron, 290000 }, // 30 seconds
 
