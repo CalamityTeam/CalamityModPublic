@@ -27,8 +27,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.alpha = 255;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -2;
             Projectile.DamageType = DamageClass.Summon;
         }
 
