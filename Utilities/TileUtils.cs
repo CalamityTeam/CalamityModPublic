@@ -593,10 +593,11 @@ namespace CalamityMod
                     case TileID.Ebonstone:
                     case TileID.Crimstone:
                     case TileID.Pearlstone:
-                    case TileID.DesertFossil:
-                    case TileID.Obsidian:
                     case TileID.Hellstone:
                         pickReq = 65;
+                        break;
+                    case TileID.Obsidian:
+                        pickReq = 55;
                         break;
                     case TileID.Meteorite:
                         pickReq = 50;
@@ -627,11 +628,8 @@ namespace CalamityMod
                 }
             }
 
-            if (Main.tileDungeon[tile.TileType])
-            {
-                if (i < Main.maxTilesX * 0.35 || i > Main.maxTilesX * 0.65)
-                    pickReq = 65;
-            }
+            if (Main.tileDungeon[tile.TileType] && j > Main.worldSurface)
+                pickReq = 100;
 
             return pickReq;
         }
