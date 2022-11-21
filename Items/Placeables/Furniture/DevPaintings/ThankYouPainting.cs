@@ -187,7 +187,6 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 
         public static IList<string> testerList = new List<string>()
 		{
-			"Afzofa",
 			"AquaSG",
 			"Atalya",
 			"Blast",
@@ -196,13 +195,12 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Epsilon",
 			"Fargowilta",
 			"Leon",
-			"Lompl Allimath",
 			"Memes",
 			"StipulateVenus",
-			"Storm2103",
-			"TikiWiki",
+			"Shade",
 			"Uberransy",
 
+			"Afzofa",
 			"Akeeli",
 			"Alphi",
 			"Cei",
@@ -211,10 +209,12 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Doog",
 			"drh",
 			"Hectique",
+			"Lompl Allimath",
 			"Neverglide",
 			"Sargassum",
 			"ThousandFields",
 			"Teragat",
+			"TikiWiki",
 			"Yatagarasu",
 		};
 
