@@ -926,7 +926,7 @@ namespace CalamityMod.NPCs
             }
 
             // Oiled
-            bool hasColdOil = npc.onFrostBurn || npc.onFrostBurn2;
+            bool hasColdOil = npc.onFrostBurn;
             bool hasHotOil = npc.onFire || npc.onFire2 || npc.onFire3 || npc.shadowFlame;
             bool hasModHotOil = bFlames > 0 || hFlames > 0 || gsInferno > 0 || dragonFire > 0 || dFlames > 0 || banishingFire > 0 || vulnerabilityHex > 0;
             if (npc.oiled && (hasColdOil || hasHotOil || hasModHotOil))
