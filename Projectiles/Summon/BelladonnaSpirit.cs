@@ -34,8 +34,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
             Projectile.tileCollide = false;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
             Projectile.DamageType = DamageClass.Summon;
         }
 
@@ -158,5 +156,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
         }
+
+        public override bool? CanDamage() => false;
     }
 }
