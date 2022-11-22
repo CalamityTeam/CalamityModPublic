@@ -152,7 +152,8 @@ namespace CalamityMod.Projectiles.Melee
         {
             // Create the slash.
             if (Time == (int)(Terratomere.SwingTime * (SwingCompletionRatio + 0.15f)))
-                SoundEngine.PlaySound(SoundID.Item60 with { Pitch = 0.1f }, Projectile.Center);
+                SoundEngine.PlaySound(Terratomere.SwingSound, Projectile.Center);
+            
             if (Main.myPlayer == Projectile.owner && Time == (int)(Terratomere.SwingTime * (SwingCompletionRatio + 0.34f)))
             {
                 Vector2 bigSlashVelocity = Projectile.SafeDirectionTo(Main.MouseWorld) * Owner.ActiveItem().shootSpeed;

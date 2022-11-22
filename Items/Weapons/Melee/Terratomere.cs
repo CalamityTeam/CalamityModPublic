@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,6 +30,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public static readonly Color TerraColor1 = new(141, 203, 50);
 
         public static readonly Color TerraColor2 = new(83, 163, 136);
+
+        public static readonly SoundStyle SwingSound = new("CalamityMod/Sounds/Item/TerratomereSwing");
 
         public override void SetStaticDefaults()
         {

@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 40;
+            Projectile.timeLeft = 30;
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
@@ -39,8 +39,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            Projectile.Opacity = Utils.GetLerpValue(0f, 36f, Projectile.timeLeft, true);
-            Projectile.velocity *= 0.955f;
+            Projectile.Opacity = Utils.GetLerpValue(0f, 26f, Projectile.timeLeft, true);
+            Projectile.velocity *= 0.91f;
             Projectile.scale *= 1.01f;
         }
 
