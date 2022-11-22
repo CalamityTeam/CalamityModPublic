@@ -185,10 +185,6 @@ namespace CalamityMod.Buffs
                     tip += ". Grants immunity to Chilled, Frozen and Glacial State";
                     break;
 
-                case BuffID.Daybreak:
-                    tip = "Incinerated by solar rays";
-                    break;
-
                 case BuffID.WellFed:
                     tip = "Minor improvements to all stats";
                     break;

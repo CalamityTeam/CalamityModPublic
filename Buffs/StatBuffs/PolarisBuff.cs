@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Polaris Boost");
-            Description.SetDefault("The Northern Star empowers your weapon");
+            Description.SetDefault("The Northern Star empowers your life regeneration");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

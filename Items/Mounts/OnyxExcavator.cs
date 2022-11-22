@@ -152,7 +152,7 @@ namespace CalamityMod.Items.Mounts
                                 };
 
                                 if (tile.HasTile && !player.noBuilding && !Main.tileContainer[tile.TileType] &&
-                                    tileExcludeList.TrueForAll(z => tile.TileType != z) && pickReq < highestPickPower && canBreakTileCheck)
+                                    tileExcludeList.TrueForAll(z => tile.TileType != z) && pickReq <= highestPickPower && canBreakTileCheck)
                                 {
                                     WorldGen.KillTile(x, y, false, false, false);
                                     if (!Main.tile[x, y].HasTile && Main.netMode != NetmodeID.SinglePlayer)
