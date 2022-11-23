@@ -304,10 +304,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<HolyFlames>(), 120);
                     break;
 
-                case ProjectileID.DarkLance:
-                    target.AddBuff(BuffID.ShadowFlame, 120);
-                    break;
-
                 case ProjectileID.PoisonedKnife:
                     target.AddBuff(BuffID.Poisoned, 300);
                     break;
@@ -547,10 +543,6 @@ namespace CalamityMod.CalPlayer
                 case ProjectileID.Gungnir:
                 case ProjectileID.PaladinsHammerFriendly:
                     target.AddBuff(BuffType<HolyFlames>(), 120);
-                    break;
-
-                case ProjectileID.DarkLance:
-                    target.AddBuff(BuffType<Shadowflame>(), 120);
                     break;
 
                 case ProjectileID.PoisonedKnife:
