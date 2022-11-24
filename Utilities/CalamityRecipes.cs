@@ -798,7 +798,6 @@ namespace CalamityMod
                 { Vanilla(ItemID.OpticStaff), RemoveIngredient(ItemID.HallowedBar) },
                 { Vanilla(ItemID.ShroomiteBar), ChangeIngredientStack(ItemID.GlowingMushroom, 5) },
                 { Vanilla(ItemID.ChlorophyteBar), ChangeIngredientStack(ItemID.ChlorophyteOre, 4) },
-                { Vanilla(ItemID.AnkhCharm), AddIngredient(ItemID.PocketMirror) },
                 { Vanilla(ItemID.CelestialEmblem), ReplaceIngredient(ItemID.AvengerEmblem, ItemID.SorcererEmblem) },
                 { Vanilla(ItemID.MechanicalGlove), ReplaceIngredient(ItemID.AvengerEmblem, ItemID.WarriorEmblem) },
                 { VanillaEach(
@@ -1738,7 +1737,7 @@ namespace CalamityMod
             r.AddTile(TileID.Anvils);
             r.Register();
 
-            // Pocket Mirror (petrification, added to Ankh charm+ in Calamity)
+            // Pocket Mirror (petrification)
             r = Recipe.Create(ItemID.PocketMirror);
             r.AddIngredient(ItemID.Glass, 10);
             r.AddRecipeGroup(AnyGoldBar, 4);

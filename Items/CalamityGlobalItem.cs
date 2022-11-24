@@ -1122,10 +1122,6 @@ namespace CalamityMod.Items
                 player.buffImmune[BuffID.OnFire] = true;
             }
 
-            // Ankh Charm+ grants immunity to Petrification.
-            if (item.type == ItemID.AnkhCharm || item.type == ItemID.AnkhShield)
-                player.buffImmune[BuffID.Stoned] = true;
-
             // Nightwither immunity pre-Moon Lord and Holy Flames immunity pre-Profaned Guardians.
             if (item.type == ItemID.MoonStone)
                 player.buffImmune[ModContent.BuffType<Nightwither>()] = true;
