@@ -305,8 +305,8 @@ namespace CalamityMod.Items
                 { ItemID.MonkStaffT1, Do(TrueMeleeNoSpeed, DamageExact(83)) }, // Sleepy Octopod
                 { ItemID.MonkStaffT2, Do(AutoReuse, TrueMelee, DamageRatio(2f)) }, // Ghastly Glaive
                 { ItemID.MonkStaffT3, Do(DamageExact(225)) }, // Sky Dragon's Fury
-                { ItemID.MoonlordArrow, Do(DamageRatio(1.1f)) },
-                { ItemID.MoonlordTurretStaff, Do(UseExact(15), DamageRatio(1.5f)) },
+                { ItemID.MoonlordArrow, Do(DamageRatio(1.1f)) }, // Luminite Arrow
+                { ItemID.MoonlordTurretStaff, Do(UseExact(15)) }, //Lunar Portal Staff
                 { ItemID.Muramasa, Do(ScaleRatio(1.5f), DamageRatio(1.5f), UseExact(14), CritDelta(+30)) },
                 { ItemID.MushroomSpear, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(100)) },
                 { ItemID.Musket, Do(PointBlank, DamageExact(25)) },
