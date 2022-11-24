@@ -246,7 +246,7 @@ namespace CalamityMod.Items
                 { ItemID.IceSickle, Do(AutoReuse, UseMeleeSpeed, DamageExact(95), ShootSpeedExact(20f)) },
                 { ItemID.IchorArrow, Do(DamageExact(15)) },
                 { ItemID.ImpStaff, Do(AutoReuse, UseExact(30)) },
-                { ItemID.InfernoFork, Do(DamageRatio(1.66f)) },
+                { ItemID.InfernoFork, Do(DamageRatio(1.2f)) },
                 { ItemID.InfluxWaver, Do(UseMeleeSpeed, DamageExact(82)) },
                 { ItemID.IronAxe, Do(AxePower(60), UseTimeExact(15), TileBoostExact(+0)) },
                 { ItemID.IronBow, pointBlank },
