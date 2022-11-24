@@ -529,7 +529,7 @@ namespace CalamityMod.NPCs.AcidRain
             npcLoot.Add(ModContent.ItemType<GammaHeart>(), 3);
             npcLoot.Add(ModContent.ItemType<PhosphorescentGauntlet>(), 3);
             npcLoot.Add(ModContent.ItemType<NuclearTerrorTrophy>(), 10);
-            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<NuclearTerrorRelic>(), 4);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<NuclearTerrorRelic>());
         }
     }
 }

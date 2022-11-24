@@ -509,7 +509,6 @@ namespace CalamityMod.NPCs
                 // Dark Mage T1
                 // Dark Mage's Tome drops in Revengeance
                 case NPCID.DD2DarkMageT1:
-                    rev.Add(ItemID.DarkMageMasterTrophy);
                     rev.Add(ItemID.DarkMageBookMountItem, 4);
                     break;
 

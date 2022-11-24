@@ -639,7 +639,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             npcLoot.Add(ModContent.ItemType<GreatSandSharkTrophy>(), 10);
 
             // Relic
-            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<GreatSandSharkRelic>(), 4);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<GreatSandSharkRelic>());
         }
 
         public override void OnKill()
