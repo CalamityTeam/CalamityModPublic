@@ -148,11 +148,6 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(ItemID.WarmthPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-            if (Main.LocalPlayer.discount)
-              shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-            nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostbiteBlaster>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleTrident>());
@@ -185,6 +180,14 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<PermafrostsConcoction>());
             nextSlot++;
+            if (CalamityConfig.Instance.PotionSelling)
+            {
+                shop.item[nextSlot].SetDefaults(ItemID.WarmthPotion);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+                if (Main.LocalPlayer.discount)
+                shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
+                nextSlot++;
+            }
             shop.item[nextSlot].SetDefaults(ItemID.SuperManaPotion);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeliciousMeat>());
