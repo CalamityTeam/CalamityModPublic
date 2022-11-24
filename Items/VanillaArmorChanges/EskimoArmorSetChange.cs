@@ -29,7 +29,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 			// Not sure why it doesn't say Set bonus automatically
             setBonusText = "Set bonus: Multiplies all cold-based debuff damage by 1.25\n" +
                 "Cold enemies will deal reduced contact damage to the player\n" +
-                "Provides immunity to the Frostburn and Glacial State debuffs";
+                "Provides immunity to the Chilled, Frozen, Frostburn and Glacial State debuffs";
         }
 
         public override void ApplyArmorSetBonus(Player player)
