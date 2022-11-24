@@ -1558,9 +1558,6 @@ namespace CalamityMod.NPCs
             if (type == NPCID.ArmsDealer)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemType<P90>(), Main.hardMode, Item.buyPrice(gold: 25));
-                bool hasMagnum = Main.LocalPlayer.HasItem(ItemType<Magnum>()) || Main.LocalPlayer.HasItem(ItemType<LightningHawk>()) || Main.LocalPlayer.HasItem(ItemType<ElephantKiller>());
-                SetShopItem(ref shop, ref nextSlot, ItemType<MagnumRounds>(), hasMagnum, Item.buyPrice(0, 3 * goldCost, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemType<GrenadeRounds>(), Main.LocalPlayer.HasItem(ItemType<Bazooka>()), Item.buyPrice(0, 5 * goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemType<ExplosiveShells>(), Main.LocalPlayer.HasItem(ItemType<Hydra>()), Item.buyPrice(0, 7 * goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(gold: 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.AmmoBox, Main.hardMode, Item.buyPrice(gold: 25));

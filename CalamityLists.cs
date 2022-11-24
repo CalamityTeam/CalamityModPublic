@@ -1376,8 +1376,6 @@ namespace CalamityMod
                 ItemType<TheCommunity>(),
                 ItemType<DukesDecapitator>(),
                 ItemType<SulphurousSand>(),
-                ItemType<MagnumRounds>(),
-                ItemType<GrenadeRounds>(),
                 ItemType<ExplosiveShells>(),
                 ItemID.HotlineFishingHook,
                 ItemID.BottomlessBucket,
