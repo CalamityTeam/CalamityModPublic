@@ -82,7 +82,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient(ItemID.EmpressBlade).
-                AddIngredient<IgneousExaltation>().
                 AddIngredient<UelibloomBar>(8).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
