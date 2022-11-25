@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.LaserMachinegun).
-                AddIngredient(ItemID.FragmentVortex, 20).
+                AddIngredient(ItemID.FragmentVortex, 6).
                 AddIngredient(ItemID.Nanites, 100).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

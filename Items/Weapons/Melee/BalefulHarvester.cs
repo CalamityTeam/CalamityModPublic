@@ -57,8 +57,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.TheHorsemansBlade).
-                AddIngredient(ItemID.BookofSkulls).
-                AddIngredient(ItemID.FragmentSolar, 20).
+                AddIngredient(ItemID.FragmentStardust, 12).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

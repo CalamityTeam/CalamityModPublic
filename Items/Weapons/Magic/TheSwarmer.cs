@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient(ItemID.BeeGun).
                 AddIngredient(ItemID.WaspGun).
-                AddIngredient(ItemID.FragmentVortex, 20).
+                AddIngredient(ItemID.FragmentStardust, 6).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

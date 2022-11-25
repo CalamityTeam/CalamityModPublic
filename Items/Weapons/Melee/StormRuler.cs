@@ -51,8 +51,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<StormSaber>().
                 AddIngredient<WindBlade>().
-                AddIngredient<CoreofSunlight>(3).
-                AddIngredient(ItemID.FragmentSolar, 10).
+                AddIngredient(ItemID.FragmentVortex, 6).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

@@ -80,9 +80,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.SnowmanCannon).
-                AddIngredient(ItemID.GrenadeLauncher).
-                AddIngredient(ItemID.RocketLauncher).
-                AddIngredient(ItemID.FragmentVortex, 20).
+                AddIngredient(ItemID.FragmentNebula, 6).
+                AddIngredient(ItemID.Nanites, 100)
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

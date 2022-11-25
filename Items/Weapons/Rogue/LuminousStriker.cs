@@ -52,10 +52,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CreateRecipe().
                 AddIngredient<SpearofPaleolith>().
-                AddIngredient<ScourgeoftheSeas>().
                 AddIngredient<Turbulance>().
-                AddIngredient<MeldConstruct>(10).
-                AddIngredient(ItemID.FragmentStardust, 10).
+                AddIngredient(ItemID.FragmentStardust, 6).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }
