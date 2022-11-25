@@ -36,9 +36,7 @@ namespace CalamityMod.Items.Armor.Sulphurous
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UrchinStinger>(50).
                 AddIngredient<Acidwood>(20).
-                AddIngredient<SulphurousSand>(20).
                 AddIngredient<SulphuricScale>(20).
                 AddTile(TileID.Anvils).
                 Register();

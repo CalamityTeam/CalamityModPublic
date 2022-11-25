@@ -76,9 +76,7 @@ namespace CalamityMod.Items.Armor.SnowRuffian
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("AnySnowBlock", 10).
-                AddRecipeGroup("AnyIceBlock", 5).
-                AddIngredient(ItemID.BorealWood, 15).
+                AddRecipeGroup("AnySnowBlock", 20).
                 AddIngredient(ItemID.FlinxFur).
                 AddTile(TileID.Anvils).
                 Register();

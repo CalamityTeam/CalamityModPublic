@@ -45,10 +45,8 @@ namespace CalamityMod.Items.Armor.FathomSwarmer
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SpiderGreaves).
                 AddIngredient<SeaRemains>(9).
                 AddIngredient<PlantyMush>(8).
-                AddIngredient<AbyssGravel>(15).
                 AddIngredient<DepthCells>(4).
                 AddTile(TileID.MythrilAnvil).
                 Register();

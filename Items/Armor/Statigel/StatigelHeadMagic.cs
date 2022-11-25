@@ -57,7 +57,6 @@ namespace CalamityMod.Items.Armor.Statigel
         {
             CreateRecipe().
                 AddIngredient<PurifiedGel>(5).
-                AddIngredient(ItemID.HellstoneBar, 9).
                 AddTile<StaticRefiner>().
                 Register();
         }
