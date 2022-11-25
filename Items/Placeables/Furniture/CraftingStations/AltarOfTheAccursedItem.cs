@@ -42,11 +42,11 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-				AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 30).
-				AddIngredient(ModContent.ItemType<AuricBar>(), 5).
-				AddIngredient(ModContent.ItemType<CoreofCalamity>(), 1).
-				AddTile(ModContent.TileType<CosmicAnvil>()).
+            CreateRecipe().
+				AddIngredient<BrimstoneSlag>(30).
+				AddIngredient<AuricBar>(5).
+				AddIngredient<CoreofCalamity>().
+				AddTile<CosmicAnvil>().
 				Register();
         }
     }

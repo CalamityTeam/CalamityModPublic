@@ -30,9 +30,19 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
 
         public override void AddRecipes()
         {
-            CreateRecipe(10).AddRecipeGroup("AnyStoneBlock", 10).AddIngredient(ModContent.ItemType<PlagueCellCanister>()).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedPlateWall>(), 4).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedPlatePlatform>(), 2).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
+            CreateRecipe(50).
+                AddRecipeGroup("AnyStoneBlock", 50).
+                AddIngredient<PlagueCellCanister>().
+                AddTile<PlagueInfuser>().
+                Register();
+            CreateRecipe().
+                AddIngredient<PlaguedPlateWall>(4).
+                AddTile<PlagueInfuser>().
+                Register();
+            CreateRecipe().
+                AddIngredient<PlaguedPlatePlatform>(2).
+                AddTile<PlagueInfuser>().
+                Register();
         }
     }
 }

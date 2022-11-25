@@ -32,7 +32,10 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothVoidstone>(), 25).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<SmoothVoidstone>(25).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

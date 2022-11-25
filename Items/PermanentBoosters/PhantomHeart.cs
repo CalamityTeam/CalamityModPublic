@@ -73,8 +73,8 @@ namespace CalamityMod.Items.PermanentBoosters
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<RuinousSoul>(10).
-                AddIngredient<Phantoplasm>(100).
+                AddIngredient<RuinousSoul>(5).
+                AddIngredient<Phantoplasm>(25).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

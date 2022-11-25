@@ -35,7 +35,11 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>(), 10).AddIngredient(ModContent.ItemType<UnholyCore>(), 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<SmoothBrimstoneSlag>(10).
+                AddIngredient<UnholyCore>(10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

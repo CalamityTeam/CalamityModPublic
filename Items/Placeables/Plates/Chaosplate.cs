@@ -33,8 +33,15 @@ namespace CalamityMod.Items.Placeables.Plates
 
         public override void AddRecipes()
         {
-            CreateRecipe(3).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 1).AddIngredient(ItemID.Obsidian, 3).AddTile(TileID.Hellforge).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ChaosplateWall>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(25).
+                AddIngredient(ItemID.Obsidian, 25).
+                AddIngredient<EssenceofChaos>().
+                AddTile(TileID.Hellforge).
+                Register();
+            CreateRecipe().
+                AddIngredient<ChaosplateWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

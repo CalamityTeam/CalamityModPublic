@@ -35,7 +35,11 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ProfanedRock>(), 10).AddIngredient(ModContent.ItemType<UnholyEssence>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<ProfanedRock>(10).
+                AddIngredient<UnholyEssence>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }
