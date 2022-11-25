@@ -114,12 +114,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.StarWrath).
-                AddIngredient(ItemID.SoulofMight, 20).
                 AddIngredient<DivineGeode>(10).
                 AddIngredient<GalacticaSingularity>(5).
-                AddIngredient(ItemID.LunarBar, 5).
-                AddIngredient(ItemID.DarkShard).
-                AddIngredient(ItemID.LightShard).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

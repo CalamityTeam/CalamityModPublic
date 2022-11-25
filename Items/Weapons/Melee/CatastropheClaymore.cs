@@ -80,12 +80,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.HallowedBar, 10).
-                AddIngredient(ItemID.CrystalShard, 7).
-                AddIngredient(ItemID.SoulofNight, 5).
                 AddRecipeGroup("CursedFlameIchor", 5).
+                AddIngredient(ItemID.SoulofFright, 3).
                 AddIngredient(ItemID.SoulofMight, 3).
                 AddIngredient(ItemID.SoulofSight, 3).
-                AddIngredient(ItemID.SoulofFright, 3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

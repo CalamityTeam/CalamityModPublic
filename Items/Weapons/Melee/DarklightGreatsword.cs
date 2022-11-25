@@ -64,9 +64,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<CryonicBar>(12).
-                AddIngredient(ItemID.FallenStar, 5).
-                AddIngredient(ItemID.SoulofNight).
                 AddIngredient(ItemID.SoulofLight).
+                AddIngredient(ItemID.SoulofNight).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
