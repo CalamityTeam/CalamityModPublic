@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Melee
             spike = true;
             Projectile.ai[0] = 1f;
             Projectile.netUpdate = true;
-            target.AddBuff(BuffID.Venom, 180);
+            target.AddBuff(BuffID.Poisoned, 180);
         }
     }
 }
