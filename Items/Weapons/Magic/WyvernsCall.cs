@@ -116,8 +116,8 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
         {
             CreateRecipe().
                 AddIngredient<SkyGlaze>().
-                AddIngredient(ItemID.SoulofFlight, 15).
                 AddRecipeGroup("AnyMythrilBar", 5).
+                AddIngredient(ItemID.SoulofFlight, 15). 
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

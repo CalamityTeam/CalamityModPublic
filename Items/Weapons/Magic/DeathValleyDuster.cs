@@ -39,11 +39,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Tradewinds>().
                 AddRecipeGroup("AnyAdamantiteBar", 5).
                 AddIngredient(ItemID.AncientBattleArmorMaterial).
                 AddIngredient(ItemID.FossilOre, 25).
-                AddIngredient<DesertFeather>(5).
                 AddTile(TileID.Bookcases).
                 Register();
         }

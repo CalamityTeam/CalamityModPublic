@@ -54,7 +54,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.BubbleGun).
-                AddIngredient(ItemID.Xenopopper).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddIngredient<SeaPrism>(15).
                 AddTile(TileID.LunarCraftingStation).
