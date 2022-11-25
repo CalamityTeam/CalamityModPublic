@@ -1431,8 +1431,6 @@ namespace CalamityMod.CalPlayer
             // Max health reductions
             if (crimEffigy)
                 Player.statLifeMax2 = (int)(Player.statLifeMax2 * 0.9);
-            if (regenator)
-                Player.statLifeMax2 = (int)(Player.statLifeMax2 * 0.5);
 
             ResetRogueStealth();
 

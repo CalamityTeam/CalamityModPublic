@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Regenator");
-            Tooltip.SetDefault("Reduces max HP by 50% but greatly improves life regeneration");
+            Tooltip.SetDefault("Greatly improves life regeneration\n" +
+                                "However, your health cannot exceed 50% of its maximum");
         }
 
         public override void SetDefaults()
@@ -28,6 +29,16 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.regenator = true;
+
+            //Hard-lock the player's health to 50%.
+            //No lifesteal, no regen, no healing pots
+            if (player.statLife >= (int)(player.statLifeMax2 * 0.5f))
+            {
+                player.statLife = (int)(player.statLifeMax2 * 0.5f);
+                player.lifeRegenCount = 0;
+                player.moonLeech = true;
+                modPlayer.healingPotBonus = 0;
+            }
         }
     }
 }

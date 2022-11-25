@@ -729,7 +729,7 @@ namespace CalamityMod.CalPlayer
 
             if (regenator)
             {
-                Player.lifeRegenTime += 6;
+                Player.lifeRegenTime += 3;
                 Player.lifeRegen += 12;
             }
             if (handWarmer && eskimoSet)
