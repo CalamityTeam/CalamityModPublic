@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.Daybreak, 300);
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int k = 0; k < 2; k++)
