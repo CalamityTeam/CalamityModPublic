@@ -37,9 +37,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.RottenChunk, 5).
                 AddIngredient(ItemID.DemoniteBar, 5).
                 AddIngredient<RottenMatter>(15).
+                AddIngredient(ItemID.RottenChunk, 5).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

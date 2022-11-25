@@ -42,9 +42,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.CrimtaneBar, 5).
                 AddIngredient<BloodSample>(8).
                 AddIngredient(ItemID.Vertebrae, 4).
-                AddIngredient(ItemID.CrimtaneBar, 5).
                 AddTile(TileID.DemonAltar).
                 Register();
         }
