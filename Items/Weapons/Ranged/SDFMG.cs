@@ -71,10 +71,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient(ItemID.SDMG).
                 AddIngredient<FetidEmesis>().
-                AddIngredient<SeaPrism>(10).
-                AddIngredient<DepthCells>(10).
-                AddIngredient<Lumenyl>(10).
-                AddIngredient<PlantyMush>(5).
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<EndothermicEnergy>(20).
                 AddTile<CosmicAnvil>().

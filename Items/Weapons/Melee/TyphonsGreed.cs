@@ -40,9 +40,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient<Voidstone>(30).
                 AddIngredient<DepthCells>(30).
-                AddIngredient<Lumenyl>(10).
-                AddIngredient<PlantyMush>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
