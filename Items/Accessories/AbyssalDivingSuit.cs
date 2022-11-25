@@ -82,11 +82,8 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<AbyssalDivingGear>().
                 AddIngredient<AnechoicPlating>().
                 AddIngredient<IronBoots>().
-                AddIngredient<MolluskHusk>(15).
-                AddIngredient<Lumenyl>(40).
-                AddIngredient<DepthCells>(40).
-                AddIngredient<PlantyMush>(15).
                 AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient<MolluskHusk>(15).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

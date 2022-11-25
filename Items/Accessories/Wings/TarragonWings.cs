@@ -78,8 +78,8 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UelibloomBar>(5).
                 AddIngredient(ItemID.SoulofFlight, 30).
+                AddIngredient<UelibloomBar>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

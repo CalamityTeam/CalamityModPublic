@@ -56,9 +56,9 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient(ItemID.TerrasparkBoots).
                 AddIngredient<HarpyRing>().
                 AddIngredient<EssenceofSunlight>(5).
+                AddIngredient(ItemID.SoulofFright).
                 AddIngredient(ItemID.SoulofMight).
                 AddIngredient(ItemID.SoulofSight).
-                AddIngredient(ItemID.SoulofFright).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

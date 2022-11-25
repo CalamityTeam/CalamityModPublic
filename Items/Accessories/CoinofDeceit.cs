@@ -1,5 +1,4 @@
-﻿using CalamityMod.Items.Materials;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,9 +32,8 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("AnyGoldBar", 4).
+                AddRecipeGroup("AnyCopperBar", 12).
                 AddRecipeGroup("AnyEvilBar", 8).
-                AddIngredient<WulfrumMetalScrap>(5).
                 AddTile(TileID.Anvils).
                 Register();
         }
