@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -168,14 +169,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 180);
-            target.AddBuff(BuffID.Frostburn, 90);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 180);
-            target.AddBuff(BuffID.Frostburn, 90);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
         }
 
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => OnHit();
