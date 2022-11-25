@@ -1705,7 +1705,7 @@ namespace CalamityMod.NPCs
                         Color messageColor2 = Color.Goldenrod;
 
                         // TODO -- this should probably be moved to a thread like Aureus meteor
-                        CalamityUtils.SpawnOre(ModContent.TileType<PerennialOre>(), 12E-05, 0.65f, 0.85f, 3, 8, TileID.Dirt, TileID.Stone);
+                        CalamityUtils.SpawnOre(ModContent.TileType<PerennialOre>(), 12E-05, 0.65f, 0.85f, 5, 10, TileID.Dirt, TileID.Stone);
 
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                         CalamityUtils.DisplayLocalizedText(key2, messageColor2);
