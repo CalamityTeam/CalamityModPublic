@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = SoundID.Item44;
-            //item.autoReuse = true;
+            item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<AureusBomber>();
             Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
