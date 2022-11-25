@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[Projectile.owner] = 7;
-            target.AddBuff(BuffID.Frostburn, 180);
+            target.AddBuff(BuffID.Frostburn2, 180);
         }
     }
 }

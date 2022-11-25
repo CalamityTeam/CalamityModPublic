@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 180);
+            target.AddBuff(BuffID.Frostburn2, 180);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
             target.immune[Projectile.owner] = 0;
             Projectile.ai[0] = 1f;
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 180);
+            target.AddBuff(BuffID.Frostburn2, 180);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
 

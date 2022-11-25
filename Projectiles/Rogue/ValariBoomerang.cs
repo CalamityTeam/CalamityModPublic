@@ -149,7 +149,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             OnHitEffects();
-            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(BuffID.Frostburn2, 120);
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             OnHitEffects();
-            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(BuffID.Frostburn2, 120);
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }

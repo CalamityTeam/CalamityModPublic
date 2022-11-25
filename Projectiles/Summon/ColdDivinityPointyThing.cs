@@ -232,7 +232,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.Frostburn2, 300);
             int circlers = 0;
             for (int i = 0; i < Main.projectile.Length; i++)
             {
@@ -278,7 +278,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.Frostburn2, 300);
             if (circlingPlayer)
             {
                 recharging = 300;
