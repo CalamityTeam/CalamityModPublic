@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             int type = Main.rand.NextBool() ? ModContent.ProjectileType<BalefulHarvesterProjectile>() : ProjectileID.FlamingJack;
             CalamityPlayer.HorsemansBladeOnHit(player, target.whoAmI, (int)(damage * 1.5f), knockback, 0, type);
-            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.OnFire3, 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             int type = Main.rand.NextBool() ? ModContent.ProjectileType<BalefulHarvesterProjectile>() : ProjectileID.FlamingJack;
             CalamityPlayer.HorsemansBladeOnHit(player, -1, (int)(damage * 1.5f), Item.knockBack, 0, type);
-            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.OnFire3, 300);
         }
 
         public override void AddRecipes()

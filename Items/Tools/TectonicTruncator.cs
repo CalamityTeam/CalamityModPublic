@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Tools
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.OnFire3, 300);
         }
     }
 }

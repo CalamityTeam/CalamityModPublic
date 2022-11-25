@@ -83,8 +83,8 @@ namespace CalamityMod.Projectiles.Summon
                             target.AddBuff(BuffID.CursedInferno, duration);
                         break;
                     case 4:
-                        if (!target.onFire)
-                            target.AddBuff(BuffID.OnFire, duration);
+                        if (!target.onFire3)
+                            target.AddBuff(BuffID.OnFire3, duration);
                         break;
                     default:
                         break;

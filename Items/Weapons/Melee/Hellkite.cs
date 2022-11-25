@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.OnFire3, 300);
             int onHitDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
             player.ApplyDamageToNPC(target, onHitDamage, 0f, 0, false);
             float num50 = 1.7f;
@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.OnFire3, 300);
             SoundEngine.PlaySound(SoundID.Item14, target.position);
         }
 

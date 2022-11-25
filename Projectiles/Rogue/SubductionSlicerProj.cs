@@ -57,13 +57,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[Projectile.owner] = 6;
-            target.AddBuff(BuffID.OnFire, 240);
+            target.AddBuff(BuffID.OnFire3, 240);
             OnHitEffects(target.Center);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 240);
+            target.AddBuff(BuffID.OnFire3, 240);
             OnHitEffects(target.Center);
         }
 
