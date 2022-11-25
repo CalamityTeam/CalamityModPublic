@@ -62,8 +62,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CreateRecipe().
                 AddIngredient(ItemID.FeralClaws).
-                AddIngredient(ItemID.ChlorophyteBar, 5).
-                AddIngredient(ItemID.SoulofFright, 10).
+                AddIngredient(ItemID.Leather, 10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
