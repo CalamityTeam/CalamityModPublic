@@ -32,7 +32,10 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<PlaguebringerGoliathTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
+            CreateRecipe().
+                AddIngredient<PlaguebringerGoliathTrophy>().
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

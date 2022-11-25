@@ -30,7 +30,10 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.QueenBeeTrophy).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.QueenBeeTrophy).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

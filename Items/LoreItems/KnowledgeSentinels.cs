@@ -34,9 +34,18 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<CeaselessVoidTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<WeaverTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<SignusTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
+            CreateRecipe().
+                AddIngredient<CeaselessVoidTrophy>().
+                AddTile(TileID.Bookcases).
+                Register();
+            CreateRecipe().
+                AddIngredient<WeaverTrophy>().
+                AddTile(TileID.Bookcases).
+                Register();
+            CreateRecipe().
+                AddIngredient<SignusTrophy>().
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }
