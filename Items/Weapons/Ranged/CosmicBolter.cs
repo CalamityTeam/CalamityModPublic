@@ -70,9 +70,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<LunarianBow>().
+                AddIngredient(ItemID.HallowedRepeater).
                 AddIngredient<LivingShard>(12).
-                AddIngredient(ItemID.HallowedBar, 5).
-                AddIngredient(ItemID.SoulofSight, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

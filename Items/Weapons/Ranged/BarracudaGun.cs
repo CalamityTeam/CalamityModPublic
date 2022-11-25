@@ -59,9 +59,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.PiranhaGun).
-                AddIngredient<CoreofCalamity>(2).
-                AddIngredient<LifeAlloy>().
-                AddIngredient<PlantyMush>(5).
+                AddIngredient<LifeAlloy>(3).
                 AddIngredient(ItemID.SharkFin, 2).
                 AddTile(TileID.MythrilAnvil).
                 Register();
