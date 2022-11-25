@@ -70,8 +70,7 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SandBlock, 25).
-                AddIngredient(ItemID.Cactus, 15).
+                AddIngredient(ItemID.SandBlock, 40).
                 AddIngredient(ItemID.AntlionMandible, 4).
                 AddIngredient<StormlionMandible>(2).
                 AddTile(TileID.DemonAltar).

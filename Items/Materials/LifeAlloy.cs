@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Materials
         }
         public override void AddRecipes()
         {
-            CreateRecipe().
+            CreateRecipe(3).
                 AddIngredient<CryonicBar>().
                 AddIngredient<PerennialBar>().
                 AddIngredient<ScoriaBar>().

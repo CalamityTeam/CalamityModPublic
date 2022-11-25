@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<ScoriaOre>(5).
+                AddIngredient<ScoriaOre>(4).
                 AddTile(TileID.AdamantiteForge).
                 Register();
         }

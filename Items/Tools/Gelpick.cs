@@ -38,9 +38,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PurifiedGel>(15).
-                AddIngredient(ItemID.Gel, 30).
-                AddIngredient(ItemID.HellstoneBar, 5).
+                AddIngredient<PurifiedGel>(12).
                 AddTile<StaticRefiner>().
                 Register();
         }

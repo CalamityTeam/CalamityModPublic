@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UelibloomOre>(5).
+                AddIngredient<UelibloomOre>(4).
                 AddTile(TileID.AdamantiteForge).
                 Register();
         }

@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
         {
             CreateRecipe().
                 AddIngredient(ItemID.HotlineFishingHook).
-                AddIngredient<ScoriaBar>(8).
+                AddIngredient<ScoriaBar>(6).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

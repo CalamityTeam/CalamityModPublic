@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe().
+            CreateRecipe(3).
                 AddIngredient<CoreofSunlight>(3).
                 AddIngredient<CoreofEleum>(3).
                 AddIngredient<CoreofChaos>(3).

@@ -55,8 +55,8 @@ namespace CalamityMod.Items.SummonItems
         {
             CreateRecipe().
                 AddRecipeGroup("AnyIceBlock", 50).
-                AddIngredient(ItemID.SoulofNight, 5).
                 AddIngredient(ItemID.SoulofLight, 5).
+                AddIngredient(ItemID.SoulofNight, 5).
                 AddIngredient<EssenceofEleum>(8).
                 AddTile(TileID.Anvils).
                 Register();

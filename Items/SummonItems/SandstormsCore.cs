@@ -1,4 +1,5 @@
-﻿using CalamityMod.NPCs.GreatSandShark;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.GreatSandShark;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -52,9 +53,8 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Ectoplasm, 10).
-                AddIngredient(ItemID.HallowedBar, 5).
                 AddIngredient(ItemID.AncientBattleArmorMaterial, 3).
+                AddIngredient<CoreofSunlight>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
