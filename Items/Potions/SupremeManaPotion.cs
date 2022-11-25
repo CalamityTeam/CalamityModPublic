@@ -31,10 +31,10 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe().
-                AddIngredient(ItemID.SuperManaPotion).
+            CreateRecipe(15).
+                AddIngredient(ItemID.SuperManaPotion, 15).
                 AddIngredient<Phantoplasm>().
-                AddTile(TileID.LunarCraftingStation).
+                AddTile(TileID.Bottles).
                 Register();
         }
     }

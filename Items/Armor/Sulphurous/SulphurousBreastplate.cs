@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Weapons.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

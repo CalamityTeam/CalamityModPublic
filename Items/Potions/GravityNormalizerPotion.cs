@@ -36,9 +36,9 @@ namespace CalamityMod.Items.Potions
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.GravitationPotion).
-                AddIngredient<AureusCell>().
+                AddIngredient(ItemID.BottledWater).
                 AddIngredient<AldebaranAlewife>().
+                AddIngredient<AureusCell>().
                 AddTile(TileID.AlchemyTable).
 				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
