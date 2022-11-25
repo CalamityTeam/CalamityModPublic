@@ -26,6 +26,7 @@ using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
+using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Perforator;
@@ -4325,6 +4326,10 @@ namespace CalamityMod.NPCs
             CalamityPlayer modPlayer = player.Calamity();
 
             MakeTownNPCsTakeMoreDamage(npc, projectile, Mod, ref damage);
+
+            //Block natural falling stars from killing boss spawners randomly
+            if ((projectile.type == ProjectileID.FallingStar && projectile.damage >= 1000) && (npc.type == NPCType<PerforatorCyst>() || npc.type == NPCType<HiveCyst>() || npc.type == NPCType<LeviathanStart>()))
+                damage = 0;
 
             // Supercrits
             var cgp = projectile.Calamity();
