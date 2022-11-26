@@ -2385,7 +2385,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetKnockback<SummonDamageClass>() += 1.2f;
                 Player.pickSpeed -= 0.15f;
                 if (Main.eclipse || !Main.dayTime)
-                    Player.statDefense += 15;
+                    Player.statDefense += Main.eclipse ? 10 : 20;
             }
 
             if (eGauntlet)
