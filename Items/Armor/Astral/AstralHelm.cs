@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor.Astral
         {
             player.setBonus = "5% increased movement speed and +3 max minions\n" +
                 "35% increased damage and 25% increased critical strike chance\n" +
-                "Whenever you crit an enemy fallen, hallowed, and astral stars will rain down\n" +
+                "Whenever you crit an enemy, a barrage of stars will rain down\n" +
                 "This effect has a 1 second cooldown before it can trigger again";
             var modPlayer = player.Calamity();
             modPlayer.astralStarRain = true;

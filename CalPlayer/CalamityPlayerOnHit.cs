@@ -648,9 +648,7 @@ namespace CalamityMod.CalPlayer
                         int projectileType = Utils.SelectRandom(Main.rand, new int[]
                         {
                             ProjectileType<AstralStar>(),
-                            ProjectileID.ManaCloakStar,
                             ProjectileID.BeeCloakStar,
-                            ProjectileID.StarVeilStar,
                             ProjectileID.StarCloakStar,
                             ProjectileType<FallenStarProj>()
                         });
@@ -740,9 +738,7 @@ namespace CalamityMod.CalPlayer
                         int projectileType = Utils.SelectRandom(Main.rand, new int[]
                         {
                             ProjectileType<AstralStar>(),
-                            ProjectileID.ManaCloakStar,
                             ProjectileID.BeeCloakStar,
-                            ProjectileID.StarVeilStar,
                             ProjectileID.StarCloakStar,
                             ProjectileType<FallenStarProj>()
                         });
