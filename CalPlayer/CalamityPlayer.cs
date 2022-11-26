@@ -5993,7 +5993,7 @@ namespace CalamityMod.CalPlayer
                     for (int n = 0; n < 3; n++)
                     {
                         int deificStarDamage = (int)Player.GetBestClassDamage().ApplyTo(130);
-                        Projectile star = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, deificStarDamage, 4f, Player.whoAmI);
+                        Projectile star = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.StarVeilStar, deificStarDamage, 4f, Player.whoAmI);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
                             star.DamageType = DamageClass.Generic;
