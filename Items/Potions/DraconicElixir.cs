@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Potions
         {
             SacrificeTotal = 20;
             DisplayName.SetDefault("Draconic Elixir");
-            Tooltip.SetDefault("Increases flight time by 20% and flight speed by 10%\n" +
-                "Increases defense by 16");
+            Tooltip.SetDefault("Increases horizontal flight speed and acceleration by 10%\n" +
+                "Increases flight time by 20%");
         }
 
         public override void SetDefaults()
