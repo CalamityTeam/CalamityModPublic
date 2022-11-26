@@ -544,6 +544,12 @@ namespace CalamityMod
                 AddIngredient(ItemID.ExplosivePowder, 1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
+            // and Rocket IIs
+            Recipe.Create(ItemID.RocketII, 20).
+                AddIngredient(ItemID.EmptyBullet, 20).
+                AddIngredient(ItemID.ExplosivePowder, 1).
+                AddTile(TileID.MythrilAnvil).
+                Register();
 
             // Life Crystal
             Recipe.Create(ItemID.LifeCrystal).
@@ -573,7 +579,6 @@ namespace CalamityMod
                 AddIngredient(ItemID.Feather, 2).
                 AddIngredient<BloodOrb>().
                 AddIngredient(ItemID.GoldCoin, 15).
-                AddRecipeGroup(AnyGoldBar, 8).
                 AddTile(TileID.Anvils).
                 Register();
 
@@ -789,7 +794,8 @@ namespace CalamityMod
                 { Vanilla(ItemID.GoblinBattleStandard), ChangeIngredientStack(ItemID.TatteredCloth, 5) },
                 { Vanilla(ItemID.WormFood), WormFoodRecipeEdit },
                 { Vanilla(ItemID.BloodySpine), BloodySpineRecipeEdit },
-                { VanillaEach(ItemID.PumpkinMoonMedallion, ItemID.NaughtyPresent), Disable }, // Calamity adds its own recipes
+                { Vanilla(ItemID.PumpkinMoonMedallion), RemoveIngredient(ItemID.HallowedBar) },
+                { Vanilla(ItemID.NaughtyPresent), RemoveIngredient(ItemID.SoulofFright) },
                 { VanillaEach(
                     ItemID.BluePhasesaber, ItemID.GreenPhasesaber, ItemID.OrangePhasesaber, ItemID.PurplePhasesaber,
                     ItemID.RedPhasesaber, ItemID.WhitePhasesaber, ItemID.YellowPhasesaber),
@@ -835,56 +841,56 @@ namespace CalamityMod
                 { Vanilla(ItemID.PlatinumGreaves), ChangeIngredientStack(ItemID.PlatinumBar, 14) },
 
                 // HM ores:
-                // 12 BARS : Melee Helm, Ranged Helm, Magic Helm, Pickaxe, Drill, Waraxe, Chainsaw, Sword, Spear, Repeater
-                // 24 BARS : Breastplate
-                // 18 BARS : Leggings
+                // 10 BARS : Melee Helm, Ranged Helm, Magic Helm, Pickaxe, Drill, Waraxe, Chainsaw, Sword, Spear, Repeater
+                // 20 BARS : Breastplate
+                // 15 BARS : Leggings
                 { VanillaEach(
                     ItemID.CobaltHelmet, ItemID.CobaltMask, ItemID.CobaltHat, ItemID.CobaltPickaxe, ItemID.CobaltDrill, ItemID.CobaltWaraxe, ItemID.CobaltChainsaw,
                     ItemID.CobaltSword, ItemID.CobaltNaginata, ItemID.CobaltRepeater),
-                    ChangeIngredientStack(ItemID.CobaltBar, 12)
+                    ChangeIngredientStack(ItemID.CobaltBar, 10)
                 },
-                { Vanilla(ItemID.CobaltBreastplate), ChangeIngredientStack(ItemID.CobaltBar, 24) },
-                { Vanilla(ItemID.CobaltLeggings), ChangeIngredientStack(ItemID.CobaltBar, 18) },
+                { Vanilla(ItemID.CobaltBreastplate), ChangeIngredientStack(ItemID.CobaltBar, 20) },
+                { Vanilla(ItemID.CobaltLeggings), ChangeIngredientStack(ItemID.CobaltBar, 15) },
 
                 { VanillaEach(
                     ItemID.PalladiumHelmet, ItemID.PalladiumMask, ItemID.PalladiumHeadgear, ItemID.PalladiumPickaxe, ItemID.PalladiumDrill, ItemID.PalladiumWaraxe, ItemID.PalladiumChainsaw,
                     ItemID.PalladiumSword, ItemID.PalladiumPike, ItemID.PalladiumRepeater),
-                    ChangeIngredientStack(ItemID.PalladiumBar, 12)
+                    ChangeIngredientStack(ItemID.PalladiumBar, 10)
                 },
-                { Vanilla(ItemID.PalladiumBreastplate), ChangeIngredientStack(ItemID.PalladiumBar, 24) },
-                { Vanilla(ItemID.PalladiumLeggings), ChangeIngredientStack(ItemID.PalladiumBar, 18) },
+                { Vanilla(ItemID.PalladiumBreastplate), ChangeIngredientStack(ItemID.PalladiumBar, 20) },
+                { Vanilla(ItemID.PalladiumLeggings), ChangeIngredientStack(ItemID.PalladiumBar, 15) },
 
                 { VanillaEach(
                     ItemID.MythrilHelmet, ItemID.MythrilHat, ItemID.MythrilHood, ItemID.MythrilPickaxe, ItemID.MythrilDrill, ItemID.MythrilWaraxe, ItemID.MythrilChainsaw,
                     ItemID.MythrilSword, ItemID.MythrilHalberd, ItemID.MythrilRepeater),
-                    ChangeIngredientStack(ItemID.MythrilBar, 12)
+                    ChangeIngredientStack(ItemID.MythrilBar, 10)
                 },
-                { Vanilla(ItemID.MythrilChainmail), ChangeIngredientStack(ItemID.MythrilBar, 24) },
-                { Vanilla(ItemID.MythrilGreaves), ChangeIngredientStack(ItemID.MythrilBar, 18) },
+                { Vanilla(ItemID.MythrilChainmail), ChangeIngredientStack(ItemID.MythrilBar, 20) },
+                { Vanilla(ItemID.MythrilGreaves), ChangeIngredientStack(ItemID.MythrilBar, 15) },
 
                 { VanillaEach(
                     ItemID.OrichalcumHelmet, ItemID.OrichalcumMask, ItemID.OrichalcumHeadgear, ItemID.OrichalcumPickaxe, ItemID.OrichalcumDrill, ItemID.OrichalcumWaraxe, ItemID.OrichalcumChainsaw,
                     ItemID.OrichalcumSword, ItemID.OrichalcumHalberd, ItemID.OrichalcumRepeater),
-                    ChangeIngredientStack(ItemID.OrichalcumBar, 12)
+                    ChangeIngredientStack(ItemID.OrichalcumBar, 10)
                 },
-                { Vanilla(ItemID.OrichalcumBreastplate), ChangeIngredientStack(ItemID.OrichalcumBar, 24) },
-                { Vanilla(ItemID.OrichalcumLeggings), ChangeIngredientStack(ItemID.OrichalcumBar, 18) },
+                { Vanilla(ItemID.OrichalcumBreastplate), ChangeIngredientStack(ItemID.OrichalcumBar, 20) },
+                { Vanilla(ItemID.OrichalcumLeggings), ChangeIngredientStack(ItemID.OrichalcumBar, 15) },
 
                 { VanillaEach(
                     ItemID.AdamantiteHelmet, ItemID.AdamantiteMask, ItemID.AdamantiteHeadgear, ItemID.AdamantitePickaxe, ItemID.AdamantiteDrill, ItemID.AdamantiteWaraxe, ItemID.AdamantiteChainsaw,
                     ItemID.AdamantiteSword, ItemID.AdamantiteGlaive, ItemID.AdamantiteRepeater),
-                    ChangeIngredientStack(ItemID.AdamantiteBar, 12)
+                    ChangeIngredientStack(ItemID.AdamantiteBar, 10)
                 },
-                { Vanilla(ItemID.AdamantiteBreastplate), ChangeIngredientStack(ItemID.AdamantiteBar, 24) },
-                { Vanilla(ItemID.AdamantiteLeggings), ChangeIngredientStack(ItemID.AdamantiteBar, 18) },
+                { Vanilla(ItemID.AdamantiteBreastplate), ChangeIngredientStack(ItemID.AdamantiteBar, 20) },
+                { Vanilla(ItemID.AdamantiteLeggings), ChangeIngredientStack(ItemID.AdamantiteBar, 15) },
 
                 { VanillaEach(
                     ItemID.TitaniumHelmet, ItemID.TitaniumMask, ItemID.TitaniumHeadgear, ItemID.TitaniumPickaxe, ItemID.TitaniumDrill, ItemID.TitaniumWaraxe, ItemID.TitaniumChainsaw,
                     ItemID.TitaniumSword, ItemID.TitaniumTrident, ItemID.TitaniumRepeater),
-                    ChangeIngredientStack(ItemID.TitaniumBar, 12)
+                    ChangeIngredientStack(ItemID.TitaniumBar, 10)
                 },
-                { Vanilla(ItemID.TitaniumBreastplate), ChangeIngredientStack(ItemID.TitaniumBar, 24) },
-                { Vanilla(ItemID.TitaniumLeggings), ChangeIngredientStack(ItemID.TitaniumBar, 18) },
+                { Vanilla(ItemID.TitaniumBreastplate), ChangeIngredientStack(ItemID.TitaniumBar, 20) },
+                { Vanilla(ItemID.TitaniumLeggings), ChangeIngredientStack(ItemID.TitaniumBar, 15) },
             };
 
             // Apply all recipe changes.
@@ -1148,10 +1154,10 @@ namespace CalamityMod
 
             // Ice Mirror
             r = Recipe.Create(ItemID.IceMirror);
+            r.AddRecipeGroup("AnySilverBar", 5);
             r.AddRecipeGroup("AnyIceBlock", 20);
             r.AddIngredient(ItemID.Glass, 10);
             r.AddIngredient(ItemID.FallenStar, 10);
-            r.AddRecipeGroup("AnySilverBar", 5);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1227,24 +1233,8 @@ namespace CalamityMod
             r = Recipe.Create(ItemID.TempleKey);
             r.AddIngredient(ItemID.JungleSpores, 15);
             r.AddIngredient(ItemID.RichMahogany, 15);
-            r.AddIngredient(ItemID.SoulofNight, 15);
             r.AddIngredient(ItemID.SoulofLight, 15);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            // Pumpkin Moon Medallion
-            r = Recipe.Create(ItemID.PumpkinMoonMedallion);
-            r.AddIngredient(ItemID.Pumpkin, 30);
-            r.AddIngredient(ItemID.Ectoplasm, 5);
-            r.AddRecipeGroup(AnyGoldBar, 5);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            // Naughty Present
-            r = Recipe.Create(ItemID.NaughtyPresent);
-            r.AddIngredient(ItemID.Silk, 20);
-            r.AddIngredient(ItemID.Ectoplasm, 5);
-            r.AddRecipeGroup(AnySilverBar, 5);
+            r.AddIngredient(ItemID.SoulofNight, 15);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
@@ -1364,9 +1354,9 @@ namespace CalamityMod
         {
             // Cloud in a Bottle
             Recipe r = Recipe.Create(ItemID.CloudinaBottle);
-            r.AddIngredient(ItemID.Feather, 2);
             r.AddIngredient(ItemID.Bottle);
             r.AddIngredient(ItemID.Cloud, 25);
+            r.AddIngredient(ItemID.Feather, 2);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1385,18 +1375,18 @@ namespace CalamityMod
 
             // Blizzard in a Bottle
             r = Recipe.Create(ItemID.BlizzardinaBottle);
-            r.AddIngredient(ItemID.Feather, 3);
             r.AddIngredient(ItemID.Bottle);
             r.AddRecipeGroup(AnySnowBlock, 50);
+            r.AddIngredient(ItemID.Feather, 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Sandstorm in a Bottle
             r = Recipe.Create(ItemID.SandstorminaBottle);
-            r.AddIngredient(ModContent.ItemType<DesertFeather>(), 10);
-            r.AddIngredient(ItemID.Feather, 3);
             r.AddIngredient(ItemID.Bottle);
             r.AddIngredient(ItemID.SandBlock, 70);
+            r.AddIngredient(ModContent.ItemType<DesertFeather>(), 10);
+            r.AddIngredient(ItemID.Feather, 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 
