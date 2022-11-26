@@ -65,8 +65,8 @@ namespace CalamityMod.Items.Weapons.Summon
             CreateRecipe().
                 AddIngredient(ItemID.GolemFist).
                 AddIngredient<Lumenyl>(10).
-                AddIngredient<ExodiumCluster>(5).
                 AddIngredient<RuinousSoul>(5).
+                AddIngredient<ExodiumCluster>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

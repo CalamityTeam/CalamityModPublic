@@ -80,7 +80,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe().
                 AddIngredient<UtensilPoker>().
                 AddIngredient<AuricBar>(5).
-                AddIngredient(ItemID.Bacon, 4).
                 AddIngredient(ItemID.LifeCrystal).
                 AddIngredient(ItemID.ManaCrystal).
                 AddIngredient(ItemID.Bone, 92).
