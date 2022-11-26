@@ -648,7 +648,10 @@ namespace CalamityMod.CalPlayer
                         int projectileType = Utils.SelectRandom(Main.rand, new int[]
                         {
                             ProjectileType<AstralStar>(),
-                            ProjectileID.HallowStar,
+                            ProjectileID.ManaCloakStar,
+                            ProjectileID.BeeCloakStar,
+                            ProjectileID.StarVeilStar,
+                            ProjectileID.StarCloakStar,
                             ProjectileType<FallenStarProj>()
                         });
                         int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(120);
@@ -737,7 +740,10 @@ namespace CalamityMod.CalPlayer
                         int projectileType = Utils.SelectRandom(Main.rand, new int[]
                         {
                             ProjectileType<AstralStar>(),
-                            ProjectileID.HallowStar,
+                            ProjectileID.ManaCloakStar,
+                            ProjectileID.BeeCloakStar,
+                            ProjectileID.StarVeilStar,
+                            ProjectileID.StarCloakStar,
                             ProjectileType<FallenStarProj>()
                         });
                         int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(120);
