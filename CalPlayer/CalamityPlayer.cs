@@ -3837,32 +3837,7 @@ namespace CalamityMod.CalPlayer
 
                     Player.AddBuff(ModContent.BuffType<SilvaRevival>(), silvaReviveDuration);
 
-                    if (draconicSurge && !Player.HasCooldown(DraconicElixir.ID))
-                    {
-                        Player.statLife += Player.statLifeMax2 / 2;
-                        Player.HealEffect(Player.statLifeMax2 / 2);
-
-                        if (Player.statLife > Player.statLifeMax2)
-                            Player.statLife = Player.statLifeMax2;
-
-                        if (Player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
-                        {
-                            Player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
-                            Player.AddCooldown(DraconicElixir.ID, CalamityUtils.SecondsToFrames(60));
-
-                            // Additional potion sickness time
-                            int additionalTime = 0;
-                            for (int i = 0; i < Player.MaxBuffs; i++)
-                            {
-                                if (Player.buffType[i] == BuffID.PotionSickness)
-                                    additionalTime = Player.buffTime[i];
-                            }
-
-                            float potionSicknessTime = 30f + (float)Math.Ceiling(additionalTime / 60D);
-                            Player.AddBuff(BuffID.PotionSickness, CalamityUtils.SecondsToFrames(potionSicknessTime));
-                        }
-                    }
-                    else if (silvaWings)
+                    if (silvaWings)
                     {
                         Player.statLife += Player.statLifeMax2 / 2;
                         Player.HealEffect(Player.statLifeMax2 / 2);
