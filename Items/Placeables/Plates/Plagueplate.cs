@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Placeables.Plates
                 AddTile(TileID.Hellforge).
                 Register();
             CreateRecipe().
-                AddIngredient<PlagueplateWall>(4).
+                AddIngredient<PlagueContainmentCellsWall>(4).
                 AddTile(TileID.WorkBenches).
                 Register();
         }
