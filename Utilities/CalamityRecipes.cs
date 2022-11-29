@@ -1193,6 +1193,28 @@ namespace CalamityMod
             r.AddRecipeGroup("IronBar", 3);
             r.AddTile(TileID.Anvils);
             r.Register();
+
+            // Bast Statue
+            r = Recipe.Create(ItemID.CatBast);
+            r.AddRecipeGroup("IronBar", 7);
+            r.AddRecipeGroup("AnyGoldBar", 3);
+            r.AddIngredient(ItemID.Ruby);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
+            // Encumbering Stone
+            r = Recipe.Create(ItemID.EncumberingStone);
+            r.AddIngredient(ItemID.StoneBlock, 100);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
+            // Desert Minecart
+            r = Recipe.Create(ItemID.DesertMinecart);
+            r.AddIngredient(ItemID.SandstoneBrick, 20);
+            r.AddRecipeGroup("AnyGoldBar", 6);
+            r.AddRecipeGroup("IronBar", 3);
+            r.AddTile(TileID.Anvils);
+            r.Register();
         }
         #endregion
 
