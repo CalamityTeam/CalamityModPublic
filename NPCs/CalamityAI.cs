@@ -2573,7 +2573,7 @@ namespace CalamityMod.NPCs
 
                 // Stay vulnerable for a maximum of 2 seconds
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= (phase2 ? 30f : 120f) || bossRush)
+                if (npc.ai[1] >= (phase5 ? 60f : phase4 ? 75f : phase3 ? 90f : phase2 ? 105f : 120f) || bossRush)
                 {
                     // Set AI to next phase (Walk) and reset other AI
                     npc.TargetClosest();
