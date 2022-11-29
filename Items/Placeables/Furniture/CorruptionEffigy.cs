@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void SetDefaults()
         {
-            Item.width = 26;
+            Item.width = 28;
             Item.height = 32;
             Item.maxStack = 99;
             Item.useTurn = true;
