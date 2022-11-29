@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -41,6 +41,7 @@ namespace CalamityMod.Projectiles.Magic
                 AdjustMagnitude(ref Projectile.velocity);
                 Projectile.localAI[0] = 1f;
             }
+
             Vector2 move = Vector2.Zero;
             float distance = 160f;
             bool target = false;
@@ -65,10 +66,13 @@ namespace CalamityMod.Projectiles.Magic
                     }
                 }
             }
+
             //if not found, look through npcs that have been shocked before
-            if (!target) {
-                foreach (NPC pastnpc in shockedbefore) {
-                    Vector2 newMove = pastnpc.Center -(Projectile.velocity + Projectile.Center);
+            if (!target)
+            {
+                foreach (NPC pastnpc in shockedbefore)
+                {
+                    Vector2 newMove = pastnpc.Center - (Projectile.velocity + Projectile.Center);
                     float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
                     if (distanceTo < distance)
                     {
@@ -81,7 +85,6 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-
             // Main.dust[dust].velocity /= 2f;
             Vector2 current = Projectile.Center;
             if (target)
@@ -92,24 +95,27 @@ namespace CalamityMod.Projectiles.Magic
                 //AdjustMagnitude(ref projectile.velocity);
                 //projectile.velocity = (10 * projectile.velocity + move) / 11f;
 
-                move+= new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10))*distance/30;
-                if (pastNPC) {
+                move += new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11)) * distance / 30;
+                if (pastNPC)
+                {
                     prevX++;
-                    move += new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)) * prevX;
+                    move += new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11)) * prevX;
                 }
-
-
             }
-            else {
-                move = (Projectile.velocity+ new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)))*5;
+            else
+            {
+                move = (Projectile.velocity + new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6))) * 5;
             }
+
             for (int i = 0; i < 20; i++)
             {
                 int dust = Dust.NewDust(current, Projectile.width, Projectile.height, 20, 0, 0);
                 Main.dust[dust].velocity = new Vector2(0);
                 current += move / 20f;
             }
+
             Projectile.position = current;
+
             /*int tx = (int)(projectile.position.X / 16f);
             int ty = (int)(projectile.position.Y / 16f);
 
