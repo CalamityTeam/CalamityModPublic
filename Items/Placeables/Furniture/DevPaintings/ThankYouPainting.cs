@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			DisplayName.SetDefault("Thank You");
 			Tooltip.SetDefault("Thanks to the entire team, everyone who supported, and those who all play the mod and keep it alive!\n" +
 			"The confines of this painting is not enough to fit the entire team\n" +
-			"Hold SHIFT to see a list of past and current devs and CTRL to see past and current testers");
+			"Hold SHIFT to see a list of past and current contributors");
             SacrificeTotal = 1;
 		}
 
@@ -40,46 +40,24 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-			if (!Main.keyState.IsKeyDown(LeftShift) && !Main.keyState.IsKeyDown(LeftControl))
+			if (!Main.keyState.IsKeyDown(LeftShift))
 				return;
-
-			bool tester = false;
-			if (Main.keyState.IsKeyDown(LeftControl))
-				tester = true;
 
 			string tooltip = "";
 
-			if (!tester)
+			int namesPerLine = 5;
+			for (int i = 0; i < contribList.Count; i++)
 			{
-				int namesPerLine = 5;
-				for (int i = 0; i < devList.Count; i++)
-				{
-					tooltip += devList[i];
+				tooltip += contribList[i];
 
-					if (i == devList.Count - 1)
-						break;
+				if (i == contribList.Count - 1)
+					break;
 
-					if (i % namesPerLine == 0)
-						tooltip += "\n";
-					else
-						tooltip += ", ";
-				}
-			}
-			else
-			{
-				int namesPerLine = 5;
-				for (int i = 0; i < testerList.Count; i++)
-				{
-					tooltip += testerList[i];
+				if (i % namesPerLine == 0)
+					tooltip += "\n";
 
-					if (i == testerList.Count - 1)
-						break;
-
-					if (i % namesPerLine == namesPerLine - 1)
-						tooltip += "\n";
-					else
-						tooltip += ", ";
-				}
+				else
+					tooltip += ", ";
 			}
 
 			TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
@@ -87,10 +65,12 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 				line.Text = tooltip;
 		}
 
-        public static IList<string> devList = new List<string>()
+        public static IList<string> contribList = new List<string>()
 		{
 			"Fabsol, the mod's founder and owner", // Fabsol gets a line to himself
 			"Altix",
+			"AquaSG",
+			"Atalya",
 			"Ben-TK",
 			"Bravioli",
 			"CDMusic",
@@ -99,6 +79,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"CrabBar",
 			"Daim",
 			"Dominic Karma",
+			"Ein",
 			"Enreden",
 			"GramOfSalt",
 			"Ian-1KV",
@@ -107,6 +88,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Lilac",
 			"LordMetarex",
 			"MarieArk",
+			"Memes",
 			"Merkalto",
 			"Minecat",
 			"Moonburn",
@@ -118,35 +100,51 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Popo",
 			"RoverdriveX",
 			"Runefield",
+			"Shade",
 			"Shayy",
 			"Skeletony",
 			"Sok",
 			"Spider Prov",
 			"spooktacular",
+			"StipulateVenus",
 			"That Blasterd Basterd",
 			"Tinymanx",
 			"Tomat",
+			"Uberransy",
 			"Uncle Danny",
 			"Xyk",
 			"YuH",
 
-			"Altalyra",
-			"ApidemDragon",
-			"Amadis",
+			"Afzofa",
+			"AdipemDragon",
+			"Akeeli",
 			"Aleksh",
+			"Alphi",
+			"Altalyra",
+			"Amadis",
 			"AstroKnight",
+			"Blast",
 			"Blockaroz",
 			"Boffin",
+			"Cei",
+			"Chetto",
+			"Chill Dude",
 			"DarkTiny",
+			"Demik",
 			"DM Dokuro",
+			"Doog",
+			"drh",
 			"Earth",
 			"EchoDuck",
 			"ENNWAY",
+			"Epsilon",
+			"Fargowilta",
 			"Frous",
 			"Gahtao",
 			"Gamagamer64",
 			"Graydee",
 			"Grox the Great",
+			"Hectique",
 			"Huggles",
 			"JaceDaDorito",
 			"Jenosis",
@@ -154,9 +152,12 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Khaelis",
 			"KnightyKnight",
 			"L0st",
+			"Leon",
 			"Leviathan",
+			"Lompl Allimath",
 			"MishiroUsui",
 			"Nao",
+			"Neverglide",
 			"Nincity",
 			"Niorin",
 			"Nitro",
@@ -170,53 +171,24 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"President Waluigi",
 			"Puff",
 			"Purple Necromancer",
+			"Sargassum",
 			"sentri",
 			"Shucks",
 			"Silver-Lord of Ash",
 			"SixteenInMono",
 			"Spoopyro",
 			"Svante",
+			"Teragat",
 			"Terry N. Muse",
+			"ThousandFields",
+			"TikiWiki",
 			"Trivaxy",
 			"Vaikyia",
 			"Vladimier",
+			"Yatagarasu",
 			"Yuyutsu",
 			"Zach",
 			"Ziggums",
 		};
-
-        public static IList<string> testerList = new List<string>()
-		{
-			"AquaSG",
-			"Atalya",
-			"Blast",
-			"Demik",
-			"Ein",
-			"Epsilon",
-			"Fargowilta",
-			"Leon",
-			"Memes",
-			"StipulateVenus",
-			"Shade",
-			"Uberransy",
-
-			"Afzofa",
-			"Akeeli",
-			"Alphi",
-			"Cei",
-			"Chetto",
-			"Chill Dude",
-			"Doog",
-			"drh",
-			"Hectique",
-			"Lompl Allimath",
-			"Neverglide",
-			"Sargassum",
-			"ThousandFields",
-			"Teragat",
-			"TikiWiki",
-			"Yatagarasu",
-		};
-
 	}
 }
