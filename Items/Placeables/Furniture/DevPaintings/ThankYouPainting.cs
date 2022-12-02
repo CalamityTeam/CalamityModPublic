@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Lilac Olligoci",
 			"LordMetarex",
 			"Memes",
-			"Merkalto",
+			"Mercutio 'Merkalto' Takle",
 			"Moonburn",
 			"Nycro",
 			"Ozzatron",
