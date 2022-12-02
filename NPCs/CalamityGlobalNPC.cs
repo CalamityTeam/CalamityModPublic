@@ -4840,7 +4840,7 @@ namespace CalamityMod.NPCs
                 spawnInfo.Player.Calamity().ZoneCalamity ||
                 spawnInfo.Player.Calamity().ZoneSulphur ||
                 spawnInfo.Player.Calamity().ZoneSunkenSea ||
-                (spawnInfo.Player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp);
+                (spawnInfo.Player.Calamity().ZoneAstral && !spawnInfo.Player.PillarZone());
 
             // Spawn Green Jellyfish in prehm and Blue Jellyfish in hardmode
             if (spawnInfo.Player.ZoneRockLayerHeight && spawnInfo.Water && !calamityBiomeZone)
