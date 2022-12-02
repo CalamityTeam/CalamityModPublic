@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // On frame 1, pick a random offset to use for the firing pattern.
             if (Projectile.timeLeft == Lifetime)
-                Projectile.localAI[0] = Main.rand.NextFloat(0f, FramesPerBeam);
+                Projectile.localAI[1] = Main.rand.NextFloat(0f, FramesPerBeam);
 
             // What in the hell does this code do
             if (Projectile.velocity.X > 0f)

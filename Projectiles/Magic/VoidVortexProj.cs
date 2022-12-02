@@ -30,9 +30,9 @@ namespace CalamityMod.Projectiles.Magic
         {
             // Spin chaotically given a pre-defined spin direction. Choose one initially at random.
             float spinTheta = 0.11f;
-            if (Projectile.localAI[1] == 0f)
-                Projectile.localAI[1] = Main.rand.NextBool() ? -spinTheta : spinTheta;
-            Projectile.rotation += Projectile.localAI[1];
+            if (Projectile.localAI[0] == 0f)
+                Projectile.localAI[0] = Main.rand.NextBool() ? -spinTheta : spinTheta;
+            Projectile.rotation += Projectile.localAI[0];
 
             // Animate the lightning orb.
             Projectile.frameCounter++;
