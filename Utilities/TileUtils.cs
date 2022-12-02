@@ -229,6 +229,21 @@ namespace CalamityMod
             return Main.tile[x, y];
         }
 
+        public static bool AnySolidTileInSelection(int x, int y, int width, int height)
+        {
+            for (int i = x; i != x + width; i += Math.Sign(width))
+            {
+                for (int j = y; j != y + height; j += Math.Sign(height))
+                {
+                    if (WorldGen.InWorld(i, j))
+                        continue;
+                    if (WorldGen.SolidTile(Framing.GetTileSafely(i, j)))
+                        return true;
+                }
+            }
+            return false;
+        }
+
         public static bool TileSelectionSolid(int x, int y, int width, int height)
         {
             for (int i = x; i != x + width; i += Math.Sign(width))
@@ -434,7 +449,6 @@ namespace CalamityMod
             TileType<AbyssGravel>(),
             TileType<Voidstone>(),
             TileType<PlantyMush>(),
-            TileType<Tenebris>(),
             TileType<ChaoticOre>(),
         });
 
@@ -579,10 +593,11 @@ namespace CalamityMod
                     case TileID.Ebonstone:
                     case TileID.Crimstone:
                     case TileID.Pearlstone:
-                    case TileID.DesertFossil:
-                    case TileID.Obsidian:
                     case TileID.Hellstone:
                         pickReq = 65;
+                        break;
+                    case TileID.Obsidian:
+                        pickReq = 55;
                         break;
                     case TileID.Meteorite:
                         pickReq = 50;
@@ -613,11 +628,8 @@ namespace CalamityMod
                 }
             }
 
-            if (Main.tileDungeon[tile.TileType])
-            {
-                if (i < Main.maxTilesX * 0.35 || i > Main.maxTilesX * 0.65)
-                    pickReq = 65;
-            }
+            if (Main.tileDungeon[tile.TileType] && j > Main.worldSurface)
+                pickReq = 100;
 
             return pickReq;
         }

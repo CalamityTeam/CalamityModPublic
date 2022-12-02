@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
             else
             {
-                NPC.aiStyle = 1;
+                NPC.aiStyle = NPCAIStyleID.Slime;
             }
         }
 

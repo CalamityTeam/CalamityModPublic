@@ -14,13 +14,13 @@ namespace CalamityMod.Projectiles.Summon
     public class DormantBrimseekerBab : ModProjectile
     {
         public const float DistanceToCheck = 1600f;
-        public const float TurnTime = 25f;
+        public const int TurnTime = 12;
         public bool SeekingTarget = false;
         public float MaxChargeTime
         {
             get
             {
-                return (Projectile.localAI[1] == 1f) ? 21 : 38;
+                return (Projectile.localAI[1] == 1f) ? 16 : 25;
             }
         }
         public override void SetStaticDefaults()
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.timeLeft *= 5;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 15;
             Projectile.DamageType = DamageClass.Summon;
         }
 
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Projectile.ai[0] = 0f; // Disable charge animation when not attacking
                 }
-                Projectile.rotation = Projectile.rotation.AngleTowards(0f, 0.1f);
+                Projectile.rotation = Projectile.rotation.AngleTowards(0f, 0.2f);
                 Projectile.direction = Projectile.spriteDirection = (Projectile.velocity.X < 0).ToDirectionInt();
                 Projectile.ai[1] += MathHelper.ToRadians(3f);
                 if (Projectile.ai[1] >= MathHelper.Pi * 4f)
@@ -109,13 +109,13 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                if (Projectile.Distance(potentialTarget.Center) < 1100f && Projectile.ai[0] == 0f)
+                if (Projectile.Distance(potentialTarget.Center) < 400f && Projectile.ai[0] == 0f)
                 {
                     SoundEngine.PlaySound(SoundID.DD2_DrakinShot, Projectile.Center);
                     Projectile.ai[0]++;
-                    float acceleration = (Projectile.localAI[1] == 1f) ? 1.6f : 0.8f;
-                    float minSpeed = (Projectile.localAI[1] == 1f) ? 13f : 8f;
-                    float maxSpeed = (Projectile.localAI[1] == 1f) ? 21f : 18f;
+                    float acceleration = (Projectile.localAI[1] == 1f) ? 1.5f : 1.1f;
+                    float minSpeed = (Projectile.localAI[1] == 1f) ? 17.5f : 15f;
+                    float maxSpeed = (Projectile.localAI[1] == 1f) ? 28f : 24f;
                     Projectile.velocity = Projectile.SafeDirectionTo(potentialTarget.Center) * MathHelper.Clamp(Projectile.velocity.Length() + acceleration, minSpeed, maxSpeed);
                     Projectile.rotation = Projectile.AngleTo(potentialTarget.Center) + (Projectile.spriteDirection == 1).ToInt() * MathHelper.Pi;
                 }
@@ -124,17 +124,17 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.ai[0]++;
                     SeekingTarget = false;
                 }
-                else if (Projectile.Distance(potentialTarget.Center) >= 1100f)
+                else if (Projectile.Distance(potentialTarget.Center) >= 400f)
                 {
-                    Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(potentialTarget.Center) + (Projectile.spriteDirection == 1).ToInt() * MathHelper.Pi, 0.1f);
-                    Projectile.velocity = Projectile.SafeDirectionTo(potentialTarget.Center) * MathHelper.Clamp(Projectile.velocity.Length() + 2f, 6f, 15f);
+                    Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(potentialTarget.Center) + (Projectile.spriteDirection == 1).ToInt() * MathHelper.Pi, 0.3f);
+                    Projectile.velocity = Projectile.SafeDirectionTo(potentialTarget.Center) * MathHelper.Clamp(Projectile.velocity.Length() + 2f, 10f, 32f);
                     SeekingTarget = true;
                     Projectile.ai[0] = 0f;
                 }
 
                 if (Projectile.ai[0] >= MaxChargeTime)
                 {
-                    Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(potentialTarget.Center) + (Projectile.spriteDirection == 1).ToInt() * MathHelper.Pi, 0.1f);
+                    Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(potentialTarget.Center) + (Projectile.spriteDirection == 1).ToInt() * MathHelper.Pi, 0.3f);
                 }
 
                 Projectile.frameCounter++;

@@ -17,6 +17,7 @@ using Terraria.ModLoader.Config;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.UI.Rippers;
 using CalamityMod.UI.DraedonsArsenal;
+using CalamityMod.UI.SulphurousWaterMeter;
 
 namespace CalamityMod
 {
@@ -139,6 +140,22 @@ namespace CalamityMod
         [DefaultValue(StealthUI.DefaultStealthPosY)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.StealthMeterPosY")]
         public float StealthMeterPosY { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.SulphuricWaterMeterPosX")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [SliderColor(224, 165, 56, 128)]
+        [Range(0f, 100f)]
+        [DefaultValue(SulphurousWaterMeterUI.DefaultPosX)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.SulphuricWaterMeterPosX")]
+        public float SulphuricWaterMeterPosX { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.SulphuricWaterMeterPosY")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [SliderColor(224, 165, 56, 128)]
+        [Range(0f, 100f)]
+        [DefaultValue(SulphurousWaterMeterUI.DefaultPosY)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.SulphuricWaterMeterPosY")]
+        public float SulphuricWaterMeterPosY { get; set; }
 
         [Label("$Mods.CalamityMod.Config.EntryTitle.ChargeMeter")]
         [BackgroundColor(192, 54, 64, 192)]
@@ -393,6 +410,9 @@ namespace CalamityMod
                 new("StealthMeter", ModContent.ItemType<EclipseMirror>()),
                 new("StealthMeterPosX", ItemID.LaserRuler),
                 new("StealthMeterPosY", ItemID.LaserRuler),
+
+                new("SulphuricWaterMeterPosX", ItemID.LaserRuler),
+                new("SulphuricWaterMeterPosY", ItemID.LaserRuler),
 
                 new("ChargeMeter", ModContent.ItemType<DraedonPowerCell>()),
                 new("ChargeMeterPosX", ItemID.LaserRuler),

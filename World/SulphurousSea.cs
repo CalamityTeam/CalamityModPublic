@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Schematics;
 using CalamityMod.Tiles.Abyss;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent.RGB;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
@@ -18,25 +20,106 @@ namespace CalamityMod.World
     public class SulphurousSea
     {
         #region Fields and Properties
+
+        public const float SandBlockEdgeDescentSmoothness = 0.24f;
+
+        // What percentage it takes for dither effects to start appearing at the edges.
+        // As an example, if this value is 0.7 that would mean that tiles that are below 70% of the way down from the top of the ocean would
+        // start randomly dithering.
+        public const float DitherStartFactor = 0.9f;
+
+        public const int DepthForWater = 12;
+
+        public const float TopWaterDepthPercentage = 0.125f;
+
+        public const float TopWaterDescentSmoothnessMin = 0.26f;
+
+        public const float TopWaterDescentSmoothnessMax = 0.39f;
+
+        public const int TotalSandTilesBeforeWaterMin = 32;
+
+        public const int TotalSandTilesBeforeWaterMax = 45;
+
+        public const float OpenSeaWidthPercentage = 0.53f;
+
+        public const float IslandWidthPercentage = 0.36f;
+
+        public const float IslandCurvatureSharpness = 0.74f;
+
+        // 0-1 value of how jagged the small caves should be. The higher this value is, the more variance you can expect for each step when carving out caves.
+        public const float SmallCavesJaggedness = 0.51f;
+
+        // How much of a tendency the small caves have to be cramped instead of large and open, with values between 0-1 emphasizing larger caves while values greater than 1
+        // emphasizing more cramped caves.
+        public const float SmallCavesBiasTowardsTightness = 2.21f;
+
+        // How much of a magnification is performed when calculating perlin noise for spaghetti caves. The closer to 0 this value is, the more same-y the caves will seem in
+        // terms of direction, size, etc.
+        public const float SpaghettiCaveMagnification = 0.00193f;
+
+        // 0-1 value that determines the threshold for spaghetti caves being carved out. At 0, no tiles are carved out, at 1, all tiles are carved out.
+        // This is used in the formula 'abs(noise(x, y)) < r' to determine whether the cave should remove tiles.
+        public static readonly float[] SpaghettiCaveCarveOutThresholds = new float[]
+        {
+            0.033f,
+            0.089f
+        };
+
+        public const float CheeseCaveMagnification = 0.00237f;
+        
+        public static readonly float[] CheeseCaveCarveOutThresholds = new float[]
+        {
+            0.32f
+        };
+
+        // Percentage of how far down a tile has to be for open caverns to appear.
+        public const float OpenCavernStartDepthPercentage = 0.42f;
+
+        // The percentage of tiles on average that should be transformed into water.
+        // A value of 1 indicates that every tile should have water.
+        // This value should be close to 1, but not exactly, so that when water settles the top of caverns will be open.
+        public const float WaterSpreadPercentage = 0.91f;
+
+        public const float HardenedSandstoneLineMagnification = 0.004f;
+
+        public const int MaxIslandHeight = 16;
+
+        public const int MaxIslandDepth = 9;
+
+        public const float IslandLineMagnification = 0.0079f;
+
+        public const int TreeGrowChance = 5;
+
+        public const int MinColumnHeight = 5;
+
+        public const int MaxColumnHeight = 50;
+
+        public const int BeachMaxDepth = 50;
+
+        public const int ScrapPileAnticlumpDistance = 80;
+
+        public const float SandstoneEdgeNoiseMagnification = 0.00115f;
+
+        public const int StalactitePairMinDistance = 6;
+        
+        public const int StalactitePairMaxDistance = 44;
+
+        // Loop variables that are accessed via getter methods should be stored externally in local variables for performance reasons.
         public static int BiomeWidth
         {
             get
             {
-                // Small world
-                if (Main.maxTilesX == 4200)
+                return Main.maxTilesX switch
                 {
-                    return 370;
-                }
-                // Medium world
-                else if (Main.maxTilesX == 6400)
-                {
-                    return 445;
-                }
-                // Large world
-                else
-                {
-                    return 500;
-                }
+                    // Small worlds.
+                    4200 => 370,
+
+                    // Medium worlds.
+                    6400 => 445,
+
+                    // Large worlds. This also accounts for worlds of an unknown size, such as extra large worlds.
+                    _ => (int)(Main.maxTilesX / 16.8f),
+                };
             }
         }
 
@@ -44,778 +127,571 @@ namespace CalamityMod.World
         {
             get
             {
-                // Small world
-                if (Main.maxTilesX == 4200)
+                float depthFactor = Main.maxTilesX switch
                 {
-                    return (int)((Main.rockLayer + 20 - YStart) * 0.8);
-                }
-                // Medium world
-                else if (Main.maxTilesX == 6400)
-                {
-                    return (int)((Main.rockLayer + 20 - YStart) * 0.85);
-                }
-                // Large world
-                else
-                {
-                    return (int)((Main.rockLayer + 20 - YStart) * 0.925);
-                }
+                    // Small worlds.
+                    4200 => 0.8f,
+
+                    // Medium worlds.
+                    6400 => 0.85f,
+
+                    // Large worlds.
+                    _ => 0.925f
+                };
+                return (int)((Main.rockLayer + 112 - YStart) * depthFactor);
             }
         }
 
-        public static int YStart = 0;
+        public static int TotalCavesInShallowWater => (int)Math.Ceiling(Main.maxTilesX / 2000f);
+
+        public static int MaxTopWaterDepth => (int)(BlockDepth * TopWaterDepthPercentage);
+
+        public static int MinCaveWidth => Main.maxTilesX / 2500;
+
+        public static int MaxCaveWidth => (int)Math.Ceiling(Main.maxTilesX / 566f);
+
+        public static int MinCaveMovementSteps => (int)Math.Ceiling(Main.maxTilesX / 70f);
+
+        public static int MaxCaveMovementSteps => (int)Math.Ceiling(Main.maxTilesX / 40f);
+
+        public static int ColumnCount => Main.maxTilesX / 96;
+
+        public static int GeyserCount => Main.maxTilesX / 137;
+
+        public static int YStart
+        {
+            get;
+            set;
+        }
+
         public static readonly List<int> SulphSeaTiles = new()
         {
             ModContent.TileType<SulphurousSand>(),
             ModContent.TileType<SulphurousSandstone>(),
             ModContent.TileType<HardenedSulphurousSandstone>()
         };
+
+        // Vines cannot grow any higher than this. This is done to prevent vines from growing very close to the sea surface.
+        public static int VineGrowTopLimit => YStart + 100;
         #endregion
 
         #region Placement Methods
         public static void PlaceSulphurSea()
         {
+            // Determine which side the abyss is such that it's at the same side as the dungeon.
             Abyss.AtLeftSideOfWorld = Main.dungeonX < Main.maxTilesX / 2;
+
+            // Settle the foundation for the sea. This involves creating the base sulphurous sea block, old tile cleanup, and creating water at the surface.
             DetermineYStart();
-            CreateStartingBlock();
-            CreateWater();
-            GenerateHardenedSandstone();
+            GenerateSandBlock();
             RemoveStupidTilesAboveSea();
-            GenerateLake();
-            SettleWater(); // The island Y spawn position calculations are relative to water. Settling the water before doing these calculations is ideal.
-            GenerateIslands();
-            GenerateVentsAndFossils();
-            SmoothenTheEntireSea();
-        }
+            GenerateShallowTopWater();
+            GenerateIsland();
 
-        public static void FinishGeneratingSulphurSea()
+            // Cave generation. Some of these borrow concepts and tricks used by Minecraft's new generation.
+            GenerateSmallWaterCaverns();
+            GenerateSpaghettiWaterCaves();
+            GenerateCheeseWaterCaves();
+
+            // Lay down decorations and post-processing effects after the caves are generated.
+            DecideHardSandstoneLine();
+            MakeSurfaceLessRigid();
+            LayTreesOnSurface();
+        }
+        
+        public static void SulphurSeaGenerationAfterAbyss()
         {
-            PlaceStalactites();
-            PlaceColumns();
             CreateBeachNearSea();
-            PlaceScrapPiles();
-            PlaceRustyChests();
+            ClearOutStrayTiles();
+            ClearAloneTiles();
+            var scrapPilePositions = PlaceScrapPiles();
+            GenerateColumnsInCaverns();
+            GenerateSteamGeysersInCaverns();
+            GenerateHardenedSandstone();
+            PlaceStalactites();
+            GenerateChests(scrapPilePositions);
         }
         #endregion
 
-        #region Perlin Noise
-        public static float NoiseFunction(int seed)
+        #region Generation Functions
+        public static void DetermineYStart()
         {
-            seed = (seed << 13) ^ seed;
-            return 1.0f - ((seed * (seed * seed * 15731) + 1376312589) & 0x7fffffff) / 1073741824.0f;
-        }
-        public static float PerlinNoise2D(float x, float y, int octave, int seed)
-        {
-            float frequency = (float)Math.Pow(2, octave);
-            float xFrequency = x * frequency;
-            float yFrequency = y * frequency;
-            int flooredXFrequency = (int)xFrequency;
-            int flooredYFrequency = (int)yFrequency;
-            float fractionXFrequency = xFrequency - flooredXFrequency;
-            float fractionYFrequency = yFrequency - flooredYFrequency;
+            int xCheckPosition = GetActualX(BiomeWidth + 1);
+            var searchCondition = Searches.Chain(new Searches.Down(3000), new Conditions.IsSolid());
+            Point determinedPoint;
 
-            float noise1 = NoiseFunction(flooredXFrequency + flooredYFrequency * 54 + seed);
-            float noise2 = NoiseFunction(flooredXFrequency + 1 + flooredYFrequency * 54 + seed);
-            float noise3 = NoiseFunction(flooredXFrequency + (1 + flooredYFrequency) * 54 + seed);
-            float noise4 = NoiseFunction(flooredXFrequency + 1 + (1 + flooredYFrequency) * 54 + seed);
-
-            float lerpStart = MathHelper.Lerp(noise1, noise2, fractionXFrequency);
-            float lerpEnd = MathHelper.Lerp(noise3, noise4, fractionXFrequency);
-            return MathHelper.Lerp(lerpStart, lerpEnd, fractionYFrequency);
-        }
-        #endregion
-
-        #region Generating Initial Block
-        public static void CreateStartingBlock()
-        {
-            // Set above for general performance.
-            ushort sandTileType = (ushort)ModContent.TileType<SulphurousSand>();
-            ushort sandstoneTileType = (ushort)ModContent.TileType<SulphurousSandstone>();
-
-            ushort sandWallType = (ushort)ModContent.WallType<SulphurousSandWall>();
-            ushort sandstoneWallType = (ushort)ModContent.WallType<SulphurousSandstoneWall>();
-
-
-            float randomValue1 = WorldGen.genRand.NextFloat(-0.4f, 0.4f);
-            while (Math.Abs(randomValue1) < 0.22f)
+            do
             {
-                randomValue1 = WorldGen.genRand.NextFloat(-0.4f, 0.4f);
+                WorldUtils.Find(new Point(xCheckPosition, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out determinedPoint);
+                xCheckPosition += Abyss.AtLeftSideOfWorld.ToDirectionInt();
             }
-            float randomValue2 = WorldGen.genRand.NextFloat(-0.2f, 0.2f);
-            while (Math.Abs(randomValue2) < 0.07f)
-            {
-                randomValue2 = WorldGen.genRand.NextFloat(-0.2f, 0.2f);
-            }
+            while (CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y).TileType == TileID.Ebonstone);
+            YStart = determinedPoint.Y;
+        }
 
-            float randomValue3 = WorldGen.genRand.NextFloat(0.42f, 0.96f) * WorldGen.genRand.NextBool(2).ToDirectionInt();
-            float wallBoundAtPosition(float xRatio) => (float)(Math.Sin(randomValue3 * MathHelper.Pi * xRatio) + Math.Cos(randomValue3 * Math.E / 2f * xRatio)) * 0.5f * 28f;
+        public static void GenerateSandBlock()
+        {
+            int width = BiomeWidth + 1;
+            int maxDepth = BlockDepth;
+            ushort blockTileType = (ushort)ModContent.TileType<SulphurousSand>();
+            ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
 
-            for (int x = 1; x < BiomeWidth; x++)
+            for (int i = 1; i < width; i++)
             {
-                float xRatio = x / (float)BiomeWidth;
-                for (int y = YStart; y <= YStart + BlockDepth; y++)
+                int x = GetActualX(i);
+
+                // Calculate the 0-1 factor that determines how far down a vertical strip of the sea should descend.
+                float depthFactor = (float)Math.Pow(Math.Sin((1f - i / (float)width) * MathHelper.PiOver2), SandBlockEdgeDescentSmoothness);
+
+                // Determine the top and botton of the strip.
+                int top = YStart;
+                int bottom = top + (int)(maxDepth * depthFactor);
+                for (int y = top; y < bottom; y++)
                 {
-                    int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
-                    float yRatio = (y - YStart) / (float)BlockDepth;
-                    float xAngleWrap = x / (float)BiomeWidth * MathHelper.TwoPi - MathHelper.Pi;
-                    bool generateSand = yRatio < SandstoneYMinimum(xAngleWrap, randomValue1, randomValue2);
-                    if (WorldGen.InWorld(trueX, y))
+                    float ditherChance = CalculateDitherChance(width, top, bottom, i, y);
+                    if (WorldGen.genRand.NextFloat() >= ditherChance)
                     {
-                        if (y - YStart < BlockDepth - (int)(BlockDepth * 0.35f) + (int)(Math.Sin(xRatio * MathHelper.Pi) * (int)(BlockDepth * 0.35f)))
-                        {
-                            Main.tile[trueX, y].ClearEverything();
-                            Main.tile[trueX, y].WallType = generateSand ? sandWallType : sandstoneWallType;
-                            Main.tile[trueX, y].TileType = generateSand ? sandTileType : sandstoneTileType;
-                            if (y - YStart - 6 < wallBoundAtPosition(xRatio * MathHelper.TwoPi * 4f))
-                                Main.tile[trueX, y].WallType = WallID.None;
-
-                            Main.tile[trueX, y].Get<TileWallWireStateData>().HasTile = true;
-                        }
-                    }
-                }
-            }
-        }
-        public static float SandstoneYMinimum(float xAsAngle, float randomValue1, float randomValue2)
-        {
-            float sineSquaredRandom1 = randomValue1 * (float)Math.Cos(xAsAngle * randomValue1) * (float)Math.Cos(xAsAngle * randomValue1);
-            float sineSquaredRandom2 = randomValue1 * (float)Math.Sin(xAsAngle * randomValue1) * (float)Math.Sin(xAsAngle * randomValue1);
-            float sineSquaredRandom3 = randomValue2 * (float)Math.Sin(xAsAngle * randomValue2);
-            float sineSquaredRandom4 = (float)Math.Sin(randomValue1 / randomValue2 * xAsAngle) * (float)Math.Cos(randomValue1 * MathHelper.Pi);
-            return 0.25f * Math.Abs(sineSquaredRandom1 + 0.5f * sineSquaredRandom2 + sineSquaredRandom3 - sineSquaredRandom4) + 0.25f;
-        }
-        #endregion
-
-        #region Generating Water
-        public const int PerlinIterations = 1;
-        public const int PerlinOctaves = 4;
-        public const int PerlinXEdgeClamp = 20;
-        public const float PerlinYDelta = 40;
-        public const float PerlinNoiseMax = 0.05f;
-        public const float PerlinThreshold = 0.1f; // Be careful with this number
-
-        public static void GenerateLake()
-        {
-            int lakeDepthMax = WorldGen.genRand.Next(36, 52 + 1);
-            float lakeSteepness = WorldGen.genRand.NextFloat(1.2f, 1.5f);
-            for (int x = 1; x < BiomeWidth; x++)
-            {
-                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
-                float xRatio = x / (float)BiomeWidth;
-                int lakeDepth = (int)(Math.Sin(MathHelper.Min((1f - xRatio) * MathHelper.PiOver2 * lakeSteepness * 1.2f, MathHelper.PiOver2)) * lakeDepthMax);
-                for (int y = YStart; y <= YStart + lakeDepth; y++)
-                {
-                    ushort oldWall = Main.tile[trueX, y].WallType;
-                    Main.tile[trueX, y].ClearEverything();
-                    Main.tile[trueX, y].WallType = oldWall;
-                    Main.tile[trueX, y].LiquidAmount = 255;
-                }
-            }
-        }
-
-        public static void CreateWater()
-        {
-            int[] seeds = new int[PerlinIterations];
-            for (int i = 0; i < seeds.Length; i++)
-            {
-                seeds[i] = WorldGen.genRand.Next();
-            }
-            for (int x = 1; x < BiomeWidth; x++)
-            {
-                float xRatio = x / (float)BiomeWidth;
-                for (int y = YStart; y <= YStart + BlockDepth; y++)
-                {
-                    float yRatio = (y - YStart) / (float)BlockDepth;
-                    int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
-                    if (y - YStart < BlockDepth - (int)(BlockDepth * 0.35f) + (int)(Math.Sin(xRatio * MathHelper.Pi) * (int)(BlockDepth * 0.35f)) - PerlinYDelta)
-                    {
-                        if (x < PerlinXEdgeClamp || x > BiomeWidth - PerlinXEdgeClamp)
-                            continue;
-                        float perlinAverage = 0f;
-                        for (int k = 0; k < seeds.Length; k++)
-                        {
-                            perlinAverage += PerlinNoise2D(xRatio, yRatio, PerlinOctaves, seeds[k]) / PerlinIterations;
-                        }
-                        if (perlinAverage > PerlinThreshold * WorldGen.genRand.NextFloat(1f - PerlinNoiseMax, 1f + PerlinNoiseMax))
-                        {
-                            ushort oldWall = Main.tile[trueX, y].WallType;
-                            Main.tile[trueX, y].ClearEverything();
-                            Main.tile[trueX, y].WallType = oldWall;
-                            Main.tile[trueX, y].LiquidAmount = 255;
-                        }
-                    }
-                }
-            }
-        }
-        #endregion
-
-        #region Generating Edge Sandstone
-        public const int EdgeCheckMinX = 6;
-        public const int EdgeCheckMaxX = 8;
-        public const int EdgeCheckMinY = 4;
-        public const int EdgeCheckMaxY = 6;
-        public const int MinimumEdgeScore = 4;
-        public const int SpotWidth = 4;
-        public static void GenerateHardenedSandstone()
-        {
-            for (int x = 1; x < BiomeWidth; x++)
-            {
-                for (int y = YStart; y <= YStart + BlockDepth; y++)
-                {
-                    int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
-                    int edgeScore = GetEdgeScore(trueX, y);
-
-                    if (edgeScore >= MinimumEdgeScore)
-                    {
-                        for (int dx = -SpotWidth / 2; dx <= SpotWidth; dx++)
-                        {
-                            for (int dy = -SpotWidth / 2; dy <= SpotWidth / 2; dy++)
-                            {
-                                if (WorldGen.InWorld(trueX + dx, y + dy))
-                                {
-                                    if (CalamityUtils.ParanoidTileRetrieval(trueX + dx, y + dy).TileType != (ushort)ModContent.TileType<HardenedSulphurousSandstone>() &&
-                                        SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(trueX + dx, y + dy).TileType))
-                                    {
-                                        Main.tile[trueX + dx, y + dy].TileType = (ushort)ModContent.TileType<HardenedSulphurousSandstone>();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        public static int GetEdgeScore(int x, int y)
-        {
-            int edgeScore = 0;
-            for (int dx = x - WorldGen.genRand.Next(EdgeCheckMinX, EdgeCheckMaxX + 1); dx <= x + WorldGen.genRand.Next(EdgeCheckMinX, EdgeCheckMaxX + 1); dx++)
-            {
-                if (dx == x)
-                    continue;
-                if (CalamityUtils.ParanoidTileRetrieval(dx, y).LiquidAmount == 255)
-                    edgeScore++;
-            }
-            for (int dy = y - WorldGen.genRand.Next(EdgeCheckMinY, EdgeCheckMaxY + 1); dy <= y + WorldGen.genRand.Next(EdgeCheckMinY, EdgeCheckMaxY + 1); dy++)
-            {
-                if (dy == y)
-                    continue;
-                if (CalamityUtils.ParanoidTileRetrieval(x, dy).LiquidAmount == 255)
-                    edgeScore++;
-            }
-            return edgeScore;
-        }
-        #endregion
-
-        #region Generating Islands
-        public const int IslandCount = 4;
-        public const int IslandXPadding = 20;
-
-        public const int IslandMinWidth = 15;
-        public const int IslandMaxWidth = 22;
-
-        public const int IslandMinDepth = 5;
-        public const int IslandMaxDepth = 10;
-        public static void SettleWater()
-        {
-            Liquid.QuickWater(3, -1, -1);
-            WorldGen.WaterCheck();
-            int counter = 0;
-            Liquid.quickSettle = true;
-            while (counter < 10)
-            {
-                counter++;
-                while (Liquid.numLiquid > 0)
-                {
-                    Liquid.UpdateLiquid();
-                }
-                WorldGen.WaterCheck();
-            }
-            Liquid.quickSettle = false;
-
-            // Remove liquid above the biome line, to prevent flooding.
-            for (int x = 2; x < BiomeWidth - 2; x++)
-            {
-                int trueX = x;
-                if (!Abyss.AtLeftSideOfWorld)
-                    trueX = Main.maxTilesX - x;
-                for (int y = YStart - 300; y <= YStart; y++)
-                {
-                    if (CalamityUtils.ParanoidTileRetrieval(trueX, y).LiquidAmount > 0)
-                        Main.tile[trueX, y].LiquidAmount = 0;
-                }
-            }
-        }
-        public static void GenerateIslands()
-        {
-            for (int i = 0; i < IslandCount; i++)
-            {
-                int y = YStart - 240;
-                int x = WorldGen.genRand.Next(IslandMaxWidth + IslandXPadding, BiomeWidth - IslandMaxWidth - IslandXPadding);
-                if (!Abyss.AtLeftSideOfWorld)
-                    x = Main.maxTilesX - x;
-                while (CalamityUtils.ParanoidTileRetrieval(x, y).LiquidAmount == 0)
-                {
-                    y++;
-                    if (y > Main.rockLayer - 35)
-                    {
-                        break;
-                    }
-                }
-                if (y > Main.rockLayer - 35)
-                {
-                    i--;
-                    continue; // Try again
-                }
-                int height = 2 * WorldGen.genRand.Next(IslandMinDepth, IslandMaxDepth + 1);
-                int width = WorldGen.genRand.Next(IslandMinWidth, IslandMaxWidth + 1);
-                int treePosition = WorldGen.genRand.Next(-width + 4, width - 4);
-
-                for (float theta = 0f; theta <= MathHelper.TwoPi; theta += 0.05f)
-                {
-                    for (int dx = 0; dx != (int)(height * Math.Cos(theta)); dx += (height * Math.Cos(theta) > 0).ToDirectionInt())
-                    {
-                        for (int dy = 0; dy != (int)(width * Math.Sin(theta)); dy += (width * Math.Sin(theta) > 0).ToDirectionInt())
-                        {
-                            if (WorldGen.InWorld(x + dx, y + dy))
-                            {
-                                if (dy >= -2 - WorldGen.genRand.Next(-2, 3))
-                                {
-                                    int extraHeight = WorldGen.genRand.Next(0, 1 + 1);
-                                    for (int y2 = 0; y2 <= extraHeight; y2++)
-                                    {
-                                        Main.tile[x + dx, y + dy - y2].TileType = (ushort)ModContent.TileType<SulphurousSandNoWater>();
-                                        Main.tile[x + dx, y + dy - y2].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
-                                        Main.tile[x + dx, y + dy - y2].Get<TileWallWireStateData>().IsHalfBlock = false;
-                                        Main.tile[x + dx, y + dy - y2].Get<TileWallWireStateData>().HasTile = true;
-                                    }
-                                    if (dy == -2 && dx == treePosition)
-                                        WorldGen.PlaceTile(x + dx, y + dy - extraHeight - 1, ModContent.TileType<AcidWoodTreeSapling>());
-                                }
-                                else
-                                {
-                                    Main.tile[x + dx, y + dy].LiquidAmount = 0;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        #endregion
-
-        #region Smoothening Everything
-        public static void SmoothenTheEntireSea()
-        {
-            for (int x = 2; x < BiomeWidth - 2; x++)
-            {
-                int trueX = x;
-                if (!Abyss.AtLeftSideOfWorld)
-                    trueX = Main.maxTilesX - x;
-                for (int y = YStart; y <= YStart + BlockDepth; y++)
-                {
-                    Tile.SmoothSlope(trueX, y);
-                }
-            }
-        }
-        #endregion
-
-        #region Generating Scenery
-        public const int ColumnMinDistanceX = 8;
-        public const int ColumnMinHeight = 10;
-        public const int ColumnMaxHeight = 27;
-        public const int StalactitePairMinDistance = 6;
-        public const int StalactitePairMaxDistance = 44;
-        public static void GenerateVentsAndFossils()
-        {
-            for (int x = 1; x < BiomeWidth; x++)
-            {
-                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
-                for (int y = YStart; y <= YStart + BlockDepth; y++)
-                {
-                    // Generate vents in the top 45%
-                    if (y - YStart < BlockDepth * 0.45f)
-                    {
-                        if (WorldGen.SolidTile(trueX, y + 1) && WorldGen.genRand.NextBool(20))
-                        {
-                            PlaceMiscTile(trueX, y, 1, 2, (ushort)ModContent.TileType<SteamGeyser>());
-                        }
-                    }
-                    // And fossils in the bottom 55%
-                    else
-                    {
-                        if (WorldGen.SolidTile(trueX, y + 1))
-                        {
-                            // Generate ribs such that they're all nearby
-                            if (WorldGen.genRand.NextBool(25))
-                            {
-                                ushort type = (ushort)Utils.SelectRandom(WorldGen.genRand,
-                                    ModContent.TileType<SulphurousRib1>(),
-                                    ModContent.TileType<SulphurousRib2>(),
-                                    ModContent.TileType<SulphurousRib3>(),
-                                    ModContent.TileType<SulphurousRib4>(),
-                                    ModContent.TileType<SulphurousRib5>());
-                                int height;
-                                if (type == ModContent.TileType<SulphurousRib1>() || type == ModContent.TileType<SulphurousRib4>())
-                                {
-                                    height = 3;
-                                }
-                                else if (type == ModContent.TileType<SulphurousRib3>())
-                                {
-                                    height = 2;
-                                }
-                                else if (type == ModContent.TileType<SulphurousRib1>())
-                                {
-                                    height = 4;
-                                }
-                                else
-                                {
-                                    height = 1;
-                                }
-                                PlaceMiscTile(trueX, y, 1, height, type);
-                            }
-                            else if (WorldGen.genRand.NextBool(16))
-                            {
-                                PlaceMiscTile(trueX, y, 3, 2, (ushort)Utils.SelectRandom(WorldGen.genRand, ModContent.TileType<SulphuricFossil1>(), ModContent.TileType<SulphuricFossil2>(), ModContent.TileType<SulphuricFossil3>()));
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        public static void PlaceColumns()
-        {
-            int previousX = 0;
-            int style;
-            for (int x = 1; x < BiomeWidth; x++)
-            {
-                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
-                for (int y = YStart; y <= YStart + BlockDepth; y++)
-                {
-                    if (y - YStart > BlockDepth * 0.5f)
-                    {
-                        if (WorldGen.SolidTile(trueX, y + 1) &&
-                            WorldGen.SolidTile(trueX + 1, y + 1) &&
-                            SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(trueX, y + 1).TileType) &&
-                            WorldGen.genRand.NextBool(3) &&
-                            Math.Abs(trueX - previousX) >= ColumnMinDistanceX)
-                        {
-                            int top = y;
-                            int height = 0;
-                            while (!(WorldGen.SolidTile(trueX - 1, top) && WorldGen.SolidTile(trueX, top) && WorldGen.SolidTile(trueX + 1, top)))
-                            {
-                                top--;
-                                height++;
-                                if (height > ColumnMaxHeight + 1)
-                                    break;
-                            }
-                            if (height <= ColumnMaxHeight && height >= ColumnMinHeight)
-                            {
-                                for (int dy = 0; dy < height; dy++)
-                                {
-                                    style = WorldGen.genRand.Next(3);
-                                    short yFrame = 18;
-                                    if (dy == 0)
-                                        yFrame = 36;
-                                    if (dy == height - 1)
-                                        yFrame = 0;
-                                    ushort oldWall = Main.tile[trueX, y - dy].WallType;
-                                    Main.tile[trueX, y - dy].ResetToType((ushort)ModContent.TileType<SulphurousColumn>());
-                                    Main.tile[trueX, y - dy].TileFrameX = (short)(style * 36);
-                                    Main.tile[trueX, y - dy].TileFrameY = yFrame;
-                                    Main.tile[trueX, y - dy].LiquidAmount = 255;
-                                    Main.tile[trueX, y - dy].WallType = oldWall;
-                                    Main.tile[trueX, y - dy].Get<TileWallWireStateData>().HasTile = true;
-
-                                    oldWall = Main.tile[trueX + 1, y - dy].WallType;
-
-                                    Main.tile[trueX + 1, y - dy].ResetToType((ushort)ModContent.TileType<SulphurousColumn>());
-                                    Main.tile[trueX + 1, y - dy].TileFrameX = (short)(style * 36 + 18);
-                                    Main.tile[trueX + 1, y - dy].TileFrameY = yFrame;
-                                    Main.tile[trueX + 1, y - dy].LiquidAmount = 255;
-                                    Main.tile[trueX + 1, y - dy].WallType = oldWall;
-                                    Main.tile[trueX + 1, y - dy].Get<TileWallWireStateData>().HasTile = true;
-                                }
-                                previousX = trueX;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        public static void PlaceStalactites()
-        {
-            int heightFromType(int type)
-            {
-                if (type <= 2)
-                    return 2;
-                else if (type <= 4)
-                    return 3;
-                else
-                    return 4;
-            };
-            for (int x = 1; x < BiomeWidth; x++)
-            {
-                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
-                for (int y = YStart; y <= YStart + BlockDepth; y++)
-                {
-                    if (y - YStart > BlockDepth * 0.25f)
-                    {
-                        if (WorldGen.SolidTile(trueX, y - 1) && WorldGen.genRand.NextBool(10))
-                        {
-                            int dy = 1;
-                            while (!CalamityUtils.ParanoidTileRetrieval(trueX, y + dy).HasTile)
-                            {
-                                dy++;
-                                if (dy > StalactitePairMaxDistance)
-                                    break;
-                            }
-                            if (dy <= StalactitePairMaxDistance && dy >= StalactitePairMinDistance)
-                            {
-                                int type = WorldGen.genRand.Next(6);
-                                type++;
-                                int height = heightFromType(type);
-
-                                PlaceStalactite(trueX, y, height, (ushort)CalamityMod.Instance.Find<ModTile>($"SulphurousStalactite{type}").Type);
-                                if (WorldGen.SolidTile(trueX, y + dy + 1))
-                                    PlaceStalacmite(trueX, y + dy, height, (ushort)CalamityMod.Instance.Find<ModTile>($"SulphurousStalacmite{type}").Type);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        public static void PlaceMiscTile(int x, int y, int width, int height, ushort type, int style = 0)
-        {
-            try
-            {
-                bool canGenerate = true;
-                for (int i = x; i < x + width; i++)
-                {
-                    for (int j = y - (int)Math.Ceiling(height / 2.0); j < y + (int)Math.Ceiling(height / 2.0); j++)
-                    {
-                        if (Main.tile[i, j].HasTile)
-                        {
-                            canGenerate = false;
-                        }
-                    }
-                    if (!Main.tile[i, y + 1].HasUnactuatedTile || Main.tile[i, y + 1].IsHalfBlock || Main.tile[i, y + 1].Slope != 0 || !Main.tileSolid[Main.tile[i, y + 1].TileType])
-                    {
-                        canGenerate = false;
-                    }
-                }
-                if (canGenerate)
-                {
-                    WorldGen.PlaceTile(x, y, type, style: style);
-                }
-            }
-            catch
-            {
-                return; // This should only ever happen from an index error, and there's really no point in continuing if that happens
-            }
-        }
-        public static void PlaceStalactite(int x, int y, int height, ushort type)
-        {
-            for (int dy = 0; dy < height; dy++)
-            {
-                ushort oldWall = Main.tile[x, y + dy].WallType;
-                Main.tile[x, y + dy].ClearEverything();
-                Main.tile[x, y + dy].WallType = oldWall;
-                Main.tile[x, y + dy].TileType = type;
-                Main.tile[x, y + dy].TileFrameY = (short)(dy * 18);
-                Main.tile[x, y + dy].Get<TileWallWireStateData>().HasTile = true;
-            }
-        }
-        public static void PlaceStalacmite(int x, int y, int height, ushort type)
-        {
-            for (int dy = height - 1; dy > 0; dy--)
-            {
-                ushort oldWall = Main.tile[x, y + dy].WallType;
-                Main.tile[x, y - dy].ClearEverything();
-                Main.tile[x, y - dy].WallType = oldWall;
-                Main.tile[x, y - dy].TileType = type;
-                Main.tile[x, y - dy].TileFrameY = (short)(height * 18 - dy * 18);
-                Main.tile[x, y - dy].Get<TileWallWireStateData>().HasTile = true;
-            }
-        }
-        #endregion
-
-        #region Generating Chests
-        public const int CheckCutoffDistance = 15;
-        public static void PlaceRustyChests()
-        {
-            // Ambiguity bullshit.
-            int[] ItemTypes = { ModContent.ItemType<Items.Placeables.Furniture.EffigyOfDecay>(),
-                                ModContent.ItemType<BrokenWaterFilter>(),
-                                ModContent.ItemType<RustyBeaconPrototype>(),
-                                ModContent.ItemType<RustyMedallion>() };
-
-            for (int i = 0; i < ItemTypes.Length; ++i)
-            {
-                Chest chest = null;
-                int attempts = 0;
-
-                while (chest is null)
-                {
-                    attempts++;
-                    int x = WorldGen.genRand.Next(CheckCutoffDistance, BiomeWidth - CheckCutoffDistance);
-                    if (!Abyss.AtLeftSideOfWorld)
-                    {
-                        x = Main.maxTilesX - x;
-                    }
-                    int y = WorldGen.genRand.Next(YStart + CheckCutoffDistance, YStart + BlockDepth - CheckCutoffDistance);
-                    if (WorldGen.InWorld(x, y))
-                    {
-                        if (!CalamityUtils.ParanoidTileRetrieval(x, y).HasTile &&
-                            SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x, y + 1).TileType) &&
-                            CalamityUtils.ParanoidTileRetrieval(x, y + 1).HasTile)
-                        {
-                            chest = MiscWorldgenRoutines.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestTile>());
-                        }
+                        Main.tile[x, y].TileType = blockTileType;
+                        if (y >= top + 45)
+                            Main.tile[x, y].WallType = wallID;
                     }
 
-                    if (attempts >= 5000)
-                        break;
+                    // Ensure that the sand pops into existence if there is no chance that dithering will occur.
+                    // This doesn't happen if there is dithering to ensure that there aren't stray sand tiles in the middle of open
+                    // caves that have nothing to connect to.
+                    if (ditherChance <= 0f)
+                    {
+                        Main.tile[x, y].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
+                        Main.tile[x, y].Get<TileWallWireStateData>().IsHalfBlock = false;
+                        Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
+                    }
                 }
 
-                if (attempts >= 5000)
-                    continue;
-
-                // If a chest was placed, force its first item to be the unique item.
-                if (chest != null)
+                // Obliterate old palm trees.
+                for (int y = top - 75; y < top + 50; y++)
                 {
-                    chest.item[0].SetDefaults(ItemTypes[i]);
-                    chest.item[0].Prefix(-1);
+                    if (Main.tile[x, y].TileType == TileID.PalmTree)
+                        WorldGen.KillTile(x, y);
                 }
             }
         }
-        #endregion
 
-        #region Removal of stupid Tiles above the Sea
-
-        public static List<int> OtherTilesForSulphSeaToDestroy = new()
-        {
-            TileID.PalmTree,
-            TileID.Sunflower,
-            TileID.CorruptThorns,
-            TileID.CrimsonThorns,
-            TileID.CorruptGrass,
-            TileID.CorruptPlants,
-            TileID.Stalactite,
-            TileID.ImmatureHerbs,
-            TileID.MatureHerbs,
-            TileID.Pots,
-            TileID.Pumpkins, // Happens during Halloween
-            TileID.FallenLog,
-            TileID.LilyPad,
-            TileID.VanityTreeSakura,
-            TileID.VanityTreeYellowWillow
-        };
-
-        public static List<int> WallsForSulphSeaToDestroy = new()
-        {
-            WallID.Dirt,
-            WallID.DirtUnsafe,
-            WallID.DirtUnsafe1,
-            WallID.DirtUnsafe2,
-            WallID.DirtUnsafe3,
-            WallID.DirtUnsafe4,
-            WallID.Cave6Unsafe, // Rocky dirt wall
-            WallID.Grass,
-            WallID.GrassUnsafe,
-            WallID.Flower,
-            WallID.FlowerUnsafe,
-            WallID.CorruptGrassUnsafe,
-            WallID.EbonstoneUnsafe,
-            WallID.CrimstoneUnsafe,
-        };
         public static void RemoveStupidTilesAboveSea()
         {
-            for (int x = 0; x < BiomeWidth; x++)
+            for (int i = 0; i < BiomeWidth; i++)
             {
-                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
+                int x = GetActualX(i);
                 for (int y = YStart - 140; y < YStart + 80; y++)
                 {
-                    int type = CalamityUtils.ParanoidTileRetrieval(trueX, y).TileType;
+                    int type = CalamityUtils.ParanoidTileRetrieval(x, y).TileType;
                     if (YStartWhitelist.Contains(type) ||
                         OtherTilesForSulphSeaToDestroy.Contains(type))
+                        CalamityUtils.ParanoidTileRetrieval(x, y).Get<TileWallWireStateData>().HasTile = false;
+                    if (WallsForSulphSeaToDestroy.Contains(CalamityUtils.ParanoidTileRetrieval(x, y).WallType))
+                        CalamityUtils.ParanoidTileRetrieval(x, y).WallType = 0;
+                }
+            }
+        }
+
+        public static void GenerateShallowTopWater()
+        {
+            int maxDepth = MaxTopWaterDepth;
+            int totalSandTilesBeforeWater = WorldGen.genRand.Next(TotalSandTilesBeforeWaterMin, TotalSandTilesBeforeWaterMax);
+            int width = (int)((BiomeWidth - totalSandTilesBeforeWater) * OpenSeaWidthPercentage);
+            float descentSmoothness = WorldGen.genRand.NextFloat(TopWaterDescentSmoothnessMin, TopWaterDescentSmoothnessMax);
+            
+            for (int i = 1; i < width; i++)
+            {
+                int x = GetActualX(i);
+
+                // Calculate the 0-1 factor that determines how far down a vertical strip of water should descend.
+                float depthFactor = (float)Math.Pow(Math.Sin((1f - i / (float)width) * MathHelper.PiOver2), descentSmoothness);
+
+                // Determine the top and botton of the water strip.
+                int top = YStart;
+                int bottom = top + (int)(maxDepth * depthFactor);
+                for (int y = top; y < bottom; y++)
+                {
+                    if (y >= top + DepthForWater)
+                        Main.tile[x, y].LiquidAmount = byte.MaxValue;
+                    Main.tile[x, y].Get<TileWallWireStateData>().HasTile = false;
+                }
+
+                // Clear water that's above the level for some reason.
+                for (int y = top - 150; y < top + DepthForWater; y++)
+                    Main.tile[x, y].LiquidAmount = 0;
+            }
+        }
+
+        public static void GenerateIsland()
+        {
+            int left = -32;
+            int right = (int)(BiomeWidth * IslandWidthPercentage);
+            int maxDepth = MaxTopWaterDepth;
+            ushort blockTileType = (ushort)ModContent.TileType<SulphurousSand>();
+            ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
+
+            for (int i = left; i < right; i++)
+            {
+                if (i < 0)
+                    continue;
+
+                // Generate a bump at the edge of the ocean as an island.
+                // The inside of this is by default solid but cave generation can sometimes create a really cool "hollow" look.
+                int x = GetActualX(i);
+                float xCompletionRatio = Utils.GetLerpValue(left, right, i, true);
+                int islandHeight = (int)Math.Round(Math.Pow(CalamityUtils.Convert01To010(xCompletionRatio), IslandCurvatureSharpness) * (maxDepth + 4f));
+                for (int dy = -30; dy <= islandHeight; dy++)
+                {
+                    int y = YStart + maxDepth - dy;
+                    Main.tile[x, y].TileType = blockTileType;
+
+                    if (dy < islandHeight)
+                        Main.tile[x, y].WallType = wallID;
+                    Main.tile[x, y].LiquidAmount = byte.MaxValue;
+                    Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
+
+                    if (i >= 2)
+                        Tile.SmoothSlope(x, y);
+                }
+            }
+        }
+
+        public static void GenerateSmallWaterCaverns()
+        {
+            int width = BiomeWidth;
+            int depth = BlockDepth;
+            int shallowWaterCaveCount = TotalCavesInShallowWater;
+            int minCaveWidth = MinCaveWidth;
+            int maxCaveWidth = MaxCaveWidth;
+            ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
+
+            for (int i = 2; i < shallowWaterCaveCount; i++)
+            {
+                // Initialize variables for the cave.
+                int caveHorizontalOffset = WorldGen.genRand.Next((int)(width * 0.1f));
+                int x = GetActualX((int)MathHelper.Lerp(width * 0.8f, width * 0.24f, i / (float)(shallowWaterCaveCount - 1f)) + caveHorizontalOffset);
+                int caveWidth = (minCaveWidth + maxCaveWidth) / 3 + WorldGen.genRand.Next(8);
+                int caveSteps = WorldGen.genRand.Next(MinCaveMovementSteps, MaxCaveMovementSteps);
+                int caveSeed = WorldGen.genRand.Next();
+                Vector2 baseCaveDirection = Vector2.UnitY.RotatedBy(WorldGen.genRand.NextFloatDirection() * 0.54f);
+                Vector2 cavePosition = new(x, YStart + MaxTopWaterDepth + DepthForWater / 2);
+
+                for (int j = 0; j < caveSteps; j++)
+                {
+                    // Make the cave direction turn based on perlin noise.
+                    float caveOffsetAngleAtStep = CalamityUtils.PerlinNoise2D(i / 50f, j / 50f, 4, caveSeed) * MathHelper.Pi * 1.9f;
+                    Vector2 caveDirection = baseCaveDirection.RotatedBy(caveOffsetAngleAtStep);
+
+                    // Carve out at the current position.
+                    if (cavePosition.X < Main.maxTilesX - 15 && cavePosition.X >= 15)
                     {
-                        CalamityUtils.ParanoidTileRetrieval(trueX, y).Get<TileWallWireStateData>().HasTile = false;
+                        WorldGen.digTunnel(cavePosition.X, cavePosition.Y, caveDirection.X, caveDirection.Y, 1, (int)(caveWidth * 1.18f), true);
+                        WorldUtils.Gen(cavePosition.ToPoint(), new Shapes.Circle(caveWidth), Actions.Chain(new GenAction[]
+                        {
+                            new Actions.ClearTile(true),
+                            new Actions.PlaceWall(wallID, true),
+                            new Actions.SetLiquid(LiquidID.Water, (byte)(WorldGen.genRand.NextFloat() > WaterSpreadPercentage ? 0 : byte.MaxValue)),
+                            new Actions.Smooth(true)
+                        }));
                     }
-                    if (WallsForSulphSeaToDestroy.Contains(CalamityUtils.ParanoidTileRetrieval(trueX, y).WallType))
+
+                    // Update the cave position.
+                    cavePosition += caveDirection * caveWidth;
+
+                    // Turn back if the cave position is close to leaving the sea.
+                    if (GetActualX((int)cavePosition.X) > width * 0.8f || cavePosition.Y > YStart + depth * 0.7f)
                     {
-                        CalamityUtils.ParanoidTileRetrieval(trueX, y).WallType = 0;
+                        cavePosition.X -= Abyss.AtLeftSideOfWorld.ToDirectionInt() * caveWidth;
+                        cavePosition.Y -= caveWidth;
+                    }
+
+                    // Update the cave width for the next update step.
+                    float caveWidthFactorInterpolant = (float)Math.Pow(WorldGen.genRand.NextFloat(), SmallCavesBiasTowardsTightness);
+                    caveWidth = (int)Math.Round(caveWidth * MathHelper.Lerp(1f - SmallCavesJaggedness, 1f + SmallCavesJaggedness, caveWidthFactorInterpolant));
+                    if (WorldGen.genRand.NextBool(12))
+                        caveWidth = (int)(caveWidth * 1.4f);
+
+                    caveWidth = Utils.Clamp(caveWidth, minCaveWidth, maxCaveWidth);
+                }
+            }
+        }
+
+        public static void GenerateSpaghettiWaterCaves()
+        {
+            int width = BiomeWidth;
+            int depth = (int)(BlockDepth * 0.96f);
+            ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
+
+            for (int c = 0; c < SpaghettiCaveCarveOutThresholds.Length; c++)
+            {
+                int caveSeed = WorldGen.genRand.Next();
+                for (int i = 2; i < width; i++)
+                {
+                    // Initialize variables for the cave.
+                    int x = GetActualX(i);
+                    for (int y = YStart; y < YStart + depth; y++)
+                    {
+                        float noise = FractalBrownianMotion(i * SpaghettiCaveMagnification, y * SpaghettiCaveMagnification, caveSeed, 5);
+
+                        // Bias noise away from 0, effectively making caves less likely to appear, based on how close it is to the bottom/horizontal edge.
+                        // This causes caves to naturally stop as the reach ends instead of abruptly stopping like in the old Sulphurous Sea worldgen.
+                        float distanceFromEdge = new Vector2(i / (float)width, (y - YStart) / (float)depth).Length();
+                        float biasAwayFrom0Interpolant = Utils.GetLerpValue(0.82f, 0.96f, distanceFromEdge * 0.8f, true);
+                        biasAwayFrom0Interpolant += Utils.GetLerpValue(YStart + 12f, YStart, y, true) * 0.2f;
+                        biasAwayFrom0Interpolant += Utils.GetLerpValue(width - 19f, width - 4f, i, true) * 0.6f;
+
+                        // If the noise is less than 0, bias to -1, if it's greater than 0, bias away to 1.
+                        // This is done instead of biasing to -1 or 1 without exception to ensure that in doing so the noise does not cross into the
+                        // cutout threshold near 0 as it interpolates.
+                        noise = MathHelper.Lerp(noise, Math.Sign(noise), biasAwayFrom0Interpolant);
+
+                        if (Math.Abs(noise) < SpaghettiCaveCarveOutThresholds[c])
+                        {
+                            WorldUtils.Gen(new(x, y), new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
+                            {
+                                new Actions.ClearTile(true),
+                                new Actions.PlaceWall(wallID, true),
+                                new Actions.SetLiquid(LiquidID.Water, (byte)(WorldGen.genRand.NextFloat() > WaterSpreadPercentage ? 0 : byte.MaxValue)),
+                                new Actions.Smooth(true)
+                            }));
+                        }
                     }
                 }
             }
         }
-        #endregion
 
-        #region Nearby Beach
-        public static readonly List<int> ValidBeachCovertTiles = new()
+        public static void GenerateCheeseWaterCaves()
         {
-            TileID.Dirt,
-            TileID.Stone,
-            TileID.Crimstone,
-            TileID.Ebonstone,
-            TileID.Sand,
-            TileID.Ebonsand,
-            TileID.Crimsand,
-            TileID.Grass,
-            TileID.CorruptGrass,
-            TileID.CrimsonGrass,
-            TileID.ClayBlock,
-            TileID.Mud,
-        };
-        public static readonly List<int> ValidBeachDestroyTiles = new()
+            int width = BiomeWidth;
+            int depth = (int)(BlockDepth * 0.96f);
+            ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
+
+            for (int c = 0; c < CheeseCaveCarveOutThresholds.Length; c++)
+            {
+                int caveSeed = WorldGen.genRand.Next();
+                for (int i = 2; i < width; i++)
+                {
+                    // Initialize variables for the cave.
+                    int x = GetActualX(i);
+                    for (int y = YStart; y < YStart + depth; y++)
+                    {
+                        float noise = FractalBrownianMotion(i * CheeseCaveMagnification, y * CheeseCaveMagnification, caveSeed, 6);
+                        float distanceFromEdge = new Vector2(i / (float)width, (y - YStart) / (float)depth).Length();
+
+                        float biasToNegativeOneInterpolant = Utils.GetLerpValue(0.82f, 0.96f, distanceFromEdge * 0.8f, true);
+                        biasToNegativeOneInterpolant += Utils.GetLerpValue(YStart + OpenCavernStartDepthPercentage * depth, YStart + OpenCavernStartDepthPercentage * depth - 25f, y, true);
+                        biasToNegativeOneInterpolant += Utils.GetLerpValue(width - 19f, width - 4f, i, true);
+                        if (noise - biasToNegativeOneInterpolant > CheeseCaveCarveOutThresholds[c])
+                        {
+                            WorldUtils.Gen(new(x, y), new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
+                            {
+                                new Actions.ClearTile(true),
+                                new Actions.PlaceWall(wallID, true),
+                                new Actions.SetLiquid(LiquidID.Water, (byte)(WorldGen.genRand.NextFloat() > WaterSpreadPercentage ? 0 : byte.MaxValue)),
+                                new Actions.Smooth(true)
+                            }));
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void ClearOutStrayTiles()
         {
-            TileID.Coral,
-            TileID.BeachPiles,
-            TileID.Plants,
-            TileID.Plants2,
-            TileID.SmallPiles,
-            TileID.LargePiles,
-            TileID.LargePiles2,
-            TileID.CorruptThorns,
-            TileID.CrimsonThorns,
-            TileID.DyePlants,
-            TileID.Trees,
-            TileID.Sunflower,
-        };
+            int width = BiomeWidth;
+            int depth = BlockDepth;
+            List<ushort> blockTileTypes = new()
+            {
+                (ushort)ModContent.TileType<SulphurousSand>(),
+                (ushort)ModContent.TileType<SulphurousSandstone>(),
+                (ushort)ModContent.TileType<HardenedSulphurousSandstone>(),
+            };
+            ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
+            
+            void getAttachedPoints(int x, int y, List<Point> points)
+            {
+                Tile t = CalamityUtils.ParanoidTileRetrieval(x, y);
+                Point p = new(x, y);
+                if (!blockTileTypes.Contains(t.TileType) || !t.HasTile || points.Count > 432 || points.Contains(p) || CalculateDitherChance(width, YStart, YStart + depth, x, y) > 0f)
+                    return;
+
+                points.Add(p);
+
+                getAttachedPoints(x + 1, y, points);
+                getAttachedPoints(x - 1, y, points);
+                getAttachedPoints(x, y + 1, points);
+                getAttachedPoints(x, y - 1, points);
+            }
+
+            // Clear out stray chunks created by caverns.
+            for (int i = 1; i < width; i++)
+            {
+                int x = GetActualX(i);
+                for (int y = YStart; y < YStart + depth; y++)
+                {
+                    List<Point> chunkPoints = new();
+                    getAttachedPoints(x, y, chunkPoints);
+
+                    int cutoffLimit = y >= YStart + depth * OpenCavernStartDepthPercentage ? 432 : 50;
+                    if (chunkPoints.Count >= 2 && chunkPoints.Count < cutoffLimit)
+                    {
+                        foreach (Point p in chunkPoints)
+                        {
+                            WorldUtils.Gen(p, new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
+                            {
+                                new Actions.ClearTile(true),
+                                new Actions.PlaceWall(wallID, true),
+                                new Actions.SetLiquid()
+                            }));
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void DecideHardSandstoneLine()
+        {
+            int width = BiomeWidth;
+            int depth = BlockDepth;
+
+            int sandstoneSeed = WorldGen.genRand.Next();
+            ushort blockTypeToReplace = (ushort)ModContent.TileType<SulphurousSand>();
+            ushort blockTypeToPlace = (ushort)ModContent.TileType<HardenedSulphurousSandstone>();
+            ushort wallID = (ushort)ModContent.WallType<HardenedSulphurousSandstoneWall>();
+
+            for (int i = 0; i < width; i++)
+            {
+                for (int y = YStart; y < YStart + depth; y++)
+                {
+                    int sandstoneLineOffset = (int)(FractalBrownianMotion(i * HardenedSandstoneLineMagnification, y * HardenedSandstoneLineMagnification, sandstoneSeed, 7) * 30) + (int)(depth * OpenCavernStartDepthPercentage);
+
+                    // Make the sandstone line descent a little bit the closer it is to the world edge, to make it look like it "warps" towards the abyss.
+                    sandstoneLineOffset -= (int)(Math.Pow(Utils.GetLerpValue(width * 0.1f, width * 0.8f, i, true), 1.72f) * 67f);
+
+                    Point p = new(GetActualX(i), y);
+                    Tile t = CalamityUtils.ParanoidTileRetrieval(p.X, p.Y);
+                    if (y >= YStart + sandstoneLineOffset && t.HasTile && t.TileType == blockTypeToReplace)
+                    {
+                        WorldUtils.Gen(p, new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
+                        {
+                            new Actions.SetTile(blockTypeToPlace, true),
+                            new Actions.PlaceWall(wallID, true),
+                            new Actions.SetLiquid()
+                        }));
+                    }
+                }
+            }
+        }
+
+        public static void MakeSurfaceLessRigid()
+        {
+            int y = YStart;
+            int width = BiomeWidth;
+            int heightSeed = WorldGen.genRand.Next();
+            ushort blockTileType = (ushort)ModContent.TileType<SulphurousSand>();
+            ushort wallID = (ushort)ModContent.WallType<HardenedSulphurousSandstoneWall>();
+
+            for (int i = 2; i < width; i++)
+            {
+                int x = GetActualX(i);
+                Tile t = CalamityUtils.ParanoidTileRetrieval(x, y);
+
+                // If the tile below is solid, then determine how high it should rise upward.
+                // This is done to make the surface less unnaturally flat.
+                if (t.HasTile)
+                {
+                    float noise = FractalBrownianMotion(i * IslandLineMagnification, y * IslandLineMagnification, heightSeed, 5) * 0.5f + 0.5f;
+                    noise = MathHelper.Lerp(noise, 0.5f, Utils.GetLerpValue(width - 13f, width - 1f, i, true));
+
+                    int heightOffset = -(int)Math.Round(MathHelper.Lerp(-MaxIslandDepth, MaxIslandHeight, noise));
+                    for (int dy = 0; dy != heightOffset; dy += Math.Sign(heightOffset))
+                    {
+                        WorldUtils.Gen(new(x, y + dy), new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
+                        {
+                            heightOffset > 0 ? new Actions.ClearTile() : new Actions.SetTile(blockTileType, true),
+                            new Actions.PlaceWall(MathHelper.Distance(dy, heightOffset) >= 3f && heightOffset < 0f ? wallID : WallID.None, true),
+                            new Actions.SetLiquid(),
+                            new Actions.Smooth(true)
+                        }));
+                    }
+                }
+            }
+        }
+
+        public static void LayTreesOnSurface()
+        {
+            int width = BiomeWidth;
+            
+            for (int i = 0; i < width - 8; i++)
+            {
+                // Only sometimes generate trees.
+                if (!WorldGen.genRand.NextBool(TreeGrowChance))
+                    continue;
+
+                int x = GetActualX(i);
+                int y = YStart - 30;
+
+                // Search downward in hopes of finding a position to generate and grow an acorn.
+                // If no such downward tile exists, skip this tile.
+                if (!WorldUtils.Find(new(x, y), Searches.Chain(new Searches.Down(MaxIslandDepth + 31), new Conditions.IsSolid()), out Point growPoint))
+                    continue;
+
+                x = growPoint.X;
+                y = growPoint.Y - 1;
+
+                // Ignore tiles if there's water above.
+                if (CalamityUtils.ParanoidTileRetrieval(x, y).LiquidAmount > 0)
+                    continue;
+
+                Main.tile[x, y].TileType = TileID.Saplings;
+                Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
+                if (!WorldGen.GrowPalmTree(x, y))
+                    WorldGen.KillTile(x, y);
+            }
+        }
+
         public static void CreateBeachNearSea()
         {
             int beachWidth = WorldGen.genRand.Next(150, 190 + 1);
-
             var searchCondition = Searches.Chain(new Searches.Down(3000), new Conditions.IsSolid());
-            WorldUtils.Find(new Point(BiomeWidth + 4, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out Point determinedPoint);
+            ushort sandID = (ushort)ModContent.TileType<SulphurousSand>();
+            ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
+
+            // Stop immediately if for some strange reason a valid tile could not be located for the beach starting point.
+            if (!WorldUtils.Find(new Point(BiomeWidth + 4, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out Point determinedPoint))
+                return;
+
             Tile tileAtEdge = CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y);
-
+            
             // Extend outward to encompass some of the desert, if there is one.
-            if (tileAtEdge.TileType == TileID.Sand ||
-                tileAtEdge.TileType == TileID.Ebonsand ||
-                tileAtEdge.TileType == TileID.Crimsand)
-            {
+            if (tileAtEdge.TileType is TileID.Sand or TileID.Ebonsand or TileID.Crimsand)
                 beachWidth += 85;
-            }
 
-            for (int x = BiomeWidth - 10; x <= BiomeWidth + beachWidth; x++)
+            // Transform the landscape.
+            for (int i = BiomeWidth - 10; i <= BiomeWidth + beachWidth; i++)
             {
-                float xRatio = Utils.GetLerpValue(BiomeWidth - 10, BiomeWidth + beachWidth, x, true);
-                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
-                int depth = (int)(Math.Sin((1f - xRatio) * MathHelper.PiOver2) * 45 + 1);
-                for (int y = YStart - 40; y < YStart + depth; y++)
+                int x = GetActualX(i);
+                float xRatio = Utils.GetLerpValue(BiomeWidth - 10, BiomeWidth + beachWidth, i, true);
+                float ditherChance = Utils.GetLerpValue(0.92f, 0.99f, xRatio, true);
+                int depth = (int)(Math.Sin((1f - xRatio) * MathHelper.PiOver2) * BeachMaxDepth + 1f);
+                for (int y = YStart - 50; y < YStart + depth; y++)
                 {
-                    Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(trueX, y);
+                    Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
                     if (tileAtPosition.HasTile && ValidBeachDestroyTiles.Contains(tileAtPosition.TileType))
                     {
                         // Kill trees manually so that no leftover tiles are present.
-                        if (Main.tile[trueX, y].TileType == TileID.Trees)
-                            WorldGen.KillTile(trueX, y);
+                        if (Main.tile[x, y].TileType == TileID.Trees)
+                            WorldGen.KillTile(x, y);
                         else
-                            Main.tile[trueX, y].Get<TileWallWireStateData>().HasTile = false;
+                            Main.tile[x, y].Get<TileWallWireStateData>().HasTile = false;
                     }
 
-                    else if (tileAtPosition.HasTile && ValidBeachCovertTiles.Contains(tileAtPosition.TileType))
-                    {
-                        Main.tile[trueX, y].TileType = (ushort)ModContent.TileType<SulphurousSand>();
-                    }
+                    else if (tileAtPosition.HasTile && ValidBeachCovertTiles.Contains(tileAtPosition.TileType) && WorldGen.genRand.NextFloat() >= ditherChance)
+                        Main.tile[x, y].TileType = sandID;
+
+                    if (tileAtPosition.WallType > WallID.None)
+                        Main.tile[x, y].WallType = wallID;
                 }
             }
 
@@ -827,28 +703,68 @@ namespace CalamityMod.World
                     continue;
 
                 int y = YStart - 30;
-                if (!WorldUtils.Find(new Point(trueX, y), Searches.Chain(new Searches.Down(100), new Conditions.IsTile((ushort)ModContent.TileType<SulphurousSand>())), out Point treePlantPosition))
+                if (!WorldUtils.Find(new Point(trueX, y), Searches.Chain(new Searches.Down(100), new Conditions.IsTile(sandID)), out Point treePlantPosition))
                     continue;
 
-                WorldGen.PlaceTile(treePlantPosition.X, treePlantPosition.Y - 1, ModContent.TileType<AcidWoodTreeSapling>());
+                treePlantPosition.Y--;
+
+                // Place the saplings and try to grow them.
+                WorldGen.PlaceTile(treePlantPosition.X, treePlantPosition.Y, ModContent.TileType<AcidWoodTreeSapling>());
+                Main.tile[treePlantPosition].TileType = TileID.Saplings;
+                Main.tile[treePlantPosition].Get<TileWallWireStateData>().HasTile = true;
+                if (!WorldGen.GrowPalmTree(treePlantPosition.X, treePlantPosition.Y))
+                    WorldGen.KillTile(treePlantPosition.X, treePlantPosition.Y);
             }
         }
-        #endregion
 
-        #region Scrap Piles
-        public static void PlaceScrapPiles()
+        public static void ClearAloneTiles()
+        {
+            int width = BiomeWidth;
+            int depth = BlockDepth;
+            List<ushort> blockTileTypes = new()
+            {
+                (ushort)ModContent.TileType<SulphurousSand>(),
+                (ushort)ModContent.TileType<SulphurousSandstone>(),
+                (ushort)ModContent.TileType<HardenedSulphurousSandstone>(),
+            };
+
+            for (int i = 0; i < width; i++)
+            {
+                int x = GetActualX(i);
+                for (int y = YStart; y < YStart + depth; y++)
+                {
+                    Tile t = CalamityUtils.ParanoidTileRetrieval(x, y);
+                    if (!t.HasTile || !blockTileTypes.Contains(t.TileType))
+                        continue;
+
+                    // Check to see if the tile has any cardinal neighbors. If it doesn't, destroy it.
+                    if (!CalamityUtils.ParanoidTileRetrieval(x - 1, y).HasTile &&
+                        !CalamityUtils.ParanoidTileRetrieval(x + 1, y).HasTile &&
+                        !CalamityUtils.ParanoidTileRetrieval(x, y - 1).HasTile &&
+                        !CalamityUtils.ParanoidTileRetrieval(x, y + 1).HasTile)
+                    {
+                        WorldUtils.Gen(new(x, y), new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
+                        {
+                            new Actions.ClearTile(true),
+                            new Actions.ClearWall(true),
+                            new Actions.SetLiquid()
+                        }));
+                    }
+                }
+            }
+        }
+
+        public static List<Vector2> PlaceScrapPiles()
         {
             int tries = 0;
-            List<Vector2> pastPlacementPostiion = new List<Vector2>();
+            List<Vector2> pastPlacementPositions = new List<Vector2>();
             for (int i = 0; i < 3; i++)
             {
                 tries++;
                 if (tries > 20000)
                     continue;
 
-                int x = WorldGen.genRand.Next(75, BiomeWidth - 85);
-                if (!Abyss.AtLeftSideOfWorld)
-                    x = Main.maxTilesX - x;
+                int x = GetActualX(WorldGen.genRand.Next(75, BiomeWidth - 85));
                 int y = WorldGen.genRand.Next(YStart + (int)(BlockDepth * 0.3f), YStart + (int)(BlockDepth * 0.8f));
 
                 Point pilePlacementPosition = new Point(x, y);
@@ -861,7 +777,7 @@ namespace CalamityMod.World
                 }
 
                 // If the selected position is close to other piles, try again.
-                if (pastPlacementPostiion.Any(p => Vector2.Distance(p, pilePlacementPosition.ToVector2()) < 85f))
+                if (pastPlacementPositions.Any(p => Vector2.Distance(p, pilePlacementPosition.ToVector2()) < ScrapPileAnticlumpDistance))
                 {
                     i--;
                     continue;
@@ -897,7 +813,7 @@ namespace CalamityMod.World
                 }
 
                 // If the placement position ended up in the abyss, try again.
-                if (left.Y >= YStart + BlockDepth + 5 || right.Y >= YStart + BlockDepth + 5)
+                if (left.Y >= YStart + BlockDepth - 50 || right.Y >= YStart + BlockDepth - 50)
                 {
                     i--;
                     continue;
@@ -908,14 +824,428 @@ namespace CalamityMod.World
                 bool _ = false;
                 SchematicManager.PlaceSchematic<Action<Chest>>(schematicName, bottomCenter, SchematicAnchor.BottomCenter, ref _);
 
-                pastPlacementPostiion.Add(bottomCenter.ToVector2());
+                pastPlacementPositions.Add(bottomCenter.ToVector2());
                 tries = 0;
             }
+            return pastPlacementPositions;
         }
-        #endregion Scrap Piles
+
+        public static void GenerateColumnsInCaverns()
+        {
+            int columnCount = ColumnCount;
+            int width = BiomeWidth;
+            int depth = BlockDepth;
+            var searchCondition = Searches.Chain(new Searches.Up(MaxColumnHeight), new Conditions.IsSolid());
+
+            for (int c = 0; c < columnCount; c++)
+            {
+                int x = GetActualX(WorldGen.genRand.Next(20, width - 32));
+                int y = WorldGen.genRand.Next(YStart, YStart + depth - 55);
+
+                bool tryAgain = false;
+
+                // Try again if inside a tile.
+                Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                Tile right = CalamityUtils.ParanoidTileRetrieval(x + 1, y);
+                Tile bottom = CalamityUtils.ParanoidTileRetrieval(x, y + 1);
+                Tile bottomRight = CalamityUtils.ParanoidTileRetrieval(x + 1, y + 1);
+                if (tile.HasTile || right.HasTile)
+                    tryAgain = true;
+
+                // Try again if there is no bottom tile.
+                if (!WorldGen.SolidTile(bottom) || !WorldGen.SolidTile(bottomRight))
+                    tryAgain = true;
+
+                // Try again if there is no tile above or the ceiling is not level.
+                if (!WorldUtils.Find(new(x, y), searchCondition, out Point top) ||
+                    !WorldUtils.Find(new(x + 1, y), searchCondition, out Point topRight) || top.Y != topRight.Y)
+                {
+                    tryAgain = true;
+                }
+
+                // Try again if the distance between the top and bottom is too short.
+                if (MathHelper.Distance(y, top.Y) < MinColumnHeight)
+                    tryAgain = true;
+                
+                if (tryAgain)
+                {
+                    c--;
+                    continue;
+                }
+
+                GenerateColumn(x, top.Y, y);
+            }
+        }
+
+        public static void GenerateSteamGeysersInCaverns()
+        {
+            int geyserCount = GeyserCount;
+            int width = BiomeWidth;
+            int depth = BlockDepth;
+            ushort geyserID = (ushort)ModContent.TileType<SteamGeyser>();
+
+            for (int g = 0; g < geyserCount; g++)
+            {
+                int x = GetActualX(WorldGen.genRand.Next(20, width - 32));
+                int y = WorldGen.genRand.Next(YStart + depth / 2, YStart + depth - 42);
+
+                bool tryAgain = false;
+
+                // Try again if inside a tile.
+                for (int dx = 0; dx < 2; dx++)
+                {
+                    for (int dy = 0; dy < 2; dy++)
+                    {
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x + dx, y - dy);
+                        if (tile.HasTile)
+                            tryAgain = true;
+                    }
+                }
+
+                // Try again if there is no ground.
+                for (int dx = 0; dx < 2; dx++)
+                {
+                    Tile tile = CalamityUtils.ParanoidTileRetrieval(x + dx, y + 1);
+                    if (!WorldGen.SolidTile(tile))
+                        tryAgain = true;
+                }
+
+                if (tryAgain)
+                {
+                    g--;
+                    continue;
+                }
+
+                WorldGen.PlacePot(x, y, geyserID);
+            }
+        }
+
+        public static void GenerateHardenedSandstone()
+        {
+            int sandstoneSeed = WorldGen.genRand.Next();
+            ushort sandstoneID = (ushort)ModContent.TileType<SulphurousSandstone>();
+            ushort sandstoneWallID = (ushort)ModContent.WallType<SulphurousSandstoneWall>();
+
+            // Edge score evaluation function that determines the propensity a tile has to become sandstone.
+            // This is based on how much nearby empty areas there are, allowing for "edges" to appear.
+            static int getEdgeScore(int x, int y)
+            {
+                int edgeScore = 0;
+                for (int dx = x - 6; dx <= x + 6; dx++)
+                {
+                    if (dx == x)
+                        continue;
+
+                    if (!CalamityUtils.ParanoidTileRetrieval(dx, y).HasTile)
+                        edgeScore++;
+                }
+                for (int dy = y - 6; dy <= y + 6; dy++)
+                {
+                    if (dy == y)
+                        continue;
+
+                    if (!CalamityUtils.ParanoidTileRetrieval(x, dy).HasTile)
+                        edgeScore++;
+                }
+                return edgeScore;
+            }
+
+            for (int i = 1; i < BiomeWidth; i++)
+            {
+                for (int y = YStart; y <= YStart + BlockDepth; y++)
+                {
+                    int x = GetActualX(i);
+                    float sandstoneConvertChance = FractalBrownianMotion(i * SandstoneEdgeNoiseMagnification, y * SandstoneEdgeNoiseMagnification, sandstoneSeed, 7) * 0.5f + 0.5f;
+
+                    // Make the sandstone appearance chance dependant on the edge score.
+                    sandstoneConvertChance *= Utils.GetLerpValue(4f, 11f, getEdgeScore(x, y), true);
+
+                    // Make sandstone less likely to appear on the surface.
+                    sandstoneConvertChance *= Utils.GetLerpValue(YStart + 30f, YStart + 54f, y, true);
+
+                    if (WorldGen.genRand.NextFloat() > sandstoneConvertChance || sandstoneConvertChance < 0.5f)
+                        continue;
+
+                    // Convert to sandstone as necessary.
+                    for (int dx = -2; dx <= 2; dx++)
+                    {
+                        for (int dy = -2; dy <= 2; dy++)
+                        {
+                            if (WorldGen.InWorld(x + dx, y + dy))
+                            {
+                                if (CalamityUtils.ParanoidTileRetrieval(x + dx, y + dy).TileType != sandstoneID &&
+                                    SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x + dx, y + dy).TileType))
+                                {
+                                    Main.tile[x + dx, y + dy].WallType = sandstoneWallID;
+                                    Main.tile[x + dx, y + dy].TileType = sandstoneID;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void PlaceStalactites()
+        {
+            static int heightFromType(int type)
+            {
+                if (type <= 2)
+                    return 2;
+                else if (type <= 4)
+                    return 3;
+                else
+                    return 4;
+            };
+            
+            for (int i = 1; i < BiomeWidth; i++)
+            {
+                int x = GetActualX(i);
+                for (int y = YStart; y <= YStart + BlockDepth; y++)
+                {
+                    if (y - YStart > BlockDepth * 0.25f)
+                    {
+                        if (WorldGen.SolidTile(x, y - 1) && WorldGen.genRand.NextBool(10))
+                        {
+                            int dy = 1;
+                            while (!CalamityUtils.ParanoidTileRetrieval(x, y + dy).HasTile)
+                            {
+                                dy++;
+                                if (dy > StalactitePairMaxDistance)
+                                    break;
+                            }
+                            if (dy <= StalactitePairMaxDistance && dy >= StalactitePairMinDistance)
+                            {
+                                int type = WorldGen.genRand.Next(6);
+                                type++;
+                                int height = heightFromType(type);
+
+                                PlaceStalactite(x, y, height, CalamityMod.Instance.Find<ModTile>($"SulphurousStalactite{type}").Type);
+                                if (WorldGen.SolidTile(x, y + dy + 1))
+                                    PlaceStalacmite(x, y + dy, height, CalamityMod.Instance.Find<ModTile>($"SulphurousStalacmite{type}").Type);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void GenerateChests(List<Vector2> scrapPilePositions)
+        {
+            GenerateTreasureChest();
+            CalamityUtils.SettleWater();
+            GenerateOpenAirChestChest();
+            GenerateScrapPileChest(scrapPilePositions);
+            GenerateDeepWaterChest();
+        }
+
+        public static void GenerateTreasureChest()
+        {
+            // Generate on chest below the island to the edge as buried treasure.
+            static bool tryToGenerateTreasureChest(Point chestPoint)
+            {
+                WorldUtils.Find(chestPoint, Searches.Chain(new Searches.Down(300), new Conditions.IsSolid()), out Point p);
+                chestPoint = p;
+
+                // Determine how far down the island chest should generate.
+                int minDepth = 32;
+                int digDepth = 0;
+                Point startingIslandChestPoint = chestPoint;
+                while (true)
+                {
+                    Tile down = CalamityUtils.ParanoidTileRetrieval(chestPoint.X, chestPoint.Y + digDepth);
+                    Tile downRight = CalamityUtils.ParanoidTileRetrieval(chestPoint.X + 1, chestPoint.Y + digDepth);
+
+                    // Stop if far down enough and either the tile to the left or right is open water.
+                    if (((!down.HasTile && down.LiquidAmount >= 127) || (!downRight.HasTile && downRight.LiquidAmount >= 127)) && digDepth >= minDepth)
+                        break;
+
+                    digDepth++;
+                    if (digDepth >= 80)
+                        return false;
+                }
+                chestPoint.Y += digDepth - 12;
+
+                // Check the nearby area and ensure that it's not exposed to air. The treasure should be buried.
+                bool nearbyAreaIsClosed = false;
+                while (!nearbyAreaIsClosed)
+                {
+                    nearbyAreaIsClosed = true;
+                    for (int dx = -2; dx < 4; dx++)
+                    {
+                        for (int dy = -1; dy < 3; dy++)
+                        {
+                            if (!Main.tile[chestPoint.X + dx, chestPoint.Y - dy].HasTile)
+                                nearbyAreaIsClosed = false;
+                        }
+                    }
+
+                    if (!nearbyAreaIsClosed)
+                        chestPoint.Y++;
+                }
+
+                // Dig up a bit and place the chest.
+                for (int dx = 0; dx < 2; dx++)
+                {
+                    for (int dy = 0; dy < 2; dy++)
+                    {
+                        Main.tile[chestPoint.X + dx, chestPoint.Y - dy].LiquidAmount = 0;
+                        Main.tile[chestPoint.X + dx, chestPoint.Y - dy].WallType = (ushort)ModContent.WallType<SulphurousSandWallSafe>();
+                        Main.tile[chestPoint.X + dx, chestPoint.Y - dy].Get<TileWallWireStateData>().HasTile = false;
+                    }
+                }
+
+                // If a buried chest was placed, force its first item to be the effigy of decay.
+                Chest chest = MiscWorldgenRoutines.AddChestWithLoot(chestPoint.X + 1, chestPoint.Y + 1, (ushort)ModContent.TileType<RustyChestTile>());
+                if (chest != null)
+                {
+                    chest.item[0].SetDefaults(ModContent.ItemType<EffigyOfDecay>());
+                    chest.item[0].Prefix(-1);
+                }
+                else
+                    return false;
+
+                // Go back to the surface and leave a little bit of sulphurous sandstone instead of sand as a small marker of the treasure.
+                for (int dx = 0; dx < 2; dx++)
+                {
+                    for (int dy = -1; dy < 3; dy++)
+                    {
+                        // Ensure that palm trees and pots are not transformed.
+                        int oldTileType = Main.tile[startingIslandChestPoint.X + dx, startingIslandChestPoint.Y + dy].TileType;
+                        if (oldTileType == TileID.PalmTree || !Main.tileSolid[oldTileType])
+                        {
+                            WorldGen.KillTile(startingIslandChestPoint.X + dx, startingIslandChestPoint.Y + dy);
+                            continue;
+                        }
+
+                        Main.tile[startingIslandChestPoint.X + dx, startingIslandChestPoint.Y + dy].LiquidAmount = 0;
+                        Main.tile[startingIslandChestPoint.X + dx, startingIslandChestPoint.Y + dy].TileType = (ushort)ModContent.TileType<SulphurousSandstone>();
+                    }
+                }
+                return true;
+            }
+
+            Point islandChestPoint = new(GetActualX((int)(BiomeWidth * IslandWidthPercentage * 0.5f) + WorldGen.genRand.Next(-8, 9)), YStart - 100);
+            while (!tryToGenerateTreasureChest(islandChestPoint))
+                islandChestPoint.X += Abyss.AtLeftSideOfWorld.ToDirectionInt();
+        }
+
+        public static void GenerateOpenAirChestChest()
+        {
+            int width = BiomeWidth;
+            Dictionary<int, int> depthMap = new();
+
+            for (int i = 60; i < width - 50; i++)
+            {
+                int x = GetActualX(i);
+                int y = YStart + MaxIslandDepth + 2;
+                int dy = 0;
+
+                while (CalamityUtils.ParanoidTileRetrieval(x, y + dy).HasTile || CalamityUtils.ParanoidTileRetrieval(x, y + dy).LiquidAmount <= 0)
+                    dy++;
+
+                depthMap[x] = CalamityUtils.ParanoidTileRetrieval(x, y).HasTile ? y + dy : 0;
+            }
+
+            // Pick a smooth place on the depth map to place the chest. This should happen close to an open air point in the caves.
+            for (int i = 0; i < 400; i++)
+            {
+                int x = depthMap.Keys.ElementAt(WorldGen.genRand.Next(10, depthMap.Count - 10));
+                int leftY = depthMap[x - 1];
+                int currentY = depthMap[x];
+                int rightY = depthMap[x + 1];
+                int averageY = (leftY + currentY + rightY) / 3;
+
+                if (Math.Abs(averageY - currentY) < 3f && currentY > 0)
+                {
+                    currentY += 3;
+
+                    // Ignore the current position if the chest cannot be placed due to tiles in the way.
+                    if (CalamityUtils.AnySolidTileInSelection(x, currentY - 1, 4, -4))
+                        continue;
+
+                    // Place the chest and ground.
+                    for (int dx = -1; dx < 3; dx++)
+                    {
+                        Main.tile[x + dx, currentY + 1].LiquidAmount = 0;
+                        Main.tile[x + dx, currentY + 1].TileType = (ushort)ModContent.TileType<SulphurousSand>();
+                        Main.tile[x + dx, currentY + 1].Get<TileWallWireStateData>().HasTile = true;
+                    }
+
+                    // If a buried chest was placed, force its first item to be the broken water filter.
+                    Chest chest = MiscWorldgenRoutines.AddChestWithLoot(x, currentY - 2, (ushort)ModContent.TileType<RustyChestTile>());
+                    if (chest != null)
+                    {
+                        chest.item[0].SetDefaults(ModContent.ItemType<BrokenWaterFilter>());
+                        chest.item[0].Prefix(-1);
+                        break;
+                    }
+                    else
+                        continue;
+                }
+            }
+        }
+
+        public static void GenerateScrapPileChest(List<Vector2> scrapPilePositions)
+        {
+            // Pick a random scrap pile to generate near.
+            for (int i = 0; i < 800; i++)
+            {
+                Point placeToGenerateNear = WorldGen.genRand.Next(scrapPilePositions).ToPoint();
+                int x = placeToGenerateNear.X + WorldGen.genRand.Next(-25 - i / 12, 25 + i / 12);
+                int y = placeToGenerateNear.Y + WorldGen.genRand.Next(-16 - i / 25, 4 + i / 25);
+                if (WorldGen.SolidTile(x, y))
+                    continue;
+
+                // If a buried chest was successfully placed, force its first item to be the rusty beacon prototype.
+                Chest chest = MiscWorldgenRoutines.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestTile>());
+                if (chest != null)
+                {
+                    chest.item[0].SetDefaults(ModContent.ItemType<RustyBeaconPrototype>());
+                    chest.item[0].Prefix(-1);
+                    break;
+                }
+            }
+        }
+
+        public static void GenerateDeepWaterChest()
+        {
+            // Pick a random scrap pile to generate near.
+            for (int i = 0; i < 400; i++)
+            {
+                int x = GetActualX(WorldGen.genRand.Next(60, BiomeWidth - 60));
+                int y = YStart + WorldGen.genRand.Next(BlockDepth - 150, BlockDepth - 60);
+                if (WorldGen.SolidTile(x, y))
+                    continue;
+
+                // Try again if too far down.
+                while (y < Main.maxTilesY - 210)
+                {
+                    if (!WorldGen.SolidTile(x, y))
+                        y++;
+                    else
+                    {
+                        y -= 3;
+                        break;
+                    }
+                }
+                if (y >= YStart + BlockDepth - 60)
+                    continue;
+
+                // If a buried chest was successfully placed, force its first item to be the rusty medallion.
+                Chest chest = MiscWorldgenRoutines.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestTile>());
+                if (chest != null)
+                {
+                    chest.item[0].SetDefaults(ModContent.ItemType<RustyMedallion>());
+                    chest.item[0].Prefix(-1);
+                    break;
+                }
+            }
+        }
+        #endregion Generation Functions
 
         #region Misc Functions
-        public static List<int> YStartWhitelist = new()
+        public static readonly List<int> YStartWhitelist = new()
         {
             TileID.Stone,
             TileID.Dirt,
@@ -952,21 +1282,185 @@ namespace CalamityMod.World
             TileID.CrimsonVines,
             TileID.Containers,
             TileID.DyePlants,
-            TileID.JungleGrass // Yes, this can happen on rare occasion
+            TileID.JungleGrass, // Yes, this can happen on rare occasion.
+            TileID.SeaOats
         };
-        public static void DetermineYStart()
-        {
-            int xCheckPosition = Abyss.AtLeftSideOfWorld ? BiomeWidth + 1 : Main.maxTilesX - BiomeWidth - 1;
-            var searchCondition = Searches.Chain(new Searches.Down(3000), new Conditions.IsSolid());
-            Point determinedPoint;
 
-            do
+        public static readonly List<int> OtherTilesForSulphSeaToDestroy = new()
+        {
+            TileID.PalmTree,
+            TileID.Sunflower,
+            TileID.CorruptThorns,
+            TileID.CrimsonThorns,
+            TileID.CorruptGrass,
+            TileID.CorruptPlants,
+            TileID.Stalactite,
+            TileID.ImmatureHerbs,
+            TileID.MatureHerbs,
+            TileID.Pots,
+            TileID.Pumpkins, // Happens during Halloween
+            TileID.FallenLog,
+            TileID.LilyPad,
+            TileID.VanityTreeSakura,
+            TileID.VanityTreeYellowWillow,
+            TileID.ShellPile
+        };
+
+        public static readonly List<int> WallsForSulphSeaToDestroy = new()
+        {
+            WallID.Dirt,
+            WallID.DirtUnsafe,
+            WallID.DirtUnsafe1,
+            WallID.DirtUnsafe2,
+            WallID.DirtUnsafe3,
+            WallID.DirtUnsafe4,
+            WallID.Cave6Unsafe, // Rocky dirt wall
+            WallID.Grass,
+            WallID.GrassUnsafe,
+            WallID.Flower,
+            WallID.FlowerUnsafe,
+            WallID.CorruptGrassUnsafe,
+            WallID.EbonstoneUnsafe,
+            WallID.CrimstoneUnsafe,
+        };
+
+        public static readonly List<int> ValidBeachCovertTiles = new()
+        {
+            TileID.Dirt,
+            TileID.Stone,
+            TileID.Crimstone,
+            TileID.Ebonstone,
+            TileID.Sand,
+            TileID.Ebonsand,
+            TileID.Crimsand,
+            TileID.Grass,
+            TileID.CorruptGrass,
+            TileID.CrimsonGrass,
+            TileID.ClayBlock,
+            TileID.Mud,
+        };
+
+        public static readonly List<int> ValidBeachDestroyTiles = new()
+        {
+            TileID.Coral,
+            TileID.BeachPiles,
+            TileID.Plants,
+            TileID.Plants2,
+            TileID.SmallPiles,
+            TileID.LargePiles,
+            TileID.LargePiles2,
+            TileID.CorruptThorns,
+            TileID.CrimsonThorns,
+            TileID.DyePlants,
+            TileID.Trees,
+            TileID.Sunflower,
+            TileID.LilyPad,
+            TileID.SeaOats,
+            TileID.ImmatureHerbs,
+            TileID.MatureHerbs,
+            TileID.BloomingHerbs,
+            TileID.VanityTreeSakura,
+            TileID.VanityTreeYellowWillow,
+        };
+
+        // This method is an involutory function, meaning that applying it to the same number twice always yields the original number.
+        public static int GetActualX(int x)
+        {
+            if (Abyss.AtLeftSideOfWorld)
+                return x;
+
+            return Main.maxTilesX - x;
+        }
+
+        public static float CalculateDitherChance(int width, int top, int bottom, int x, int y)
+        {
+            float verticalCompletion = Utils.GetLerpValue(top, bottom, y, true);
+            float horizontalDitherChance = Utils.GetLerpValue(DitherStartFactor, 1f, x / (float)width, true);
+            float verticalDitherChance = Utils.GetLerpValue(DitherStartFactor, 1f, verticalCompletion, true);
+            float ditherChance = horizontalDitherChance + verticalDitherChance;
+            if (ditherChance > 1f)
+                ditherChance = 1f;
+
+            // Make the dither chance fizzle out at low vertical completion values.
+            // This is done so that there isn't dithering on the surface of the sea.
+            ditherChance -= Utils.GetLerpValue(0.56f, 0.5f, verticalCompletion, true);
+            if (ditherChance < 0f)
+                ditherChance = 0f;
+            return ditherChance;
+        }
+
+        public static float FractalBrownianMotion(float x, float y, int seed, int octaves, float gain = 0.5f, float lacunarity = 2f)
+        {
+            float result = 0f;
+            float frequency = 1f;
+            float amplitude = 0.5f;
+            x += seed * 0.00489937f % 10f;
+
+            for (int i = 0; i < octaves; i++)
             {
-                WorldUtils.Find(new Point(xCheckPosition, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out determinedPoint);
-                xCheckPosition += Abyss.AtLeftSideOfWorld.ToDirectionInt();
+                float noise = NoiseHelper.GetStaticNoise(new Vector2(x, y) * frequency) * 2f - 1f;
+                result += noise * amplitude;
+                amplitude *= gain;
+                frequency *= lacunarity;
             }
-            while (CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y).TileType == TileID.Ebonstone);
-            YStart = determinedPoint.Y;
+
+            return result;
+        }
+
+        public static void GenerateColumn(int left, int top, int bottom)
+        {
+            int depth = BlockDepth;
+            ushort columnID = (ushort)ModContent.TileType<SulphurousColumn>();
+            ushort hardenedSandstoneWallID = (ushort)ModContent.WallType<HardenedSulphurousSandstoneWall>();
+            ushort sandWallID = (ushort)ModContent.WallType<SulphurousSandWall>();
+            short variantFrameOffset = (short)(WorldGen.genRand.Next(3) * 36);
+
+            for (int x = left; x < left + 2; x++)
+            {
+                for (int y = top; y <= bottom; y++)
+                {
+                    short frameX = (short)((x - left) * 18 + variantFrameOffset);
+
+                    // Use the top frame if at the top, bottom frame if at the bottom, and the middle frame otherwise.
+                    short frameY = 18;
+                    if (y == top)
+                        frameY = 0;
+                    else if (y == bottom)
+                        frameY = 36;
+
+                    Main.tile[x, y].TileType = columnID;
+                    Main.tile[x, y].TileFrameX = frameX;
+                    Main.tile[x, y].TileFrameY = frameY;
+                    Main.tile[x, y].WallType = y >= YStart + depth * OpenCavernStartDepthPercentage ? hardenedSandstoneWallID : sandWallID;
+                    Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
+                }
+            }
+        }
+
+        public static void PlaceStalactite(int x, int y, int height, ushort type)
+        {
+            for (int dy = 0; dy < height; dy++)
+            {
+                ushort oldWall = Main.tile[x, y + dy].WallType;
+                Main.tile[x, y + dy].ClearEverything();
+                Main.tile[x, y + dy].WallType = oldWall;
+                Main.tile[x, y + dy].TileType = type;
+                Main.tile[x, y + dy].TileFrameY = (short)(dy * 18);
+                Main.tile[x, y + dy].Get<TileWallWireStateData>().HasTile = true;
+            }
+        }
+        
+        public static void PlaceStalacmite(int x, int y, int height, ushort type)
+        {
+            for (int dy = height - 1; dy > 0; dy--)
+            {
+                ushort oldWall = Main.tile[x, y + dy].WallType;
+                Main.tile[x, y - dy].ClearEverything();
+                Main.tile[x, y - dy].WallType = oldWall;
+                Main.tile[x, y - dy].TileType = type;
+                Main.tile[x, y - dy].TileFrameY = (short)(height * 18 - dy * 18);
+                Main.tile[x, y - dy].Get<TileWallWireStateData>().HasTile = true;
+            }
         }
         #endregion
     }

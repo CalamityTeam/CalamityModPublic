@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             NPC.npcSlots = 0.5f;
-            NPC.aiStyle = 91;
+            NPC.aiStyle = NPCAIStyleID.GraniteElemental;
             NPC.damage = 20;
             NPC.width = NPC.height = 30;
             NPC.defense = 10;

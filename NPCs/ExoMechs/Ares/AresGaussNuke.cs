@@ -66,7 +66,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public const float gaussNukeReloadDuration = 360f;
 
         // Telegraph sound.
-        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresGaussNukeArmCharge") { Volume = 1.1f};
+        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresGaussNukeArmCharge") { Volume = 1.1f };
+
+        public static readonly SoundStyle NukeExplosionSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresGaussNukeExplosion") { Volume = 1.45f };
 
         public override void SetStaticDefaults()
         {
@@ -84,7 +86,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.height = 120;
             NPC.defense = 80;
             NPC.DR_NERD(0.35f);
-            NPC.LifeMaxNERB(1250000, 1495000, 500000);
+            NPC.LifeMaxNERB(1250000, 1495000, 650000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
@@ -94,7 +96,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.canGhostHeal = false;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
@@ -198,6 +199,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             if (NPC.life > Main.npc[(int)NPC.ai[1]].life)
                 NPC.life = Main.npc[(int)NPC.ai[1]].life;
 
+            AresBody aresBody = Main.npc[(int)NPC.ai[2]].ModNPC<AresBody>();
             CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)NPC.ai[2]].Calamity();
 
             // Passive phase check
@@ -475,10 +477,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             // Smooth movement towards the location Ares Gauss Nuke is meant to be at
             CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
 
-            //Update the telegraph sound if it's being done.
-            if (TelegraphSoundSlot != null && SoundEngine.TryGetActiveSound(TelegraphSoundSlot, out var telSound) && telSound.IsPlaying)
+            // Update the telegraph sound if it's being played. Immediately stop it if Ares just begun transitioning to his laserbeam attack, since that automatically resets all impending cannon shots.
+            if (SoundEngine.TryGetActiveSound(TelegraphSoundSlot, out var telSound) && telSound.IsPlaying)
             {
                 telSound.Position = NPC.Center;
+                if (aresBody.AIState == (int)AresBody.Phase.Deathrays && calamityGlobalNPC_Body.newAI[2] <= 10f)
+                    telSound.Stop();
             }
         }
 
@@ -644,6 +648,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         {
             for (int k = 0; k < 3; k++)
                 Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1f);
+
+            if (NPC.soundDelay == 1)
+            {
+                NPC.soundDelay = 3;
+                SoundEngine.PlaySound(CommonCalamitySounds.ExoHitSound, NPC.Center);
+            }
 
             if (NPC.life <= 0)
             {

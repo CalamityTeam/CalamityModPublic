@@ -19,8 +19,8 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         private void ApplyAnyPieceEffect(Player player)
         {
-            // Remove the vanilla +2% damage and add the new damage value at the same time
-            player.GetDamage<GenericDamageClass>() += ArmorPieceDamage - 0.02f;
+            // Remove the vanilla +3% damage and add the new damage value at the same time
+            player.GetDamage<GenericDamageClass>() += ArmorPieceDamage - 0.03f;
 
             // Give life regen
             player.lifeRegen += ArmorPieceLifeRegen;

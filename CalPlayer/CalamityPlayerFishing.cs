@@ -551,7 +551,11 @@ namespace CalamityMod.CalPlayer
             {
                 if (ZoneCalamity) // Brimstone Crags, fishing in lava
                 {
-					if (attempt.legendary)
+					if (attempt.crate)
+                    {
+                        itemDrop = ModContent.ItemType<BrimstoneCrate>();
+                    }
+					else if (attempt.legendary)
                     {
 						List<int> legendaryCatches = new List<int>()
 						{

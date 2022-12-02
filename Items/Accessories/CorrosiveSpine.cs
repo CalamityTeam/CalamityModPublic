@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             SacrificeTotal = 1;
             DisplayName.SetDefault("Corrosive Spine");
             Tooltip.SetDefault("5% increased movement speed\n" +
-                               "All rogue weapons inflict venom and spawn clouds on enemy hits\n" +
+                               "All rogue weapons inflict poisoned and spawn clouds on enemy hits\n" +
                                "You release a ton of clouds everywhere on hit");
         }
 

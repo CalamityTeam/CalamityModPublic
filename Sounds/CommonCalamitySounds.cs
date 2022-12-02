@@ -4,6 +4,8 @@ namespace CalamityMod.Sounds
 {
     public static class CommonCalamitySounds
 	{
+        public static readonly SoundStyle ExoHitSound = new("CalamityMod/Sounds/NPCHit/ExoHit", 4) { Volume = 0.4f };
+
         public static readonly SoundStyle OtherwordlyHitSound = new("CalamityMod/Sounds/NPCHit/OtherworldlyHit");
 
         public static readonly SoundStyle AstralNPCHitSound = new("CalamityMod/Sounds/NPCHit/AstralEnemyHit", 3);
@@ -20,6 +22,12 @@ namespace CalamityMod.Sounds
         public static readonly SoundStyle LaserCannonSound = new("CalamityMod/Sounds/Item/LaserCannon") { Volume = 0.85f };
 
         public static readonly SoundStyle ELRFireSound = new("CalamityMod/Sounds/Item/ELRFire"); //What does ELR stand for
+
+        public static readonly SoundStyle ExoLaserShootSound = new("CalamityMod/Sounds/Custom/ExoMechs/ExoLaserShoot");
+
+        public static readonly SoundStyle ExoPlasmaExplosionSound = new("CalamityMod/Sounds/Custom/ExoMechs/ExoPlasmaExplosion", 2);
+
+        public static readonly SoundStyle ExoPlasmaShootSound = new("CalamityMod/Sounds/Custom/ExoMechs/ExoPlasmaShoot");
 
         public static readonly SoundStyle LargeWeaponFireSound = new("CalamityMod/Sounds/Item/LargeWeaponFire");
 

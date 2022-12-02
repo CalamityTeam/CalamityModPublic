@@ -27,6 +27,7 @@ namespace CalamityMod.NPCs.TownNPCs
             "Xplizzy", // <@!98826096237109248> Whitegiraffe#6342
             "Freakish", // <@!750363283520749598> Freakish#0001
             "Calder", // <@!601897959176798228> Paltham#8859
+			"Hunter Jinx", // <@!757401399783850134> Jinx_enthusiast#1580
 
             // Original names
             "Laura", "Mie", "Bonnie",
@@ -67,7 +68,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.lavaImmune = false;
             NPC.width = 18;
             NPC.height = 44;
-            NPC.aiStyle = 7;
+            NPC.aiStyle = NPCAIStyleID.Passive;
             NPC.damage = 10;
             NPC.defense = 15;
             NPC.lifeMax = 250; //Im not special :(

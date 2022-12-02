@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             NPC.defense = 100;
             NPC.DR_NERD(0.9999f);
             NPC.Calamity().unbreakableDR = true;
-            NPC.LifeMaxNERB(960000, 1150000, 500000);
+            NPC.LifeMaxNERB(960000, 1150000, 600000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
@@ -301,7 +301,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                                             }
                                         }
 
-                                        SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound with { Volume = 0.1f * CommonCalamitySounds.LaserCannonSound.Volume }, NPC.Center);
+                                        SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound with { Volume = 0.1f * CommonCalamitySounds.ExoLaserShootSound.Volume }, NPC.Center);
 
                                         for (int i = 0; i < numProjectiles; i++)
                                         {
@@ -371,7 +371,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
                                         int type = ModContent.ProjectileType<ThanatosLaser>();
                                         int damage = NPC.GetProjectileDamage(type);
-                                        SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
+                                        SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound, NPC.Center);
                                         for (int i = 0; i < numProjectiles; i++)
                                         {
                                             // Fire normal lasers if head is in passive state
@@ -615,12 +615,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         {
             if (NPC.soundDelay == 0)
             {
-                NPC.soundDelay = 8;
-
                 if (vulnerable)
-                    SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
+                {
+                    NPC.soundDelay = 8;
+                    SoundEngine.PlaySound(ThanatosHead.ThanatosHitSoundOpen, NPC.Center);
+                }
                 else
-                    SoundEngine.PlaySound(SoundID.NPCHit4, NPC.Center);
+                {
+                    NPC.soundDelay = 3;
+                    SoundEngine.PlaySound(ThanatosHead.ThanatosHitSoundClosed, NPC.Center);
+                }
             }
 
             int baseDust = vulnerable ? 3 : 1;

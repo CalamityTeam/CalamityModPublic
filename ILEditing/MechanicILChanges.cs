@@ -42,6 +42,8 @@ using Terraria.GameContent.Events;
 using CalamityMod.DataStructures;
 using CalamityMod.Particles.Metaballs;
 using Terraria.GameContent.Drawing;
+using CalamityMod.Tiles.Abyss;
+using System.Collections.Generic;
 
 namespace CalamityMod.ILEditing
 {
@@ -59,6 +61,8 @@ namespace CalamityMod.ILEditing
         private static Action VanillaSpawnTownNPCs;
 
         private static readonly MethodInfo textureGetValueMethod = typeof(Asset<Texture2D>).GetMethod("get_Value", BindingFlags.Public | BindingFlags.Instance);
+
+        public static event Func<VertexColors, int, Point, VertexColors> ExtraColorChangeConditions;
 
         #region Dash Fixes and Improvements
         private static void MakeShieldSlamIFramesConsistent(ILContext il)
@@ -237,6 +241,39 @@ namespace CalamityMod.ILEditing
             // This is the total length of the EoC bonk (10) minus the number of safe frames allowed by Calamity.
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_I4, 10 - BalancingConstants.ShieldOfCthulhuBonkNoCollideFrames);
+        }
+
+        private static void ApplyDashKeybind(On.Terraria.Player.orig_DoCommonDashHandle orig, Player self, out int dir, out bool dashing, Player.DashStartAction dashStartAction)
+        {
+            if (CalamityKeybinds.DashHotkey.JustPressed)
+            {
+                dir = self.direction;
+                dashing = true;
+                if (self.dashTime > 0)
+                    self.dashTime--;
+                if (self.dashTime < 0)
+                    self.dashTime++;
+
+                if ((self.dashTime <= 0 && self.direction == -1) || (self.dashTime >= 0 && self.direction == 1))
+                {
+                    self.dashTime = 15;
+                    return;
+                }
+                
+                dashing = true;
+                self.dashTime = 0;
+                self.timeSinceLastDashStarted = 0;
+                dashStartAction?.Invoke(dir);
+                return;
+            }
+
+            if (!CalamityKeybinds.DashHotkey.HasValidBinding())
+                orig(self, out dir, out dashing, dashStartAction);
+            else
+            {
+                dir = 1;
+                dashing = false;
+            }
         }
         #endregion Dash Fixes and Improvements
 
@@ -550,7 +587,7 @@ namespace CalamityMod.ILEditing
                 // If the blazing mouse is actually going to do damage, draw an indicator aura.
                 if (!Main.mapFullscreen)
                 {
-                    int size = 450;
+                    int size = 370;
                     FluidFieldManager.AdjustSizeRelativeToGraphicsQuality(ref size);
 
                     float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size;
@@ -564,10 +601,10 @@ namespace CalamityMod.ILEditing
 
                     int x = (int)((drawPosition.X - firePosition.X) / calamityFireDrawer.Scale);
                     int y = (int)((drawPosition.Y - firePosition.Y) / calamityFireDrawer.Scale);
-                    int horizontalArea = (int)Math.Ceiling(5f / calamityFireDrawer.Scale);
-                    int verticalArea = (int)Math.Ceiling(5f / calamityFireDrawer.Scale);
+                    int horizontalArea = (int)Math.Ceiling(8f / calamityFireDrawer.Scale);
+                    int verticalArea = (int)Math.Ceiling(8f / calamityFireDrawer.Scale);
 
-                    calamityFireDrawer.ShouldUpdate = player.miscCounter % 4 == 0;
+                    calamityFireDrawer.ShouldUpdate = player.miscCounter % 2 == 0;
                     calamityFireDrawer.UpdateAction = () =>
                     {
                         Color color = Color.Lerp(Color.Red, Color.Orange, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f) * 0.5f + 0.5f);
@@ -575,6 +612,10 @@ namespace CalamityMod.ILEditing
                         // Use a rainbow color if the player has the rainbow cursor equipped as well as Calamity.
                         if (player.hasRainbowCursor)
                             color = Color.Lerp(color, Main.hslToRgb(Main.GlobalTimeWrappedHourly * 0.97f % 1f, 1f, 0.6f), 0.75f);
+
+                        // Make the flame more greyscale if a dye is being applied, so that it doesn't conflict with the specific oranges and reds to create gross colors.
+                        if (player.Calamity().CalamityFireDyeShader is not null)
+                            color = Color.Lerp(color, Color.White, 0.75f);
 
                         for (int i = -horizontalArea; i <= horizontalArea; i++)
                         {
@@ -588,7 +629,7 @@ namespace CalamityMod.ILEditing
                             }
                             UIManagementSystem.PreviousMouseWorld = Main.MouseWorld;
 
-                            velocity = velocity.SafeNormalize(-Vector2.UnitY).RotatedBy(offsetAngle) * 0.2f;
+                            velocity = velocity.SafeNormalize(-Vector2.UnitY).RotatedBy(offsetAngle) * 3f;
 
                             // Add a tiny bit of randomness to the velocity.
                             // Chaos in the advection calculations should result in different flames being made over time, instead of a
@@ -596,11 +637,18 @@ namespace CalamityMod.ILEditing
                             velocity *= Main.rand.NextFloat(0.9f, 1.1f);
 
                             for (int j = -verticalArea; j <= verticalArea; j++)
-                                player.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, velocity);
+                                player.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, i == 0 && j == 0 ? velocity : Vector2.Zero);
                         }
                     };
 
-                    calamityFireDrawer.Draw(firePosition, true, Main.UIScaleMatrix, Main.UIScaleMatrix);
+                    calamityFireDrawer.Draw(firePosition, true, Main.UIScaleMatrix, Main.UIScaleMatrix, output =>
+                    {
+                        var armorShader = player.Calamity().CalamityFireDyeShader;
+                        if (armorShader is null)
+                            return;
+
+                        armorShader.Apply(null, new(output, Vector2.Zero, Color.White));
+                    });
                 }
 
                 Main.spriteBatch.Draw(TextureAssets.Cursors[cursorIndex].Value, drawPosition, null, desaturatedCursorColor, 0f, Vector2.Zero, Main.cursorScale, SpriteEffects.None, 0f);
@@ -746,7 +794,7 @@ namespace CalamityMod.ILEditing
             }
         }
 
-        private static void DrawCustomLava2(ILContext il)
+        private static void ChangeWaterQuadColors(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
 
@@ -778,12 +826,20 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldloc, 8);
             cursor.Emit(OpCodes.Ldelem_Ref);
             cursor.Emit(OpCodes.Ldloc, 8);
-            cursor.EmitDelegate<Func<VertexColors, Texture2D, int, VertexColors>>((initialColor, initialTexture, liquidType) =>
+            cursor.Emit(OpCodes.Ldloc, 3);
+            cursor.Emit(OpCodes.Ldloc, 4);
+            cursor.EmitDelegate<Func<VertexColors, Texture2D, int, int, int, VertexColors>>((initialColor, initialTexture, liquidType, x, y) =>
             {
                 initialColor.TopLeftColor = SelectLavaColor(initialTexture, initialColor.TopLeftColor, liquidType == 1);
                 initialColor.TopRightColor = SelectLavaColor(initialTexture, initialColor.TopRightColor, liquidType == 1);
                 initialColor.BottomLeftColor = SelectLavaColor(initialTexture, initialColor.BottomLeftColor, liquidType == 1);
                 initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor, liquidType == 1);
+                if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
+                    SelectSulphuricWaterColor(x, y, ref initialColor);
+
+                // Apply any extra color conditions.
+                initialColor = ExtraColorChangeConditions?.Invoke(initialColor, liquidType, new(x, y)) ?? initialColor;
+
                 return initialColor;
             });
         }
@@ -792,12 +848,24 @@ namespace CalamityMod.ILEditing
         {
             ILCursor cursor = new ILCursor(il);
 
-            // Locate the local index for the liquid color.
+            // Locate the local index for the liquid color and tile coordinates.
+            int xCoordLocalIndex = 0;
+            int yCoordLocalIndex = 0;
             int liquidColorLocalIndex = 0;
             MethodInfo lightingGetColorMethod = typeof(Lighting).GetMethod("GetColor", new Type[] { typeof(int), typeof(int) });
             if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchCallOrCallvirt(lightingGetColorMethod)))
             {
                 LogFailure("Custom Lava Drawing", "Could not lighting GetColor call.");
+                return;
+            }
+            if (!cursor.TryGotoPrev(c => c.MatchLdloc(out xCoordLocalIndex)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not X coordinate local variable index.");
+                return;
+            }
+            if (!cursor.TryGotoPrev(c => c.MatchLdloc(out yCoordLocalIndex)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not Y coordinate local variable index.");
                 return;
             }
             if (!cursor.TryGotoNext(c => c.MatchStloc(out liquidColorLocalIndex)))
@@ -832,7 +900,17 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldloc, liquidTypeLocalIndex);
             cursor.Emit(OpCodes.Ldelem_Ref);
             cursor.Emit(OpCodes.Call, textureGetValueMethod);
-            cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
+            cursor.Emit(OpCodes.Ldloc, xCoordLocalIndex);
+            cursor.Emit(OpCodes.Ldloc, yCoordLocalIndex);
+            cursor.EmitDelegate<Func<Color, Texture2D, int, int, Color>>((initialColor, initialTexture, x, y) =>
+            {
+                Color c = SelectLavaColor(initialTexture, initialColor);
+
+                if (ExtraColorChangeConditions is not null)
+                    c = ExtraColorChangeConditions(new(c), Main.waterStyle, new(x, y)).TopLeftColor;
+
+                return c;
+            });
             cursor.Emit(OpCodes.Stloc, liquidColorLocalIndex);
 
             // Go back to the start and change textures as necessary.
@@ -842,7 +920,7 @@ namespace CalamityMod.ILEditing
             {
                 // Move to the end of the get_Value() call and then use the resulting texture to check if a new one should replace it.
                 // Adding to the index directly would seem like a simple, direct way of achieving this since the operation is incredibly light, but
-                // it also unsafe due to the potential for NOP operations to appear.
+                // it is unsafe due to the potential for NOP operations to appear.
                 if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallvirt(textureGetValueMethod)))
                 {
                     LogFailure("Custom Lava Drawing", "Could not locate the liquid texture Value call.");
@@ -876,6 +954,27 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Stloc, 54);
         }
         #endregion Custom Lava Visuals
+
+        #region Sulph Sea Water Visuals
+        private static void MakeSulphSeaWaterBetter(On.Terraria.Graphics.Light.TileLightScanner.orig_GetTileLight orig, TileLightScanner self, int x, int y, out Vector3 outputColor)
+        {
+            orig(self, x, y, out outputColor);
+
+            Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+            if (tile.LiquidAmount <= 0 || tile.HasTile || Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
+                return;
+
+            Tile above = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
+            if (!Main.gamePaused && !above.HasTile && above.LiquidAmount <= 0 && Main.rand.NextBool(9))
+            {
+                MediumMistParticle acidFoam = new(new(x * 16f + Main.rand.NextFloat(16f), y * 16f + 8f), -Vector2.UnitY.RotatedByRandom(0.67f) * Main.rand.NextFloat(1f, 2.4f), Color.LightSeaGreen, Color.White, 0.16f, 128f, 0.02f);
+                GeneralParticleHandler.SpawnParticle(acidFoam);
+            }
+
+            if (tile.TileType != (ushort)ModContent.TileType<RustyChestTile>())
+                outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
+        }
+        #endregion Sulph Sea Water Visuals
 
         #region Statue Additions
         /// <summary>
@@ -984,6 +1083,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit<CalamityGlobalNPC>(OpCodes.Call, "get_TaxesToCollectLimit");
         }
         #endregion Make Tax Collector Worth it
+
         #region Foreground tiles drawing
         private static void DrawForegroundStuff(On.Terraria.Main.orig_DrawGore orig, Main self)
         {
@@ -1102,5 +1202,15 @@ namespace CalamityMod.ILEditing
             mp.hookCache = -1;
         }
         #endregion
+
+        #region Find Calamity Item Dye Shader
+
+        internal static void FindCalamityItemDyeShader(On.Terraria.Player.orig_UpdateItemDye orig, Player self, bool isNotInVanitySlot, bool isSetToHidden, Item armorItem, Item dyeItem)
+        {
+            orig(self, isNotInVanitySlot, isSetToHidden, armorItem, dyeItem);
+            if (armorItem.type == ModContent.ItemType<Calamity>())
+                self.Calamity().CalamityFireDyeShader = GameShaders.Armor.GetShaderFromItemId(dyeItem.type);
+        }
+        #endregion Find Calamity Item Dye Shader
     }
 }

@@ -1,4 +1,6 @@
-﻿using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
+using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -90,6 +92,15 @@ namespace CalamityMod.Items.Weapons.Magic
                 Projectile.NewProjectile(source, playerPos, directionToShoot, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<SulphuricScale>(10).
+                AddIngredient<Acidwood>(35).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -65,8 +65,8 @@ namespace CalamityMod.World
                 do
                 {
                     xIslandGen = WorldGen.crimson ?
-                        WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.2)) :
-                        WorldGen.genRand.Next((int)(x * 0.8), (int)(x * 0.9));
+                        WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.3)) :
+                        WorldGen.genRand.Next((int)(x * 0.7), (int)(x * 0.9));
                     yIslandGen = WorldGen.genRand.Next(95, 126);
                     yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
 

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    class VoidConcentrationBuff : ModBuff
+    public class VoidConcentrationBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {

@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 AddIngredient<SeafoamBomb>().
                 AddIngredient<DepthCells>(10).
                 AddIngredient<SulphurousSand>(20).
-                AddIngredient<Tenebris>(10).
+                AddIngredient<PlantyMush>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

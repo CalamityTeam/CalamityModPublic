@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.aiStyle = AIType = -1;
 
             NPC.damage = 12;
-            NPC.lifeMax = 70;
+            NPC.lifeMax = 50;
             NPC.defense = 6;
             NPC.knockBackResist = 1f;
 
@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.AcidRain
                 // Rise upward.
                 case 0:
                     Vector2 flyDestination = Target.Center + new Vector2((Target.Center.X < NPC.Center.X).ToDirectionInt() * 400f, -240f);
-                    Vector2 idealVelocity = NPC.SafeDirectionTo(flyDestination) * 12f;
+                    Vector2 idealVelocity = NPC.SafeDirectionTo(flyDestination) * 10f;
                     NPC.velocity = (NPC.velocity * 29f + idealVelocity) / 29f;
                     NPC.velocity = NPC.velocity.MoveTowards(idealVelocity, 1.5f);
 

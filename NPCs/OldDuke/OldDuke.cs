@@ -435,7 +435,7 @@ namespace CalamityMod.NPCs.OldDuke
                     ModContent.ItemType<ToxicantTwister>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
-                normalOnly.Add(ModContent.ItemType<TheReaper>(), 10);
+                normalOnly.Add(ModContent.ItemType<TheOldReaper>(), 10);
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<MutatedTruffle>()));

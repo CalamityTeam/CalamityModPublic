@@ -27,7 +27,17 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         public static int phase1IconIndex;
         public static int phase2IconIndex;
 
-        public static readonly SoundStyle LensSound = new("CalamityMod/Sounds/Custom/ExoTwinsEject") { Volume = 1.2f};
+        public static readonly SoundStyle AttackSelectionSound = new("CalamityMod/Sounds/Custom/ExoMechs/ApolloArtemisTargetSelection") { Volume = 1.3f };
+
+        public static readonly SoundStyle ChargeSound = new("CalamityMod/Sounds/Custom/ExoMechs/ArtemisApolloDash") { Volume = 1.2f };
+
+        public static readonly SoundStyle ChargeTelegraphSound = new("CalamityMod/Sounds/Custom/ExoMechs/ArtemisApolloDashTelegraph") { Volume = 1.2f };
+
+        public static readonly SoundStyle LensSound = new("CalamityMod/Sounds/Custom/ExoMechs/ExoTwinsEject") { Volume = 1.2f };
+
+        public static readonly SoundStyle LaserShotgunSound = new("CalamityMod/Sounds/Custom/ExoMechs/ArtemisShotgunLaser") { Volume = 1.2f };
+
+        public static readonly SoundStyle SpinLaserbeamSound = new("CalamityMod/Sounds/Custom/ExoMechs/ArtemisSpinLaserbeam") { Volume = 1.3f };
 
         internal static void LoadHeadIcons()
         {
@@ -166,7 +176,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             NPC.height = 226;
             NPC.defense = 80;
             NPC.DR_NERD(0.25f);
-            NPC.LifeMaxNERB(1250000, 1495000, 500000);
+            NPC.LifeMaxNERB(1250000, 1495000, 650000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
@@ -175,7 +185,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
@@ -736,11 +745,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                             if (laserTimer % divisor == 0f && canFire)
                             {
                                 pickNewLocation = true;
+
+                                SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound, NPC.Center);
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     int type = ModContent.ProjectileType<ArtemisLaser>();
                                     int damage = NPC.GetProjectileDamage(type);
-                                    SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
                                     Vector2 laserVelocity = Vector2.Normalize(aimedVector);
                                     Vector2 projectileDestination = player.Center + predictionVector;
                                     Vector2 offset = laserVelocity * 70f;
@@ -774,10 +784,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                     // And allow the charge flash effect
                                     shouldDoChargeFlash = true;
 
+                                    // Play a sound to accompany the telegraph.
+                                    SoundEngine.PlaySound(ChargeTelegraphSound, NPC.Center);
+
                                     if (Main.netMode != NetmodeID.MultiplayerClient)
                                     {
                                         int type = ModContent.ProjectileType<ArtemisChargeTelegraph>();
-                                        SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
                                         Vector2 laserVelocity = Vector2.Normalize(aimedVector);
                                         Vector2 offset = laserVelocity * 50f;
                                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
@@ -821,7 +833,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                     else
                                     {
                                         // Charge until a certain distance is reached and then return to normal phase
-                                        SoundEngine.PlaySound(CommonCalamitySounds.ELRFireSound, NPC.Center);
+                                        SoundEngine.PlaySound(ChargeSound, NPC.Center);
                                         AIState = (float)Phase.Charge;
 
                                         // Set charge velocity
@@ -875,7 +887,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                         {
                             int type = ModContent.ProjectileType<ArtemisLaser>();
                             int damage = NPC.GetProjectileDamage(type);
-                            SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
+                            SoundEngine.PlaySound(LaserShotgunSound, NPC.Center);
 
                             Vector2 laserVelocity = Vector2.Normalize(aimedVector) * 10f;
                             /* Spread:
@@ -955,10 +967,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                             NPC.ai[1] = spinningPoint.X;
                             NPC.ai[2] = spinningPoint.Y;
 
+                            SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 int type = ModContent.ProjectileType<ArtemisDeathrayTelegraph>();
-                                SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
                                 Vector2 laserVelocity = Vector2.Normalize(spinningPoint - NPC.Center);
                                 Vector2 offset = laserVelocity * 70f;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
@@ -1025,8 +1037,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                 // Fire deathray
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
+                                    DeathraySoundSlot = SoundEngine.PlaySound(SpinLaserbeamSound, NPC.Center);
+                                    
                                     int type = ModContent.ProjectileType<ArtemisSpinLaserbeam>();
-                                    DeathraySoundSlot = SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
                                     int damage = NPC.GetProjectileDamage(type);
                                     int laser = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, NPC.whoAmI);
                                     if (Main.projectile.IndexInRange(laser))
@@ -1143,11 +1156,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             // Update the charge flash variable
             ChargeFlash = MathHelper.Clamp(ChargeFlash + shouldDoChargeFlash.ToDirectionInt() * 0.08f, 0f, 1f);
 
-            //Update the deathray sound if it's being done.
+            // Update the deathray sound position if it's being played.
             if (SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
-            {
                 deathraySound.Position = NPC.Center;
-            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -1453,6 +1464,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         {
             for (int k = 0; k < 3; k++)
                 Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1f);
+
+            if (NPC.soundDelay == 0)
+            {
+                NPC.soundDelay = 3;
+                SoundEngine.PlaySound(CommonCalamitySounds.ExoHitSound, NPC.Center);
+            }
 
             if (NPC.life <= 0)
             {

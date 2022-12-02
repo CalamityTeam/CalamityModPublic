@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.PiranhaGun).
                 AddIngredient<CoreofCalamity>(2).
                 AddIngredient<LifeAlloy>().
-                AddIngredient<Tenebris>(5).
+                AddIngredient<PlantyMush>(5).
                 AddIngredient(ItemID.SharkFin, 2).
                 AddTile(TileID.MythrilAnvil).
                 Register();

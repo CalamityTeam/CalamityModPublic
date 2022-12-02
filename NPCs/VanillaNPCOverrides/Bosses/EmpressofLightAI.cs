@@ -604,7 +604,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.damage = 0;
 
                     // Increase durability.
-                    calamityGlobalNPC.DR = shouldBeInPhase2ButIsStillInPhase1 ? 0.99f : 0.575f;
+                    calamityGlobalNPC.DR = shouldBeInPhase2ButIsStillInPhase1 ? 0.99f : (bossRush ? 0.99f : 0.575f);
 
                     int totalSunDances = phase2 ? 2 : 3;
                     float sunDanceGateValue = dayTimeEnrage ? 35f : death ? 40f : 50f;

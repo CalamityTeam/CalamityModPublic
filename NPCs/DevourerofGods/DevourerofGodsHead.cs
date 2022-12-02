@@ -534,7 +534,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                     // Adjust movement speed. Direction is unaltered unless DoG is close to the top of the world, in which case he moves horizontally.
                     // A portal will be created ahead of where DoG is moving that he will enter before Phase 2 begins.
-                    float idealFlySpeed = 14f;
+                    float idealFlySpeed = 28f;
 
                     float oldVelocity = NPC.velocity.Length();
                     float horizontalInterpolant = Utils.GetLerpValue(1200f, 600f, NPC.Center.Y, true);

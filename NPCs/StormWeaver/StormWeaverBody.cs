@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.width = 40;
             NPC.height = 40;
             NPC.lifeMax = 825500;
-            NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 475000);
+            NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 500000);
 
             // Phase one settings
             CalamityGlobalNPC global = NPC.Calamity();

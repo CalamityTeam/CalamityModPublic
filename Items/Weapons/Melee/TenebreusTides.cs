@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<Atlantis>().
                 AddIngredient(ItemID.InfluxWaver).
                 AddIngredient<SeaPrism>(20).
-                AddIngredient<Tenebris>(25).
+                AddIngredient<PlantyMush>(25).
                 AddIngredient<Lumenyl>(50).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

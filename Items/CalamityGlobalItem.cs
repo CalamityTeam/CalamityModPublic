@@ -318,7 +318,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.bloodflareMage && modPlayer.canFireBloodflareMageProjectile)
             {
-                if (item.CountsAsClass<MagicDamageClass>())
+                if (item.CountsAsClass<MagicDamageClass>() && !item.channel)
                 {
                     modPlayer.canFireBloodflareMageProjectile = false;
                     if (player.whoAmI == Main.myPlayer)
@@ -331,7 +331,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.bloodflareRanged && modPlayer.canFireBloodflareRangedProjectile)
             {
-                if (item.CountsAsClass<RangedDamageClass>())
+                if (item.CountsAsClass<RangedDamageClass>() && !item.channel)
                 {
                     modPlayer.canFireBloodflareRangedProjectile = false;
                     if (player.whoAmI == Main.myPlayer)
@@ -343,7 +343,7 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (modPlayer.tarraMage)
+            if (modPlayer.tarraMage && !item.channel)
             {
                 if (modPlayer.tarraCrits >= 5 && player.whoAmI == Main.myPlayer)
                 {
@@ -369,7 +369,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.ataxiaBolt && modPlayer.canFireAtaxiaRangedProjectile)
             {
-                if (item.CountsAsClass<RangedDamageClass>())
+                if (item.CountsAsClass<RangedDamageClass>() && !item.channel)
                 {
                     modPlayer.canFireAtaxiaRangedProjectile = false;
                     if (player.whoAmI == Main.myPlayer)
@@ -381,7 +381,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.godSlayerRanged && modPlayer.canFireGodSlayerRangedProjectile)
             {
-                if (item.CountsAsClass<RangedDamageClass>())
+                if (item.CountsAsClass<RangedDamageClass>() && !item.channel)
                 {
                     modPlayer.canFireGodSlayerRangedProjectile = false;
                     if (player.whoAmI == Main.myPlayer)
@@ -394,7 +394,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.ataxiaVolley && modPlayer.canFireAtaxiaRogueProjectile)
             {
-                if (item.CountsAsClass<ThrowingDamageClass>())
+                if (item.CountsAsClass<ThrowingDamageClass>() && !item.channel)
                 {
                     modPlayer.canFireAtaxiaRogueProjectile = false;
                     int flareID = ModContent.ProjectileType<HydrothermicFlareRogue>();
@@ -421,7 +421,7 @@ namespace CalamityMod.Items
             {
                 if ((item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<MagicDamageClass>() ||
                     item.CountsAsClass<ThrowingDamageClass>() || item.CountsAsClass<SummonDamageClass>()) &&
-                    Main.rand.NextBool(10))
+                    Main.rand.NextBool(10) && !item.channel)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -433,7 +433,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.dynamoStemCells)
             {
-                if (item.CountsAsClass<RangedDamageClass>() && Main.rand.NextBool(20))
+                if (item.CountsAsClass<RangedDamageClass>() && Main.rand.NextBool(20) && !item.channel)
                 {
                     double damageMult = item.useTime / 30D;
                     if (damageMult < 0.35)
@@ -451,7 +451,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.prismaticRegalia)
             {
-                if (item.CountsAsClass<MagicDamageClass>() && Main.rand.NextBool(20))
+                if (item.CountsAsClass<MagicDamageClass>() && Main.rand.NextBool(20) && !item.channel)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -470,7 +470,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.harpyWingBoost && modPlayer.harpyRing)
             {
-                if (Main.rand.NextBool(5))
+                if (Main.rand.NextBool(5) && !item.channel)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -1121,10 +1121,6 @@ namespace CalamityMod.Items
                 modPlayer.hellfireTreads = true;
                 player.buffImmune[BuffID.OnFire] = true;
             }
-
-            // Ankh Charm+ grants immunity to Petrification.
-            if (item.type == ItemID.AnkhCharm || item.type == ItemID.AnkhShield)
-                player.buffImmune[BuffID.Stoned] = true;
 
             // Nightwither immunity pre-Moon Lord and Holy Flames immunity pre-Profaned Guardians.
             if (item.type == ItemID.MoonStone)

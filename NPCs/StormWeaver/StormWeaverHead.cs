@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.width = 74;
             NPC.height = 74;
             NPC.lifeMax = 825500;
-            NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 475000);
+            NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 500000);
             NPC.value = Item.buyPrice(2, 0, 0, 0);
 
             // Phase one settings
@@ -167,7 +167,7 @@ namespace CalamityMod.NPCs.StormWeaver
             bool revenge = CalamityWorld.revenge || bossRush;
             bool expertMode = Main.expertMode || bossRush;
 
-            if (!Main.raining)
+            if (!Main.raining && !bossRush)
                 CalamityUtils.StartRain();
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -760,8 +760,8 @@ namespace CalamityMod.NPCs.StormWeaver
                         lightning -= lightningDecay;
                 }
 
-                // Start a storm when in third phase
-                if (Main.netMode == NetmodeID.MultiplayerClient || (Main.netMode == NetmodeID.SinglePlayer && Main.gameMenu) || calamityGlobalNPC.newAI[1] > 0f)
+                // Start a storm when in third phase. Don't do this during Boss Rush
+                if (Main.netMode == NetmodeID.MultiplayerClient || (Main.netMode == NetmodeID.SinglePlayer && Main.gameMenu) || calamityGlobalNPC.newAI[1] > 0f || bossRush)
                     return;
 
                 CalamityUtils.StartRain(true, true);

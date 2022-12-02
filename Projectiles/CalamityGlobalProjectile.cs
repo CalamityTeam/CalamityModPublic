@@ -149,8 +149,8 @@ namespace CalamityMod.Projectiles
         #region SetDefaults
         public override void SetDefaults(Projectile projectile)
         {
-            // Disable Lunatic Cultist's homing resistance globally
-            ProjectileID.Sets.CultistIsResistantTo[projectile.type] = false;
+            // OLD 1.3 CODE: Disable Lunatic Cultist's homing resistance globally
+            // ProjectileID.Sets.CultistIsResistantTo[projectile.type] = false;
 
             // Apply Calamity Global Projectile Tweaks.
             SetDefaults_ApplyTweaks(projectile);
@@ -634,14 +634,7 @@ namespace CalamityMod.Projectiles
                 return false;
             }
 
-            bool adultWyrmAlive = false;
-            if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
-                    adultWyrmAlive = true;
-            }
-
-            if (adultWyrmAlive || (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses))
+            if (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses)
             {
                 if (projectile.type == ProjectileID.CultistBossFireBallClone)
                 {

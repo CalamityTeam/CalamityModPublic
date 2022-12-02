@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,14 +26,22 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.ignoreWater = false;
             Projectile.timeLeft = 420;
             Projectile.DamageType = DamageClass.Ranged;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 17;
         }
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            if (Projectile.velocity.Y <= 8f)
+            NPC potentialTarget = Projectile.Center.ClosestNPCAt(600f, !Projectile.tileCollide);
+            if (potentialTarget is not null)
             {
-                Projectile.velocity.Y += 0.15f;
+                float flySpeed = Projectile.velocity.Length();
+                if (flySpeed < 5f)
+                    flySpeed = 5f;
+
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(potentialTarget.Center) * flySpeed, 0.085f);
             }
+
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
             Projectile.tileCollide = Projectile.timeLeft <= 300;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)

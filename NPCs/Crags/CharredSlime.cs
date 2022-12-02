@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override void SetDefaults()
         {
-            NPC.aiStyle = 1;
+            NPC.aiStyle = NPCAIStyleID.Slime;
             AIType = NPCID.LavaSlime;
             NPC.damage = 40;
             NPC.width = 40;

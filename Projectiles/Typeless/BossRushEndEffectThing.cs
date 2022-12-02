@@ -2,9 +2,10 @@
 using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.GameContent.Events;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -43,8 +44,18 @@ namespace CalamityMod.Projectiles.Typeless
         public override void Kill(int timeLeft)
         {
             BossRushEvent.End();
-            Player p = Main.LocalPlayer;
-            p.QuickSpawnItemDirect(p.GetSource_Misc("CalamityMod_BossRushRock"), ModContent.ItemType<Rock>());
+			for (int i = Main.maxPlayers - 1; i >= 0; i--)
+			{
+				Player p = Main.player[i];
+				if (p is null || !p.active)
+					continue;
+				int rock = Item.NewItem(p.GetSource_Misc("CalamityMod_BossRushRock"), (int)p.position.X, (int)p.position.Y, p.width, p.height, ModContent.ItemType<Rock>());
+				if (Main.netMode == NetmodeID.Server)
+				{
+					Main.timeItemSlotCannotBeReusedFor[rock] = 54000;
+					NetMessage.SendData(MessageID.InstancedItem, i, -1, null, rock);
+				}
+			}
             CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFiveEndText", BossRushEvent.XerocTextColor);
         }
     }

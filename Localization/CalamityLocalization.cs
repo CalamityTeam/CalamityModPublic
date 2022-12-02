@@ -126,6 +126,7 @@ namespace CalamityMod.Localization
                 new [] { "DraedonExoPhase6Text3", "I shall show you the full fury of my final machine." },
                 new [] { "DraedonAresEnrageText", "How foolish. You cannot escape." },
                 new [] { "DraedonResummonText", "Make your choice." },
+                new [] { "DraedonBossRushText", "Make your choice. You have 20 seconds." },
                 new [] { "DraedonEndText1", "An unknown factor-a catalyst is what you are." },
                 new [] { "DraedonEndText2", "Nearly as alien as I, to this land and its history." },
                 new [] { "DraedonEndText3", "...Excuse my introspection. I must gather my thoughts after that display." },

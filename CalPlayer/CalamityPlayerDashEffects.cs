@@ -205,10 +205,13 @@ namespace CalamityMod.CalPlayer
         {
             direction = DashDirection.Directionless;
             bool justDashed = false;
+            bool pressedManualHotkey = CalamityKeybinds.DashHotkey.JustPressed;
+            bool left = (Player.controlRight && Player.releaseRight && !CalamityKeybinds.DashHotkey.HasValidBinding()) || (pressedManualHotkey && Player.direction == 1);
+            bool right = (Player.controlLeft && Player.releaseLeft && !CalamityKeybinds.DashHotkey.HasValidBinding()) || (pressedManualHotkey && Player.direction == -1);
 
-            if (Player.controlRight && Player.releaseRight)
+            if (left)
             {
-                if (dashTimeMod > 0)
+                if (dashTimeMod > 0 || pressedManualHotkey)
                 {
                     direction = DashDirection.Right;
                     justDashed = true;
@@ -217,9 +220,9 @@ namespace CalamityMod.CalPlayer
                 else
                     dashTimeMod = 15;
             }
-            else if (Player.controlLeft && Player.releaseLeft)
+            else if (right)
             {
-                if (dashTimeMod < 0)
+                if (dashTimeMod < 0 || pressedManualHotkey)
                 {
                     direction = DashDirection.Left;
                     justDashed = true;

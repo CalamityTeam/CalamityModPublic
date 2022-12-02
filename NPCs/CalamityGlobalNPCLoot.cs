@@ -509,7 +509,6 @@ namespace CalamityMod.NPCs
                 // Dark Mage T1
                 // Dark Mage's Tome drops in Revengeance
                 case NPCID.DD2DarkMageT1:
-                    rev.Add(ItemID.DarkMageMasterTrophy);
                     rev.Add(ItemID.DarkMageBookMountItem, 4);
                     break;
 
@@ -860,12 +859,15 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.EaterofWorldsHead:
-                    // Expert+ drops are also available on Normal
+                case NPCID.EaterofWorldsBody:
+                case NPCID.EaterofWorldsTail:
+                    // Expert+ drops are also available on Normal. Drop what would be in the bag otherwise
                     LeadingConditionRule EoWKill = new(DropHelper.If((info) => info.npc.boss));
                     EoWKill.Add(DropHelper.PerPlayer(ItemID.WormScarf));
+                    EoWKill.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     npcLoot.AddNormalOnly(EoWKill);
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddIf((info) => info.npc.boss, ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -889,7 +891,7 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BrainOfConfusion));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -918,7 +920,7 @@ namespace CalamityMod.NPCs
                         if (notExpert is LeadingConditionRule LCR_NotExpert)
                         {
                             LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
-                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsNotScaledWithLuckDropRule weapons && weapons.dropIds[0] == ItemID.LucyTheAxe);
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsNotScaledWithLuckDropRule weapons && weapons.dropIds[0] == ItemID.PewMaticHorn);
 
                             // Define a replacement rule which drops the weapons Calamity style.
                             var deerWeapons = new int[]
@@ -936,7 +938,7 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BoneHelm));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -991,7 +993,7 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BoneGlove));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -1070,7 +1072,7 @@ namespace CalamityMod.NPCs
                     // However, Demon Heart does not work in Normal mode, so it's best to not drop it
                     // npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.DemonHeart));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // WoF drops Evil Keys
@@ -1091,7 +1093,7 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.VolatileGelatin));
                     npcLoot.AddNormalOnly(ItemID.SoulofLight, 1, 15, 20);
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Queen Slime drops the Hallowed Key
@@ -1113,7 +1115,7 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.MechanicalWagonPiece));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -1152,7 +1154,7 @@ namespace CalamityMod.NPCs
                     npcLoot.AddIf((info) => !Main.expertMode && IsLastTwinStanding(info), ItemID.MechanicalWheelPiece);
                     npcLoot.AddIf((info) => !Main.expertMode && IsLastTwinStanding(info), ModContent.ItemType<Arbalest>(), 10);
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddIf((info) => !Main.expertMode && IsLastTwinStanding(info), ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -1174,7 +1176,7 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.MechanicalBatteryPiece));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -1355,11 +1357,11 @@ namespace CalamityMod.NPCs
                                 ItemID.FishronWings,
                             };
                             LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, dukeItems));
-                        }
 
-                        // Remove the vanilla loot rule for Fishron Wings because it's part of the Calamity Style set.
-                        dukeRootRules.RemoveAll((rule) =>
-                            rule is ItemDropWithConditionRule conditionalRule && conditionalRule.condition is Conditions.NotExpert && conditionalRule.itemId == ItemID.FishronWings);
+                            // Remove the vanilla loot rule for Fishron Wings because it's part of the Calamity Style set.
+                            dukeRootRules.RemoveAll((rule) =>
+                                rule is ItemDropWithConditionRule conditionalRule && conditionalRule.condition is Conditions.NotExpert && conditionalRule.itemId == ItemID.FishronWings);
+                        }
                     }
                     catch (ArgumentNullException) { }
 
@@ -1416,7 +1418,7 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.EmpressFlightBooster));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -1550,6 +1552,19 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+        #region Pre Kill
+        public override bool PreKill(NPC npc)
+        {
+            // Boss Rush pre-kill effects
+            if (BossRushEvent.BossRushActive)
+            {
+                // Block anything except the Rock from dropping
+                DropHelper.BlockEverything(ModContent.ItemType<Rock>());
+            }
+			return true;
+		}
+		#endregion
+
         #region On Kill Main Hook
         public override void OnKill(NPC npc)
         {
@@ -1558,9 +1573,6 @@ namespace CalamityMod.NPCs
             {
                 // Progress the Boss Rush event
                 BossRushEvent.OnBossKill(npc, Mod);
-
-                // Block anything except the Rock from dropping
-                DropHelper.BlockEverything(ModContent.ItemType<Rock>());
             }
 
             // Acid Rain on-kill effects

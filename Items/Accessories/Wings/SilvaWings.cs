@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Accessories.Wings
             CreateRecipe().
                 AddIngredient<EffulgentFeather>(15).
                 AddRecipeGroup("AnyGoldBar", 3).
-                AddIngredient<Tenebris>(3).
+                AddIngredient<PlantyMush>(3).
                 AddIngredient<DarksunFragment>(5).
                 AddTile<CosmicAnvil>().
                 Register();

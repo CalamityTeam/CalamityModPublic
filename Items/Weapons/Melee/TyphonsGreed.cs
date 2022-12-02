@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<DepthCells>(30).
                 AddIngredient<Lumenyl>(10).
-                AddIngredient<Tenebris>(10).
+                AddIngredient<PlantyMush>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

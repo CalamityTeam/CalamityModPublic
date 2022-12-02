@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient(ItemID.BrokenHeroSword).
                 AddIngredient<DepthCells>(15).
                 AddIngredient<Lumenyl>(10).
-                AddIngredient<Tenebris>(5).
+                AddIngredient<PlantyMush>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

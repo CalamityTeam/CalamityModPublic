@@ -153,6 +153,7 @@ namespace CalamityMod.NPCs
             "Catalyst", // <@!156672312425316352> (xAqult#1122)
             "Nyapano", // <@!120976656826368003> (Emi - Nyapano She/Her#4040)
             "Jade", // <@!187395834625785869> (VeryMasterNinja#7728)
+			"Nyavi Aceso", // <@!270260920888852480> (Navigator#8739)
         };
         private static readonly string[] SkeletonMerchantNames =
         {
@@ -1585,7 +1586,7 @@ namespace CalamityMod.NPCs
             if (type == NPCID.Cyborg)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.RocketLauncher, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemType<MartianDistressBeacon>(), NPC.downedGolemBoss, Item.buyPrice(0, 50));
+                SetShopItem(ref shop, ref nextSlot, ItemType<MartianDistressRemote>(), NPC.downedGolemBoss, Item.buyPrice(0, 50));
                 SetShopItem(ref shop, ref nextSlot, ItemType<LionHeart>(), DownedBossSystem.downedPolterghast);
             }
 
@@ -1614,15 +1615,6 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Clothier)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemType<BlueBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<BlueSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<BlueTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<GreenBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<GreenSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<GreenTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<PinkBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<PinkSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<PinkTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
                 SetShopItem(ref shop, ref nextSlot, ItemType<CounterScarf>(), price: Item.buyPrice(gold: 10));
                 SetShopItem(ref shop, ref nextSlot, ItemID.GoldenKey, Main.hardMode, Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, ItemType<GodSlayerHornedHelm>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));

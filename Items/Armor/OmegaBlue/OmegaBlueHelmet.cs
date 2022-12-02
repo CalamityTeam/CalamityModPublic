@@ -100,7 +100,7 @@ namespace CalamityMod.Items.Armor.OmegaBlue
             CreateRecipe().
                 AddIngredient<ReaperTooth>(8).
                 AddIngredient<Lumenyl>(5).
-                AddIngredient<Tenebris>(5).
+                AddIngredient<PlantyMush>(5).
                 AddIngredient<RuinousSoul>(2).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

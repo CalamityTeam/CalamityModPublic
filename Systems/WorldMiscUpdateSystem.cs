@@ -67,7 +67,7 @@ namespace CalamityMod.Systems
                 AcidRainEvent.HasStartedAcidicDownpour = false;
             }
 
-            // Lumenyl crystal, tenebris spread and sea prism crystal spawn rates
+            // Lumenyl crystal and sea prism crystal spawn rates
             HandleTileGrowth();
 
             // Update Boss Rush.
@@ -150,7 +150,7 @@ namespace CalamityMod.Systems
                 if (y2 < 10)
                     y2 = 10;
 
-                if (Main.tile[x, y] != null)
+                if (WorldGen.InWorld(x, y, 1) && Main.tile[x, y] != null)
                 {
                     if (Main.tile[x, y].HasUnactuatedTile)
                     {
@@ -161,7 +161,7 @@ namespace CalamityMod.Systems
                                 if (Main.tile[x, y2].LiquidAmount == 0)
                                 {
                                     // Plantera Bulbs pre-mech
-                                    if (WorldGen.genRand.Next(1500) == 0)
+                                    if (WorldGen.genRand.NextBool(1500))
                                     {
                                         if (Main.hardMode && (!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3))
                                         {
@@ -195,7 +195,7 @@ namespace CalamityMod.Systems
 
                                     // Life Fruit pre-mech
                                     int random = Main.expertMode ? 90 : 120;
-                                    if (WorldGen.genRand.Next(random) == 0)
+                                    if (WorldGen.genRand.NextBool(random))
                                     {
                                         if (Main.hardMode && !NPC.downedMechBossAny)
                                         {
@@ -230,11 +230,9 @@ namespace CalamityMod.Systems
                         }
 
                         int tileType = Main.tile[x, y].TileType;
-                        bool tenebris = tileType == ModContent.TileType<Tenebris>() && DownedBossSystem.downedCalamitas;
-
-                        if (CalamityGlobalTile.GrowthTiles.Contains(tileType) || tenebris)
+                        if (CalamityGlobalTile.GrowthTiles.Contains(tileType))
                         {
-                            int growthChance = tenebris ? 4 : 2;
+                            int growthChance = 2;
                             if (tileType == ModContent.TileType<Navystone>())
                                 growthChance *= 5;
 
@@ -261,7 +259,7 @@ namespace CalamityMod.Systems
                                 if (Main.tile[x, y] != null)
                                 {
                                     Tile tile = Main.tile[x, y];
-                                    bool growTile = tenebris ? (tile.HasTile && tile.TileType == ModContent.TileType<PlantyMush>()) : (!tile.HasTile && tile.LiquidAmount >= 128);
+                                    bool growTile = !tile.HasTile && tile.LiquidAmount >= 128;
                                     bool isSunkenSeaTile = tileType == ModContent.TileType<Navystone>() || tileType == ModContent.TileType<EutrophicSand>() || tileType == ModContent.TileType<SeaPrism>();
                                     bool meetsAdditionalGrowConditions = tile.Slope == 0 && !tile.IsHalfBlock && tile.LiquidType != LiquidID.Lava;
 
@@ -276,31 +274,28 @@ namespace CalamityMod.Systems
                                         if (tileType2 == ModContent.TileType<SeaPrismCrystals>() && !isSunkenSeaTile)
                                             canPlaceBasedOnAttached = false;
 
-                                        if (canPlaceBasedOnAttached && (CanPlaceBasedOnProximity(x, y, tileType2) || tenebris))
+                                        if (canPlaceBasedOnAttached && CanPlaceBasedOnProximity(x, y, tileType2))
                                         {
-                                            tile.TileType = tenebris ? (ushort)tileType : (ushort)tileType2;
+                                            tile.TileType = (ushort)tileType2;
 
-                                            if (!tenebris)
+                                            tile.HasTile = true;
+                                            if (Main.tile[x, y + 1].HasTile && Main.tileSolid[Main.tile[x, y + 1].TileType] && Main.tile[x, y + 1].Slope == 0 && !Main.tile[x, y + 1].IsHalfBlock)
                                             {
-                                                tile.HasTile = true;
-                                                if (Main.tile[x, y + 1].HasTile && Main.tileSolid[Main.tile[x, y + 1].TileType] && Main.tile[x, y + 1].Slope == 0 && !Main.tile[x, y + 1].IsHalfBlock)
-                                                {
-                                                    tile.TileFrameY = 0;
-                                                }
-                                                else if (Main.tile[x, y - 1].HasTile && Main.tileSolid[Main.tile[x, y - 1].TileType] && Main.tile[x, y - 1].Slope == 0 && !Main.tile[x, y - 1].IsHalfBlock)
-                                                {
-                                                    tile.TileFrameY = 18;
-                                                }
-                                                else if (Main.tile[x + 1, y].HasTile && Main.tileSolid[Main.tile[x + 1, y].TileType] && Main.tile[x + 1, y].Slope == 0 && !Main.tile[x + 1, y].IsHalfBlock)
-                                                {
-                                                    tile.TileFrameY = 36;
-                                                }
-                                                else if (Main.tile[x - 1, y].HasTile && Main.tileSolid[Main.tile[x - 1, y].TileType] && Main.tile[x - 1, y].Slope == 0 && !Main.tile[x - 1, y].IsHalfBlock)
-                                                {
-                                                    tile.TileFrameY = 54;
-                                                }
-                                                tile.TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
+                                                tile.TileFrameY = 0;
                                             }
+                                            else if (Main.tile[x, y - 1].HasTile && Main.tileSolid[Main.tile[x, y - 1].TileType] && Main.tile[x, y - 1].Slope == 0 && !Main.tile[x, y - 1].IsHalfBlock)
+                                            {
+                                                tile.TileFrameY = 18;
+                                            }
+                                            else if (Main.tile[x + 1, y].HasTile && Main.tileSolid[Main.tile[x + 1, y].TileType] && Main.tile[x + 1, y].Slope == 0 && !Main.tile[x + 1, y].IsHalfBlock)
+                                            {
+                                                tile.TileFrameY = 36;
+                                            }
+                                            else if (Main.tile[x - 1, y].HasTile && Main.tileSolid[Main.tile[x - 1, y].TileType] && Main.tile[x - 1, y].Slope == 0 && !Main.tile[x - 1, y].IsHalfBlock)
+                                            {
+                                                tile.TileFrameY = 54;
+                                            }
+                                            tile.TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
 
                                             WorldGen.SquareTileFrame(x, y);
 
@@ -315,7 +310,6 @@ namespace CalamityMod.Systems
                 }
                 l++;
             }
-
         }
 
         public static bool CanPlaceBasedOnProximity(int x, int y, int tileType)
@@ -423,7 +417,7 @@ namespace CalamityMod.Systems
             if (Main.netMode == NetmodeID.MultiplayerClient || !modPlayer.ZoneAbyss || !player.chaosState || player.dead)
                 return;
 
-            bool adultWyrmAlive = CalamityGlobalNPC.adultEidolonWyrmHead != -1 && Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active;
+            bool adultWyrmAlive = NPC.AnyNPCs(ModContent.NPCType<AdultEidolonWyrmHead>());
             if (!adultWyrmAlive)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AdultEidolonWyrmHead>());
         }

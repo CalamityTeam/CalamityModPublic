@@ -208,7 +208,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.defense = 100;
             NPC.DR_NERD(normalDR);
             NPC.value = Item.buyPrice(30, 0, 0, 0);
-            NPC.LifeMaxNERB(960000, 1150000, 500000);
+            NPC.LifeMaxNERB(960000, 1150000, 900000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
@@ -399,6 +399,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             int monsterDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<BrimstoneMonster>());
             int waveDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<BrimstoneWave>());
             int hellblastDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast>());
+			if (bossRush)
+			{
+				bulletHellblastDamage /= 2;
+				barrageDamage /= 2;
+				gigablastDamage /= 2;
+				fireblastDamage /= 2;
+				monsterDamage /= 2;
+				waveDamage /= 2;
+				hellblastDamage /= 2;
+			}
             int bodyWidth = 44;
             int bodyHeight = 42;
             int baseBulletHellProjectileGateValue = revenge ? 8 : expertMode ? 9 : 10;
@@ -2554,7 +2564,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 Main.player[NPC.target].Calamity().sCalKillCount++;
 
             // Spawn the SCal NPC directly where the boss was
-            NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 12, ModContent.NPCType<WITCH>());
+            if (!BossRushEvent.BossRushActive)
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 12, ModContent.NPCType<WITCH>());
 
             // Mark Supreme Calamitas as defeated
             DownedBossSystem.downedSCal = true;

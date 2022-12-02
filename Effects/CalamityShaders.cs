@@ -42,6 +42,8 @@ namespace CalamityMod.Effects
         public static Effect SideStreakTrailShader;
         public static Effect HeavenlyGaleTrailShader;
         public static Effect HeavenlyGaleLightningShader;
+        public static Effect BlueStaticShader;
+        public static Effect PrimTextureOverlayShader;
 
         public static Effect BaseFusableParticleEdgeShader;
         public static Effect AdditiveFusableParticleEdgeShader;
@@ -87,6 +89,8 @@ namespace CalamityMod.Effects
             SideStreakTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/SideStreakTrail", AssetRequestMode.ImmediateLoad).Value;
             HeavenlyGaleTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/HeavenlyGaleTrailShader", AssetRequestMode.ImmediateLoad).Value;
             HeavenlyGaleLightningShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/HeavenlyGaleLightningShader", AssetRequestMode.ImmediateLoad).Value;
+            BlueStaticShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/BlueStaticShader", AssetRequestMode.ImmediateLoad).Value;
+            PrimTextureOverlayShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/PrimTextureOverlayShader", AssetRequestMode.ImmediateLoad).Value;
 
             BaseFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/BaseFusableParticleEdgeShader", AssetRequestMode.ImmediateLoad).Value;
             AdditiveFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/AdditiveFusableParticleEdgeShader", AssetRequestMode.ImmediateLoad).Value;
@@ -129,6 +133,8 @@ namespace CalamityMod.Effects
             GameShaders.Misc["CalamityMod:SideStreakTrail"] = new MiscShaderData(new Ref<Effect>(SideStreakTrailShader), "TrailPass");
             GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"] = new MiscShaderData(new Ref<Effect>(HeavenlyGaleTrailShader), "PiercePass");
             GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"] = new MiscShaderData(new Ref<Effect>(HeavenlyGaleLightningShader), "TrailPass");
+            GameShaders.Misc["CalamityMod:BlueStatic"] = new MiscShaderData(new Ref<Effect>(BlueStaticShader), "GlitchPass");
+            GameShaders.Misc["CalamityMod:PrimitiveTexture"] = new MiscShaderData(new Ref<Effect>(PrimTextureOverlayShader), "TrailPass");
 
             GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(BaseFusableParticleEdgeShader), "ParticlePass");
             GameShaders.Misc["CalamityMod:AdditiveFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(AdditiveFusableParticleEdgeShader), "ParticlePass");

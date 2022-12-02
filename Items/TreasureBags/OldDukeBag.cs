@@ -71,7 +71,7 @@ namespace CalamityMod.Items.TreasureBags
                 ModContent.ItemType<CadaverousCarrion>(),
                 ModContent.ItemType<ToxicantTwister>()
             }));
-            itemLoot.Add(ModContent.ItemType<TheReaper>(), 10);
+            itemLoot.Add(ModContent.ItemType<TheOldReaper>(), 10);
 
             // Equipment
             itemLoot.Add(ModContent.ItemType<OldDukeScales>(), DropHelper.BagWeaponDropRateFraction);

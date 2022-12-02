@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor.Silva
             CreateRecipe().
                 AddIngredient<EffulgentFeather>(7).
                 AddRecipeGroup("AnyGoldBar", 7).
-                AddIngredient<Tenebris>(9).
+                AddIngredient<PlantyMush>(9).
                 AddIngredient<AscendantSpiritEssence>(2).
                 AddTile<CosmicAnvil>().
                 Register();

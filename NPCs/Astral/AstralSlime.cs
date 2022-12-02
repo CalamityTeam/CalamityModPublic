@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.damage = 40;
             NPC.width = 36;
             NPC.height = 31;
-            NPC.aiStyle = 1;
+            NPC.aiStyle = NPCAIStyleID.Slime;
             NPC.defense = 8;
             NPC.lifeMax = 200;
             NPC.knockBackResist = 0f;

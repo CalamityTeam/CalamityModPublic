@@ -148,6 +148,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     int type = ModContent.ProjectileType<BrimstoneBarrage>();
                     int damage = NPC.GetProjectileDamage(type);
+					if (BossRushEvent.BossRushActive)
+						damage /= 2;
                     Vector2 shootVelocity = (Target.Center - EyePosition).SafeNormalize(Vector2.UnitY) * 9f;
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), EyePosition, shootVelocity, type, damage, 1f, Main.myPlayer);
                 }

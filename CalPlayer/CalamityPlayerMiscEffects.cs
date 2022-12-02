@@ -404,7 +404,6 @@ namespace CalamityMod.CalPlayer
             #region Adrenaline
             // This is how much Adrenaline will be changed by this frame.
             float adrenalineDiff = 0;
-            bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
             bool wofAndNotHell = Main.wofNPCIndex >= 0 && Player.position.Y < (float)((Main.maxTilesY - 200) * 16);
 
             // If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
@@ -435,13 +434,14 @@ namespace CalamityMod.CalPlayer
             }
             else
             {
-                // If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
+                // If any boss is alive, you gain adrenaline smoothly.
                 // EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
-                if ((areThereAnyDamnBosses || BossRushEvent.BossRushActive) && !wofAndNotHell)
+                if (areThereAnyDamnBosses && !wofAndNotHell)
                     adrenalineDiff += adrenalineMax / AdrenalineChargeTime;
 
                 // If you aren't actively in a boss fight, adrenaline rapidly fades away.
-                else
+                // If Boss Rush is active, adrenaline is paused between boss fights and during the Exo Mechs "Make your choice".
+                else if (!BossRushEvent.BossRushActive)
                     adrenalineDiff = -adrenalineMax / AdrenalineFadeTime;
             }
 
@@ -451,10 +451,6 @@ namespace CalamityMod.CalPlayer
                 // Stress Pills make Adrenaline charge 20% faster (meaning it takes 83.333% standard time to charge it).
                 if (stressPills)
                     adrenalineDiff *= 1.2f;
-                
-                // In the SCal fight, adrenaline charges 33% slower (meaning it takes 50% longer to fully charge it).
-                if (SCalAlive)
-                    adrenalineDiff *= 0.67f;
             }
 
 
@@ -1221,6 +1217,8 @@ namespace CalamityMod.CalPlayer
                 monolithAccursedShader--;
             if (miningSetCooldown > 0)
                 miningSetCooldown--;
+            if (RustyMedallionCooldown > 0)
+                RustyMedallionCooldown--;
 
             // God Slayer Armor dash debuff immunity
             if (DashID == GodSlayerDash.ID && Player.dashDelay < 0)
@@ -2425,9 +2423,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetCritChance<GenericDamageClass>() += Vodka.CritBoost;
             }
 
-            if (grapeBeer)
-                Player.moveSpeed -= 0.05f;
-
             if (moonshine)
             {
                 Player.statDefense += 10;
@@ -2618,8 +2613,7 @@ namespace CalamityMod.CalPlayer
             if (vHex)
             {
                 Player.blind = true;
-                Player.statDefense -= 10;
-                Player.moveSpeed -= 0.1f;
+                Player.statDefense -= 20;
 
                 if (Player.wingTimeMax < 0)
                     Player.wingTimeMax = 0;
@@ -2688,38 +2682,16 @@ namespace CalamityMod.CalPlayer
                 Player.lifeMagnet = true;
             }
 
-            if (Player.poisoned)
-                Player.moveSpeed -= 0.1f;
-
-            if (Player.venom)
-                Player.moveSpeed -= 0.15f;
-
             if (wDeath)
-            {
-                Player.GetDamage<GenericDamageClass>() -= 0.2f;
-                Player.moveSpeed -= 0.1f;
-            }
-
-            if (dragonFire)
-                Player.moveSpeed -= 0.15f;
-
-            if (hInferno)
-                Player.moveSpeed -= 0.25f;
-
-            if (gsInferno)
-                Player.moveSpeed -= 0.15f;
+                Player.GetDamage<GenericDamageClass>() -= 0.25f;
 
             if (astralInfection)
-            {
-                Player.GetDamage<GenericDamageClass>() -= 0.1f;
-                Player.moveSpeed -= 0.15f;
-            }
+                Player.GetDamage<GenericDamageClass>() -= 0.15f;
 
             if (pFlames)
             {
                 Player.blind = true;
-                Player.GetDamage<GenericDamageClass>() -= 0.1f;
-                Player.moveSpeed -= 0.15f;
+                Player.GetDamage<GenericDamageClass>() -= 0.15f;
             }
 
             if (bBlood)

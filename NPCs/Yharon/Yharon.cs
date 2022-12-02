@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.Yharon
             NPC.width = 200;
             NPC.height = 200;
             NPC.defense = 90;
-            NPC.LifeMaxNERB(1302000, 1562400, 370000);
+            NPC.LifeMaxNERB(1302000, 1562400, 740000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
@@ -384,17 +384,17 @@ namespace CalamityMod.NPCs.Yharon
             {
                 if (phase3Change)
                 {
-                    calamityGlobalNPC.DR = phase4Check ? 0.7f : normalDR;
+                    calamityGlobalNPC.DR = phase4Check ? (bossRush ? 0.99f : 0.7f) : normalDR;
                     calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase4Check;
                 }
                 else if (phase2Change)
                 {
-                    calamityGlobalNPC.DR = phase3Check ? 0.7f : normalDR;
+                    calamityGlobalNPC.DR = phase3Check ? (bossRush ? 0.99f : 0.7f) : normalDR;
                     calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase3Check;
                 }
                 else if (phase1Change)
                 {
-                    calamityGlobalNPC.DR = phase2Check ? 0.7f : normalDR;
+                    calamityGlobalNPC.DR = phase2Check ? (bossRush ? 0.99f : 0.7f) : normalDR;
                     calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase2Check;
                 }
             }
@@ -1620,22 +1620,22 @@ namespace CalamityMod.NPCs.Yharon
                 switch (secondPhasePhase)
                 {
                     case 1:
-                        calamityGlobalNPC.DR = phase2 ? 0.7f : normalDR;
+                        calamityGlobalNPC.DR = phase2 ? (bossRush ? 0.99f : 0.7f) : normalDR;
                         calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase2;
                         break;
                     case 2:
-                        calamityGlobalNPC.DR = phase3 ? 0.7f : normalDR;
+                        calamityGlobalNPC.DR = phase3 ? (bossRush ? 0.99f : 0.7f) : normalDR;
                         calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase3;
                         break;
                     case 3:
-                        calamityGlobalNPC.DR = phase4 ? 0.7f : normalDR;
+                        calamityGlobalNPC.DR = phase4 ? (bossRush ? 0.99f : 0.7f) : normalDR;
                         calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase4;
                         break;
                 }
 
                 if (NPC.ai[0] == 9f)
                 {
-                    calamityGlobalNPC.DR = 0.7f;
+                    calamityGlobalNPC.DR = bossRush ? 0.99f : 0.7f;
                     calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = true;
                 }
             }

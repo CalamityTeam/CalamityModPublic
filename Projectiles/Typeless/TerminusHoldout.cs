@@ -65,9 +65,7 @@ namespace CalamityMod.Projectiles.Typeless
                 MoonlordDeathDrama.RequestLight(Utils.GetLerpValue(0f, 15f, Time, true), Main.LocalPlayer.Center);
                 if (Time >= 45f)
                 {
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                       BossRushEvent.End();
-
+                    BossRushEvent.End();
                     Projectile.Kill();
                 }
 

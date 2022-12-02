@@ -304,10 +304,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<HolyFlames>(), 120);
                     break;
 
-                case ProjectileID.DarkLance:
-                    target.AddBuff(BuffID.ShadowFlame, 120);
-                    break;
-
                 case ProjectileID.PoisonedKnife:
                     target.AddBuff(BuffID.Poisoned, 300);
                     break;
@@ -547,10 +543,6 @@ namespace CalamityMod.CalPlayer
                 case ProjectileID.Gungnir:
                 case ProjectileID.PaladinsHammerFriendly:
                     target.AddBuff(BuffType<HolyFlames>(), 120);
-                    break;
-
-                case ProjectileID.DarkLance:
-                    target.AddBuff(BuffType<Shadowflame>(), 120);
                     break;
 
                 case ProjectileID.PoisonedKnife:
@@ -1493,7 +1485,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (corrosiveSpine)
                 {
-                    target.AddBuff(BuffID.Venom, 240);
+                    target.AddBuff(BuffID.Poisoned, 240);
                 }
             }
             if (summon)
@@ -1607,7 +1599,7 @@ namespace CalamityMod.CalPlayer
             if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && !Player.moonLeech)
             {
                 // Increases the degree to which Spectre Healing set contributes to the lifesteal cap
-                if (Player.ghostHeal)
+                if (Player.ghostHeal && proj.CountsAsClass<MagicDamageClass>())
                 {
                     float cooldownMult = 0.2f;
                     cooldownMult -= proj.numHits * 0.05f;
@@ -1632,7 +1624,11 @@ namespace CalamityMod.CalPlayer
                 {
                     float heal = MathHelper.Clamp(damage * 0.011f, 0f, 5f);
                     if ((int)heal > 0)
+					{
                         CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileID.VampireHeal, 1200f, 3f);
+						float cooldown = heal * 2f;
+						Main.player[Main.myPlayer].lifeSteal -= cooldown;
+					}
                 }
 
                 if (bloodyGlove && proj.CountsAsClass<RogueDamageClass>() && modProj.stealthStrike)

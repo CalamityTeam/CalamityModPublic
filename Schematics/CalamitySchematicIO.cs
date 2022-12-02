@@ -556,6 +556,7 @@ namespace CalamityMod.Schematics
                 {
                     ModContent.SplitName(tileFullName, out string mod, out string tileName);
                     Mod theMod = ModLoader.GetMod(mod);
+
                     // If that mod isn't loaded, spawn in a TML default UnloadedTile instead.
                     smt.TileType = (ushort)(theMod is null ? ModContent.TileType<UnloadedTile>() : theMod.Find<ModTile>(tileName).Type);
                 }

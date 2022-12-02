@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.Abyss
         public override void SetStaticDefaults()
         {
             // Grows on sulphurous sand
-            GrowsOnTileId = new int[2] { ModContent.TileType<SulphurousSand>() , ModContent.TileType<SulphurousSandNoWater>()};
+            GrowsOnTileId = new int[] { ModContent.TileType<SulphurousSand>() };
         }
 
         //Copypasted from vanilla, just as ExampleMod did, due to the lack of proper explanation

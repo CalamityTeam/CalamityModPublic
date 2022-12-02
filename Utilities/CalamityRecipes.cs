@@ -798,7 +798,6 @@ namespace CalamityMod
                 { Vanilla(ItemID.OpticStaff), RemoveIngredient(ItemID.HallowedBar) },
                 { Vanilla(ItemID.ShroomiteBar), ChangeIngredientStack(ItemID.GlowingMushroom, 5) },
                 { Vanilla(ItemID.ChlorophyteBar), ChangeIngredientStack(ItemID.ChlorophyteOre, 4) },
-                { Vanilla(ItemID.AnkhCharm), AddIngredient(ItemID.PocketMirror) },
                 { Vanilla(ItemID.CelestialEmblem), ReplaceIngredient(ItemID.AvengerEmblem, ItemID.SorcererEmblem) },
                 { Vanilla(ItemID.MechanicalGlove), ReplaceIngredient(ItemID.AvengerEmblem, ItemID.WarriorEmblem) },
                 { VanillaEach(
@@ -1194,6 +1193,28 @@ namespace CalamityMod
             r.AddRecipeGroup("IronBar", 3);
             r.AddTile(TileID.Anvils);
             r.Register();
+
+            // Bast Statue
+            r = Recipe.Create(ItemID.CatBast);
+            r.AddRecipeGroup("IronBar", 7);
+            r.AddRecipeGroup("AnyGoldBar", 3);
+            r.AddIngredient(ItemID.Ruby);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
+            // Encumbering Stone
+            r = Recipe.Create(ItemID.EncumberingStone);
+            r.AddIngredient(ItemID.StoneBlock, 100);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
+            // Desert Minecart
+            r = Recipe.Create(ItemID.DesertMinecart);
+            r.AddIngredient(ItemID.SandstoneBrick, 20);
+            r.AddRecipeGroup("AnyGoldBar", 6);
+            r.AddRecipeGroup("IronBar", 3);
+            r.AddTile(TileID.Anvils);
+            r.Register();
         }
         #endregion
 
@@ -1583,79 +1604,6 @@ namespace CalamityMod
             r.AddTile(TileID.Loom);
             r.Register();
 
-            // Alternative Turtle, Shroomite, and Spectre Armor set recipes
-            r = Recipe.Create(ItemID.TurtleHelmet);
-            r.AddIngredient(ItemID.ChlorophyteMask);
-            r.AddIngredient(ItemID.TurtleShell);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            r = Recipe.Create(ItemID.TurtleScaleMail);
-            r.AddIngredient(ItemID.ChlorophytePlateMail);
-            r.AddIngredient(ItemID.TurtleShell);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            r = Recipe.Create(ItemID.TurtleLeggings);
-            r.AddIngredient(ItemID.ChlorophyteGreaves);
-            r.AddIngredient(ItemID.TurtleShell);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            r = Recipe.Create(ItemID.ShroomiteHelmet);
-            r.AddIngredient(ItemID.ChlorophyteHelmet);
-            r.AddIngredient(ItemID.GlowingMushroom, 60);
-            r.AddTile(TileID.Autohammer);
-            r.Register();
-
-            r = Recipe.Create(ItemID.ShroomiteHeadgear);
-            r.AddIngredient(ItemID.ChlorophyteHelmet);
-            r.AddIngredient(ItemID.GlowingMushroom, 60);
-            r.AddTile(TileID.Autohammer);
-            r.Register();
-
-            r = Recipe.Create(ItemID.ShroomiteMask);
-            r.AddIngredient(ItemID.ChlorophyteHelmet);
-            r.AddIngredient(ItemID.GlowingMushroom, 60);
-            r.AddTile(TileID.Autohammer);
-            r.Register();
-
-            r = Recipe.Create(ItemID.ShroomiteBreastplate);
-            r.AddIngredient(ItemID.ChlorophytePlateMail);
-            r.AddIngredient(ItemID.GlowingMushroom, 120);
-            r.AddTile(TileID.Autohammer);
-            r.Register();
-
-            r = Recipe.Create(ItemID.ShroomiteLeggings);
-            r.AddIngredient(ItemID.ChlorophyteGreaves);
-            r.AddIngredient(ItemID.GlowingMushroom, 80);
-            r.AddTile(TileID.Autohammer);
-            r.Register();
-
-            r = Recipe.Create(ItemID.SpectreHood);
-            r.AddIngredient(ItemID.ChlorophyteHeadgear);
-            r.AddIngredient(ItemID.Ectoplasm, 6);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            r = Recipe.Create(ItemID.SpectreMask);
-            r.AddIngredient(ItemID.ChlorophyteHeadgear);
-            r.AddIngredient(ItemID.Ectoplasm, 6);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            r = Recipe.Create(ItemID.SpectreRobe);
-            r.AddIngredient(ItemID.ChlorophytePlateMail);
-            r.AddIngredient(ItemID.Ectoplasm, 12);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            r = Recipe.Create(ItemID.SpectrePants);
-            r.AddIngredient(ItemID.ChlorophyteGreaves);
-            r.AddIngredient(ItemID.Ectoplasm, 9);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
         }
         #endregion
 
@@ -1738,7 +1686,7 @@ namespace CalamityMod
             r.AddTile(TileID.Anvils);
             r.Register();
 
-            // Pocket Mirror (petrification, added to Ankh charm+ in Calamity)
+            // Pocket Mirror (petrification)
             r = Recipe.Create(ItemID.PocketMirror);
             r.AddIngredient(ItemID.Glass, 10);
             r.AddRecipeGroup(AnyGoldBar, 4);
@@ -1809,15 +1757,6 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Lens, 5);
             r.AddIngredient(ItemID.SoulofLight, 8);
             r.AddTile(TileID.CrystalBall);
-            r.Register();
-
-            // Terra Blade w/ True Bloody Edge
-            r = Recipe.Create(ItemID.TerraBlade);
-            r.AddIngredient(ModContent.ItemType<TrueBloodyEdge>());
-            r.AddIngredient(ItemID.TrueExcalibur);
-            r.AddIngredient(ItemID.BrokenHeroSword);
-            r.AddIngredient(ModContent.ItemType<LivingShard>(), 12);
-            r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             // Turtle Shell with Giant Tortoise Shell

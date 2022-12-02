@@ -39,6 +39,8 @@ namespace CalamityMod.NPCs.Cryogen
         private int currentPhase = 1;
         private int teleportLocationX = 0;
 
+        public static Color BackglowColor => new Color(24, 100, 255, 80) * 0.6f;
+
         public override string Texture => "CalamityMod/NPCs/Cryogen/Cryogen_Phase1";
 
         public override void SetStaticDefaults()
@@ -1198,7 +1200,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             // Spawn Permafrost if he isn't in the world
             int permafrostNPC = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
-            if (permafrostNPC == -1)
+            if (permafrostNPC == -1 && !BossRushEvent.BossRushActive)
                 NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<DILF>(), 0, 0f, 0f, 0f, 0f, 255);
 
             // If Cryogen has not been killed, notify players about Cryonic Ore

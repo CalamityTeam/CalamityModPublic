@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<ReaperTooth>(6).
                 AddIngredient<Lumenyl>(15).
                 AddIngredient<DepthCells>(15).
-                AddIngredient<Tenebris>(5).
+                AddIngredient<PlantyMush>(5).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
         }

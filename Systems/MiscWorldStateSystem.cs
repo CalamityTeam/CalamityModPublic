@@ -43,7 +43,6 @@ namespace CalamityMod
             CalamityGlobalNPC.draedonExoMechTwinGreen = -1;
             CalamityGlobalNPC.draedonExoMechTwinRed = -1;
             CalamityGlobalNPC.draedonExoMechWorm = -1;
-            CalamityGlobalNPC.adultEidolonWyrmHead = -1;
             BossRushEvent.BossRushStage = 0;
             ArmoredDiggerSpawnCooldown = 0;
             BossRushEvent.BossRushActive = false;
@@ -51,6 +50,7 @@ namespace CalamityMod
             BossRushEvent.HostileProjectileKillCounter = 0;
             CustomTemple.NewAlterPosition = Point.Zero;
             Abyss.AbyssChasmBottom = 0;
+            SulphurousSea.YStart = 0;
             Abyss.AtLeftSideOfWorld = false;
 
             spawnedBandit = false;
@@ -130,6 +130,7 @@ namespace CalamityMod
 
             tag["downed"] = downed;
             tag["abyssChasmBottom"] = Abyss.AbyssChasmBottom;
+            tag["SulphSeaYStart"] = SulphurousSea.YStart;
             tag["acidRainPoints"] = AcidRainEvent.AccumulatedKillPoints;
             tag["Reforges"] = Reforges;
             tag["MoneyStolenByBandit"] = MoneyStolenByBandit;
@@ -176,6 +177,7 @@ namespace CalamityMod
             RecipeUnlockHandler.Load(downed);
 
             Abyss.AbyssChasmBottom = tag.GetInt("abyssChasmBottom");
+            SulphurousSea.YStart = tag.GetInt("SulphSeaYStart");
             AcidRainEvent.AccumulatedKillPoints = tag.GetInt("acidRainPoints");
             Reforges = tag.GetInt("Reforges");
             MoneyStolenByBandit = tag.GetInt("MoneyStolenByBandit");

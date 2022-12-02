@@ -99,17 +99,11 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            bool adultWyrmAlive = false;
-            if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
-                    adultWyrmAlive = true;
-            }
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
             {
                 NPC.TargetClosest(true);
             }
-            if (NPC.justHit || detectsPlayer || Main.player[NPC.target].chaosState || adultWyrmAlive || (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(160f))
+            if (NPC.justHit || detectsPlayer || Main.player[NPC.target].chaosState || (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(160f))
             {
                 detectsPlayer = true;
                 NPC.damage = Main.expertMode ? 340 : 170;
@@ -178,10 +172,10 @@ namespace CalamityMod.NPCs.Abyss
                         NPC.localAI[0] = 0f;
                         NPC.TargetClosest(true);
                         NPC.netUpdate = true;
-                        int damage = adultWyrmAlive ? (Main.expertMode ? 150 : 200) : (Main.expertMode ? 60 : 80);
+                        int damage = (Main.expertMode ? 60 : 80);
                         float xPos = Main.rand.NextBool(2) ? NPC.position.X + 200f : NPC.position.X - 200f;
                         Vector2 vector2 = new Vector2(xPos, NPC.position.Y + Main.rand.Next(-200, 201));
-                        int randomAmt = adultWyrmAlive ? 2 : 3;
+                        int randomAmt = 3;
                         int random = Main.rand.Next(randomAmt);
                         if (random == 0)
                         {
@@ -190,7 +184,7 @@ namespace CalamityMod.NPCs.Abyss
                         else if (random == 1)
                         {
                             Vector2 vec = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.UnitX * NPC.direction);
-                            Vector2 vector4 = vec * (adultWyrmAlive ? 6f : 4f);
+                            Vector2 vector4 = vec * 4f;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), vector2, vector4, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
                         }
                         else
@@ -299,14 +293,6 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     num188 = 15f;
                     num189 = 0.25f;
-                }
-                if (adultWyrmAlive)
-                {
-                    if (!Main.player[NPC.target].Calamity().ZoneAbyssLayer4)
-                    {
-                        num188 = 22.5f;
-                        num189 = 0.375f;
-                    }
                 }
             }
             float num48 = num188 * 1.3f;
@@ -436,16 +422,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            bool adultWyrmAlive = false;
-            if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
-                    adultWyrmAlive = true;
-            }
-
-            if (adultWyrmAlive)
-                cooldownSlot = ImmunityCooldownID.Bosses;
-
             Rectangle targetHitbox = target.Hitbox;
 
             float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
@@ -506,26 +482,23 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            // Never drop anything if this Eidolon Wyrm is a minion during an AEW fight.
-            var aewMinionCondition = npcLoot.DefineConditionalDropSet(AdultEidolonWyrmHead.CanMinionsDropThings);
-
             // 30-40 Voidstone
-            aewMinionCondition.Add(ModContent.ItemType<Voidstone>(), 1, 30, 40);
+            npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 30, 40);
 
             // Post-Polterghast: Soul Edge, Eidolic Wail, Stardust Staff
             LeadingConditionRule postPolter = npcLoot.DefineConditionalDropSet(DropHelper.PostPolter());
-            aewMinionCondition.Add(postPolter);
+            npcLoot.Add(postPolter);
             postPolter.Add(ModContent.ItemType<SoulEdge>(), 3);
             postPolter.Add(ModContent.ItemType<EidolicWail>(), 3);
             postPolter.Add(ModContent.ItemType<EidolonStaff>(), 3);
 
             // Post-Clone: 6-8 Lumenyl (8-11 on Expert)
             LeadingConditionRule postClone = npcLoot.DefineConditionalDropSet(DropHelper.PostCal());
-            aewMinionCondition.Add(postClone);
+            npcLoot.Add(postClone);
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenyl>(), 1, 6, 8, 8, 11));
 
             // Post-Plantera: 8-12 Ectoplasm
-            aewMinionCondition.Add(ItemDropRule.ByCondition(new Conditions.DownedPlantera(), ItemID.Ectoplasm, 1, 8, 12));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.DownedPlantera(), ItemID.Ectoplasm, 1, 8, 12));
         }
 
         public override void HitEffect(int hitDirection, double damage)

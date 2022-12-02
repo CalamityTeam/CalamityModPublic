@@ -2573,7 +2573,7 @@ namespace CalamityMod.NPCs
 
                 // Stay vulnerable for a maximum of 2 seconds
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= (phase2 ? 30f : 120f) || bossRush)
+                if (npc.ai[1] >= (phase5 ? 60f : phase4 ? 75f : phase3 ? 90f : phase2 ? 105f : 120f) || bossRush)
                 {
                     // Set AI to next phase (Walk) and reset other AI
                     npc.TargetClosest();
@@ -4240,7 +4240,9 @@ namespace CalamityMod.NPCs
                 }
 
                 // Destroy all Dark Energies if their total HP is below 20%
-                int darkEnergyMaxHP = bossRush ? 44000 : 12000;
+                int darkEnergyMaxHP = bossRush ? DarkEnergy.MaxBossRushHP : DarkEnergy.MaxHP;
+                double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+                darkEnergyMaxHP += (int)(darkEnergyMaxHP * HPBoost);
                 int totalDarkEnergiesSpawned = darkEnergyAmt * 3 + 2;
                 int totalDarkEnergyMaxHP = darkEnergyMaxHP * totalDarkEnergiesSpawned;
                 int succPhaseGateValue = (int)(totalDarkEnergyMaxHP * 0.2);
@@ -4560,7 +4562,7 @@ namespace CalamityMod.NPCs
             bool phaseSwitchPhase = (phase2 && calamityGlobalNPC.newAI[0] < newPhaseTimer && calamityGlobalNPC.newAI[2] != 1f) ||
                 (phase3 && calamityGlobalNPC.newAI[1] < newPhaseTimer && calamityGlobalNPC.newAI[3] != 1f);
 
-            calamityGlobalNPC.DR = (phaseSwitchPhase || npc.ai[0] == 5f || (enrageScale == 3f && !bossRush)) ? 0.55f : 0.1f;
+            calamityGlobalNPC.DR = (phaseSwitchPhase || npc.ai[0] == 5f || (enrageScale == 3f && !bossRush)) ? (bossRush ? 0.99f : 0.55f) : 0.1f;
             calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phaseSwitchPhase || npc.ai[0] == 5f || (enrageScale == 3f && !bossRush);
 
             if (phaseSwitchPhase)
@@ -5575,7 +5577,7 @@ namespace CalamityMod.NPCs
 
             // Increased DR while transitioning phases and not exhausted
             if (!exhausted)
-                calamityGlobalNPC.DR = (npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f) ? 0.75f : 0.5f;
+                calamityGlobalNPC.DR = (npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f) ? (bossRush ? 0.99f : 0.75f) : 0.5f;
 
             calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
 
@@ -7138,6 +7140,11 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Swimming AI
+		// Passiveness:
+		// 0 = Catfish, Flounder, Frogfish, Viperfish, Moray Eel, Laserfish
+		// 1 = Blinded Angler
+		// 2 = Prism-Back, Toxic Minnow
+		// 3 = Sea Minnow
         public static void PassiveSwimmingAI(NPC npc, Mod mod, int passiveness, float detectRange, float xSpeed, float ySpeed, float speedLimitX, float speedLimitY, float rotation, bool spriteFacesLeft = true)
         {
             if (spriteFacesLeft)
@@ -7150,55 +7157,62 @@ namespace CalamityMod.NPCs
             {
                 npc.TargetClosest(true);
             }
+			Player target = Main.player[npc.target];
             if (npc.justHit && passiveness != 3)
             {
                 npc.chaseable = true;
             }
             if (npc.wet)
             {
-                bool flag14 = npc.chaseable;
+                bool hasWetTarget = npc.chaseable;
                 npc.TargetClosest(false);
+				target = Main.player[npc.target];
+				// Player detection behavior
                 if (passiveness != 2)
                 {
                     if (npc.type == ModContent.NPCType<Frogfish>())
                     {
-                        if (Main.player[npc.target].wet && !Main.player[npc.target].dead)
+                        if (target.wet && !target.dead)
                         {
-                            flag14 = true;
+                            hasWetTarget = true;
                             npc.chaseable = true; //once the enemy has detected the player, let minions fuck it up
                         }
                     }
                     if (npc.type == ModContent.NPCType<Flounder>())
                     {
-                        if (!Main.player[npc.target].dead)
+                        if (!target.dead)
                         {
-                            flag14 = true;
+                            hasWetTarget = true;
                             npc.chaseable = true; //once the enemy has detected the player, let minions fuck it up
                         }
                     }
-                    else if (Main.player[npc.target].wet && !Main.player[npc.target].dead &&
-                        (Main.player[npc.target].Center - npc.Center).Length() < detectRange &&
-                        Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                    else if (target.wet && !target.dead && (target.Center - npc.Center).Length() < detectRange &&
+                        Collision.CanHit(npc.position, npc.width, npc.height, target.position, target.width, target.height))
                     {
-                        flag14 = true;
+                        hasWetTarget = true;
                         npc.chaseable = true; //once the enemy has detected the player, let minions fuck it up
                     }
                     else
                     {
                         if (passiveness == 1)
                         {
-                            flag14 = false;
+                            hasWetTarget = false;
                         }
                     }
                 }
-                if ((Main.player[npc.target].dead || !Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height)) && flag14)
+                if ((target.dead || !Collision.CanHit(npc.position, npc.width, npc.height, target.position, target.width, target.height)) && hasWetTarget)
                 {
-                    flag14 = false;
+                    hasWetTarget = false;
                 }
-                if (!flag14 || passiveness == 0)
+
+				// Swim back and forth
+                if (!hasWetTarget || passiveness == 2)
                 {
                     if (passiveness == 0)
+					{
                         npc.TargetClosest(true);
+						target = Main.player[npc.target];
+					}
                     if (npc.collideX)
                     {
                         npc.velocity.X = npc.velocity.X * -1f;
@@ -7222,14 +7236,18 @@ namespace CalamityMod.NPCs
                         }
                     }
                 }
-                if (flag14 && passiveness != 2)
+
+                if (hasWetTarget && passiveness != 2)
                 {
                     npc.TargetClosest(true);
+					target = Main.player[npc.target];
+					// Swim away from the player
                     if (passiveness == 3)
                     {
                         npc.velocity.X = npc.velocity.X - (float)npc.direction * xSpeed;
                         npc.velocity.Y = npc.velocity.Y - (float)npc.directionY * ySpeed;
                     }
+					// Swim toward the player
                     else
                     {
                         npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 2f * xSpeed : xSpeed);
@@ -7239,60 +7257,58 @@ namespace CalamityMod.NPCs
                     float velocityCapY = CalamityWorld.death && passiveness != 3 ? 2f * speedLimitY : speedLimitY;
                     npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -velocityCapX, velocityCapX);
                     npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -velocityCapY, velocityCapY);
+
+					// Laserfish shoot the player
                     if (npc.type == ModContent.NPCType<Laserfish>())
                     {
                         npc.localAI[0] += (CalamityWorld.death ? 2f : 1f);
                         if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 120f)
                         {
                             npc.localAI[0] = 0f;
-                            if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                            if (Collision.CanHit(npc.position, npc.width, npc.height, target.position, target.width, target.height))
                             {
                                 float speed = 5f;
                                 Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-                                float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X + (float)Main.rand.Next(-20, 21);
-                                float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-20, 21);
-                                float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
-                                num8 = speed / num8;
-                                num6 *= num8;
-                                num7 *= num8;
-                                int damage = 50;
-                                if (Main.expertMode)
-                                {
-                                    damage = 40;
-                                }
-                                int beam = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + (npc.spriteDirection == 1 ? 25f : -25f), npc.Center.Y + (Main.player[npc.target].position.Y > npc.Center.Y ? 5f : -5f), num6, num7, ProjectileID.EyeBeam, damage, 0f, Main.myPlayer, 0f, 0f);
+                                float velX = target.Center.X - vector.X + Main.rand.NextFloat(-20f, 20f);
+                                float velY = target.Center.Y - vector.Y + Main.rand.NextFloat(-20f, 20f);
+                                float dist = (float)Math.Sqrt((double)(velX * velX + velY * velY));
+                                dist = speed / dist;
+                                velX *= dist;
+                                velY *= dist;
+                                int damage = Main.expertMode ? 40 : 50;
+                                int beam = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + (npc.spriteDirection == 1 ? 25f : -25f), npc.Center.Y + (target.position.Y > npc.Center.Y ? 5f : -5f), velX, velY, ProjectileID.EyeBeam, damage, 0f, Main.myPlayer);
                                 Main.projectile[beam].tileCollide = true;
                             }
                         }
                     }
+
+					// Flounder shoot Sulphuric Mist at the player
                     if (npc.type == ModContent.NPCType<Flounder>())
                     {
-                        if ((Main.player[npc.target].Center - npc.Center).Length() < 350f)
+                        if ((target.Center - npc.Center).Length() < 350f)
                         {
                             npc.localAI[0] += (CalamityWorld.death ? 3f : 1f);
                             if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 180f)
                             {
                                 npc.localAI[0] = 0f;
-                                if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                                if (Collision.CanHit(npc.position, npc.width, npc.height, target.position, target.width, target.height))
                                 {
                                     float speed = 4f;
                                     Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-                                    float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X + (float)Main.rand.Next(-20, 21);
-                                    float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-20, 21);
-                                    float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
-                                    num8 = speed / num8;
-                                    num6 *= num8;
-                                    num7 *= num8;
-                                    int damage = 35;
-                                    if (Main.expertMode)
-                                    {
-                                        damage = 25;
-                                    }
-                                    int beam = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + (npc.spriteDirection == 1 ? 10f : -10f), npc.Center.Y, num6, num7, ModContent.ProjectileType<SulphuricAcidMist>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                                    float velX = target.Center.X - vector.X + Main.rand.NextFloat(-20f, 20f);
+                                    float velY = target.Center.Y - vector.Y + Main.rand.NextFloat(-20f, 20f);
+                                    float dist = (float)Math.Sqrt((double)(velX * velX + velY * velY));
+                                    dist = speed / dist;
+                                    velX *= dist;
+                                    velY *= dist;
+                                    int damage = Main.expertMode ? 25 : 35;
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + (npc.spriteDirection == 1 ? 10f : -10f), npc.Center.Y, velX, velY, ModContent.ProjectileType<SulphuricAcidMist>(), damage, 0f, Main.myPlayer);
                                 }
                             }
                         }
                     }
+
+					// Sea Minnows face away from the player
                     if (npc.type == ModContent.NPCType<SeaMinnow>())
                     {
                         npc.direction *= -1;
@@ -7300,6 +7316,7 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
+					// No target behavior
                     npc.velocity.X += (float)npc.direction * 0.1f;
                     if (npc.velocity.X < -2.5f || npc.velocity.X > 2.5f)
                     {
@@ -7342,6 +7359,7 @@ namespace CalamityMod.NPCs
             }
             else
             {
+				// Out of water behavior
                 if (npc.velocity.Y == 0f)
                 {
                     npc.velocity.X = npc.velocity.X * 0.94f;
