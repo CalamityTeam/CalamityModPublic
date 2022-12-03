@@ -22,9 +22,17 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 		public ref float SpinCounter => ref Projectile.localAI[1];
 		public ref float ShootCooldown => ref Projectile.ai[1];
 
+        public float GetOffsetAngle
+        {
+            get
+            {
+                return MathHelper.TwoPi * 5 / 5 + Main.projectile[(int)Projectile.ai[0]].ai[0] / 27f;
+            }
+        }
+
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rifle");
+            DisplayName.SetDefault("Lavender Rifle");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 40;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 4;
         }
@@ -52,8 +60,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				Projectile.timeLeft = 2;
 			}
 
-			// Increment counters for rotation, swap cooldown, and sine counter
-			Projectile.ai[0] -= MathHelper.ToRadians(4f);
+			// Increment counters for swap cooldown and sine counter
 			if (swapCooldown > 0)
 				swapCooldown--;
 			if (swapCooldown == 1)
@@ -218,8 +225,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 		{
 			Player player = Main.player[Projectile.owner];
 
-			const float outwardPosition = 180f;
-			Vector2 returnPos = player.Center + Projectile.ai[0].ToRotationVector2() * outwardPosition;
+			Vector2 returnPos = player.Center + GetOffsetAngle.ToRotationVector2() * 180f;
 
 			// Player distance calculations
 			Vector2 playerVec = returnPos - Projectile.Center;
@@ -243,7 +249,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			else
 			{
 				Projectile.spriteDirection = Projectile.direction = 0;
-				Projectile.rotation = Projectile.ai[0] + MathHelper.PiOver4;
+				Projectile.rotation = GetOffsetAngle + MathHelper.PiOver4;
 				drawTrail = false;
 				Projectile.Center = returnPos;
 			}

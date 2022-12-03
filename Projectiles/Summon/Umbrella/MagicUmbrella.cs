@@ -17,9 +17,17 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 		private const float drawOffset = -MathHelper.PiOver4 + MathHelper.Pi;
         public VertexStrip TrailDrawer;
 
+        public float GetOffsetAngle
+        {
+            get
+            {
+                return MathHelper.TwoPi * 4 / 5 + Main.projectile[(int)Projectile.ai[0]].ai[0] / 27f;
+            }
+        }
+
         public override void SetStaticDefaults()
 		{
-            DisplayName.SetDefault("Umbrella");
+            DisplayName.SetDefault("Cyan Umbrella");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 40;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 4;
         }
@@ -57,9 +65,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			{
 				Projectile.timeLeft = 2;
 			}
-
-			// Decrement the rotation variable
-			Projectile.ai[0] -= MathHelper.ToRadians(4f);
 
 			// Not sure what this is for, a lot of the code is taken from Terraprisma
 			List<int> blackListedTargets = new List<int> {};
@@ -271,8 +276,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 		{
 			Player player = Main.player[Projectile.owner];
 
-			const float outwardPosition = 180f;
-			Vector2 returnPos = player.Center + Projectile.ai[0].ToRotationVector2() * outwardPosition;
+			Vector2 returnPos = player.Center + GetOffsetAngle.ToRotationVector2() * 180f;
 
 			bool returningToPlayer = Behavior == -1f;
 
@@ -304,7 +308,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			else
 			{
 				Projectile.Center = returnPos;
-				Projectile.rotation = Projectile.ai[0] + drawOffset;
+				Projectile.rotation = GetOffsetAngle + drawOffset;
 			}
 		}
 

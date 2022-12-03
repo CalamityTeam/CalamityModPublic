@@ -23,9 +23,17 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public VertexStrip TrailDrawer;
 
+        public float GetOffsetAngle
+        {
+            get
+            {
+                return MathHelper.TwoPi * 2 / 5 + Main.projectile[(int)Projectile.ai[0]].ai[0] / 27f;
+            }
+        }
+
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hammer");
+            DisplayName.SetDefault("Marmalade Hammer");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 40;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 4;
         }
@@ -67,9 +75,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			{
 				Projectile.timeLeft = 2;
 			}
-
-			// Decrement the rotation variable
-			Projectile.ai[0] -= MathHelper.ToRadians(4f);
 
             float homingRange = MagicHat.Range;
             int targetIndex = -1;
@@ -123,8 +128,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 		{
 			Player player = Main.player[Projectile.owner];
 
-			const float outwardPosition = 180f;
-			Vector2 returnPos = player.Center + Projectile.ai[0].ToRotationVector2() * outwardPosition;
+			Vector2 returnPos = player.Center + GetOffsetAngle.ToRotationVector2() * 180f;
 
 			// Player distance calculations
 			Vector2 playerVec = returnPos - Projectile.Center;
@@ -148,7 +152,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			else
 			{
 				Projectile.Center = returnPos;
-				Projectile.rotation = Projectile.ai[0] + drawOffset;
+				Projectile.rotation = GetOffsetAngle + drawOffset;
 			}
 			// Return to normal size
 			if (Projectile.scale != 1f)
@@ -226,7 +230,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			Player player = Main.player[Projectile.owner];
 
 			const float outwardPosition = 180f;
-			Vector2 returnPos = player.Center + Projectile.ai[0].ToRotationVector2() * outwardPosition;
+			Vector2 returnPos = player.Center + GetOffsetAngle.ToRotationVector2() * outwardPosition;
 
 			// Player distance calculations
 			Vector2 playerVec = returnPos - Projectile.Center;

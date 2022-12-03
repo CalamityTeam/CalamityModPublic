@@ -62,20 +62,18 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			{
 				List<Tuple<int, float>> Projectiles = new List<Tuple<int, float>>()
 				{
-					new Tuple<int, float>(ModContent.ProjectileType<MagicRifle>(), 1f),
-					new Tuple<int, float>(ModContent.ProjectileType<MagicUmbrella>(), 1f),
-					new Tuple<int, float>(ModContent.ProjectileType<MagicAxe>(), 1f),
+					new Tuple<int, float>(ModContent.ProjectileType<MagicArrow>(), 2f),
 					new Tuple<int, float>(ModContent.ProjectileType<MagicHammer>(), 3f),
+					new Tuple<int, float>(ModContent.ProjectileType<MagicAxe>(), 1f),
+					new Tuple<int, float>(ModContent.ProjectileType<MagicUmbrella>(), 1f),
+					new Tuple<int, float>(ModContent.ProjectileType<MagicRifle>(), 1f),
 				};
-                float angleVariance = MathHelper.TwoPi / Projectiles.Count;
-                float angle = 0f;
 				for (int i = 0; i < Projectiles.Count; i++)
 				{
 					int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, Projectiles[i].Item1,(int)(Projectile.damage * Projectiles[i].Item2),
-													 Projectile.knockBack * Projectiles[i].Item2, Projectile.owner, angle);
+													 Projectile.knockBack * Projectiles[i].Item2, Projectile.owner, Projectile.whoAmI);
 					if (Main.projectile.IndexInRange(p))
 						Main.projectile[p].originalDamage = (int)(Projectile.originalDamage * Projectiles[i].Item2);
-					angle += angleVariance;
 				}
 			}
 			Projectile.ai[0]++;
