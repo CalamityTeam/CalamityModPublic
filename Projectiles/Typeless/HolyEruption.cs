@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -83,15 +83,5 @@ namespace CalamityMod.Projectiles.Typeless
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
-        }
     }
 }

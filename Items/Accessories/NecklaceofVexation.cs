@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Necklace of Vexation");
             Tooltip.SetDefault("Revenge\n" +
             "20% increased damage when under 50% life\n" +
-            "All attacks inflict Cursed Inferno and Venom while wearing Reaver armor");
+            "All attacks inflict acid venom while wearing Reaver armor");
         }
 
         public override void SetDefaults()

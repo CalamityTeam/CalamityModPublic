@@ -1280,16 +1280,13 @@ namespace CalamityMod.CalPlayer
         #region Debuffs
         public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool proj)
         {
-            if (melee) //prevents Deep Sea Dumbell from snagging true melee debuff memes
+            if (melee) // Prevents Deep Sea Dumbell from snagging true melee debuff memes
             {
                 if (eGauntlet)
                 {
-                    int duration = 300;
-                    target.AddBuff(BuffID.OnFire, duration, false);
-                    target.AddBuff(BuffID.Frostburn, duration, false);
-                    target.AddBuff(BuffType<HolyFlames>(), duration, false);
+                    CalamityUtils.Inflict246DebuffsNPC(target, BuffID.OnFire3);
                 }
-                if (cryogenSoul || frostFlare)
+                if (cryogenSoul)
                 {
                     CalamityUtils.Inflict246DebuffsNPC(target, BuffID.Frostburn);
                 }
@@ -1345,7 +1342,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (corrosiveSpine)
                 {
-                    target.AddBuff(BuffID.Poisoned, 240);
+                    target.AddBuff(BuffID.Venom, 240);
                 }
             }
             if (summon)
@@ -1389,6 +1386,10 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<Irradiated>(), 180);
                 }
             }
+            if (voidOfExtinction)
+                CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>());
+            if (frostFlare)
+                CalamityUtils.Inflict246DebuffsNPC(target, BuffID.Frostburn);
             if (omegaBlueChestplate)
                 target.AddBuff(BuffType<CrushDepth>(), 180);
             if (sulfurSet)
@@ -1415,7 +1416,6 @@ namespace CalamityMod.CalPlayer
                     Player.armor[0].type == ItemType<ReaverHeadMobility>()) && Player.armor[1].type == ItemType<ReaverScaleMail>() &&
                     Player.armor[2].type == ItemType<ReaverCuisses>())
                 {
-                    target.AddBuff(BuffID.CursedInferno, 90, false);
                     target.AddBuff(BuffID.Venom, 120, false);
                 }
             }
@@ -1426,36 +1426,27 @@ namespace CalamityMod.CalPlayer
             if (melee)
             {
                 if (eGauntlet)
-                {
-                    int duration = 300;
-                    target.AddBuff(BuffID.OnFire, duration, false);
-                    target.AddBuff(BuffID.Frostburn, duration, false);
-                    target.AddBuff(BuffType<HolyFlames>(), duration, false);
-                }
-                if (cryogenSoul || frostFlare)
-                {
+                    CalamityUtils.Inflict246DebuffsPvp(target, BuffID.OnFire3);
+
+                if (cryogenSoul)
                     CalamityUtils.Inflict246DebuffsPvp(target, BuffID.Frostburn);
-                }
+
                 if (yInsignia)
-                {
                     CalamityUtils.Inflict246DebuffsPvp(target, BuffType<HolyFlames>());
-                }
+
                 if (ataxiaFire)
-                {
                     CalamityUtils.Inflict246DebuffsPvp(target, BuffID.OnFire, 4f);
-                }
             }
+
 			if (melee || rogue || whip)
 			{
 				if (armorCrumbling)
-				{
                     CalamityUtils.Inflict246DebuffsPvp(target, BuffType<ArmorCrunch>());
-                }
+
 				if (aWeapon)
-				{
 					CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>());
-				}
 			}
+
             if (rogue)
             {
                 switch (Player.meleeEnchant)
@@ -1479,44 +1470,34 @@ namespace CalamityMod.CalPlayer
                         target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
                         break;
                 }
+
                 if (titanHeartMask)
-                {
                     target.AddBuff(BuffType<AstralInfectionDebuff>(), 120);
-                }
+
                 if (corrosiveSpine)
-                {
-                    target.AddBuff(BuffID.Poisoned, 240);
-                }
+                    target.AddBuff(BuffID.Venom, 240);
             }
+
             if (summon)
             {
                 if (pArtifact && !profanedCrystal)
-                {
                     target.AddBuff(BuffType<HolyFlames>(), 300);
-                }
+
                 if (profanedCrystalBuffs)
-                {
                     target.AddBuff(Main.dayTime ? BuffType<HolyFlames>() : BuffType<Nightwither>(), 600);
-                }
 
                 if (holyMinions)
-                {
                     target.AddBuff(BuffType<HolyFlames>(), 180);
-                }
 
                 if (shadowMinions)
-                {
                     target.AddBuff(BuffID.ShadowFlame, 180);
-                }
 
                 if (voltaicJelly)
                 {
-                    //100% chance for Star Tainted Generator or Nucleogenesis
-                    //20% chance for Voltaic Jelly
+                    // 100% chance for Star Tainted Generator or Nucleogenesis
+                    // 20% chance for Voltaic Jelly
                     if (Main.rand.NextBool(starTaintedGenerator ? 1 : 5))
-                    {
                         target.AddBuff(BuffID.Electrified, 60);
-                    }
                 }
 
                 if (starTaintedGenerator)
@@ -1525,29 +1506,34 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<Irradiated>(), 180);
                 }
             }
+
+            if (voidOfExtinction)
+                CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>());
+
+            if (frostFlare)
+                CalamityUtils.Inflict246DebuffsPvp(target, BuffID.Frostburn);
+
             if (omegaBlueChestplate)
                 target.AddBuff(BuffType<CrushDepth>(), 180);
+
             if (sulfurSet)
                 target.AddBuff(BuffID.Poisoned, 120);
+
             if (alchFlask)
-            {
                 CalamityUtils.Inflict246DebuffsPvp(target, BuffType<Plague>());
-            }
+
             if (abyssalAmulet)
-            {
                 CalamityUtils.Inflict246DebuffsPvp(target, BuffType<CrushDepth>());
-            }
+
             if (holyWrath)
-            {
                 target.AddBuff(BuffType<HolyFlames>(), 180, false);
-            }
+
             if (vexation)
             {
                 if ((Player.armor[0].type == ItemType<ReaverHeadTank>() || Player.armor[0].type == ItemType<ReaverHeadExplore>() ||
                     Player.armor[0].type == ItemType<ReaverHeadMobility>()) && Player.armor[1].type == ItemType<ReaverScaleMail>() &&
                     Player.armor[2].type == ItemType<ReaverCuisses>())
                 {
-                    target.AddBuff(BuffID.CursedInferno, 90, false);
                     target.AddBuff(BuffID.Venom, 120, false);
                 }
             }

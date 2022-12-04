@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
                             "Grants the ability to dodge attacks\n" +
                             $"The dodge has a {BalancingConstants.AmalgamDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects\n" +
                             "Temporarily increases critical strike chance and summon damage after a dodge\n" +
-                            "Nearby enemies receive a variety of debuffs when you are hit");
+                            "Nearby enemies receive a variety of sickness-related debuffs when you are hit");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(9, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
             Item.height = 34;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.rare = RarityType<DarkBlue>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

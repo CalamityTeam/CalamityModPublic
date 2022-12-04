@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Void of Extinction");
             Tooltip.SetDefault("Drops brimstone fireballs from the sky occasionally\n" +
                 "10% increase to all damage\n" +
-                "Melee attacks inflict Hellfire\n" +
+                "All attacks inflict Brimstone Flames\n" +
                 "Brimstone fire rains down after getting hit\n" +
                 "Reduces damage from touching lava\n" +
                 "Grants immunity to Burning, On Fire!, Brimstone Flames and Searing Lava");
@@ -60,7 +60,6 @@ namespace CalamityMod.Items.Accessories
             modPlayer.voidOfExtinction = true;
             modPlayer.abaddon = true;
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-            player.magmaStone = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.fireWalk = true;
             player.lavaRose = true;
