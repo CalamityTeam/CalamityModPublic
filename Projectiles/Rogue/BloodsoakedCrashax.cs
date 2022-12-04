@@ -85,13 +85,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
             OnHitEffects(!target.canGhostHeal || Main.player[Projectile.owner].moonLeech);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
             OnHitEffects(Main.player[Projectile.owner].moonLeech);
         }
 

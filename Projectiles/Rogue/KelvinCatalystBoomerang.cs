@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -160,12 +161,18 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            if (Projectile.Calamity().stealthStrike)
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 90);
+
             target.AddBuff(BuffID.Frostburn, 240);
             OnHitEffects();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+            if (Projectile.Calamity().stealthStrike)
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 90);
+
             target.AddBuff(BuffID.Frostburn, 240);
             OnHitEffects();
         }

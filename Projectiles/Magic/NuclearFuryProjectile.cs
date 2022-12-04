@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -142,8 +142,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.buffImmune[BuffID.Wet] = false; //I'm not sorry
-            target.AddBuff(BuffID.Wet, 600);
             if (Projectile.ai[1] != 1f) //Nuclear Fury
             {
                 target.immune[Projectile.owner] = 5;

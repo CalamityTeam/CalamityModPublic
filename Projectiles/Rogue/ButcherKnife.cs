@@ -124,20 +124,6 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            Player player = Main.player[Projectile.owner];
-			if (player.FindBuffIndex(BuffID.WellFed2) > -1 && player.FindBuffIndex(BuffID.WellFed3) > -1)
-				player.AddBuff(BuffID.WellFed, 180);
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            Player player = Main.player[Projectile.owner];
-			if (player.FindBuffIndex(BuffID.WellFed2) > -1 && player.FindBuffIndex(BuffID.WellFed3) > -1)
-				player.AddBuff(BuffID.WellFed, 180);
-        }
-
         public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);

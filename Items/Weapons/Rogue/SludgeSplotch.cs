@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sludge Splotch");
-            Tooltip.SetDefault("Slows non-boss enemies slightly\n" +
-                "Stealth strikes cause the main ball of sludge to split on hit, inflicting more damage");
+            Tooltip.SetDefault("Stealth strikes cause the main ball of sludge to split on hit, inflicting more damage");
             SacrificeTotal = 99;
         }
 

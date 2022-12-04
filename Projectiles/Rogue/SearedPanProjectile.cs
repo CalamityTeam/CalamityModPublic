@@ -55,7 +55,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
             // Don't increment the Seared Pan counter when hitting dummies
             bool dummy = target.type != NPCID.TargetDummy && target.type != ModContent.NPCType<SuperDummyNPC>();
             OnHitEffects(target.whoAmI, target.life, dummy);
@@ -63,9 +62,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            Player player = Main.player[Projectile.owner];
             target.AddBuff(BuffID.Bleeding, 300);
-            target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
             OnHitEffects(-1, target.statLife, true);
         }
 

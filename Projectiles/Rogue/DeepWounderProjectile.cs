@@ -58,20 +58,20 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
             if (Projectile.Calamity().stealthStrike)
             {
-                target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
+                target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
             }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
             if (Projectile.Calamity().stealthStrike)
             {
-                target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
+                target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
             }
         }
 

@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -153,11 +154,15 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
         }
 
         public override void Kill(int timeLeft)
