@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -102,13 +102,11 @@ namespace CalamityMod.Projectiles.Rogue
         {
             target.immune[Projectile.owner] = 6;
             target.AddBuff(BuffID.Venom, 90);
-            target.AddBuff(BuffID.Poisoned, 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Venom, 90);
-            target.AddBuff(BuffID.Poisoned, 180);
         }
     }
 }
