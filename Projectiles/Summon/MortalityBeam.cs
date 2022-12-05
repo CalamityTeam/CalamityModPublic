@@ -57,13 +57,6 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.velocity = (Projectile.velocity * 5f + Projectile.SafeDirectionTo(potentialTarget.Center) * 13f) / 6f;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
-            target.AddBuff(BuffID.Frostburn, 90);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
-        }
-
         public override void Kill(int timeLeft)
         {
             if (Main.myPlayer == Projectile.owner)

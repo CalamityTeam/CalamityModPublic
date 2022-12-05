@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -49,6 +50,8 @@ namespace CalamityMod.Projectiles.Summon
             }
             CataclysmSummon.Behavior(Projectile, Main.player[Projectile.owner], ref Time);
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 180);
 
         public override bool PreDraw(ref Color lightColor)
         {

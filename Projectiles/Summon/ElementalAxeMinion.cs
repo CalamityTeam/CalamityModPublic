@@ -70,12 +70,5 @@ namespace CalamityMod.Projectiles.Summon
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
-            target.AddBuff(BuffID.Frostburn, 90);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
-        }
     }
 }

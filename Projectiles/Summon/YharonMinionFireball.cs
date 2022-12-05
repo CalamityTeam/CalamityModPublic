@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -52,6 +53,8 @@ namespace CalamityMod.Projectiles.Summon
             if (potentialTarget != null)
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(potentialTarget.Center) * InitialSpeed, 0.15f);
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<Dragonfire>(), 120);
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, Projectile.alpha);
 

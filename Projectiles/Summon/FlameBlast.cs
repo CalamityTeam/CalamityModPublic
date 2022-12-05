@@ -3,6 +3,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class FlameBlast : ModProjectile
@@ -75,6 +77,8 @@ namespace CalamityMod.Projectiles.Summon
             if (potentialTarget != null)
                 Projectile.velocity = (Projectile.velocity * 20f + Projectile.SafeDirectionTo(potentialTarget.Center) * 25f) / 21f;
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
         public override void Kill(int timeLeft)
         {
