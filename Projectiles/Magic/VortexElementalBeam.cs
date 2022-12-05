@@ -157,8 +157,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Electrified, 180);
-
             for (int i = 0; i < Projectile.oldPos.Length - 1; i++)
             {
                 // Skip zeroed old positions. They are almost certainly a

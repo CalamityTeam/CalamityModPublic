@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -40,8 +41,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Daybreak, 120);
-            target.AddBuff(BuffID.OnFire, 240);
+            target.AddBuff(ModContent.BuffType<Dragonfire>(), 120);
         }
     }
 }

@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ultra Liquidator");
-            Tooltip.SetDefault("Summons liquidation blades that summon more blades on enemy hits\n" +
-                               "The blades inflict ichor, cursed inferno and brimstone flames");
+            Tooltip.SetDefault("Summons liquidation blades that summon more blades on enemy hits");
             Item.staff[Item.type] = true;
             SacrificeTotal = 1;
         }
@@ -75,7 +74,6 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient<InfernalRift>().
                 AddIngredient(ItemID.AquaScepter).
-                AddRecipeGroup("CursedFlameIchor", 20).
                 AddIngredient<SeaPrism>(10).
                 AddIngredient<GalacticaSingularity>(5).
                 AddIngredient(ItemID.LunarBar, 5).

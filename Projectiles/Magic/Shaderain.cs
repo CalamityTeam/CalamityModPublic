@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -41,16 +41,6 @@ namespace CalamityMod.Projectiles.Magic
             dust.velocity *= 0.1f;
             dust.velocity += -Projectile.oldVelocity * 0.25f;
             dust.scale = 0.95f;
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.ShadowFlame, 60);
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -201,6 +202,11 @@ namespace CalamityMod.Projectiles.Magic
             float f = chargeRatio * chargeRatio * chargeRatio;
             return MathHelper.Lerp(1f, MaxDamageMultiplier, f);
         }
+
+        // Inflict Dragonfire.
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<Dragonfire>(), 180);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Dragonfire>(), 180);
 
         // Determines whether the specified target hitbox is intersecting with the beam.
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

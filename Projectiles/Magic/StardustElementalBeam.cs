@@ -64,9 +64,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            // Inflict the celled debuff for 3 seconds.
-            target.AddBuff(BuffID.StardustMinionBleed, 180);
-
             if (!Main.rand.NextBool(7))
                 return;
 

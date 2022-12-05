@@ -1,3 +1,4 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -49,6 +50,10 @@ namespace CalamityMod.Projectiles.Magic
             }
             Lighting.AddLight(Projectile.Center, 0.75f, 0f, 0f);
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
 
         public override Color? GetAlpha(Color lightColor)
         {

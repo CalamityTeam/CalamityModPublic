@@ -144,8 +144,7 @@ namespace CalamityMod.Items.Tools
                 if (boom.WithinBounds(Main.maxProjectiles))
                     Main.projectile[boom].DamageType = DamageClass.Melee;
             }
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 150);
+            target.AddBuff(BuffID.OnFire3, 300);
         }
     }
 }

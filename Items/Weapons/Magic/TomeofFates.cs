@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Tome of Fates");
             Tooltip.SetDefault("Casts cosmic tentacles to spear your enemies\n" +
-                "Can randomly fire a brimstone tentacle for immense damage");
+                "Can randomly fire a red tentacle for immense damage");
             SacrificeTotal = 1;
         }
 

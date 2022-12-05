@@ -88,15 +88,5 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
         }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
-        }
     }
 }

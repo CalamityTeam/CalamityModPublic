@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -91,13 +91,6 @@ namespace CalamityMod.Projectiles.Magic
                     num897++;
                 }
             }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
-            target.AddBuff(BuffID.Frostburn, 90);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
         }
     }
 }

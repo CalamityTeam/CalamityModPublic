@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -91,12 +91,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
             if (Projectile.localAI[0] == createDustVar)
                 PlasmaBurst(1f, 1.6f);
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.OnFire, 180);
-            target.AddBuff(BuffID.CursedInferno, 90);
         }
 
         public override void Kill(int timeLeft)

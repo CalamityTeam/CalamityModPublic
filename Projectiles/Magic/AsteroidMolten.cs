@@ -115,11 +115,9 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            Player player = Main.player[Projectile.owner];
-            player.AddBuff(ModContent.BuffType<Molten>(), 360);
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.OnFire3, 180);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(BuffID.OnFire3, 180);
 
         public override bool PreDraw(ref Color lightColor)
         {
