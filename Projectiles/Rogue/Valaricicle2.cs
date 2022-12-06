@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -42,16 +42,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 67, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.Frostburn2, 120);
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            target.AddBuff(BuffID.Frostburn2, 120);
         }
     }
 }

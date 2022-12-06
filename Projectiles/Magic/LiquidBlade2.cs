@@ -120,12 +120,5 @@ namespace CalamityMod.Projectiles.Magic
             Main.spriteBatch.Draw(texture2D3, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color28, Projectile.rotation, origin2, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.Ichor, 60);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 60);
-        }
     }
 }

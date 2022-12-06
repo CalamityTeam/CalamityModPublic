@@ -1,4 +1,6 @@
-﻿using CalamityMod.DataStructures;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -63,6 +65,10 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.timeLeft < 30)
                 Projectile.Opacity = MathHelper.Lerp(0f, 1f, (float)Projectile.timeLeft / 30f);
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
 
         public override bool? CanDamage() => Projectile.timeLeft > 30;
 

@@ -5830,8 +5830,9 @@ namespace CalamityMod.CalPlayer
                             npc.AddBuff(BuffID.Confused, (int)duration, false);
                             if (amalgam)
                             {
-                                npc.AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)duration);
-                                npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), (int)duration);
+                                npc.AddBuff(BuffID.Venom, (int)duration);
+                                npc.AddBuff(ModContent.BuffType<Plague>(), (int)duration);
+                                npc.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), (int)duration);
                                 npc.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), (int)duration);
                                 npc.AddBuff(ModContent.BuffType<Irradiated>(), (int)duration);
                             }

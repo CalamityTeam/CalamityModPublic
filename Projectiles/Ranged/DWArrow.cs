@@ -1,10 +1,10 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -53,10 +53,10 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
+
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture;

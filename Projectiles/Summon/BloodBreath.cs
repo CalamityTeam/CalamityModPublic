@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
@@ -76,5 +77,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             Projectile.rotation += 0.3f * Projectile.direction;
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
     }
 }

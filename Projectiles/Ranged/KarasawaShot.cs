@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -125,13 +125,6 @@ namespace CalamityMod.Projectiles.Ranged
                     dust.velocity *= randomDustType == dust2 ? 0.33f : 0.66f;
                 }
             }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.OnFire, 180);
-            target.AddBuff(BuffID.Confused, 300);
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
         public override void Kill(int timeLeft)

@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Elemental Gauntlet");
-            Tooltip.SetDefault("Melee attacks and projectiles inflict on fire, frostburn and holy flames\n" +
+            Tooltip.SetDefault("Melee attacks and projectiles inflict Hellfire\n" +
                 "15% increased melee speed, damage, and 5% increased melee critical strike chance\n" +
                 "20% increased true melee damage\n" +
                 "Temporary immunity to lava\n" +

@@ -1,3 +1,4 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -56,6 +57,11 @@ namespace CalamityMod.Projectiles.Typeless
                 if (Projectile.Opacity > 0.7f)
                     Projectile.Opacity = 0.7f;
             }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 90);
         }
 
         public override bool PreDraw(ref Color lightColor)

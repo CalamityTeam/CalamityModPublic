@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -165,7 +165,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
             target.AddBuff(ModContent.BuffType<BurningBlood>(), 240);
 
             if (!target.canGhostHeal || Main.player[Projectile.owner].moonLeech)

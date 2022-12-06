@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.Magic;
@@ -36,6 +38,13 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<LightningArc>();
             Item.shootSpeed = 14f;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile.NewProjectile(source, position + velocity * 4.5f, velocity, ModContent.ProjectileType<LightningArc>(), damage, knockback, player.whoAmI);
+
+            return false;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

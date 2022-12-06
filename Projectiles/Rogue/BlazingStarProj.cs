@@ -1,9 +1,10 @@
-using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -106,11 +107,23 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire3, 180);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire3, 180);
+        }
+
         public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
+
         // Make the star bounce on tiles.
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

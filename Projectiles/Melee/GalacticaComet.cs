@@ -146,7 +146,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+            if (Projectile.DamageType != DamageClass.Ranged)
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
     }
 }

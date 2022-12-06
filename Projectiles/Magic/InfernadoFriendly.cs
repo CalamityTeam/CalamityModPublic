@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -121,6 +123,11 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.position.X += num624 * -Projectile.direction;
                 return;
             }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
         }
 
         public override Color? GetAlpha(Color lightColor)

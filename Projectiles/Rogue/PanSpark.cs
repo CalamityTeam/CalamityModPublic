@@ -1,8 +1,7 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -129,12 +128,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Dragonfire>(), 90);
+            target.AddBuff(BuffID.Daybreak, 90);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Dragonfire>(), 90);
+            target.AddBuff(BuffID.Daybreak, 90);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 230, 130);

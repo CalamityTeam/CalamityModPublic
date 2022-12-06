@@ -1,4 +1,6 @@
-﻿using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.Typeless;
+using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -65,6 +67,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            target.AddBuff(BuffID.Daybreak, 180);
+
             target.immune[Projectile.owner] = 4;
             if (Projectile.owner == Main.myPlayer)
             {
@@ -73,5 +77,7 @@ namespace CalamityMod.Projectiles.Magic
                     Main.projectile[proj].DamageType = DamageClass.Magic;
             }
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(BuffID.Daybreak, 180);
     }
 }

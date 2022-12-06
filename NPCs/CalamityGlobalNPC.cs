@@ -106,6 +106,10 @@ namespace CalamityMod.NPCs
         public bool? VulnerableToElectricity = null;
         public bool? VulnerableToWater = null;
 
+        public const double BaseDoTDamageMult = 1D;
+        public const double VulnerableToDoTDamageMult = 2D;
+        public const double VulnerableToDoTDamageMult_Worms_SlimeGod = 1.5;
+
         // Eskimo Set effect
         public bool IncreasedColdEffects_EskimoSet = false;
 
@@ -737,48 +741,48 @@ namespace CalamityMod.NPCs
             bool slimeGod = CalamityLists.SlimeGodIDs.Contains(npc.type);
 
             bool slimed = npc.drippingSlime || npc.drippingSparkleSlime;
-            double heatDamageMult = slimed ? ((wormBoss || slimeGod) ? 2D : 5D) : 1D;
+            double heatDamageMult = slimed ? ((wormBoss || slimeGod) ? VulnerableToDoTDamageMult_Worms_SlimeGod : VulnerableToDoTDamageMult) : BaseDoTDamageMult;
             if (VulnerableToHeat.HasValue)
             {
                 if (VulnerableToHeat.Value)
-                    heatDamageMult *= slimed ? ((wormBoss || slimeGod) ? 1.5 : 2D) : ((wormBoss || slimeGod) ? 2D : 5D);
+                    heatDamageMult *= slimed ? ((wormBoss || slimeGod) ? 1.25 : 1.5) : ((wormBoss || slimeGod) ? VulnerableToDoTDamageMult_Worms_SlimeGod : VulnerableToDoTDamageMult);
                 else
                     heatDamageMult *= slimed ? 0.2 : 0.5;
             }
 
-            double coldDamageMult = 1D;
+            double coldDamageMult = BaseDoTDamageMult;
             if (VulnerableToCold.HasValue)
             {
                 if (VulnerableToCold.Value)
-                    coldDamageMult *= wormBoss ? 2D : 5D;
+                    coldDamageMult *= wormBoss ? VulnerableToDoTDamageMult_Worms_SlimeGod : VulnerableToDoTDamageMult;
                 else
                     coldDamageMult *= 0.5;
             }
 
-            double sicknessDamageMult = irradiated > 0 ? (wormBoss ? 2D : 5D) : 1D;
+            double sicknessDamageMult = irradiated > 0 ? (wormBoss ? VulnerableToDoTDamageMult_Worms_SlimeGod : VulnerableToDoTDamageMult) : BaseDoTDamageMult;
             if (VulnerableToSickness.HasValue)
             {
                 if (VulnerableToSickness.Value)
-                    sicknessDamageMult *= irradiated > 0 ? (wormBoss ? 1.5 : 2D) : (wormBoss ? 2D : 5D);
+                    sicknessDamageMult *= irradiated > 0 ? (wormBoss ? 1.25 : 1.5) : (wormBoss ? VulnerableToDoTDamageMult_Worms_SlimeGod : VulnerableToDoTDamageMult);
                 else
                     sicknessDamageMult *= irradiated > 0 ? 0.2 : 0.5;
             }
 
             bool increasedElectricityDamage = npc.wet || npc.honeyWet || npc.lavaWet || npc.dripping;
-            double electricityDamageMult = increasedElectricityDamage ? (wormBoss ? 2D : 5D) : 1D;
+            double electricityDamageMult = increasedElectricityDamage ? (wormBoss ? VulnerableToDoTDamageMult_Worms_SlimeGod : VulnerableToDoTDamageMult) : BaseDoTDamageMult;
             if (VulnerableToElectricity.HasValue)
             {
                 if (VulnerableToElectricity.Value)
-                    electricityDamageMult *= increasedElectricityDamage ? (wormBoss ? 1.5 : 2D) : (wormBoss ? 2D : 5D);
+                    electricityDamageMult *= increasedElectricityDamage ? (wormBoss ? 1.25 : 1.5) : (wormBoss ? VulnerableToDoTDamageMult_Worms_SlimeGod : VulnerableToDoTDamageMult);
                 else
                     electricityDamageMult *= increasedElectricityDamage ? 0.2 : 0.5;
             }
 
-            double waterDamageMult = 1D;
+            double waterDamageMult = BaseDoTDamageMult;
             if (VulnerableToWater.HasValue)
             {
                 if (VulnerableToWater.Value)
-                    waterDamageMult *= wormBoss ? 2D : 5D;
+                    waterDamageMult *= wormBoss ? VulnerableToDoTDamageMult_Worms_SlimeGod : VulnerableToDoTDamageMult;
                 else
                     waterDamageMult *= 0.5;
             }
@@ -800,9 +804,9 @@ namespace CalamityMod.NPCs
             }
 
             // Subtract 1 for the vanilla damage multiplier because it's already dealing DoT in the vanilla regen code.
-            double vanillaHeatDamageMult = heatDamageMult - 1D;
-            double vanillaColdDamageMult = coldDamageMult - 1D;
-            double vanillaSicknessDamageMult = sicknessDamageMult - 1D;
+            double vanillaHeatDamageMult = heatDamageMult - BaseDoTDamageMult;
+            double vanillaColdDamageMult = coldDamageMult - BaseDoTDamageMult;
+            double vanillaSicknessDamageMult = sicknessDamageMult - BaseDoTDamageMult;
 
             // On Fire
             if (npc.onFire)

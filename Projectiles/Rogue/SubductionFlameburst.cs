@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.OnFire3, 240);
-            target.AddBuff(BuffID.Daybreak, 120);
+            target.AddBuff(BuffID.Daybreak, 420);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)

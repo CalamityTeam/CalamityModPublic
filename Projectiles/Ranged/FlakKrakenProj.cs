@@ -1,3 +1,4 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -128,6 +129,10 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {

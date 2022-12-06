@@ -3,6 +3,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+
 namespace CalamityMod.Projectiles.Ranged
 {
     public class ClamorRifleProj : ModProjectile
@@ -41,6 +44,10 @@ namespace CalamityMod.Projectiles.Ranged
             }
             CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 150f, 12f, 25f);
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<Eutrophication>(), 180);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Eutrophication>(), 180);
 
         public override void Kill(int timeLeft)
         {

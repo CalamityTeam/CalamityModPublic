@@ -1,4 +1,5 @@
-﻿using CalamityMod.Dusts;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,6 +37,9 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.velocity.Y += 0.2f;
             Projectile.rotation += Projectile.velocity.X * 0.03f;
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 720);
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < Main.rand.Next(4, 8 + 1); i++)

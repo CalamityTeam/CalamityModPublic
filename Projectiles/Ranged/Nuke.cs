@@ -6,6 +6,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Projectiles.Ranged
 {
     public class Nuke : ModProjectile
@@ -57,16 +59,16 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * Projectile.direction;
 
-
             flarePowderTimer--;
             if (flarePowderTimer <= 0)
             {
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BlissfulBombardierDustProjectile>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
                 flarePowderTimer = 12;
             }
+
             if (Math.Abs(Projectile.velocity.X) >= 8f || Math.Abs(Projectile.velocity.Y) >= 8f)
             {
                 float num247 = Projectile.velocity.X * 0.5f;
@@ -78,12 +80,12 @@ namespace CalamityMod.Projectiles.Ranged
                 num249 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 244, 0f, 0f, 100, default, 0.5f);
                 Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num249].velocity *= 0.05f;
-
             }
 
             // Construct a fake item to use with vanilla code for the sake of picking ammo.
             if (FalseLauncher is null)
                 DefineFalseLauncher();
+
             Player player = Main.player[Projectile.owner];
             int projID = ProjectileID.RocketI;
             float shootSpeed = 0f;
@@ -96,6 +98,16 @@ namespace CalamityMod.Projectiles.Ranged
 				if (Projectile.wet)
 					Projectile.timeLeft = 1;
 			}
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
 
         public override void Kill(int timeLeft)

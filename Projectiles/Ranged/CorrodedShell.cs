@@ -34,8 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Projectile.velocity.X *= 0.9995f;
-            Projectile.velocity.Y *= 0.9995f;
+            Projectile.velocity *= 0.9995f;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             if (Projectile.timeLeft % 3 == 0)
@@ -72,8 +71,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 60);
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 30);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 480);
         }
     }
 }

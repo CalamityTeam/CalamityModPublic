@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shaderain Staff");
-            Tooltip.SetDefault("Fires a shade storm cloud that inflicts shadowflame");
+            Tooltip.SetDefault("Fires a shade storm cloud");
             SacrificeTotal = 1;
         }
 

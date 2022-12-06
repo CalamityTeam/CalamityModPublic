@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -131,23 +131,6 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.velocity *= 1.001f;
 
                 CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
-            }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.OnFire, 180);
-            if (Main.rand.NextBool(3))
-            {
-                target.AddBuff(BuffID.ShadowFlame, 90);
-            }
-            else if (Main.rand.NextBool(2))
-            {
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            }
-            else
-            {
-                target.AddBuff(BuffID.Frostburn, 150);
             }
         }
 

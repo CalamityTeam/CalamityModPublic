@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -46,6 +47,10 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Venom, 180);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(BuffID.Venom, 180);
 
         public override void Kill(int timeLeft)
         {

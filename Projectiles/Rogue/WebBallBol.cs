@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.Calamity().stealthStrike)
             {
-                target.AddBuff(BuffID.Webbed, 60);
+                target.AddBuff(BuffID.Webbed, 120);
             }
             else
             {
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.Calamity().stealthStrike)
             {
-                target.AddBuff(BuffID.Webbed, 60);
+                target.AddBuff(BuffID.Webbed, 120);
             }
             else
             {

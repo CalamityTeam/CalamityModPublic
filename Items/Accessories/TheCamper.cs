@@ -60,11 +60,7 @@ namespace CalamityMod.Items.Accessories
                             if (npc.active && !npc.friendly && npc.damage > -1 && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= range)
                             {
                                 int campingFireDamage = (int)player.GetBestClassDamage().ApplyTo(Main.rand.Next(20, 41));
-                                Projectile p = Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), campingFireDamage, 0f, player.whoAmI, i);
-                                if (!npc.buffImmune[BuffID.OnFire])
-                                {
-                                    npc.AddBuff(BuffID.OnFire, 120);
-                                }
+                                Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), campingFireDamage, 0f, player.whoAmI, i);
                             }
                         }
                     }

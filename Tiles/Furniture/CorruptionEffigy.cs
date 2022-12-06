@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Corruption Effigy");
-            AddMapEntry(new Color(238, 145, 105), name);
+            AddMapEntry(new Color(126, 156, 134), name);
         }
 
         public override void NearbyEffects(int i, int j, bool closer)

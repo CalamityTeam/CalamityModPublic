@@ -1,5 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -80,11 +79,6 @@ namespace CalamityMod.Projectiles.Summon
                     Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.position, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
                 }
             }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
         }
 
         public override Color? GetAlpha(Color lightColor)

@@ -4,6 +4,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.StatDebuffs;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class GastricBelcherVomit : ModProjectile
@@ -36,6 +38,8 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.velocity.Y = 16f;
             }
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Venom, 120);
 
         public override void Kill(int timeLeft)
         {

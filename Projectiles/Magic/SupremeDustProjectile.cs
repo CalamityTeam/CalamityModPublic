@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
@@ -85,11 +87,15 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+
             target.immune[Projectile.owner] = 6;
             if (Projectile.owner == Main.myPlayer)
             {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SupremeDustFlakProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
     }
 }

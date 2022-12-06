@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -101,6 +102,8 @@ namespace CalamityMod.Projectiles.Summon
 
             projectile.Opacity = MathHelper.Clamp(projectile.Opacity + 0.075f, 0f, 1f);
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 180);
 
         public override bool PreDraw(ref Color lightColor)
         {

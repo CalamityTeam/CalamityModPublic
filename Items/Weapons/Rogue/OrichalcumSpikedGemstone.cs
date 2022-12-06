@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 2f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 24;
+            Item.height = 34;
             Item.shoot = ProjectileID.StarAnise;
             Item.maxStack = 999;
             Item.value = 1200;

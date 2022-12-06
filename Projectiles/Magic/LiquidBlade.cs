@@ -124,17 +124,11 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             OnHitEffects(target.Center);
-            target.AddBuff(BuffID.Ichor, 90);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            target.AddBuff(BuffID.CursedInferno, 90);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             OnHitEffects(target.Center);
-            target.AddBuff(BuffID.Ichor, 90);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            target.AddBuff(BuffID.CursedInferno, 90);
         }
 
         private void OnHitEffects(Vector2 targetPos)

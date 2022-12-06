@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -48,6 +50,10 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.timeLeft < 210)
                 CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 8f, 20f);
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
 
         public override bool PreDraw(ref Color lightColor)
         {

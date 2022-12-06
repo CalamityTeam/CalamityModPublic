@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 17;
         }
+
         public override void AI()
         {
             NPC potentialTarget = Projectile.Center.ClosestNPCAt(600f, !Projectile.tileCollide);
@@ -44,6 +45,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
             Projectile.tileCollide = Projectile.timeLeft <= 300;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             // Water drip

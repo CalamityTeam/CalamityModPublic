@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
@@ -43,14 +44,16 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
+
             var source = Projectile.GetSource_FromThis();
             for (int x = 0; x < 3; x++)
             {
                 if (Projectile.owner == Main.myPlayer)
-                {
                     CalamityUtils.ProjectileBarrage(source, Projectile.Center, target.Center, true, -500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<SoulPiercerBolt>(), (int)(Projectile.damage * 0.5), 0f, Projectile.owner, false, 0f);
-                }
             }
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
     }
 }

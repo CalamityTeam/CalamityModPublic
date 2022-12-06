@@ -13,6 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public float cooldown = 0f;
         public float oldVelocityX = 0f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Barrel");
@@ -32,7 +33,9 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.localNPCHitCooldown = -1;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
+
         public bool CollideX => Projectile.oldPosition.X == Projectile.position.X;
+
         public override void AI()
         {
             bool stealthS = Projectile.Calamity().stealthStrike;
@@ -60,7 +63,9 @@ namespace CalamityMod.Projectiles.Rogue
                 oldVelocityX = Math.Sign(Projectile.velocity.X) * 12f;
             }
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
+
         public void BounceEffects()
         {
             bool stealthS = Projectile.Calamity().stealthStrike;

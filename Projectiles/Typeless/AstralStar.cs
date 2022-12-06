@@ -96,12 +96,14 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+            if (Projectile.DamageType != DamageClass.Ranged)
+                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+            if (Projectile.DamageType != DamageClass.Ranged)
+                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 
         public override Color? GetAlpha(Color lightColor)

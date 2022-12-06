@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -187,6 +188,8 @@ namespace CalamityMod.Projectiles.Summon
             int _ = -1;
             SegmentAI(Projectile, 16, ref _);
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
 
         public override bool PreDraw(ref Color lightColor)
         {

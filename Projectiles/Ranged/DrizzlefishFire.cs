@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             else
             {
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 60);
             }
         }
     }

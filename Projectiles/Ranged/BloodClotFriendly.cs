@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -41,6 +42,10 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
 
         public override bool PreDraw(ref Color lightColor)
         {

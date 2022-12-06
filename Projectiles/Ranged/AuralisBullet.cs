@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Weapons.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -50,18 +50,12 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int duration = 420;
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), duration);
-            target.AddBuff(BuffID.Ichor, duration);
-            target.AddBuff(BuffID.CursedInferno, duration);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 420);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            int duration = 420;
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), duration);
-            target.AddBuff(BuffID.Ichor, duration);
-            target.AddBuff(BuffID.CursedInferno, duration);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 420);
         }
     }
 }

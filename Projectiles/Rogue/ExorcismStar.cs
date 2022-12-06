@@ -1,10 +1,11 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -40,6 +41,16 @@ namespace CalamityMod.Projectiles.Rogue
                     SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
                 }
             }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
         public override bool PreDraw(ref Color lightColor)

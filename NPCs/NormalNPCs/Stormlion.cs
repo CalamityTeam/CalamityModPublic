@@ -103,6 +103,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npcLoot.Add(ModContent.ItemType<StormlionMandible>());
             npcLoot.Add(ModContent.ItemType<StormjawStaff>(), 5);
+            npcLoot.Add(ItemID.ThunderSpear, 25);
+            npcLoot.Add(ItemID.ThunderStaff, 25);
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -32,8 +32,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.PiOver2;
-            Projectile.velocity.X *= 1.015f;
-            Projectile.velocity.Y *= 1.015f;
+            Projectile.velocity *= 1.015f;
             if (Projectile.alpha > 0)
             {
                 Projectile.alpha -= 3;
@@ -82,11 +81,6 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num214].velocity *= 2f;
                 Main.dust[num214].noGravity = true;
             }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }
 
         public override bool PreDraw(ref Color lightColor)

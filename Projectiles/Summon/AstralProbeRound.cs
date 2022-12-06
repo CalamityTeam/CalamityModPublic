@@ -55,10 +55,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.velocity = (Projectile.velocity * 20f + Projectile.SafeDirectionTo(potentialTarget.Center) * 17f) / 21f;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
 
         public override bool PreDraw(ref Color lightColor)
         {
