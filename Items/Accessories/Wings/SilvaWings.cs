@@ -76,6 +76,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.SoulofFlight, 20).
                 AddIngredient<PlantyMush>(3).
                 AddIngredient<EffulgentFeather>(15).
                 AddIngredient<AscendantSpiritEssence>(2).

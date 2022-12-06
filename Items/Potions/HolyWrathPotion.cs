@@ -35,13 +35,25 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
+            // as an upgrade to an already-existing wrath potion (e.g. purchased)
             CreateRecipe().
                 AddIngredient(ItemID.WrathPotion).
                 AddIngredient<UnholyEssence>().
                 AddTile(TileID.AlchemyTable).
-				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
+                AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
+            // wrath potion + 1 unholy essence directly
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient(ItemID.Ebonkoi).
+                AddIngredient(ItemID.Deathweed).
+                AddIngredient<UnholyEssence>().
+                AddTile(TileID.AlchemyTable).
+                AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
+                Register();
+
+            // blood orbs
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BloodOrb>(40).

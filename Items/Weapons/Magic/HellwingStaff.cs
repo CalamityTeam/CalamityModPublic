@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.HellstoneBar, 7).
+                AddIngredient(ItemID.HellstoneBar, 17).
                 //AddIngredient(ItemID.AshWood, 3).
                 AddTile(TileID.Anvils).
                 Register();

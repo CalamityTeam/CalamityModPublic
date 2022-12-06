@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<AbyssBlade>().
-                AddIngredient<ReaperTooth>(3).
+                AddIngredient<ReaperTooth>(6).
                 AddIngredient<RuinousSoul>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

@@ -88,6 +88,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.BreakerBlade).
                 AddIngredient<UnholyCore>(5).
                 AddIngredient<CoreofChaos>(3).
                 AddTile(TileID.MythrilAnvil).

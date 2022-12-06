@@ -37,13 +37,25 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
+            // as an upgrade to an already-existing rage potion (e.g. purchased)
             CreateRecipe().
                 AddIngredient(ItemID.RagePotion).
                 AddIngredient<UnholyEssence>().
                 AddTile(TileID.AlchemyTable).
-				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
+                AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
+            // rage potion + 1 unholy essence directly
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient(ItemID.Hemopiranha).
+                AddIngredient(ItemID.Deathweed).
+                AddIngredient<UnholyEssence>().
+                AddTile(TileID.AlchemyTable).
+                AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
+                Register();
+
+            // blood orbs
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BloodOrb>(40).

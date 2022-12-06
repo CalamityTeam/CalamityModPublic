@@ -72,8 +72,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<PlanetaryAnnihilation>().
-                AddIngredient<ClockworkBow>().
                 AddIngredient<TelluricGlare>().
+                AddIngredient<ClockworkBow>().
+                AddIngredient<TheBallista>().
                 AddIngredient<MiracleMatter>().
                 AddTile<DraedonsForge>().
                 Register();

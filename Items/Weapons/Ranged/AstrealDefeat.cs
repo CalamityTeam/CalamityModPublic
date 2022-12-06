@@ -63,6 +63,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.SpiritFlame).
                 AddIngredient(ItemID.ShadowFlameBow).
                 AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient<AshesofCalamity>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

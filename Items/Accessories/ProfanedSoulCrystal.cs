@@ -355,27 +355,14 @@ namespace CalamityMod.Items.Accessories
             return false;
         }
 
-        public static void MakeRecipesCheaper(Recipe recipe, int type, ref int numRequired)
-        {
-            int shadowSpec = ModContent.ItemType<ShadowspecBar>();
-            int geode = ModContent.ItemType<DivineGeode>();
-            int essence = ModContent.ItemType<UnholyEssence>();
-            bool biomePower = Main.LocalPlayer.ZoneHallow || Main.LocalPlayer.ZoneUnderworldHeight;
-            numRequired = biomePower && (type == (shadowSpec | geode | essence)) ? numRequired / 2 : numRequired; //cuts the above mats consumed by half if in the biomes instead of arbitrary biome locking
-        }
-
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient<ProfanedSoulArtifact>().
-                AddIngredient(ItemID.ObsidianRose).
-                AddIngredient<CoreofSunlight>(5).
-                AddIngredient<UelibloomBar>(25).
                 AddIngredient<DivineGeode>(50).
                 AddIngredient<UnholyEssence>(100).
                 AddIngredient<ShadowspecBar>(5).
                 AddTile<ProfanedCrucible>().
-                AddConsumeItemCallback(MakeRecipesCheaper).
                 Register();
         }
     }

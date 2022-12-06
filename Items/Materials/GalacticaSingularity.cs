@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Materials
         }
         public override void AddRecipes()
         {
-            CreateRecipe(4).
+            CreateRecipe().
                 AddIngredient(ItemID.FragmentSolar).
                 AddIngredient(ItemID.FragmentVortex).
                 AddIngredient(ItemID.FragmentStardust).

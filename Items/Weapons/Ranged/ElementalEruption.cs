@@ -58,6 +58,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<TerraFlameburster>().
+                AddIngredient<BlightSpewer>().
+                AddIngredient<HavocsBreath>().
                 AddIngredient(ItemID.LunarBar, 5).
                 AddIngredient<LifeAlloy>(5).
                 AddIngredient<GalacticaSingularity>(5).

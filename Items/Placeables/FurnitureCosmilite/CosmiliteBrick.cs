@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 
         public override void AddRecipes()
         {
-            CreateRecipe(400).
-                AddRecipeGroup("AnyStoneBlock", 400).
+            CreateRecipe(200).
+                AddRecipeGroup("AnyStoneBlock", 200).
                 AddIngredient<CosmiliteBar>().
                 AddTile<CosmicAnvil>().
                 Register();

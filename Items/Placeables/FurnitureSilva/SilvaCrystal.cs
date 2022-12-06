@@ -28,11 +28,10 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
 
         public override void AddRecipes()
         {
-            CreateRecipe(400).
-                AddIngredient(ItemID.Glass, 400).
-                AddIngredient<PlantyMush>(5).
+            CreateRecipe(200).
+                AddIngredient(ItemID.Glass, 200).
+                AddIngredient<PlantyMush>(4).
                 AddIngredient<EffulgentFeather>().
-                AddIngredient<AscendantSpiritEssence>().
                 AddTile<CosmicAnvil>().
                 Register();
             CreateRecipe().

@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).
-                AddIngredient<SupremeHealingPotion>(4).
+            CreateRecipe(20).
+                AddIngredient<SupremeHealingPotion>(20).
                 AddIngredient<AscendantSpiritEssence>().
                 AddTile(TileID.Bottles).
                 Register();

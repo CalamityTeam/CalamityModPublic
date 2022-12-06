@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Walls;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,9 +27,9 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).
+            CreateRecipe(50).
+                AddRecipeGroup("AnyStoneBlock", 50).
                 AddIngredient<UnholyEssence>().
-                AddRecipeGroup("AnyStoneBlock", 100).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
             CreateRecipe().

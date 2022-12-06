@@ -82,6 +82,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.SoulofFlight, 20).
                 AddIngredient<AngelTreads>().
                 AddRecipeGroup("WingsGroup").
                 AddIngredient(ItemID.LunarBar, 5).

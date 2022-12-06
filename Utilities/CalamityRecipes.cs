@@ -539,15 +539,17 @@ namespace CalamityMod
                 Register();
 
             // Earlier Rocket Is for early rocket weapons
-            Recipe.Create(ItemID.RocketI, 20).
-                AddIngredient(ItemID.EmptyBullet, 20).
-                AddIngredient(ItemID.ExplosivePowder, 1).
+            Recipe.Create(ItemID.RocketI, 100).
+                AddRecipeGroup("IronBar").
+                AddIngredient(ItemID.EmptyBullet, 100).
+                AddIngredient(ItemID.ExplosivePowder, 4).
                 AddTile(TileID.MythrilAnvil).
                 Register();
-            // and Rocket IIs
-            Recipe.Create(ItemID.RocketII, 20).
-                AddIngredient(ItemID.EmptyBullet, 20).
-                AddIngredient(ItemID.ExplosivePowder, 1).
+            // and Rocket IIs (requires slightly more explosive powder)
+            Recipe.Create(ItemID.RocketII, 100).
+                AddRecipeGroup("IronBar").
+                AddIngredient(ItemID.EmptyBullet, 100).
+                AddIngredient(ItemID.ExplosivePowder, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
 
@@ -776,7 +778,7 @@ namespace CalamityMod
                 r.requiredTile[idx] = newTileID;
             };
 
-            var edits = new Dictionary<Func<Recipe, bool>, Action<Recipe>>(32)
+            var edits = new Dictionary<Func<Recipe, bool>, Action<Recipe>>(128)
             {
                 { Vanilla(ItemID.EnchantedBoomerang), Disable }, // Calamity adds its own recipe
                 { Vanilla(ItemID.JestersArrow), JesterArrowRecipeEdit },
@@ -804,8 +806,6 @@ namespace CalamityMod
                 { Vanilla(ItemID.OpticStaff), RemoveIngredient(ItemID.HallowedBar) },
                 { Vanilla(ItemID.ShroomiteBar), ChangeIngredientStack(ItemID.GlowingMushroom, 5) },
                 { Vanilla(ItemID.ChlorophyteBar), ChangeIngredientStack(ItemID.ChlorophyteOre, 4) },
-                { Vanilla(ItemID.CelestialEmblem), ReplaceIngredient(ItemID.AvengerEmblem, ItemID.SorcererEmblem) },
-                { Vanilla(ItemID.MechanicalGlove), ReplaceIngredient(ItemID.AvengerEmblem, ItemID.WarriorEmblem) },
                 { VanillaEach(
                     ItemID.MechanicalEye, ItemID.MechanicalWorm, ItemID.MechanicalSkull,
                     ItemID.DaoofPow, ItemID.Chik, ItemID.MeteorStaff, ItemID.CoolWhip,
@@ -1765,6 +1765,24 @@ namespace CalamityMod
             r.AddRecipeGroup(AnyCobaltBar, 12);
             r.AddIngredient(ItemID.SoulofLight, 4);
             r.AddTile(TileID.Anvils);
+            r.Register();
+
+            // Mechanical Glove directly from correct class emblem for cheaper (compromise)
+            r = Recipe.Create(ItemID.MechanicalGlove);
+            r.AddIngredient(ItemID.PowerGlove);
+            r.AddIngredient(ItemID.WarriorEmblem);
+            r.AddIngredient(ItemID.SoulofFright);
+            r.AddIngredient(ItemID.SoulofMight);
+            r.AddIngredient(ItemID.SoulofSight);
+            r.Register();
+
+            // Celestial Emblem directly from correct class emblem for cheaper (compromise)
+            r = Recipe.Create(ItemID.CelestialEmblem);
+            r.AddIngredient(ItemID.CelestialMagnet);
+            r.AddIngredient(ItemID.SorcererEmblem);
+            r.AddIngredient(ItemID.SoulofFright);
+            r.AddIngredient(ItemID.SoulofMight);
+            r.AddIngredient(ItemID.SoulofSight);
             r.Register();
         }
         #endregion
