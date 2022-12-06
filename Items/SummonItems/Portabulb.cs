@@ -57,10 +57,7 @@ namespace CalamityMod.Items.SummonItems
         {
             CreateRecipe().
                 AddIngredient(ItemID.JungleSpores, 15).
-                AddIngredient(ItemID.SoulofNight, 10).
-                AddIngredient(ItemID.SoulofLight, 10).
                 AddIngredient<MurkyPaste>(3).
-                AddIngredient(ItemID.Vine).
                 AddIngredient<TrapperBulb>().
                 AddTile(TileID.MythrilAnvil).
                 Register();

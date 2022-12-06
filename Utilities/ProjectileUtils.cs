@@ -237,10 +237,10 @@ namespace CalamityMod
         public static void MagnetSphereHitscan(Projectile projectile, float distanceRequired, float homingVelocity, float projectileTimer, int maxTargets, int spawnedProjectile, double damageMult = 1D, bool attackMultiple = false)
         {
             // Only shoot once every N frames.
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > projectileTimer)
+            projectile.localAI[1] += 1f;
+            if (projectile.localAI[1] > projectileTimer)
             {
-                projectile.localAI[0] = 0f;
+                projectile.localAI[1] = 0f;
 
                 // Only search for targets if projectiles could be fired.
                 float maxDistance = distanceRequired;
@@ -278,7 +278,7 @@ namespace CalamityMod
                     int randomTarget = Main.rand.Next(targetArrayIndex);
                     randomTarget = targetArray[randomTarget];
 
-                    projectile.localAI[0] = 0f;
+                    projectile.localAI[1] = 0f;
                     Vector2 spawnPos = projectile.Center + projectile.velocity * 4f;
                     Vector2 velocity = Vector2.Normalize(Main.npc[randomTarget].Center - spawnPos) * homingVelocity;
 

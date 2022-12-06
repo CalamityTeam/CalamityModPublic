@@ -57,9 +57,6 @@ Stealth strikes leak tar as they fly");
         {
             CreateRecipe().
                 AddIngredient(ItemID.MolotovCocktail, 50).
-                AddIngredient<ConsecratedWater>().
-                AddIngredient<DesecratedWater>().
-                AddIngredient<SpentFuelContainer>().
                 AddIngredient<SolarVeil>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();

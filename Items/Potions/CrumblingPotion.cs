@@ -34,17 +34,9 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(5).
-                AddIngredient(ItemID.BottledWater, 5).
-                AddIngredient<AncientBoneDust>().
-                AddIngredient<EssenceofSunlight>().
-                AddTile(TileID.ImbuingStation).
-                Register();
-
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
-                AddIngredient<BloodOrb>(20).
-                AddIngredient<EssenceofSunlight>().
+                AddIngredient<EssenceofSunlight>(2).
                 AddTile(TileID.ImbuingStation).
                 Register();
         }

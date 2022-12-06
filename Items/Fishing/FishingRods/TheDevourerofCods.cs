@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CosmiliteBar>(10).
+                AddIngredient<CosmiliteBar>(6).
                 AddTile<CosmicAnvil>().
                 Register();
         }

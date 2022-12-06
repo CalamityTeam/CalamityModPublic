@@ -62,8 +62,8 @@ Stealth strikes throw four at once and last a lot longer");
 
         public override void AddRecipes()
         {
-            CreateRecipe(20).
-                AddIngredient(ItemID.SpikyBall, 20).
+            CreateRecipe(100).
+                AddIngredient(ItemID.SpikyBall, 100).
                 AddIngredient(ItemID.Gel).
                 AddTile(TileID.WorkBenches).
                 Register();

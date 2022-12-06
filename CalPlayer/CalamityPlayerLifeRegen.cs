@@ -689,7 +689,7 @@ namespace CalamityMod.CalPlayer
             if (darkSunRing)
             {
                 if (Main.eclipse || Main.dayTime)
-                    Player.lifeRegen += 3;
+                    Player.lifeRegen += Main.eclipse ? 2 : 4;
             }
 
             if (phantomicHeartRegen <= 720 && phantomicHeartRegen >= 600)
@@ -729,7 +729,7 @@ namespace CalamityMod.CalPlayer
 
             if (regenator)
             {
-                Player.lifeRegenTime += 6;
+                Player.lifeRegenTime += 3;
                 Player.lifeRegen += 12;
             }
             if (handWarmer && eskimoSet)

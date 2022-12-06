@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -57,10 +56,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient<BlackHawkRemote>().
-                AddIngredient<InfectedRemote>().
                 AddIngredient<FuelCellBundle>().
-                AddIngredient<PlagueCellCanister>(15).
-                AddIngredient<InfectedArmorPlating>(8).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

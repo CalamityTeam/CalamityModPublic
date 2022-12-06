@@ -45,7 +45,6 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient(ItemID.MagicMissile).
                 AddIngredient(ItemID.WandofSparking).
                 AddIngredient(ItemID.AmberStaff).
-                AddIngredient<BloodSample>(15).
                 AddIngredient<PurifiedGel>(10).
                 AddTile(TileID.DemonAltar).
                 Register();

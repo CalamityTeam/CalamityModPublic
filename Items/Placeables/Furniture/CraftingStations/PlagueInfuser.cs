@@ -32,9 +32,9 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
+            CreateRecipe().
                 AddRecipeGroup("IronBar", 10).
-                AddIngredient(ModContent.ItemType<PlagueCellCanister>(), 20).
+                AddIngredient<PlagueCellCanister>(20).
                 AddTile(TileID.Anvils).
                 Register();
         }

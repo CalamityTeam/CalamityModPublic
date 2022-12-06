@@ -32,7 +32,11 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PurifiedGel>(), 5).AddIngredient(ItemID.Solidifier).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Solidifier).
+                AddIngredient<PurifiedGel>(5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

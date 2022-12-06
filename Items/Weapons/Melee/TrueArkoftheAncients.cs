@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -182,9 +181,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<FracturedArk>().
-                AddIngredient(ItemID.TrueExcalibur).
-                AddIngredient<CoreofCalamity>().
-                AddIngredient<LivingShard>(15).
+                AddIngredient(ItemID.Starfury).
+                AddIngredient(ItemID.BrokenHeroSword).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

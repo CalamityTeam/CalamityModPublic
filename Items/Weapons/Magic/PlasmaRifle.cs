@@ -87,13 +87,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.ToxicFlask).
-                AddIngredient(ItemID.Musket).
-                AddIngredient<UelibloomBar>(7).
-                AddTile(TileID.LunarCraftingStation).
-                Register();
-            CreateRecipe().
-                AddIngredient(ItemID.ToxicFlask).
-                AddIngredient(ItemID.TheUndertaker).
+                AddIngredient(ItemID.LaserRifle).
                 AddIngredient<UelibloomBar>(7).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

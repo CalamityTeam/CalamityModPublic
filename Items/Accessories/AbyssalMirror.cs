@@ -44,8 +44,6 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<MirageMirror>().
                 AddIngredient<InkBomb>().
-                AddIngredient(ItemID.SpectreBar, 8).
-                AddIngredient<SeaPrism>(10).
                 AddIngredient<DepthCells>(5).
                 AddIngredient<Lumenyl>(5).
                 AddTile(TileID.MythrilAnvil).

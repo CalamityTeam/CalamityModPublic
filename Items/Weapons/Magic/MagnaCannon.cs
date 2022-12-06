@@ -50,7 +50,6 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SpaceGun).
                 AddIngredient(ItemID.Granite, 25).
                 AddIngredient(ItemID.Obsidian, 15).
                 AddIngredient(ItemID.Amber, 5).

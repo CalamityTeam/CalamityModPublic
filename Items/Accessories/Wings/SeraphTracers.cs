@@ -1,5 +1,4 @@
 ﻿using CalamityMod.CalPlayer;
-using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -85,8 +84,6 @@ namespace CalamityMod.Items.Accessories.Wings
             CreateRecipe().
                 AddIngredient<AngelTreads>().
                 AddRecipeGroup("WingsGroup").
-                AddIngredient<CoreofCalamity>(3).
-                AddIngredient<LifeAlloy>(5).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

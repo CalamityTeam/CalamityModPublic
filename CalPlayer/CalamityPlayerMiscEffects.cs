@@ -2385,7 +2385,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetKnockback<SummonDamageClass>() += 1.2f;
                 Player.pickSpeed -= 0.15f;
                 if (Main.eclipse || !Main.dayTime)
-                    Player.statDefense += 15;
+                    Player.statDefense += Main.eclipse ? 10 : 20;
             }
 
             if (eGauntlet)
@@ -2568,15 +2568,6 @@ namespace CalamityMod.CalPlayer
 
             if (blueCandle)
                 Player.moveSpeed += 0.1f;
-
-            // If the player has the Draconic Elixir cooldown, prevent Draconic Surge from being set as true by any means.
-            // This can be caused by other mod interference, e.g. by Luiafk.
-            if (Player.HasCooldown(Cooldowns.DraconicElixir.ID))
-            {
-                draconicSurge = false;
-                if (Player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
-                    Player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
-            }
 
             // TODO -- crit is a float now, and knockback can be boosted for all classes
             if (community)

@@ -87,8 +87,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SpikyBall, 50).
                 AddIngredient(ItemID.JungleSpores, 10).
+                AddIngredient(ItemID.Stinger, 8).
                 AddTile(TileID.Anvils).
                 Register();
         }

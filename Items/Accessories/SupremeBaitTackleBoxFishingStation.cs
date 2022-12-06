@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,17 +41,10 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.AnglerHat).
-                AddIngredient(ItemID.AnglerVest).
-                AddIngredient(ItemID.AnglerPants).
                 AddIngredient(ItemID.LavaproofTackleBag).
-                AddIngredient(ItemID.FishingPotion, 5).
-                AddIngredient(ItemID.CratePotion, 5).
                 AddIngredient(ItemID.SonarPotion, 5).
                 AddIngredient(ItemID.MasterBait, 5).
-                AddIngredient(ItemID.SoulofLight, 5).
-                AddIngredient(ItemID.SoulofNight, 5).
-                AddIngredient<SeaPrism>(10).
+                AddIngredient<MolluskHusk>(5).
                 AddTile(TileID.Anvils).
                 Register();
         }

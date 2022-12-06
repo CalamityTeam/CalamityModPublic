@@ -1,5 +1,4 @@
-﻿using CalamityMod.Items.Placeables;
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -60,9 +59,6 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient(ItemID.RazorbladeTyphoon).
                 AddIngredient<Poseidon>().
                 AddIngredient(ItemID.LunarBar, 5).
-                AddIngredient(ItemID.SoulofSight, 10).
-                AddIngredient(ItemID.UnicornHorn, 5).
-                AddIngredient<SeaPrism>(15).
                 AddTile(TileID.Bookcases).
                 Register();
         }

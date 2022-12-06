@@ -47,8 +47,8 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void AddRecipes()
         {
-            CreateRecipe(10).
-                AddIngredient(ItemID.Dynamite, 10).
+            CreateRecipe(100).
+                AddIngredient(ItemID.Dynamite, 100).
                 AddIngredient<AerialiteBar>().
                 AddTile(TileID.SkyMill).
                 Register();

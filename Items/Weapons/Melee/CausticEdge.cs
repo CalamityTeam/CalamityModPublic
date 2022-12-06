@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.width = 46;
+            Item.height = 46;
             Item.damage = 70;
             Item.scale = 1.4f;
             Item.DamageType = DamageClass.Melee;
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 48;
             Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
         }
@@ -44,13 +44,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 240);
-            target.AddBuff(BuffID.Venom, 120);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 240);
-            target.AddBuff(BuffID.Venom, 120);
         }
 
         public override void AddRecipes()
@@ -59,7 +57,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<Acidwood>(10).
                 AddRecipeGroup("Boss2Material", 8).
                 AddIngredient(ItemID.Deathweed, 2).
-                AddIngredient(ItemID.LavaBucket).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

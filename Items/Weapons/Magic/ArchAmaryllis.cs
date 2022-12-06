@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient<GleamingMagnolia>().
-                AddIngredient(ItemID.FragmentNebula, 10).
+                AddIngredient(ItemID.FragmentNebula, 12).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

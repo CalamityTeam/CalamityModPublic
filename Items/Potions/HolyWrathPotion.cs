@@ -38,7 +38,6 @@ namespace CalamityMod.Items.Potions
             CreateRecipe().
                 AddIngredient(ItemID.WrathPotion).
                 AddIngredient<UnholyEssence>().
-                AddIngredient<GalacticaSingularity>().
                 AddTile(TileID.AlchemyTable).
 				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();

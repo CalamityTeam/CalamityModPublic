@@ -53,8 +53,8 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Ichor, 15).
                 AddIngredient(ItemID.HellstoneBar, 10).
+                AddIngredient(ItemID.Ichor, 15).
                 AddTile(TileID.Anvils).
                 Register();
         }

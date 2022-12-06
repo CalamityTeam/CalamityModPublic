@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,8 +23,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.width = 56;
             Item.height = 28;
-            Item.useTime = 20;
-            Item.useAnimation = 20;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1.5f;
@@ -95,9 +94,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.FlareGun).
-                AddIngredient(ItemID.Boomstick).
-                AddRecipeGroup("AnyGoldBar", 10).
-                AddIngredient<PearlShard>(10).
+                AddIngredient(ItemID.HellstoneBar, 10).
                 AddTile(TileID.Anvils).
                 Register();
         }

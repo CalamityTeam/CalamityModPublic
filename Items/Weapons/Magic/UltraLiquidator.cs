@@ -1,6 +1,4 @@
-﻿using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -14,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ultra Liquidator");
-            Tooltip.SetDefault("Summons liquidation blades that summon more blades on enemy hits");
+            Tooltip.SetDefault("Summons liquidation blades that summon more blades on enemy hits\n" +
+                               "The blades inflict ichor, cursed inferno and brimstone flames");
             Item.staff[Item.type] = true;
             SacrificeTotal = 1;
         }
@@ -74,8 +73,6 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient<InfernalRift>().
                 AddIngredient(ItemID.AquaScepter).
-                AddIngredient<SeaPrism>(10).
-                AddIngredient<GalacticaSingularity>(5).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

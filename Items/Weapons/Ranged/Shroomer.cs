@@ -52,8 +52,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.SniperRifle).
-                AddIngredient(ItemID.ShroomiteBar, 11).
-                AddIngredient(ItemID.FragmentVortex, 15).
+                AddIngredient<Fungicide>().
+                AddIngredient(ItemID.FragmentStardust, 6).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

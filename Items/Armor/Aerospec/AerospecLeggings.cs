@@ -33,8 +33,7 @@ namespace CalamityMod.Items.Armor.Aerospec
         {
             CreateRecipe().
                 AddIngredient<AerialiteBar>(7).
-                AddIngredient(ItemID.Cloud, 6).
-                AddIngredient(ItemID.RainCloud, 3).
+                AddIngredient(ItemID.SunplateBlock, 4).
                 AddIngredient(ItemID.Feather, 2).
                 AddTile(TileID.SkyMill).
                 Register();

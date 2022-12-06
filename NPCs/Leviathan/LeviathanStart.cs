@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.Leviathan
                 NPC.AnyNPCs(ModContent.NPCType<Anahita>()) ||
                 NPC.AnyNPCs(ModContent.NPCType<Leviathan>()) ||
                 spawnInfo.Player.Calamity().ZoneSulphur ||
-                NPC.LunarApocalypseIsUp)
+                spawnInfo.Player.PillarZone())
             {
                 return 0f;
             }

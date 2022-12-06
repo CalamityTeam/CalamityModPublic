@@ -31,8 +31,14 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.RetinazerTrophy).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.SpazmatismTrophy).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.RetinazerTrophy).
+                AddTile(TileID.Bookcases).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SpazmatismTrophy).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

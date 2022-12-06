@@ -289,15 +289,18 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemID.TigerClimbingGear);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.InvisibilityPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.NightOwlPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-            nextSlot++;
+            if (CalamityConfig.Instance.PotionSelling)
+            {
+                shop.item[nextSlot].SetDefaults(ItemID.InvisibilityPotion);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemID.NightOwlPotion);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                nextSlot++;
+            }
             if (Main.hardMode)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<SlickCane>());

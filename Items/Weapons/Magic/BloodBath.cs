@@ -100,9 +100,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.CrimtaneBar, 2).
                 AddIngredient<BloodSample>(8).
                 AddIngredient(ItemID.Vertebrae, 3).
-                AddIngredient(ItemID.CrimtaneBar, 2).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

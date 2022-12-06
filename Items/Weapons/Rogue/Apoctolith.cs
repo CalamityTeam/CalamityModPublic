@@ -69,8 +69,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe().
                 AddIngredient<ThrowingBrick>(100).
                 AddIngredient<Voidstone>(20).
-                AddIngredient<SeaPrism>(15).
-                AddIngredient<Lumenyl>(8).
+                AddIngredient<Lumenyl>(20).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

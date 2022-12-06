@@ -55,9 +55,9 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.RottenChunk, 13).
-                AddIngredient<RottenMatter>(7).
                 AddIngredient(ItemID.DemoniteBar, 3).
+                AddIngredient<RottenMatter>(7).
+                AddIngredient(ItemID.RottenChunk, 13).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

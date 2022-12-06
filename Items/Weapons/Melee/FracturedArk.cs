@@ -149,14 +149,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Starfury).
                 AddIngredient(ItemID.EnchantedSword).
                 AddIngredient<PurifiedGel>(5).
                 AddRecipeGroup("AnyCopperBar", 10).
                 AddTile(TileID.Anvils).
                 Register();
             CreateRecipe().
-                AddIngredient(ItemID.Starfury).
                 AddIngredient(ItemID.Terragrim).
                 AddIngredient<PurifiedGel>(5).
                 AddRecipeGroup("AnyCopperBar", 10).

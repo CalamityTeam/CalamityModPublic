@@ -33,8 +33,15 @@ namespace CalamityMod.Items.Placeables.Plates
 
         public override void AddRecipes()
         {
-            CreateRecipe(3).AddIngredient(ModContent.ItemType<EssenceofEleum>(), 1).AddIngredient(ItemID.Obsidian, 3).AddTile(TileID.Hellforge).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ElumplateWall>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(25).
+                AddIngredient(ItemID.Obsidian, 25).
+                AddIngredient<EssenceofEleum>().
+                AddTile(TileID.Hellforge).
+                Register();
+            CreateRecipe().
+                AddIngredient<ElumplateWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

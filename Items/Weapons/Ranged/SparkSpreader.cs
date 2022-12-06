@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.FlareGun).
+                AddRecipeGroup("AnyGoldBar", 10).
                 AddIngredient(ItemID.Ruby).
                 AddIngredient(ItemID.Gel, 12).
                 AddTile(TileID.Anvils).

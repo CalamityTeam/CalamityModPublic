@@ -63,27 +63,19 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
                 int dustID = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height -16, 173, 0f, 0f, 0, default, 1f);
             Main.dust[dustID].velocity *= 3f;
             Main.dust[dustID].scale *= 2f;
-        }
-
-        target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+            }
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
 
-    public override void OnHitPvp(Player target, int damage, bool crit)
-    {
-        for (int k = 0; k < 36; k++)
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            int dustID = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height - 16, 173, 0f, 0f, 0, default, 1f);
-            Main.dust[dustID].velocity *= 3f;
-            Main.dust[dustID].scale *= 2f;
+            for (int k = 0; k < 36; k++)
+            {
+                int dustID = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height - 16, 173, 0f, 0f, 0, default, 1f);
+                Main.dust[dustID].velocity *= 3f;
+                Main.dust[dustID].scale *= 2f;
+            }
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
-
-        target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-        target.AddBuff(BuffID.Frostburn, 120);
-        target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-        target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
     }
-}
 }

@@ -38,9 +38,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddRecipeGroup("AnyIceBlock", 20).
-                AddIngredient(ItemID.Shiverthorn, 2).
                 AddRecipeGroup("AnySnowBlock", 10).
-                AddIngredient(ItemID.WaterBucket).
+                AddIngredient(ItemID.Shiverthorn, 2).
                 AddTile(TileID.Bookcases).
                 Register();
         }

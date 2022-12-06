@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -51,11 +50,8 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddRecipeGroup("AnyCobaltBar", 10).
                 AddIngredient<Stardust>(20).
-                AddIngredient<SeaPrism>(15).
-                AddIngredient<AerialiteBar>(15).
-                AddIngredient(ItemID.SunplateBlock, 15).
-                AddIngredient<PearlShard>(2).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -62,13 +61,6 @@ namespace CalamityMod.Projectiles.Melee
                 int num308 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, 0f, 0f, 150, new Color(53, Main.DiscoG, 255), 1.2f);
                 Main.dust[num308].noGravity = true;
             }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
-            target.AddBuff(BuffID.Frostburn, 90);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
         }
     }
 }

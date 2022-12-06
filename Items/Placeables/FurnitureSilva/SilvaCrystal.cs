@@ -28,9 +28,21 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
 
         public override void AddRecipes()
         {
-            CreateRecipe(400).AddIngredient(ItemID.CrystalBlock, 200).AddRecipeGroup("AnyGoldBar", 25).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5).AddIngredient(ModContent.ItemType<DarksunFragment>()).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilvaWall>(), 4).AddTile(ModContent.TileType<SilvaBasin>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilvaPlatform>(), 2).AddTile(ModContent.TileType<SilvaBasin>()).Register();
+            CreateRecipe(400).
+                AddIngredient(ItemID.Glass, 400).
+                AddIngredient<PlantyMush>(5).
+                AddIngredient<EffulgentFeather>().
+                AddIngredient<AscendantSpiritEssence>().
+                AddTile<CosmicAnvil>().
+                Register();
+            CreateRecipe().
+                AddIngredient<SilvaWall>(4).
+                AddTile<SilvaBasin>().
+                Register();
+            CreateRecipe().
+                AddIngredient<SilvaPlatform>(2).
+                AddTile<SilvaBasin>().
+                Register();
         }
     }
 }

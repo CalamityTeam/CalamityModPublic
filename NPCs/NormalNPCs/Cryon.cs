@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 !spawnInfo.Player.PillarZone() &&
                 !spawnInfo.Player.ZoneDungeon &&
                 !spawnInfo.Player.InSunkenSea() &&
-                Main.hardMode && !spawnInfo.PlayerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.015f : 0f;
+                Main.hardMode && !spawnInfo.PlayerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.045f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

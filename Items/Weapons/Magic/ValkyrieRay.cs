@@ -53,9 +53,9 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient(ItemID.HallowedBar, 12).
                 AddIngredient<AerialiteBar>(6).
                 AddIngredient(ItemID.Ruby).
-                AddIngredient(ItemID.SoulofSight).
-                AddIngredient(ItemID.SoulofMight).
                 AddIngredient(ItemID.SoulofFright).
+                AddIngredient(ItemID.SoulofMight).
+                AddIngredient(ItemID.SoulofSight).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

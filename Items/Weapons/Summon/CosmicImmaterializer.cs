@@ -58,9 +58,8 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient<ElementalAxe>().
-                AddIngredient<CorvidHarbringerStaff>().
-                AddIngredient<AncientIceChunk>().
-                AddIngredient<EnergyStaff>().
+                AddIngredient<EtherealSubjugator>().
+                AddIngredient<Cosmilamp>().
                 AddIngredient<MiracleMatter>().
                 AddTile<DraedonsForge>().
                 Register();

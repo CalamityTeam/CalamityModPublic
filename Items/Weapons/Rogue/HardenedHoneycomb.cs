@@ -57,7 +57,7 @@ Stealth strikes can bounce off walls and enemies");
 
         public override void AddRecipes()
         {
-            CreateRecipe(20).
+            CreateRecipe(100).
                 AddIngredient(ItemID.Hive).
                 AddIngredient(ItemID.CrispyHoneyBlock).
                 AddIngredient(ItemID.BeeWax).

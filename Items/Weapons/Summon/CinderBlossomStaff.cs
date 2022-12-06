@@ -46,9 +46,9 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Fireblossom, 5).
-                AddIngredient(ItemID.LavaBucket, 2).
                 AddIngredient(ItemID.HellstoneBar, 10).
+                //AddIngredient(ItemID.AshWood, 10).
+                AddIngredient(ItemID.Fireblossom, 5).
                 AddTile(TileID.Anvils).
                 Register();
         }

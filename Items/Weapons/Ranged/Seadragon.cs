@@ -93,9 +93,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient<Phantoplasm>(9).
                 AddIngredient<ArmoredShell>(3).
                 AddIngredient<SeaPrism>(10).
-                AddIngredient<DepthCells>(15).
-                AddIngredient<Lumenyl>(15).
-                AddIngredient<PlantyMush>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

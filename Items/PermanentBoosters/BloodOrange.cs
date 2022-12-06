@@ -83,9 +83,9 @@ namespace CalamityMod.Items.PermanentBoosters
                 AddIngredient(ItemID.LifeFruit, 5).
                 AddIngredient(ItemID.OrangeBloodroot).
                 AddIngredient<BloodOrb>(10).
+                AddIngredient(ItemID.SoulofFright, 5).
                 AddIngredient(ItemID.SoulofMight, 5).
                 AddIngredient(ItemID.SoulofSight, 5).
-                AddIngredient(ItemID.SoulofFright, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

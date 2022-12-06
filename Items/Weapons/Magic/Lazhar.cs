@@ -48,8 +48,7 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe(1).
                 AddIngredient(ItemID.SpaceGun).
                 AddIngredient(ItemID.HeatRay).
-                AddIngredient(ItemID.FragmentSolar, 10).
-                AddIngredient(ItemID.ChlorophyteBar, 6).
+                AddIngredient(ItemID.FragmentSolar, 6).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

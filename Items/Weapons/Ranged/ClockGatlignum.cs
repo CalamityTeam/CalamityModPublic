@@ -64,11 +64,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.ClockworkAssaultRifle).
                 AddIngredient(ItemID.Gatligator).
                 AddIngredient(ItemID.VenusMagnum).
-                AddIngredient(ItemID.ClockworkAssaultRifle).
                 AddIngredient<LifeAlloy>(3).
-                AddIngredient(ItemID.Ectoplasm, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

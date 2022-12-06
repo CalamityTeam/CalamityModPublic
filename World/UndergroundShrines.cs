@@ -110,44 +110,48 @@ namespace CalamityMod.World
         public static void SpecialChest(UndergroundShrineType shrineType)
         {
             int item = 0;
-            int chestType = 0;
+            //1.4 chests are dubious and use another ID type, so there's 2 now
+            int chestType = 21;
+            int chestSubType = 0;
 
             switch (shrineType)
             {
                 case UndergroundShrineType.Surface:
-                    item = ModContent.ItemType<TrinketofChi>();
+                    item = ModContent.ItemType<TrinketofChi>(); //Default chest
                     break;
                 case UndergroundShrineType.Cavern:
                     item = ModContent.ItemType<OnyxExcavatorKey>();
-                    chestType = 44;
+                    chestSubType = 44; //Obsidian
                     break;
                 case UndergroundShrineType.WorldEvil:
                     item = WorldGen.crimson ? ModContent.ItemType<CrimsonEffigy>() : ModContent.ItemType<CorruptionEffigy>();
-                    chestType = WorldGen.crimson ? 43 : 3;
+                    chestType = WorldGen.crimson ? 21 : 467; //Flesh and Lesion
+                    chestSubType = WorldGen.crimson ? 43 : 3;
                     break;
                 case UndergroundShrineType.Ice:
                     item = ModContent.ItemType<TundraLeash>();
-                    chestType = 47;
+                    chestSubType = 47; //Glass
                     break;
                 case UndergroundShrineType.Desert:
                     item = ModContent.ItemType<LuxorsGift>();
-                    chestType = 30;
+                    chestType = 467;
+                    chestSubType = 10; //Sandstone
                     break;
                 case UndergroundShrineType.Mushroom:
                     item = ModContent.ItemType<FungalSymbiote>();
-                    chestType = 32;
+                    chestSubType = 32; //Mushroom
                     break;
                 case UndergroundShrineType.Granite:
                     item = ModContent.ItemType<UnstableGraniteCore>();
-                    chestType = 50;
+                    chestSubType = 50; //Granite
                     break;
                 case UndergroundShrineType.Marble:
                     item = ModContent.ItemType<GladiatorsLocket>();
-                    chestType = 51;
+                    chestSubType = 51; //Marble
                     break;
                 case UndergroundShrineType.Abyss:
                     item = ModContent.ItemType<Terminus>();
-                    chestType = 4;
+                    chestSubType = 4; //Locked Shadow
                     break;
             }
 
@@ -172,7 +176,7 @@ namespace CalamityMod.World
             }
 
             // Place the chest, finally
-            WorldGen.AddBuriedChest(CalamityWorld.SChestX[(int)shrineType], CalamityWorld.SChestY[(int)shrineType], item, false, chestType);
+            WorldGen.AddBuriedChest(CalamityWorld.SChestX[(int)shrineType], CalamityWorld.SChestY[(int)shrineType], item, false, chestSubType, false, (ushort)(chestType));
         }
         #endregion
 

@@ -57,8 +57,8 @@ Stealth strikes release more souls and leave behind souls as they travel");
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).
-                AddIngredient<SolarVeil>(2).
+            CreateRecipe(150).
+                AddIngredient<SolarVeil>(3).
                 AddIngredient(ItemID.Silk).
                 AddIngredient(ItemID.Ectoplasm).
                 AddTile(TileID.MythrilAnvil).

@@ -223,6 +223,12 @@ namespace CalamityMod
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossZen")]
         public bool BossZen { get; set; }
 
+        [Label("$Mods.CalamityMod.Config.EntryTitle.PotionSelling")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.PotionSelling")]
+        public bool PotionSelling { get; set; }
+
         [Label("$Mods.CalamityMod.Config.EntryTitle.TownNPCsSpawnAtNight")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
@@ -425,6 +431,7 @@ namespace CalamityMod
                 new("RemoveReforgeRNG", ItemID.TinHammer),
                 new("EarlyHardmodeProgressionRework", ItemID.Pwnhammer),
                 new("BossZen", ModContent.ItemType<ZenPotion>()),
+                new("PotionSelling", ItemID.SpelunkerPotion),
                 new("TownNPCsSpawnAtNight", ItemID.ClothierVoodooDoll),
                 new("TownNPCSpawnRateMultiplier", ItemID.GuideVoodooDoll),
                 new("BossHealthBoost", ItemID.LifeCrystal),

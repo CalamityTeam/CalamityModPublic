@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                target.AddBuff(BuffID.Frostburn, 180);
+                target.AddBuff(BuffID.Frostburn2, 180);
 
                 if (Projectile.Calamity().stealthStrike)
                 {
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                target.AddBuff(BuffID.Frostburn, 180);
+                target.AddBuff(BuffID.Frostburn2, 180);
 
                 if (Projectile.Calamity().stealthStrike)
                 {

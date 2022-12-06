@@ -51,9 +51,9 @@ namespace CalamityMod.Items.Weapons.Summon
             CreateRecipe().
                 AddIngredient<SunSpiritStaff>().
                 AddIngredient<EssenceofSunlight>(5).
+                AddIngredient(ItemID.SoulofFright, 3).
                 AddIngredient(ItemID.SoulofMight, 3).
                 AddIngredient(ItemID.SoulofSight, 3).
-                AddIngredient(ItemID.SoulofFright, 3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

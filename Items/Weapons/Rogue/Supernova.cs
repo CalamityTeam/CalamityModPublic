@@ -60,10 +60,7 @@ Stealth strikes release energy as they fly");
             CreateRecipe().
                 AddIngredient<TotalityBreakers>().
                 AddIngredient<BallisticPoisonBomb>().
-                AddIngredient<ShockGrenade>(200).
-                AddIngredient<Penumbra>().
                 AddIngredient<StarofDestruction>().
-                AddIngredient<SealedSingularity>().
                 AddIngredient<MiracleMatter>().
                 AddTile<DraedonsForge>().
                 Register();

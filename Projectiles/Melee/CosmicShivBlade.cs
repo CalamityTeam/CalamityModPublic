@@ -72,10 +72,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             Projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
             target.immune[Projectile.owner] = 0; //so that all blades can hit the enemy
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 60);
-            target.AddBuff(BuffID.Frostburn, 60);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 60);
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 60);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
 
         public override void Kill(int timeLeft)

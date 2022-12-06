@@ -249,10 +249,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<TrueArkoftheAncients>().
-                AddIngredient<GalacticaSingularity>(5).
-                AddIngredient<CoreofCalamity>(5).
-                AddIngredient<LifeAlloy>(5).
                 AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient<LifeAlloy>(5).
+                AddIngredient<GalacticaSingularity>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

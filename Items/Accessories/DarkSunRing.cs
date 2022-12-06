@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Dark Sun Ring");
             Tooltip.SetDefault("Contains the power of the dark sun\n" +
                 "12% increase to damage and melee speed\n" +
-                "+1 life regen, 15% increased pick speed and +2 max minions\n" +
+                "+1 life regen, 15% increased mining speed and +2 max minions\n" +
                 "Increased minion knockback\n" +
-                "During the day the player has +3 life regen\n" +
-                "During the night the player has +15 defense\n" +
-                "Both of these bonuses are granted during an eclipse");
+                "During the day the player has +4 life regen\n" +
+                "During the night the player has +20 defense\n" +
+                "During an eclipse the player has +2 life regen and +10 defense");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }

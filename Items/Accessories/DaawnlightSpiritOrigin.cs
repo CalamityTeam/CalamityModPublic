@@ -98,9 +98,9 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<DeadshotBrooch>().
-                AddIngredient(ItemID.LunarBar, 10).
                 AddIngredient<MysteriousCircuitry>(15).
                 AddIngredient<DubiousPlating>(15).
+                AddIngredient(ItemID.LunarBar, 10).
                 AddIngredient<GalacticaSingularity>(4).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

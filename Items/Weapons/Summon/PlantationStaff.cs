@@ -83,16 +83,14 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient<EyeOfNight>().
-                AddIngredient<DeepseaStaff>().
-                AddIngredient(ItemID.OpticStaff).
+                AddIngredient(ItemID.Smolstar). //Blade Staff
                 AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
 
             CreateRecipe().
                 AddIngredient<FleshOfInfidelity>().
-                AddIngredient<DeepseaStaff>().
-                AddIngredient(ItemID.OpticStaff).
+                AddIngredient(ItemID.Smolstar).
                 AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();

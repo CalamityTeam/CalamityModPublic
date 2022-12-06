@@ -40,7 +40,6 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient(ItemID.HellstoneBar, 6).
                 AddIngredient(ItemID.Obsidian, 9).
                 AddIngredient(ItemID.Fireblossom, 2).
-                AddIngredient(ItemID.LavaBucket).
                 AddTile(TileID.Bookcases).
                 Register();
         }

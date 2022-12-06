@@ -82,9 +82,7 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.Damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(300f);
 
             int supremeExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(135);
-            int holyEruptionDamage = (int)player.GetBestClassDamage().ApplyTo(90);
             Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), supremeExplosionDamage, 20f, Main.myPlayer, 0f, 0f);
-            Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), holyEruptionDamage, 5f, Main.myPlayer, 0f, 0f);
             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
     }

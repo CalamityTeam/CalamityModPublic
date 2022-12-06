@@ -40,7 +40,15 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmicAnvilItem>()).AddRecipeGroup("HardmodeForge").AddIngredient(ItemID.TinkerersWorkshop).AddIngredient(ItemID.LunarCraftingStation).AddIngredient(ModContent.ItemType<AuricBar>(), 15).AddIngredient(ModContent.ItemType<ExoPrism>(), 12).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 25).Register();
+            CreateRecipe().
+                AddIngredient<CosmicAnvilItem>().
+                AddRecipeGroup("HardmodeForge").
+                AddIngredient(ItemID.TinkerersWorkshop).
+                AddIngredient(ItemID.LunarCraftingStation).
+                AddIngredient<AuricBar>(15).
+                AddIngredient<ExoPrism>(12).
+                AddIngredient<AscendantSpiritEssence>(25).
+                Register();
         }
     }
 }

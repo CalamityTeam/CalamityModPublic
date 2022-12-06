@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.Diamond, 5).
-                AddRecipeGroup("IronBar", 15).
+                AddIngredient(ItemID.Obsidian, 15).
                 AddTile(TileID.Anvils).
                 Register();
         }

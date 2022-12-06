@@ -317,7 +317,7 @@ namespace CalamityMod
                 { NPCID.EaterofWorldsHead, new int[] { 25, 55, 77, 88, 132 } },
                 { NPCID.EaterofWorldsBody, new int[] { 15, 24, 32, 40, 60 } },
                 { NPCID.EaterofWorldsTail, new int[] { 10, 16, 24, 32, 42 } },
-                { NPCID.VileSpit, new int[] { -1, 64, 64, 64, 96 } },
+                { NPCID.VileSpitEaterOfWorlds, new int[] { -1, 64, 64, 64, 96 } },
 
                 { NPCID.BrainofCthulhu, new int[] { 30, 54, 81, 99, 135 } },
                 { NPCID.Creeper, new int[] { 20, 36, 54, 72, 90 } },

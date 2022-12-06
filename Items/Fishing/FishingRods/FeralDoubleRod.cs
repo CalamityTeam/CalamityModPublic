@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PerennialBar>(10).
+                AddIngredient<PerennialBar>(6).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

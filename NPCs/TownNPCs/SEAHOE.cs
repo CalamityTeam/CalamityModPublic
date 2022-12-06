@@ -375,21 +375,24 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<PolypLauncher>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.GillsPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-            if (Main.LocalPlayer.discount)
-              shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.WaterWalkingPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-            if (Main.LocalPlayer.discount)
-              shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.FlipperPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-            if (Main.LocalPlayer.discount)
-              shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-            nextSlot++;
+            if (CalamityConfig.Instance.PotionSelling)
+            {
+                shop.item[nextSlot].SetDefaults(ItemID.GillsPotion);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                if (Main.LocalPlayer.discount)
+                shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemID.WaterWalkingPotion);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                if (Main.LocalPlayer.discount)
+                shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemID.FlipperPotion);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                if (Main.LocalPlayer.discount)
+                shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
+                nextSlot++;
+            }
             if (Main.hardMode)
             {
             shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);

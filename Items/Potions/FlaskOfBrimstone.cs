@@ -36,16 +36,8 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(3).
-                AddIngredient(ItemID.BottledWater, 3).
-                AddIngredient<BrimstoneFish>().
-                AddIngredient<AshesofCalamity>(3).
-                AddTile(TileID.ImbuingStation).
-                Register();
-
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
-                AddIngredient<BloodOrb>(20).
                 AddIngredient<AshesofCalamity>().
                 AddTile(TileID.ImbuingStation).
                 Register();

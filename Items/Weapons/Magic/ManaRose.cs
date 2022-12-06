@@ -41,6 +41,10 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.NaturesGift).
+                AddIngredient(ItemID.Moonglow, 5).
+                AddTile(TileID.Anvils).
+                Register();
+            CreateRecipe().
                 AddIngredient(ItemID.JungleRose).
                 AddIngredient(ItemID.Moonglow, 5).
                 AddTile(TileID.Anvils).

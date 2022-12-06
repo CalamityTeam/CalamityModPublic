@@ -1431,8 +1431,6 @@ namespace CalamityMod.CalPlayer
             // Max health reductions
             if (crimEffigy)
                 Player.statLifeMax2 = (int)(Player.statLifeMax2 * 0.9);
-            if (regenator)
-                Player.statLifeMax2 = (int)(Player.statLifeMax2 * 0.5);
 
             ResetRogueStealth();
 
@@ -3839,32 +3837,7 @@ namespace CalamityMod.CalPlayer
 
                     Player.AddBuff(ModContent.BuffType<SilvaRevival>(), silvaReviveDuration);
 
-                    if (draconicSurge && !Player.HasCooldown(DraconicElixir.ID))
-                    {
-                        Player.statLife += Player.statLifeMax2 / 2;
-                        Player.HealEffect(Player.statLifeMax2 / 2);
-
-                        if (Player.statLife > Player.statLifeMax2)
-                            Player.statLife = Player.statLifeMax2;
-
-                        if (Player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
-                        {
-                            Player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
-                            Player.AddCooldown(DraconicElixir.ID, CalamityUtils.SecondsToFrames(60));
-
-                            // Additional potion sickness time
-                            int additionalTime = 0;
-                            for (int i = 0; i < Player.MaxBuffs; i++)
-                            {
-                                if (Player.buffType[i] == BuffID.PotionSickness)
-                                    additionalTime = Player.buffTime[i];
-                            }
-
-                            float potionSicknessTime = 30f + (float)Math.Ceiling(additionalTime / 60D);
-                            Player.AddBuff(BuffID.PotionSickness, CalamityUtils.SecondsToFrames(potionSicknessTime));
-                        }
-                    }
-                    else if (silvaWings)
+                    if (silvaWings)
                     {
                         Player.statLife += Player.statLifeMax2 / 2;
                         Player.HealEffect(Player.statLifeMax2 / 2);
@@ -4693,7 +4666,7 @@ namespace CalamityMod.CalPlayer
             {
                 bool reduceChaosBallDamage = npc.type == NPCID.ChaosBall && !NPC.AnyNPCs(NPCID.GoblinSummoner);
 
-                if (reduceChaosBallDamage || npc.type == NPCID.BurningSphere || npc.type == NPCID.WaterSphere)
+                if (reduceChaosBallDamage || npc.type == NPCID.ChaosBallTim || npc.type == NPCID.BurningSphere || npc.type == NPCID.WaterSphere)
                 {
                     damage = (int)(damage * 0.6);
 
@@ -6021,7 +5994,7 @@ namespace CalamityMod.CalPlayer
                     for (int n = 0; n < 3; n++)
                     {
                         int deificStarDamage = (int)Player.GetBestClassDamage().ApplyTo(130);
-                        Projectile star = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, deificStarDamage, 4f, Player.whoAmI);
+                        Projectile star = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.StarVeilStar, deificStarDamage, 4f, Player.whoAmI);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
                             star.DamageType = DamageClass.Generic;

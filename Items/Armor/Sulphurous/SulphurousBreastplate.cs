@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Weapons.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,9 +35,7 @@ namespace CalamityMod.Items.Armor.Sulphurous
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UrchinStinger>(50).
                 AddIngredient<Acidwood>(20).
-                AddIngredient<SulphurousSand>(20).
                 AddIngredient<SulphuricScale>(20).
                 AddTile(TileID.Anvils).
                 Register();

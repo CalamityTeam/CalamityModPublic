@@ -253,9 +253,17 @@ namespace CalamityMod.Items
             // Numerous random tooltip edits which don't fit into another category
             #region Various Tooltip Edits
 
-            // Destroy this disgusting meme tooltip.
+            // Add a tooltip about Slimed's effects
+            if (item.type == ItemID.SlimeGun)
+                EditTooltipByNum(0, (line) => line.Text += "\nSlimed enemies take more damage from fire-based debuffs");
+            // Replace the meme tooltip with a useful one.
             if (item.type == ItemID.GelBalloon)
-                EditTooltipByNum(0, (line) => line.Text = "");
+                EditTooltipByNum(0, (line) => line.Text = "Throws a mixture of slime and sparkling crystals"
+                + "\nSlimed enemies take more damage from fire-based debuffs");
+
+            // Add a tooltip about location of Shadow Chests
+            if (item.type == ItemID.ShadowKey)
+                EditTooltipByNum(0, (line) => line.Text += "\nShadow Chests can be found in the Abyss, Brimstone Crag and Underworld");
 
             // Flesh Knuckles giving extra max life.
             if (item.type == ItemID.FleshKnuckles || item.type == ItemID.HeroShield || item.type == ItemID.BerserkerGlove)

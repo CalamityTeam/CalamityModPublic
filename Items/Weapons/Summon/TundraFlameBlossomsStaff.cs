@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Summon
             CreateRecipe().
                 AddIngredient<CinderBlossomStaff>().
                 AddIngredient<FrostBlossomStaff>().
-                AddIngredient(ItemID.SoulofLight, 5).
+                AddRecipeGroup("AnyMythrilBar", 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

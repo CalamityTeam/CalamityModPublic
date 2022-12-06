@@ -67,7 +67,6 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.FrozenShield).
                 AddIngredient<DeificAmulet>().
-                AddIngredient<GalacticaSingularity>(5).
                 AddIngredient<DivineGeode>(10).
                 AddIngredient<CosmiliteBar>(10).
                 AddIngredient<AscendantSpiritEssence>(4).

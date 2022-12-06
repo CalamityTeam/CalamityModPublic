@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 90);
+            target.AddBuff(BuffID.OnFire3, 90);
         }
     }
 }

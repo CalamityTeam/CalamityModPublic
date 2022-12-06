@@ -51,9 +51,8 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DepthCells>(10).
-                AddIngredient<Lumenyl>(30).
-                AddIngredient<PlantyMush>(10).
+                AddIngredient<Voidstone>(30).
+                AddIngredient<DepthCells>(30).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

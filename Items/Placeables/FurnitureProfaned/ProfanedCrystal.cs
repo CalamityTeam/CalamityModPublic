@@ -27,8 +27,15 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
 
         public override void AddRecipes()
         {
-            CreateRecipe(20).AddIngredient(ModContent.ItemType<UnholyEssence>()).AddIngredient(ItemID.Glass, 20).AddTile(TileID.LunarCraftingStation).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ProfanedCrystalWall>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(100).
+                AddIngredient(ItemID.Glass, 100).
+                AddIngredient<UnholyEssence>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+            CreateRecipe().
+                AddIngredient<ProfanedCrystalWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

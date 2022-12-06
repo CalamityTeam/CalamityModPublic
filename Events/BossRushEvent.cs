@@ -164,7 +164,7 @@ namespace CalamityMod.Events
                     CalamityUtils.BossAwakenMessage(thePefectOne);
                 }, permittedNPCs: ModContent.NPCType<CrabShroom>()),
 
-                new Boss(NPCID.EaterofWorldsHead, permittedNPCs: new int[] { NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail, NPCID.VileSpit }),
+                new Boss(NPCID.EaterofWorldsHead, permittedNPCs: new int[] { NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail, NPCID.VileSpitEaterOfWorlds }),
 
                 new Boss(NPCID.BrainofCthulhu, permittedNPCs: NPCID.Creeper),
 

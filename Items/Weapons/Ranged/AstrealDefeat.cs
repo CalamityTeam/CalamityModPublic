@@ -62,10 +62,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient(ItemID.SpiritFlame).
                 AddIngredient(ItemID.ShadowFlameBow).
-                AddIngredient<ContinentalGreatbow>().
-                AddIngredient<BladedgeGreatbow>().
-                AddIngredient<DarkechoGreatbow>().
-                AddIngredient<GalacticaSingularity>(5).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

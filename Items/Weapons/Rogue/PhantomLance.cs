@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
@@ -61,10 +60,8 @@ Stealth strikes don't slow down and souls always deal full damage");
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).
+            CreateRecipe(150).
                 AddIngredient(ItemID.SpectreBar).
-                AddIngredient<ScoriaBar>().
-                AddIngredient<AshesofCalamity>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PerennialOre>(5).
+                AddIngredient<PerennialOre>(4).
                 AddTile(TileID.AdamantiteForge).
                 Register();
         }

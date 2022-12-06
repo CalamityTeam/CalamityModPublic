@@ -26,6 +26,7 @@ using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
+using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Perforator;
@@ -4330,6 +4331,10 @@ namespace CalamityMod.NPCs
 
             MakeTownNPCsTakeMoreDamage(npc, projectile, Mod, ref damage);
 
+            //Block natural falling stars from killing boss spawners randomly
+            if ((projectile.type == ProjectileID.FallingStar && projectile.damage >= 1000) && (npc.type == NPCType<PerforatorCyst>() || npc.type == NPCType<HiveCyst>() || npc.type == NPCType<LeviathanStart>()))
+                damage = 0;
+
             // Supercrits
             var cgp = projectile.Calamity();
             if (cgp.supercritHits != 0)
@@ -4839,7 +4844,7 @@ namespace CalamityMod.NPCs
                 spawnInfo.Player.Calamity().ZoneCalamity ||
                 spawnInfo.Player.Calamity().ZoneSulphur ||
                 spawnInfo.Player.Calamity().ZoneSunkenSea ||
-                (spawnInfo.Player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp);
+                (spawnInfo.Player.Calamity().ZoneAstral && !spawnInfo.Player.PillarZone());
 
             // Spawn Green Jellyfish in prehm and Blue Jellyfish in hardmode
             if (spawnInfo.Player.ZoneRockLayerHeight && spawnInfo.Water && !calamityBiomeZone)

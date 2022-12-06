@@ -34,10 +34,10 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe().
-                AddIngredient<SupremeHealingPotion>().
-                AddIngredient<BloodOrb>(10).
-                AddTile<CosmicAnvil>().
+            CreateRecipe(4).
+                AddIngredient<SupremeHealingPotion>(4).
+                AddIngredient<AscendantSpiritEssence>().
+                AddTile(TileID.Bottles).
                 Register();
         }
     }

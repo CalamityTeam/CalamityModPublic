@@ -54,9 +54,8 @@ Stealth strikes are trailed by homing wind slashes");
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<AerialiteBar>(5).
+                AddIngredient<AerialiteBar>(7).
                 AddIngredient(ItemID.SunplateBlock, 3).
-                AddIngredient(ItemID.Cloud, 4).
                 AddTile(TileID.SkyMill).
                 Register();
         }

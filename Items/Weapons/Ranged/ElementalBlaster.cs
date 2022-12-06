@@ -44,11 +44,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<SpectralstormCannon>().
-                AddIngredient<ClockGatlignum>().
                 AddIngredient<SpeedBlaster>().
-                AddIngredient<GalacticaSingularity>(5).
                 AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient<LifeAlloy>(5).
+                AddIngredient<GalacticaSingularity>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

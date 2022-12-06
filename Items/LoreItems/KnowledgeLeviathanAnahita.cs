@@ -33,7 +33,14 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<LeviathanTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
+            CreateRecipe().
+                AddIngredient<LeviathanTrophy>().
+                AddTile(TileID.Bookcases).
+                Register();
+            CreateRecipe().
+                AddIngredient<AnahitaTrophy>().
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

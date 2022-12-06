@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -96,7 +97,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Projectile.timeLeft = 85;
             }
-            target.AddBuff(BuffID.Frostburn, 180);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
         }
     }
 }

@@ -31,10 +31,22 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<ArtemisTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<ApolloTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<ThanatosTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<AresTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
+            CreateRecipe().
+                AddIngredient<ArtemisTrophy>().
+                AddTile(TileID.Bookcases).
+                Register();
+            CreateRecipe().
+                AddIngredient<ApolloTrophy>().
+                AddTile(TileID.Bookcases).
+                Register();
+            CreateRecipe().
+                AddIngredient<ThanatosTrophy>().
+                AddTile(TileID.Bookcases).
+                Register();
+            CreateRecipe().
+                AddIngredient<AresTrophy>().
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

@@ -33,7 +33,10 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralMonolith>(), 20).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe().
+                AddIngredient<AstralMonolith>(20).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

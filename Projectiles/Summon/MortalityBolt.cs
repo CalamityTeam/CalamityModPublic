@@ -1,5 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -42,13 +41,6 @@ namespace CalamityMod.Projectiles.Summon
                     rainbowDust.noGravity = true;
                 }
             }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
-            target.AddBuff(BuffID.Frostburn, 90);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
         }
 
         public override void Kill(int timeLeft)
