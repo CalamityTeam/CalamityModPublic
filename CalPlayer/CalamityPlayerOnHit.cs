@@ -122,11 +122,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<WhisperingDeath>(), 120);
                     break;
 
-                case ItemID.Excalibur:
-                case ItemID.TrueExcalibur:
-                    target.AddBuff(BuffType<HolyFlames>(), 120);
-                    break;
-
                 case ItemID.FieryGreatsword:
                 case ItemID.MoltenPickaxe:
                 case ItemID.MoltenHamaxe:
@@ -141,7 +136,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.Poisoned, 240);
                     break;
 
-                case ItemID.LightsBane:
                 case ItemID.NightsEdge:
                     target.AddBuff(BuffID.ShadowFlame, 120);
                     break;
@@ -149,10 +143,6 @@ namespace CalamityMod.CalPlayer
                 case ItemID.TrueNightsEdge:
                     target.AddBuff(BuffID.CursedInferno, 60);
                     target.AddBuff(BuffID.ShadowFlame, 120);
-                    break;
-
-                case ItemID.BloodButcherer:
-                    target.AddBuff(BuffType<BurningBlood>(), 60);
                     break;
 
                 case ItemID.IceSickle:
@@ -254,21 +244,8 @@ namespace CalamityMod.CalPlayer
                     Player.HealEffect(2);
                     break;
 
-                case ProjectileID.TheRottedFork:
-                case ProjectileID.TheMeatball:
-                case ProjectileID.CrimsonYoyo:
-                case ProjectileID.BloodCloudRaining:
-                case ProjectileID.BloodRain:
-                    target.AddBuff(BuffType<BurningBlood>(), 60);
-                    break;
-
-                case ProjectileID.BallOHurt:
-                case ProjectileID.CorruptYoyo:
-                    target.AddBuff(BuffID.ShadowFlame, 60);
-                    break;
-
                 case ProjectileID.ObsidianSwordfish:
-                    target.AddBuff(BuffID.OnFire, 180);
+                    target.AddBuff(BuffID.OnFire3, 180);
                     break;
 
                 case ProjectileID.Flamelash:
@@ -296,12 +273,6 @@ namespace CalamityMod.CalPlayer
 
                 case ProjectileID.DeathSickle:
                     target.AddBuff(BuffType<WhisperingDeath>(), 60);
-                    break;
-
-                case ProjectileID.LightBeam:
-                case ProjectileID.Gungnir:
-                case ProjectileID.PaladinsHammerFriendly:
-                    target.AddBuff(BuffType<HolyFlames>(), 120);
                     break;
 
                 case ProjectileID.PoisonedKnife:
@@ -345,7 +316,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.Frostburn, 120);
                     break;
 
-                case ProjectileID.SnowBallFriendly:
                 case ProjectileID.IceBolt:
                 case ProjectileID.FrostDaggerfish:
                 case ProjectileID.FrostburnArrow:
@@ -433,11 +403,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<WhisperingDeath>(), 120);
                     break;
 
-                case ItemID.Excalibur:
-                case ItemID.TrueExcalibur:
-                    target.AddBuff(BuffType<HolyFlames>(), 120);
-                    break;
-
                 case ItemID.FieryGreatsword:
                 case ItemID.MoltenPickaxe:
                 case ItemID.MoltenHamaxe:
@@ -452,7 +417,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.Poisoned, 240);
                     break;
 
-                case ItemID.LightsBane:
                 case ItemID.NightsEdge:
                     target.AddBuff(BuffType<Shadowflame>(), 120);
                     break;
@@ -460,10 +424,6 @@ namespace CalamityMod.CalPlayer
                 case ItemID.TrueNightsEdge:
                     target.AddBuff(BuffID.CursedInferno, 60);
                     target.AddBuff(BuffType<Shadowflame>(), 120);
-                    break;
-
-                case ItemID.BloodButcherer:
-                    target.AddBuff(BuffType<BurningBlood>(), 60);
                     break;
 
                 case ItemID.IceSickle:
@@ -504,12 +464,8 @@ namespace CalamityMod.CalPlayer
                     Player.HealEffect(2);
                     break;
 
-                case ProjectileID.TheRottedFork:
-                    target.AddBuff(BuffType<BurningBlood>(), 60);
-                    break;
-
                 case ProjectileID.ObsidianSwordfish:
-                    target.AddBuff(BuffID.OnFire, 180);
+                    target.AddBuff(BuffID.OnFire3, 180);
                     break;
 
                 case ProjectileID.Flamelash:
@@ -537,12 +493,6 @@ namespace CalamityMod.CalPlayer
 
                 case ProjectileID.DeathSickle:
                     target.AddBuff(BuffType<WhisperingDeath>(), 60);
-                    break;
-
-                case ProjectileID.LightBeam:
-                case ProjectileID.Gungnir:
-                case ProjectileID.PaladinsHammerFriendly:
-                    target.AddBuff(BuffType<HolyFlames>(), 120);
                     break;
 
                 case ProjectileID.PoisonedKnife:
@@ -586,7 +536,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.Frostburn, 120);
                     break;
 
-                case ProjectileID.SnowBallFriendly:
                 case ProjectileID.IceBoomerang:
                 case ProjectileID.IceBolt:
                 case ProjectileID.FrostDaggerfish:
