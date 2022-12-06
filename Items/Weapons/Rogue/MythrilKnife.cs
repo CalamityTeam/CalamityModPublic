@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 1.75f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 30;
+            Item.height = 40;
             Item.maxStack = 999;
             Item.value = 1100;
             Item.rare = ItemRarityID.LightRed;

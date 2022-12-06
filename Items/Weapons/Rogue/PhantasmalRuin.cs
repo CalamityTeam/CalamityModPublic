@@ -25,8 +25,8 @@ Stealth strikes continuously leave spectral clones in their wake");
             Item.damage = 955;
             Item.knockBack = 8f;
 
-            Item.width = 102;
-            Item.height = 98;
+            Item.width = 104;
+            Item.height = 116;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.noUseGraphic = true;
