@@ -50,7 +50,6 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
 
         public override bool PreDraw(ref Color lightColor)

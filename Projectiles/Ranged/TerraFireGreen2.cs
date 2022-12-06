@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -78,15 +78,6 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.ai[0] += 1f;
             }
             Projectile.rotation += 0.3f * (float)Projectile.direction;
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 90);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(BuffID.OnFire, 240);
-            target.AddBuff(BuffID.Frostburn, 120);
         }
     }
 }

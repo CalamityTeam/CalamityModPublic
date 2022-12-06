@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -106,7 +106,6 @@ namespace CalamityMod.Projectiles.Ranged
                 num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 73, 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
             }
-            target.AddBuff(BuffID.OnFire, 180);
         }
     }
 }

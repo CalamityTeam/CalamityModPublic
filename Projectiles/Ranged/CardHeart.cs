@@ -59,8 +59,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-
             Player player = Main.player[Projectile.owner];
             if (player.moonLeech)
                 return;

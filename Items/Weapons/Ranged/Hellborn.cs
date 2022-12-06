@@ -129,12 +129,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 360);
+            target.AddBuff(BuffID.OnFire3, 360);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 360);
+            target.AddBuff(BuffID.OnFire3, 360);
         }
     }
 }
