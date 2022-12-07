@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Frost Flare");
-            Tooltip.SetDefault("All attacks and projectiles inflict frostburn\n" +
+            Tooltip.SetDefault("All attacks and projectiles inflict frostbite\n" +
                 "Immunity to frostburn, chilled and frozen\n" +
                 "Being above 75% life grants 10% increased damage\n" +
                 "Being below 25% life grants 20 defense and 15% increased max movement speed and acceleration\n" +

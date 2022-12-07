@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void OnHitEffects()
         {
-            //Start homing at player if you hit an enemy
+            // Start homing at player if you hit an enemy
             Projectile.ai[0] = 1;
 
             int icicleAmt = Main.rand.Next(2, 4);
@@ -149,12 +149,14 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             OnHitEffects();
+            target.AddBuff(BuffID.Frostburn2, 120);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             OnHitEffects();
+            target.AddBuff(BuffID.Frostburn2, 120);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
 

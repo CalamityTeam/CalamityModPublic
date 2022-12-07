@@ -1340,7 +1340,7 @@ namespace CalamityMod.CalPlayer
             if (voidOfExtinction)
                 CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>());
             if (frostFlare)
-                CalamityUtils.Inflict246DebuffsNPC(target, BuffID.Frostburn);
+                CalamityUtils.Inflict246DebuffsNPC(target, BuffID.Frostburn2);
             if (omegaBlueChestplate)
                 target.AddBuff(BuffType<CrushDepth>(), 180);
             if (sulfurSet)
@@ -1462,7 +1462,7 @@ namespace CalamityMod.CalPlayer
                 CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>());
 
             if (frostFlare)
-                CalamityUtils.Inflict246DebuffsPvp(target, BuffID.Frostburn);
+                CalamityUtils.Inflict246DebuffsPvp(target, BuffID.Frostburn2);
 
             if (omegaBlueChestplate)
                 target.AddBuff(BuffType<CrushDepth>(), 180);
