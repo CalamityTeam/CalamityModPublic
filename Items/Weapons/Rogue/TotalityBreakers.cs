@@ -56,7 +56,9 @@ Stealth strikes leak tar as they fly");
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.MolotovCocktail, 50).
+				AddIngredient<ConsecratedWater>().
+				AddIngredient<DesecratedWater>().
+				AddIngredient(ItemID.MolotovCocktail, 50).
                 AddIngredient<SolarVeil>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
