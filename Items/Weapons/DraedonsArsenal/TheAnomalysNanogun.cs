@@ -106,7 +106,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<HeavyLaserRifle>()
                 .AddIngredient<MysteriousCircuitry>(20)
                 .AddIngredient<DubiousPlating>(20)
                 .AddIngredient<CosmiliteBar>(8)
