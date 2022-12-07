@@ -74,7 +74,8 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<MeldConstruct>(14).
+                AddIngredient(ItemID.SoulofFlight, 20).
+				AddIngredient<MeldConstruct>(14).
                 AddIngredient(ItemID.LunarBar, 10).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
