@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Armor.GemTech
             CreateRecipe().
                 AddIngredient<ExoPrism>(12).
                 AddIngredient<GalacticaSingularity>(4).
-                AddIngredient<CoreofCalamity>(3).
+                AddIngredient<CoreofCalamity>(2).
                 AddTile<DraedonsForge>().
                 Register();
         }

@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.RangerEmblem).
-                AddIngredient<CoreofCalamity>(3).
+                AddIngredient<CoreofCalamity>(2).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

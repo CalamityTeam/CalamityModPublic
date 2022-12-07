@@ -46,8 +46,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.Katana).
-                AddIngredient<LifeAlloy>(20).
-                AddIngredient<CoreofCalamity>(10).
+                AddIngredient<LifeAlloy>(5).
+                AddIngredient<CoreofCalamity>(2).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
