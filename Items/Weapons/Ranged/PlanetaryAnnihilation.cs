@@ -109,6 +109,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<CosmicBolter>().
+                AddIngredient(ItemID.DaedalusStormbow).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddIngredient<LifeAlloy>(5).
                 AddIngredient<GalacticaSingularity>(5).

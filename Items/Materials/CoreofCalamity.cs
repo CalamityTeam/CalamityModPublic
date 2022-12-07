@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Materials
             ItemID.Sets.ItemNoGravity[Item.type] = true;
 
             DisplayName.SetDefault("Core of Calamity");
-			ItemID.Sets.SortingPriorityMaterials[Type] = 94; // Spectre Bar
+            ItemID.Sets.SortingPriorityMaterials[Type] = 94; // Spectre Bar
         }
 
         public override void SetDefaults()
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(3).
+            CreateRecipe().
                 AddIngredient<CoreofSunlight>(3).
                 AddIngredient<CoreofEleum>(3).
                 AddIngredient<CoreofChaos>(3).

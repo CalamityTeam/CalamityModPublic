@@ -111,7 +111,7 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient(ItemID.RainbowGun).
                 AddIngredient(ItemID.PearlwoodBow).
-                AddIngredient<GalacticaSingularity>().
+                AddIngredient<GalacticaSingularity>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

@@ -66,10 +66,11 @@ namespace CalamityMod.Items.SummonItems
                 AddTile(TileID.LunarCraftingStation).
                 Register();
 
+            // sequence breaking recipe
             CreateRecipe().
-                AddIngredient(ItemID.LunarBar, 100).
-                AddIngredient<GalacticaSingularity>(50).
-                AddIngredient<Phantoplasm>(50).
+                AddIngredient(ItemID.LunarBar, 40).
+                AddIngredient<GalacticaSingularity>(10).
+                AddIngredient<Phantoplasm>(40).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

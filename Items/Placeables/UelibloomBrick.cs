@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).
-                AddRecipeGroup("AnyStoneBlock", 100).
+            CreateRecipe(50).
+                AddRecipeGroup("AnyStoneBlock", 50).
                 AddIngredient<UelibloomOre>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();

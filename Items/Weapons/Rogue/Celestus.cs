@@ -58,6 +58,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe().
                 AddIngredient<ElementalDisk>().
                 AddIngredient<MoltenAmputator>().
+                AddIngredient<SubductionSlicer>().
                 AddIngredient<EnchantedAxe>().
                 AddIngredient<MiracleMatter>().
                 AddTile<DraedonsForge>().

@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<SeaRemains>(20).
+                AddIngredient<SeaRemains>(12).
                 AddIngredient<DepthCells>(10).
                 AddIngredient(ItemID.SharkFin, 2).
                 AddTile(TileID.MythrilAnvil).

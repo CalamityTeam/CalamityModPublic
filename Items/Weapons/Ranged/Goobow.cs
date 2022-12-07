@@ -70,6 +70,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<PurifiedGel>(18).
+                AddIngredient<BlightedGel>(18).
                 AddTile<StaticRefiner>().
                 Register();
         }

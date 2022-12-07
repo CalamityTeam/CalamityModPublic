@@ -35,6 +35,7 @@ namespace CalamityMod.Items.Armor.Statigel
         {
             CreateRecipe().
                 AddIngredient<PurifiedGel>(7).
+                AddIngredient<BlightedGel>(7).
                 AddTile<StaticRefiner>().
                 Register();
         }

@@ -63,6 +63,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CreateRecipe(100).
                 AddIngredient<PurifiedGel>(2).
+                AddIngredient<BlightedGel>(2).
                 AddTile<StaticRefiner>().
                 Register();
         }

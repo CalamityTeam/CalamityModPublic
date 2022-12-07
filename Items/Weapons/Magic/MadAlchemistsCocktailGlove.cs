@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient(ItemID.BottledWater, 15).
                 AddIngredient(ItemID.Leather, 5).
                 AddIngredient<EffulgentFeather>(5).
-                AddIngredient<CoreofCalamity>(2).
+                AddIngredient<CoreofCalamity>().
                 AddTile(TileID.AlchemyTable).
                 Register();
         }

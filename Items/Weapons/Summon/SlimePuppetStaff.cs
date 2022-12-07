@@ -58,6 +58,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient<PurifiedGel>(18).
+                AddIngredient<BlightedGel>(18).
                 AddTile<StaticRefiner>().
                 Register();
         }

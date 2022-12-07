@@ -55,8 +55,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override void AddRecipes()
         {
-            CreateRecipe(50).
-                AddIngredient(ItemID.RedBrick, 5).
+            CreateRecipe(10).
+                AddIngredient(ItemID.RedBrick).
                 AddTile(TileID.WorkBenches).
                 Register();
         }

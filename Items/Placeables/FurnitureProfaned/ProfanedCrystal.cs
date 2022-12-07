@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).
-                AddIngredient(ItemID.Glass, 100).
+            CreateRecipe(50).
+                AddIngredient(ItemID.Glass, 50).
                 AddIngredient<UnholyEssence>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();

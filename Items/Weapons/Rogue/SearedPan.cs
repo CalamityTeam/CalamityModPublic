@@ -81,8 +81,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                 AddIngredient<UtensilPoker>().
                 AddIngredient<AuricBar>(5).
                 AddIngredient(ItemID.LifeCrystal).
-                AddIngredient(ItemID.ManaCrystal).
                 AddIngredient(ItemID.Bone, 92).
+                // AddIngredient(ItemID.Steak).
                 AddTile<CosmicAnvil>().
                 Register();
         }

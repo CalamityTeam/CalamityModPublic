@@ -60,6 +60,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 AddIngredient<ElementalAxe>().
                 AddIngredient<EtherealSubjugator>().
                 AddIngredient<Cosmilamp>().
+                AddIngredient<CalamarisLament>().
                 AddIngredient<MiracleMatter>().
                 AddTile<DraedonsForge>().
                 Register();

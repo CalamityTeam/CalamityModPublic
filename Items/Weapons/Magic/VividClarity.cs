@@ -78,6 +78,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient<ElementalRay>().
                 AddIngredient<PhantasmalFury>().
                 AddIngredient<ShadowboltStaff>().
+                AddIngredient<UltraLiquidator>().
                 AddIngredient<MiracleMatter>().
                 AddTile<DraedonsForge>().
                 Register();

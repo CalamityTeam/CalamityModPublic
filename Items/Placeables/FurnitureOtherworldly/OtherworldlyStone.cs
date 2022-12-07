@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
                 AddIngredient<DarkPlasma>().
                 AddIngredient<ArmoredShell>().
                 AddIngredient<TwistingNether>().
-                AddIngredient(ItemID.Silk, 20).
+                AddIngredient(ItemID.Silk, 10).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
             CreateRecipe().

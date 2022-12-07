@@ -68,6 +68,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient<TomeofFates>().
+                AddIngredient(ItemID.ShadowFlameHexDoll).
+                AddIngredient<EldritchTome>().
                 AddIngredient(ItemID.LunarBar, 5).
                 AddIngredient<LifeAlloy>(5).
                 AddIngredient<GalacticaSingularity>(5).
