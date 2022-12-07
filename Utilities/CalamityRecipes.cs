@@ -781,31 +781,33 @@ namespace CalamityMod
             var edits = new Dictionary<Func<Recipe, bool>, Action<Recipe>>(128)
             {
                 { Vanilla(ItemID.EnchantedBoomerang), Disable }, // Calamity adds its own recipe
-                { Vanilla(ItemID.JestersArrow), JesterArrowRecipeEdit },
-                { Vanilla(ItemID.NightsEdge), AddIngredient(ModContent.ItemType<PurifiedGel>(), 5) },
+
+                // Make various things cheaper (sorted by progression)
                 { Vanilla(ItemID.Leather), ChangeIngredientStack(ItemID.RottenChunk, 2) },
-                { VanillaEach(ItemID.Flamarang, ItemID.PhoenixBlaster), SwapIngredients(0, 1) },
-                { Vanilla(ItemID.BundleofBalloons), AddIngredient(ModContent.ItemType<AerialiteBar>(), 3) },
-                { Vanilla(ItemID.TrueNightsEdge), TrueNightsEdgeRecipeEdit },
-                { Vanilla(ItemID.TrueExcalibur), ChangeIngredientStack(ItemID.ChlorophyteBar, 12) },
-                { Vanilla(ItemID.TerraBlade), AddIngredient(ModContent.ItemType<LivingShard>(), 12) },
-                { Vanilla(ItemID.Zenith), AddIngredient(ModContent.ItemType<AuricBar>(), 5) },
-                { Vanilla(ItemID.FireGauntlet), AddIngredient(ModContent.ItemType<ScoriaBar>(), 5) },
-                { Vanilla(ItemID.SpiritFlame), AddGroup(AnyAdamantiteBar, 2) },
-                { VanillaEach(ItemID.BeetleHelmet, ItemID.BeetleScaleMail, ItemID.BeetleShell, ItemID.BeetleLeggings), SwapIngredients(0, 1) },
-                { Vanilla(ItemID.GoblinBattleStandard), ChangeIngredientStack(ItemID.TatteredCloth, 5) },
+                { Vanilla(ItemID.JestersArrow), JesterArrowRecipeEdit },
                 { Vanilla(ItemID.WormFood), WormFoodRecipeEdit },
                 { Vanilla(ItemID.BloodySpine), BloodySpineRecipeEdit },
-                { Vanilla(ItemID.PumpkinMoonMedallion), RemoveIngredient(ItemID.HallowedBar) },
-                { Vanilla(ItemID.NaughtyPresent), RemoveIngredient(ItemID.SoulofFright) },
+                { Vanilla(ItemID.GoblinBattleStandard), ChangeIngredientStack(ItemID.TatteredCloth, 5) },
                 { VanillaEach(
                     ItemID.BluePhasesaber, ItemID.GreenPhasesaber, ItemID.OrangePhasesaber, ItemID.PurplePhasesaber,
                     ItemID.RedPhasesaber, ItemID.WhitePhasesaber, ItemID.YellowPhasesaber),
-                    ChangeIngredientStack(ItemID.CrystalShard, 20)
+                    ChangeIngredientStack(ItemID.CrystalShard, 20) // TODO -- PORT: 1.4.4 reduces Phasesaber crystals to 25, remove this
                 },
-                { Vanilla(ItemID.OpticStaff), RemoveIngredient(ItemID.HallowedBar) },
-                { Vanilla(ItemID.ShroomiteBar), ChangeIngredientStack(ItemID.GlowingMushroom, 5) },
                 { Vanilla(ItemID.ChlorophyteBar), ChangeIngredientStack(ItemID.ChlorophyteOre, 4) },
+                { Vanilla(ItemID.ShroomiteBar), ChangeIngredientStack(ItemID.GlowingMushroom, 5) },
+                { Vanilla(ItemID.TrueNightsEdge), TrueNightsEdgeRecipeEdit },
+                { Vanilla(ItemID.TrueExcalibur), ChangeIngredientStack(ItemID.ChlorophyteBar, 12) },
+
+                // Tier lock various items to a higher tier (sorted by progression)
+                { Vanilla(ItemID.BundleofBalloons), AddIngredient(ModContent.ItemType<AerialiteBar>(), 3) },
+                { Vanilla(ItemID.NightsEdge), AddIngredient(ModContent.ItemType<PurifiedGel>(), 5) },
+                { Vanilla(ItemID.SpiritFlame), AddGroup(AnyAdamantiteBar, 2) },
+                { Vanilla(ItemID.TerraBlade), AddIngredient(ModContent.ItemType<LivingShard>(), 12) },
+                { Vanilla(ItemID.FireGauntlet), AddIngredient(ModContent.ItemType<ScoriaBar>(), 5) },
+                { Vanilla(ItemID.Zenith), AddIngredient(ModContent.ItemType<AuricBar>(), 5) },
+
+                // Tier unlock various items to a lower tier (sorted by progression)
+                // Move a bunch of mythril anvil locked stuff in early HM to regular anvils to fit progression changes
                 { VanillaEach(
                     ItemID.MechanicalEye, ItemID.MechanicalWorm, ItemID.MechanicalSkull,
                     ItemID.DaoofPow, ItemID.Chik, ItemID.MeteorStaff, ItemID.CoolWhip,
@@ -813,8 +815,22 @@ namespace CalamityMod
                     ItemID.CursedArrow, ItemID.CursedBullet, ItemID.IchorArrow, ItemID.IchorBullet),
                     ReplaceTile(TileID.MythrilAnvil, TileID.Anvils)
                 },
+                { Vanilla(ItemID.OpticStaff), RemoveIngredient(ItemID.HallowedBar) },
 
-                // All PHM ore armors are 10/16/14
+                // Swap hellstone recipe ordering (they have bars first and it's wrong and irritating)
+                { VanillaEach(ItemID.Flamarang, ItemID.PhoenixBlaster), SwapIngredients(0, 1) },
+
+                // Swap Beetle Armor recipe ordering (they have beetle husks first and it's wrong and irritating)
+                { VanillaEach(ItemID.BeetleHelmet, ItemID.BeetleScaleMail, ItemID.BeetleShell, ItemID.BeetleLeggings), SwapIngredients(0, 1) },
+
+                // Pumpkin & Frost Moon non linearity
+                { Vanilla(ItemID.PumpkinMoonMedallion), RemoveIngredient(ItemID.HallowedBar) },
+                { Vanilla(ItemID.NaughtyPresent), RemoveIngredient(ItemID.SoulofFright) },
+
+                // Add 20 Souls of Flight to vanilla Luminite wings
+                { VanillaEach(ItemID.WingsSolar, ItemID.WingsVortex, ItemID.WingsNebula, ItemID.WingsStardust), AddIngredient(ItemID.SoulofFlight, 20) },
+
+                // Standardize the costs of all PHM ore armors to 10/16/14 head/chest/legs
                 { Vanilla(ItemID.CopperHelmet), ChangeIngredientStack(ItemID.CopperBar, 10) },
                 { Vanilla(ItemID.CopperChainmail), ChangeIngredientStack(ItemID.CopperBar, 16) },
                 { Vanilla(ItemID.CopperGreaves), ChangeIngredientStack(ItemID.CopperBar, 14) },
@@ -840,7 +856,7 @@ namespace CalamityMod
                 { Vanilla(ItemID.PlatinumChainmail), ChangeIngredientStack(ItemID.PlatinumBar, 16) },
                 { Vanilla(ItemID.PlatinumGreaves), ChangeIngredientStack(ItemID.PlatinumBar, 14) },
 
-                // HM ores:
+                // Standardize the costs of all HM ore items to the following:
                 // 10 BARS : Melee Helm, Ranged Helm, Magic Helm, Pickaxe, Drill, Waraxe, Chainsaw, Sword, Spear, Repeater
                 // 20 BARS : Breastplate
                 // 15 BARS : Leggings
