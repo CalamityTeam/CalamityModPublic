@@ -125,6 +125,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         // Variable used to stop the arm spawning loop
         private bool armsSpawned = false;
 
+        // Exo Mechdusa stuff
+        public bool exoMechdusa = false;
+        public int neurontimer = 0;
+
         // Total duration of the deathray telegraph
         public const float deathrayTelegraphDuration_Normal = 150f;
         public const float deathrayTelegraphDuration_Expert = 120f;
@@ -149,7 +153,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public static readonly SoundStyle LaserLoopSound = new SoundStyle("CalamityMod/Sounds/Custom/ExoMechs/AresCircleLaserLoop") with { IsLooped = true };
 
         public static readonly SoundStyle LaserEndSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresCircleLaserEnd");
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("XF-09 Ares");
@@ -211,12 +214,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             writer.Write(frameX);
             writer.Write(frameY);
             writer.Write(armsSpawned);
+            writer.Write(exoMechdusa);
             writer.Write(NPC.dontTakeDamage);
             writer.Write(NPC.localAI[0]);
             writer.Write(NPC.localAI[1]);
             writer.Write(NPC.localAI[2]);
             for (int i = 0; i < 4; i++)
                 writer.Write(NPC.Calamity().newAI[i]);
+            writer.Write(neurontimer);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -224,12 +229,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             frameX = reader.ReadInt32();
             frameY = reader.ReadInt32();
             armsSpawned = reader.ReadBoolean();
+            exoMechdusa = reader.ReadBoolean();
             NPC.dontTakeDamage = reader.ReadBoolean();
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
             for (int i = 0; i < 4; i++)
                 NPC.Calamity().newAI[i] = reader.ReadSingle();
+            neurontimer = reader.ReadInt32();
         }
 
         public override void AI()
@@ -286,7 +293,88 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
                         Previous = lol;
                     }
+                    if (exoMechdusa)
+                    {
+                        NPC apolloNPC = CalamityUtils.SpawnBossBetter(NPC.Center, ModContent.NPCType<Apollo.Apollo>());
+                        apolloNPC.ModNPC<Apollo.Apollo>().exoMechdusa = true;
+                        NPC artemisNPC = CalamityUtils.SpawnBossBetter(NPC.Center, ModContent.NPCType<Artemis.Artemis>());
+                        artemisNPC.ModNPC<Artemis.Artemis>().exoMechdusa = true;
+                        NPC thanosNPC = CalamityUtils.SpawnBossBetter(NPC.Center, ModContent.NPCType<ThanatosHead>());
+                        thanosNPC.ModNPC<ThanatosHead>().exoMechdusa = true;
+                    }
                     armsSpawned = true;
+                }
+            }
+
+            if (exoMechdusa)
+            {
+                int yoffset = 180;
+                int xoffset = 180;
+                Vector2 NeuronRight = new Vector2(NPC.Center.X + xoffset, NPC.Center.Y + yoffset);
+                Vector2 NeuronLeft = new Vector2(NPC.Center.X - xoffset, NPC.Center.Y + yoffset);
+                NPC.alpha = 0;
+                MechdusaResistances(NPC);
+                neurontimer++; 
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    if (neurontimer >= 180)
+                    {
+                        float variance = MathHelper.TwoPi / 6;
+                        for (int i = 0; i < 6; i++)
+                        {
+                            Vector2 velocity = new Vector2(0f, 6f);
+                            velocity = velocity.RotatedBy(variance * i);
+                            velocity.Normalize();
+
+                            Vector2 betweenR = NeuronRight + velocity * 650;
+                            Vector2 betweenL = NeuronLeft + velocity * 650;
+                        
+                            Terraria.Audio.SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound with { Volume = CommonCalamitySounds.LaserCannonSound.Volume - 0.2f, Pitch = CommonCalamitySounds.LaserCannonSound.Pitch + 0.2f }, NeuronRight);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), betweenL, betweenL + velocity, ModContent.ProjectileType<ArtemisLaser>(), 222, 0f, Main.myPlayer, 7, NPC.whoAmI);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), betweenR, betweenR + velocity, ModContent.ProjectileType<ArtemisLaser>(), 222, 0f, Main.myPlayer, 7, NPC.whoAmI);
+
+                        }
+                        neurontimer = 0;
+                    }
+                }
+                if (NPC.CountNPCS(ModContent.NPCType<Artemis.Artemis>()) > 0 || NPC.CountNPCS(ModContent.NPCType<ThanatosHead>()) > 0)
+                {
+                    NPC.TargetClosest();
+                    Vector2 where2 = new Vector2(Main.player[NPC.target].Center.X + 600, Main.player[NPC.target].Center.Y - 200);
+                    if (CalamityGlobalNPC.draedonExoMechWorm != -1)
+                    {
+                        if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].Calamity().newAI[0] == (float)ThanatosHead.Phase.Deathray)
+                        {
+                            where2 = new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechWorm].position.X, Main.npc[CalamityGlobalNPC.draedonExoMechWorm].position.Y - 40);
+                            NPC.position = where2;
+                        }
+                        else
+                        {
+                            CalamityUtils.SmoothMovement(NPC, 100, where2 - NPC.Center, 8, 1.4f, true);
+                        }
+                    }
+                    else if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
+                    {
+                        if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[0] == (float)Artemis.Artemis.Phase.Deathray)
+                        {
+                            where2 = new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].position.X, Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].position.Y);
+                            NPC.position = where2;
+                        }
+                        else if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[0] == (float)Apollo.Apollo.Phase.ChargeCombo || Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[0] == (float)Apollo.Apollo.Phase.LineUpChargeCombo)
+                        {
+                            where2 = new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].position.X, Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].position.Y);
+                            NPC.position = where2;
+                        }
+                        else
+                        {
+                            CalamityUtils.SmoothMovement(NPC, 100, where2 - NPC.Center, 8, 1.4f, true);
+                        }
+                    }
+                    else
+                    {
+                        CalamityUtils.SmoothMovement(NPC, 100, where2 - NPC.Center, 8, 1.4f, true);
+                    }
+                    return;
                 }
             }
 
@@ -520,8 +608,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             {
                 case (int)SecondaryPhase.Nothing:
 
-                    // Spawn the other mechs if Ares is first
-                    if (otherExoMechsAlive == 0)
+                    // Spawn the other mechs if Ares is first and not Exo Mechdusa
+                    if (otherExoMechsAlive == 0 && !exoMechdusa)
                     {
                         if (spawnOtherExoMechs)
                         {
@@ -1104,6 +1192,20 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             spriteBatch.Draw(texture, center, frame, afterimageBaseColor * NPC.Opacity, NPC.rotation, vector, NPC.scale, SpriteEffects.None, 0f);
 
+            // Draw Aergia Neuron boobs if Exo Mechdusa
+            if (exoMechdusa)
+            {
+                Texture2D neurontexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/AergiaNeuron").Value;
+                Texture2D glowtexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/AergiaNeuron_Glow").Value;
+                Vector2 NeuronRight = new Vector2(NPC.Center.X + 40, NPC.Center.Y + 50);
+                Vector2 NeuronLeft = new Vector2(NPC.Center.X - 40, NPC.Center.Y + 50);
+                Vector2 origin = new Vector2((float)(neurontexture.Width / 2), (float)(neurontexture.Height / 2));
+                spriteBatch.Draw(neurontexture, NeuronRight - Main.screenPosition, null, drawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(neurontexture, NeuronLeft - Main.screenPosition, null, drawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(glowtexture, NeuronRight - Main.screenPosition, null, Color.White, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(glowtexture, NeuronLeft - Main.screenPosition, null, Color.White, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
+            }
+
             return false;
         }
         internal float WidthFunction(float completionRatio)
@@ -1471,6 +1573,54 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
             NPC.damage = (int)(NPC.damage * 0.8f);
+        }
+        public static void MechdusaResistances(NPC npc)
+        {
+            int otherExoMechsAlive = 0;
+            bool wormhiding = false;
+            bool eyehiding = false;
+            if (CalamityGlobalNPC.draedonExoMechWorm != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
+                {
+                    otherExoMechsAlive++;
+                    if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].dontTakeDamage)
+                    {
+                        wormhiding = true;
+                    }
+                }
+            }
+            if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+                {
+                    otherExoMechsAlive++;
+                    if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].dontTakeDamage && npc.Calamity().newAI[0] != (float)Apollo.Apollo.Phase.PhaseTransition)
+                    {
+                        eyehiding = true;
+                    }
+                }
+            }
+            // Drastically reduce DR if one mech alive and it's invincible
+            if (otherExoMechsAlive == 1 && (wormhiding || eyehiding))
+            {
+                npc.chaseable = true;
+                npc.Calamity().DR = 0.5f;
+                npc.dontTakeDamage = false;
+            }
+            // If all remaining mechs aren't hiding, Ares becomes nigh invincible
+            else if (otherExoMechsAlive != 0)
+            {
+                npc.chaseable = false;
+                npc.dontTakeDamage = true;
+            }
+            // If everyone is dead but Ares, he becomes vulnerable
+            else
+            {
+                npc.chaseable = true;
+                npc.Calamity().DR = 0.35f;
+                npc.dontTakeDamage = false;
+            }
         }
     }
 }

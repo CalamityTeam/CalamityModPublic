@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using CalamityMod.Items.DraedonMisc;
+using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.TileEntities;
 using CalamityMod.World;
@@ -141,7 +142,19 @@ namespace CalamityMod.UI.DraedonSummoning
             // Draw the cell payment slot icon.
             Texture2D emptyCellIconTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonsArsenal/PowerCellSlot_Empty").Value;
             Texture2D occupiedCellIconTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonsArsenal/PowerCellSlot_Filled").Value;
-            Texture2D cellTexture = codebreakerTileEntity.InputtedCellCount > 0 ? occupiedCellIconTexture : emptyCellIconTexture;
+            Texture2D bloodSampleIconTexture = ModContent.Request<Texture2D>("CalamityMod/Items/Materials/BloodSample").Value;
+            Texture2D cellTexture = emptyCellIconTexture;
+            if (codebreakerTileEntity.InputtedCellCount > 0)
+            {
+                if (codebreakerTileEntity.ContainsBloodSample)
+                {
+                    cellTexture = bloodSampleIconTexture;
+                }
+                else
+                {
+                    cellTexture = occupiedCellIconTexture;
+                }
+            }
             Vector2 cellDrawCenter = backgroundTopLeft + Vector2.One * GeneralScale * 60f;
 
             Vector2 schematicSlotDrawCenter = cellDrawCenter + Vector2.UnitY * GeneralScale * 70f;
@@ -158,7 +171,7 @@ namespace CalamityMod.UI.DraedonSummoning
             else if (codebreakerTileEntity.HeldSchematicID != 0 && codebreakerTileEntity.DecryptionCountdown == 0)
             {
                 int cost = codebreakerTileEntity.DecryptionCellCost;
-                DisplayCostText(costDisplayLocation, cost);
+                DisplayCostText(codebreakerTileEntity, costDisplayLocation, cost);
 
                 if (codebreakerTileEntity.InputtedCellCount >= cost)
                 {
@@ -208,7 +221,14 @@ namespace CalamityMod.UI.DraedonSummoning
             // Create a temporary item for drawing purposes.
             // If cells are present, make the item reflect that.
             Item temporaryPowerCell = new Item();
-            temporaryPowerCell.SetDefaults(ModContent.ItemType<DraedonPowerCell>());
+            if (codebreakerTileEntity.ContainsBloodSample)
+            {
+                temporaryPowerCell.SetDefaults(ModContent.ItemType<BloodSample>());
+            }
+            else
+            { 
+                temporaryPowerCell.SetDefaults(ModContent.ItemType<DraedonPowerCell>());
+            }
             temporaryPowerCell.stack = codebreakerTileEntity.InputtedCellCount;
 
             Vector2 cellInteractionArea = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonsArsenal/PowerCellSlot_Empty").Value.Size() * GeneralScale;
@@ -232,6 +252,7 @@ namespace CalamityMod.UI.DraedonSummoning
             if (Main.mouseLeft && Main.mouseLeftRelease && codebreakerTileEntity.DecryptionCountdown <= 0)
             {
                 int powercellID = ModContent.ItemType<DraedonPowerCell>();
+                int sampleID = ModContent.ItemType<BloodSample>();
                 short cellStackDiff = 0;
                 bool shouldPlaySound = true;
 
@@ -241,7 +262,7 @@ namespace CalamityMod.UI.DraedonSummoning
                     cellStackDiff = (short)-Math.Min(temporaryItem.stack, temporaryItem.maxStack);
                     Player p = Main.LocalPlayer;
                     var source = p.GetSource_TileInteraction(codebreakerTileEntity.Position.X, codebreakerTileEntity.Position.Y);
-                    p.QuickSpawnItem(source, powercellID, -cellStackDiff);
+                    p.QuickSpawnItem(source, codebreakerTileEntity.ContainsBloodSample ? sampleID : powercellID, -cellStackDiff);
 
                     // Do not play a sound in this situation. The player is going to pick up the dropped cells in a few frames, which will make sound.
                     shouldPlaySound = false;
@@ -250,20 +271,43 @@ namespace CalamityMod.UI.DraedonSummoning
                 // If the slot is normally clicked, behavior depends on whether the player is holding power cells.
                 else
                 {
-                    bool holdingPowercell = playerHandItem.type == powercellID;
+                    bool holdingPowercell = playerHandItem.type == powercellID || (playerHandItem.type == sampleID && Main.getGoodWorld);
+                    bool powercellsinserted = !codebreakerTileEntity.ContainsBloodSample && temporaryItem.stack > 0;
+                    bool cansummon = codebreakerTileEntity.ReadyToSummonDraedon && CalamityWorld.AbleToSummonDraedon;
 
                     // If the player's held power cells can be stacked on top of what's already in the codeberaker, then stack them.
                     if (holdingPowercell && temporaryItem.stack < TECodebreaker.MaxCellCapacity)
                     {
-                        int spaceLeft = TECodebreaker.MaxCellCapacity - temporaryItem.stack;
+                        // If theres no power cells inside, it's FTW, and the player has a blood sample, it can be inserted
+                        if (playerHandItem.type == sampleID && Main.getGoodWorld && !powercellsinserted && cansummon)
+                        {
+                            codebreakerTileEntity.ContainsBloodSample = true;
 
-                        // If the player has more cells than there is space left, insert as many as possible. Otherwise insert all the cells.
-                        int cellsToInsert = Math.Min(playerHandItem.stack, spaceLeft);
-                        cellStackDiff = (short)cellsToInsert;
-                        playerHandItem.stack -= cellsToInsert;
-                        if (playerHandItem.stack == 0)
-                            playerHandItem.TurnToAir();
-                        AwaitingDecryptionTextClose = false;
+                            int spaceLeft = TECodebreaker.MaxCellCapacity - temporaryItem.stack;
+
+                            // If the player has more cells than there is space left, insert as many as possible. Otherwise insert all the cells.
+                            int cellsToInsert = Math.Min(playerHandItem.stack, spaceLeft);
+                            cellStackDiff = (short)cellsToInsert;
+                            playerHandItem.stack -= cellsToInsert;
+                            if (playerHandItem.stack == 0)
+                                playerHandItem.TurnToAir();
+                            AwaitingDecryptionTextClose = false;
+                        }
+                        // If theres nothing inside or there are cells inside, cells can be inserted
+                        if (playerHandItem.type == powercellID && (temporaryItem.stack == 0 || powercellsinserted))
+                        {
+                            codebreakerTileEntity.ContainsBloodSample = false;
+
+                            int spaceLeft = TECodebreaker.MaxCellCapacity - temporaryItem.stack;
+
+                            // If the player has more cells than there is space left, insert as many as possible. Otherwise insert all the cells.
+                            int cellsToInsert = Math.Min(playerHandItem.stack, spaceLeft);
+                            cellStackDiff = (short)cellsToInsert;
+                            playerHandItem.stack -= cellsToInsert;
+                            if (playerHandItem.stack == 0)
+                                playerHandItem.TurnToAir();
+                            AwaitingDecryptionTextClose = false;
+                        }
                     }
 
                     // If the player is holding nothing, then pick up all the power cells (if any exist), up to the max-stack limit.
@@ -351,7 +395,7 @@ namespace CalamityMod.UI.DraedonSummoning
             }
         }
 
-        public static void DisplayCostText(Vector2 drawPosition, int totalCellsCost)
+        public static void DisplayCostText(TECodebreaker codebreakerTileEntity, Vector2 drawPosition, int totalCellsCost)
         {
             // Display the cost text.
             string text = "Cost: ";
@@ -362,7 +406,7 @@ namespace CalamityMod.UI.DraedonSummoning
             Texture2D cellTexture = ModContent.Request<Texture2D>("CalamityMod/Items/DraedonMisc/DraedonPowerCell").Value;
             Vector2 offsetDrawPosition = new Vector2(drawPosition.X + ChatManager.GetStringSize(FontAssets.MouseText.Value, text, Vector2.One, -1f).X * GeneralScale + GeneralScale * 15f, drawPosition.Y + GeneralScale * 30f);
             Main.spriteBatch.Draw(cellTexture, offsetDrawPosition, null, Color.White, 0f, cellTexture.Size() * 0.5f, GeneralScale, 0, 0f);
-
+            
             // Display the cell quantity numerically below the drawn cells.
             Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.ItemStack.Value, totalCellsCost.ToString(), offsetDrawPosition.X - GeneralScale * 11f, offsetDrawPosition.Y, Color.White, Color.Black, new Vector2(0.3f), GeneralScale * 0.75f);
         }
@@ -532,6 +576,10 @@ namespace CalamityMod.UI.DraedonSummoning
                 {
                     CalamityWorld.DraedonSummonCountdown = CalamityWorld.DraedonSummonCountdownMax;
                     CalamityWorld.DraedonSummonPosition = codebreakerTileEntity.Center + new Vector2(-8f, -100f);
+                    if (Main.getGoodWorld && codebreakerTileEntity.ContainsBloodSample)
+                    {
+                        CalamityWorld.DraedonMechdusa = true;
+                    }
                     SoundEngine.PlaySound(SummonSound, CalamityWorld.DraedonSummonPosition);
 
                     if (Main.netMode != NetmodeID.SinglePlayer)
@@ -539,6 +587,7 @@ namespace CalamityMod.UI.DraedonSummoning
                         var netMessage = CalamityMod.Instance.GetPacket();
                         netMessage.Write((byte)CalamityModMessageType.CodebreakerSummonStuff);
                         netMessage.Write(CalamityWorld.DraedonSummonCountdown);
+                        netMessage.Write(CalamityWorld.DraedonMechdusa);
                         netMessage.WriteVector2(CalamityWorld.DraedonSummonPosition);
                         netMessage.Send();
                     }

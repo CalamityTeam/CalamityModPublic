@@ -29,6 +29,7 @@ namespace CalamityMod.NPCs.ExoMechs
         public float ProjFrameCounter;
         public float ProjFrameChangeCounter;
         public bool ShouldStartStandingUp;
+        public bool exoMechdusa;
         public Vector2 HoverDestinationOffset
         {
             get => new(NPC.ai[1], NPC.ai[2]);
@@ -136,6 +137,7 @@ namespace CalamityMod.NPCs.ExoMechs
             writer.Write(ShouldStartStandingUp);
             writer.Write(HasBeenKilled);
             writer.Write(BossRushCounter);
+            writer.Write(exoMechdusa);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -150,6 +152,7 @@ namespace CalamityMod.NPCs.ExoMechs
             ShouldStartStandingUp = reader.ReadBoolean();
             HasBeenKilled = reader.ReadBoolean();
             BossRushCounter = reader.ReadSingle();
+            exoMechdusa = reader.ReadBoolean();
         }
 
         public override void AI()
@@ -200,6 +203,13 @@ namespace CalamityMod.NPCs.ExoMechs
 
             NPC.spriteDirection = (PlayerToFollow.Center.X < NPC.Center.X).ToDirectionInt();
 
+            // Exo Mechdusa bool setting
+            if (!exoMechdusa && CalamityWorld.DraedonMechdusa && Main.getGoodWorld)
+            {
+                exoMechdusa = true;
+                CalamityWorld.DraedonMechdusa = false;
+            }
+
             // Handle delays when re-appearing after being killed.
             if (KillReappearDelay > 0f)
             {
@@ -244,72 +254,95 @@ namespace CalamityMod.NPCs.ExoMechs
                 NPC.netUpdate = true;
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay)
+            if (!exoMechdusa)
             {
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText1", TextColor);
-                NPC.netUpdate = true;
-            }
-
-            if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine)
-            {
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText2", TextColor);
-                NPC.netUpdate = true;
-            }
-
-            if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine * 2f)
-            {
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText3", TextColor);
-                NPC.netUpdate = true;
-            }
-
-            if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine * 3f)
-            {
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText4", TextColor);
-                NPC.netUpdate = true;
-            }
-
-            // Inform the player who summoned draedon they may choose the first mech and cause a selection UI to appear over their head.
-            if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine * 4f)
-            {
-                if (bossRush)
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonBossRushText", TextColorEdgy);
-                else if (CalamityWorld.TalkedToDraedon)
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonResummonText", TextColorEdgy);
-                else
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText5", TextColorEdgy);
-
-                // Mark Draedon as talked to.
-                if (!CalamityWorld.TalkedToDraedon)
+                if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay)
                 {
-                    CalamityWorld.TalkedToDraedon = true;
-                    CalamityNetcode.SyncWorld();
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText1", TextColor);
+                    NPC.netUpdate = true;
                 }
 
-                NPC.netUpdate = true;
+                if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine)
+                {
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText2", TextColor);
+                    NPC.netUpdate = true;
+                }
+
+                if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine * 2f)
+                {
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText3", TextColor);
+                    NPC.netUpdate = true;
+                }
+
+                if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine * 3f)
+                {
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText4", TextColor);
+                    NPC.netUpdate = true;
+                }
+
+                // Inform the player who summoned draedon they may choose the first mech and cause a selection UI to appear over their head.
+                if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine * 4f)
+                {
+                    if (bossRush)
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonBossRushText", TextColorEdgy);
+                    else if (CalamityWorld.TalkedToDraedon)
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonResummonText", TextColorEdgy);
+                    else
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText5", TextColorEdgy);
+
+                    // Mark Draedon as talked to.
+                    if (!CalamityWorld.TalkedToDraedon)
+                    {
+                        CalamityWorld.TalkedToDraedon = true;
+                        CalamityNetcode.SyncWorld();
+                    }
+
+                    NPC.netUpdate = true;
+                }
+
+                // Wait for the player to select an exo mech.
+                if (TalkTimer >= ExoMechChooseDelay && TalkTimer < ExoMechChooseDelay + 8f && CalamityWorld.DraedonMechToSummon == ExoMech.None)
+                {
+                    PlayerToFollow.Calamity().AbleToSelectExoMech = true;
+                    TalkTimer = ExoMechChooseDelay;
+                    if (bossRush)
+                    {
+                        // Summon a random exo mech if you wait too long
+                        BossRushCounter++;
+                        if (BossRushCounter > 1200 && CalamityWorld.DraedonMechToSummon == ExoMech.None)
+                        {
+                            CalamityWorld.DraedonMechToSummon = (ExoMech)Main.rand.Next(1, 4);
+
+                            if (Main.netMode != NetmodeID.SinglePlayer)
+                            {
+                                var netMessage = CalamityMod.Instance.GetPacket();
+                                netMessage.Write((byte)CalamityModMessageType.ExoMechSelection);
+                                netMessage.Write((int)CalamityWorld.DraedonMechToSummon);
+                                netMessage.Send();
+                            }
+                        }
+                    }
+                }
             }
-
-            // Wait for the player to select an exo mech.
-            if (TalkTimer >= ExoMechChooseDelay && TalkTimer < ExoMechChooseDelay + 8f && CalamityWorld.DraedonMechToSummon == ExoMech.None)
+            else
             {
-                PlayerToFollow.Calamity().AbleToSelectExoMech = true;
-                TalkTimer = ExoMechChooseDelay;
-				if (bossRush)
-				{
-					// Summon a random exo mech if you wait too long
-					BossRushCounter++;
-					if (BossRushCounter > 1200 && CalamityWorld.DraedonMechToSummon == ExoMech.None)
-					{
-						CalamityWorld.DraedonMechToSummon = (ExoMech)Main.rand.Next(1,4);
+                if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay)
+                {
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.ExoMechdusaText", TextColorEdgy);
+                    NPC.netUpdate = true;
+                }
 
-						if (Main.netMode != NetmodeID.SinglePlayer)
-						{
-							var netMessage = CalamityMod.Instance.GetPacket();
-							netMessage.Write((byte)CalamityModMessageType.ExoMechSelection);
-							netMessage.Write((int)CalamityWorld.DraedonMechToSummon);
-							netMessage.Send();
-						}
-					}
-				}
+                if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine * 2f)
+                {
+                    // Mark Draedon as talked to.
+                    if (!CalamityWorld.TalkedToDraedon)
+                    {
+                        CalamityWorld.TalkedToDraedon = true;
+                        CalamityNetcode.SyncWorld();
+                    }
+
+                    NPC.netUpdate = true;
+                }
             }
 
             // Fly around once the exo mechs have been spawned.
@@ -327,7 +360,7 @@ namespace CalamityMod.NPCs.ExoMechs
             }
 
             // Summon the selected exo mech.
-            if (TalkTimer == ExoMechChooseDelay + 10f)
+            if (TalkTimer == ExoMechChooseDelay + 10f || (TalkTimer == TalkDelay + DelayPerDialogLine * 2f && exoMechdusa))
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     SummonExoMech();
@@ -525,29 +558,38 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public void SummonExoMech()
         {
-            switch (CalamityWorld.DraedonMechToSummon)
+            if (exoMechdusa)
             {
-                // Summon Thanatos underground.
-                case ExoMech.Destroyer:
-                    Vector2 thanatosSpawnPosition = PlayerToFollow.Center + Vector2.UnitY * 2100f;
-                    NPC thanatos = CalamityUtils.SpawnBossBetter(thanatosSpawnPosition, ModContent.NPCType<ThanatosHead>());
-                    if (thanatos != null)
-                        thanatos.velocity = thanatos.SafeDirectionTo(PlayerToFollow.Center) * 40f;
-                    break;
+                Vector2 aresSpawnPosition = PlayerToFollow.Center - Vector2.UnitY * 1400f;
+                NPC Ares = CalamityUtils.SpawnBossBetter(aresSpawnPosition, ModContent.NPCType<AresBody>());
+                Ares.ModNPC<AresBody>().exoMechdusa = true;
+            }
+            else
+            {
+                switch (CalamityWorld.DraedonMechToSummon)
+                {
+                    // Summon Thanatos underground.
+                    case ExoMech.Destroyer:
+                        Vector2 thanatosSpawnPosition = PlayerToFollow.Center + Vector2.UnitY * 2100f;
+                        NPC thanatos = CalamityUtils.SpawnBossBetter(thanatosSpawnPosition, ModContent.NPCType<ThanatosHead>());
+                        if (thanatos != null)
+                            thanatos.velocity = thanatos.SafeDirectionTo(PlayerToFollow.Center) * 40f;
+                        break;
 
-                // Summon Ares in the sky, directly above the player.
-                case ExoMech.Prime:
-                    Vector2 aresSpawnPosition = PlayerToFollow.Center - Vector2.UnitY * 1400f;
-                    CalamityUtils.SpawnBossBetter(aresSpawnPosition, ModContent.NPCType<AresBody>());
-                    break;
+                    // Summon Ares in the sky, directly above the player.
+                    case ExoMech.Prime:
+                        Vector2 aresSpawnPosition = PlayerToFollow.Center - Vector2.UnitY * 1400f;
+                        CalamityUtils.SpawnBossBetter(aresSpawnPosition, ModContent.NPCType<AresBody>());
+                        break;
 
-                // Summon Apollo and Artemis above the player to their sides.
-                case ExoMech.Twins:
-                    Vector2 artemisSpawnPosition = PlayerToFollow.Center + new Vector2(-1100f, -1600f);
-                    Vector2 apolloSpawnPosition = PlayerToFollow.Center + new Vector2(1100f, -1600f);
-                    CalamityUtils.SpawnBossBetter(artemisSpawnPosition, ModContent.NPCType<ArtemisBoss>());
-                    CalamityUtils.SpawnBossBetter(apolloSpawnPosition, ModContent.NPCType<ApolloBoss>());
-                    break;
+                    // Summon Apollo and Artemis above the player to their sides.
+                    case ExoMech.Twins:
+                        Vector2 artemisSpawnPosition = PlayerToFollow.Center + new Vector2(-1100f, -1600f);
+                        Vector2 apolloSpawnPosition = PlayerToFollow.Center + new Vector2(1100f, -1600f);
+                        CalamityUtils.SpawnBossBetter(artemisSpawnPosition, ModContent.NPCType<ArtemisBoss>());
+                        CalamityUtils.SpawnBossBetter(apolloSpawnPosition, ModContent.NPCType<ApolloBoss>());
+                        break;
+                }
             }
         }
 

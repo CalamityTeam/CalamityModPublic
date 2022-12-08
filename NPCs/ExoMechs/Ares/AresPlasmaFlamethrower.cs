@@ -387,6 +387,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 
             EnergyDrawer.ParticleSpawnRate = 9999999;
+
+            // Exo Mechdusa resistance
+            if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].ModNPC<AresBody>().exoMechdusa)
+            {
+                AresBody.MechdusaResistances(NPC);
+            }
+
             // Attacking phases
             switch ((int)AIState)
             {

@@ -106,6 +106,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
         // Variable to pick a different location after each attack
         private bool pickNewLocation = false;
 
+        // Marks Apollo as a component of the Exo Mechdusa
+        public bool exoMechdusa = false;
+
         // Charge locations during the charge combo
         private const int maxCharges = 4;
         public Vector2[] chargeLocations = new Vector2[maxCharges] { default, default, default, default };
@@ -193,6 +196,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             writer.Write(velocityBoostMult);
             writer.Write(frameX);
             writer.Write(frameY);
+            writer.Write(exoMechdusa);
             writer.Write(pickNewLocation);
             writer.Write(NPC.dontTakeDamage);
             writer.Write(NPC.localAI[0]);
@@ -212,6 +216,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             frameX = reader.ReadInt32();
             frameY = reader.ReadInt32();
             pickNewLocation = reader.ReadBoolean();
+            exoMechdusa = reader.ReadBoolean();
             NPC.dontTakeDamage = reader.ReadBoolean();
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
@@ -617,7 +622,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 case (int)SecondaryPhase.Nothing:
 
                     // Spawn the other mechs if Artemis and Apollo are first
-                    if (otherExoMechsAlive == 0)
+                    if (otherExoMechsAlive == 0 && !exoMechdusa)
                     {
                         if (spawnOtherExoMechs)
                         {
@@ -724,7 +729,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         // Go passive and immune if one of the other mechs is berserk
                         // This is only called if two exo mechs are alive in ideal scenarios
                         // This is not called if Artemis and Apollo and another one or two mechs are berserk
-                        if (otherMechIsBerserk && !berserk)
+                        if (otherMechIsBerserk && !berserk && !exoMechdusa)
                         {
                             // Despawn projectile bullshit
                             for (int x = 0; x < Main.maxProjectiles; x++)
@@ -794,7 +799,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     AIState = (float)Phase.Normal;
 
                     // Enter passive and invincible phase if one of the other exo mechs is berserk
-                    if (otherMechIsBerserk)
+                    if (otherMechIsBerserk && !exoMechdusa)
                     {
                         // Despawn projectile bullshit
                         for (int x = 0; x < Main.maxProjectiles; x++)
@@ -1339,6 +1344,26 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     }
 
                     break;
+            }
+
+            // Exo Mechdusa behavior
+            if (exoMechdusa)
+            {
+                int twinoffset = 300;
+                int extratwinoffset = 100;
+                int twinheight = 300;
+                if (CalamityGlobalNPC.draedonExoMechPrime != -1)
+                {
+                    if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].ModNPC<AresBody>().exoMechdusa)
+                    {
+                        NPC aresin = Main.npc[CalamityGlobalNPC.draedonExoMechPrime];
+                        if (NPC.Calamity().newAI[0] != (float)Phase.ChargeCombo && NPC.Calamity().newAI[0] != (float)Phase.LineUpChargeCombo)
+                        {
+                            Vector2 pos = new Vector2(aresin.Center.X - twinoffset - extratwinoffset, aresin.Center.Y - twinheight);
+                            NPC.position = pos;
+                        }
+                    }
+                }
             }
         }
 
