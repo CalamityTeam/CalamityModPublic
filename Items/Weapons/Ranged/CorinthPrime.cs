@@ -36,6 +36,7 @@ Otherwise, the grenade emits an extremely weak explosion");
             Item.knockBack = 8f;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.rare = ModContent.RarityType<Turquoise>();
+            Item.Calamity().donorItem = true;
             Item.UseSound = SoundID.Item38;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.PurificationPowder;
