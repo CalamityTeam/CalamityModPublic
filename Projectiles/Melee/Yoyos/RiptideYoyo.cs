@@ -1,4 +1,7 @@
-﻿using Terraria;
+﻿using System.IO;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -6,6 +9,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class RiptideYoyo : ModProjectile
     {
+        private const int MaxUpdates = 2;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Riptide");
@@ -24,44 +29,91 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.alpha = 150;
             Projectile.penetrate = -1;
-            Projectile.MaxUpdates = 2;
+            Projectile.MaxUpdates = MaxUpdates;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 20;
+            Projectile.localNPCHitCooldown = 10 * MaxUpdates;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Projectile.localAI[1]);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Projectile.localAI[1] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) //200 blocks
+            if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) // 200 blocks
                 Projectile.Kill();
-            if (Main.rand.NextBool(90))
+
+            Projectile.localAI[1]++;
+            if (Projectile.localAI[1] % (15f * MaxUpdates) == 0f)
             {
-                switch (Main.rand.Next(1, 9))
+                float xVelocity = 0f;
+                float yVelocity = -10f;
+                float xIncrement = 1.2f;
+                float yIncrement = 0.2f;
+                switch (Projectile.localAI[1] / (15f * MaxUpdates))
                 {
                     case 1:
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0, -10, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, 1.2f/*X Increment*/, 0.2f/*Y Increment*/);
                         break;
+
                     case 2:
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 5, -5, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, 0.7f/*X Increment*/, 0.7f/*Y Increment*/);
+                        xVelocity = 5f;
+                        yVelocity = -5f;
+                        xIncrement = 0.7f;
+                        yIncrement = 0.7f;
                         break;
+
                     case 3:
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 10, 0, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, 0.2f/*X Increment*/, 1.2f/*Y Increment*/);
+                        xVelocity = 10f;
+                        yVelocity = 0f;
+                        xIncrement = 0.2f;
+                        yIncrement = 1.2f;
                         break;
+
                     case 4:
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 5, 5, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, -0.7f/*X Increment*/, 0.7f/*Y Increment*/);
+                        xVelocity = 5f;
+                        yVelocity = 5f;
+                        xIncrement = -0.7f;
+                        yIncrement = 0.7f;
                         break;
+
                     case 5:
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, -0, 10, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, -1.2f/*X Increment*/, -0.2f/*Y Increment*/);
+                        xVelocity = 0f;
+                        yVelocity = 10f;
+                        xIncrement = -1.2f;
+                        yIncrement = -0.2f;
                         break;
+
                     case 6:
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, -5, 5, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, -0.7f/*X Increment*/, -0.7f/*Y Increment*/);
+                        xVelocity = -5f;
+                        yVelocity = 5f;
+                        xIncrement = -0.7f;
+                        yIncrement = -0.7f;
                         break;
+
                     case 7:
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, -10, -0, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, -0.2f/*X Increment*/, -1.2f/*Y Increment*/);
+                        xVelocity = -10f;
+                        yVelocity = 0f;
+                        xIncrement = -0.2f;
+                        yIncrement = -1.2f;
                         break;
+
                     case 8:
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, -10, -10, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, 0.7f/*X Increment*/, -0.7f/*Y Increment*/);
+                        Projectile.localAI[1] = 0f;
+                        xVelocity = -10f;
+                        yVelocity = -10f;
+                        xIncrement = 0.7f;
+                        yIncrement = -0.7f;
                         break;
                 }
+
+                SoundEngine.PlaySound(SoundID.Item21, Projectile.position);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(xVelocity, yVelocity), ModContent.ProjectileType<AquaStream>(), Projectile.damage, 0f, Projectile.owner, xIncrement, yIncrement);
             }
         }
     }

@@ -1,19 +1,16 @@
-﻿using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Melee.Yoyos;
+﻿using CalamityMod.Projectiles.Melee.Yoyos;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    [LegacyName("Whirlpool")]
-    public class Riptide : ModItem
+    public class SmokingComet : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Riptide");
-            Tooltip.SetDefault("Sprays a spiral of aqua streams\n" +
+            DisplayName.SetDefault("Smoking Comet");
+            Tooltip.SetDefault("Rains stars from the sky\n" +
             "A very agile yoyo");
             ItemID.Sets.Yoyo[Item.type] = true;
             ItemID.Sets.GamepadExtraRange[Item.type] = 15;
@@ -23,11 +20,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.width = 30;
-            Item.height = 44;
+            Item.width = 36;
+            Item.height = 40;
             Item.DamageType = DamageClass.MeleeNoSpeed;
-            Item.damage = 12;
-            Item.knockBack = 1f;
+            Item.damage = 14;
+            Item.knockBack = 1.5f;
             Item.useTime = 25;
             Item.useAnimation = 25;
             Item.autoReuse = true;
@@ -38,19 +35,21 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.noMelee = true;
 
-            Item.shoot = ModContent.ProjectileType<RiptideYoyo>();
-            Item.shootSpeed = 18f;
+            Item.shoot = ModContent.ProjectileType<SmokingCometYoyo>();
+            Item.shootSpeed = 14f;
 
             Item.rare = ItemRarityID.Green;
             Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.Calamity().donorItem = true;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PearlShard>(3).
-                AddIngredient<SeaPrism>(7).
-                AddIngredient<Navystone>(10).
+                AddIngredient(ItemID.Diamond, 5).
+                AddIngredient(ItemID.Amethyst, 5).
+                AddIngredient(ItemID.PinkGel, 10).
+                AddIngredient(ItemID.FallenStar, 15).
                 AddTile(TileID.Anvils).
                 Register();
         }

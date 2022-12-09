@@ -109,8 +109,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
             PlasmaBurst(1.8f, 3.6f); // 60 dusts
 
-            int num3;
-            for (int num640 = 0; num640 < 400; num640 = num3 + 1)
+            for (int num640 = 0; num640 < 400; num640++)
             {
                 float num641 = 16f;
                 if (num640 < 300)
@@ -120,7 +119,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 if (num640 < 100)
                     num641 = 4f;
 
-                int num643 = Dust.NewDust(Projectile.Center, 6, 6, Main.rand.Next(2) == 0 ? dust1 : dust2, 0f, 0f, 100, default, 1f);
+                int num643 = Dust.NewDust(Projectile.Center, 6, 6, Main.rand.NextBool() ? dust1 : dust2, 0f, 0f, 100, default, 1f);
                 float num644 = Main.dust[num643].velocity.X;
                 float num645 = Main.dust[num643].velocity.Y;
 
@@ -157,8 +156,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 dust.velocity.Y = dust.velocity.Y + num645;
                 dust.scale = scale;
                 dust.noGravity = true;
-
-                num3 = num640;
             }
         }
 

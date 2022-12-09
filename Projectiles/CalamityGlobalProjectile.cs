@@ -419,8 +419,8 @@ namespace CalamityMod.Projectiles
 
             else if (projectile.type == ProjectileID.Starfury)
             {
-                if (projectile.timeLeft > 45)
-                    projectile.timeLeft = 45;
+                if (projectile.timeLeft > 75)
+                    projectile.timeLeft = 75;
 
                 if (projectile.ai[1] == 0f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
                 {
