@@ -1244,6 +1244,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => AresBody.DefineExoMechLoot(NPC, npcLoot, (int)AresBody.MechType.Thanatos);
 
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (exoMechdusa)
+            {
+                typeName = "Spine of XB-∞ Hekate";
+            }
+        }
+
         public override void HitEffect(int hitDirection, double damage)
         {
             if (NPC.soundDelay == 0)

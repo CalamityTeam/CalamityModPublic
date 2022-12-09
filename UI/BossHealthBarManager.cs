@@ -406,7 +406,7 @@ namespace CalamityMod.UI
             if (npc.type == NPCType<Artemis>())
                 canAddBar = false;
             if (npc.type == NPCType<Apollo>())
-                overridingName = $"{Artemis.NameToDisplay} and {Apollo.NameToDisplay}";
+                overridingName = "Eyes of XB-∞ Hekate";
 
             if (canAddBar)
                 Bars.Add(new BossHPUI(index, overridingName));

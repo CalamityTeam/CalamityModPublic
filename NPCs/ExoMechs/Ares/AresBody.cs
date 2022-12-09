@@ -313,7 +313,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 Vector2 NeuronRight = new Vector2(NPC.Center.X + xoffset, NPC.Center.Y + yoffset);
                 Vector2 NeuronLeft = new Vector2(NPC.Center.X - xoffset, NPC.Center.Y + yoffset);
                 NPC.alpha = 0;
-                MechdusaResistances(NPC);
+                NPC.dontTakeDamage = true;
                 neurontimer++; 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -1200,8 +1200,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 Vector2 NeuronRight = new Vector2(NPC.Center.X + 40, NPC.Center.Y + 50);
                 Vector2 NeuronLeft = new Vector2(NPC.Center.X - 40, NPC.Center.Y + 50);
                 Vector2 origin = new Vector2((float)(neurontexture.Width / 2), (float)(neurontexture.Height / 2));
-                spriteBatch.Draw(neurontexture, NeuronRight - Main.screenPosition, null, drawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
-                spriteBatch.Draw(neurontexture, NeuronLeft - Main.screenPosition, null, drawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(neurontexture, NeuronRight - Main.screenPosition, null, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(neurontexture, NeuronLeft - Main.screenPosition, null, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
                 spriteBatch.Draw(glowtexture, NeuronRight - Main.screenPosition, null, Color.White, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
                 spriteBatch.Draw(glowtexture, NeuronLeft - Main.screenPosition, null, Color.White, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
             }
@@ -1378,6 +1378,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 spriteBatch.Draw(armTexture1Glowmask, arm1DrawPosition, arm1Frame, glowmaskAlphaColor, arm1Rotation, arm1Origin, NPC.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
                 spriteBatch.Draw(armTexture2, arm2DrawPosition, arm2Frame, arm2LightColor, arm2Rotation, arm2Origin, NPC.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
                 spriteBatch.Draw(armTexture2Glowmask, arm2DrawPosition, arm2Frame, glowmaskAlphaColor, arm2Rotation, arm2Origin, NPC.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
+            }
+        }
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (exoMechdusa)
+            {
+                typeName = "XB-∞ Hekate";
             }
         }
 
@@ -1573,54 +1580,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
             NPC.damage = (int)(NPC.damage * 0.8f);
-        }
-        public static void MechdusaResistances(NPC npc)
-        {
-            int otherExoMechsAlive = 0;
-            bool wormhiding = false;
-            bool eyehiding = false;
-            if (CalamityGlobalNPC.draedonExoMechWorm != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
-                {
-                    otherExoMechsAlive++;
-                    if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].dontTakeDamage)
-                    {
-                        wormhiding = true;
-                    }
-                }
-            }
-            if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
-                {
-                    otherExoMechsAlive++;
-                    if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].dontTakeDamage && npc.Calamity().newAI[0] != (float)Apollo.Apollo.Phase.PhaseTransition)
-                    {
-                        eyehiding = true;
-                    }
-                }
-            }
-            // Drastically reduce DR if one mech alive and it's invincible
-            if (otherExoMechsAlive == 1 && (wormhiding || eyehiding))
-            {
-                npc.chaseable = true;
-                npc.Calamity().DR = 0.5f;
-                npc.dontTakeDamage = false;
-            }
-            // If all remaining mechs aren't hiding, Ares becomes nigh invincible
-            else if (otherExoMechsAlive != 0)
-            {
-                npc.chaseable = false;
-                npc.dontTakeDamage = true;
-            }
-            // If everyone is dead but Ares, he becomes vulnerable
-            else
-            {
-                npc.chaseable = true;
-                npc.Calamity().DR = 0.35f;
-                npc.dontTakeDamage = false;
-            }
         }
     }
 }

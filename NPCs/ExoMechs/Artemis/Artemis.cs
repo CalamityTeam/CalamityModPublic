@@ -151,7 +151,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         //This stores the sound slot of the ML laser sound it makes, so it may be properly updated in terms of position.
         private SlotId DeathraySoundSlot;
 
-        public const string NameToDisplay = "XS-01 Artemis";
+        public static string NameToDisplay = "XS-01 Artemis";
 
         public override void SetStaticDefaults()
         {
@@ -1482,6 +1482,14 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             }
 
             return false;
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (exoMechdusa)
+            {
+                typeName = NameToDisplay = "Blazing Eye of XB-∞ Hekate";
+            }
         }
 
         // Needs edits

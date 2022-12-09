@@ -248,7 +248,7 @@ namespace CalamityMod.NPCs.ExoMechs
                 ShouldStartStandingUp = true;
 
             // Gloss over the arbitrary details and just get to the Exo Mech selection if Draedon has already been talked to.
-            if ((CalamityWorld.TalkedToDraedon || bossRush) && TalkTimer > 70 && TalkTimer < TalkDelay * 4f - 25f)
+            if ((CalamityWorld.TalkedToDraedon || bossRush) && TalkTimer > 70 && TalkTimer < TalkDelay * 4f - 25f && !exoMechdusa)
             {
                 TalkTimer = TalkDelay * 4f - 25f;
                 NPC.netUpdate = true;
@@ -328,11 +328,11 @@ namespace CalamityMod.NPCs.ExoMechs
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay)
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.ExoMechdusaText", TextColorEdgy);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonMechdusaBeginText", TextColorEdgy);
                     NPC.netUpdate = true;
                 }
 
-                if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine * 2f)
+                if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + 60)
                 {
                     // Mark Draedon as talked to.
                     if (!CalamityWorld.TalkedToDraedon)
@@ -360,7 +360,7 @@ namespace CalamityMod.NPCs.ExoMechs
             }
 
             // Summon the selected exo mech.
-            if (TalkTimer == ExoMechChooseDelay + 10f || (TalkTimer == TalkDelay + DelayPerDialogLine * 2f && exoMechdusa))
+            if ((TalkTimer == ExoMechChooseDelay + 10f || (TalkTimer == TalkDelay + 60 && exoMechdusa)) && !ExoMechIsPresent)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     SummonExoMech();
@@ -368,11 +368,12 @@ namespace CalamityMod.NPCs.ExoMechs
                 if (Main.netMode != NetmodeID.Server)
                 {
                     SoundEngine.PlaySound(CommonCalamitySounds.FlareSound with { Volume = CommonCalamitySounds.FlareSound.Volume * 1.55f}, PlayerToFollow.Center);
+                    if (!exoMechdusa)
                     SoundEngine.PlaySound(SelectionSound, PlayerToFollow.Center);
                 }
             }
 
-			if (!bossRush)
+			if (!bossRush && !exoMechdusa)
 			{
 				// Dialogue lines depending on what phase the exo mechs are at.
 				switch ((int)DialogueType)
@@ -601,7 +602,7 @@ namespace CalamityMod.NPCs.ExoMechs
             NPC.Calamity().ShouldCloseHPBar = HasBeenKilled;
             NPC.chaseable = BossRushEvent.BossRushActive;
 
-            bool leaving = (DefeatTimer > DelayBeforeDefeatStandup + TalkDelay * 8f + 200f) || BossRushEvent.BossRushActive;
+            bool leaving = ((DefeatTimer > DelayBeforeDefeatStandup + TalkDelay * 8f + 200f) || BossRushEvent.BossRushActive) && !exoMechdusa;
 
             // Fade away and disappear when leaving.
             if (leaving)
@@ -647,35 +648,48 @@ namespace CalamityMod.NPCs.ExoMechs
             if (DefeatTimer > DelayBeforeDefeatStandup && DefeatTimer < TalkDelay * 2f + 50f)
                 ShouldStartStandingUp = true;
 
-            if (DefeatTimer == DelayBeforeDefeatStandup + 50f)
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText1", TextColor);
+            // Different text if Exo Mechdusa
+            if (exoMechdusa)
+            {
+                if (DefeatTimer == DelayBeforeDefeatStandup + 50f)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonMechdusaEndText1", TextColor);
 
-            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay + 50f)
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText2", TextColor);
+                if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay + 50f)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonMechdusaEndText2", TextColor);
+            }
+            // Otherwise do normal text
+            else
+            {
+                if (DefeatTimer == DelayBeforeDefeatStandup + 50f)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText1", TextColor);
 
-            // After this point Draedon becomes vulnerable.
-            // He sits back down as well as he thinks for a bit.
-            // Killing him will cause gore to appear but also for Draedon to come back as a hologram.
-            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 2f + 50f)
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText3", TextColor);
+                if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay + 50f)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText2", TextColor);
 
-            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 3f + 165f)
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText4", TextColor);
+                // After this point Draedon becomes vulnerable.
+                // He sits back down as well as he thinks for a bit.
+                // Killing him will cause gore to appear but also for Draedon to come back as a hologram.
+                if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 2f + 50f)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText3", TextColor);
 
-            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 4f + 165f)
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText5", TextColor);
+                if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 3f + 165f)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText4", TextColor);
 
-            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 5f + 165f)
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText6", TextColor);
+                if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 4f + 165f)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText5", TextColor);
 
-            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 6f + 165f)
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText7", TextColor);
+                if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 5f + 165f)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText6", TextColor);
 
-            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 7f + 165f)
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText8", TextColor);
+                if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 6f + 165f)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText7", TextColor);
 
-            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 8f + 165f)
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText9", TextColor);
+                if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 7f + 165f)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText8", TextColor);
+
+                if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 8f + 165f)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText9", TextColor);
+            }
         }
 
         // Draedon should not manually despawn.
@@ -703,7 +717,7 @@ namespace CalamityMod.NPCs.ExoMechs
                 frame = 0;
 
             int frameChangeDelay = 7;
-            bool shouldNotSitDown = DefeatTimer > DelayBeforeDefeatStandup && DefeatTimer < TalkDelay * 2f + 10f;
+            bool shouldNotSitDown = (DefeatTimer > DelayBeforeDefeatStandup && DefeatTimer < TalkDelay * 2f + 10f) || (exoMechdusa && DefeatTimer > 0);
 
             NPC.frameCounter++;
             if (NPC.frameCounter >= frameChangeDelay)
@@ -769,7 +783,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public override bool CheckDead()
         {
-			if (BossRushEvent.BossRushActive)
+			if (BossRushEvent.BossRushActive || exoMechdusa)
 				return true;
 
             if (!HasBeenKilled)

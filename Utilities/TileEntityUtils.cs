@@ -79,7 +79,7 @@ namespace CalamityMod
             {
                 if (item.type == ModContent.ItemType<BloodSample>())
                 {
-                    slotBackgroundTex = Request<Texture2D>("CalamityMod/Items/Materials/BloodSample").Value;
+                    slotBackgroundTex = Request<Texture2D>("CalamityMod/UI/DraedonsArsenal/PowerCellSlot_Blood").Value;
                 }
                 else
                 {

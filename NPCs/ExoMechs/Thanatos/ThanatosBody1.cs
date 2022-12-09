@@ -610,6 +610,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public override bool CheckActive() => false;
 
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (Main.npc[(int)NPC.ai[2]].ModNPC<ThanatosHead>().exoMechdusa)
+            {
+                typeName = "Spine of XB-∞ Hekate";
+            }
+        }
+
         public override void HitEffect(int hitDirection, double damage)
         {
             if (NPC.soundDelay == 0)

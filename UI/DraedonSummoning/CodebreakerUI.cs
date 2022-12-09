@@ -82,6 +82,8 @@ namespace CalamityMod.UI.DraedonSummoning
 
         public static readonly SoundStyle SummonSound = new("CalamityMod/Sounds/Custom/CodebreakerBeam");
 
+        public static readonly SoundStyle BloodSound = new("CalamityMod/Sounds/Custom/Codebreaker/BloodForHekate");
+
         public static void Draw(SpriteBatch spriteBatch)
         {
             // If not viewing the specific tile entity's interface anymore, if the ID is for some reason invalid, or if the player is not equipped to continue viewing the UI
@@ -168,7 +170,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 DisplayNotStrongEnoughErrorText(schematicSlotDrawCenter + new Vector2(-24f, 56f));
 
             // Handle decryption costs.
-            else if (codebreakerTileEntity.HeldSchematicID != 0 && codebreakerTileEntity.DecryptionCountdown == 0)
+            else if (codebreakerTileEntity.HeldSchematicID != 0 && codebreakerTileEntity.DecryptionCountdown == 0 && !codebreakerTileEntity.ContainsBloodSample)
             {
                 int cost = codebreakerTileEntity.DecryptionCellCost;
                 DisplayCostText(codebreakerTileEntity, costDisplayLocation, cost);
@@ -281,6 +283,11 @@ namespace CalamityMod.UI.DraedonSummoning
                         // If theres no power cells inside, it's FTW, and the player has a blood sample, it can be inserted
                         if (playerHandItem.type == sampleID && Main.getGoodWorld && !powercellsinserted && cansummon)
                         {
+                            // Play a gross sound if no samples are in yet
+                            if (temporaryItem.stack == 0)
+                            {
+                                SoundEngine.PlaySound(BloodSound, codebreakerTileEntity.Center);
+                            }
                             codebreakerTileEntity.ContainsBloodSample = true;
 
                             int spaceLeft = TECodebreaker.MaxCellCapacity - temporaryItem.stack;
@@ -321,6 +328,7 @@ namespace CalamityMod.UI.DraedonSummoning
                         playerHandItem.stack = -cellStackDiff;
                         temporaryItem.TurnToAir();
                         AwaitingDecryptionTextClose = false;
+                        codebreakerTileEntity.ContainsBloodSample = false;
                     }
                 }
 
@@ -563,6 +571,8 @@ namespace CalamityMod.UI.DraedonSummoning
 
             Rectangle clickArea = Utils.CenteredRectangle(drawPosition, contactButton.Size() * VerificationButtonScale);
 
+            float iconrotation = codebreakerTileEntity.ContainsBloodSample ? Main.GlobalTimeWrappedHourly * 20f : 0f;
+
             // Check if the mouse is hovering over the contact button area.
             if (MouseScreenArea.Intersects(clickArea))
             {
@@ -599,13 +609,15 @@ namespace CalamityMod.UI.DraedonSummoning
                 ContactButtonScale = MathHelper.Clamp(ContactButtonScale - 0.05f, 1f, 1.35f);
 
             // Draw the contact button.
-            Main.spriteBatch.Draw(contactButton, drawPosition, null, Color.White, 0f, contactButton.Size() * 0.5f, ContactButtonScale * GeneralScale, 0, 0f);
+            Main.spriteBatch.Draw(contactButton, drawPosition, null, Color.White, iconrotation, contactButton.Size() * 0.5f, ContactButtonScale * GeneralScale, 0, 0f);
 
             // And display a text indicator that describes the function of the button.
             // The color of the text cycles through the exo mech crystal palette.
             string contactText = "Contact";
             if (DownedBossSystem.downedExoMechs)
                 contactText = "Summon";
+            if (codebreakerTileEntity.ContainsBloodSample)
+                contactText = "Evoke";
 
             Color contactTextColor = CalamityUtils.MulticolorLerp((float)Math.Cos(Main.GlobalTimeWrappedHourly * 0.7f) * 0.5f + 0.5f, CalamityUtils.ExoPalette);
 

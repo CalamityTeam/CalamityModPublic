@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
         // Primitive trail drawer for the ribbon things
         public PrimitiveTrail RibbonTrail = null;
 
-        public const string NameToDisplay = "XS-03 Apollo";
+        public static string NameToDisplay = "XS-03 Apollo";
 
         public static readonly SoundStyle MissileLaunchSound = new("CalamityMod/Sounds/Custom/ExoMechs/ApolloMissileLaunch") { Volume = 1.3f };
 
@@ -1739,6 +1739,14 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => AresBody.DefineExoMechLoot(NPC, npcLoot, (int)AresBody.MechType.ArtemisAndApollo);
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (exoMechdusa)
+            {
+                typeName = NameToDisplay = "Corrosive Eye of XB-∞ Hekate";
+            }
+        }
 
         // Needs edits
         public override void HitEffect(int hitDirection, double damage)
