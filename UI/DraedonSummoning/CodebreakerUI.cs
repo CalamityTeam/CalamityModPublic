@@ -173,7 +173,7 @@ namespace CalamityMod.UI.DraedonSummoning
             else if (codebreakerTileEntity.HeldSchematicID != 0 && codebreakerTileEntity.DecryptionCountdown == 0 && !codebreakerTileEntity.ContainsBloodSample)
             {
                 int cost = codebreakerTileEntity.DecryptionCellCost;
-                DisplayCostText(codebreakerTileEntity, costDisplayLocation, cost);
+                DisplayCostText(costDisplayLocation, cost);
 
                 if (codebreakerTileEntity.InputtedCellCount >= cost)
                 {
@@ -403,7 +403,7 @@ namespace CalamityMod.UI.DraedonSummoning
             }
         }
 
-        public static void DisplayCostText(TECodebreaker codebreakerTileEntity, Vector2 drawPosition, int totalCellsCost)
+        public static void DisplayCostText(Vector2 drawPosition, int totalCellsCost)
         {
             // Display the cost text.
             string text = "Cost: ";
