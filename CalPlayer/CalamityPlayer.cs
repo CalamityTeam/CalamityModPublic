@@ -587,6 +587,7 @@ namespace CalamityMod.CalPlayer
         public bool ChaosStone = false;
         public bool CryoStone = false;
         public bool voidField = false;
+        public bool copyrightInfringementShield = false;
         #endregion
 
         #region Armor Set
@@ -1662,6 +1663,7 @@ namespace CalamityMod.CalPlayer
             ChaosStone = false;
             CryoStone = false;
             voidField = false;
+            copyrightInfringementShield = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -4725,6 +4727,7 @@ namespace CalamityMod.CalPlayer
                 damage -= 100;
                 if (damage < 1)
                     damage = 1;
+
                 auralisAuroraCounter = 0;
                 auralisAuroraCooldown = CalamityUtils.SecondsToFrames(30f);
             }
@@ -4848,13 +4851,13 @@ namespace CalamityMod.CalPlayer
                     proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
                     projectileDamageReduction += 0.5;
             }
+
             if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
             {
                 // Daedalus Reflect counts as a reflect but doesn't actually stop you from taking damage
                 if (daedalusReflect && !disableAllDodges && !projRefRare && !Player.HasCooldown(GlobalDodge.ID))
                     projectileDamageReduction += 0.5;
             }
-
 
             if (beeResist)
             {
@@ -4899,6 +4902,24 @@ namespace CalamityMod.CalPlayer
 
             if (Player.mount.Active && (Player.mount.Type == ModContent.MountType<RimehoundMount>() || Player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(Player.velocity.X) > Player.mount.RunSpeed / 2f)
                 projectileDamageReduction += 0.1;
+
+            // Damage reduction from Shield of the High Ruler if facing the projectile that just hit.
+            // If the projectile is in the exact center of the player on the X axis YOU GET NOTHING, GOOD DAY, SIR!
+            if (copyrightInfringementShield)
+            {
+                bool projectileRight = (Player.Center.X - proj.Center.X) < 0f;
+                bool projectileLeft = (Player.Center.X - proj.Center.X) > 0f;
+                if (Player.direction == 1)
+                {
+                    if (projectileRight)
+                        projectileDamageReduction += 0.15;
+                }
+                else
+                {
+                    if (projectileLeft)
+                        projectileDamageReduction += 0.15;
+                }
+            }
 
             if (vHex)
                 projectileDamageReduction -= 0.1;
