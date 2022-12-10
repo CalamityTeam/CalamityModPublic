@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Ranged
                 // Make small boom that does 1 damage if it hasn't been active for 1.5 seconds.
                 if (weakExplosion)
                 {
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i < 2; i++)
                     {
                         Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CorinthPrimeAirburst>(), 1, 0f, Projectile.owner);
                         explosion.ai[1] = Main.rand.NextFloat(64f, 174f) + i * 20f; // Randomize the maximum radius.
@@ -134,11 +134,11 @@ namespace CalamityMod.Projectiles.Ranged
             for (int num640 = 0; num640 < totalDust; num640++)
             {
                 int dustType = 127;
-                float num641 = 16f;
+                float num641 = 32f;
                 if (num640 < 300)
                 {
                     dustType = 158;
-                    num641 = 12f;
+                    num641 = 16f;
                 }
                 if (num640 < 200)
                     num641 = 8f;
@@ -161,16 +161,16 @@ namespace CalamityMod.Projectiles.Ranged
                 switch ((int)num641)
                 {
                     case 4:
-                        scale = weakExplosion ? 0.8f : 1.2f;
-                        break;
-                    case 8:
                         scale = 1.1f;
                         break;
-                    case 12:
-                        scale = 1f;
+                    case 8:
+                        scale = 1.2f;
                         break;
                     case 16:
-                        scale = 0.9f;
+                        scale = 1.4f;
+                        break;
+                    case 32:
+                        scale = 1.8f;
                         break;
                     default:
                         break;
@@ -178,8 +178,8 @@ namespace CalamityMod.Projectiles.Ranged
 
                 Dust dust = Main.dust[num643];
                 dust.velocity *= 0.5f;
-                dust.velocity.X = dust.velocity.X + num644;
-                dust.velocity.Y = dust.velocity.Y + num645;
+                dust.velocity.X += num644;
+                dust.velocity.Y += num645;
                 dust.scale = scale;
                 dust.noGravity = true;
             }
