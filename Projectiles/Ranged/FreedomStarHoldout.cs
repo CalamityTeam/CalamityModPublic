@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         private const float OrbLargeGateValue = 80f;
         private const float LaserGateValue = 180f;
-        private const float LaserLargeGateValue = 420f;
+        private const float LaserLargeGateValue = 660f;
 
         public override void SetStaticDefaults() => DisplayName.SetDefault("Freedom Star");
 
@@ -56,7 +56,8 @@ namespace CalamityMod.Projectiles.Ranged
             if (shootLaser && Projectile.ai[0] % 20f == 0f)
                 shootThisFrame = true;
 
-            if ((!shootLaser && Projectile.ai[1] >= shootGateValue) || (shootLaser && Projectile.ai[0] % 5f == 0f))
+            // Update position.
+            if ((!shootLaser && Projectile.ai[1] >= shootGateValue) || shootLaser)
             {
                 if (!shootLaser)
                     Projectile.ai[1] = 0f;
@@ -221,6 +222,7 @@ namespace CalamityMod.Projectiles.Ranged
                             float orbPower = 0.7f + chargeAmt * 0.3f;
                             int projectileDamage = (orbPower < 1f) ? currentDamage : ((int)(currentDamage * 1.5f));
                             int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, actualVelocity, projectileType, projectileDamage, Projectile.knockBack, Projectile.owner, 0f, orbPower);
+                            Main.projectile[proj].DamageType = DamageClass.Ranged;
                             Main.projectile[proj].extraUpdates += 1;
                         }
                     }

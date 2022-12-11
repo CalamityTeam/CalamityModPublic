@@ -1,10 +1,9 @@
-﻿using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Particles;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Enums;
 using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
@@ -15,13 +14,13 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FreedomStarBeam : ModProjectile
     {
-        private const int Lifetime = 600;
-        private const int TimeToReachMaxSize = 240;
-        private const int TimeToShrink = 80;
+        private const int Lifetime = 840;
+        private const int TimeToReachMaxSize = 480;
+        private const int TimeToShrink = 60;
         private const float MaxBeamScale = 3f;
         private const int DustType = 226;
 
-        private const float MaxBeamLength = 2400f;
+        private const float MaxBeamLength = 480f;
         private const float BeamTileCollisionWidth = 1f;
         private const float BeamHitboxCollisionWidth = 15f;
         private const int NumSamplePoints = 3;
@@ -48,14 +47,12 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.width = 16;
             Projectile.height = 16;
             Projectile.friendly = true;
-            Projectile.hide = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = -1;
-            Projectile.alpha = 0;
             // The beam itself still stops on tiles, but its invisible "source" projectile ignores them.
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 8;
+            Projectile.localNPCHitCooldown = 20;
             Projectile.timeLeft = Lifetime;
         }
 
@@ -169,7 +166,7 @@ namespace CalamityMod.Projectiles.Ranged
         // Determines whether the specified target hitbox is intersecting with the beam.
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            // If the target is touching the beam's hitbox (which is a small rectangle vaguely overlapping the host crystal), that's good enough.
+            // If the target is touching the beam's hitbox, that's good enough.
             if (projHitbox.Intersects(targetHitbox))
                 return true;
 
@@ -179,27 +176,17 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         // Spawn lunar flare explosions on hit.
-        /*public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            // Ensure that the hit direction is correct when hitting enemies.
-            hitDirection = (Projectile.Center.X < target.Center.X).ToDirectionInt();
-            float targetPolarity = target.PolarityNPC().CurPolarity;
-            //If a polarity beam hits the target with the opposite polarity, the damage dealt increases by 20%
-            if (polarity * targetPolarity < 0)
+            if (Main.myPlayer == Projectile.owner)
             {
-                double newDamage = damage * 1.2;
-                damage = (int)newDamage;
-
-                for (int i = 0; i < 4; i++)
-                {
-                    Color sparkColor = AdamantiteParticleAccelerator.LightColors[polarity < 0 ? 1 : 0];
-
-                    Vector2 sparkSpeed = Owner.DirectionTo(target.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)) * Main.rand.NextFloat(8f, 17f);
-                    Particle Spark = new CritSpark(target.Center, sparkSpeed, Color.White, sparkColor, 0.7f + Main.rand.NextFloat(0, 0.6f), 30, 0.4f, 0.6f);
-                    GeneralParticleHandler.SpawnParticle(Spark);
-                }
+                SoundEngine.PlaySound(SoundID.Item14, target.Center);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ProjectileID.LunarFlare, Projectile.damage / 5, Projectile.knockBack, Projectile.owner, 0f, -1f);
+                Main.projectile[proj].DamageType = DamageClass.Ranged;
+                Main.projectile[proj].scale = Projectile.scale * 0.7f;
+                Main.projectile[proj].netUpdate = true;
             }
-        }*/
+        }
 
         public override bool PreDraw(ref Color lightColor)
         {
@@ -213,7 +200,7 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 scaleVec = new Vector2(Projectile.scale);
 
             // Reduce the beam length proportional to its square area to reduce block penetration.
-            beamLength -= BeamLengthReductionFactor * Projectile.scale * Projectile.scale;
+            beamLength -= BeamLengthReductionFactor * Projectile.scale;
 
             // f_1 is an unnamed decompiled variable whose function is unknown. Leave it at 1.
             DelegateMethods.f_1 = 1f;
@@ -228,7 +215,7 @@ namespace CalamityMod.Projectiles.Ranged
             DelegateMethods.c_1 = beamColor * OuterBeamOpacityMultiplier * Projectile.Opacity;
             Utils.DrawLaser(Main.spriteBatch, tex, beamStartPos, beamEndPos, scaleVec, llf);
 
-            // Draw the inner beams, each with reduced size and whiter color
+            // Draw the inner beams, each with reduced size and whiter color.
             for (int i = 0; i < 5; i++)
             {
                 beamColor = Color.Lerp(beamColor, Color.White, 0.4f);
