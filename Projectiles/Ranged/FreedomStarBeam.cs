@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Ranged
         private const float MaxBeamScale = 3f;
         private const int DustType = 226;
 
-        private const float MaxBeamLength = 480f;
+        private const float MaxBeamLength = 1200f;
         private const float BeamTileCollisionWidth = 1f;
         private const float BeamHitboxCollisionWidth = 15f;
         private const int NumSamplePoints = 3;
