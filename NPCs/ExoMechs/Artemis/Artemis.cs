@@ -126,6 +126,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         // Variable to pick a different location after each attack
         private bool pickNewLocation = false;
 
+        // Mark Artemis as a component of the Exo Mechdusa
+        public bool exoMechdusa = false;
+
         // The direction to spin in during spin phases
         private int rotationDirection = 0;
 
@@ -148,7 +151,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         //This stores the sound slot of the ML laser sound it makes, so it may be properly updated in terms of position.
         private SlotId DeathraySoundSlot;
 
-        public const string NameToDisplay = "XS-01 Artemis";
+        public static string NameToDisplay = "XS-01 Artemis";
 
         public override void SetStaticDefaults()
         {
@@ -221,6 +224,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             writer.Write(frameX);
             writer.Write(frameY);
             writer.Write(pickNewLocation);
+            writer.Write(exoMechdusa);
             writer.Write(rotationDirection);
             writer.WriteVector2(spinningPoint);
             writer.Write(NPC.dontTakeDamage);
@@ -240,6 +244,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             frameX = reader.ReadInt32();
             frameY = reader.ReadInt32();
             pickNewLocation = reader.ReadBoolean();
+            exoMechdusa = reader.ReadBoolean();
             rotationDirection = reader.ReadInt32();
             spinningPoint = reader.ReadVector2();
             NPC.dontTakeDamage = reader.ReadBoolean();
@@ -1159,6 +1164,26 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             // Update the deathray sound position if it's being played.
             if (SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
                 deathraySound.Position = NPC.Center;
+
+            // Exo Mechdusa behavior
+            if (exoMechdusa)
+            {
+                int twinoffset = 300;
+                int extratwinoffset = 100;
+                int twinheight = 300;
+                if (CalamityGlobalNPC.draedonExoMechPrime != -1)
+                {
+                    if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].ModNPC<AresBody>().exoMechdusa)
+                    {
+                        NPC aresin = Main.npc[CalamityGlobalNPC.draedonExoMechPrime];
+                        if (NPC.Calamity().newAI[0] != (float)Phase.Charge && NPC.Calamity().newAI[0] != (float)Phase.Deathray)
+                        {
+                            Vector2 pos = new Vector2(aresin.Center.X + twinoffset - extratwinoffset, aresin.Center.Y - twinheight);
+                            NPC.position = pos;
+                        }
+                    }
+                }
+            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -1457,6 +1482,14 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             }
 
             return false;
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (exoMechdusa)
+            {
+                typeName = NameToDisplay = "Blazing Eye of XB-∞ Hekate";
+            }
         }
 
         // Needs edits

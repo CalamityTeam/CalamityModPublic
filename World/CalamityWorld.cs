@@ -52,6 +52,7 @@ namespace CalamityMod.World
         public static ExoMech DraedonMechToSummon;
         public static Vector2 DraedonSummonPosition = Vector2.Zero;
         public static bool TalkedToDraedon = false;
+        public static bool DraedonMechdusa = false;
         public static bool AbleToSummonDraedon
         {
             get

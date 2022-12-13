@@ -84,6 +84,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         // Whether the head is venting heat or not, it is vulnerable to damage during venting
         private bool vulnerable = false;
 
+        // Mark Thanatos as a component of the Exo Mechdusa
+        public bool exoMechdusa = false;
+
         // Max time in vent phase
         public const float ventDuration = 180f;
 
@@ -200,6 +203,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             writer.Write(noContactDamageTimer);
             writer.Write(chargeVelocityScalar);
             writer.Write(vulnerable);
+            writer.Write(exoMechdusa);
             writer.Write(NPC.localAI[0]);
             writer.Write(NPC.localAI[1]);
             writer.Write(NPC.localAI[2]);
@@ -215,6 +219,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             noContactDamageTimer = reader.ReadInt32();
             chargeVelocityScalar = reader.ReadSingle();
             vulnerable = reader.ReadBoolean();
+            exoMechdusa = reader.ReadBoolean();
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
@@ -527,7 +532,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 case (int)SecondaryPhase.Nothing:
 
                     // Spawn the other mechs if Thanatos is first
-                    if (otherExoMechsAlive == 0)
+                    if (otherExoMechsAlive == 0 && !exoMechdusa)
                     {
                         if (spawnOtherExoMechs)
                         {
@@ -579,7 +584,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                         // Go passive and immune if one of the other mechs is berserk
                         // This is only called if two exo mechs are alive in ideal scenarios
                         // This is not called if Thanatos and another one or two mechs are berserk
-                        if (otherMechIsBerserk && !berserk)
+                        if (otherMechIsBerserk && !berserk && !exoMechdusa)
                         {
                             // Reset everything
                             SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
@@ -608,7 +613,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                     AIState = (float)Phase.UndergroundLaserBarrage;
 
                     // Enter passive and invincible phase if one of the other exo mechs is berserk
-                    if (otherMechIsBerserk)
+                    if (otherMechIsBerserk && !exoMechdusa)
                     {
                         // Reset everything
                         SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
@@ -993,6 +998,24 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             {
                 laserSound.Position = NPC.Center;
             }
+
+            if (exoMechdusa)
+            {
+                if (CalamityGlobalNPC.draedonExoMechPrime != -1)
+                {
+                    if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].ModNPC<AresBody>().exoMechdusa)
+                    {
+                        NPC.rotation = 0;
+                        NPC aresin = Main.npc[CalamityGlobalNPC.draedonExoMechPrime];
+                        if (NPC.Calamity().newAI[0] != (float)Phase.Deathray)
+                        {
+                            Vector2 pos = new Vector2(aresin.Center.X - 80, aresin.Center.Y - 89);
+                            NPC.position = pos;
+                            NPC.Calamity().newAI[2]++;
+                        }
+                    }
+                }
+            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -1220,6 +1243,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => AresBody.DefineExoMechLoot(NPC, npcLoot, (int)AresBody.MechType.Thanatos);
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (exoMechdusa)
+            {
+                typeName = "Spine of XB-∞ Hekate";
+            }
+        }
 
         public override void HitEffect(int hitDirection, double damage)
         {

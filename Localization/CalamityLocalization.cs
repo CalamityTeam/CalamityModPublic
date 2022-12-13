@@ -137,6 +137,9 @@ namespace CalamityMod.Localization
                 new [] { "DraedonEndText8", "But you have managed before. You will find a way eventually." },
                 new [] { "DraedonEndText9", "I must acknowledge your triumph, but I will return now to my machinery." },
                 new [] { "DraedonEndKillAttemptText", "...Quite unnecessary." },
+                new [] { "DraedonMechdusaBeginText", "...Die." },
+                new [] { "DraedonMechdusaEndText1", "Wait what? How?" },
+                new [] { "DraedonMechdusaEndText2", "No" },
 
                 new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
                 new [] { "HardmodeOreTier2Text", "Your world has been blessed with Mythril and Orichalcum!" },

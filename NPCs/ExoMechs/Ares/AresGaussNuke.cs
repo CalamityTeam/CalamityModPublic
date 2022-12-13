@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             // Adjust opacity
             bool invisiblePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
-            NPC.dontTakeDamage = invisiblePhase;
+            NPC.dontTakeDamage = invisiblePhase || Main.npc[(int)NPC.ai[2]].dontTakeDamage;
             if (!invisiblePhase)
             {
                 NPC.Opacity += 0.2f;
@@ -370,6 +370,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             SmokeDrawer.Update();
 
             EnergyDrawer.ParticleSpawnRate = 9999999;
+
             // Attacking phases
             switch ((int)AIState)
             {
@@ -642,6 +643,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public override void DrawBehind(int index)
         {
             Main.instance.DrawCacheNPCProjectiles.Add(index);
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].ModNPC<AresBody>().exoMechdusa)
+            {
+                typeName = "XB-∞ Hekate Gauss Nuke";
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)
