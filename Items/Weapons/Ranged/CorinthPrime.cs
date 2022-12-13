@@ -56,7 +56,7 @@ Otherwise, the grenade emits an extremely weak explosion");
             {
                 Item.useTime = 90;
                 Item.useAnimation = 90;
-                Item.UseSound = SoundID.Item61;
+                Item.UseSound = SoundID.Item66;
                 Item.shootSpeed = 8f;
             }
             else
@@ -80,8 +80,8 @@ Otherwise, the grenade emits an extremely weak explosion");
                 int numBullets = 6;
                 for (int index = 0; index < numBullets; index++)
                 {
-                    float SpeedX = velocity.X + Main.rand.Next(-35, 36) * 0.05f;
-                    float SpeedY = velocity.Y + Main.rand.Next(-35, 36) * 0.05f;
+                    float SpeedX = velocity.X + Main.rand.Next(-30, 31) * 0.05f;
+                    float SpeedY = velocity.Y + Main.rand.Next(-30, 31) * 0.05f;
                     int proj = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type == ProjectileID.Bullet ? ModContent.ProjectileType<RealmRavagerBullet>() : type, damage, knockback, player.whoAmI);
                     Main.projectile[proj].extraUpdates += 1;
                 }

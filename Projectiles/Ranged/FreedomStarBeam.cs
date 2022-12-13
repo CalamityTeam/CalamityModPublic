@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Ranged
             // The beam itself still stops on tiles, but its invisible "source" projectile ignores them.
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 20;
+            Projectile.localNPCHitCooldown = 10;
             Projectile.timeLeft = Lifetime;
         }
 

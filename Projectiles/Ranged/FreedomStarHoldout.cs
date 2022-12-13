@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             // Dust spawning for orbs.
-            if (Projectile.ai[0] > 10f && !shootLaser)
+            if (Projectile.ai[0] > 5f && !shootLaser)
             {
                 Vector2 spinningpoint3 = Vector2.UnitX * 32f;
                 spinningpoint3 = spinningpoint3.RotatedBy(Projectile.rotation + (Projectile.spriteDirection == -1 ? MathHelper.Pi : 0f));
@@ -204,9 +204,9 @@ namespace CalamityMod.Projectiles.Ranged
                         bool shootOrb = false;
                         if (Projectile.ai[0] == 1f)
                             shootOrb = true;
-                        if (Projectile.ai[0] <= 50f && Projectile.ai[0] % 10f == 0f)
+                        if (Projectile.ai[0] <= 50f && Projectile.ai[0] % 5f == 0f)
                             shootOrb = true;
-                        if (Projectile.ai[0] >= OrbLargeGateValue && Projectile.ai[0] < LaserGateValue && Projectile.ai[0] % 20f == 0f)
+                        if (Projectile.ai[0] >= OrbLargeGateValue && Projectile.ai[0] < LaserGateValue && Projectile.ai[0] % 10f == 0f)
                             shootOrb = true;
 
                         if (shootOrb)
@@ -214,7 +214,7 @@ namespace CalamityMod.Projectiles.Ranged
                             SoundEngine.PlaySound(SoundID.Item75, Projectile.position);
 
                             int projectileType = ProjectileID.ChargedBlasterOrb;
-                            float projectileVelocity = 12f;
+                            float projectileVelocity = 10f;
                             Vector2 actualVelocity = Vector2.Normalize(Projectile.velocity) * projectileVelocity;
                             if (float.IsNaN(actualVelocity.X) || float.IsNaN(actualVelocity.Y))
                                 actualVelocity = -Vector2.UnitY;
@@ -223,7 +223,7 @@ namespace CalamityMod.Projectiles.Ranged
                             int projectileDamage = (orbPower < 1f) ? currentDamage : ((int)(currentDamage * 1.5f));
                             int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, actualVelocity, projectileType, projectileDamage, Projectile.knockBack, Projectile.owner, 0f, orbPower);
                             Main.projectile[proj].DamageType = DamageClass.Ranged;
-                            Main.projectile[proj].extraUpdates += 1;
+                            Main.projectile[proj].extraUpdates += 2;
                         }
                     }
                 }

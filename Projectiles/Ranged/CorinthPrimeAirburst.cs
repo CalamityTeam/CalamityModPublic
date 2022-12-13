@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override int Lifetime => 60;
         public override bool UsesScreenshake => Projectile.damage > 1;
         public override float GetScreenshakePower(float pulseCompletionRatio) => CalamityUtils.Convert01To010(pulseCompletionRatio) * 16f;
-        public override Color GetCurrentExplosionColor(float pulseCompletionRatio) => Color.Lerp(Color.DarkRed * 1.6f, Color.OrangeRed, MathHelper.Clamp(pulseCompletionRatio * 2.2f, 0f, 1f));
+        public override Color GetCurrentExplosionColor(float pulseCompletionRatio) => Color.Lerp(Color.Blue * 1.6f, Color.Cyan, MathHelper.Clamp(pulseCompletionRatio * 2.2f, 0f, 1f));
         public override void SetStaticDefaults() => DisplayName.SetDefault("Airburst");
 
         public override void SetDefaults()
@@ -26,6 +26,6 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
         }
 
-        public override void PostAI() => Lighting.AddLight(Projectile.Center, 0.3f, 0f, 0f);
+        public override void PostAI() => Lighting.AddLight(Projectile.Center, 0f, 0f, 0.3f);
     }
 }

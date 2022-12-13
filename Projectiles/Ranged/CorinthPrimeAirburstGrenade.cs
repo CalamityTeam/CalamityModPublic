@@ -12,13 +12,14 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Corinth Prime Airburst Grenade");
+            DisplayName.SetDefault("Corinth Prime Airburst Shot");
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
             Projectile.width = 44;
-            Projectile.height = 26;
+            Projectile.height = 28;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.tileCollide = true;
@@ -28,6 +29,16 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            //Animation
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
+            {
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+            }
+            if (Projectile.frame > 3)
+                Projectile.frame = 0;
+
             // Gravity
             if (Projectile.velocity.Y < 12f && Projectile.timeLeft < 115)
                 Projectile.velocity.Y += 0.1f;
@@ -44,7 +55,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int i = 0; i < 5; i++)
                 {
                     pos -= Projectile.velocity * (i * 0.25f);
-                    int idx = Dust.NewDust(pos, 1, 1, Main.rand.NextBool() ? 127 : 158, 0f, 0f, 0, default, 1f);
+                    int idx = Dust.NewDust(pos, Projectile.width, Projectile.height, Main.rand.NextBool() ? 206 : 187, 0f, 0f, 0, default, 1f);
                     Main.dust[idx].noGravity = true;
                     Main.dust[idx].position = pos;
                     Main.dust[idx].scale = Main.rand.Next(70, 110) * 0.013f;
@@ -60,14 +71,14 @@ namespace CalamityMod.Projectiles.Ranged
                     switch (Main.rand.Next(6))
                     {
                         case 0:
-                            dustID = 55;
+                            dustID = 186;
                             break;
                         case 1:
                         case 2:
-                            dustID = 54;
+                            dustID = 20;
                             break;
                         default:
-                            dustID = 53;
+                            dustID = 56;
                             break;
                     }
 
@@ -82,7 +93,7 @@ namespace CalamityMod.Projectiles.Ranged
                     float scale = Main.rand.NextFloat(0.5f, 1.6f);
 
                     // Actually spawn the smoke.
-                    int idx = Dust.NewDust(pos, 1, 1, dustID, dustVel.X, dustVel.Y, 0, default, scale);
+                    int idx = Dust.NewDust(pos, Projectile.width, Projectile.height, dustID, dustVel.X, dustVel.Y, 0, default, scale);
                     Main.dust[idx].noGravity = true;
                     Main.dust[idx].position = pos;
                 }
@@ -133,11 +144,11 @@ namespace CalamityMod.Projectiles.Ranged
             int totalDust = weakExplosion ? 100 : 400;
             for (int num640 = 0; num640 < totalDust; num640++)
             {
-                int dustType = 127;
+                int dustType = 206;
                 float num641 = 32f;
                 if (num640 < 300)
                 {
-                    dustType = 158;
+                    dustType = 187;
                     num641 = 16f;
                 }
                 if (num640 < 200)
