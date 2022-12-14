@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public int DeathAnimationTimer;
         public int DestroyedSegmentCount;
 
-        //Sounds
+        // Sounds
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/DevourerSpawn");
         public static readonly SoundStyle AttackSound = new("CalamityMod/Sounds/Custom/DevourerAttack");
 
