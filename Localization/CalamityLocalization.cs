@@ -105,6 +105,7 @@ namespace CalamityMod.Localization
                 new [] { "SandSharkText3", "The desert sand shifts intensely!" },
 
                 new [] { "CryogenBossText", "Cryogen is derping out!" },
+                new [] { "PyrogenBossText", "Pyrogen is derping out!" },
 
                 new [] { "DraedonIntroductionText1", "I have waited long for this moment." },
                 new [] { "DraedonIntroductionText2", "Your nature fascinates me, for I do not understand it." },
