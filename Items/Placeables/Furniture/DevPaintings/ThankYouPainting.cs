@@ -85,6 +85,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Memes",
 			"Mercutio 'Merkalto' Takle",
 			"Moonburn",
+			"Mr.Small",
 			"Nycro",
 			"Ozzatron",
 			"Piky",
