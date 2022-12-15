@@ -35,9 +35,11 @@ namespace CalamityMod.BiomeManagers
                             : CalamityMod.Instance.GetMusicFromMusicMod("AcidRain1") ?? MusicID.OldOnesArmy; // Acid Rain Tier 1 + 2
                     }
 
-                    // Regular Sulphur Sea theme, when Acid Rain is not occurring
+                    // Regular Sulphur Sea themes, when Acid Rain is not occurring
                     else
-                        music = CalamityMod.Instance.GetMusicFromMusicMod("SulphurousSea") ?? MusicID.Desert;
+                        music = !Main.dayTime
+                            ? CalamityMod.Instance.GetMusicFromMusicMod("SulphurousSeaNight") ?? MusicID.Desert // Nighttime
+                            : CalamityMod.Instance.GetMusicFromMusicMod("SulphurousSeaDay") ?? MusicID.Desert; // Daytime
                 }
                 return music;
             }
