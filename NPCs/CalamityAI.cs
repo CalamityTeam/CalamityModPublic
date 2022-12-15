@@ -18,6 +18,7 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.Sounds;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -4582,7 +4583,23 @@ namespace CalamityMod.NPCs
                     // Sound
                     if (calamityGlobalNPC.newAI[1] == newPhaseTimer - 60f)
                     {
-                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = 0.25f }, npc.position);
+                        float squawkpitch = Main.getGoodWorld ? 1.3f : 0.25f; // Move to zenith seed later
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.position);
+
+                        if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // Move to zenith seed later
+                        {
+                            int spacing = 20;
+                            int amt = 5;
+                            SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, npc.Center - Vector2.UnitY * 300f);
+                            for (int i = 0; i < amt; i++)
+                            {
+                                Vector2 fireFrom = new Vector2(npc.Center.X + (spacing * i) - (spacing * amt / 2), npc.Center.Y - 900f);
+                                Vector2 ai0 = npc.Center - fireFrom;
+                                float ai = Main.rand.Next(100);
+                                Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), npc.damage, 0f, Main.myPlayer, ai0.ToRotation(), ai);
+                            }
+                        }
                     }
 
                     if (calamityGlobalNPC.newAI[1] >= newPhaseTimer)
@@ -4604,7 +4621,23 @@ namespace CalamityMod.NPCs
                     // Sound
                     if (calamityGlobalNPC.newAI[0] == newPhaseTimer - 60f)
                     {
-                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = 0.25f }, npc.position);
+                        float squawkpitch = Main.getGoodWorld ? 1.3f : 0.25f; // Move to zenith seed later
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.position);
+
+                        if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // Move to zenith seed later
+                        {
+                            int spacing = 20;
+                            int amt = 3;
+                            SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, npc.Center - Vector2.UnitY * 300f);
+                            for (int i = 0; i < amt; i++)
+                            {
+                                Vector2 fireFrom = new Vector2(npc.Center.X + (spacing * i) - (spacing * amt / 2), npc.Center.Y - 900f);
+                                Vector2 ai0 = npc.Center - fireFrom;
+                                float ai = Main.rand.Next(100);
+                                Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), npc.damage, 0f, Main.myPlayer, ai0.ToRotation(), ai);
+                            }
+                        }
                     }
 
                     if (calamityGlobalNPC.newAI[0] >= newPhaseTimer)
@@ -5085,7 +5118,23 @@ namespace CalamityMod.NPCs
                     // Sound
                     if (npc.ai[1] == birbSpawnPhaseTimer - 60f)
                     {
-                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = 0.25f }, npc.position);
+                        float squawkpitch = Main.getGoodWorld ? 1.3f : 0.25f; // Move to zenith seed later
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.position);
+
+                        if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // Move to zenith seed later
+                        {
+                            int spacing = 30;
+                            int amt = 3;
+                            SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, npc.Center - Vector2.UnitY * 300f);
+                            for (int i = 0; i < amt; i++)
+                            {
+                                Vector2 fireFrom = new Vector2(npc.Center.X + (spacing * i) - (spacing * amt / 2), npc.Center.Y - 900f);
+                                Vector2 ai0 = npc.Center - fireFrom;
+                                float ai = Main.rand.Next(100);
+                                Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), npc.damage, 0f, Main.myPlayer, ai0.ToRotation(), ai);
+                            }
+                        }
                     }
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -5134,6 +5183,21 @@ namespace CalamityMod.NPCs
                             ai0 = 3f;
                         Projectile.NewProjectile(npc.GetSource_FromAI(), vector7.X, vector7.Y, 0f, 0f, ModContent.ProjectileType<BirbAuraFlare>(), 0, 0f, Main.myPlayer, ai0, npc.target + 1);
                         npc.netUpdate = true;
+                    }
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // Move to zenith seed later
+                    {
+                        int spacing = 30;
+                        int amt = 3;
+                        SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, npc.Center - Vector2.UnitY * 300f);
+                        for (int i = 0; i < amt; i++)
+                        {
+                            Vector2 fireFrom = new Vector2(npc.Center.X + (spacing * i) - (spacing * amt / 2), npc.Center.Y - 900f);
+                            Vector2 ai0 = npc.Center - fireFrom;
+                            float ai = Main.rand.Next(100);
+                            Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), npc.damage, 0f, Main.myPlayer, ai0.ToRotation(), ai);
+                        }
                     }
                 }
 
