@@ -86,8 +86,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         // Spawn variables
         private bool tail = false;
-        private const int minLength = 100;
-        private const int maxLength = 101;
+        private int minLength = 100;
+        private int maxLength = 101;
 
         // Phase variables
         private bool spawnedGuardians = false;
@@ -145,6 +145,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         // Sounds
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/DevourerSpawn");
         public static readonly SoundStyle AttackSound = new("CalamityMod/Sounds/Custom/DevourerAttack");
+        public float extrapitch = 0;
 
         public override void SetStaticDefaults()
         {
@@ -264,6 +265,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             writer.Write(NPC.frame.Width);
             writer.Write(NPC.frame.Height);
 
+            // Misc syncs
+            writer.Write(extrapitch);
+
             // Be sure to inform clients of the fact that The Devourer of Gods is dying if only the server recieved this packet.
             if (Main.netMode == NetmodeID.Server && !wasDyingBefore && Dying)
             {
@@ -309,6 +313,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             Dying = reader.ReadBoolean();
             DeathAnimationTimer = reader.ReadInt32();
             DestroyedSegmentCount = reader.ReadInt32();
+
+            // Misc syncs
+            extrapitch = reader.ReadSingle();
 
             // Frame syncs
             Rectangle frame = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
@@ -358,6 +365,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             bool phase5 = lifeRatio < 0.4f;
             bool phase6 = lifeRatio < 0.2f;
             bool phase7 = lifeRatio < 0.15f;
+
+            // Sound pitch, move to zenith seed later
+            extrapitch = Main.getGoodWorld ? 0.3f : 0f;
 
             // Velocity variables
             float fallSpeed = bossRush ? 19f : death ? 17.5f : 16f;
@@ -669,7 +679,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                     // Summon Cosmic Guardians
                                     if (Main.netMode != NetmodeID.MultiplayerClient)
                                     {
-                                        SoundEngine.PlaySound(AttackSound, player.position);
+                                        SoundEngine.PlaySound(AttackSound with { Pitch = AttackSound.Pitch + extrapitch }, player.position);
 
                                         for (int i = 0; i < 3; i++)
                                             NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<CosmicGuardianHead>());
@@ -1401,7 +1411,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         spawnDoGCountdown--;
                         if (spawnDoGCountdown == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            SoundEngine.PlaySound(AttackSound, player.position);
+                            SoundEngine.PlaySound(AttackSound with { Pitch = AttackSound.Pitch + extrapitch }, player.position);
 
                             for (int i = 0; i < 2; i++)
                                 NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<CosmicGuardianHead>());
@@ -1423,7 +1433,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         spawnDoGCountdown--;
                         if (spawnDoGCountdown == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            SoundEngine.PlaySound(AttackSound, player.position);
+                            SoundEngine.PlaySound(AttackSound with { Pitch = AttackSound.Pitch + extrapitch }, player.position);
 
                             NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<CosmicGuardianHead>());
                         }
@@ -1441,6 +1451,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (!tail && NPC.ai[0] == 0f)
                     {
                         int Previous = NPC.whoAmI;
+                        if (Main.getGoodWorld) // Move to zenith seed later
+                        {
+                            maxLength = 2;
+                            minLength = 1;
+                        }
                         for (int segmentSpawn = 0; segmentSpawn < maxLength; segmentSpawn++)
                         {
                             int segment;
@@ -2152,7 +2167,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
             }
 
-            SoundEngine.PlaySound(AttackSound, player.Center);
+            SoundEngine.PlaySound(AttackSound with { Pitch = AttackSound.Pitch + extrapitch }, player.Center);
         }
 
         public void DoDeathAnimation()
@@ -2160,7 +2175,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Play a sound at the start.
             if (DeathAnimationTimer == 1f)
             {
-                SoundEngine.PlaySound(AttackSound with { Volume = AttackSound.Volume * 1.6f}, NPC.Center);
+                SoundEngine.PlaySound(AttackSound with { Volume = AttackSound.Volume * 1.6f, Pitch = AttackSound.Pitch + extrapitch}, NPC.Center);
             }
 
             // Close the health bar, fade in, and stop doing contact damage.
@@ -2226,7 +2241,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    SoundEngine.PlaySound(AttackSound with { Volume = AttackSound.Volume * 1.6f}, NPC.Center);
+                    SoundEngine.PlaySound(AttackSound with { Volume = AttackSound.Volume * 1.6f, Pitch = AttackSound.Volume + extrapitch}, NPC.Center);
 
                     for (int i = 0; i < 3; i++)
                     {
@@ -2474,7 +2489,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 8;
-                SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound with { Pitch = CommonCalamitySounds.OtherwordlyHitSound.Pitch + extrapitch }, NPC.Center);
             }
             if (NPC.life <= 0)
             {
