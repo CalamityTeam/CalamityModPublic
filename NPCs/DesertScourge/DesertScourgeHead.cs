@@ -14,6 +14,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -94,6 +95,10 @@ namespace CalamityMod.NPCs.DesertScourge
 
             if (Main.getGoodWorld)
                 NPC.scale *= 0.4f;
+
+            if (Main.getGoodWorld) // move to zenith seed later
+                NPC.scale *= 4f;
+
 
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -253,6 +258,7 @@ namespace CalamityMod.NPCs.DesertScourge
                             SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
                             float velocity = bossRush ? 6f : death ? 5.5f : 5f;
                             int type = ModContent.ProjectileType<SandBlast>();
+                            int type2 = ModContent.ProjectileType<HorsWaterBlast>();
                             int damage = NPC.GetProjectileDamage(type);
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * velocity;
                             int baseProjectileAmt = bossRush ? 6 : death ? 4 : revenge ? 3 : 2;
@@ -263,6 +269,8 @@ namespace CalamityMod.NPCs.DesertScourge
                             {
                                 Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                if (Main.getGoodWorld) // Move to zenith seed later
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 3f, perturbedSpeed, type2, damage, 0f, Main.myPlayer);
                             }
                         }
 
@@ -773,6 +781,14 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             if (damage > 0)
                 player.AddBuff(BuffID.Bleeding, 600, true);
+        }
+
+        public override Color? GetAlpha(Color drawColor)
+        {
+            // Move to zenith seed later
+            Color lightColor = Color.MediumBlue * drawColor.A;
+            Color newColor = Main.getGoodWorld ? lightColor : new Color(255, 255, 255, drawColor.A);
+            return newColor * NPC.Opacity;
         }
     }
 }
