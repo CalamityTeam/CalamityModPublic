@@ -75,6 +75,9 @@ namespace CalamityMod.NPCs.Leviathan
 
             if (Main.getGoodWorld)
                 NPC.scale *= 0.8f;
+
+            if (Main.getGoodWorld) // Move to zenith seed later
+                NPC.scale *= 4f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -326,8 +329,9 @@ namespace CalamityMod.NPCs.Leviathan
             }
 
             // Play sound
+            float extrapitch = Main.getGoodWorld ? -0.5f : 0; // Move to zenith seed later
             if (Main.rand.NextBool(300))
-                SoundEngine.PlaySound(SoundID.Zombie35, NPC.position);
+                SoundEngine.PlaySound(SoundID.Zombie35 with { Pitch = SoundID.Zombie35.Pitch + extrapitch}, NPC.position);
 
             // Time left
             if (NPC.timeLeft < 1800)
@@ -574,7 +578,8 @@ namespace CalamityMod.NPCs.Leviathan
             {
                 NPC.rotation = NPC.velocity.X * 0.02f;
 
-                Vector2 targetVector = player.Center + new Vector2(0f, -350f) * NPC.scale;
+                float basey = Main.getGoodWorld ? -100 : -350; //Move to zenith seed later
+                Vector2 targetVector = player.Center + new Vector2(0f, basey) * NPC.scale;
                 float velocity = death ? 13.5f : 12f;
                 velocity += 6f * enrageScale;
 

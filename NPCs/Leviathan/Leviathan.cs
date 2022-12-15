@@ -37,6 +37,7 @@ namespace CalamityMod.NPCs.Leviathan
         private int counter = 0;
         private bool initialised = false;
         private int soundDelay = 0;
+        private float extrapitch = 0;
         public static Texture2D AttackTexture = null;
 
         public static readonly SoundStyle RoarMeteorSound = new("CalamityMod/Sounds/Custom/LeviathanRoarMeteor");
@@ -83,6 +84,9 @@ namespace CalamityMod.NPCs.Leviathan
 
             if (Main.getGoodWorld)
                 NPC.scale *= 1.3f;
+
+            if (Main.getGoodWorld) //Move to zenith seed later
+                NPC.scale *= 0.3f; 
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -164,8 +168,10 @@ namespace CalamityMod.NPCs.Leviathan
             if (soundDelay > 0)
                 soundDelay--;
 
+            extrapitch = Main.getGoodWorld ? 0.3f : 0f;
+
             if (Main.rand.NextBool(600) && !spawnAnimation)
-                SoundEngine.PlaySound((sirenAlive && !death) ? soundChoice : soundChoiceRage, vector);
+                SoundEngine.PlaySound(((sirenAlive && !death) ? soundChoice : soundChoiceRage) with { Pitch = soundChoice.Pitch + extrapitch }, vector);
 
             // Get a target
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
@@ -264,7 +270,7 @@ namespace CalamityMod.NPCs.Leviathan
                     if (calamityGlobalNPC.newAI[3] == 10f)
                     {
                         SoundEngine.PlaySound(EmergeSound, vector);
-                        SoundEngine.PlaySound(soundChoiceRage, vector);
+                        SoundEngine.PlaySound(soundChoiceRage with { Pitch = soundChoiceRage.Pitch + extrapitch }, vector);
                     }
 
                     NPC.Opacity = MathHelper.Clamp(calamityGlobalNPC.newAI[3] / spawnAnimationTime, 0f, 1f);
@@ -384,11 +390,17 @@ namespace CalamityMod.NPCs.Leviathan
                                 num416 *= num417;
                                 vector40.X += num415 * 4f;
                                 vector40.Y += num416 * 4f;
+                                if (Main.getGoodWorld) //Move to zenith seed later
+                                {
+                                    type = ProjectileID.Boulder;
+                                    vector40.Y -= 5; //Shoot a bit more up since boulders are affected by gravity
+                                    damage *= 2;
+                                }
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), vector40.X, vector40.Y, num415, num416, type, damage, 0f, Main.myPlayer);
                                 if (soundDelay <= 0)
                                 {
                                     soundDelay = 120;
-                                    SoundEngine.PlaySound(RoarMeteorSound, vector);
+                                    SoundEngine.PlaySound(RoarMeteorSound with { Pitch = RoarMeteorSound.Pitch + extrapitch }, vector);
                                 }
                             }
                         }
@@ -423,7 +435,7 @@ namespace CalamityMod.NPCs.Leviathan
                     int spawnLimit = (sirenAlive && !phase4) ? 1 : (death ? 2 : 3);
                     if (flag103 && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < spawnLimit)
                     {
-                        SoundEngine.PlaySound(soundChoice, vector);
+                        SoundEngine.PlaySound(soundChoice with { Pitch = soundChoice.Pitch + extrapitch }, vector);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<AquaticAberration>());
                     }
@@ -495,7 +507,8 @@ namespace CalamityMod.NPCs.Leviathan
                         return;
                     }
 
-                    float chargeDistance = ((sirenAlive && !phase4) ? 1100f : 900f) * NPC.scale;
+                    float gfbchargeboost = Main.getGoodWorld ? 1100 : 0; // Move to zenith seed later
+                    float chargeDistance = ((sirenAlive && !phase4) ? 1100f : 900f) * NPC.scale + gfbchargeboost;
                     chargeDistance -= 50f * enrageScale;
                     if (!sirenAlive || phase4)
                         chargeDistance -= 250f * (1f - lifeRatio);
@@ -540,7 +553,7 @@ namespace CalamityMod.NPCs.Leviathan
                             NPC.direction = playerLocation < 0 ? 1 : -1;
                             NPC.spriteDirection = NPC.direction;
 
-                            SoundEngine.PlaySound(RoarChargeSound, vector);
+                            SoundEngine.PlaySound(RoarChargeSound with { Pitch = RoarChargeSound.Pitch + extrapitch }, vector);
 
                             return;
                         }

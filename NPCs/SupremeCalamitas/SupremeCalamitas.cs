@@ -410,7 +410,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				hellblastDamage /= 2;
             }
 
-            int bulletHellblast = ModContent.ProjectileType<BrimstoneWave>();
+            int bulletHellblast = Main.getGoodWorld ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast2>();
             int barrage = ModContent.ProjectileType<BrimstoneBarrage>();
             int gigablast = Main.getGoodWorld ? ModContent.ProjectileType<SCalBrimstoneFireblast>() : ModContent.ProjectileType<SCalBrimstoneGigablast>();
             int fireblast = Main.getGoodWorld ? ModContent.ProjectileType<SCalBrimstoneGigablast>() : ModContent.ProjectileType<SCalBrimstoneFireblast>();
