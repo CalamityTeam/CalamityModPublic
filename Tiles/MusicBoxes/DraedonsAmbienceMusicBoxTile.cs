@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.MusicBoxes;
+﻿using CalamityMod.Items.Placeables.MusicBoxes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.MusicBoxes
             TileID.Sets.DisableSmartCursor[Type] = true;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Music Box");
-            AddMapEntry(new Color(200, 200, 200), name);
+            AddMapEntry(new Color(191, 142, 111), name);
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
@@ -37,6 +37,11 @@ namespace CalamityMod.Tiles.MusicBoxes
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
             player.cursorItemIconID = ModContent.ItemType<DraedonsAmbienceMusicBox>();
+        }
+
+        public override bool CreateDust(int i, int j, ref int type)
+        {
+            return false;
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)

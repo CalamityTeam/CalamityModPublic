@@ -16,11 +16,11 @@ namespace CalamityMod.TileEntities
 
         // Projectile variables
         public override int ProjectileType => ModContent.ProjectileType<DraedonLaser>();
-        public override int ProjectileDamage => Main.expertMode ? 14 : 20;
+        public override int ProjectileDamage => Main.expertMode ? 17 : 23;
         public override float ProjectileKnockback => 6.5f;
         public override float ShootSpeed => 5f;
         public override int FiringStartupDelay => 10;
-        public override int FiringUseTime => 20;
+        public override int FiringUseTime => 55;
 
         // Projectile spawn location variables
         public override Vector2 TurretCenterOffset => new Vector2(22f + 4f * Direction, -2f);

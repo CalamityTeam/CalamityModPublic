@@ -4,6 +4,7 @@ using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.AstralSnow;
 using CalamityMod.Tiles.Crags;
+using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Tiles.SunkenSea;
 using Terraria;
@@ -18,6 +19,7 @@ namespace CalamityMod.Systems
         public static int AbyssTiles = 0;
         public static int AstralTiles = 0;
         public static int SunkenSeaTiles = 0;
+        public static int ArsenalLabTiles = 0;
 
         public override void ResetNearbyTileEffects()
         {
@@ -26,6 +28,7 @@ namespace CalamityMod.Systems
             SunkenSeaTiles = 0;
             SulphurTiles = 0;
             AbyssTiles = 0;
+            ArsenalLabTiles = 0;
         }
 
         public override void TileCountsAvailable(ReadOnlySpan<int> tileCounts)
@@ -34,6 +37,7 @@ namespace CalamityMod.Systems
             SunkenSeaTiles = tileCounts[ModContent.TileType<EutrophicSand>()] + tileCounts[ModContent.TileType<Navystone>()] + tileCounts[ModContent.TileType<SeaPrism>()];
             AbyssTiles = tileCounts[ModContent.TileType<AbyssGravel>()] + tileCounts[ModContent.TileType<Voidstone>()];
             SulphurTiles = tileCounts[ModContent.TileType<SulphurousSand>()] + tileCounts[ModContent.TileType<SulphurousSandstone>()] + tileCounts[ModContent.TileType<HardenedSulphurousSandstone>()];
+            ArsenalLabTiles =  tileCounts[ModContent.TileType<LaboratoryPanels>()] + tileCounts[ModContent.TileType<LaboratoryPlating>()] + tileCounts[ModContent.TileType<HazardChevronPanels>()];
 
             int astralDesertTiles = tileCounts[ModContent.TileType<AstralSand>()] + tileCounts[ModContent.TileType<AstralSandstone>()] + tileCounts[ModContent.TileType<HardenedAstralSand>()] + tileCounts[ModContent.TileType<CelestialRemains>()];
             int astralSnowTiles = tileCounts[ModContent.TileType<AstralIce>()] + tileCounts[ModContent.TileType<AstralSnow>()];
