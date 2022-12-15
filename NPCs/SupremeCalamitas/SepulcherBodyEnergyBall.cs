@@ -102,7 +102,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.alpha = HeadSegment.alpha;
 
             AttackTimer += BossRushEvent.BossRushActive ? 1.5f : 1f;
-            if (AttackTimer >= 900f)
+            float attackgate = !HeadSegment.Calamity().unbreakableDR && Main.getGoodWorld ? 450f : 900f; // Move to zenith seed later
+            if (AttackTimer >= attackgate)
             {
                 AttackTimer = 0f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
