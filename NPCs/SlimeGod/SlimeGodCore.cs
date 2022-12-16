@@ -641,7 +641,8 @@ namespace CalamityMod.NPCs.SlimeGod
         {
             if (damage > 0)
             {
-                player.AddBuff(BuffID.Slow, 180, true);
+                int debufftype = Main.getGoodWorld ? BuffID.VortexDebuff : BuffID.Slow; // Move to zenith seed later
+                player.AddBuff(debufftype, 180, true);
                 player.AddBuff(BuffID.Weak, 180, true);
                 player.AddBuff(BuffID.Darkness, 180, true);
 			}
