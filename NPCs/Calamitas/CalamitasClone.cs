@@ -158,6 +158,10 @@ namespace CalamityMod.NPCs.Calamitas
 
             texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Calamitas/CalamitasCloneGlow").Value;
             Color color = Color.Lerp(Color.White, Color.Red, 0.5f);
+            if (Main.getGoodWorld) // move to zenith seed later
+            {
+                color = Color.CornflowerBlue;
+            }
 
             if (CalamityConfig.Instance.Afterimages)
             {

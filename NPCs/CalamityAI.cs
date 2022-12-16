@@ -1467,6 +1467,10 @@ namespace CalamityMod.NPCs
                         {
                             int type = ModContent.ProjectileType<SCalBrimstoneFireblast>();
                             int damage = npc.GetProjectileDamage(type);
+                            if (Main.getGoodWorld) // move to zenith seed later
+                            {
+                                type = ModContent.ProjectileType<SCalBrimstoneGigablast>();
+                            }
                             float gigaBlastFrequency = (Main.getGoodWorld ? 120f : expertMode ? 180f : 240f) - enrageScale * 15f;
                             float projSpeed = bossRush ? 6.25f : 5f;
                             if (calamityGlobalNPC.newAI[3] <= 300f)
@@ -2012,6 +2016,28 @@ namespace CalamityMod.NPCs
                     npc.velocity.X = num871 * num873;
                     npc.velocity.Y = num872 * num873;
                     npc.ai[1] = 2f;
+
+                    if (Main.getGoodWorld) // move to zenith seed later
+                    {
+                        SoundEngine.PlaySound(SupremeCalamitas.SupremeCalamitas.BrimstoneShotSound, npc.Center);
+
+                        int type = ModContent.ProjectileType<BrimstoneBarrage>();
+                        int damage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneFire>());
+                        if (bossRush)
+                            damage /= 2;
+                        int totalProjectiles = bossRush ? 12 : death ? 10 : revenge ? 8 : expertMode ? 6 : 4;
+                        float radians = MathHelper.TwoPi / totalProjectiles;
+                        float velocity = 5f;
+                        Vector2 spinningPoint = new Vector2(0f, -velocity);
+                        for (int k = 0; k < totalProjectiles; k++)
+                        {
+                            Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, velocity2, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                        }
+
+                        for (int i = 0; i < 6; i++)
+                            Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f);
+                    }
                     return;
                 }
 
@@ -2292,6 +2318,28 @@ namespace CalamityMod.NPCs
                     npc.velocity.X = num871 * num873;
                     npc.velocity.Y = num872 * num873;
                     npc.ai[1] = 2f;
+
+                    if (Main.getGoodWorld) // move to zenith seed later
+                    {
+                        SoundEngine.PlaySound(SupremeCalamitas.SupremeCalamitas.BrimstoneShotSound, npc.Center);
+
+                        int type = ModContent.ProjectileType<BrimstoneBarrage>();
+                        int damage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneBall>());
+                        if (bossRush)
+                            damage /= 2;
+                        int totalProjectiles = bossRush ? 12 : death ? 10 : revenge ? 8 : expertMode ? 6 : 4;
+                        float radians = MathHelper.TwoPi / totalProjectiles;
+                        float velocity = 5f;
+                        Vector2 spinningPoint = new Vector2(0f, -velocity);
+                        for (int k = 0; k < totalProjectiles; k++)
+                        {
+                            Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, velocity2, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                        }
+
+                        for (int i = 0; i < 6; i++)
+                            Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f);
+                    }
                     return;
                 }
 

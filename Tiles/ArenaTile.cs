@@ -1,4 +1,5 @@
-﻿using CalamityMod.NPCs.SupremeCalamitas;
+﻿using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.SupremeCalamitas;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -34,7 +35,7 @@ namespace CalamityMod.Tiles
         {
             if (closer)
             {
-                if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) && !SCalSky.RitualDramaProjectileIsPresent)
+                if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) && !SCalSky.RitualDramaProjectileIsPresent && !(NPC.AnyNPCs(ModContent.NPCType<CalamitasClone>()) && Main.getGoodWorld))
                 {
                     WorldGen.KillTile(i, j, false, false, false);
                     if (!Main.tile[i, j].HasTile && Main.netMode != NetmodeID.SinglePlayer)
