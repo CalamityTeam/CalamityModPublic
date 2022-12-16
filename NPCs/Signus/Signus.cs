@@ -744,6 +744,7 @@ namespace CalamityMod.NPCs.Signus
             float scale = NPC.scale;
             float rotation = NPC.rotation;
             float offsetY = NPC.gfxOffY;
+            float transparency = Main.getGoodWorld ? 0.7f : 1f;
 
             if (CalamityConfig.Instance.Afterimages)
             {
@@ -756,14 +757,14 @@ namespace CalamityMod.NPCs.Signus
                     Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     vector41 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
                     vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-                    spriteBatch.Draw(NPCTexture, vector41, new Rectangle?(frame), color38 * 0.2f, rotation, vector11, scale, spriteEffects, 0f);
+                    spriteBatch.Draw(NPCTexture, vector41, new Rectangle?(frame), color38 * transparency, rotation, vector11, scale, spriteEffects, 0f);
                 }
             }
 
             Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
             vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-            spriteBatch.Draw(NPCTexture, vector43, new Rectangle?(frame), NPC.GetAlpha(drawColor) * 0.2f, rotation, vector11, scale, spriteEffects, 0f);
+            spriteBatch.Draw(NPCTexture, vector43, new Rectangle?(frame), NPC.GetAlpha(drawColor) * transparency, rotation, vector11, scale, spriteEffects, 0f);
 
             Color color40 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
             if (Main.getGoodWorld) // move to zenith seed later
