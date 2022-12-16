@@ -26,7 +26,7 @@ namespace CalamityMod.Tiles.Astral
             DustType = ModContent.DustType<AstralBasic>();
             ItemDrop = ModContent.ItemType<Items.Placeables.AstralDirt>();
 
-            AddMapEntry(new Color(65, 56, 83));
+            AddMapEntry(new Color(59, 50, 77));
 
             TileID.Sets.ChecksForMerge[Type] = true;
             TileID.Sets.CanBeDugByShovel[Type] = true;

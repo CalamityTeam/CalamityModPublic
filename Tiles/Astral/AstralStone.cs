@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles.Astral
 
             HitSound = SoundID.Tink;
 
-            AddMapEntry(new Color(45, 36, 63));
+            AddMapEntry(new Color(93, 78, 107));
 
             TileID.Sets.Stone[Type] = true;
             TileID.Sets.Conversion.Stone[Type] = true;
