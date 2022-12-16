@@ -501,17 +501,37 @@ namespace CalamityMod.NPCs.Signus
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int totalLamps = Main.getGoodWorld ? 10 : 5;
+                    if (Main.getGoodWorld) // move to zenith seed later
+                    {
+                        totalLamps = 5;
+                    }
                     if (NPC.CountNPCS(ModContent.NPCType<CosmicLantern>()) < totalLamps)
                     {
                         for (int x = 0; x < totalLamps; x++)
                         {
-                            int num660 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X + spawnX), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>());
+                            int type = ModContent.NPCType<CosmicLantern>();
+                            if (Main.rand.NextBool(10) && Main.getGoodWorld) // move to zenith seed later
+                            {
+                                type = ModContent.NPCType<CosmicMine>();
+                            }
+                            int num660 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X + spawnX), (int)(player.position.Y + spawnY), type);
                             if (Main.netMode == NetmodeID.Server)
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
 
-                            int num661 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X - spawnX), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>());
+                            int num661 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X - spawnX), (int)(player.position.Y + spawnY), type);
                             if (Main.netMode == NetmodeID.Server)
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
+
+                            if (Main.getGoodWorld) // move to zenith seed later
+                            {
+                                int num662 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X + spawnX + spawnX / 2), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>());
+                                if (Main.netMode == NetmodeID.Server)
+                                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num662, 0f, 0f, 0f, 0, 0, 0);
+
+                                int num663 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X - spawnX - spawnX / 2), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>());
+                                if (Main.netMode == NetmodeID.Server)
+                                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num663, 0f, 0f, 0f, 0, 0, 0);
+                            }
 
                             spawnY -= 60;
                         }
@@ -600,7 +620,14 @@ namespace CalamityMod.NPCs.Signus
                             SoundEngine.PlaySound(SoundID.Item73, NPC.position);
                             int type = ModContent.ProjectileType<EssenceDust>();
                             int damage = NPC.GetProjectileDamage(type);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+                            // move getgoodworld checks to zenith seed later
+                            Vector2 velocity = Main.getGoodWorld ? new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)) : Vector2.Zero;
+                            if (Main.getGoodWorld)
+                            {
+                                velocity.Normalize();
+                                velocity *= 1.05f;
+                            }
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter, velocity, type, damage, 0f, Main.myPlayer);
                         }
                     }
 
@@ -729,16 +756,20 @@ namespace CalamityMod.NPCs.Signus
                     Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     vector41 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
                     vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-                    spriteBatch.Draw(NPCTexture, vector41, new Rectangle?(frame), color38, rotation, vector11, scale, spriteEffects, 0f);
+                    spriteBatch.Draw(NPCTexture, vector41, new Rectangle?(frame), color38 * 0.2f, rotation, vector11, scale, spriteEffects, 0f);
                 }
             }
 
             Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
             vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-            spriteBatch.Draw(NPCTexture, vector43, new Rectangle?(frame), NPC.GetAlpha(drawColor), rotation, vector11, scale, spriteEffects, 0f);
+            spriteBatch.Draw(NPCTexture, vector43, new Rectangle?(frame), NPC.GetAlpha(drawColor) * 0.2f, rotation, vector11, scale, spriteEffects, 0f);
 
             Color color40 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
+            if (Main.getGoodWorld) // move to zenith seed later
+            {
+                color40 = Color.MediumBlue;
+            }
 
             if (CalamityConfig.Instance.Afterimages)
             {
