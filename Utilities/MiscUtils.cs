@@ -8,6 +8,7 @@ using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Crags;
+using CalamityMod.NPCs.DraedonLabThings;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PlagueEnemies;
@@ -379,6 +380,9 @@ namespace CalamityMod
             int item = -1;
             switch (style)
             {
+                case 0:
+                    item = ModContent.ItemType<RepairUnitBanner>();
+                    break;
                 case 1:
                     item = ModContent.ItemType<FlounderBanner>();
                     break;
@@ -390,6 +394,9 @@ namespace CalamityMod
                     break;
                 case 4:
                     item = ModContent.ItemType<CatfishBanner>();
+                    break;
+                case 6:
+                    item = ModContent.ItemType<AndroombaBanner>();
                     break;
                 case 7:
                     item = ModContent.ItemType<AquaticUrchinBanner>();
@@ -735,6 +742,9 @@ namespace CalamityMod
             int npc = -1;
             switch (style)
             {
+                case 0:
+                    npc = ModContent.NPCType<RepairUnitCritter>();
+                    break;
                 case 1:
                     npc = ModContent.NPCType<Flounder>();
                     break;
@@ -746,6 +756,9 @@ namespace CalamityMod
                     break;
                 case 4:
                     npc = ModContent.NPCType<Catfish>();
+                    break;
+                case 6:
+                    npc = ModContent.NPCType<Androomba>();
                     break;
                 case 7:
                     npc = ModContent.NPCType<AquaticUrchin>();

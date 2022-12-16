@@ -1,5 +1,6 @@
 ﻿using CalamityMod.BiomeManagers;
 using CalamityMod.Items.Critters;
+using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -37,6 +38,8 @@ namespace CalamityMod.NPCs.DraedonLabThings
             NPC.chaseable = false;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath44;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AndroombaBanner>();
             NPC.rarity = 2;
             NPC.catchItem = (short)ModContent.ItemType<AndroombaItem>();
             SpawnModBiomes = new int[1] { ModContent.GetInstance<ArsenalLabBiome>().Type };
