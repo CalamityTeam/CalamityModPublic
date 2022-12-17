@@ -612,7 +612,7 @@ namespace CalamityMod.CalPlayer
                 Player.lifeRegen += 5;
 
             if (mushy)
-                Player.lifeRegen += 1;
+                Player.lifeRegen += 2;
 
             if (permafrostsConcoction)
             {

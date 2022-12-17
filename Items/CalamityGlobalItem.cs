@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -618,6 +619,10 @@ namespace CalamityMod.Items
             // Give 2 minutes of Honey buff when drinking Bottled Honey.
             if (item.type == ItemID.BottledHoney)
                 player.AddBuff(BuffID.Honey, 7200);
+
+            // Give 1 minute of Mushy buff when consuming Mushrooms with Fungal Symbiote equipped.
+            if (item.type == ItemID.Mushroom && player.Calamity().fungalSymbiote)
+                player.AddBuff(ModContent.BuffType<Mushy>(), 3600);
 
             // Moon Lord instantly spawns when Celestial Sigil is used.
             if (item.type == ItemID.CelestialSigil)

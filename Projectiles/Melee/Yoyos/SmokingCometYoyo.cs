@@ -75,6 +75,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Gore.NewGore(Projectile.GetSource_FromAI(), new Vector2(Projectile.position.X, Projectile.position.Y), default(Vector2), Main.rand.Next(16, 18));
         }
 
+        // Hitbox is larger than normal while trying to hit NPCs
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 25f, targetHitbox);
+
         // Draw the new string
         public override bool PreDraw(ref Color lightColor)
         {

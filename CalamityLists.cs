@@ -117,6 +117,8 @@ namespace CalamityMod
         public static List<int> livingFireBlockList;
         public static List<int> amalgamBuffList;
         public static List<int> persistentBuffList;
+        public static List<int> MushroomWeaponIDs;
+        public static List<int> MushroomProjectileIDs;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -1540,6 +1542,34 @@ namespace CalamityMod
                 BuffID.WeaponImbuePoison
             };
 
+            MushroomWeaponIDs = new List<int>()
+            {
+                ItemType<Mycoroot>(),
+                ItemType<InfestedClawmerang>(),
+                ItemType<PuffShroom>(),
+                ItemType<HyphaeRod>(),
+                ItemType<Fungicide>(),
+                ItemType<MycelialClaws>(),
+                ItemType<Shroomer>(),
+                ItemID.Hammush,
+                ItemID.MushroomSpear,
+                ItemID.Shroomerang
+            };
+
+            MushroomProjectileIDs = new List<int>()
+            {
+                ProjectileType<MycorootProj>(),
+                ProjectileType<ShroomerangSpore>(),
+                ProjectileType<InfestedClawmerangProj>(),
+                ProjectileType<PuffCloud>(),
+                ProjectileType<FungiOrb2>(),
+                ProjectileType<FungiOrb>(),
+                ProjectileType<Shroom>(),
+                ProjectileID.TruffleSpore,
+                ProjectileID.MushroomSpear,
+                ProjectileID.Shroomerang
+            };
+
             zombieList = new List<int>()
             {
                 NPCID.Zombie,
@@ -2550,6 +2580,8 @@ namespace CalamityMod
             livingFireBlockList = null;
 			amalgamBuffList = null;
 			persistentBuffList = null;
+            MushroomWeaponIDs = null;
+            MushroomProjectileIDs = null;
 
             zombieList = null;
             demonEyeList = null;

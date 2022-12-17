@@ -18,34 +18,7 @@ namespace CalamityMod.World
     // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class DraedonStructures
     {
-        private static int[] otherModTilesToAvoid;
         public const int HellVerticalAvoidance = 100;
-
-        internal static void Load()
-        {
-            IList<int> avoid = new List<int>(16);
-
-            // Mod of Redemption's labs use modded blocks, but must still be avoided.
-            Mod mor = CalamityMod.Instance.redemption;
-            if (mor != null)
-            {
-                // Thanks to Hallam to providing these tile names.
-                string[] redemptionAvoidTiles = new string[]
-                {
-                    "LabTileUnsafe",
-                    "OvergrownLabTile"
-                };
-                foreach (string tileName in redemptionAvoidTiles)
-                    avoid.Add(mor.Find<ModTile>(tileName).Type);
-            }
-
-            otherModTilesToAvoid = avoid.ToArray();
-        }
-
-        internal static void Unload()
-        {
-            otherModTilesToAvoid = null;
-        }
 
         public static bool ShouldAvoidLocation(Point placementPoint, bool careAboutLava = true)
         {
@@ -71,15 +44,7 @@ namespace CalamityMod.World
                 return true;
             }
 
-            //
-            // Below this line: Avoiding other mod worldgen.
-            //
-
-            // Avoid Thorium's Blood Chamber (where you summon Viscount). This is done separately because it uses vanilla tiles.
-            if (tile.TileType == TileID.StoneSlab || tile.WallType == WallID.StoneSlab)
-                return true;
-            // Avoid all other registered modded tiles to avoid.
-            return otherModTilesToAvoid.Any(id => tile.TileType == id);
+            return false;
         }
 
         #region Workshop

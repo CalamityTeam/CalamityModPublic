@@ -1133,8 +1133,6 @@ namespace CalamityMod.CalPlayer
                 dogTextCooldown--;
             if (titanCooldown > 0)
                 titanCooldown--;
-            if (fungalSymbioteTimer > 0)
-                fungalSymbioteTimer--;
             if (aBulwarkRareTimer > 0)
                 aBulwarkRareTimer--;
             if (hellbornBoost > 0)
@@ -2642,7 +2640,7 @@ namespace CalamityMod.CalPlayer
             }
 
             if (mushy)
-                Player.statDefense += 5;
+                Player.statDefense += 6;
 
             if (omniscience)
             {
