@@ -221,7 +221,6 @@ namespace CalamityMod.CalPlayer
         public int auralisAuroraCounter = 0;
         public int auralisAuroraCooldown = 0;
         public int auralisAurora = 0;
-        public int fungalSymbioteTimer = 0;
         public int aBulwarkRareTimer = 0;
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
@@ -2129,7 +2128,6 @@ namespace CalamityMod.CalPlayer
             auralisAuroraCounter = 0;
             auralisAuroraCooldown = 0;
             auralisAurora = 0;
-            fungalSymbioteTimer = 0;
             aBulwarkRareTimer = 0;
             RustyMedallionCooldown = 0;
             SulphWaterPoisoningLevel = 0f;
@@ -4044,7 +4042,10 @@ namespace CalamityMod.CalPlayer
         public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
         {
             if (flamethrowerBoost && item.CountsAsClass<RangedDamageClass>() && (item.useAmmo == AmmoID.Gel || CalamityLists.flamethrowerList.Contains(item.type)))
-                damage += (hoverboardBoost ? 0.35f : 0.25f);
+                damage += hoverboardBoost ? 0.35f : 0.25f;
+
+            if (fungalSymbiote && CalamityLists.MushroomWeaponIDs.Contains(item.type))
+                damage += 0.1f;
 
             if (item.CountsAsClass<RangedDamageClass>())
                 acidRoundMultiplier = item.useTime / 20D;
@@ -4139,7 +4140,7 @@ namespace CalamityMod.CalPlayer
             if (item.CountsAsClass<MeleeDamageClass>())
             {
                 var source = Player.GetSource_ItemUse(item);
-                if (fungalSymbiote && Player.whoAmI == Main.myPlayer && fungalSymbioteTimer == 0)
+                if (fungalSymbiote && CalamityLists.MushroomWeaponIDs.Contains(item.type) && Player.whoAmI == Main.myPlayer)
                 {
                     if (Player.itemAnimation == (int)(Player.itemAnimationMax * 0.1) ||
                         Player.itemAnimation == (int)(Player.itemAnimationMax * 0.3) ||
@@ -4147,7 +4148,6 @@ namespace CalamityMod.CalPlayer
                         Player.itemAnimation == (int)(Player.itemAnimationMax * 0.7) ||
                         Player.itemAnimation == (int)(Player.itemAnimationMax * 0.9))
                     {
-                        fungalSymbioteTimer = 3;
                         float yVel = 0f;
                         float xVel = 0f;
                         float yOffset = 0f;
@@ -4203,8 +4203,7 @@ namespace CalamityMod.CalPlayer
                         xVel *= 1.5f;
                         xOffset *= (float)Player.direction;
                         yOffset *= Player.gravDir;
-                        int damage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(item.damage * 0.15f);
-                        Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + xOffset, (float)(hitbox.Y + hitbox.Height / 2) + yOffset, (float)Player.direction * xVel, yVel * Player.gravDir, ProjectileID.Mushroom, damage, 0f, Player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + xOffset, (float)(hitbox.Y + hitbox.Height / 2) + yOffset, (float)Player.direction * xVel, yVel * Player.gravDir, ProjectileID.Mushroom, 0, 0f, Player.whoAmI);
                     }
                 }
                 if (aWeapon)

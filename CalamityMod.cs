@@ -225,7 +225,6 @@ namespace CalamityMod
             BossRushEvent.Load();
             // TODO -- As ModBossBarStyle is a ModType, its Load function does not need to be called directly here.
             BossHealthBarManager.Load(this);
-            DraedonStructures.Load();
             EnchantmentManager.LoadAllEnchantments();
             VanillaArmorChangeManager.Load();
             SetupVanillaDR();
@@ -383,7 +382,6 @@ namespace CalamityMod
             BossRushEvent.Unload();
             SchematicManager.Unload();
             CustomLavaManagement.Unload();
-            DraedonStructures.Unload();
             CooldownRegistry.Unload();
             PlayerDashManager.Unload();
 
