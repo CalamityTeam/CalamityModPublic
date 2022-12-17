@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
+using CalamityMod.NPCs;
+using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,6 +53,15 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            //Day mode by default but syncs with the boss
+            if (CalamityGlobalNPC.holyBoss != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.holyBoss].active)
+                    Projectile.maxPenetrate = (int)Main.npc[CalamityGlobalNPC.holyBoss].localAI[1];
+            }
+            else
+                Projectile.maxPenetrate = (int)Providence.BossMode.Day;
+
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.localAI[0] = 1f;
@@ -59,14 +70,14 @@ namespace CalamityMod.Projectiles.Boss
                     velocity = Projectile.velocity;
             }
 
-            float timeGateValue = (!Main.dayTime || BossRushEvent.BossRushActive) ? 420f : 540f;
+            float timeGateValue = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 420f : 540f;
             if (Projectile.ai[0] == 0f)
             {
                 Projectile.ai[1] += 1f;
 
-                float slowGateValue = (!Main.dayTime || BossRushEvent.BossRushActive) ? 60f : 90f;
+                float slowGateValue = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 60f : 90f;
                 float fastGateValue = 30f;
-                float minVelocity = (!Main.dayTime || BossRushEvent.BossRushActive) ? 4f : 3f;
+                float minVelocity = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 4f : 3f;
                 float maxVelocity = minVelocity * 4f;
                 float extremeVelocity = maxVelocity * 2f;
                 float deceleration = 0.95f;
@@ -95,8 +106,8 @@ namespace CalamityMod.Projectiles.Boss
             }
             else
             {
-                float frequency = (!Main.dayTime || BossRushEvent.BossRushActive) ? 0.2f : 0.1f;
-                float amplitude = (!Main.dayTime || BossRushEvent.BossRushActive) ? 4f : 2f;
+                float frequency = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 0.2f : 0.1f;
+                float amplitude = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 4f : 2f;
 
                 Projectile.ai[1] += frequency;
 
@@ -171,13 +182,17 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            if (damage <= 0)
+            //In GFB, "real damage" is replaced with negative healing
+            if (Projectile.maxPenetrate >= (int)Providence.BossMode.Red)
+                damage = 0;
+
+            //If the player is dodging, don't apply debuffs
+            if (damage <= 0 && Projectile.maxPenetrate < (int)Providence.BossMode.Red || target.creativeGodMode)
                 return;
 
-            int buffType = (Main.dayTime && !BossRushEvent.BossRushActive) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
-            target.AddBuff(buffType, 180);
+            ProvUtils.ApplyHitEffects(target, Projectile.maxPenetrate, 180, 20);
         }
     }
 }
