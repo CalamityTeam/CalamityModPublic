@@ -217,7 +217,7 @@ namespace CalamityMod.NPCs.Signus
                     NPC.alpha = 0;
                     NPC.knockBackResist = 0f;
                     NPC.rotation = NPC.rotation.AngleLerp(0f, 0.2f);
-                    NPC.velocity = Vector2.Zero;
+                    NPC.velocity *= 0.3f;
                     return;
                 }
             }
@@ -676,12 +676,14 @@ namespace CalamityMod.NPCs.Signus
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        if (stealthTimer >= maxStealth && NPC.ai[2] == 0)
+                        bool buffed = false;
+                        if (stealthTimer >= maxStealth && NPC.ai[1] == 0)
                         {
                             SoundEngine.PlaySound(RaidersTalisman.StealthHitSound, NPC.Center);
+                            buffed = true;
                         }
                         NPC.ai[2] += 1f;
-                        if (phase2 && NPC.ai[2] % 3f == 0f)
+                        if ((phase2 || buffed) && NPC.ai[2] % 3f == 0f)
                         {
                             SoundEngine.PlaySound(SoundID.Item73, NPC.position);
                             int type = ModContent.ProjectileType<EssenceDust>();
@@ -693,7 +695,7 @@ namespace CalamityMod.NPCs.Signus
                                 velocity.Normalize();
                                 velocity *= 1.05f;
                             }
-                            int ai = stealthTimer >= maxStealth ? 69 : 0;
+                            int ai = buffed ? 69 : 0;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter, velocity, type, damage, 0f, Main.myPlayer, ai);
                         }
                     }
