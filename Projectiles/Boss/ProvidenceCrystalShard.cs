@@ -1,4 +1,5 @@
-﻿using CalamityMod.Events;
+﻿using CalamityMod.NPCs;
+using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -44,7 +45,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if (!Main.dayTime || BossRushEvent.BossRushActive)
+            //Day mode by default but syncs with the boss
+            if (CalamityGlobalNPC.holyBoss != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.holyBoss].active)
+                    Projectile.maxPenetrate = (int)Main.npc[CalamityGlobalNPC.holyBoss].localAI[1];
+            }
+            else
+                Projectile.maxPenetrate = (int)Providence.BossMode.Day;
+            
+            //Night AI
+            if (Projectile.maxPenetrate != (int)Providence.BossMode.Day)
                 Projectile.extraUpdates = 1;
 
             if (Projectile.timeLeft < 300)
@@ -72,7 +83,7 @@ namespace CalamityMod.Projectiles.Boss
             else
             {
                 Projectile.velocity.Y *= 1.06f;
-                float fallSpeed = (CalamityWorld.revenge || BossRushEvent.BossRushActive || !Main.dayTime) ? 3.5f : 3f;
+                float fallSpeed = (CalamityWorld.revenge || (Projectile.maxPenetrate != (int)Providence.BossMode.Day)) ? 3.5f : 3f;
                 if (Projectile.velocity.Y > fallSpeed)
                 {
                     Projectile.velocity.Y = fallSpeed;
@@ -202,6 +213,19 @@ namespace CalamityMod.Projectiles.Boss
         public override Color? GetAlpha(Color lightColor)
         {
             return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 0);
+        }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
+            //In GFB, "real damage" is replaced with negative healing
+            if (Projectile.maxPenetrate >= (int)Providence.BossMode.Red)
+                damage = 0;
+
+            //If the player is dodging, don't apply debuffs
+            if (damage <= 0 && Projectile.maxPenetrate < (int)Providence.BossMode.Red || target.creativeGodMode)
+                return;
+
+            ProvUtils.ApplyHitEffects(target, Projectile.maxPenetrate, 600, 20);
         }
     }
 }

@@ -328,6 +328,7 @@ namespace CalamityMod.NPCs.Providence
             float phaseTime = nightAI ? (240f - 60f * (1f - lifeRatio)) : 300f;
             float crystalPhaseTime = nightAI ? (float)Math.Round(60f * lifeRatio) : death ? 60f : 120f;
             int nightCrystalTime = 210;
+            int gfbCrystalTime = 1500 + nightCrystalTime;
             float attackDelayAfterCocoon = phaseTime * 0.3f;
 
             // Phases
@@ -1320,7 +1321,7 @@ namespace CalamityMod.NPCs.Providence
                             int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), crystalDamage, 0f, player.whoAmI, lifeRatio, 0f);
 
                             if (nightAI)
-                                Main.projectile[proj].timeLeft = nightCrystalTime;
+                                Main.projectile[proj].timeLeft = getFuckedAI ? gfbCrystalTime : nightCrystalTime;
                         }
 
                         if (NPC.ai[1] >= crystalPhaseTime + nightCrystalTime || !nightAI)
