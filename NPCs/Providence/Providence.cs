@@ -620,8 +620,8 @@ namespace CalamityMod.NPCs.Providence
                 }
                 if (laserPhaseSlow)
                 {
-                    acceleration *= getFuckedAI ? 0.8f : 0.4f;
-                    velocity *= getFuckedAI ? 0.8f : 0.4f;
+                    acceleration *= getFuckedAI ? 0.6f : 0.4f;
+                    velocity *= getFuckedAI ? 0.6f : 0.4f;
                 }
                 else if (increaseSpeed)
                 {
@@ -1387,7 +1387,7 @@ namespace CalamityMod.NPCs.Providence
                                 if (revenge)
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f * NPC.scale, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
 
-                                if (getFuckedAI || (nightAI && lifeRatio < 0.5f))
+                                if (nightAI && lifeRatio < 0.5f)
                                 {
                                     rotation *= 0.33f;
                                     velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 2f);
@@ -2185,15 +2185,15 @@ namespace CalamityMod.NPCs.Providence
             float Multiplier = 1f; //Used to counterbalance Cursed Inferno and Shadowflame
 
             //Day and Night Providence inflicts 16-80 damage of debuffs depending on attacks
-            //GFB Providence generally inflicts 24-120 damage (+50%), except for Green/Violet which deal 26-130 (+62.5%)
+            //GFB Providence inflicts 24-120 damage (+50%) for half the colors, 26-130 (+62.5%) for another half
             switch (Mode)
             {
                 case (int)Providence.BossMode.Red:
                     BuffType = ModContent.BuffType<BrimstoneFlames>();
                     break;
                 case (int)Providence.BossMode.Orange:
-                    BuffType = BuffID.OnFire;
-                    Multiplier = 2f;
+                    BuffType = ModContent.BuffType<Dragonfire>();
+                    Multiplier = 0.5f;
                     break;
                 case (int)Providence.BossMode.Yellow: //Same as day
                     break;
@@ -2222,7 +2222,7 @@ namespace CalamityMod.NPCs.Providence
                 if (CalamityGlobalNPC.holyBossAttacker != -1)
                 {
                     if (Main.npc[CalamityGlobalNPC.holyBossAttacker].active)
-                        NegativeHealValue = (int)(NegativeHealValue * 1.25f);
+                        NegativeHealValue = (int)(NegativeHealValue * 2f);
                 }
 
                 Target.HealEffect(-1 * NegativeHealValue, false);
