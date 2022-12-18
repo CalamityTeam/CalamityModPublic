@@ -29,12 +29,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            //TODO -- Later replace this new bool with Main.zenithWorld
+            bool getFucked = Main.getGoodWorld && Main.masterMode;
+
             Vector2 fireVelocity = (Time / 6f).ToRotationVector2() * Main.rand.NextFloat(1.7f, 2.2f);
-            Dust fire = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(3f, 3f), Main.dayTime ? 6 : 267);
+            Dust fire = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(3f, 3f), getFucked || !Main.dayTime ? 267 : 6);
             fire.velocity = fireVelocity.RotatedBy(MathHelper.PiOver2);
             fire.scale = Main.rand.NextFloat(1.3f, 1.45f);
             fire.noGravity = true;
-            if (!Main.dayTime)
+            if (getFucked)
+                fire.color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
+            else if (!Main.dayTime)
                 fire.color = Color.Lerp(Color.Cyan, Color.BlueViolet, Main.rand.NextFloat());
 
             Dust.CloneDust(fire).velocity = fireVelocity.RotatedBy(-MathHelper.PiOver2);

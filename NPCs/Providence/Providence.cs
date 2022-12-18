@@ -2222,7 +2222,7 @@ namespace CalamityMod.NPCs.Providence
                 if (CalamityGlobalNPC.holyBossAttacker != -1)
                 {
                     if (Main.npc[CalamityGlobalNPC.holyBossAttacker].active)
-                        NegativeHealValue = (int)(NegativeHealValue * 2f);
+                        NegativeHealValue *= 2;
                 }
 
                 Target.HealEffect(-1 * NegativeHealValue, false);
