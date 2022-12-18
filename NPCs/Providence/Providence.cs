@@ -242,7 +242,7 @@ namespace CalamityMod.NPCs.Providence
 
             //TODO -- Change this to specifically the Zenith seed when available
             bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
-            int timeToShift = 60; //Switches color every second
+            int timeToShift = 30; //Switches color every half-second
             if (getFuckedAI)
             {
                 colorShiftTimer++;
