@@ -134,9 +134,12 @@ namespace CalamityMod.Projectiles.Magic
             behindNPCsAndTiles.Add(index);
         }
 
+        // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            damage = Main.rand.Next(80, 90);
+            if (Main.masterMode) damage = 450;
+            else if (Main.expertMode) damage = 375;
+            else damage = 300;
         }
 
         public override bool PreDraw(ref Color lightColor)
