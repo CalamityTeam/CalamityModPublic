@@ -236,13 +236,26 @@ namespace CalamityMod.Items
                 SoundEngine.PlaySound(SoundID.DD2_DarkMageSummonSkeleton, Main.MouseWorld);
             }
 
-            bool belowHalfMana = player.statMana < player.statManaMax2 * 0.5f;
-            if (Main.myPlayer == player.whoAmI && player.Calamity().manaMonsterEnchant && Main.rand.NextBool(12) && player.ownedProjectileCounts[ModContent.ProjectileType<ManaMonster>()] <= 0 && belowHalfMana)
+            // Traitorous enchantment implementation
+            // Previously, this enchant was a 1/12 chance to fire a projectile for 165,000 base damage (yes, 165,000) when below half mana
+            // This was so unbelievably overpowered that with RNG it was possible to kill Exo Mechs in 20 seconds
+            // 
+            // Traitorous has been reworked to be a guaranteed effect below 25% mana, which removes all your remaining mana
+            bool belowManaThreshold = player.statMana < player.statManaMax2 * 0.25f;
+            bool traitorousAlreadyInPlay = player.ownedProjectileCounts[ModContent.ProjectileType<ManaMonster>()] > 0;
+            if (Main.myPlayer == player.whoAmI && player.Calamity().manaMonsterEnchant && !traitorousAlreadyInPlay && belowManaThreshold)
             {
-                // TODO -- 165,000 base damage? seriously? there's no way that can be right
-                int monsterDamage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(165000);
+                // Calculate how much damage to deal based on how much mana was consumed
+                int remainingMana = player.statMana;
+                int damagePerManaConsumed = 80; // TODO -- may not be balanced, but eating 150 mana to do 12,000 base damage seems okay
+                int monsterDamage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(remainingMana * damagePerManaConsumed);
+
+                // Spawn the Mana Monster
                 Vector2 shootVelocity = player.SafeDirectionTo(Main.MouseWorld, -Vector2.UnitY).RotatedByRandom(0.07f) * Main.rand.NextFloat(4f, 5f);
                 Projectile.NewProjectile(source, player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), monsterDamage, 0f, player.whoAmI);
+
+                // Set the player's mana to zero.
+                player.statMana = 0;
             }
 
             if (modPlayer.luxorsGift && !item.channel)
