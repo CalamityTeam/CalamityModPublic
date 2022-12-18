@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Astral
 {
@@ -22,6 +23,9 @@ namespace CalamityMod.Tiles.Astral
 			TileID.Sets.ReplaceTileBreakUp[Type] = true;
 			TileID.Sets.SwaysInWindBasic[Type] = true;
 			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
+
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
+            TileObjectData.addTile(Type);
 
             DustType = ModContent.DustType<AstralBasic>();
 
@@ -44,5 +48,11 @@ namespace CalamityMod.Tiles.Astral
 				Main.npc[worm].netUpdate = true;
 			}
 		}
+
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
+        {
+            offsetY = -12;
+            height = 32;
+        }
     }
 }
