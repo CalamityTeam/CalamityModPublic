@@ -106,6 +106,15 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num624].velocity *= 2f;
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 56, 0f, 0f, 100, default, 2f);
             }
+
+            if (Main.getGoodWorld && NPC.CountNPCS(NPCID.Crab) < 20 && Main.netMode != NetmodeID.MultiplayerClient) // move to zenith seed later
+            {
+                int crab = NPC.NewNPC(Projectile.GetSource_FromAI(), (int)Projectile.Center.X, (int)Projectile.Center.Y, NPCID.Crab);
+                if (crab.WithinBounds(Main.maxNPCs))
+                {
+                    Main.projectile[crab].timeLeft = 1200;
+                }
+            }
         }
     }
 }
