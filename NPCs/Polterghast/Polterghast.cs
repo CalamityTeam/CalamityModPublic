@@ -21,6 +21,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
@@ -50,12 +51,37 @@ namespace CalamityMod.NPCs.Polterghast
         }
 
         private int despawnTimer = 600;
+        private int soundTimer = 0;
         private bool reachedChargingPoint = false;
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/PolterghastHit");
         public static readonly SoundStyle P2Sound = new("CalamityMod/Sounds/Custom/PolterghastP2Transition");
         public static readonly SoundStyle P3Sound = new("CalamityMod/Sounds/Custom/PolterghastP3Transition");
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/PolterghastSpawn");
         public static readonly SoundStyle PhantomSound = new("CalamityMod/Sounds/Custom/PolterghastPhantomSpawn");
+
+        public List<SoundStyle> creepySounds = new List<SoundStyle>
+        {
+            NPCs.DevourerofGods.DevourerofGodsHead.AttackSound,
+            NPCs.Providence.Providence.HolyRaySound,
+            NPCs.ExoMechs.Ares.AresBody.EnragedSound,
+            NPCs.ExoMechs.Ares.AresBody.LaserStartSound,
+            NPCs.ExoMechs.Thanatos.ThanatosHead.LaserSound,
+            NPCs.ExoMechs.Thanatos.ThanatosHead.VentSound,
+            NPCs.SupremeCalamitas.SupremeCalamitas.SepulcherSummonSound,
+            NPCs.SupremeCalamitas.SupremeCalamitas.SpawnSound,
+            NPCs.Ravager.RavagerBody.LimbLossSound,
+            NPCs.HiveMind.HiveMind.RoarSound,
+            NPCs.Yharon.Yharon.RoarSound,
+            NPCs.DesertScourge.DesertScourgeHead.RoarSound,
+            NPCs.OldDuke.OldDuke.RoarSound,
+            NPCs.Abyss.ReaperShark.SearchRoarSound,
+            NPCs.Abyss.ReaperShark.EnragedRoarSound,
+            NPCs.Abyss.LuminousCorvina.ScreamSound,
+            NPCs.Abyss.DevilFish.MaskBreakSound,
+            NPCs.AdultEidolonWyrm.AdultEidolonWyrmHead.RoarSound,
+            NPCs.GreatSandShark.GreatSandShark.RoarSound,
+            NPCs.AcidRain.Mauler.RoarSound
+        };
 
         public override void SetStaticDefaults()
         {
@@ -100,6 +126,8 @@ namespace CalamityMod.NPCs.Polterghast
 				new FlavorTextBestiaryInfoElement("Screaming and crying, a cacophony of spirits in anguish tear through the narrow hallways of the dungeon, searching for more—alive or dead—to add to their numbers.")
             });
         }
+
+        
 
         public override void BossHeadSlot(ref int index)
         {
@@ -187,7 +215,11 @@ namespace CalamityMod.NPCs.Polterghast
                 chargePhaseGateValue *= 0.5f;
 
             bool chargePhase = calamityGlobalNPC.newAI[0] >= chargePhaseGateValue;
-            int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1;
+            int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1; 
+            if (Main.getGoodWorld) // move to zenith seed later
+            {
+                chargeAmt = phase4 ? int.MaxValue : getPissed ? 6 : phase3 ? 4 : phase2 ? 3 : 2;
+            }
             float chargeVelocity = getPissed ? 28f : phase3 ? 24f : phase2 ? 22f : 20f;
             float chargeAcceleration = getPissed ? 0.7f : phase3 ? 0.6f : phase2 ? 0.55f : 0.5f;
             float chargeDistance = 480f;
@@ -239,6 +271,19 @@ namespace CalamityMod.NPCs.Polterghast
                 }
             }
 
+            // Play a random creepy sound every once in a while in the zenith seed
+            if (Main.getGoodWorld) // move to zenith seed later
+            {
+                soundTimer++;
+                int gate = phase4 ? 300 : phase3 ? 420 : phase2 ? 540 : 600;
+                if (soundTimer % gate == 0)
+                {
+                    SoundStyle[] creepyArray = creepySounds.ToArray();
+                    SoundStyle selectedSound = creepyArray[Main.rand.Next(0, creepyArray.Length - 1)];
+                    SoundEngine.PlaySound(selectedSound with { Pitch = selectedSound.Pitch - 0.8f, Volume = selectedSound.Volume - 0.2f}, NPC.Center);
+                }
+            }
+
             // Stop rain
             CalamityMod.StopRain();
 
@@ -254,6 +299,16 @@ namespace CalamityMod.NPCs.Polterghast
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+
+                if (Main.getGoodWorld) // move to zenith seed later
+                {
+                    for (int I = 0; I < 3; I++)
+                    {
+                        int spawn = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(vector.X + (Math.Sin(I * 120) * 500)), (int)(vector.Y + (Math.Cos(I * 120) * 500)), ModContent.NPCType<PhantomFuckYou>(), NPC.whoAmI, 0, 0, 0, -1);
+                        NPC npc2 = Main.npc[spawn];
+                        npc2.ai[0] = I * 120;
+                    }
+                }
             }
 
             if (!player.ZoneDungeon && !bossRush && player.position.Y < Main.worldSurface * 16.0)
@@ -871,7 +926,7 @@ namespace CalamityMod.NPCs.Polterghast
                     {
                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterPhantom>());
 
-                        if (expertMode)
+                        if (expertMode && !Main.getGoodWorld) // move to zenith seed later
                         {
                             for (int I = 0; I < 3; I++)
                             {
@@ -980,6 +1035,11 @@ namespace CalamityMod.NPCs.Polterghast
                             Main.npc[num762].velocity.Y = num760;
                             Main.npc[num762].netUpdate = true;
                         }
+                    }
+
+                    if (Main.getGoodWorld) // move to zenith seed later
+                    {
+                        NPC.GivenName = "Polterplasm";
                     }
                 }
             }

@@ -39,6 +39,10 @@ namespace CalamityMod.NPCs.Polterghast
             NPC.HitSound = SoundID.NPCHit36;
             NPC.DeathSound = SoundID.NPCDeath39;
             NPC.Calamity().VulnerableToSickness = false;
+            if (Main.getGoodWorld) // move to zenith seed later
+            {
+                NPC.dontTakeDamage = true;
+            }
         }
 
         public override void SendExtraAI(BinaryWriter writer)
