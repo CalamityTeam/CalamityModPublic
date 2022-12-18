@@ -15,6 +15,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -66,7 +67,6 @@ namespace CalamityMod.NPCs.Polterghast
             NPCs.Providence.Providence.HolyRaySound,
             NPCs.ExoMechs.Ares.AresBody.EnragedSound,
             NPCs.ExoMechs.Ares.AresBody.LaserStartSound,
-            NPCs.ExoMechs.Thanatos.ThanatosHead.LaserSound,
             NPCs.ExoMechs.Thanatos.ThanatosHead.VentSound,
             NPCs.SupremeCalamitas.SupremeCalamitas.SepulcherSummonSound,
             NPCs.SupremeCalamitas.SupremeCalamitas.SpawnSound,
@@ -81,7 +81,9 @@ namespace CalamityMod.NPCs.Polterghast
             NPCs.Abyss.DevilFish.MaskBreakSound,
             NPCs.AdultEidolonWyrm.AdultEidolonWyrmHead.RoarSound,
             NPCs.GreatSandShark.GreatSandShark.RoarSound,
-            NPCs.AcidRain.Mauler.RoarSound
+            NPCs.AcidRain.Mauler.RoarSound,
+            NPCs.AstrumDeus.AstrumDeusHead.DeathSound,
+            NPCs.AstrumAureus.AstrumAureus.HitSound
         };
 
         public override void SetStaticDefaults()
@@ -235,9 +237,9 @@ namespace CalamityMod.NPCs.Polterghast
                 threeAM = true;
                 chargeVelocity *= 2;
                 chargeAcceleration *= 2;
-                chargeDistance *= -1.5f;
+                chargeDistance *= 3;
                 if (!phase4)
-                chargeAcceleration *= 2;
+                chargeAmt *= 2;
             }
 
             // Only get a new target while not charging
@@ -1137,6 +1139,46 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (threeAM)
+            {
+                int bloodBase = 120 - NPC.life / NPC.lifeMax;
+                float roughBloodCount = (float)Math.Sqrt(0.8f * bloodBase);
+                int exactBloodCount = (int)roughBloodCount;
+                // Chance for the final blood particle
+                if (Main.rand.NextFloat() < roughBloodCount - exactBloodCount)
+                    ++exactBloodCount;
+
+                // Velocity of the spurting blood also slightly increases with stacks.
+                float velStackMult = 1f + (float)Math.Log(bloodBase);
+
+                // Code copied from Shred which was copied from Violence.
+                for (int i = 0; i < exactBloodCount; ++i)
+                {
+                    int bloodLifetime = Main.rand.Next(22, 36);
+                    float bloodScale = Main.rand.NextFloat(0.6f, 0.8f);
+                    Color bloodColor = Color.Lerp(Color.Red, Color.DarkRed, Main.rand.NextFloat());
+                    bloodColor = Color.Lerp(bloodColor, new Color(51, 22, 94), Main.rand.NextFloat(0.65f));
+
+                    if (Main.rand.NextBool(20))
+                        bloodScale *= 2f;
+
+                    float randomSpeedMultiplier = Main.rand.NextFloat(1.25f, 2.25f);
+                    Vector2 bloodVelocity = Main.rand.NextVector2Unit() * velStackMult * randomSpeedMultiplier;
+                    bloodVelocity.Y -= 5f;
+                    BloodParticle blood = new BloodParticle(NPC.Center, bloodVelocity, bloodLifetime, bloodScale, bloodColor);
+                    GeneralParticleHandler.SpawnParticle(blood);
+                }
+                for (int i = 0; i < exactBloodCount / 3; ++i)
+                {
+                    float bloodScale = Main.rand.NextFloat(0.2f, 0.33f);
+                    Color bloodColor = Color.Lerp(Color.Red, Color.DarkRed, Main.rand.NextFloat(0.5f, 1f));
+                    Vector2 bloodVelocity = Main.rand.NextVector2Unit() * velStackMult * Main.rand.NextFloat(1f, 2f);
+                    bloodVelocity.Y -= 2.3f;
+                    BloodParticle2 blood = new BloodParticle2(NPC.Center, bloodVelocity, 20, bloodScale, bloodColor);
+                    GeneralParticleHandler.SpawnParticle(blood);
+                }
+            }
+
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
@@ -1173,6 +1215,12 @@ namespace CalamityMod.NPCs.Polterghast
 
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
             Color lightRed = new Color(255, 100, 100, 255);
+
+            if (threeAM)
+            {
+                color37 = Color.Red;
+                lightRed = Color.DarkRed;
+            }
 
             float chargePhaseGateValue = 480f;
             if (Main.getGoodWorld)
