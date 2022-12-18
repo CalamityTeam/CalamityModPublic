@@ -291,11 +291,16 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
+        // Damage scales up over time as it grows
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            if (Main.masterMode) damage = 540;
-            else if (Main.expertMode) damage = 450;
-            else damage = 360;
+            float damageFactor = 0.25f + 0.75f * CurrentPower;
+            int fullPowerDamage;
+            if (Main.masterMode) fullPowerDamage = 540;
+            else if (Main.expertMode) fullPowerDamage = 450;
+            else fullPowerDamage = 360;
+
+            damage = (int)(damageFactor * fullPowerDamage);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
