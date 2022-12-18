@@ -2599,6 +2599,14 @@ namespace CalamityMod.Projectiles
                 }
             }
 
+            if (Main.getGoodWorld && NPC.AnyNPCs(NPCType<NPCs.CeaselessVoid.CeaselessVoid>())) // move to zenith seed later
+            {
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+                var midnightShader = Terraria.Graphics.Shaders.GameShaders.Armor.GetShaderFromItemId(ItemID.MidnightRainbowDye);
+                midnightShader.Apply();
+            }
+
             return true;
         }
         #endregion

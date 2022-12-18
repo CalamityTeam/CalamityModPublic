@@ -274,8 +274,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
+            int debufftype = Main.getGoodWorld ? BuffID.Obstructed : BuffID.VortexDebuff; // move to zenith seed later
+            int duration = Main.getGoodWorld ? 30 : 60;
             if (damage > 0)
-                player.AddBuff(BuffID.VortexDebuff, 60, true);
+                player.AddBuff(debufftype, duration, true);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
