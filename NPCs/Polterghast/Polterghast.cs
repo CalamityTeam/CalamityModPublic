@@ -53,6 +53,7 @@ namespace CalamityMod.NPCs.Polterghast
         private int despawnTimer = 600;
         private int soundTimer = 0;
         private bool reachedChargingPoint = false;
+        private bool threeAM = false;
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/PolterghastHit");
         public static readonly SoundStyle P2Sound = new("CalamityMod/Sounds/Custom/PolterghastP2Transition");
         public static readonly SoundStyle P3Sound = new("CalamityMod/Sounds/Custom/PolterghastP3Transition");
@@ -154,6 +155,7 @@ namespace CalamityMod.NPCs.Polterghast
         {
             writer.Write(despawnTimer);
             writer.Write(reachedChargingPoint);
+            writer.Write(threeAM);
             CalamityGlobalNPC cgn = NPC.Calamity();
             writer.Write(cgn.newAI[0]);
             writer.Write(cgn.newAI[1]);
@@ -165,6 +167,7 @@ namespace CalamityMod.NPCs.Polterghast
         {
             despawnTimer = reader.ReadInt32();
             reachedChargingPoint = reader.ReadBoolean();
+            threeAM = reader.ReadBoolean();
             CalamityGlobalNPC cgn = NPC.Calamity();
             cgn.newAI[0] = reader.ReadSingle();
             cgn.newAI[1] = reader.ReadSingle();
@@ -227,6 +230,16 @@ namespace CalamityMod.NPCs.Polterghast
             bool reset = NPC.ai[2] >= chargePhaseGateValue + 120f;
             float speedUpDistance = 480f - 360f * (1f - lifeRatio);
 
+            if ((System.DateTime.Now.Hour == 3 && Main.getGoodWorld) || threeAM) // change to zenith seed later
+            {
+                threeAM = true;
+                chargeVelocity *= 2;
+                chargeAcceleration *= 2;
+                chargeDistance *= -1.5f;
+                if (!phase4)
+                chargeAcceleration *= 2;
+            }
+
             // Only get a new target while not charging
             if (!chargePhase)
             {
@@ -275,7 +288,7 @@ namespace CalamityMod.NPCs.Polterghast
             if (Main.getGoodWorld) // move to zenith seed later
             {
                 soundTimer++;
-                int gate = phase4 ? 300 : phase3 ? 420 : phase2 ? 540 : 600;
+                int gate = threeAM ? 60 : phase4 ? 300 : phase3 ? 420 : phase2 ? 540 : 600;
                 if (soundTimer % gate == 0)
                 {
                     SoundStyle[] creepyArray = creepySounds.ToArray();
