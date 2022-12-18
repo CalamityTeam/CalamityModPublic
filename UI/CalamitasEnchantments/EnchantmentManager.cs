@@ -245,7 +245,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                     },
                     item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<MeleeDamageClass>() && !item.noUseGraphic && item.shoot > ProjectileID.None),
 
-                new Enchantment("Traitorous", "Causes this item to sometimes release a monster that hurts both you and enemies when you have less than 50% mana.",
+                new Enchantment("Traitorous", "Using this item below 25% mana instantly consumes your remaining mana, unleashing a monster that harms both you and enemies.",
                     900,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Traitorous",
                     null,

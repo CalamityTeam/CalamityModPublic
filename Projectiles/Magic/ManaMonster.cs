@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Projectiles.Magic
         public const int PlayerAttackRedirectTime = 45;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Monster");
+            DisplayName.SetDefault("Mana Monster");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -94,8 +95,15 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        // Ensure damage is not absolutely obscene when hitting players.
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = 102;
+        // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
+            if (Main.masterMode) damage = 540;
+            else if (Main.expertMode) damage = 450;
+            else damage = 360;
+        }
+
+        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 180);
 
         public override bool? CanDamage() => Projectile.Opacity >= 1f ? null : false;
 
