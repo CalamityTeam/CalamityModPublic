@@ -265,6 +265,7 @@ namespace CalamityMod
                 return;
             if (y < 0 || y >= Main.maxTilesY)
                 return;
+
             Tile tile = Main.tile[x, y];
             int myType = tile.TileType;
 
@@ -284,25 +285,30 @@ namespace CalamityMod
                     return;
                 }
             }
-
+            
             // If the tile above is an identical vine, nothing else needs to be done.
             if (northType == myType)
                 return;
 
             // If the tile above isn't sloped correctly or otherwise isn't a valid anchor for this vine, check whether the vine must die.
             bool tileMustDie = northType == -1;
-            if(northType != -1)
+            if (northType != -1)
             {
                 // Vanilla vines can hang from vanilla grass and vanilla leaf blocks.
                 if (myType == TileID.Vines && northType != TileID.Grass && northType != TileID.LeafBlock)
-                    tileMustDie = true;
-                else for (int i = 0; i < vines.Length; ++i)
                 {
-                    // Not matching grass? Die.
-                    if (myType == vines[i] && northType != VineToGrass[vines[i]])
+                    tileMustDie = true;
+                }
+                else
+                {
+                    for (int i = 0; i < vines.Length; ++i)
                     {
-                        tileMustDie = true;
-                        break;
+                        // Not matching grass? Die.
+                        if (myType == vines[i] && northType != VineToGrass[vines[i]])
+                        {
+                            tileMustDie = true;
+                            break;
+                        }
                     }
                 }
             }

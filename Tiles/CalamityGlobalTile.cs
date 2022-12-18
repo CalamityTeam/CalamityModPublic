@@ -69,18 +69,18 @@ namespace CalamityMod.Tiles
         {
             // Custom plant framing
             for (int k = 0; k < PlantTypes.Length; k++)
+            {
                 if (type == PlantTypes[k])
                 {
                     TileFraming.PlantFrame(i, j);
                     return false;
                 }
+            }
 
             // Custom vine framing
             if (type == TileID.Vines || type == TileID.CrimsonVines || type == TileID.HallowedVines || type == ModContent.TileType<AstralVines>())
-            {
                 TileFraming.VineFrame(i, j);
-                return false;
-            }
+
             return base.TileFrame(i, j, type, ref resetFrame, ref noBreak);
         }
 
@@ -142,6 +142,7 @@ namespace CalamityMod.Tiles
             {
                 if (xPos < 0 || xPos >= Main.maxTilesX || yPos < 0 || yPos >= Main.maxTilesY)
                     return;
+
                 Tile t = Main.tile[xPos, yPos];
                 if (t.HasTile && (t.TileType == ModContent.TileType<LumenylCrystals>() || (t.TileType == ModContent.TileType<SeaPrismCrystals>() && DownedBossSystem.downedDesertScourge)))
                 {
@@ -232,6 +233,7 @@ namespace CalamityMod.Tiles
                 if (player.breath > player.breathMax)
                     player.breath = player.breathMax;
             }
+
 			// Mining set gives a chance for additional ore. This can be abused for infinite ore but it has a cooldown to prevent too much abuse
             if (player.Calamity().miningSet && player.Calamity().miningSetCooldown <= 0 && !fail)
             {
