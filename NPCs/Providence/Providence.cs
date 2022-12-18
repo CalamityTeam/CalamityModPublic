@@ -266,8 +266,7 @@ namespace CalamityMod.NPCs.Providence
                 currentMode = (int)BossMode.Day;
 
             //To allow syncing with her projectiles
-            //Add some amount of non-int value to it to prevent truncation errors
-            NPC.localAI[1] = (float)currentMode + 0.5f;
+            NPC.localAI[1] = (float)currentMode;
 
             //Has Night AI if it's any color except day
             bool nightAI = currentMode != (int)BossMode.Day;
@@ -571,8 +570,8 @@ namespace CalamityMod.NPCs.Providence
             // Movement
             if (getFuckedAI || (AIState != (int)Phase.FlameCocoon && AIState != (int)Phase.SpearCocoon))
             {
-                // Slows down while firing Holy Rays... if not on Zenith seed
-                bool laserPhaseSlow = AIState == (int)Phase.Laser && !getFuckedAI;
+                // Slows down while firing Holy Rays. It would've not slowed down for the Zenith seed but apparently it was too fast (shockers).
+                bool laserPhaseSlow = AIState == (int)Phase.Laser;
 
                 // Change X direction of movement
                 if (flightPath == 0)
@@ -621,8 +620,8 @@ namespace CalamityMod.NPCs.Providence
                 }
                 if (laserPhaseSlow)
                 {
-                    acceleration *= 0.4f;
-                    velocity *= 0.4f;
+                    acceleration *= getFuckedAI ? 0.8f : 0.4f;
+                    velocity *= getFuckedAI ? 0.8f : 0.4f;
                 }
                 else if (increaseSpeed)
                 {
@@ -635,8 +634,8 @@ namespace CalamityMod.NPCs.Providence
 
                 if (Main.getGoodWorld)
                 {
-                    velocity *= 1.25f;
-                    acceleration *= 1.25f;
+                    velocity *= 1.2f;
+                    acceleration *= 1.2f;
                 }
 
                 if (!targetDead)
@@ -1388,7 +1387,7 @@ namespace CalamityMod.NPCs.Providence
                                 if (revenge)
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f * NPC.scale, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
 
-                                if (nightAI && lifeRatio < 0.5f)
+                                if (getFuckedAI || (nightAI && lifeRatio < 0.5f))
                                 {
                                     rotation *= 0.33f;
                                     velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 2f);
@@ -2129,7 +2128,7 @@ namespace CalamityMod.NPCs.Providence
                     FinalColor = new Color(250, 100, 100, Alpha);
                     break;
                 case (int)Providence.BossMode.Orange:
-                    FinalColor = new Color(250, 150, 50, Alpha);
+                    FinalColor = new Color(250, 150, 100, Alpha);
                     break;
                 case (int)Providence.BossMode.Yellow: //Same as day
                     break;
@@ -2226,7 +2225,7 @@ namespace CalamityMod.NPCs.Providence
                         NegativeHealValue = (int)(NegativeHealValue * 1.25f);
                 }
 
-                Target.HealEffect(NegativeHealValue, false);
+                Target.HealEffect(-1 * NegativeHealValue, false);
                 Target.statLife -= NegativeHealValue;
                 if (Target.statLife < 0)
                 {

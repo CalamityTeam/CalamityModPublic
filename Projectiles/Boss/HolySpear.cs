@@ -132,16 +132,49 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D value = ModContent.Request<Texture2D>(Texture).Value;
-            int green = Projectile.ai[0] != 0f ? 255 : 125;
-            int blue = Projectile.ai[0] != 0f ? 0 : 125;
-            Color baseColor = new Color(255, green, blue, 255);
+            bool aimedSpear = Projectile.ai[0] != 0f;
 
-            if (!Main.dayTime || BossRushEvent.BossRushActive)
+            int red = 255;
+            int green = 255;
+            int blue = 0;
+            switch (Projectile.maxPenetrate)
             {
-                int red = Projectile.ai[0] != 0f ? 100 : 175;
-                green = Projectile.ai[0] != 0f ? 255 : 175;
-                baseColor = new Color(red, green, 255, 255);
+                case (int)Providence.BossMode.Red:
+                    red = 255;
+                    green = aimedSpear ? 0 : 125;
+                    blue = aimedSpear ? 0 : 255;
+                    break;
+                case (int)Providence.BossMode.Orange:
+                    red = 255;
+                    green = 125;
+                    blue = aimedSpear ? 0 : 175;
+                    break;
+                case (int)Providence.BossMode.Yellow: //Same as day
+                case (int)Providence.BossMode.Day:
+                    red = 255;
+                    green = aimedSpear ? 255 : 125;
+                    blue = aimedSpear ? 0 : 125;
+                    break;
+                case (int)Providence.BossMode.Green:
+                    red = 0;
+                    green = 255;
+                    blue = aimedSpear ? 0 : 175;
+                    break;
+                case (int)Providence.BossMode.Blue: //Same as night
+                case (int)Providence.BossMode.Night:
+                    red = aimedSpear ? 100 : 175;
+                    green = aimedSpear ? 255 : 175;
+                    blue = 255;
+                    break;
+                case (int)Providence.BossMode.Violet:
+                    red = aimedSpear ? 125 : 255;
+                    green = aimedSpear ? 0 : 255;
+                    blue = 125;
+                    break;
+                default:
+                    break;
             }
+            Color baseColor = new Color(red, green, blue, 255);
 
             Color color33 = baseColor * 0.5f;
             color33.A = 0;
