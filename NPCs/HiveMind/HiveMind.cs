@@ -396,6 +396,9 @@ namespace CalamityMod.NPCs.HiveMind
             bool revenge = CalamityWorld.revenge || bossRush;
             bool death = CalamityWorld.death || bossRush;
 
+            //TODO -- Zenith seed.
+            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
@@ -509,6 +512,8 @@ namespace CalamityMod.NPCs.HiveMind
                         int maxBlobs = death ? 15 : revenge ? 7 : expertMode ? 6 : 5;
                         if (Main.getGoodWorld)
                             maxBlobs *= 2;
+                        if (getFuckedAI)
+                            maxBlobs = 60;
 
                         for (int i = 0; i < maxBlobs; i++)
                             NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<HiveBlob>(), NPC.whoAmI);
