@@ -232,7 +232,6 @@ namespace CalamityMod.NPCs.Polterghast
             bool reset = NPC.ai[2] >= chargePhaseGateValue + 120f;
             float speedUpDistance = 480f - 360f * (1f - lifeRatio);
 
-            Main.NewText(Main.time);
             if (((System.DateTime.Now.Hour == 3 || (Main.time >= 27000 && Main.time < 30600)) && Main.getGoodWorld) || threeAM) // change to zenith seed later
             {
                 threeAM = true;
