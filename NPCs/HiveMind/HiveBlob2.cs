@@ -50,6 +50,9 @@ namespace CalamityMod.NPCs.HiveMind
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            
+            //TODO -- Zenith seed.
+            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
 
             int num750 = CalamityGlobalNPC.hiveMind;
             if (num750 < 0 || !Main.npc[num750].active)
@@ -64,19 +67,20 @@ namespace CalamityMod.NPCs.HiveMind
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.localAI[0] -= 1f;
+                NPC.localAI[0] -= getFuckedAI ? 10f : 1f; //Relocation rate
+                float RandomPositionMultiplier = getFuckedAI ? 2f : 1f;
                 if (NPC.localAI[0] <= 0f)
                 {
                     NPC.localAI[0] = Main.rand.Next(180, 361);
-                    NPC.ai[0] = Main.rand.Next(-100, 101);
-                    NPC.ai[1] = Main.rand.Next(-100, 101);
+                    NPC.ai[0] = Main.rand.Next(-100, 101) * RandomPositionMultiplier; //X position
+                    NPC.ai[1] = Main.rand.Next(-100, 101) * RandomPositionMultiplier; //Y position
                     NPC.netUpdate = true;
                 }
             }
 
             NPC.TargetClosest(true);
 
-            float num751 = death ? 0.8f : revenge ? 0.7f : expertMode ? 0.6f : 0.5f;
+            float num751 = getFuckedAI ? 1.2f : death ? 0.8f : revenge ? 0.7f : expertMode ? 0.6f : 0.5f;
             float num752 = Main.getGoodWorld ? 192f : 96f;
             Vector2 vector22 = new Vector2(NPC.ai[0] * 16f + 8f, NPC.ai[1] * 16f + 8f);
             float num189 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2) - (NPC.width / 2) - vector22.X;
@@ -118,7 +122,7 @@ namespace CalamityMod.NPCs.HiveMind
                     NPC.velocity.Y = NPC.velocity.Y * 0.8f;
             }
 
-            float velocityLimit = 8f;
+            float velocityLimit = getFuckedAI ? 32f : 8f;
             if (NPC.velocity.X > velocityLimit)
                 NPC.velocity.X = velocityLimit;
             if (NPC.velocity.X < -velocityLimit)

@@ -1050,9 +1050,12 @@ namespace CalamityMod.NPCs.HiveMind
             // When Hive Mind starts flying around
             bool phase2 = NPC.life / (float)NPC.lifeMax < 0.8f;
 
+            //TODO -- Zenith seed.
+            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+
             if (phase2)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(15) && NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 2)
+                if (Main.netMode != NetmodeID.MultiplayerClient && getFuckedAI ? NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 10 : (Main.rand.NextBool(15) && NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 2))
                 {
                     Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
                     NPC.NewNPC(NPC.GetSource_FromThis(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveBlob2>());
