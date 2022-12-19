@@ -566,6 +566,9 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<BloodGeyser>()), new int[] { 36, 56, 68, 76, 102 } },
                 { new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<IchorShot>()), new int[] { 36, 56, 68, 76, 102 } },
                 { new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<IchorBlob>()), new int[] { 36, 56, 68, 76, 102 } },
+                { new Tuple<int, int>(ModContent.NPCType<PerforatorHeadMedium>(), ModContent.ProjectileType<IchorBlob>()), new int[] { 36, 56, 68, 76, 102 } },
+                { new Tuple<int, int>(ModContent.NPCType<PerforatorBodyMedium>(), ModContent.ProjectileType<IchorBlob>()), new int[] { 36, 56, 68, 76, 102 } },
+                { new Tuple<int, int>(ModContent.NPCType<PerforatorTailMedium>(), ModContent.ProjectileType<IchorBlob>()), new int[] { 36, 56, 68, 76, 102 } },
 
                 { new Tuple<int, int>(NPCID.QueenBee, ProjectileID.QueenBeeStinger), new int[] { 22, 44, 64, 72, 96 } }, // 66 damage in non-rev master mode
 
@@ -578,6 +581,7 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<CrimulanSlimeGod>(), ModContent.ProjectileType<UnstableCrimulanGlob>()), new int[] { 38, 60, 76, 84, 114 } },
                 { new Tuple<int, int>(ModContent.NPCType<SplitEbonianSlimeGod>(), ModContent.ProjectileType<UnstableEbonianGlob>()), new int[] { 38, 60, 76, 84, 114 } },
                 { new Tuple<int, int>(ModContent.NPCType<SplitCrimulanSlimeGod>(), ModContent.ProjectileType<UnstableCrimulanGlob>()), new int[] { 34, 52, 68, 74, 102 } },
+                { new Tuple<int, int>(ModContent.NPCType<CorruptSlimeSpawn>(), ModContent.ProjectileType<ShadeNimbusHostile>()), new int[] { 36, 56, 68, 76, 102 } },
                 { new Tuple<int, int>(ModContent.NPCType<CrimsonSlimeSpawn2>(), ModContent.ProjectileType<CrimsonSpike>()), new int[] { 24, 48, 60, 68, 90 } },
 
                 { new Tuple<int, int>(NPCID.WallofFleshEye, ProjectileID.EyeLaser), new int[] {

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -189,6 +190,15 @@ namespace CalamityMod.NPCs.Perforator
             int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
             if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+            
+            //TODO -- Zenith seed.
+            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+            if (Main.netMode != NetmodeID.MultiplayerClient && getFuckedAI)
+            {
+                int type = ModContent.ProjectileType<IchorBlob>();
+                int damage = NPC.GetProjectileDamage(type);
+                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.UnitY, type, damage, 0f, Main.myPlayer);
+            }
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

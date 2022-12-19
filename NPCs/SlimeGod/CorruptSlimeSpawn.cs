@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 int type = ModContent.ProjectileType<ShadeNimbusHostile>();
                 int damage = NPC.GetProjectileDamage(type);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
             }
         }
 
