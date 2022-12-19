@@ -188,6 +188,19 @@ namespace CalamityMod.NPCs.HiveMind
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 14, hitDirection, -1f, 0, default, 1f);
                 }
+                
+                //TODO -- Zenith seed.
+                bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+
+                if (Main.netMode != NetmodeID.MultiplayerClient && getFuckedAI)
+                {
+                    //Spawn even more blobs on death
+                    for (int i = 1; i < 3; i++)
+                    {
+                        Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
+                        NPC.NewNPC(NPC.GetSource_FromThis(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveBlob>());
+                    }
+                }
             }
         }
     }

@@ -513,7 +513,7 @@ namespace CalamityMod.NPCs.HiveMind
                         if (Main.getGoodWorld)
                             maxBlobs *= 2;
                         if (getFuckedAI)
-                            maxBlobs = 60;
+                            maxBlobs = 50;
 
                         for (int i = 0; i < maxBlobs; i++)
                             NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<HiveBlob>(), NPC.whoAmI);
