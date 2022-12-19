@@ -4590,7 +4590,7 @@ namespace CalamityMod.CalPlayer
             }
 
             if (trinketOfChiBuff)
-                contactDamageReduction += 0.15;
+                contactDamageReduction += 0.1;
 
             // Fearmonger set provides 15% multiplicative DR that ignores caps during the Holiday Moons.
             // To prevent abuse, this effect does not work if there are any bosses alive.
@@ -4865,7 +4865,7 @@ namespace CalamityMod.CalPlayer
             }
 
             if (trinketOfChiBuff)
-                projectileDamageReduction += 0.15;
+                projectileDamageReduction += 0.1;
 
             // Fearmonger set provides 15% multiplicative DR that ignores caps during the Holiday Moons.
             // To prevent abuse, this effect does not work if there are any bosses alive.
@@ -5708,6 +5708,9 @@ namespace CalamityMod.CalPlayer
                     evilSmasherBoost -= 1;
 
                 hellbornBoost = 0;
+
+                if (trinketOfChi)
+                    chiBuffTimer = 0;
 
                 if (amidiasBlessing && damage > 50)
                 {

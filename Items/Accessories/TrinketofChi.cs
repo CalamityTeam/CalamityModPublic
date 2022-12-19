@@ -2,18 +2,20 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.StatBuffs;
 
 namespace CalamityMod.Items.Accessories
 {
     public class TrinketofChi : ModItem
     {
+        internal const int ChiBuffTimerMax = 900;
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Trinket of Chi");
-            Tooltip.SetDefault("After 1 second of standing still and not attacking you gain a buff\n" +
-                "This buff boosts your damage by 50% and decreases damage taken by 15%\n" +
-                "The buff deactivates after you move or attack once");
+            Tooltip.SetDefault("Provides 10% damage reduction after not being hit for 15 seconds, this is removed when you are hit\n" +
+                "Provides 2 life regen for you and everyone on your team");
         }
 
         public override void SetDefaults()
@@ -29,6 +31,12 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.trinketOfChi = true;
+            player.lifeRegen += 2;
+            if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
+            {
+                if (Main.LocalPlayer.team == player.team && player.team != 0)
+                    Main.LocalPlayer.lifeRegen += 2;
+            }
         }
     }
 }

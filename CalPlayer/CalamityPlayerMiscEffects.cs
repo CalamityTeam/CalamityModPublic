@@ -2049,29 +2049,6 @@ namespace CalamityMod.CalPlayer
             // Rogue Stealth
             UpdateRogueStealth();
 
-            // Trinket of Chi bonus
-            if (trinketOfChi)
-            {
-                if (trinketOfChiBuff)
-                {
-                    Player.GetDamage<GenericDamageClass>() += 0.5f;
-                    if (Player.itemAnimation > 0)
-                        chiBuffTimer = 0;
-                }
-
-                if (Player.StandingStill(0.1f) && !Player.mount.Active)
-                {
-                    if (chiBuffTimer < 60)
-                        chiBuffTimer++;
-                    else
-                        Player.AddBuff(ModContent.BuffType<ChiBuff>(), 6);
-                }
-                else
-                    chiBuffTimer--;
-            }
-            else
-                chiBuffTimer = 0;
-
             // Aquatic Emblem bonus
             if (aquaticEmblem)
             {
@@ -2375,6 +2352,17 @@ namespace CalamityMod.CalPlayer
             }
             else
                 titanBoost = 0;
+
+            // Trinket of Chi bonus
+            if (trinketOfChi)
+            {
+                if (chiBuffTimer < TrinketofChi.ChiBuffTimerMax)
+                    chiBuffTimer++;
+                else
+                    Player.AddBuff(ModContent.BuffType<ChiBuff>(), 6);
+            }
+            else
+                chiBuffTimer = 0;
 
             if (darkSunRing)
             {
