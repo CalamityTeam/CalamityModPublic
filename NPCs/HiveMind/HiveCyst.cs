@@ -54,6 +54,45 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.frame.Y = frame * frameHeight;
         }
 
+        public override void AI()
+        {
+            //TODO -- Zenith seed.
+            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+            float timeToSpawn = 120f;
+
+            if (getFuckedAI && NPC.AnyNPCs(ModContent.NPCType<HiveMind>()))
+            {
+                //Passively spawns random enemies
+                NPC.ai[0]++;
+                
+                if (NPC.ai[0] >= timeToSpawn)
+                {
+                    int spawnRandomizer = Main.rand.Next(0, 5);
+                    int type = NPCID.EaterofSouls;
+
+                    switch (spawnRandomizer)
+                    {
+                        case 0:
+                        case 1:
+                            break;
+                        case 2:
+                            type = NPCID.DevourerHead;
+                            break;
+                        case 3:
+                            type = ModContent.NPCType<DankCreeper>();
+                            break;
+                        case 4:
+                            type = ModContent.NPCType<HiveBlob2>();
+                            break;
+                        default:
+                            break;
+                    }
+                    NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, type);
+                    NPC.ai[0] = 0f;
+                }
+            }
+        }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player))

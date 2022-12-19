@@ -351,6 +351,13 @@ namespace CalamityMod.NPCs.HiveMind
                 if (choice < 5)
                     NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + Main.rand.Next(NPC.width), (int)NPC.position.Y + Main.rand.Next(NPC.height), type);
             }
+            
+            //TODO -- Zenith seed.
+            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+
+            //Spawn a Hive Cyst
+            if (getFuckedAI && NPC.CountNPCS(ModContent.NPCType<HiveCyst>()) < 3)
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + Main.rand.Next(NPC.width), (int)NPC.position.Y + Main.rand.Next(NPC.height), ModContent.NPCType<HiveCyst>());
         }
 
         private void ReelBack()
