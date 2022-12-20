@@ -58,8 +58,16 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
         {
             NPC.damage = 0;
 
+            // Difficulty modes
+            bool death = CalamityWorld.death;
+            bool revenge = CalamityWorld.revenge;
+            bool expertMode = Main.expertMode;
+
             // Fade in.
             NPC.Opacity = MathHelper.Clamp(NPC.Opacity + 0.2f, 0f, 1f);
+
+            if (NPC.ai[2] > 0f)
+                NPC.realLife = (int)NPC.ai[2];
 
             // Check if other segments are still alive. If not, die.
             bool shouldDespawn = true;
@@ -87,8 +95,56 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 NPC.active = false;
             }
 
-            // Decide segment offset stuff.
-            NPC aheadSegment = Main.npc[(int)NPC.ai[1]];
+            CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)NPC.ai[2]].Calamity();
+
+            float chargePhaseGateValue = death ? 180f : revenge ? 210f : expertMode ? 240f : 300f;
+            float lightningChargePhaseGateValue = death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
+
+            bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.FastCharge);
+            bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.LightningCharge;
+            bool invisiblePhase = calamityGlobalNPC_Head.newAI[0] == 1f || calamityGlobalNPC_Head.newAI[0] == 5f || calamityGlobalNPC_Head.newAI[0] == 7f;
+            if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
+            {
+                if (Main.npc[(int)NPC.ai[1]].Opacity > 0.5f)
+                {
+                    NPC.Opacity += 0.2f;
+                    if (NPC.Opacity > 1f)
+                        NPC.Opacity = 1f;
+                }
+            }
+            else
+            {
+                NPC.Opacity -= 0.05f;
+                if (NPC.Opacity < 0f)
+                    NPC.Opacity = 0f;
+            }
+
+            bool shootShadowFireballs = (calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ShadowFireballSpin && calamityGlobalNPC_Head.newAI[2] > 0f) ||
+                (calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.FinalPhase && calamityGlobalNPC_Head.newAI[1] > 0f);
+            if (shootShadowFireballs && Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                if (Vector2.Distance(NPC.Center, Main.player[Main.npc[(int)NPC.ai[2]].target].Center) > 160f)
+                {
+                    NPC.localAI[0] += 1f;
+                    float shootShadowFireballGateValue = death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
+                    float divisor = 2f;
+                    if (NPC.ai[3] % divisor == 0f && NPC.localAI[0] >= shootShadowFireballGateValue)
+                    {
+                        NPC.localAI[0] = 0f;
+                        float distanceVelocityBoost = MathHelper.Clamp((Vector2.Distance(Main.npc[(int)NPC.ai[2]].Center, Main.player[Main.npc[(int)NPC.ai[2]].target].Center) - 1600f) * 0.025f, 0f, 16f);
+                        float fireballVelocity = (Main.player[Main.npc[(int)NPC.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 6f : 8f) + distanceVelocityBoost;
+                        Vector2 destination = Main.player[Main.npc[(int)NPC.ai[2]].target].Center - NPC.Center;
+                        Vector2 velocity = Vector2.Normalize(destination) * fireballVelocity;
+                        int type = ProjectileID.CultistBossFireBallClone;
+                        int damage = NPC.GetProjectileDamage(type);
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, type, damage, 0f, Main.myPlayer);
+                        Main.projectile[proj].tileCollide = false;
+                    }
+                }
+            }
+
+                // Decide segment offset stuff.
+                NPC aheadSegment = Main.npc[(int)NPC.ai[1]];
             Vector2 directionToNextSegment = aheadSegment.Center - NPC.Center;
             if (aheadSegment.rotation != NPC.rotation)
             {

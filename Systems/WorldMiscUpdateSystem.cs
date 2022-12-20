@@ -417,7 +417,7 @@ namespace CalamityMod.Systems
             if (Main.netMode == NetmodeID.MultiplayerClient || !modPlayer.ZoneAbyss || !player.chaosState || player.dead)
                 return;
 
-            bool adultWyrmAlive = NPC.AnyNPCs(ModContent.NPCType<AdultEidolonWyrmHead>());
+            bool adultWyrmAlive = CalamityGlobalNPC.adultEidolonWyrmHead != -1 && Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active;
             if (!adultWyrmAlive)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AdultEidolonWyrmHead>());
         }

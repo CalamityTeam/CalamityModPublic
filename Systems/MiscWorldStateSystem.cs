@@ -43,6 +43,7 @@ namespace CalamityMod
             CalamityGlobalNPC.draedonExoMechTwinGreen = -1;
             CalamityGlobalNPC.draedonExoMechTwinRed = -1;
             CalamityGlobalNPC.draedonExoMechWorm = -1;
+            CalamityGlobalNPC.adultEidolonWyrmHead = -1;
             BossRushEvent.BossRushStage = 0;
             ArmoredDiggerSpawnCooldown = 0;
             BossRushEvent.BossRushActive = false;

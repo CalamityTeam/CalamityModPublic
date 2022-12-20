@@ -58,8 +58,16 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
         {
             NPC.damage = 0;
 
+            // Difficulty modes
+            bool death = CalamityWorld.death;
+            bool revenge = CalamityWorld.revenge;
+            bool expertMode = Main.expertMode;
+
             // Fade in.
             NPC.Opacity = MathHelper.Clamp(NPC.Opacity + 0.2f, 0f, 1f);
+
+            if (NPC.ai[2] > 0f)
+                NPC.realLife = (int)NPC.ai[2];
 
             // Check if other segments are still alive. If not, die.
             bool shouldDespawn = true;
@@ -85,6 +93,54 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 NPC.HitEffect(0, 10.0);
                 NPC.checkDead();
                 NPC.active = false;
+            }
+
+            CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)NPC.ai[2]].Calamity();
+
+            float chargePhaseGateValue = death ? 180f : revenge ? 210f : expertMode ? 240f : 300f;
+            float lightningChargePhaseGateValue = death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
+
+            bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.FastCharge);
+            bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.LightningCharge;
+            bool invisiblePhase = calamityGlobalNPC_Head.newAI[0] == 1f || calamityGlobalNPC_Head.newAI[0] == 5f || calamityGlobalNPC_Head.newAI[0] == 7f;
+            if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
+            {
+                if (Main.npc[(int)NPC.ai[1]].Opacity > 0.5f)
+                {
+                    NPC.Opacity += 0.2f;
+                    if (NPC.Opacity > 1f)
+                        NPC.Opacity = 1f;
+                }
+            }
+            else
+            {
+                NPC.Opacity -= 0.05f;
+                if (NPC.Opacity < 0f)
+                    NPC.Opacity = 0f;
+            }
+
+            bool spawnAncientLights = (calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ShadowFireballSpin && calamityGlobalNPC_Head.newAI[2] > 0f) ||
+                (calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.FinalPhase && calamityGlobalNPC_Head.newAI[1] > 0f);
+            if (spawnAncientLights && Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                if (Vector2.Distance(NPC.Center, Main.player[Main.npc[(int)NPC.ai[2]].target].Center) > 160f)
+                {
+                    NPC.localAI[0] += 1f;
+                    float spawnAncientLightGateValue = death ? 100f : revenge ? 105f : expertMode ? 110f : 120f;
+                    float divisor = 4f;
+                    if (NPC.ai[3] % divisor == 0f && NPC.localAI[0] >= spawnAncientLightGateValue)
+                    {
+                        NPC.localAI[0] = 0f;
+                        float distanceVelocityBoost = MathHelper.Clamp((Vector2.Distance(Main.npc[(int)NPC.ai[2]].Center, Main.player[Main.npc[(int)NPC.ai[2]].target].Center) - 1600f) * 0.025f, 0f, 16f);
+                        float lightVelocity = (Main.player[Main.npc[(int)NPC.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 6f : 8f) + distanceVelocityBoost;
+                        Vector2 destination = Main.player[Main.npc[(int)NPC.ai[2]].target].Center - NPC.Center;
+                        Vector2 velocity = Vector2.Normalize(destination) * lightVelocity;
+                        int type = NPCID.AncientLight;
+                        float ai = (Main.rand.NextFloat() - 0.5f) * 0.3f * MathHelper.TwoPi / 60f;
+                        int light = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, type, 0, 0f, ai, velocity.X, velocity.Y, 255);
+                        Main.npc[light].velocity = velocity;
+                    }
+                }
             }
 
             // Decide segment offset stuff.

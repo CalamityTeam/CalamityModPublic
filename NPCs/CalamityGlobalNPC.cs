@@ -298,6 +298,7 @@ namespace CalamityMod.NPCs
         public static int draedonExoMechTwinGreen = -1;
         public static int draedonExoMechPrime = -1;
         public static int draedonExoMechPrimePlasmaCannon = -1;
+        public static int adultEidolonWyrmHead = -1;
 
         // Drawing variables.
         public FireParticleSet VulnerabilityHexFireDrawer = null;
@@ -531,6 +532,8 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<Apollo>());
             ResetSavedIndex(ref draedonExoMechPrime, NPCType<AresBody>());
             ResetSavedIndex(ref draedonExoMechPrimePlasmaCannon, NPCType<AresPlasmaFlamethrower>());
+
+            ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<AdultEidolonWyrmHead>());
 
             // Reset the enraged state every frame. The expectation is that bosses will continuously set it back to true if necessary.
             CurrentlyEnraged = false;
@@ -2848,7 +2851,14 @@ namespace CalamityMod.NPCs
 
             if (NPC.LunarApocalypseIsUp)
                 PillarEventProgressionEdit(npc);
-            
+
+            // Adult Wyrm Ancient Doom
+            if (npc.type == NPCID.AncientDoom)
+            {
+                if (Main.npc[(int)npc.ai[0]].type == NPCType<AdultEidolonWyrmHead>())
+                    return CultistAI.BuffedAncientDoomAI(npc, Mod);
+            }
+
             // Completely override the shitty AI and replace it
             if (npc.type == NPCID.BloodNautilus)
                 return DreadnautilusAI.BuffedDreadnautilusAI(npc, Mod);
