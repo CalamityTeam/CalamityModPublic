@@ -90,6 +90,13 @@ namespace CalamityMod.NPCs.AstrumDeus
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
             SpawnModBiomes = new int[1] { ModContent.GetInstance<AbovegroundAstralBiome>().Type };
+
+            if (Main.getGoodWorld) // move to zenith seed later
+            {
+                if (CalamityWorld.death) // killing 10 worms with half of the og's health is ridiculous
+                NPC.lifeMax /= 3;
+                NPC.value /= 5;
+            }
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -210,29 +217,32 @@ namespace CalamityMod.NPCs.AstrumDeus
         {
             if (NPC.life <= 0)
             {
-                NPC.position.X = NPC.position.X + (NPC.width / 2);
-                NPC.position.Y = NPC.position.Y + (NPC.height / 2);
-                NPC.width = 50;
-                NPC.height = 50;
-                NPC.position.X = NPC.position.X - (NPC.width / 2);
-                NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-                for (int num621 = 0; num621 < 5; num621++)
+                if (Main.getGoodWorld && Main.rand.NextBool(5)) // I value people's computers, move to zenith seed later
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+                    NPC.position.X = NPC.position.X + (NPC.width / 2);
+                    NPC.position.Y = NPC.position.Y + (NPC.height / 2);
+                    NPC.width = 50;
+                    NPC.height = 50;
+                    NPC.position.X = NPC.position.X - (NPC.width / 2);
+                    NPC.position.Y = NPC.position.Y - (NPC.height / 2);
+                    for (int num621 = 0; num621 < 5; num621++)
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                        Main.dust[num622].velocity *= 3f;
+                        if (Main.rand.NextBool(2))
+                        {
+                            Main.dust[num622].scale = 0.5f;
+                            Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        }
                     }
-                }
-                for (int num623 = 0; num623 < 10; num623++)
-                {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    for (int num623 = 0; num623 < 10; num623++)
+                    {
+                        int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 3f);
+                        Main.dust[num624].noGravity = true;
+                        Main.dust[num624].velocity *= 5f;
+                        num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 2f);
+                        Main.dust[num624].velocity *= 2f;
+                    }
                 }
             }
         }

@@ -3266,7 +3266,8 @@ namespace CalamityMod.NPCs
             // Length of worms
             int phase1Length = death ? 80 : revenge ? 70 : expertMode ? 60 : 50;
             int phase2Length = phase1Length / 2;
-            int maxLength = doubleWormPhase ? phase2Length : phase1Length;
+            int gfbLength = phase1Length / 10; // move to zenith seed later
+            int maxLength = Main.getGoodWorld && doubleWormPhase ? gfbLength : doubleWormPhase ? phase2Length : phase1Length;
 
             // Split into two worms
             if (head)
@@ -3351,53 +3352,86 @@ namespace CalamityMod.NPCs
                         // Do not spawn worms client side. The server handles this.
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            // Now that the original worm doesn't exist, startCount can be zero.
-                            // int startCount = npc.whoAmI + phase1Length + 1;
-                            int startIndexHeadOne = 1;
-                            int headOneID = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, npc.type, startIndexHeadOne);
-                            Main.npc[headOneID].Calamity().newAI[0] = 1f;
-                            Main.npc[headOneID].velocity = Vector2.Normalize(player.Center - Main.npc[headOneID].Center) * 16f;
-                            Main.npc[headOneID].timeLeft *= 20;
-                            Main.npc[headOneID].netUpdate = true;
-
-                            // On server, immediately send the correct extra AI of this head to clients.
-                            if (Main.netMode == NetmodeID.Server)
+                            int wormamt = Main.getGoodWorld ? 5 : 1; // move to zenith seed later
+                            for (int i = 0; i < wormamt; i++)
                             {
-                                var netMessage = mod.GetPacket();
-                                netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
-                                netMessage.Write((byte)headOneID);
-                                netMessage.Write(Main.npc[headOneID].Calamity().newAI[0]);
-                                netMessage.Write(Main.npc[headOneID].Calamity().newAI[1]);
-                                netMessage.Write(Main.npc[headOneID].Calamity().newAI[2]);
-                                netMessage.Write(Main.npc[headOneID].Calamity().newAI[3]);
-                                netMessage.Send();
-                            }
+                                // Now that the original worm doesn't exist, startCount can be zero.
+                                // int startCount = npc.whoAmI + phase1Length + 1;
+                                int startIndexHeadOne = 1;
+                                int headOneID = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, npc.type, startIndexHeadOne);
+                                Main.npc[headOneID].Calamity().newAI[0] = 1f;
+                                Main.npc[headOneID].velocity = Vector2.Normalize(player.Center - Main.npc[headOneID].Center) * 16f;
+                                Main.npc[headOneID].timeLeft *= 20;
+                                Main.npc[headOneID].netUpdate = true;
 
-                            // Make sure the second split worm is also contiguous.
-                            int startIndexHeadTwo = startIndexHeadOne + phase2Length + 1;
-                            int headTwoID = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, npc.type, startIndexHeadTwo);
-                            Main.npc[headTwoID].Calamity().newAI[0] = 2f;
-                            Main.npc[headTwoID].Calamity().newAI[3] = Main.getGoodWorld ? 300f : 600f;
-                            Main.npc[headTwoID].velocity = Vector2.Normalize(player.Center - Main.npc[headTwoID].Center) * 16f;
-                            Main.npc[headTwoID].timeLeft *= 20;
-                            Main.npc[headTwoID].netUpdate = true;
+                                // On server, immediately send the correct extra AI of this head to clients.
+                                if (Main.netMode == NetmodeID.Server)
+                                {
+                                    var netMessage = mod.GetPacket();
+                                    netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+                                    netMessage.Write((byte)headOneID);
+                                    netMessage.Write(Main.npc[headOneID].Calamity().newAI[0]);
+                                    netMessage.Write(Main.npc[headOneID].Calamity().newAI[1]);
+                                    netMessage.Write(Main.npc[headOneID].Calamity().newAI[2]);
+                                    netMessage.Write(Main.npc[headOneID].Calamity().newAI[3]);
+                                    netMessage.Send();
+                                }
 
-                            // On server, immediately send the correct extra AI of this head to clients.
-                            if (Main.netMode == NetmodeID.Server)
-                            {
-                                var netMessage = mod.GetPacket();
-                                netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
-                                netMessage.Write((byte)headTwoID);
-                                netMessage.Write(Main.npc[headTwoID].Calamity().newAI[0]);
-                                netMessage.Write(Main.npc[headTwoID].Calamity().newAI[1]);
-                                netMessage.Write(Main.npc[headTwoID].Calamity().newAI[2]);
-                                netMessage.Write(Main.npc[headTwoID].Calamity().newAI[3]);
-                                netMessage.Send();
+                                // Make sure the second split worm is also contiguous.
+                                int startIndexHeadTwo = startIndexHeadOne + phase2Length + 1;
+                                int headTwoID = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, npc.type, startIndexHeadTwo);
+                                Main.npc[headTwoID].Calamity().newAI[0] = 2f;
+                                Main.npc[headTwoID].Calamity().newAI[3] = Main.getGoodWorld ? 300f : 600f;
+                                Main.npc[headTwoID].velocity = Vector2.Normalize(player.Center - Main.npc[headTwoID].Center) * 16f;
+                                Main.npc[headTwoID].timeLeft *= 20;
+                                Main.npc[headTwoID].netUpdate = true;
+
+                                // On server, immediately send the correct extra AI of this head to clients.
+                                if (Main.netMode == NetmodeID.Server)
+                                {
+                                    var netMessage = mod.GetPacket();
+                                    netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+                                    netMessage.Write((byte)headTwoID);
+                                    netMessage.Write(Main.npc[headTwoID].Calamity().newAI[0]);
+                                    netMessage.Write(Main.npc[headTwoID].Calamity().newAI[1]);
+                                    netMessage.Write(Main.npc[headTwoID].Calamity().newAI[2]);
+                                    netMessage.Write(Main.npc[headTwoID].Calamity().newAI[3]);
+                                    netMessage.Send();
+                                }
                             }
 
                             SoundEngine.PlaySound(AstrumDeusHead.SplitSound, player.Center);
                         }
                         return;
+                    }
+                }
+
+                if (Main.getGoodWorld && calamityGlobalNPC.newAI[1] < 10f) // desync the deuses, move to zenith seed later
+                {
+                    float pushForce = 0.25f;
+                    for (int k = 0; k < Main.maxNPCs; k++)
+                    {
+                        NPC otherDeus = Main.npc[k];
+                        // Short circuits to make the loop as fast as possible
+                        if (!otherDeus.active || k == npc.whoAmI)
+                            continue;
+
+                        // If the other projectile is indeed the same owned by the same player and they're too close, nudge them away.
+                        bool sameProjType = otherDeus.type == npc.type;
+                        float taxicabDist = Vector2.Distance(npc.Center, otherDeus.Center);
+                        float distancegate = 320f;
+                        if (sameProjType && taxicabDist < distancegate)
+                        {
+                            if (npc.position.X < otherDeus.position.X)
+                                npc.velocity.X -= pushForce;
+                            else
+                                npc.velocity.X += pushForce;
+
+                            if (npc.position.Y < otherDeus.position.Y)
+                                npc.velocity.Y -= pushForce;
+                            else
+                                npc.velocity.Y += pushForce;
+                        }
                     }
                 }
             }
@@ -3421,6 +3455,7 @@ namespace CalamityMod.NPCs
                 npc.realLife = (int)npc.ai[2];
 
             // Emit light
+            if (!Main.getGoodWorld) // move to zenith seed later
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
             // Dust and alpha effects

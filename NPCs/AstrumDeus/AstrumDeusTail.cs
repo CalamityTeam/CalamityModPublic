@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.life <= 0)
+            if (NPC.life <= 0 && !Main.getGoodWorld) // I value people's computers, move to zenith seed later
             {
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
