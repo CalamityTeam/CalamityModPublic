@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            float speed = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 16f : 12f;
+            float speed = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 16f : CalamityWorld.revenge ? 14f : 12f;
             CalamityAI.DungeonSpiritAI(NPC, Mod, speed, -MathHelper.PiOver2);
             int num822 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
             Dust dust = Main.dust[num822];

@@ -141,9 +141,14 @@ namespace CalamityMod.NPCs.Astral
                 NPC.knockBackResist = 0.04f;
                 NPC.lifeMax = 1600;
             }
+            if (CalamityWorld.revenge)
+            {
+                target_walkAcceleration = 0.16f;
+                target_walkMaxSpeed = 2.4f;
+            }
             if (CalamityWorld.death)
             {
-                target_walkAcceleration = 0.18f;
+                target_walkAcceleration = 0.2f;
                 target_walkMaxSpeed = 3.2f;
             }
             NPC.Calamity().VulnerableToHeat = true;

@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.Astral
         public override void AI()
         {
             NPC.ai[0]++;
-            if (NPC.ai[0] > (CalamityWorld.death ? 120f : 180f))
+            if (NPC.ai[0] > (CalamityWorld.death ? 60f : CalamityWorld.revenge ? 120f : 180f))
             {
                 if (Main.rand.NextBool(100) && NPC.CountNPCS(ModContent.NPCType<Hiveling>()) < 10)
                 {

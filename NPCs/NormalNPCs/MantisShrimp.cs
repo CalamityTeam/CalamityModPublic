@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 num78 = 2.5f - num79;
             }
-            num78 *= (CalamityWorld.death ? 1.2f : 0.8f);
+            num78 *= (CalamityWorld.death ? 1.2f : CalamityWorld.revenge ? 1f : 0.8f);
             if (NPC.velocity.X < -num78 || NPC.velocity.X > num78)
             {
                 if (NPC.velocity.Y == 0f)

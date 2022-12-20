@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (Main.netMode != NetmodeID.MultiplayerClient && !Charging && NPC.Distance(player.Center) < ChargeRadiusMax * 0.667f)
             {
                 // Spawn some off-screen enemies to act as threats if the player enters the field.
-                int enemiesToSpawn = CalamityWorld.death ? 2 : 1;
+                int enemiesToSpawn = CalamityWorld.death ? 3 : CalamityWorld.revenge ? 2 : 1;
                 for (int i = 0; i < enemiesToSpawn; i++)
                 {
                     int tries = 0;

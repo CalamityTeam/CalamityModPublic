@@ -70,9 +70,14 @@ namespace CalamityMod.NPCs.Astral
                 NPC.knockBackResist = 0.4f;
                 NPC.lifeMax = 350;
             }
-            if (CalamityWorld.death)
+            if (CalamityWorld.revenge)
             {
                 travelAcceleration = 0.3f;
+                targetTime = 90f;
+            }
+            if (CalamityWorld.death)
+            {
+                travelAcceleration = 0.4f;
                 targetTime = 60f;
             }
             NPC.Calamity().VulnerableToHeat = true;
@@ -130,7 +135,7 @@ namespace CalamityMod.NPCs.Astral
             Player target = Main.player[NPC.target];
             if (NPC.ai[3] >= 0)
             {
-                CalamityGlobalNPC.DoFlyingAI(NPC, (CalamityWorld.death ? 8.25f : 5.5f), (CalamityWorld.death ? 0.0525f : 0.035f), 400f, 150, false);
+                CalamityGlobalNPC.DoFlyingAI(NPC, (CalamityWorld.death ? 8.5f : CalamityWorld.revenge ? 7f : 5.5f), (CalamityWorld.death ? 0.055f : CalamityWorld.revenge ? 0.045f : 0.035f), 400f, 150, false);
 
                 if (Collision.CanHit(NPC.position, NPC.width, NPC.height, target.position, target.width, target.height))
                 {
@@ -144,7 +149,7 @@ namespace CalamityMod.NPCs.Astral
                 Vector2 between = target.Center - NPC.Center;
 
                 //after locking target for x amount of time and being far enough away
-                int random = CalamityWorld.death ? 90 : 180;
+                int random = CalamityWorld.death ? 90 : CalamityWorld.revenge ? 135 : 180;
                 if (between.Length() > 150 && NPC.ai[3] >= targetTime && Main.rand.NextBool(random))
                 {
                     //set ai mode to target and travel

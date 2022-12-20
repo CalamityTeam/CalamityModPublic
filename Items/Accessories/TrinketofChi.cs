@@ -35,7 +35,10 @@ namespace CalamityMod.Items.Accessories
             if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
             {
                 if (Main.LocalPlayer.team == player.team && player.team != 0)
+                {
+                    Main.LocalPlayer.AddBuff(ModContent.BuffType<ChiRegenBuff>(), 20, true);
                     Main.LocalPlayer.lifeRegen += 2;
+                }
             }
         }
     }

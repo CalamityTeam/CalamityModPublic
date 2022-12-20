@@ -6877,8 +6877,8 @@ namespace CalamityMod.NPCs
         #region Unicorn AI
         public static void UnicornAI(NPC npc, Mod mod, bool spin, float bounciness, float speedDetect, float speedAdditive, float bouncy1 = -8.5f, float bouncy2 = -7.5f, float bouncy3 = -7f, float bouncy4 = -6f, float bouncy5 = -8f)
         {
-            bool DogPhase1 = npc.type == ModContent.NPCType<Rimehound>() && npc.life > npc.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
-            bool DogPhase2 = npc.type == ModContent.NPCType<Rimehound>() && npc.life <= npc.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
+            bool DogPhase1 = npc.type == ModContent.NPCType<Rimehound>() && npc.life > npc.lifeMax * (CalamityWorld.death ? 0.9 : CalamityWorld.revenge ? 0.7 : 0.5);
+            bool DogPhase2 = npc.type == ModContent.NPCType<Rimehound>() && npc.life <= npc.lifeMax * (CalamityWorld.death ? 0.9 : CalamityWorld.revenge ? 0.7 : 0.5);
             int num = 30;
             bool flag2 = false;
             bool flag3 = false;
@@ -7250,18 +7250,18 @@ namespace CalamityMod.NPCs
 					// Swim toward the player
                     else
                     {
-                        npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 2f * xSpeed : xSpeed);
-                        npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 2f * ySpeed : ySpeed);
+                        npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 2f * xSpeed : CalamityWorld.revenge ? 1.5f * xSpeed : xSpeed);
+                        npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 2f * ySpeed : CalamityWorld.revenge ? 1.5f * ySpeed : ySpeed);
                     }
-                    float velocityCapX = CalamityWorld.death && passiveness != 3 ? 2f * speedLimitX : speedLimitX;
-                    float velocityCapY = CalamityWorld.death && passiveness != 3 ? 2f * speedLimitY : speedLimitY;
+                    float velocityCapX = CalamityWorld.death && passiveness != 3 ? 2f * speedLimitX : CalamityWorld.revenge ? 1.5f * speedLimitX : speedLimitX;
+                    float velocityCapY = CalamityWorld.death && passiveness != 3 ? 2f * speedLimitY : CalamityWorld.revenge ? 1.5f * speedLimitY : speedLimitY;
                     npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -velocityCapX, velocityCapX);
                     npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -velocityCapY, velocityCapY);
 
 					// Laserfish shoot the player
                     if (npc.type == ModContent.NPCType<Laserfish>())
                     {
-                        npc.localAI[0] += (CalamityWorld.death ? 2f : 1f);
+                        npc.localAI[0] += (CalamityWorld.death ? 2f : CalamityWorld.revenge ? 1.5f : 1f);
                         if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 120f)
                         {
                             npc.localAI[0] = 0f;
@@ -7287,7 +7287,7 @@ namespace CalamityMod.NPCs
                     {
                         if ((target.Center - npc.Center).Length() < 350f)
                         {
-                            npc.localAI[0] += (CalamityWorld.death ? 3f : 1f);
+                            npc.localAI[0] += (CalamityWorld.death ? 3f : CalamityWorld.revenge ? 2f : 1f);
                             if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 180f)
                             {
                                 npc.localAI[0] = 0f;

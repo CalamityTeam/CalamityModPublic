@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.Astral
             }
             else
             {
-                CalamityGlobalNPC.DoFlyingAI(NPC, (CalamityWorld.death ? 4.5f : 3f), (CalamityWorld.death ? 0.075f : 0.05f), 200f);
+                CalamityGlobalNPC.DoFlyingAI(NPC, (CalamityWorld.death ? 5f : CalamityWorld.revenge ? 4f : 3f), (CalamityWorld.death ? 0.08f : CalamityWorld.revenge ? 0.065f : 0.05f), 200f);
                 Player myTarget = Main.player[NPC.target];
                 Vector2 toTarget = myTarget.Center - NPC.Center;
                 if (!myTarget.dead && myTarget.active)

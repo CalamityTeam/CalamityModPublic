@@ -69,12 +69,17 @@ namespace CalamityMod.NPCs.PlagueEnemies
             {
                 NPC.TargetClosest(true);
             }
-            float num = 6f; //2
+            float num = 6f;
             float num2 = 0.05f;
+            if (CalamityWorld.revenge)
+            {
+                num *= 1.25f;
+                num2 *= 1.25f;
+            }
             if (CalamityWorld.death)
             {
-                num *= 1.5f;
-                num2 *= 1.5f;
+                num *= 1.25f;
+                num2 *= 1.25f;
             }
             Vector2 vector = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
             float num4 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);

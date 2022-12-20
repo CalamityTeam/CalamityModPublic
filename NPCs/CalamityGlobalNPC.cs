@@ -2995,7 +2995,7 @@ namespace CalamityMod.NPCs
             else if (npc.type == NPCID.Retinazer)
                 return TwinsAI.TrueMeleeRetinazerPhase2AI(npc);
 
-            if (CalamityWorld.death)
+            if (CalamityWorld.revenge)
             {
                 switch (npc.aiStyle)
                 {
@@ -3032,10 +3032,12 @@ namespace CalamityMod.NPCs
                                 case NPCID.SlimeRibbonRed:
                                 case NPCID.SlimeSpiked:
                                 case NPCID.SandSlime:
+                                case NPCID.GoldenSlime:
                                     return SlimeAI.BuffedSlimeAI(npc, Mod);
                             }
                         }
                         break;
+
                     case NPCAIStyleID.DemonEye:
                         if (npc.type == NPCType<CalamityEye>())
                         {
@@ -3062,6 +3064,7 @@ namespace CalamityMod.NPCs
                             }
                         }
                         break;
+
                     case NPCAIStyleID.Fighter:
                         if (npc.type == NPCType<Stormlion>() ||
                             npc.type == NPCType<AstralachneaGround>() || npc.type == NPCType<CultistAssassin>())
@@ -3081,6 +3084,7 @@ namespace CalamityMod.NPCs
                                 case NPCID.ArmedZombieTwiggy:
                                 case NPCID.ArmedZombieCenx:
                                 case NPCID.Skeleton:
+                                case NPCID.SporeSkeleton:
                                 case NPCID.AngryBones:
                                 case NPCID.UndeadMiner:
                                 case NPCID.CorruptBunny:
@@ -3214,7 +3218,9 @@ namespace CalamityMod.NPCs
                                 case NPCID.Salamander7:
                                 case NPCID.Salamander8:
                                 case NPCID.Salamander9:
+                                case NPCID.GiantWalkingAntlion:
                                 case NPCID.WalkingAntlion:
+                                case NPCID.LarvaeAntlion:
                                 case NPCID.DesertGhoul:
                                 case NPCID.DesertGhoulCorruption:
                                 case NPCID.DesertGhoulCrimson:
@@ -3256,6 +3262,7 @@ namespace CalamityMod.NPCs
                             }
                         }
                         break;
+
                     case NPCAIStyleID.Flying:
                         switch (npc.type)
                         {
@@ -3269,6 +3276,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedFlyingAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.Worm:
                         switch (npc.type)
                         {
@@ -3287,28 +3295,35 @@ namespace CalamityMod.NPCs
                             case NPCID.WyvernBody2:
                             case NPCID.WyvernBody3:
                             case NPCID.WyvernTail:
-                            case NPCID.DiggerHead:
-                            case NPCID.DiggerBody:
-                            case NPCID.DiggerTail:
-                            case NPCID.SeekerHead:
-                            case NPCID.SeekerBody:
-                            case NPCID.SeekerTail:
                             case NPCID.LeechHead:
                             case NPCID.LeechBody:
                             case NPCID.LeechTail:
                             case NPCID.TombCrawlerHead:
                             case NPCID.TombCrawlerBody:
                             case NPCID.TombCrawlerTail:
-                            case NPCID.DuneSplicerHead:
-                            case NPCID.DuneSplicerBody:
-                            case NPCID.DuneSplicerTail:
                             case NPCID.StardustWormHead:
                             case NPCID.SolarCrawltipedeHead:
                             case NPCID.SolarCrawltipedeBody:
                             case NPCID.SolarCrawltipedeTail:
                                 return CalamityGlobalAI.BuffedWormAI(npc, Mod);
+
+                            // Death Mode splitting worms.
+                            case NPCID.DiggerHead:
+                            case NPCID.DiggerBody:
+                            case NPCID.DiggerTail:
+                            case NPCID.SeekerHead:
+                            case NPCID.SeekerBody:
+                            case NPCID.SeekerTail:
+                            case NPCID.DuneSplicerHead:
+                            case NPCID.DuneSplicerBody:
+                            case NPCID.DuneSplicerTail:
+                                if (CalamityWorld.death)
+                                    return CalamityGlobalAI.BuffedWormAI(npc, Mod);
+                                else
+                                    return true;
                         }
                         break;
+
                     case NPCAIStyleID.Caster:
                         switch (npc.type)
                         {
@@ -3327,6 +3342,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedCasterAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.ManEater:
                         switch (npc.type)
                         {
@@ -3339,6 +3355,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedPlantAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.Bat:
                         if (npc.type == NPCType<StellarCulex>() || npc.type == NPCType<Melter>() || npc.type == NPCType<AeroSlime>())
                         {
@@ -3363,10 +3380,12 @@ namespace CalamityMod.NPCs
                                 case NPCID.RedDevil:
                                 case NPCID.FlyingSnake:
                                 case NPCID.VampireBat:
+                                case NPCID.SporeBat:
                                     return CalamityGlobalAI.BuffedBatAI(npc, Mod);
                             }
                         }
                         break;
+
                     case NPCAIStyleID.Piranha:
                         switch (npc.type)
                         {
@@ -3380,6 +3399,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedSwimmingAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.Jellyfish:
                         switch (npc.type)
                         {
@@ -3392,6 +3412,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedJellyfishAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.Antlion:
                         switch (npc.type)
                         {
@@ -3399,6 +3420,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedAntlionAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.SpikeBall:
                         switch (npc.type)
                         {
@@ -3406,6 +3428,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedSpikeBallAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.BlazingWheel:
                         switch (npc.type)
                         {
@@ -3413,6 +3436,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedBlazingWheelAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.HoveringFighter:
                         switch (npc.type)
                         {
@@ -3429,6 +3453,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedHoveringAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.EnchantedSword:
                         switch (npc.type)
                         {
@@ -3438,14 +3463,17 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedFlyingWeaponAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.Mimic:
                         switch (npc.type)
                         {
                             case NPCID.Mimic:
                             case NPCID.PresentMimic:
+                            case NPCID.IceMimic:
                                 return CalamityGlobalAI.BuffedMimicAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.Unicorn:
                         if (npc.type == NPCType<Rotdog>())
                         {
@@ -3466,6 +3494,7 @@ namespace CalamityMod.NPCs
                             }
                         }
                         break;
+
                     case NPCAIStyleID.GiantTortoise:
                         if (npc.type == NPCType<Plagueshell>())
                         {
@@ -3484,6 +3513,7 @@ namespace CalamityMod.NPCs
                             }
                         }
                         break;
+
                     case NPCAIStyleID.Spider:
                         switch (npc.type)
                         {
@@ -3495,6 +3525,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedSpiderAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.Herpling:
                         if (npc.type == NPCType<Aries>())
                         {
@@ -3510,14 +3541,17 @@ namespace CalamityMod.NPCs
                             }
                         }
                         break;
+
                     case NPCAIStyleID.FlyingFish:
                         switch (npc.type)
                         {
                             case NPCID.FlyingFish:
+                            case NPCID.GiantFlyingAntlion:
                             case NPCID.FlyingAntlion:
                                 return CalamityGlobalAI.BuffedFlyingFishAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.AngryNimbus:
                         switch (npc.type)
                         {
@@ -3525,6 +3559,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedAngryNimbusAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.Spore:
                         switch (npc.type)
                         {
@@ -3533,6 +3568,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedSporeAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.TeslaTurret:
                         switch (npc.type)
                         {
@@ -3540,6 +3576,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedTeslaTurretAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.Corite:
                         switch (npc.type)
                         {
@@ -3548,6 +3585,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedCoriteAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.MartianProbe:
                         switch (npc.type)
                         {
@@ -3555,6 +3593,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedMartianProbeAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.MothronEgg:
                         switch (npc.type)
                         {
@@ -3562,6 +3601,7 @@ namespace CalamityMod.NPCs
                                 return CalamityGlobalAI.BuffedMothronEggAI(npc, Mod);
                         }
                         break;
+
                     case NPCAIStyleID.GraniteElemental:
                         if (npc.type == NPCType<CosmicElemental>())
                         {
@@ -3576,6 +3616,7 @@ namespace CalamityMod.NPCs
                             }
                         }
                         break;
+
                     default:
                         break;
                 }

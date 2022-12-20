@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            CalamityAI.UnicornAI(NPC, Mod, false, CalamityWorld.death ? 6f : 4f, 5f, CalamityWorld.death ? 0.15f : 0.1f);
+            CalamityAI.UnicornAI(NPC, Mod, false, CalamityWorld.death ? 8f : CalamityWorld.revenge ? 6f : 4f, 5f, CalamityWorld.death ? 0.2f : CalamityWorld.revenge ? 0.15f : 0.1f);
         }
 
         public override void FindFrame(int frameHeight)

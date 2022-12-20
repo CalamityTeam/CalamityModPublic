@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     NPC.TargetClosest(true);
                     NPC.velocity.X = NPC.velocity.X + (float)NPC.direction * 0.2f;
                     NPC.velocity.Y = NPC.velocity.Y + (float)NPC.directionY * 0.2f;
-                    float velocityMax = CalamityWorld.death ? 16f : 12f;
+                    float velocityMax = CalamityWorld.death ? 16f : CalamityWorld.revenge ? 14f : 12f;
                     if (NPC.velocity.X > velocityMax)
                     {
                         NPC.velocity.X = velocityMax;
@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         NPC.velocity.Y = -velocityMax;
                     }
                     NPC.localAI[0] += 1f;
-                    if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= (CalamityWorld.death ? 60f : 90f))
+                    if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= (CalamityWorld.death ? 50f : CalamityWorld.revenge ? 70f : 90f))
                     {
                         NPC.localAI[0] = 0f;
                         if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))

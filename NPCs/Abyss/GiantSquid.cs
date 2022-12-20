@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs.Abyss
                 if (NPC.velocity.X > -num263 && NPC.velocity.X < num263 && NPC.velocity.Y > -num263 && NPC.velocity.Y < num263)
                 {
                     NPC.TargetClosest(true);
-                    float num264 = CalamityWorld.death ? 24f : 16f;
+                    float num264 = CalamityWorld.death ? 24f : CalamityWorld.revenge ? 20f : 16f;
                     Vector2 vector31 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
                     float num265 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - vector31.X;
                     float num266 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - vector31.Y;

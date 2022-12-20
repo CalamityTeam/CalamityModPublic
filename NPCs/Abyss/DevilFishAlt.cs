@@ -147,9 +147,9 @@ namespace CalamityMod.NPCs.Abyss
                 if (flag14)
                 {
                     NPC.TargetClosest(true);
-                    NPC.velocity.X = NPC.velocity.X + (float)NPC.direction * (CalamityWorld.death ? 0.5f : 0.25f) * speedBoost;
-                    NPC.velocity.Y = NPC.velocity.Y + (float)NPC.directionY * (CalamityWorld.death ? 0.3f : 0.15f) * speedBoost;
-                    float velocity = CalamityWorld.death ? 12f : 6f;
+                    NPC.velocity.X = NPC.velocity.X + (float)NPC.direction * (CalamityWorld.death ? 0.5f : CalamityWorld.revenge ? 0.375f : 0.25f) * speedBoost;
+                    NPC.velocity.Y = NPC.velocity.Y + (float)NPC.directionY * (CalamityWorld.death ? 0.3f : CalamityWorld.revenge ? 0.225f : 0.15f) * speedBoost;
+                    float velocity = CalamityWorld.death ? 12f : CalamityWorld.revenge ? 9f : 6f;
                     if (NPC.velocity.X > velocity * speedBoost)
                     {
                         NPC.velocity.X = velocity * speedBoost;

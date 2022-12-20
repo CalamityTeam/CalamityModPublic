@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 SoundEngine.PlaySound(GrowlSound, NPC.position);
             }
-            bool phase2 = (double)NPC.life <= (double)NPC.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
+            bool phase2 = (double)NPC.life <= (double)NPC.lifeMax * (CalamityWorld.death ? 0.9 : CalamityWorld.revenge ? 0.7 : 0.5);
             if (phase2)
             {
                 if (!reset)
@@ -99,10 +99,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     NPC.ai[1] += 1f;
                 }
-                CalamityAI.UnicornAI(NPC, Mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
+                CalamityAI.UnicornAI(NPC, Mod, true, CalamityWorld.death ? 8f : CalamityWorld.revenge ? 6f : 4f, 5f, 0.2f);
                 return;
             }
-            CalamityAI.UnicornAI(NPC, Mod, false, CalamityWorld.death ? 6f : 4f, 6f, CalamityWorld.death ? 0.1f : 0.07f);
+            CalamityAI.UnicornAI(NPC, Mod, false, CalamityWorld.death ? 8f : CalamityWorld.revenge ? 6f : 4f, 6f, CalamityWorld.death ? 0.1f : CalamityWorld.revenge ? 0.085f : 0.07f);
         }
 
         public override void FindFrame(int frameHeight)

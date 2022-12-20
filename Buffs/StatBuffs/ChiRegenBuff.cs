@@ -3,21 +3,16 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class Afflicted : ModBuff
+    public class ChiRegenBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Afflicted");
-            Description.SetDefault("Empowered by otherworldly spirits");
+            DisplayName.SetDefault("Chi");
+            Description.SetDefault("Life regen increased");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-        }
-
-        public override void Update(Player player, ref int buffIndex)
-        {
-            player.Calamity().afflicted = true;
         }
     }
 }

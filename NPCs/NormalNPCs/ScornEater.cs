@@ -83,9 +83,13 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     num321 = 12;
                 }
+                if (CalamityWorld.revenge)
+                {
+                    num321 /= 2;
+                }
                 if (CalamityWorld.death)
                 {
-                    num321 /= 4;
+                    num321 /= 2;
                 }
                 if (NPC.ai[2] < (float)num321)
                 {
