@@ -212,7 +212,8 @@ namespace CalamityMod.NPCs.Perforator
                 {
                     int type2 = ModContent.ProjectileType<IchorShot>();
                     Vector2 baseVelocity = Vector2.UnitY * Main.rand.NextFloat(-12.5f, -5f);
-                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, baseVelocity.RotatedBy(MathHelper.ToRadians(30 * i)), type2, damage, 0f, Main.myPlayer);
+                    int spread = Main.rand.Next(16, 36);
+                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, baseVelocity.RotatedBy(MathHelper.ToRadians(spread * i)), type2, damage, 0f, Main.myPlayer);
                 }
             }
         }
