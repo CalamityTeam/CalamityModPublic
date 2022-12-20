@@ -2498,6 +2498,63 @@ namespace CalamityMod.NPCs
             else if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
+            bool geldonPhase1 = lifeRatio > 0.6f && lifeRatio <= 0.7f;
+            bool geldonPhase2 = lifeRatio <= 0.1f;
+            if (Main.getGoodWorld && (geldonPhase1 || geldonPhase2)) // "turn into a slime". move to zenith seed later
+            {
+                AstrumAureus.AstrumAureus astrumAureus = npc.ModNPC<AstrumAureus.AstrumAureus>();
+                astrumAureus.slimeProjCounter++;
+                if (astrumAureus.slimeProjCounter % 180 == 0)
+                {
+                    SoundEngine.PlaySound(SoundID.Item33, npc.Center);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        if (astrumAureus.slimePhase == 1)
+                        {
+                            int type = ModContent.ProjectileType<AstralFlame>();
+                            int damage = npc.GetProjectileDamage(type);
+                            int totalProjectiles = bossRush ? 14 : death ? 12 : revenge ? 10 : expertMode ? 8 : 6;
+                            float radians = MathHelper.TwoPi / totalProjectiles;
+                            float velocity = 10f;
+                            Vector2 spinningPoint = new Vector2(0f, -velocity);
+                            for (int k = 0; k < totalProjectiles; k++)
+                            {
+                                Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, velocity2, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                            }
+                            astrumAureus.slimePhase = 0;
+                        }
+                        else
+                        {
+                            int type = ModContent.ProjectileType<AstralLaser>();
+                            int damage = npc.GetProjectileDamage(type);
+                            float num1070 = 7f;
+                            float num1071 = player.Center.X - npc.Center.X;
+                            float num1072 = player.Center.Y - npc.Center.Y;
+                            float num1073 = (float)Math.Sqrt(num1071 * num1071 + num1072 * num1072);
+                            num1073 = num1070 / num1073;
+                            num1071 *= num1073;
+                            num1072 *= num1073;
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, num1071, num1072, type, damage, 0f, Main.myPlayer);
+                            for (int i = 0; i < 4; i++)
+                            {
+                                Vector2 offset = new Vector2(Main.rand.Next(-6, 7), Main.rand.Next(-6, 7));
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, num1071 + offset.X, num1072 + offset.Y, type, damage, 0f, Main.myPlayer);
+                            }
+                            astrumAureus.slimePhase = 1;
+                        }
+                    }
+                }
+                CalamityGlobalAI.BuffedMimicAI(npc, mod);
+                npc.noGravity = false;
+                npc.noTileCollide = false;
+                return;
+            }
+            else
+            {
+                npc.noGravity = true;
+            }
+
             // Emit light when not Idle
             if (npc.ai[0] != 1f)
                 Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 1.3f, 0.5f, 0f);
@@ -2810,7 +2867,15 @@ namespace CalamityMod.NPCs
                 if (npc.velocity.Y == 0f)
                 {
                     // Play stomp sound. Gotta specify the filepath to avoid confusion between the namespace and npc
-                    SoundEngine.PlaySound(NPCs.AstrumAureus.AstrumAureus.StompSound, npc.position);
+                    SoundStyle soundToPlay = Main.getGoodWorld ? NPCs.ExoMechs.Ares.AresGaussNuke.NukeExplosionSound : NPCs.AstrumAureus.AstrumAureus.StompSound; // move to zenith seed later
+                    SoundEngine.PlaySound(soundToPlay, npc.position);
+
+                    if (Main.getGoodWorld) // move to zenith seed later
+                    {
+                        float screenShakePower = 16 * Utils.GetLerpValue(1300f, 0f, npc.Distance(Main.LocalPlayer.Center), true);
+                        if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < screenShakePower)
+                            Main.LocalPlayer.Calamity().GeneralScreenShakePower = screenShakePower;
+                    }
 
                     // Stomp and jump again, if stomped twice then reset and set AI to next phase (Teleport or Idle)
                     npc.TargetClosest();
@@ -2854,7 +2919,21 @@ namespace CalamityMod.NPCs
                     SoundEngine.PlaySound(SoundID.Item33, npc.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        if (calamityGlobalNPC.newAI[2] == 0f)
+                        if (Main.getGoodWorld) // move to zenith seed later
+                        {
+                            int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AstralLaser>() : ModContent.ProjectileType<AstralFlame>();
+                            int damage = npc.GetProjectileDamage(type);
+                            int totalProjectiles = bossRush ? 14 : death ? 12 : revenge ? 10 : expertMode ? 8 : 6;
+                            float radians = MathHelper.TwoPi / totalProjectiles;
+                            float velocity = 10f;
+                            Vector2 spinningPoint = new Vector2(0f, -velocity);
+                            for (int k = 0; k < totalProjectiles; k++)
+                            {
+                                Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, velocity2, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                            }
+                        }
+                        else if (calamityGlobalNPC.newAI[2] == 0f)
                         {
                             calamityGlobalNPC.newAI[2] = 1f;
 
