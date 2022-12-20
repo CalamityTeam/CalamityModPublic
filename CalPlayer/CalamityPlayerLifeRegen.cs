@@ -3,6 +3,7 @@ using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Cooldowns;
 using CalamityMod.Events;
+using CalamityMod.NPCs;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -167,12 +168,25 @@ namespace CalamityMod.CalPlayer
                 if (Vector2.Distance(Player.Center.ToTileCoordinates().ToVector2(), closestSafeZone.ToVector2()) < SulphuricWaterSafeZoneSystem.NearbySafeTiles[closestSafeZone] * 17f)
                     nearSafeZone = true;
             }
-            if (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone)
+            
+            bool getFuckedASPoisoning = false;
+            //TODO -- Zenith seed.
+            if (CalamityGlobalNPC.aquaticScourge >= 0 && Main.getGoodWorld && Main.masterMode)
+            {
+                //if the player is 50 blocks or more away from the head
+                if (Vector2.Distance(Player.Center, Main.npc[CalamityGlobalNPC.aquaticScourge].Center) >= 800f)
+                    getFuckedASPoisoning = true;
+            }
+
+            if (getFuckedASPoisoning || (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone))
             {
                 float increment = 1f / SulphSeaWaterSafetyTime;
-                if (sulphurskin)
+                //No way to mitigate AS Poisoning
+                if (getFuckedASPoisoning)
+                    increment *= 4f;
+                if (sulphurskin && !getFuckedASPoisoning)
                     increment *= 0.5f;
-                if (sulfurSet)
+                if (sulfurSet && !getFuckedASPoisoning)
                     increment *= 0.5f;
 
                 SulphWaterPoisoningLevel = MathHelper.Clamp(SulphWaterPoisoningLevel + increment, 0f, 1f);
