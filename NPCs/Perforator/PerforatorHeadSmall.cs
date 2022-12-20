@@ -273,183 +273,219 @@ namespace CalamityMod.NPCs.Perforator
                     }
                 }
             }
-            float num18 = speed;
-            float num19 = turnSpeed;
-            Vector2 vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-            float num20 = player.position.X + (float)(player.width / 2);
-            float num21 = player.position.Y + (float)(player.height / 2);
-            num20 = (float)((int)(num20 / 16f) * 16);
-            num21 = (float)((int)(num21 / 16f) * 16);
-            vector3.X = (float)((int)(vector3.X / 16f) * 16);
-            vector3.Y = (float)((int)(vector3.Y / 16f) * 16);
-            num20 -= vector3.X;
-            num21 -= vector3.Y;
-            float num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
-            if (!flag2)
+
+            //TODO -- Zenith seed.
+            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+
+            if (getFuckedAI && CalamityGlobalNPC.perfHive >= 0)
+                NPC.ai[0]++;
+            
+            //GFB movement
+            if (NPC.ai[0] >= 300f && CalamityGlobalNPC.perfHive >= 0)
             {
-                NPC.TargetClosest(true);
-                NPC.velocity.Y = NPC.velocity.Y + 0.15f;
-                if (NPC.velocity.Y > num17)
+                flag2 = false;
+                
+                NPC Hive = Main.npc[CalamityGlobalNPC.perfHive];
+                Vector2 targetDistance = Hive.Center - NPC.Center;
+                float velocity = 16f;
+                float acceleration = 0.15f;
+                //Move towards the hive really quickly
+                if (targetDistance.Length() > 32f)
+                    CalamityUtils.SmoothMovement(NPC, 0f, targetDistance, velocity, acceleration, true);
+                else
                 {
-                    NPC.velocity.Y = num17;
+                    //Go and succ it
+                    NPC.Center = Hive.Center + (Vector2.UnitY * 4f).RotatedBy(NPC.rotation);
+                    Hive.localAI[1]++;
                 }
-                if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.4)
+
+                if (NPC.ai[0] >= 600f)
                 {
-                    if (NPC.velocity.X < 0f)
-                    {
-                        NPC.velocity.X = NPC.velocity.X - num18 * 1.1f;
-                    }
-                    else
-                    {
-                        NPC.velocity.X = NPC.velocity.X + num18 * 1.1f;
-                    }
-                }
-                else if (NPC.velocity.Y == num17)
-                {
-                    if (NPC.velocity.X < num20)
-                    {
-                        NPC.velocity.X = NPC.velocity.X + num18;
-                    }
-                    else if (NPC.velocity.X > num20)
-                    {
-                        NPC.velocity.X = NPC.velocity.X - num18;
-                    }
-                }
-                else if (NPC.velocity.Y > 4f)
-                {
-                    if (NPC.velocity.X < 0f)
-                    {
-                        NPC.velocity.X = NPC.velocity.X + num18 * 0.9f;
-                    }
-                    else
-                    {
-                        NPC.velocity.X = NPC.velocity.X - num18 * 0.9f;
-                    }
+                    NPC.ai[0] = 0f;
+                    Hive.localAI[1] = 0f;
                 }
             }
+            //Normal movement
             else
             {
-                if (NPC.soundDelay == 0)
+                float num18 = speed;
+                float num19 = turnSpeed;
+                Vector2 vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                float num20 = player.position.X + (float)(player.width / 2);
+                float num21 = player.position.Y + (float)(player.height / 2);
+                num20 = (float)((int)(num20 / 16f) * 16);
+                num21 = (float)((int)(num21 / 16f) * 16);
+                vector3.X = (float)((int)(vector3.X / 16f) * 16);
+                vector3.Y = (float)((int)(vector3.Y / 16f) * 16);
+                num20 -= vector3.X;
+                num21 -= vector3.Y;
+                float num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
+                if (!flag2)
                 {
-                    float num24 = num22 / 40f;
-                    if (num24 < 10f)
+                    NPC.TargetClosest(true);
+                    NPC.velocity.Y = NPC.velocity.Y + 0.15f;
+                    if (NPC.velocity.Y > num17)
                     {
-                        num24 = 10f;
+                        NPC.velocity.Y = num17;
                     }
-                    if (num24 > 20f)
+                    if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.4)
                     {
-                        num24 = 20f;
-                    }
-                    NPC.soundDelay = (int)num24;
-                    SoundEngine.PlaySound(SoundID.WormDig, NPC.position);
-                }
-                num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
-                float num25 = Math.Abs(num20);
-                float num26 = Math.Abs(num21);
-                float num27 = num17 / num22;
-                num20 *= num27;
-                num21 *= num27;
-                if (((NPC.velocity.X > 0f && num20 > 0f) || (NPC.velocity.X < 0f && num20 < 0f)) && ((NPC.velocity.Y > 0f && num21 > 0f) || (NPC.velocity.Y < 0f && num21 < 0f)))
-                {
-                    if (NPC.velocity.X < num20)
-                    {
-                        NPC.velocity.X = NPC.velocity.X + num19;
-                    }
-                    else if (NPC.velocity.X > num20)
-                    {
-                        NPC.velocity.X = NPC.velocity.X - num19;
-                    }
-                    if (NPC.velocity.Y < num21)
-                    {
-                        NPC.velocity.Y = NPC.velocity.Y + num19;
-                    }
-                    else if (NPC.velocity.Y > num21)
-                    {
-                        NPC.velocity.Y = NPC.velocity.Y - num19;
-                    }
-                }
-                if ((NPC.velocity.X > 0f && num20 > 0f) || (NPC.velocity.X < 0f && num20 < 0f) || (NPC.velocity.Y > 0f && num21 > 0f) || (NPC.velocity.Y < 0f && num21 < 0f))
-                {
-                    if (NPC.velocity.X < num20)
-                    {
-                        NPC.velocity.X = NPC.velocity.X + num18;
-                    }
-                    else if (NPC.velocity.X > num20)
-                    {
-                        NPC.velocity.X = NPC.velocity.X - num18;
-                    }
-                    if (NPC.velocity.Y < num21)
-                    {
-                        NPC.velocity.Y = NPC.velocity.Y + num18;
-                    }
-                    else if (NPC.velocity.Y > num21)
-                    {
-                        NPC.velocity.Y = NPC.velocity.Y - num18;
-                    }
-                    if ((double)Math.Abs(num21) < (double)num17 * 0.2 && ((NPC.velocity.X > 0f && num20 < 0f) || (NPC.velocity.X < 0f && num20 > 0f)))
-                    {
-                        if (NPC.velocity.Y > 0f)
+                        if (NPC.velocity.X < 0f)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y + num18 * 2f;
+                            NPC.velocity.X = NPC.velocity.X - num18 * 1.1f;
                         }
                         else
                         {
-                            NPC.velocity.Y = NPC.velocity.Y - num18 * 2f;
+                            NPC.velocity.X = NPC.velocity.X + num18 * 1.1f;
                         }
                     }
-                    if ((double)Math.Abs(num20) < (double)num17 * 0.2 && ((NPC.velocity.Y > 0f && num21 < 0f) || (NPC.velocity.Y < 0f && num21 > 0f)))
+                    else if (NPC.velocity.Y == num17)
                     {
-                        if (NPC.velocity.X > 0f)
+                        if (NPC.velocity.X < num20)
                         {
-                            NPC.velocity.X = NPC.velocity.X + num18 * 2f;
+                            NPC.velocity.X = NPC.velocity.X + num18;
                         }
-                        else
+                        else if (NPC.velocity.X > num20)
                         {
-                            NPC.velocity.X = NPC.velocity.X - num18 * 2f;
+                            NPC.velocity.X = NPC.velocity.X - num18;
                         }
                     }
-                }
-                else if (num25 > num26)
-                {
-                    if (NPC.velocity.X < num20)
+                    else if (NPC.velocity.Y > 4f)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num18 * 1.1f;
-                    }
-                    else if (NPC.velocity.X > num20)
-                    {
-                        NPC.velocity.X = NPC.velocity.X - num18 * 1.1f;
-                    }
-                    if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.5)
-                    {
-                        if (NPC.velocity.Y > 0f)
+                        if (NPC.velocity.X < 0f)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y + num18;
+                            NPC.velocity.X = NPC.velocity.X + num18 * 0.9f;
                         }
                         else
                         {
-                            NPC.velocity.Y = NPC.velocity.Y - num18;
+                            NPC.velocity.X = NPC.velocity.X - num18 * 0.9f;
                         }
                     }
                 }
                 else
                 {
-                    if (NPC.velocity.Y < num21)
+                    if (NPC.soundDelay == 0)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num18 * 1.1f;
+                        float num24 = num22 / 40f;
+                        if (num24 < 10f)
+                        {
+                            num24 = 10f;
+                        }
+                        if (num24 > 20f)
+                        {
+                            num24 = 20f;
+                        }
+                        NPC.soundDelay = (int)num24;
+                        SoundEngine.PlaySound(SoundID.WormDig, NPC.position);
                     }
-                    else if (NPC.velocity.Y > num21)
+                    num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
+                    float num25 = Math.Abs(num20);
+                    float num26 = Math.Abs(num21);
+                    float num27 = num17 / num22;
+                    num20 *= num27;
+                    num21 *= num27;
+                    if (((NPC.velocity.X > 0f && num20 > 0f) || (NPC.velocity.X < 0f && num20 < 0f)) && ((NPC.velocity.Y > 0f && num21 > 0f) || (NPC.velocity.Y < 0f && num21 < 0f)))
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num18 * 1.1f;
+                        if (NPC.velocity.X < num20)
+                        {
+                            NPC.velocity.X = NPC.velocity.X + num19;
+                        }
+                        else if (NPC.velocity.X > num20)
+                        {
+                            NPC.velocity.X = NPC.velocity.X - num19;
+                        }
+                        if (NPC.velocity.Y < num21)
+                        {
+                            NPC.velocity.Y = NPC.velocity.Y + num19;
+                        }
+                        else if (NPC.velocity.Y > num21)
+                        {
+                            NPC.velocity.Y = NPC.velocity.Y - num19;
+                        }
                     }
-                    if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.5)
+                    if ((NPC.velocity.X > 0f && num20 > 0f) || (NPC.velocity.X < 0f && num20 < 0f) || (NPC.velocity.Y > 0f && num21 > 0f) || (NPC.velocity.Y < 0f && num21 < 0f))
                     {
-                        if (NPC.velocity.X > 0f)
+                        if (NPC.velocity.X < num20)
                         {
                             NPC.velocity.X = NPC.velocity.X + num18;
                         }
-                        else
+                        else if (NPC.velocity.X > num20)
                         {
                             NPC.velocity.X = NPC.velocity.X - num18;
+                        }
+                        if (NPC.velocity.Y < num21)
+                        {
+                            NPC.velocity.Y = NPC.velocity.Y + num18;
+                        }
+                        else if (NPC.velocity.Y > num21)
+                        {
+                            NPC.velocity.Y = NPC.velocity.Y - num18;
+                        }
+                        if ((double)Math.Abs(num21) < (double)num17 * 0.2 && ((NPC.velocity.X > 0f && num20 < 0f) || (NPC.velocity.X < 0f && num20 > 0f)))
+                        {
+                            if (NPC.velocity.Y > 0f)
+                            {
+                                NPC.velocity.Y = NPC.velocity.Y + num18 * 2f;
+                            }
+                            else
+                            {
+                                NPC.velocity.Y = NPC.velocity.Y - num18 * 2f;
+                            }
+                        }
+                        if ((double)Math.Abs(num20) < (double)num17 * 0.2 && ((NPC.velocity.Y > 0f && num21 < 0f) || (NPC.velocity.Y < 0f && num21 > 0f)))
+                        {
+                            if (NPC.velocity.X > 0f)
+                            {
+                                NPC.velocity.X = NPC.velocity.X + num18 * 2f;
+                            }
+                            else
+                            {
+                                NPC.velocity.X = NPC.velocity.X - num18 * 2f;
+                            }
+                        }
+                    }
+                    else if (num25 > num26)
+                    {
+                        if (NPC.velocity.X < num20)
+                        {
+                            NPC.velocity.X = NPC.velocity.X + num18 * 1.1f;
+                        }
+                        else if (NPC.velocity.X > num20)
+                        {
+                            NPC.velocity.X = NPC.velocity.X - num18 * 1.1f;
+                        }
+                        if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.5)
+                        {
+                            if (NPC.velocity.Y > 0f)
+                            {
+                                NPC.velocity.Y = NPC.velocity.Y + num18;
+                            }
+                            else
+                            {
+                                NPC.velocity.Y = NPC.velocity.Y - num18;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (NPC.velocity.Y < num21)
+                        {
+                            NPC.velocity.Y = NPC.velocity.Y + num18 * 1.1f;
+                        }
+                        else if (NPC.velocity.Y > num21)
+                        {
+                            NPC.velocity.Y = NPC.velocity.Y - num18 * 1.1f;
+                        }
+                        if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.5)
+                        {
+                            if (NPC.velocity.X > 0f)
+                            {
+                                NPC.velocity.X = NPC.velocity.X + num18;
+                            }
+                            else
+                            {
+                                NPC.velocity.X = NPC.velocity.X - num18;
+                            }
                         }
                     }
                 }

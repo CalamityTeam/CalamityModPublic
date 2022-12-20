@@ -191,6 +191,33 @@ namespace CalamityMod.NPCs.Perforator
             else if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;
 
+            //GFB seed shenanigans: Behavior during the suck
+            if (NPC.localAI[1] >= 6f)
+            {
+                //Leak projectiles everywhere and start healing
+                int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
+                int damage = NPC.GetProjectileDamage(type);
+                int spread = Main.rand.Next(-45, 46);
+                Vector2 baseVelocity = Vector2.UnitY * Main.rand.NextFloat(-12.5f, -5f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, baseVelocity.RotatedBy(MathHelper.ToRadians(spread)), type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+
+                //Heals 10 times per second for 0.1% of its health each = 1% per second
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int healAmt = (int)(NPC.lifeMax / 1000);
+                    if (healAmt > NPC.lifeMax - NPC.life)
+                        healAmt = NPC.lifeMax - NPC.life;
+
+                    if (healAmt > 0)
+                    {
+                        NPC.life += healAmt;
+                        NPC.HealEffect(healAmt, true);
+                        NPC.netUpdate = true;
+                    }
+                }
+                NPC.localAI[1] = 0f;
+            }
+
             bool largeWormAlive = NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadLarge>());
             bool mediumWormAlive = NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadMedium>());
             bool smallWormAlive = NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadSmall>());
