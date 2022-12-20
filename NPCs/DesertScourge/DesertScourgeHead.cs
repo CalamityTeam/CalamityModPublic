@@ -13,6 +13,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -213,6 +214,17 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.alpha -= 42;
             if (NPC.alpha < 0)
                 NPC.alpha = 0;
+
+            // move to zenith seed later
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                // become moist if in an aquatic biome
+                if (Main.getGoodWorld && (player.ZoneBeach || player.Calamity().ZoneAbyss || player.Calamity().ZoneSunkenSea || player.Calamity().ZoneSulphur) && NPC.CountNPCS(ModContent.NPCType<AquaticScourgeHead>()) < 1)
+                {
+                    NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AquaticScourgeHead>());
+                    NPC.active = false;
+                }
+            }
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
