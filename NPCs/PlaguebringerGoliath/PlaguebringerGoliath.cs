@@ -798,6 +798,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 break;
                         }
 
+                        if (Main.getGoodWorld) // move to zenith seed later
+                        {
+                            type = ModContent.ProjectileType<HiveBombGoliath>();
+                        }
+
                         int damage = NPC.GetProjectileDamage(type);
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, challengeAmt, player.position.Y);
                         NPC.netUpdate = true;
@@ -873,6 +878,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 float speed = revenge ? 6f : 5f;
                                 speed += 2f * enrageScale;
 
+                                bool gaussMode = false;
+
                                 int type = ModContent.ProjectileType<HiveBombGoliath>();
                                 int damage = NPC.GetProjectileDamage(type);
 
@@ -880,14 +887,43 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 baseVelocity.Normalize();
                                 baseVelocity *= speed;
 
+                                if (Main.rand.NextBool(10) && Main.getGoodWorld) // move to zenith seed later
+                                {
+                                    type = ModContent.ProjectileType<AresGaussNukeProjectile>();
+                                    baseVelocity *= 0.75f;
+                                    gaussMode = true;
+                                }
+                                else if (Main.rand.NextBool(2) && Main.getGoodWorld) // move to zenith seed later
+                                {
+                                    type = ModContent.ProjectileType<Projectiles.Ranged.HighExplosivePeanutShell>();
+                                    baseVelocity *= 0.4f;
+                                }
+
                                 int missiles = bossRush ? 16 : MissileProjectiles;
                                 int spread = bossRush ? 18 : 24;
-                                for (int i = 0; i < missiles; i++)
+                                if (!gaussMode)
                                 {
-                                    Vector2 spawn = vectorCenter; // Normal = 96, Boss Rush = 144
-                                    spawn.X += i * (int)(spread * 1.125) - (missiles * (spread / 2)); // Normal = -96 to 93, Boss Rush = -144 to 156
-                                    Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / missiles)));
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), spawn, velocity, type, damage, 0f, Main.myPlayer, nukeBarrageChallengeAmt, player.position.Y);
+                                    for (int i = 0; i < missiles; i++)
+                                    {
+                                        Vector2 spawn = vectorCenter; // Normal = 96, Boss Rush = 144
+                                        spawn.X += i * (int)(spread * 1.125) - (missiles * (spread / 2)); // Normal = -96 to 93, Boss Rush = -144 to 156
+                                        Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / missiles)));
+                                        int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), spawn, velocity, type, damage, 0f, Main.myPlayer, nukeBarrageChallengeAmt, player.position.Y);
+                                        if (p.WithinBounds(Main.maxProjectiles))
+                                        {
+                                            if (Main.projectile[p].type == ModContent.ProjectileType<Projectiles.Ranged.HighExplosivePeanutShell>())
+                                            {
+                                                Main.projectile[p].DamageType = DamageClass.Default;
+                                                Main.projectile[p].friendly = false;
+                                                Main.projectile[p].hostile = true;
+                                                Main.projectile[p].timeLeft = 600;
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, baseVelocity, type, damage, 0f, Main.myPlayer);
                                 }
                             }
                         }
@@ -1296,7 +1332,15 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (damage > 0)
+            {
+                if (Main.getGoodWorld) // it is the plague, you get very sick. move to zenith seed later
+                {
+                    player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 480, true);
+                    player.AddBuff(BuffID.Poisoned, 480, true);
+                    player.AddBuff(BuffID.Venom, 480, true);
+                }
                 player.AddBuff(ModContent.BuffType<Plague>(), 480, true);
+            }
         }
     }
 }
