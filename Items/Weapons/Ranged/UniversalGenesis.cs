@@ -104,18 +104,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<Disseminator>().
                 AddIngredient(ItemID.StarCloak, 3).
-                AddIngredient<ArmoredShell>(2).
-                AddIngredient<CosmiliteBar>(8).
-                AddIngredient<AscendantSpiritEssence>(5).
-                AddTile<CosmicAnvil>().
-                Register();
-
-            CreateRecipe().
-                AddIngredient<Disseminator>().
-                AddIngredient(ItemID.StarCloak, 3).
-                AddIngredient<ArmoredShell>(2).
-                AddIngredient<NebulousCore>().
-                AddIngredient<AscendantSpiritEssence>(5).
+                AddIngredient<CosmiliteBar>(5).
+                AddIngredient<AscendantSpiritEssence>(4).
                 AddTile<CosmicAnvil>().
                 Register();
         }

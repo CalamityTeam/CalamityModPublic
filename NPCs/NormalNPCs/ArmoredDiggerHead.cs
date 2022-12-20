@@ -421,6 +421,11 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 6, hitDirection, -1f, 0, default, 1f);
                 }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ArmoredDiggerHead").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ArmoredDiggerHead2").Type, 1f);
+                }
             }
         }
 
