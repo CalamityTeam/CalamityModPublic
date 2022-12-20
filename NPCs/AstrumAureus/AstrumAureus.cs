@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             if (Main.getGoodWorld)
                 NPC.scale *= 0.8f;
             if (Main.getGoodWorld) // move to zenith seed later
-                NPC.scale *= 1.5;
+                NPC.scale *= 1.5f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
