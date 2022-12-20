@@ -312,9 +312,10 @@ namespace CalamityMod.NPCs.Perforator
             NPC.Calamity().newAI[3]++;
             if (NPC.Calamity().newAI[3] >= 300f) //Effectively 10 seconds but give a little headstart in case players kill it too fast
             {
+                SoundEngine.PlaySound(SoundID.Item12, player.position);
                 for (int i = -7; i < 8; i++) //15 lasers
                 {
-                    float laserGap = (i * 160f);
+                    float laserGap = (i * 128f);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + laserOffset, player.Center.Y + laserGap, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - laserOffset, player.Center.Y + laserGap, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + laserGap, player.Center.Y + laserOffset, 0f, -laserVelocity, type, damage, 0f, Main.myPlayer);
