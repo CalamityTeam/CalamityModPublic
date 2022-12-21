@@ -99,7 +99,9 @@ namespace CalamityMod.NPCs.AquaticScourge
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             Color color = NPC.GetAlpha(drawColor);
 
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+            //TODO -- Zenith seed.
+            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive || getFuckedAI)
             {
                 if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] > 300f)
                     color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] - 300f) / 180f, 0f, 1f));

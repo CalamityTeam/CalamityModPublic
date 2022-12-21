@@ -125,7 +125,7 @@ namespace CalamityMod.NPCs
             if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && (revenge || getFuckedAI))
             {
                 doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= spiralGateValue;
-                if (Vector2.Distance(npc.Center, player.Center) < 1000f || doSpiral || getFuckedAI)
+                if (Vector2.Distance(npc.Center, player.Center) < (getFuckedAI ? 1600f : 1000f) || doSpiral)
                     calamityGlobalNPC.newAI[3] += 1f;
 
                 if (doSpiral)
@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs
                     npc.localAI[3] = colorFadeTimeAfterSpiral;
 
                     // Vomit acid mist
-                    float acidMistBarfDivisor = (float)Math.Floor(getFuckedAI ? 2f : bossRush ? 4f : death ? 5f : 6f) * (phase3 ? 1.5f : 1f);
+                    float acidMistBarfDivisor = getFuckedAI ? 2f : ((float)Math.Floor(bossRush ? 4f : death ? 5f : 6f) * (phase3 ? 1.5f : 1f));
                     if (calamityGlobalNPC.newAI[3] % acidMistBarfDivisor == 0f)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs
                     float velocity = (float)(Math.PI * 2D) / 120f;
                     // In GFB, contracts the radius as the fight progresses
                     if (getFuckedAI)
-                        velocity *= phase3 ? 1.75f : phase2 ? 1.5f : 1.25f;
+                        velocity *= phase3 ? 1.5f : phase2 ? 1.25f : 1f;
                     npc.velocity = npc.velocity.RotatedBy(-(double)velocity * npc.localAI[1]);
                     // Speed up even more in GFB for more radius
                     if (getFuckedAI && npc.velocity.Length() <= 32f)
