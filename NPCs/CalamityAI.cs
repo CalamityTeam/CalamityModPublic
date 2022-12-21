@@ -860,6 +860,21 @@ namespace CalamityMod.NPCs
                 // Avoid cheap bullshit
                 npc.damage = 0;
 
+                if (npc.alpha >= 255)
+                {
+                    if (Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient) // move to zenith seed later
+                    {
+                        SoundEngine.PlaySound(SoundID.Item68, npc.Center);
+                        int type = ModContent.ProjectileType<BrimstoneRay>();
+                        int damage = npc.GetProjectileDamage(type);
+                        Vector2 pos = npc.Center;
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(0, 1), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(0, -1), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(1, 0), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(-1, 0), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                    }
+                }
+
                 npc.alpha -= 50;
                 if (npc.alpha <= 0)
                 {
@@ -991,6 +1006,10 @@ namespace CalamityMod.NPCs
                         float radians2 = MathHelper.TwoPi / totalProjectiles;
                         type = ModContent.ProjectileType<BrimstoneBarrage>();
                         damage = npc.GetProjectileDamage(type);
+                        if (Main.getGoodWorld) // move to zenith seed later
+                        {
+                            type = ModContent.ProjectileType<BrimstoneHellblast>();
+                        }
                         double angleA = radians2 * 0.5;
                         double angleB = MathHelper.ToRadians(90f) - angleA;
                         float velocityX = (float)(projectileSpeed * Math.Sin(angleA) / Math.Sin(angleB));
@@ -1096,6 +1115,11 @@ namespace CalamityMod.NPCs
                             Projectile.NewProjectile(npc.GetSource_FromAI(), source, laserVelocity2, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
                             if (Main.getGoodWorld)
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), source, -laserVelocity2, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                            if (Main.getGoodWorld) // move to zenith seed later
+                            {
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), source, new Vector2(-laserVelocity2.X, laserVelocity2.Y), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), source, new Vector2(laserVelocity2.X, -laserVelocity2.Y), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                            }
                         }
                     }
                 }
@@ -1132,6 +1156,12 @@ namespace CalamityMod.NPCs
                             if (Main.getGoodWorld)
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), source, -laserVelocity, ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
 
+                            if (Main.getGoodWorld) // move to zenith seed later
+                            {
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), source, new Vector2(-laserVelocity.X, laserVelocity.Y), ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), source, new Vector2(laserVelocity.X, -laserVelocity.Y), ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                            }
+
                             calamityGlobalNPC.newAI[0] = 1f;
                         }
                         else
@@ -1143,6 +1173,11 @@ namespace CalamityMod.NPCs
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, npc.localAI[0], npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 1f, npc.whoAmI);
                                 if (Main.getGoodWorld)
                                     Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, -npc.localAI[0], -npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 1f, npc.whoAmI);
+                                if (Main.getGoodWorld) // move to zenith seed later
+                                {
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, -npc.localAI[0], npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 1f, npc.whoAmI);
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, npc.localAI[0], -npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 1f, npc.whoAmI);
+                                }
                             }
                         }
                     }

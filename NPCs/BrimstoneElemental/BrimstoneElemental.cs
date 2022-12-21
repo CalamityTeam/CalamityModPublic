@@ -114,8 +114,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
+            int debuffType = Main.getGoodWorld ? ModContent.BuffType<VulnerabilityHex>() : ModContent.BuffType<BrimstoneFlames>();
             if (damage > 0)
-                player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
+                player.AddBuff(debuffType, 240, true);
         }
 
         public override void FindFrame(int frameHeight) // 9 total frames
