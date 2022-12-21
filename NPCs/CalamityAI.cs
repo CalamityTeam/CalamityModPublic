@@ -139,8 +139,6 @@ namespace CalamityMod.NPCs
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             float mistVelocity = death ? 10f : 8f;
-                            if (getFuckedAI)
-                                mistVelocity *= 2f;
 
                             Vector2 projectileVelocity = Vector2.Normalize(npc.Center + npc.velocity * 10f - npc.Center);
                             int type = ModContent.ProjectileType<SulphuricAcidMist>();
@@ -159,7 +157,7 @@ namespace CalamityMod.NPCs
                         {
                             int type = ModContent.ProjectileType<ToxicCloud>();
                             int damage = npc.GetProjectileDamage(type);
-                            int totalProjectiles = getFuckedAI ? 6 : ((phase4 ? 6 : 9) + (int)((calamityGlobalNPC.newAI[3] - spiralGateValue) / toxicCloudBarfDivisor) * (phase4 ? 2 : 3));
+                            int totalProjectiles = (phase4 ? 6 : 9) + (getFuckedAI ? Main.rand.Next(-2, 3) : (int)((calamityGlobalNPC.newAI[3] - spiralGateValue) / toxicCloudBarfDivisor) * (phase4 ? 2 : 3));
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             float cloudVelocity = 1f + enrageScale;
                             Vector2 spinningPoint = new Vector2(0f, -cloudVelocity);
@@ -175,15 +173,22 @@ namespace CalamityMod.NPCs
                     if (calamityGlobalNPC.newAI[3] == spiralGateValue)
                     {
                         npc.velocity.Normalize();
-                        npc.velocity *= getFuckedAI ? 240f : 24f;
+                        npc.velocity *= 24f;
                     }
 
                     // Spin velocity
                     float velocity = (float)(Math.PI * 2D) / 120f;
+                    // In GFB, contracts the radius as the fight progresses
+                    if (getFuckedAI)
+                        velocity *= phase3 ? 1.75f : phase2 ? 1.5f : 1.25f;
                     npc.velocity = npc.velocity.RotatedBy(-(double)velocity * npc.localAI[1]);
+                    // Speed up even more in GFB for more radius
+                    if (getFuckedAI && npc.velocity.Length() <= 32f)
+                        npc.velocity *= 1.1f;
                     npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
 
                     // Reset and charge at target
+                    // Don't reset in GFB
                     if (!getFuckedAI && calamityGlobalNPC.newAI[3] >= spiralGateValue + 120f)
                     {
                         calamityGlobalNPC.newAI[3] = 0f;
@@ -203,7 +208,7 @@ namespace CalamityMod.NPCs
             }
 
             // Adjust slowing debuff immunity
-            bool immuneToSlowingDebuffs = doSpiral;
+            bool immuneToSlowingDebuffs = doSpiral || getFuckedAI;
             npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
@@ -222,7 +227,7 @@ namespace CalamityMod.NPCs
                     // Spawn segments
                     if (calamityGlobalNPC.newAI[2] == 0f && npc.ai[0] == 0f)
                     {
-                        int maxLength = getFuckedAI ? 15 : death ? 80 : revenge ? 40 : expertMode ? 35 : 30;
+                        int maxLength = getFuckedAI ? 24 : death ? 80 : revenge ? 40 : expertMode ? 35 : 30;
                         int Previous = npc.whoAmI;
                         for (int num36 = 0; num36 < maxLength; num36++)
                         {
@@ -248,7 +253,7 @@ namespace CalamityMod.NPCs
                     }
 
                     // Big barf attack
-                    if (calamityGlobalNPC.newAI[0] == 1f && !doSpiral && phase2)
+                    if (calamityGlobalNPC.newAI[0] == 1f && (!doSpiral && phase2) || (getFuckedAI && !phase3))
                     {
                         npc.localAI[0] += 1f;
                         if (npc.localAI[0] >= (revenge ? 360f : 420f))
@@ -297,7 +302,7 @@ namespace CalamityMod.NPCs
 
                         if (npc.type == ModContent.NPCType<AquaticScourgeBody>())
                         {
-                            if (npc.localAI[0] % divisor == 0f && (npc.ai[0] % 3f == 0f || !death))
+                            if (npc.localAI[0] % divisor == 0f && (npc.ai[0] % 3f == 0f || getFuckedAI || !death))
                             {
                                 npc.TargetClosest();
                                 if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
@@ -422,10 +427,10 @@ namespace CalamityMod.NPCs
                     }
                     num188 += 3f * enrageScale;
                     num189 += 0.06f * enrageScale;
-                    if (death)
+                    if (death || getFuckedAI)
                     {
                         num188 += 5f;
-                        num189 -= 0.03f;
+                        num189 -= getFuckedAI ? 0f : 0.03f;
                         num188 += Vector2.Distance(player.Center, npc.Center) * 0.001f;
                         num189 += Vector2.Distance(player.Center, npc.Center) * 0.000045f;
                     }
