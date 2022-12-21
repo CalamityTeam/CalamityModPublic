@@ -160,26 +160,26 @@ namespace CalamityMod.Systems
                     // Tries to scale up reasonably for XL worlds
                     int labCount = Main.maxTilesX / 1500;
 
-                    DraedonStructures.PlaceHellLab(out Point hellPlacementPosition, workshopPositions);
+                    DraedonStructures.PlaceHellLab(out Point hellPlacementPosition, workshopPositions, WorldGen.structures);
                     workshopPositions.Add(hellPlacementPosition);
 
-                    DraedonStructures.PlaceSunkenSeaLab(out Point sunkenSeaPlacementPosition, workshopPositions);
+                    DraedonStructures.PlaceSunkenSeaLab(out Point sunkenSeaPlacementPosition, workshopPositions, WorldGen.structures);
                     workshopPositions.Add(sunkenSeaPlacementPosition);
 
-                    DraedonStructures.PlaceIceLab(out Point icePlacementPosition, workshopPositions);
+                    DraedonStructures.PlaceIceLab(out Point icePlacementPosition, workshopPositions, WorldGen.structures);
                     workshopPositions.Add(icePlacementPosition);
 
-                    DraedonStructures.PlacePlagueLab(out Point plaguePlacementPosition, workshopPositions);
+                    DraedonStructures.PlacePlagueLab(out Point plaguePlacementPosition, workshopPositions, WorldGen.structures);
                     workshopPositions.Add(plaguePlacementPosition);
 
                     for (int i = 0; i < workshopCount; i++)
                     {
-                        DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions);
+                        DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions, WorldGen.structures);
                         workshopPositions.Add(placementPosition);
                     }
                     for (int i = 0; i < labCount; i++)
                     {
-                        DraedonStructures.PlaceResearchFacility(out Point placementPosition, workshopPositions);
+                        DraedonStructures.PlaceResearchFacility(out Point placementPosition, workshopPositions, WorldGen.structures);
                         workshopPositions.Add(placementPosition);
                     }
                 }));
