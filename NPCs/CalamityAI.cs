@@ -40,6 +40,9 @@ namespace CalamityMod.NPCs
             bool revenge = CalamityWorld.revenge || bossRush;
             bool death = CalamityWorld.death || bossRush;
 
+            //TODO -- Zenith seed.
+            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+
 			if (head)
 				CalamityGlobalNPC.aquaticScourge = npc.whoAmI;
 
@@ -119,10 +122,10 @@ namespace CalamityMod.NPCs
             float colorFadeTimeAfterSpiral = 90f;
             float spiralGateValue = 480f;
             bool doSpiral = false;
-            if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && revenge)
+            if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && (revenge || getFuckedAI))
             {
                 doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= spiralGateValue;
-                if (Vector2.Distance(npc.Center, player.Center) < 1000f || doSpiral)
+                if (Vector2.Distance(npc.Center, player.Center) < 1000f || doSpiral || getFuckedAI)
                     calamityGlobalNPC.newAI[3] += 1f;
 
                 if (doSpiral)
@@ -130,18 +133,21 @@ namespace CalamityMod.NPCs
                     npc.localAI[3] = colorFadeTimeAfterSpiral;
 
                     // Vomit acid mist
-                    float acidMistBarfDivisor = (float)Math.Floor(bossRush ? 4f : death ? 5f : 6f) * (phase3 ? 1.5f : 1f);
+                    float acidMistBarfDivisor = (float)Math.Floor(getFuckedAI ? 2f : bossRush ? 4f : death ? 5f : 6f) * (phase3 ? 1.5f : 1f);
                     if (calamityGlobalNPC.newAI[3] % acidMistBarfDivisor == 0f)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             float mistVelocity = death ? 10f : 8f;
+                            if (getFuckedAI)
+                                mistVelocity *= 2f;
+
                             Vector2 projectileVelocity = Vector2.Normalize(npc.Center + npc.velocity * 10f - npc.Center);
                             int type = ModContent.ProjectileType<SulphuricAcidMist>();
                             int damage = npc.GetProjectileDamage(type);
                             int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 5f, projectileVelocity * mistVelocity, type, damage, 0f, Main.myPlayer);
                             Main.projectile[proj].tileCollide = false;
-                            Main.projectile[proj].timeLeft = 600;
+                            Main.projectile[proj].timeLeft = getFuckedAI ? 240 : 600;
                         }
                     }
 
@@ -153,7 +159,7 @@ namespace CalamityMod.NPCs
                         {
                             int type = ModContent.ProjectileType<ToxicCloud>();
                             int damage = npc.GetProjectileDamage(type);
-                            int totalProjectiles = (phase4 ? 6 : 9) + (int)((calamityGlobalNPC.newAI[3] - spiralGateValue) / toxicCloudBarfDivisor) * (phase4 ? 2 : 3);
+                            int totalProjectiles = getFuckedAI ? 6 : ((phase4 ? 6 : 9) + (int)((calamityGlobalNPC.newAI[3] - spiralGateValue) / toxicCloudBarfDivisor) * (phase4 ? 2 : 3));
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             float cloudVelocity = 1f + enrageScale;
                             Vector2 spinningPoint = new Vector2(0f, -cloudVelocity);
@@ -169,7 +175,7 @@ namespace CalamityMod.NPCs
                     if (calamityGlobalNPC.newAI[3] == spiralGateValue)
                     {
                         npc.velocity.Normalize();
-                        npc.velocity *= 24f;
+                        npc.velocity *= getFuckedAI ? 240f : 24f;
                     }
 
                     // Spin velocity
@@ -178,7 +184,7 @@ namespace CalamityMod.NPCs
                     npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
 
                     // Reset and charge at target
-                    if (calamityGlobalNPC.newAI[3] >= spiralGateValue + 120f)
+                    if (!getFuckedAI && calamityGlobalNPC.newAI[3] >= spiralGateValue + 120f)
                     {
                         calamityGlobalNPC.newAI[3] = 0f;
                         npc.TargetClosest();
@@ -216,7 +222,7 @@ namespace CalamityMod.NPCs
                     // Spawn segments
                     if (calamityGlobalNPC.newAI[2] == 0f && npc.ai[0] == 0f)
                     {
-                        int maxLength = death ? 80 : revenge ? 40 : expertMode ? 35 : 30;
+                        int maxLength = getFuckedAI ? 15 : death ? 80 : revenge ? 40 : expertMode ? 35 : 30;
                         int Previous = npc.whoAmI;
                         for (int num36 = 0; num36 < maxLength; num36++)
                         {
