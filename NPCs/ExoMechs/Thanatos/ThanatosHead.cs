@@ -229,7 +229,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         }
 
         public float GetSlowdownAreaEdgeRadius(bool lastMechAlive) =>
-            (BossRushEvent.BossRushActive ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) * (lastMechAlive ? 0.6f : 1f) * (Main.getGoodWorld ? 0.5f : 1f);
+            (BossRushEvent.BossRushActive ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) * (lastMechAlive ? 0.6f : 1f) * (Main.getGoodWorld ? 2 : Main.getGoodWorld ? 0.5f : 1f);
 
         public int CheckForOtherMechs(ref Player target, out bool exoPrimeAlive, out bool exoTwinsAlive)
         {
@@ -915,9 +915,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
                         if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
                         {
+                            if (Main.getGoodWorld && !exoMechdusa) // move to zenith seed later
+                            {
+                                AIState = (float)Phase.Deathray;
+                            }
+                            else
+                            {
+                                AIState = (float)Phase.Charge;
+                            }
                             NPC.localAI[0] = 0f;
                             NPC.localAI[2] = 0f;
-                            AIState = (float)Phase.Charge;
                             calamityGlobalNPC.newAI[2] = 0f;
                             calamityGlobalNPC.newAI[3] = 0f;
                             chargeVelocityScalar = 0f;

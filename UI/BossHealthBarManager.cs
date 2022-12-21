@@ -406,7 +406,7 @@ namespace CalamityMod.UI
             if (npc.type == NPCType<Artemis>())
                 canAddBar = false;
             if (npc.type == NPCType<Apollo>())
-                overridingName = "Eyes of XB-∞ Hekate";
+                overridingName = npc.ModNPC<Apollo>().exoMechdusa ? "Eyes of XB-∞ Hekate" : "XS-01 Artemis and XS-03 Apollo";
 
             if (canAddBar)
                 Bars.Add(new BossHPUI(index, overridingName));

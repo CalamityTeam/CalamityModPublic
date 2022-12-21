@@ -952,31 +952,69 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                             }
                         }
 
-                        if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
+                        if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration) // move to zenith seed later
                         {
-                            AIState = (float)Phase.Normal;
-                            calamityGlobalNPC.newAI[2] = 0f;
-                            calamityGlobalNPC.newAI[3] = 0f;
+                            if (!Main.getGoodWorld || exoMechdusa)
+                            {
+                                AIState = (float)Phase.Normal;
+                                calamityGlobalNPC.newAI[2] = 0f;
+                                calamityGlobalNPC.newAI[3] = 0f;
 
-                            /* Normal positions: Laser = 0, Tesla = 1, Plasma = 2, Gauss = 3
-                             * 0 = Laser = 0, Tesla = 1, Plasma = 2, Gauss = 3
-                             * 1 = Laser = 3, Tesla = 1, Plasma = 2, Gauss = 0
-                             * 2 = Laser = 3, Tesla = 2, Plasma = 1, Gauss = 0
-                             * 3 = Laser = 0, Tesla = 2, Plasma = 1, Gauss = 3
-                             * 4 = Laser = 0, Tesla = 1, Plasma = 2, Gauss = 3
-                             * 5 = Laser = 3, Tesla = 1, Plasma = 2, Gauss = 0
-                             */
-                            if (revenge)
-                            {
-                                NPC.ai[3] += 1f + Main.rand.Next(2);
-                                if (NPC.ai[3] > 5f)
-                                    NPC.ai[3] -= 4f;
+                                /* Normal positions: Laser = 0, Tesla = 1, Plasma = 2, Gauss = 3
+                                 * 0 = Laser = 0, Tesla = 1, Plasma = 2, Gauss = 3
+                                 * 1 = Laser = 3, Tesla = 1, Plasma = 2, Gauss = 0
+                                 * 2 = Laser = 3, Tesla = 2, Plasma = 1, Gauss = 0
+                                 * 3 = Laser = 0, Tesla = 2, Plasma = 1, Gauss = 3
+                                 * 4 = Laser = 0, Tesla = 1, Plasma = 2, Gauss = 3
+                                 * 5 = Laser = 3, Tesla = 1, Plasma = 2, Gauss = 0
+                                 */
+                                if (revenge)
+                                {
+                                    NPC.ai[3] += 1f + Main.rand.Next(2);
+                                    if (NPC.ai[3] > 5f)
+                                        NPC.ai[3] -= 4f;
+                                }
+                                else if (expertMode)
+                                {
+                                    NPC.ai[3] += Main.rand.Next(2);
+                                    if (NPC.ai[3] > 3f)
+                                        NPC.ai[3] -= 2f;
+                                }
                             }
-                            else if (expertMode)
+                            else
                             {
-                                NPC.ai[3] += Main.rand.Next(2);
-                                if (NPC.ai[3] > 3f)
-                                    NPC.ai[3] -= 2f;
+                                // Despawn stupid fucking dog shit to avoid screaming the word "cunt"
+                                for (int x = 0; x < Main.maxProjectiles; x++)
+                                {
+                                    Projectile projectile = Main.projectile[x];
+                                    if (projectile.active)
+                                    {
+                                        if (projectile.type == ModContent.ProjectileType<AresTeslaOrb>() || projectile.type == ModContent.ProjectileType<AresPlasmaFireball>() ||
+                                            projectile.type == ModContent.ProjectileType<AresPlasmaBolt>() || projectile.type == ModContent.ProjectileType<AresGaussNukeProjectile>() ||
+                                            projectile.type == ModContent.ProjectileType<AresGaussNukeProjectileSpark>())
+                                        {
+                                            if (projectile.timeLeft > 15)
+                                                projectile.timeLeft = 15;
+
+                                            if (projectile.type == ModContent.ProjectileType<AresPlasmaFireball>())
+                                            {
+                                                projectile.ai[0] = -1f;
+                                                projectile.ai[1] = -1f;
+                                            }
+                                            else if (projectile.type == ModContent.ProjectileType<AresGaussNukeProjectile>())
+                                                projectile.ai[0] = -1f;
+                                        }
+                                        else if (projectile.type == ModContent.ProjectileType<AresGaussNukeProjectileBoom>())
+                                            projectile.Kill();
+                                    }
+                                }
+
+                                calamityGlobalNPC.newAI[2] = 0f;
+                                calamityGlobalNPC.newAI[3] = 0f;
+
+                                // Cancel enrage state if Ares is enraged
+                                if (EnragedState == (float)Enraged.Yes)
+                                    EnragedState = (float)Enraged.No;
                             }
 
                             // Stop the laser loop and play the end sound.
