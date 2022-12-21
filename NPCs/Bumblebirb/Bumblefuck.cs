@@ -413,7 +413,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            name = "A Dragonfolly";
+            name = Main.getGoodWorld ? "A Bumblebirb" : "A Dragonfolly"; // move to zenith seed later
             potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 

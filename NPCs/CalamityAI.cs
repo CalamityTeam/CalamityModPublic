@@ -5766,7 +5766,7 @@ namespace CalamityMod.NPCs
             int toothBallSpinPhaseDivisor = bossRush ? 7 : death ? 18 : 24;
             float spinTime = num13 / 2;
             float toothBallSpinToothBallVelocity = bossRush ? 14f : death ? 9.5f : 9f;
-            float scaleFactor4 = 22f;
+            float scaleFactor4 = Main.getGoodWorld ? 44f : 22f; // move to zenith seed later
             float num15 = MathHelper.TwoPi / spinTime;
             int num16 = 75;
 
@@ -5820,6 +5820,28 @@ namespace CalamityMod.NPCs
                 // Play exhausted sound
                 if (calamityGlobalNPC.newAI[0] % 60f == 0f)
                     SoundEngine.PlaySound(OldDuke.OldDuke.HuffSound, player.Center);
+
+                if (Main.getGoodWorld) // move to zenith seed later
+                {
+                    float screenShakePower = 10 * Utils.GetLerpValue(800f, 0f, npc.Distance(Main.LocalPlayer.Center), true);
+                    if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < screenShakePower)
+                        Main.LocalPlayer.Calamity().GeneralScreenShakePower = screenShakePower;
+                    if (calamityGlobalNPC.newAI[0] == exhaustionGateValue)
+                    {
+                        SoundEngine.PlaySound(SoundID.NPCDeath64 with { Pitch = SoundID.NPCDeath64.Pitch - 0.9f, Volume = SoundID.NPCDeath64.Volume + 0.4f}, player.Center); // fart
+                    }
+                    if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[0] % 5f == 0f)
+                    {
+                        Vector2 dist = player.Center - npc.Center;
+                        dist.Normalize();
+                        dist *= 3;
+                        dist.X += Main.rand.NextFloat(-0.5f, 0.5f);
+                        dist.Y += Main.rand.NextFloat(-0.5f, 0.5f);
+                        int type = ModContent.ProjectileType<SandPoisonCloudOldDuke>();
+                        int damage = npc.GetProjectileDamage(type);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, -dist, type, damage, 0, Main.myPlayer);
+                    }
+                }
 
                 calamityGlobalNPC.newAI[0] -= bossRush ? 1.5f : 1f;
                 if (calamityGlobalNPC.newAI[0] <= 0f)

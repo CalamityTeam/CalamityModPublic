@@ -1082,7 +1082,7 @@ namespace CalamityMod.NPCs.Polterghast
                 string sulfSeaBoostMessage = "Mods.CalamityMod.GhostBossText4";
                 Color sulfSeaBoostColor = AcidRainEvent.TextColor;
 
-                if (Main.rand.NextBool(20) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
+                if ((Main.rand.NextBool(20) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || Main.getGoodWorld) // move to zenith seed later
                 {
                     sulfSeaBoostMessage = "Mods.CalamityMod.AprilFools2"; // Goddamn boomer duke moments
                 }
