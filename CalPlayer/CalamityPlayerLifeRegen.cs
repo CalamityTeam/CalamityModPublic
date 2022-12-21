@@ -169,24 +169,26 @@ namespace CalamityMod.CalPlayer
                     nearSafeZone = true;
             }
             
-            bool getFuckedASPoisoning = false;
+            float ASPoisonLevel = 0f;
             //TODO -- Zenith seed.
             if (CalamityGlobalNPC.aquaticScourge >= 0 && Main.getGoodWorld && Main.masterMode)
             {
+                NPC AS = Main.npc[CalamityGlobalNPC.aquaticScourge];
                 //if the player is 50 blocks or more away from the head
-                if (Vector2.Distance(Player.Center, Main.npc[CalamityGlobalNPC.aquaticScourge].Center) >= 800f)
-                    getFuckedASPoisoning = true;
+                if (AS.life < AS.lifeMax) //Only poison when damaged
+                    ASPoisonLevel = Utils.GetLerpValue(800f, 1600f, Vector2.Distance(Player.Center, AS.Center), true);
             }
 
-            if (getFuckedASPoisoning || (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone))
+            bool ASPoisoning = ASPoisonLevel > 0f;
+            if (ASPoisoning || (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone))
             {
                 float increment = 1f / SulphSeaWaterSafetyTime;
                 //No way to mitigate AS Poisoning
-                if (getFuckedASPoisoning)
-                    increment *= 4f;
-                if (sulphurskin && !getFuckedASPoisoning)
+                if (ASPoisoning)
+                    increment *= 4f + (8f * ASPoisonLevel);
+                if (sulphurskin && !ASPoisoning)
                     increment *= 0.5f;
-                if (sulfurSet && !getFuckedASPoisoning)
+                if (sulfurSet && !ASPoisoning)
                     increment *= 0.5f;
 
                 SulphWaterPoisoningLevel = MathHelper.Clamp(SulphWaterPoisoningLevel + increment, 0f, 1f);
