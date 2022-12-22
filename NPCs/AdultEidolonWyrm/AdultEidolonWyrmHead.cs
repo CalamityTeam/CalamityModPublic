@@ -1443,6 +1443,15 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
         }
 
+        public override void ModifyTypeName(ref string typeName)
+        {
+            // Move to zenith seed later
+            if (Main.getGoodWorld)
+            {
+                typeName = "Jared";
+            }
+        }
+
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (NPC.Opacity == 1f && damage > 0)
