@@ -3604,6 +3604,36 @@ namespace CalamityMod.NPCs
                         }
                         break;
 
+                    case NPCAIStyleID.StarCell:
+                        switch (npc.type)
+                        {
+                            case NPCID.StardustCellBig:
+                            case NPCID.NebulaHeadcrab:
+                            case NPCID.DeadlySphere:
+                                return CalamityGlobalAI.BuffedStarCellAI(npc, Mod);
+                        }
+                        break;
+
+                    case NPCAIStyleID.AncientVision:
+                        switch (npc.type)
+                        {
+                            case NPCID.ShadowFlameApparition:
+                            case NPCID.AncientCultistSquidhead:
+                                return CalamityGlobalAI.BuffedAncientVisionAI(npc, Mod);
+                        }
+                        break;
+
+                    case NPCAIStyleID.BiomeMimic:
+                        switch (npc.type)
+                        {
+                            case NPCID.BigMimicCorruption:
+                            case NPCID.BigMimicCrimson:
+                            case NPCID.BigMimicHallow:
+                            case NPCID.BigMimicJungle:
+                                return CalamityGlobalAI.BuffedBigMimicAI(npc, Mod);
+                        }
+                        break;
+
                     case NPCAIStyleID.MothronEgg:
                         switch (npc.type)
                         {
@@ -3624,6 +3654,14 @@ namespace CalamityMod.NPCs
                                 case NPCID.GraniteFlyer:
                                     return CalamityGlobalAI.BuffedGraniteElementalAI(npc, Mod);
                             }
+                        }
+                        break;
+
+                    case NPCAIStyleID.SmallStarCell:
+                        switch (npc.type)
+                        {
+                            case NPCID.StardustCellSmall:
+                                return CalamityGlobalAI.BuffedSmallStarCellAI(npc, Mod);
                         }
                         break;
 
