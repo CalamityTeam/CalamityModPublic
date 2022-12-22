@@ -249,22 +249,31 @@ namespace CalamityMod.NPCs.Ravager
                     if (NPC.localAI[1] % 5 == 0)
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), circleOffset, Pos, type, damage, 0f, Main.myPlayer, 0f, 0.8f);
                 }
-                else if (NPC.localAI[1] >= 6000f) //Random bullshit
+                else if (NPC.localAI[1] >= 8000f) //Random bullshit
                 {
-                    float randOffsetX = Main.rand.NextFloat(320f, 800f) * (Main.rand.NextBool() ? -1 : 1);
-                    float randOffsetY = Main.rand.NextFloat(320f, 640f) * (Main.rand.NextBool() ? -1 : 1);
-                    if (NPC.localAI[1] > 6120f)
+                    float randOffsetX = Main.rand.NextFloat(240f, 800f) * (Main.rand.NextBool() ? -1 : 1);
+                    float randOffsetY = Main.rand.NextFloat(240f, 640f) * (Main.rand.NextBool() ? -1 : 1);
+                    if (NPC.localAI[1] > 8300f) //5 seconds
                         NPC.localAI[1] = 0f;
-                    else if (NPC.localAI[1] % 24 == 0) //5 blasts from random directions
+                    else if (NPC.localAI[1] % 20 == 0) //15 blasts from random directions
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - randOffsetX, Pos.Y - randOffsetY, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                }
+                else if (NPC.localAI[1] >= 6000f) //Plus
+                {
+                    float plusOffset = 640f;
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - plusOffset, Pos.Y, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 4f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + plusOffset, Pos.Y, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 4f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X, Pos.Y - plusOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 4f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X, Pos.Y + plusOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 4f);
+                    NPC.localAI[1] = 0f;
                 }
                 else if (NPC.localAI[1] >= 4000f) //Cross
                 {
                     float crossOffset = 400f;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - crossOffset, Pos.Y - crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - crossOffset, Pos.Y + crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + crossOffset, Pos.Y - crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + crossOffset, Pos.Y + crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - crossOffset, Pos.Y - crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 2f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - crossOffset, Pos.Y + crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 2f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + crossOffset, Pos.Y - crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 2f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + crossOffset, Pos.Y + crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 2f);
                     NPC.localAI[1] = 0f;
                 }
                 else if (NPC.localAI[1] >= 2000f) //Hash grid
@@ -284,14 +293,14 @@ namespace CalamityMod.NPCs.Ravager
                 else if (NPC.localAI[1] >= 1000f) //Horizontal line
                 {
                     float lineOffset = 800f * (Main.rand.NextBool() ? -1 : 1);
-                    if (NPC.localAI[1] > 1120f)
+                    if (NPC.localAI[1] > 1180f) //3 seconds
                         NPC.localAI[1] = 0f;
-                    else if (NPC.localAI[1] % 40 == 0) //3 blasts from the side
+                    else if (NPC.localAI[1] % 60 == 0) //3 blasts from the side
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - lineOffset, Pos.Y, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 4f);
                 }
                 else if (NPC.localAI[1] >= 300f)
                 {
-                    NPC.localAI[1] = 1000f * Main.rand.Next(1, 6 + (immunePhase ? 0 : 2)); //doubled chance for everything except attack 1
+                    NPC.localAI[1] = 1000f * Main.rand.Next(1, 6 + (immunePhase ? 0 : 4)); //doubled chance for everything except attack 1
                 }
             }
 

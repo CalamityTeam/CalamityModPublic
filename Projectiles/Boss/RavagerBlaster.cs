@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 //Start moving
                 if (Projectile.velocity == Vector2.Zero)
-                    Projectile.velocity = storedVelocity * -0.8f;
+                    Projectile.velocity = storedVelocity * -1f;
                 else
                     Projectile.velocity *= 1.01f;
 
