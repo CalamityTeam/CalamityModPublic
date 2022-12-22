@@ -298,9 +298,43 @@ namespace CalamityMod.NPCs.Ravager
                     else if (NPC.localAI[1] % 60 == 0) //3 blasts from the side
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - lineOffset, Pos.Y, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 4f);
                 }
-                else if (NPC.localAI[1] >= 300f)
+                else if (NPC.localAI[1] >= 300f) //Choose an attack after 5 seconds
                 {
                     NPC.localAI[1] = 1000f * Main.rand.Next(1, 6 + (immunePhase ? 0 : 4)); //doubled chance for everything except attack 1
+                }
+                else if (NPC.localAI[1] >= 60f && Main.rand.NextBool(2000)) //About 10% chance to reset the timer and instead summon a blue pillar
+                {
+                    int laser = ModContent.ProjectileType<RavagerBlast>();
+                    float blueOffset1 = 2400f;
+                    float blueOffset2 = 800f;
+
+                    //default = aim up or down, move to the right
+                    Vector2 position = new Vector2(Pos.X - blueOffset2, Pos.Y - (blueOffset1 * (Main.rand.NextBool() ? -1 : 1)));
+                    Vector2 destination = new Vector2(Pos.X - blueOffset2, Pos.Y);
+                    int movement = Main.rand.Next(-4, 0);
+                    switch(movement)
+                    {
+                        case -2: //aim up or down, sweep to the left
+                            position.X = Pos.X + blueOffset2;
+                            destination = new Vector2(Pos.X + blueOffset2, Pos.Y);
+                            break;
+                        case -3: //aim left or right, sweep down
+                            position.X = Pos.X - (blueOffset1 * (Main.rand.NextBool() ? -1 : 1));
+                            position.Y = Pos.Y - blueOffset2;
+                            destination = new Vector2(Pos.X, Pos.Y - blueOffset2);
+                            break;
+                        case -4: //aim left or right, sweep up
+                            position.X = Pos.X - (blueOffset1 * (Main.rand.NextBool() ? -1 : 1));
+                            position.Y = Pos.Y + blueOffset2;
+                            destination = new Vector2(Pos.X, Pos.Y + blueOffset2);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    Vector2 velocity = (destination - position).SafeNormalize(Vector2.Zero);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), position, velocity, laser, damage, 0f, Main.myPlayer, 1f, (float)movement);
+                    NPC.localAI[1] = 0f;
                 }
             }
 

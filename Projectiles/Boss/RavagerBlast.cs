@@ -26,8 +26,8 @@ namespace CalamityMod.Projectiles.Boss
         public bool blue => Projectile.ai[1] < 0f;
 
         public override float MaxScale => Projectile.ai[0];
-        public override float MaxLaserLength => 2400f;
-        public override float Lifetime => 50;
+        public override float MaxLaserLength => blue ? 4800f : 2400f;
+        public override float Lifetime => blue ? 200 : 50;
         public override Color LaserOverlayColor
         {
             get
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 200;
             Projectile.Calamity().DealsDefenseDamage = true;
             CooldownSlot = ImmunityCooldownID.Bosses;
         }
@@ -85,6 +85,26 @@ namespace CalamityMod.Projectiles.Boss
             // Update the direction and rotation of the laser.
             Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY);
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+
+            if (blue)
+            {
+                float speed = 8f + 8f * Utils.GetLerpValue(Lifetime, 0f, Projectile.timeLeft);
+                switch (OwnerIndex)
+                {
+                    case -1: //go right
+                        Projectile.position.X += speed;
+                        break;
+                    case -2: //go left
+                        Projectile.position.X -= speed;
+                        break;
+                    case -3: //go down
+                        Projectile.position.Y += speed;
+                        break;
+                    default: //go up
+                        Projectile.position.Y -= speed;
+                        break;
+                }
+            }
         }
 
         public override float DetermineLaserLength() => MaxLaserLength;
@@ -97,8 +117,8 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
         }
 
-        // Can hit if white (regardless of condition) or blue only if the player is still
-        public override bool CanHitPlayer(Player target) => (!blue || target.velocity.Length() == 0f) && Projectile.scale >= 0.5f;
+        // Can hit if white (regardless of condition) or blue only if the player is (close to) still
+        public override bool CanHitPlayer(Player target) => (!blue || target.velocity.Length() <= 0.25f) && Projectile.scale >= 0.5f;
         
         public override bool PreDraw(ref Color lightColor)
         {
