@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
         }
 
-        // Can hit if orange (regardless of condition) or blue only if the player is still
+        // Can hit if white (regardless of condition) or blue only if the player is still
         public override bool CanHitPlayer(Player target) => (!blue || target.velocity.Length() == 0f) && Projectile.scale >= 0.5f;
         
         public override bool PreDraw(ref Color lightColor)
