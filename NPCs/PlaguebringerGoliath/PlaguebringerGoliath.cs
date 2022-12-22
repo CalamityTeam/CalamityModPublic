@@ -895,7 +895,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 }
                                 else if (Main.rand.NextBool(2) && Main.getGoodWorld) // move to zenith seed later
                                 {
-                                    type = ModContent.ProjectileType<Projectiles.Ranged.HighExplosivePeanutShell>();
+                                    type = ModContent.ProjectileType<PeanutRocket>();
                                     baseVelocity *= 0.4f;
                                 }
 
