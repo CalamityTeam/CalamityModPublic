@@ -694,6 +694,7 @@ namespace CalamityMod
                 { new Tuple<int, int>(NPCID.DukeFishron, ProjectileID.Sharknado), new int[] { 80, 100, 184, 200, 270 } }, // 150 in non-rev master mode
                 { new Tuple<int, int>(NPCID.DukeFishron, ProjectileID.Cthulunado), new int[] { 160, 200, 232, 248, 348 } }, // 300 in non-rev master mode
 
+                { new Tuple<int, int>(ModContent.NPCType<RavagerBody>(), ModContent.ProjectileType<RavagerBlaster>()), new int[] { 90, 144, 172, 188, 258 } },
                 { new Tuple<int, int>(ModContent.NPCType<RavagerHead>(), ModContent.ProjectileType<ScavengerNuke>()), new int[] { 120, 180, 208, 224, 312 } },
                 { new Tuple<int, int>(ModContent.NPCType<RavagerHead2>(), ModContent.ProjectileType<ScavengerLaser>()), new int[] { 90, 144, 172, 188, 258 } },
                 { new Tuple<int, int>(ModContent.NPCType<RavagerHead2>(), ModContent.ProjectileType<ScavengerNuke>()), new int[] { 120, 180, 208, 224, 312 } },

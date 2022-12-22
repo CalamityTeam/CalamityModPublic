@@ -10,7 +10,8 @@ namespace CalamityMod.Projectiles.Boss
     public class RavagerBlaster : ModProjectile
     {
         public override string Texture => "CalamityMod/NPCs/Ravager/RavagerHead";
-        public static readonly SoundStyle SANS = new("CalamityMod/Sounds/Custom/Ravager/GasterBlaster");
+        public static readonly SoundStyle SANSCharge = new("CalamityMod/Sounds/Custom/Ravager/GasterBlasterCharge");
+        public static readonly SoundStyle SANSFire = new("CalamityMod/Sounds/Custom/Ravager/GasterBlasterFire");
         public Vector2 storedVelocity;
 
         public override void SetStaticDefaults()
@@ -41,12 +42,14 @@ namespace CalamityMod.Projectiles.Boss
                     Projectile.netUpdate = true;
                     Projectile.rotation = (float)Math.Atan2(storedVelocity.Y, storedVelocity.X) - MathHelper.PiOver2;
                     
-                    SoundEngine.PlaySound(SANS, Projectile.Center); //Funny Gaster Blaster sounds
+                    SoundEngine.PlaySound(SANSCharge, Projectile.Center); //Funny Gaster Blaster sounds
                 }
                 else if (Projectile.ai[0] >= 55f)
                 {
                     Projectile.ai[0] = 90f;
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, storedVelocity, ModContent.ProjectileType<RavagerBlast>(), Projectile.damage, 0f, Projectile.owner, Projectile.ai[1], Projectile.whoAmI);
+
+                    SoundEngine.PlaySound(SANSFire, Projectile.Center); //Funny Gaster Blaster sounds #2
                 }
             }
             else //Move out and despawn
