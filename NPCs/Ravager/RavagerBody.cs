@@ -245,7 +245,7 @@ namespace CalamityMod.NPCs.Ravager
                 int damage = NPC.GetProjectileDamage(type);
                 if (finalStand) //Circle
                 {
-                    Vector2 circleOffset = Pos + (Vector2.UnitY * 960f).RotatedBy(MathHelper.ToRadians(NPC.localAI[1] * 2f));
+                    Vector2 circleOffset = Pos + (Vector2.UnitY * 640f).RotatedBy(MathHelper.ToRadians(NPC.localAI[1] * 3f));
                     if (NPC.localAI[1] % 5 == 0)
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), circleOffset, Pos, type, damage, 0f, Main.myPlayer, 0f, 0.8f);
                 }

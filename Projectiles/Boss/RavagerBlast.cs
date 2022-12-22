@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
         public bool blue => Projectile.ai[1] < 0f;
 
         public override float MaxScale => Projectile.ai[0];
-        public override float MaxLaserLength => 1600f;
+        public override float MaxLaserLength => 2400f;
         public override float Lifetime => 50;
         public override Color LaserOverlayColor
         {
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Boss
                 Color c1 = blue ? Color.MediumTurquoise : Color.Gray;
                 Color c2 = blue ? Color.Cyan : Color.White;
                 Color color = Color.Lerp(c1, c2, Projectile.identity % 5f / 5f) * 1.1f;
-                color.A = 25;
+                color.A = 0;
                 return color;
             }
         }
@@ -87,17 +87,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
-        public override float DetermineLaserLength()
-        {
-            float[] sampledLengths = new float[10];
-            Collision.LaserScan(Projectile.Center, Projectile.velocity, Projectile.width * Projectile.scale, MaxLaserLength, sampledLengths);
-            float newLaserLength = sampledLengths.Average();
-
-            if (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
-                return MaxLaserLength;
-
-            return newLaserLength;
-        }
+        public override float DetermineLaserLength() => MaxLaserLength;
 
         public override void PostAI()
         {
@@ -157,7 +147,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-            Vector2 laserEndCenter = centerOnLaser + Projectile.velocity * endFrameArea.Height - Main.screenPosition;
+            Vector2 laserEndCenter = centerOnLaser + Projectile.velocity * endFrameArea.Height * Projectile.scale - Main.screenPosition;
             Main.EntitySpriteDraw(LaserEndTexture,
                              laserEndCenter,
                              endFrameArea,
