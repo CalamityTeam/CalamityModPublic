@@ -140,6 +140,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         }
                     }
                 }
+                if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].ai[0] == 599 && Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient) // move to zenith seed later
+                {
+                    // gain more health once the healer's channel heal is done
+                    NPC.lifeMax += 7500;
+                    NPC.life += NPC.lifeMax - NPC.life;
+                    NPC.HealEffect(NPC.lifeMax - NPC.life, true);
+                    NPC.netUpdate = true;
+                }
             }
 
             // Get a target
@@ -171,6 +179,22 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
             bool biomeEnraged = biomeEnrageTimer <= 0;
+
+            if (Main.getGoodWorld) // move to zenith seed later
+            {
+                if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
+                {
+                    float playerLocation = NPC.Center.X - player.Center.X;
+                    NPC.direction = playerLocation < 0f ? 1 : -1;
+                    NPC.spriteDirection = NPC.direction;
+                }
+                // Block the main guardian
+                Vector2 guardPos = Main.npc[CalamityGlobalNPC.doughnutBoss].Center;
+                Vector2 playerPos = player.Center;
+                Vector2 midPoint = ((guardPos - playerPos) / 1.25f) + playerPos;
+                NPC.position = midPoint;
+                return;
+            }
 
             if (NPC.ai[0] == 0f)
             {
@@ -369,6 +393,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+            if (Main.getGoodWorld)
+            {
+                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlowNight").Value;
+                color37 = Color.Cyan;
+            }
 
             if (CalamityConfig.Instance.Afterimages)
             {
@@ -402,6 +431,23 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<HolyFlames>(), 240, true);
+        }
+
+        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        {
+            // eat projectiles but take more damage based on piercing in the zenith seed, move to zenith seed later
+            if (Main.getGoodWorld && !projectile.minion)
+            {
+                if (projectile.penetrate <= -1)
+                {
+                    damage = (int)(damage * 2.5f);
+                }
+                else
+                {
+                    damage *= projectile.penetrate / 2;
+                }
+                projectile.active = false;
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)

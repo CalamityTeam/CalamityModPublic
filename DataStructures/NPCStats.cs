@@ -722,6 +722,7 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianCommander>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 140, 220, 244, 256, 366 } },
                 { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianCommander>(), ModContent.ProjectileType<FlareDust>()), new int[] { 140, 220, 244, 256, 366 } },
                 { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianDefender>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 140, 220, 244, 256, 366 } },
+                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianHealer>(), ModContent.ProjectileType<HolyBurnOrb>()), new int[] { 105, 171, 189, 198, 284 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<Bumblefuck>(), ModContent.ProjectileType<RedLightningFeather>()), new int[] { 140, 220, 244, 256, 366 } },
                 { new Tuple<int, int>(ModContent.NPCType<Bumblefuck>(), ModContent.ProjectileType<BirbAuraFlare>()), new int[] { 200, 300, 332, 356, 498 } },

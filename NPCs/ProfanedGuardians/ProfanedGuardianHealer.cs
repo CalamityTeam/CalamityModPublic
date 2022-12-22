@@ -2,11 +2,13 @@
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items;
+using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
@@ -118,6 +120,15 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             bool isHoly = player.ZoneHallow;
             bool isHell = player.ZoneUnderworldHeight;
 
+            if (Main.getGoodWorld) // move to zenith seed later
+            {
+                NPC.ai[0]++;
+            }
+            if (NPC.ai[0] >= 300)
+            {
+                NPC.ai[1] = 1;
+            }
+
             // Become immune over time if target isn't in hell or hallow
             if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
             {
@@ -128,6 +139,36 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             else
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+            if (NPC.ai[1] == 1 && Main.getGoodWorld) // move to zenith seed later
+            {
+                NPC.ai[2]++;
+                NPC.velocity = Vector2.Zero;
+                // Spray out stars of healing stars in gfb
+                if (NPC.ai[2] >= 45)
+                {
+                    int type = ModContent.ProjectileType<HolyBurnOrb>();
+                    int damage = NPC.GetProjectileDamage(type);
+                    int totalProjectiles = 10;
+                    float radians = MathHelper.TwoPi / totalProjectiles;
+                    float velocity = 8f;
+                    Vector2 spinningPoint = new Vector2(0f, -velocity);
+                    for (int k = 0; k < totalProjectiles; k++)
+                    {
+                        Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity2, type, 0, 0f, Main.myPlayer, 0f, damage);
+                    }
+                    NPC.ai[2] = 0;
+                }
+                if (NPC.ai[0] >= 600)
+                {
+                    SoundEngine.PlaySound(SoundID.Item10, player.Center);
+                    NPC.ai[1] = 0;
+                    NPC.ai[2] = 0;
+                    NPC.ai[0] = 0;
+                }
+                return;
+            }
 
             if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
             {
@@ -198,6 +239,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianHealerGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+            if (Main.getGoodWorld)
+            {
+                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianHealerGlowNight").Value;
+                color37 = Color.Cyan;
+            }
             Color color42 = Color.Lerp(Color.White, Color.Violet, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)

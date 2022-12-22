@@ -178,6 +178,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         }
                     }
                 }
+                if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].ai[0] == 599 && Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient) // move to zenith seed later
+                {
+                    // gain more health once the healer's channel heal is done
+                    NPC.lifeMax += 7500;
+                    NPC.life += NPC.lifeMax - NPC.life;
+                    NPC.HealEffect(NPC.lifeMax - NPC.life, true);
+                    NPC.netUpdate = true;
+                }
             }
 
             // Get a target
@@ -190,11 +198,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             Player player = Main.player[NPC.target];
 
-            if (!Main.dayTime || !player.active || player.dead)
+            if ((!Main.dayTime && !Main.getGoodWorld) || !player.active || player.dead)
             {
                 NPC.TargetClosest(false);
                 player = Main.player[NPC.target];
-                if (!Main.dayTime || !player.active || player.dead)
+                if ((!Main.dayTime && !Main.getGoodWorld) || !player.active || player.dead)
                 {
                     if (NPC.velocity.Y > 3f)
                         NPC.velocity.Y = 3f;
@@ -278,6 +286,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float divisor = (bossRush || biomeEnraged) ? 30f : death ? 40f : revenge ? 44f : expertMode ? 50f : 60f;
+                        if (Main.getGoodWorld && healerAlive) // move to zenith seed later
+                        {
+                            divisor += 30;
+                        }
                         if (!phase1)
                             divisor = (float)Math.Round(divisor * 0.8f);
 
@@ -286,6 +298,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             SoundEngine.PlaySound(SoundID.Item20, NPC.position);
                             int type = ModContent.ProjectileType<FlareDust>();
                             int damage = NPC.GetProjectileDamage(type);
+                            if (Main.getGoodWorld && Main.rand.NextBool(4)) // move to zenith seed later
+                            {
+                                type = ModContent.ProjectileType<HolyFlare>();
+                            }
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - vectorCenter);
                             int numProj = death ? 3 : 2;
                             int spread = !phase1 ? 15 : death ? 30 : 20;
@@ -477,6 +493,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianCommanderGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+            if (Main.getGoodWorld)
+            {
+                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianCommanderGlowNight").Value;
+                color37 = Color.Cyan;
+            }
 
             if (CalamityConfig.Instance.Afterimages)
             {
