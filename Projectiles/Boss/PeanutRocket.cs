@@ -10,8 +10,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/HighExplosivePeanutShell";
 
-        private const int Lifetime = 180;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("High Explosive Peanut Shell");
@@ -26,7 +24,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 16;
             Projectile.hostile = true;
             Projectile.extraUpdates = 4;
-            Projectile.timeLeft = Lifetime;
+            Projectile.timeLeft = 300;
             Projectile.penetrate = -1;
         }
 

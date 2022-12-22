@@ -908,17 +908,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                         Vector2 spawn = vectorCenter; // Normal = 96, Boss Rush = 144
                                         spawn.X += i * (int)(spread * 1.125) - (missiles * (spread / 2)); // Normal = -96 to 93, Boss Rush = -144 to 156
                                         Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / missiles)));
-                                        int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), spawn, velocity, type, damage, 0f, Main.myPlayer, nukeBarrageChallengeAmt, player.position.Y);
-                                        if (p.WithinBounds(Main.maxProjectiles))
-                                        {
-                                            if (Main.projectile[p].type == ModContent.ProjectileType<Projectiles.Ranged.HighExplosivePeanutShell>())
-                                            {
-                                                Main.projectile[p].DamageType = DamageClass.Default;
-                                                Main.projectile[p].friendly = false;
-                                                Main.projectile[p].hostile = true;
-                                                Main.projectile[p].timeLeft = 600;
-                                            }
-                                        }
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), spawn, velocity, type, damage, 0f, Main.myPlayer, nukeBarrageChallengeAmt, player.position.Y);
                                     }
                                 }
                                 else
