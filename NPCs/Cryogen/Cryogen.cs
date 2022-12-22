@@ -919,6 +919,7 @@ namespace CalamityMod.NPCs.Cryogen
                                     float radians = MathHelper.TwoPi / totalProjectiles;
                                     float newVelocity = velocity - (velocity * (phase7 ? 0.25f : 0.5f) * i);
                                     float velocityX = 0f;
+                                    float ai = Main.getGoodWorld ? 2f : NPC.target; // move to zenith seed later
                                     if (i > 0)
                                     {
                                         double angleA = radians * (phase7 ? 0.25 : 0.5) * (totalSpreads - i);
@@ -929,7 +930,7 @@ namespace CalamityMod.NPCs.Cryogen
                                     for (int k = 0; k < totalProjectiles; k++)
                                     {
                                         Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, NPC.target, 1f);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, ai, 1f);
                                     }
                                 }
                             }
