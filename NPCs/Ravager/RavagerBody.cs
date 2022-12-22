@@ -13,6 +13,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -105,6 +106,8 @@ namespace CalamityMod.NPCs.Ravager
         {
             writer.Write(NPC.dontTakeDamage);
             writer.Write(velocityY);
+            writer.Write(NPC.localAI[0]);
+            writer.Write(NPC.localAI[1]);
             for (int i = 0; i < 4; i++)
                 writer.Write(NPC.Calamity().newAI[i]);
         }
@@ -113,6 +116,8 @@ namespace CalamityMod.NPCs.Ravager
         {
             NPC.dontTakeDamage = reader.ReadBoolean();
             velocityY = reader.ReadSingle();
+            NPC.localAI[0] = reader.ReadSingle();
+            NPC.localAI[1] = reader.ReadSingle();
             for (int i = 0; i < 4; i++)
                 NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
@@ -226,6 +231,67 @@ namespace CalamityMod.NPCs.Ravager
                 {
                     if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && revenge)
                         Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<WeakPetrification>(), 2);
+                }
+            }
+
+            //TODO -- Zenith seed.
+            if (Main.getGoodWorld && Main.masterMode)
+            {
+                bool finalStand = lifeRatio < 0.1f; //At 10% body health, does the funny final attack
+                NPC.localAI[1]++;
+                
+                Vector2 Pos = player.Center; //Spawn projectiles based on player's center. Having it be based on the boss turned out weird. (Except for final)
+                int type = ModContent.ProjectileType<RavagerBlaster>();
+                int damage = NPC.GetProjectileDamage(type);
+                if (finalStand) //Circle
+                {
+                    Vector2 circleOffset = Pos + (Vector2.UnitY * 960f).RotatedBy(MathHelper.ToRadians(NPC.localAI[1] * 2f));
+                    if (NPC.localAI[1] % 5 == 0)
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), circleOffset, Pos, type, damage, 0f, Main.myPlayer, 0f, 0.8f);
+                }
+                else if (NPC.localAI[1] >= 6000f) //Random bullshit
+                {
+                    float randOffsetX = Main.rand.NextFloat(320f, 800f) * (Main.rand.NextBool() ? -1 : 1);
+                    float randOffsetY = Main.rand.NextFloat(320f, 640f) * (Main.rand.NextBool() ? -1 : 1);
+                    if (NPC.localAI[1] > 6120f)
+                        NPC.localAI[1] = 0f;
+                    else if (NPC.localAI[1] % 24 == 0) //5 blasts from random directions
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - randOffsetX, Pos.Y - randOffsetY, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                }
+                else if (NPC.localAI[1] >= 4000f) //Cross
+                {
+                    float crossOffset = 400f;
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - crossOffset, Pos.Y - crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - crossOffset, Pos.Y + crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + crossOffset, Pos.Y - crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + crossOffset, Pos.Y + crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                    NPC.localAI[1] = 0f;
+                }
+                else if (NPC.localAI[1] >= 2000f) //Hash grid
+                {
+                    float gridOffset1 = 480f;
+                    float gridOffset2 = 560f;
+                    //Top left, aimed right
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - gridOffset2, Pos.Y - gridOffset1, Pos.X, Pos.Y - gridOffset1, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                    //Top left, aimed down
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - gridOffset1, Pos.Y - gridOffset2, Pos.X - gridOffset1, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                    //Bottom right, aimed left
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + gridOffset2, Pos.Y + gridOffset1, Pos.X, Pos.Y + gridOffset1, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                    //Bottom right, aimed up
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + gridOffset1, Pos.Y + gridOffset2, Pos.X + gridOffset1, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                    NPC.localAI[1] = 0f;
+                }
+                else if (NPC.localAI[1] >= 1000f) //Horizontal line
+                {
+                    float lineOffset = 800f * (Main.rand.NextBool() ? -1 : 1);
+                    if (NPC.localAI[1] > 1120f)
+                        NPC.localAI[1] = 0f;
+                    else if (NPC.localAI[1] % 40 == 0) //3 blasts from the side
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - lineOffset, Pos.Y, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 4f);
+                }
+                else if (NPC.localAI[1] >= 300f)
+                {
+                    NPC.localAI[1] = 1000f * Main.rand.Next(1, 6 + (immunePhase ? 0 : 2)); //doubled chance for everything except attack 1
                 }
             }
 
