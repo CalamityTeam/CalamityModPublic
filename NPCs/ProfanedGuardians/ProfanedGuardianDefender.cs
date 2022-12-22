@@ -433,7 +433,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 player.AddBuff(ModContent.BuffType<HolyFlames>(), 240, true);
         }
 
-        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             // eat projectiles but take more damage based on piercing in the zenith seed, move to zenith seed later
             if (Main.getGoodWorld && !projectile.minion)
