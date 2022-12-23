@@ -2208,6 +2208,10 @@ namespace CalamityMod.NPCs
                     npc.coldDamage = true;
                     break;
 
+                case NPCID.PirateGhost:
+                    npc.lifeMax = (int)(npc.lifeMax * 0.33);
+                    break;
+
                 case NPCID.BloodSquid:
                     npc.lifeMax = (int)(npc.lifeMax * 0.25);
                     break;

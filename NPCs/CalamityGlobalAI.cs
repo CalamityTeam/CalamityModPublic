@@ -8417,7 +8417,10 @@ namespace CalamityMod.NPCs
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 //Black Recluses shoot Web Spit
-                if (Main.netMode != NetmodeID.MultiplayerClient && npc.target >= 0 && (npc.type == NPCID.BlackRecluse || npc.type == NPCID.BlackRecluseWall || npc.type == NPCID.JungleCreeper || npc.type == NPCID.JungleCreeperWall) && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+                if (Main.netMode != NetmodeID.MultiplayerClient &&
+                    npc.target >= 0 &&
+                    (npc.type == NPCID.BlackRecluse || npc.type == NPCID.BlackRecluseWall || npc.type == NPCID.JungleCreeper || npc.type == NPCID.JungleCreeperWall || npc.type == NPCID.WallCreeper || npc.type == NPCID.WallCreeperWall || npc.type == NPCID.BloodCrawler || npc.type == NPCID.BloodCrawlerWall) &&
+                    Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
                 {
                     npc.localAI[0] += 1f;
                     if (npc.localAI[0] > (float)Main.rand.Next(180, CalamityWorld.death ? 300 : 600))

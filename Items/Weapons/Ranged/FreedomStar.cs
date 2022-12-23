@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class FreedomStar : ModItem
     {
         // This is the amount of charge consumed every time the holdout projectile fires various projectiles.
-        public const float HoldoutChargeUse_Orb = 0.005f;
-        public const float HoldoutChargeUse_OrbLarge = 0.006f;
-        public const float HoldoutChargeUse_Laser = 0.0075f;
-        public const float HoldoutChargeUse_LaserLarge = 0.015f;
+        public const float HoldoutChargeUse_Orb = 0.004f;
+        public const float HoldoutChargeUse_OrbLarge = 0.005f;
+        public const float HoldoutChargeUse_Laser = 0.006f;
+        public const float HoldoutChargeUse_LaserLarge = 0.01f;
 
         public override void SetStaticDefaults()
         {
@@ -28,7 +28,7 @@ Hold to charge and fire a beam that explodes on hit");
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();
-            Item.damage = 200;
+            Item.damage = 100;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 54;
             Item.height = 28;

@@ -193,7 +193,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.SolarFlareChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.SolarFlareDrill, trueMeleeNoSpeed },
                 { ProjectileID.Spear, trueMelee },
-                { ProjectileID.Spike, defenseDamage }, // UNKNOWN
+                { ProjectileID.Spike, defenseDamage }, // Santank spike balls
                 { ProjectileID.Stake, pointBlank },
                 { ProjectileID.StardustChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.StardustDrill, trueMeleeNoSpeed },
