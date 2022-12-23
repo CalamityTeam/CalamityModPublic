@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Guardian Healer");
-            Main.npcFrameCount[NPC.type] = 6;
+            Main.npcFrameCount[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
@@ -44,8 +44,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.npcSlots = 3f;
             NPC.aiStyle = -1;
             NPC.GetNPCDamage();
-            NPC.width = 100;
-            NPC.height = 80;
+            NPC.width = 228;
+            NPC.height = 164;
             NPC.defense = 30;
             NPC.DR_NERD(0.2f);
             NPC.LifeMaxNERB(25000, 30000, 20000); // Old HP - 25000, 35000

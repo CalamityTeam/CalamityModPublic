@@ -15,12 +15,13 @@ namespace CalamityMod.NPCs.Providence
     public class ProvSpawnDefense : ModNPC
     {
         private bool start = true;
+        public override string Texture => "CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefender";
 
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
             DisplayName.SetDefault("Providence Defender");
-            Main.npcFrameCount[NPC.type] = 6;
+            Main.npcFrameCount[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
@@ -30,8 +31,8 @@ namespace CalamityMod.NPCs.Providence
             NPC.npcSlots = 1f;
             NPC.aiStyle = -1;
             NPC.GetNPCDamage();
-            NPC.width = 100;
-            NPC.height = 80;
+            NPC.width = 228;
+            NPC.height = 164;
             NPC.defense = 50;
             NPC.DR_NERD(0.4f);
             NPC.lifeMax = 18750;

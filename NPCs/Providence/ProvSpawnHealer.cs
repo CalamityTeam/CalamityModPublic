@@ -15,12 +15,13 @@ namespace CalamityMod.NPCs.Providence
     public class ProvSpawnHealer : ModNPC
     {
         private bool start = true;
+        public override string Texture => "CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianHealer";
 
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
             DisplayName.SetDefault("Providence Healer");
-            Main.npcFrameCount[NPC.type] = 6;
+            Main.npcFrameCount[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
@@ -29,8 +30,8 @@ namespace CalamityMod.NPCs.Providence
             NPC.npcSlots = 1f;
             NPC.aiStyle = -1;
             NPC.damage = 20;
-            NPC.width = 100;
-            NPC.height = 80;
+            NPC.width = 228;
+            NPC.height = 164;
             NPC.defense = 30;
             NPC.DR_NERD(0.2f);
             NPC.lifeMax = 15000;
