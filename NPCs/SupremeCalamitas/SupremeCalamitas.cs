@@ -557,7 +557,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                             int xoffset = 0;
                             int yoffset = 0;
-                            int maxoffset = 10;
+                            int maxoffset = 3;
                             if (Main.getGoodWorld) // Move to zenith seed later
                             {
                                 xoffset += Main.rand.Next(-maxoffset, maxoffset + 1);

@@ -438,7 +438,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             // eat projectiles but take more damage based on piercing in the zenith seed, move to zenith seed later
             if (Main.getGoodWorld && !projectile.minion)
             {
-                if (projectile.penetrate <= -1)
+                if (projectile.penetrate <= -1 || projectile.penetrate > 5)
                 {
                     damage = (int)(damage * 2.5f);
                 }
