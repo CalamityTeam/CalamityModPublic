@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Summon
 
 			if (RainTimer >= 3f) // Spawns a raindrop every 3 frames, displaced down and randomly along the length of the cloud
                 {
-					Projectile.NewProjectile(Projectile.GetSource_FromThis(), (Projectile.Center.X + Main.rand.Next(-110, 111)), (Projectile.Center.Y + 44f), 0f, 15f, ModContent.ProjectileType<AquasScepterRaindrop>(), Projectile.damage, 0, Projectile.owner);
+					Projectile.NewProjectile(Projectile.GetSource_FromThis(), (Projectile.Center.X + Main.rand.Next(-110, 111)), (Projectile.Center.Y + 57f), 0f, 15f, ModContent.ProjectileType<AquasScepterRaindrop>(), Projectile.damage, 0, Projectile.owner);
 
 					RainTimer = 0f;
 				}
