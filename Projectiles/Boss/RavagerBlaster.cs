@@ -68,6 +68,6 @@ namespace CalamityMod.Projectiles.Boss
         }
 
         // Does no contact damage
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }
