@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.Providence
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += 0.15f;
+            NPC.frameCounter += 0.2f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
             NPC.frame.Y = frame * frameHeight;
