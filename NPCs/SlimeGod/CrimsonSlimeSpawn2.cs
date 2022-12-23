@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Events;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -96,6 +97,10 @@ namespace CalamityMod.NPCs.SlimeGod
 
             int type = ModContent.ProjectileType<CrimsonSpike>();
             int damage = NPC.GetProjectileDamage(type);
+            if (Main.getGoodWorld)
+            {
+                type = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
+            }
             if (!NPC.wet)
             {
                 Vector2 vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
@@ -111,7 +116,8 @@ namespace CalamityMod.NPCs.SlimeGod
                     }
                     if (Main.netMode != NetmodeID.MultiplayerClient && spikeTimer == 0f)
                     {
-                        for (int n = 0; n < 5; n++)
+                        int projcount = Main.getGoodWorld ? 12 : 5; // Move to zenith seed later
+                        for (int n = 0; n < projcount; n++)
                         {
                             Vector2 vector4 = new Vector2((float)(n - 2), -4f);
                             vector4.X *= 1f + (float)Main.rand.Next(-50, 51) * 0.005f;

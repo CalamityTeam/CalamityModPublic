@@ -1,6 +1,9 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.Calamitas;
+using Microsoft.Xna.Framework;
+using System.Linq;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +14,15 @@ namespace CalamityMod.Items.SummonItems
     [LegacyName("BlightedEyeball")]
     public class EyeofDesolation : ModItem
     {
+        public Rectangle safeBox = default;
+        public int spawnX = 0;
+        public int spawnX2 = 0;
+        public int spawnXReset = 0;
+        public int spawnXReset2 = 0;
+        public int spawnXAdd = 200;
+        public int spawnY = 0;
+        public int spawnYReset = 0;
+        public int spawnYAdd = 0;
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
@@ -51,7 +63,57 @@ namespace CalamityMod.Items.SummonItems
             else
                 NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CalamitasClone>());
 
+            if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // move to zenith seed later
+            {
+                safeBox.X = spawnX = spawnXReset = (int)(player.Center.X - 1250f);
+                spawnX2 = spawnXReset2 = (int)(player.Center.X + 1250f);
+                safeBox.Y = spawnY = spawnYReset = (int)(player.Center.Y - 1250f);
+                safeBox.Width = 2500;
+                safeBox.Height = 2500;
+                spawnYAdd = 125;
+
+                int num52 = (int)(safeBox.X + (float)(safeBox.Width / 2)) / 16;
+                int num53 = (int)(safeBox.Y + (float)(safeBox.Height / 2)) / 16;
+                int num54 = safeBox.Width / 2 / 16 + 1;
+                for (int num55 = num52 - num54; num55 <= num52 + num54; num55++)
+                {
+                    for (int num56 = num53 - num54; num56 <= num53 + num54; num56++)
+                    {
+                        if (!WorldGen.InWorld(num55, num56, 2))
+                            continue;
+
+                        int xoffset = 0;
+                        int yoffset = 0;
+
+                        if ((num55 == num52 - num54 || num55 == num52 + num54 || num56 == num53 - num54 || num56 == num53 + num54) && !Main.tile[num55 + xoffset, num56 + yoffset].HasTile)
+                        {
+                            Main.tile[num55 + xoffset, num56 + yoffset].TileType = (ushort)ModContent.TileType<Tiles.ArenaTile>();
+                            Main.tile[num55 + xoffset, num56 + yoffset].Get<TileWallWireStateData>().HasTile = true;
+                        }
+                        if (Main.netMode == NetmodeID.Server)
+                        {
+                            NetMessage.SendTileSquare(-1, num55 + xoffset, num56 + yoffset, 1, TileChangeType.None);
+                        }
+                        else
+                        {
+                            WorldGen.SquareTileFrame(num55 + xoffset, num56 + yoffset, true);
+                        }
+                    }
+                }
+            }
             return true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            Player player = Main.LocalPlayer;
+            TooltipLine line4 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
+            TooltipLine line5 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
+
+            if (Main.getGoodWorld)
+            {
+                line4.Text = "Doing so will create a square arena of blocks, with you at its center\nNot consumable";
+            }
         }
 
         public override void AddRecipes()

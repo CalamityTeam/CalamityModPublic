@@ -302,6 +302,7 @@ namespace CalamityMod
             // Centralizing head texture registration like this seems absurdly stiff
             Apollo.LoadHeadIcons();
             Artemis.LoadHeadIcons();
+            Cryogen.LoadHeadIcons();
             DevourerofGodsHead.LoadHeadIcons();
             DevourerofGodsBody.LoadHeadIcons();
             DevourerofGodsTail.LoadHeadIcons();

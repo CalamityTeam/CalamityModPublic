@@ -1197,7 +1197,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         NPC.netSpam -= 5;
 
                         // Plasma bolts on charge
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        if (Main.netMode != NetmodeID.MultiplayerClient && !(Main.getGoodWorld && !exoMechdusa)) // move to zenith seed later, I'm not that evil
                         {
                             int totalProjectiles = bossRush ? 12 : 8;
                             float radians = MathHelper.TwoPi / totalProjectiles;
@@ -1285,24 +1285,34 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     // Reset phase and variables
                     if (calamityGlobalNPC.newAI[2] >= maxCharges - 1)
                     {
-                        pickNewLocation = true;
-                        AIState = (float)Phase.Normal;
+                        if (Main.getGoodWorld && !exoMechdusa)
+                        {
+                            pickNewLocation = NPC.localAI[2] == 0f;
+                            calamityGlobalNPC.newAI[3] = 0f;
+                            AIState = (float)Phase.LineUpChargeCombo;
+                        }
+                        else
+                        {
+                            pickNewLocation = true;
+                            AIState = (float)Phase.Normal;
+
+                            // Tell Apollo and Artemis to swap positions
+                            if (NPC.ai[0] < 10f)
+                                NPC.ai[0] = 10f;
+                            NPC.ai[0] += 1f;
+
+                            // Tell Artemis to not fire lasers for a short time while swapping positions
+                            NPC.ai[3] = 61f;
+                        }
+
                         NPC.localAI[2] = 0f;
-                        calamityGlobalNPC.newAI[2] = 0f;
                         for (int i = 0; i < maxCharges; i++)
                             chargeLocations[i] = default;
                         ChargeComboFlash = 0f;
-
-                        // Tell Apollo and Artemis to swap positions
-                        if (NPC.ai[0] < 10f)
-                            NPC.ai[0] = 10f;
-                        NPC.ai[0] += 1f;
+                        calamityGlobalNPC.newAI[2] = 0f;
 
                         // Change Y offset for the next charge combo
                         NPC.ai[2] = Main.rand.Next(2);
-
-                        // Tell Artemis to not fire lasers for a short time while swapping positions
-                        NPC.ai[3] = 61f;
 
                         NPC.TargetClosest();
                         PlayTargetingSound();

@@ -86,7 +86,12 @@ namespace CalamityMod.Projectiles.Boss
                 return;
 
             if (Projectile.Opacity == 1f)
-                target.AddBuff(BuffID.VortexDebuff, 60);
+            {
+                int debufftype = Main.getGoodWorld ? BuffID.Obstructed : BuffID.VortexDebuff; // move to zenith seed later
+                int duration = Main.getGoodWorld ? 30 : 60;
+                if (damage > 0)
+                    target.AddBuff(debufftype, duration, true);
+            }
         }
 
         public override void Kill(int timeLeft)

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -198,6 +199,23 @@ namespace CalamityMod.NPCs.Perforator
             int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
             if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+            
+            //TODO -- Zenith seed.
+            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+            if (Main.netMode != NetmodeID.MultiplayerClient && getFuckedAI)
+            {
+                int type = ModContent.ProjectileType<IchorBlob>();
+                int damage = NPC.GetProjectileDamage(type);
+                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.UnitY, type, damage, 0f, Main.myPlayer);
+
+                for (int i = -1; i < 2; i++) //releases 3 Ichor Shots
+                {
+                    int type2 = ModContent.ProjectileType<IchorShot>();
+                    Vector2 baseVelocity = Vector2.UnitY * Main.rand.NextFloat(-12.5f, -5f);
+                    int spread = Main.rand.Next(16, 36);
+                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, baseVelocity.RotatedBy(MathHelper.ToRadians(spread * i)), type2, damage, 0f, Main.myPlayer);
+                }
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)

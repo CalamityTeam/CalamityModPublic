@@ -1084,11 +1084,27 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     // Reset phase and variables
                     if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
                     {
+                        if (Main.getGoodWorld && !exoMechdusa)
+                        {
+                            calamityGlobalNPC.newAI[3] = 0f;
+                            AIState = (float)Phase.Deathray;
+                            for (int i = 0; i < Main.maxProjectiles; i ++)
+                            {
+                                if (Main.projectile[i].type == ModContent.ProjectileType<ArtemisSpinLaserbeam>())
+                                {
+                                    Main.projectile[i].active = false;
+                                    continue;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            AIState = (float)Phase.Normal;
+                        }
                         spinVelocity = default;
                         rotationDirection = 0;
                         spinningPoint = default;
                         pickNewLocation = true;
-                        AIState = (float)Phase.Normal;
                         NPC.ai[1] = 0f;
                         NPC.ai[2] = 0f;
                         if (revenge)

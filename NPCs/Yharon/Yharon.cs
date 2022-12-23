@@ -340,12 +340,13 @@ namespace CalamityMod.NPCs.Yharon
                 enraged = false;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    safeBox.X = (int)(player.Center.X - (Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f));
+                    // move the first ftw checks to zenith seed later
+                    safeBox.X = (int)(player.Center.X - (Main.getGoodWorld ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f));
                     safeBox.Y = (int)(player.Center.Y - 10500f);
-                    safeBox.Width = Main.getGoodWorld ? 2000 : bossRush ? 4000 : revenge ? 6000 : 7000;
+                    safeBox.Width = Main.getGoodWorld ? 3000 : Main.getGoodWorld ? 2000 : bossRush ? 4000 : revenge ? 6000 : 7000;
                     safeBox.Height = 21000;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + (Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - (Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + (Main.getGoodWorld ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - (Main.getGoodWorld ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
                 }
 
                 // Force Yharon to send a sync packet so that the arena gets sent immediately
@@ -876,7 +877,8 @@ namespace CalamityMod.NPCs.Yharon
                                 NPC.Center = center;
 
                                 float bulletHellVortexDuration = flareDustPhaseTimer + teleportPhaseTimer - 15f;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<YharonBulletHellVortex>(), 0, 0f, Main.myPlayer, bulletHellVortexDuration, NPC.whoAmI);
+                                int extraTime = Main.getGoodWorld ? 300 : 0;
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<YharonBulletHellVortex>(), 0, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
 
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
                                 int damageAmt = (int)(NPC.lifeMax * (bulletHellVortexDuration / calamityGlobalNPC.KillTime));
@@ -1222,7 +1224,8 @@ namespace CalamityMod.NPCs.Yharon
                                 NPC.Center = center;
 
                                 float bulletHellVortexDuration = flareDustPhaseTimer + teleportPhaseTimer - 15f;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<YharonBulletHellVortex>(), 0, 0f, Main.myPlayer, bulletHellVortexDuration, NPC.whoAmI);
+                                int extraTime = Main.getGoodWorld ? 300 : 0;
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<YharonBulletHellVortex>(), 0, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
 
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
                                 int damageAmt = (int)(NPC.lifeMax * (bulletHellVortexDuration / calamityGlobalNPC.KillTime));
@@ -1556,6 +1559,19 @@ namespace CalamityMod.NPCs.Yharon
             bool invincible = invincibilityCounter < Phase2InvincibilityTime;
             if (invincible)
             {
+                if (Main.getGoodWorld) // move to zenith seed later
+                {
+                    if (NPC.life < NPC.lifeMax)
+                    {
+                        NPC.life += (int)(NPC.lifeMax * 0.01f);
+                        NPC.HealEffect((int)(NPC.lifeMax * 0.01f), true);
+                        NPC.netUpdate = true;
+                    }
+                    else
+                    {
+                        NPC.life = NPC.lifeMax;
+                    }
+                }
                 NPC.dontTakeDamage = true;
                 phase2 = phase3 = phase4 = false;
                 invincibilityCounter++;
@@ -1898,7 +1914,8 @@ namespace CalamityMod.NPCs.Yharon
                                 NPC.Center = center;
 
                                 float bulletHellVortexDuration = spinPhaseTimer + 15f;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<YharonBulletHellVortex>(), 0, 0f, Main.myPlayer, bulletHellVortexDuration, NPC.whoAmI);
+                                int extraTime = Main.getGoodWorld ? 300 : 0;
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<YharonBulletHellVortex>(), 0, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
 
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
                                 int damageAmt = (int)(NPC.lifeMax * (bulletHellVortexDuration / calamityGlobalNPC.KillTime));
@@ -2876,10 +2893,18 @@ namespace CalamityMod.NPCs.Yharon
             // Mark Yharon as dead
             DownedBossSystem.downedYharon = true;
             CalamityNetcode.SyncWorld();
+
+            if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // move to zenith seed later
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<YharonBulletHellVortex>(), 0, 0f, Main.myPlayer, 360, NPC.whoAmI);
+                }
+            }
         }
         #endregion
 
-        #region On Hit Player
+            #region On Hit Player
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (damage > 0)

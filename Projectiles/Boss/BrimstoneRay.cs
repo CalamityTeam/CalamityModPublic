@@ -57,8 +57,11 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Main.npc[(int)Projectile.ai[1]].active && Main.npc[(int)Projectile.ai[1]].type == ModContent.NPCType<BrimstoneElemental>())
             {
-                Vector2 fireFrom = new Vector2(Main.npc[(int)Projectile.ai[1]].Center.X + (Main.npc[(int)Projectile.ai[1]].spriteDirection > 0 ? 34f : -34f), Main.npc[(int)Projectile.ai[1]].Center.Y - 74f);
-                Projectile.position = fireFrom - new Vector2(Projectile.width, Projectile.height) / 2f;
+                if (Main.npc[(int)Projectile.ai[1]].ai[0] == 5)
+                {
+                    Vector2 fireFrom = new Vector2(Main.npc[(int)Projectile.ai[1]].Center.X + (Main.npc[(int)Projectile.ai[1]].spriteDirection > 0 ? 34f : -34f), Main.npc[(int)Projectile.ai[1]].Center.Y - 74f);
+                    Projectile.position = fireFrom - new Vector2(Projectile.width, Projectile.height) / 2f;
+                }
             }
             else
                 Projectile.Kill();
@@ -115,11 +118,11 @@ namespace CalamityMod.Projectiles.Boss
             // Fire brimstone darts along the laser
             bool bossRush = BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || bossRush;
-            if (Main.npc[(int)Projectile.ai[1]].ai[1] == 210f && Projectile.owner == Main.myPlayer)
+            if (Main.npc[(int)Projectile.ai[1]].ai[1] == 210f && Projectile.owner == Main.myPlayer && Main.npc[(int)Projectile.ai[1]].ai[0] == 5)
             {
                 Vector2 velocity = Projectile.velocity;
                 velocity.Normalize();
-                float distanceBetweenProjectiles = bossRush ? 72f : 144f;
+                float distanceBetweenProjectiles = Main.getGoodWorld ? 360 : bossRush ? 72f : 144f; // move to zenith seed later
                 Vector2 fireFrom = new Vector2(Main.npc[(int)Projectile.ai[1]].Center.X + (Main.npc[(int)Projectile.ai[1]].spriteDirection > 0 ? 34f : -34f), Main.npc[(int)Projectile.ai[1]].Center.Y - 74f) + velocity * distanceBetweenProjectiles;
                 int projectileAmt = (int)(Projectile.localAI[1] / distanceBetweenProjectiles);
                 int type = ModContent.ProjectileType<BrimstoneBarrage>();

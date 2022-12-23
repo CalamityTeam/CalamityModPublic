@@ -61,6 +61,9 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToWater = true;
+
+            if (Main.getGoodWorld) // Move to zenith seed later
+                NPC.scale *= 2;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -446,6 +449,14 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             if (damage > 0)
                 player.AddBuff(BuffID.Bleeding, 180, true);
+        }
+
+        public override Color? GetAlpha(Color drawColor)
+        {
+            // Move to zenith seed later
+            Color lightColor = Color.Orange * drawColor.A;
+            Color newColor = Main.getGoodWorld ? lightColor : new Color(255, 255, 255, drawColor.A);
+            return newColor * NPC.Opacity;
         }
     }
 }

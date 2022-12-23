@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatBuffs;
+﻿using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -78,6 +78,10 @@ namespace CalamityMod.NPCs.Crabulon
             {
                 NPC.scale *= 1.5f;
                 NPC.defense += 12;
+            }
+            if (Main.getGoodWorld) // move to zenith seed later
+            {
+                NPC.lifeMax *= 2;
             }
         }
 
@@ -188,6 +192,12 @@ namespace CalamityMod.NPCs.Crabulon
 
             if (Main.getGoodWorld)
                 enrageScale += 0.5f;
+
+            if (Main.getGoodWorld && Main.netMode != NetmodeID.Server) // move to zenith seed later
+            {
+                if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
+                    Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<Trippy>(), 2);
+            }
 
             if (NPC.ai[0] < 2f)
             {
@@ -538,6 +548,28 @@ namespace CalamityMod.NPCs.Crabulon
                             int num624 = Dust.NewDust(new Vector2(NPC.position.X - 20f, NPC.position.Y + NPC.height), NPC.width + 20, 4, 56, 0f, 0f, 100, default, 1.5f);
                             Main.dust[num624].velocity *= 0.2f;
                         }
+                        if (Main.getGoodWorld) // move to zenith seed later
+                        {
+                            int x = num622 / 16;
+                            int y = (int)(NPC.position.Y + NPC.height) / 16;
+                            Tile groundTile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                            Tile walkTile = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
+                            if (!walkTile.HasTile && walkTile.LiquidAmount == 0 && groundTile != null && WorldGen.SolidTile(groundTile))
+                            {
+                                walkTile.TileFrameY = 0;
+                                walkTile.Get<TileWallWireStateData>().Slope = SlopeType.Solid;
+                                walkTile.Get<TileWallWireStateData>().IsHalfBlock = false;
+                                if (groundTile.TileType == TileID.MushroomGrass || groundTile.TileType == TileID.Mud)
+                                {
+                                    walkTile.Get<TileWallWireStateData>().HasTile = true;
+                                    walkTile.TileType = TileID.MushroomPlants;
+                                    walkTile.TileFrameX = (short)(Main.rand.Next(5) * 18);
+
+                                    if (Main.netMode == NetmodeID.MultiplayerClient)
+                                        NetMessage.SendTileSquare(-1, x, y - 1, 1, TileChangeType.None);
+                                }
+                            }
+                        }
                     }
                 }
                 else
@@ -745,6 +777,14 @@ namespace CalamityMod.NPCs.Crabulon
             }
         }
 
+        public override Color? GetAlpha(Color drawColor)
+        {
+            // Move to zenith seed later
+            Color lightColor = Color.Lime * drawColor.A;
+            Color newColor = Main.getGoodWorld ? lightColor : new Color(255, 255, 255, drawColor.A);
+            return newColor * NPC.Opacity;
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
@@ -852,6 +892,14 @@ namespace CalamityMod.NPCs.Crabulon
             // Mark Crabulon as dead
             DownedBossSystem.downedCrabulon = true;
             CalamityNetcode.SyncWorld();
+
+            if (Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient) // move to zenith seed later
+            {
+                for (int i = 0; i < Main.rand.Next(10, 23); i++)
+                {
+                    NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + Main.rand.Next(-NPC.width / 2, NPC.width / 2), (int)NPC.Center.Y + Main.rand.Next(-NPC.height / 2, NPC.height / 2), NPCID.Crab);
+                }
+            }
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

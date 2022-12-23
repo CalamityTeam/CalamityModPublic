@@ -3,6 +3,7 @@ using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Cooldowns;
 using CalamityMod.Events;
+using CalamityMod.NPCs;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -167,12 +168,27 @@ namespace CalamityMod.CalPlayer
                 if (Vector2.Distance(Player.Center.ToTileCoordinates().ToVector2(), closestSafeZone.ToVector2()) < SulphuricWaterSafeZoneSystem.NearbySafeTiles[closestSafeZone] * 17f)
                     nearSafeZone = true;
             }
-            if (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone)
+            
+            float ASPoisonLevel = 0f;
+            //TODO -- Zenith seed.
+            if (CalamityGlobalNPC.aquaticScourge >= 0 && Main.getGoodWorld && Main.masterMode)
+            {
+                NPC AS = Main.npc[CalamityGlobalNPC.aquaticScourge];
+                //if the player is 50 blocks or more away from the head
+                if (AS.life < AS.lifeMax) //Only poison when damaged
+                    ASPoisonLevel = Utils.GetLerpValue(800f, 1600f, Vector2.Distance(Player.Center, AS.Center), true);
+            }
+
+            bool ASPoisoning = ASPoisonLevel > 0f;
+            if (ASPoisoning || (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone))
             {
                 float increment = 1f / SulphSeaWaterSafetyTime;
-                if (sulphurskin)
+                //No way to mitigate AS Poisoning
+                if (ASPoisoning)
+                    increment *= 4f + (8f * ASPoisonLevel);
+                if (sulphurskin && !ASPoisoning)
                     increment *= 0.5f;
-                if (sulfurSet)
+                if (sulfurSet && !ASPoisoning)
                     increment *= 0.5f;
 
                 SulphWaterPoisoningLevel = MathHelper.Clamp(SulphWaterPoisoningLevel + increment, 0f, 1f);

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Events;
+using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -168,6 +169,19 @@ namespace CalamityMod.NPCs.DesertScourge
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
         }
+        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        {
+            // Sometimes "Deflect" projectiles in gfb into water blasts.
+            if (Main.rand.NextBool(20) && Main.getGoodWorld) // Move to zenith seed later
+            {
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Vector2 velocity = new Vector2(-projectile.velocity.X, -projectile.velocity.Y);
+                    velocity.Normalize();
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity * 4, ModContent.ProjectileType<HorsWaterBlast>(), projectile.damage, 1f, Main.myPlayer);
+                }
+            }
+        }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
@@ -178,6 +192,14 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             if (damage > 0)
                 player.AddBuff(BuffID.Bleeding, 240, true);
+        }
+
+        public override Color? GetAlpha(Color drawColor)
+        {
+            // Move to zenith seed later
+            Color lightColor = Color.MediumBlue * drawColor.A;
+            Color newColor = Main.getGoodWorld ? lightColor : new Color(255, 255, 255, drawColor.A);
+            return newColor * NPC.Opacity;
         }
     }
 }

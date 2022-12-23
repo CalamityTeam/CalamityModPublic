@@ -234,13 +234,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     DartBurstCounter = 0f;
                     SoundEngine.PlaySound(SupremeCalamitas.BrimstoneShotSound, NPC.Center);
 
-                    int type = ModContent.ProjectileType<BrimstoneBarrage>();
+                    int type = Main.getGoodWorld ? ModContent.ProjectileType<BrimstoneHellblast2>() : ModContent.ProjectileType<BrimstoneBarrage>(); //Move to zenith seed later
                     int damage = NPC.GetProjectileDamage(type);
 					if (bossRush)
 						damage /= 2;
                     int totalProjectiles = bossRush ? 20 : death ? 16 : revenge ? 14 : expertMode ? 12 : 8;
                     float radians = MathHelper.TwoPi / totalProjectiles;
-                    float velocity = 7f;
+                    float velocity = Main.getGoodWorld ? 5f : 7f; // Move to zenith seed later
                     Vector2 spinningPoint = new Vector2(0f, -velocity);
                     for (int k = 0; k < totalProjectiles; k++)
                     {
@@ -278,7 +278,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             spriteBatch.Draw(texture, mainDrawPosition, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
             texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCataclysmGlow").Value;
-            Color baseGlowmaskColor = NPC.IsABestiaryIconDummy ? Color.White : Color.Lerp(Color.White, Color.Red, 0.5f);
+            Color primarycolor = Main.getGoodWorld ? Color.Blue : Color.Red; // Move to zenith seed later. why? because blue fire is awesome!!
+            Color baseGlowmaskColor = NPC.IsABestiaryIconDummy ? Color.White : Color.Lerp(Color.White, primarycolor, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)
             {

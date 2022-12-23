@@ -184,6 +184,18 @@ namespace CalamityMod.NPCs.OldDuke
             int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
             if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+
+            if (Main.getGoodWorld) // move to zenith seed later
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int spawnX = NPC.width / 2;
+                    int type = ModContent.ProjectileType<OldDukeGore>();
+                    for (int i = 0; i < 2; i++)
+                        Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center.X + Main.rand.Next(-spawnX, spawnX), NPC.Center.Y,
+                            Main.rand.Next(-1, 2), Main.rand.Next(-6, -3), type, NPC.damage / 2, 0f, Main.myPlayer);
+                }
+            }
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

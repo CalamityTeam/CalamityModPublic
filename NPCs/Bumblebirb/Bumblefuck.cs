@@ -12,6 +12,8 @@ using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.Sounds;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,6 +23,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -127,6 +130,12 @@ namespace CalamityMod.NPCs.Bumblebirb
             bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;
             bool phase3 = lifeRatio < (death ? 0.4f : revenge ? 0.25f : 0.1f);
             bool birbSpawn = NPC.ai[0] == 4f && NPC.ai[1] > 0f;
+
+            // Animation goes nyoom in the zenith seed
+            if (Main.getGoodWorld)
+            {
+                NPC.frameCounter += 4;
+            }
 
             float newPhaseTimer = 180f;
             bool phaseSwitchPhase = (phase2 && calamityGlobalNPC.newAI[0] < newPhaseTimer && calamityGlobalNPC.newAI[2] != 1f) ||
@@ -404,7 +413,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            name = "A Dragonfolly";
+            name = Main.getGoodWorld ? "A Bumblebirb" : "A Dragonfolly"; // move to zenith seed later
             potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
@@ -454,12 +463,36 @@ namespace CalamityMod.NPCs.Bumblebirb
             DownedBossSystem.downedDragonfolly = true;
             CalamityNetcode.SyncWorld();
 
+            if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // Move to zenith seed later
+            {
+                int spacing = 40;
+                int amt = 7;
+                SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, NPC.Center - Vector2.UnitY * 300f);
+                for (int i = 0; i < amt; i++)
+                {
+                    Vector2 fireFrom = new Vector2(NPC.Center.X + (spacing * i) - (spacing * amt / 2), NPC.Center.Y - 900f);
+                    Vector2 ai0 = NPC.Center - fireFrom;
+                    float ai = Main.rand.Next(100);
+                    Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), NPC.damage, 0f, Main.myPlayer, ai0.ToRotation(), ai);
+                }
+            }
+
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
             NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            // Move to zenith seed later
+            if (Main.getGoodWorld)
+            {
+                typeName = "Bumblebirb";
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)

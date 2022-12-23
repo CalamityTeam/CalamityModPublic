@@ -492,7 +492,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
 						break;
 				}
-			}
+            }
 
             if (TalkTimer > ExoMechChooseDelay + 10f && !ExoMechIsPresent)
             {
@@ -501,6 +501,22 @@ namespace CalamityMod.NPCs.ExoMechs
             }
 
             TalkTimer++;
+
+            if (ExoMechIsPresent && Main.getGoodWorld && GeneralTimer % 60 == 0 && !exoMechdusa) // move to zenith seed later
+            {
+                SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Vector2 shoot = PlayerToFollow.Center - NPC.Center; 
+                    shoot.Normalize();
+                    shoot *= 4;
+                    int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - Vector2.UnitY * 30, shoot, ModContent.ProjectileType<Projectiles.Enemy.DraedonLaser>(), 116, 0, Main.myPlayer);
+                    if (p.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[p].timeLeft *= 2;
+                    }
+                }
+            }
         }
 
         // TODO -- Make this work in conjunction with exo mech transitions. This requires that the exo mech AIs be finished.
@@ -509,7 +525,8 @@ namespace CalamityMod.NPCs.ExoMechs
             // Define a hover destination offset if one hasn't been decided yet.
             if (Main.netMode != NetmodeID.MultiplayerClient && HoverDestinationOffset == Vector2.Zero)
             {
-                HoverDestinationOffset = -Vector2.UnitY * 700f;
+                float factor = Main.getGoodWorld && !exoMechdusa ? 300f : 700f;
+                HoverDestinationOffset = -Vector2.UnitY * factor;
                 NPC.netUpdate = true;
             }
 
@@ -526,7 +543,9 @@ namespace CalamityMod.NPCs.ExoMechs
                     offsetDirection = Main.rand.NextVector2Unit();
                 while (Vector2.Dot(directionToTarget, offsetDirection) > 0.2f);
 
-                HoverDestinationOffset = offsetDirection * Main.rand.NextFloat(750f, 1100f);
+                float factormin = Main.getGoodWorld && !exoMechdusa ? 300f : 750f;
+                float factormax = Main.getGoodWorld && !exoMechdusa ? 700f : 1100f;
+                HoverDestinationOffset = offsetDirection * Main.rand.NextFloat(factormin, factormax);
                 NPC.netUpdate = true;
             }
 
@@ -819,17 +838,26 @@ namespace CalamityMod.NPCs.ExoMechs
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/DraedonGlowmask").Value;
             Texture2D projector = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/DraedonProjector").Value;
             Texture2D projectorglow = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/DraedonProjectorGlowmask").Value;
+            Texture2D gun = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/DraedonsArsenal/PulseRifle").Value;
             Rectangle frame = NPC.frame;
 
             Vector2 drawPosition = NPC.Center - screenPos - Vector2.UnitY * 38f;
+            Vector2 gunDrawPosition = NPC.Center - screenPos - Vector2.UnitY * 48f - Vector2.UnitX * 30 * NPC.spriteDirection;
             Vector2 origin = frame.Size() * 0.5f;
             Vector2 projorigin = new Vector2(projector.Size().X, projector.Size().Y / 4) * 0.5f;
+            Vector2 gunorigin = new Vector2(gun.Size().X, gun.Size().Y / 4) * 0.5f;
             Color color = NPC.GetAlpha(drawColor);
             Color holoColor = new Color(color.R, color.B, color.G, 0);
-            SpriteEffects direction = NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;		
+            SpriteEffects direction = NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            SpriteEffects gunDirection = NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             float hoveroffset = 0;
             if (HasBeenKilled)
                 hoveroffset = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2.5f) * 5f;
+
+            Vector2 playerToDrae = PlayerToFollow.Center - NPC.Center;
+            playerToDrae.Normalize();
+            float extraRotation = PlayerToFollow.Center.X - NPC.Center.X < 0 ? -MathHelper.PiOver4 * 4 : 0;
+            float gunRotation = playerToDrae.ToRotation() + extraRotation; 
 
             if (!NPC.IsABestiaryIconDummy)
             {
@@ -849,6 +877,25 @@ namespace CalamityMod.NPCs.ExoMechs
             if (HologramEffectTimer >= HologramFadeinTime || NPC.IsABestiaryIconDummy)
             {
                 spriteBatch.Draw(glowmask, drawPosition, frame, Color.White * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
+            }
+
+            if (Main.getGoodWorld && !HasBeenKilled && HologramEffectTimer >= HologramFadeinTime && !exoMechdusa) // move to zenith seed later
+            {
+                CalamityUtils.EnterShaderRegion(spriteBatch);
+                Color outlineColor = Color.Lerp(Color.Magenta, Color.White, 0.4f);
+                Vector3 outlineHSL = Main.rgbToHsl(outlineColor); //BasicTint uses the opposite hue i guess? or smth is fucked with the way shaders get their colors. anyways, we invert it
+                float outlineThickness = MathHelper.Clamp(2f, 0f, 3f);
+
+                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(1f);
+                GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1 - outlineHSL.X, outlineHSL.Y, outlineHSL.Z));
+                GameShaders.Misc["CalamityMod:BasicTint"].Apply();
+
+                for (float i = 0; i < 1; i += 0.125f)
+                {
+                    spriteBatch.Draw(gun, gunDrawPosition + (i * MathHelper.TwoPi + gunRotation).ToRotationVector2() * outlineThickness, null, outlineColor, gunRotation, gunorigin, NPC.scale, gunDirection, 0f);
+                }
+                CalamityUtils.ExitShaderRegion(spriteBatch);
+                spriteBatch.Draw(gun, gunDrawPosition, null, Color.White * NPC.Opacity, gunRotation, gunorigin, NPC.scale, gunDirection, 0f);
             }
 
             // Projector and beam

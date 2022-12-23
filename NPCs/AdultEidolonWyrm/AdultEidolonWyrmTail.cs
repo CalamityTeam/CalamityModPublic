@@ -146,5 +146,14 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 }
             }
         }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            // Move to zenith seed later
+            if (Main.getGoodWorld)
+            {
+                typeName = "Jared";
+            }
+        }
     }
 }

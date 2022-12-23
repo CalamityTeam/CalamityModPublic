@@ -109,7 +109,10 @@ namespace CalamityMod.Projectiles.Boss
                 center.Y += 2f;
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 11f, Projectile.ai[1] - 1f);
             }
-            if (Projectile.ai[0] <= 0f)
+            int tornadoSpeed = 10;
+            int breakThreshold = -300;
+            bool breakapart = Main.getGoodWorld && Projectile.ai[0] <= breakThreshold; // move to zenith seed later
+            if (Projectile.ai[0] <= 0f && !breakapart)
             {
                 float num622 = 0.104719758f;
                 float num623 = (float)Projectile.width / 5f;
@@ -119,6 +122,10 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.ai[0] -= 1f;
                 num624 = (float)(Math.Cos((double)(num622 * -(double)Projectile.ai[0])) - 0.5) * num623;
                 Projectile.position.X += num624 * -Projectile.direction;
+            }
+            if (Projectile.ai[0] == breakThreshold && Main.getGoodWorld)
+            {
+                Projectile.velocity.X = Main.rand.NextBool(2) ? -tornadoSpeed : tornadoSpeed;
             }
 
             if (Projectile.timeLeft == 600)

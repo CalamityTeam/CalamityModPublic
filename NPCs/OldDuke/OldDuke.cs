@@ -125,6 +125,15 @@ namespace CalamityMod.NPCs.OldDuke
             NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
         }
 
+        public override void ModifyTypeName(ref string typeName)
+        {
+            // Move to zenith seed later
+            if (Main.getGoodWorld)
+            {
+                typeName = "The Boomer Duke";
+            }
+        }
+
         public override void FindFrame(int frameHeight)
         {
             bool tired = NPC.Calamity().newAI[1] == 1f;

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -299,6 +300,36 @@ namespace CalamityMod.NPCs.Perforator
                         }
                     }
                 }
+            }
+
+            //TODO -- Zenith seed.
+            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+            //This is possibly the best or worst idea ever conceived
+            float laserOffset = 1500f;
+            float laserVelocity = 4f;
+            int type = ModContent.ProjectileType<DoGDeath>();
+            int damage = NPC.GetProjectileDamage(type);
+
+            if (getFuckedAI)
+                NPC.Calamity().newAI[3]++;
+
+            if (NPC.Calamity().newAI[3] > 180f) //Effectively 10 seconds but give a little headstart in case players kill it too fast
+            {
+                if (NPC.Calamity().newAI[3] % 60 == 59)
+                {
+                    SoundEngine.PlaySound(SoundID.Item12, player.position);
+                    for (int i = -7; i < 8; i++) //15 lasers
+                    {
+                        float laserGap = (i * 128f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + laserOffset, player.Center.Y + laserGap, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - laserOffset, player.Center.Y + laserGap, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + laserGap, player.Center.Y + laserOffset, 0f, -laserVelocity, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + laserGap, player.Center.Y + laserOffset, 0f, laserVelocity, type, damage, 0f, Main.myPlayer);
+                    }
+                }
+                    
+                if (NPC.Calamity().newAI[3] >= 300f)
+                    NPC.Calamity().newAI[3] = -300f;
             }
 
             float num18 = speed;

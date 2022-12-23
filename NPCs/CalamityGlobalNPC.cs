@@ -5732,6 +5732,14 @@ namespace CalamityMod.NPCs
                     spriteBatch.Draw(TextureAssets.MagicPixel.Value, drawPosition, null, beamColor, 0f, origin, scale, SpriteEffects.None, 0f);
                 }
             }
+
+            if (Main.getGoodWorld && NPC.AnyNPCs(NPCType<CeaselessVoid.CeaselessVoid>())) // move to zenith seed later
+            {
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+                var midnightShader = Terraria.Graphics.Shaders.GameShaders.Armor.GetShaderFromItemId(ItemID.MidnightRainbowDye);
+                midnightShader.Apply();
+            }
             return true;
         }
 

@@ -361,8 +361,9 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
+            int debuffType = Main.getGoodWorld ? ModContent.BuffType<GodSlayerInferno>() : ModContent.BuffType<AstralInfectionDebuff>(); // move to zenith seed later
             if (damage > 0)
-                player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180, true);
+                player.AddBuff(debuffType, 180, true);
         }
 
         public override bool CheckDead()

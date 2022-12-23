@@ -37,29 +37,54 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if (Projectile.scale < 1f)
+            if (Main.getGoodWorld) // move to zenith seed later
             {
-                if (Projectile.alpha > 0)
-                    Projectile.alpha -= 1;
+                if (Projectile.scale < 2f)
+                {
+                    if (Projectile.alpha > 0)
+                        Projectile.alpha -= 1;
 
-                Projectile.scale += 0.004f;
-                if (Projectile.scale > 1f)
-                    Projectile.scale = 1f;
+                    Projectile.scale += 0.004f;
+                    if (Projectile.scale > 2f)
+                        Projectile.scale = 2f;
+                }
+                else
+                {
+                    if (Projectile.timeLeft <= 85)
+                    {
+                        if (Projectile.alpha < 255)
+                            Projectile.alpha += 3;
 
-                Projectile.width = Projectile.height = (int)(408f * Projectile.scale);
+                        Projectile.scale += 0.012f;
+                    }
+                }
             }
             else
             {
-                if (Projectile.timeLeft <= 85)
+                if (Projectile.scale < 1f)
                 {
-                    if (Projectile.alpha < 255)
-                        Projectile.alpha += 3;
+                    if (Projectile.alpha > 0)
+                        Projectile.alpha -= 1;
 
-                    Projectile.scale += 0.012f;
+                    Projectile.scale += 0.004f;
+                    if (Projectile.scale > 1f)
+                        Projectile.scale = 1f;
+
                     Projectile.width = Projectile.height = (int)(408f * Projectile.scale);
                 }
                 else
-                    Projectile.width = Projectile.height = 408;
+                {
+                    if (Projectile.timeLeft <= 85)
+                    {
+                        if (Projectile.alpha < 255)
+                            Projectile.alpha += 3;
+
+                        Projectile.scale += 0.012f;
+                        Projectile.width = Projectile.height = (int)(408f * Projectile.scale);
+                    }
+                    else
+                        Projectile.width = Projectile.height = 408;
+                }
             }
 
             Projectile.velocity = Vector2.Normalize(new Vector2(Projectile.ai[0], Projectile.ai[1]) - Projectile.Center) * 1.5f;
@@ -97,7 +122,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
 
                 float distanceRequired = 800f * Projectile.scale;
-                float succPower = 0.5f;
+                float succPower = Main.getGoodWorld ? 1f : 0.5f; // move to zenith seed later
                 for (int i = 0; i < Main.maxPlayers; i++)
                 {
                     Player player = Main.player[i];

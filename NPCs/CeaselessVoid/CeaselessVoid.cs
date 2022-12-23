@@ -256,7 +256,12 @@ namespace CalamityMod.NPCs.CeaselessVoid
             if (NPC.soundDelay == 0 && NPC.life >= NPC.lifeMax * 0.05f)
             {
                 NPC.soundDelay = 8;
-                SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
+                float pitchVar = 0;
+                if (Main.getGoodWorld) // move to zenith seed later
+                {
+                    pitchVar = Main.rand.Next(-60, 41) * 0.01f;
+                }
+                SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound with { Pitch = CommonCalamitySounds.OtherwordlyHitSound.Pitch + pitchVar}, NPC.Center);
             }
 
             for (int k = 0; k < 5; k++)
