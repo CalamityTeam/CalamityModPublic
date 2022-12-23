@@ -10,6 +10,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.WorldBuilding;
 
 using static CalamityMod.Schematics.SchematicManager;
 
@@ -18,34 +19,7 @@ namespace CalamityMod.World
     // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class DraedonStructures
     {
-        private static int[] otherModTilesToAvoid;
         public const int HellVerticalAvoidance = 100;
-
-        internal static void Load()
-        {
-            IList<int> avoid = new List<int>(16);
-
-            // Mod of Redemption's labs use modded blocks, but must still be avoided.
-            Mod mor = CalamityMod.Instance.redemption;
-            if (mor != null)
-            {
-                // Thanks to Hallam to providing these tile names.
-                string[] redemptionAvoidTiles = new string[]
-                {
-                    "LabTileUnsafe",
-                    "OvergrownLabTile"
-                };
-                foreach (string tileName in redemptionAvoidTiles)
-                    avoid.Add(mor.Find<ModTile>(tileName).Type);
-            }
-
-            otherModTilesToAvoid = avoid.ToArray();
-        }
-
-        internal static void Unload()
-        {
-            otherModTilesToAvoid = null;
-        }
 
         public static bool ShouldAvoidLocation(Point placementPoint, bool careAboutLava = true)
         {
@@ -71,15 +45,7 @@ namespace CalamityMod.World
                 return true;
             }
 
-            //
-            // Below this line: Avoiding other mod worldgen.
-            //
-
-            // Avoid Thorium's Blood Chamber (where you summon Viscount). This is done separately because it uses vanilla tiles.
-            if (tile.TileType == TileID.StoneSlab || tile.WallType == WallID.StoneSlab)
-                return true;
-            // Avoid all other registered modded tiles to avoid.
-            return otherModTilesToAvoid.Any(id => tile.TileType == id);
+            return false;
         }
 
         #region Workshop
@@ -123,7 +89,7 @@ namespace CalamityMod.World
                 chest.item[i].stack = contents[i].Stack;
             }
         }
-        public static void PlaceWorkshop(out Point placementPoint, List<Point> workshopPoints)
+        public static void PlaceWorkshop(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
         {
             int tries = 0;
             string mapKey = RustedWorkshopKey;
@@ -155,12 +121,13 @@ namespace CalamityMod.World
                             activeTilesInArea++;
                     }
                 }
-                if (!canGenerateInLocation || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f)
+                if (!canGenerateInLocation || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
                     bool _ = true;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillWorkshopChest));
+                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     break;
                 }
 
@@ -205,7 +172,7 @@ namespace CalamityMod.World
                 chest.item[i].stack = contents[i].Stack;
             }
         }
-        public static void PlaceResearchFacility(out Point placementPoint, List<Point> workshopPoints)
+        public static void PlaceResearchFacility(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
         {
             int tries = 0;
             string mapKey = ResearchOutpostKey;
@@ -237,12 +204,13 @@ namespace CalamityMod.World
                             activeTilesInArea++;
                     }
                 }
-                if (!canGenerateInLocation || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f)
+                if (!canGenerateInLocation || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
                     bool _ = true;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillLaboratoryChest));
+                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     break;
                 }
             }
@@ -281,7 +249,7 @@ namespace CalamityMod.World
             }
         }
 
-        public static void PlaceHellLab(out Point placementPoint, List<Point> workshopPoints)
+        public static void PlaceHellLab(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
         {
             int tries = 0;
             string mapKey = HellLabKey;
@@ -310,7 +278,7 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
                     }
                 }
-                if (!canGenerateInLocation)
+                if (!canGenerateInLocation || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                 {
                     tries++;
                 }
@@ -318,6 +286,7 @@ namespace CalamityMod.World
                 {
                     bool hasPlacedMurasama = false;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedMurasama, new Action<Chest, int, bool>(FillHellLaboratoryChest));
+                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     CalamityWorld.HellLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
                     break;
                 }
@@ -357,7 +326,7 @@ namespace CalamityMod.World
             }
         }
 
-        public static void PlaceSunkenSeaLab(out Point placementPoint, List<Point> workshopPoints)
+        public static void PlaceSunkenSeaLab(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
         {
             int tries = 0;
             string mapKey = SunkenSeaLabKey;
@@ -399,13 +368,14 @@ namespace CalamityMod.World
                     }
                 }
                 tries++;
-                if (!shouldAvoidArea)
+                if (!shouldAvoidArea && structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     break;
             }
             while (tries < 50000);
 
             bool hasPlacedLogAndSchematic = false;
             PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
+            structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)), 4);
             CalamityWorld.SunkenSeaLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
         }
         #endregion
@@ -443,7 +413,7 @@ namespace CalamityMod.World
             }
         }
 
-        public static void PlaceIceLab(out Point placementPoint, List<Point> workshopPoints)
+        public static void PlaceIceLab(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
         {
             int tries = 0;
             string mapKey = IceLabKey;
@@ -481,12 +451,13 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
                     }
                 }
-                if (!canGenerateInLocation || nearbyOtherWorkshop || iceTilesInArea < totalTiles * 0.35f)
+                if (!canGenerateInLocation || nearbyOtherWorkshop || iceTilesInArea < totalTiles * 0.35f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
                     bool hasPlacedLogAndSchematic = false;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillIceLaboratoryChest));
+                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     CalamityWorld.IceLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
                     break;
                 }
@@ -525,7 +496,7 @@ namespace CalamityMod.World
             }
         }
 
-        public static void PlacePlagueLab(out Point placementPoint, List<Point> workshopPoints)
+        public static void PlacePlagueLab(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
         {
             int tries = 0;
             string mapKey = PlagueLabKey;
@@ -563,7 +534,7 @@ namespace CalamityMod.World
                         }
                     }
                 }
-                if (!canGenerateInLocation || nearbyOtherWorkshop || jungleTilesInArea < totalTiles * 0.4f)
+                if (!canGenerateInLocation || nearbyOtherWorkshop || jungleTilesInArea < totalTiles * 0.4f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                 {
                     tries++;
                 }
@@ -571,6 +542,7 @@ namespace CalamityMod.World
                 {
                     bool hasPlacedLogAndSchematic = false;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillPlagueLaboratoryChest));
+                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     CalamityWorld.JungleLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
                     break;
                 }
