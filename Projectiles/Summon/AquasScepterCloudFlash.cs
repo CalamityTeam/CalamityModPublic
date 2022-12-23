@@ -21,11 +21,9 @@ namespace CalamityMod.Projectiles.Summon
 			Projectile.alpha = 125;
 		}
 
-		public override bool? CanCutTiles() {
-			return false;
-		}
+        public override bool? CanDamage() => false;
 
-		public override void AI() {
+        public override void AI() {
 			Projectile.alpha += 5;
 		}
 	}

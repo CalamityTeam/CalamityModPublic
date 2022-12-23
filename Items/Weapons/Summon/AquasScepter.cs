@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Summon; //God forbid someone has to read all the code relating to this weapon in the future. I salute you. -AquaSG
+﻿using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework; 
@@ -15,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Aqua's Scepter");
-			Tooltip.SetDefault("'Captain! I think- we've got a risk of rain!'\n" + //Yes, it's cheesy, I know. It's a joke.
-                "Summons a giant storm cloud sentry to rain down on your foes, and strike nearby enemies with overloading tesla energy");
+			Tooltip.SetDefault("Summons a giant storm cloud sentry to rain down on your foes, and strike nearby enemies with overloading tesla energy\n" +
+                "'Captain! I think- we've got a risk of rain!'"); //Yes, it's cheesy, I know. It's a joke.
 
-			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 			ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;
 			ItemID.Sets.LockOnIgnoresCollision[Item.type] = true;
 		}
