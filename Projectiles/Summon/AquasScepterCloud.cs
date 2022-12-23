@@ -48,8 +48,6 @@ namespace CalamityMod.Projectiles.Summon
 		}
 
 		public override void AI() {
-			Player owner = Main.player[Projectile.owner];
-
 			float distanceFromTarget = 700f;
 			var targetCenter = Projectile.position;
 			bool foundTarget = false;
