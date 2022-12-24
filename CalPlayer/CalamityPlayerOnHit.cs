@@ -1258,7 +1258,7 @@ namespace CalamityMod.CalPlayer
                 }
 				if (aWeapon)
 				{
-					CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>());
+					CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>(), 4f);
 				}
 			}
             if (rogue)
@@ -1395,7 +1395,7 @@ namespace CalamityMod.CalPlayer
                     CalamityUtils.Inflict246DebuffsPvp(target, BuffType<ArmorCrunch>());
 
 				if (aWeapon)
-					CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>());
+					CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>(), 4f);
 			}
 
             if (rogue)
