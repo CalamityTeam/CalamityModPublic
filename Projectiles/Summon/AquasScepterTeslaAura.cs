@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.alpha = 0;
 		}
 
-        public override bool? CanDamage() => ableToHit;
+        public override bool? CanDamage() => ableToHit ? (bool?)null : false;
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, (TeslaAuraScale * 96.0f), targetHitbox);
 
