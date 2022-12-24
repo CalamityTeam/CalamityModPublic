@@ -145,6 +145,9 @@ namespace CalamityMod.NPCs.DevourerofGods
         // Sounds
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/DevourerSpawn");
         public static readonly SoundStyle AttackSound = new("CalamityMod/Sounds/Custom/DevourerAttack");
+        public static readonly SoundStyle DeathAnimationSound = new("CalamityMod/Sounds/NPCKilled/DevourerDeath");
+        public static readonly SoundStyle DeathExplosionSound = new("CalamityMod/Sounds/NPCKilled/DevourerDeathImpact");
+        public static readonly SoundStyle DeathSegmentSound = new("CalamityMod/Sounds/NPCKilled/DevourerSegmentBreak", 4);
         public float extrapitch = 0;
 
         public override void SetStaticDefaults()
@@ -2175,7 +2178,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Play a sound at the start.
             if (DeathAnimationTimer == 1f)
             {
-                SoundEngine.PlaySound(AttackSound with { Volume = AttackSound.Volume * 1.6f, Pitch = AttackSound.Pitch + extrapitch}, NPC.Center);
+                SoundEngine.PlaySound(DeathExplosionSound, NPC.Center);
             }
 
             // Close the health bar, fade in, and stop doing contact damage.
@@ -2187,7 +2190,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             void destroySegment(int index, ref int destroyedSegments)
             {
                 if (Main.rand.NextBool(5))
-                    SoundEngine.PlaySound(SoundID.Item94, NPC.Center);
+                    SoundEngine.PlaySound(DeathSegmentSound, NPC.Center);
 
                 List<int> segments = new List<int>()
                 {
@@ -2241,11 +2244,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    SoundEngine.PlaySound(AttackSound with { Volume = AttackSound.Volume * 1.6f, Pitch = AttackSound.Volume + extrapitch}, NPC.Center);
+                    SoundEngine.PlaySound(DeathAnimationSound, NPC.Center);
 
                     for (int i = 0; i < 3; i++)
                     {
-                        SoundEngine.PlaySound(TeslaCannon.FireSound with { Volume = TeslaCannon.FireSound.Volume * 1.4f, Pitch = TeslaCannon.FireSound.Pitch -MathHelper.Lerp(0.1f, 0.4f, i / 3f) }, NPC.Center);
+                        SoundEngine.PlaySound(DeathExplosionSound, NPC.Center);
                     }
                 }
             }
