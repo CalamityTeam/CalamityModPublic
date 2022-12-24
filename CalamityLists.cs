@@ -1827,7 +1827,7 @@ namespace CalamityMod
                 ProjectileType<DarkSparkBeam>(),
                 ProjectileType<EidolicWailSoundwave>(),
                 ProjectileType<RancorLaserbeam>(),
-                ProjectileType<SparklingBeam>(),
+                ProjectileType<SparklingLaser>(),
                 ProjectileType<YharimsCrystalBeam>(),
                 ProjectileType<PrismaticBeam>(),
             };

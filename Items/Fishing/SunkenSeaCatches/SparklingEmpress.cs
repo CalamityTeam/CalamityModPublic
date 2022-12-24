@@ -27,20 +27,18 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             Item.channel = true; //Channel so that you can hold the weapon [Important]
             Item.rare = ItemRarityID.Green;
             Item.mana = 5;
-            Item.width = 42;
-            Item.height = 34;
+            Item.width = 44;
+            Item.height = 44;
             Item.useTime = 20;
             Item.useAnimation = 20;
             Item.UseSound = SoundID.Item13;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.shootSpeed = 14f;
-            Item.shoot = ModContent.ProjectileType<SparklingBeam>();
+            Item.shoot = ModContent.ProjectileType<SparklingLaser>();
             Item.value = Item.sellPrice(silver: 40);
         }
 
-        public override Vector2? HoldoutOrigin() //so it looks normal when holding
-        {
-            return new Vector2(10, 10);
-        }
+        //Looks scuffed with the laser when there is offset
+        //public override Vector2? HoldoutOrigin() => new Vector2(10, 10);
     }
 }
