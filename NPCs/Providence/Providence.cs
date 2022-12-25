@@ -378,28 +378,14 @@ namespace CalamityMod.NPCs.Providence
                 //The debuff applies
                 if (burnIntensity >= 1f)
                 {
-                    player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
                     if (SoundWarningLevel < 2)
                     {
-                        BurningSoundSlot = SoundEngine.PlaySound(BurnStartSound, player.Center);
+                        //Initialize sound
+                        SoundEngine.PlaySound(BurnStartSound, player.Center);
+                        BurningSoundSlot = SoundEngine.PlaySound(BurnLoopSound, player.Center);
                         SoundWarningLevel = 2;
                     }
-
-                    // Updating the burning sound
-                    if (SoundEngine.TryGetActiveSound(BurningSoundSlot, out var burningSound) && burningSound.IsPlaying)
-                        burningSound.Position = player.Center;
-
-                    // Start the loop sound if the start sound finished.
-                    if (burningSound is null || !burningSound.IsPlaying)
-                    {
-                        if (burningSound is null || burningSound.Style == BurnStartSound)
-                        {
-                            burningSound?.Stop();
-                            BurningSoundSlot = SoundEngine.PlaySound(BurnLoopSound, NPC.Center);
-                        }
-                        else if (burningSound is not null)
-                            burningSound.Resume();
-                    }
+                    player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
                 }
                 //The player starts to get fire particles
                 else if (burnIntensity > 0.45f)
@@ -418,6 +404,13 @@ namespace CalamityMod.NPCs.Providence
                 }
             }
 
+            // Updating the looping sound
+            if (SoundEngine.TryGetActiveSound(BurningSoundSlot, out var burningSound) && burningSound.IsPlaying)
+                burningSound.Position = player.Center;
+            
+            // Kill when it stops being relevant
+            if (burningSound is not null && SoundWarningLevel < 2)
+                burningSound?.Stop();
 
             // Count the remaining Guardians, healer especially because it allows the boss to heal
             int guardianAmt = 0;
