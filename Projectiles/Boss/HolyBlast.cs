@@ -14,7 +14,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class HolyBlast : ModProjectile
     {
-        public static readonly SoundStyle ImpactSound = new("CalamityMod/Sounds/Custom/ProvidenceHolyBlastImpact");
+        public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Custom/Providence/ProvidenceHolyBlastShoot");
+        public static readonly SoundStyle ImpactSound = new("CalamityMod/Sounds/Custom/Providence/ProvidenceHolyBlastImpact");
 
         public override void SetStaticDefaults()
         {
@@ -72,7 +73,7 @@ namespace CalamityMod.Projectiles.Boss
                     }
                 }
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+                SoundEngine.PlaySound(ShootSound, Projectile.position);
             }
             if (Math.Abs(Projectile.velocity.X) > 0.2)
             {
