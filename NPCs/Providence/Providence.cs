@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.Providence
         //Sound slot for the burning damage over time effect
         public SlotId BurningSoundSlot;
         //Level of sound playing
-        public int SoundWarningLevel = 0;
+        public float SoundWarningLevel = -1f;
         
         public static float normalDR = 0.3f;
         public static float cocoonDR = 0.9f;
@@ -211,7 +211,7 @@ namespace CalamityMod.NPCs.Providence
             NPC.canGhostHeal = reader.ReadBoolean();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
-            SoundWarningLevel = reader.ReadInt32();
+            SoundWarningLevel = reader.ReadSingle();
             Dying = reader.ReadBoolean();
             DeathAnimationTimer = reader.ReadInt32();
             for (int i = 0; i < 4; i++)
@@ -371,46 +371,58 @@ namespace CalamityMod.NPCs.Providence
             float distanceX = Math.Abs(vector.X - player.Center.X);
 
             // Inflict Holy Inferno if target is too far away
-            float burnIntensity = CalculateBurnIntensity();
+            float burnIntensity = CalculateBurnIntensity();    
 
             if (!player.dead && player.active && !player.creativeGodMode && !Dying)
             {
                 //The debuff applies
                 if (burnIntensity >= 1f)
                 {
-                    if (SoundWarningLevel < 2)
+                    if (SoundWarningLevel < 2f)
                     {
                         //Initialize sound
                         SoundEngine.PlaySound(BurnStartSound, player.Center);
                         BurningSoundSlot = SoundEngine.PlaySound(BurnLoopSound, player.Center);
-                        SoundWarningLevel = 2;
+                        SoundWarningLevel = 2f;
                     }
                     player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
+                }
+                //If the sound is still playing, make it go slowly kinda
+                else if (SoundWarningLevel > 1f)
+                {
+                    SoundWarningLevel -= 1 / 100f;
+                    if (SoundWarningLevel < 1f)
+                        SoundWarningLevel = 1f;
                 }
                 //The player starts to get fire particles
                 else if (burnIntensity > 0.45f)
                 {
                     //If the player goes from 0 to 1, then play the sound. Doesn't play when descending.
-                    if (SoundWarningLevel < 1)
+                    if (SoundWarningLevel < 1f)
                         SoundEngine.PlaySound(NearBurnSound, player.Center);
 
-                    SoundWarningLevel = 1;
+                    SoundWarningLevel = 1f;
                 }
                 //The player has sparks if intensity is above 0, otherwise nothing happens
                 else if (burnIntensity <= 0f)
                 {
                     //Reset the sound
-                    SoundWarningLevel = 0;
+                    SoundWarningLevel = 0f;
                 }
             }
 
             // Updating the looping sound
             if (SoundEngine.TryGetActiveSound(BurningSoundSlot, out var burningSound) && burningSound.IsPlaying)
                 burningSound.Position = player.Center;
-            
-            // Kill when it stops being relevant
-            if (burningSound is not null && SoundWarningLevel < 2)
-                burningSound?.Stop();
+
+            // Adjust the volume or break the loop accordingly
+            if (burningSound is not null)
+            {
+                if (SoundWarningLevel <= 1f)
+                    burningSound?.Stop();
+                else if(SoundWarningLevel < 2f)
+                    burningSound.Volume = SoundWarningLevel - 1f;
+            }
 
             // Count the remaining Guardians, healer especially because it allows the boss to heal
             int guardianAmt = 0;
