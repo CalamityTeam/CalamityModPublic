@@ -3287,6 +3287,8 @@ namespace CalamityMod.NPCs
                             case NPCID.Crimera:
                             case NPCID.Moth:
                             case NPCID.Parrot:
+                            case NPCID.Bee:
+                            case NPCID.BeeSmall:
                                 return CalamityGlobalAI.BuffedFlyingAI(npc, Mod);
                         }
                         break;
@@ -3319,6 +3321,9 @@ namespace CalamityMod.NPCs
                             case NPCID.SolarCrawltipedeHead:
                             case NPCID.SolarCrawltipedeBody:
                             case NPCID.SolarCrawltipedeTail:
+                            case NPCID.BloodEelHead:
+                            case NPCID.BloodEelBody:
+                            case NPCID.BloodEelTail:
                                 return CalamityGlobalAI.BuffedWormAI(npc, Mod);
 
                             // Death Mode splitting worms.
