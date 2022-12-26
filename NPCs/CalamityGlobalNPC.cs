@@ -3289,6 +3289,7 @@ namespace CalamityMod.NPCs
                             case NPCID.Parrot:
                             case NPCID.Bee:
                             case NPCID.BeeSmall:
+                            case NPCID.BloodSquid:
                                 return CalamityGlobalAI.BuffedFlyingAI(npc, Mod);
                         }
                         break;
@@ -3567,6 +3568,7 @@ namespace CalamityMod.NPCs
                             case NPCID.FlyingFish:
                             case NPCID.GiantFlyingAntlion:
                             case NPCID.FlyingAntlion:
+                            case NPCID.EyeballFlyingFish:
                                 return CalamityGlobalAI.BuffedFlyingFishAI(npc, Mod);
                         }
                         break;
@@ -3671,6 +3673,14 @@ namespace CalamityMod.NPCs
                         {
                             case NPCID.StardustCellSmall:
                                 return CalamityGlobalAI.BuffedSmallStarCellAI(npc, Mod);
+                        }
+                        break;
+
+                    case NPCAIStyleID.FlowInvader:
+                        switch (npc.type)
+                        {
+                            case NPCID.StardustJellyfishBig:
+                                return CalamityGlobalAI.BuffedFlowInvaderAI(npc, Mod);
                         }
                         break;
 
