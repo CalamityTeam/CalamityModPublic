@@ -3289,6 +3289,7 @@ namespace CalamityMod.NPCs
                             case NPCID.Parrot:
                             case NPCID.Bee:
                             case NPCID.BeeSmall:
+                            case NPCID.BloodSquid:
                                 return CalamityGlobalAI.BuffedFlyingAI(npc, Mod);
                         }
                         break;
