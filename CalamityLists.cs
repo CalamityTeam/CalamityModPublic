@@ -464,7 +464,6 @@ namespace CalamityMod
                 "Shiny",
                 "Whale",
                 "The Infinity",
-                "Toasty",
                 "MrCreamen",
                 "TemperedAether",
                 "LucasTwocas",
