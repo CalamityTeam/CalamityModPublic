@@ -3568,6 +3568,7 @@ namespace CalamityMod.NPCs
                             case NPCID.FlyingFish:
                             case NPCID.GiantFlyingAntlion:
                             case NPCID.FlyingAntlion:
+                            case NPCID.EyeballFlyingFish:
                                 return CalamityGlobalAI.BuffedFlyingFishAI(npc, Mod);
                         }
                         break;

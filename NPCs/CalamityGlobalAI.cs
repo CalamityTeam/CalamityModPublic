@@ -8935,9 +8935,59 @@ namespace CalamityMod.NPCs
                 }
                 npc.velocity.Y = (float)npc.directionY;
             }
+            if (npc.type == NPCID.EyeballFlyingFish)
+            {
+                npc.position += npc.netOffset;
+                if (npc.alpha == 255)
+                {
+                    npc.velocity.Y = -6f;
+                    npc.netUpdate = true;
+                    for (int num662 = 0; num662 < 15; num662++)
+                    {
+                        Dust dust2 = Dust.NewDustDirect(npc.position, npc.width, npc.height, 5);
+                        Dust dust = dust2;
+                        dust.velocity *= 0.5f;
+                        dust2.scale = 1f + Main.rand.NextFloat() * 0.5f;
+                        dust2.fadeIn = 1.5f + Main.rand.NextFloat() * 0.5f;
+                        dust = dust2;
+                        dust.velocity += npc.velocity * 0.5f;
+                    }
+                }
+
+                npc.alpha -= 15;
+                if (npc.alpha < 0)
+                    npc.alpha = 0;
+
+                if (npc.alpha != 0)
+                {
+                    for (int num663 = 0; num663 < 2; num663++)
+                    {
+                        Dust dust3 = Dust.NewDustDirect(npc.position, npc.width, npc.height, 5);
+                        Dust dust = dust3;
+                        dust.velocity *= 1f;
+                        dust3.scale = 1f + Main.rand.NextFloat() * 0.5f;
+                        dust3.fadeIn = 1.5f + Main.rand.NextFloat() * 0.5f;
+                        dust = dust3;
+                        dust.velocity += npc.velocity * 0.3f;
+                    }
+                }
+
+                if (Main.rand.NextBool(3))
+                {
+                    Dust dust4 = Dust.NewDustDirect(npc.position, npc.width, npc.height, 5);
+                    Dust dust = dust4;
+                    dust.velocity *= 0f;
+                    dust4.alpha = 120;
+                    dust4.scale = 0.7f + Main.rand.NextFloat() * 0.5f;
+                    dust = dust4;
+                    dust.velocity += npc.velocity * 0.3f;
+                }
+
+                npc.position -= npc.netOffset;
+            }
             int num631 = npc.target;
             int direction2 = npc.direction;
-            if (npc.target == Main.maxPlayers || Main.player[npc.target].wet || Main.player[npc.target].dead || Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+            if (npc.target == Main.maxPlayers || (Main.player[npc.target].wet && npc.type != NPCID.EyeballFlyingFish) || Main.player[npc.target].dead || Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
             {
                 npc.ai[0] = 90f;
                 npc.TargetClosest(true);
@@ -8992,6 +9042,21 @@ namespace CalamityMod.NPCs
                         }
                     }
                     num = num640;
+                }
+            }
+            else if (npc.type == NPCID.EyeballFlyingFish)
+            {
+                num632 = 0.16f;
+                num633 = 0.12f;
+                num634 = 9f;
+                num635 = 5f;
+                num636 = 0f;
+                num637 = 250f;
+                num639 = Main.player[npc.target].position.Y;
+                if (Main.dayTime)
+                {
+                    num639 = 0f;
+                    npc.direction *= -1;
                 }
             }
             if (CalamityWorld.death)
@@ -9076,7 +9141,7 @@ namespace CalamityMod.NPCs
             {
                 npc.velocity.Y = num635;
             }
-            if (npc.wet)
+            if (npc.wet && npc.type != NPCID.EyeballFlyingFish)
             {
                 if (npc.velocity.Y > 0f)
                 {
