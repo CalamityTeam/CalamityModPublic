@@ -31,7 +31,7 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 4.75f;
-            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item102;
             Item.autoReuse = true;

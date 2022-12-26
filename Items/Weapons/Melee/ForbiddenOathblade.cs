@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 6.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<ForbiddenOathbladeProjectile>();
             Item.shootSpeed = 10f;
