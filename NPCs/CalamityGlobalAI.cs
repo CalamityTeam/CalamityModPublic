@@ -4507,8 +4507,8 @@ namespace CalamityMod.NPCs
             }
             if (npc.type == NPCID.BloodEelHead)
             {
-                num37 = 15f;
-                num38 = 0.45f;
+                num37 = 18f;
+                num38 = 0.6f;
             }
 
             if (CalamityWorld.death)
