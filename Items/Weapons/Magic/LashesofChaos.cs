@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 7.5f;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BrimstoneHellfireballFriendly>();

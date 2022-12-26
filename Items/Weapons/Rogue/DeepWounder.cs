@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.height = 48;
             Item.maxStack = 1;
             Item.rare = ItemRarityID.Lime;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.shoot = ModContent.ProjectileType<DeepWounderProjectile>();
             Item.shootSpeed = 14f;
             Item.DamageType = RogueDamageClass.Instance;
