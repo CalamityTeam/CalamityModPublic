@@ -11021,6 +11021,54 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+        #region Flow Invader AI
+        public static bool BuffedFlowInvaderAI(NPC npc, Mod mod)
+        {
+            float num1477 = CalamityWorld.death ? 8f : 6.5f;
+            float moveSpeed = CalamityWorld.death ? 0.25f : 0.2f;
+            npc.TargetClosest();
+            Vector2 desiredVelocity3 = Main.player[npc.target].Center - npc.Center + new Vector2(0f, -300f);
+            float num1478 = desiredVelocity3.Length();
+            if (num1478 < 20f)
+            {
+                desiredVelocity3 = npc.velocity;
+            }
+            else if (num1478 < 40f)
+            {
+                desiredVelocity3.Normalize();
+                desiredVelocity3 *= num1477 * 0.35f;
+            }
+            else if (num1478 < 80f)
+            {
+                desiredVelocity3.Normalize();
+                desiredVelocity3 *= num1477 * 0.65f;
+            }
+            else
+            {
+                desiredVelocity3.Normalize();
+                desiredVelocity3 *= num1477;
+            }
+
+            npc.SimpleFlyMovement(desiredVelocity3, moveSpeed);
+            npc.rotation = npc.velocity.X * 0.1f;
+            if (!((npc.ai[0] += 1f) >= (CalamityWorld.death ? 30f : 50f)))
+                return false;
+
+            npc.ai[0] = 0f;
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                Vector2 vector223 = Vector2.Zero;
+                while (Math.Abs(vector223.X) < 1.5f)
+                    vector223 = Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2) * new Vector2(5f, 3f);
+
+                int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, vector223, ProjectileID.StardustJellyfishSmall, 60, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                Main.projectile[proj].extraUpdates += 1;
+            }
+
+            return false;
+        }
+        #endregion
+
         #endregion
 
         #region DD2 Event AIs

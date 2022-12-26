@@ -3676,6 +3676,14 @@ namespace CalamityMod.NPCs
                         }
                         break;
 
+                    case NPCAIStyleID.FlowInvader:
+                        switch (npc.type)
+                        {
+                            case NPCID.StardustJellyfishBig:
+                                return CalamityGlobalAI.BuffedFlowInvaderAI(npc, Mod);
+                        }
+                        break;
+
                     default:
                         break;
                 }
