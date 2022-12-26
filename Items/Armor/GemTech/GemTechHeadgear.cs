@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Armor.GemTech
             Item.defense = 14;
 
             // Exact worth of the armor piece's constituents.
-            Item.value = Item.sellPrice(platinum: 6, gold: 14, silver: 88);
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.rare = ModContent.RarityType<Violet>();
             Item.Calamity().donorItem = true;
         }
