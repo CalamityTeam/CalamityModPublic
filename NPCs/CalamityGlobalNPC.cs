@@ -2208,6 +2208,10 @@ namespace CalamityMod.NPCs
                     npc.coldDamage = true;
                     break;
 
+                case NPCID.PirateGhost:
+                    npc.lifeMax = (int)(npc.lifeMax * 0.33);
+                    break;
+
                 case NPCID.BloodSquid:
                     npc.lifeMax = (int)(npc.lifeMax * 0.25);
                     break;
@@ -3283,6 +3287,9 @@ namespace CalamityMod.NPCs
                             case NPCID.Crimera:
                             case NPCID.Moth:
                             case NPCID.Parrot:
+                            case NPCID.Bee:
+                            case NPCID.BeeSmall:
+                            case NPCID.BloodSquid:
                                 return CalamityGlobalAI.BuffedFlyingAI(npc, Mod);
                         }
                         break;
@@ -3315,6 +3322,9 @@ namespace CalamityMod.NPCs
                             case NPCID.SolarCrawltipedeHead:
                             case NPCID.SolarCrawltipedeBody:
                             case NPCID.SolarCrawltipedeTail:
+                            case NPCID.BloodEelHead:
+                            case NPCID.BloodEelBody:
+                            case NPCID.BloodEelTail:
                                 return CalamityGlobalAI.BuffedWormAI(npc, Mod);
 
                             // Death Mode splitting worms.
@@ -3558,6 +3568,7 @@ namespace CalamityMod.NPCs
                             case NPCID.FlyingFish:
                             case NPCID.GiantFlyingAntlion:
                             case NPCID.FlyingAntlion:
+                            case NPCID.EyeballFlyingFish:
                                 return CalamityGlobalAI.BuffedFlyingFishAI(npc, Mod);
                         }
                         break;
@@ -3662,6 +3673,14 @@ namespace CalamityMod.NPCs
                         {
                             case NPCID.StardustCellSmall:
                                 return CalamityGlobalAI.BuffedSmallStarCellAI(npc, Mod);
+                        }
+                        break;
+
+                    case NPCAIStyleID.FlowInvader:
+                        switch (npc.type)
+                        {
+                            case NPCID.StardustJellyfishBig:
+                                return CalamityGlobalAI.BuffedFlowInvaderAI(npc, Mod);
                         }
                         break;
 

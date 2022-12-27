@@ -2032,12 +2032,22 @@ namespace CalamityMod.Projectiles
                 // Setting this in SetDefaults didn't work
                 switch (projectile.type)
                 {
+                    case ProjectileID.RockGolemRock:
+                    case ProjectileID.BloodShot:
+                    case ProjectileID.DandelionSeed:
+                        projectile.extraUpdates += CalamityWorld.revenge ? 1 : 0;
+                        break;
+
+                    case ProjectileID.Stinger:
+                        projectile.extraUpdates += CalamityWorld.death ? 1 : (CalamityWorld.revenge && Main.hardMode) ? 1 : 0;
+                        break;
+
                     case ProjectileID.Bee:
                     case ProjectileID.Wasp:
                     case ProjectileID.TinyEater:
                     case ProjectileID.GiantBee:
                     case ProjectileID.Bat:
-                        projectile.extraUpdates = 1;
+                        projectile.extraUpdates += 1;
                         break;
                 }
 

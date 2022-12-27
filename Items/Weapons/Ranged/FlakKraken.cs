@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.knockBack = 0f;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = CommonCalamitySounds.LaserCannonSound;
             Item.shoot = ModContent.ProjectileType<FlakKrakenGun>();

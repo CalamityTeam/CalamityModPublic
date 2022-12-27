@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("This creature could easily be confused for a giant amoeba. It seems to be developing past the limitations of an usual slime, thanks to all the compacted biomass it contains.")
+				new FlavorTextBestiaryInfoElement("This creature could easily be confused for a giant amoeba. It seems to be developing past the limitations of a usual slime, thanks to all the compacted biomass it contains.")
             });
         }
 

@@ -73,6 +73,11 @@ namespace CalamityMod.NPCs.AcidRain
         public const float TeleportTime = 60f;
         public const float TeleportFadeinTime = 10f;
         public const float TeleportCooldown = 60f;
+
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/NuclearTerrorSpawn");
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/NuclearTerrorHit");
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/NuclearTerrorDeath");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nuclear Terror");
@@ -107,8 +112,8 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.lavaImmune = false;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
-            NPC.HitSound = SoundID.NPCHit56;
-            NPC.DeathSound = SoundID.NPCDeath60;
+            NPC.HitSound = HitSound;
+            NPC.DeathSound = null; //Does the sound while on the death animation instead
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -175,6 +180,9 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.damage = Dying ? 0 : NPC.defDamage;
             TeleportCheck();
 
+            // Play the spawn sound
+            if (AttackTime == 0f)
+                SoundEngine.PlaySound(SpawnSound, NPC.Center);
             AttackTime++;
             float wrappedAttackTime = AttackTime % AttackCycleTime;
 
@@ -459,6 +467,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
             if (Dying)
             {
+                SoundEngine.PlaySound(DeathSound, NPC.Center);
                 if (NPC.frame.Y < frameHeight * 8)
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)

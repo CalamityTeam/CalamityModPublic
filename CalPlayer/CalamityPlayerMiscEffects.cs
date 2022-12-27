@@ -723,7 +723,7 @@ namespace CalamityMod.CalPlayer
             if (providenceBurnIntensity > 0.45f)
                 ProvidenceBurnEffectDrawer.ParticleSpawnRate = 1;
 
-            // Otherwise, if the intensity is too weak, but still presernt, cause the player to release holy cinders.
+            // Otherwise, if the intensity is too weak, but still present, cause the player to release holy cinders.
             else if (providenceBurnIntensity > 0f)
             {
                 int cinderCount = (int)MathHelper.Lerp(1f, 4f, Utils.GetLerpValue(0f, 0.45f, providenceBurnIntensity, true));

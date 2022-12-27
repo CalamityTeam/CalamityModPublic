@@ -90,7 +90,6 @@ namespace CalamityMod.World
                 chest.item[i].stack = contents[i].Stack;
             }
         }
-
         public static void PlaceWorkshop(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
         {
             int tries = 0;
@@ -174,7 +173,6 @@ namespace CalamityMod.World
                 chest.item[i].stack = contents[i].Stack;
             }
         }
-
         public static void PlaceResearchFacility(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
         {
             int tries = 0;

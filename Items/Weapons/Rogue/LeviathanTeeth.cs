@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.autoReuse = true;
             Item.height = 38;
             Item.maxStack = 1;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<LeviathanTooth>();
             Item.shootSpeed = 12f;

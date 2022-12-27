@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item39;
             Item.autoReuse = true;
             Item.height = 24;
-            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
             Item.rare = ItemRarityID.LightPurple;
             Item.shoot = ModContent.ProjectileType<TalonSmallProj>();
             Item.shootSpeed = 10.5f;

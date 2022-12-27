@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.fishingPole = 25;
             Item.shootSpeed = 14f;
             Item.shoot = ModContent.ProjectileType<SlurperBobber>();
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
         }
     }

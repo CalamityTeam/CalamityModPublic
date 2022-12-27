@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 2f;
             Item.UseSound = SoundID.Item34;
-            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<CorossiveFlames>();

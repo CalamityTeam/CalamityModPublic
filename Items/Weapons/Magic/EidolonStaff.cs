@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Eidolon Staff");
             Tooltip.SetDefault("The power of an ancient cultist resonates within this staff\n" +
-                "Fires a spread of ancient light and has a chance to fire a spinning ice cluster");
+                "Fires a spread of ancient light and a spinning ice cluster");
             Item.staff[Item.type] = true;
             SacrificeTotal = 1;
         }
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3f;
-            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.rare = ModContent.RarityType<PureGreen>();
             Item.UseSound = SoundID.Item43;
             Item.autoReuse = true;

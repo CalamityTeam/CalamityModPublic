@@ -27,7 +27,7 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
             Item.damage = 100;
             Item.knockBack = 12;
             Item.DamageType = DamageClass.Throwing;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.useTime = 19;
             Item.useAnimation = 19;

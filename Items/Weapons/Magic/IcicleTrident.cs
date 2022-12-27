@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useTurn = false;
             Item.noMelee = true;
             Item.knockBack = 7f;
-            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item8;
             Item.autoReuse = true;

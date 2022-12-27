@@ -23,14 +23,14 @@ Revenge is a dish best served flaming hot");
         {
             Item.damage = 20;
             Item.DamageType = DamageClass.Ranged;
-            Item.width = 36;
-            Item.height = 30;
+            Item.width = 42;
+            Item.height = 38;
             Item.useTime = 20;
             Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2f;
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item20;
             Item.autoReuse = true;
@@ -38,10 +38,8 @@ Revenge is a dish best served flaming hot");
             Item.shootSpeed = 11f;
         }
 
-        public override Vector2? HoldoutOrigin() //so it looks normal when holding
-        {
-            return new Vector2(10, 10);
-        }
+        //so it looks normal when holding
+        public override Vector2? HoldoutOrigin() => new Vector2(10, 10);
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Tools
             Item.height = 80;
             Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.value = Item.buyPrice(1, 0, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
             Item.rare = ItemRarityID.Red;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;

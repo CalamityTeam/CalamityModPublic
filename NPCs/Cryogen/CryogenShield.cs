@@ -4,6 +4,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +13,8 @@ namespace CalamityMod.NPCs.Cryogen
 {
     public class CryogenShield : ModNPC
     {
+        public static readonly SoundStyle BreakSound = new("CalamityMod/Sounds/NPCKilled/CryogenShieldBreak");
+
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -37,8 +40,8 @@ namespace CalamityMod.NPCs.Cryogen
                 NPC.lifeMax = 10000;
             }
             NPC.alpha = 255;
-            NPC.HitSound = SoundID.NPCHit5;
-            NPC.DeathSound = SoundID.NPCDeath7;
+            NPC.HitSound = Cryogen.HitSound;
+            NPC.DeathSound = BreakSound;
             if (Main.getGoodWorld) // Move to zenith seed later
             {
                 NPC.Calamity().VulnerableToHeat = false;
@@ -55,8 +58,8 @@ namespace CalamityMod.NPCs.Cryogen
         public override void AI()
         {
             // Move to zenith seed later
-            NPC.HitSound = Main.getGoodWorld ? SoundID.NPCHit41 : SoundID.NPCHit5;
-            NPC.DeathSound = Main.getGoodWorld ? SoundID.NPCDeath14 : SoundID.NPCDeath7;
+            NPC.HitSound = Main.getGoodWorld ? SoundID.NPCHit41 : Cryogen.HitSound;
+            NPC.DeathSound = Main.getGoodWorld ? SoundID.NPCDeath14 : BreakSound;
 
             NPC.alpha -= 3;
             if (NPC.alpha < 0)

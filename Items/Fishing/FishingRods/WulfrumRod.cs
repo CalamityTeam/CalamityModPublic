@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.fishingPole = 10;
             Item.shootSpeed = 10f;
             Item.shoot = ModContent.ProjectileType<WulfrumBobber>();
-            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
         }
 
         public override void AddRecipes()

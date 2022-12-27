@@ -47,6 +47,11 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override string Texture => "CalamityMod/NPCs/Cryogen/Cryogen_Phase1";
 
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/CryogenHit", 3);
+        public static readonly SoundStyle TransitionSound = new("CalamityMod/Sounds/NPCHit/CryogenPhaseTransitionCrack");
+        public static readonly SoundStyle ShieldRegenSound = new("CalamityMod/Sounds/Custom/CryogenShieldRegenerate");
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/CryogenDeath");
+
         public FireParticleSet FireDrawer = null;
 
         public static int cryoIconIndex;
@@ -91,8 +96,8 @@ namespace CalamityMod.NPCs.Cryogen
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.coldDamage = true;
-            NPC.HitSound = SoundID.NPCHit5;
-            NPC.DeathSound = SoundID.NPCDeath15;
+            NPC.HitSound = HitSound;
+            NPC.DeathSound = DeathSound;
 
             if (Main.getGoodWorld)
             {
@@ -214,8 +219,8 @@ namespace CalamityMod.NPCs.Cryogen
             int dustType = Main.getGoodWorld ? 235 : 67;
 
             SoundStyle frostSound = Main.getGoodWorld ? SoundID.Item20 : SoundID.Item28;
-            NPC.HitSound = Main.getGoodWorld ? SoundID.NPCHit41 : SoundID.NPCHit5;
-            NPC.DeathSound = Main.getGoodWorld ? SoundID.NPCDeath14 : SoundID.NPCDeath15;
+            NPC.HitSound = Main.getGoodWorld ? SoundID.NPCHit41 : HitSound;
+            NPC.DeathSound = Main.getGoodWorld ? SoundID.NPCDeath14 : DeathSound;
 
             // Reset damage
             NPC.damage = NPC.defDamage;
@@ -225,6 +230,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             if (NPC.ai[2] == 0f && NPC.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (NPC.ai[0] < 3f || bossRush || (death && NPC.ai[0] > 3f))) //spawn shield for phase 0 1 2, not 3 4 5
             {
+                SoundEngine.PlaySound(ShieldRegenSound, NPC.Center);
                 int num6 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<CryogenShield>(), NPC.whoAmI);
                 NPC.ai[2] = num6 + 1;
                 NPC.localAI[1] = -1f;
@@ -1102,7 +1108,7 @@ namespace CalamityMod.NPCs.Cryogen
         private void HandlePhaseTransition(int newPhase)
         {
             // Move to zenith seed later
-            SoundStyle sound = Main.getGoodWorld ? SoundID.NPCDeath14 : SoundID.NPCDeath15;
+            SoundStyle sound = Main.getGoodWorld ? SoundID.NPCDeath14 : TransitionSound;
             SoundEngine.PlaySound(sound, NPC.Center);
             if (Main.netMode != NetmodeID.Server && !Main.getGoodWorld)
             {

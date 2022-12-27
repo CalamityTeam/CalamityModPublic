@@ -210,6 +210,7 @@ namespace CalamityMod.Items
                 { ItemID.FruitcakeChakram, Do(DamageRatio(1.5f)) },
                 { ItemID.Gatligator, Do(PointBlank, UseExact(6)) },
                 { ItemID.Gladius, Do(AutoReuse, TrueMelee) },
+                { ItemID.GlowingMushroom, Do(Value(0)) },
                 { ItemID.GoblinBattleStandard, nonConsumableBossSummon },
                 { ItemID.GoldAxe, Do(AxePower(80), UseTimeExact(14), TileBoostExact(+0)) },
                 { ItemID.GoldBow, Do(PointBlank, DamageExact(12)) },
@@ -309,6 +310,7 @@ namespace CalamityMod.Items
                 { ItemID.MoonlordArrow, Do(DamageRatio(1.1f)) }, // Luminite Arrow
                 { ItemID.MoonlordTurretStaff, Do(UseExact(15)) }, //Lunar Portal Staff
                 { ItemID.Muramasa, Do(ScaleRatio(1.5f), DamageRatio(1.5f), UseExact(14), CritDelta(+30)) },
+                { ItemID.Mushroom, Do(Value(0)) },
                 { ItemID.MushroomSpear, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(100)) },
                 { ItemID.Musket, Do(PointBlank, DamageExact(25)) },
                 { ItemID.MythrilChainsaw, Do(TrueMeleeNoSpeed, AxePower(80), UseTimeExact(4), TileBoostExact(-1)) },
@@ -544,6 +546,8 @@ namespace CalamityMod.Items
                 { ItemID.VenomArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.VenomStaff, Do(DamageRatio(1.5f)) },
                 { ItemID.VenusMagnum, Do(AutoReuse, PointBlank) },
+                { ItemID.ViciousMushroom, Do(Value(0)) },
+                { ItemID.VileMushroom, Do(Value(0)) },
                 { ItemID.Vilethorn, Do(DamageExact(14)) },
                 { ItemID.VortexBeater, pointBlank },
                 { ItemID.VortexChainsaw, trueMeleeNoSpeed },
