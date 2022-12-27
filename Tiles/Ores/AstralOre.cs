@@ -12,13 +12,8 @@ namespace CalamityMod.Tiles.Ores
 {
     public class AstralOre : ModTile
     {
-        internal static Texture2D GlowTexture;
         public override void SetStaticDefaults()
         {
-            if (!Main.dedServ)
-            {
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Ores/AstralOreGlow", AssetRequestMode.ImmediateLoad).Value;
-            }
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -86,29 +81,6 @@ namespace CalamityMod.Tiles.Ores
         {
             TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
             return false;
-        }
-
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
-        {
-            // If the cached textures don't exist for some reason, don't bother using them.
-            if (GlowTexture is null)
-                return;
-
-            Tile tile = CalamityUtils.ParanoidTileRetrieval(i, j);
-            int xPos = tile.TileFrameX;
-            int frameOffset = (i + j) % 2 * AnimationFrameHeight;
-            int yPos = tile.TileFrameY + frameOffset;
-            Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffset;
-
-            if (!tile.IsHalfBlock && tile.Slope == 0)
-            {
-                spriteBatch.Draw(GlowTexture, drawPosition, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            }
-            else if (tile.IsHalfBlock)
-            {
-                spriteBatch.Draw(GlowTexture, drawPosition + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            }
         }
     }
 }
