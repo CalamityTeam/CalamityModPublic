@@ -1534,6 +1534,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             // Treasure bag
             npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(CanDropLoot), ModContent.ItemType<DraedonBag>()));
 
+            // Legendary seed soup
+            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(info => info.npc.type == ModContent.NPCType<AresBody>() && info.npc.ModNPC<Ares.AresBody>().exoMechdusa), ModContent.ItemType<Fabsoup>()), hideLootReport: true);
+
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
