@@ -37,6 +37,7 @@ namespace CalamityMod.Items.Weapons.Summon
 			Item.knockBack = 6;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.rare = ModContent.RarityType<Turquoise>();
+			Item.Calamity().devItem = true;
             Item.UseSound = SoundID.Item66;
 			Item.noMelee = true;
 			Item.shoot = ModContent.ProjectileType<AquasScepterCloud>();
