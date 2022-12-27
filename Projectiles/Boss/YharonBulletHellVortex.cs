@@ -57,8 +57,8 @@ namespace CalamityMod.Projectiles.Boss
                     // chase players in the zenith seed
                     if (Main.getGoodWorld) // move to zenith seed later
                     {
-                        Projectile.damage = Projectile.GetProjectileDamage(ModContent.NPCType<Yharon>());
-
+                        Projectile.hostile = true;
+                        Projectile.width = Projectile.height = (int)(408f * Projectile.scale);
                         float inertia = 5f;
                         float speed = 5.35f;
                         float minDist = 160f;
