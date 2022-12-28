@@ -1128,8 +1128,6 @@ namespace CalamityMod.CalPlayer
                 tornadoCooldown--;
             if (ladHearts > 0)
                 ladHearts--;
-            if (titanBoost > 0)
-                titanBoost--;
             if (prismaticLasers > 0)
                 prismaticLasers--;
             if (dogTextCooldown > 0)

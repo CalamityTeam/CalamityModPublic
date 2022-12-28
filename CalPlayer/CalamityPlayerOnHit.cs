@@ -611,7 +611,6 @@ namespace CalamityMod.CalPlayer
 
             if (item.CountsAsClass<MeleeDamageClass>())
             {
-                titanBoost = 600;
                 if (npcCheck)
                 {
                     if (ataxiaGeyser && Player.ownedProjectileCounts[ProjectileType<ChaoticGeyser>()] < 3)
@@ -719,7 +718,6 @@ namespace CalamityMod.CalPlayer
 
             if (proj.IsTrueMelee())
             {
-                titanBoost = 600;
                 if (soaring)
                 {
                     double useTimeMultiplier = 0.85 + (heldItem.useTime * heldItem.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost

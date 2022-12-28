@@ -305,7 +305,6 @@ namespace CalamityMod.Items
                     var postProv = loot.DefineConditionalDropSet(() => DownedBossSystem.downedProvidence);
                     postProv.Add(ModContent.ItemType<UnholyEssence>(), fifteenPercent, 5, 10); // 15% 5-10 Unholy Essence
                     postProv.Add(ModContent.ItemType<HolyWrathPotion>(), fifteenPercent, 1, 2); // 15% 1-2 Holy Wrath Potion
-                    postProv.Add(ModContent.ItemType<ProfanedRagePotion>(), fifteenPercent, 1, 2); // 15% 1-2 Profaned Rage Potion
                     break;
 
                 case ItemID.DungeonFishingCrate:
