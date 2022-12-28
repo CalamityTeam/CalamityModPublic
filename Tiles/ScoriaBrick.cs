@@ -25,7 +25,7 @@ namespace CalamityMod.Tiles
             Main.tileBlockLight[Type] = true;
             DustType = 105;
             ItemDrop = ModContent.ItemType<Items.Placeables.ScoriaBrick>();
-            AddMapEntry(new Color(255, 0, 0));
+            AddMapEntry(new Color(85, 87, 101));
             HitSound = SoundID.Tink;
         }
 
