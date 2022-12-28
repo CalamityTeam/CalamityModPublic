@@ -1425,9 +1425,7 @@ namespace CalamityMod
 
             amalgamBuffList = new List<int>()
             {
-                BuffType<AbyssalWeapon>(),
                 BuffType<AnechoicCoatingBuff>(),
-                BuffType<ArmorCrumbling>(),
                 BuffType<AstralInjectionBuff>(),
                 BuffType<BaguetteBuff>(),
                 BuffType<BloodfinBoost>(),
@@ -1435,13 +1433,15 @@ namespace CalamityMod
                 BuffType<CalciumBuff>(),
                 BuffType<CeaselessHunger>(),
                 BuffType<GravityNormalizerBuff>(),
-                BuffType<HolyWrathBuff>(),
                 BuffType<Omniscience>(),
                 BuffType<PhotosynthesisBuff>(),
                 BuffType<ShadowBuff>(),
                 BuffType<Soaring>(),
                 BuffType<SulphurskinBuff>(),
                 BuffType<TeslaBuff>(),
+                BuffType<WeaponImbueBrimstone>(),
+                BuffType<WeaponImbueCrumbling>(),
+                BuffType<WeaponImbueHolyFlames>(),
                 BuffType<Zen>(),
                 BuffType<Zerg>(),
                 BuffType<BloodyMaryBuff>(),
@@ -1522,8 +1522,9 @@ namespace CalamityMod
 
             persistentBuffList = new List<int>()
             {
-                BuffType<AbyssalWeapon>(),
-                BuffType<ArmorCrumbling>(),
+                BuffType<WeaponImbueBrimstone>(),
+                BuffType<WeaponImbueCrumbling>(),
+                BuffType<WeaponImbueHolyFlames>(),
                 BuffID.WeaponImbueVenom,
                 BuffID.WeaponImbueCursedFlames,
                 BuffID.WeaponImbueFire,

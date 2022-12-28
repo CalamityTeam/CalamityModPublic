@@ -800,7 +800,7 @@ namespace CalamityMod.CalPlayer
         public bool zerg = false;
         public bool zen = false;
         public bool isNearbyBoss = false;
-        public bool aWeapon = false;
+        public bool flaskBrimstone = false;
         public bool fabsolVodka = false;
         public bool mushy = false;
         public bool molten = false;
@@ -810,7 +810,7 @@ namespace CalamityMod.CalPlayer
         public bool anechoicCoating = false;
         public bool enraged = false;
         public bool permafrostsConcoction = false;
-        public bool armorCrumbling = false;
+        public bool flaskCrumbling = false;
         public bool ceaselessHunger = false;
         public bool calcium = false;
         public bool soaring = false;
@@ -819,7 +819,7 @@ namespace CalamityMod.CalPlayer
         public bool photosynthesis = false;
         public bool astralInjection = false;
         public bool gravityNormalizer = false;
-        public bool holyWrath = false;
+        public bool flaskHoly = false;
         public bool tesla = false;
         public bool teslaFreeze = false;
         public bool sulphurskin = false;
@@ -1824,7 +1824,7 @@ namespace CalamityMod.CalPlayer
             zen = false;
             isNearbyBoss = false;
             permafrostsConcoction = false;
-            armorCrumbling = false;
+            flaskCrumbling = false;
             ceaselessHunger = false;
             calcium = false;
             soaring = false;
@@ -1833,14 +1833,14 @@ namespace CalamityMod.CalPlayer
             photosynthesis = false;
             astralInjection = false;
             gravityNormalizer = false;
-            holyWrath = false;
+            flaskHoly = false;
             tesla = false;
             teslaFreeze = false;
             sulphurskin = false;
             baguette = false;
             trippy = false;
             amidiasBlessing = false;
-            aWeapon = false;
+            flaskBrimstone = false;
             fabsolVodka = false;
             shine = false;
             anechoicCoating = false;
@@ -2239,7 +2239,7 @@ namespace CalamityMod.CalPlayer
             zen = false;
             isNearbyBoss = false;
             permafrostsConcoction = false;
-            armorCrumbling = false;
+            flaskCrumbling = false;
             ceaselessHunger = false;
             calcium = false;
             soaring = false;
@@ -2249,12 +2249,12 @@ namespace CalamityMod.CalPlayer
             photosynthesis = false;
             astralInjection = false;
             gravityNormalizer = false;
-            holyWrath = false;
+            flaskHoly = false;
             tesla = false;
             teslaFreeze = false;
             sulphurskin = false;
             baguette = false;
-            aWeapon = false;
+            flaskBrimstone = false;
             fabsolVodka = false;
             shine = false;
             anechoicCoating = false;
@@ -4181,14 +4181,21 @@ namespace CalamityMod.CalPlayer
                         Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + xOffset, (float)(hitbox.Y + hitbox.Height / 2) + yOffset, (float)Player.direction * xVel, yVel * Player.gravDir, ProjectileID.Mushroom, 0, 0f, Player.whoAmI);
                     }
                 }
-                if (aWeapon)
+                if (flaskHoly)
+                {
+                    if (Main.rand.NextBool(3))
+                    {
+                        Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, (int)CalamityDusts.ProfanedFire, Player.velocity.X * 0.2f + Player.direction * 3f, Player.velocity.Y * 0.2f, 100, default, 1f);
+                    }
+                }
+                if (flaskBrimstone)
                 {
                     if (Main.rand.NextBool(3))
                     {
                         Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, ModContent.DustType<BrimstoneFlame>(), Player.velocity.X * 0.2f + Player.direction * 3f, Player.velocity.Y * 0.2f, 100, default, 1f);
                     }
                 }
-                if (armorCrumbling)
+                if (flaskCrumbling)
                 {
                     if (Main.rand.NextBool(3))
                     {

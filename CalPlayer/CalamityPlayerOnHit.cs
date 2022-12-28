@@ -1250,13 +1250,17 @@ namespace CalamityMod.CalPlayer
             }
 			if (melee || rogue || whip)
 			{
-				if (armorCrumbling)
+				if (flaskCrumbling)
 				{
                     CalamityUtils.Inflict246DebuffsNPC(target, BuffType<ArmorCrunch>());
                 }
-				if (aWeapon)
+				if (flaskBrimstone)
 				{
 					CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>(), 4f);
+				}
+                if (flaskHoly)
+				{
+					target.AddBuff(BuffType<HolyFlames>(), 180, false);
 				}
 			}
             if (rogue)
@@ -1355,10 +1359,6 @@ namespace CalamityMod.CalPlayer
             {
                 CalamityUtils.Inflict246DebuffsNPC(target, BuffType<Plague>());
             }
-            if (holyWrath)
-            {
-                target.AddBuff(BuffType<HolyFlames>(), 180, false);
-            }
             if (vexation)
             {
                 if ((Player.armor[0].type == ItemType<ReaverHeadTank>() || Player.armor[0].type == ItemType<ReaverHeadExplore>() ||
@@ -1389,11 +1389,14 @@ namespace CalamityMod.CalPlayer
 
 			if (melee || rogue || whip)
 			{
-				if (armorCrumbling)
+				if (flaskCrumbling)
                     CalamityUtils.Inflict246DebuffsPvp(target, BuffType<ArmorCrunch>());
 
-				if (aWeapon)
+				if (flaskBrimstone)
 					CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>(), 4f);
+                
+                if (flaskHoly)
+					target.AddBuff(BuffType<HolyFlames>(), 180, false);
 			}
 
             if (rogue)
@@ -1473,9 +1476,6 @@ namespace CalamityMod.CalPlayer
 
             if (abyssalAmulet)
                 CalamityUtils.Inflict246DebuffsPvp(target, BuffType<CrushDepth>());
-
-            if (holyWrath)
-                target.AddBuff(BuffType<HolyFlames>(), 180, false);
 
             if (vexation)
             {

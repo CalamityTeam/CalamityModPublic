@@ -2271,7 +2271,7 @@ namespace CalamityMod.Projectiles
                                 }
                                 break;
                             case CalamityGlobalBuff.ModdedFlaskEnchant:
-                                int dustType = player.Calamity().aWeapon ? ModContent.DustType<BrimstoneFlame>() : DustID.Stone;
+                                int dustType = player.Calamity().flaskHoly ? (int)CalamityDusts.ProfanedFire : player.Calamity().flaskBrimstone ? ModContent.DustType<BrimstoneFlame>() : DustID.Stone;
                                 if (Main.rand.NextBool(4))
                                 {
                                     int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, new Color(), 1f);
@@ -2288,9 +2288,9 @@ namespace CalamityMod.Projectiles
 
                 if (projectile.CountsAsClass<MeleeDamageClass>() || projectile.CountsAsClass<SummonMeleeSpeedDamageClass>())
                 {
-                    if (player.Calamity().aWeapon || player.Calamity().armorCrumbling)
+                    if (player.Calamity().flaskBrimstone || player.Calamity().flaskCrumbling || player.Calamity().flaskHoly)
                     {
-                        int dustType = player.Calamity().aWeapon ? ModContent.DustType<BrimstoneFlame>() : DustID.Stone;
+                        int dustType = player.Calamity().flaskHoly ? (int)CalamityDusts.ProfanedFire : player.Calamity().flaskBrimstone ? ModContent.DustType<BrimstoneFlame>() : DustID.Stone;
                         if (Main.rand.NextBool(4))
                         {
                             int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, new Color(), 1f);

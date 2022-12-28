@@ -2287,13 +2287,6 @@ namespace CalamityMod.CalPlayer
                     Player.statMana = Player.statManaMax2;
             }
 
-            if (holyWrath)
-            {
-                if (Player.FindBuffIndex(BuffID.Wrath) > -1)
-                    Player.ClearBuff(BuffID.Wrath);
-                Player.GetDamage<GenericDamageClass>() += 0.12f;
-            }
-
             if (irradiated)
                 Player.statDefense -= 10;
 
