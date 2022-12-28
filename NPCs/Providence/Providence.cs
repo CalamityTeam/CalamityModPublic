@@ -487,10 +487,10 @@ namespace CalamityMod.NPCs.Providence
             // Set target biome type
             if (biomeType == 0)
             {
-                if (isHoly)
-                    biomeType = 1;
-                else if (isHell)
+                if (isHell)
                     biomeType = 2;
+                else if (isHoly)
+                    biomeType = 1;
             }
 
             // Become immune over time if target isn't in hell or hallow
