@@ -841,15 +841,7 @@ namespace CalamityMod.Items
             {
                 return false;
             }
-            if ((item.type == ItemID.RegenerationPotion || item.type == ItemID.LifeforcePotion) && player.FindBuffIndex(ModContent.BuffType<CadancesGrace>()) > -1)
-            {
-                return false;
-            }
             if (item.type == ItemID.WrathPotion && player.FindBuffIndex(ModContent.BuffType<HolyWrathBuff>()) > -1)
-            {
-                return false;
-            }
-            if (item.type == ItemID.RagePotion && player.FindBuffIndex(ModContent.BuffType<ProfanedRageBuff>()) > -1)
             {
                 return false;
             }
@@ -1559,13 +1551,10 @@ namespace CalamityMod.Items
 
             float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +
-                (modPlayer.draconicSurge ? 0.1f : 0f) +
                 (modPlayer.reaverSpeed ? 0.1f : 0f) +
                 moveSpeedBoost;
 
-            float flightAccMult = 1f +
-                (modPlayer.draconicSurge ? 0.1f : 0f) +
-                moveSpeedBoost;
+            float flightAccMult = 1f + moveSpeedBoost;
 
             flightSpeedMult = MathHelper.Clamp(flightSpeedMult, 0.5f, 1.5f);
             speed *= flightSpeedMult;

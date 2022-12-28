@@ -796,15 +796,11 @@ namespace CalamityMod.CalPlayer
         public bool graxDefense = false;
         public bool encased = false;
         public bool tFury = false;
-        public bool cadence = false;
         public bool omniscience = false;
         public bool zerg = false;
         public bool zen = false;
         public bool isNearbyBoss = false;
-        public bool yPower = false;
         public bool aWeapon = false;
-        public bool tScale = false;
-        public int titanBoost = 0;
         public bool fabsolVodka = false;
         public bool mushy = false;
         public bool molten = false;
@@ -819,15 +815,11 @@ namespace CalamityMod.CalPlayer
         public bool calcium = false;
         public bool soaring = false;
         public bool bounding = false;
-        public bool triumph = false;
-        public bool penumbra = false;
         public bool shadow = false;
         public bool photosynthesis = false;
         public bool astralInjection = false;
         public bool gravityNormalizer = false;
         public bool holyWrath = false;
-        public bool profanedRage = false;
-        public bool draconicSurge = false;
         public bool tesla = false;
         public bool teslaFreeze = false;
         public bool sulphurskin = false;
@@ -1411,8 +1403,6 @@ namespace CalamityMod.CalPlayer
                 percentMaxLifeIncrease += 100;
             if (affliction || afflicted)
                 percentMaxLifeIncrease += 10;
-            if (cadence)
-                percentMaxLifeIncrease += 25;
 
             if (community)
             {
@@ -1829,7 +1819,6 @@ namespace CalamityMod.CalPlayer
             graxDefense = false;
             encased = false;
             tFury = false;
-            cadence = false;
             omniscience = false;
             zerg = false;
             zen = false;
@@ -1840,24 +1829,18 @@ namespace CalamityMod.CalPlayer
             calcium = false;
             soaring = false;
             bounding = false;
-            triumph = false;
-            penumbra = false;
             shadow = false;
             photosynthesis = false;
             astralInjection = false;
             gravityNormalizer = false;
             holyWrath = false;
-            profanedRage = false;
-            draconicSurge = false;
             tesla = false;
             teslaFreeze = false;
             sulphurskin = false;
             baguette = false;
             trippy = false;
             amidiasBlessing = false;
-            yPower = false;
             aWeapon = false;
-            tScale = false;
             fabsolVodka = false;
             shine = false;
             anechoicCoating = false;
@@ -2251,7 +2234,6 @@ namespace CalamityMod.CalPlayer
             graxDefense = false;
             encased = false;
             tFury = false;
-            cadence = false;
             omniscience = false;
             zerg = false;
             zen = false;
@@ -2262,24 +2244,17 @@ namespace CalamityMod.CalPlayer
             calcium = false;
             soaring = false;
             bounding = false;
-            triumph = false;
-            penumbra = false;
             shadow = false;
             nanomachinesLockoutTimer = 0;
             photosynthesis = false;
             astralInjection = false;
             gravityNormalizer = false;
             holyWrath = false;
-            profanedRage = false;
             tesla = false;
             teslaFreeze = false;
             sulphurskin = false;
             baguette = false;
-            draconicSurge = false;
-            yPower = false;
             aWeapon = false;
-            tScale = false;
-            titanBoost = 0;
             fabsolVodka = false;
             shine = false;
             anechoicCoating = false;
@@ -4081,9 +4056,6 @@ namespace CalamityMod.CalPlayer
             if (moscowMule)
                 knockback += item.knockBack * 0.5f;
 
-            if (yPower)
-                knockback += item.knockBack * 0.25f;
-
             if (titanHeartMask && rogue)
                 knockback += item.knockBack * 0.05f;
 
@@ -4547,9 +4519,6 @@ namespace CalamityMod.CalPlayer
                         contactDamageReduction += 1f - damageReduction;
                 }
             }
-
-            if (triumph)
-                contactDamageReduction += 0.15 * (1D - (npc.life / (double)npc.lifeMax));
 
             if (aSparkRare)
             {
@@ -6577,12 +6546,6 @@ namespace CalamityMod.CalPlayer
             // If you are actively using an item, you cannot gain stealth.
             if (Player.itemAnimation > 0 || finalDawnProjCount > 0)
                 return 0f;
-
-            if (penumbra)
-            {
-                stealthGenStandstill += 0.15f;
-                stealthGenMoving += 0.1f;
-            }
 
             if (shadow)
             {

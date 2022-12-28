@@ -624,9 +624,6 @@ namespace CalamityMod.CalPlayer
             if (aChicken)
                 Player.lifeRegen += 1;
 
-            if (cadence)
-                Player.lifeRegen += 5;
-
             if (mushy)
                 Player.lifeRegen += 2;
 

@@ -2296,13 +2296,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<GenericDamageClass>() += 0.12f;
             }
 
-            if (profanedRage)
-            {
-                if (Player.FindBuffIndex(BuffID.Rage) > -1)
-                    Player.ClearBuff(BuffID.Rage);
-                Player.GetCritChance<GenericDamageClass>() += ProfanedRagePotion.CritBoost;
-            }
-
             if (irradiated)
                 Player.statDefense -= 10;
 
@@ -2330,31 +2323,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<MeleeDamageClass>() += 0.3f;
                 Player.GetCritChance<MeleeDamageClass>() += 10;
             }
-
-            if (yPower)
-            {
-                Player.endurance += 0.04f;
-                Player.statDefense += 10;
-                Player.pickSpeed -= 0.1f;
-                Player.GetDamage<GenericDamageClass>() += 0.05f;
-                Player.GetCritChance<GenericDamageClass>() += YharimsStimulants.CritBoost;
-                Player.GetKnockback<SummonDamageClass>() += 1f;
-                Player.moveSpeed += 0.075f;
-            }
-
-            if (tScale)
-            {
-                Player.endurance += 0.05f;
-                Player.statDefense += 5;
-                Player.kbBuff = true;
-                if (titanBoost > 0)
-                {
-                    Player.statDefense += 20;
-                    Player.endurance += 0.05f;
-                }
-            }
-            else
-                titanBoost = 0;
 
             // Trinket of Chi bonus
             if (trinketOfChi)
@@ -2549,7 +2517,6 @@ namespace CalamityMod.CalPlayer
                 (soaring ? 0.1 : 0D) +
                 (prismaticGreaves ? 0.1 : 0D) +
                 (plagueReaper ? 0.05 : 0D) +
-                (draconicSurge ? 0.2 : 0D) +
                 (Player.empressBrooch ? 0.25 : 0D);
 
             if (harpyRing)
@@ -2650,15 +2617,6 @@ namespace CalamityMod.CalPlayer
             {
                 if (!tarraMelee)
                     Player.calmed = true;
-                Player.lifeMagnet = true;
-            }
-
-            if (cadence)
-            {
-                if (Player.FindBuffIndex(BuffID.Regeneration) > -1)
-                    Player.ClearBuff(BuffID.Regeneration);
-                if (Player.FindBuffIndex(BuffID.Lifeforce) > -1)
-                    Player.ClearBuff(BuffID.Lifeforce);
                 Player.lifeMagnet = true;
             }
 
