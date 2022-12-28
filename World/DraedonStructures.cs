@@ -57,6 +57,7 @@ namespace CalamityMod.World
             {
                 new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(8, 14 + 1)),
                 new ChestItem(ModContent.ItemType<MysteriousCircuitry>(), WorldGen.genRand.Next(7, 12 + 1)),
+                new ChestItem(ModContent.ItemType<SuspiciousScrap>(), 1),
                 new ChestItem(ItemID.Torch, WorldGen.genRand.Next(15, 29 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(5, 11 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(5, 7 + 1)),
@@ -78,11 +79,6 @@ namespace CalamityMod.World
                 contents.Insert(0, new ChestItem(ModContent.ItemType<RedSeekingMechanism>(), 1));
             else
                 contents.Insert(0, new ChestItem(ModContent.ItemType<YellowSeekingMechanism>(), 1));
-
-            //Add suspicious scrap into the chest rarely. Chance depends on the world size
-            int probability = Main.maxTilesX <= 4200f ? 0 : Main.maxTilesX >= 8400f ? 2 : 1;
-            if (Main.rand.Next(probability) == 0f)
-                contents.Insert(2, new ChestItem(ModContent.ItemType<SuspiciousScrap>(), 1));
 
             for (int i = 0; i < contents.Count; i++)
             {
