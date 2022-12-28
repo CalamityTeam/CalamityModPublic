@@ -45,18 +45,6 @@ namespace CalamityMod.Systems
                 tasks.Insert(DungeonChestIndex + 1, new PassLegacy("CalamityDungeonBiomeChests", MiscWorldgenRoutines.GenerateBiomeChests));
             }
 
-            int WaterFromSandIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Remove Water From Sand"));
-            if (WaterFromSandIndex != -1)
-            {
-                tasks.Insert(WaterFromSandIndex + 1, new PassLegacy("SunkenSea", (progress, config) =>
-                {
-                    progress.Message = "Partially flooding an overblown desert";
-                    int sunkenSeaX = WorldGen.UndergroundDesertLocation.Left;
-                    int sunkenSeaY = WorldGen.UndergroundDesertLocation.Center.Y;
-                    SunkenSea.Place(new Point(sunkenSeaX, sunkenSeaY));
-                }));
-            }
-
             int JungleTempleIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Temple"));
             tasks[JungleTempleIndex] = new PassLegacy("Jungle Temple", (progress, config) =>
             {
@@ -73,6 +61,19 @@ namespace CalamityMod.Systems
                 CustomTemple.NewJungleTemplePart2();
                 Main.tileSolid[232] = false;
             });
+
+            // Sunken Sea gens after Traps because otherwise boulders spawn in the Sunken Sea :)
+            int TrapsIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Traps"));
+            if (TrapsIndex != -1)
+            {
+                tasks.Insert(TrapsIndex + 1, new PassLegacy("SunkenSea", (progress, config) =>
+                {
+                    progress.Message = "Partially flooding an overblown desert";
+                    int sunkenSeaX = WorldGen.UndergroundDesertLocation.Left;
+                    int sunkenSeaY = WorldGen.UndergroundDesertLocation.Center.Y;
+                    SunkenSea.Place(new Point(sunkenSeaX, sunkenSeaY));
+                }));
+            }
 
             int LihzahrdAltarIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Lihzahrd Altars"));
             tasks[LihzahrdAltarIndex] = new PassLegacy("Lihzahrd Altars", (progress, config) =>

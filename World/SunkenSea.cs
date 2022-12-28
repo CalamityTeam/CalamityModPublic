@@ -620,14 +620,17 @@ namespace CalamityMod.World
             int totalHeight = (int)(arbitrary42GodVector.Y * clusterGroup.Height);
             int frameExcessRadius = 40;
             for (int i = -frameExcessRadius; i < totalWidth + frameExcessRadius; i++)
+            {
                 for (int j = -frameExcessRadius; j < totalHeight + frameExcessRadius; j++)
                 {
                     if (i + origin.X > 0 && i + origin.X < Main.maxTilesX - 1 && j + origin.Y > 0 && j + origin.Y < Main.maxTilesY - 1)
                     {
                         WorldGen.SquareWallFrame(i + origin.X, j + origin.Y, true);
                         WorldUtils.TileFrame(i + origin.X, j + origin.Y, true);
+                        Tile.SmoothSlope(i + origin.X, j + origin.Y, true);
                     }
                 }
+            }
 
             // Sunken Sea generation always succeeds
             return true;
