@@ -26,7 +26,8 @@ namespace CalamityMod.Tiles.SunkenSea
             Main.tileSpelunker[Type] = true;
         }
 
-        public override bool CanKillTile(int i, int j, ref bool blockDamaged)
+        // You can't set this to false on world gen otherwise you can't slope the tiles :)
+        /*public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {
             return DownedBossSystem.downedDesertScourge;
         }
@@ -34,7 +35,7 @@ namespace CalamityMod.Tiles.SunkenSea
         public override bool CanExplode(int i, int j)
         {
             return DownedBossSystem.downedDesertScourge;
-        }
+        }*/
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
