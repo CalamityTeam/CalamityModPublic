@@ -601,10 +601,10 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Deadly Sphere
-                // Defective Sphere @ 20% Normal, 33.33% Expert+
+                // Defective Sphere @ 4% Normal, 6.67% Expert+
                 // Darksun Fragment @ 50% IF Devourer of Gods dead
                 case NPCID.DeadlySphere:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<DefectiveSphere>(), 5, 3));
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<DefectiveSphere>(), 25, 15));
                     postDoG.Add(ModContent.ItemType<DarksunFragment>(), 2);
                     break;
                 #endregion

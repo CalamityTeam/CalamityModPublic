@@ -164,7 +164,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("AnyMythrilBar", 2).
+                AddRecipeGroup("AnyMythrilBar", 10).
                 AddIngredient(ItemID.DarkShard).
                 AddIngredient(ItemID.LightShard).
                 AddTile(TileID.MythrilAnvil).

@@ -91,8 +91,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.LunarBar).
-                AddIngredient<UnholyEssence>(10).
+                AddIngredient(ItemID.LunarBar, 10).
+                AddIngredient<UnholyEssence>(20).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

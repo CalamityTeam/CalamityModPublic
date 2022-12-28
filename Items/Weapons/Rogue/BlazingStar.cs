@@ -72,8 +72,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CreateRecipe().
                 AddIngredient<Glaive>().
-                AddIngredient(ItemID.HellstoneBar, 3).
-                AddIngredient<EssenceofChaos>(4).
+                AddIngredient(ItemID.HellstoneBar, 5).
+                AddIngredient<EssenceofChaos>(10).
                 AddTile(TileID.Anvils).
                 Register();
         }

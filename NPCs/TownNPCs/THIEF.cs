@@ -279,7 +279,7 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Glaive>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Kylie>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
