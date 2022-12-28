@@ -16,10 +16,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Poison Pack");
-            Tooltip.SetDefault("Throws a poisonous spiky ball. Stacks up to 3.\n" +
+            Tooltip.SetDefault("Throws up to 3 poisonous spiky balls\n" +
                 "Stealth strikes cause the balls to release spore clouds\n" +
                 "Right click to delete all existing spiky balls");
-            SacrificeTotal = 3;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -34,10 +34,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useAnimation = 19;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = baseKnockback;
-            Item.value = CalamityGlobalItem.Rarity1BuyPrice / 3; // Stacks up to 3
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item1;
-            Item.maxStack = 3;
 
             Item.shootSpeed = 7f;
             Item.shoot = ModContent.ProjectileType<PoisonBol>();
@@ -51,15 +50,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.altFunctionUse == 2)
             {
                 Item.shoot = ProjectileID.None;
-                Item.shootSpeed = 0f;
                 return player.ownedProjectileCounts[ModContent.ProjectileType<PoisonBol>()] > 0;
             }
             else
             {
                 Item.shoot = ModContent.ProjectileType<PoisonBol>();
-                Item.shootSpeed = 7f;
-                int UseMax = Item.stack;
-                return player.ownedProjectileCounts[ModContent.ProjectileType<PoisonBol>()] < UseMax;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<PoisonBol>()] < 3;
             }
         }
 
