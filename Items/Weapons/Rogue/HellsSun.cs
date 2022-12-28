@@ -18,12 +18,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hell's Sun");
-            Tooltip.SetDefault("The Subterranean Sun in the palm of your hand.\n" +
-                "Shoots a gravity-defying spiky ball. Stacks up to 10.\n" +
-                "Once stationary, periodically emits small suns that explode on hit\n" +
+            Tooltip.SetDefault("The Subterranean Sun in the palm of your hand\n" +
+                "Hurls up to 10 gravity-defying spiky balls\n" +
+                "Once stationary, periodically emit small suns that explode on hit\n" +
                 "Stealth strikes emit suns at a faster rate and last for a longer amount of time\n" +
                 "Right click to delete all existing spiky balls");
-            SacrificeTotal = 10;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -32,17 +32,16 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.width = 1;
-            Item.height = 1;
+            Item.width = 22;
+            Item.height = 18;
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = knockBack;
-            Item.value = Item.sellPrice(0, 2, 40, 0);
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.maxStack = 10;
 
             Item.shootSpeed = 5f;
             Item.shoot = ModContent.ProjectileType<HellsSunProj>();
@@ -53,15 +52,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.altFunctionUse == 2)
             {
                 Item.shoot = ProjectileID.None;
-                Item.shootSpeed = 0f;
                 return player.ownedProjectileCounts[ModContent.ProjectileType<HellsSunProj>()] > 0;
             }
             else
             {
                 Item.shoot = ModContent.ProjectileType<HellsSunProj>();
-                Item.shootSpeed = 5f;
-                int UseMax = Item.stack;
-                return player.ownedProjectileCounts[ModContent.ProjectileType<HellsSunProj>()] < UseMax;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<HellsSunProj>()] < 10;
             }
         }
 
@@ -95,8 +91,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.LunarBar).
-                AddIngredient<UnholyEssence>(10).
+                AddIngredient(ItemID.LunarBar, 10).
+                AddIngredient<UnholyEssence>(20).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

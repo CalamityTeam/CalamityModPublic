@@ -16,10 +16,6 @@ namespace CalamityMod.Projectiles.Summon
 			DisplayName.SetDefault("Storm Cloud");
 			// Sets the amount of frames this minion has on its spritesheet
 			Main.projFrames[Projectile.type] = 5;
-
-			Main.projPet[Projectile.type] = true; // Denotes that this projectile is a pet or minion
-
-			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true; // This is needed so your minion can properly spawn when summoned and replaced when other minions are summoned
 		}
 
 		public sealed override void SetDefaults() {
@@ -31,7 +27,6 @@ namespace CalamityMod.Projectiles.Summon
 			Projectile.friendly = true; 
 			Projectile.sentry = true; 
 			Projectile.DamageType = DamageClass.Summon; 
-			Projectile.minionSlots = 1f; 
 			Projectile.penetrate = -1; 
 			Projectile.light = 1f;
 		}

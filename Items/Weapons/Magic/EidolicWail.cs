@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1f;
-            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.UseSound = CommonCalamitySounds.WyrmScreamSound;
             Item.autoReuse = true;
             Item.shootSpeed = 8f;

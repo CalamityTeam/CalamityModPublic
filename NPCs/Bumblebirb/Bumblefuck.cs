@@ -7,7 +7,6 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -414,7 +413,7 @@ namespace CalamityMod.NPCs.Bumblebirb
         public override void BossLoot(ref string name, ref int potionType)
         {
             name = Main.getGoodWorld ? "A Bumblebirb" : "A Dragonfolly"; // move to zenith seed later
-            potionType = ModContent.ItemType<SupremeHealingPotion>();
+            potionType = ItemID.SuperHealingPotion;
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)

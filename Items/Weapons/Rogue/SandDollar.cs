@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sand Dollar");
-            Tooltip.SetDefault("Stacks up to 2\n" +
+            Tooltip.SetDefault("Throws up to 2 returning sand dollars\n" +
             "Stealth strikes throw 2 long ranged sand dollars that explode into coral shards on enemy hits");
-            SacrificeTotal = 2;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -29,11 +29,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.maxStack = 2;
             Item.knockBack = 3.5f;
             Item.autoReuse = true;
             Item.UseSound = SoundID.Item1;
-            Item.value = CalamityGlobalItem.Rarity2BuyPrice / 2; // Stacks to 2
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<SandDollarProj>();
             Item.shootSpeed = 14f;
@@ -41,9 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool CanUseItem(Player player)
         {
-            int UseMax = Item.stack - 1;
-
-            if (player.ownedProjectileCounts[Item.shoot] > UseMax && !player.Calamity().StealthStrikeAvailable())
+            if (player.ownedProjectileCounts[Item.shoot] >= 2 && !player.Calamity().StealthStrikeAvailable())
             {
                 return false;
             }

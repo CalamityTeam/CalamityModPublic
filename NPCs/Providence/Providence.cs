@@ -7,6 +7,7 @@ using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
@@ -27,19 +28,19 @@ using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using Terraria.GameContent.ItemDropRules;
-using CalamityMod.Items.Materials;
 
 namespace CalamityMod.NPCs.Providence
 {
@@ -94,10 +95,18 @@ namespace CalamityMod.NPCs.Providence
         public int DeathAnimationTimer;
 
         //Sounds
-        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/ProvidenceSpawn") { Volume = 1.2f };
-        public static readonly SoundStyle HolyRaySound = new("CalamityMod/Sounds/Custom/ProvidenceHolyRay") { Volume = 1.25f }; //note : Volume gets clamped between 0 and 1. I don't think this does anything, but it was in the original ModSound so im keeping it just in case
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/Providence/ProvidenceSpawn") { Volume = 1.2f };
+        public static readonly SoundStyle HolyRaySound = new("CalamityMod/Sounds/Custom/Providence/ProvidenceHolyRay") { Volume = 1.25f }; //note : Volume gets clamped between 0 and 1. I don't think this does anything, but it was in the original ModSound so im keeping it just in case
         public static readonly SoundStyle HurtSound = new("CalamityMod/Sounds/NPCHit/ProvidenceHurt");
-        public static readonly SoundStyle DeathAnimationSound = new("CalamityMod/Sounds/Custom/ProvidenceDeathAnimation");
+        public static readonly SoundStyle DeathAnimationSound = new("CalamityMod/Sounds/Custom/Providence/ProvidenceDeathAnimation");
+
+        public static readonly SoundStyle NearBurnSound = new("CalamityMod/Sounds/Custom/Providence/ProvidenceSizzle");
+        public static readonly SoundStyle BurnStartSound = new("CalamityMod/Sounds/Custom/Providence/ProvidenceBurn");
+        public static readonly SoundStyle BurnLoopSound = new SoundStyle("CalamityMod/Sounds/Custom/Providence/ProvidenceBurnLoop") with { IsLooped = true };
+        //Sound slot for the burning damage over time effect
+        public SlotId BurningSoundSlot;
+        //Level of sound playing
+        public float SoundWarningLevel = -1f;
         
         public static float normalDR = 0.3f;
         public static float cocoonDR = 0.9f;
@@ -177,6 +186,7 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(NPC.canGhostHeal);
             writer.Write(NPC.localAI[1]);
             writer.Write(NPC.localAI[2]);
+            writer.Write(SoundWarningLevel);
             writer.Write(Dying);
             writer.Write(DeathAnimationTimer);
             for (int i = 0; i < 4; i++)
@@ -201,6 +211,7 @@ namespace CalamityMod.NPCs.Providence
             NPC.canGhostHeal = reader.ReadBoolean();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
+            SoundWarningLevel = reader.ReadSingle();
             Dying = reader.ReadBoolean();
             DeathAnimationTimer = reader.ReadInt32();
             for (int i = 0; i < 4; i++)
@@ -360,15 +371,57 @@ namespace CalamityMod.NPCs.Providence
             float distanceX = Math.Abs(vector.X - player.Center.X);
 
             // Inflict Holy Inferno if target is too far away
-            float baseDistance = 2800f;
-            float shorterFlameCocoonDistance = death ? 2200f : CalamityWorld.revenge ? 2400f : Main.expertMode ? 2600f : baseDistance;
-            float shorterSpearCocoonDistance = death ? 1800f : CalamityWorld.revenge ? 2150f : Main.expertMode ? 2500f : baseDistance;
-            float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
-            float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? shorterDistance : baseDistance;
-            if (Vector2.Distance(player.Center, vector) > maxDistance)
+            float burnIntensity = CalculateBurnIntensity();    
+
+            if (!player.dead && player.active && !player.creativeGodMode && !Dying)
             {
-                if (!player.dead && player.active && !player.creativeGodMode && !Dying)
+                //The debuff applies
+                if (burnIntensity >= 1f)
+                {
+                    if (SoundWarningLevel < 2f)
+                    {
+                        //Initialize sound
+                        SoundEngine.PlaySound(BurnStartSound, player.Center);
+                        BurningSoundSlot = SoundEngine.PlaySound(BurnLoopSound, player.Center);
+                        SoundWarningLevel = 2f;
+                    }
                     player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
+                }
+                //If the sound is still playing, make it go slowly kinda
+                else if (SoundWarningLevel > 1f)
+                {
+                    SoundWarningLevel -= 1 / 100f;
+                    if (SoundWarningLevel < 1f)
+                        SoundWarningLevel = 1f;
+                }
+                //The player starts to get fire particles
+                else if (burnIntensity > 0.45f)
+                {
+                    //If the player goes from 0 to 1, then play the sound. Doesn't play when descending.
+                    if (SoundWarningLevel < 1f)
+                        SoundEngine.PlaySound(NearBurnSound, player.Center);
+
+                    SoundWarningLevel = 1f;
+                }
+                //The player has sparks if intensity is above 0, otherwise nothing happens
+                else if (burnIntensity <= 0f)
+                {
+                    //Reset the sound
+                    SoundWarningLevel = 0f;
+                }
+            }
+
+            // Updating the looping sound
+            if (SoundEngine.TryGetActiveSound(BurningSoundSlot, out var burningSound) && burningSound.IsPlaying)
+                burningSound.Position = player.Center;
+
+            // Adjust the volume or break the loop accordingly
+            if (burningSound is not null)
+            {
+                if (SoundWarningLevel <= 1f)
+                    burningSound?.Stop();
+                else if(SoundWarningLevel < 2f)
+                    burningSound.Volume = SoundWarningLevel - 1f;
             }
 
             // Count the remaining Guardians, healer especially because it allows the boss to heal
@@ -434,10 +487,10 @@ namespace CalamityMod.NPCs.Providence
             // Set target biome type
             if (biomeType == 0)
             {
-                if (isHoly)
-                    biomeType = 1;
-                else if (isHell)
+                if (isHell)
                     biomeType = 2;
+                else if (isHoly)
+                    biomeType = 1;
             }
 
             // Become immune over time if target isn't in hell or hallow
@@ -1519,10 +1572,11 @@ namespace CalamityMod.NPCs.Providence
             // It is determined based on how much time has elapsed during the attack thus far, specifically for the two cocoon attacks.
             // This shave-off does not happen when guardians are present.
             float shorterDistanceFade = Utils.GetLerpValue(0f, 120f, aiTimer, true);
-            if (!guardianAlive)
+            //Distance does not get shorter if in GFB / Guardians are alive
+            if (!guardianAlive && currentMode < (int)BossMode.Red)
             {
                 maxDistance = baseDistance;
-                if (currentMode >= (int)BossMode.Red && (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon))
+                if (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon)
                     maxDistance -= shorterDistance * shorterDistanceFade;
             }
 

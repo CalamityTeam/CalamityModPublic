@@ -784,6 +784,7 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<FlareDust>()), new int[] { 220, 384, 424, 444, 600 } },
                 { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<FlareDust2>()), new int[] { 220, 384, 424, 444, 600 } },
                 { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<YharonFireball>()), new int[] { 220, 384, 424, 444, 600 } },
+                { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<YharonBulletHellVortex>()), new int[] { 250, 440, 464, 476, 696 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 280, 476, 484, 500, 726 } },
                 { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<SCalBrimstoneFireblast>()), new int[] { 280, 476, 484, 500, 726 } },

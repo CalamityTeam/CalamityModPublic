@@ -876,9 +876,11 @@ namespace CalamityMod.NPCs.Yharon
                                 Vector2 center = player.Center + new Vector2(0f, -540f);
                                 NPC.Center = center;
 
+                                int type = ModContent.ProjectileType<YharonBulletHellVortex>();
+                                int damage = Main.getGoodWorld ? NPC.GetProjectileDamage(type) : 0;
                                 float bulletHellVortexDuration = flareDustPhaseTimer + teleportPhaseTimer - 15f;
                                 int extraTime = Main.getGoodWorld ? 300 : 0;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<YharonBulletHellVortex>(), 0, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
 
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
                                 int damageAmt = (int)(NPC.lifeMax * (bulletHellVortexDuration / calamityGlobalNPC.KillTime));
@@ -1223,9 +1225,11 @@ namespace CalamityMod.NPCs.Yharon
                                 Vector2 center = player.Center + new Vector2(0f, -540f);
                                 NPC.Center = center;
 
+                                int type = ModContent.ProjectileType<YharonBulletHellVortex>();
+                                int damage = Main.getGoodWorld ? NPC.GetProjectileDamage(type) : 0;
                                 float bulletHellVortexDuration = flareDustPhaseTimer + teleportPhaseTimer - 15f;
                                 int extraTime = Main.getGoodWorld ? 300 : 0;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<YharonBulletHellVortex>(), 0, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
 
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
                                 int damageAmt = (int)(NPC.lifeMax * (bulletHellVortexDuration / calamityGlobalNPC.KillTime));
@@ -1913,9 +1917,11 @@ namespace CalamityMod.NPCs.Yharon
                                 Vector2 center = targetData.Center + new Vector2(0f, -540f);
                                 NPC.Center = center;
 
+                                int type = ModContent.ProjectileType<YharonBulletHellVortex>();
+                                int damage = Main.getGoodWorld ? NPC.GetProjectileDamage(type) : 0;
                                 float bulletHellVortexDuration = spinPhaseTimer + 15f;
                                 int extraTime = Main.getGoodWorld ? 300 : 0;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<YharonBulletHellVortex>(), 0, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
 
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
                                 int damageAmt = (int)(NPC.lifeMax * (bulletHellVortexDuration / calamityGlobalNPC.KillTime));
@@ -2898,7 +2904,9 @@ namespace CalamityMod.NPCs.Yharon
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<YharonBulletHellVortex>(), 0, 0f, Main.myPlayer, 360, NPC.whoAmI);
+                    int type = ModContent.ProjectileType<YharonBulletHellVortex>();
+                    int damage = NPC.GetProjectileDamage(type);
+                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, 360, NPC.whoAmI);
                 }
             }
         }

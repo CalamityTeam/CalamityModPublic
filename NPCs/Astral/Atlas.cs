@@ -132,6 +132,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.value = Item.buyPrice(0, 1, 0, 0);
             NPC.aiStyle = -1;
             NPC.DeathSound = DeathSound;
+            NPC.rarity = 1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AtlasBanner>();
             if (DownedBossSystem.downedAstrumAureus)

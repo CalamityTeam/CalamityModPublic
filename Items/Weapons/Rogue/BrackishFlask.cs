@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item106;
             Item.autoReuse = true;
             Item.height = 30;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<BrackishFlaskProj>();
             Item.shootSpeed = 12f;

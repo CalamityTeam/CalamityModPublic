@@ -11,6 +11,8 @@ namespace CalamityMod.Tiles
     [LegacyName("ChaoticBrick")]
     public class ScoriaBrick : ModTile
     {
+        int subsheetHeight = 72;
+        int subsheetWidth = 216;
         internal static Texture2D GlowTexture;
         public override void SetStaticDefaults()
         {
@@ -23,7 +25,7 @@ namespace CalamityMod.Tiles
             Main.tileBlockLight[Type] = true;
             DustType = 105;
             ItemDrop = ModContent.ItemType<Items.Placeables.ScoriaBrick>();
-            AddMapEntry(new Color(255, 0, 0));
+            AddMapEntry(new Color(85, 87, 101));
             HitSound = SoundID.Tink;
         }
 
@@ -41,8 +43,8 @@ namespace CalamityMod.Tiles
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
-            int frameOffset = (i + j) % 2;
-            frameYOffset = frameOffset * AnimationFrameHeight;
+            int yPos = j % 2;
+            frameYOffset = yPos * subsheetHeight;
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
@@ -59,7 +61,7 @@ namespace CalamityMod.Tiles
 
             Tile tile = CalamityUtils.ParanoidTileRetrieval(i, j);
             int xPos = tile.TileFrameX;
-            int frameOffset = (i + j) % 2 * AnimationFrameHeight;
+            int frameOffset = j % 2 * 72;
             int yPos = tile.TileFrameY + frameOffset;
             Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffset;

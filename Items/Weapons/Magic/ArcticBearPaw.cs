@@ -27,7 +27,7 @@ Fires spiritual claws that ignore walls");
             Item.useTurn = false;
             Item.noMelee = true;
             Item.knockBack = 10f;
-            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
             Item.rare = ItemRarityID.LightPurple;
             Item.UseSound = SoundID.Item8;
             Item.autoReuse = true;

@@ -15,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Nychthemeron");
             Tooltip.SetDefault("Throws a spiky ball that ignores gravity and summons a pair of dark and light orbs that orbit the player\n" +
                 "Once the spiky ball disappears the orbs will home in on the nearest target\n" +
-                "Stacks up to 10\n" +
+                "Up to 10 spiky balls can exist at a time\n" +
                 "Stealth strikes cause all spiky balls and orbs to be thrown at once\n" +
                 "Right click to recall all existing spiky balls");
-            SacrificeTotal = 10;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -34,8 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 18;
-            Item.maxStack = 10;
-            Item.value = CalamityGlobalItem.Rarity6BuyPrice / 10; // Stacks up to 10
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
             Item.rare = ItemRarityID.LightPurple;
             Item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
             Item.shootSpeed = 6f;
@@ -63,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             if (player.Calamity().StealthStrikeAvailable())
             {
-                for (int j = 0; j < Item.stack - player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()]; j++)
+                for (int j = 0; j < 10 - player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()]; j++)
                 {
                     float spread = 2;
                     int pIndex = Projectile.NewProjectile(source, position.X, position.Y, velocity.X + Main.rand.NextFloat(-spread, spread), velocity.Y + Main.rand.NextFloat(-spread, spread), type, damage, knockback, player.whoAmI, 0f, 1f);
@@ -90,15 +89,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.altFunctionUse == 2)
             {
                 Item.shoot = ProjectileID.None;
-                Item.shootSpeed = 0f;
                 return player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()] > 0;
             }
             else
             {
                 Item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
-                Item.shootSpeed = 6f;
-                int UseMax = Item.stack;
-                return player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()] < UseMax;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()] < 10;
             }
         }
 
@@ -168,7 +164,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("AnyMythrilBar", 2).
+                AddRecipeGroup("AnyMythrilBar", 10).
                 AddIngredient(ItemID.DarkShard).
                 AddIngredient(ItemID.LightShard).
                 AddTile(TileID.MythrilAnvil).

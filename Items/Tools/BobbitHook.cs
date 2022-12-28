@@ -27,7 +27,7 @@ Pull Velocity: {BobbitHead.PullSpeed}");
             Item.CloneDefaults(ItemID.AmethystHook);
             Item.shootSpeed = BobbitHead.LaunchSpeed; // How quickly the hook is shot.
             Item.shoot = ProjectileType<BobbitHead>();
-            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.rare = ModContent.RarityType<PureGreen>();
             Item.width = 30;
             Item.height = 32;

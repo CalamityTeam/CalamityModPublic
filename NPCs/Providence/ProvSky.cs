@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
@@ -45,7 +46,7 @@ namespace CalamityMod.NPCs.Providence
                 if (Main.npc[ProvIndex].Calamity().newAI[3] < spawnAnimationTimer)
                     intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[ProvIndex].Calamity().newAI[3] / spawnAnimationTimer);
 
-                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
+                return (Main.player[Main.myPlayer].HasBuff(ModContent.BuffType<HolyInferno>()) ? 0.75f : (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar);
             }
             return 0f;
         }
