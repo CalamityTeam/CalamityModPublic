@@ -38,9 +38,18 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 
         public override void AddRecipes()
         {
-            CreateRecipe(200).AddRecipeGroup("AnyStoneBlock", 200).AddIngredient(ModContent.ItemType<ExoPrism>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExoPlatform>(), 2).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExoPlatingWallItem>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(400).
+                AddRecipeGroup("AnyStoneBlock", 400).
+                AddIngredient<ExoPrism>().
+                AddTile<DraedonsForge>().
+                Register();
+            CreateRecipe().
+                AddIngredient<ExoPlatform>(2).
+                Register();
+            CreateRecipe().
+                AddIngredient<ExoPlatingWallItem>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

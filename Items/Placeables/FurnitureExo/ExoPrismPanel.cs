@@ -38,9 +38,18 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 
         public override void AddRecipes()
         {
-            CreateRecipe(200).AddIngredient(ItemID.Glass, 200).AddIngredient(ModContent.ItemType<ExoPrism>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExoPrismPlatform>(), 2).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExoPrismPanelWallItem>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(400).
+                AddIngredient(ItemID.Glass, 400).
+                AddIngredient<ExoPrism>().
+                AddTile<DraedonsForge>().
+                Register();
+            CreateRecipe().
+                AddIngredient<ExoPrismPlatform>(2).
+                Register();
+            CreateRecipe().
+                AddIngredient<ExoPrismPanelWallItem>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }
