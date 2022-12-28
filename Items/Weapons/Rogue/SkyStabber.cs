@@ -17,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sky Stabber");
-            Tooltip.SetDefault("Shoots a gravity-defying spiky ball. Stacks up to 4.\n" +
+            Tooltip.SetDefault("Throws up to 4 gravity-defying spiky balls\n" +
                 "Stealth strikes make the balls rain feathers onto enemies when they hit\n" +
                 "Right click to delete all existing spiky balls");
-            SacrificeTotal = 4;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -29,16 +29,15 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.width = 1;
-            Item.height = 1;
+            Item.width = 16;
+            Item.height = 16;
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = knockBack;
-            Item.value = CalamityGlobalItem.Rarity3BuyPrice / 4; // stacks up to 4
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item1;
-            Item.maxStack = 4;
 
             Item.shootSpeed = 2f;
             Item.shoot = ModContent.ProjectileType<SkyStabberProj>();
@@ -52,15 +51,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.altFunctionUse == 2)
             {
                 Item.shoot = ProjectileID.None;
-                Item.shootSpeed = 0f;
                 return player.ownedProjectileCounts[ModContent.ProjectileType<SkyStabberProj>()] > 0;
             }
             else
             {
                 Item.shoot = ModContent.ProjectileType<SkyStabberProj>();
-                Item.shootSpeed = 2f;
-                int UseMax = Item.stack;
-                return player.ownedProjectileCounts[ModContent.ProjectileType<SkyStabberProj>()] < UseMax;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<SkyStabberProj>()] < 4;
             }
         }
 

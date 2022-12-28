@@ -17,9 +17,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Defective Sphere");
             Tooltip.SetDefault(@"Fires a variety of deadly spheres with different effects
-Stacks up to 5
+Up to five spheres can be thrown at a time
 Stealth strikes launch all 4 sphere types at once");
-            SacrificeTotal = 5;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -33,12 +33,11 @@ Stealth strikes launch all 4 sphere types at once");
             Item.autoReuse = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.maxStack = 5;
 
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item15; //phaseblade sound effect
 
-            Item.value = CalamityGlobalItem.RarityYellowBuyPrice / 5; // Stacks up to 5
+            Item.value = CalamityGlobalItem.RarityYellowBuyPrice;
             Item.rare = ItemRarityID.Yellow;
 
             Item.DamageType = RogueDamageClass.Instance;
@@ -48,13 +47,11 @@ Stealth strikes launch all 4 sphere types at once");
 
         public override bool CanUseItem(Player player)
         {
-            int UseMax = Item.stack;
-
             if (player.Calamity().StealthStrikeAvailable())
             {
                 return true;
             }
-            else if ((player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ProjectileType<SphereBladed>()] + player.ownedProjectileCounts[ProjectileType<SphereYellow>()] + player.ownedProjectileCounts[ProjectileType<SphereBlue>()]) >= UseMax)
+            else if ((player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ProjectileType<SphereBladed>()] + player.ownedProjectileCounts[ProjectileType<SphereYellow>()] + player.ownedProjectileCounts[ProjectileType<SphereBlue>()]) >= 5)
             {
                 return false;
             }
@@ -102,6 +99,7 @@ Stealth strikes launch all 4 sphere types at once");
             }
             else
             {
+                //Does this even need to exist? Can't you just return true for this?
                 Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             }
             return false;
