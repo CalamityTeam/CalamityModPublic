@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Dyes
         {
             CreateRecipe(3).
                 AddIngredient(ItemID.BottledWater, 3).
-                AddIngredient<MiracleMatter>().
+                AddIngredient<ExoPrism>().
                 AddTile(TileID.DyeVat).
                 Register();
         }
