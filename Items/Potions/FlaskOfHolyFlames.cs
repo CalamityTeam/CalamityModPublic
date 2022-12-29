@@ -6,44 +6,39 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {
-    public class TriumphPotion : ModItem
+    [LegacyName("HolyWrathPotion", "ProfanedRagePotion")]
+    public class FlaskOfHolyFlames : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 20;
-            DisplayName.SetDefault("Triumph Potion");
-            Tooltip.SetDefault("Enemy contact damage is reduced, the lower their health the more it is reduced");
+            DisplayName.SetDefault("Flask of Holy Flames");
+            Tooltip.SetDefault("Melee, Whip, and Rogue attacks inflict Holy Flames");
         }
 
         public override void SetDefaults()
         {
-            Item.width = 28;
-            Item.height = 18;
+            Item.width = 44;
+            Item.height = 36;
             Item.useTurn = true;
             Item.maxStack = 30;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Purple;
             Item.useAnimation = 17;
             Item.useTime = 17;
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
-            Item.buffType = ModContent.BuffType<TriumphBuff>();
-            Item.buffTime = CalamityUtils.SecondsToFrames(240f);
+            Item.buffType = ModContent.BuffType<WeaponImbueHolyFlames>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(1200f);
+            Item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
-                AddIngredient<PearlShard>(3).
-                AddTile(TileID.Bottles).
-                Register();
-
-            CreateRecipe().
-                AddIngredient(ItemID.BottledWater).
-                AddIngredient<BloodOrb>(30).
-                AddTile(TileID.AlchemyTable).
+                AddIngredient<UnholyEssence>().
+                AddTile(TileID.ImbuingStation).
                 Register();
         }
     }

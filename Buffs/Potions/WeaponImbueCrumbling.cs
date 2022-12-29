@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Potions
 {
-    public class ArmorCrumbling : ModBuff
+    public class WeaponImbueCrumbling : ModBuff
     {
         public override void SetStaticDefaults()
         {
@@ -20,7 +20,7 @@ namespace CalamityMod.Buffs.Potions
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().armorCrumbling = true;
+            player.Calamity().flaskCrumbling = true;
             // A very large number to indicate it's a modded Flask
             player.meleeEnchant = CalamityGlobalBuff.ModdedFlaskEnchant;
         }

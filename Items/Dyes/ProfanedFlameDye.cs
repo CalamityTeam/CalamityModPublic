@@ -27,9 +27,9 @@ namespace CalamityMod.Items.Dyes
 
         public override void AddRecipes()
         {
-            CreateRecipe(2).
-                AddIngredient(ItemID.BottledWater, 2).
-                AddIngredient<UnholyEssence>(3).
+            CreateRecipe(3).
+                AddIngredient(ItemID.BottledWater, 3).
+                AddIngredient<UnholyEssence>(5).
                 AddTile(TileID.DyeVat).
                 Register();
         }

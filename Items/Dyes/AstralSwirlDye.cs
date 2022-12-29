@@ -1,5 +1,4 @@
-﻿using CalamityMod.Items.Placeables.Ores;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
@@ -30,7 +29,6 @@ namespace CalamityMod.Items.Dyes
             CreateRecipe(2).
                 AddIngredient<AstralBlueDye>().
                 AddIngredient<AstralOrangeDye>().
-                AddIngredient<AstralOre>(5).
                 AddTile(TileID.DyeVat).
                 Register();
         }

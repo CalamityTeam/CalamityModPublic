@@ -1,5 +1,4 @@
-﻿using CalamityMod.Items.Materials;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +29,6 @@ namespace CalamityMod.Items.Dyes
             CreateRecipe(2).
                 AddIngredient<PinkStatigelDye>().
                 AddIngredient<BlueStatigelDye>().
-                AddIngredient<PurifiedGel>().
                 AddTile(TileID.DyeVat).
                 Register();
         }

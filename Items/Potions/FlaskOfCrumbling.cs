@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {
-    public class CrumblingPotion : ModItem
+    [LegacyName("CrumblingPotion")]
+    public class FlaskOfCrumbling : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Potions
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.consumable = true;
-            Item.buffType = ModContent.BuffType<ArmorCrumbling>();
+            Item.buffType = ModContent.BuffType<WeaponImbueCrumbling>();
             Item.buffTime = CalamityUtils.SecondsToFrames(1200f);
         }
 

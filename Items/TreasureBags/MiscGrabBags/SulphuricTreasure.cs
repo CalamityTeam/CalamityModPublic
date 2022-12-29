@@ -18,7 +18,6 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
             ItemID.WaterWalkingPotion,
             ItemID.GravitationPotion,
             ItemID.RegenerationPotion,
-            ModContent.ItemType<TriumphPotion>(),
             ModContent.ItemType<AnechoicCoating>(),
             ItemID.GillsPotion,
             ItemID.EndurancePotion,

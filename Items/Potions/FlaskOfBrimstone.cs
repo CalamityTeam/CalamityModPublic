@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Potions
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
-            Item.buffType = ModContent.BuffType<AbyssalWeapon>();
+            Item.buffType = ModContent.BuffType<WeaponImbueBrimstone>();
             Item.buffTime = CalamityUtils.SecondsToFrames(1200f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
         }
