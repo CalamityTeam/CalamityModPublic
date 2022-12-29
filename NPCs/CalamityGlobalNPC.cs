@@ -4115,6 +4115,26 @@ namespace CalamityMod.NPCs
         #region Post AI
         public override void PostAI(NPC npc)
         {
+            // Worm heads emit dust when close enough to the player and digging through tiles
+            if (npc.type == NPCID.GiantWormHead || npc.type == NPCID.DiggerHead || npc.type == NPCID.DevourerHead ||
+                npc.type == NPCID.SeekerHead || npc.type == NPCID.TombCrawlerHead || npc.type == NPCID.BoneSerpentHead ||
+                npc.type == NPCID.DuneSplicerHead)
+            {
+                Point point = npc.Center.ToTileCoordinates();
+                Tile tileSafely = Framing.GetTileSafely(point);
+                bool createDust = tileSafely.HasUnactuatedTile && npc.Distance(Main.player[npc.target].Center) < 800f;
+                if (createDust)
+                {
+                    if (Main.rand.NextBool())
+                    {
+                        Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 204, 0f, 0f, 150, default(Color), 0.3f);
+                        dust.fadeIn = 0.75f;
+                        dust.velocity *= 0.1f;
+                        dust.noLight = true;
+                    }
+                }
+            }
+
             // Debuff decrements
             if (debuffResistanceTimer > 0)
                 debuffResistanceTimer--;
