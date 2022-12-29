@@ -26,7 +26,7 @@ namespace CalamityMod.Items.LabFinders
             Item.useTime = Item.useAnimation = 36;
             Item.shoot = ModContent.ProjectileType<GreenLabSeeker>();
             Item.Calamity().MaxCharge = 100;
-            Item.Calamity().ChargePerUse = 15;
+            Item.Calamity().ChargePerUse = 10;
             Item.Calamity().UsesCharge = true;
             Item.rare = ModContent.RarityType<DarkOrange>();
         }
