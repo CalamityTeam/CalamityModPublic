@@ -22,16 +22,7 @@ namespace CalamityMod.Tiles.SunkenSea
             DustType = 67;
             ItemDrop = ModContent.ItemType<PrismShard>();
             Main.tileSpelunker[Type] = true;
-        }
-
-        public override bool CanKillTile(int i, int j, ref bool blockDamaged)
-        {
-            return DownedBossSystem.downedDesertScourge;
-        }
-
-        public override bool CanExplode(int i, int j)
-        {
-            return DownedBossSystem.downedDesertScourge;
+            MinPick = 55;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
