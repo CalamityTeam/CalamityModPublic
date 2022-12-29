@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {
-    [LegacyName("HolyWrathPotion")]
+    [LegacyName("HolyWrathPotion", "ProfanedRagePotion")]
     public class FlaskOfHolyFlames : ModItem
     {
         public override void SetStaticDefaults()
