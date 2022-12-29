@@ -1511,6 +1511,11 @@ namespace CalamityMod.NPCs
                 damageMult += 0.2f;
                 defense += 12;
             }
+            if (DownedBossSystem.downedExoMechs)
+            {
+                damageMult += 0.6f;
+                defense += 20;
+            }
             if (DownedBossSystem.downedSCal)
             {
                 damageMult += 0.6f;
