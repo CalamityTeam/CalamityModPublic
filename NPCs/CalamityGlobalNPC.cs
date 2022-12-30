@@ -876,7 +876,7 @@ namespace CalamityMod.NPCs
             // Holy Flames
             if (hFlames > 0)
             {
-                int baseHolyFlamesDoTValue = (int)(50 * heatDamageMult);
+                int baseHolyFlamesDoTValue = (int)(200 * heatDamageMult);
                 ApplyDPSDebuff(baseHolyFlamesDoTValue, baseHolyFlamesDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
