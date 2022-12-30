@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Potions
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<Shadowfish>().
+                AddIngredient(ItemID.Blinkroot).
                 AddTile(TileID.Bottles).
                 Register();
 
