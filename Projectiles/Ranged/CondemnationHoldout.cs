@@ -91,6 +91,28 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.dedServ)
                 return;
+            
+            //Special visuals for the final loaded arrow
+            if (ArrowsLoaded >= Condemnation.MaxLoadedArrows - 1f)
+            {
+                //Star
+                for (int i = 0; i < 5; i++)
+                {
+                    float angle = MathHelper.Pi * 1.5f - i * MathHelper.TwoPi / 5f;
+                    float nextAngle = MathHelper.Pi * 1.5f - (i + 2) * MathHelper.TwoPi / 5f;
+                    Vector2 start = angle.ToRotationVector2();
+                    Vector2 end = nextAngle.ToRotationVector2();
+                    for (int j = 0; j < 40; j++)
+                    {
+                        Dust starDust = Dust.NewDustPerfect(tipPosition, 267);
+                        starDust.scale = 2.5f;
+                        starDust.velocity = Vector2.Lerp(start, end, j / 40f) * 16f;
+                        starDust.color = Color.Crimson;
+                        starDust.noGravity = true;
+                    }
+                }
+                return;
+            }
 
             for (int i = 0; i < 36; i++)
             {
