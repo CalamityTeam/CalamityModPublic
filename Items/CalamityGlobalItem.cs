@@ -837,10 +837,6 @@ namespace CalamityMod.Items
             {
                 return player.ownedProjectileCounts[item.shoot] <= 0;
             }
-            if (item.type == ItemID.InvisibilityPotion && player.FindBuffIndex(ModContent.BuffType<ShadowBuff>()) > -1)
-            {
-                return false;
-            }
             if ((item.type == ItemID.SuperAbsorbantSponge || item.type == ItemID.EmptyBucket) && modPlayer.ZoneAbyss)
             {
                 return false;

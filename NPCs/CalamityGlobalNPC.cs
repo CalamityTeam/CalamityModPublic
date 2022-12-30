@@ -869,14 +869,14 @@ namespace CalamityMod.NPCs
             // Brimstone Flames
             if (bFlames > 0)
             {
-                int baseBrimstoneFlamesDoTValue = (int)(40 * heatDamageMult);
+                int baseBrimstoneFlamesDoTValue = (int)(60 * heatDamageMult);
                 ApplyDPSDebuff(baseBrimstoneFlamesDoTValue, baseBrimstoneFlamesDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // Holy Flames
             if (hFlames > 0)
             {
-                int baseHolyFlamesDoTValue = (int)(50 * heatDamageMult);
+                int baseHolyFlamesDoTValue = (int)(200 * heatDamageMult);
                 ApplyDPSDebuff(baseHolyFlamesDoTValue, baseHolyFlamesDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 

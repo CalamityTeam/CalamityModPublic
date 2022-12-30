@@ -38,15 +38,16 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(2).
-                AddIngredient(ItemID.InvisibilityPotion).
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
                 AddIngredient<Shadowfish>().
+                AddIngredient(ItemID.Blinkroot).
                 AddTile(TileID.Bottles).
                 Register();
 
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
-                AddIngredient<BloodOrb>(20).
+                AddIngredient<BloodOrb>(10).
                 AddTile(TileID.AlchemyTable).
                 Register();
         }
