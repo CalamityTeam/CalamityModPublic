@@ -3147,32 +3147,45 @@ namespace CalamityMod.NPCs
                         // Reset localAI and find a teleport destination
                         npc.TargetClosest();
                         npc.localAI[1] = 0f;
-                        int num1249 = 0;
-                        int num1250;
-                        int num1251;
 
-                        while (true)
+                        Vector2 vectorAimedAheadOfTarget = Main.player[npc.target].Center + new Vector2((float)Math.Round(Main.player[npc.target].velocity.X), 0f).SafeNormalize(Vector2.Zero) * 1000f;
+                        Point point4 = vectorAimedAheadOfTarget.ToTileCoordinates();
+                        int num235 = 5;
+                        int num238 = 0;
+                        while (num238 < 100)
                         {
-                            num1249++;
-                            num1250 = (int)player.Center.X / 16;
-                            num1251 = (int)player.Center.Y / 16;
-                            num1250 += Main.rand.Next(-30, 31);
-                            num1251 += Main.rand.Next(-30, 31);
+                            num238++;
+                            int num239 = Main.rand.Next(point4.X - num235, point4.X + num235 + 1);
+                            int num240 = Main.rand.Next(point4.Y - num235 - 15, point4.Y - 15);
 
-                            if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2(num1250 * 16, num1251 * 16), 1, 1, player.position, player.width, player.height))
-                                break;
+                            if (!Main.tile[num239, num240].HasUnactuatedTile)
+                            {
+                                bool flag13 = true;
+                                if (flag13 && Main.tile[num239, num240].LiquidType == LiquidID.Lava)
+                                    flag13 = false;
+                                if (flag13 && !Collision.CanHitLine(npc.Center, 0, 0, vectorAimedAheadOfTarget, 0, 0))
+                                    flag13 = false;
 
-                            if (num1249 > 100)
-                                goto Block;
+                                if (flag13)
+                                {
+                                    npc.ai[2] = num239 * 16 + 8;
+                                    npc.ai[3] = num240 * 16 + 16;
+                                    break;
+                                }
+                            }
                         }
 
-                        // Set AI to next phase (Mid-teleport), set AI 2 and 3 to teleport coordinates X and Y respectively
+                        // Default teleport if the above conditions aren't met in 100 iterations
+                        if (num238 >= 100)
+                        {
+                            Vector2 bottom = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Bottom;
+                            npc.ai[2] = bottom.X;
+                            npc.ai[3] = bottom.Y - 15 * 16;
+                        }
+
+                        // Set AI to next phase (Mid-teleport)
                         npc.ai[0] = 6f;
-                        npc.ai[2] = num1250;
-                        npc.ai[3] = num1251;
                         npc.netUpdate = true;
-                        Block:
-                        ;
                     }
                 }
 

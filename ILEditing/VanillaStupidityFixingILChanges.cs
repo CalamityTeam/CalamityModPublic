@@ -6,8 +6,10 @@ using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -420,5 +422,192 @@ namespace CalamityMod.ILEditing
                 NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, itemID, 1f);
         }
         #endregion Color Blighted Gel
+
+        #region Improve Angler Quest Rewards
+        private static void ImproveAnglerRewards(On.Terraria.Player.orig_GetAnglerReward orig, Player self, NPC angler)
+        {
+            orig(self, angler);
+
+            EntitySource_Gift source = new EntitySource_Gift(angler);
+            int questsDone = self.anglerQuestsFinished + Main.rand.Next(50, 151);
+            float rarityReduction = (questsDone <= 100) ? (0.5f - (questsDone - 50) * 0.005f) : ((questsDone > 150) ? 0.15f : (0.25f - (questsDone - 100) * 0.002f));
+            rarityReduction *= 0.9f;
+            rarityReduction *= (float)(self.currentShoppingSettings.PriceAdjustment + 1.0) / 2f;
+
+            List<Item> rewardItems = new List<Item>();
+
+            GetItemSettings anglerRewardSettings = GetItemSettings.NPCEntityToPlayerInventorySettings;
+
+            Item item = new Item();
+            item.SetDefaults(ItemID.MasterBait);
+            item.stack += 5;
+            if (item.stack > 0)
+                rewardItems.Add(item);
+
+            Item item2 = self.GetItem(self.whoAmI, item, GetItemSettings.NPCEntityToPlayerInventorySettings);
+            if (item2.stack > 0)
+                rewardItems.Add(item2);
+
+            item = new Item();
+            item.SetDefaults(ItemID.GoldCoin);
+            item.stack = 10;
+
+            item.position = self.Center;
+            item2 = self.GetItem(self.whoAmI, item, anglerRewardSettings);
+            if (item2.stack > 0)
+                rewardItems.Add(item2);
+
+            // Golden Fishing Rod
+            if (Main.rand.NextBool((int)(100f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.GoldenFishingRod);
+                rewardItems.Add(item);
+            }
+
+            // Angler Set
+            if (Main.rand.NextBool((int)(30f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.AnglerHat);
+                rewardItems.Add(item);
+                item = new Item();
+                item.SetDefaults(ItemID.AnglerVest);
+                rewardItems.Add(item);
+                item = new Item();
+                item.SetDefaults(ItemID.AnglerPants);
+                rewardItems.Add(item);
+            }
+
+            // Hotline Fishing Hook
+            if (Main.rand.NextBool((int)(40f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.HotlineFishingHook);
+                rewardItems.Add(item);
+            }
+
+            // Fin Wings
+            if (Main.rand.NextBool((int)(28f * rarityReduction)) && Main.hardMode)
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.FinWings);
+                rewardItems.Add(item);
+            }
+
+            // Bottomless Water Bucket
+            if (Main.rand.NextBool((int)(28f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.BottomlessBucket);
+                rewardItems.Add(item);
+            }
+
+            // Super Absorbant Sponge
+            if (Main.rand.NextBool((int)(28f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.SuperAbsorbantSponge);
+                rewardItems.Add(item);
+            }
+
+            // Golden Bug Net
+            if (Main.rand.NextBool((int)(32f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.GoldenBugNet);
+                rewardItems.Add(item);
+            }
+
+            // Fish Hook
+            if (Main.rand.NextBool((int)(24f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.FishHook);
+                rewardItems.Add(item);
+            }
+
+            // Minecarp
+            if (Main.rand.NextBool((int)(24f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.FishMinecart);
+                rewardItems.Add(item);
+            }
+
+            // High Test Fishing Line
+            if (Main.rand.NextBool((int)(16f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.HighTestFishingLine);
+                rewardItems.Add(item);
+            }
+
+            // Angler Earring
+            if (Main.rand.NextBool((int)(16f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.AnglerEarring);
+                rewardItems.Add(item);
+            }
+
+            // Tackle Box
+            if (Main.rand.NextBool((int)(16f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.TackleBox);
+                rewardItems.Add(item);
+            }
+
+            // Fisherman's Pocket Guide
+            if (Main.rand.NextBool((int)(12f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.FishermansGuide);
+                rewardItems.Add(item);
+            }
+
+            // Weather Radio
+            if (Main.rand.NextBool((int)(12f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.WeatherRadio);
+                rewardItems.Add(item);
+            }
+
+            // Sextant
+            if (Main.rand.NextBool((int)(12f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.Sextant);
+                rewardItems.Add(item);
+            }
+
+            // Fishing Bobber
+            /*if (Main.rand.NextBool((int)(10f * rarityReduction)))
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.FishingBobber);
+                rewardItems.Add(item);
+            }*/
+
+            PlayerLoader.AnglerQuestReward(self, rarityReduction, rewardItems);
+
+            foreach (Item rewardItem in rewardItems)
+            {
+                rewardItem.position = self.Center;
+
+                Item getItem = self.GetItem(self.whoAmI, rewardItem, GetItemSettings.NPCEntityToPlayerInventorySettings);
+
+                if (getItem.stack > 0)
+                {
+                    int number = Item.NewItem(source, (int)self.position.X, (int)self.position.Y, self.width, self.height, getItem.type, getItem.stack, noBroadcast: false, 0, noGrabDelay: true);
+
+                    if (Main.netMode == NetmodeID.MultiplayerClient)
+                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number, 1f);
+                }
+            }
+        }
+        #endregion
     }
 }

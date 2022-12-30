@@ -130,6 +130,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime_StartNight += BloodMoonsRequire200MaxLife;
             IL.Terraria.WorldGen.AttemptFossilShattering += PreventFossilShattering;
             On.Terraria.Player.GetPickaxeDamage += RemoveHellforgePickaxeRequirement;
+            On.Terraria.Player.GetAnglerReward += ImproveAnglerRewards;
 
             // Fix vanilla bugs exposed by Calamity mechanics
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
@@ -248,6 +249,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime_StartNight -= BloodMoonsRequire200MaxLife;
             IL.Terraria.WorldGen.AttemptFossilShattering -= PreventFossilShattering;
             On.Terraria.Player.GetPickaxeDamage -= RemoveHellforgePickaxeRequirement;
+            On.Terraria.Player.GetAnglerReward -= ImproveAnglerRewards;
 
             // Fix vanilla bugs exposed by Calamity mechanics
             IL.Terraria.NPC.NPCLoot -= FixSplittingWormBannerDrops;
