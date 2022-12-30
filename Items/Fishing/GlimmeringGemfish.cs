@@ -24,10 +24,10 @@ namespace CalamityMod.Items.Fishing
             Item.value = Item.sellPrice(silver: 50);
         }
 
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
-		}
+        public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+        {
+            itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
+        }
 
         public override bool CanRightClick() => true;
         public override void ModifyItemLoot(ItemLoot itemLoot)
@@ -42,20 +42,22 @@ namespace CalamityMod.Items.Fishing
             itemLoot.Add(ItemID.Diamond, 10, gemMin, gemMax);
             itemLoot.Add(ItemID.Amber, 8, gemMin, gemMax);
 
+            // Add Thorium gems if Thorium is loaded.
             Mod thorium = CalamityMod.Instance.thorium;
-            if (thorium is not null)
-            {
-				try
-				{
-					itemLoot.Add(thorium.Find<ModItem>("Pearl").Type, 4, gemMin, gemMax);
-					itemLoot.Add(thorium.Find<ModItem>("Opal").Type, 4, gemMin, gemMax);
-					itemLoot.Add(thorium.Find<ModItem>("Onyx").Type, 4, gemMin, gemMax);
-				}
-				catch
-				{
-					CalamityMod.Instance.Logger.Debug("One of the items in this file got renamed internally. Please report this in the #bugs-read-pins channel of the official Calamity discord server.");
-				}
-            }
+            if (thorium is null)
+                return;
+
+            var aquamarine = thorium.Find<ModItem>("Aquamarine");
+            if (aquamarine is not null)
+                itemLoot.Add(aquamarine.Type, 4, gemMin, gemMax);
+            else
+                CalamityMod.Instance.Logger.Warn("Could not find Thorium Aquamarine gem. This item will not be added to Glimmering Gemfish.");
+
+            var opal = thorium.Find<ModItem>("Opal");
+            if (opal is not null)
+                itemLoot.Add(opal.Type, 4, gemMin, gemMax);
+            else
+                CalamityMod.Instance.Logger.Warn("Could not find Thorium Opal gem. This item will not be added to Glimmering Gemfish.");
         }
     }
 }
