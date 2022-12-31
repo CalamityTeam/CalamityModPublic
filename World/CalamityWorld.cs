@@ -83,6 +83,7 @@ namespace CalamityMod.World
         public static Vector2 JungleLabCenter;
         public static Vector2 HellLabCenter;
         public static Vector2 IceLabCenter;
+        public static Vector2 CavernLabCenter;
 
         #endregion
     }

@@ -34,6 +34,9 @@ namespace CalamityMod.Schematics
         internal const string IceLabKey = "Ice Laboratory";
         internal const string IceLabFilename = "Schematics/DraedonsLab_Ice.csch";
 
+        internal const string CavernLabKey = "Cavern Laboratory";
+        internal const string CavernLabFilename = "Schematics/DraedonsLab_CavernWorkshop.csch";
+
         internal const string AstralBeaconKey = "Astral Beacon";
         internal const string AstralBeaconFilename = "Schematics/AstralBeacon.csch";
         
@@ -55,6 +58,7 @@ namespace CalamityMod.Schematics
                 [PlagueLabKey] = CalamitySchematicIO.LoadSchematic(PlagueLabFilename),
                 [HellLabKey] = CalamitySchematicIO.LoadSchematic(HellLabFilename),
                 [IceLabKey] = CalamitySchematicIO.LoadSchematic(IceLabFilename),
+                [CavernLabKey] = CalamitySchematicIO.LoadSchematic(CavernLabFilename),
 
                 // Astral world gen structures
                 [AstralBeaconKey] = CalamitySchematicIO.LoadSchematic(AstralBeaconFilename),

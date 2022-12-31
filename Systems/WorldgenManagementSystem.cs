@@ -173,6 +173,9 @@ namespace CalamityMod.Systems
                     DraedonStructures.PlacePlagueLab(out Point plaguePlacementPosition, workshopPositions, WorldGen.structures);
                     workshopPositions.Add(plaguePlacementPosition);
 
+                    DraedonStructures.PlaceCavernLab(out Point cavernPlacementPosition, workshopPositions, WorldGen.structures);
+                    workshopPositions.Add(cavernPlacementPosition);
+
                     for (int i = 0; i < workshopCount; i++)
                     {
                         DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions, WorldGen.structures);

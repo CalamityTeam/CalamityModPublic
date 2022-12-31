@@ -605,5 +605,88 @@ namespace CalamityMod.World
             }
         }
         #endregion
+
+        #region Cavern Lab
+        public static void FillCavernLaboratoryChest(Chest chest)
+        {
+            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
+            List<ChestItem> contents = new List<ChestItem>()
+            {
+                new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(10, 17 + 1)),
+                new ChestItem(ModContent.ItemType<MysteriousCircuitry>(), WorldGen.genRand.Next(10, 15 + 1)),
+                new ChestItem(ItemID.Torch, WorldGen.genRand.Next(20, 40 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(8, 16 + 1)),
+                new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(7, 10 + 1)),
+                new ChestItem(ItemID.Dynamite, WorldGen.genRand.Next(4, 6 + 1)),
+                new ChestItem(potionType, WorldGen.genRand.Next(4, 7 + 1)),
+                new ChestItem(ModContent.ItemType<LabSeekingMechanism>(), 1),
+            };
+
+            //Special, non-main line lab: Adds the base Lab Seeking Mechanism
+            contents.Insert(0, new ChestItem(ModContent.ItemType<LabSeekingMechanism>(), 1));
+
+            for (int i = 0; i < contents.Count; i++)
+            {
+                chest.item[i].SetDefaults(contents[i].Type);
+                chest.item[i].stack = contents[i].Stack;
+            }
+        }
+        public static void PlaceCavernLab(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
+        {
+            int tries = 0;
+            string mapKey = CavernLabKey;
+
+            do
+            {
+                int underworldTop = Main.maxTilesY - 200;
+                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.15f), (int)(Main.maxTilesX * 0.85f));
+                int placementPositionY = WorldGen.genRand.Next(underworldTop - 400, underworldTop - 50);
+
+                placementPoint = new Point(placementPositionX, placementPositionY);
+                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                int activeTilesInArea = 0;
+                int plainTilesInArea = 0;
+                int xCheckArea = 30;
+                bool canGenerateInLocation = true;
+
+                // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
+                bool nearbyOtherWorkshop = workshopPoints.Any(point => Vector2.Distance(point.ToVector2(), new Vector2(placementPositionX, placementPositionY)) < 240f);
+                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
+                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+                {
+                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                    {
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                        if (ShouldAvoidLocation(new Point(x, y)))
+                            canGenerateInLocation = false;
+
+                        if (tile.HasTile)
+                        {
+                            //Only spawn on normal cave tiles. Some special seeds are weeping rn.
+                            if (tile.TileType == TileID.Dirt || tile.TileType == TileID.Stone || tile.TileType == TileID.Mud || TileID.Sets.Conversion.Moss[tile.TileType])
+                                plainTilesInArea++;
+
+                            //Letting it spawn in natural mud means avoiding every other mud biome at all costs
+                            if (tile.TileType == TileID.JungleGrass || tile.TileType == TileID.MushroomGrass)
+                                plainTilesInArea -= 1000;
+
+                            activeTilesInArea++;
+                        }
+                    }
+                }
+                if (!canGenerateInLocation || nearbyOtherWorkshop || plainTilesInArea < totalTiles * 0.4f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                    tries++;
+                else
+                {
+                    bool _ = true;
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillCavernLaboratoryChest));
+                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                    CalamityWorld.CavernLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
+                    break;
+                }
+            }
+            while (tries <= 50000);
+        }
+        #endregion
     }
 }
