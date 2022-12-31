@@ -16,10 +16,6 @@ namespace CalamityMod.Buffs
             {
                 player.arrowDamage *= 0.875f;
             }
-            else if (type == BuffID.Endurance)
-            {
-                player.endurance -= 0.05f;
-            }
             else if (type == BuffID.MagicPower)
             {
                 player.GetDamage<MagicDamageClass>() -= 0.1f;
@@ -103,10 +99,6 @@ namespace CalamityMod.Buffs
             // Vanilla buffs
             switch (type)
             {
-                case BuffID.Endurance:
-                    tip = "5% reduced damage";
-                    break;
-
                 case BuffID.MagicPower:
                     tip = "10% increased magic damage";
                     break;

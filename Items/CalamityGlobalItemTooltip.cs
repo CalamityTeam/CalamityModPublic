@@ -308,10 +308,6 @@ namespace CalamityMod.Items
             if (item.type == ItemID.SwiftnessPotion)
                 EditTooltipByNum(0, (line) => line.Text = "15% increased movement speed");
 
-            // Nerfed Endurance Potion tooltip
-            if (item.type == ItemID.EndurancePotion)
-                EditTooltipByNum(0, (line) => line.Text = "Reduces damage taken by 5%");
-
             // Hand Warmer has a side bonus with Snow armor
             if (item.type == ItemID.HandWarmer)
             {
