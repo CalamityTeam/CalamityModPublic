@@ -2038,10 +2038,6 @@ namespace CalamityMod.Projectiles
                         projectile.extraUpdates += CalamityWorld.revenge ? 1 : 0;
                         break;
 
-                    case ProjectileID.Stinger:
-                        projectile.extraUpdates += CalamityWorld.death ? 1 : (CalamityWorld.revenge && Main.hardMode) ? 1 : 0;
-                        break;
-
                     case ProjectileID.Bee:
                     case ProjectileID.Wasp:
                     case ProjectileID.TinyEater:

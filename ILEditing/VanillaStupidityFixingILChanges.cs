@@ -429,7 +429,7 @@ namespace CalamityMod.ILEditing
             orig(self, angler);
 
             EntitySource_Gift source = new EntitySource_Gift(angler);
-            int questsDone = self.anglerQuestsFinished + Main.rand.Next(50, 151);
+            int questsDone = self.anglerQuestsFinished + Main.rand.Next(151);
             float rarityReduction = (questsDone <= 100) ? (0.5f - (questsDone - 50) * 0.005f) : ((questsDone > 150) ? 0.15f : (0.25f - (questsDone - 100) * 0.002f));
             rarityReduction *= 0.9f;
             rarityReduction *= (float)(self.currentShoppingSettings.PriceAdjustment + 1.0) / 2f;

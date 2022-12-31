@@ -3290,6 +3290,13 @@ namespace CalamityMod.NPCs
                             case NPCID.Bee:
                             case NPCID.BeeSmall:
                             case NPCID.BloodSquid:
+                            case NPCID.Hornet:
+                            case NPCID.HornetFatty:
+                            case NPCID.HornetHoney:
+                            case NPCID.HornetLeafy:
+                            case NPCID.HornetSpikey:
+                            case NPCID.HornetStingy:
+                            case NPCID.MossHornet:
                                 return CalamityGlobalAI.BuffedFlyingAI(npc, Mod);
                         }
                         break;

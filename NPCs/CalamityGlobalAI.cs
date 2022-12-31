@@ -3572,6 +3572,32 @@ namespace CalamityMod.NPCs
                 num = 6f;
                 num2 = 0.1f;
             }
+            else if (npc.type == NPCID.Hornet || (npc.type >= NPCID.HornetFatty && npc.type <= NPCID.HornetStingy))
+            {
+                num = 3.5f;
+                num2 = 0.021f;
+                if (npc.type == NPCID.HornetFatty)
+                {
+                    num = 3f;
+                    num2 = 0.017f;
+                }
+
+                num *= 1f - npc.scale;
+                num2 *= 1f - npc.scale;
+                if ((double)(npc.position.Y / 16f) < Main.worldSurface)
+                {
+                    if (Main.player[npc.target].position.Y - npc.position.Y > 300f && npc.velocity.Y < 0f)
+                        npc.velocity.Y *= 0.97f;
+
+                    if (Main.player[npc.target].position.Y - npc.position.Y < 80f && npc.velocity.Y > 0f)
+                        npc.velocity.Y *= 0.97f;
+                }
+            }
+            else if (npc.type == NPCID.MossHornet)
+            {
+                num = 4f;
+                num2 = 0.017f;
+            }
             else if (npc.type == NPCID.Parrot)
             {
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -3666,9 +3692,9 @@ namespace CalamityMod.NPCs
                 num4 *= num6;
                 num5 *= num6;
             }
-            if (npc.type == NPCID.EaterofSouls || npc.type == NPCID.Corruptor || npc.type == NPCID.Probe || npc.type == NPCID.Crimera || npc.type == NPCID.Moth || npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall || npc.type == NPCID.BloodSquid)
+            if (npc.type == NPCID.Hornet || npc.type == NPCID.MossHornet || (npc.type >= NPCID.HornetFatty && npc.type <= NPCID.HornetStingy) || npc.type == NPCID.EaterofSouls || npc.type == NPCID.Corruptor || npc.type == NPCID.Probe || npc.type == NPCID.Crimera || npc.type == NPCID.Moth || npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall || npc.type == NPCID.BloodSquid)
             {
-                if (num7 > 100f || npc.type == NPCID.Corruptor || npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall || npc.type == NPCID.BloodSquid)
+                if (num7 > 100f || npc.type == NPCID.Corruptor || npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall || npc.type == NPCID.BloodSquid || npc.type == NPCID.Hornet || npc.type == NPCID.MossHornet || (npc.type >= NPCID.HornetFatty && npc.type <= NPCID.HornetStingy))
                 {
                     npc.ai[0] += 1f;
                     if (npc.ai[0] > 0f)
@@ -3784,7 +3810,7 @@ namespace CalamityMod.NPCs
             {
                 npc.rotation = (float)Math.Atan2((double)num5, (double)num4) - MathHelper.PiOver2;
             }
-            else if (npc.type == NPCID.Moth)
+            else if (npc.type == NPCID.Moth || npc.type == NPCID.Hornet || npc.type == NPCID.MossHornet || (npc.type >= NPCID.HornetFatty && npc.type <= NPCID.HornetStingy))
             {
                 if (npc.velocity.X > 0f)
                 {
@@ -3800,7 +3826,7 @@ namespace CalamityMod.NPCs
             {
                 npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) - MathHelper.PiOver2;
             }
-            if (npc.type == NPCID.EaterofSouls || npc.type == NPCID.MeteorHead || npc.type == NPCID.Corruptor || npc.type == NPCID.Probe || npc.type == NPCID.Crimera || npc.type == NPCID.Moth || npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall || npc.type == NPCID.BloodSquid)
+            if (npc.type == NPCID.Hornet || npc.type == NPCID.MossHornet || (npc.type >= NPCID.HornetFatty && npc.type <= NPCID.HornetStingy) || npc.type == NPCID.EaterofSouls || npc.type == NPCID.MeteorHead || npc.type == NPCID.Corruptor || npc.type == NPCID.Probe || npc.type == NPCID.Crimera || npc.type == NPCID.Moth || npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall || npc.type == NPCID.BloodSquid)
             {
                 float num11 = 0.7f;
                 if (npc.type == NPCID.EaterofSouls || npc.type == NPCID.Crimera)
@@ -3890,6 +3916,72 @@ namespace CalamityMod.NPCs
                     npc.velocity.Y = -6f;
                 }
                 npc.TargetClosest(true);
+            }
+            if (npc.type == NPCID.Hornet || npc.type == NPCID.MossHornet || (npc.type >= NPCID.HornetFatty && npc.type <= NPCID.HornetStingy))
+            {
+                if (npc.wet)
+                {
+                    if (npc.velocity.Y > 0f)
+                        npc.velocity.Y *= 0.95f;
+
+                    npc.velocity.Y -= 0.5f;
+                    if (npc.velocity.Y < -4f)
+                        npc.velocity.Y = -4f;
+
+                    npc.TargetClosest();
+                }
+
+                if (npc.ai[1] == 101f)
+                {
+                    SoundEngine.PlaySound(SoundID.Item17, npc.position);
+                    npc.ai[1] = 0f;
+                }
+
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    npc.ai[1] += (npc.type == NPCID.MossHornet ? 2f : 1f) * 0.1f * npc.scale;
+                    if (npc.justHit && npc.ai[1] > 0f)
+                        npc.ai[1] -= 100f * 0.1f * npc.scale;
+
+                    if (targetData.Type == NPCTargetType.Player)
+                    {
+                        Player player = Main.player[npc.target];
+                        if (player != null && player.stealth == 0f && player.itemAnimation == 0)
+                            npc.ai[1] = 0f;
+                    }
+
+                    if (npc.ai[1] >= 240f)
+                    {
+                        if (targetData.Type != 0 && Collision.CanHit(npc, targetData))
+                        {
+                            float num17 = 8f;
+                            Vector2 vector2 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height / 2);
+                            float num18 = targetData.Center.X - vector2.X;
+                            float num19 = targetData.Center.Y - vector2.Y;
+                            if ((num18 < 0f && npc.velocity.X < 0f) || (num18 > 0f && npc.velocity.X > 0f))
+                            {
+                                float num20 = (float)Math.Sqrt(num18 * num18 + num19 * num19);
+                                num20 = num17 / num20;
+                                num18 *= num20;
+                                num19 *= num20;
+                                int num21 = (int)(10f * npc.scale);
+                                if (npc.type == NPCID.MossHornet)
+                                    num21 = (int)(30f * npc.scale);
+
+                                int num22 = ProjectileID.Stinger;
+                                int num23 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector2.X, vector2.Y, num18, num19, num22, num21, 0f, Main.myPlayer);
+                                Main.projectile[num23].timeLeft = 300;
+                                Main.projectile[num23].extraUpdates += (CalamityWorld.death || Main.hardMode) ? 1 : 0;
+                                npc.ai[1] = 101f;
+                                npc.netUpdate = true;
+                            }
+                            else
+                                npc.ai[1] = 0f;
+                        }
+                        else
+                            npc.ai[1] = 0f;
+                    }
+                }
             }
             if (npc.type == NPCID.Probe & flag)
             {
@@ -8636,19 +8728,25 @@ namespace CalamityMod.NPCs
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                //Black Recluses shoot Web Spit
+                bool prehardmodeSpiders = npc.type == NPCID.WallCreeper || npc.type == NPCID.WallCreeperWall || npc.type == NPCID.BloodCrawler || npc.type == NPCID.BloodCrawlerWall;
                 if (Main.netMode != NetmodeID.MultiplayerClient &&
                     npc.target >= 0 &&
-                    (npc.type == NPCID.BlackRecluse || npc.type == NPCID.BlackRecluseWall || npc.type == NPCID.JungleCreeper || npc.type == NPCID.JungleCreeperWall || npc.type == NPCID.WallCreeper || npc.type == NPCID.WallCreeperWall || npc.type == NPCID.BloodCrawler || npc.type == NPCID.BloodCrawlerWall) &&
+                    (npc.type == NPCID.BlackRecluse || npc.type == NPCID.BlackRecluseWall || npc.type == NPCID.JungleCreeper || npc.type == NPCID.JungleCreeperWall || prehardmodeSpiders) &&
                     Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
                 {
                     npc.localAI[0] += 1f;
-                    if (npc.localAI[0] > (float)Main.rand.Next(180, CalamityWorld.death ? 300 : 600))
+                    if (npc.justHit && npc.localAI[0] > 0f && prehardmodeSpiders)
+                        npc.localAI[0] -= 10f;
+                    float webSpitGateValue = CalamityWorld.death ? 240f : 390f;
+                    if (prehardmodeSpiders)
+                        webSpitGateValue *= 1.5f;
+
+                    if (npc.localAI[0] >= webSpitGateValue)
                     {
                         npc.localAI[0] = 0f;
                         Vector2 velocity = Main.player[npc.target].Center - npc.Center;
                         velocity.Normalize();
-                        velocity *= 8f;
+                        velocity *= prehardmodeSpiders ? 5f : 8f;
                         Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, velocity, ProjectileID.WebSpit, 18, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
