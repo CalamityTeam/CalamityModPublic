@@ -840,6 +840,9 @@ namespace CalamityMod.Items
 
             // Add mentions of what Calamity ores vanilla pickaxes can mine
             #region Pickaxe New Ore Tooltips
+            if (item.type == ItemID.GoldPickaxe || item.type == ItemID.PlatinumPickaxe)
+                EditTooltipByNum(0, (line) => line.Text = "Can mine Demonite, Crimtane, Meteorite, Sea Prisms and Sea Prism Crystals");
+
             if (item.type == ItemID.Picksaw)
                 EditTooltipByNum(0, (line) => line.Text += "\nCan mine Scoria Ore located in the Abyss");
 
