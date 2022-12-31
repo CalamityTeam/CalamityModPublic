@@ -429,8 +429,9 @@ namespace CalamityMod.ILEditing
             orig(self, angler);
 
             EntitySource_Gift source = new EntitySource_Gift(angler);
-            int questsDone = self.anglerQuestsFinished + Main.rand.Next(151);
-            float rarityReduction = (questsDone <= 100) ? (0.5f - (questsDone - 50) * 0.005f) : ((questsDone > 150) ? 0.15f : (0.25f - (questsDone - 100) * 0.002f));
+            int questsDone = self.anglerQuestsFinished + Main.rand.Next(101);
+            float rarityReduction = 1f;
+            rarityReduction = (questsDone <= 50) ? (rarityReduction - questsDone * 0.01f) : ((questsDone <= 100) ? (0.5f - (questsDone - 50) * 0.005f) : ((questsDone > 150) ? 0.15f : (0.25f - (questsDone - 100) * 0.002f)));
             rarityReduction *= 0.9f;
             rarityReduction *= (float)(self.currentShoppingSettings.PriceAdjustment + 1.0) / 2f;
 
@@ -456,17 +457,25 @@ namespace CalamityMod.ILEditing
             item2 = self.GetItem(self.whoAmI, item, anglerRewardSettings);
             if (item2.stack > 0)
                 rewardItems.Add(item2);
-
+            
             // Golden Fishing Rod
-            if (Main.rand.NextBool((int)(100f * rarityReduction)))
+            if (Main.rand.NextBool((int)(500f * rarityReduction)))
             {
                 item = new Item();
                 item.SetDefaults(ItemID.GoldenFishingRod);
                 rewardItems.Add(item);
             }
 
+            // Hotline Fishing Hook
+            if (Main.rand.NextBool((int)(200f * rarityReduction)) || self.anglerQuestsFinished == 22)
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.HotlineFishingHook);
+                rewardItems.Add(item);
+            }
+
             // Angler Set
-            if (Main.rand.NextBool((int)(30f * rarityReduction)))
+            if (Main.rand.NextBool((int)(150f * rarityReduction)))
             {
                 item = new Item();
                 item.SetDefaults(ItemID.AnglerHat);
@@ -479,16 +488,36 @@ namespace CalamityMod.ILEditing
                 rewardItems.Add(item);
             }
 
-            // Hotline Fishing Hook
-            if (Main.rand.NextBool((int)(40f * rarityReduction)))
+            // Mermaid Set
+            if (Main.rand.NextBool((int)(150f * rarityReduction)) || self.anglerQuestsFinished == 11)
             {
                 item = new Item();
-                item.SetDefaults(ItemID.HotlineFishingHook);
+                item.SetDefaults(ItemID.SeashellHairpin);
+                rewardItems.Add(item);
+                item = new Item();
+                item.SetDefaults(ItemID.MermaidAdornment);
+                rewardItems.Add(item);
+                item = new Item();
+                item.SetDefaults(ItemID.MermaidTail);
+                rewardItems.Add(item);
+            }
+
+            // Fish Set
+            if (Main.rand.NextBool((int)(150f * rarityReduction)) || self.anglerQuestsFinished == 8)
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.FishCostumeMask);
+                rewardItems.Add(item);
+                item = new Item();
+                item.SetDefaults(ItemID.FishCostumeShirt);
+                rewardItems.Add(item);
+                item = new Item();
+                item.SetDefaults(ItemID.FishCostumeFinskirt);
                 rewardItems.Add(item);
             }
 
             // Fin Wings
-            if (Main.rand.NextBool((int)(28f * rarityReduction)) && Main.hardMode)
+            if (Main.rand.NextBool((int)(140f * rarityReduction)) && Main.hardMode)
             {
                 item = new Item();
                 item.SetDefaults(ItemID.FinWings);
@@ -496,23 +525,39 @@ namespace CalamityMod.ILEditing
             }
 
             // Bottomless Water Bucket
-            if (Main.rand.NextBool((int)(28f * rarityReduction)))
+            if (Main.rand.NextBool((int)(140f * rarityReduction)))
             {
                 item = new Item();
                 item.SetDefaults(ItemID.BottomlessBucket);
                 rewardItems.Add(item);
             }
 
+            // Bottomless Honey Bucket
+            /*if (Main.rand.NextBool((int)(140f * rarityReduction)) || self.anglerQuestsFinished == 29)
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.BottomlessHoneyBucket);
+                rewardItems.Add(item);
+            }*/
+
             // Super Absorbant Sponge
-            if (Main.rand.NextBool((int)(28f * rarityReduction)))
+            if (Main.rand.NextBool((int)(140f * rarityReduction)) || self.anglerQuestsFinished == 17)
             {
                 item = new Item();
                 item.SetDefaults(ItemID.SuperAbsorbantSponge);
                 rewardItems.Add(item);
             }
 
+            // Honey Absorbant Sponge
+            /*if (Main.rand.NextBool((int)(140f * rarityReduction)) || self.anglerQuestsFinished == 19)
+            {
+                item = new Item();
+                item.SetDefaults(ItemID.SuperAbsorbantSponge);
+                rewardItems.Add(item);
+            }*/
+
             // Golden Bug Net
-            if (Main.rand.NextBool((int)(32f * rarityReduction)))
+            if (Main.rand.NextBool((int)(140f * rarityReduction)) || self.anglerQuestsFinished == 27)
             {
                 item = new Item();
                 item.SetDefaults(ItemID.GoldenBugNet);
@@ -520,7 +565,7 @@ namespace CalamityMod.ILEditing
             }
 
             // Fish Hook
-            if (Main.rand.NextBool((int)(24f * rarityReduction)))
+            if (Main.rand.NextBool((int)(120f * rarityReduction)) || self.anglerQuestsFinished == 4)
             {
                 item = new Item();
                 item.SetDefaults(ItemID.FishHook);
@@ -528,7 +573,7 @@ namespace CalamityMod.ILEditing
             }
 
             // Minecarp
-            if (Main.rand.NextBool((int)(24f * rarityReduction)))
+            if (Main.rand.NextBool((int)(120f * rarityReduction)) || self.anglerQuestsFinished == 9)
             {
                 item = new Item();
                 item.SetDefaults(ItemID.FishMinecart);
@@ -536,7 +581,7 @@ namespace CalamityMod.ILEditing
             }
 
             // High Test Fishing Line
-            if (Main.rand.NextBool((int)(16f * rarityReduction)))
+            if (Main.rand.NextBool((int)(80f * rarityReduction)) || self.anglerQuestsFinished == 2)
             {
                 item = new Item();
                 item.SetDefaults(ItemID.HighTestFishingLine);
@@ -544,7 +589,7 @@ namespace CalamityMod.ILEditing
             }
 
             // Angler Earring
-            if (Main.rand.NextBool((int)(16f * rarityReduction)))
+            if (Main.rand.NextBool((int)(80f * rarityReduction)) || self.anglerQuestsFinished == 7)
             {
                 item = new Item();
                 item.SetDefaults(ItemID.AnglerEarring);
@@ -552,7 +597,7 @@ namespace CalamityMod.ILEditing
             }
 
             // Tackle Box
-            if (Main.rand.NextBool((int)(16f * rarityReduction)))
+            if (Main.rand.NextBool((int)(80f * rarityReduction)) || self.anglerQuestsFinished == 12)
             {
                 item = new Item();
                 item.SetDefaults(ItemID.TackleBox);
@@ -560,7 +605,7 @@ namespace CalamityMod.ILEditing
             }
 
             // Fisherman's Pocket Guide
-            if (Main.rand.NextBool((int)(12f * rarityReduction)))
+            if (Main.rand.NextBool((int)(60f * rarityReduction)) || self.anglerQuestsFinished == 1)
             {
                 item = new Item();
                 item.SetDefaults(ItemID.FishermansGuide);
@@ -568,7 +613,7 @@ namespace CalamityMod.ILEditing
             }
 
             // Weather Radio
-            if (Main.rand.NextBool((int)(12f * rarityReduction)))
+            if (Main.rand.NextBool((int)(60f * rarityReduction)) || self.anglerQuestsFinished == 3)
             {
                 item = new Item();
                 item.SetDefaults(ItemID.WeatherRadio);
@@ -576,7 +621,7 @@ namespace CalamityMod.ILEditing
             }
 
             // Sextant
-            if (Main.rand.NextBool((int)(12f * rarityReduction)))
+            if (Main.rand.NextBool((int)(60f * rarityReduction)) || self.anglerQuestsFinished == 6)
             {
                 item = new Item();
                 item.SetDefaults(ItemID.Sextant);
@@ -584,7 +629,7 @@ namespace CalamityMod.ILEditing
             }
 
             // Fishing Bobber
-            /*if (Main.rand.NextBool((int)(10f * rarityReduction)))
+            /*if (Main.rand.NextBool((int)(50f * rarityReduction)) || self.anglerQuestsFinished == 13)
             {
                 item = new Item();
                 item.SetDefaults(ItemID.FishingBobber);
