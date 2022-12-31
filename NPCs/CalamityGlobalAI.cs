@@ -3941,7 +3941,7 @@ namespace CalamityMod.NPCs
                 {
                     npc.ai[1] += (npc.type == NPCID.MossHornet ? 2f : 1f) * 0.1f * npc.scale;
                     if (npc.justHit && npc.ai[1] > 0f)
-                        npc.ai[1] -= 100f * 0.1f * npc.scale;
+                        npc.ai[1] -= 300f * 0.1f * npc.scale;
 
                     if (targetData.Type == NPCTargetType.Player)
                     {
@@ -8736,7 +8736,7 @@ namespace CalamityMod.NPCs
                 {
                     npc.localAI[0] += 1f;
                     if (npc.justHit && npc.localAI[0] > 0f && prehardmodeSpiders)
-                        npc.localAI[0] -= 10f;
+                        npc.localAI[0] -= 30f;
                     float webSpitGateValue = CalamityWorld.death ? 240f : 390f;
                     if (prehardmodeSpiders)
                         webSpitGateValue *= 1.5f;
