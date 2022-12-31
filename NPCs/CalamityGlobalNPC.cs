@@ -2868,7 +2868,7 @@ namespace CalamityMod.NPCs
                 return DreadnautilusAI.BuffedDreadnautilusAI(npc, Mod);
 
             // Disable teleports for hardmode dungeon casters if they get hit
-            if (npc.type >= NPCID.RaggedCaster && npc.type <= NPCID.DiabolistWhite && npc.justHit)
+            if (npc.type >= NPCID.RaggedCaster && npc.type <= NPCID.DiabolistWhite && npc.justHit && !CalamityWorld.revenge)
             {
                 npc.ai[0] = 1f;
             }
@@ -4686,15 +4686,10 @@ namespace CalamityMod.NPCs
                         }
                         break;
 
-                    case NPCID.Demon:
-                    case NPCID.VoodooDemon:
-                        npc.ai[0] += Main.getGoodWorld ? 5f : 1f;
-                        break;
-
                     case NPCID.CursedHammer:
                     case NPCID.EnchantedSword:
                     case NPCID.CrimsonAxe:
-                        if (npc.life <= npc.lifeMax * 0.5 || Main.getGoodWorld)
+                        if (Main.getGoodWorld)
                             npc.justHit = false;
 
                         break;
@@ -4705,27 +4700,21 @@ namespace CalamityMod.NPCs
                     case NPCID.IceTortoise:
                     case NPCID.BlackRecluse:
                     case NPCID.BlackRecluseWall:
-                        if (npc.life <= npc.lifeMax * 0.25 || Main.getGoodWorld)
+                        if (Main.getGoodWorld)
                             npc.justHit = false;
 
                         break;
 
                     case NPCID.Paladin:
-                        if (npc.life <= npc.lifeMax * 0.15 || Main.getGoodWorld)
+                        if (Main.getGoodWorld)
                             npc.justHit = false;
-
-                        break;
-
-                    case NPCID.Clown:
-                        if (Main.netMode != NetmodeID.MultiplayerClient && !Main.player[npc.target].dead)
-                            npc.ai[2] += 29f;
 
                         break;
                 }
 
                 if (npc.type == NPCType<Plagueshell>())
                 {
-                    if (npc.life <= npc.lifeMax * 0.25 || Main.getGoodWorld)
+                    if (Main.getGoodWorld)
                         npc.justHit = false;
                 }
             }
