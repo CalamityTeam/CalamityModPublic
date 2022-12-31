@@ -527,6 +527,9 @@ namespace CalamityMod.World
                         {
                             if (tile.TileType == TileID.Mud || tile.TileType == TileID.JungleGrass)
                                 jungleTilesInArea++;
+                            if (tile.TileType == TileID.MushroomGrass || tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines)
+                                jungleTilesInArea -= 10;
+
                             activeTilesInArea++;
                         }
                     }
