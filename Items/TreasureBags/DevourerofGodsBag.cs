@@ -71,7 +71,7 @@ namespace CalamityMod.Items.TreasureBags
 			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<DevourerofGodsHead>()));
 
             // Materials
-            itemLoot.Add(ModContent.ItemType<CosmiliteBar>(), 1, 30, 40);
+            itemLoot.Add(ModContent.ItemType<CosmiliteBar>(), 1, 55, 65);
             itemLoot.Add(ModContent.ItemType<CosmiliteBrick>(), 1, 200, 320);
 
             // Weapons
