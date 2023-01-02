@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(60, 180, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(170, 255, 255), 1f);
             return false;
         }
 
@@ -46,9 +46,9 @@ namespace CalamityMod.Tiles.SunkenSea
             Tile tile = Main.tile[i, j];
             if (tile.TileFrameX < 66)
             {
-                r = 0.5f;
-                g = 1.6f;
-                b = 2.3f;
+                r = 0.8f;
+                g = 1.2f;
+                b = 1.2f;
             }
         }
 
@@ -73,7 +73,7 @@ namespace CalamityMod.Tiles.SunkenSea
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             if (Main.tile[i, j].TileFrameX < 66)
-                CalamityUtils.DrawFlameSparks(156, 5, i, j);
+                CalamityUtils.DrawFlameSparks(59, 5, i, j);
         }
 
         public override bool RightClick(int i, int j)
