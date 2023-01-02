@@ -73,7 +73,7 @@ namespace CalamityMod.Tiles.SunkenSea
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             if (Main.tile[i, j].TileFrameX < 66)
-                CalamityUtils.DrawFlameSparks(59, 5, i, j);
+                CalamityUtils.DrawFlameSparks(61, 5, i, j);
         }
 
         public override bool RightClick(int i, int j)

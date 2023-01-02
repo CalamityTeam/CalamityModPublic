@@ -73,7 +73,7 @@ namespace CalamityMod.Tiles.Abyss
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             if (Main.tile[i, j].TileFrameX < 66)
-                CalamityUtils.DrawFlameSparks(75, 5, i, j);
+                CalamityUtils.DrawFlameSparks(Main.rand.NextBool() ? 61 : 64, 5, i, j);
         }
 
         public override bool RightClick(int i, int j)
