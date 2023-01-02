@@ -180,7 +180,7 @@ namespace CalamityMod.CalPlayer
             }
 
             bool ASPoisoning = ASPoisonLevel > 0f;
-            if (ASPoisoning || (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone))
+            if (ASPoisoning || (ZoneSulphur && !Player.creativeGodMode && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone))
             {
                 float increment = 1f / SulphSeaWaterSafetyTime;
                 //No way to mitigate AS Poisoning
