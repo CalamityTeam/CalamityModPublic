@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.Abyss
             Tile t = CalamityUtils.ParanoidTileRetrieval(i, j);
 
             Vector2 spawnPosition = new(i * 16f + 24f, j * 16f - 4f);
-            if (!Main.gamePaused && t.TileFrameX % 36 == 0 && t.TileFrameY % 36 == 0 && Collision.CanHitLine(spawnPosition, 1, 1, spawnPosition - Vector2.UnitY * 100f, 1, 1))
+            if (!Main.gamePaused && t.TileFrameX % 36 == 0 && t.TileFrameY % 36 == 0 && Collision.CanHitLine(spawnPosition, 1, 1, spawnPosition - Vector2.UnitY * 100f, 1, 1) && Main.rand.Next(0, 5) == 0)
             {
                 float positionInterpolant = (i + j) * 0.041f % 1f;
                 Vector2 smokeVelocity = -Vector2.UnitY.RotatedByRandom(0.11f) * MathHelper.Lerp(4.8f, 8.1f, positionInterpolant);
