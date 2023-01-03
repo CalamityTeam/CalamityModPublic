@@ -2950,7 +2950,7 @@ namespace CalamityMod.NPCs
                     float maxStompAmt = phase5 ? 5f : phase3 ? 2f : 3f;
                     if (npc.localAI[1] >= maxStompAmt)
                     {
-                        npc.ai[0] = exhausted ? 1f : 5f;
+                        npc.ai[0] = exhausted ? 1f : (phase3 ? 5f : 2f);
                         npc.localAI[1] = 0f;
                         npc.ai[2] += 1f;
                         npc.ai[3] = 0f;
