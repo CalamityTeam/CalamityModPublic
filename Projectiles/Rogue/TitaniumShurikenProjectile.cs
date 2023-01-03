@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            Projectile.width = 12;
-            Projectile.height = 12;
+            Projectile.width = 34;
+            Projectile.height = 34;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;

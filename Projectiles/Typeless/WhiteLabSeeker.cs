@@ -7,10 +7,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class PurpleLabSeeker : ModProjectile
+    public class WhiteLabSeeker : ModProjectile
     {
         public ref float Time => ref Projectile.ai[0];
-        public override string Texture => "CalamityMod/Items/LabFinders/PurpleSeekingMechanism";
+        public override string Texture => "CalamityMod/Items/LabFinders/WhiteSeekingMechanism";
 
         public override void SetStaticDefaults()
         {
@@ -28,14 +28,14 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.timeLeft = 300;
         }
 
-        public override void AI() => RedLabSeeker.Behavior(Projectile, CalamityWorld.PlanetoidLabCenter, Color.Magenta, ref Time);
+        public override void AI() => RedLabSeeker.Behavior(Projectile, CalamityWorld.IceLabCenter, Color.White, ref Time);
 
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 8; i++)
             {
                 Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(16f, 16f), 267);
-                dust.color = Color.Magenta;
+                dust.color = Color.White;
                 dust.scale = Main.rand.NextFloat(0.95f, 1.25f);
                 dust.velocity = Main.rand.NextVector2Circular(2.5f, 2.5f);
                 dust.velocity.Y -= 1.5f;
