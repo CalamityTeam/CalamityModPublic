@@ -1003,7 +1003,7 @@ namespace CalamityMod.Items
                 AddWingStats2(6f, 2.5f, 2, 150, null, "Equipable");
 
             if (item.type == ItemID.RainbowWings)
-                AddWingStats(7f, 2.5f, 2, 150);
+                AddWingStats(7f, 2.5f, 2, 100);
 
             if (item.type == ItemID.LongRainbowTrailWings)
                 AddWingStats(8f, 2.75f, 4, 180);

@@ -1417,6 +1417,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.FleshKnuckles || item.type == ItemID.BerserkerGlove || item.type == ItemID.HeroShield)
                 modPlayer.fleshKnuckles = true;
 
+            // Empress Wings nerf
+            if (item.wingSlot == 44)
+                player.wingTimeMax = 100;
+
             if (item.type == ItemID.WormScarf)
                 player.endurance -= 0.07f;
 
