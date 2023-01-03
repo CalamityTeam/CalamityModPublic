@@ -39,9 +39,9 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (Owner.dead)
                 {
-                    Owner.Calamity().bStar = false;
+                    Owner.Calamity().brittleStar = false;
                 }
-                if (Owner.Calamity().bStar)
+                if (Owner.Calamity().brittleStar)
                 {
                     Projectile.timeLeft = 2;
                 }
