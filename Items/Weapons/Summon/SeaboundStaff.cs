@@ -20,10 +20,8 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             Item.damage = 11;
             Item.mana = 10;
-            Item.width = 32;
-            Item.height = 32;
+            Item.width = Item.height = 44;
             Item.useTime = Item.useAnimation = 35;
-            Item.scale = 0.75f;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.knockBack = 2f;
@@ -32,7 +30,6 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.UseSound = SoundID.Item44;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BrittleStarMinion>();
-            Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
         }
 
@@ -41,8 +38,7 @@ namespace CalamityMod.Items.Weapons.Summon
             if (player.altFunctionUse != 2)
             {
                 position = Main.MouseWorld;
-                velocity.X = 0;
-                velocity.Y = 0;
+                velocity.X = velocity.Y = 0;
                 int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
                 if (Main.projectile.IndexInRange(p))
                     Main.projectile[p].originalDamage = Item.damage;
