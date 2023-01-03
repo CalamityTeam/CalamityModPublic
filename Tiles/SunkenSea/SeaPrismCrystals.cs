@@ -32,9 +32,35 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.2f;
-            g = 0.5f;
-            b = 0.5f;
+            var tile = Main.tile[i, j];
+            float brightness = 0.7f;
+            if (tile.LiquidAmount > 50 && tile.LiquidType == 0)
+                brightness = 1.0f;
+
+            r = 0.6f;
+            g = 0.9f;
+            b = 0.9f;
+
+            int xframe = tile.TileFrameX / 18;
+            if (xframe > 7 && xframe < 14)
+            {
+
+                r = 0.8f;
+                g = 0.7f;
+                b = 0.9f;
+            }
+
+            if (xframe >= 14)
+            {
+                r = 0.5f;
+                g = 0.9f;
+                b = 0.7f;
+            }
+
+            r *= brightness;
+            g *= brightness;
+            b *= brightness;
+
         }
 
         public override bool CanPlace(int i, int j)
