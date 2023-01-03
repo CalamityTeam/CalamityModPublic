@@ -7575,7 +7575,10 @@ namespace CalamityMod.NPCs
                     npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -velocityCapX, velocityCapX);
                     npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -velocityCapY, velocityCapY);
 
-					// Laserfish shoot the player
+                    if (npc.justHit)
+                        npc.localAI[0] = 0f;
+
+                    // Laserfish shoot the player
                     if (npc.type == ModContent.NPCType<Laserfish>())
                     {
                         npc.localAI[0] += (CalamityWorld.death ? 2f : CalamityWorld.revenge ? 1.5f : 1f);

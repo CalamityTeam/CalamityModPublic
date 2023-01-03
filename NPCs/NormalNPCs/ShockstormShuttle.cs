@@ -55,6 +55,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
+            if (NPC.justHit)
+                NPC.localAI[0] = 0f;
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.localAI[0] += 1f;
@@ -85,13 +88,14 @@ namespace CalamityMod.NPCs.NormalNPCs
                         }
                         npcPos.X += velocity.X;
                         npcPos.Y += velocity.Y;
-                        for (int num186 = 0; num186 < 2; num186++)
+                        int spread = Main.getGoodWorld ? 100 : 20;
+                        for (int num186 = 0; num186 < (Main.getGoodWorld ? 10 : 2); num186++)
                         {
                             velocity = Main.player[NPC.target].Center - npcPos;
                             targetDist = velocity.Length();
                             targetDist = projSpeed / targetDist;
-                            velocity.X += Main.rand.Next(-20, 21);
-                            velocity.Y += Main.rand.Next(-20, 21);
+                            velocity.X += Main.rand.Next(-spread, spread + 1);
+                            velocity.Y += Main.rand.Next(-spread, spread + 1);
                             velocity.X *= targetDist;
                             velocity.Y *= targetDist;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), npcPos, velocity, projType, projDmg, 0f, Main.myPlayer, 0f, 0f);
@@ -400,7 +404,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 return 0f;
             }
-            return SpawnCondition.Sky.Chance * 0.1f;
+            return SpawnCondition.Sky.Chance * (Main.getGoodWorld ? 0.5f : 0.1f);
         }
         
         public override void ModifyNPCLoot(NPCLoot npcLoot)

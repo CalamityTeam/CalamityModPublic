@@ -141,6 +141,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 NPC.velocity.Y = NPC.velocity.Y - num2;
             }
+
+            if (NPC.justHit)
+                NPC.localAI[0] = 0f;
+            
             NPC.localAI[0] += 1f;
             if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= 150f)
             {

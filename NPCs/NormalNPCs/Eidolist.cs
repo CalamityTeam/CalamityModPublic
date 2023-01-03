@@ -167,8 +167,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             Vector2 value53 = NPC.Center + new Vector2((float)(NPC.direction * 20), 6f);
             Vector2 vector251 = Main.player[NPC.target].Center - value53;
             bool flag104 = Collision.CanHit(NPC.Center, 1, 1, Main.player[NPC.target].Center, 1, 1);
+
+            if (NPC.justHit)
+                NPC.localAI[0] = -90f;
+
             NPC.localAI[0] += 1f;
-            if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= Main.rand.Next(90, 601))
+            if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= 150f)
             {
                 NPC.localAI[0] = -90f;
                 NPC.netUpdate = true;
@@ -190,8 +194,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     }
                     else
                     {
-                        Vector2 vec = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center);
-                        vec = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center + Main.player[NPC.target].velocity * 20f);
+                        Vector2 vec = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center + Main.player[NPC.target].velocity * 20f);
                         if (vec.HasNaNs())
                         {
                             vec = new Vector2((float)NPC.direction, 0f);
