@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -9,6 +10,7 @@ namespace CalamityMod.Projectiles.Summon
     public class BrittleStarMinion : ModProjectile
     {
         public Player Owner => Main.player[Projectile.owner];
+        public CalamityPlayer moddedOwner => Owner.Calamity();
         
         public override void SetStaticDefaults()
         {
@@ -40,9 +42,9 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (Owner.dead)
                 {
-                    Owner.Calamity().brittleStar = false;
+                    moddedOwner.brittleStar = false;
                 }
-                if (Owner.Calamity().brittleStar)
+                if (moddedOwner.brittleStar)
                 {
                     Projectile.timeLeft = 2;
                 }
