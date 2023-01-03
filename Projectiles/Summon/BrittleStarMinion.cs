@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BrittleStarMinion : ModProjectile
     {
+        public Player Owner => Main.player[Projectile.owner];
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brittle Star");
@@ -19,14 +21,12 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetDefaults()
         {
             Projectile.width = 30;
-            Projectile.height = 30;
+            Projectile.height = 28;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.minionSlots = 1;
-            Projectile.timeLeft = 18000;
             Projectile.penetrate = -1;
-            Projectile.timeLeft *= 5;
             Projectile.minion = true;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Summon;
@@ -34,25 +34,22 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Player player = Main.player[Projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
-            bool flag64 = Projectile.type == ModContent.ProjectileType<BrittleStarMinion>();
-            player.AddBuff(ModContent.BuffType<BrittleStar>(), 3600);
-            if (flag64)
+            Owner.AddBuff(ModContent.BuffType<BrittleStar>(), 1);
+            if (Projectile.type == ModContent.ProjectileType<BrittleStarMinion>())
             {
-                if (player.dead)
+                if (Owner.dead)
                 {
-                    modPlayer.bStar = false;
+                    Owner.Calamity().bStar = false;
                 }
-                if (modPlayer.bStar)
+                if (Owner.Calamity().bStar)
                 {
                     Projectile.timeLeft = 2;
                 }
             }
-            Projectile.rotation += Projectile.velocity.X * 0.04f;
-            Projectile.ChargingMinionAI(600f, 800f, 1200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 9.5f, false, false);
-        }
 
-        public override bool OnTileCollide(Vector2 oldVelocity) => false;
+            Projectile.rotation += Projectile.velocity.X * 0.04f; // Spins faster the faster he moves in the X-axis.
+
+            Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 24f, 15f, 4f, new Vector2(0f, -60f), 12f, 12f, false, false, 1);
+        }
     }
 }
