@@ -52,5 +52,7 @@ namespace CalamityMod.Projectiles.Summon
 
             Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 24f, 15f, 4f, new Vector2(0f, -60f), 12f, 12f, false, false, 1);
         }
+
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }
 }
