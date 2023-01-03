@@ -14,7 +14,7 @@ namespace CalamityMod.Items.LabFinders
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Yellow Seeking Mechanism");
-            Tooltip.SetDefault("Moves swiftly towards a lab within the frozen caverns");
+            Tooltip.SetDefault("Moves swiftly towards a lab within the sky");
         }
 
         public override void SetDefaults()
@@ -31,13 +31,13 @@ namespace CalamityMod.Items.LabFinders
             Item.rare = ModContent.RarityType<DarkOrange>();
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && CalamityWorld.IceLabCenter != Vector2.Zero;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && CalamityWorld.PlanetoidLabCenter != Vector2.Zero;
 
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient<LabSeekingMechanism>().
-                AddIngredient(ItemID.IceBlock, 50).
+                AddIngredient(ItemID.Cloud, 20).
                 AddTile(TileID.Anvils).
                 Register();
         }
