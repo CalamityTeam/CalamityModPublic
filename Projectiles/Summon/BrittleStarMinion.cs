@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-            Projectile.rotation += Projectile.velocity.X * 0.04f; // Spins faster the faster he moves in the X-axis.
+            Projectile.rotation += Projectile.velocity.X * 0.04f; // Spins faster the faster it moves in the X-axis.
 
             Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 24f, 15f, 4f, new Vector2(0f, -60f), 12f, 12f, false, false, 1);
         }
