@@ -2484,6 +2484,9 @@ namespace CalamityMod.NPCs
             bool phase4 = lifeRatio < (revenge ? 0.5f : 0.4f) && expertMode;
             bool phase5 = lifeRatio < 0.3f && revenge;
 
+            // Exhaustion
+            bool exhausted = npc.ai[2] >= (phase3 ? 2f : 1f);
+
             float astralFlameBarrageTimerIncrement = 1f;
             if (expertMode)
                 astralFlameBarrageTimerIncrement += death ? (float)Math.Round(3f * (1f - lifeRatio)) : (float)Math.Round(2f * (1f - lifeRatio));
@@ -2723,14 +2726,31 @@ namespace CalamityMod.NPCs
                 // Slow down
                 npc.velocity.X *= 0.8f;
 
-                // Stay vulnerable for a maximum of 2 seconds
+                // Stay vulnerable for 3 seconds
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= (phase5 ? 60f : phase4 ? 75f : phase3 ? 90f : phase2 ? 105f : 120f) || bossRush)
+                if (npc.ai[1] >= 180f || bossRush)
                 {
-                    // Set AI to next phase (Walk) and reset other AI
+                    // Set AI to random state and reset other AI arrays
                     npc.TargetClosest();
-                    npc.ai[0] = Main.rand.NextBool() ? 3f : 2f;
+                    switch (Main.rand.Next(phase3 ? 3 : 2))
+                    {
+                        case 0:
+                            npc.ai[0] = 2f;
+                            break;
+
+                        case 1:
+                            npc.ai[0] = 3f;
+                            break;
+
+                        case 2:
+                            npc.ai[0] = 5f;
+                            break;
+
+                        default:
+                            break;
+                    }
                     npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
 
                     // Stop colliding with tiles if entering walking phase
                     npc.noTileCollide = npc.ai[0] == 2f;
@@ -2820,8 +2840,9 @@ namespace CalamityMod.NPCs
 
                     // Set AI to next phase (Jump) and reset other AI
                     npc.TargetClosest();
-                    npc.ai[0] = Main.rand.NextBool() ? (phase2 ? 5f : 1f) : 3f;
+                    npc.ai[0] = exhausted ? 1f : 3f;
                     npc.ai[1] = 0f;
+                    npc.ai[2] += 1f;
                     npc.netUpdate = true;
                 }
 
@@ -2893,7 +2914,7 @@ namespace CalamityMod.NPCs
                         npc.velocity = (new Vector2(player.Center.X, player.Center.Y - 500f) - npc.Center).SafeNormalize(Vector2.Zero) * velocity;
                         npc.velocity *= new Vector2(calamityGlobalNPC.newAI[0] + 1f, calamityGlobalNPC.newAI[1] + 1f);
 
-                        npc.noTileCollide = expertMode;
+                        npc.noTileCollide = true;
 
                         npc.ai[0] = 4f;
                         npc.ai[1] = 0f;
@@ -2925,17 +2946,15 @@ namespace CalamityMod.NPCs
 
                     // Stomp and jump again, if stomped twice then reset and set AI to next phase (Teleport or Idle)
                     npc.TargetClosest();
-                    npc.ai[2] += 1f;
+                    npc.localAI[1] += 1f;
                     float maxStompAmt = phase5 ? 5f : phase3 ? 2f : 3f;
-                    if (npc.ai[2] >= maxStompAmt)
+                    if (npc.localAI[1] >= maxStompAmt)
                     {
-                        npc.ai[0] = phase2 ? (Main.rand.NextBool() ? (phase3 ? 2f : 1f) : 5f) : (Main.rand.NextBool() ? 2f : 1f);
-                        npc.ai[2] = 0f;
+                        npc.ai[0] = exhausted ? 1f : 5f;
+                        npc.localAI[1] = 0f;
+                        npc.ai[2] += 1f;
                         npc.ai[3] = 0f;
-
-                        // Stop colliding with tiles if entering walking phase
-                        npc.noTileCollide = npc.ai[0] == 2f;
-
+                        npc.noTileCollide = false;
                         npc.netUpdate = true;
                     }
                     else
@@ -2979,13 +2998,13 @@ namespace CalamityMod.NPCs
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, velocity2, type, damage, 0f, Main.myPlayer, 0f, 1f);
                             }
                         }
-                        else if (calamityGlobalNPC.newAI[2] == 0f)
+                        else if (calamityGlobalNPC.newAI[2] == 0f && phase2)
                         {
                             calamityGlobalNPC.newAI[2] = 1f;
 
-                            float flameVelocity = 12f;
-                            int maxProjectiles = !phase2 ? (bossRush ? 3 : death ? 2 : 1) : (bossRush ? 4 : death ? 3 : 2);
-                            int spread = !phase2 ? (bossRush ? 28 : death ? 22 : 16) : (bossRush ? 36 : death ? 28 : 20);
+                            float flameVelocity = 6f;
+                            int maxProjectiles = bossRush ? 4 : death ? 3 : 2;
+                            int spread = bossRush ? 36 : death ? 28 : 20;
 
                             int type = ModContent.ProjectileType<AstralFlame>();
                             int damage = npc.GetProjectileDamage(type);
@@ -2996,7 +3015,7 @@ namespace CalamityMod.NPCs
                             for (int i = 0; i < maxProjectiles; i++)
                             {
                                 Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(maxProjectiles - 1)));
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector + Vector2.Normalize(perturbedSpeed) * 100f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
                             }
                         }
                         else
@@ -3027,7 +3046,7 @@ namespace CalamityMod.NPCs
                 {
                     // Set velocities while falling, this happens before the stomp
                     // Fall through
-                    if (!player.dead && expertMode)
+                    if (!player.dead)
                     {
                         if ((player.position.Y > npc.Bottom.Y && npc.velocity.Y > 0f) || (player.position.Y < npc.Bottom.Y && npc.velocity.Y < 0f))
                             npc.noTileCollide = true;
@@ -3115,7 +3134,7 @@ namespace CalamityMod.NPCs
                     if (death)
                         npc.localAI[2] += 1.25f;
 
-                    if (phase3)
+                    if (phase4)
                     {
                         npc.localAI[1] += 1f;
                         if (death)
@@ -3156,22 +3175,13 @@ namespace CalamityMod.NPCs
                         {
                             num238++;
                             int num239 = Main.rand.Next(point4.X - num235, point4.X + num235 + 1);
-                            int num240 = Main.rand.Next(point4.Y - num235 - 15, point4.Y - 15);
+                            int num240 = Main.rand.Next(point4.Y - num235, point4.Y);
 
                             if (!Main.tile[num239, num240].HasUnactuatedTile)
                             {
-                                bool flag13 = true;
-                                if (flag13 && Main.tile[num239, num240].LiquidType == LiquidID.Lava)
-                                    flag13 = false;
-                                if (flag13 && !Collision.CanHitLine(npc.Center, 0, 0, vectorAimedAheadOfTarget, 0, 0))
-                                    flag13 = false;
-
-                                if (flag13)
-                                {
-                                    npc.ai[2] = num239 * 16 + 8;
-                                    npc.ai[3] = num240 * 16 + 16;
-                                    break;
-                                }
+                                npc.ai[1] = num239 * 16 + 8;
+                                npc.ai[3] = num240 * 16 + 16;
+                                break;
                             }
                         }
 
@@ -3179,8 +3189,8 @@ namespace CalamityMod.NPCs
                         if (num238 >= 100)
                         {
                             Vector2 bottom = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Bottom;
-                            npc.ai[2] = bottom.X;
-                            npc.ai[3] = bottom.Y - 15 * 16;
+                            npc.ai[1] = bottom.X;
+                            npc.ai[3] = bottom.Y;
                         }
 
                         // Set AI to next phase (Mid-teleport)
@@ -3201,7 +3211,7 @@ namespace CalamityMod.NPCs
                 if (death)
                     npc.localAI[2] += 1.25f;
 
-                if (phase3)
+                if (phase4)
                 {
                     if (death)
                         npc.localAI[2] += 1.25f;
@@ -3212,8 +3222,7 @@ namespace CalamityMod.NPCs
                 if (npc.alpha >= 255)
                 {
                     // Set position to teleport destination
-                    npc.position.X = npc.ai[2] * 16f - (npc.width / 2);
-                    npc.position.Y = npc.ai[3] * 16f - (npc.height / 2);
+                    npc.Bottom = new Vector2(npc.ai[1], npc.ai[3]);
 
                     // Reset alpha and set AI to next phase (End of teleport)
                     npc.alpha = 255;
@@ -3272,8 +3281,9 @@ namespace CalamityMod.NPCs
 
                     // Reset alpha and set AI to next phase (Idle)
                     npc.alpha = 0;
-                    npc.ai[0] = phase3 ? (Main.rand.NextBool() ? 3f : 2f) : (Main.rand.NextBool() ? 1f : 2f);
-                    npc.ai[2] = 0f;
+                    npc.ai[0] = exhausted ? 1f : 2f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] += 1f;
                     npc.localAI[3] = noProjectileOrPhaseIncrementTime;
 
                     // Stop colliding with tiles if entering walking phase
