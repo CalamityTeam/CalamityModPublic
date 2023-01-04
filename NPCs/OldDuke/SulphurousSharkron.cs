@@ -120,17 +120,14 @@ namespace CalamityMod.NPCs.OldDuke
             // Fly up
             bool upwardAI = NPC.ai[3] < 0f;
 
-            // Fly down
-            bool downwardAI = NPC.ai[3] > 0f;
-
             float flyTowardTargetGateValue = bossRush ? 60f : death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
             float extraTime = bossRush ? 90f : death ? 100f : revenge ? 105f : expertMode ? 110f : 120f;
             float aiGateValue = flyTowardTargetGateValue + extraTime;
             if (!normalAI)
                 aiGateValue -= extraTime * 0.3f;
-            float explodeIntoGoreGateValue = aiGateValue + extraTime;
+            float dieGateValue = aiGateValue + extraTime;
             float fallDownGateValue = aiGateValue + extraTime * 0.5f;
-            float maxVelocity = bossRush ? 24f : death ? 22f : revenge ? 21f : expertMode ? 20f : 18f;
+            float maxVelocity = bossRush ? 26f : death ? 24f : revenge ? 23f : expertMode ? 22f : 20f;
 
             if (NPC.ai[0] == 0f)
             {
@@ -165,7 +162,7 @@ namespace CalamityMod.NPCs.OldDuke
                     Vector2 vector17 = Main.player[NPC.target].Center - NPC.Center;
                     vector17.Normalize();
                     vector17 *= scaleFactor2;
-                    float inertia = bossRush ? 16f : death ? 18f : revenge ? 20f : expertMode ? 22f : 25f;
+                    float inertia = bossRush ? 10f : death ? 13f : revenge ? 15f : expertMode ? 17f : 20f;
                     NPC.velocity = (NPC.velocity * (inertia - 1f) + vector17) / inertia;
                     NPC.velocity.Normalize();
                     NPC.velocity *= scaleFactor2;
@@ -185,7 +182,7 @@ namespace CalamityMod.NPCs.OldDuke
 
                 // Explode into gores if colliding with tiles or after a certain time has passed
                 NPC.ai[1] += 1f;
-                if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height) || NPC.ai[1] >= explodeIntoGoreGateValue)
+                if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height) || NPC.ai[1] >= dieGateValue)
                 {
                     if (NPC.DeathSound.HasValue)
                         SoundEngine.PlaySound(NPC.DeathSound.GetValueOrDefault(), NPC.position);
@@ -202,6 +199,29 @@ namespace CalamityMod.NPCs.OldDuke
                 {
                     NPC.noGravity = false;
                     NPC.velocity.Y += 0.3f;
+                }
+            }
+
+            float pushVelocity = 0.5f;
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                if (Main.npc[i].active)
+                {
+                    if (i != NPC.whoAmI && Main.npc[i].type == NPC.type)
+                    {
+                        if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < 160f)
+                        {
+                            if (NPC.position.X < Main.npc[i].position.X)
+                                NPC.velocity.X -= pushVelocity;
+                            else
+                                NPC.velocity.X += pushVelocity;
+
+                            if (NPC.position.Y < Main.npc[i].position.Y)
+                                NPC.velocity.Y -= pushVelocity;
+                            else
+                                NPC.velocity.Y += pushVelocity;
+                        }
+                    }
                 }
             }
         }
@@ -299,13 +319,13 @@ namespace CalamityMod.NPCs.OldDuke
                 Main.dust[num624].velocity.X *= 2f;
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && !spawnedProjectiles)
+            if (Main.netMode != NetmodeID.MultiplayerClient && !spawnedProjectiles && Main.getGoodWorld)
             {
                 spawnedProjectiles = true;
                 int spawnX = NPC.width / 2;
                 int type = ModContent.ProjectileType<OldDukeGore>();
                 int damage = NPC.GetProjectileDamage(type);
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 10; i++)
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + Main.rand.Next(-spawnX, spawnX), NPC.Center.Y,
                         Main.rand.Next(-3, 4), Main.rand.Next(-12, -6), type, damage, 0f, Main.myPlayer);
             }
