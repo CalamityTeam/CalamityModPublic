@@ -920,7 +920,7 @@ namespace CalamityMod.NPCs
                         if (notExpert is LeadingConditionRule LCR_NotExpert)
                         {
                             LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
-                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsNotScaledWithLuckDropRule weapons && weapons.dropIds[0] == ItemID.PewMaticHorn);
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromRulesRule weapons);
 
                             // Define a replacement rule which drops the weapons Calamity style.
                             var deerWeapons = new int[]
