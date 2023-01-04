@@ -41,6 +41,17 @@ namespace CalamityMod
                 default:
                     return 0;
 
+                // Ironskin Potion
+                // This makes sense to be here but also not
+                case -1:
+                    if (DownedBossSystem.downedDoG)
+                        return 20;
+                    else if (NPC.downedMoonlord)
+                        return 16;
+                    else if (Main.hardMode)
+                        return 12;
+                    return 8;
+                
                 case PrefixID.Hard:
                     if (DownedBossSystem.downedYharon)
                         return 4;
