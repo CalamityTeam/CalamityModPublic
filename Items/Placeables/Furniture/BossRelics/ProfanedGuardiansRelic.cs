@@ -9,14 +9,12 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Profaned Guardians Relic");
-            Tooltip.SetDefault("A glimpse into what could have been...");
             SacrificeTotal = 1;
 		}
 
 		public override void SetDefaults()
 		{
 			// Vanilla has many useful methods like these, use them! This substitutes setting Item.createTile and Item.placeStyle aswell as setting a few values that are common across all placeable items
-			
 			Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Furniture.BossRelics.ProfanedGuardiansRelic>(), 0);
 
 			Item.width = 30;

@@ -8,6 +8,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.Potions;
@@ -1676,6 +1677,7 @@ namespace CalamityMod.NPCs
             if (type == NPCID.Princess)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.PrincessWeapon, true, Item.buyPrice(0, 50, 0, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemType<LanternCenter>());
             }
 
             if (type == NPCID.SkeletonMerchant)
