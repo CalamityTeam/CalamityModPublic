@@ -1337,6 +1337,9 @@ namespace CalamityMod.NPCs
                     // Remove the vanilla loot rule for Duke Fishron's weapon drops. This requires digging through his loot rule tree.
                     try
                     {
+                        // Remove the vanilla loot rule for Fishron Wings because it's part of the Calamity Style set.
+                        npcLoot.RemoveWhere((rule) => rule is ItemDropWithConditionRule conditionalRule && conditionalRule.itemId == ItemID.FishronWings);
+
                         var dukeRootRules = npcLoot.Get(false);
                         IItemDropRule notExpert = dukeRootRules.Find((rule) => rule is LeadingConditionRule dukeLCR && dukeLCR.condition is Conditions.NotExpert);
                         if (notExpert is LeadingConditionRule LCR_NotExpert)
@@ -1357,10 +1360,6 @@ namespace CalamityMod.NPCs
                                 ItemID.FishronWings,
                             };
                             LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, dukeItems));
-
-                            // Remove the vanilla loot rule for Fishron Wings because it's part of the Calamity Style set.
-                            dukeRootRules.RemoveAll((rule) =>
-                                rule is ItemDropWithConditionRule conditionalRule && conditionalRule.condition is Conditions.NotExpert && conditionalRule.itemId == ItemID.FishronWings);
                         }
                     }
                     catch (ArgumentNullException) { }
