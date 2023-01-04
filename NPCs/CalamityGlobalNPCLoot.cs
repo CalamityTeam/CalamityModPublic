@@ -732,8 +732,33 @@ namespace CalamityMod.NPCs
 
                 // Martian Saucer
                 case NPCID.MartianSaucerCore:
-                    // Nullification Pistol @ 14.29% Normal, 25% Expert+
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<NullificationRifle>(), 7, 4));
+                    // Drops all of its weapons Calamity Style @ 25% each
+                    // This requires erasing its vanilla behavior.
+                    try
+                    {
+                        npcLoot.RemoveWhere((rule) =>
+                        {
+                            if (rule is OneFromOptionsNotScaledWithLuckDropRule vanillaItems)
+                                return vanillaItems.dropIds[0] == ItemID.Xenopopper;
+                            return false;
+                        });
+
+                        int[] saucerItems = new int[]
+                        {
+                            ItemID.Xenopopper,
+                            ItemID.XenoStaff,
+                            ItemID.LaserMachinegun,
+                            ItemID.ElectrosphereLauncher,
+                            ItemID.InfluxWaver,
+                            ModContent.ItemType<NullificationRifle>()
+                        };
+
+                        npcLoot.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, saucerItems));
+                        
+                        //Cosmic Car Key is also in the vanilla selection pool. Pull it out.
+                        npcLoot.Add(ItemID.CosmicCarKey, 4);
+                    }
+                    catch (ArgumentNullException) { }
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.UFOMasterTrophy);
