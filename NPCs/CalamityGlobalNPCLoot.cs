@@ -732,8 +732,33 @@ namespace CalamityMod.NPCs
 
                 // Martian Saucer
                 case NPCID.MartianSaucerCore:
-                    // Nullification Pistol @ 14.29% Normal, 25% Expert+
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<NullificationRifle>(), 7, 4));
+                    // Drops all of its weapons Calamity Style @ 25% each
+                    // This requires erasing its vanilla behavior.
+                    try
+                    {
+                        npcLoot.RemoveWhere((rule) =>
+                        {
+                            if (rule is OneFromOptionsNotScaledWithLuckDropRule vanillaItems)
+                                return vanillaItems.dropIds[0] == ItemID.Xenopopper;
+                            return false;
+                        });
+
+                        int[] saucerItems = new int[]
+                        {
+                            ItemID.Xenopopper,
+                            ItemID.XenoStaff,
+                            ItemID.LaserMachinegun,
+                            ItemID.ElectrosphereLauncher,
+                            ItemID.InfluxWaver,
+                            ModContent.ItemType<NullificationRifle>()
+                        };
+
+                        npcLoot.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, saucerItems));
+                        
+                        //Cosmic Car Key is also in the vanilla selection pool. Pull it out.
+                        npcLoot.Add(ItemID.CosmicCarKey, 4);
+                    }
+                    catch (ArgumentNullException) { }
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.UFOMasterTrophy);
@@ -920,7 +945,7 @@ namespace CalamityMod.NPCs
                         if (notExpert is LeadingConditionRule LCR_NotExpert)
                         {
                             LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
-                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsNotScaledWithLuckDropRule weapons && weapons.dropIds[0] == ItemID.PewMaticHorn);
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromRulesRule weapons);
 
                             // Define a replacement rule which drops the weapons Calamity style.
                             var deerWeapons = new int[]
@@ -1337,6 +1362,9 @@ namespace CalamityMod.NPCs
                     // Remove the vanilla loot rule for Duke Fishron's weapon drops. This requires digging through his loot rule tree.
                     try
                     {
+                        // Remove the vanilla loot rule for Fishron Wings because it's part of the Calamity Style set.
+                        npcLoot.RemoveWhere((rule) => rule is ItemDropWithConditionRule conditionalRule && conditionalRule.itemId == ItemID.FishronWings);
+
                         var dukeRootRules = npcLoot.Get(false);
                         IItemDropRule notExpert = dukeRootRules.Find((rule) => rule is LeadingConditionRule dukeLCR && dukeLCR.condition is Conditions.NotExpert);
                         if (notExpert is LeadingConditionRule LCR_NotExpert)
@@ -1357,10 +1385,6 @@ namespace CalamityMod.NPCs
                                 ItemID.FishronWings,
                             };
                             LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, dukeItems));
-
-                            // Remove the vanilla loot rule for Fishron Wings because it's part of the Calamity Style set.
-                            dukeRootRules.RemoveAll((rule) =>
-                                rule is ItemDropWithConditionRule conditionalRule && conditionalRule.condition is Conditions.NotExpert && conditionalRule.itemId == ItemID.FishronWings);
                         }
                     }
                     catch (ArgumentNullException) { }

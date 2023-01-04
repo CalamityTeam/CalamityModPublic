@@ -2513,7 +2513,7 @@ namespace CalamityMod.CalPlayer
                             Player.Teleport(teleportLocation, 4, 0);
                             NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)Player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
-                            int duration = chaosStateDuration_NR;
+                            int duration = areThereAnyDamnBosses ? chaosStateDuration_NR : 360;
                             Player.AddBuff(BuffID.ChaosState, duration, true);
                             // Add a cooldown here so it can have the custom NR icon
                             Player.AddCooldown(ChaosState.ID, duration, true, "normalityrelocator");

@@ -864,7 +864,7 @@ namespace CalamityMod.Items
                     bool templeCheck = Main.tile[x, y].WallType != WallID.LihzahrdBrickUnsafe || y <= Main.worldSurface || NPC.downedPlantBoss;
                     if (templeCheck && !Collision.SolidCollision(teleportLocation, player.width, player.height))
                     {
-                        int duration = CalamityPlayer.chaosStateDuration;
+                        int duration = CalamityPlayer.areThereAnyDamnBosses ? CalamityPlayer.chaosStateDuration : 360;
                         player.AddBuff(BuffID.ChaosState, duration, true);
                     }
                 }
