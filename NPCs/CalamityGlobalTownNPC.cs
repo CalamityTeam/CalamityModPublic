@@ -2,7 +2,6 @@
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
-using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Dyes;
@@ -10,19 +9,16 @@ using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Placeables.Furniture.Fountains;
-using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Items.Weapons.Typeless.FiniteUse;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -1565,7 +1561,6 @@ namespace CalamityMod.NPCs
             if (type == NPCID.ArmsDealer)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemType<P90>(), Main.hardMode, Item.buyPrice(gold: 25));
-                SetShopItem(ref shop, ref nextSlot, ItemType<ExplosiveShells>(), Main.LocalPlayer.HasItem(ItemType<Hydra>()), Item.buyPrice(0, 7 * goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(gold: 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.AmmoBox, Main.hardMode, Item.buyPrice(gold: 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.Uzi, NPC.downedPlantBoss, Item.buyPrice(gold: 45));

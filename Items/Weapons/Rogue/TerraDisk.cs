@@ -81,7 +81,7 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
         {
             CreateRecipe().
                 AddIngredient<Equanimity>().
-                AddIngredient(ItemID.ThornChakram).
+                AddIngredient<Brimblade>().
                 AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
