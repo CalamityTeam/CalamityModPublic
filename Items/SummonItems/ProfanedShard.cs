@@ -53,6 +53,20 @@ namespace CalamityMod.Items.SummonItems
 
             return true;
         }
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            Player player = Main.LocalPlayer;
+            TooltipLine line1 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+
+            if (Main.getGoodWorld)
+            {
+                line1.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld\n";
+            }
+            else
+            {
+                line1.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld during daytime\n";
+            }
+        }
 
         public override void AddRecipes()
         {
