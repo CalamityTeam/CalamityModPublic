@@ -129,7 +129,6 @@ namespace CalamityMod.Projectiles.Ranged
             int lightning = Projectile.NewProjectile(Projectile.GetSource_FromThis(), lightningSpawnPosition, lightningShootVelocity, ModContent.ProjectileType<ExoLightningBolt>(), lightningDamage, 0f, Projectile.owner);
             if (Main.projectile.IndexInRange(lightning))
             {
-                Main.projectile[lightning].CritChance = Projectile.CritChance;
                 Main.projectile[lightning].ai[0] = lightningShootVelocity.ToRotation();
                 Main.projectile[lightning].ai[1] = Main.rand.Next(100);
             }
