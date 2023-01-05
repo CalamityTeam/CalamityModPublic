@@ -59,11 +59,11 @@ namespace CalamityMod.Items.SummonItems
 
             if (Main.getGoodWorld)
             {
-                line0.Text = "Summons the Great Sand Shark when used in the astral desert\n";
+                line0.Text = "Summons the Great Sand Shark when used in the astral desert";
             }
             else
             {
-                line0.Text = "Summons the Great Sand Shark when used in the desert\n";
+                line0.Text = "Summons the Great Sand Shark when used in the desert";
             }
         }
 

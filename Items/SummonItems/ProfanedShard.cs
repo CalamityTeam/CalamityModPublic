@@ -1,6 +1,8 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.ProfanedGuardians;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -60,11 +62,11 @@ namespace CalamityMod.Items.SummonItems
 
             if (Main.getGoodWorld)
             {
-                line1.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld\n";
+                line1.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld";
             }
             else
             {
-                line1.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld during daytime\n";
+                line1.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld during daytime";
             }
         }
 
