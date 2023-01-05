@@ -2564,14 +2564,16 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Strike NPC
+        // Incoming defense to this function is already affected by the vanilla debuffs Ichor (-15) and Betsy's Curse (-40), and cannot be below zero.
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
             // Don't bother tampering with the damage if it is already zero.
-            // Zero damage does not happen in the base game and is always indicative of antibutcher in Calamity.
+            // Zero damage does not happen in the base game; if something has been set to zero damage by another mod, it's really not intended to do damage.
             if (damage == 0D)
-                return false;
+                return true;
 
-            // Override hand/head eye 'death' code and use custom 'death' code instead, this is here just in case the AI code fails
+            // Safety for ML's eyes on Rev+ so that the boss doesn't remain invulnerable forever
+            // TODO -- this is very old, is it still needed?
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
@@ -2589,16 +2591,19 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            // Armor penetration has already been applied as bonus damage.
             // Yellow Candle provides +5% damage which ignores both DR and defense.
-            // However, armor penetration bonus damage has already been applied, so it's slightly higher than it should be.
+            // This means Yellow Candle is buffing armor penetration and technically not ignoring defense,
+            // but it's small enough to let it slide.
             double yellowCandleDamage = 0.05 * damage;
 
             // Apply modifications to enemy's current defense based on Calamity debuffs.
             // As with defense and DR, flat reductions apply first, then multiplicative reductions.
+            //
+            // Ozzatron 05JAN2023: fixed doubled armor pen, this time for real
             int effectiveDefense = defense -
                     (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0) -
                     (wither > 0 ? WitherDebuff.DefenseReduction : 0) -
-                    (int)Main.LocalPlayer.GetArmorPenetration<GenericDamageClass>() -
                     miscDefenseLoss;
 
             // Defense can never be negative and has a minimum value of zero.
@@ -2622,6 +2627,8 @@ namespace CalamityMod.NPCs
             }
 
             // Large Deus worm takes reduced damage to last a long enough time.
+            // TODO -- WHY DOES DEUS HAVE THIS UNDOCUMENTED MULTIPLIER HERE??
+            // this should be in ModifyHitNPC for deus himself
             if (CalamityLists.AstrumDeusIDs.Contains(npc.type) && newAI[0] == 0f)
                 damage *= 0.8;
 
@@ -2632,9 +2639,13 @@ namespace CalamityMod.NPCs
             if (damage == 0D)
                 return false;
 
-            // Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
-            // While roundabout, this is safer than returning false to stop vanilla damage calculations entirely.
-            // Other mods will probably expect the vanilla code to run and may compensate for it themselves.
+            // Immediately after StrikeNPC runs, vanilla does the following 3 things:
+            // 1 - Reduces damage by vanilla effective defense
+            // 2 - Doubles damage if it's a crit
+            // 3 - Multiplies by vanilla takenDamageMultiplier if it's over 1.0
+            //
+            // The following line cancels out vanilla defense calculations, since we just did our own above.
+            // We return true to allow all 3 to run, but cancel out #1, meaning crits and Crawltipede still work.
             damage = Main.CalculateDamageNPCsTake((int)damage, -defense);
             return true;
         }
@@ -4493,6 +4504,9 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            //
+            // DAAWNLIGHT SPIRIT ORIGIN AIM IMPLEMENTATION
+            //
             int bullseyeType = ProjectileType<SpiritOriginBullseye>();
             Projectile bullseye = null;
             for (int i = 0; i < Main.maxProjectiles; i++)
@@ -4564,6 +4578,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            // Plague Reaper deals 1.1x damage to Plagued enemies
             if (!projectile.npcProj && !projectile.trap)
             {
                 if (projectile.CountsAsClass<RangedDamageClass>() && modPlayer.plagueReaper && pFlames > 0)
@@ -4602,7 +4617,8 @@ namespace CalamityMod.NPCs
                 damage = (int)(damage * 0.1);
         }
 
-        // TODO -- What in god's name is this?
+        // Generalized pierce resistance that stacks with all other resistances for some specific bosses defined in a list.
+        // The actual resistance formula isn't really a problem, but the implementation of this desperately needs refactoring.
         private void PierceResistGlobal(Projectile projectile, NPC npc, ref int damage)
         {
             // Thanatos segments do not trigger pierce resistance if they are closed
