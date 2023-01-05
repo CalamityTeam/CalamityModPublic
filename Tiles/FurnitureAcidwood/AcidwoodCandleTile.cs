@@ -35,9 +35,9 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             if (Main.tile[i, j].TileFrameX < 18)
             {
-                r = 0.8f;
-                g = 0.9f;
-                b = 1f;
+                r = 0.5f;
+                g = 1f;
+                b = 0.8f;
             }
             else
             {
