@@ -16,8 +16,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public ref float CheckForFiring => ref Projectile.ai[1]; // Check for when it's about to fire, so we can put one-time effects and sounds.
 
-        public ref float GaveRandomAngle => ref Projectile.localAI[0]; // A check to give the projectile a random angle.
-
         public NPC targetFound; // A variable where the potential target will be written on.
         
         public override void SetStaticDefaults()
@@ -44,13 +42,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {   
-            if (GaveRandomAngle == 0f) // Just gives it a random angle once so the throws look more natural.
-            {
-                Projectile.rotation = Main.rand.NextFloat(0, MathHelper.TwoPi);
-                GaveRandomAngle = 1f;
-            }
-            Lighting.AddLight(Projectile.Center, 0.5f, 1f, 0.3f); // Gives it a jungl-y green color.
-
             if (Owner.HasMinionAttackTargetNPC) // If the Owner has selected for a target manually, go for that one.
             {
                 NPC manualTarget = Main.npc[Owner.MinionAttackTargetNPC];
@@ -64,6 +55,7 @@ namespace CalamityMod.Projectiles.Summon
             
             AITimer++;
             AITimer = (AITimer > 60f) ? 60f : AITimer; // AITimer can reach only a maximun of 60.
+            Lighting.AddLight(Projectile.Center, 0.5f, 1f, 0.3f); // Gives it a jungl-y green color.
         }
 
         #region Methods

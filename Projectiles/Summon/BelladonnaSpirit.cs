@@ -149,10 +149,13 @@ namespace CalamityMod.Projectiles.Summon
             if (PetalFireTimer % 75f == 0f) // Every 75 frames, throws a petal.
             {
                 Vector2 petalShootVelocity = (-Vector2.UnitY * Main.rand.NextFloat(7f, 9f)) + Projectile.velocity;
-                // Throws the petal upwards with a random force and inherits the minion's Y speed.
+                // Throws the petal upwards with a random force and inherits the minion's speed.
                 int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, petalShootVelocity, petalID, Projectile.damage, Projectile.knockBack, Projectile.owner);
                 if (Main.projectile.IndexInRange(p))
+                {
                     Main.projectile[p].originalDamage = Projectile.originalDamage;
+                    Main.projectile[p].rotation = Main.rand.NextFloat(0, MathHelper.TwoPi);
+                }
                 Projectile.netUpdate = true;
             }
         }
