@@ -107,12 +107,11 @@ namespace CalamityMod.Items.SummonItems
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             Player player = Main.LocalPlayer;
-            TooltipLine line4 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
-            TooltipLine line5 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
+            TooltipLine line3 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
 
             if (Main.getGoodWorld)
             {
-                line4.Text = "Doing so will create a square arena of blocks, with you at its center\nNot consumable";
+                line3.Text = "Creates a square arena of blocks, with you at its center\nEnrages during the day";
             }
         }
 
