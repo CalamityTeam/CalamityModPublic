@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 0.5f;
+            Projectile.minionSlots = 1f;
             Projectile.timeLeft = 18000;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
@@ -35,6 +35,9 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.extraUpdates = 1;
             Projectile.DamageType = DamageClass.Summon;
         }
+
+        public int shootTimeCounter = 0;
+        bool canShoot = false;
 
         public override void AI()
         {
@@ -80,7 +83,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (npc.CanBeChasedBy(Projectile, false))
                 {
                     float num646 = Vector2.Distance(npc.Center, Projectile.Center);
-                    if (!flag25 && num646 < num633)
+                    if (num646 < num633)
                     {
                         num633 = num646;
                         vector46 = npc.Center;
@@ -194,23 +197,36 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Projectile.ai[0] == 0f)
             {
-                float scaleFactor3 = 6f;
-                int num658 = ModContent.ProjectileType<GhostFire>();
                 if (flag25 && Projectile.ai[1] == 0f)
                 {
-                    SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
                     Projectile.ai[1] += 1f;
                     if (Main.myPlayer == Projectile.owner)
                     {
-                        Vector2 value19 = vector46 - Projectile.Center;
-                        value19.Normalize();
-                        value19 *= scaleFactor3;
-                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, value19.X, value19.Y, num658, Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-                        if (Main.projectile.IndexInRange(p))
-                            Main.projectile[p].originalDamage = Projectile.originalDamage;
+                        canShoot = true;
                         Projectile.netUpdate = true;
                     }
                 }
+            }
+            if (canShoot)
+            {
+                shootTimeCounter++;
+                
+                if (shootTimeCounter % 20 == 0 && shootTimeCounter <= 60)
+                {
+                    SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+                    float randomRadius = Main.rand.Next(10, 14);
+                    Vector2 randomVelocity = Main.rand.NextVector2CircularEdge(randomRadius, randomRadius);
+                    Projectile.velocity -= randomVelocity*0.22f; //funny recoil
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, randomVelocity.X, randomVelocity.Y, ModContent.ProjectileType<GhostFire>(), Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.netUpdate = true;
+                } 
+                if (shootTimeCounter > 200)
+                {
+                    canShoot = false;
+                    shootTimeCounter = 0;
+                    Projectile.netUpdate = true;
+                }
+                
             }
         }
 
