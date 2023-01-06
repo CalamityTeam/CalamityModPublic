@@ -48,7 +48,7 @@ namespace CalamityMod.Tiles
                         }
                     }
 
-                    if (placeBulb)
+                    /*if (placeBulb)
                     {
                         WorldGen.Place2x2(i, j2, TileID.PlanteraBulb, 0);
                         WorldGen.SquareTileFrame(i, j2);
@@ -56,7 +56,7 @@ namespace CalamityMod.Tiles
                         WorldGen.SquareTileFrame(i - 1, j2);
                         if (Main.tile[i, j2].TileType == TileID.PlanteraBulb && Main.netMode == NetmodeID.Server)
                             NetMessage.SendTileSquare(-1, i, j2, 5);
-                    }
+                    }*/
                 }
             }
         }
