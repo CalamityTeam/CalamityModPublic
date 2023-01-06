@@ -12,13 +12,13 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Belladonna Spirit Staff");
-            Tooltip.SetDefault("Summons a cute forest spirit that scatters toxic petals");
+            Tooltip.SetDefault("Summons a cute forest spirit that flings magical toxic petals");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 5;
+            Item.damage = 30;
             Item.mana = 10;
             Item.width = 40;
             Item.height = 42;
@@ -31,7 +31,6 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.UseSound = SoundID.Item44;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BelladonnaSpirit>();
-            Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
