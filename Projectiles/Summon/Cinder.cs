@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
