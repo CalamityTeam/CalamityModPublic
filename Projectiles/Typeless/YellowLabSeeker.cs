@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.timeLeft = 300;
         }
 
-        public override void AI() => RedLabSeeker.Behavior(Projectile, CalamityWorld.IceLabCenter, Color.Yellow, ref Time);
+        public override void AI() => RedLabSeeker.Behavior(Projectile, CalamityWorld.PlanetoidLabCenter, Color.Yellow, ref Time);
 
         public override void Kill(int timeLeft)
         {

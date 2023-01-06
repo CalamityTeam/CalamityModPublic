@@ -2467,7 +2467,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
-        #region CanDamage
+        #region CanDamage + CanHit
         public override bool? CanDamage(Projectile projectile)
         {
             if (projectile.hostile && (projectile.damage - (int)(damageReduction * (Main.expertMode ? 0.25f : 0.5f)) <= 0))
@@ -2496,6 +2496,16 @@ namespace CalamityMod.Projectiles
                     break;
             }
             return null;
+        }
+
+        // Cultist lightning orbs cannot hit players specifically. This could probably be switched to CanDamage?
+        public override bool CanHitPlayer(Projectile projectile, Player target)
+        {
+            if (projectile.type == ProjectileID.CultistBossLightningOrb)
+            {
+                return false;
+            }
+            return true;
         }
         #endregion
 
@@ -2659,17 +2669,6 @@ namespace CalamityMod.Projectiles
                 if (projectile.type == ProjectileID.HolyWater)
                     Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 3f);
             }
-        }
-        #endregion
-
-        #region CanHit
-        public override bool CanHitPlayer(Projectile projectile, Player target)
-        {
-            if (projectile.type == ProjectileID.CultistBossLightningOrb)
-            {
-                return false;
-            }
-            return true;
         }
         #endregion
 

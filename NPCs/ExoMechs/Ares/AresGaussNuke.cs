@@ -427,7 +427,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(gaussNukeVelocity) * offset, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
 
                                 // Recoil
-                                NPC.velocity -= gaussNukeVelocity;
+                                NPC.velocity -= gaussNukeVelocity * 2f;
                             }
                         }
 

@@ -74,7 +74,7 @@ namespace CalamityMod.World
             else if(rng < 0.7f)
                 contents.Insert(0, new ChestItem(ModContent.ItemType<GreenSeekingMechanism>(), 1));
             else if (rng < 0.8f)
-                contents.Insert(0, new ChestItem(ModContent.ItemType<PurpleSeekingMechanism>(), 1));
+                contents.Insert(0, new ChestItem(ModContent.ItemType<WhiteSeekingMechanism>(), 1));
             else if (rng < 0.9f)
                 contents.Insert(0, new ChestItem(ModContent.ItemType<RedSeekingMechanism>(), 1));
             else
@@ -157,7 +157,7 @@ namespace CalamityMod.World
             else if (rng < 0.7f)
                 contents.Insert(0, new ChestItem(ModContent.ItemType<GreenSeekingMechanism>(), 1));
             else if (rng < 0.8f)
-                contents.Insert(0, new ChestItem(ModContent.ItemType<PurpleSeekingMechanism>(), 1));
+                contents.Insert(0, new ChestItem(ModContent.ItemType<WhiteSeekingMechanism>(), 1));
             else if (rng < 0.9f)
                 contents.Insert(0, new ChestItem(ModContent.ItemType<RedSeekingMechanism>(), 1));
             else
@@ -231,7 +231,7 @@ namespace CalamityMod.World
             };
 
             //Adds the Ice Seeking Mechanism
-            contents.Insert(0, new ChestItem(ModContent.ItemType<YellowSeekingMechanism>(), 1));
+            contents.Insert(0, new ChestItem(ModContent.ItemType<WhiteSeekingMechanism>(), 1));
 
             if (!hasPlacedMurasama)
             {
@@ -309,7 +309,7 @@ namespace CalamityMod.World
             };
 
             //Adds the Planetoid Seeking Mechanism
-            contents.Insert(0, new ChestItem(ModContent.ItemType<PurpleSeekingMechanism>(), 1));
+            contents.Insert(0, new ChestItem(ModContent.ItemType<YellowSeekingMechanism>(), 1));
 
             if (!hasPlacedLogAndSchematic)
             {

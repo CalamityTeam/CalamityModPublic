@@ -26,7 +26,14 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void AI()
         {
-            if (Projectile.velocity.Y < 10f)
+            // Old Duke Tooth Ball spikes
+            if (Projectile.ai[0] != 0f && Projectile.ai[1] != 0f)
+            {
+                float finalVelocity = new Vector2(Projectile.ai[0], Projectile.ai[1]).Length();
+                if (Projectile.velocity.Length() < finalVelocity)
+                    Projectile.velocity *= 1.025f;
+            }
+            else if (Projectile.velocity.Y < 10f)
                 Projectile.velocity.Y += 0.1f;
 
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;

@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles.Furniture
             Player player = Main.LocalPlayer;
             if (player is null)
                 return;
-            if (!player.dead && player.active)
+            if (!player.dead && player.active && Main.tile[i, j].TileFrameX < 18)
                 player.AddBuff(ModContent.BuffType<ChaosCandleBuff>(), 20);
         }
 

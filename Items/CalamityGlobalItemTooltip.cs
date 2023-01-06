@@ -304,6 +304,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ArcheryPotion)
                 EditTooltipByNum(0, (line) => line.Text = "20% increased arrow speed and 5% increased arrow damage");
 
+            // Buffed Ironskin Potion tooltip
+            if (item.type == ItemID.IronskinPotion)
+                EditTooltipByNum(0, (line) => line.Text = "Increase defense by " + CalamityUtils.GetScalingDefense(-1));
+
             // Nerfed Swiftness Potion tooltip
             if (item.type == ItemID.SwiftnessPotion)
                 EditTooltipByNum(0, (line) => line.Text = "15% increased movement speed");
@@ -1003,7 +1007,7 @@ namespace CalamityMod.Items
                 AddWingStats2(6f, 2.5f, 2, 150, null, "Equipable");
 
             if (item.type == ItemID.RainbowWings)
-                AddWingStats(7f, 2.5f, 2, 150);
+                AddWingStats(7f, 2.5f, 2, 100);
 
             if (item.type == ItemID.LongRainbowTrailWings)
                 AddWingStats(8f, 2.75f, 4, 180);

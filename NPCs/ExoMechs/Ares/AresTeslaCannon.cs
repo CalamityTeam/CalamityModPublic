@@ -445,6 +445,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                 Vector2 offset = Vector2.Normalize(teslaOrbVelocity) * 40f + Vector2.UnitY * 8f;
                                 float identity = fireMoreOrbs ? -2f : calamityGlobalNPC.newAI[3] + (calamityGlobalNPC.newAI[2] - teslaOrbTelegraphDuration) / divisor;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, teslaOrbVelocity, type, damage, 0f, Main.myPlayer, identity);
+
+                                // Recoil
+                                NPC.velocity -= teslaOrbVelocity;
                             }
                         }
                     }

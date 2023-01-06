@@ -15,14 +15,13 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ethereal Subjugator");
-            Tooltip.SetDefault("Summons a phantom to protect you\n" +
-            "Each phantom takes only half of a minion slot");
+            Tooltip.SetDefault("Summons a phantom to protect you");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 45;
+            Item.damage = 200;
             Item.mana = 10;
             Item.width = 66;
             Item.height = 70;

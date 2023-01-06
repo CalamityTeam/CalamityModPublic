@@ -80,7 +80,6 @@ namespace CalamityMod.Items
         #endregion
 
         // Miscellaneous stuff
-        public int timesUsed = 0;
         public bool donorItem = false;
         public bool devItem = false;
         public bool canFirePointBlankShots = false;
@@ -121,7 +120,6 @@ namespace CalamityMod.Items
             myClone.DischargeEnchantExhaustion = DischargeEnchantExhaustion;
 
             // Miscellaneous
-            myClone.timesUsed = timesUsed;
             myClone.donorItem = donorItem;
             myClone.devItem = devItem;
             myClone.canFirePointBlankShots = canFirePointBlankShots;
@@ -533,7 +531,6 @@ namespace CalamityMod.Items
         #region Saving And Loading
         public override void SaveData(Item item, TagCompound tag)
         {
-            tag.Add("timesUsed", timesUsed);
             tag.Add("charge", Charge);
             tag.Add("enchantmentID", AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
             tag.Add("DischargeEnchantExhaustion", DischargeEnchantExhaustion);
@@ -543,7 +540,6 @@ namespace CalamityMod.Items
         public override void LoadData(Item item, TagCompound tag)
         {
             canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
-            timesUsed = tag.GetInt("timesUsed");
 
             // Changed charge from int to float. If an old charge int is present, load that instead.
             if (tag.ContainsKey("Charge"))
@@ -568,7 +564,6 @@ namespace CalamityMod.Items
             // rip, no other flags. what a byte.
 
             writer.Write(flags);
-            writer.Write(timesUsed);
             writer.Write(Charge);
             writer.Write(AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
             writer.Write(DischargeEnchantExhaustion);
@@ -579,7 +574,6 @@ namespace CalamityMod.Items
             BitsByte flags = reader.ReadByte();
             canFirePointBlankShots = flags[0];
 
-            timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
 
             Enchantment? savedEnchantment = EnchantmentManager.FindByID(reader.ReadInt32());
@@ -864,7 +858,7 @@ namespace CalamityMod.Items
                     bool templeCheck = Main.tile[x, y].WallType != WallID.LihzahrdBrickUnsafe || y <= Main.worldSurface || NPC.downedPlantBoss;
                     if (templeCheck && !Collision.SolidCollision(teleportLocation, player.width, player.height))
                     {
-                        int duration = CalamityPlayer.chaosStateDuration;
+                        int duration = CalamityPlayer.areThereAnyDamnBosses ? CalamityPlayer.chaosStateDuration : 360;
                         player.AddBuff(BuffID.ChaosState, duration, true);
                     }
                 }
@@ -1416,6 +1410,10 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.FleshKnuckles || item.type == ItemID.BerserkerGlove || item.type == ItemID.HeroShield)
                 modPlayer.fleshKnuckles = true;
+
+            // Empress Wings nerf
+            if (item.wingSlot == 44)
+                player.wingTimeMax = 100;
 
             if (item.type == ItemID.WormScarf)
                 player.endurance -= 0.07f;

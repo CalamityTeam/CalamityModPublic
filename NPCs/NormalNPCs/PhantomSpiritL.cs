@@ -73,39 +73,21 @@ namespace CalamityMod.NPCs.NormalNPCs
             float num147 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - vector17.X;
             float num148 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - vector17.Y;
             float num149 = (float)Math.Sqrt((double)(num147 * num147 + num148 * num148));
-            if (num149 > 800f)
+
+            if (NPC.justHit)
+                NPC.ai[2] = 0f;
+
+            NPC.ai[2] += 1f;
+            if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] >= 150f)
             {
                 NPC.ai[2] = 0f;
-                NPC.ai[3] = 0f;
-                return;
-            }
-            NPC.ai[2] += 1f;
-            if (NPC.ai[3] == 0f)
-            {
-                if (NPC.ai[2] > 120f)
-                {
-                    NPC.ai[2] = 0f;
-                    NPC.ai[3] = 1f;
-                    NPC.netUpdate = true;
-                    return;
-                }
-            }
-            else
-            {
-                if (NPC.ai[2] > 40f)
-                {
-                    NPC.ai[3] = 0f;
-                }
-                if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] == 20f)
-                {
-                    float num151 = 10f;
-                    int type = ModContent.ProjectileType<PhantomGhostShot>();
-                    int damage = NPC.GetProjectileDamage(type);
-                    num149 = num151 / num149;
-                    num147 *= num149;
-                    num148 *= num149;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector17.X, vector17.Y, num147, num148, type, damage, 0f, Main.myPlayer, 0f, 0f);
-                }
+                float num151 = 10f;
+                int type = ModContent.ProjectileType<PhantomGhostShot>();
+                int damage = NPC.GetProjectileDamage(type);
+                num149 = num151 / num149;
+                num147 *= num149;
+                num148 *= num149;
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), vector17.X, vector17.Y, num147, num148, type, damage, 0f, Main.myPlayer, 0f, 0f);
             }
         }
 

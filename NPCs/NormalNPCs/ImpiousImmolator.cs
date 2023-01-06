@@ -138,6 +138,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                     {
                         NPC.velocity.Y = -velocityMax;
                     }
+
+                    if (NPC.justHit)
+                        NPC.localAI[0] = 0f;
+
                     NPC.localAI[0] += 1f;
                     if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= (CalamityWorld.death ? 50f : CalamityWorld.revenge ? 70f : 90f))
                     {
@@ -279,6 +283,12 @@ namespace CalamityMod.NPCs.NormalNPCs
                 for (int k = 0; k < 25; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
+                }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ImpiousImmolator").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ImpiousImmolator2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ImpiousImmolator3").Type, 1f);
                 }
             }
         }

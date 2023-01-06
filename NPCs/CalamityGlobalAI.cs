@@ -2348,8 +2348,8 @@ namespace CalamityMod.NPCs
             if (Main.netMode != NetmodeID.MultiplayerClient && Main.expertMode && npc.target >= 0 && (npcType == NPCID.BlackRecluse || npcType == NPCID.BlackRecluseWall || npc.type == NPCID.JungleCreeper || npc.type == NPCID.JungleCreeperWall || prehardmodeSpiders) && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
             {
                 npc.localAI[0] += 1f;
-                if (npc.justHit && npc.localAI[0] > 0f)
-                    npc.localAI[0] -= 30f;
+                if (npc.justHit)
+                    npc.localAI[0] = 0f;
 
                 float webSpitGateValue = CalamityWorld.death ? 240f : 390f;
                 if (prehardmodeSpiders)
@@ -2364,8 +2364,8 @@ namespace CalamityMod.NPCs
 
             if (npcType == NPCID.IceGolem)
             {
-                if (npc.justHit && npc.ai[2] > 0f)
-                    npc.ai[2] -= 30f;
+                if (npc.justHit)
+                    npc.ai[2] = 0f;
 
                 if (npc.confused)
                     npc.ai[2] = 0f;
@@ -2382,8 +2382,8 @@ namespace CalamityMod.NPCs
 
             if (npcType == NPCID.Eyezor)
             {
-                if (npc.justHit && npc.ai[2] > 0f)
-                    npc.ai[2] -= 30f;
+                if (npc.justHit)
+                    npc.ai[2] = 0f;
 
                 if (npc.confused)
                     npc.ai[2] = 0f;
@@ -3157,8 +3157,8 @@ namespace CalamityMod.NPCs
 
             if (npcType == NPCID.Clown && Main.netMode != NetmodeID.MultiplayerClient && !Main.player[npc.target].dead)
             {
-                if (npc.justHit && npc.ai[2] > 0f)
-                    npc.ai[2] -= 30f;
+                if (npc.justHit)
+                    npc.ai[2] = 0f;
 
                 npc.ai[2] += 1f;
                 if (npc.ai[2] > (CalamityWorld.death ? 60f : 180f))
@@ -3767,8 +3767,8 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Probe)
             {
-                if (npc.justHit && npc.localAI[0] > 0f)
-                    npc.localAI[0] -= 30f;
+                if (npc.justHit)
+                    npc.localAI[0] = 0f;
 
                 npc.localAI[0] += 1f;
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 120f)
@@ -3934,8 +3934,8 @@ namespace CalamityMod.NPCs
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.ai[1] += (npc.type == NPCID.MossHornet ? 2f : 1f) * 0.1f * npc.scale;
-                    if (npc.justHit && npc.ai[1] > 0f)
-                        npc.ai[1] -= 300f * 0.1f * npc.scale;
+                    if (npc.justHit)
+                        npc.ai[1] = 0f;
 
                     if (targetData.Type == NPCTargetType.Player)
                     {
@@ -3995,8 +3995,8 @@ namespace CalamityMod.NPCs
             {
                 if (npc.type == NPCID.Corruptor)
                 {
-                    if (npc.justHit && npc.localAI[0] > 0f)
-                        npc.localAI[0] -= 30f;
+                    if (npc.justHit)
+                        npc.localAI[0] = 0f;
 
                     npc.localAI[0] += 1f;
                     if (npc.localAI[0] == 180f)
@@ -4011,8 +4011,8 @@ namespace CalamityMod.NPCs
 
                 if (npc.type == NPCID.BloodSquid)
                 {
-                    if (npc.justHit && npc.localAI[0] > 0f)
-                        npc.localAI[0] -= 30f;
+                    if (npc.justHit)
+                        npc.localAI[0] = 0f;
 
                     npc.localAI[0] += 1f;
                     if (npc.localAI[0] >= 120f)
@@ -5682,8 +5682,8 @@ namespace CalamityMod.NPCs
             {
                 if (npc.type == NPCID.Clinger && !Main.player[npc.target].dead)
                 {
-                    if (npc.justHit && npc.localAI[0] > 0f)
-                        npc.localAI[0] -= 30f;
+                    if (npc.justHit)
+                        npc.localAI[0] = 0f;
 
                     npc.localAI[0] += 1f;
                     if (npc.localAI[0] >= 90f)
@@ -5706,8 +5706,8 @@ namespace CalamityMod.NPCs
                 }
                 if (npc.type == NPCID.GiantFungiBulb && !Main.player[npc.target].dead)
                 {
-                    if (npc.justHit && npc.localAI[0] > 0f)
-                        npc.localAI[0] -= 30f;
+                    if (npc.justHit)
+                        npc.localAI[0] = 0f;
 
                     npc.localAI[0] += 1f;
                     if (npc.localAI[0] >= 120f)
@@ -5962,8 +5962,8 @@ namespace CalamityMod.NPCs
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if (npc.justHit && npc.ai[0] > 0f)
-                    npc.ai[0] -= 30f;
+                if (npc.justHit)
+                    npc.ai[0] = 0f;
 
                 if (npc.type == NPCID.Harpy)
                 {
@@ -7019,8 +7019,8 @@ namespace CalamityMod.NPCs
                     num290 = 9;
                 }
 
-                if (npc.justHit && npc.ai[3] > 0f)
-                    npc.ai[3] -= 30f;
+                if (npc.justHit)
+                    npc.ai[3] = 0f;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && !npc.confused)
                 {
@@ -8763,8 +8763,8 @@ namespace CalamityMod.NPCs
                     Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
                 {
                     npc.localAI[0] += 1f;
-                    if (npc.justHit && npc.localAI[0] > 0f)
-                        npc.localAI[0] -= 30f;
+                    if (npc.justHit)
+                        npc.localAI[0] = 0f;
                     float webSpitGateValue = CalamityWorld.death ? 240f : 390f;
                     if (prehardmodeSpiders)
                         webSpitGateValue *= 1.5f;
@@ -9339,8 +9339,8 @@ namespace CalamityMod.NPCs
                 Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) &&
                 Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if (npc.justHit && npc.ai[0] > 0f)
-                    npc.ai[0] -= 30f;
+                if (npc.justHit)
+                    npc.ai[0] = 0f;
 
                 npc.ai[0] += 1f;
                 if (npc.ai[0] % 8f == 0f)

@@ -3,8 +3,6 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Accessories.Wings;
-using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
@@ -14,7 +12,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
-using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -22,7 +19,6 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
-using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
@@ -1377,7 +1373,6 @@ namespace CalamityMod
                 ItemType<TheCommunity>(),
                 ItemType<DukesDecapitator>(),
                 ItemType<SulphurousSand>(),
-                ItemType<ExplosiveShells>(),
                 ItemID.HotlineFishingHook,
                 ItemID.BottomlessBucket,
                 ItemID.SuperAbsorbantSponge,

@@ -250,20 +250,27 @@ namespace CalamityMod.NPCs.OldDuke
             if (Main.netMode != NetmodeID.MultiplayerClient && !spawnedProjectiles)
             {
                 spawnedProjectiles = true;
-                int totalProjectiles = 6;
+                int totalProjectiles = CalamityWorld.death ? 5 : CalamityWorld.revenge ? 4 : 3;
                 float radians = MathHelper.TwoPi / totalProjectiles;
                 int type = ModContent.ProjectileType<TrilobiteSpike>();
                 int damage = NPC.GetProjectileDamage(type);
+                float velocity = 10f;
+                double angleA = radians * 0.5;
+                double angleB = MathHelper.ToRadians(90f) - angleA;
+                float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
+                Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
                 for (int k = 0; k < totalProjectiles; k++)
                 {
-                    float velocity = Main.rand.Next(7, 11);
-                    Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
+                    Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255 * 0.1f, type, damage, 0f, Main.myPlayer, vector255.X, vector255.Y);
                 }
 
-                type = ModContent.ProjectileType<SandPoisonCloudOldDuke>();
-                damage = NPC.GetProjectileDamage(type);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+                if (Main.expertMode)
+                {
+                    type = ModContent.ProjectileType<SandPoisonCloudOldDuke>();
+                    damage = NPC.GetProjectileDamage(type);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+                }
             }
 
             return true;

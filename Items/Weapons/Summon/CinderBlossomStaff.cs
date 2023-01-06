@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cinder Blossom Staff");
-            Tooltip.SetDefault("Summons a really hot flower over your head\n" +
+            Tooltip.SetDefault("Summons scorching flower over your head\n" +
                 "There can only be one flower");
             SacrificeTotal = 1;
         }
@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             Item.damage = 25;
             Item.mana = 10;
-            Item.width = 46;
-            Item.height = 46;
+            Item.width = 50;
+            Item.height = 56;
             Item.useTime = Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
@@ -31,10 +31,11 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item34;
             Item.shoot = ModContent.ProjectileType<CinderBlossom>();
-            Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
         }
+
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityUtils.KillShootProjectiles(true, type, player);
@@ -43,6 +44,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 Main.projectile[p].originalDamage = Item.damage;
             return false;
         }
+
         public override void AddRecipes()
         {
             CreateRecipe().

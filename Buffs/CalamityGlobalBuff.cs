@@ -16,6 +16,10 @@ namespace CalamityMod.Buffs
             {
                 player.arrowDamage *= 0.875f;
             }
+            else if (type == BuffID.Ironskin)
+            {
+                player.statDefense += CalamityUtils.GetScalingDefense(-1) - 8;
+            }
             else if (type == BuffID.MagicPower)
             {
                 player.GetDamage<MagicDamageClass>() -= 0.1f;
@@ -99,6 +103,10 @@ namespace CalamityMod.Buffs
             // Vanilla buffs
             switch (type)
             {
+                case BuffID.Ironskin:
+                    tip = "Increase defense by " + CalamityUtils.GetScalingDefense(-1);
+                    break;
+
                 case BuffID.MagicPower:
                     tip = "10% increased magic damage";
                     break;

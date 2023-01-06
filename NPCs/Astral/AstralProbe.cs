@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs.Astral
                 NPC.velocity.Y = NPC.velocity.Y - num2;
             }
             NPC.localAI[0] += 1f;
-            if (NPC.justHit && !CalamityWorld.revenge)
+            if (NPC.justHit)
             {
                 NPC.localAI[0] = 0f;
             }

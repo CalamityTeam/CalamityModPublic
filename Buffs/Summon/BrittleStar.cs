@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
@@ -21,9 +21,9 @@ namespace CalamityMod.Buffs.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (player.ownedProjectileCounts[ModContent.ProjectileType<BrittleStarMinion>()] > 0)
             {
-                modPlayer.bStar = true;
+                modPlayer.brittleStar = true;
             }
-            if (!modPlayer.bStar)
+            if (!modPlayer.brittleStar)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

@@ -1044,7 +1044,7 @@ namespace CalamityMod
             if (up && down && left && right && !downLeft && !downRight && upLeft && upRight)
             {
                 tile.TileFrameX = 198;
-                tile.TileFrameY = 18;
+                tile.TileFrameY = 0;
                 return;
             }
             if (up && down && left && right && downLeft && downRight && !upLeft && !upRight)

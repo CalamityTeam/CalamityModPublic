@@ -180,7 +180,7 @@ namespace CalamityMod.CalPlayer
             }
 
             bool ASPoisoning = ASPoisonLevel > 0f;
-            if (ASPoisoning || (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone))
+            if (ASPoisoning || (ZoneSulphur && !Player.creativeGodMode && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone))
             {
                 float increment = 1f / SulphSeaWaterSafetyTime;
                 //No way to mitigate AS Poisoning
@@ -392,10 +392,7 @@ namespace CalamityMod.CalPlayer
                 alcoholPoisonLevel++;
             }
 
-            if (cirrusDress)
-                alcoholPoisonLevel = 0;
-
-            if (alcoholPoisonLevel > 3)
+            if (alcoholPoisonLevel > (cirrusDress ? 5 : 3))
             {
                 Player.nebulaLevelLife = 0;
 

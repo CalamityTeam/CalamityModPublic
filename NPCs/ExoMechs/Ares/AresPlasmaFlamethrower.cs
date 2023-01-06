@@ -451,6 +451,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, plasmaBoltVelocity, type, damage, 0f, Main.myPlayer, -1f);
                                 else
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, plasmaBoltVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+
+                                // Recoil
+                                NPC.velocity -= plasmaBoltVelocity;
                             }
                         }
                     }
