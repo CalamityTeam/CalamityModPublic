@@ -196,19 +196,19 @@ namespace CalamityMod.World
             int num = 0;
             int[] array = new int[1000];
             int[] array2 = new int[1000];
-            Vector2 vector = origin.ToVector2();
+            Vector2 larvaLocation = origin.ToVector2();
             int numHiveTunnels = WorldGen.genRand.Next(10, 13);
 
             for (int i = 0; i < numHiveTunnels; i++)
             {
-                Vector2 vector2 = vector;
+                Vector2 vector2 = larvaLocation;
                 int num3 = WorldGen.genRand.Next(2, 5);
                 for (int j = 0; j < num3; j++)
-                    vector2 = CreateHiveTunnel((int)vector.X, (int)vector.Y, WorldGen.genRand);
+                    vector2 = CreateHiveTunnel((int)larvaLocation.X, (int)larvaLocation.Y, WorldGen.genRand);
 
-                vector = vector2;
-                array[num] = (int)vector.X;
-                array2[num] = (int)vector.Y;
+                larvaLocation = vector2;
+                array[num] = (int)larvaLocation.X;
+                array2[num] = (int)larvaLocation.Y;
                 num++;
             }
 
@@ -244,16 +244,46 @@ namespace CalamityMod.World
                 }
             }
 
-            CreateStandForLarva(vector);
+            CreateStandForLarva(larvaLocation);
 
-            for (int l = 0; l < 1000; l++)
+            // Generate a second larva stand
+            Vector2 secondLarvaLocation = default;
+            int maxAttempts = 1000;
+            for (int l = 0; l < maxAttempts; l++)
             {
-                Vector2 vector3 = vector;
+                Vector2 vector3 = larvaLocation;
                 vector3.X += WorldGen.genRand.Next(-50, 51);
                 vector3.Y += WorldGen.genRand.Next(-50, 51);
-                if (WorldGen.InWorld((int)vector3.X, (int)vector3.Y) && Vector2.Distance(vector, vector3) > 10f && !Main.tile[(int)vector3.X, (int)vector3.Y].HasTile && Main.tile[(int)vector3.X, (int)vector3.Y].WallType == WallID.HiveUnsafe)
+                if (WorldGen.InWorld((int)vector3.X, (int)vector3.Y) && Vector2.Distance(larvaLocation, vector3) > 10f && !Main.tile[(int)vector3.X, (int)vector3.Y].HasTile && Main.tile[(int)vector3.X, (int)vector3.Y].WallType == WallID.HiveUnsafe)
                 {
+                    secondLarvaLocation = vector3;
                     CreateStandForLarva(vector3);
+                    break;
+                }
+            }
+
+            // Honey chests
+            Vector2 honeyChestLocation = default;
+            for (int l = 0; l < maxAttempts; l++)
+            {
+                Vector2 vector3 = larvaLocation;
+                vector3.X += WorldGen.genRand.Next(-100, 101);
+                vector3.Y += WorldGen.genRand.Next(-100, 101);
+                if (WorldGen.InWorld((int)vector3.X, (int)vector3.Y) && Vector2.Distance(larvaLocation, vector3) > 10f && Vector2.Distance(secondLarvaLocation, vector3) > 10f && !Main.tile[(int)vector3.X, (int)vector3.Y].HasTile && Main.tile[(int)vector3.X, (int)vector3.Y].WallType == WallID.HiveUnsafe)
+                {
+                    honeyChestLocation = vector3;
+                    CreateStandAndPlaceHoneyChest(vector3);
+                    break;
+                }
+            }
+            for (int l = 0; l < maxAttempts; l++)
+            {
+                Vector2 vector3 = larvaLocation;
+                vector3.X += WorldGen.genRand.Next(-100, 101);
+                vector3.Y += WorldGen.genRand.Next(-100, 101);
+                if (WorldGen.InWorld((int)vector3.X, (int)vector3.Y) && Vector2.Distance(larvaLocation, vector3) > 10f && Vector2.Distance(secondLarvaLocation, vector3) > 10f && Vector2.Distance(honeyChestLocation, vector3) > 10f && !Main.tile[(int)vector3.X, (int)vector3.Y].HasTile && Main.tile[(int)vector3.X, (int)vector3.Y].WallType == WallID.HiveUnsafe)
+                {
+                    CreateStandAndPlaceHoneyChest(vector3);
                     break;
                 }
             }
@@ -511,6 +541,131 @@ namespace CalamityMod.World
                     Main.tile[i, j].Get<TileWallWireStateData>().IsHalfBlock = false;
                 }
             }
+        }
+
+        public static void CreateStandAndPlaceHoneyChest(Vector2 position)
+        {
+            int chestPlacementX = Utils.Clamp((int)position.X, 5, Main.maxTilesX - 5);
+            int chestPlacementY = Utils.Clamp((int)position.Y, 5, Main.maxTilesY - 5);
+
+            int num = (int)position.X;
+            int num2 = (int)position.Y;
+            for (int i = num; i <= num + 1 && i > 0 && i < Main.maxTilesX; i++)
+            {
+                for (int j = num2 - 1; j <= num2 + 1 && j > 0 && j < Main.maxTilesY; j++)
+                {
+                    if (j != num2 + 1)
+                    {
+                        Main.tile[i, j].Get<TileWallWireStateData>().HasTile = false;
+                        continue;
+                    }
+
+                    Main.tile[i, j].Get<TileWallWireStateData>().HasTile = true;
+                    Main.tile[i, j].TileType = TileID.Hive;
+                    Main.tile[i, j].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
+                    Main.tile[i, j].Get<TileWallWireStateData>().IsHalfBlock = false;
+                }
+            }
+
+            int num144 = chestPlacementX;
+            int num145 = chestPlacementY;
+            for (int num146 = num144; num146 <= num144 + 1; num146++)
+            {
+                for (int num147 = num145 - 1; num147 <= num145 + 1; num147++)
+                {
+                    if (num147 != num145 + 1)
+                    {
+                        Main.tile[num146, num147].Get<TileWallWireStateData>().HasTile = false;
+                    }
+                    else
+                    {
+                        Main.tile[num146, num147].Get<TileWallWireStateData>().HasTile = true;
+                        Main.tile[num146, num147].TileType = TileID.Hive;
+                        Main.tile[num146, num147].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
+                        Main.tile[num146, num147].Get<TileWallWireStateData>().IsHalfBlock = false;
+                    }
+                }
+            }
+
+            int chestID = WorldGen.PlaceChest(num144, num145, 21, false, 29);
+            FillHoneyChest(chestID, WorldGen.genRand);
+        }
+
+        // Honey chest stuff, this is also used by the Hive Planetoid
+        private static int[] FocusLootHoney = new int[]
+        {
+            ItemID.NaturesGift,
+            ItemID.Bezoar,
+            ItemID.FlowerBoots,
+            ItemID.BeeMinecart
+        };
+
+        private static int[] PotionLootHoney = new int[]
+        {
+            ItemID.LifeforcePotion,
+            ItemID.RegenerationPotion,
+            ItemID.ManaRegenerationPotion,
+            ItemID.HeartreachPotion,
+            ModContent.ItemType<PhotosynthesisPotion>()
+        };
+
+        private static int[] BarLootHoney = new int[]
+        {
+            WorldGen.silverBar == TileID.Silver ? ItemID.SilverBar : ItemID.TungstenBar,
+            WorldGen.goldBar == TileID.Gold ? ItemID.GoldBar : ItemID.PlatinumBar
+        };
+
+        public static void FillHoneyChest(int id, UnifiedRandom random)
+        {
+            Chest chest = Main.chest[id];
+            int index = 0;
+
+            chest.item[index++].SetDefaults(random.Next(FocusLootHoney));
+
+            if (random.Next(3) <= 1)
+            {
+                chest.item[index].SetDefaults(random.Next(BarLootHoney));
+                chest.item[index].SetDefaults(random.Next(7, 15));
+            }
+            else
+            {
+                chest.item[index].SetDefaults(ItemID.GoldCoin);
+                chest.item[index++].stack = random.Next(3, 5);
+            }
+
+            if (random.NextBool())
+            {
+                chest.item[index].SetDefaults(random.Next(PotionLootHoney));
+                chest.item[index++].stack = random.Next(1, 4);
+            }
+            else
+            {
+                chest.item[index].SetDefaults(ItemID.BottledHoney);
+                chest.item[index++].stack = random.Next(3, 7);
+            }
+
+            if (random.NextBool())
+            {
+                chest.item[index].SetDefaults(ItemID.Stinger);
+                chest.item[index++].stack = random.Next(4, 6);
+            }
+            else
+            {
+                chest.item[index].SetDefaults(ItemID.JungleSpores);
+                chest.item[index++].stack = random.Next(3, 5);
+            }
+
+            if (random.NextBool())
+            {
+                chest.item[index].SetDefaults(ItemID.RecallPotion);
+                chest.item[index++].stack = random.Next(1, 4);
+            }
+            else
+            {
+                chest.item[index].SetDefaults(ItemID.JungleTorch);
+                chest.item[index++].stack = random.Next(18, 36);
+            }
+
         }
         #endregion
 
