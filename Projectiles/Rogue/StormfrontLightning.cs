@@ -94,8 +94,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.frameCounter >= Projectile.extraUpdates * 2)
             {
                 Projectile.frameCounter = 0;
-
-                float originalSpeed = MathHelper.Min(15f, Projectile.velocity.Length());
+                float originalSpeed = MathHelper.Min(10f, Projectile.velocity.Length());
                 UnifiedRandom unifiedRandom = new((int)BaseTurnAngleRatio);
                 int turnTries = 0;
                 Vector2 newBaseDirection = -Vector2.UnitY;
@@ -117,14 +116,11 @@ namespace CalamityMod.Projectiles.Rogue
                     if (potentialBaseDirection.Y > -0.05f)
                         canChangeLightningDirection = false;
 
-                    /* Uncommenting to see if I get a better result and less straight lightning - Shade
-                     * 
                     // This mess of math basically encourages movement at the ends of an extraUpdate cycle,
                     // discourages super frequenent randomness as the accumulated X speed changes get larger,
                     // or if the original speed is quite large.
                     if (Math.Abs(potentialBaseDirection.X * (Projectile.extraUpdates + 1) * 2f * originalSpeed + AccumulatedXMovementSpeeds) > Projectile.MaxUpdates * LightningTurnRandomnessFactor)
                         canChangeLightningDirection = false;
-                    */
 
                     // If the above checks were all passed, redefine the base direction of the lightning.
                     if (canChangeLightningDirection)
@@ -197,17 +193,14 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
-            for (int k = 0; k < 15; k++)
-            {
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 85, Projectile.oldVelocity.X, Projectile.oldVelocity.Y);
-            }
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int index = 0; index < 4; index++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
                     //Visual sparks on death
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Stormfrontspark>(), 0, 0, Projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Vector2 sparkS = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(0f, 14f));
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Stormfrontspark>(), 0, 3f, Projectile.owner);
                 }
             }
         }
