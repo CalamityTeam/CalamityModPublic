@@ -20,7 +20,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Stormfront Razor");
             Tooltip.SetDefault("Throws a throwing knife that summons lightning on hit.\n" +
-                               "Stealth strikes cause the knife to be faster and summon multiple lightning bolts on hit");
+                               "Stealth strikes cause the knife to be faster and summon multiple lightning bolts on hit\n" +
+                               "[c/24c7f0:Quite shocking]");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
             SacrificeTotal = 1;

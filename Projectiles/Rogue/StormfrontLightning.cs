@@ -23,17 +23,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public bool HasPlayedSound;
 
-        public const int Lifetime = 45;
+        public const int Lifetime = 60;
 
         // Technically not a ratio, and more of a seed, but it is used in a 0-2pi squash
         // later in the code to get an arbitrary unit vector (which is then checked).
         public ref float BaseTurnAngleRatio => ref Projectile.ai[1];
         public ref float AccumulatedXMovementSpeeds => ref Projectile.localAI[0];
         public ref float BranchingIteration => ref Projectile.localAI[1];
-
         public ref float InitialVelocityAngle => ref Projectile.ai[0];
-
-        public virtual float LightningTurnRandomnessFactor { get; } = 5f;
         public override string Texture => "CalamityMod/Projectiles/LightningProj";
         public override void SetStaticDefaults()
         {
@@ -53,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.tileCollide = true;
             Projectile.friendly = true;
             Projectile.DamageType = RogueDamageClass.Instance;
-            Projectile.MaxUpdates = 10;
+            Projectile.MaxUpdates = 5;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.timeLeft = Projectile.MaxUpdates * Lifetime;
@@ -94,7 +91,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.frameCounter >= Projectile.extraUpdates * 2)
             {
                 Projectile.frameCounter = 0;
-                float originalSpeed = MathHelper.Min(10f, Projectile.velocity.Length());
+                float originalSpeed = MathHelper.Min(20f, Projectile.velocity.Length());
                 UnifiedRandom unifiedRandom = new((int)BaseTurnAngleRatio);
                 int turnTries = 0;
                 Vector2 newBaseDirection = -Vector2.UnitY;
@@ -105,21 +102,18 @@ namespace CalamityMod.Projectiles.Rogue
                     BaseTurnAngleRatio = unifiedRandom.Next() % 100;
                     potentialBaseDirection = (BaseTurnAngleRatio / 100f * MathHelper.TwoPi).ToRotationVector2();
 
-                    // Ensure that the new potential direction base is always moving upwards (this is supposed to be somewhat similar to a -UnitY + RotatedBy).
-                    //Don't you mean downwards Dom? - Shade
-                    potentialBaseDirection.Y = -Math.Abs(potentialBaseDirection.Y)-10;
+                    // Ensure that the new potential direction base is always moving downwards (this is supposed to be somewhat similar to a -UnitY + RotatedBy).
+                    potentialBaseDirection.Y = -Math.Abs(potentialBaseDirection.Y);
 
                     bool canChangeLightningDirection = true;
 
                     // Potential directions with very little Y speed should not be considered, because this
                     // consequentially means that the X speed would be quite large.
-                    if (potentialBaseDirection.Y > -0.05f)
+                    if (potentialBaseDirection.Y > -0.25f)
                         canChangeLightningDirection = false;
 
-                    // This mess of math basically encourages movement at the ends of an extraUpdate cycle,
-                    // discourages super frequenent randomness as the accumulated X speed changes get larger,
-                    // or if the original speed is quite large.
-                    if (Math.Abs(potentialBaseDirection.X * (Projectile.extraUpdates + 1) * 2f * originalSpeed + AccumulatedXMovementSpeeds) > Projectile.MaxUpdates * LightningTurnRandomnessFactor)
+                    //No very fast X speeds either, its gotta hit at least consistently y'know
+                    if (potentialBaseDirection.X < -0.25f || potentialBaseDirection.X > 0.25f)
                         canChangeLightningDirection = false;
 
                     // If the above checks were all passed, redefine the base direction of the lightning.
@@ -128,11 +122,12 @@ namespace CalamityMod.Projectiles.Rogue
 
                     turnTries++;
                 }
-                while (turnTries < 100);
+                while (turnTries < 50);
 
+                // Rotation and speed ajustment
                 if (Projectile.velocity != Vector2.Zero)
                 {
-                    AccumulatedXMovementSpeeds += newBaseDirection.X * (Projectile.extraUpdates + 1) * 2f * originalSpeed;
+                    //AccumulatedXMovementSpeeds += newBaseDirection.X * (Projectile.extraUpdates + 1) * originalSpeed;
                     Projectile.velocity = newBaseDirection.RotatedBy(InitialVelocityAngle + MathHelper.PiOver2) * originalSpeed;
                     Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
                 }
@@ -192,14 +187,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.NPCHit53, Projectile.Center);
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int index = 0; index < 4; index++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
                     //Visual sparks on death
-                    Vector2 sparkS = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(0f, 14f));
+                    Vector2 sparkS = new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(0f, 10f));
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Stormfrontspark>(), 0, 3f, Projectile.owner);
                 }
             }

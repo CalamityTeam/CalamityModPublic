@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.ignoreWater = true;
             Projectile.width = 6;
             Projectile.height = 12;
-            Projectile.timeLeft = 10;
+            Projectile.timeLeft = 20;
             Projectile.penetrate = -1;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
@@ -56,7 +56,5 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.velocity.Y = 16f;
             }
         }
-
-        public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }
 }
