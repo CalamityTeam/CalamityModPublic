@@ -2,8 +2,10 @@
 using CalamityMod.Items.Placeables.Furniture.Fountains;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
@@ -20,7 +22,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (Main.tile[i, j].TileFrameX < 36)
+            if (Main.tile[i, j].TileFrameX >= 36)
                 CalamityGlobalTile.SetActiveFountainColor(ModContent.Find<ModWaterStyle>("CalamityMod/AstralWater").Slot);
         }
 
@@ -61,6 +63,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
         public override bool RightClick(int i, int j)
         {
             CalamityUtils.LightHitWire(Type, i, j, 2, 4);
+            SoundEngine.PlaySound(SoundID.Mech, new Vector2(i * 16, j * 16));
             return true;
         }
 
