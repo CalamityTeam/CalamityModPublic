@@ -363,7 +363,13 @@ namespace CalamityMod.World
             int depth = BlockDepth;
             int shallowWaterCaveCount = TotalCavesInShallowWater;
             int minCaveWidth = MinCaveWidth;
+
+            // Large worlds typically have this property evaluate to 14.841, which is then ceiling'd to 15.
+            // XL worlds will have a value larger than 15... which will break the lower loops and go out of bounds.
             int maxCaveWidth = MaxCaveWidth;
+            if (maxCaveWidth > 15)
+                maxCaveWidth = 15;
+
             ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
 
             for (int i = 2; i < shallowWaterCaveCount; i++)
@@ -1369,7 +1375,7 @@ namespace CalamityMod.World
             if (Abyss.AtLeftSideOfWorld)
                 return x;
 
-            return Main.maxTilesX - x;
+            return (Main.maxTilesX - 1) - x;
         }
 
         public static float CalculateDitherChance(int width, int top, int bottom, int x, int y)
