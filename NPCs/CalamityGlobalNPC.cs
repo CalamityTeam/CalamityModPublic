@@ -4145,10 +4145,42 @@ namespace CalamityMod.NPCs
                 {
                     if (Main.rand.NextBool())
                     {
-                        Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 204, 0f, 0f, 150, default(Color), 0.3f);
+                        Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 204, 0f, 0f, 150, default, 0.3f);
                         dust.fadeIn = 0.75f;
                         dust.velocity *= 0.1f;
                         dust.noLight = true;
+                    }
+                }
+            }
+
+            // Plants that go through tiles emit spores while inside tiles
+            else if (npc.type == NPCID.ManEater || npc.type == NPCID.Snatcher || npc.type == NPCID.AngryTrapper)
+            {
+                Point point = npc.Center.ToTileCoordinates();
+                Tile tileSafely = Framing.GetTileSafely(point);
+                bool createDust = tileSafely.HasUnactuatedTile && npc.Distance(Main.player[npc.target].Center) < 800f;
+                if (createDust)
+                {
+                    if (Main.rand.NextBool(5))
+                    {
+                        Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 44, 0f, 0f, 250, default, 0.4f);
+                        dust.fadeIn = 0.7f;
+                    }
+                }
+            }
+
+            // Clingers emit cursed fire while inside tiles
+            else if (npc.type == NPCID.Clinger)
+            {
+                Point point = npc.Center.ToTileCoordinates();
+                Tile tileSafely = Framing.GetTileSafely(point);
+                bool createDust = tileSafely.HasUnactuatedTile && npc.Distance(Main.player[npc.target].Center) < 800f;
+                if (createDust)
+                {
+                    if (Main.rand.NextBool(5))
+                    {
+                        Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 75, 0f, 0f, 100, default, 1.5f);
+                        dust.noGravity = true;
                     }
                 }
             }
