@@ -79,6 +79,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"CrabBar",
 			"Ein",
 			"Heart Plus Up!",
+            "Hugekraken",
 			"Ian-1KV",
 			"Lilac Olligoci",
 			"LordMetarex",
