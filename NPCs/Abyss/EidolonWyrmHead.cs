@@ -171,66 +171,6 @@ namespace CalamityMod.NPCs.Abyss
                     }
                     TailSpawned = true;
                 }
-                if (detectsPlayer)
-                {
-                    NPC.localAI[0] += 1f;
-                    if (NPC.localAI[0] >= 300f)
-                    {
-                        NPC.localAI[0] = 0f;
-                        NPC.TargetClosest(true);
-                        NPC.netUpdate = true;
-                        int damage = adultWyrmAlive ? (Main.expertMode ? 150 : 200) : (Main.expertMode ? 60 : 80);
-                        float xPos = Main.rand.NextBool(2) ? NPC.position.X + 200f : NPC.position.X - 200f;
-                        Vector2 vector2 = new Vector2(xPos, NPC.position.Y + Main.rand.Next(-200, 201));
-                        int randomAmt = adultWyrmAlive ? 2 : 3;
-                        int random = Main.rand.Next(randomAmt);
-                        if (random == 0)
-                        {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector2, Vector2.Zero, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
-                        }
-                        else if (random == 1)
-                        {
-                            Vector2 vec = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.UnitX * NPC.direction);
-                            Vector2 vector4 = vec * (adultWyrmAlive ? 6f : 4f);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector2, vector4, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
-                        }
-                        else
-                        {
-                            if (Math.Abs(Main.player[NPC.target].velocity.X) > 0.1f || Math.Abs(Main.player[NPC.target].velocity.Y) > 0.1f)
-                            {
-                                SoundEngine.PlaySound(SoundID.Item117, Main.player[NPC.target].position);
-                                for (int num621 = 0; num621 < 20; num621++)
-                                {
-                                    int num622 = Dust.NewDust(new Vector2(Main.player[NPC.target].position.X, Main.player[NPC.target].position.Y),
-                                        Main.player[NPC.target].width, Main.player[NPC.target].height, 185, 0f, 0f, 100, default, 2f);
-                                    Main.dust[num622].velocity *= 0.6f;
-                                    if (Main.rand.NextBool(2))
-                                    {
-                                        Main.dust[num622].scale = 0.5f;
-                                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                                    }
-                                }
-                                for (int num623 = 0; num623 < 30; num623++)
-                                {
-                                    int num624 = Dust.NewDust(new Vector2(Main.player[NPC.target].position.X, Main.player[NPC.target].position.Y),
-                                        Main.player[NPC.target].width, Main.player[NPC.target].height, 185, 0f, 0f, 100, default, 3f);
-                                    Main.dust[num624].noGravity = true;
-                                    num624 = Dust.NewDust(new Vector2(Main.player[NPC.target].position.X, Main.player[NPC.target].position.Y),
-                                        Main.player[NPC.target].width, Main.player[NPC.target].height, 185, 0f, 0f, 100, default, 2f);
-                                    Main.dust[num624].velocity *= 0.2f;
-                                }
-                                if (Math.Abs(Main.player[NPC.target].velocity.X) > 0.1f)
-                                {
-                                    Main.player[NPC.target].velocity.X = -Main.player[NPC.target].velocity.X * 1.5f;
-                                }
-                                if (Math.Abs(Main.player[NPC.target].velocity.Y) > 0.1f)
-                                {
-                                    Main.player[NPC.target].velocity.Y = -Main.player[NPC.target].velocity.Y * 1.5f;
-                                }
-                            }
-                        }
-                    }
-                }
             }
             if (NPC.velocity.X < 0f)
             {
