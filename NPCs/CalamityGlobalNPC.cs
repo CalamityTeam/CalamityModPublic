@@ -4161,7 +4161,7 @@ namespace CalamityMod.NPCs
                 bool createDust = tileSafely.HasUnactuatedTile && npc.Distance(Main.player[npc.target].Center) < 800f;
                 if (createDust)
                 {
-                    if (Main.rand.NextBool(5))
+                    if (Main.rand.NextBool(10))
                     {
                         Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 44, 0f, 0f, 250, default, 0.4f);
                         dust.fadeIn = 0.7f;
