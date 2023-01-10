@@ -466,6 +466,11 @@ namespace CalamityMod.NPCs.SunkenSea
             };
             hardmode.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
+            // Pearls
+            npcLoot.Add(ItemID.WhitePearl, 2);
+            npcLoot.Add(ItemID.BlackPearl, 4);
+            npcLoot.Add(ItemID.PinkPearl, 10);
+
             // Equipment
             npcLoot.Add(ModContent.ItemType<GiantPearl>(), 3);
             npcLoot.Add(ModContent.ItemType<AmidiasPendant>(), 3);

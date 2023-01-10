@@ -245,6 +245,9 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<Navystone>(), 1, 8, 12);
+            npcLoot.Add(ItemID.WhitePearl, 8);
+            npcLoot.Add(ItemID.BlackPearl, 16);
+            npcLoot.Add(ItemID.PinkPearl, 40);
             npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<MolluskHusk>(), 2);
         }
     }
