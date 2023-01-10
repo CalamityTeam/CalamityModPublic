@@ -304,7 +304,7 @@ namespace CalamityMod.World
 
         // Adds tile variation to generated tile clusters and generates open areas with sea prism ore called "Tits"
         // Generates sea prism crystals on prism ore and occasionally on navystone
-        private static void AddTileVariance(ClusterGroup clusters, Point start, Vector2 terrainApplicationScaleVector, float overallBiomeScale)
+        private static void AddGeodes(ClusterGroup clusters, Point start, Vector2 terrainApplicationScaleVector, float overallBiomeScale)
         {
             int totalClusterZoneWidth = (int)(terrainApplicationScaleVector.X * clusters.Width);
             int totalClusterZoneHeight = (int)(terrainApplicationScaleVector.Y * clusters.Height);
@@ -462,6 +462,12 @@ namespace CalamityMod.World
                     }
                 }
             }
+        }
+
+        private static void AddTileVariance(ClusterGroup clusters, Point start, Vector2 terrainApplicationScaleVector, float overallBiomeScale)
+        {
+            int totalClusterZoneWidth = (int)(terrainApplicationScaleVector.X * clusters.Width);
+            int totalClusterZoneHeight = (int)(terrainApplicationScaleVector.Y * clusters.Height);
             for (int k = -20; k < totalClusterZoneWidth + 20; k++)
             {
                 for (int l = -20; l < totalClusterZoneHeight + 20; l++)
@@ -612,8 +618,8 @@ namespace CalamityMod.World
             clusterGroup.Generate(sunkenSeaAreaX, sunkenSeaAreaY);
             PlaceClusters(clusterGroup, origin, arbitrary42GodVector);
 
-            // "Now place the rest of the Sunken Sea" except it's called Tile Variance
-            AddTileVariance(clusterGroup, origin, arbitrary42GodVector, scale);
+            // Place Geodes
+            AddGeodes(clusterGroup, origin, arbitrary42GodVector, scale);
 
             // Re-frame everything in some arbitrary radius
             int totalWidth = (int)(arbitrary42GodVector.X * clusterGroup.Width);
@@ -631,6 +637,9 @@ namespace CalamityMod.World
                     }
                 }
             }
+
+            // Add Tile Variance (sand, crystals, etc.)
+            AddTileVariance(clusterGroup, origin, arbitrary42GodVector, scale);
 
             // Sunken Sea generation always succeeds
             return true;
