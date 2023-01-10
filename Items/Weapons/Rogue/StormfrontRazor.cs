@@ -1,21 +1,27 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class StormfrontRazor : RogueWeapon
     {
+
+        public static readonly SoundStyle LightningStrikeSound = new("CalamityMod/Sounds/Custom/LightningStrike");
+        public const float LightningDamageFactor = 1.5f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stormfront Razor");
-            Tooltip.SetDefault("Throws a throwing knife that leaves sparks as it travels.\n" +
-                               "Stealth strikes cause the knife to be faster and leave a huge shower of sparks as it travels");
+            Tooltip.SetDefault("Throws a throwing knife that summons lightning on hit.\n" +
+                               "Stealth strikes cause the knife to be faster and summon multiple lightning bolts on hit\n" +
+                               "[c/24c7f0:Quite shocking]");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
             SacrificeTotal = 1;
@@ -32,20 +38,20 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useStyle = ItemUseStyleID.Swing;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
-            Item.useAnimation = 15;
-            Item.useTime = 15;
-            Item.damage = 50;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.damage = 25;
             Item.knockBack = 7f;
             Item.shoot = ModContent.ProjectileType<StormfrontRazorProjectile>();
-            Item.shootSpeed = 7f;
+            Item.shootSpeed = 8f;
             Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
 
-		public override float StealthDamageMultiplier => 1.1f;
-        public override float StealthVelocityMultiplier => 1.6f;
+		public override float StealthDamageMultiplier => 1f;
+        public override float StealthVelocityMultiplier => 1.5f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
