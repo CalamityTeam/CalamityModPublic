@@ -21,7 +21,7 @@ namespace CalamityMod.Skies
 
         public override void Update(GameTime gameTime)
         {
-            if (!Main.LocalPlayer.Calamity().ZoneAstral)
+            if (!Main.LocalPlayer.Calamity().ZoneAstral || Main.gameMenu)
                 Filters.Scene["CalamityMod:Astral"].Deactivate(Array.Empty<object>());
         }
     }

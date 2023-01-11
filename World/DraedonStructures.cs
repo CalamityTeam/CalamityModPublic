@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.DraedonMisc;
+﻿using CalamityMod.Tiles.SunkenSea;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.LabFinders;
@@ -289,7 +290,7 @@ namespace CalamityMod.World
                     //for now just manually check the area around the lab and replace water with lava, may not be the best permanent fix but it works for now
                     for (int killWaterX = placementPoint.X - 150; killWaterX <= placementPoint.X + 150; killWaterX++)
                     {
-                        for (int killWaterY = Main.maxTilesY - 200; killWaterY <= Main.maxTilesY - 6; killWaterY++)
+                        for (int killWaterY = underworldTop; killWaterY <= Main.maxTilesY - 5; killWaterY++)
                         {
                             Tile tile = Framing.GetTileSafely(killWaterX, killWaterY);
 
@@ -361,9 +362,21 @@ namespace CalamityMod.World
                 else
                     placementPositionX = WorldGen.genRand.Next(ugDesert.Right - 10, ugDesert.Right + 20) - labWidth;
 
-                // Somewhere in the middle third of the Sunken Sea, which itself is in the lower half of the Underground Desert
-                int sunkenSeaHeight = ugDesert.Height / 4;
-                int placementPositionY = (int)(ugDesert.Center.Y + Main.rand.NextFloat(0.33f, 0.67f) * sunkenSeaHeight) - labHeight;
+                int sunkenSeaY = 0;
+                bool foundPosition = false;
+
+                //copied the desert position code from the sunken sea's generation so the lab always generates within the sunken sea properly
+                for (int y = Main.maxTilesY - 200; y >= (Main.maxTilesY / 2) - 45; y--)
+                {
+                    if (Main.tile[placementPositionX, y].TileType == ModContent.TileType<Navystone>() || 
+                    Main.tile[placementPositionX, y].TileType == ModContent.TileType<EutrophicSand>())
+                    {
+                        sunkenSeaY = y - 90; //offset so it generates nicely
+                        break;
+                    }
+                }
+
+                int placementPositionY = (int)(sunkenSeaY) - labHeight;
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
