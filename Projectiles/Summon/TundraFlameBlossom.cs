@@ -1,17 +1,26 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class TundraFlameBlossom : ModProjectile
     {
+        public Player Owner => Main.player[Projectile.owner];
+
+        public CalamityPlayer moddedOwner => Owner.Calamity();
+
+        public ref float FlowerShootTimer => ref Projectile.ai[0];
+
+        public ref float RotationMovement => ref Projectile.ai[1];
+        
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frost Blossom");
+            DisplayName.SetDefault("Tundra Flame Blossoms");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
@@ -23,10 +32,8 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.minionSlots = 1f;
-            Projectile.timeLeft = 18000;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.timeLeft *= 5;
             Projectile.minion = true;
             Projectile.coldDamage = true;
             Projectile.DamageType = DamageClass.Summon;
@@ -34,63 +41,76 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool isCorrectMinion = Projectile.type == ModContent.ProjectileType<TundraFlameBlossom>();
-            Player player = Main.player[Projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<TundraFlameBlossomsBuff>(), 3600);
-            if (isCorrectMinion)
+            NPC potentialTarget = Projectile.Center.MinionHoming(1200f, Owner);
+
+            CheckMinionExistance(); // Checks if the minion can still exist.
+            SpawnEffect(); // Makes a dust effect when spawning.
+            TargetNPC(potentialTarget); // Targets the NPC.
+
+            Lighting.AddLight(Projectile.Center, Color.Fuchsia.ToVector3()); // Makes a light with the same color as the flowers.
+            Projectile.Center = Owner.Center + RotationMovement.ToRotationVector2() * 100f; // Spins around the player.
+            Projectile.rotation += MathHelper.ToRadians(6.25f * Owner.direction); // Rotates around itself in the direction of the owner
+            Projectile.scale = MathHelper.Lerp(1f, 1.005f, FlowerShootTimer % 100f); // Expands the closer it is to shooting, goes back to normal once shot; peridoically.
+            RotationMovement += MathHelper.ToRadians(1.25f * Owner.direction); // The changing variable that moves the flower, changes directions depending on the player.
+        }
+
+        #region Methods
+
+        public void CheckMinionExistance()
+        {
+            Owner.AddBuff(ModContent.BuffType<TundraFlameBlossomsBuff>(), 1);
+            if (Projectile.type == ModContent.ProjectileType<TundraFlameBlossom>())
             {
-                if (player.dead)
-                {
-                    modPlayer.tundraFlameBlossom = false;
-                }
-                if (modPlayer.tundraFlameBlossom)
-                {
+                if (Owner.dead)
+                    moddedOwner.tundraFlameBlossom = false;
+                if (moddedOwner.tundraFlameBlossom)
                     Projectile.timeLeft = 2;
-                }
             }
-            Projectile.Center = player.Center + (Projectile.ai[1] / 32f).ToRotationVector2() * 95f;
-            Projectile.scale = 1f + (float)Math.Sin(Projectile.ai[1] / 40f) * 0.085f;
-            Projectile.Opacity = 1f - (float)Math.Sin(Projectile.ai[1] / 45f) * 0.1f - 0.1f; // Range of 1f to 0.8f
-            Projectile.rotation += MathHelper.ToRadians(5f);
+        }
+
+        public void SpawnEffect()
+        {
             if (Projectile.localAI[0] == 0f)
             {
                 for (int i = 0; i < 36; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center, 179);
-                    dust.noGravity = true;
-                    dust.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f, 7f);
+                    Dust spawnEffect = Dust.NewDustPerfect(Projectile.Center, 179);
+                    spawnEffect.noGravity = true;
+                    spawnEffect.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f, 7f);
                 }
                 Projectile.localAI[0] += 1f;
             }
-            int fireRate = 130;
-            float fireSpeed = 6f;
-            if (Projectile.owner == Main.myPlayer)
+        }
+
+        public void ShootFlowers()
+        {
+            SoundEngine.PlaySound(SoundID.Item20, Owner.Center);
+            Vector2 velocity = -Projectile.SafeDirectionTo(Owner.Center) * 10f + Projectile.velocity;
+            int tundraOrb = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<TundraFlameBlossomsOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Main.projectile[tundraOrb].originalDamage = Projectile.originalDamage;
+            Projectile.netUpdate = true;
+        }
+
+        public void TargetNPC(NPC target)
+        {
+            if (target != null)
             {
-                NPC potentialTarget = Projectile.Center.MinionHoming(850f, player);
-                if (potentialTarget != null)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    fireRate = 42;
-                    fireSpeed = 14f;
-                    Projectile.ai[0] = MathHelper.Lerp(Projectile.ai[0], Projectile.AngleTo(potentialTarget.Center) + MathHelper.PiOver2, 0.1f);
-                }
-                else Projectile.ai[0] = MathHelper.Lerp(Projectile.ai[0], 0f, 0.1f);
-            }
-            if (Projectile.ai[1]++ % fireRate == fireRate - 1)
-            {
-                if (Main.myPlayer == Projectile.owner)
-                {
-                    int count = Projectile.ai[1] % (2 * fireRate) == (2 * fireRate - 1) ? 4 : 3;
-                    for (int i = 0; i < count; i++)
-                    {
-                        int orb = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, -Vector2.UnitY.RotatedBy(MathHelper.TwoPi / count * i + Projectile.ai[0]) * fireSpeed,
-                            ModContent.ProjectileType<TundraFlameBlossomsOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        Main.projectile[orb].originalDamage = Projectile.originalDamage;
-                    }
+                    FlowerShootTimer++;
+                    if (FlowerShootTimer % 100f == 0f)
+                        ShootFlowers();
+                    FlowerShootTimer = (FlowerShootTimer == 101f) ? 1f : FlowerShootTimer;
                 }
             }
+            else
+                FlowerShootTimer--;
+
+            Projectile.netUpdate = true;
         }
 
         public override bool? CanDamage() => false;
+
+        #endregion
     }
 }
