@@ -77,6 +77,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Cobalion",
 			"Cooper",
 			"CrabBar",
+			"DylanDoe21",
 			"Ein",
 			"Heart Plus Up!",
             "Hugekraken",
