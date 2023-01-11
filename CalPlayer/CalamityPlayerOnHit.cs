@@ -170,6 +170,17 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.OnFire3, 120);
             }
 
+            if (unstableGraniteCore && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter)
+            {
+                for (int s = 0; s < 3; s++)
+                {
+                    Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
+                    int graniteSparkDamage = (int)(target.lifeMax / 15) + 5;
+                    if (graniteSparkDamage > 500) { graniteSparkDamage = 500; }
+                    Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center, velocity, ProjectileType<UnstableSpark>(), graniteSparkDamage, 0f, Player.whoAmI);
+                }
+            }
+
             ItemLifesteal(target, item, damage);
             ItemOnHit(item, damage, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
             NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), item.CountsAsClass<SummonMeleeSpeedDamageClass>(), false);
@@ -367,6 +378,16 @@ namespace CalamityMod.CalPlayer
 
                 if (rageModeActive && shatteredCommunity)
                     Player.GetModPlayer<ShatteredCommunityPlayer>().AccumulateRageDamage(damage);
+            }
+            if (unstableGraniteCore && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter)
+            {
+                for (int s = 0; s < 3; s++)
+                {
+                    Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
+                    int graniteSparkDamage = (int)(target.lifeMax / 15) + 5;
+                    if (graniteSparkDamage > 500) { graniteSparkDamage = 500; }
+                    Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center, velocity, ProjectileType<UnstableSpark>(), graniteSparkDamage, 0f, Player.whoAmI);
+                }
             }
         }
         #endregion
@@ -580,15 +601,6 @@ namespace CalamityMod.CalPlayer
                     for (int n = 0; n < 3; n++)
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), bulwarkStarDamage, 5f, Player.whoAmI);
                 }
-                if (unstableGraniteCore && crit && Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 5)
-                {
-                    for (int s = 0; s < 3; s++)
-                    {
-                        Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int graniteSparkDamage = (int)Player.GetBestClassDamage().ApplyTo(15);
-                        Projectile.NewProjectile(source, position, velocity, ProjectileType<UnstableSpark>(), graniteSparkDamage, 0f, Player.whoAmI);
-                    }
-                }
                 if (astralStarRain && crit && astralStarRainCooldown <= 0)
                 {
                     astralStarRainCooldown = 60;
@@ -667,17 +679,6 @@ namespace CalamityMod.CalPlayer
 
             if (npcCheck)
             {
-                if (unstableGraniteCore && crit && Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 5 && proj.type != ProjectileType<UnstableSpark>())
-                {
-                    for (int s = 0; s < 3; s++)
-                    {
-                        Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int graniteSparkDamage = (int)Player.GetBestClassDamage().ApplyTo(15);
-                        Projectile.NewProjectile(source, position, velocity, ProjectileType<UnstableSpark>(), graniteSparkDamage, 0f, Player.whoAmI);
-                        Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()]++;
-                    }
-                }
-
                 if (astralStarRain && crit && astralStarRainCooldown <= 0)
                 {
                     astralStarRainCooldown = 60;

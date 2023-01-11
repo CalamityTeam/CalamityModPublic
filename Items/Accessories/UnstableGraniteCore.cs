@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Unstable Granite Core");
-            Tooltip.SetDefault("Three sparks are released on critical hits");
+            Tooltip.SetDefault("Gain an unstable energy field that periodically zaps nearby enemies with chaining energy\n" +
+                "Enemies spawn sparks on kill that deal a percent of the killed enemy's heath as damage");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 5));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
