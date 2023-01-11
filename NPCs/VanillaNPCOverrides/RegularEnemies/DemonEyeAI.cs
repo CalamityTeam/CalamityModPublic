@@ -223,8 +223,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
             }
             else
             {
-                float maxSpeedX = CalamityWorld.death ? 8f : 6f;
-                float maxSpeedY = CalamityWorld.death ? 4f : 2.5f;
+                float maxSpeedX = CalamityWorld.death ? 6f : 5f;
+                float maxSpeedY = CalamityWorld.death ? 2.5f : 2f;
                 maxSpeedX *= 1f + (1f - npc.scale);
                 maxSpeedY *= 1f + (1f - npc.scale);
                 DemonEyeBatMovement(npc, maxSpeedX, maxSpeedY, 0.08f, 0.08f, 0.03f, 0.02f, 0.03f, 0.015f);
@@ -251,9 +251,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
                 if (npc.velocity.Y > 0f)
                     npc.velocity.Y *= 0.95f;
 
-                npc.velocity.Y -= 0.7f;
-                if (npc.velocity.Y < -6f)
-                    npc.velocity.Y = -6f;
+                npc.velocity.Y -= 0.6f;
+                if (npc.velocity.Y < -5f)
+                    npc.velocity.Y = -5f;
 
                 npc.TargetClosest(true);
             }
