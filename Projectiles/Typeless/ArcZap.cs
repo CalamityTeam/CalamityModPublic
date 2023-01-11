@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 NPC npc = Main.npc[npcIndex];
                 float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
-                if (targetDist < maxDistance && npc.Calamity().arcZapCooldown == 0)
+                if (targetDist < maxDistance && npc.Calamity().arcZapCooldown == 0 && npc.CanBeChasedBy())
                 {
                     maxDistance = targetDist;
                     target = npcIndex;
