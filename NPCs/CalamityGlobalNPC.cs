@@ -320,6 +320,10 @@ namespace CalamityMod.NPCs
         // Other Boss Rush stuff
         public bool DoesNotDisappearInBossRush;
 
+        // On-Kill variables
+        public bool gladiatorOnKill = true;
+        public bool unstableOnKill = true;
+
         // Variable for if enemy has been recently hit by an ArcZap
         public int arcZapCooldown = 0;
         #endregion
