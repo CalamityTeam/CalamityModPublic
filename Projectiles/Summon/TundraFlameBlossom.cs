@@ -106,6 +106,7 @@ namespace CalamityMod.Projectiles.Summon
             else
                 FlowerShootTimer--;
 
+            FlowerShootTimer = MathHelper.Clamp(FlowerShootTimer, 0f, 101f);
             Projectile.netUpdate = true;
         }
 
