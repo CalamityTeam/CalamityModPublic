@@ -617,7 +617,13 @@ namespace CalamityMod.World
 
         public static void FillHoneyChest(int id, UnifiedRandom random)
         {
+            if (id < 0)
+                return;
+
             Chest chest = Main.chest[id];
+            if (chest == null)
+                return;
+
             int index = 0;
 
             chest.item[index++].SetDefaults(random.Next(FocusLootHoney));

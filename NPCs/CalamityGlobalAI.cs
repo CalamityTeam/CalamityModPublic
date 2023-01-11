@@ -811,7 +811,7 @@ namespace CalamityMod.NPCs
                         npc.ai[2] -= 1f;
                         if (npc.velocity.Y == 0f)
                         {
-                            npc.ai[2] = CalamityWorld.death ? 30f : 60f;
+                            npc.ai[2] = CalamityWorld.death ? 60f : 90f;
                         }
                         else if (npc.ai[2] < (float)(chargeTime * -1f - yFlyTime))
                         {
@@ -825,7 +825,7 @@ namespace CalamityMod.NPCs
                         npc.takenDamageMultiplier = CalamityWorld.death ? 2f : 3f;
                         if (npc.justHit)
                         {
-                            npc.ai[2] = CalamityWorld.death ? 30f : 60f;
+                            npc.ai[2] = CalamityWorld.death ? 60f : 90f;
                             npc.netUpdate = true;
                         }
                         return false;
@@ -1453,11 +1453,11 @@ namespace CalamityMod.NPCs
             }
             else if (npcType == NPCID.CreatureFromTheDeep || npcType == NPCID.GoblinThief || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.Werewolf || npcType == NPCID.BlackRecluse || npcType == NPCID.Frankenstein || npcType == NPCID.Nymph || npcType == NPCID.ArmoredViking || npcType == NPCID.PirateDeckhand || npcType == NPCID.AnomuraFungus || npcType == NPCID.Splinterling || npcType == NPCID.Yeti || npcType == NPCID.Nutcracker || npcType == NPCID.Krampus || (npcType >= 524 && npcType <= 527) || npcType == NPCID.DesertScorpionWalk)
             {
-                FighterRunningAI(npc, CalamityWorld.death ? 4.5f : 3f, 0.09f, 0.8f);
+                FighterRunningAI(npc, CalamityWorld.death ? 3f : 2.5f, 0.09f, 0.8f);
             }
             else if (npcType == NPCID.Clown)
             {
-                FighterRunningAI(npc, CalamityWorld.death ? 6f : 4f, 0.06f, 0.8f);
+                FighterRunningAI(npc, CalamityWorld.death ? 5f : 4f, 0.06f, 0.8f);
             }
             else if (npcType == NPCID.Skeleton || npcType == NPCID.SporeSkeleton || npcType == NPCID.GoblinPeon || npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.CorruptBunny || npcType == NPCID.GoblinScout || npcType == NPCID.PossessedArmor || npcType == NPCID.WallCreeper || npcType == NPCID.BloodCrawler || npcType == NPCID.UndeadViking || npcType == NPCID.CorruptPenguin || npcType == NPCID.SnowFlinx || npcType == NPCID.Lihzahrd || npcType == NPCID.HeadacheSkeleton || npcType == NPCID.MisassembledSkeleton || npcType == NPCID.PantlessSkeleton || npcType == NPCID.CochinealBeetle || npcType == NPCID.CyanBeetle || npcType == NPCID.LacBeetle || npcType == NPCID.FlyingSnake || npcType == NPCID.FaceMonster || npcType == NPCID.ZombieMushroom || npcType == NPCID.ZombieElf || npcType == NPCID.ZombieElfBeard || npcType == NPCID.ZombieElfGirl || npcType == NPCID.GingerbreadMan || npcType == NPCID.GrayGrunt || npcType == NPCID.GigaZapper || npcType == NPCID.Fritz || npcType == NPCID.Nailhead || npcType == NPCID.Psycho || npcType == NPCID.CrimsonBunny || npcType == NPCID.ThePossessed || npcType == NPCID.CrimsonPenguin || npcType == NPCID.Medusa || npcType == NPCID.GraniteGolem || npcType == NPCID.VortexRifleman || npcType == NPCID.VortexSoldier)
             {
@@ -2352,9 +2352,6 @@ namespace CalamityMod.NPCs
                     npc.localAI[0] = 0f;
 
                 float webSpitGateValue = CalamityWorld.death ? 240f : 390f;
-                if (prehardmodeSpiders)
-                    webSpitGateValue *= 1.5f;
-
                 if (npc.localAI[0] >= webSpitGateValue)
                 {
                     npc.localAI[0] = 0f;
@@ -2389,7 +2386,7 @@ namespace CalamityMod.NPCs
                     npc.ai[2] = 0f;
 
                 npc.ai[2] += 1f;
-                if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] >= (CalamityWorld.death ? 40f : 60f) && npc.velocity.Y == 0f && !Main.player[npc.target].dead && !Main.player[npc.target].frozen && ((npc.direction > 0 && npc.Center.X < Main.player[npc.target].Center.X) || (npc.direction < 0 && npc.Center.X > Main.player[npc.target].Center.X)) && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] >= (CalamityWorld.death ? 60f : 90f) && npc.velocity.Y == 0f && !Main.player[npc.target].dead && !Main.player[npc.target].frozen && ((npc.direction > 0 && npc.Center.X < Main.player[npc.target].Center.X) || (npc.direction < 0 && npc.Center.X > Main.player[npc.target].Center.X)) && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
                     float speed = 12f;
                     Vector2 spawnPosition = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + 12f);
@@ -2912,14 +2909,20 @@ namespace CalamityMod.NPCs
                                         distY *= magnitude;
                                         int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, distX, distY, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                                         if (CalamityWorld.death)
+                                        {
                                             Main.projectile[proj].extraUpdates += 1;
+                                            Main.projectile[proj].timeLeft = 1200;
+                                        }
                                     }
                                 }
                                 else if (npcType == NPCID.StardustSoldier)
                                 {
                                     int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), spawnPosition.X, spawnPosition.Y, distX, distY, projectileType, damage, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
                                     if (CalamityWorld.death)
+                                    {
                                         Main.projectile[proj].extraUpdates += 1;
+                                        Main.projectile[proj].timeLeft = 480;
+                                    }
                                 }
                                 else if (npcType == NPCID.NebulaSoldier)
                                 {
@@ -2927,7 +2930,10 @@ namespace CalamityMod.NPCs
                                     {
                                         int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X - (float)(npc.spriteDirection * 4), npc.Center.Y + 6f, (float)(-3 + 2 * i) * 0.15f, (float)(-(float)Main.rand.Next(0, 3)) * 0.2f - 0.1f, projectileType, damage, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
                                         if (CalamityWorld.death)
+                                        {
                                             Main.projectile[proj].extraUpdates += 1;
+                                            Main.projectile[proj].timeLeft = 1200;
+                                        }
                                     }
                                 }
                                 else if (npcType == NPCID.StardustSpiderBig)
@@ -2939,7 +2945,10 @@ namespace CalamityMod.NPCs
                                 {
                                     int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), spawnPosition.X, spawnPosition.Y, distX, distY, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                                     if (CalamityWorld.death)
+                                    {
                                         Main.projectile[proj].extraUpdates += 1;
+                                        Main.projectile[proj].timeLeft = 1200;
+                                    }
                                 }
                             }
                             if (Math.Abs(distY) > Math.Abs(distX) * 2f)
@@ -3169,7 +3178,10 @@ namespace CalamityMod.NPCs
                     int num160 = Projectile.NewProjectile(npc.GetSource_FromAI(), spawnPosition.X, spawnPosition.Y, velocityX, velocityY, ProjectileID.HappyBomb, 0, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[num160].timeLeft = 300;
                     if (CalamityWorld.death)
+                    {
                         Main.projectile[num160].extraUpdates += 1;
+                        Main.projectile[num160].timeLeft = 600;
+                    }
                     npc.ai[2] = 0f;
                 }
             }
@@ -3964,7 +3976,7 @@ namespace CalamityMod.NPCs
 
                                 int num22 = ProjectileID.Stinger;
                                 int num23 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector2.X, vector2.Y, num18, num19, num22, num21, 0f, Main.myPlayer);
-                                Main.projectile[num23].timeLeft = 300;
+                                Main.projectile[num23].timeLeft = (CalamityWorld.death || Main.hardMode) ? 600 : 300;
                                 Main.projectile[num23].extraUpdates += (CalamityWorld.death || Main.hardMode) ? 1 : 0;
                                 npc.ai[1] = 101f;
                                 npc.netUpdate = true;
@@ -4028,7 +4040,10 @@ namespace CalamityMod.NPCs
                                 vector3 = npc.DirectionTo(new Vector2(targetData.Center.X, targetData.Position.Y));
                                 int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, vector3 * (CalamityWorld.death ? 6f : 10f), ProjectileID.BloodShot, 50, 1f, Main.myPlayer);
                                 if (CalamityWorld.death)
+                                {
                                     Main.projectile[proj].extraUpdates += 1;
+                                    Main.projectile[proj].timeLeft = 1200;
+                                }
                             }
                             else
                             {
@@ -4241,7 +4256,7 @@ namespace CalamityMod.NPCs
                     npc.realLife = npc.whoAmI;
                     int num22 = 0;
                     int num23 = npc.whoAmI;
-                    int num24 = CalamityWorld.death ? 28 : 22;
+                    int num24 = CalamityWorld.death ? 44 : 34;
                     for (int num25 = 0; num25 < num24; num25++)
                     {
                         int num26 = NPCID.BloodEelBody;
@@ -4567,8 +4582,8 @@ namespace CalamityMod.NPCs
             }
             if (npc.type == NPCID.WyvernHead)
             {
-                num37 = 13f;
-                num38 = 0.25f;
+                num37 = 11f;
+                num38 = 0.3f;
             }
             if (npc.type == NPCID.StardustWormHead)
             {
@@ -4654,8 +4669,8 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
-                    num37 = 20f;
-                    num38 = 0.6f;
+                    num37 = 28f;
+                    num38 = 0.8f;
                 }
                 float num47 = num37 * 1.3f;
                 float num48 = num37 * 0.7f;
@@ -5188,9 +5203,9 @@ namespace CalamityMod.NPCs
             }
 
             if (npc.justHit)
-                npc.ai[0] = CalamityWorld.death ? 5f : 2f;
+                npc.ai[0] = 2f;
 
-            npc.ai[0] += CalamityWorld.death ? 5f : 2f;
+            npc.ai[0] += 2f;
             if (npc.type == NPCID.Necromancer || npc.type == NPCID.NecromancerArmored)
             {
                 if (npc.ai[0] % 50f == 0f && npc.ai[0] <= 250f)
@@ -5246,7 +5261,7 @@ namespace CalamityMod.NPCs
             }
             if (npc.ai[0] >= 650f && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                npc.ai[0] = CalamityWorld.death ? 5f : 2f;
+                npc.ai[0] = 2f;
                 int num86 = (int)Main.player[npc.target].position.X / 16;
                 int num87 = (int)Main.player[npc.target].position.Y / 16;
                 int num88 = (int)npc.position.X / 16;
@@ -5353,14 +5368,14 @@ namespace CalamityMod.NPCs
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            float num102 = 6f;
+                            float num102 = CalamityWorld.death ? 8f : 6f;
                             if (npc.type == NPCID.DiabolistRed || npc.type == NPCID.DiabolistWhite)
                             {
-                                num102 = 8f;
+                                num102 = CalamityWorld.death ? 10f : 8f;
                             }
                             if (npc.type == NPCID.RaggedCaster || npc.type == NPCID.RaggedCasterOpenCoat)
                             {
-                                num102 = 4f;
+                                num102 = CalamityWorld.death ? 5f : 4f;
                             }
                             Vector2 vector13 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y);
                             float num103 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector13.X;
@@ -5410,7 +5425,7 @@ namespace CalamityMod.NPCs
                             }
                             else if (npc.type == NPCID.RuneWizard)
                             {
-                                float num109 = 10f;
+                                float num109 = CalamityWorld.death ? 12f : 10f;
                                 Vector2 vector14 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                                 float num110 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector14.X;
                                 float num111 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector14.Y;
@@ -5804,12 +5819,12 @@ namespace CalamityMod.NPCs
             {
                 npc.TargetClosest(true);
             }
-            float maxSpeedX = CalamityWorld.death ? 8f : 6f;
-            float maxSpeedY = CalamityWorld.death ? 3f : 2.5f;
+            float maxSpeedX = CalamityWorld.death ? 6f : 5f;
+            float maxSpeedY = CalamityWorld.death ? 2.5f : 2f;
 
             float xAccel = 0.12f;
             float xAccelBoost1 = 0.12f;
-            float xAccelBoost2 = 0.07f;
+            float xAccelBoost2 = 0.06f;
 
             float yAccel = 0.06f;
             float yAccelBoost1 = 0.07f;
@@ -5853,18 +5868,18 @@ namespace CalamityMod.NPCs
                 npc.type == NPCID.GiantFlyingFox ||
                 npc.type == ModContent.NPCType<Melter>())
             {
-                maxSpeedX = CalamityWorld.death ? 9f : 6f;
-                maxSpeedY = CalamityWorld.death ? 3f : 2.5f;
+                maxSpeedX = CalamityWorld.death ? 6f : 5f;
+                maxSpeedY = CalamityWorld.death ? 2.5f : 2f;
                 if (npc.wet)
                 {
                     if (npc.velocity.Y > 0f)
                     {
                         npc.velocity.Y *= 0.95f;
                     }
-                    npc.velocity.Y -= 0.7f;
-                    if (npc.velocity.Y < -6f)
+                    npc.velocity.Y -= 0.6f;
+                    if (npc.velocity.Y < -5f)
                     {
-                        npc.velocity.Y = -6f;
+                        npc.velocity.Y = -5f;
                     }
                     npc.TargetClosest(true);
                 }
@@ -5896,10 +5911,10 @@ namespace CalamityMod.NPCs
                 {
                     npc.velocity.Y *= 0.95f;
                 }
-                npc.velocity.Y -= 0.7f;
-                if (npc.velocity.Y < -6f)
+                npc.velocity.Y -= 0.6f;
+                if (npc.velocity.Y < -5f)
                 {
-                    npc.velocity.Y = -6f;
+                    npc.velocity.Y = -5f;
                 }
                 npc.TargetClosest(true);
             }
@@ -5979,7 +5994,10 @@ namespace CalamityMod.NPCs
                             int feather = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, featherVelocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[feather].timeLeft = 300;
                             if (CalamityWorld.death)
+                            {
                                 Main.projectile[feather].extraUpdates += 1;
+                                Main.projectile[feather].timeLeft = 600;
+                            }
                         }
                     }
                     else if (npc.ai[0] >= 400f + Main.rand.Next(200))
@@ -6001,7 +6019,10 @@ namespace CalamityMod.NPCs
                             int sickle = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, sickleVelocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[sickle].timeLeft = 300;
                             if (CalamityWorld.death)
+                            {
                                 Main.projectile[sickle].extraUpdates += 1;
+                                Main.projectile[sickle].timeLeft = 600;
+                            }
                         }
                     }
                     else if (npc.ai[0] >= 300f + Main.rand.Next(200))
@@ -6027,7 +6048,10 @@ namespace CalamityMod.NPCs
                             int trident = Projectile.NewProjectile(npc.GetSource_FromAI(), spawnPosition + tridentVelocity * 100f, tridentVelocity, type, damage, 3f, Main.myPlayer, 0f, 0f);
                             Main.projectile[trident].timeLeft = 300;
                             if (CalamityWorld.death)
+                            {
                                 Main.projectile[trident].extraUpdates += 1;
+                                Main.projectile[trident].timeLeft = 600;
+                            }
                         }
                     }
                     else if (npc.ai[0] >= 250f + Main.rand.Next(200))
@@ -7388,11 +7412,11 @@ namespace CalamityMod.NPCs
                 npc.velocity *= CalamityWorld.death ? 0.94f : 0.96f;
                 npc.ai[1] += 1f;
 
-                float anglularSpeed = npc.ai[1] / (CalamityWorld.death ? 30f : 60f);
+                float anglularSpeed = npc.ai[1] / (CalamityWorld.death ? 90f : 150f);
                 anglularSpeed = 0.1f + anglularSpeed * 0.4f;
                 npc.rotation += anglularSpeed * (float)npc.direction;
                 // Charge
-                if (npc.ai[1] >= (CalamityWorld.death ? 30f : 60f))
+                if (npc.ai[1] >= (CalamityWorld.death ? 90f : 150f))
                 {
                     npc.netUpdate = true;
                     npc.ai[0] = 0f;
@@ -8129,7 +8153,7 @@ namespace CalamityMod.NPCs
                 }
 
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= (CalamityWorld.death ? 200f : 400f))
+                if (npc.ai[1] >= (CalamityWorld.death ? 400f : 500f))
                 {
                     npc.ai[1] = 0f;
                     npc.ai[0] = 1f;
@@ -8584,12 +8608,12 @@ namespace CalamityMod.NPCs
                 npc.TargetClosest(true);
             }
 
-            float speed = 3f;
-            float mvtAdjust = 0.12f;
+            float speed = 2.5f;
+            float mvtAdjust = 0.1f;
             if (npc.type == NPCID.DesertScorpionWall)
             {
-                speed = 6f;
-                mvtAdjust = 0.24f;
+                speed = 5f;
+                mvtAdjust = 0.2f;
             }
             if (CalamityWorld.death)
             {
@@ -8765,10 +8789,8 @@ namespace CalamityMod.NPCs
                     npc.localAI[0] += 1f;
                     if (npc.justHit)
                         npc.localAI[0] = 0f;
-                    float webSpitGateValue = CalamityWorld.death ? 240f : 390f;
-                    if (prehardmodeSpiders)
-                        webSpitGateValue *= 1.5f;
 
+                    float webSpitGateValue = CalamityWorld.death ? 240f : 390f;
                     if (npc.localAI[0] >= webSpitGateValue)
                     {
                         npc.localAI[0] = 0f;
@@ -8894,7 +8916,7 @@ namespace CalamityMod.NPCs
 
                 if (npc.type == NPCID.Derpling)
                 {
-                    npc.ai[0] += 4f;
+                    npc.ai[0] += 3f;
                 }
                 else
                 {
@@ -8936,8 +8958,8 @@ namespace CalamityMod.NPCs
                     {
                         if (npc.ai[1] == 2f)
                         {
-                            npc.velocity.Y = -11.5f;
-                            npc.velocity.X = npc.velocity.X + 4f * (float)npc.direction;
+                            npc.velocity.Y = -14f;
+                            npc.velocity.X = npc.velocity.X + 3f * (float)npc.direction;
                             if (num587 < 350f && num587 > 200f)
                             {
                                 npc.velocity.X = npc.velocity.X + (float)npc.direction;
@@ -8948,8 +8970,8 @@ namespace CalamityMod.NPCs
                         }
                         else
                         {
-                            npc.velocity.Y = -7.5f;
-                            npc.velocity.X = npc.velocity.X + (float)(6 * npc.direction);
+                            npc.velocity.Y = -10f;
+                            npc.velocity.X = npc.velocity.X + (float)(5 * npc.direction);
                             if (num587 < 350f && num587 > 200f)
                             {
                                 npc.velocity.X = npc.velocity.X + (float)npc.direction;
@@ -8961,7 +8983,7 @@ namespace CalamityMod.NPCs
                     else if (npc.ai[1] == 3f)
                     {
                         npc.velocity.Y = -9f;
-                        npc.velocity.X = npc.velocity.X + (float)(4 * npc.direction);
+                        npc.velocity.X = npc.velocity.X + (float)(2 * npc.direction);
                         if (num587 < 350f && num587 > 200f)
                         {
                             npc.velocity.X = npc.velocity.X + (float)npc.direction;
@@ -8973,7 +8995,7 @@ namespace CalamityMod.NPCs
                     else
                     {
                         npc.velocity.Y = -5f;
-                        npc.velocity.X = npc.velocity.X + (float)(8 * npc.direction);
+                        npc.velocity.X = npc.velocity.X + (float)(4 * npc.direction);
                         if (num587 < 350f && num587 > 200f)
                         {
                             npc.velocity.X = npc.velocity.X + (float)npc.direction;
@@ -9728,7 +9750,7 @@ namespace CalamityMod.NPCs
 
                     if (npc.type == NPCID.SolarCorite)
                     {
-                        npc.ai[1] = CalamityWorld.death ? 9f : 45f;
+                        npc.ai[1] = 45f;
                         npc.ai[0] = 4f;
                     }
                 }
@@ -10093,7 +10115,7 @@ namespace CalamityMod.NPCs
                 Vector2 value47 = Main.player[npc.target].Center - npc.Center;
                 float attackTimeMax2 = value47.Length();
                 float attackTimeMax3 = 2f;
-                attackTimeMax3 += attackTimeMax2 / 100f;
+                attackTimeMax3 += attackTimeMax2 / (CalamityWorld.death ? 160f : 180f);
                 int attackTimeMax4 = 50;
                 value47.Normalize();
                 value47 *= attackTimeMax3;
@@ -10109,7 +10131,7 @@ namespace CalamityMod.NPCs
                 npc.noTileCollide = true;
                 Vector2 value48 = Main.player[npc.target].Center - npc.Center;
                 float attackTimeMax5 = value48.Length();
-                float scaleFactor23 = 4f;
+                float scaleFactor23 = CalamityWorld.death ? 3f : 2.5f;
                 int attackTimeMax6 = 4;
                 value48.Normalize();
                 value48 *= scaleFactor23;
@@ -10157,7 +10179,7 @@ namespace CalamityMod.NPCs
                     value51.Normalize();
                     npc.velocity = value51 * 0.1f;
                 }
-                float scaleFactor24 = 3f;
+                float scaleFactor24 = CalamityWorld.death ? 2.5f : 2f;
                 float num1390 = 20f;
                 value51 = npc.velocity;
                 value51.Normalize();

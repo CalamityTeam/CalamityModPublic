@@ -6,27 +6,24 @@ using Terraria.ModLoader;
 namespace CalamityMod.Tiles.SunkenSea
 {
     
-    public class SeaPrism : ModTile
+    public class SeaPrismBrick : ModTile
     {
-        private const short subsheetWidth = 450;
-        private const short subsheetHeight = 270;
+        private static int sheetWidth = 216;
+        private static int sheetHeight = 72;
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-
             CalamityUtils.MergeWithGeneral(Type);
-            CalamityUtils.MergeWithDesert(Type);
-
             Main.tileShine[Type] = 3500;
             Main.tileShine2[Type] = true;
 
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 33;
-            ItemDrop = ModContent.ItemType<Items.Placeables.SeaPrism>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.SeaPrismBrick>();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Sea Prism");
-            AddMapEntry(new Color(0, 150, 200), name);
+            name.SetDefault("Sea Prism Brick");
+            AddMapEntry(new Color(47, 193, 236), name);
             MineResist = 3f;
             HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
@@ -39,13 +36,16 @@ namespace CalamityMod.Tiles.SunkenSea
         }
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
-            frameXOffset = i % 2 * subsheetWidth;
-            frameYOffset = j % 2 * subsheetHeight;
+            int xPos = i % 3;
+            int yPos = j % 3;
+            frameXOffset = xPos * sheetWidth;
+            frameYOffset = yPos * sheetHeight;
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            return TileFraming.BrimstoneFraming(i, j, resetFrame);
+            TileFraming.CompactFraming(i, j, resetFrame);
+            return false;
         }
     }
 }

@@ -57,49 +57,6 @@ namespace CalamityMod.NPCs.Crags
 
         public override void AI()
         {
-            if (NPC.life < NPC.lifeMax * 0.5)
-            {
-                if (NPC.direction == -1 && NPC.velocity.X > -6f)
-                {
-                    NPC.velocity.X -= 0.1f;
-                    if (NPC.velocity.X > 6f)
-                        NPC.velocity.X -= 0.1f;
-                    else if (NPC.velocity.X > 0f)
-                        NPC.velocity.X += 0.05f;
-                    if (NPC.velocity.X < -6f)
-                        NPC.velocity.X = -6f;
-                }
-                else if (NPC.direction == 1 && NPC.velocity.X < 6f)
-                {
-                    NPC.velocity.X += 0.1f;
-                    if (NPC.velocity.X < -6f)
-                        NPC.velocity.X += 0.1f;
-                    else if (NPC.velocity.X < 0f)
-                        NPC.velocity.X -= 0.05f;
-                    if (NPC.velocity.X > 6f)
-                        NPC.velocity.X = 6f;
-                }
-                if (NPC.directionY == -1 && NPC.velocity.Y > -4f)
-                {
-                    NPC.velocity.Y -= 0.1f;
-                    if (NPC.velocity.Y > 4f)
-                        NPC.velocity.Y -= 0.1f;
-                    else if (NPC.velocity.Y > 0f)
-                        NPC.velocity.Y += 0.05f;
-                    if (NPC.velocity.Y < -4f)
-                        NPC.velocity.Y = -4f;
-                }
-                else if (NPC.directionY == 1 && NPC.velocity.Y < 4f)
-                {
-                    NPC.velocity.Y += 0.1f;
-                    if (NPC.velocity.Y < -4f)
-                        NPC.velocity.Y += 0.1f;
-                    else if (NPC.velocity.Y < 0f)
-                        NPC.velocity.Y -= 0.05f;
-                    if (NPC.velocity.Y > 4f)
-                        NPC.velocity.Y = 4f;
-                }
-            }
             if (Main.rand.NextBool(40))
             {
                 int index = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y + NPC.height * 0.25f), NPC.width, (int)(NPC.height * 0.5), DustID.Blood, NPC.velocity.X, 2f, 0, new Color(), 1f);
