@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.extraUpdates = 15;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
+            Projectile.ArmorPenetration = 25;
         }
 
         public override bool? CanDamage() => ableToHit ? (bool?)null : false;

@@ -322,7 +322,6 @@ namespace CalamityMod.NPCs
 
         // On-Kill variables
         public bool gladiatorOnKill = true;
-        public bool unstableOnKill = true;
 
         // Variable for if enemy has been recently hit by an ArcZap
         public int arcZapCooldown = 0;
