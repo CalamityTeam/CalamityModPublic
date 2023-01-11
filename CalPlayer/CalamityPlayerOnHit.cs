@@ -170,7 +170,7 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.OnFire3, 120);
             }
 
-            if (unstableGraniteCore && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter)
+            if (unstableGraniteCore && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter && !target.dontCountMe)
             {
                 for (int s = 0; s < 3; s++)
                 {
@@ -379,7 +379,7 @@ namespace CalamityMod.CalPlayer
                 if (rageModeActive && shatteredCommunity)
                     Player.GetModPlayer<ShatteredCommunityPlayer>().AccumulateRageDamage(damage);
             }
-            if (unstableGraniteCore && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter)
+            if (unstableGraniteCore && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter && !target.dontCountMe)
             {
                 for (int s = 0; s < 3; s++)
                 {
