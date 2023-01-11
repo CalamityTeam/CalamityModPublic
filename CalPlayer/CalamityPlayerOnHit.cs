@@ -1531,8 +1531,9 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (gladiatorSword && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter && !target.dontCountMe)
+            if (gladiatorSword && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter && !target.dontCountMe && target.Calamity().gladiatorOnKill)
             {
+                target.Calamity().gladiatorOnKill = false;
                 Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center.X, target.Center.Y, target.velocity.X / 2, target.velocity.Y / 2, ModContent.ProjectileType<GladiatorHealOrb>(), 0, 0f);
             }
 
@@ -1774,8 +1775,9 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (gladiatorSword && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter && !target.dontCountMe)
+            if (gladiatorSword && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter && !target.dontCountMe && target.Calamity().gladiatorOnKill)
             {
+                target.Calamity().gladiatorOnKill = false;
                 Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center.X, target.Center.Y, target.velocity.X / 2, target.velocity.Y / 2, ModContent.ProjectileType<GladiatorHealOrb>(), 0, 0f);
             }
 

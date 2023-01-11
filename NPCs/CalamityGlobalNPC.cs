@@ -319,6 +319,9 @@ namespace CalamityMod.NPCs
 
         // Other Boss Rush stuff
         public bool DoesNotDisappearInBossRush;
+
+        // On-Kill variables
+        public bool gladiatorOnKill = true;
         #endregion
 
         #region Instance Per Entity and TML 1.4 Cloning
