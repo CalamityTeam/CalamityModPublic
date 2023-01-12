@@ -29,7 +29,7 @@ namespace CalamityMod.Skies
 
         public static void UpdateDrawEligibility()
         {
-            bool useEffect = NPC.AnyNPCs(ModContent.NPCType<Cryogen>()) || ShouldDrawRegularly;
+            bool useEffect = (NPC.AnyNPCs(ModContent.NPCType<Cryogen>()) || ShouldDrawRegularly) && !Main.gameMenu;
 
             if (SkyManager.Instance["CalamityMod:Cryogen"] != null && useEffect != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
             {
