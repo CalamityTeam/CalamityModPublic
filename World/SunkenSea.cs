@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
+using Terraria.DataStructures;
 
 namespace CalamityMod.World
 {
@@ -246,7 +247,6 @@ namespace CalamityMod.World
                     if (num10 > 4.5f) //Adjust num10 for all cases if you want different tile frequencies; higher is less frequent, lower is more frequent
                     {
                         tile.ClearEverything();
-                        //tile.WallType = (ushort)ModContent.WallType<NavystoneWall>();
                         tile.LiquidAmount = 192;
                         if (num4 % 5 == 2)
                         {
@@ -303,41 +303,6 @@ namespace CalamityMod.World
                 }
             }
 
-            //seperate loop for biome polish and stuff
-            for (int i = -20; i < totalWidth + 20; i++)
-            {
-                for (int j = start.X + 50; j < Main.maxTilesY - 200; j++)
-                {
-                    int x = i + start.X;
-                    int y = j + start.Y;
-
-                    /*
-                    //randomly place navystone chunks on top of exposed sand
-                    if (WorldGen.genRand.Next(50) == 0 && tile.HasTile && tile.TileType == ModContent.TileType<EutrophicSand>() && !tileAbove.HasTile)
-                    {
-                        //todo: change this to be more natural and not a circle, maybe use WorldGen.TileRunner?
-                        BasicCircle(x, y, WorldGen.genRand.Next(3, 12), ModContent.TileType<Navystone>());
-                    }
-                    */
-
-                    //randomly kill walls so that the background can show through in some places
-                    if (WorldGen.genRand.Next(50) == 0)
-                    {
-                        //TODO: continue this tomorrow
-
-                        int radius = (int)(((float)WorldGen.genRand.Next(8, 20)));
-                        float outerRadius = WorldGen.genRand.Next(40, 56) * 0.01f;
-                        ShapeData holeShape = new ShapeData();
-                        WorldUtils.Gen(new Point(x, y), new Shapes.Circle((int)((float)radius * (outerRadius * 0.3f))), Actions.Chain(new GenAction[] //Smallest is 1
-                        {
-                            new Modifiers.Blotches(2, 0.3).Output(holeShape),
-                            new Actions.ClearWall(true), //Clear center
-                            new Actions.SetLiquid(0, 255)
-                        }));
-                    }
-                }
-            }
-
             //final cleanup loop
             for (int i = -20; i < totalWidth + 20; i++)
             {
@@ -347,6 +312,10 @@ namespace CalamityMod.World
                     int y = j + start.Y;
 
                     Tile tile = Main.tile[x, y];
+                    Tile tileUp = Main.tile[x, y - 1];
+                    Tile tileDown = Main.tile[x, y + 1];
+                    Tile tileLeft = Main.tile[x - 1, y];
+                    Tile tileRight = Main.tile[x + 1, y];
 
                     //lava BEGONE
                     if (tile.WallType == ModContent.WallType<NavystoneWall>() || tile.WallType == ModContent.WallType<EutrophicSandWall>())
@@ -362,6 +331,30 @@ namespace CalamityMod.World
                         {
                             WorldGen.KillTile(x, y);
                         }
+                    }
+
+                    //place extra caves throughout the biome for variance
+                    if (WorldGen.genRand.Next(1000) == 0 && tile != null && tile.HasTile && 
+                    (tile.TileType == ModContent.TileType<Navystone>() || tile.TileType == ModContent.TileType<EutrophicSand>()))
+                    {
+                        TileRunner runner = new TileRunner(new Vector2(x, y), new Vector2(0, 5), new Point16(-35, 35), 
+                        new Point16(-35, 35), 15f, Main.rand.Next(25, 50), 0, false, true);
+                        runner.Start();
+                    }
+
+                    //kill any random floating tiles
+                    if ((tile.TileType == ModContent.TileType<Navystone>() || tile.TileType == ModContent.TileType<EutrophicSand>()) && 
+                    !tileUp.HasTile && !tileDown.HasTile && !tileLeft.HasTile && !tileRight.HasTile)
+                    {
+                        WorldGen.KillTile(x, y);
+                    }
+
+                    //kill any random clumps of navystone without eutrophic sand around them
+                    if (tile.TileType == ModContent.TileType<Navystone>() && tileUp.TileType != ModContent.TileType<EutrophicSand>() && 
+                    tileDown.TileType != ModContent.TileType<EutrophicSand>() && tileLeft.TileType != ModContent.TileType<EutrophicSand>() &&
+                    tileRight.TileType != ModContent.TileType<EutrophicSand>())
+                    {
+                        WorldGen.KillTile(x, y);
                     }
                 }
             }
@@ -626,11 +619,11 @@ namespace CalamityMod.World
                         {
                             PlaceTit(num5, num6 + 1, (ushort)ModContent.TileType<SunkenSeaStalactite>());
                         }
-                        if (WorldGen.genRand.Next(6) == 0)
+                        if (WorldGen.genRand.Next(7) == 0)
                         {
                             WorldGen.PlaceTile(num5, num6 - 1, (ushort)ModContent.TileType<BrainCoral>(), true, false, -1, 0);
                         }
-                        if (WorldGen.genRand.Next(5) == 0)
+                        if (WorldGen.genRand.Next(10) == 0)
                         {
                             WorldGen.PlaceTile(num5, num6 - 1, (ushort)ModContent.TileType<SmallBrainCoral>(), true, false, -1, 0);
                         }
