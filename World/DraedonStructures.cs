@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Tiles.SunkenSea;
+using CalamityMod.Walls;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
@@ -29,20 +30,27 @@ namespace CalamityMod.World
             if (tile.LiquidType == LiquidID.Lava && careAboutLava)
                 return true;
             if (tile.TileType == TileID.BlueDungeonBrick ||
-                tile.TileType == TileID.GreenDungeonBrick ||
-                tile.TileType == TileID.PinkDungeonBrick)
+            tile.TileType == TileID.GreenDungeonBrick ||
+            tile.TileType == TileID.PinkDungeonBrick)
             {
                 return true;
             }
             if (tile.TileType == TileID.LihzahrdBrick ||
-                tile.WallType == WallID.LihzahrdBrickUnsafe)
+            tile.WallType == WallID.LihzahrdBrickUnsafe)
             {
                 return true;
             }
             if (tile.TileType == TileID.Crimstone ||
-                tile.WallType == WallID.CrimstoneUnsafe ||
-                tile.TileType == TileID.Ebonstone ||
-                tile.WallType == WallID.EbonstoneUnsafe)
+            tile.WallType == WallID.CrimstoneUnsafe ||
+            tile.TileType == TileID.Ebonstone ||
+            tile.WallType == WallID.EbonstoneUnsafe)
+            {
+                return true;
+            }
+            if (tile.TileType == ModContent.TileType<Navystone>() ||
+            tile.TileType == ModContent.TileType<EutrophicSand>() ||
+            tile.WallType == ModContent.WallType<NavystoneWall>() ||
+            tile.WallType == ModContent.WallType<EutrophicSandWall>())
             {
                 return true;
             }
@@ -381,6 +389,9 @@ namespace CalamityMod.World
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
                 int xCheckArea = 25;
+                /*
+                //Disabled this specifically for the sunken sea lab, not sure if it's even needed since the lab now always places based on where the sunken sea is
+                //this seems to work fine, but i dont want to delete it just in case
                 bool shouldAvoidArea = false;
 
                 float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
@@ -394,7 +405,8 @@ namespace CalamityMod.World
                     }
                 }
                 tries++;
-                if (!shouldAvoidArea && structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                */
+                if (/*!shouldAvoidArea &&*/ structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     break;
             }
             while (tries < 50000);
