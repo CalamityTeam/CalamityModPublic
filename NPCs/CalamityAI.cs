@@ -2731,7 +2731,7 @@ namespace CalamityMod.NPCs
 
                                 if (phase3)
                                 {
-                                    float flameVelocity = walkingProjectileVelocity * 2f;
+                                    float flameVelocity = walkingProjectileVelocity;
                                     maxProjectiles = 2;
                                     spread = 45;
 

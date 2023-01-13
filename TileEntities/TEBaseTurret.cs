@@ -124,7 +124,7 @@ namespace CalamityMod.TileEntities
             // If the turret is too far off its mark or hasn't been around for long enough, don't fire at all.
             float deltaAngle = MathHelper.WrapAngle(Angle - targetAngle);
             bool angleCloseEnough = Math.Abs(deltaAngle) <= MaxTargetAngleDeviance;
-            if (!angleCloseEnough || FiringTime < FiringStartupDelay)
+            if (!angleCloseEnough || FiringTime < FiringStartupDelay || !Collision.CanHitLine(turretPos, 1, 1, targetPos, 1, 1))
                 return;
 
             // Don't shoot every frame, but sync up the firing cadence to the startup delay.

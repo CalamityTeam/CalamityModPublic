@@ -195,10 +195,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
                         }
                         else
                         {
-                            Vector2 velocity = npc.SafeDirectionTo(Main.player[npc.target].Center - Vector2.UnitY * Main.rand.NextFloat(200f)) * projectileShootSpeedFactor * 6f;
+                            Vector2 velocity = npc.SafeDirectionTo(Main.player[npc.target].Center - Vector2.UnitY * Main.rand.NextFloat(200f)) * projectileShootSpeedFactor * (CalamityWorld.death ? 4f : 6f);
                             int proj = Projectile.NewProjectile(source, npc.Center, velocity, projectileShootType, 9, 0f, Main.myPlayer, 0f, 0f);
                             if (CalamityWorld.death)
+                            {
                                 Main.projectile[proj].extraUpdates += 1;
+                                Main.projectile[proj].timeLeft = 1200;
+                            }
                             projectileShootCountdown = 50f;
                         }
                     }

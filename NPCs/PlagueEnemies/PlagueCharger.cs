@@ -147,6 +147,12 @@ namespace CalamityMod.NPCs.PlagueEnemies
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
                 }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("PlagueCharger").Type, 0.5f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("PlagueCharger2").Type, 0.5f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("PlagueCharger3").Type, 0.5f);
+                }
             }
         }
     }

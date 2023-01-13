@@ -14,13 +14,14 @@ namespace CalamityMod.Tiles.SunkenSea
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithDesert(Type);
+            CalamityUtils.SetMerge(Type, ModContent.TileType<EutrophicSand>());
 
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 96;
             ItemDrop = ModContent.ItemType<Items.Placeables.Navystone>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Navystone");
-            AddMapEntry(new Color(0, 90, 90), name);
+            AddMapEntry(new Color(31, 92, 114), name);
             MineResist = 2f;
             HitSound = SoundID.Tink;
         }
@@ -32,8 +33,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<EutrophicSand>());
-            return false;
+            return TileFraming.BrimstoneFraming(i, j, resetFrame);
         }
     }
 }

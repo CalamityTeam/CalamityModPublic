@@ -131,6 +131,7 @@ namespace CalamityMod.NPCs
         private static readonly string[] NurseNames =
         {
             "Farsni",
+			"Fanny", // <@!799749125720637460> (zombiewolf511#4581)
         };
         private static readonly string[] PainterNames =
         {

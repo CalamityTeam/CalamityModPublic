@@ -488,6 +488,18 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+            // Permafrost's Concoction increases life regen while afflicted with a fire debuff
+            if (permafrostsConcoction)
+            {
+                if (Player.onFire || Player.onFire2 || Player.onFire3 || Player.burned || shadowflame || weakBrimstoneFlames || bFlames || cragsLava || gsInferno || hFlames || banishingFire || dragonFire)
+                {
+                    if (Player.lifeRegenTime < 1800)
+                        Player.lifeRegenTime = 1800;
+
+                    Player.lifeRegen += 6;
+                }
+            }
+
             if (celestialJewel || astralArcanum)
             {
                 bool lesserEffect = false;
