@@ -21,7 +21,8 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class ColossalSquid : ModNPC
     {
-        private bool hasBeenHit = false;
+        public bool hasBeenHit = false;
+        public bool clone = false;
 
         public override void SetStaticDefaults()
         {
@@ -68,6 +69,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(hasBeenHit);
+            writer.Write(clone);
             writer.Write(NPC.chaseable);
             writer.Write(NPC.localAI[0]);
             writer.Write(NPC.localAI[1]);
@@ -78,6 +80,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             hasBeenHit = reader.ReadBoolean();
+            clone = reader.ReadBoolean();
             NPC.chaseable = reader.ReadBoolean();
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
@@ -344,6 +347,21 @@ namespace CalamityMod.NPCs.Abyss
                     NPC.justHit)
                 {
                     hasBeenHit = true;
+                    if (Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient && !clone) // move to zenith seed later
+                    {
+                        // spawn some baby colossal squids in gfb
+                        for (int i = 0; i < 3; i++)
+                        {
+                            int squib = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + Main.rand.Next(-20, 20), (int)NPC.Center.Y + Main.rand.Next(-20, 20), ModContent.NPCType<ColossalSquid>());
+                            if (squib.WithinBounds(Main.maxNPCs))
+                            {
+                                Main.npc[squib].ModNPC<ColossalSquid>().clone = true;
+                                Main.npc[squib].ModNPC<ColossalSquid>().hasBeenHit = true;
+                                Main.npc[squib].scale = 0.25f;
+                                Main.npc[squib].lifeMax /= 3;
+                            }
+                        }
+                    }
                 }
 
                 NPC.chaseable = hasBeenHit;
@@ -405,6 +423,10 @@ namespace CalamityMod.NPCs.Abyss
                         if (Main.expertMode)
                         {
                             damage = 55;
+                        }
+                        if (clone)
+                        {
+                            damage /= 2;
                         }
                         SoundEngine.PlaySound(SoundID.Item111, NPC.position);
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 60, 0f, 2f, ModContent.ProjectileType<InkBombHostile>(), damage, 0f, Main.myPlayer, 0f, 0f);
@@ -582,6 +604,15 @@ namespace CalamityMod.NPCs.Abyss
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ColossalSquid3").Type, 1f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ColossalSquid4").Type, 1f);
                 }
+            }
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            // Move to zenith seed later
+            if (Main.getGoodWorld && clone)
+            {
+                typeName = "Tiny Squid";
             }
         }
     }
