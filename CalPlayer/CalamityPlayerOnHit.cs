@@ -580,15 +580,6 @@ namespace CalamityMod.CalPlayer
                     for (int n = 0; n < 3; n++)
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), bulwarkStarDamage, 5f, Player.whoAmI);
                 }
-                if (unstableGraniteCore && crit && Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 5)
-                {
-                    for (int s = 0; s < 3; s++)
-                    {
-                        Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int graniteSparkDamage = (int)Player.GetBestClassDamage().ApplyTo(15);
-                        Projectile.NewProjectile(source, position, velocity, ProjectileType<UnstableSpark>(), graniteSparkDamage, 0f, Player.whoAmI);
-                    }
-                }
                 if (astralStarRain && crit && astralStarRainCooldown <= 0)
                 {
                     astralStarRainCooldown = 60;
@@ -667,17 +658,6 @@ namespace CalamityMod.CalPlayer
 
             if (npcCheck)
             {
-                if (unstableGraniteCore && crit && Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 5 && proj.type != ProjectileType<UnstableSpark>())
-                {
-                    for (int s = 0; s < 3; s++)
-                    {
-                        Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int graniteSparkDamage = (int)Player.GetBestClassDamage().ApplyTo(15);
-                        Projectile.NewProjectile(source, position, velocity, ProjectileType<UnstableSpark>(), graniteSparkDamage, 0f, Player.whoAmI);
-                        Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()]++;
-                    }
-                }
-
                 if (astralStarRain && crit && astralStarRainCooldown <= 0)
                 {
                     astralStarRainCooldown = 60;
@@ -1531,6 +1511,12 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+            if (gladiatorSword && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter && !target.dontCountMe && target.aiStyle != 9 && target.Calamity().gladiatorOnKill)
+            {
+                target.Calamity().gladiatorOnKill = false;
+                Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center.X, target.Center.Y, target.velocity.X / 2, target.velocity.Y / 2, ModContent.ProjectileType<GladiatorHealOrb>(), 0, 0f);
+            }
+
             if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && !Player.moonLeech)
             {
                 // Increases the degree to which Spectre Healing set contributes to the lifesteal cap
@@ -1767,6 +1753,12 @@ namespace CalamityMod.CalPlayer
                     Player.statLife += healAmount;
                     Player.HealEffect(healAmount);
                 }
+            }
+
+            if (gladiatorSword && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter && !target.dontCountMe && target.aiStyle != 9 && target.Calamity().gladiatorOnKill)
+            {
+                target.Calamity().gladiatorOnKill = false;
+                Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center.X, target.Center.Y, target.velocity.X / 2, target.velocity.Y / 2, ModContent.ProjectileType<GladiatorHealOrb>(), 0, 0f);
             }
 
             if (reaverDefense)

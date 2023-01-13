@@ -144,7 +144,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.realLife = npc.whoAmI;
                         int index = npc.whoAmI;
 
-                        int totalSegments = death ? 60 : 80;
+                        int totalSegments = 80;
                         if (Main.getGoodWorld)
                             totalSegments *= 2;
 

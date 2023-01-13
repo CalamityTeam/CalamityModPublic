@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 58;
             Item.damage = 69;
             Item.scale = 1.75f;
-            Item.knockBack = 20f; //This number doesn't mean anything, but it's not 9001f because that caused bugs.
+            Item.knockBack = 80f; //This number doesn't mean anything, but it's not 9001f because that caused bugs.
             Item.useAnimation = Item.useTime = 12;
             Item.DamageType = DamageClass.Melee;
             Item.useTurn = true;
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Melee
             // This is modified vanilla code from StrikeNPC method in NPC.cs
             // Extra Note: Will cause an out of bounds error on enemies that don't despawn and are affected. See Blue Cultist Archer.
             // Extra (extra) Note: Fails in ModifyHitNPC if the enemy has too much health due to velocity clamping if you don't do enough damage.
-            float kbAmt = player.GetWeaponKnockback(Item, Item.knockBack) * 9001f * target.knockBackResist; //That obligatory over 9000 reference
+            float kbAmt = player.GetWeaponKnockback(Item, Item.knockBack) * target.knockBackResist; //That obligatory over 9000 reference
             if (crit)
                 kbAmt *= 1.4f;
             float kbAmtY = target.noGravity ? kbAmt * -0.5f : kbAmt * -0.75f;

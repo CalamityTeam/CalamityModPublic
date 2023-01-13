@@ -1,4 +1,4 @@
-using CalamityMod.NPCs;
+﻿using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Boss
             if (damage <= 0 || Projectile.Opacity != 1f)
                 return;
 
-            target.AddBuff(BuffID.Confused, 120);
+            target.AddBuff(BuffID.Dazed, 120);
         }
     }
 }

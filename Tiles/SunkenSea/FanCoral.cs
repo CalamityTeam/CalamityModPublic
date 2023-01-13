@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
@@ -23,6 +23,11 @@ namespace CalamityMod.Tiles.SunkenSea
             MineResist = 3f;
 
             base.SetStaticDefaults();
+        }
+
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            CalamityGlobalTile.SetActiveFountainColor(ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater").Slot);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -74,16 +74,18 @@ namespace CalamityMod.Projectiles.Typeless
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item54, Projectile.position);
-            Projectile.position = Projectile.Center;
-            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
-            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            int num190 = Main.rand.Next(5, 9);
-            for (int num191 = 0; num191 < num190; num191++)
+            for (int i = 0; i < 10; i++)
             {
-                int num192 = Dust.NewDust(Projectile.Center, 0, 0, 206, 0f, 0f, 100, default, 1.4f);
-                Main.dust[num192].velocity *= 0.8f;
-                Main.dust[num192].position = Vector2.Lerp(Main.dust[num192].position, Projectile.Center, 0.5f);
-                Main.dust[num192].noGravity = true;
+                int size = 6;
+                int dustIndex = Dust.NewDust(Projectile.Center - Vector2.One * size, size * 2, size * 2, 212);
+                Dust dust = Main.dust[dustIndex];
+                Vector2 value14 = Vector2.Normalize(dust.position - Projectile.Center);
+                dust.position = Projectile.Center + value14 * size;
+                dust.velocity = value14 * dust.velocity.Length();
+                dust.color = Main.hslToRgb((float)(0.4000000059604645 + Main.rand.NextDouble() * 0.20000000298023224), 1f, 0.7f);
+                dust.color = Color.Lerp(dust.color, Color.White, 0.3f);
+                dust.noGravity = true;
+                dust.scale = 0.7f;
             }
         }
     }

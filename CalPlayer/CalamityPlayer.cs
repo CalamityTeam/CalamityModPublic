@@ -226,6 +226,8 @@ namespace CalamityMod.CalPlayer
         public int spiritOriginConvertedCrit = 0;
         public int RustyMedallionCooldown = 0;
         public float SulphWaterPoisoningLevel;
+        public NPC unstableSelectedTarget;
+        public int zapActivity = 0;
 
         private const int DashDisableCooldown = 12;
 

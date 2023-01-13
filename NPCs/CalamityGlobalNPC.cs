@@ -319,6 +319,12 @@ namespace CalamityMod.NPCs
 
         // Other Boss Rush stuff
         public bool DoesNotDisappearInBossRush;
+
+        // On-Kill variables
+        public bool gladiatorOnKill = true;
+
+        // Variable for if enemy has been recently hit by an ArcZap
+        public int arcZapCooldown = 0;
         #endregion
 
         #region Instance Per Entity and TML 1.4 Cloning
@@ -540,6 +546,7 @@ namespace CalamityMod.NPCs
             CurrentlyIncreasingDefenseOrDR = false;
             CanHaveBossHealthBar = false;
             ShouldCloseHPBar = false;
+            if (arcZapCooldown > 0) { arcZapCooldown--; }
         }
         #endregion
 
@@ -1301,7 +1308,7 @@ namespace CalamityMod.NPCs
             else if (CalamityLists.DestroyerIDs.Contains(npc.type))
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.25);
-                npc.scale *= CalamityWorld.death ? 2.5f : 1.5f;
+                npc.scale *= CalamityWorld.death ? 2f : 1.5f;
                 npc.npcSlots = 10f;
             }
             else if (npc.type == NPCID.Probe)
@@ -1309,7 +1316,7 @@ namespace CalamityMod.NPCs
                 if (CalamityWorld.death)
                     npc.lifeMax = (int)(npc.lifeMax * 2.0);
 
-                npc.scale *= CalamityWorld.death ? 2f : 1.2f;
+                npc.scale *= CalamityWorld.death ? 1.5f : 1.2f;
             }
             else if (npc.type == NPCID.SkeletronPrime)
             {
@@ -4145,10 +4152,42 @@ namespace CalamityMod.NPCs
                 {
                     if (Main.rand.NextBool())
                     {
-                        Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 204, 0f, 0f, 150, default(Color), 0.3f);
+                        Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 204, 0f, 0f, 150, default, 0.3f);
                         dust.fadeIn = 0.75f;
                         dust.velocity *= 0.1f;
                         dust.noLight = true;
+                    }
+                }
+            }
+
+            // Plants that go through tiles emit spores while inside tiles
+            else if (npc.type == NPCID.ManEater || npc.type == NPCID.Snatcher || npc.type == NPCID.AngryTrapper)
+            {
+                Point point = npc.Center.ToTileCoordinates();
+                Tile tileSafely = Framing.GetTileSafely(point);
+                bool createDust = tileSafely.HasUnactuatedTile && npc.Distance(Main.player[npc.target].Center) < 800f;
+                if (createDust)
+                {
+                    if (Main.rand.NextBool(10))
+                    {
+                        Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 44, 0f, 0f, 250, default, 0.4f);
+                        dust.fadeIn = 0.7f;
+                    }
+                }
+            }
+
+            // Clingers emit cursed fire while inside tiles
+            else if (npc.type == NPCID.Clinger)
+            {
+                Point point = npc.Center.ToTileCoordinates();
+                Tile tileSafely = Framing.GetTileSafely(point);
+                bool createDust = tileSafely.HasUnactuatedTile && npc.Distance(Main.player[npc.target].Center) < 800f;
+                if (createDust)
+                {
+                    if (Main.rand.NextBool(5))
+                    {
+                        Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 75, 0f, 0f, 100, default, 1.5f);
+                        dust.noGravity = true;
                     }
                 }
             }

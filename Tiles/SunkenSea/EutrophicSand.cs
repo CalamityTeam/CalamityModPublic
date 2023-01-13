@@ -14,6 +14,10 @@ namespace CalamityMod.Tiles.SunkenSea
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithDesert(Type);
+            CalamityUtils.SetMerge(Type, ModContent.TileType<Navystone>());
+
+            Main.tileShine[Type] = 650;
+            Main.tileShine2[Type] = true;
 
             TileID.Sets.ChecksForMerge[Type] = true;
             TileID.Sets.CanBeDugByShovel[Type] = true;
@@ -33,8 +37,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, TileID.Sandstone);
-            return false;
+            return TileFraming.BrimstoneFraming(i, j, resetFrame);
         }
     }
 }

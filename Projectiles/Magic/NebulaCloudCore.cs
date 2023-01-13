@@ -346,38 +346,15 @@ namespace CalamityMod.Projectiles.Magic
                         Main.projectile[num155].Kill();
                 }
 
-                int num156 = Main.rand.Next(3, 5);
-                int num157 = Main.rand.Next(3, 5);
-                for (int num160 = 0; num160 < num156; num160++)
+                int totalProjectiles = Main.rand.Next(6, 9);
+                float radians = MathHelper.TwoPi / totalProjectiles;
+                int type = ModContent.ProjectileType<NebulaNova>();
+                float velocity = Main.rand.Next(70, 101) * 0.1f;
+                Vector2 spinningPoint = new Vector2(0f, -velocity);
+                for (int k = 0; k < totalProjectiles; k++)
                 {
-                    Vector2 vector10 = Projectile.Center + Utils.RandomVector2(Main.rand, -30f, 30f);
-                    Vector2 vector11 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
-                    while (vector11.X == 0f && vector11.Y == 0f)
-                        vector11 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
-
-                    vector11.Normalize();
-                    if (vector11.Y > 0.2f)
-                        vector11.Y *= -1f;
-
-                    vector11 *= Main.rand.Next(70, 101) * 0.1f;
-                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector10, vector11, ModContent.ProjectileType<NebulaNova>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.8f, Projectile.owner);
-                    Main.projectile[proj].DamageType = DamageClass.Magic;
-                }
-
-                for (int num161 = 0; num161 < num157; num161++)
-                {
-                    Vector2 vector12 = Projectile.Center + Utils.RandomVector2(Main.rand, -30f, 30f);
-                    Vector2 vector13 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
-                    while (vector13.X == 0f && vector13.Y == 0f)
-                        vector13 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
-
-                    vector13.Normalize();
-                    if (vector13.Y > 0.4f)
-                        vector13.Y *= -1f;
-
-                    vector13 *= Main.rand.Next(40, 81) * 0.1f;
-                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector12, vector13, ModContent.ProjectileType<NebulaNova>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.8f, Projectile.owner);
-                    Main.projectile[proj].DamageType = DamageClass.Magic;
+                    Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Utils.RandomVector2(Main.rand, -30f, 30f), velocity2, type, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.8f, Projectile.owner);
                 }
             }
         }

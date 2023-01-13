@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.ObjectInteractions;
@@ -58,6 +59,7 @@ namespace CalamityMod.Tiles.Furniture
         {
             CalamityUtils.LightHitWire(Type, i, j, 3, 3);
             LanternNight.ToggleManualLanterns();
+            SoundEngine.PlaySound(SoundID.Mech, new Vector2(i * 16, j * 16));
             return true;
         }
 
