@@ -662,10 +662,7 @@ namespace CalamityMod.World
                 new ChestItem(potionType, WorldGen.genRand.Next(4, 7 + 1)),
                 new ChestItem(ModContent.ItemType<LabSeekingMechanism>(), 1),
             };
-
-            //Special, non-main line lab: Adds the base Lab Seeking Mechanism
-            contents.Insert(0, new ChestItem(ModContent.ItemType<LabSeekingMechanism>(), 1));
-
+            
             for (int i = 0; i < contents.Count; i++)
             {
                 chest.item[i].SetDefaults(contents[i].Type);
