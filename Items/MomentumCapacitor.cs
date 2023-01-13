@@ -16,7 +16,7 @@ namespace CalamityMod.Items
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Momentum Capacitor");
-            Tooltip.SetDefault("While using the Momentum Capacitor,\n" + "your top speed will continuously and uncontrollably increase");
+            Tooltip.SetDefault("While using the Momentum Capacitor,\n" + "your top speed will continuously and uncontrollably increase\n" + "This effect only works if there are no bosses alive");
         }
 
         public override void SetDefaults()
@@ -41,11 +41,14 @@ namespace CalamityMod.Items
 
         public override bool? UseItem(Player player)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.momentumCapacitorTime = TotalFadeTime;
-            modPlayer.momentumCapacitorBoost += Main.rand.NextFloat(0.5f, 3.5f) * MomentumChargePerFrame;
-            if (modPlayer.momentumCapacitorBoost >= MaxMomentumCharge)
-                modPlayer.momentumCapacitorBoost = MaxMomentumCharge;
+            if (!CalamityPlayer.areThereAnyDamnBosses)
+            {
+                CalamityPlayer modPlayer = player.Calamity();
+                modPlayer.momentumCapacitorTime = TotalFadeTime;
+                modPlayer.momentumCapacitorBoost += Main.rand.NextFloat(0.5f, 3.5f) * MomentumChargePerFrame;
+                if (modPlayer.momentumCapacitorBoost >= MaxMomentumCharge)
+                    modPlayer.momentumCapacitorBoost = MaxMomentumCharge;
+            }
             return null;
         }
     }

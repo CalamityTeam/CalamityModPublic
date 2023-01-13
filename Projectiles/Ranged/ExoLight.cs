@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Color.SlateGray
                 }) * Projectile.Opacity;
                 color.A = 0;
-                Vector2 drawPosition = Projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+                Vector2 drawPosition = Projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(-15f, -15f);
                 Color outerColor = color;
                 Color innerColor = color * 0.5f;
                 float intensity = 0.9f + 0.15f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 60f * MathHelper.TwoPi);

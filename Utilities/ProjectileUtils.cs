@@ -152,9 +152,11 @@ namespace CalamityMod
         /// <param name="projectile">The projectile that should home.</param>
         /// <param name="target">The target.</param>
         /// <param name="inertia">The inertia of the movement change.</param>
-        public static Vector2 SuperhomeTowardsTarget(this Projectile projectile, NPC target, float homingSpeed, float inertia)
+        /// <param name="predictionStrength">The ratio for how much the projectile aims ahead of the target. 1f is normal predictiveness. 0.01f is the lowest possible value, equating to no practical predictiveness.</param>
+        public static Vector2 SuperhomeTowardsTarget(this Projectile projectile, NPC target, float homingSpeed, float inertia, float predictionStrength = 1f)
         {
-            Vector2 idealVelocity = CalculatePredictiveAimToTarget(projectile.Center, target, homingSpeed);
+            if (predictionStrength < 0.01f) { predictionStrength = 0.01f; }
+            Vector2 idealVelocity = CalculatePredictiveAimToTarget(projectile.Center, target, homingSpeed/predictionStrength) * predictionStrength;
             return (projectile.velocity * (inertia - 1f) + idealVelocity) / inertia;
         }
         #endregion

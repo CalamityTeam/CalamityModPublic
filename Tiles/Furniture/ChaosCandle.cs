@@ -71,7 +71,7 @@ namespace CalamityMod.Tiles.Furniture
 
         public override bool RightClick(int i, int j)
         {
-            CalamityUtils.RightClickBreak(i, j);
+            CalamityUtils.LightHitWire(Type, i, j, 1, 1);
             return true;
         }
     }
