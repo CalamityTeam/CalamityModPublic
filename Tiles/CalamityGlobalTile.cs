@@ -138,9 +138,9 @@ namespace CalamityMod.Tiles
             Tile tile = Main.tile[i, j];
 
             // Helper function to shatter crystals attached to neighboring solid tiles.
-            static void CheckShatterCrystal(int xPos, int yPos)
+            void CheckShatterCrystal(int xPos, int yPos, bool dontShatter)
             {
-                if (xPos < 0 || xPos >= Main.maxTilesX || yPos < 0 || yPos >= Main.maxTilesY)
+                if (xPos < 0 || xPos >= Main.maxTilesX || yPos < 0 || yPos >= Main.maxTilesY || dontShatter)
                     return;
 
                 Tile t = Main.tile[xPos, yPos];
@@ -152,13 +152,14 @@ namespace CalamityMod.Tiles
                 }
             }
 
-            // CONSIDER -- Lumenyl Crystals and Sea Prism Crystals aren't solid. They shouldn't need to be checked here.
+            // Check if crystals should be shattered, do not shatter crystals next to other crystals if a crystal is shattered.
             if (Main.tileSolid[tile.TileType] && tile.TileType != ModContent.TileType<LumenylCrystals>() && tile.TileType != ModContent.TileType<SeaPrismCrystals>())
             {
-                CheckShatterCrystal(i + 1, j);
-                CheckShatterCrystal(i - 1, j);
-                CheckShatterCrystal(i, j + 1);
-                CheckShatterCrystal(i, j - 1);
+                bool dontShatter = fail || effectOnly;
+                CheckShatterCrystal(i + 1, j, dontShatter);
+                CheckShatterCrystal(i - 1, j, dontShatter);
+                CheckShatterCrystal(i, j + 1, dontShatter);
+                CheckShatterCrystal(i, j - 1, dontShatter);
             }
 
             // Cumbling Dungeon Bricks have a 100% chance to crumble. This causes an effect similar to the Vein Miner mod.
