@@ -7339,6 +7339,12 @@ namespace CalamityMod.NPCs
                         {
                             Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, -1f, 0, default, 1f);
                         }
+                        if (Main.getGoodWorld) // move to zenith seed later
+                        {
+                            float screenShakePower = 2 * Utils.GetLerpValue(1300f, 0f, npc.Distance(Main.LocalPlayer.Center), true);
+                            if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < screenShakePower)
+                                Main.LocalPlayer.Calamity().GeneralScreenShakePower = screenShakePower;
+                        }
                     }
                     if (npc.type == ModContent.NPCType<Bohldohr>())
                     {

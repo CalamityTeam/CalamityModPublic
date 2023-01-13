@@ -79,6 +79,10 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void FindFrame(int frameHeight)
         {
             NPC.frameCounter++;
+            if (Main.getGoodWorld) // move to zenith seed later
+            {
+                NPC.frameCounter += 3;
+            }
             int frame = (int)(NPC.frameCounter / 5) % (Main.npcFrameCount[NPC.type] / 2);
             if (Supercharged)
                 frame += Main.npcFrameCount[NPC.type] / 2;
