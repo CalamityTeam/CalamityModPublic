@@ -60,6 +60,10 @@ namespace CalamityMod.Projectiles.Enemy
                 }
                 if (Projectile.WithinRange(Main.player[toTarget].Center, 16f))
                 {
+                    if (Main.getGoodWorld) // move to zenith seed later
+                    {
+                        CombatText.NewText(Main.player[toTarget].getRect(), Color.Red, "Vibe check.", true);
+                    }
                     Projectile.localAI[0] = 1f;
                     ReelingPlayer = true;
                     Projectile.netUpdate = true;
