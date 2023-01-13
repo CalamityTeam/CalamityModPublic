@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            if (NPC.ai[3] > 0f)
+            if (NPC.ai[3] > 0f && Main.npc[(int)NPC.ai[3]].type == ModContent.NPCType<ArmoredDiggerHead>())
             {
                 NPC.realLife = (int)NPC.ai[3];
             }
@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 flag = true;
             }
-            if (flag)
+            if (flag && !Main.getGoodWorld) // move to zenith seed later
             {
                 NPC.life = 0;
                 NPC.HitEffect(0, 10.0);
@@ -124,6 +124,23 @@ namespace CalamityMod.NPCs.NormalNPCs
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ArmoredDiggerTail2").Type, 1f);
                 }
             }
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            // Move to zenith seed later
+            if (Main.getGoodWorld)
+            {
+                typeName = "Mechanized Serpent";
+            }
+        }
+
+        public override Color? GetAlpha(Color drawColor)
+        {
+            // Move to zenith seed later
+            Color lightColor = Color.Orange * drawColor.A;
+            Color newColor = Main.getGoodWorld ? lightColor : new Color(255, 255, 255, drawColor.A);
+            return newColor * NPC.Opacity;
         }
     }
 }

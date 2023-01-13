@@ -339,7 +339,8 @@ namespace CalamityMod.Systems
         #region Handle Armored Digger Random Spawns
         public static void TrySpawnArmoredDigger(Player player, CalamityPlayer modPlayer)
         {
-            if (player.ZoneRockLayerHeight && !player.ZoneUnderworldHeight && !player.ZoneDungeon && !player.ZoneJungle && !modPlayer.ZoneSunkenSea && !modPlayer.ZoneAbyss && !CalamityPlayer.areThereAnyDamnBosses)
+            bool gfbCondition = Main.getGoodWorld && (player.ZoneHallow || player.ZoneUnderworldHeight) && NPC.downedMoonlord; // move to zenith seed later
+            if ((gfbCondition || (player.ZoneRockLayerHeight && !player.ZoneUnderworldHeight && !player.ZoneJungle && !Main.getGoodWorld)) && !player.ZoneDungeon && !modPlayer.ZoneSunkenSea && !modPlayer.ZoneAbyss && !CalamityPlayer.areThereAnyDamnBosses)
             {
                 if (NPC.downedPlantBoss && player.townNPCs < 3f)
                 {

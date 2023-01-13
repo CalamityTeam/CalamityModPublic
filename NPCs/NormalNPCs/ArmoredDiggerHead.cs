@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -8,6 +9,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -188,7 +190,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 NPC.localAI[1] = 0f;
             }
             float num17 = death ? 13.5f : 10f;
-            if (Main.player[NPC.target].dead || (double)Main.player[NPC.target].position.Y < Main.rockLayer * 16.0)
+            if (Main.player[NPC.target].dead || (!Main.getGoodWorld && (double)Main.player[NPC.target].position.Y < Main.rockLayer * 16.0)) // move to zenith seed later
             {
                 flag2 = false;
                 NPC.velocity.Y = NPC.velocity.Y + 1f;
@@ -458,6 +460,25 @@ namespace CalamityMod.NPCs.NormalNPCs
             npcLoot.Add(ModContent.ItemType<DemonicBoneAsh>(), 1, 2, 4);
             npcLoot.Add(ModContent.ItemType<MysteriousCircuitry>(), 1, 4, 8);
             npcLoot.Add(ModContent.ItemType<DubiousPlating>(), 1, 4, 8);
+            npcLoot.AddIf(() => Main.getGoodWorld, ModContent.ItemType<UnholyEssence>(), 1, 3, 6); // move to zenith seed later
+            npcLoot.AddIf(() => Main.getGoodWorld, ModContent.ItemType<EnergyStaff>(), 10);
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            // Move to zenith seed later
+            if (Main.getGoodWorld)
+            {
+                typeName = "Mechanized Serpent";
+            }
+        }
+
+        public override Color? GetAlpha(Color drawColor)
+        {
+            // Move to zenith seed later
+            Color lightColor = Color.Orange * drawColor.A;
+            Color newColor = Main.getGoodWorld ? lightColor : new Color(255, 255, 255, drawColor.A);
+            return newColor * NPC.Opacity;
         }
     }
 }
