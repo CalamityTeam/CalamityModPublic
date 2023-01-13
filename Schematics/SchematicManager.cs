@@ -35,7 +35,7 @@ namespace CalamityMod.Schematics
         internal const string IceLabFilename = "Schematics/DraedonsLab_Ice.csch";
 
         internal const string CavernLabKey = "Cavern Laboratory";
-        internal const string CavernLabFilename = "Schematics/DraedonsLab_CavernWorkshop.csch";
+        internal const string CavernLabFilename = "Schematics/DraedonsLab_Cavern.csch";
 
         internal const string AstralBeaconKey = "Astral Beacon";
         internal const string AstralBeaconFilename = "Schematics/AstralBeacon.csch";
