@@ -605,6 +605,12 @@ namespace CalamityMod.NPCs.Abyss
                         NPC.netUpdate = true;
                         return;
                     }
+                    if (Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] % 5 == 0) // move to zenith seed later
+                    {
+                        Vector2 direction = vector - player.Center;
+                        direction.Normalize();
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, direction * 10f, ProjectileID.DemonSickle, NPC.damage / 2, 0f, Main.myPlayer);
+                    }
                 }
             }
             if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > 6400f)
