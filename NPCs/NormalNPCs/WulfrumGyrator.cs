@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.frameCounter++;
             if (Main.getGoodWorld) // move to zenith seed later
             {
-                NPC.frameCounter += 3;
+                NPC.frameCounter += 1;
             }
             int frame = (int)(NPC.frameCounter / 5) % (Main.npcFrameCount[NPC.type] / 2);
             if (Supercharged)
