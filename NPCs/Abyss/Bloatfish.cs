@@ -216,7 +216,7 @@ namespace CalamityMod.NPCs.Abyss
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Bloatfish3").Type, NPC.scale);
                 }
             }
-            if (NPC.scale < 2f && !Main.getGoodWorld) // move to zenith seed later
+            if (NPC.scale < 2f || Main.getGoodWorld) // move to zenith seed later
             {
                 NPC.scale += 0.05f;
             }
