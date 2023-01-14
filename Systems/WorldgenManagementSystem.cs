@@ -29,6 +29,7 @@ namespace CalamityMod.Systems
         #region ModifyWorldGenTasks
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
+            //evil island
             int islandIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Floating Island Houses"));
             if (islandIndex != -1)
             {
@@ -39,12 +40,14 @@ namespace CalamityMod.Systems
                 }));
             }
 
+            //biome chests in dungeon
             int DungeonChestIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Dungeon"));
             if (DungeonChestIndex != -1)
             {
                 tasks.Insert(DungeonChestIndex + 1, new PassLegacy("CalamityDungeonBiomeChests", MiscWorldgenRoutines.GenerateBiomeChests));
             }
 
+            //big jungle temple
             int JungleTempleIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Temple"));
             tasks[JungleTempleIndex] = new PassLegacy("Jungle Temple", (progress, config) =>
             {
@@ -52,8 +55,9 @@ namespace CalamityMod.Systems
                 CustomTemple.NewJungleTemple();
             });
 
-            int hiveIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Hives"));
-            tasks[JungleTempleIndex] = new PassLegacy("Giant Hive", (progress, config) =>
+            //giant hive
+            int HiveIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Hives"));
+            tasks[HiveIndex] = new PassLegacy("Giant Hive", (progress, config) =>
             {
                 progress.Message = "Building a giant beehive";
                 int attempts = 0;
@@ -66,6 +70,7 @@ namespace CalamityMod.Systems
                 }
             });
 
+            //big jungle temple golem arena i assume
             int JungleTempleIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Temple"));
             tasks[JungleTempleIndex2] = new PassLegacy("Temple", (progress, config) =>
             {
@@ -76,34 +81,22 @@ namespace CalamityMod.Systems
                 Main.tileSolid[232] = false;
             });
 
-            // Sunken Sea gens after Traps because otherwise boulders spawn in the Sunken Sea :)
-            int TrapsIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Settle Liquids Again"));
-            if (TrapsIndex != -1)
+            //sunken sea
+            int SunkenSeaIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Settle Liquids Again"));
+            if (SunkenSeaIndex != -1)
             {
-                tasks.Insert(TrapsIndex + 1, new PassLegacy("Sunken Sea", (progress, config) =>
+                tasks.Insert(SunkenSeaIndex + 1, new PassLegacy("Sunken Sea", (progress, config) =>
                 {
                     progress.Message = "Partially flooding an overblown desert";
-                    
-                    int sunkenSeaX = WorldGen.UndergroundDesertLocation.Left;
-                    int sunkenSeaY = 0;
 
-                    //desert position shennanigans
-                    //start right above hell, then move up until a desert tile is found, and then place the sunken sea
-                    bool foundPosition = false;
-                    for (int y = Main.maxTilesY - 200; y >= (Main.maxTilesY / 2) - 45; y--)
-                    {
-                        if (Main.tile[sunkenSeaX, y].TileType == TileID.Sand || Main.tile[sunkenSeaX, y].TileType == TileID.Sandstone ||
-                        Main.tile[sunkenSeaX, y].TileType == TileID.Sand || Main.tile[sunkenSeaX, y].TileType == TileID.Sandstone)
-                        {
-                            sunkenSeaY = y + 100; //offset so it doesnt generates weird
-                            break;
-                        }
-                    }
+                    int sunkenSeaX = WorldGen.UndergroundDesertLocation.Left;
+                    int sunkenSeaY = Main.maxTilesY - 400;
 
                     SunkenSea.Place(new Point(sunkenSeaX, sunkenSeaY));
                 }));
             }
 
+            //better temple altar
             int LihzahrdAltarIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Lihzahrd Altars"));
             tasks[LihzahrdAltarIndex] = new PassLegacy("Lihzahrd Altars", (progress, config) =>
             {
@@ -111,11 +104,11 @@ namespace CalamityMod.Systems
                 CustomTemple.NewJungleTempleLihzahrdAltar();
             });
 
-            // TODO -- Most of the below worldgen should be spaced out at better points of generation instead of all crammed at the end
-
+            //stuff that gens after vanilla worldgen
             int FinalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
             if (FinalIndex != -1)
             {
+                //gem deposits
                 int currentFinalIndex = FinalIndex;
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Gem Depth Adjustment", (progress, config) =>
                 {
@@ -123,43 +116,10 @@ namespace CalamityMod.Systems
                     MiscWorldgenRoutines.SmartGemGen();
                 }));
 
+                //planetoids
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Planetoids", Planetoid.GenerateAllBasePlanetoids));
 
-                //Not touching this yet because the Crags will be reworked in the future
-                #region BrimstoneCrag
-                tasks.Insert(++currentFinalIndex, new PassLegacy("Brimstone Crag", (progress, config) =>
-                {
-                    progress.Message = "Uncovering the ruins of a fallen empire";
-
-                    int x = Main.maxTilesX;
-
-                    int xUnderworldGen = WorldGen.genRand.Next((int)((double)x * 0.1), (int)((double)x * 0.15));
-                    int yUnderworldGen = Main.maxTilesY - 100;
-
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen, yUnderworldGen, 180, 201, 120, 136);
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen - 50, yUnderworldGen - 30, 100, 111, 60, 71);
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen + 50, yUnderworldGen - 30, 100, 111, 60, 71);
-
-                    MiscWorldgenRoutines.ChasmGenerator(xUnderworldGen - 110, yUnderworldGen - 10, WorldGen.genRand.Next(150) + 150);
-                    MiscWorldgenRoutines.ChasmGenerator(xUnderworldGen + 110, yUnderworldGen - 10, WorldGen.genRand.Next(150) + 150);
-
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen - 150, yUnderworldGen - 30, 60, 66, 35, 41);
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen + 150, yUnderworldGen - 30, 60, 66, 35, 41);
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen - 180, yUnderworldGen - 20, 60, 66, 35, 41);
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen + 180, yUnderworldGen - 20, 60, 66, 35, 41);
-
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen, yUnderworldGen + 30, 1323);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen - 22, yUnderworldGen + 15, 1322);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen + 22, yUnderworldGen + 15, 535);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen - 50, yUnderworldGen - 30, 112);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen + 50, yUnderworldGen - 30, 906);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen - 150, yUnderworldGen - 30, 218);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen + 150, yUnderworldGen - 30, 3019);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen - 180, yUnderworldGen - 20, 274);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen + 180, yUnderworldGen - 20, 220);
-                }));
-                #endregion
-
+                //sulfur sea
                 int SulphurIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
                 if (SulphurIndex != -1)
                 {
@@ -170,13 +130,24 @@ namespace CalamityMod.Systems
                     }));
                 }
 
+                //brimstone crags
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Brimstone Crag", (progress, config) =>
+                {
+                    progress.Message = "Uncovering the ruins of a fallen empire";
+                    //place on the same side as the abyss, right at the edge of the world
+                    //the 25 block offset on both sides is there to prevent any "outside of bounds" crashes
+                    int CragsX = (Main.dungeonX < Main.maxTilesX / 2) ? 25 : Main.maxTilesX - (Main.maxTilesX / 6) - 25;
+                    BrimstoneCrag.GenCrags(CragsX);
+                }));
+
+                //biome shrines
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Special Shrines", (progress, config) =>
                 {
                     progress.Message = "Placing hidden shrines";
                     UndergroundShrines.PlaceShrines();
                 }));
 
-
+                //draedon labs
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Draedon Structures", (progress, config) =>
                 {
                     progress.Message = "Rust and Dust";
@@ -214,18 +185,21 @@ namespace CalamityMod.Systems
                     }
                 }));
 
+                //abyss
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Abyss", (progress, config) =>
                 {
                     progress.Message = "Discovering the new Challenger Deep";
                     Abyss.PlaceAbyss();
                 }));
 
+                //sulfur sea extra gen
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Sulphur Sea 2", (progress, config) =>
                 {
                     progress.Message = "Further polluting one of the oceans";
                     SulphurousSea.SulphurSeaGenerationAfterAbyss();
                 }));
 
+                //roxcalibur
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Roxcalibur", (progress, config) =>
                 {
                     progress.Message = "I Wanna Rock";
@@ -320,7 +294,6 @@ namespace CalamityMod.Systems
                             }
                         }
                     }
-
                 }
             }
 

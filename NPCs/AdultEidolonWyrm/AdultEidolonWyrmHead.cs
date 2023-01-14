@@ -8,6 +8,7 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Pets;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Sounds;
@@ -24,6 +25,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AdultEidolonWyrm
 {
+    [AutoloadBossHead]
     public class AdultEidolonWyrmHead : ModNPC
     {
         public enum Phase
@@ -1411,6 +1413,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             npcLoot.Add(ModContent.ItemType<HalibutCannon>());
             npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 80, 100);
             npcLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
+            npcLoot.Add(ModContent.ItemType<AbyssShell>());
 
             var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenyl>(), 1, 50, 108, 65, 135));

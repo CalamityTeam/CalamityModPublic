@@ -74,7 +74,7 @@ namespace CalamityMod
         }
     }
 
-    //tile runner, probably useful for caves and probably other useful stuff?
+    //tile runner, useful for caves and other stuff
     public class TileRunner
     {
         public Vector2 pos;
@@ -177,6 +177,19 @@ namespace CalamityMod
         {
             tile.HasTile = false;
             tile.LiquidType = LiquidID.Water;
+			tile.LiquidAmount = 255;
+        }
+    }
+
+    class LavaTileRunner : TileRunner
+    {
+        public LavaTileRunner(Vector2 pos, Vector2 speed, Point16 hRange, Point16 vRange, double strength, int steps, ushort type, bool addTile, bool overRide) : base(pos, speed, hRange, vRange, strength, steps, type, addTile, overRide)
+        {
+        }
+        public override void ChangeTile(Tile tile)
+        {
+            tile.HasTile = false;
+            tile.LiquidType = LiquidID.Lava;
 			tile.LiquidAmount = 255;
         }
     }
