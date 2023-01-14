@@ -37,11 +37,30 @@ namespace CalamityMod.Schematics
         internal const string CavernLabKey = "Cavern Laboratory";
         internal const string CavernLabFilename = "Schematics/DraedonsLab_Cavern.csch";
 
+        internal const string CorruptionShrineKey = "Corruption Shrine";
+        internal const string CorruptionShrineFilename = "Schematics/Shrine_Desert.csch";
+
+        internal const string CrimsonShrineKey = "Crimson Shrine";
+        internal const string CrimsonShrineFilename = "Schematics/Shrine_Desert.csch";
+
         internal const string DesertShrineKey = "Desert Shrine";
         internal const string DesertShrineFilename = "Schematics/Shrine_Desert.csch";
 
+        internal const string GraniteShrineKey = "Granite Shrine";
+        internal const string GraniteShrineFilename = "Schematics/Shrine_Desert.csch";
+
         internal const string IceShrineKey = "Ice Shrine";
         internal const string IceShrineFilename = "Schematics/Shrine_Desert.csch";
+
+        internal const string MarbleShrineKey = "Marble Shrine";
+        internal const string MarbleShrineFilename = "Schematics/Shrine_Desert.csch";
+
+        internal const string MushroomShrineKey = "Mushroom Shrine";
+        internal const string MushroomShrineFilename = "Schematics/Shrine_Desert.csch";
+
+        internal const string SurfaceShrineKey = "Surface Shrine";
+        internal const string SurfaceShrineFilename = "Schematics/Shrine_Desert.csch";
+        
 
         internal const string AstralBeaconKey = "Astral Beacon";
         internal const string AstralBeaconFilename = "Schematics/AstralBeacon.csch";
@@ -67,8 +86,14 @@ namespace CalamityMod.Schematics
                 [CavernLabKey] = CalamitySchematicIO.LoadSchematic(CavernLabFilename),
 
                 // Shrine world gen structures
+                [CorruptionShrineKey] = CalamitySchematicIO.LoadSchematic(CorruptionShrineFilename),
+                [CrimsonShrineKey] = CalamitySchematicIO.LoadSchematic(CrimsonShrineFilename),
                 [DesertShrineKey] = CalamitySchematicIO.LoadSchematic(DesertShrineFilename),
+                [GraniteShrineKey] = CalamitySchematicIO.LoadSchematic(GraniteShrineFilename),
                 [IceShrineKey] = CalamitySchematicIO.LoadSchematic(IceShrineFilename),
+                [MarbleShrineKey] = CalamitySchematicIO.LoadSchematic(MarbleShrineFilename),
+                [MushroomShrineKey] = CalamitySchematicIO.LoadSchematic(MushroomShrineFilename),
+                [SurfaceShrineKey] = CalamitySchematicIO.LoadSchematic(SurfaceShrineFilename),
 
                 // Astral world gen structures
                 [AstralBeaconKey] = CalamitySchematicIO.LoadSchematic(AstralBeaconFilename),
