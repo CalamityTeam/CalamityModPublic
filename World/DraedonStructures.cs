@@ -15,7 +15,6 @@ using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
 using static CalamityMod.Schematics.SchematicManager;
-using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.World
 {
@@ -371,7 +370,6 @@ namespace CalamityMod.World
                     placementPositionX = WorldGen.genRand.Next(ugDesert.Right - 10, ugDesert.Right + 20) - labWidth;
 
                 int sunkenSeaY = 0;
-                bool foundPosition = false;
 
                 //copied the desert position code from the sunken sea's generation so the lab always generates within the sunken sea properly
                 for (int y = Main.maxTilesY - 200; y >= (Main.maxTilesY / 2) - 45; y--)
@@ -388,10 +386,11 @@ namespace CalamityMod.World
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
-                int xCheckArea = 25;
+                
                 /*
                 //Disabled this specifically for the sunken sea lab, not sure if it's even needed since the lab now always places based on where the sunken sea is
                 //this seems to work fine, but i dont want to delete it just in case
+                int xCheckArea = 25;
                 bool shouldAvoidArea = false;
 
                 float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
@@ -682,7 +681,6 @@ namespace CalamityMod.World
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-                int activeTilesInArea = 0;
                 int plainTilesInArea = 0;
                 int xCheckArea = 30;
                 bool canGenerateInLocation = true;
@@ -707,12 +705,10 @@ namespace CalamityMod.World
                             //Letting it spawn in natural mud means avoiding every other mud biome at all costs
                             if (tile.TileType == TileID.JungleGrass || tile.TileType == TileID.MushroomGrass)
                                 plainTilesInArea -= 1000;
-
-                            activeTilesInArea++;
                         }
                     }
                 }
-                if (!canGenerateInLocation || nearbyOtherWorkshop || plainTilesInArea < totalTiles * 0.4f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || nearbyOtherWorkshop || plainTilesInArea < totalTiles * 0.3f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
