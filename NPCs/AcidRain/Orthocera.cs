@@ -9,8 +9,8 @@ using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
-using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -81,6 +81,16 @@ namespace CalamityMod.NPCs.AcidRain
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("Within the muck of the sulphurous sea, it is not uncommon to find creatures from ages past, their bodies entirely preserved. It seems that not all simply passed away.")
             });
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(NPC.Calamity().newAI[0]);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            NPC.Calamity().newAI[0] = reader.ReadSingle();
         }
 
         public override void AI()
