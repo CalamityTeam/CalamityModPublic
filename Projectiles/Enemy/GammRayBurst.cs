@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Enemy
                 Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
         }
 
-        public float LaserWidthFunction(float _) => Projectile.scale * Projectile.width;
+        public float LaserWidthFunction(float _) => Projectile.scale * Projectile.width + 180;
 
         public static Color LaserColorFunction(float completionRatio)
         {
