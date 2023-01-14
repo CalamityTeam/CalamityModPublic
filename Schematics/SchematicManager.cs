@@ -41,7 +41,7 @@ namespace CalamityMod.Schematics
         internal const string DesertShrineFilename = "Schematics/Shrine_Desert.csch";
 
         internal const string IceShrineKey = "Ice Shrine";
-        internal const string IceShrineFilename = "Schematics/Shrine_Ice.csch";
+        internal const string IceShrineFilename = "Schematics/Shrine_Desert.csch";
 
         internal const string AstralBeaconKey = "Astral Beacon";
         internal const string AstralBeaconFilename = "Schematics/AstralBeacon.csch";
