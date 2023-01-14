@@ -381,9 +381,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 {
                     SoundStyle[] DraedonTalks = { new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk1"),
                         new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk2"),
-                        new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk3"),
-                        new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk4"),
-                        new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk5")};
+                        new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk3")};
 
                     SoundStyle playThisSound = Main.rand.Next(DraedonTalks.ToArray());
                     
