@@ -675,9 +675,8 @@ namespace CalamityMod.World
 
             do
             {
-                int underworldTop = Main.maxTilesY - 200;
-                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.15f), (int)(Main.maxTilesX * 0.85f));
-                int placementPositionY = WorldGen.genRand.Next(underworldTop - 400, underworldTop - 50);
+                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.3f), (int)(Main.maxTilesX * 0.7f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.55f), (int)(Main.maxTilesY * 0.8f));
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));

@@ -89,7 +89,6 @@ namespace CalamityMod.Systems
 
                     //desert position shennanigans
                     //start right above hell, then move up until a desert tile is found, and then place the sunken sea
-                    bool foundPosition = false;
                     for (int y = Main.maxTilesY - 200; y >= (Main.maxTilesY / 2) - 45; y--)
                     {
                         if (Main.tile[sunkenSeaX, y].TileType == TileID.Sand || Main.tile[sunkenSeaX, y].TileType == TileID.Sandstone ||
@@ -170,13 +169,6 @@ namespace CalamityMod.Systems
                     }));
                 }
 
-                tasks.Insert(++currentFinalIndex, new PassLegacy("Special Shrines", (progress, config) =>
-                {
-                    progress.Message = "Placing hidden shrines";
-                    UndergroundShrines.PlaceShrines();
-                }));
-
-
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Draedon Structures", (progress, config) =>
                 {
                     progress.Message = "Rust and Dust";
@@ -215,6 +207,14 @@ namespace CalamityMod.Systems
                         DraedonStructures.PlaceResearchFacility(out Point placementPosition, workshopPositions, WorldGen.structures);
                         workshopPositions.Add(placementPosition);
                     }
+                }));
+                
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Special Shrines", (progress, config) =>
+                {
+                    progress.Message = "Placing hidden shrines";
+                    UndergroundShrines.PlaceShrines();
+
+                    UndergroundShrines.PlaceDesertShrine(WorldGen.structures);
                 }));
 
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Abyss", (progress, config) =>

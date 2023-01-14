@@ -2,14 +2,129 @@
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.SummonItems;
+using CalamityMod.Tiles.DraedonStructures;
+using CalamityMod.Tiles.SunkenSea;
+using CalamityMod.Walls;
+using CalamityMod.Schematics;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.WorldBuilding;
+
+using static CalamityMod.Schematics.SchematicManager;
 
 namespace CalamityMod.World
 {
     public class UndergroundShrines
     {
+        #region Schematics
+        public static bool ShouldAvoidLocation(Point placementPoint, bool careAboutLava = true)
+        {
+            Tile tile = CalamityUtils.ParanoidTileRetrieval(placementPoint.X, placementPoint.Y);
+            if (tile.LiquidType == LiquidID.Lava && careAboutLava)
+                return true;
+            if (tile.TileType == TileID.BlueDungeonBrick ||
+            tile.TileType == TileID.GreenDungeonBrick ||
+            tile.TileType == TileID.PinkDungeonBrick)
+            {
+                return true;
+            }
+            if (tile.TileType == TileID.LihzahrdBrick ||
+            tile.WallType == WallID.LihzahrdBrickUnsafe)
+            {
+                return true;
+            }
+            if (tile.TileType == ModContent.TileType<Navystone>() ||
+            tile.TileType == ModContent.TileType<EutrophicSand>() ||
+            tile.WallType == ModContent.WallType<NavystoneWall>() ||
+            tile.WallType == ModContent.WallType<EutrophicSandWall>())
+            {
+                return true;
+            }
+            if (tile.TileType == ModContent.TileType<HazardChevronPanels>() ||
+            tile.TileType == ModContent.TileType<LaboratoryPanels>() ||
+            tile.TileType == ModContent.TileType<LaboratoryPipePlating>() ||
+            tile.TileType == ModContent.TileType<LaboratoryPlating>() ||
+            tile.TileType == ModContent.TileType<RustedPipes>() ||
+            tile.TileType == ModContent.TileType<RustedPlating>())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static void FillDesertShrineChest(Chest chest)
+        {
+            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.SpelunkerPotion, ItemID.MiningPotion, ItemID.BuilderPotion);
+            List<ChestItem> contents = new List<ChestItem>()
+            {
+                new ChestItem(ModContent.ItemType<LuxorsGift>(), 1),
+                new ChestItem(ModContent.ItemType<Items.Placeables.PrismShard>(), WorldGen.genRand.Next(6, 8 + 1)),
+                new ChestItem(ItemID.DungeonDesertKey, 1),
+                new ChestItem(ItemID.DesertTorch, WorldGen.genRand.Next(100, 110 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
+                new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
+            };
+
+            for (int i = 0; i < contents.Count; i++)
+            {
+                chest.item[i].SetDefaults(contents[i].Type);
+                chest.item[i].stack = contents[i].Stack;
+            }
+        }
+        public static void PlaceDesertShrine(StructureMap structures)
+        {
+            int tries = 0;
+            string mapKey = DesertShrineKey;
+            
+            do
+            {
+                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.3f), (int)(Main.maxTilesY * 0.6f));
+                Point placementPoint = new Point(placementPositionX, placementPositionY);
+
+                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                int desertTilesInArea = 0;
+                int desertWallsInArea = 0;
+                int xCheckArea = 40;
+                bool canGenerateInLocation = true;
+
+                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
+                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+                {
+                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                    {
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                        if (ShouldAvoidLocation(new Point(x, y)))
+                            canGenerateInLocation = false;
+
+                        if (tile.TileType == TileID.DesertFossil || tile.TileType == TileID.Sand || tile.TileType == TileID.HardenedSand || tile.TileType == TileID.Sandstone)
+                                desertTilesInArea++;
+
+                        //The desert is absolutely covered with walls. This prevents it from generating in random sand patches.
+                        if (tile.WallType == WallID.HardenedSand || tile.WallType == WallID.Sandstone)
+                                desertWallsInArea++;
+                    }
+                }
+                if (!canGenerateInLocation || desertTilesInArea < totalTiles * 0.5f || desertWallsInArea < totalTiles * 0.9f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                    tries++;
+                else
+                {
+                    bool _ = true;
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillDesertShrineChest));
+                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                    break;
+                }
+
+            } while (tries <= 50000);
+        }
+        #endregion
+
         #region Enumeration
         public enum UndergroundShrineType
         {
@@ -222,7 +337,7 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)(x * y * shrineChance); k++) //Cavern Shrine
+            /*for (int k = 0; k < (int)(x * y * shrineChance); k++) //Cavern: Done.
             {
                 int tilesX = WorldGen.genRand.Next((int)(x * 0.3), generateBack);
                 int tilesX2 = WorldGen.genRand.Next(generateForward, (int)(x * 0.7));
@@ -238,7 +353,7 @@ namespace CalamityMod.World
                     SpecialHut(TileID.ObsidianBrick, TileID.Obsidian, WallID.ObsidianBrick, UndergroundShrineType.Cavern, tilesX2, tilesY);
                     break;
                 }
-            }
+            }*/
 
             for (int k = 0; k < (int)(x * y * shrineChance); k++) //Ice Shrine
             {
@@ -252,7 +367,7 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)(x * y * shrineChance); k++) //Desert Shrine
+            /*for (int k = 0; k < (int)(x * y * shrineChance); k++) //Desert Shrine: Done.
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * 0.3f), (int)(y * 0.5f));
@@ -262,7 +377,7 @@ namespace CalamityMod.World
                     SpecialHut(TileID.DesertFossil, TileID.Sandstone, WallID.DesertFossil, UndergroundShrineType.Desert, tilesX, tilesY);
                     break;
                 }
-            }
+            }*/
 
             for (int k = 0; k < (int)(x * y * shrineChance); k++) //Mushroom Shrine
             {
