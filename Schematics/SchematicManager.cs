@@ -40,6 +40,9 @@ namespace CalamityMod.Schematics
         internal const string DesertShrineKey = "Desert Shrine";
         internal const string DesertShrineFilename = "Schematics/Shrine_Desert.csch";
 
+        internal const string IceShrineKey = "Ice Shrine";
+        internal const string IceShrineFilename = "Schematics/Shrine_Ice.csch";
+
         internal const string AstralBeaconKey = "Astral Beacon";
         internal const string AstralBeaconFilename = "Schematics/AstralBeacon.csch";
         
@@ -65,6 +68,7 @@ namespace CalamityMod.Schematics
 
                 // Shrine world gen structures
                 [DesertShrineKey] = CalamitySchematicIO.LoadSchematic(DesertShrineFilename),
+                [IceShrineKey] = CalamitySchematicIO.LoadSchematic(IceShrineFilename),
 
                 // Astral world gen structures
                 [AstralBeaconKey] = CalamitySchematicIO.LoadSchematic(AstralBeaconFilename),

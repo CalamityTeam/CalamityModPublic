@@ -84,7 +84,7 @@ namespace CalamityMod.World
             
             do
             {
-                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
+                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.3f), (int)(Main.maxTilesX * 0.7f));
                 int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.3f), (int)(Main.maxTilesY * 0.6f));
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
@@ -111,12 +111,74 @@ namespace CalamityMod.World
                                 desertWallsInArea++;
                     }
                 }
-                if (!canGenerateInLocation || desertTilesInArea < totalTiles * 0.5f || desertWallsInArea < totalTiles * 0.9f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || desertTilesInArea < totalTiles * 0.35f || desertWallsInArea < totalTiles * 0.9f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
                     bool _ = true;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillDesertShrineChest));
+                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                    break;
+                }
+
+            } while (tries <= 50000);
+        }
+
+        public static void FillIceShrineChest(Chest chest)
+        {
+            int foodType = Utils.SelectRandom(WorldGen.genRand, ItemID.ChristmasPudding, ItemID.SugarCookie, ItemID.GingerbreadCookie);
+            List<ChestItem> contents = new List<ChestItem>()
+            {
+                new ChestItem(ModContent.ItemType<TundraLeash>(), 1),
+                new ChestItem(ItemID.FlinxFur, WorldGen.genRand.Next(6, 8 + 1)),
+                new ChestItem(ItemID.FrozenKey, 1),
+                new ChestItem(ItemID.IceTorch, WorldGen.genRand.Next(100, 110 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
+                new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(foodType, WorldGen.genRand.Next(10, 12 + 1)),
+            };
+
+            for (int i = 0; i < contents.Count; i++)
+            {
+                chest.item[i].SetDefaults(contents[i].Type);
+                chest.item[i].stack = contents[i].Stack;
+            }
+        }
+        public static void PlaceIceShrine(StructureMap structures)
+        {
+            int tries = 0;
+            string mapKey = IceShrineKey;
+            
+            do
+            {
+                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.3f), (int)(Main.maxTilesX * 0.7f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.35f), (int)(Main.maxTilesY * 0.6f));
+                Point placementPoint = new Point(placementPositionX, placementPositionY);
+
+                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                int iceTilesInArea = 0;
+                int xCheckArea = 40;
+                bool canGenerateInLocation = true;
+
+                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
+                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+                {
+                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                    {
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                        if (ShouldAvoidLocation(new Point(x, y)))
+                            canGenerateInLocation = false;
+
+                        if (tile.TileType == TileID.SnowBlock || tile.TileType == TileID.IceBlock)
+                                iceTilesInArea++;
+                    }
+                }
+                if (!canGenerateInLocation || iceTilesInArea < totalTiles * 0.35f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                    tries++;
+                else
+                {
+                    bool _ = true;
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillIceShrineChest));
                     structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     break;
                 }
@@ -355,7 +417,7 @@ namespace CalamityMod.World
                 }
             }*/
 
-            for (int k = 0; k < (int)(x * y * shrineChance); k++) //Ice Shrine
+            /*for (int k = 0; k < (int)(x * y * shrineChance); k++) //Ice Shrine: Done.
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * 0.35f), (int)(y * 0.5f));
@@ -365,7 +427,7 @@ namespace CalamityMod.World
                     SpecialHut(TileID.IceBrick, TileID.IceBlock, WallID.IceBrick, UndergroundShrineType.Ice, tilesX, tilesY);
                     break;
                 }
-            }
+            }*/
 
             /*for (int k = 0; k < (int)(x * y * shrineChance); k++) //Desert Shrine: Done.
             {

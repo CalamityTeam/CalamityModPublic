@@ -215,6 +215,8 @@ namespace CalamityMod.Systems
                     UndergroundShrines.PlaceShrines();
 
                     UndergroundShrines.PlaceDesertShrine(WorldGen.structures);
+
+                    UndergroundShrines.PlaceIceShrine(WorldGen.structures);
                 }));
 
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Abyss", (progress, config) =>
