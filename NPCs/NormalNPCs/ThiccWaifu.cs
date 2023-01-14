@@ -395,6 +395,15 @@ namespace CalamityMod.NPCs.NormalNPCs
                 texture = ModContent.Request<Texture2D>(Texture).Value;
                 Main.EntitySpriteDraw(texture, NPC.Center - screenPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, direction, 0);
             }
+            if (Main.getGoodWorld) // move to zenith seed later
+            {
+                // I ran out of ideas, so Cloud just gets a hat like how I wanted GSS to
+                Texture2D hattexture = ModContent.Request<Texture2D>("CalamityMod/Particles/WulfrumHat").Value;
+                SpriteEffects hatdirection = NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                int xoffset = NPC.direction == 1 ? 70 : 20;
+                Vector2 offset = new Vector2(xoffset, -10);
+                Main.EntitySpriteDraw(hattexture, NPC.Center - screenPos + offset, null, NPC.GetAlpha(Color.LightBlue), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, hatdirection, 0);
+            }
             return false;
         }
 
