@@ -4,10 +4,13 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Particles.Metaballs;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -192,6 +195,26 @@ namespace CalamityMod.NPCs.AcidRain
 
             // Prevent yeeting into the sky at the speed of light.
             NPC.velocity = Vector2.Clamp(NPC.velocity, new Vector2(-maxSpeed), new Vector2(maxSpeed));
+
+            if (Main.getGoodWorld && !(!NPC.wet && NPC.collideY)) // move to zenith seed later
+            {
+                // Spread the wrath of the damned
+                NPC.Calamity().newAI[0]++;
+                if (NPC.Calamity().newAI[0] % 5 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, Main.rand.NextVector2Circular(4f, 8f), ModContent.ProjectileType<RancorFog>(), 0, 0f, Main.myPlayer);
+                    FusableParticleManager.GetParticleSetByType<RancorGroundLavaParticleSet>().SpawnParticle(NPC.Bottom + Main.rand.NextVector2Circular(10f, 10f), 135f);
+                }
+                if (NPC.Calamity().newAI[0] % 30 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, Vector2.Zero, ModContent.ProjectileType<RancorArm>(), 20, 0f, Main.myPlayer, 0, -1);
+                    if (p.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[p].DamageType = DamageClass.Default;
+                        Main.projectile[p].friendly = false;
+                    }
+                }
+            }
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
