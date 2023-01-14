@@ -121,9 +121,7 @@ namespace CalamityMod.UI.DraedonSummoning
         }
 
         public static readonly SoundStyle DialogOptionHoverSound = new("CalamityMod/Sounds/Custom/Codebreaker/DialogOptionHover");
-
-        public static readonly SoundStyle DraedonDialogSound = new("CalamityMod/Sounds/Custom/Codebreaker/DraedonText");
-
+        
         public override void OnModLoad()
         {
             if (Main.dedServ)
@@ -381,7 +379,15 @@ namespace CalamityMod.UI.DraedonSummoning
                 // Play a small dialog sound, similar to that of Undertale.
                 if (DraedonDialogDelayCountdown <= 0 && nextLetter != ' ' && nextLetter != '\n')
                 {
-                    SoundEngine.PlaySound(DraedonDialogSound with { Volume = 0.4f }, Main.LocalPlayer.Center);
+                    SoundStyle[] DraedonTalks = { new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk1"),
+                        new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk2"),
+                        new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk3"),
+                        new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk4"),
+                        new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk5")};
+
+                    SoundStyle playThisSound = Main.rand.Next(DraedonTalks.ToArray());
+                    
+                    SoundEngine.PlaySound(playThisSound with { Volume = 0.4f }, Main.LocalPlayer.Center);
                     DraedonDialogDelayCountdown = 4;
                 }
             }
