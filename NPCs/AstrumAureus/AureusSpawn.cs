@@ -52,11 +52,15 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(NPC.dontTakeDamage);
+            for (int i = 0; i < 4; i++)
+                writer.Write(NPC.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             NPC.dontTakeDamage = reader.ReadBoolean();
+            for (int i = 0; i < 4; i++)
+                NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -108,7 +112,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 {
                     if (i != NPC.whoAmI && Main.npc[i].type == NPC.type)
                     {
-                        if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < 160f)
+                        if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < (160f + 30f * (NPC.scale - 1f)))
                         {
                             if (NPC.position.X < Main.npc[i].position.X)
                                 NPC.velocity.X = NPC.velocity.X - pushVelocity;
@@ -194,8 +198,8 @@ namespace CalamityMod.NPCs.AstrumAureus
                 Point point = NPC.Center.ToTileCoordinates();
                 Tile tileSafely = Framing.GetTileSafely(point);
                 bool explodeOnCollision = tileSafely.HasUnactuatedTile && Main.tileSolid[tileSafely.TileType] && !Main.tileSolidTop[tileSafely.TileType] && !TileID.Sets.Platforms[tileSafely.TileType];
-                bool explodeOnAureus = distanceFromAureus < 180f && !Main.dayTime;
-                if (vector.Length() < 60f || explodeOnCollision || explodeOnAureus || NPC.Calamity().newAI[0] >= enlargeDuration)
+                bool explodeOnAureus = distanceFromAureus < (180f + 30f * (NPC.scale - 1f)) && !Main.dayTime;
+                if (vector.Length() < (60f + 30f * (NPC.scale - 1f)) || explodeOnCollision || explodeOnAureus || NPC.Calamity().newAI[0] >= enlargeDuration)
                 {
                     NPC.life = 0;
                     NPC.HitEffect();
@@ -229,7 +233,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             if (NPC.ai[0] >= 60f)
-                NPC.DrawBackglow(Color.Cyan with { A = 0 }, 2f + 8f * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * (float)Math.PI * 2f) + 1f), spriteEffects, NPC.frame, screenPos);
+                NPC.DrawBackglow(Color.Lerp(Color.Cyan, Color.Orange, (float)Math.Sin(Main.GlobalTimeWrappedHourly) / 2f + 1f) with { A = 0 }, 2f + 8f * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * (float)Math.PI * 2f) + 1f), spriteEffects, NPC.frame, screenPos);
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
@@ -258,7 +262,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumAureus/AureusSpawnGlow").Value;
-            Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f) * NPC.Opacity;
+            Color color37 = Color.Lerp(Color.White, Color.Orange, 0.5f) * NPC.Opacity;
 
             if (CalamityConfig.Instance.Afterimages)
             {
@@ -301,7 +305,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int totalProjectiles = 4;
+                    int totalProjectiles = 3 + (int)((NPC.scale - 1f) * 3);
                     double radians = MathHelper.TwoPi / totalProjectiles;
                     int type = ModContent.ProjectileType<AstralLaser>();
                     int damage2 = NPC.GetProjectileDamage(type);
@@ -319,7 +323,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
 
             // Damage Aureus for a percentage of its HP if the spawn explodes on or near it
-            if (Main.netMode != NetmodeID.MultiplayerClient && (Main.npc[CalamityGlobalNPC.astrumAureus].Center - NPC.Center).Length() < 200f && !Main.dayTime)
+            if (Main.netMode != NetmodeID.MultiplayerClient && (Main.npc[CalamityGlobalNPC.astrumAureus].Center - NPC.Center).Length() < (200f + 30f * (NPC.scale - 1f)) && !Main.dayTime)
                 Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), Main.npc[CalamityGlobalNPC.astrumAureus].Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), (int)(Main.npc[CalamityGlobalNPC.astrumAureus].lifeMax / 200 * NPC.scale), 0f, Main.myPlayer, Main.npc[CalamityGlobalNPC.astrumAureus].whoAmI);
         }
 
@@ -334,7 +338,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
                 NPC.position.X = NPC.position.X + NPC.width / 2;
                 NPC.position.Y = NPC.position.Y + NPC.height / 2;
-                NPC.damage = (int)(NPC.defDamage / 2 * NPC.scale);
+                NPC.damage = (int)(NPC.defDamage * NPC.scale);
                 NPC.width = NPC.height = (int)(216 * NPC.scale);
                 NPC.position.X = NPC.position.X - NPC.width / 2;
                 NPC.position.Y = NPC.position.Y - NPC.height / 2;
