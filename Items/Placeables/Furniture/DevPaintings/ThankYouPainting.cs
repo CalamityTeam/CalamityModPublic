@@ -99,6 +99,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"StipulateVenus",
 			"That Blasterd Basterd",
 			"Tomat",
+			"Triangle",
 			"Uberransy",
 			"Xyk",
 			"YuH",

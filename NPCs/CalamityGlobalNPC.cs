@@ -266,6 +266,7 @@ namespace CalamityMod.NPCs
         public static int calamitas = -1;
         public static int leviathan = -1;
         public static int siren = -1;
+        public static int astrumAureus = -1;
         public static int scavenger = -1;
         public static int energyFlame = -1;
         public static int doughnutBoss = -1;
@@ -504,6 +505,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref catastrophe, NPCType<Catastrophe>());
             ResetSavedIndex(ref calamitas, NPCType<CalamitasClone>());
             ResetSavedIndex(ref leviathan, NPCType<Leviathan.Leviathan>());
+            ResetSavedIndex(ref astrumAureus, NPCType<AstrumAureus.AstrumAureus>());
             ResetSavedIndex(ref siren, NPCType<Anahita>());
             ResetSavedIndex(ref scavenger, NPCType<RavagerBody>());
             ResetSavedIndex(ref energyFlame, NPCType<ProfanedEnergyBody>());

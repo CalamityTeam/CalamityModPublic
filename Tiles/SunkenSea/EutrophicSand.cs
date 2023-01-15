@@ -14,7 +14,6 @@ namespace CalamityMod.Tiles.SunkenSea
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithDesert(Type);
-            CalamityUtils.SetMerge(Type, ModContent.TileType<Navystone>());
 
             Main.tileShine[Type] = 650;
             Main.tileShine2[Type] = true;
@@ -26,7 +25,7 @@ namespace CalamityMod.Tiles.SunkenSea
             ItemDrop = ModContent.ItemType<Items.Placeables.EutrophicSand>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Sand");
-            AddMapEntry(new Color(100, 100, 150), name);
+            AddMapEntry(new Color(92, 145, 167), name);
             MineResist = 2f;
         }
 

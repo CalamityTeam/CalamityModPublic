@@ -76,28 +76,16 @@ namespace CalamityMod.Systems
                 Main.tileSolid[232] = false;
             });
 
-            // Sunken Sea gens after Traps because otherwise boulders spawn in the Sunken Sea :)
-            int TrapsIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Settle Liquids Again"));
-            if (TrapsIndex != -1)
+            //sunken sea
+            int SunkenSeaIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Settle Liquids Again"));
+            if (SunkenSeaIndex != -1)
             {
-                tasks.Insert(TrapsIndex + 1, new PassLegacy("Sunken Sea", (progress, config) =>
+                tasks.Insert(SunkenSeaIndex + 1, new PassLegacy("Sunken Sea", (progress, config) =>
                 {
                     progress.Message = "Partially flooding an overblown desert";
-                    
-                    int sunkenSeaX = WorldGen.UndergroundDesertLocation.Left;
-                    int sunkenSeaY = 0;
 
-                    //desert position shennanigans
-                    //start right above hell, then move up until a desert tile is found, and then place the sunken sea
-                    for (int y = Main.maxTilesY - 200; y >= (Main.maxTilesY / 2) - 45; y--)
-                    {
-                        if (Main.tile[sunkenSeaX, y].TileType == TileID.Sand || Main.tile[sunkenSeaX, y].TileType == TileID.Sandstone ||
-                        Main.tile[sunkenSeaX, y].TileType == TileID.Sand || Main.tile[sunkenSeaX, y].TileType == TileID.Sandstone)
-                        {
-                            sunkenSeaY = y + 100; //offset so it doesnt generates weird
-                            break;
-                        }
-                    }
+                    int sunkenSeaX = WorldGen.UndergroundDesertLocation.Left;
+                    int sunkenSeaY = Main.maxTilesY - 400;
 
                     SunkenSea.Place(new Point(sunkenSeaX, sunkenSeaY));
                 }));

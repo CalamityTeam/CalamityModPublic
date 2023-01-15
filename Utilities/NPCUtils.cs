@@ -13,8 +13,10 @@ using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Chat;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -431,6 +433,19 @@ namespace CalamityMod
             }
             else
                 return null;
+        }
+
+        public static void DrawBackglow(this NPC npc, Color backglowColor, float backglowArea, SpriteEffects spriteEffects, Rectangle frame, Vector2 screenPos)
+        {
+            Texture2D texture = TextureAssets.Npc[npc.type].Value;
+            Vector2 drawPosition = npc.Center - screenPos;
+            Vector2 origin = frame.Size() * 0.5f;
+            Color backAfterimageColor = backglowColor * npc.Opacity;
+            for (int i = 0; i < 10; i++)
+            {
+                Vector2 drawOffset = (MathHelper.TwoPi * i / 10f).ToRotationVector2() * backglowArea;
+                Main.spriteBatch.Draw(texture, drawPosition + drawOffset, frame, backAfterimageColor, npc.rotation, origin, npc.scale, spriteEffects, 0f);
+            }
         }
 
         /// <summary>
