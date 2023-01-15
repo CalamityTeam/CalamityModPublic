@@ -90,7 +90,7 @@ namespace CalamityMod.World
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
                 //int airTilesBetweenBridge = 0;
-                int corruptWallsInArea = 0;
+                int corruptStuffInArea = 0;
                 bool canGenerateInLocation = true;
 
                 float totalTiles = schematicSize.X * schematicSize.Y;
@@ -103,8 +103,8 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
 
                         //Should generate within the bounds of the walls.
-                        if (tile.WallType == WallID.EbonstoneUnsafe)
-                                corruptWallsInArea++;
+                        if (tile.TileType == TileID.Ebonstone || tile.WallType == WallID.EbonstoneUnsafe)
+                                corruptStuffInArea++;
 
                         //There should be some space in the middle of the bridge to make it more natural
                         //It doesn't seem to work though...
@@ -116,7 +116,7 @@ namespace CalamityMod.World
                         */
                     }
                 }
-                if (!canGenerateInLocation || corruptWallsInArea < totalTiles * 0.8f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || corruptStuffInArea < totalTiles * 0.6f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
@@ -230,14 +230,14 @@ namespace CalamityMod.World
             
             do
             {
-                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.3f), (int)(Main.maxTilesX * 0.7f));
+                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.35f), (int)(Main.maxTilesX * 0.65f));
                 int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.3f), (int)(Main.maxTilesY * 0.6f));
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
                 int desertTilesInArea = 0;
                 int desertWallsInArea = 0;
-                int xCheckArea = 30;
+                int xCheckArea = 50;
                 bool canGenerateInLocation = true;
 
                 float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
@@ -362,25 +362,28 @@ namespace CalamityMod.World
             
             do
             {
-                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.3f), (int)(Main.maxTilesX * 0.7f));
-                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.35f), (int)(Main.maxTilesY * 0.6f));
+                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.25f), (int)(Main.maxTilesX * 0.75f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.35f), (int)(Main.maxTilesY * 0.7f));
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
                 int iceTilesInArea = 0;
-                int xCheckArea = 30;
+                int xCheckArea = 80;
+                int yCheckArea = 40;
                 bool canGenerateInLocation = true;
 
-                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
+                float totalTiles = (schematicSize.X + xCheckArea * 2) * (schematicSize.Y + yCheckArea * 2);
                 for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
                 {
-                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                    for (int y = placementPoint.Y - yCheckArea; y < placementPoint.Y + schematicSize.Y + yCheckArea; y++)
                     {
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                        if (ShouldAvoidLocation(new Point(x, y)))
+                        //Ice biomes obviously have a lot of water
+                        if (ShouldAvoidLocation(new Point(x, y), false))
                             canGenerateInLocation = false;
 
-                        if (tile.TileType == TileID.SnowBlock || tile.TileType == TileID.IceBlock)
+                        if (tile.TileType == TileID.SnowBlock || tile.TileType == TileID.IceBlock
+                        || tile.TileType == TileID.Slush || tile.TileType == TileID.BreakableIce)
                                 iceTilesInArea++;
                     }
                 }
@@ -532,7 +535,7 @@ namespace CalamityMod.World
 
                         //This will never spawn in the jungle
                         if (tile.TileType == TileID.JungleGrass)
-                            realMushroomsInArea -= 1000;
+                            canGenerateInLocation = false;
                     }
                 }
                 if (!canGenerateInLocation || realMushroomsInArea < totalTiles || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
@@ -577,7 +580,7 @@ namespace CalamityMod.World
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
-                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.3f), (int)(Main.maxTilesY * 0.35f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.25f), (int)(Main.maxTilesY * 0.3f));
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
@@ -591,11 +594,16 @@ namespace CalamityMod.World
                     for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                        if (ShouldAvoidLocation(new Point(x, y)))
+                        //Liquids are fine, the structure is sealed.
+                        if (ShouldAvoidLocation(new Point(x, y), false))
                             canGenerateInLocation = false;
 
-                        if (tile.TileType == TileID.Dirt || tile.TileType == TileID.Stone || tile.TileType == TileID.ClayBlock)
+                        if (tile.TileType == TileID.Dirt || tile.TileType == TileID.Stone || tile.TileType == TileID.ClayBlock || tile.TileType == TileID.Sand)
                                 normalTilesInArea++;
+                        
+                        //Avoid the desert due to sand checks
+                        if (tile.WallType == WallID.HardenedSand || tile.WallType == WallID.Sandstone)
+                            canGenerateInLocation = false;
                     }
                 }
                 if (!canGenerateInLocation || normalTilesInArea < totalTiles * 0.4f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
