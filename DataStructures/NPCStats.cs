@@ -445,7 +445,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticAberration>(), new int[] { 70, 140, 160, 170, 210 } },
 
                 { ModContent.NPCType<AstrumAureus>(), new int[] { 100, 220, 242, 253, 330 } },
-                { ModContent.NPCType<AureusSpawn>(), new int[] { 75, 150, 172, 184, 240 } },
+                { ModContent.NPCType<AureusSpawn>(), new int[] { 66, 112, 128, 138, 180 } },
 
                 { NPCID.Golem, new int[] { 90, 144, 176, 192, 240 } },
                 { NPCID.GolemHead, new int[] { 80, 128, 144, 160, 192 } },
