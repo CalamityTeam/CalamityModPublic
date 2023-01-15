@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.SunkenSea
             ItemDrop = ModContent.ItemType<Items.Placeables.Navystone>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Navystone");
-            AddMapEntry(new Color(0, 90, 90), name);
+            AddMapEntry(new Color(31, 92, 114), name);
             MineResist = 2f;
             HitSound = SoundID.Tink;
         }

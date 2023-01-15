@@ -214,6 +214,9 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
             if (!transformedAlready)
             {
+                player.controlUseItem = false;
+                player.controlUseTile = false;
+                player.controlThrow = false;
                 for (int i = 0; i < 5; i++)
                 {
                     Particle part = new WulfrumBastionPartsParticle(player, i, BastionBuildTime + 2);

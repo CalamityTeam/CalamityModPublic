@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Placeables
         {
             SacrificeTotal = 100;
             DisplayName.SetDefault("Prism Shard");
+            Tooltip.SetDefault("Glows brighter underwater");
         }
 
         public override void SetDefaults()
