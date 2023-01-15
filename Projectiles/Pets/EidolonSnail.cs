@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Pets
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eidolon Snail");
+            DisplayName.SetDefault("Escargdolon Snail");
             Main.projFrames[Projectile.type] = 6;
             Main.projPet[Projectile.type] = true;
         }
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Pets
                 float playerDistance = vector48.Length();
                 if (Projectile.velocity.Y == 0 && (HoleBelow() || (playerDistance > 110f && Projectile.position.X == Projectile.oldPosition.X)))
                 {
-                    Projectile.velocity.Y = -5f;
+                    Projectile.velocity.Y = -8f;
                 }
                 Projectile.velocity.Y += 0.35f;
                 if (Projectile.velocity.Y > 15f)
@@ -84,17 +84,17 @@ namespace CalamityMod.Projectiles.Pets
                     if (player.position.X - Projectile.position.X > 0f)
                     {
                         Projectile.velocity.X += 0.10f;
-                        if (Projectile.velocity.X > 7f)
+                        if (Projectile.velocity.X > 5f)
                         {
-                            Projectile.velocity.X = 7f;
+                            Projectile.velocity.X = 5f;
                         }
                     }
                     else
                     {
                         Projectile.velocity.X -= 0.10f;
-                        if (Projectile.velocity.X < -7f)
+                        if (Projectile.velocity.X < -5f)
                         {
-                            Projectile.velocity.X = -7f;
+                            Projectile.velocity.X = -5f;
                         }
                     }
                 }
@@ -115,6 +115,10 @@ namespace CalamityMod.Projectiles.Pets
                             Projectile.velocity.X = 0f;
                         }
                     }
+                }
+                if (playerDistance < 70f)
+                {
+                    Projectile.velocity.X *= 0.5f;
                 }
                 if (Projectile.position.X == Projectile.oldPosition.X && Projectile.position.Y == Projectile.oldPosition.Y && Projectile.velocity.X == 0)
                 {
@@ -138,6 +142,15 @@ namespace CalamityMod.Projectiles.Pets
                     {
                         Projectile.frame = 1;
                     }
+                }
+
+                if (Projectile.velocity.X > 0.8f)
+                {
+                    Projectile.spriteDirection = 1;
+                }
+                else if (Projectile.velocity.X < -0.8f)
+                {
+                    Projectile.spriteDirection = -1;
                 }
             }
             else if (fly)
@@ -174,6 +187,7 @@ namespace CalamityMod.Projectiles.Pets
                     if (playerStill > 10 && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                     {
                         fly = false;
+                        Projectile.velocity *= 0.2f;
                         Projectile.tileCollide = true;
                     }
                 }
@@ -231,17 +245,27 @@ namespace CalamityMod.Projectiles.Pets
                         Projectile.velocity.Y = Projectile.velocity.Y - num16 * 2f;
                     }
                 }
-                Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * Projectile.direction;
+
+                if (playerDistance < 100f)
+                {
+                    Projectile.rotation += 0.2f * (float)Projectile.direction;
+                }
+                else
+                {
+                    Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.05f * (float)Projectile.direction;
+                }
+
+                if (Projectile.Center.X < Main.player[Projectile.owner].Center.X)
+                {
+                    Projectile.spriteDirection = 1;
+                }
+                else if (Projectile.Center.X > Main.player[Projectile.owner].Center.X)
+                {
+                    Projectile.spriteDirection = -1;
+                }
+
                 Projectile.frame = 5;
                 idleTimer = 0;
-            }
-            if (Projectile.velocity.X > 0.8f)
-            {
-                Projectile.spriteDirection = 1;
-            }
-            else if (Projectile.velocity.X < -0.8f)
-            {
-                Projectile.spriteDirection = -1;
             }
         }
 

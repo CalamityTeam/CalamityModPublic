@@ -104,9 +104,9 @@ namespace CalamityMod.Skies
             // Clear away all dead cinders.
             Cinders.RemoveAll(c => c.Time >= c.Lifetime);
 
-        if (!Main.LocalPlayer.Calamity().ZoneCalamity)
-            Filters.Scene["CalamityMod:BrimstoneCrag"].Deactivate(Array.Empty<object>());
-    }
+            if (!Main.LocalPlayer.Calamity().ZoneCalamity)
+                Filters.Scene["CalamityMod:BrimstoneCrag"].Deactivate(Array.Empty<object>());
+        }
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {

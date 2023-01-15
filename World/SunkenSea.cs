@@ -314,6 +314,7 @@ namespace CalamityMod.World
                     Tile tile = Main.tile[x, y];
                     Tile tileUp = Main.tile[x, y - 1];
                     Tile tileDown = Main.tile[x, y + 1];
+                    Tile tileDown2 = Main.tile[x, y + 2];
                     Tile tileLeft = Main.tile[x - 1, y];
                     Tile tileRight = Main.tile[x + 1, y];
 
@@ -359,6 +360,30 @@ namespace CalamityMod.World
                 }
             }
         }
+
+        //place a circular clump of tiles
+        public static void NaturalCircle(int i, int j, int size, int tileType, bool killTile)
+		{
+			int BaseRadius = size;
+			int radius = BaseRadius;
+
+			for (int y = j - radius; y <= j + radius; y++)
+			{
+				for (int x = i - radius; x <= i + radius + 1; x++)
+				{
+					if ((int)Vector2.Distance(new Vector2(x, y), new Vector2(i, j)) <= radius && WorldGen.InWorld(x, y))
+                    {
+						Tile tile = Framing.GetTileSafely(x, y);
+
+						WorldGen.KillTile(x, y);
+                        WorldGen.PlaceTile(x, y, tileType);
+                        tile.Slope = 0;
+                    }
+				}
+
+				radius = BaseRadius - WorldGen.genRand.Next(-1, 2);
+			}
+		}
 
         // Adds tile variation to generated tile clusters and generates open areas with sea prism ore called "Tits"
         // Generates sea prism crystals on prism ore and occasionally on navystone
@@ -509,6 +534,7 @@ namespace CalamityMod.World
                             new Actions.SetFrames(true)
                         }));
                     }
+
                     int num3 = i + start.X;
                     int num4 = j + start.Y;
                     Tile tile = Main.tile[num3, num4];
@@ -680,12 +706,12 @@ namespace CalamityMod.World
 
         public static bool Place(Point origin)
         {
-            for (int y = origin.Y; y >= (Main.maxTilesY / 2) - 45; y--)
+            for (int y = origin.Y; y >= (int)Main.worldSurface; y--)
             {
                 //check for the desert biomes walls
                 if (Main.tile[origin.X, y].WallType == WallID.Sandstone || Main.tile[origin.X, y].WallType == WallID.HardenedSand)
                 {
-                    origin.Y = y + 100; //offset so it doesnt generate weird
+                    origin.Y = y + 50; //offset so it doesnt generate weird
                     foundValidPosition = true;
                     break;
                 }

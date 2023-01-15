@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Pets
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Abyss Shell Fossil");
-            Tooltip.SetDefault("An old fossil of a goofy little abyss creature"
-            + "\nSummons a pet Eidol-cargot");
+            Tooltip.SetDefault("A prehistoric shell, once belonging to a goofy aquatic creature"
+            + "\nSummons a pet Escargdolon Snail");
         }
 
         public override void SetDefaults()

@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eidol-Cargot");
-            Description.SetDefault("He probably doesn't taste good, but is very friendly");
+            DisplayName.SetDefault("Escargdolon Snail");
+            Description.SetDefault("It's like an Eidolon Wyrm... but a snail!");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

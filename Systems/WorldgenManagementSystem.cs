@@ -134,10 +134,7 @@ namespace CalamityMod.Systems
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Brimstone Crag", (progress, config) =>
                 {
                     progress.Message = "Uncovering the ruins of a fallen empire";
-                    //place on the same side as the abyss, right at the edge of the world
-                    //the 25 block offset on both sides is there to prevent any "outside of bounds" crashes
-                    int CragsX = (Main.dungeonX < Main.maxTilesX / 2) ? 25 : Main.maxTilesX - (Main.maxTilesX / 6) - 25;
-                    BrimstoneCrag.GenCrags(CragsX);
+                    BrimstoneCrag.GenCrags();
                 }));
 
                 //biome shrines
