@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void AI()
         {
-            // Force despawn if Ceaseless Void isn't active
+            // Force despawn if Astrum Aureus isn't active
             if (CalamityGlobalNPC.astrumAureus < 0 || !Main.npc[CalamityGlobalNPC.astrumAureus].active)
             {
                 NPC.active = false;
