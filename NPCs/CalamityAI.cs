@@ -2442,7 +2442,20 @@ namespace CalamityMod.NPCs
             bool revenge = CalamityWorld.revenge || bossRush;
             bool death = CalamityWorld.death || bossRush;
 
-            npc.damage = npc.defDamage;
+            // Percent life remaining
+            float lifeRatio = npc.life / (float)npc.lifeMax;
+
+            // Phases
+            bool phase2 = lifeRatio < (revenge ? 0.85f : expertMode ? 0.8f : 0.75f);
+            bool phase3 = lifeRatio < (revenge ? 0.7f : expertMode ? 0.6f : 0.5f);
+            bool phase4 = lifeRatio < (revenge ? 0.5f : 0.4f) && expertMode;
+            bool phase5 = lifeRatio < 0.3f && revenge;
+
+            // Exhaustion
+            bool exhausted = npc.ai[2] >= (phase3 ? 2f : 1f);
+            calamityGlobalNPC.DR = exhausted ? 0.25f : 0.5f;
+            npc.defense = exhausted ? npc.defDefense / 2 : npc.defDefense;
+            npc.damage = exhausted ? 0 : npc.defDamage;
 
             // Don't fire projectiles and don't increment phase timers for 4 seconds after the teleport phase to avoid cheap bullshit
             float noProjectileOrPhaseIncrementTime = 240f;
@@ -2470,24 +2483,12 @@ namespace CalamityMod.NPCs
 
             Player player = Main.player[npc.target];
 
-            // Percent life remaining
-            float lifeRatio = npc.life / (float)npc.lifeMax;
-
             float enrageScale = bossRush ? 1f : 0f;
             if (Main.dayTime || bossRush)
             {
                 npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
-
-            // Phases
-            bool phase2 = lifeRatio < (revenge ? 0.85f : expertMode ? 0.8f : 0.75f);
-            bool phase3 = lifeRatio < (revenge ? 0.7f : expertMode ? 0.6f : 0.5f);
-            bool phase4 = lifeRatio < (revenge ? 0.5f : 0.4f) && expertMode;
-            bool phase5 = lifeRatio < 0.3f && revenge;
-
-            // Exhaustion
-            bool exhausted = npc.ai[2] >= (phase3 ? 2f : 1f);
 
             float astralFlameBarrageTimerIncrement = 1f;
             if (expertMode)
