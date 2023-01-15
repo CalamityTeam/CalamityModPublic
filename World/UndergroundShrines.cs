@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.SummonItems;
@@ -20,7 +20,6 @@ namespace CalamityMod.World
 {
     public class UndergroundShrines
     {
-        #region Schematics
         public static bool ShouldAvoidLocation(Point placementPoint, bool careAboutLiquids = true)
         {
             Tile tile = CalamityUtils.ParanoidTileRetrieval(placementPoint.X, placementPoint.Y);
@@ -56,7 +55,6 @@ namespace CalamityMod.World
 
             return false;
         }
-        #endregion
 
         #region Corruption Shrine
         public static void FillCorruptionShrineChest(Chest chest)
@@ -65,7 +63,7 @@ namespace CalamityMod.World
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ModContent.ItemType<CorruptionEffigy>(), 1),
-                new ChestItem(ItemID.Deathweed, WorldGen.genRand.Next(12, 15 + 1)),
+                new ChestItem(ItemID.RottenChunk, WorldGen.genRand.Next(24, 28 + 1)),
                 new ChestItem(ItemID.CorruptionKey, 1),
                 new ChestItem(ItemID.CorruptTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
@@ -87,17 +85,16 @@ namespace CalamityMod.World
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.1f), (int)(Main.maxTilesX * 0.9f));
-                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.25f), (int)(Main.maxTilesY * 0.4f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.35f));
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-                int corruptTilesInArea = 0;
+                //int airTilesBetweenBridge = 0;
                 int corruptWallsInArea = 0;
-                int xCheckArea = 30;
                 bool canGenerateInLocation = true;
 
-                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
-                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+                float totalTiles = schematicSize.X * schematicSize.Y;
+                for (int x = placementPoint.X; x < placementPoint.X + schematicSize.X; x++)
                 {
                     for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
@@ -105,16 +102,21 @@ namespace CalamityMod.World
                         if (ShouldAvoidLocation(new Point(x, y)))
                             canGenerateInLocation = false;
 
-                        if (tile.TileType == TileID.Ebonstone)
-                                corruptTilesInArea++;
-
                         //Should generate within the bounds of the walls.
-                        //Does not apply to the Crimson
                         if (tile.WallType == WallID.EbonstoneUnsafe)
                                 corruptWallsInArea++;
+
+                        //There should be some space in the middle of the bridge to make it more natural
+                        //It doesn't seem to work though...
+                        /*
+                        float bridgeStartingBound = schematicSize.X * 0.15f;
+                        bool bridgeGap = x <= placementPoint.X + schematicSize.X - bridgeStartingBound && x >= placementPoint.X + bridgeStartingBound;
+                        if (bridgeGap && !tile.HasTile)
+                            airTilesBetweenBridge++;
+                        */
                     }
                 }
-                if (!canGenerateInLocation || corruptTilesInArea < totalTiles * 0.15f || corruptWallsInArea < totalTiles * 0.8f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || corruptWallsInArea < totalTiles * 0.8f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
@@ -157,13 +159,16 @@ namespace CalamityMod.World
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.1f), (int)(Main.maxTilesX * 0.9f));
-                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.25f), (int)(Main.maxTilesY * 0.4f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.2f), (int)(Main.maxTilesY * 0.35f));
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-                int crimsonTilesInArea = 0;
+                int crimsonTilesInGround = 0;
+                int crimsonStuffInArea = 0;
                 bool canGenerateInLocation = true;
 
+                float groundThreshold = schematicSize.Y * 0.4f;
+                float groundTiles = schematicSize.X * groundThreshold;
                 float totalTiles = schematicSize.X * schematicSize.Y;
                 for (int x = placementPoint.X; x < placementPoint.X + schematicSize.X; x++)
                 {
@@ -174,11 +179,16 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
 
                         //The structure is made to embed within the blocks
-                        if (tile.TileType == TileID.Crimstone)
-                                crimsonTilesInArea++;
+                        //The bottom half should have a lot of tiles.
+                        if (y >= placementPoint.Y + schematicSize.Y - groundThreshold && tile.TileType == TileID.Crimstone)
+                            crimsonTilesInGround++;
+                        
+                        //Crimson does not generate walls in blocks very much, so both walls and tiles are grouped
+                        if (tile.TileType == TileID.Crimstone || tile.WallType == WallID.CrimstoneUnsafe)
+                            crimsonStuffInArea++;
                     }
                 }
-                if (!canGenerateInLocation || crimsonTilesInArea < totalTiles * 0.5f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || crimsonTilesInGround < groundTiles * 0.5f || crimsonStuffInArea < totalTiles * 0.8f ||  !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
@@ -247,7 +257,7 @@ namespace CalamityMod.World
                                 desertWallsInArea++;
                     }
                 }
-                if (!canGenerateInLocation || desertTilesInArea < totalTiles * 0.3f || desertWallsInArea < totalTiles || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || desertTilesInArea < totalTiles * 0.3f || desertWallsInArea < totalTiles * 0.95f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
@@ -305,12 +315,12 @@ namespace CalamityMod.World
                         if (ShouldAvoidLocation(new Point(x, y)))
                             canGenerateInLocation = false;
 
-                        //The granite biome is entirely covered by walls.
-                        if (tile.WallType == WallID.GraniteUnsafe)
+                        //The granite geode is supposed to fully float in free air. No tile replacements
+                        if (tile.WallType == WallID.GraniteUnsafe && !tile.HasTile)
                                 graniteWallsInArea++;
                     }
                 }
-                if (!canGenerateInLocation || graniteWallsInArea < totalTiles || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || graniteWallsInArea < totalTiles * 0.95f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
@@ -421,6 +431,7 @@ namespace CalamityMod.World
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
                 int marbleStuffInArea = 0;
+                int airTilesBetweenPillar = 0;
                 bool canGenerateInLocation = true;
 
                 float totalTiles = schematicSize.X * schematicSize.Y;
@@ -433,12 +444,19 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
 
                         //Marble biomes either have blocks or walls, occasionally both
-                        //Due to their low verticality, these should be merged together
+                        //This should be near maximum to prevent the structure from overextending
                         if (tile.TileType == TileID.Marble || tile.WallType == WallID.MarbleUnsafe)
-                                marbleStuffInArea++;
+                            marbleStuffInArea++;
+                        
+                        //There should be some space between the pillars so it doesn't make pillars in the middle of nowhere zone
+                        float pillarFoundationBound = schematicSize.Y * 0.2f;
+                        bool pillarSpace = y <= placementPoint.Y + schematicSize.Y - pillarFoundationBound && y >= placementPoint.Y + pillarFoundationBound;
+                        if (pillarSpace && !tile.HasTile)
+                            airTilesBetweenPillar++;
                     }
                 }
-                if (!canGenerateInLocation || marbleStuffInArea < totalTiles * 0.8f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+
+                if (!canGenerateInLocation || marbleStuffInArea < totalTiles * 0.9f || airTilesBetweenPillar < totalTiles * 0.3f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
@@ -495,18 +513,26 @@ namespace CalamityMod.World
                     for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                        if (ShouldAvoidLocation(new Point(x, y)))
+                        //For some reason, mushroom biomes are very wet
+                        //It gets way too difficult to generate if it doesn't ignore water
+                        if (ShouldAvoidLocation(new Point(x, y), false))
                             canGenerateInLocation = false;
 
                         if (tile.TileType == TileID.Mud)
-                                realMushroomsInArea++;
-                        
-                        if (tile.TileType == TileID.MushroomGrass || tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines)
-                                realMushroomsInArea += 3;
-                        
-                        //Do not let this spawn in the jungle please
+                            realMushroomsInArea++;
+
+                        //Mushroom grass are the main tiles in the mushroom.
+                        if (tile.TileType == TileID.MushroomGrass)
+                            realMushroomsInArea += 3;
+
+                        //This will help make it generate within the "mushroom space". It's intended to generate as an island.
+                        //Just in case though, the schematic makes some room so that it never gets stuck in the mud.
+                        if (tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines)
+                            realMushroomsInArea += 30;
+
+                        //This will never spawn in the jungle
                         if (tile.TileType == TileID.JungleGrass)
-                                realMushroomsInArea -= 1000;
+                            realMushroomsInArea -= 1000;
                     }
                 }
                 if (!canGenerateInLocation || realMushroomsInArea < totalTiles || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))

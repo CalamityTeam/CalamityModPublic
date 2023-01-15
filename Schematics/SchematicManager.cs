@@ -38,25 +38,25 @@ namespace CalamityMod.Schematics
         internal const string CavernLabFilename = "Schematics/DraedonsLab_Cavern.csch";
 
         internal const string CorruptionShrineKey = "Corruption Shrine";
-        internal const string CorruptionShrineFilename = "Schematics/Shrine_Desert.csch";
+        internal const string CorruptionShrineFilename = "Schematics/Shrine_Corruption.csch";
 
         internal const string CrimsonShrineKey = "Crimson Shrine";
-        internal const string CrimsonShrineFilename = "Schematics/Shrine_Desert.csch";
+        internal const string CrimsonShrineFilename = "Schematics/Shrine_Crimson.csch";
 
         internal const string DesertShrineKey = "Desert Shrine";
         internal const string DesertShrineFilename = "Schematics/Shrine_Desert.csch";
 
         internal const string GraniteShrineKey = "Granite Shrine";
-        internal const string GraniteShrineFilename = "Schematics/Shrine_Desert.csch";
+        internal const string GraniteShrineFilename = "Schematics/Shrine_Granite.csch";
 
         internal const string IceShrineKey = "Ice Shrine";
         internal const string IceShrineFilename = "Schematics/Shrine_Desert.csch";
 
         internal const string MarbleShrineKey = "Marble Shrine";
-        internal const string MarbleShrineFilename = "Schematics/Shrine_Desert.csch";
+        internal const string MarbleShrineFilename = "Schematics/Shrine_Marble.csch";
 
         internal const string MushroomShrineKey = "Mushroom Shrine";
-        internal const string MushroomShrineFilename = "Schematics/Shrine_Desert.csch";
+        internal const string MushroomShrineFilename = "Schematics/Shrine_Mushroom.csch";
 
         internal const string SurfaceShrineKey = "Surface Shrine";
         internal const string SurfaceShrineFilename = "Schematics/Shrine_Desert.csch";
