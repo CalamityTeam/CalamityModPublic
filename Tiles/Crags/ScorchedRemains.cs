@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles.Crags
             MineResist = 1f;
             MinPick = 100;
             ItemDrop = ModContent.ItemType<Items.Placeables.ScorchedRemains>();
-            AddMapEntry(new Color(33, 13, 36));
+            AddMapEntry(new Color(57, 52, 72));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

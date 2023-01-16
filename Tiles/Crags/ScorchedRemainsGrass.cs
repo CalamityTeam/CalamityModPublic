@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.Crags
             MineResist = 1f;
             MinPick = 100;
             ItemDrop = ModContent.ItemType<Items.Placeables.ScorchedRemains>();
-            AddMapEntry(new Color(204, 55, 153));
+            AddMapEntry(new Color(212, 82, 227));
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
