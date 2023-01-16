@@ -89,7 +89,6 @@ namespace CalamityMod.World
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-                //int airTilesBetweenBridge = 0;
                 int corruptStuffInArea = 0;
                 bool canGenerateInLocation = true;
 
@@ -104,19 +103,14 @@ namespace CalamityMod.World
 
                         //Should generate within the bounds of the walls.
                         if (tile.TileType == TileID.Ebonstone || tile.WallType == WallID.EbonstoneUnsafe)
-                                corruptStuffInArea++;
-
-                        //There should be some space in the middle of the bridge to make it more natural
-                        //It doesn't seem to work though...
-                        /*
-                        float bridgeStartingBound = schematicSize.X * 0.15f;
-                        bool bridgeGap = x <= placementPoint.X + schematicSize.X - bridgeStartingBound && x >= placementPoint.X + bridgeStartingBound;
-                        if (bridgeGap && !tile.HasTile)
-                            airTilesBetweenBridge++;
-                        */
+                            corruptStuffInArea++;
+                        
+                        //Do not cut into the altars
+                        if (tile.TileType == TileID.DemonAltar)
+                            canGenerateInLocation = false;
                     }
                 }
-                if (!canGenerateInLocation || corruptStuffInArea < totalTiles * 0.6f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || corruptStuffInArea < totalTiles * 0.6f ||  !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
@@ -186,6 +180,10 @@ namespace CalamityMod.World
                         //Crimson does not generate walls in blocks very much, so both walls and tiles are grouped
                         if (tile.TileType == TileID.Crimstone || tile.WallType == WallID.CrimstoneUnsafe)
                             crimsonStuffInArea++;
+                        
+                        //Do not cut into the altars
+                        if (tile.TileType == TileID.DemonAltar)
+                            canGenerateInLocation = false;
                     }
                 }
                 if (!canGenerateInLocation || crimsonTilesInGround < groundTiles * 0.5f || crimsonStuffInArea < totalTiles * 0.8f ||  !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
@@ -369,7 +367,7 @@ namespace CalamityMod.World
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
                 int iceTilesInArea = 0;
                 int xCheckArea = 80;
-                int yCheckArea = 40;
+                int yCheckArea = 20;
                 bool canGenerateInLocation = true;
 
                 float totalTiles = (schematicSize.X + xCheckArea * 2) * (schematicSize.Y + yCheckArea * 2);
@@ -382,12 +380,11 @@ namespace CalamityMod.World
                         if (ShouldAvoidLocation(new Point(x, y), false))
                             canGenerateInLocation = false;
 
-                        if (tile.TileType == TileID.SnowBlock || tile.TileType == TileID.IceBlock
-                        || tile.TileType == TileID.Slush || tile.TileType == TileID.BreakableIce)
+                        if (tile.TileType == TileID.SnowBlock || tile.TileType == TileID.IceBlock)
                                 iceTilesInArea++;
                     }
                 }
-                if (!canGenerateInLocation || iceTilesInArea < totalTiles * 0.3f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || iceTilesInArea < totalTiles * 0.5f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
@@ -585,11 +582,10 @@ namespace CalamityMod.World
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
                 int normalTilesInArea = 0;
-                int xCheckArea = 50;
+                int activeTilesInArea = 0;
                 bool canGenerateInLocation = true;
 
-                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
-                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+                for (int x = placementPoint.X; x < placementPoint.X + schematicSize.X; x++)
                 {
                     for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
@@ -599,14 +595,17 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
 
                         if (tile.TileType == TileID.Dirt || tile.TileType == TileID.Stone || tile.TileType == TileID.ClayBlock || tile.TileType == TileID.Sand)
-                                normalTilesInArea++;
+                            normalTilesInArea++;
+                            
+                        if (tile.HasTile)
+                            activeTilesInArea++;
                         
                         //Avoid the desert due to sand checks
                         if (tile.WallType == WallID.HardenedSand || tile.WallType == WallID.Sandstone)
                             canGenerateInLocation = false;
                     }
                 }
-                if (!canGenerateInLocation || normalTilesInArea < totalTiles * 0.4f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || normalTilesInArea < activeTilesInArea * 0.8f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
