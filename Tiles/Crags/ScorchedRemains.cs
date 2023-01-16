@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Ores;
+﻿using CalamityMod.Tiles.Ores;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -8,8 +8,8 @@ namespace CalamityMod.Tiles.Crags
 {
     public class ScorchedRemains : ModTile
     {
-        private const short subsheetWidth = 450;
-        private const short subsheetHeight = 198;
+        private int sheetWidth = 288;
+        private int sheetHeight = 270;
 
         public override void SetStaticDefaults()
         {
@@ -39,63 +39,15 @@ namespace CalamityMod.Tiles.Crags
             return false;
         }
 
-        /*
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
-            frameXOffset = i % 2 * subsheetWidth;
-            frameYOffset = j % 2 * subsheetHeight;
+            frameXOffset = i % 3 * sheetWidth;
+            frameYOffset = j % 3 * sheetHeight;
         }
-
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            return TileFraming.BrimstoneFraming(i, j, resetFrame);
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<BrimstoneSlag>(), false, false, false, false, resetFrame);
+            return false;
         }
-        */
-
-        /*public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
-        {
-            Tile tile = Main.tile[i, j];
-            Texture2D sprite = ModContent.GetTexture("CalamityMod/Tiles/Crags/BrimstoneSlagGlow");
-            int frameXOffset = i % 2 * subsheetWidth;
-            int frameYOffset = j % 2 * subsheetHeight;
-            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-            Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
-            if (Main.drawToScreen)
-            {
-                zero = Vector2.Zero;
-            }
-            if (tile.Slope == (byte)0 && !tile.IsHalfBlock)
-                Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y)) + zero, new Rectangle(tile.frameX + frameXOffset, tile.frameY + frameYOffset, 16, 16), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
-            else if (tile.IsHalfBlock)
-            {
-                Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y + 10) + 8) + zero, new Rectangle(tile.frameX + frameXOffset, tile.frameY + frameYOffset, 16, 8), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
-            }
-            else
-            {
-                byte num9 = tile.Slope;
-                for (int index4 = 0; index4 < 8; ++index4)
-                {
-                    int width2 = index4 << 1;
-                    Rectangle drawRectangle = new Rectangle(tile.frameX + frameXOffset, tile.frameY + frameYOffset + index4 * 2, width2, 2);
-                    int num10 = 0;
-                    switch (num9)
-                    {
-                        case 2:
-                            drawRectangle.X = 16 - width2;
-                            num10 = 16 - width2;
-                            break;
-                        case 3:
-                            drawRectangle.Width = 16 - width2;
-                            break;
-                        case 4:
-                            drawRectangle.Width = 14 - width2;
-                            drawRectangle.X = width2 + 2;
-                            num10 = width2 + 2;
-                            break;
-                    }
-                    Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X) + (float)num10, (float)(j * 16 - (int)Main.screenPosition.Y + index4 * 2)) + zero, drawRectangle, drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
-                }
-            }
-        }*/
     }
 }
