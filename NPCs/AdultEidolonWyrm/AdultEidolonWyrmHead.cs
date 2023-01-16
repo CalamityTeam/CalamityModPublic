@@ -24,6 +24,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AdultEidolonWyrm
 {
+    [AutoloadBossHead]
     public class AdultEidolonWyrmHead : ModNPC
     {
         public enum Phase
