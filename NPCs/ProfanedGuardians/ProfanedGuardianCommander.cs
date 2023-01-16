@@ -174,6 +174,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     healTimer++;
                     if (healTimer >= healGateValue)
                     {
+                        SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+
                         int maxHealDustIterations = (int)distanceFromHealer;
                         int maxDust = 100;
                         int dustDivisor = maxHealDustIterations / maxDust;
