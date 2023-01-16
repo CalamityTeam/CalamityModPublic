@@ -19,15 +19,16 @@ namespace CalamityMod.World
 {
     public class BrimstoneCrag
     {
-        //the 25 is there to offset it from the edge of the world so no "out of bounds" crashing occurs
-        static int StartX = WorldGen.dungeonX < Main.maxTilesX / 2 ? 25 : (Main.maxTilesX - (Main.maxTilesX / 6)) - 25;
+        static int StartX = 0;
 
         static int lavaLakePlaceDelay = 0;
         static int lavaLakeBigPlaceDelay = 0;
 
         //basic terrain (sorry for the excessive amount of loops lmao)
-        private static void CragTerrain()
+        public static void GenCrags()
         {
+            //set this here so it can properly scale to the worldsize and whatever
+            //the 25's are there to offset it from the exact edge of the world so no "out of bounds" crashing occurs
             StartX = WorldGen.dungeonX < Main.maxTilesX / 2 ? 25 : (Main.maxTilesX - (Main.maxTilesX / 6)) - 25;
 
             int biomeStart = StartX;
@@ -228,7 +229,8 @@ namespace CalamityMod.World
             }
 
             bool place = true;
-            SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragBridgeKey, new Point(biomeMiddle, Main.maxTilesY - 100), SchematicAnchor.Center, ref place);
+            SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragBridgeKey, new Point(biomeMiddle, Main.maxTilesY - 100), 
+            SchematicAnchor.Center, ref place, new Action<Chest>(FillBrimstoneChests));
 
             for (int x = biomeStart; x <= biomeEdge; x++)
             {
@@ -241,6 +243,46 @@ namespace CalamityMod.World
                         tile.LiquidAmount = 255;
                     }
                 }
+            }
+        }
+
+        //this is wip, ignore it for now
+        public static int[] ItemArray = { 0, 1, 2 };
+        public int chestIncrement = 0;
+        public static void FillBrimstoneChests(Chest chest)
+        {
+            /*
+            Potential other item ideas:
+            Charred Idol (??)
+            Obsidian Rose (?)
+            Demon Conch (?)
+            Lava Charm (?)
+            Coastal Demonfish
+            Demonic Bone Ash
+            Hellstone Bars
+            Hellfire Arrows 
+            */
+
+            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
+            List<ChestItem> contents = new List<ChestItem>()
+            {
+                new ChestItem(ItemID.Torch, WorldGen.genRand.Next(15, 29 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(5, 11 + 1)),
+                new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(5, 7 + 1)),
+                new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
+                new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
+            };
+
+            for (int i = 0; i < contents.Count; i++)
+            {
+                /*
+                contents.Insert(0, new ChestItem(ModContent.ItemType<Items.Weapons.Summon.CinderBlossomStaff>(), 1));
+                contents.Insert(0, new ChestItem(ModContent.ItemType<Items.Weapons.Rogue.AshenStalactite>(), 1));
+                contents.Insert(0, new ChestItem(ModContent.ItemType<Items.Weapons.Melee.BladecrestOathsword>(), 1));
+                */
+
+                chest.item[i].SetDefaults(contents[i].Type);
+                chest.item[i].stack = contents[i].Stack;
             }
         }
 
@@ -267,10 +309,5 @@ namespace CalamityMod.World
 				radius = BaseRadius - WorldGen.genRand.Next(-1, 2);
 			}
 		}
-
-        public static void GenCrags()
-        {
-            CragTerrain();
-        }
     }
 }

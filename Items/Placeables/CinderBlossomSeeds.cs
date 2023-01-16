@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Placeables
 {
@@ -33,6 +34,8 @@ namespace CalamityMod.Items.Placeables
 			if (tile.HasTile && !tileAbove.HasTile && tile.TileType == ModContent.TileType<Tiles.Crags.ScorchedRemains>() && player.IsInTileInteractionRange(Player.tileTargetX, Player.tileTargetY))
 			{
 				Main.tile[Player.tileTargetX, Player.tileTargetY].TileType = (ushort)ModContent.TileType<Tiles.Crags.ScorchedRemainsGrass>();
+
+				SoundEngine.PlaySound(SoundID.Dig, player.Center);
 
 				return true;
 			}

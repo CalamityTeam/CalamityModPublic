@@ -18,6 +18,9 @@ using Terraria.WorldBuilding;
 
 namespace CalamityMod.World
 {
+    //DylanDoe's TODO:
+    //change the astral monolith thing so it places away from the meteor, chosen side possibly based on the side of the world?
+    //raise the astral biome generation height limit to prevent things like mountain tops not being fully replaced, ect
     public class AstralBiome
     {
         public static readonly SoundStyle MeteorSound = new("CalamityMod/Sounds/Custom/AstralStarFall");
@@ -451,9 +454,6 @@ namespace CalamityMod.World
 
                     // WorldGen.gen prevents NewItem from working, and thus prevents a bunch of dumb items from being spawned immediately and deleting the WoF/Aureus loot in the process.
                     WorldGen.gen = true;
-                    // Add the average height of a tree to the Y position to offset trees usually messing with the calculation.
-                    // Then also add 10 blocks because these things seem to always like to appear standing on the floor.
-                    //int finalVerticalOffset = 18;
                     bool _ = true;
                     SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i, (int)height), SchematicAnchor.TopCenter, ref _);
                     WorldGen.gen = false;
