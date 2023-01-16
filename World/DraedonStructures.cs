@@ -15,7 +15,6 @@ using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
 using static CalamityMod.Schematics.SchematicManager;
-using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.World
 {
@@ -371,7 +370,6 @@ namespace CalamityMod.World
                     placementPositionX = WorldGen.genRand.Next(ugDesert.Right - 10, ugDesert.Right + 20) - labWidth;
 
                 int sunkenSeaY = 0;
-                bool foundPosition = false;
 
                 //copied the desert position code from the sunken sea's generation so the lab always generates within the sunken sea properly
                 for (int y = Main.maxTilesY - 200; y >= (Main.maxTilesY / 2) - 45; y--)
@@ -388,10 +386,11 @@ namespace CalamityMod.World
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
-                int xCheckArea = 25;
+                
                 /*
                 //Disabled this specifically for the sunken sea lab, not sure if it's even needed since the lab now always places based on where the sunken sea is
                 //this seems to work fine, but i dont want to delete it just in case
+                int xCheckArea = 25;
                 bool shouldAvoidArea = false;
 
                 float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
@@ -644,6 +643,82 @@ namespace CalamityMod.World
                 chest.item[i].SetDefaults(contents[i].Type);
                 chest.item[i].stack = contents[i].Stack;
             }
+        }
+        #endregion
+
+        #region Cavern Lab
+        public static void FillCavernLaboratoryChest(Chest chest)
+        {
+            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
+            List<ChestItem> contents = new List<ChestItem>()
+            {
+                new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(10, 17 + 1)),
+                new ChestItem(ModContent.ItemType<MysteriousCircuitry>(), WorldGen.genRand.Next(10, 15 + 1)),
+                new ChestItem(ItemID.Torch, WorldGen.genRand.Next(20, 40 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(8, 16 + 1)),
+                new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(7, 10 + 1)),
+                new ChestItem(ItemID.Dynamite, WorldGen.genRand.Next(4, 6 + 1)),
+                new ChestItem(potionType, WorldGen.genRand.Next(4, 7 + 1)),
+                new ChestItem(ModContent.ItemType<LabSeekingMechanism>(), 1),
+            };
+            
+            for (int i = 0; i < contents.Count; i++)
+            {
+                chest.item[i].SetDefaults(contents[i].Type);
+                chest.item[i].stack = contents[i].Stack;
+            }
+        }
+        public static void PlaceCavernLab(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
+        {
+            int tries = 0;
+            string mapKey = CavernLabKey;
+
+            do
+            {
+                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.3f), (int)(Main.maxTilesX * 0.7f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.55f), (int)(Main.maxTilesY * 0.8f));
+
+                placementPoint = new Point(placementPositionX, placementPositionY);
+                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                int plainTilesInArea = 0;
+                int xCheckArea = 30;
+                bool canGenerateInLocation = true;
+
+                // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
+                bool nearbyOtherWorkshop = workshopPoints.Any(point => Vector2.Distance(point.ToVector2(), new Vector2(placementPositionX, placementPositionY)) < 240f);
+                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
+                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+                {
+                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                    {
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                        if (ShouldAvoidLocation(new Point(x, y)))
+                            canGenerateInLocation = false;
+
+                        if (tile.HasTile)
+                        {
+                            //Only spawn on normal cave tiles. Some special seeds are weeping rn.
+                            if (tile.TileType == TileID.Dirt || tile.TileType == TileID.Stone || tile.TileType == TileID.Mud || TileID.Sets.Conversion.Moss[tile.TileType])
+                                plainTilesInArea++;
+
+                            //Letting it spawn in natural mud means avoiding every other mud biome at all costs
+                            if (tile.TileType == TileID.JungleGrass || tile.TileType == TileID.MushroomGrass)
+                                plainTilesInArea -= 1000;
+                        }
+                    }
+                }
+                if (!canGenerateInLocation || nearbyOtherWorkshop || plainTilesInArea < totalTiles * 0.3f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                    tries++;
+                else
+                {
+                    bool _ = true;
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillCavernLaboratoryChest));
+                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                    CalamityWorld.CavernLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
+                    break;
+                }
+            }
+            while (tries <= 50000);
         }
         #endregion
     }
