@@ -521,6 +521,13 @@ namespace CalamityMod.NPCs.AcidRain
             return Dying;
         }
 
+        public override void OnKill()
+        {
+            // Mark Nuclear Terror as dead
+            DownedBossSystem.downedNuclearTerror = true;
+            CalamityNetcode.SyncWorld();
+        }
+
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 10; k++)

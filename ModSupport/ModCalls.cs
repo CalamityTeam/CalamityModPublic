@@ -111,6 +111,12 @@ namespace CalamityMod
                 case "aquatic scourge":
                     return DownedBossSystem.downedAquaticScourge;
 
+                case "cragmaw":
+                case "cragmawmire":
+                case "cragmaw mire":
+                case "mire":
+                    return DownedBossSystem.downedCragmawMire;
+
                 case "brimstoneelemental":
                 case "brimstone elemental":
                     return DownedBossSystem.downedBrimstoneElemental;
@@ -196,6 +202,13 @@ namespace CalamityMod
                 case "necroghast":
                 case "necroplasm":
                     return DownedBossSystem.downedPolterghast;
+
+                case "mauler":
+                    return DownedBossSystem.downedMauler;
+
+                case "nuclear terror":
+                case "nuclearterror":
+                    return DownedBossSystem.downedNuclearTerror;
 
                 // Old Duke is also Acid Rain tier 3, so he gets those names too
                 case "oldduke":
@@ -286,6 +299,11 @@ namespace CalamityMod
                 case "adulteidolon":
                 case "adult eidolon":
                     return DownedBossSystem.downedAdultEidolonWyrm;
+
+                case "bossrush":
+                case "boss rush":
+                case "terminus":
+                    return DownedBossSystem.downedBossRush;
             }
         }
         #endregion

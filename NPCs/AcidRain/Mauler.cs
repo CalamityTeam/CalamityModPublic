@@ -474,5 +474,12 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+
+        public override void OnKill()
+        {
+            // Mark Mauler as dead
+            DownedBossSystem.downedMauler = true;
+            CalamityNetcode.SyncWorld();
+        }
     }
 }

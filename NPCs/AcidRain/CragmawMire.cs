@@ -497,6 +497,13 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
+        public override void OnKill()
+        {
+            // Mark Cragmaw Mire as dead
+            DownedBossSystem.downedCragmawMire = true;
+            CalamityNetcode.SyncWorld();
+        }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (damage > 0)
