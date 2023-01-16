@@ -198,7 +198,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                                 Main.dust[dust].position = currentDustPos;
                                 Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
                                 Main.dust[dust].noGravity = true;
-                                Main.dust[dust].scale = 2f;
+                                Main.dust[dust].scale = 1f;
                                 Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
                                 Dust dust2 = Dust.CloneDust(dust);
                                 Dust dust3 = dust2;
