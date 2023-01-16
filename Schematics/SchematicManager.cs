@@ -36,6 +36,9 @@ namespace CalamityMod.Schematics
 
         internal const string AstralBeaconKey = "Astral Beacon";
         internal const string AstralBeaconFilename = "Schematics/AstralBeacon.csch";
+
+        internal const string CragBridgeKey = "Crags Bridge";
+        internal const string CragBridgeFilename = "Schematics/CragBridge.csch";
         
         internal static Dictionary<string, SchematicMetaTile[,]> TileMaps;
         internal static Dictionary<string, PilePlacementFunction> PilePlacementMaps;
@@ -58,6 +61,9 @@ namespace CalamityMod.Schematics
 
                 // Astral world gen structures
                 [AstralBeaconKey] = CalamitySchematicIO.LoadSchematic(AstralBeaconFilename),
+
+                //crag bridge
+                [CragBridgeKey] = CalamitySchematicIO.LoadSchematic(CragBridgeFilename),
 
                 // Sulphurous Sea scrap world gen structures
                 ["Sulphurous Scrap 1"] = CalamitySchematicIO.LoadSchematic("Schematics/SulphurousScrap1.csch").ShaveOffEdge(),

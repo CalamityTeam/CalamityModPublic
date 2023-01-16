@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Pets
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Escargdolon Snail");
+            DisplayName.SetDefault("Escargidolon Snail");
             Main.projFrames[Projectile.type] = 6;
             Main.projPet[Projectile.type] = true;
         }

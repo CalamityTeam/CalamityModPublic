@@ -4,12 +4,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
-    public class SacrificialBlossomSeeds : ModItem
+    public class CinderBlossomSeeds : ModItem
 	{
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sacrificial Blossom Seeds");
-			Tooltip.SetDefault("Places sacrificial blossom grass on scorched remains");
+			DisplayName.SetDefault("Cinder Blossom Seeds");
+			Tooltip.SetDefault("Places cinder blossom grass on scorched remains");
 		}
 
 		public override void SetDefaults()

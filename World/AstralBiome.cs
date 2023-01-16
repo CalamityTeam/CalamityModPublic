@@ -453,9 +453,9 @@ namespace CalamityMod.World
                     WorldGen.gen = true;
                     // Add the average height of a tree to the Y position to offset trees usually messing with the calculation.
                     // Then also add 10 blocks because these things seem to always like to appear standing on the floor.
-                    int finalVerticalOffset = 18;
+                    //int finalVerticalOffset = 18;
                     bool _ = true;
-                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i, (int)height + finalVerticalOffset), SchematicAnchor.Center, ref _);
+                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i, (int)height), SchematicAnchor.TopCenter, ref _);
                     WorldGen.gen = false;
                 }
             }

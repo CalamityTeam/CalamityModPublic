@@ -1,3 +1,5 @@
+using CalamityMod.Schematics;
+using static CalamityMod.Schematics.SchematicManager;
 using CalamityMod.Tiles.Crags;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Walls;
@@ -10,24 +12,27 @@ using Terraria.WorldBuilding;
 using Terraria.GameContent.Generation;
 using Microsoft.Xna.Framework;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace CalamityMod.World
 {
     public class BrimstoneCrag
     {
+        //the 25 is there to offset it from the edge of the world so no "out of bounds" crashing occurs
         static int StartX = WorldGen.dungeonX < Main.maxTilesX / 2 ? 25 : (Main.maxTilesX - (Main.maxTilesX / 6)) - 25;
 
         static int lavaLakePlaceDelay = 0;
         static int lavaLakeBigPlaceDelay = 0;
 
-        //basic terrain (also sorry for the excessive amount of loops lmao)
-        private static void CragsTerrain()
+        //basic terrain (sorry for the excessive amount of loops lmao)
+        private static void CragTerrain()
         {
-            //set these before genning just to be safe
+            StartX = WorldGen.dungeonX < Main.maxTilesX / 2 ? 25 : (Main.maxTilesX - (Main.maxTilesX / 6)) - 25;
+
             int biomeStart = StartX;
-            int biomeMiddle = (biomeStart + (Main.maxTilesX / 6)) / 2;
             int biomeEdge = biomeStart + (Main.maxTilesX / 6);
+            int biomeMiddle = (biomeStart + biomeEdge) / 2;
 
             //clear all blocks and lava in the area
             for (int x = biomeStart; x <= biomeEdge; x++)
@@ -51,7 +56,6 @@ namespace CalamityMod.World
             }
 
             //place clusters of slag around the edges of the main square to create a more interesting shape
-            //this is done after placing the lava lake so it keeps its shape but still has unique terrain
             for (int x = biomeStart; x <= biomeEdge; x++)
             {
                 for (int y = Main.maxTilesY - 110; y <= Main.maxTilesY - 5; y++)
@@ -71,30 +75,17 @@ namespace CalamityMod.World
                 }
             }
 
-            //oh also place clumps of scorched remains on the terrain too
+            /*
+            //TODO: make a better way of generating patches of grass 
             for (int x = biomeStart; x <= biomeEdge; x++)
             {
-                for (int y = Main.maxTilesY - 110; y <= Main.maxTilesY - 5; y++)
+                if (WorldGen.genRand.Next(150) == 0)
                 {
-                    Tile tile = Main.tile[x, y];
-                    Tile tileUp = Main.tile[x, y - 1];
-                    Tile tileDown = Main.tile[x, y + 1];
-                    Tile tileLeft = Main.tile[x - 1, y];
-                    Tile tileRight = Main.tile[x + 1, y];
-
-                    if (tile.TileType == ModContent.TileType<BrimstoneSlag>() && (tileUp.TileType != ModContent.TileType<BrimstoneSlag>() || 
-                    tileDown.TileType != ModContent.TileType<BrimstoneSlag>() || tileLeft.TileType != ModContent.TileType<BrimstoneSlag>() || 
-                    tileRight.TileType != ModContent.TileType<BrimstoneSlag>()))
-                    {
-                        if (WorldGen.genRand.Next(12) == 0)
-                        {
-                            NaturalCircle(x - 10, y + 12, WorldGen.genRand.Next(15, 32), ModContent.TileType<ScorchedRemains>());
-                            NaturalCircle(x, y + 12, WorldGen.genRand.Next(15, 32), ModContent.TileType<ScorchedRemains>());
-                            NaturalCircle(x + 10, y + 12, WorldGen.genRand.Next(15, 32), ModContent.TileType<ScorchedRemains>());
-                        }
-                    }
+                    WorldGen.TileRunner(x - 20, Main.maxTilesY - 120, WorldGen.genRand.Next(8, 22), 
+                    WorldGen.genRand.Next(8, 22), ModContent.TileType<ScorchedRemains>(), false, 0f, 0f, false, true);
                 }
             }
+            */
 
             //place ceiling across the top of the biome
             for (int x = biomeStart - 20; x <= biomeEdge + 20; x++)
@@ -120,7 +111,7 @@ namespace CalamityMod.World
                     Tile tileLeft = Main.tile[x - 1, y];
                     Tile tileRight = Main.tile[x + 1, y];
 
-                    //place tiles under random slag tiles that are sticking out and look weird
+                    //place tiles under slag tiles that are sticking out and look weird
                     if (tile.TileType == ModContent.TileType<BrimstoneSlag>() && !tileDown.HasTile)
                     {
                         WorldGen.PlaceTile(x, y + 1, (ushort)ModContent.TileType<BrimstoneSlag>());
@@ -157,13 +148,14 @@ namespace CalamityMod.World
                 }
 
                 //surface lava lakes and pits
+                //the reason theres three different runners being used is so that a shallow lava pit is placed above each lava pit
                 if (lavaLakeBigPlaceDelay == 0)
                 {
-                    LavaTileRunner runner1 = new LavaTileRunner(new Vector2(x, Main.maxTilesY - 110), new Vector2(0, 5), new Point16(-150, 150),
+                    LavaTileRunner runner1 = new LavaTileRunner(new Vector2(x - 10, Main.maxTilesY - 110), new Vector2(0, 5), new Point16(-150, 150),
                     new Point16(250, 500), 15f, WorldGen.genRand.Next(200, 300), 0, true, true);
                     runner1.Start();
 
-                    LavaTileRunner runner2 = new LavaTileRunner(new Vector2(x, Main.maxTilesY - 110), new Vector2(0, 5), new Point16(-150, 150),
+                    LavaTileRunner runner2 = new LavaTileRunner(new Vector2(x + 10, Main.maxTilesY - 110), new Vector2(0, 5), new Point16(-150, 150),
                     new Point16(250, 500), 15f, WorldGen.genRand.Next(200, 300), 0, true, true);
                     runner2.Start();
 
@@ -175,15 +167,15 @@ namespace CalamityMod.World
                 }
             }
 
-            //place underground lava veins
+            //place random blotches of lava underground
             for (int x = biomeStart; x <= biomeEdge; x++)
             {
-                for (int y = Main.maxTilesY - 90; y <= Main.maxTilesY - 20; y++)
+                for (int y = Main.maxTilesY - 100; y <= Main.maxTilesY - 20; y++)
                 {
-                    if (WorldGen.genRand.Next(750) == 0)
+                    if (WorldGen.genRand.Next(1200) == 0)
                     {
-                        LavaTileRunner runner = new LavaTileRunner(new Vector2(x, y), new Vector2(-5, 5), new Point16(-1000, 1000),
-                        new Point16(-100, 100), 15f, WorldGen.genRand.Next(12, 25), 0, true, true);
+                        LavaTileRunner runner = new LavaTileRunner(new Vector2(x, y), new Vector2(0, 5), new Point16(-20000, 20000),
+                        new Point16(-12, 12), 15f, WorldGen.genRand.Next(12, 25), 0, true, true);
                         runner.Start();
                     }
                 }
@@ -230,8 +222,24 @@ namespace CalamityMod.World
                 if (tile.TileType == ModContent.TileType<BrimstoneSlag>() && (tileUp.LiquidAmount > 0 || 
                 tileDown.LiquidAmount > 0 || tileLeft.LiquidAmount > 0 || tileRight.LiquidAmount > 0)) 
                 {
-                    WorldGen.TileRunner(x + WorldGen.genRand.Next(-45, 45), y + WorldGen.genRand.Next(-45, 45), 
+                    WorldGen.TileRunner(x + WorldGen.genRand.Next(-22, 22), y + WorldGen.genRand.Next(-22, 22), 
                     WorldGen.genRand.Next(8, 22), WorldGen.genRand.Next(8, 22), ModContent.TileType<CharredOre>(), false, 0f, 0f, false, true);
+                }
+            }
+
+            bool place = true;
+            SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragBridgeKey, new Point(biomeMiddle, Main.maxTilesY - 100), SchematicAnchor.Center, ref place);
+
+            for (int x = biomeStart; x <= biomeEdge; x++)
+            {
+                for (int y = Main.maxTilesY - 200; y <= Main.maxTilesY - 5; y++)
+                {
+                    Tile tile = Main.tile[x, y];
+                    if (tile.LiquidAmount > 0)
+                    {
+                        tile.LiquidType = LiquidID.Lava;
+                        tile.LiquidAmount = 255;
+                    }
                 }
             }
         }
@@ -250,10 +258,7 @@ namespace CalamityMod.World
                     {
 						Tile tile = Framing.GetTileSafely(x, y);
 
-                        //if (tile.TileType != ModContent.TileType<ScorchedRemains>())
-                        //{
-						    WorldGen.KillTile(x, y);
-                        //}
+                        WorldGen.KillTile(x, y);
                         WorldGen.PlaceTile(x, y, tileType);
                         tile.Slope = 0;
                     }
@@ -265,7 +270,7 @@ namespace CalamityMod.World
 
         public static void GenCrags()
         {
-            CragsTerrain();
+            CragTerrain();
         }
     }
 }

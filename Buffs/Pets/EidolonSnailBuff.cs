@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Escargdolon Snail");
+            DisplayName.SetDefault("Escargidolon Snail");
             Description.SetDefault("It's like an Eidolon Wyrm... but a snail!");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
