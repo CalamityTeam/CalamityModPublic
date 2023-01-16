@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
@@ -536,22 +536,66 @@ namespace CalamityMod.NPCs.Providence
             // Healing
             if (healerAlive)
             {
-                float healGateValue = revenge ? 60f : 90f;
-                healTimer++;
-                if (healTimer >= healGateValue)
+                float distanceFromHealer = Vector2.Distance(Main.npc[CalamityGlobalNPC.holyBossHealer].Center, NPC.Center);
+                bool dontHeal = Main.npc[CalamityGlobalNPC.holyBossHealer].justHit || NPC.life == NPC.lifeMax;
+                if (dontHeal)
                 {
                     healTimer = 0;
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                }
+                else
+                {
+                    float healGateValue = revenge ? 60f : 90f;
+                    healTimer++;
+                    if (healTimer >= healGateValue)
                     {
-                        int healAmt = NPC.lifeMax / 200;
-                        if (healAmt > NPC.lifeMax - NPC.life)
-                            healAmt = NPC.lifeMax - NPC.life;
+                        SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
 
-                        if (healAmt > 0)
+                        int maxHealDustIterations = (int)distanceFromHealer;
+                        int maxDust = 100;
+                        int dustDivisor = maxHealDustIterations / maxDust;
+                        if (dustDivisor < 2)
+                            dustDivisor = 2;
+
+                        Vector2 dustLineStart = Main.npc[CalamityGlobalNPC.holyBossHealer].Center;
+                        Vector2 dustLineEnd = NPC.Center;
+                        Vector2 currentDustPos = default;
+                        Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(MathHelper.Pi);
+                        Vector2 value5 = new Vector2(2.1f, 2f);
+                        Color dustColor = Main.hslToRgb(Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X, 1f, 0.5f);
+                        dustColor.A = 255;
+                        for (int i = 0; i < maxHealDustIterations; i++)
                         {
-                            NPC.life += healAmt;
-                            NPC.HealEffect(healAmt, true);
-                            NPC.netUpdate = true;
+                            if (i % dustDivisor == 0)
+                            {
+                                currentDustPos = Vector2.Lerp(dustLineStart, dustLineEnd, i / (float)maxHealDustIterations);
+                                int dust = Dust.NewDust(currentDustPos, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
+                                Main.dust[dust].position = currentDustPos;
+                                Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
+                                Main.dust[dust].noGravity = true;
+                                Main.dust[dust].scale = 1f;
+                                Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
+                                Dust dust2 = Dust.CloneDust(dust);
+                                Dust dust3 = dust2;
+                                dust3.scale /= 2f;
+                                dust3 = dust2;
+                                dust3.fadeIn /= 2f;
+                                dust2.color = new Color(255, 255, 255, 255);
+                            }
+                        }
+
+                        healTimer = 0;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            int healAmt = NPC.lifeMax / 200;
+                            if (healAmt > NPC.lifeMax - NPC.life)
+                                healAmt = NPC.lifeMax - NPC.life;
+
+                            if (healAmt > 0)
+                            {
+                                NPC.life += healAmt;
+                                NPC.HealEffect(healAmt, true);
+                                NPC.netUpdate = true;
+                            }
                         }
                     }
                 }

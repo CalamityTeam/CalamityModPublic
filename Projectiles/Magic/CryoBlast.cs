@@ -40,11 +40,14 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Projectile.ai[0] += 1f;
 
-                // Fire extra waves to the left and right
-                for (int i = 0; i < 2; i++)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(-Spread * (i + 1)), Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 0f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(+Spread * (i + 1)), Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 0f);
+                    // Fire extra waves to the left and right
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(-Spread * (i + 1)), Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(+Spread * (i + 1)), Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 0f);
+                    }
                 }
 
                 Projectile.Kill();

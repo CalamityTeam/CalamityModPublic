@@ -4274,7 +4274,7 @@ namespace CalamityMod.NPCs
                         float distanceDivisor = h + 1f;
                         float dustDistance = suckDistance / distanceDivisor;
                         int numDust = (int)(0.1f * MathHelper.TwoPi * dustDistance);
-                        float angleIncrement = MathHelper.TwoPi / (float)numDust;
+                        float angleIncrement = MathHelper.TwoPi / numDust;
                         Vector2 dustOffset = new Vector2(dustDistance, 0f);
                         dustOffset = dustOffset.RotatedByRandom(MathHelper.TwoPi);
 
@@ -4343,9 +4343,9 @@ namespace CalamityMod.NPCs
                         // Beam Portals
                         if (calamityGlobalNPC.newAI[1] == 0f)
                         {
-                            int numBeamPortals = bossRush ? 3 : revenge ? 2 : 1;
+                            int numBeamPortals = bossRush ? 4 : revenge ? 3 : 2;
                             float degrees = 360 / numBeamPortals;
-                            float beamPortalDistance = bossRush ? 800f : death ? 960f : revenge ? 1000f : expertMode ? 1040f : 1080f;
+                            float beamPortalDistance = bossRush ? 480f : death ? 520f : revenge ? 540f : expertMode ? 560f : 600f;
                             int type = ModContent.ProjectileType<DoGBeamPortal>();
                             int damage = npc.GetProjectileDamage(type);
                             for (int i = 0; i < numBeamPortals; i++)
@@ -4368,7 +4368,7 @@ namespace CalamityMod.NPCs
 
                         // Suck in Dark Energy projectiles from far away
                         calamityGlobalNPC.newAI[3] += 1f;
-                        float darkEnergySpiralGateValue = (summonLessDarkEnergies ? 36f : 12f) * projectileFireRateMultiplier;
+                        float darkEnergySpiralGateValue = (summonLessDarkEnergies ? 24f : 12f) * projectileFireRateMultiplier;
                         if (calamityGlobalNPC.newAI[3] >= darkEnergySpiralGateValue)
                         {
                             calamityGlobalNPC.newAI[3] = 0f;
@@ -4393,7 +4393,7 @@ namespace CalamityMod.NPCs
                         }
 
                         // Summon some extra projectiles in Expert Mode
-                        if (phase2 && expertMode && !summonLessDarkEnergies)
+                        if (phase2 && expertMode)
                         {
                             npc.localAI[2] += 1f;
                             if (npc.localAI[2] >= 60f * projectileFireRateMultiplier)
@@ -4420,7 +4420,7 @@ namespace CalamityMod.NPCs
                         }
 
                         // Summon some extra projectiles in Revengeance Mode
-                        if (phase4 && revenge && !summonLessDarkEnergies)
+                        if (phase4 && revenge)
                         {
                             npc.localAI[3] += 1f;
                             if (npc.localAI[3] >= 90f * projectileFireRateMultiplier)
