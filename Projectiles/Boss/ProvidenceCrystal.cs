@@ -99,9 +99,9 @@ namespace CalamityMod.Projectiles.Boss
             // Increment timer
             Projectile.localAI[0] += 1f;
 
-            //At day, fires every 300 frames but lasts 1500-3600 frames.
-            //At night, fires every 30 framges but lasts 210 frames.
-            //In GFB, fires at night rate for the first 210 frames, then at day rate for the next 1500.
+            // At day, fires every 300 frames but lasts 1500-3600 frames.
+            // At night, fires every 30 framges but lasts 210 frames.
+            // In GFB, fires at night rate for the first 210 frames, then at day rate for the next 1500.
             bool dayAI = Projectile.maxPenetrate == (int)Providence.BossMode.Day || (Projectile.maxPenetrate >= (int)Providence.BossMode.Red && Projectile.timeLeft < 1500);
 
             if (Projectile.localAI[0] >= (dayAI ? 300f : 30f))

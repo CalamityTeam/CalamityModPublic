@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceCrystalShard : ModProjectile
@@ -45,7 +46,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            //Day mode by default but syncs with the boss
+            // Day mode by default but syncs with the boss
             if (CalamityGlobalNPC.holyBoss != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.holyBoss].active)
@@ -54,7 +55,7 @@ namespace CalamityMod.Projectiles.Boss
             else
                 Projectile.maxPenetrate = (int)Providence.BossMode.Day;
             
-            //Night AI
+            // Night AI
             if (Projectile.maxPenetrate != (int)Providence.BossMode.Day)
                 Projectile.extraUpdates = 1;
 
@@ -217,11 +218,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            //In GFB, "real damage" is replaced with negative healing
+            // In GFB, "real damage" is replaced with negative healing
             if (Projectile.maxPenetrate >= (int)Providence.BossMode.Red)
                 damage = 0;
 
-            //If the player is dodging, don't apply debuffs
+            // If the player is dodging, don't apply debuffs
             if (damage <= 0 && Projectile.maxPenetrate < (int)Providence.BossMode.Red || target.creativeGodMode)
                 return;
 

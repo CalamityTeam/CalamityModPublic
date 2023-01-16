@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += 0.2f;
+            NPC.frameCounter += 0.12f + NPC.velocity.Length() / 120f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
             NPC.frame.Y = frame * frameHeight;
@@ -112,6 +112,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         public override void AI()
         {
             CalamityGlobalNPC.doughnutBoss = NPC.whoAmI;
+
+            // Rotation
+            NPC.rotation = NPC.velocity.X * 0.005f;
 
             bool bossRush = BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || bossRush;
@@ -159,25 +162,68 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             // Healing
             if (healerAlive)
             {
-                float healGateValue = 60f;
-                healTimer++;
-                if (healTimer >= healGateValue)
+                float distanceFromHealer = Vector2.Distance(Main.npc[CalamityGlobalNPC.doughnutBossHealer].Center, NPC.Center);
+                bool dontHeal = distanceFromHealer > 2000f || Main.npc[CalamityGlobalNPC.doughnutBossHealer].justHit || NPC.life == NPC.lifeMax;
+                if (dontHeal)
                 {
                     healTimer = 0;
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                }
+                else
+                {
+                    float healGateValue = 60f;
+                    healTimer++;
+                    if (healTimer >= healGateValue)
                     {
-                        int healAmt = NPC.lifeMax / 20;
-                        if (healAmt > NPC.lifeMax - NPC.life)
-                            healAmt = NPC.lifeMax - NPC.life;
+                        int maxHealDustIterations = (int)distanceFromHealer;
+                        int maxDust = 100;
+                        int dustDivisor = maxHealDustIterations / maxDust;
+                        if (dustDivisor < 2)
+                            dustDivisor = 2;
 
-                        if (healAmt > 0)
+                        Vector2 dustLineStart = Main.npc[CalamityGlobalNPC.doughnutBossHealer].Center;
+                        Vector2 dustLineEnd = NPC.Center;
+                        Vector2 currentDustPos = default;
+                        Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(MathHelper.Pi);
+                        Vector2 value5 = new Vector2(2.1f, 2f);
+                        Color dustColor = Main.hslToRgb(Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X, 1f, 0.5f);
+                        dustColor.A = 255;
+                        for (int i = 0; i < maxHealDustIterations; i++)
                         {
-                            NPC.life += healAmt;
-                            NPC.HealEffect(healAmt, true);
-                            NPC.netUpdate = true;
+                            if (i % dustDivisor == 0)
+                            {
+                                currentDustPos = Vector2.Lerp(dustLineStart, dustLineEnd, i / (float)maxHealDustIterations);
+                                int dust = Dust.NewDust(currentDustPos, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
+                                Main.dust[dust].position = currentDustPos;
+                                Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
+                                Main.dust[dust].noGravity = true;
+                                Main.dust[dust].scale = 2f;
+                                Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
+                                Dust dust2 = Dust.CloneDust(dust);
+                                Dust dust3 = dust2;
+                                dust3.scale /= 2f;
+                                dust3 = dust2;
+                                dust3.fadeIn /= 2f;
+                                dust2.color = new Color(255, 255, 255, 255);
+                            }
+                        }
+
+                        healTimer = 0;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            int healAmt = NPC.lifeMax / 20;
+                            if (healAmt > NPC.lifeMax - NPC.life)
+                                healAmt = NPC.lifeMax - NPC.life;
+
+                            if (healAmt > 0)
+                            {
+                                NPC.life += healAmt;
+                                NPC.HealEffect(healAmt, true);
+                                NPC.netUpdate = true;
+                            }
                         }
                     }
                 }
+
                 if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].ai[0] == 599 && Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient) // move to zenith seed later
                 {
                     // gain more health once the healer's channel heal is done
@@ -287,21 +333,19 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     {
                         float divisor = (bossRush || biomeEnraged) ? 30f : death ? 40f : revenge ? 44f : expertMode ? 50f : 60f;
                         if (Main.getGoodWorld && healerAlive) // move to zenith seed later
-                        {
                             divisor += 30;
-                        }
                         if (!phase1)
                             divisor = (float)Math.Round(divisor * 0.8f);
 
                         if (NPC.ai[3] % divisor == 0f)
                         {
                             SoundEngine.PlaySound(SoundID.Item20, NPC.position);
-                            int type = ModContent.ProjectileType<FlareDust>();
-                            int damage = NPC.GetProjectileDamage(type);
+
+                            /*int type = ModContent.ProjectileType<FlareDust>();
                             if (Main.getGoodWorld && Main.rand.NextBool(4)) // move to zenith seed later
-                            {
                                 type = ModContent.ProjectileType<HolyFlare>();
-                            }
+
+                            int damage = NPC.GetProjectileDamage(type);
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - vectorCenter);
                             int numProj = death ? 3 : 2;
                             int spread = !phase1 ? 15 : death ? 30 : 20;
@@ -318,7 +362,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                                 Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                                 Vector2 normalizedPerturbedSpeed = Vector2.Normalize(perturbedSpeed);
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter, normalizedPerturbedSpeed * NPC.velocity.Length() * 1.25f, type, damage, 0f, Main.myPlayer, 3f, 0f);
-                            }
+                            }*/
                         }
                     }
                 }
@@ -380,7 +424,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                         SoundEngine.PlaySound(SoundID.Item20, NPC.position);
 
-                        int totalProjectiles = phase1 ? 6 : 10;
+                        /*int totalProjectiles = phase1 ? 6 : 10;
                         float velocity = phase1 ? 5f : 6f;
                         int type = ModContent.ProjectileType<ProfanedSpear>();
                         int damage = NPC.GetProjectileDamage(type);
@@ -413,7 +457,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                         spearType++;
                         if (spearType > 2)
-                            spearType = 0;
+                            spearType = 0;*/
                     }
                 }
 
