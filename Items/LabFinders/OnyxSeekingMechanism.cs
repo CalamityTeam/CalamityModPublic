@@ -38,7 +38,7 @@ namespace CalamityMod.Items.LabFinders
             //Temporary recipe probably
             CreateRecipe().
                 AddIngredient<LabSeekingMechanism>().
-                AddIngredient(ItemID.Obsidian, 1000).
+                AddIngredient(ItemID.Obsidian, 25).
                 AddTile(TileID.Anvils).
                 Register();
         }
