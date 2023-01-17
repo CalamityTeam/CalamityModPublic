@@ -9,7 +9,11 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class AbyssGravel : ModTile
     {
+        int subsheetHeight = 270;
+        int subsheetWidth = 288;
+
         public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/AbyssGravelMine", 3);
+        
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -35,6 +39,12 @@ namespace CalamityMod.Tiles.Abyss
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
+        }
+
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        {
+            frameXOffset = i % 1 * subsheetWidth; //the 1 should be 2, but it looks weird right now, should be looked into later
+            frameYOffset = j % 1 * subsheetHeight;
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)

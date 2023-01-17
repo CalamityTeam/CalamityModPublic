@@ -3,6 +3,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -19,6 +20,24 @@ namespace CalamityMod.NPCs.ProfanedGuardians
     [AutoloadBossHead]
     public class ProfanedGuardianHealer : ModNPC
     {
+        private enum Phase
+        {
+            CrystalShards = 0,
+            Stars = 1
+        }
+
+        private float AIState
+        {
+            get => NPC.localAI[0];
+            set => NPC.localAI[0] = value;
+        }
+
+        private float AITimer
+        {
+            get => NPC.ai[3];
+            set => NPC.ai[3] = value;
+        }
+
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
         public override void SetStaticDefaults()
@@ -48,7 +67,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.height = 164;
             NPC.defense = 30;
             NPC.DR_NERD(0.2f);
-            NPC.LifeMaxNERB(25000, 30000, 20000); // Old HP - 25000, 35000
+            NPC.LifeMaxNERB(25000, 30000, 20000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
@@ -78,19 +97,27 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             });
         }
 
+        public float GetStarShootSlowDownGateValue() => BossRushEvent.BossRushActive ? 240f : CalamityWorld.death ? 280f : CalamityWorld.revenge ? 300f : Main.expertMode ? 320f : 360f;
+
+        public float GetStarShootGateValue() => GetStarShootSlowDownGateValue() + 60f;
+
+        public bool SlowingDownDuringStarShootPhase() => AIState == (float)Phase.Stars && AITimer >= GetStarShootSlowDownGateValue() && AITimer <= GetStarShootGateValue();
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(biomeEnrageTimer);
+            writer.Write(NPC.localAI[0]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             biomeEnrageTimer = reader.ReadInt32();
+            NPC.localAI[0] = reader.ReadSingle();
         }
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += 0.2f;
+            NPC.frameCounter += 0.12f + NPC.velocity.Length() / 120f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
             NPC.frame.Y = frame * frameHeight;
@@ -107,27 +134,26 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 return;
             }
 
-            // Get a target
-            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
-                NPC.TargetClosest();
+            // Rotation
+            NPC.rotation = NPC.velocity.X * 0.005f;
 
-            // Despawn safety, make sure to target another player if the current player target is too far away
-            if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
-                NPC.TargetClosest();
-
+            // Get the Guardian Commander's target
             Player player = Main.player[Main.npc[CalamityGlobalNPC.doughnutBoss].target];
 
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
             bool isHoly = player.ZoneHallow;
             bool isHell = player.ZoneUnderworldHeight;
 
+            // Percent life remaining
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
+
             if (Main.getGoodWorld) // move to zenith seed later
-            {
                 NPC.ai[0]++;
-            }
-            if (NPC.ai[0] >= 300)
-            {
-                NPC.ai[1] = 1;
-            }
+            if (NPC.ai[0] >= 300f)
+                NPC.ai[1] = 1f;
 
             // Become immune over time if target isn't in hell or hallow
             if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
@@ -140,36 +166,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             else
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            if (NPC.ai[1] == 1 && Main.getGoodWorld) // move to zenith seed later
-            {
-                NPC.ai[2]++;
-                NPC.velocity = Vector2.Zero;
-                // Spray out stars of healing stars in gfb
-                if (NPC.ai[2] >= 45)
-                {
-                    int type = ModContent.ProjectileType<HolyBurnOrb>();
-                    int damage = NPC.GetProjectileDamage(type);
-                    int totalProjectiles = 10;
-                    float radians = MathHelper.TwoPi / totalProjectiles;
-                    float velocity = 8f;
-                    Vector2 spinningPoint = new Vector2(0f, -velocity);
-                    for (int k = 0; k < totalProjectiles; k++)
-                    {
-                        Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity2, type, 0, 0f, Main.myPlayer, 0f, damage);
-                    }
-                    NPC.ai[2] = 0;
-                }
-                if (NPC.ai[0] >= 600)
-                {
-                    SoundEngine.PlaySound(SoundID.Item10, player.Center);
-                    NPC.ai[1] = 0;
-                    NPC.ai[2] = 0;
-                    NPC.ai[0] = 0;
-                }
-                return;
-            }
+            bool biomeEnraged = biomeEnrageTimer <= 0;
 
+            // Direction
             if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
             {
                 float playerLocation = NPC.Center.X - player.Center.X;
@@ -177,29 +176,154 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.spriteDirection = NPC.direction;
             }
 
-            Vector2 vector96 = new Vector2(NPC.Center.X, NPC.Center.Y);
-            float num784 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.X - vector96.X;
-            float num785 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.Y - vector96.Y;
-            float num786 = (float)Math.Sqrt(num784 * num784 + num785 * num785);
-
-            if (num786 > 320f)
+            if (NPC.ai[1] == 1f && Main.getGoodWorld) // move to zenith seed later
             {
-                num786 = (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f) / num786;
-                num784 *= num786;
-                num785 *= num786;
+                NPC.ai[2]++;
+                NPC.velocity = Vector2.Zero;
+                // Spray out stars of healing stars in gfb
+                if (NPC.ai[2] >= 45f)
+                {
+                    int type = ModContent.ProjectileType<HolyBurnOrb>();
+                    int damage = NPC.GetProjectileDamage(type);
+                    int totalProjectiles = 10;
+                    float radians = MathHelper.TwoPi / totalProjectiles;
+                    float projectileVelocity = 8f;
+                    Vector2 spinningPoint = new Vector2(0f, -projectileVelocity);
+                    for (int k = 0; k < totalProjectiles; k++)
+                    {
+                        Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity2, type, 0, 0f, Main.myPlayer, 0f, damage);
+                    }
+                    NPC.ai[2] = 0f;
+                }
+                if (NPC.ai[0] >= 600f)
+                {
+                    SoundEngine.PlaySound(SoundID.Item10, player.Center);
+                    NPC.ai[1] = 0f;
+                    NPC.ai[2] = 0f;
+                    NPC.ai[0] = 0f;
+                }
+                return;
+            }
 
-                float inertia = 25f;
+            bool useCrystalShards = AIState == (float)Phase.CrystalShards;
+            float velocity = useCrystalShards ? ((bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f) : (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f);
+            if (Main.getGoodWorld)
+                velocity *= 1.25f;
+
+            float idealDistanceFromDestination = useCrystalShards ? 80f : 160f;
+            Vector2 destination = player.Center + (useCrystalShards ? Vector2.Zero : Vector2.UnitX * Vector2.Normalize(player.velocity).X * 400f) + Vector2.UnitY * -400f;
+            Vector2 distanceFromDestination = destination - NPC.Center;
+            Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * velocity;
+
+            // Fire crystal rain similar to Providence's Crystal attack
+            if (useCrystalShards)
+            {
+                // Increment timer
+                AITimer += 1f;
+                float crystalShootGateValue = bossRush ? 240f : death ? 280f : revenge ? 300f : expertMode ? 320f : 360f;
+                float crystalShootPhaseDuration = crystalShootGateValue + 120f;
+                if (AITimer == crystalShootGateValue)
+                {
+                    SoundEngine.PlaySound(SoundID.Item109, NPC.Center);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        int type = ModContent.ProjectileType<ProvidenceCrystalShard>();
+                        int damage = NPC.GetProjectileDamage(type);
+                        int totalProjectiles = biomeEnraged ? 15 : 10;
+                        float speedX = -15f;
+                        float speedAdjustment = Math.Abs(speedX * 2f / (totalProjectiles - 1));
+                        float speedY = -3f;
+                        for (int i = 0; i < totalProjectiles; i++)
+                        {
+                            float x4 = Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, speedX + speedAdjustment * i + Vector2.Normalize(distanceFromDestination).X * Math.Abs(player.velocity.X), speedY, type, damage, 0f, Main.myPlayer, x4);
+                        }
+                    }
+                }
+
+                // Reset timer and use stars next
+                if (AITimer >= crystalShootPhaseDuration)
+                {
+                    AITimer = 0f;
+                    AIState = (float)Phase.Stars;
+                }
+            }
+
+            // Fire spread of damage and healing stars
+            else
+            {
+                // Increment timer
+                AITimer += 1f;
+                float starShootPhaseDuration = GetStarShootGateValue() + 120f;
+                if (AITimer == GetStarShootGateValue())
+                {
+                    SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        int totalFlameProjectiles = biomeEnraged ? 20 : 16;
+                        int totalRings = 2;
+                        int healingStarChance = revenge ? 8 : expertMode ? 6 : 4;
+                        double radians = MathHelper.TwoPi / totalFlameProjectiles;
+                        SoundEngine.PlaySound(SoundID.Item20, NPC.position);
+                        double angleA = radians * 0.5;
+                        double angleB = MathHelper.ToRadians(90f) - angleA;
+                        for (int i = 0; i < totalRings; i++)
+                        {
+                            bool firstRing = i % 2 == 0;
+                            float starVelocity = firstRing ? 3f : 2f;
+                            float velocityX = (float)(starVelocity * Math.Sin(angleA) / Math.Sin(angleB));
+                            Vector2 spinningPoint = firstRing ? new Vector2(-velocityX, -starVelocity) : new Vector2(0f, -starVelocity);
+                            for (int j = 0; j < totalFlameProjectiles; j++)
+                            {
+                                Vector2 vector2 = spinningPoint.RotatedBy(radians * j);
+
+                                int type = ModContent.ProjectileType<HolyBurnOrb>();
+                                int dmgAmt = NPC.GetProjectileDamage(type);
+                                if (Main.rand.NextBool(healingStarChance) && !death)
+                                {
+                                    type = ModContent.ProjectileType<HolyLight>();
+                                    dmgAmt = NPC.GetProjectileDamageNoScaling(type);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector2, type, 0, 0f, Main.myPlayer, 0f, dmgAmt);
+                                }
+                                else
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector2, type, dmgAmt, 0f, Main.myPlayer);
+                            }
+                        }
+                    }
+                }
+
+                // Reset timer and use stars next
+                if (AITimer >= starShootPhaseDuration)
+                {
+                    AITimer = 0f;
+                    AIState = (float)Phase.CrystalShards;
+                }
+
+                // Slow down before firing stars
+                if (SlowingDownDuringStarShootPhase())
+                {
+                    NPC.velocity *= 0.95f;
+                    return;
+                }
+            }
+
+            // Move towards a location above the player
+            if (distanceFromDestination.Length() > idealDistanceFromDestination)
+            {
+                float inertia = (bossRush || biomeEnraged) ? 28f : death ? 32f : revenge ? 34f : expertMode ? 36f : 40f;
+                if (lifeRatio < 0.5f)
+                    inertia *= 0.8f;
                 if (Main.getGoodWorld)
                     inertia *= 0.8f;
 
-                NPC.velocity.X = (NPC.velocity.X * inertia + num784) / (inertia + 1f);
-                NPC.velocity.Y = (NPC.velocity.Y * inertia + num785) / (inertia + 1f);
+                NPC.velocity = (NPC.velocity * (inertia - 1) + desiredVelocity) / inertia;
 
                 return;
             }
 
-            if (NPC.velocity.Length() < Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f)
-                NPC.velocity *= 1.1f;
+            // Slow down when close enough to destination or when firing stars
+            NPC.velocity *= 0.98f;
         }
 
         public override bool CheckActive() => false;

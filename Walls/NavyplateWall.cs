@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -11,7 +11,7 @@ namespace CalamityMod.Walls
             Main.wallHouse[Type] = true;
 
             ItemDrop = ModContent.ItemType<Items.Placeables.Walls.NavyplateWall>();
-            AddMapEntry(new Color(55, 98, 127));
+            AddMapEntry(new Color(16, 45, 48));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

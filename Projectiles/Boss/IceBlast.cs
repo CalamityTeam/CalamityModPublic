@@ -58,12 +58,11 @@ namespace CalamityMod.Projectiles.Boss
 
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
-            for (int num322 = 0; num322 < 2; num322++)
+            for (int i = 0; i < 2; i++)
             {
-                int num323 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, Projectile.velocity.X, Projectile.velocity.Y, 50, default, 0.6f);
-                Main.dust[num323].noGravity = true;
-                Dust dust = Main.dust[num323];
-                dust.velocity *= 0.3f;
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, Projectile.velocity.X, Projectile.velocity.Y, 50, default, 0.6f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 0.3f;
             }
         }
 

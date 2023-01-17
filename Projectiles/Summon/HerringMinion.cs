@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +10,11 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class HerringMinion : ModProjectile
     {
-        public int dust = 3;
+        public Player Owner => Main.player[Projectile.owner];
+
+        public CalamityPlayer moddedOwner => Owner.Calamity();
+        
+        public int dustEffect = 3;
 
         public override void SetStaticDefaults()
         {
@@ -23,84 +26,74 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 30;
-            Projectile.height = 30;
+            Projectile.width = 60;
+            Projectile.height = 24;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.minionSlots = 0.5f;
-            Projectile.timeLeft = 18000;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.timeLeft *= 5;
             Projectile.minion = true;
             Projectile.DamageType = DamageClass.Summon;
+            Projectile.usesIDStaticNPCImmunity= true;
+            Projectile.idStaticNPCHitCooldown = 8;
         }
 
         public override void AI()
         {
-            Player player = Main.player[Projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
-            if (dust > 0)
+            CheckMinionExistance(); // Checks if the minion can still exist.
+            SpawnEffect(); // Does a dust effectw where it spawns.
+            DoAnimation(); // Does the animation of the minion.
+            PointInRightDirection(); // Points at where it's going.
+
+            Projectile.rotation = Projectile.velocity.X * 0.05f; // Does a little movement effect with it's rotation when it's moving.
+
+            Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 24f, 15f, 4f, new Vector2(0f, -60f), 12f, 12f, true, true, 1);
+        }
+
+        public void CheckMinionExistance()
+        {
+            Owner.AddBuff(ModContent.BuffType<Herring>(), 1);
+            if (Projectile.type == ModContent.ProjectileType<HerringMinion>())
+            {
+                if (Owner.dead)
+                    moddedOwner.herring = false;
+                if (moddedOwner.herring)
+                    Projectile.timeLeft = 2;
+            }
+        }
+
+        public void SpawnEffect()
+        {
+            if (dustEffect > 0)
             {
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
                 {
-                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
+                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2(Projectile.width / 2f, Projectile.height) * 0.75f;
+                    vector6 = vector6.RotatedBy((double)((num227 - (num226 / 2 - 1)) * 6.28318548f / num226), default) + Projectile.Center;
                     Vector2 vector7 = vector6 - Projectile.Center;
-                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 33, vector7.X * 1.75f, vector7.Y * 1.75f, 100, default, 1.1f);
+                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, DustID.Water, vector7.X * 1.75f, vector7.Y * 1.75f, 100, default, 1.1f);
                     Main.dust[num228].noGravity = true;
                     Main.dust[num228].velocity = vector7;
                 }
-                dust--;
+                dustEffect--;
             }
-            if (Math.Abs(Projectile.velocity.X) > 0.2f)
-            {
-                Projectile.spriteDirection = Projectile.direction;
-            }
-            Projectile.rotation = Projectile.velocity.X * 0.005f;
+        }
+
+        public void DoAnimation()
+        {
             Projectile.frameCounter++;
-            if (Projectile.frameCounter > 6)
-            {
-                Projectile.frame++;
-                Projectile.frameCounter = 0;
-            }
-            if (Projectile.frame >= Main.projFrames[Projectile.type])
-            {
-                Projectile.frame = 0;
-            }
-
-            bool flag64 = Projectile.type == ModContent.ProjectileType<HerringMinion>();
-            player.AddBuff(ModContent.BuffType<Herring>(), 3600);
-            if (flag64)
-            {
-                if (player.dead)
-                {
-                    modPlayer.herring = false;
-                }
-                if (modPlayer.herring)
-                {
-                    Projectile.timeLeft = 2;
-                }
-            }
-
-            Projectile.ChargingMinionAI(600f, 800f, 1200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 7f, false, true);
+            Projectile.frame = Projectile.frameCounter / 8 % Main.projFrames[Projectile.type];
         }
 
-        public override bool PreDraw(ref Color lightColor)
+        public void PointInRightDirection()
         {
-            SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
-            int num214 = texture2D13.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
-            Main.EntitySpriteDraw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
-            return false;
+            if (Math.Abs(Projectile.velocity.X) > 0.1f)
+                Projectile.spriteDirection = Math.Sign(Projectile.velocity.X);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.immune[Projectile.owner] = 8;
-        }
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }
 }

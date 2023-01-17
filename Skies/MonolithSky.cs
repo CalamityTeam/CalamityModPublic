@@ -47,7 +47,7 @@ namespace CalamityMod.Skies
 
         public override void Update(GameTime gameTime)
         {
-            if (Main.LocalPlayer.Calamity().monolithAccursedShader < 1)
+            if (Main.LocalPlayer.Calamity().monolithAccursedShader < 1 || Main.gameMenu)
                 skyActive = false;
 
             if (skyActive && opacity < 1f)

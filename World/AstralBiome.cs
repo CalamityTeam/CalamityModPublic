@@ -133,7 +133,8 @@ namespace CalamityMod.World
                 int y = (int)(Main.worldSurface * 0.5); //Large = 522, Medium = 444, Small = 336
                 while (y < Main.maxTilesY)
                 {
-                    if (Main.tile[x, y].HasTile && Main.tileSolid[(int)Main.tile[x, y].TileType])
+                    //check to place the astral meteor on valid tiles, place automatically on ebonstone walls, and avoid platforms
+                    if (((Main.tile[x, y].HasTile && Main.tileSolid[(int)Main.tile[x, y].TileType]) || Main.tile[x, y].WallType == 3) && !TileID.Sets.Platforms[Main.tile[x, y].TileType])
                     {
                         int suitableTiles = 0;
                         int checkRadius = 15;

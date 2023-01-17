@@ -1176,7 +1176,7 @@ namespace CalamityMod
             // Disable vanilla trying to merge these tiles automtaically.
             Main.tileMerge[myType][mergeType] = false;
 
-            // these all get null checked in the GetSimilarity and GetMerge functions
+            // These all get null checked in the GetSimilarity and GetMerge functions
             Tile tileLeft = Main.tile[x - 1, y];
             Tile tileRight = Main.tile[x + 1, y];
             Tile tileUp = Main.tile[x, y - 1];
@@ -1722,7 +1722,6 @@ namespace CalamityMod
             if (y < 0 || y >= Main.maxTilesY)
                 return;
 
-            Tile tile = Main.tile[x, y];
             bool forceSameUp = false;
             bool forceSameDown = false;
             bool forceSameLeft = false;

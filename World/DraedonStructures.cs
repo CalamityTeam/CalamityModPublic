@@ -1,4 +1,6 @@
-﻿using CalamityMod.Items.DraedonMisc;
+﻿using CalamityMod.Tiles.SunkenSea;
+using CalamityMod.Walls;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.LabFinders;
@@ -13,7 +15,6 @@ using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
 using static CalamityMod.Schematics.SchematicManager;
-using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.World
 {
@@ -28,20 +29,27 @@ namespace CalamityMod.World
             if (tile.LiquidType == LiquidID.Lava && careAboutLava)
                 return true;
             if (tile.TileType == TileID.BlueDungeonBrick ||
-                tile.TileType == TileID.GreenDungeonBrick ||
-                tile.TileType == TileID.PinkDungeonBrick)
+            tile.TileType == TileID.GreenDungeonBrick ||
+            tile.TileType == TileID.PinkDungeonBrick)
             {
                 return true;
             }
             if (tile.TileType == TileID.LihzahrdBrick ||
-                tile.WallType == WallID.LihzahrdBrickUnsafe)
+            tile.WallType == WallID.LihzahrdBrickUnsafe)
             {
                 return true;
             }
             if (tile.TileType == TileID.Crimstone ||
-                tile.WallType == WallID.CrimstoneUnsafe ||
-                tile.TileType == TileID.Ebonstone ||
-                tile.WallType == WallID.EbonstoneUnsafe)
+            tile.WallType == WallID.CrimstoneUnsafe ||
+            tile.TileType == TileID.Ebonstone ||
+            tile.WallType == WallID.EbonstoneUnsafe)
+            {
+                return true;
+            }
+            if (tile.TileType == ModContent.TileType<Navystone>() ||
+            tile.TileType == ModContent.TileType<EutrophicSand>() ||
+            tile.WallType == ModContent.WallType<NavystoneWall>() ||
+            tile.WallType == ModContent.WallType<EutrophicSandWall>())
             {
                 return true;
             }
@@ -252,7 +260,7 @@ namespace CalamityMod.World
             string mapKey = HellLabKey;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             SchematicMetaTile[,] schematic = TileMaps[mapKey];
-
+            
             do
             {
                 int underworldTop = Main.maxTilesY - 200;
@@ -285,6 +293,22 @@ namespace CalamityMod.World
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedMurasama, new Action<Chest, int, bool>(FillHellLaboratoryChest));
                     structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     CalamityWorld.HellLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
+
+                    //for now just manually check the area around the lab and replace water with lava, may not be the best permanent fix but it works for now
+                    for (int killWaterX = placementPoint.X - 150; killWaterX <= placementPoint.X + 150; killWaterX++)
+                    {
+                        for (int killWaterY = underworldTop; killWaterY <= Main.maxTilesY - 5; killWaterY++)
+                        {
+                            Tile tile = Framing.GetTileSafely(killWaterX, killWaterY);
+
+                            if (tile.LiquidType == LiquidID.Water && tile.LiquidAmount > 0)
+                            {
+                                tile.LiquidType = LiquidID.Lava;
+					            tile.LiquidAmount = 255;
+                            }
+                        }
+                    }
+
                     break;
                 }
             }
@@ -345,12 +369,27 @@ namespace CalamityMod.World
                 else
                     placementPositionX = WorldGen.genRand.Next(ugDesert.Right - 10, ugDesert.Right + 20) - labWidth;
 
-                // Somewhere in the middle third of the Sunken Sea, which itself is in the lower half of the Underground Desert
-                int sunkenSeaHeight = ugDesert.Height / 4;
-                int placementPositionY = (int)(ugDesert.Center.Y + Main.rand.NextFloat(0.33f, 0.67f) * sunkenSeaHeight) - labHeight;
+                int sunkenSeaY = 0;
+
+                //copied the desert position code from the sunken sea's generation so the lab always generates within the sunken sea properly
+                for (int y = Main.maxTilesY - 200; y >= (Main.maxTilesY / 2) - 45; y--)
+                {
+                    if (Main.tile[placementPositionX, y].TileType == ModContent.TileType<Navystone>() || 
+                    Main.tile[placementPositionX, y].TileType == ModContent.TileType<EutrophicSand>())
+                    {
+                        sunkenSeaY = y - 90; //offset so it generates nicely
+                        break;
+                    }
+                }
+
+                int placementPositionY = (int)(sunkenSeaY) - labHeight;
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
+                
+                /*
+                //Disabled this specifically for the sunken sea lab, not sure if it's even needed since the lab now always places based on where the sunken sea is
+                //this seems to work fine, but i dont want to delete it just in case
                 int xCheckArea = 25;
                 bool shouldAvoidArea = false;
 
@@ -365,7 +404,8 @@ namespace CalamityMod.World
                     }
                 }
                 tries++;
-                if (!shouldAvoidArea && structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                */
+                if (/*!shouldAvoidArea &&*/ structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     break;
             }
             while (tries < 50000);
@@ -603,6 +643,82 @@ namespace CalamityMod.World
                 chest.item[i].SetDefaults(contents[i].Type);
                 chest.item[i].stack = contents[i].Stack;
             }
+        }
+        #endregion
+
+        #region Cavern Lab
+        public static void FillCavernLaboratoryChest(Chest chest)
+        {
+            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
+            List<ChestItem> contents = new List<ChestItem>()
+            {
+                new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(10, 17 + 1)),
+                new ChestItem(ModContent.ItemType<MysteriousCircuitry>(), WorldGen.genRand.Next(10, 15 + 1)),
+                new ChestItem(ItemID.Torch, WorldGen.genRand.Next(20, 40 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(8, 16 + 1)),
+                new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(7, 10 + 1)),
+                new ChestItem(ItemID.Dynamite, WorldGen.genRand.Next(4, 6 + 1)),
+                new ChestItem(potionType, WorldGen.genRand.Next(4, 7 + 1)),
+                new ChestItem(ModContent.ItemType<LabSeekingMechanism>(), 1),
+            };
+            
+            for (int i = 0; i < contents.Count; i++)
+            {
+                chest.item[i].SetDefaults(contents[i].Type);
+                chest.item[i].stack = contents[i].Stack;
+            }
+        }
+        public static void PlaceCavernLab(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
+        {
+            int tries = 0;
+            string mapKey = CavernLabKey;
+
+            do
+            {
+                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.3f), (int)(Main.maxTilesX * 0.7f));
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.55f), (int)(Main.maxTilesY * 0.8f));
+
+                placementPoint = new Point(placementPositionX, placementPositionY);
+                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                int plainTilesInArea = 0;
+                int xCheckArea = 30;
+                bool canGenerateInLocation = true;
+
+                // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
+                bool nearbyOtherWorkshop = workshopPoints.Any(point => Vector2.Distance(point.ToVector2(), new Vector2(placementPositionX, placementPositionY)) < 240f);
+                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
+                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+                {
+                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                    {
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                        if (ShouldAvoidLocation(new Point(x, y)))
+                            canGenerateInLocation = false;
+
+                        if (tile.HasTile)
+                        {
+                            //Only spawn on normal cave tiles. Some special seeds are weeping rn.
+                            if (tile.TileType == TileID.Dirt || tile.TileType == TileID.Stone || tile.TileType == TileID.Mud || TileID.Sets.Conversion.Moss[tile.TileType])
+                                plainTilesInArea++;
+
+                            //Letting it spawn in natural mud means avoiding every other mud biome at all costs
+                            if (tile.TileType == TileID.JungleGrass || tile.TileType == TileID.MushroomGrass)
+                                plainTilesInArea -= 1000;
+                        }
+                    }
+                }
+                if (!canGenerateInLocation || nearbyOtherWorkshop || plainTilesInArea < totalTiles * 0.3f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                    tries++;
+                else
+                {
+                    bool _ = true;
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillCavernLaboratoryChest));
+                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                    CalamityWorld.CavernLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
+                    break;
+                }
+            }
+            while (tries <= 50000);
         }
         #endregion
     }

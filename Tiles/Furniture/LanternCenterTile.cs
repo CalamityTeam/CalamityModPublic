@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.ObjectInteractions;
@@ -46,6 +47,7 @@ namespace CalamityMod.Tiles.Furniture
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<LanternCenter>());
+            LanternNight.ManualLanterns = false;
         }
 
         public override void HitWire(int i, int j)
@@ -58,6 +60,7 @@ namespace CalamityMod.Tiles.Furniture
         {
             CalamityUtils.LightHitWire(Type, i, j, 3, 3);
             LanternNight.ToggleManualLanterns();
+            SoundEngine.PlaySound(SoundID.Mech, new Vector2(i * 16, j * 16));
             return true;
         }
 

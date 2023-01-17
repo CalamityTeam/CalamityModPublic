@@ -150,7 +150,7 @@ namespace CalamityMod.Systems
                 if (y2 < 10)
                     y2 = 10;
 
-                if (WorldGen.InWorld(x, y, 1) && Main.tile[x, y] != null)
+                if (WorldGen.InWorld(x, y, 1) && Main.tile[x, y].HasTile)
                 {
                     if (Main.tile[x, y].HasUnactuatedTile)
                     {
@@ -229,8 +229,9 @@ namespace CalamityMod.Systems
                             }
                         }
 
-                        int tileType = Main.tile[x, y].TileType;
-                        if (CalamityGlobalTile.GrowthTiles.Contains(tileType))
+                        Tile growthTile = Main.tile[x, y];
+                        int tileType = growthTile.TileType;
+                        if (CalamityGlobalTile.GrowthTiles.Contains(tileType) && growthTile.Slope == SlopeType.Solid && !growthTile.IsHalfBlock)
                         {
                             int growthChance = 2;
                             if (tileType == ModContent.TileType<Navystone>())
@@ -261,7 +262,7 @@ namespace CalamityMod.Systems
                                     Tile tile = Main.tile[x, y];
                                     bool growTile = !tile.HasTile && tile.LiquidAmount >= 128;
                                     bool isSunkenSeaTile = tileType == ModContent.TileType<Navystone>() || tileType == ModContent.TileType<EutrophicSand>() || tileType == ModContent.TileType<SeaPrism>();
-                                    bool meetsAdditionalGrowConditions = tile.Slope == 0 && !tile.IsHalfBlock && tile.LiquidType != LiquidID.Lava;
+                                    bool meetsAdditionalGrowConditions = tile.Slope == SlopeType.Solid && !tile.IsHalfBlock && tile.LiquidType != LiquidID.Lava;
 
                                     if (growTile && meetsAdditionalGrowConditions)
                                     {

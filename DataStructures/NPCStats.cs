@@ -445,7 +445,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticAberration>(), new int[] { 70, 140, 160, 170, 210 } },
 
                 { ModContent.NPCType<AstrumAureus>(), new int[] { 100, 220, 242, 253, 330 } },
-                { ModContent.NPCType<AureusSpawn>(), new int[] { 75, 150, 172, 184, 240 } },
+                { ModContent.NPCType<AureusSpawn>(), new int[] { 66, 112, 128, 138, 180 } },
 
                 { NPCID.Golem, new int[] { 90, 144, 176, 192, 240 } },
                 { NPCID.GolemHead, new int[] { 80, 128, 144, 160, 192 } },
@@ -723,7 +723,9 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianCommander>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 140, 220, 244, 256, 366 } },
                 { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianCommander>(), ModContent.ProjectileType<FlareDust>()), new int[] { 140, 220, 244, 256, 366 } },
                 { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianDefender>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 140, 220, 244, 256, 366 } },
-                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianHealer>(), ModContent.ProjectileType<HolyBurnOrb>()), new int[] { 105, 171, 189, 198, 284 } },
+                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianHealer>(), ModContent.ProjectileType<ProvidenceCrystalShard>()), new int[] { 140, 220, 244, 256, 366 } },
+                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianHealer>(), ModContent.ProjectileType<HolyBurnOrb>()), new int[] { 120, 192, 220, 236, 330 } },
+                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianHealer>(), ModContent.ProjectileType<HolyLight>()), new int[] { 35, 50, 50, 0, 0 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<Bumblefuck>(), ModContent.ProjectileType<RedLightningFeather>()), new int[] { 140, 220, 244, 256, 366 } },
                 { new Tuple<int, int>(ModContent.NPCType<Bumblefuck>(), ModContent.ProjectileType<BirbAuraFlare>()), new int[] { 200, 300, 332, 356, 498 } },
@@ -768,7 +770,7 @@ namespace CalamityMod
 
                 { new Tuple<int, int>(ModContent.NPCType<OldDuke>(), ModContent.ProjectileType<OldDukeGore>()), new int[] { 170, 296, 324, 340, 462 } },
                 { new Tuple<int, int>(ModContent.NPCType<OldDuke>(), ModContent.ProjectileType<OldDukeVortex>()), new int[] { 280, 400, 440, 464, 660 } },
-                { new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<TrilobiteSpike>()), new int[] { 170, 296, 324, 340, 462 } },
+                { new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<OldDukeToothBallSpike>()), new int[] { 170, 296, 324, 340, 462 } },
                 { new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<SandPoisonCloudOldDuke>()), new int[] { 180, 316, 348, 364, 492 } },
                 { new Tuple<int, int>(ModContent.NPCType<SulphurousSharkron>(), ModContent.ProjectileType<OldDukeGore>()), new int[] { 170, 296, 324, 340, 462 } },
 
