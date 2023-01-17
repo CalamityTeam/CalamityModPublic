@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.ignoreWater = true;
             Projectile.width = 6;
             Projectile.height = 12;
-            Projectile.timeLeft = 20;
+            Projectile.timeLeft = 15;
             Projectile.penetrate = -1;
             Projectile.DamageType = RogueDamageClass.Instance;
         }

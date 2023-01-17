@@ -157,13 +157,6 @@ namespace CalamityMod.Systems
                     }));
                 }
 
-                tasks.Insert(++currentFinalIndex, new PassLegacy("Special Shrines", (progress, config) =>
-                {
-                    progress.Message = "Placing hidden shrines";
-                    UndergroundShrines.PlaceShrines();
-                }));
-
-
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Draedon Structures", (progress, config) =>
                 {
                     progress.Message = "Rust and Dust";
@@ -189,6 +182,9 @@ namespace CalamityMod.Systems
                     DraedonStructures.PlacePlagueLab(out Point plaguePlacementPosition, workshopPositions, WorldGen.structures);
                     workshopPositions.Add(plaguePlacementPosition);
 
+                    DraedonStructures.PlaceCavernLab(out Point cavernPlacementPosition, workshopPositions, WorldGen.structures);
+                    workshopPositions.Add(cavernPlacementPosition);
+
                     for (int i = 0; i < workshopCount; i++)
                     {
                         DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions, WorldGen.structures);
@@ -199,6 +195,20 @@ namespace CalamityMod.Systems
                         DraedonStructures.PlaceResearchFacility(out Point placementPosition, workshopPositions, WorldGen.structures);
                         workshopPositions.Add(placementPosition);
                     }
+                }));
+                
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Special Shrines", (progress, config) =>
+                {
+                    progress.Message = "Placing hidden shrines";
+
+                    UndergroundShrines.PlaceCorruptionShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceCrimsonShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceDesertShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceGraniteShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceIceShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceMarbleShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceMushroomShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceSurfaceShrine(WorldGen.structures);
                 }));
 
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Abyss", (progress, config) =>

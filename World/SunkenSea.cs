@@ -670,7 +670,7 @@ namespace CalamityMod.World
                         //note: the stalactites and stalagmites only use their first frame for now
                         //this is because the previous tile frame randomizer code i had was janky and bad, ill make sure to fix it eventually
                         //stalactites
-                        if (WorldGen.genRand.Next(5) == 0)
+                        /*if (WorldGen.genRand.Next(5) == 0)
                         {
                             WorldGen.PlaceTile(num5, num6 + 2, (ushort)ModContent.TileType<SunkenStalactites>(), true, false, -1, 0);
                         }
