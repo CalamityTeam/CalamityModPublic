@@ -187,13 +187,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         Vector2 currentDustPos = default;
                         Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(MathHelper.Pi);
                         Vector2 value5 = new Vector2(2.1f, 2f);
-                        Color dustColor = Main.hslToRgb(Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X, 1f, 0.5f);
-                        dustColor.A = 255;
+                        int dustSpawned = 0;
                         for (int i = 0; i < maxHealDustIterations; i++)
                         {
                             if (i % dustDivisor == 0)
                             {
                                 currentDustPos = Vector2.Lerp(dustLineStart, dustLineEnd, i / (float)maxHealDustIterations);
+                                Color dustColor = Main.hslToRgb(Main.rgbToHsl(new Color(255, 200, Math.Abs(Main.DiscoB - (int)(dustSpawned * 2.55f)))).X, 1f, 0.5f);
+                                dustColor.A = 255;
                                 int dust = Dust.NewDust(currentDustPos, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
                                 Main.dust[dust].position = currentDustPos;
                                 Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
@@ -206,6 +207,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                                 dust3 = dust2;
                                 dust3.fadeIn /= 2f;
                                 dust2.color = new Color(255, 255, 255, 255);
+                                dustSpawned++;
                             }
                         }
 

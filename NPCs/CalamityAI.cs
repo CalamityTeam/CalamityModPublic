@@ -220,12 +220,12 @@ namespace CalamityMod.NPCs
             npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
             npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (head)
             {
-                if (head)
+                // Spawn segments
+                if (calamityGlobalNPC.newAI[2] == 0f && npc.ai[0] == 0f)
                 {
-                    // Spawn segments
-                    if (calamityGlobalNPC.newAI[2] == 0f && npc.ai[0] == 0f)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int maxLength = getFuckedAI ? 24 : death ? 80 : revenge ? 40 : expertMode ? 35 : 30;
                         int Previous = npc.whoAmI;
@@ -249,73 +249,76 @@ namespace CalamityMod.NPCs
                             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
                             Previous = lol;
                         }
-                        calamityGlobalNPC.newAI[2] = 1f;
                     }
+                    calamityGlobalNPC.newAI[2] = 1f;
+                }
 
-                    // Big barf attack
-                    if (calamityGlobalNPC.newAI[0] == 1f && (!doSpiral && phase2) || (getFuckedAI && !phase3))
+                // Big barf attack
+                if (calamityGlobalNPC.newAI[0] == 1f && (!doSpiral && phase2) || (getFuckedAI && !phase3))
+                {
+                    npc.localAI[0] += 1f;
+                    if (npc.localAI[0] >= (revenge ? 360f : 420f))
                     {
-                        npc.localAI[0] += 1f;
-                        if (npc.localAI[0] >= (revenge ? 360f : 420f))
+                        if (Vector2.Distance(player.Center, npc.Center) > 320f)
                         {
-                            if (Vector2.Distance(player.Center, npc.Center) > 320f)
+                            npc.localAI[0] = 0f;
+                            npc.netUpdate = true;
+                            SoundEngine.PlaySound(SoundID.NPCDeath13, npc.position);
+
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                npc.localAI[0] = 0f;
-                                npc.netUpdate = true;
-                                SoundEngine.PlaySound(SoundID.NPCDeath13, npc.position);
+                                int totalProjectiles = bossRush ? 10 : expertMode ? 8 : 6;
+                                if (phase3)
+                                    totalProjectiles *= 2;
 
-                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                int type = ModContent.ProjectileType<SandPoisonCloud>();
+                                int damage = npc.GetProjectileDamage(type);
+                                for (int i = 0; i < totalProjectiles; i++)
                                 {
-                                    int totalProjectiles = bossRush ? 10 : expertMode ? 8 : 6;
-                                    if (phase3)
-                                        totalProjectiles *= 2;
+                                    Vector2 velocity = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+                                    velocity.Normalize();
+                                    velocity *= Main.rand.Next(phase3 ? 300 : 100, 401) * 0.01f;
 
-                                    int type = ModContent.ProjectileType<SandPoisonCloud>();
-                                    int damage = npc.GetProjectileDamage(type);
-                                    for (int i = 0; i < totalProjectiles; i++)
-                                    {
-                                        Vector2 velocity = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
-                                        velocity.Normalize();
-                                        velocity *= Main.rand.Next(phase3 ? 300 : 100, 401) * 0.01f;
+                                    float maximumVelocityMult = death ? 0.75f : 0.5f;
+                                    if (expertMode)
+                                        velocity *= 1f + (maximumVelocityMult * (0.5f - lifeRatio));
 
-                                        float maximumVelocityMult = death ? 0.75f : 0.5f;
-                                        if (expertMode)
-                                            velocity *= 1f + (maximumVelocityMult * (0.5f - lifeRatio));
-
-                                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(velocity) * 5f, velocity, type, damage, 0f, Main.myPlayer);
-                                    }
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(velocity) * 5f, velocity, type, damage, 0f, Main.myPlayer);
                                 }
                             }
                         }
                     }
                 }
+            }
 
-                // Fire teeth depending on body type
-                else
+            // Fire teeth depending on body type
+            else
+            {
+                if (calamityGlobalNPC.newAI[0] == 1f && (!phase3 || phase4))
                 {
-                    if (calamityGlobalNPC.newAI[0] == 1f && (!phase3 || phase4))
-                    {
-                        npc.localAI[0] += 1f;
-                        float shootProjectile = 300;
-                        float timer = npc.ai[0] + 15f;
-                        float divisor = timer + shootProjectile;
+                    npc.localAI[0] += 1f;
+                    float shootProjectile = 300;
+                    float timer = npc.ai[0] + 15f;
+                    float divisor = timer + shootProjectile;
 
-                        if (npc.type == ModContent.NPCType<AquaticScourgeBody>())
+                    if (npc.type == ModContent.NPCType<AquaticScourgeBody>())
+                    {
+                        if (npc.localAI[0] % divisor == 0f && (npc.ai[0] % 3f == 0f || getFuckedAI || !death))
                         {
-                            if (npc.localAI[0] % divisor == 0f && (npc.ai[0] % 3f == 0f || getFuckedAI || !death))
+                            npc.TargetClosest();
+                            if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                             {
-                                npc.TargetClosest();
-                                if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+                                SoundEngine.PlaySound(SoundID.Item17, npc.Center);
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    SoundEngine.PlaySound(SoundID.Item17, npc.Center);
                                     float toothVelocity = death ? 9f : 8f;
                                     Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center);
                                     int type = ModContent.ProjectileType<SandTooth>();
                                     int damage = npc.GetProjectileDamage(type);
                                     float accelerate = phase4 ? 1f : 0f;
                                     Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 5f, projectileVelocity * toothVelocity, type, damage, 0f, Main.myPlayer, accelerate, 0f);
-                                    npc.netUpdate = true;
                                 }
+                                npc.netUpdate = true;
                             }
                         }
                     }
@@ -862,16 +865,19 @@ namespace CalamityMod.NPCs
 
                 if (npc.alpha >= 255)
                 {
-                    if (Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient) // move to zenith seed later
+                    if (Main.getGoodWorld) // move to zenith seed later
                     {
                         SoundEngine.PlaySound(SoundID.Item68, npc.Center);
-                        int type = ModContent.ProjectileType<BrimstoneRay>();
-                        int damage = npc.GetProjectileDamage(type);
-                        Vector2 pos = npc.Center;
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(0, 1), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(0, -1), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(1, 0), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(-1, 0), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            int type = ModContent.ProjectileType<BrimstoneRay>();
+                            int damage = npc.GetProjectileDamage(type);
+                            Vector2 pos = npc.Center;
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(0, 1), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(0, -1), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(1, 0), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(-1, 0), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                        }
                     }
                 }
 
@@ -1103,11 +1109,11 @@ namespace CalamityMod.NPCs
                 else if (npc.ai[1] >= 180f)
                 {
                     npc.velocity *= 0.95f;
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    if (npc.ai[1] == 180f)
                     {
-                        if (npc.ai[1] == 180f)
+                        SoundEngine.PlaySound(SoundID.Item68, source);
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            SoundEngine.PlaySound(SoundID.Item68, source);
                             Vector2 laserVelocity2 = new Vector2(npc.localAI[0], npc.localAI[1]);
                             laserVelocity2.Normalize();
                             int type = ModContent.ProjectileType<BrimstoneRay>();
@@ -1220,9 +1226,9 @@ namespace CalamityMod.NPCs
             // Seeker ring
             if (calamityGlobalNPC.newAI[1] == 0f && phase3 && expertMode)
             {
+                SoundEngine.PlaySound(SoundID.Item72, npc.position);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    SoundEngine.PlaySound(SoundID.Item72, npc.position);
                     int seekerAmt = death ? 10 : 5;
                     int seekerSpread = 360 / seekerAmt;
                     int seekerDistance = death ? 180 : 150;
@@ -1247,35 +1253,35 @@ namespace CalamityMod.NPCs
             // Bullet hells at 70% and 10%, brothers at 40%
             if (npc.life > 0)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                int num660 = (int)(npc.lifeMax * 0.3);
+                if ((npc.life + num660) < calamityGlobalNPC.newAI[0])
                 {
-                    int num660 = (int)(npc.lifeMax * 0.3);
-                    if ((npc.life + num660) < calamityGlobalNPC.newAI[0])
+                    calamityGlobalNPC.newAI[0] = npc.life;
+                    if (calamityGlobalNPC.newAI[0] <= npc.lifeMax * 0.1)
                     {
-                        calamityGlobalNPC.newAI[0] = npc.life;
-                        if (calamityGlobalNPC.newAI[0] <= (float)npc.lifeMax * 0.1)
-                        {
-                            SoundEngine.PlaySound(SoundID.Item109, npc.Center);
-                            calamityGlobalNPC.newAI[2] = 2f;
-                            SpawnDust();
-                        }
-                        else if (calamityGlobalNPC.newAI[0] <= (float)npc.lifeMax * 0.4)
+                        SoundEngine.PlaySound(SoundID.Item109, npc.Center);
+                        calamityGlobalNPC.newAI[2] = 2f;
+                        SpawnDust();
+                    }
+                    else if (calamityGlobalNPC.newAI[0] <= npc.lifeMax * 0.4)
+                    {
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Cataclysm>(), npc.whoAmI);
                             NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Catastrophe>(), npc.whoAmI);
-
-                            string key = "Mods.CalamityMod.CalamitasBossText2";
-                            Color messageColor = Color.Orange;
-                            CalamityUtils.DisplayLocalizedText(key, messageColor);
-
-                            SpawnDust();
                         }
-                        else
-                        {
-                            SoundEngine.PlaySound(SoundID.Item109, npc.Center);
-                            calamityGlobalNPC.newAI[2] = 1f;
-                            SpawnDust();
-                        }
+
+                        string key = "Mods.CalamityMod.CalamitasBossText2";
+                        Color messageColor = Color.Orange;
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+                        SpawnDust();
+                    }
+                    else
+                    {
+                        SoundEngine.PlaySound(SoundID.Item109, npc.Center);
+                        calamityGlobalNPC.newAI[2] = 1f;
+                        SpawnDust();
                     }
                 }
             }
