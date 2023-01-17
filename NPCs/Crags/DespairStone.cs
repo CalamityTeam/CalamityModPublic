@@ -23,8 +23,6 @@ namespace CalamityMod.NPCs.Crags
 
         public static readonly SoundStyle ChainsawStartSound = new("CalamityMod/Sounds/Custom/ChainsawStart") { Volume = 0.25f };
 
-        public static readonly SoundStyle ChainsawLoopSound = new SoundStyle("CalamityMod/Sounds/Custom/ChainsawLoop") { Volume = 0.25f } with { IsLooped = true };
-
         public static readonly SoundStyle ChainsawEndSound = new("CalamityMod/Sounds/Custom/ChainsawEnd") { Volume = 0.25f };
 
         public override void SetStaticDefaults()
@@ -120,17 +118,6 @@ namespace CalamityMod.NPCs.Crags
             }
             if (SoundEngine.TryGetActiveSound(ChainsawSoundSlot, out var chainsawSound) && chainsawSound.IsPlaying)
                 chainsawSound.Position = NPC.Center;
-            // Start the loop sound if the start sound finished.
-            if (chainsawSound is null || !chainsawSound.IsPlaying)
-            {
-                if (chainsawSound is null || chainsawSound.Style == ChainsawStartSound)
-                {
-                    chainsawSound?.Stop();
-                    ChainsawSoundSlot = SoundEngine.PlaySound(ChainsawLoopSound, NPC.Center);
-                }
-                else if (chainsawSound is not null)
-                    chainsawSound.Resume();
-            }
             if (NPC.velocity.X == 0f) //go up if against wall
             {
                 NPC.velocity.Y = -10f;
@@ -180,8 +167,6 @@ namespace CalamityMod.NPCs.Crags
             }
             if (NPC.life <= 0)
             {
-                if (SoundEngine.TryGetActiveSound(ChainsawSoundSlot, out var chainsawSound) && chainsawSound.IsPlaying)
-                    chainsawSound?.Stop();
                 for (int k = 0; k < 40; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
@@ -192,6 +177,12 @@ namespace CalamityMod.NPCs.Crags
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DespairStone2").Type, NPC.scale);
                 }
             }
+        }
+        public override bool PreKill()
+        {
+            if (SoundEngine.TryGetActiveSound(ChainsawSoundSlot, out var chainsawSound) && chainsawSound.IsPlaying)
+                chainsawSound?.Stop();
+            return true;
         }
         public void SpawnSparks()
         {
