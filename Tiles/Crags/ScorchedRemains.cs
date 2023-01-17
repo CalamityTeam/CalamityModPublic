@@ -27,6 +27,17 @@ namespace CalamityMod.Tiles.Crags
             AddMapEntry(new Color(57, 52, 72));
         }
 
+        public override void RandomUpdate(int i, int j)
+        {
+            Tile left = Main.tile[i - 1, j];
+            Tile right = Main.tile[i + 1, j];
+
+            if (WorldGen.genRand.Next(3) == 0 && (left.TileType == ModContent.TileType<ScorchedRemainsGrass>() || right.TileType == ModContent.TileType<ScorchedRemainsGrass>()))
+            {
+                WorldGen.SpreadGrass(i, j, Type, ModContent.TileType<ScorchedRemainsGrass>(), false);
+            }
+        }
+
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 60, 0f, 0f, 1, new Color(255, 255, 255), 1f);

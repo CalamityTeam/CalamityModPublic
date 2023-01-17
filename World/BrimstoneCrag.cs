@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.WorldBuilding;
+using Terraria.Utilities;
 using Terraria.GameContent.Generation;
 using Microsoft.Xna.Framework;
 using System;
@@ -31,6 +32,7 @@ namespace CalamityMod.World
             //the 25's are there to offset it from the exact edge of the world so no "out of bounds" crashing occurs
             StartX = WorldGen.dungeonX < Main.maxTilesX / 2 ? 25 : (Main.maxTilesX - (Main.maxTilesX / 6)) - 25;
 
+            //set these to be able to easily place things in certain locations, like structures
             int biomeStart = StartX;
             int biomeEdge = biomeStart + (Main.maxTilesX / 6);
             int biomeMiddle = (biomeStart + biomeEdge) / 2;
@@ -76,17 +78,13 @@ namespace CalamityMod.World
                 }
             }
 
-            /*
-            //TODO: make a better way of generating patches of grass 
             for (int x = biomeStart; x <= biomeEdge; x++)
             {
-                if (WorldGen.genRand.Next(150) == 0)
+                if (WorldGen.genRand.Next(100) == 0)
                 {
-                    WorldGen.TileRunner(x - 20, Main.maxTilesY - 120, WorldGen.genRand.Next(8, 22), 
-                    WorldGen.genRand.Next(8, 22), ModContent.TileType<ScorchedRemains>(), false, 0f, 0f, false, true);
+                    ScorchedGrassPatches(new Point(x, Main.maxTilesY - 135));
                 }
             }
-            */
 
             //place ceiling across the top of the biome
             for (int x = biomeStart - 20; x <= biomeEdge + 20; x++)
@@ -228,9 +226,9 @@ namespace CalamityMod.World
                 }
             }
 
-            bool place = true;
-            SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragBridgeKey, new Point(biomeMiddle, Main.maxTilesY - 100), 
-            SchematicAnchor.Center, ref place, new Action<Chest>(FillBrimstoneChests));
+            bool firstItem = false;
+            SchematicManager.PlaceSchematic(SchematicManager.CragBridgeKey, new Point(biomeMiddle, Main.maxTilesY - 100),
+            SchematicAnchor.Center, ref firstItem, new Action<Chest, int, bool>(FillBrimstoneChests));
 
             for (int x = biomeStart; x <= biomeEdge; x++)
             {
@@ -246,44 +244,104 @@ namespace CalamityMod.World
             }
         }
 
-        //this is wip, ignore it for now
-        public static int[] ItemArray = { 0, 1, 2 };
-        public int chestIncrement = 0;
-        public static void FillBrimstoneChests(Chest chest)
+        public static void FillBrimstoneChests(Chest chest, int Type, bool firstItem)
         {
             /*
             Potential other item ideas:
-            Charred Idol (??)
-            Obsidian Rose (?)
-            Demon Conch (?)
-            Lava Charm (?)
-            Coastal Demonfish
-            Demonic Bone Ash
-            Hellstone Bars
-            Hellfire Arrows 
+            Charred Idol
+            Obsidian Rose
+            Demon Conch
+            Lava Charm
             */
 
-            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
+            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.ObsidianSkinPotion, ItemID.BattlePotion, ItemID.InfernoPotion, ItemID.PotionOfReturn);
             List<ChestItem> contents = new List<ChestItem>()
             {
-                new ChestItem(ItemID.Torch, WorldGen.genRand.Next(15, 29 + 1)),
-                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(5, 11 + 1)),
-                new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(5, 7 + 1)),
-                new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
-                new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
+                new ChestItem(ItemID.HellstoneBar, WorldGen.genRand.Next(2, 5)),
+                new ChestItem(ModContent.ItemType<Items.Materials.DemonicBoneAsh>(), WorldGen.genRand.Next(4, 15)),
+                new ChestItem(ModContent.ItemType<Items.Fishing.BrimstoneCragCatches.CoastalDemonfish>(), WorldGen.genRand.Next(2, 5)),
+                new ChestItem(ItemID.HellfireArrow, WorldGen.genRand.Next(25, 50)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(2, 12)),
             };
 
+            if (!firstItem)
+            {
+                contents.Insert(0, new ChestItem(ModContent.ItemType<Items.Weapons.Rogue.AshenStalactite>(), 1));
+            }
+            else
+            {
+                contents.RemoveAt(0);
+                contents.Insert(0, new ChestItem(ModContent.ItemType<Items.Weapons.Melee.BladecrestOathsword>(), 1));
+            }
+            
             for (int i = 0; i < contents.Count; i++)
             {
-                /*
-                contents.Insert(0, new ChestItem(ModContent.ItemType<Items.Weapons.Summon.CinderBlossomStaff>(), 1));
-                contents.Insert(0, new ChestItem(ModContent.ItemType<Items.Weapons.Rogue.AshenStalactite>(), 1));
-                contents.Insert(0, new ChestItem(ModContent.ItemType<Items.Weapons.Melee.BladecrestOathsword>(), 1));
-                */
-
                 chest.item[i].SetDefaults(contents[i].Type);
                 chest.item[i].stack = contents[i].Stack;
             }
+        }
+
+        //shamelessly copy pasted from the astral biome generation
+        public static void ScorchedGrassPatches(object obj)
+        {
+            //Pre-calculate all variables necessary for elliptical area checking
+            Point origin = (Point)obj;
+            Vector2 center = origin.ToVector2() * 16f + new Vector2(8f);
+
+            float angle = MathHelper.Pi * 0.15f;
+            float otherAngle = MathHelper.PiOver2 - angle;
+
+            int distanceInTiles = WorldGen.genRand.Next(20, 50);
+            float distance = distanceInTiles * 16f;
+            float constant = distance * 2f / (float)Math.Sin(angle);
+
+            float fociSpacing = distance * (float)Math.Sin(otherAngle) / (float)Math.Sin(angle);
+            int verticalRadius = (int)(constant / 16f);
+
+            Vector2 fociOffset = Vector2.UnitY * fociSpacing;
+            Vector2 topFoci = center - fociOffset;
+            Vector2 bottomFoci = center + fociOffset;
+
+            UnifiedRandom rand = WorldGen.genRand;
+            for (int x = origin.X - distanceInTiles - 2; x <= origin.X + distanceInTiles + 2; x++)
+            {
+                for (int y = (int)(origin.Y - verticalRadius * 0.4f) - 3; y <= origin.Y + verticalRadius + 3; y++)
+                {
+                    if (CheckInEllipse(new Point(x, y), topFoci, bottomFoci, constant, center, out float dist, y < origin.Y))
+                    {
+                        //If we're in the outer blurPercent% of the ellipse
+                        float percent = dist / constant;
+                        float blurPercent = 0.98f;
+                        if (percent > blurPercent)
+                        {
+                            float outerEdgePercent = (percent - blurPercent) / (1f - blurPercent);
+                            if (rand.NextFloat(1f) > outerEdgePercent && Main.tile[x, y].HasTile && WorldGen.InWorld(x, y))
+                            {
+                                Main.tile[x, y].TileType = (ushort)ModContent.TileType<ScorchedRemains>();
+                            }
+                        }
+                        else if (Main.tile[x, y].HasTile && WorldGen.InWorld(x, y)) 
+                        {
+                            Main.tile[x, y].TileType = (ushort)ModContent.TileType<ScorchedRemains>();
+                        }
+                    }
+                }
+            }
+        }
+
+        //shamelessly copy pasted from the astral biome generation
+        public static bool CheckInEllipse(Point tile, Vector2 focus1, Vector2 focus2, float distanceConstant, Vector2 center, out float distance, bool collapse = false)
+        {
+            Vector2 point = tile.ToWorldCoordinates();
+            if (collapse) //Collapse ensures the ellipse is shrunk down a lot in terms of distance.
+            {
+                float distY = center.Y - point.Y;
+                point.Y -= distY * 8f;
+            }
+            float distance1 = Vector2.Distance(point, focus1);
+            float distance2 = Vector2.Distance(point, focus2);
+            distance = distance1 + distance2;
+            return distance <= distanceConstant;
         }
 
         //place a circular clump of tiles

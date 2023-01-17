@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Tiles.Ores;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -49,8 +50,60 @@ namespace CalamityMod.Tiles.Crags
         {
             return false;
         }
+
+        public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
+        {
+            if (fail && !effectOnly)
+            {
+                Main.tile[i, j].TileType = (ushort)ModContent.TileType<ScorchedRemains>();
+            }
+        }
+
+        //do this in animate tile because its the only hook that updates a tile constantly unlike random update
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        {
+            //convert this tile back into scorched remains if any liquid is above it
+            //will change this to only check for lava if necessary
+            if (Main.tile[i, j - 1].LiquidAmount > 0)
+            {
+                Main.tile[i, j].TileType = (ushort)ModContent.TileType<ScorchedRemains>();
+            }
+        }
+
+        public override void RandomUpdate(int i, int j)
+        {
+            Tile up = Main.tile[i, j - 1];
+            Tile up2 = Main.tile[i, j - 2];
+
+            if (WorldGen.genRand.Next(5) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount == 0)
+            {
+                up.TileType = (ushort)ModContent.TileType<CinderBlossomTallPlants>();
+                up.HasTile = true;
+                up.TileFrameY = 0;
+                up.TileFrameX = (short)(WorldGen.genRand.Next(21) * 18);
+                WorldGen.SquareTileFrame(i, j - 1, true);
+
+                if (Main.netMode == NetmodeID.Server) 
+                {
+                    NetMessage.SendTileSquare(-1, i, j - 1, 3, TileChangeType.None);
+                }
+            }
+        }
+
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
+            bool isPlayerNear = WorldGen.PlayerLOS(i, j);
+            Tile Above = Framing.GetTileSafely(i, j - 1);
+
+            if (!Main.gamePaused && Main.instance.IsActive && !Above.HasTile && isPlayerNear)
+            {
+                if (Main.rand.Next(550) == 0)
+                {
+                    int newDust = Dust.NewDust(new Vector2((i - 2) * 16, (j - 1) * 16), 5, 5, ModContent.DustType<CinderBlossomDust>());
+                    Main.dust[newDust].velocity.Y += 0.09f;
+                }
+            }
+
             if (Main.tile[i - 1, j - 1].TileType != Type || Main.tile[i, j - 1].TileType != Type || Main.tile[i + 1, j - 1].TileType != Type ||
                 Main.tile[i - 1, j - 2].TileType != Type || Main.tile[i, j - 2].TileType != Type || Main.tile[i + 1, j - 2].TileType != Type)
             {

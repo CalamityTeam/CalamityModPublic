@@ -455,7 +455,8 @@ namespace CalamityMod.World
                     // WorldGen.gen prevents NewItem from working, and thus prevents a bunch of dumb items from being spawned immediately and deleting the WoF/Aureus loot in the process.
                     WorldGen.gen = true;
                     bool _ = true;
-                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i, (int)height), SchematicAnchor.TopCenter, ref _);
+                    int xOffset = WorldGen.dungeonX < Main.maxTilesX / 2 ? -50 : 50;
+                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i + xOffset, (int)height), SchematicAnchor.TopCenter, ref _);
                     WorldGen.gen = false;
                 }
             }
