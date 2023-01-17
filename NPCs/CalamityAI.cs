@@ -2934,8 +2934,8 @@ namespace CalamityMod.NPCs
                 if (npc.velocity.Y == 0f)
                 {
                     // Play stomp sound. Gotta specify the filepath to avoid confusion between the namespace and npc
-                    SoundStyle soundToPlay = Main.getGoodWorld ? NPCs.ExoMechs.Ares.AresGaussNuke.NukeExplosionSound : NPCs.AstrumAureus.AstrumAureus.StompSound; // move to zenith seed later
-                    SoundEngine.PlaySound(soundToPlay, npc.position);
+                    // move to zenith seed later
+                    SoundEngine.PlaySound(Main.getGoodWorld ? NPCs.ExoMechs.Ares.AresGaussNuke.NukeExplosionSound : NPCs.AstrumAureus.AstrumAureus.StompSound, npc.position);
 
                     if (Main.getGoodWorld) // move to zenith seed later
                     {

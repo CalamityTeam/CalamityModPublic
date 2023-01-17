@@ -8,6 +8,7 @@ using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.DraedonSummoner;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Tiles.SunkenSea;
+using CalamityMod.Tiles.Crags;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -44,7 +45,8 @@ namespace CalamityMod.Tiles
             TileID.HallowedPlants2,
             TileID.CrimsonPlants,
             (ushort)ModContent.TileType<AstralShortPlants>(),
-            (ushort)ModContent.TileType<AstralTallPlants>()
+            (ushort)ModContent.TileType<AstralTallPlants>(),
+            (ushort)ModContent.TileType<CinderBlossomTallPlants>()
         };
 
         public static List<int> GrowthTiles = new List<int>()
