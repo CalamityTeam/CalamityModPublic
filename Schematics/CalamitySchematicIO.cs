@@ -119,7 +119,9 @@ namespace CalamityMod.Schematics
 
                 Main.tile[x, y].LiquidAmount = original.LiquidAmount;
                 ref var targetLiquidState = ref (Main.tile[x, y].Get<LiquidData>());
-                targetLiquidState.LiquidType = LiquidType;
+                // keeping the original tile could mean keeping a full space of liquid that was originally there
+                // this is fine, of course, because all you are changing is the background wall and the liquid can be on top of that
+                targetLiquidState.LiquidType = original.LiquidType;
 
                 ref var targetMiscState = ref (Main.tile[x, y].Get<TileWallWireStateData>());
                 CalamitySchematicIO.AssignMiscState(ref targetMiscState, original.miscState.NonFrameBits);
