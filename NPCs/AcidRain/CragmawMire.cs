@@ -20,6 +20,7 @@ using Terraria.WorldBuilding;
 
 namespace CalamityMod.NPCs.AcidRain
 {
+    [AutoloadBossHead]
     public class CragmawMire : ModNPC
     {
         public enum CragmawAttackState

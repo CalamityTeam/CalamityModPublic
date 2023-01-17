@@ -19,6 +19,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
+    [AutoloadBossHead]
     public class Mauler : ModNPC
     {
         // TODO -- Potentially add another attack in higher difficulty modes at some point?

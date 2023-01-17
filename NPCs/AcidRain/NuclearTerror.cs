@@ -19,6 +19,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
+    [AutoloadBossHead]
     public class NuclearTerror : ModNPC
     {
         public enum SpecialAttackState
