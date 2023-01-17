@@ -1,18 +1,32 @@
 ﻿using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Particles;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using ReLogic.Utilities;
+using System;
+
 namespace CalamityMod.NPCs.Crags
 {
     public class DespairStone : ModNPC
     {
+        public SlotId ChainsawSoundSlot;
+
+        public static readonly SoundStyle ChainsawStartSound = new("CalamityMod/Sounds/Custom/ChainsawStart") { Volume = 0.25f };
+
+        public static readonly SoundStyle ChainsawLoopSound = new SoundStyle("CalamityMod/Sounds/Custom/ChainsawLoop") { Volume = 0.25f } with { IsLooped = true };
+
+        public static readonly SoundStyle ChainsawEndSound = new("CalamityMod/Sounds/Custom/ChainsawEnd") { Volume = 0.25f };
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Despair Stone");
@@ -59,7 +73,84 @@ namespace CalamityMod.NPCs.Crags
 
         public override void AI()
         {
-            CalamityAI.UnicornAI(NPC, Mod, true, CalamityWorld.death ? 8f : CalamityWorld.revenge ? 6f : 4f, 5f, 0.2f);
+            NPC.ai[1]++;
+            if (NPC.ai[2] != 0f) BuzzsawMode();
+            if (NPC.ai[1] > 480f)
+            {
+                if (NPC.ai[2] == 0f)
+                {
+                    NPC.rotation += NPC.velocity.X * 0.01f;
+                    NPC.spriteDirection = -NPC.direction;
+                    if (NPC.velocity.Y == 0f || NPC.lavaWet) BuzzsawMode();
+                }
+            }
+            else
+            {
+                NPC.ai[2] = 0f;
+                CalamityAI.UnicornAI(NPC, Mod, true, CalamityWorld.death ? 8f : CalamityWorld.revenge ? 6f : 4f, 5f, 0.2f);
+            }
+            if (NPC.lavaWet) //float on lava
+                NPC.velocity.Y -= 0.8f;
+        }
+
+        public void BuzzsawMode()
+        {
+            float distance;
+            //Choose Direction
+            if (NPC.ai[2] == 0f)
+            {
+                ChainsawSoundSlot = SoundEngine.PlaySound(ChainsawStartSound, NPC.Center);
+                if (NPC.velocity.X < 0f)
+                {
+                    NPC.ai[2] = -1f;
+                }   
+                else if (NPC.velocity.X > 0f)
+                {
+                    NPC.ai[2] = 1f;
+                }
+                else
+                {
+                    distance = Main.player[NPC.target].Center.X - NPC.Center.X;
+                    if (distance != 0f)
+                    {
+                        NPC.ai[2] = distance / Math.Abs(distance);
+                    }
+                    else NPC.ai[2] = 1f;
+                }
+            }
+            if (SoundEngine.TryGetActiveSound(ChainsawSoundSlot, out var chainsawSound) && chainsawSound.IsPlaying)
+                chainsawSound.Position = NPC.Center;
+            // Start the loop sound if the start sound finished.
+            if (chainsawSound is null || !chainsawSound.IsPlaying)
+            {
+                if (chainsawSound is null || chainsawSound.Style == ChainsawStartSound)
+                {
+                    chainsawSound?.Stop();
+                    ChainsawSoundSlot = SoundEngine.PlaySound(ChainsawLoopSound, NPC.Center);
+                }
+                else if (chainsawSound is not null)
+                    chainsawSound.Resume();
+            }
+            if (NPC.velocity.X == 0f) //go up if against wall
+            {
+                NPC.velocity.Y = -10f;
+            }
+            if (NPC.velocity.X == 0f || NPC.velocity.Y == 0f) //check if on solid ground
+                SpawnSparks();
+            if (Math.Abs(NPC.velocity.X) < 10f) //Accelerate to top speed
+                NPC.velocity.X += 0.8f * NPC.ai[2];
+            else NPC.velocity.X = NPC.velocity.X = 10f * NPC.ai[2];
+
+            NPC.rotation += 10f * 0.03f * NPC.ai[2]; //rotate sprite in chosen direction
+            NPC.spriteDirection = -NPC.direction;
+            //stop buzzsaw mode
+            if (NPC.ai[1] > Main.rand.Next(670, 740))
+            {
+                NPC.ai[1] = 0f;
+                NPC.velocity.Y += -3f;
+                chainsawSound?.Stop();
+                SoundEngine.PlaySound(ChainsawEndSound, NPC.Center);
+            }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -89,6 +180,8 @@ namespace CalamityMod.NPCs.Crags
             }
             if (NPC.life <= 0)
             {
+                if (SoundEngine.TryGetActiveSound(ChainsawSoundSlot, out var chainsawSound) && chainsawSound.IsPlaying)
+                    chainsawSound?.Stop();
                 for (int k = 0; k < 40; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
@@ -97,6 +190,43 @@ namespace CalamityMod.NPCs.Crags
                 {
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DespairStone").Type, NPC.scale);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DespairStone2").Type, NPC.scale);
+                }
+            }
+        }
+        public void SpawnSparks()
+        {
+            Vector2 particleSpawnDisplacement;
+            Vector2 splatterDirection;
+            if (NPC.velocity.X == 0f)
+            {
+                particleSpawnDisplacement = new Vector2 (24f * NPC.ai[2], 20f);
+                splatterDirection = new Vector2(0f, 1f);
+            }
+            else
+            {
+                particleSpawnDisplacement = new Vector2(20f * -NPC.ai[2], 24f);
+                splatterDirection = new Vector2(-NPC.ai[2], 0f);
+            }
+            
+            //Color impactColor = Color.Lerp(Color.Silver, Color.Gold, Main.rand.NextFloat(0.5f));
+            Vector2 bloodSpawnPosition = NPC.Center + particleSpawnDisplacement;
+
+            if (NPC.ai[1] % 4 == 0)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    int sparkLifetime = Main.rand.Next(14, 21);
+                    float sparkScale = Main.rand.NextFloat(0.8f, 1f) + 1f * 0.05f;
+                    Color sparkColor = Color.Lerp(Color.DarkGray, Color.DarkRed, Main.rand.NextFloat(0.7f));
+                    sparkColor = Color.Lerp(sparkColor, Color.OrangeRed, Main.rand.NextFloat());
+
+                    if (Main.rand.NextBool(10))
+                        sparkScale *= 1.4f;
+
+                    Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.45f) * Main.rand.NextFloat(6f, 13f);
+                    sparkVelocity.Y -= 6f;
+                    SparkParticle spark = new SparkParticle(bloodSpawnPosition, sparkVelocity, true, sparkLifetime, sparkScale, sparkColor);
+                    GeneralParticleHandler.SpawnParticle(spark);
                 }
             }
         }
