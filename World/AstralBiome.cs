@@ -480,7 +480,7 @@ namespace CalamityMod.World
             int verticalRadius = (int)(constant / 16f);
 
             Vector2 fociOffset = Vector2.UnitY * fociSpacing;
-            Vector2 topFoci = center - fociOffset;
+            Vector2 topFoci = center - new Vector2(0, -100) - fociOffset;
             Vector2 bottomFoci = center + fociOffset;
 
             UnifiedRandom rand = WorldGen.genRand;

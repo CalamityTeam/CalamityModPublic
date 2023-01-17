@@ -26,7 +26,7 @@ namespace CalamityMod.World
         static int lavaLakeBigPlaceDelay = 0;
 
         //basic terrain (sorry for the excessive amount of loops lmao)
-        public static void GenCrags()
+        private static void GenCrags()
         {
             //set this here so it can properly scale to the worldsize and whatever
             //the 25's are there to offset it from the exact edge of the world so no "out of bounds" crashing occurs
@@ -78,7 +78,7 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int x = biomeStart; x <= biomeEdge; x++)
+            for (int x = biomeStart + 30; x <= biomeEdge - 30; x++)
             {
                 if (WorldGen.genRand.Next(100) == 0)
                 {
@@ -87,11 +87,11 @@ namespace CalamityMod.World
             }
 
             //place ceiling across the top of the biome
-            for (int x = biomeStart - 20; x <= biomeEdge + 20; x++)
+            for (int x = biomeStart; x <= biomeEdge; x++)
             {
                 for (int y = Main.maxTilesY - 200; y <= Main.maxTilesY - 192; y++)
                 {
-                    if (WorldGen.genRand.Next(25) == 0 || Main.tile[x, y].TileType == TileID.Ash)
+                    if (WorldGen.genRand.Next(25) == 0)
                     {
                         NaturalCircle(x, y, WorldGen.genRand.Next(5, 15), ModContent.TileType<BrimstoneSlag>());
                     }
@@ -210,7 +210,7 @@ namespace CalamityMod.World
             for (int i = 0; i < (int)((double)(Main.maxTilesX * Main.maxTilesY * 27) * 10E-05); i++)
             {
                 int x = WorldGen.genRand.Next(5, Main.maxTilesX - 5);
-                int y = WorldGen.genRand.Next(5, Main.maxTilesY - 5);
+                int y = WorldGen.genRand.Next(Main.maxTilesY - 150, Main.maxTilesY - 45);
 
                 Tile tile = Main.tile[x, y];
                 Tile tileUp = Main.tile[x, y - 1];
@@ -218,10 +218,10 @@ namespace CalamityMod.World
                 Tile tileLeft = Main.tile[x - 1, y];
                 Tile tileRight = Main.tile[x + 1, y];
 
-                if (tile.TileType == ModContent.TileType<BrimstoneSlag>() && (tileUp.LiquidAmount > 0 || 
+                if (WorldGen.genRand.Next(10) == 0 && tile.TileType == ModContent.TileType<BrimstoneSlag>() && (tileUp.LiquidAmount > 0 || 
                 tileDown.LiquidAmount > 0 || tileLeft.LiquidAmount > 0 || tileRight.LiquidAmount > 0)) 
                 {
-                    WorldGen.TileRunner(x + WorldGen.genRand.Next(-22, 22), y + WorldGen.genRand.Next(-22, 22), 
+                    WorldGen.TileRunner(x + WorldGen.genRand.Next(-15, 15), y + WorldGen.genRand.Next(-15, 15), 
                     WorldGen.genRand.Next(8, 22), WorldGen.genRand.Next(8, 22), ModContent.TileType<CharredOre>(), false, 0f, 0f, false, true);
                 }
             }
@@ -239,6 +239,45 @@ namespace CalamityMod.World
                     {
                         tile.LiquidType = LiquidID.Lava;
                         tile.LiquidAmount = 255;
+                    }
+                }
+            }
+        }
+
+        //place ambient objects and other stuff
+        private static void GenCragsAmbience()
+        {
+            int biomeStart = StartX;
+            int biomeEdge = biomeStart + (Main.maxTilesX / 6);
+            int biomeMiddle = (biomeStart + biomeEdge) / 2;
+
+            for (int x = biomeStart; x <= biomeEdge; x++)
+            {
+                for (int y = Main.maxTilesY - 200; y <= Main.maxTilesY - 5; y++)
+                {
+                    //stalactites and stalagmites
+                    if (Main.tile[x, y].TileType == ModContent.TileType<BrimstoneSlag>())
+                    {
+                        if (WorldGen.genRand.Next(25) == 0)
+                        {
+                            ushort[] Stalactites = new ushort[] { (ushort)ModContent.TileType<CragStalactiteLarge1>(), (ushort)ModContent.TileType<CragStalactiteLarge2>(), 
+                            (ushort)ModContent.TileType<CragStalactiteLarge3>(), (ushort)ModContent.TileType<CragStalactiteSmall1>(),
+                            (ushort)ModContent.TileType<CragStalactiteSmall2>(), (ushort)ModContent.TileType<CragStalactiteSmall3>() };
+
+                            WorldGen.PlaceObject(x, y + 1, WorldGen.genRand.Next(Stalactites));    
+                            WorldGen.PlaceObject(x, y + 2, WorldGen.genRand.Next(Stalactites)); 
+                            WorldGen.PlaceObject(x, y + 3, WorldGen.genRand.Next(Stalactites)); 
+                            WorldGen.PlaceObject(x, y + 4, WorldGen.genRand.Next(Stalactites)); 
+                        }
+
+                        if (WorldGen.genRand.Next(6) == 0)
+                        {
+                            ushort[] Stalagmites = new ushort[] { (ushort)ModContent.TileType<CragStalagmiteLarge1>(), (ushort)ModContent.TileType<CragStalagmiteLarge2>(), 
+                            (ushort)ModContent.TileType<CragStalagmiteLarge3>(), (ushort)ModContent.TileType<CragStalagmiteSmall1>(),
+                            (ushort)ModContent.TileType<CragStalagmiteSmall2>(), (ushort)ModContent.TileType<CragStalagmiteSmall3>() };
+
+                            WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Stalagmites));
+                        }
                     }
                 }
             }
@@ -320,7 +359,7 @@ namespace CalamityMod.World
                                 Main.tile[x, y].TileType = (ushort)ModContent.TileType<ScorchedRemains>();
                             }
                         }
-                        else if (Main.tile[x, y].HasTile && WorldGen.InWorld(x, y)) 
+                        else if (Main.tile[x, y].HasTile && WorldGen.InWorld(x, y))
                         {
                             Main.tile[x, y].TileType = (ushort)ModContent.TileType<ScorchedRemains>();
                         }
@@ -367,5 +406,11 @@ namespace CalamityMod.World
 				radius = BaseRadius - WorldGen.genRand.Next(-1, 2);
 			}
 		}
+
+        public static void GenAllCragsStuff()
+        {
+            GenCrags();
+            GenCragsAmbience();
+        }
     }
 }
