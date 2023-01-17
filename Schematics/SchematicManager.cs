@@ -210,7 +210,7 @@ namespace CalamityMod.Schematics
                 {
                     Tile t = Main.tile[x + cornerX, y + cornerY];
                     if (t.TileType == TileID.Trees || t.TileType == TileID.PineTree || t.TileType == TileID.Cactus)
-                        WorldGen.KillTile(x + cornerX, y + cornerY);
+                        WorldGen.KillTile(x + cornerX, y + cornerY, noItem: true);
                 }
 
             for (int x = 0; x < width; ++x)
@@ -223,7 +223,7 @@ namespace CalamityMod.Schematics
             for (int x = 0; x < width; ++x)
                 for (int y = 0; y < height; ++y)
                     if (originalTiles[x, y].TileType != TileID.Containers)
-                        WorldGen.KillTile(x + cornerX, y + cornerY);
+                        WorldGen.KillTile(x + cornerX, y + cornerY, noItem: true);
 
             // Lay down the schematic. If the schematic calls for it, bring back tiles that are stored in the old tiles array.
             for (int x = 0; x < width; ++x)
