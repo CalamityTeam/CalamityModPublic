@@ -134,7 +134,7 @@ namespace CalamityMod.Systems
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Brimstone Crag", (progress, config) =>
                 {
                     progress.Message = "Uncovering the ruins of a fallen empire";
-                    BrimstoneCrag.GenCrags();
+                    BrimstoneCrag.GenAllCragsStuff();
                 }));
 
                 //biome shrines
