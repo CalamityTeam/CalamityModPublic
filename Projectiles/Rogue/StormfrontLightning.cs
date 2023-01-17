@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         internal PrimitiveTrail LightningDrawer;
 
-        private int noTileHitCounter = 120; //Using other projectile's methods to not collide until a certain time has passed, allowing use inside caves
+        private int noTileHitCounter = 90; //Using other projectile's methods to not collide until a certain time has passed, allowing use inside caves
 
         public bool HasPlayedSound;
 
@@ -74,8 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             //Pass through tiles until certain time has passed
-            int randomToSubtract = Main.rand.Next(1, 4);
-            noTileHitCounter -= randomToSubtract;
+            noTileHitCounter -= 1;
             if (noTileHitCounter == 0)
             {
                 Projectile.tileCollide = true;
@@ -159,7 +158,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             List<Vector2> checkPoints = Projectile.oldPos.Where(oldPos => oldPos != Vector2.Zero).ToList();
-            if (checkPoints.Count <= 2)
+            if (checkPoints.Count <= 3)
                 return false;
 
             for (int i = 0; i < checkPoints.Count - 1; i++)
@@ -193,7 +192,7 @@ namespace CalamityMod.Projectiles.Rogue
             GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].UseImage1("Images/Misc/Perlin");
             GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].Apply();
 
-            LightningDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 18);
+            LightningDrawer.Draw(Projectile.oldPos, Projectile.Size * 2f - Main.screenPosition, 10);
             return false;
         }
 
