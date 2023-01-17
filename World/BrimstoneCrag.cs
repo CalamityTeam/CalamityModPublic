@@ -78,7 +78,7 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int x = biomeStart; x <= biomeEdge; x++)
+            for (int x = biomeStart + 30; x <= biomeEdge - 30; x++)
             {
                 if (WorldGen.genRand.Next(100) == 0)
                 {
@@ -359,7 +359,7 @@ namespace CalamityMod.World
                                 Main.tile[x, y].TileType = (ushort)ModContent.TileType<ScorchedRemains>();
                             }
                         }
-                        else if (Main.tile[x, y].HasTile && WorldGen.InWorld(x, y)) 
+                        else if (Main.tile[x, y].HasTile && WorldGen.InWorld(x, y))
                         {
                             Main.tile[x, y].TileType = (ushort)ModContent.TileType<ScorchedRemains>();
                         }
