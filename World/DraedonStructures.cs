@@ -293,22 +293,6 @@ namespace CalamityMod.World
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedMurasama, new Action<Chest, int, bool>(FillHellLaboratoryChest));
                     structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     CalamityWorld.HellLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
-
-                    //for now just manually check the area around the lab and replace water with lava, may not be the best permanent fix but it works for now
-                    for (int killWaterX = placementPoint.X - 150; killWaterX <= placementPoint.X + 150; killWaterX++)
-                    {
-                        for (int killWaterY = underworldTop; killWaterY <= Main.maxTilesY - 5; killWaterY++)
-                        {
-                            Tile tile = Framing.GetTileSafely(killWaterX, killWaterY);
-
-                            if (tile.LiquidType == LiquidID.Water && tile.LiquidAmount > 0)
-                            {
-                                tile.LiquidType = LiquidID.Lava;
-					            tile.LiquidAmount = 255;
-                            }
-                        }
-                    }
-
                     break;
                 }
             }
