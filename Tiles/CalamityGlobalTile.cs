@@ -2,7 +2,6 @@
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Tiles.Abyss;
-using CalamityMod.Tiles.Abyss.AbyssAmbient;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.DraedonStructures;
@@ -47,10 +46,7 @@ namespace CalamityMod.Tiles
             TileID.CrimsonPlants,
             (ushort)ModContent.TileType<AstralShortPlants>(),
             (ushort)ModContent.TileType<AstralTallPlants>(),
-            (ushort)ModContent.TileType<CinderBlossomTallPlants>(),
-            (ushort)ModContent.TileType<AbyssWeeds>(),
-            (ushort)ModContent.TileType<AbyssKelp>(),
-            (ushort)ModContent.TileType<VoidWeeds>()
+            (ushort)ModContent.TileType<CinderBlossomTallPlants>()
         };
 
         public static List<int> GrowthTiles = new List<int>()

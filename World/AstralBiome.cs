@@ -456,24 +456,8 @@ namespace CalamityMod.World
                     WorldGen.gen = true;
                     bool place = true;
                     int xOffset = WorldGen.dungeonX < Main.maxTilesX / 2 ? WorldGen.genRand.Next(-65, -25) : WorldGen.genRand.Next(25, 65);
-
-                    bool altarPlaced = false;
-                    int altarAttempts = 0;
-                    int altarY = (int)height;
-                    while (!altarPlaced && altarAttempts++ < 100000)
-                    {
-                        while (!WorldGen.SolidTile(xOffset, altarY) && altarY <= Main.worldSurface)
-                        {
-                            altarY++;
-                        }
-
-                        if (Main.tile[xOffset, altarY].HasTile || Main.tile[xOffset, altarY].WallType > 0)
-                        {
-                            altarPlaced = true;
-                        }
-                    }
-                    
-                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i + xOffset, altarY), SchematicAnchor.TopCenter, ref place);
+                    bool _ = true;
+                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i + xOffset, (int)height + 25), SchematicAnchor.Center, ref _);
                     WorldGen.gen = false;
                 }
             }

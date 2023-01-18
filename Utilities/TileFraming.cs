@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Tiles.Abyss;
-using CalamityMod.Tiles.Abyss.AbyssAmbient;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.AstralSnow;
@@ -63,9 +62,6 @@ namespace CalamityMod
             PlantCheckAgainst[ModContent.TileType<AstralShortPlants>()] = new int[1] { ModContent.TileType<AstralGrass>() };
             PlantCheckAgainst[ModContent.TileType<AstralTallPlants>()] = new int[1] { ModContent.TileType<AstralGrass>() };
             PlantCheckAgainst[ModContent.TileType<CinderBlossomTallPlants>()] = new int[1] { ModContent.TileType<ScorchedRemainsGrass>() };
-            PlantCheckAgainst[ModContent.TileType<AbyssWeeds>()] = new int[1] { ModContent.TileType<AbyssGravel>() };
-            PlantCheckAgainst[ModContent.TileType<AbyssKelp>()] = new int[1] { ModContent.TileType<PlantyMush>() };
-            PlantCheckAgainst[ModContent.TileType<VoidWeeds>()] = new int[1] { ModContent.TileType<Voidstone>() };
 
             VineToGrass = new Dictionary<ushort, ushort>
             {

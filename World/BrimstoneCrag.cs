@@ -1,8 +1,9 @@
-using CalamityMod.Schematics;
-using static CalamityMod.Schematics.SchematicManager;
 using CalamityMod.Tiles.Crags;
+using CalamityMod.Tiles.Crags.Spike;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Walls;
+using CalamityMod.Schematics;
+using static CalamityMod.Schematics.SchematicManager;
 using Terraria;
 using Terraria.IO;
 using Terraria.ID;
@@ -78,6 +79,7 @@ namespace CalamityMod.World
                 }
             }
 
+            //scorched remains patches
             for (int x = biomeStart + 30; x <= biomeEdge - 30; x++)
             {
                 if (WorldGen.genRand.Next(100) == 0)
@@ -133,6 +135,21 @@ namespace CalamityMod.World
                         tile.ClearEverything();
                         tile.LiquidType = LiquidID.Lava;
                         tile.LiquidAmount = 255;
+                    }
+                }
+            }
+
+            //ceiling cleanup
+            for (int x = biomeStart; x <= biomeEdge; x++)
+            {
+                for (int y = Main.maxTilesY - 195; y <= Main.maxTilesY - 180; y++)
+                {
+                    Tile tile = Main.tile[x, y];
+                    Tile tileUp = Main.tile[x, y - 1];
+
+                    if (tile.TileType == ModContent.TileType<BrimstoneSlag>() && !tileUp.HasTile)
+                    {
+                        WorldGen.PlaceTile(x, y - 1, (ushort)ModContent.TileType<BrimstoneSlag>());
                     }
                 }
             }
@@ -258,23 +275,38 @@ namespace CalamityMod.World
                     //stalactites and stalagmites
                     if (Main.tile[x, y].TileType == ModContent.TileType<BrimstoneSlag>())
                     {
-                        if (WorldGen.genRand.Next(25) == 0)
+                        if (WorldGen.genRand.Next(32) == 0)
                         {
-                            ushort[] Stalactites = new ushort[] { (ushort)ModContent.TileType<CragStalactiteLarge1>(), (ushort)ModContent.TileType<CragStalactiteLarge2>(), 
-                            (ushort)ModContent.TileType<CragStalactiteLarge3>(), (ushort)ModContent.TileType<CragStalactiteSmall1>(),
-                            (ushort)ModContent.TileType<CragStalactiteSmall2>(), (ushort)ModContent.TileType<CragStalactiteSmall3>() };
+                            ushort[] Stalactites = new ushort[] { (ushort)ModContent.TileType<CragStalactiteGiant1>(),
+                            (ushort)ModContent.TileType<CragStalactiteGiant2>(), (ushort)ModContent.TileType<CragStalactiteGiant3>() };
 
-                            WorldGen.PlaceObject(x, y + 1, WorldGen.genRand.Next(Stalactites));    
-                            WorldGen.PlaceObject(x, y + 2, WorldGen.genRand.Next(Stalactites)); 
-                            WorldGen.PlaceObject(x, y + 3, WorldGen.genRand.Next(Stalactites)); 
-                            WorldGen.PlaceObject(x, y + 4, WorldGen.genRand.Next(Stalactites)); 
+                            WorldGen.PlaceObject(x, y + 2, WorldGen.genRand.Next(Stalactites));
                         }
 
-                        if (WorldGen.genRand.Next(6) == 0)
+                        if (WorldGen.genRand.Next(10) == 0)
                         {
-                            ushort[] Stalagmites = new ushort[] { (ushort)ModContent.TileType<CragStalagmiteLarge1>(), (ushort)ModContent.TileType<CragStalagmiteLarge2>(), 
-                            (ushort)ModContent.TileType<CragStalagmiteLarge3>(), (ushort)ModContent.TileType<CragStalagmiteSmall1>(),
-                            (ushort)ModContent.TileType<CragStalagmiteSmall2>(), (ushort)ModContent.TileType<CragStalagmiteSmall3>() };
+                            ushort[] Stalactites = new ushort[] { (ushort)ModContent.TileType<CragStalactiteLarge1>(), 
+                            (ushort)ModContent.TileType<CragStalactiteLarge2>(), (ushort)ModContent.TileType<CragStalactiteLarge3>(), 
+                            (ushort)ModContent.TileType<CragStalactiteSmall1>(), (ushort)ModContent.TileType<CragStalactiteSmall2>(), 
+                            (ushort)ModContent.TileType<CragStalactiteSmall3>() };
+
+                            WorldGen.PlaceObject(x, y + 2, WorldGen.genRand.Next(Stalactites));
+                        }
+
+                        if (WorldGen.genRand.Next(25) == 0)
+                        {
+                            ushort[] Stalagmites = new ushort[] { (ushort)ModContent.TileType<CragStalagmiteGiant1>(),
+                            (ushort)ModContent.TileType<CragStalagmiteGiant2>(), (ushort)ModContent.TileType<CragStalagmiteGiant3>() };
+
+                            WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Stalagmites));
+                        }
+
+                        if (WorldGen.genRand.Next(8) == 0)
+                        {
+                            ushort[] Stalagmites = new ushort[] { (ushort)ModContent.TileType<CragStalagmiteLarge1>(), 
+                            (ushort)ModContent.TileType<CragStalagmiteLarge2>(), (ushort)ModContent.TileType<CragStalagmiteLarge3>(), 
+                            (ushort)ModContent.TileType<CragStalagmiteSmall1>(), (ushort)ModContent.TileType<CragStalagmiteSmall2>(), 
+                            (ushort)ModContent.TileType<CragStalagmiteSmall3>() };
 
                             WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Stalagmites));
                         }

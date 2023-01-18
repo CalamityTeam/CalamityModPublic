@@ -1,5 +1,4 @@
-﻿using CalamityMod.Tiles.Abyss.AbyssAmbient;
-using CalamityMod.Walls;
+﻿using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -50,23 +49,6 @@ namespace CalamityMod.Tiles.Abyss
 
         public override void RandomUpdate(int i, int j)
         {
-            Tile up = Main.tile[i, j - 1];
-            Tile up2 = Main.tile[i, j - 2];
-
-            if (WorldGen.genRand.Next(2) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount > 0)
-            {
-                up.TileType = (ushort)ModContent.TileType<AbyssKelp>();
-                up.HasTile = true;
-                up.TileFrameY = 0;
-                up.TileFrameX = (short)(WorldGen.genRand.Next(4) * 18);
-                WorldGen.SquareTileFrame(i, j - 1, true);
-
-                if (Main.netMode == NetmodeID.Server) 
-                {
-                    NetMessage.SendTileSquare(-1, i, j - 1, 3, TileChangeType.None);
-                }
-            }
-
             int num8 = WorldGen.genRand.Next((int)Main.rockLayer, (int)(Main.rockLayer + (double)Main.maxTilesY * 0.143));
             if (Main.tile[i, j + 1] != null)
             {
