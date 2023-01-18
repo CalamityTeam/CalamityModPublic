@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace CalamityMod.Projectiles.Rogue
     public class StormfrontLightning : ModProjectile
     {
         internal PrimitiveTrail LightningDrawer;
+
+        private int noTileHitCounter = 90; //Using other projectile's methods to not collide until a certain time has passed, allowing use inside caves
 
         public bool HasPlayedSound;
 
@@ -47,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.alpha = 255;
             Projectile.penetrate =3;
             Projectile.ignoreWater = true;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.friendly = true;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.MaxUpdates = 5;
@@ -70,6 +73,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+            //Pass through tiles until certain time has passed
+            noTileHitCounter -= 1;
+            if (noTileHitCounter == 0)
+            {
+                Projectile.tileCollide = true;
+            }
+
+
             // FrameCounter in this context is really just an arbitrary timer
             // which allows random turning to occur.
             Projectile.frameCounter++;
@@ -83,7 +94,7 @@ namespace CalamityMod.Projectiles.Rogue
             // Play a strike sound on the first frame.
             if (!HasPlayedSound)
             {
-                SoundEngine.PlaySound(StormfrontRazor.LightningStrikeSound with { Volume = 0.5f }, Main.player[Projectile.owner].Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.LightningSound with { Volume = 0.5f }, Main.player[Projectile.owner].Center);
                 HasPlayedSound = true;
             }
 
@@ -147,7 +158,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             List<Vector2> checkPoints = Projectile.oldPos.Where(oldPos => oldPos != Vector2.Zero).ToList();
-            if (checkPoints.Count <= 2)
+            if (checkPoints.Count <= 3)
                 return false;
 
             for (int i = 0; i < checkPoints.Count - 1; i++)
@@ -181,7 +192,7 @@ namespace CalamityMod.Projectiles.Rogue
             GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].UseImage1("Images/Misc/Perlin");
             GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].Apply();
 
-            LightningDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 18);
+            LightningDrawer.Draw(Projectile.oldPos, Projectile.Size * 2f - Main.screenPosition, 10);
             return false;
         }
 

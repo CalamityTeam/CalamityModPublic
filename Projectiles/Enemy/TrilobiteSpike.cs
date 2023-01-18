@@ -1,9 +1,7 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Enemy
@@ -26,14 +24,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void AI()
         {
-            // Old Duke Tooth Ball spikes
-            if (Projectile.ai[0] != 0f && Projectile.ai[1] != 0f)
-            {
-                float finalVelocity = new Vector2(Projectile.ai[0], Projectile.ai[1]).Length();
-                if (Projectile.velocity.Length() < finalVelocity)
-                    Projectile.velocity *= 1.025f;
-            }
-            else if (Projectile.velocity.Y < 10f)
+            if (Projectile.velocity.Y < 10f)
                 Projectile.velocity.Y += 0.1f;
 
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
@@ -45,12 +36,6 @@ namespace CalamityMod.Projectiles.Enemy
                 return;
 
             target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
-        }
-
-        public override bool PreDraw(ref Color lightColor)
-        {
-            Projectile.DrawProjectileWithBackglow(Color.White with { A = 0 }, lightColor, 4f);
-            return false;
         }
 
         public override void Kill(int timeLeft)

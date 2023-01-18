@@ -69,10 +69,10 @@ namespace CalamityMod.Schematics
                 Main.tile[x, y].WallType = WallType;
 
                 Main.tile[x, y].LiquidAmount = LiquidAmount;
-                ref var targetLiquidState = ref Main.tile[x, y].Get<LiquidData>();
+                ref var targetLiquidState = ref (Main.tile[x, y].Get<LiquidData>());
                 targetLiquidState.LiquidType = LiquidType;
 
-                ref var targetMiscState = ref Main.tile[x, y].Get<TileWallWireStateData>();
+                ref var targetMiscState = ref (Main.tile[x, y].Get<TileWallWireStateData>());
                 CalamitySchematicIO.AssignMiscState(ref targetMiscState, miscState.NonFrameBits);
                 targetMiscState.TileFrameX = miscState.TileFrameX;
                 targetMiscState.TileFrameY = miscState.TileFrameY;
@@ -83,10 +83,10 @@ namespace CalamityMod.Schematics
                 Main.tile[x, y].WallType = original.WallType;
 
                 Main.tile[x, y].LiquidAmount = original.LiquidAmount;
-                ref var targetLiquidState = ref Main.tile[x, y].Get<LiquidData>();
-                targetLiquidState.LiquidType = LiquidType;
+                ref var targetLiquidState = ref (Main.tile[x, y].Get<LiquidData>());
+                targetLiquidState.LiquidType = original.LiquidType; // this line caused the lava->water transmutation bug
 
-                ref var targetMiscState = ref Main.tile[x, y].Get<TileWallWireStateData>();
+                ref var targetMiscState = ref (Main.tile[x, y].Get<TileWallWireStateData>());
                 CalamitySchematicIO.AssignMiscState(ref targetMiscState, original.miscState.NonFrameBits);
                 targetMiscState.TileFrameX = original.miscState.TileFrameX;
                 targetMiscState.TileFrameY = original.miscState.TileFrameY;
@@ -97,10 +97,10 @@ namespace CalamityMod.Schematics
                 Main.tile[x, y].WallType = original.WallType;
 
                 Main.tile[x, y].LiquidAmount = LiquidAmount;
-                ref var targetLiquidState = ref Main.tile[x, y].Get<LiquidData>();
+                ref var targetLiquidState = ref (Main.tile[x, y].Get<LiquidData>());
                 targetLiquidState.LiquidType = LiquidType;
 
-                ref var targetMiscState = ref Main.tile[x, y].Get<TileWallWireStateData>();
+                ref var targetMiscState = ref (Main.tile[x, y].Get<TileWallWireStateData>());
                 CalamitySchematicIO.AssignMiscState(ref targetMiscState, miscState.NonFrameBits);
                 targetMiscState.TileFrameX = miscState.TileFrameX;
                 targetMiscState.TileFrameY = miscState.TileFrameY;
@@ -118,10 +118,12 @@ namespace CalamityMod.Schematics
                 Main.tile[x, y].WallType = WallType;
 
                 Main.tile[x, y].LiquidAmount = original.LiquidAmount;
-                ref var targetLiquidState = ref Main.tile[x, y].Get<LiquidData>();
-                targetLiquidState.LiquidType = LiquidType;
+                ref var targetLiquidState = ref (Main.tile[x, y].Get<LiquidData>());
+                // keeping the original tile could mean keeping a full space of liquid that was originally there
+                // this is fine, of course, because all you are changing is the background wall and the liquid can be on top of that
+                targetLiquidState.LiquidType = original.LiquidType;
 
-                ref var targetMiscState = ref Main.tile[x, y].Get<TileWallWireStateData>();
+                ref var targetMiscState = ref (Main.tile[x, y].Get<TileWallWireStateData>());
                 CalamitySchematicIO.AssignMiscState(ref targetMiscState, original.miscState.NonFrameBits);
                 targetMiscState.TileFrameX = original.miscState.TileFrameX;
                 targetMiscState.TileFrameY = original.miscState.TileFrameY;

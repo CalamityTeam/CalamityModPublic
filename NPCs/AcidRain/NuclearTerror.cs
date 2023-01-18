@@ -19,6 +19,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
+    [AutoloadBossHead]
     public class NuclearTerror : ModNPC
     {
         public enum SpecialAttackState
@@ -574,6 +575,13 @@ namespace CalamityMod.NPCs.AcidRain
                 return false;
             }
             return Dying;
+        }
+
+        public override void OnKill()
+        {
+            // Mark Nuclear Terror as dead
+            DownedBossSystem.downedNuclearTerror = true;
+            CalamityNetcode.SyncWorld();
         }
 
         public override void HitEffect(int hitDirection, double damage)

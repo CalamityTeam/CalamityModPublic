@@ -47,10 +47,14 @@ namespace CalamityMod
         internal static bool _downedGSS = false;
         internal static bool _downedCLAM = false;
         internal static bool _downedCLAMHardMode = false;
+        internal static bool _downedCragmawMire = false;
+        internal static bool _downedMauler = false;
+        internal static bool _downedNuclearTerror = false;
 
         // Events
         internal static bool _downedEoCAcidRain = false;
         internal static bool _downedAquaticScourgeAcidRain = false;
+        internal static bool _downedBossRush = false;
 
         // Betsy, because vanilla doesn't track her
         internal static bool _downedBetsy = false;
@@ -386,6 +390,39 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedCLAMHardMode, -1);
             }
         }
+        public static bool downedCragmawMire
+        {
+            get => _downedCragmawMire;
+            set
+            {
+                if (!value)
+                    _downedCragmawMire = false;
+                else
+                    NPC.SetEventFlagCleared(ref _downedCragmawMire, -1);
+            }
+        }
+        public static bool downedMauler
+        {
+            get => _downedMauler;
+            set
+            {
+                if (!value)
+                    _downedMauler = false;
+                else
+                    NPC.SetEventFlagCleared(ref _downedMauler, -1);
+            }
+        }
+        public static bool downedNuclearTerror
+        {
+            get => _downedNuclearTerror;
+            set
+            {
+                if (!value)
+                    _downedNuclearTerror = false;
+                else
+                    NPC.SetEventFlagCleared(ref _downedNuclearTerror, -1);
+            }
+        }
         public static bool downedBetsy
         {
             get => _downedBetsy;
@@ -444,6 +481,17 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedAquaticScourgeAcidRain, -1);
             }
         }
+        public static bool downedBossRush
+        {
+            get => _downedBossRush;
+            set
+            {
+                if (!value)
+                    _downedBossRush = false;
+                else
+                    NPC.SetEventFlagCleared(ref _downedBossRush, -1);
+            }
+        }
 
         internal static void ResetAllFlags()
         {
@@ -483,9 +531,13 @@ namespace CalamityMod
             downedCLAM = false;
             downedCLAMHardMode = false;
             downedGSS = false;
+            downedCragmawMire = false;
+            downedMauler = false;
+            downedNuclearTerror = false;
 
             downedEoCAcidRain = false;
             downedAquaticScourgeAcidRain = false;
+            downedBossRush = false;
 
             downedBetsy = false;
         }
@@ -568,10 +620,18 @@ namespace CalamityMod
                 downed.Add("clam");
             if (downedCLAMHardMode)
                 downed.Add("clamHardmode");
+            if (downedCragmawMire)
+                downed.Add("cragmawMire");
+            if (downedMauler)
+                downed.Add("mauler");
+            if (downedNuclearTerror)
+                downed.Add("nuclearTerror");
             if (downedEoCAcidRain)
                 downed.Add("eocRain");
             if (downedAquaticScourgeAcidRain)
                 downed.Add("hmRain");
+            if (downedBossRush)
+                downed.Add("bossRush");
 
             tag["downedFlags"] = downed;
         }
@@ -614,8 +674,12 @@ namespace CalamityMod
             downedBoomerDuke = downed.Contains("oldDuke");
             downedCLAM = downed.Contains("clam");
             downedCLAMHardMode = downed.Contains("clamHardmode");
+            downedCragmawMire = downed.Contains("cragmawMire");
+            downedMauler = downed.Contains("mauler");
+            downedNuclearTerror = downed.Contains("nuclearTerror");
             downedEoCAcidRain = downed.Contains("eocRain");
             downedAquaticScourgeAcidRain = downed.Contains("hmRain");
+            downedBossRush = downed.Contains("bossRush");
         }
     }
 }

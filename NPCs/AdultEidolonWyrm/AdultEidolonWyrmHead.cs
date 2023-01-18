@@ -24,6 +24,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AdultEidolonWyrm
 {
+    [AutoloadBossHead]
     public class AdultEidolonWyrmHead : ModNPC
     {
         public enum Phase
@@ -457,34 +458,34 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             // Telekinesis while enraged
             if (!targetDownDeep)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                calamityGlobalNPC.newAI[3] += 1f;
+                if (calamityGlobalNPC.newAI[3] >= 300f)
                 {
-                    calamityGlobalNPC.newAI[3] += 1f;
-                    if (calamityGlobalNPC.newAI[3] >= 300f)
+                    calamityGlobalNPC.newAI[3] = 0f;
+
+                    SoundEngine.PlaySound(SoundID.Item117, player.position);
+
+                    for (int i = 0; i < 20; i++)
                     {
-                        calamityGlobalNPC.newAI[3] = 0f;
-
-                        SoundEngine.PlaySound(SoundID.Item117, player.position);
-
-                        for (int i = 0; i < 20; i++)
+                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 185, 0f, 0f, 100, default, 2f);
+                        Main.dust[dust].velocity *= 0.6f;
+                        if (Main.rand.NextBool(2))
                         {
-                            int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 185, 0f, 0f, 100, default, 2f);
-                            Main.dust[dust].velocity *= 0.6f;
-                            if (Main.rand.NextBool(2))
-                            {
-                                Main.dust[dust].scale = 0.5f;
-                                Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
-                            }
+                            Main.dust[dust].scale = 0.5f;
+                            Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                         }
+                    }
 
-                        for (int j = 0; j < 30; j++)
-                        {
-                            int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 185, 0f, 0f, 100, default, 3f);
-                            Main.dust[dust].noGravity = true;
-                            dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 185, 0f, 0f, 100, default, 2f);
-                            Main.dust[dust].velocity *= 0.2f;
-                        }
+                    for (int j = 0; j < 30; j++)
+                    {
+                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 185, 0f, 0f, 100, default, 3f);
+                        Main.dust[dust].noGravity = true;
+                        dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 185, 0f, 0f, 100, default, 2f);
+                        Main.dust[dust].velocity *= 0.2f;
+                    }
 
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
                         if (player.velocity.Length() > 0f)
                             player.velocity *= -3f;
                     }
@@ -1016,12 +1017,12 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         calamityGlobalNPC.newAI[2] += 1f;
                         if (calamityGlobalNPC.newAI[2] >= ancientDoomPhaseGateValue)
                         {
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            float aiGateValue = calamityGlobalNPC.newAI[2] - ancientDoomPhaseGateValue;
+                            if (aiGateValue % ancientDoomGateValue == 0f)
                             {
-                                float aiGateValue = calamityGlobalNPC.newAI[2] - ancientDoomPhaseGateValue;
-                                if (aiGateValue % ancientDoomGateValue == 0f)
+                                // Spawn 3 (or more) circles of Ancient Dooms around the target
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    // Spawn 3 (or more) circles of Ancient Dooms around the target
                                     int ancientDoomScale2 = (int)(aiGateValue / ancientDoomGateValue);
                                     ancientDoomLimit += ancientDoomScale2;
                                     ancientDoomDistance += ancientDoomScale2 * 45;
@@ -1032,9 +1033,9 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.Center.X + (float)(Math.Sin(i * ancientDoomDegrees) * ancientDoomDistance)), (int)(player.Center.Y + (float)(Math.Cos(i * ancientDoomDegrees) * ancientDoomDistance)),
                                             NPCID.AncientDoom, 0, NPC.whoAmI, 0f, ai2, 0f, Main.maxPlayers);
                                     }
-                                    NPC.localAI[1] += 1f;
-                                    NPC.TargetClosest();
                                 }
+                                NPC.localAI[1] += 1f;
+                                NPC.TargetClosest();
                             }
                         }
                     }
@@ -1093,23 +1094,26 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                 destination = chargeDestination;
 
                                 // Lightning barrage
-                                if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[3] == 0f)
+                                if (NPC.localAI[3] == 0f)
                                 {
                                     if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
                                         SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, Main.player[Main.myPlayer].Center);
 
                                     NPC.localAI[3] = 1f;
-                                    int type = ProjectileID.CultistBossLightningOrbArc;
-                                    int damage = NPC.GetProjectileDamage(type);
-                                    for (int i = 0; i < numLightningBolts; i++)
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
                                     {
-                                        Vector2 projectileDestination = player.Center - lightningSpawnLocation;
-                                        float ai = Main.rand.Next(100);
-                                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), lightningSpawnLocation, NPC.velocity * 0.5f, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
-                                        Main.projectile[proj].tileCollide = false;
-                                        lightningSpawnLocation.Y += distanceBetweenBolts;
-                                        if (i == numLightningBolts / 2)
+                                        int type = ProjectileID.CultistBossLightningOrbArc;
+                                        int damage = NPC.GetProjectileDamage(type);
+                                        for (int i = 0; i < numLightningBolts; i++)
+                                        {
+                                            Vector2 projectileDestination = player.Center - lightningSpawnLocation;
+                                            float ai = Main.rand.Next(100);
+                                            int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), lightningSpawnLocation, NPC.velocity * 0.5f, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+                                            Main.projectile[proj].tileCollide = false;
                                             lightningSpawnLocation.Y += distanceBetweenBolts;
+                                            if (i == numLightningBolts / 2)
+                                                lightningSpawnLocation.Y += distanceBetweenBolts;
+                                        }
                                     }
                                 }
 
@@ -1203,12 +1207,12 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     calamityGlobalNPC.newAI[2] += 1f;
                     if (calamityGlobalNPC.newAI[2] >= ancientDoomPhaseGateValue)
                     {
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        float aiGateValue = calamityGlobalNPC.newAI[2] - ancientDoomPhaseGateValue;
+                        if (aiGateValue % ancientDoomGateValue == 0f)
                         {
-                            float aiGateValue = calamityGlobalNPC.newAI[2] - ancientDoomPhaseGateValue;
-                            if (aiGateValue % ancientDoomGateValue == 0f)
+                            // Spawn 3 (or more) circles of Ancient Dooms around the target
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                // Spawn 3 (or more) circles of Ancient Dooms around the target
                                 int ancientDoomScale2 = (int)(aiGateValue / ancientDoomGateValue);
                                 ancientDoomLimit += ancientDoomScale2;
                                 ancientDoomDistance += ancientDoomScale2 * 45;
@@ -1219,12 +1223,12 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                     NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.Center.X + (float)(Math.Sin(i * ancientDoomDegrees) * ancientDoomDistance)), (int)(player.Center.Y + (float)(Math.Cos(i * ancientDoomDegrees) * ancientDoomDistance)),
                                         NPCID.AncientDoom, 0, NPC.whoAmI, 0f, ai2, 0f, Main.maxPlayers);
                                 }
-
-                                if (calamityGlobalNPC.newAI[2] >= 240f)
-                                    calamityGlobalNPC.newAI[2] = -90f;
-
-                                NPC.TargetClosest();
                             }
+
+                            if (calamityGlobalNPC.newAI[2] >= 240f)
+                                calamityGlobalNPC.newAI[2] = -90f;
+
+                            NPC.TargetClosest();
                         }
                     }
 

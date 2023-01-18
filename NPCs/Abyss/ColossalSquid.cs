@@ -416,13 +416,12 @@ namespace CalamityMod.NPCs.Abyss
                     }
                     NPC.localAI[2] = 1f;
                     NPC.localAI[0] += 1f;
-                    if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= 150f)
+                    if (NPC.localAI[0] >= 150f)
                     {
                         NPC.localAI[0] = 0f;
                         NPC.netUpdate = true;
                         int damage = 70;
                         if (Main.expertMode)
-                        {
                             damage = 55;
                         }
                         if (clone)
@@ -430,7 +429,9 @@ namespace CalamityMod.NPCs.Abyss
                             damage /= 4;
                         }
                         SoundEngine.PlaySound(SoundID.Item111, NPC.position);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 60, 0f, 2f, ModContent.ProjectileType<InkBombHostile>(), damage, 0f, Main.myPlayer);
+
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 60, 0f, 2f, ModContent.ProjectileType<InkBombHostile>(), damage, 0f, Main.myPlayer);
                     }
                     NPC.rotation = NPC.velocity.X * 0.05f;
                     NPC.velocity *= 0.975f;
