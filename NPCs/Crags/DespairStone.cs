@@ -71,18 +71,20 @@ namespace CalamityMod.NPCs.Crags
 
         public override void AI()
         {
+            float buzzsawStartTime = 480f;
             NPC.ai[1]++;
             if (NPC.ai[2] != 0f) BuzzsawMode();
-            if (NPC.ai[1] > 480f)
+            if (NPC.ai[1] > buzzsawStartTime) //time needed for buzzsaw mode to be able to be started
             {
                 if (NPC.ai[2] == 0f)
                 {
+                    NPC.ai[1] = buzzsawStartTime + 1f; //freeze buzzsaw timer until buzzsaw mode is initiated.
                     NPC.rotation += NPC.velocity.X * 0.01f;
                     NPC.spriteDirection = -NPC.direction;
-                    if (NPC.velocity.Y == 0f || NPC.lavaWet) BuzzsawMode();
+                    if (NPC.velocity.Y == 0f || NPC.lavaWet) BuzzsawMode(); //initiate Buzzsaw mode once the npc hits the ground
                 }
             }
-            else
+            else //run regular ai if buzzsaw mode isn't available
             {
                 NPC.ai[2] = 0f;
                 CalamityAI.UnicornAI(NPC, Mod, true, CalamityWorld.death ? 8f : CalamityWorld.revenge ? 6f : 4f, 5f, 0.2f);
@@ -98,15 +100,15 @@ namespace CalamityMod.NPCs.Crags
             if (NPC.ai[2] == 0f)
             {
                 ChainsawSoundSlot = SoundEngine.PlaySound(ChainsawStartSound, NPC.Center);
-                if (NPC.velocity.X < 0f)
+                if (NPC.velocity.X < 0f) //left
                 {
                     NPC.ai[2] = -1f;
                 }   
-                else if (NPC.velocity.X > 0f)
+                else if (NPC.velocity.X > 0f) //right
                 {
                     NPC.ai[2] = 1f;
                 }
-                else
+                else //if npc is stationary when selecting direction, go towards target.
                 {
                     distance = Main.player[NPC.target].Center.X - NPC.Center.X;
                     if (distance != 0f)
