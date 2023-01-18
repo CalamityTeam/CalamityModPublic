@@ -125,6 +125,12 @@ namespace CalamityMod.Systems
             flags11[6] = downedArtemisAndApollo;
             flags11[7] = TalkedToDraedon;
 
+            BitsByte flags12 = new BitsByte();
+            flags12[0] = downedCragmawMire;
+            flags12[1] = downedMauler;
+            flags12[2] = downedNuclearTerror;
+            flags12[3] = downedBossRush;
+
             writer.Write(flags);
             writer.Write(flags2);
             writer.Write(flags3);
@@ -136,6 +142,7 @@ namespace CalamityMod.Systems
             writer.Write(flags9);
             writer.Write(flags10);
             writer.Write(flags11);
+            writer.Write(flags12);
 
             RecipeUnlockHandler.SendData(writer);
 
@@ -268,6 +275,12 @@ namespace CalamityMod.Systems
             downedThanatos = flags11[5];
             downedArtemisAndApollo = flags11[6];
             TalkedToDraedon = flags11[7];
+
+            BitsByte flags12 = reader.ReadByte();
+            downedCragmawMire = flags12[0];
+            downedMauler = flags12[1];
+            downedNuclearTerror = flags12[2];
+            downedBossRush = flags12[3];
 
             RecipeUnlockHandler.ReceiveData(reader);
 

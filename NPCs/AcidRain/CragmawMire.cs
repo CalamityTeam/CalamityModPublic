@@ -20,6 +20,7 @@ using Terraria.WorldBuilding;
 
 namespace CalamityMod.NPCs.AcidRain
 {
+    [AutoloadBossHead]
     public class CragmawMire : ModNPC
     {
         public enum CragmawAttackState
@@ -495,6 +496,13 @@ namespace CalamityMod.NPCs.AcidRain
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("CragmawMireP2Gore3").Type, NPC.scale);
                 }
             }
+        }
+
+        public override void OnKill()
+        {
+            // Mark Cragmaw Mire as dead
+            DownedBossSystem.downedCragmawMire = true;
+            CalamityNetcode.SyncWorld();
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)

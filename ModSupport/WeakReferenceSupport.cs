@@ -95,6 +95,7 @@ namespace CalamityMod
         public static readonly Func<bool> DownedCryogen = () => DownedBossSystem.downedCryogen;
         public static readonly Func<bool> DownedBrimstoneElemental = () => DownedBossSystem.downedBrimstoneElemental;
         public static readonly Func<bool> DownedAquaticScourge = () => DownedBossSystem.downedAquaticScourge;
+        public static readonly Func<bool> DownedCragmawMire = () => DownedBossSystem.downedCragmawMire;
         public static readonly Func<bool> DownedCalamitas = () => DownedBossSystem.downedCalamitas;
         public static readonly Func<bool> DownedGSS = () => DownedBossSystem.downedGSS;
         public static readonly Func<bool> DownedLeviathan = () => DownedBossSystem.downedLeviathan;
@@ -109,6 +110,8 @@ namespace CalamityMod
         public static readonly Func<bool> DownedStormWeaver = () => DownedBossSystem.downedStormWeaver;
         public static readonly Func<bool> DownedSignus = () => DownedBossSystem.downedSignus;
         public static readonly Func<bool> DownedPolterghast = () => DownedBossSystem.downedPolterghast;
+        public static readonly Func<bool> DownedMauler = () => DownedBossSystem.downedMauler;
+        public static readonly Func<bool> DownedNuclearTerror = () => DownedBossSystem.downedNuclearTerror;
         public static readonly Func<bool> DownedBoomerDuke = () => DownedBossSystem.downedBoomerDuke;
         public static readonly Func<bool> DownedDoG = () => DownedBossSystem.downedDoG;
         public static readonly Func<bool> DownedYharon = () => DownedBossSystem.downedYharon;
@@ -118,6 +121,7 @@ namespace CalamityMod
 
         public static readonly Func<bool> DownedAcidRainInitial = () => DownedBossSystem.downedEoCAcidRain;
         public static readonly Func<bool> DownedAcidRainHardmode = () => DownedBossSystem.downedAquaticScourgeAcidRain;
+        public static readonly Func<bool> DownedBossRush = () => DownedBossSystem.downedBossRush;
     }
 
     internal class WeakReferenceSupport
@@ -135,6 +139,7 @@ namespace CalamityMod
             { "SlimeGod", 6.5f },
             { "Cryogen", 8.5f },
             { "AquaticScourge", 9.5f },
+            { "CragmawMire", 9.52f },
             { "BrimstoneElemental", 10.5f },
             { "Calamitas", 11.7f },
             { "GreatSandShark", 12.09f },
@@ -150,6 +155,8 @@ namespace CalamityMod
             { "StormWeaver", 19.51f },
             { "Signus", 19.52f },
             { "Polterghast", 20f },
+            { "Mauler", 20.491f },
+            { "NuclearTerror", 20.492f },
             { "OldDuke", 20.5f },
             { "DevourerOfGods", 21f },
             { "Yharon", 22f },
@@ -165,7 +172,8 @@ namespace CalamityMod
         {
             { "Acid Rain Initial", 2.67f },
             { "Acid Rain Aquatic Scourge", 9.51f },
-            { "Acid Rain Polterghast", 20.49f }
+            { "Acid Rain Polterghast", 20.49f },
+            { "Boss Rush", 23.75f }
         };
 
         public static void Setup()
@@ -477,6 +485,16 @@ namespace CalamityMod
                 AddBoss(bossChecklist, calamity, "Aquatic Scourge", order, segments, DownedAquaticScourge, summon, collection, instructions, despawn, () => true, portrait, bossLogTex);
             }
 
+            // Cragmaw Mire
+            {
+                BossDifficulty.TryGetValue("CragmawMire", out float order);
+                int type = NPCType<CragmawMire>();
+                int summon = ItemType<CausticTear>();
+                string instructions = $"Spawns during Acid Rain after the Aquatic Scourge has been defeated.\nStart Acid Rain with a [i:{summon}]";
+                string despawn = CalamityUtils.ColorMessage("The Cragmaw Mire buries itself within the sand.", new Color(0xF0, 0xE6, 0x8C));
+                AddMiniBoss(bossChecklist, calamity, "Cragmaw Mire", order, type, DownedCragmawMire, null, null, instructions, despawn, () => true);
+            }
+
             // Brimstone Elemental
             {
                 BossDifficulty.TryGetValue("BrimstoneElemental", out float order);
@@ -610,8 +628,9 @@ namespace CalamityMod
 
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardians_BossChecklist").Value;
-                    Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
-                    sb.Draw(texture, centered, color);
+                    float scale = 0.7f;
+                    Vector2 centered = new Vector2(rect.Center.X - texture.Width * scale / 2, rect.Center.Y - texture.Height * scale / 2);
+                    sb.Draw(texture, centered, null, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
                 };
                 AddBoss(bossChecklist, calamity, "Profaned Guardians", order, type, DownedGuardians, summon, collection, instructions, despawn, () => true, portrait, bossLogTex);
             }
@@ -693,6 +712,26 @@ namespace CalamityMod
                 string instructions = $"Kill 30 phantom spirits or use a [i:{summon}] in the Dungeon";
                 string despawn = CalamityUtils.ColorMessage("The volatile spirits disperse throughout the depths of the dungeon.", new Color(0xB0, 0xE0, 0xE6));
                 AddBoss(bossChecklist, calamity, "Polterghast", order, bosses, DownedPolterghast, summon, collection, instructions, despawn, () => true);
+            }
+
+            // Mauler
+            {
+                BossDifficulty.TryGetValue("Mauler", out float order);
+                int type = NPCType<Mauler>();
+                int summon = ItemType<CausticTear>();
+                string instructions = $"Spawns during Acid Rain after Polterghast has been defeated.\nStart Acid Rain with a [i:{summon}]";
+                string despawn = CalamityUtils.ColorMessage("The ravenous fish has mauled everybody's corpses.", new Color(0xF0, 0xE6, 0x8C));
+                AddMiniBoss(bossChecklist, calamity, "Mauler", order, type, DownedMauler, null, null, instructions, despawn, () => true);
+            }
+
+            // Nuclear Terror
+            {
+                BossDifficulty.TryGetValue("NuclearTerror", out float order);
+                int type = NPCType<NuclearTerror>();
+                int summon = ItemType<CausticTear>();
+                string instructions = $"Spawns during Acid Rain after Polterghast has been defeated.\nStart Acid Rain with a [i:{summon}]";
+                string despawn = CalamityUtils.ColorMessage("The radioactive monstrosity has further enforced its name.", new Color(0xF0, 0xE6, 0x8C));
+                AddMiniBoss(bossChecklist, calamity, "Nuclear Terror", order, type, DownedNuclearTerror, null, null, instructions, despawn, () => true);
             }
 
             // Old Duke
@@ -824,6 +863,22 @@ namespace CalamityMod
                     sb.Draw(texture, centered, null, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
                 };
                 AddInvasion(bossChecklist, calamity, "Acid Rain (Post-Polter)", order, enemies, DownedBoomerDuke, summons, collection, instructions, () => true, portrait, iconTexture);
+            }
+            // Boss Rush
+            {
+                InvasionDifficulty.TryGetValue("Boss Rush", out float order);
+                List<int> enemies = new List<int>() { 0 }; // This is for loot purposes, which no bosses give during the event
+                List<int> summons = new List<int>() { ItemType<Terminus>() };
+                List<int> collection = new List<int>() { ItemType<Rock>() };
+                string instructions = $"Use a [i:{ItemType<Terminus>()}] found at the bottom of the Abyss";
+                string iconTexture = "CalamityMod/UI/MiscTextures/BossRushIcon";
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                    Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Skies/XerocEye").Value;
+                    float scale = 0.5f;
+                    Vector2 centered = new Vector2(rect.Center.X - texture.Width * scale / 2, rect.Center.Y - texture.Height * scale / 2);
+                    sb.Draw(texture, centered, null, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+                };
+                AddInvasion(bossChecklist, calamity, "Boss Rush", order, enemies, DownedBossRush, summons, collection, instructions, () => true, portrait, iconTexture);
             }
         }
 

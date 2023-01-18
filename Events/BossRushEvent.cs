@@ -443,6 +443,10 @@ namespace CalamityMod.Events
                     CalamityUtils.KillAllHostileProjectiles();
                     HostileProjectileKillCounter = 3;
 
+                    // Mark Boss Rush as complete
+                    DownedBossSystem.downedBossRush = true;
+                    CalamityNetcode.SyncWorld();
+
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                         Projectile.NewProjectile(Source, npc.Center, Vector2.Zero, ModContent.ProjectileType<BossRushEndEffectThing>(), 0, 0f, Main.myPlayer);
                 }
