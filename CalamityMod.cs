@@ -279,6 +279,10 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:MonolithAccursed"] = new Filter(new MonolithScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:MonolithAccursed"] = new MonolithSky();
 
+            //Normal intensity is 4f
+            Texture2D DistortionTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/BlobbyNoise", AssetRequestMode.ImmediateLoad).Value;
+            Filters.Scene["CalamityMod:DrunkCrabulon"] = new Filter(new DrunkCrabScreenShaderData("FilterHeatDistortion").UseImage(DistortionTexture, 0, null).UseIntensity(20f), EffectPriority.VeryHigh);
+
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
