@@ -1,4 +1,4 @@
-﻿
+﻿using CalamityMod.Tiles.Abyss.AbyssAmbient;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -30,6 +30,27 @@ namespace CalamityMod.Tiles.Abyss
             ItemDrop = ModContent.ItemType<Items.Placeables.Voidstone>();
             AddMapEntry(new Color(15, 15, 15));
         }
+
+        public override void RandomUpdate(int i, int j)
+        {
+            Tile up = Main.tile[i, j - 1];
+            Tile up2 = Main.tile[i, j - 2];
+
+            if (WorldGen.genRand.Next(5) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount > 0)
+            {
+                up.TileType = (ushort)ModContent.TileType<VoidWeeds>();
+                up.HasTile = true;
+                up.TileFrameY = 0;
+                up.TileFrameX = (short)(WorldGen.genRand.Next(4) * 18);
+                WorldGen.SquareTileFrame(i, j - 1, true);
+
+                if (Main.netMode == NetmodeID.Server) 
+                {
+                    NetMessage.SendTileSquare(-1, i, j - 1, 3, TileChangeType.None);
+                }
+            }
+        }
+
         int animationFrameWidth = 288;
 
         public override bool CreateDust(int i, int j, ref int type)

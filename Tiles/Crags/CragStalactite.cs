@@ -15,7 +15,6 @@ namespace CalamityMod.Tiles.Crags
 		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
-			Main.tileLighted[Type] = true;
 			Main.tileSolid[Type] = false;
 			TileObjectData.newTile.Width = 2;
 			TileObjectData.newTile.Height = 5;
@@ -26,7 +25,7 @@ namespace CalamityMod.Tiles.Crags
 			TileObjectData.newTile.AnchorBottom = default(AnchorData);
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
-			TileObjectData.newTile.DrawYOffset = -2;
+			TileObjectData.newTile.DrawYOffset = -3;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 23, 46));
             HitSound = SoundID.Tink;
@@ -49,7 +48,6 @@ namespace CalamityMod.Tiles.Crags
 		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
-			Main.tileLighted[Type] = true;
 			Main.tileSolid[Type] = false;
 			TileObjectData.newTile.Width = 2;
 			TileObjectData.newTile.Height = 4;
@@ -60,7 +58,7 @@ namespace CalamityMod.Tiles.Crags
 			TileObjectData.newTile.AnchorBottom = default(AnchorData);
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
-			TileObjectData.newTile.DrawYOffset = -2;
+			TileObjectData.newTile.DrawYOffset = -3;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 23, 46));
             HitSound = SoundID.Tink;
@@ -79,7 +77,6 @@ namespace CalamityMod.Tiles.Crags
 		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
-			Main.tileLighted[Type] = true;
 			Main.tileSolid[Type] = false;
 			TileObjectData.newTile.Width = 2;
 			TileObjectData.newTile.Height = 3;
@@ -90,7 +87,7 @@ namespace CalamityMod.Tiles.Crags
 			TileObjectData.newTile.AnchorBottom = default(AnchorData);
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
-			TileObjectData.newTile.DrawYOffset = -2;
+			TileObjectData.newTile.DrawYOffset = -3;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 23, 46));
             HitSound = SoundID.Tink;
@@ -113,7 +110,6 @@ namespace CalamityMod.Tiles.Crags
 		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
-			Main.tileLighted[Type] = true;
 			Main.tileSolid[Type] = false;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(1, 1);
@@ -122,7 +118,7 @@ namespace CalamityMod.Tiles.Crags
 			TileObjectData.newTile.AnchorBottom = default(AnchorData);
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
-			TileObjectData.newTile.DrawYOffset = -2;
+			TileObjectData.newTile.DrawYOffset = -3;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 23, 46));
             HitSound = SoundID.Tink;

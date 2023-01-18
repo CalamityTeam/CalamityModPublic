@@ -218,11 +218,11 @@ namespace CalamityMod.World
                 Tile tileLeft = Main.tile[x - 1, y];
                 Tile tileRight = Main.tile[x + 1, y];
 
-                if (WorldGen.genRand.Next(10) == 0 && tile.TileType == ModContent.TileType<BrimstoneSlag>() && (tileUp.LiquidAmount > 0 || 
+                if (tile.TileType == ModContent.TileType<BrimstoneSlag>() && (tileUp.LiquidAmount > 0 || 
                 tileDown.LiquidAmount > 0 || tileLeft.LiquidAmount > 0 || tileRight.LiquidAmount > 0)) 
                 {
                     WorldGen.TileRunner(x + WorldGen.genRand.Next(-15, 15), y + WorldGen.genRand.Next(-15, 15), 
-                    WorldGen.genRand.Next(8, 22), WorldGen.genRand.Next(8, 22), ModContent.TileType<CharredOre>(), false, 0f, 0f, false, true);
+                    WorldGen.genRand.Next(8, 12), WorldGen.genRand.Next(8, 12), ModContent.TileType<CharredOre>(), false, 0f, 0f, false, true);
                 }
             }
 

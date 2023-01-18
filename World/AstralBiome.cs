@@ -454,9 +454,26 @@ namespace CalamityMod.World
 
                     // WorldGen.gen prevents NewItem from working, and thus prevents a bunch of dumb items from being spawned immediately and deleting the WoF/Aureus loot in the process.
                     WorldGen.gen = true;
-                    bool _ = true;
-                    int xOffset = WorldGen.dungeonX < Main.maxTilesX / 2 ? -50 : 50;
-                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i + xOffset, (int)height), SchematicAnchor.TopCenter, ref _);
+                    bool place = true;
+                    int xOffset = WorldGen.dungeonX < Main.maxTilesX / 2 ? WorldGen.genRand.Next(-65, -25) : WorldGen.genRand.Next(25, 65);
+
+                    bool altarPlaced = false;
+                    int altarAttempts = 0;
+                    int altarY = (int)height;
+                    while (!altarPlaced && altarAttempts++ < 100000)
+                    {
+                        while (!WorldGen.SolidTile(xOffset, altarY) && altarY <= Main.worldSurface)
+                        {
+                            altarY++;
+                        }
+
+                        if (Main.tile[xOffset, altarY].HasTile || Main.tile[xOffset, altarY].WallType > 0)
+                        {
+                            altarPlaced = true;
+                        }
+                    }
+                    
+                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i + xOffset, altarY), SchematicAnchor.TopCenter, ref place);
                     WorldGen.gen = false;
                 }
             }
@@ -480,7 +497,7 @@ namespace CalamityMod.World
             int verticalRadius = (int)(constant / 16f);
 
             Vector2 fociOffset = Vector2.UnitY * fociSpacing;
-            Vector2 topFoci = center - new Vector2(0, -100) - fociOffset;
+            Vector2 topFoci = center - fociOffset;
             Vector2 bottomFoci = center + fociOffset;
 
             UnifiedRandom rand = WorldGen.genRand;
@@ -1238,7 +1255,7 @@ namespace CalamityMod.World
             if (collapse) //Collapse ensures the ellipse is shrunk down a lot in terms of distance.
             {
                 float distY = center.Y - point.Y;
-                point.Y -= distY * 8f;
+                point.Y -= distY * 4f;
             }
             float distance1 = Vector2.Distance(point, focus1);
             float distance2 = Vector2.Distance(point, focus2);

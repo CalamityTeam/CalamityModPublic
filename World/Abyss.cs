@@ -7,6 +7,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.Abyss.AbyssAmbient;
 using CalamityMod.Tiles.FurnitureVoid;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Walls;
@@ -316,6 +317,68 @@ namespace CalamityMod.World
                 {
                     for (int abyssIndex2 = 0; abyssIndex2 < abyssChasmY; abyssIndex2++)
                     {
+                        //abyss gravel ambient stuff
+                        if (Main.tile[abyssIndex, abyssIndex2].TileType == ModContent.TileType<AbyssGravel>())
+                        {
+                            //planty mush kelp
+                            if (WorldGen.genRand.Next(150) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 + 1, ModContent.TileType<AbyssKelpGiant>()); 
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 + 2, ModContent.TileType<AbyssKelpGiant>()); 
+                            }
+
+                            if (WorldGen.genRand.Next(15) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 + 1, ModContent.TileType<AbyssStalactite>()); 
+                            }
+
+                            if (WorldGen.genRand.Next(20) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 - 1, ModContent.TileType<AbyssStalagmite>()); 
+                            }
+                            
+                            if (WorldGen.genRand.Next(17) == 0)
+                            {
+                                ushort[] Tendrils = new ushort[] { (ushort)ModContent.TileType<AbyssTendril1>(), (ushort)ModContent.TileType<AbyssTendril2>() };
+
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 - 1, WorldGen.genRand.Next(Tendrils));
+                            }
+                        }
+
+                        //voidstone ambient stuff
+                        if (Main.tile[abyssIndex, abyssIndex2].TileType == ModContent.TileType<Voidstone>())
+                        {
+                            //planty mush kelp
+                            if (WorldGen.genRand.Next(150) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 + 1, ModContent.TileType<AbyssKelpGiant>()); 
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 + 2, ModContent.TileType<AbyssKelpGiant>()); 
+                            }
+
+                            if (WorldGen.genRand.Next(15) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 + 1, ModContent.TileType<VoidStalactite>()); 
+                            }
+
+                            if (WorldGen.genRand.Next(20) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 - 1, ModContent.TileType<VoidStalagmite>()); 
+                            }
+                            
+                            if (WorldGen.genRand.Next(17) == 0)
+                            {
+                                ushort[] Tendrils = new ushort[] { (ushort)ModContent.TileType<VoidTendril1>(), (ushort)ModContent.TileType<VoidTendril2>() };
+
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 - 1, WorldGen.genRand.Next(Tendrils));
+                            }
+
+                            if (WorldGen.genRand.Next(30) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 - 1, ModContent.TileType<VoidBulbTree>()); 
+                            }
+                        }
+
+                        //pots
                         if (!Main.tile[abyssIndex, abyssIndex2].HasTile)
                         {
                             if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) &&
@@ -346,6 +409,68 @@ namespace CalamityMod.World
                 {
                     for (int abyssIndex2 = 0; abyssIndex2 < abyssChasmY; abyssIndex2++)
                     {
+                        //abyss gravel ambient stuff
+                        if (Main.tile[abyssIndex, abyssIndex2].TileType == ModContent.TileType<AbyssGravel>())
+                        {
+                            //planty mush kelp
+                            if (WorldGen.genRand.Next(150) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 + 1, ModContent.TileType<AbyssKelpGiant>()); 
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 + 2, ModContent.TileType<AbyssKelpGiant>()); 
+                            }
+
+                            if (WorldGen.genRand.Next(15) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 + 1, ModContent.TileType<AbyssStalactite>()); 
+                            }
+
+                            if (WorldGen.genRand.Next(20) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 - 1, ModContent.TileType<AbyssStalagmite>()); 
+                            }
+                            
+                            if (WorldGen.genRand.Next(17) == 0)
+                            {
+                                ushort[] Tendrils = new ushort[] { (ushort)ModContent.TileType<AbyssTendril1>(), (ushort)ModContent.TileType<AbyssTendril2>() };
+
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 - 1, WorldGen.genRand.Next(Tendrils));
+                            }
+                        }
+
+                        //voidstone ambient stuff
+                        if (Main.tile[abyssIndex, abyssIndex2].TileType == ModContent.TileType<Voidstone>())
+                        {
+                            //planty mush kelp
+                            if (WorldGen.genRand.Next(150) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 + 1, ModContent.TileType<AbyssKelpGiant>()); 
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 + 2, ModContent.TileType<AbyssKelpGiant>()); 
+                            }
+
+                            if (WorldGen.genRand.Next(15) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 + 1, ModContent.TileType<VoidStalactite>()); 
+                            }
+
+                            if (WorldGen.genRand.Next(20) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 - 1, ModContent.TileType<VoidStalagmite>()); 
+                            }
+                            
+                            if (WorldGen.genRand.Next(17) == 0)
+                            {
+                                ushort[] Tendrils = new ushort[] { (ushort)ModContent.TileType<VoidTendril1>(), (ushort)ModContent.TileType<VoidTendril2>() };
+
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 - 1, WorldGen.genRand.Next(Tendrils));
+                            }
+
+                            if (WorldGen.genRand.Next(30) == 0)
+                            {
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2 - 1, ModContent.TileType<VoidBulbTree>()); 
+                            }
+                        }
+
+                        //pots
                         if (!Main.tile[abyssIndex, abyssIndex2].HasTile)
                         {
                             if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) &&

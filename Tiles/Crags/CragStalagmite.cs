@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles.Crags
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
-			TileObjectData.newTile.DrawYOffset = 2;
+			TileObjectData.newTile.DrawYOffset = 3;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 23, 46));
             HitSound = SoundID.Tink;
@@ -56,7 +56,7 @@ namespace CalamityMod.Tiles.Crags
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
-			TileObjectData.newTile.DrawYOffset = 2;
+			TileObjectData.newTile.DrawYOffset = 3;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 23, 46));
             HitSound = SoundID.Tink;
@@ -84,7 +84,7 @@ namespace CalamityMod.Tiles.Crags
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
-			TileObjectData.newTile.DrawYOffset = 2;
+			TileObjectData.newTile.DrawYOffset = 3;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 23, 46));
             HitSound = SoundID.Tink;
@@ -114,7 +114,7 @@ namespace CalamityMod.Tiles.Crags
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
-			TileObjectData.newTile.DrawYOffset = 2;
+			TileObjectData.newTile.DrawYOffset = 3;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 23, 46));
             HitSound = SoundID.Tink;

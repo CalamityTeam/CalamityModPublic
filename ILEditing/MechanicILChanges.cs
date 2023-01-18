@@ -838,7 +838,10 @@ namespace CalamityMod.ILEditing
                     SelectSulphuricWaterColor(x, y, ref initialColor);
 
                 if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater").Slot)
-                    SelectSunkenSeaWaterColor(x, y, ref initialColor);
+                    SelectSulphuricWaterColor(x, y, ref initialColor);
+
+                if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/AbyssWater").Slot)
+                    SelectSulphuricWaterColor(x, y, ref initialColor);
 
                 // Apply any extra color conditions.
                 initialColor = ExtraColorChangeConditions?.Invoke(initialColor, liquidType, new(x, y)) ?? initialColor;
