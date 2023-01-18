@@ -569,7 +569,7 @@ namespace CalamityMod.NPCs.Providence
                                 currentDustPos = Vector2.Lerp(dustLineStart, dustLineEnd, i / (float)maxHealDustIterations);
                                 int dust = Dust.NewDust(currentDustPos, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
                                 Main.dust[dust].position = currentDustPos;
-                                Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
+                                Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f) + NPC.velocity;
                                 Main.dust[dust].noGravity = true;
                                 Main.dust[dust].scale = 1f;
                                 Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
@@ -1120,18 +1120,22 @@ namespace CalamityMod.NPCs.Providence
 
                                 Color dustColor = Main.hslToRgb(Main.rgbToHsl(nightAI ? new Color(100, 200, 250) : (projectileType == ModContent.ProjectileType<HolyBurnOrb>() ? Color.Orange : Color.Green)).X, 1f, 0.5f);
                                 dustColor.A = 255;
-                                int dust = Dust.NewDust(fireFrom, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
-                                Main.dust[dust].position = fireFrom;
-                                Main.dust[dust].velocity = vector2 * cocoonProjVelocity * 2f;
-                                Main.dust[dust].noGravity = true;
-                                Main.dust[dust].scale = 3f;
-                                Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
-                                Dust dust2 = Dust.CloneDust(dust);
-                                Dust dust3 = dust2;
-                                dust3.scale /= 2f;
-                                dust3 = dust2;
-                                dust3.fadeIn /= 2f;
-                                dust2.color = new Color(255, 255, 255, 255);
+                                int maxDust = 3;
+                                for (int j = 0; j < maxDust; j++)
+                                {
+                                    int dust = Dust.NewDust(fireFrom, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
+                                    Main.dust[dust].position = fireFrom;
+                                    Main.dust[dust].velocity = vector2 * cocoonProjVelocity * (j * 0.5f + 1f);
+                                    Main.dust[dust].noGravity = true;
+                                    Main.dust[dust].scale = 1f + j;
+                                    Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
+                                    Dust dust2 = Dust.CloneDust(dust);
+                                    Dust dust3 = dust2;
+                                    dust3.scale /= 2f;
+                                    dust3 = dust2;
+                                    dust3.fadeIn /= 2f;
+                                    dust2.color = new Color(255, 255, 255, 255);
+                                }
                             }
 
                             // Radial offset
@@ -1171,18 +1175,22 @@ namespace CalamityMod.NPCs.Providence
 
                                 Color dustColor = Main.hslToRgb(Main.rgbToHsl(nightAI ? new Color(100, 200, 250) : (projectileType == ModContent.ProjectileType<HolyBurnOrb>() ? Color.Orange : Color.Green)).X, 1f, 0.5f);
                                 dustColor.A = 255;
-                                int dust = Dust.NewDust(fireFrom, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
-                                Main.dust[dust].position = fireFrom;
-                                Main.dust[dust].velocity = vector2 * cocoonProjVelocity * 2f;
-                                Main.dust[dust].noGravity = true;
-                                Main.dust[dust].scale = 3f;
-                                Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
-                                Dust dust2 = Dust.CloneDust(dust);
-                                Dust dust3 = dust2;
-                                dust3.scale /= 2f;
-                                dust3 = dust2;
-                                dust3.fadeIn /= 2f;
-                                dust2.color = new Color(255, 255, 255, 255);
+                                int maxDust = 3;
+                                for (int j = 0; j < maxDust; j++)
+                                {
+                                    int dust = Dust.NewDust(fireFrom, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
+                                    Main.dust[dust].position = fireFrom;
+                                    Main.dust[dust].velocity = vector2 * cocoonProjVelocity * (j * 0.5f + 1f);
+                                    Main.dust[dust].noGravity = true;
+                                    Main.dust[dust].scale = 1f + j;
+                                    Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
+                                    Dust dust2 = Dust.CloneDust(dust);
+                                    Dust dust3 = dust2;
+                                    dust3.scale /= 2f;
+                                    dust3 = dust2;
+                                    dust3.fadeIn /= 2f;
+                                    dust2.color = new Color(255, 255, 255, 255);
+                                }
                             }
                         }
                     }
@@ -1208,18 +1216,22 @@ namespace CalamityMod.NPCs.Providence
 
                             Color dustColor = Main.hslToRgb(Main.rgbToHsl(nightAI ? new Color(100, 200, 250) : Color.Orange).X, 1f, 0.5f);
                             dustColor.A = 255;
-                            int dust = Dust.NewDust(fireFrom, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
-                            Main.dust[dust].position = fireFrom;
-                            Main.dust[dust].velocity = velocity2 * cocoonProjVelocity * 2f;
-                            Main.dust[dust].noGravity = true;
-                            Main.dust[dust].scale = 3f;
-                            Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
-                            Dust dust2 = Dust.CloneDust(dust);
-                            Dust dust3 = dust2;
-                            dust3.scale /= 2f;
-                            dust3 = dust2;
-                            dust3.fadeIn /= 2f;
-                            dust2.color = new Color(255, 255, 255, 255);
+                            int maxDust = 3;
+                            for (int j = 0; j < maxDust; j++)
+                            {
+                                int dust = Dust.NewDust(fireFrom, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
+                                Main.dust[dust].position = fireFrom;
+                                Main.dust[dust].velocity = velocity2 * cocoonProjVelocity * 2f;
+                                Main.dust[dust].noGravity = true;
+                                Main.dust[dust].scale = 3f;
+                                Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
+                                Dust dust2 = Dust.CloneDust(dust);
+                                Dust dust3 = dust2;
+                                dust3.scale /= 2f;
+                                dust3 = dust2;
+                                dust3.fadeIn /= 2f;
+                                dust2.color = new Color(255, 255, 255, 255);
+                            }
                         }
                     }
 
@@ -1255,6 +1267,7 @@ namespace CalamityMod.NPCs.Providence
                                     int num622 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
                                         player2.width, player2.height, dustType, 0f, 0f, 100, default, 2f);
                                     Main.dust[num622].velocity *= 3f;
+                                    Main.dust[num622].noGravity = true;
                                     if (Main.rand.NextBool(2))
                                     {
                                         Main.dust[num622].scale = 0.5f;
@@ -1271,6 +1284,7 @@ namespace CalamityMod.NPCs.Providence
                                     num624 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
                                         player2.width, player2.height, dustType, 0f, 0f, 100, default, 2f);
                                     Main.dust[num624].velocity *= 2f;
+                                    Main.dust[num624].noGravity = true;
                                 }
                             }
                         }
@@ -1505,6 +1519,22 @@ namespace CalamityMod.NPCs.Providence
 
                                 if (!nightAI)
                                     blue -= 255 / (maxDustLines - 1);
+                            }
+
+                            int totalDust = 36;
+                            int circleDustSpawned = 0;
+                            for (int k = 0; k < totalDust; k++)
+                            {
+                                Vector2 dustSpawnPos = Vector2.Normalize(NPC.velocity) * new Vector2(80f, 160f) * 0.75f;
+                                dustSpawnPos = dustSpawnPos.RotatedBy((double)((k - (totalDust / 2 - 1)) * MathHelper.TwoPi / totalDust), default) + dustLineEnd;
+                                Vector2 dustVelocity = dustSpawnPos - dustLineEnd;
+                                Color dustColor = Main.hslToRgb(Main.rgbToHsl(nightAI ? new Color(100, 200, 250) : new Color(255, 200, Math.Abs(Math.Abs(blue) - (int)(circleDustSpawned * 7.08f)))).X, 1f, 0.5f);
+                                dustColor.A = 255;
+                                int dust = Dust.NewDust(dustSpawnPos + dustVelocity, 0, 0, 267, dustVelocity.X, dustVelocity.Y, 0, dustColor, 1.4f);
+                                Main.dust[dust].noGravity = true;
+                                Main.dust[dust].noLight = true;
+                                Main.dust[dust].velocity = dustVelocity * 0.33f;
+                                circleDustSpawned++;
                             }
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2272,7 +2302,10 @@ namespace CalamityMod.NPCs.Providence
 
             int dustType = ProvUtils.GetDustID(currentMode);
             for (int k = 0; k < 15; k++)
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, hitDirection, -1f, 0, default, 1f);
+            {
+                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, hitDirection, -1f, 0, default, 1f);
+                Main.dust[dust].noGravity = true;
+            }
 
             if (NPC.life <= 0)
             {
@@ -2292,6 +2325,7 @@ namespace CalamityMod.NPCs.Providence
                 {
                     int fire = Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, 0f, 0f, 100, default, 2f);
                     Main.dust[fire].velocity *= 3f;
+                    Main.dust[fire].noGravity = true;
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[fire].scale = 0.5f;
@@ -2305,6 +2339,7 @@ namespace CalamityMod.NPCs.Providence
                     Main.dust[fire].velocity *= 5f;
                     fire = Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, 0f, 0f, 100, default, 2f);
                     Main.dust[fire].velocity *= 2f;
+                    Main.dust[fire].noGravity = true;
                 }
             }
         }

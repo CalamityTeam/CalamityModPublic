@@ -159,7 +159,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                                 dustColor.A = 255;
                                 int dust = Dust.NewDust(currentDustPos, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
                                 Main.dust[dust].position = currentDustPos;
-                                Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
+                                Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f) + NPC.velocity;
                                 Main.dust[dust].noGravity = true;
                                 Main.dust[dust].scale = 1f;
                                 Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
@@ -318,7 +318,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.ai[1] = 0f;
                     NPC.netUpdate = true;
                     Vector2 velocity = new Vector2(NPC.ai[2], NPC.ai[3]);
-                    velocity.Normalize();
+                    velocity.SafeNormalize(new Vector2(NPC.direction, 0f));
                     velocity *= (bossRush || biomeEnraged) ? 25f : death ? 22f : revenge ? 20.5f : expertMode ? 19f : 16f;
                     if (Main.getGoodWorld)
                         velocity *= 1.15f;
@@ -369,10 +369,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 else
                 {
                     Vector2 targetVector = player.Center - NPC.Center;
-                    targetVector.Normalize();
-                    if (targetVector.HasNaNs())
-                        targetVector = new Vector2(NPC.direction, 0f);
-
+                    targetVector.SafeNormalize(new Vector2(NPC.direction, 0f));
                     float inertia = (bossRush || biomeEnraged) ? 35f : death ? 40f : revenge ? 42f : expertMode ? 45f : 50f;
                     float num1006 = 0.111111117f * inertia;
                     NPC.velocity = (NPC.velocity * (inertia - 1f) + targetVector * (NPC.velocity.Length() + num1006)) / inertia;

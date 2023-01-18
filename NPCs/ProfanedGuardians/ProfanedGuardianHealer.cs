@@ -212,9 +212,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 velocity *= 1.25f;
 
             float idealDistanceFromDestination = useCrystalShards ? 80f : 160f;
-            Vector2 destination = player.Center + (useCrystalShards ? Vector2.Zero : Vector2.UnitX * Vector2.Normalize(player.velocity).X * 400f) + Vector2.UnitY * -400f;
+            Vector2 destination = player.Center + (useCrystalShards ? Vector2.Zero : Vector2.UnitX * player.velocity.SafeNormalize(new Vector2(NPC.direction, 0f)).X * 400f) + Vector2.UnitY * -400f;
             Vector2 distanceFromDestination = destination - NPC.Center;
-            Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * velocity;
+            Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
 
             // Fire crystal rain similar to Providence's Crystal attack
             if (useCrystalShards)
@@ -265,7 +265,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         for (int i = 0; i < totalProjectiles; i++)
                         {
                             float x4 = Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, speedX + speedAdjustment * i + Vector2.Normalize(distanceFromDestination).X * Math.Abs(player.velocity.X), speedY, type, damage, 0f, Main.myPlayer, x4);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, speedX + speedAdjustment * i + distanceFromDestination.SafeNormalize(Vector2.Zero).X * Math.Abs(player.velocity.X), speedY, type, damage, 0f, Main.myPlayer, x4);
                         }
                     }
                 }
@@ -319,18 +319,22 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                             Color dustColor = Main.hslToRgb(Main.rgbToHsl(type == ModContent.ProjectileType<HolyBurnOrb>() ? Color.Orange : Color.Green).X, 1f, 0.5f);
                             dustColor.A = 255;
-                            int dust = Dust.NewDust(NPC.Center, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
-                            Main.dust[dust].position = NPC.Center;
-                            Main.dust[dust].velocity = vector2 * starVelocity * 2f;
-                            Main.dust[dust].noGravity = true;
-                            Main.dust[dust].scale = 3f;
-                            Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
-                            Dust dust2 = Dust.CloneDust(dust);
-                            Dust dust3 = dust2;
-                            dust3.scale /= 2f;
-                            dust3 = dust2;
-                            dust3.fadeIn /= 2f;
-                            dust2.color = new Color(255, 255, 255, 255);
+                            int maxDust = 3;
+                            for (int k = 0; k < maxDust; k++)
+                            {
+                                int dust = Dust.NewDust(NPC.Center, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
+                                Main.dust[dust].position = NPC.Center;
+                                Main.dust[dust].velocity = vector2 * starVelocity * (k * 0.5f + 1f);
+                                Main.dust[dust].noGravity = true;
+                                Main.dust[dust].scale = 1f + k;
+                                Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
+                                Dust dust2 = Dust.CloneDust(dust);
+                                Dust dust3 = dust2;
+                                dust3.scale /= 2f;
+                                dust3 = dust2;
+                                dust3.fadeIn /= 2f;
+                                dust2.color = new Color(255, 255, 255, 255);
+                            }
                         }
                     }
                 }

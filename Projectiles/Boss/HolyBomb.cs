@@ -120,7 +120,8 @@ namespace CalamityMod.Projectiles.Boss
             int dustType = ProvUtils.GetDustID(Projectile.maxPenetrate);
             for (int num193 = 0; num193 < 2; num193++)
             {
-                Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
+                Main.dust[dust].noGravity = true;
             }
             for (int num194 = 0; num194 < 20; num194++)
             {
