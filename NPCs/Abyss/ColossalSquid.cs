@@ -422,6 +422,7 @@ namespace CalamityMod.NPCs.Abyss
                         NPC.netUpdate = true;
                         int damage = 70;
                         if (Main.expertMode)
+                        {
                             damage = 55;
                         }
                         if (clone)

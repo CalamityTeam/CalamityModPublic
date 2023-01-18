@@ -480,21 +480,21 @@ namespace CalamityMod.NPCs.AcidRain
         {
             if (Main.getGoodWorld) // move to zenith seed later
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                Vector2 valueBoom = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                float spreadBoom = 15f * 0.0174f;
+                double startAngleBoom = Math.Atan2(NPC.velocity.X, NPC.velocity.Y) - spreadBoom / 2;
+                double deltaAngleBoom = spreadBoom / 8f;
+                double offsetAngleBoom;
+                int iBoom;
+                int damageBoom = 200;
+                for (iBoom = 0; iBoom < 25; iBoom++)
                 {
-                    Vector2 valueBoom = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-                    float spreadBoom = 15f * 0.0174f;
-                    double startAngleBoom = Math.Atan2(NPC.velocity.X, NPC.velocity.Y) - spreadBoom / 2;
-                    double deltaAngleBoom = spreadBoom / 8f;
-                    double offsetAngleBoom;
-                    int iBoom;
-                    int damageBoom = 200;
-                    for (iBoom = 0; iBoom < 25; iBoom++)
+                    int projectileType = Main.rand.NextBool(2) ? ModContent.ProjectileType<SulphuricAcidMist>() : ModContent.ProjectileType<SulphuricAcidBubble>();
+                    offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int projectileType = Main.rand.NextBool(2) ? ModContent.ProjectileType<SulphuricAcidMist>() : ModContent.ProjectileType<SulphuricAcidBubble>();
-                        offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
-                        int boom1 = Projectile.NewProjectile(NPC.GetSource_Death(), valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6f), (float)(Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
-                        int boom2 = Projectile.NewProjectile(NPC.GetSource_Death(), valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6f), (float)(-Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                    int boom1 = Projectile.NewProjectile(NPC.GetSource_Death(), valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6f), (float)(Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                    int boom2 = Projectile.NewProjectile(NPC.GetSource_Death(), valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6f), (float)(-Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 for (int num621 = 0; num621 < 25; num621++)

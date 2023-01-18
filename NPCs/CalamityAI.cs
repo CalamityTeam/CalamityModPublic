@@ -914,20 +914,23 @@ namespace CalamityMod.NPCs
                             Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(0, -1), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
                             Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(1, 0), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
                             Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(-1, 0), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
-                            if (brimmy.currentMode >= 1 && brimmy.currentMode <= 3)
+                        }
+                        if (brimmy.currentMode >= 1 && brimmy.currentMode <= 3)
+                        {
+                            int tornadoType = brimmy.currentMode == 3 ? ModContent.ProjectileType<StormMarkHostile>() : ProjectileID.SandnadoHostileMark;
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                int tornadoType = brimmy.currentMode == 3 ? ModContent.ProjectileType<StormMarkHostile>() : ProjectileID.SandnadoHostileMark;
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), pos, Vector2.Zero, tornadoType, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), pos, Vector2.Zero, tornadoType, damage, 0f, Main.myPlayer, 0f, 0f);
                             }
-                            if (brimmy.currentMode == 2)
+                        }
+                        if (brimmy.currentMode == 2)
+                        {
+                            int healAmt = npc.lifeMax / 25;
+                            if (healAmt > 0)
                             {
-                                int healAmt = npc.lifeMax / 25;
-                                if (healAmt > 0)
-                                {
-                                    npc.life += healAmt;
-                                    npc.HealEffect(healAmt, true);
-                                    npc.netUpdate = true;
-                                }
+                                npc.life += healAmt;
+                                npc.HealEffect(healAmt, true);
+                                npc.netUpdate = true;
                             }
                         }
                     }
