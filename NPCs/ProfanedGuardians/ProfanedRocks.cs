@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.dontTakeDamage = true;
             NPC.width = 30;
             NPC.height = 30;
-            NPC.scale = 2f;
+            NPC.scale = 1.5f;
             NPC.defense = 100;
             NPC.lifeMax = BossRushEvent.BossRushActive ? MaxBossRushHP : MaxHP;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
