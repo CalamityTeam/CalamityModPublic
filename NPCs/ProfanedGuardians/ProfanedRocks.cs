@@ -17,8 +17,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 {
     public class ProfanedRocks : ModNPC
     {
-        public override string Texture => "CalamityMod/Projectiles/Typeless/ArtifactOfResilienceShard1";
-
         private int invinceTime = 180;
         private bool start = true;
         private const double MinDistance = 80D;
@@ -154,6 +152,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 // Fall down after some time and blow up if inside tiles
                 if (NPC.Calamity().newAI[0] == -2f)
                 {
+                    NPC.rotation += 0.25f;
                     NPC.Calamity().newAI[1] += 1f;
                     if (NPC.Calamity().newAI[1] >= fallDownGateValue)
                     {
@@ -178,7 +177,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 else if (NPC.Calamity().newAI[0] == -1f)
                 {
                     NPC.velocity = NPC.SafeDirectionTo(player.Center, -Vector2.UnitY) * chargeSpeed;
-                    NPC.rotation += 0.5f;
+                    NPC.rotation += 0.25f;
                     NPC.Calamity().newAI[0] = -2f;
                     NPC.netUpdate = true;
                 }
@@ -218,7 +217,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     float chargeGateValue = bossRush ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
                     chargeGateValue += chargeGateValue * 0.5f * NPC.ai[1];
                     float anglularSpeed = NPC.Calamity().newAI[1] / chargeGateValue;
-                    anglularSpeed = 0.1f + anglularSpeed * 0.4f;
+                    anglularSpeed = 0.05f + anglularSpeed * 0.2f;
                     NPC.rotation += anglularSpeed;
 
                     // Charge
@@ -274,13 +273,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             int npcType = (int)NPC.ai[2];
-            Texture2D texture = TextureAssets.Projectile[Mod.Find<ModProjectile>("ArtifactOfResilienceShard" + npcType.ToString()).Type].Value;
-            Vector2 vector11 = new Vector2(texture.Width / 2, texture.Height / 2);
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2(texture.Width, texture.Height) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, SpriteEffects.None, 0f);
-
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedRocks" + npcType.ToString()).Value;
+            Vector2 drawOrigin = new Vector2(texture.Width / 2, texture.Height / 2);
+            Vector2 drawPos = NPC.Center - screenPos;
+            drawPos -= new Vector2(texture.Width, texture.Height) * NPC.scale / 2f;
+            drawPos += drawOrigin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            Rectangle frame = new Rectangle(0, 0, texture.Width, texture.Height);
+            spriteBatch.Draw(texture, drawPos, frame, NPC.GetAlpha(drawColor), NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -329,7 +328,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (Main.netMode != NetmodeID.Server)
                 {
                     int npcType = (int)NPC.ai[2];
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ProfanedRocks" + npcType.ToString()).Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ProfanedRocksGore" + npcType.ToString()).Type, NPC.scale);
                 }
 
                 for (int k = 0; k < 30; k++)
