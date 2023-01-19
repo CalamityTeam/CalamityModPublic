@@ -14,10 +14,11 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
-			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Wood"]);
+            TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Wood"]);
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeDecorativeTiles(Type);
+            CalamityUtils.MergeWithAbyss(Type);
 
             ItemDrop = ModContent.ItemType<Acidwood>();
             HitSound = SoundID.Dig;
