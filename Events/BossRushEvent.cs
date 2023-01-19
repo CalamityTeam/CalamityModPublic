@@ -297,7 +297,7 @@ namespace CalamityMod.Events
                 {
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText2", XerocTextColor);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
-                }, permittedNPCs: new int[] { ModContent.NPCType<ProfanedGuardianDefender>(), ModContent.NPCType<ProfanedGuardianHealer>() }),
+                }, permittedNPCs: new int[] { ModContent.NPCType<ProfanedGuardianDefender>(), ModContent.NPCType<ProfanedGuardianHealer>(), ModContent.NPCType<ProfanedRocks>() }),
 
                 new Boss(ModContent.NPCType<Bumblefuck>(), permittedNPCs: new int[] { ModContent.NPCType<Bumblefuck2>() }),
 

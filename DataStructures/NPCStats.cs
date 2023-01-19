@@ -494,6 +494,7 @@ namespace CalamityMod
 
                 { ModContent.NPCType<ProvSpawnOffense>(), new int[] { 120, 240, 264, 278, 336 } },
                 { ModContent.NPCType<ProvSpawnDefense>(), new int[] { 100, 200, 220, 232, 270 } },
+                { ModContent.NPCType<ProfanedRocks>(), new int[] { 100, 200, 220, 232, 270 } },
 
                 { ModContent.NPCType<CeaselessVoid>(), new int[] { 150, 300, 330, 348, 450 } },
                 { ModContent.NPCType<DarkEnergy>(), new int[] { 130, 260, 288, 304, 390 } },

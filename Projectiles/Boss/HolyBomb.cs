@@ -64,24 +64,38 @@ namespace CalamityMod.Projectiles.Boss
             if (flareShootTimer <= 0)
             {
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
-                Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
-                Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
-                Projectile.width = 50;
-                Projectile.height = 50;
-                Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
-                Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
-                if (Projectile.owner == Main.myPlayer)
+
+                float velocityY = -2f;
+                int dustType = ProvUtils.GetDustID(Projectile.maxPenetrate);
+                for (int num193 = 0; num193 < 2; num193++)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, -2f, ModContent.ProjectileType<HolyFlare>(), (int)Math.Round(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, velocityY, 50, default, 1.5f);
+                    Main.dust[dust].noGravity = true;
                 }
+                for (int num194 = 0; num194 < 20; num194++)
+                {
+                    int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, velocityY, 0, default, 2.5f);
+                    Main.dust[num195].noGravity = true;
+                    Main.dust[num195].velocity *= 2f;
+                    num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, velocityY, 50, default, 1.5f);
+                    Main.dust[num195].velocity *= 1.5f;
+                    Main.dust[num195].noGravity = true;
+                }
+
+                if (Projectile.owner == Main.myPlayer)
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, velocityY, ModContent.ProjectileType<HolyFlare>(), (int)Math.Round(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner, 0f, 0f);
+
                 flareShootTimer = 60;
             }
+
             if (Projectile.ai[1] == 0f)
             {
                 Projectile.ai[1] = 1f;
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             }
+
             Projectile.velocity *= 0.975f;
+
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 6)
             {
@@ -89,9 +103,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.frameCounter = 0;
             }
             if (Projectile.frame > 3)
-            {
                 Projectile.frame = 0;
-            }
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -113,8 +125,8 @@ namespace CalamityMod.Projectiles.Boss
             SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
-            Projectile.width = 150;
-            Projectile.height = 150;
+            Projectile.width = 50;
+            Projectile.height = 100;
             Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
             int dustType = ProvUtils.GetDustID(Projectile.maxPenetrate);

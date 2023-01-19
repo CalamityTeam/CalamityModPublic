@@ -81,6 +81,8 @@ namespace CalamityMod.NPCs.Calamitas
 
             if (CalamityGlobalNPC.calamitas < 0 || !Main.npc[CalamityGlobalNPC.calamitas].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return false;

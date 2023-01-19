@@ -87,6 +87,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             // Despawn if Brim doesn't exist
             if (CalamityGlobalNPC.brimstoneElemental < 0 || !Main.npc[CalamityGlobalNPC.brimstoneElemental].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;

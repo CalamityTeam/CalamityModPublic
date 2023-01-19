@@ -127,8 +127,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             CalamityGlobalNPC.doughnutBossHealer = NPC.whoAmI;
 
+            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 1.1f, 0.9f, 0f);
+
             if (CalamityGlobalNPC.doughnutBoss < 0 || !Main.npc[CalamityGlobalNPC.doughnutBoss].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;
@@ -136,6 +140,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             // Rotation
             NPC.rotation = NPC.velocity.X * 0.005f;
+
+            // Despawn
+            if (Main.npc[CalamityGlobalNPC.doughnutBoss].ai[3] == -1f)
+            {
+                NPC.velocity = Main.npc[CalamityGlobalNPC.doughnutBoss].velocity;
+                return;
+            }
 
             // Get the Guardian Commander's target
             Player player = Main.player[Main.npc[CalamityGlobalNPC.doughnutBoss].target];
@@ -215,6 +226,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             Vector2 destination = player.Center + (useCrystalShards ? Vector2.Zero : Vector2.UnitX * player.velocity.SafeNormalize(new Vector2(NPC.direction, 0f)).X * 400f) + Vector2.UnitY * -400f;
             Vector2 distanceFromDestination = destination - NPC.Center;
             Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
+            Vector2 dustAndProjectileOffset = new Vector2(40f * NPC.direction, 20f);
+            Vector2 shootFrom = NPC.Center + dustAndProjectileOffset;
 
             // Fire crystal rain similar to Providence's Crystal attack
             if (useCrystalShards)
@@ -244,7 +257,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             dust.velocity.X = 0f;
                             dust.noGravity = true;
                             dust.fadeIn = 1f;
-                            dust.position = NPC.Center + Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * (4f * Main.rand.NextFloat() + 26f);
+                            dust.position = shootFrom + Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * (4f * Main.rand.NextFloat() + 26f);
                             dust.scale = 0.8f;
                         }
                     }
@@ -253,7 +266,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 // Fire crystals
                 if (AITimer == crystalShootGateValue)
                 {
-                    SoundEngine.PlaySound(SoundID.Item109, NPC.Center);
+                    SoundEngine.PlaySound(SoundID.Item109, shootFrom);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int type = ModContent.ProjectileType<ProvidenceCrystalShard>();
@@ -265,7 +278,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         for (int i = 0; i < totalProjectiles; i++)
                         {
                             float x4 = Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, speedX + speedAdjustment * i + distanceFromDestination.SafeNormalize(Vector2.Zero).X * Math.Abs(player.velocity.X), speedY, type, damage, 0f, Main.myPlayer, x4);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom.X, shootFrom.Y, speedX + speedAdjustment * i + distanceFromDestination.SafeNormalize(Vector2.Zero).X * Math.Abs(player.velocity.X), speedY, type, damage, 0f, Main.myPlayer, x4);
                         }
                     }
                 }
@@ -286,13 +299,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 float starShootPhaseDuration = GetStarShootGateValue() + 120f;
                 if (AITimer == GetStarShootGateValue())
                 {
-                    SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
+                    SoundEngine.PlaySound(SoundID.Item20, shootFrom);
 
                     int totalFlameProjectiles = biomeEnraged ? 20 : 16;
                     int totalRings = 2;
                     int healingStarChance = revenge ? 8 : expertMode ? 6 : 4;
                     double radians = MathHelper.TwoPi / totalFlameProjectiles;
-                    SoundEngine.PlaySound(SoundID.Item20, NPC.position);
                     double angleA = radians * 0.5;
                     double angleB = MathHelper.ToRadians(90f) - angleA;
                     for (int i = 0; i < totalRings; i++)
@@ -312,10 +324,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                                 type = ModContent.ProjectileType<HolyLight>();
                                 dmgAmt = NPC.GetProjectileDamageNoScaling(type);
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector2, type, 0, 0f, Main.myPlayer, 0f, dmgAmt);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, vector2, type, 0, 0f, Main.myPlayer, 0f, dmgAmt);
                             }
                             else if (Main.netMode != NetmodeID.MultiplayerClient)
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector2, type, dmgAmt, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, vector2, type, dmgAmt, 0f, Main.myPlayer);
 
                             Color dustColor = Main.hslToRgb(Main.rgbToHsl(type == ModContent.ProjectileType<HolyBurnOrb>() ? Color.Orange : Color.Green).X, 1f, 0.5f);
                             dustColor.A = 255;
@@ -323,7 +335,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             for (int k = 0; k < maxDust; k++)
                             {
                                 int dust = Dust.NewDust(NPC.Center, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
-                                Main.dust[dust].position = NPC.Center;
+                                Main.dust[dust].position = shootFrom;
                                 Main.dust[dust].velocity = vector2 * starVelocity * (k * 0.5f + 1f);
                                 Main.dust[dust].noGravity = true;
                                 Main.dust[dust].scale = 1f + k;

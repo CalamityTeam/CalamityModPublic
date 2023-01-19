@@ -134,6 +134,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Disappear if Supreme Calamitas is not present.
             if (CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;

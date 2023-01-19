@@ -150,6 +150,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ProfanedGuardianCommander>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
                 { ModContent.NPCType<ProfanedGuardianDefender>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
                 { ModContent.NPCType<ProfanedGuardianHealer>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
+                { ModContent.NPCType<ProfanedRocks>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
 
                 { ModContent.NPCType<Providence>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
                 { ModContent.NPCType<ProvSpawnOffense>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },

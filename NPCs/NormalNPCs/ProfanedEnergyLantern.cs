@@ -78,7 +78,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (!Main.npc[num750].active || CalamityGlobalNPC.energyFlame < 0)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
+                NPC.netUpdate = true;
                 return;
             }
             Vector2 vector22 = new Vector2(NPC.ai[0] * 16f + 8f, NPC.ai[1] * 16f + 8f);

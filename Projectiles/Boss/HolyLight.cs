@@ -101,8 +101,8 @@ namespace CalamityMod.Projectiles.Boss
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             Projectile.position.X = Projectile.position.X + (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y + (Projectile.height / 2);
-            Projectile.width = 50;
-            Projectile.height = 50;
+            Projectile.width = 40;
+            Projectile.height = 40;
             Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
             for (int num621 = 0; num621 < 5; num621++)

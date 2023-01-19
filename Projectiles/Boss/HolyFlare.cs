@@ -99,8 +99,8 @@ namespace CalamityMod.Projectiles.Boss
             SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             Projectile.position.X = Projectile.position.X + (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y + (Projectile.height / 2);
-            Projectile.width = 50;
-            Projectile.height = 50;
+            Projectile.width = 30;
+            Projectile.height = 60;
             Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
             int dustType = ProvUtils.GetDustID(Projectile.maxPenetrate);

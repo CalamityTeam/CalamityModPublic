@@ -102,6 +102,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Die if SCal is no longer present.
             if (CalamityGlobalNPC.SCal < 0 || !SCal.active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return false;

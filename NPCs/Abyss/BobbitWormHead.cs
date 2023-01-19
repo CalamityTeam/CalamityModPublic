@@ -67,6 +67,8 @@ namespace CalamityMod.NPCs.Abyss
         {
             if (!Main.npc[(int)NPC.ai[2]].active || (int)NPC.ai[2] < 0)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;

@@ -54,7 +54,8 @@ namespace CalamityMod.NPCs.Signus
         {
             if (CalamityGlobalNPC.signus < 0 || !Main.npc[CalamityGlobalNPC.signus].active)
             {
-                NPC.active = false;
+                NPC.life = 0;
+                NPC.checkDead();
                 NPC.netUpdate = true;
                 return;
             }

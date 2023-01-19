@@ -122,6 +122,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
             // Force despawn if Ceaseless Void isn't active
             if (CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;

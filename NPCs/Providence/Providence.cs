@@ -234,14 +234,12 @@ namespace CalamityMod.NPCs.Providence
             // Rotation
             NPC.rotation = NPC.velocity.X * 0.004f;
 
-            Vector2 vector = NPC.Center;
-
             // Get a target
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
                 NPC.TargetClosest();
 
             // Despawn safety, make sure to target another player if the current player target is too far away
-            if (Vector2.Distance(Main.player[NPC.target].Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+            if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 NPC.TargetClosest();
 
             // Target variable and boss center
@@ -358,7 +356,7 @@ namespace CalamityMod.NPCs.Providence
             double attackRateMult = 1D;
 
             // Where projectiles are fired from during cocoon phases
-            Vector2 fireFrom = new Vector2(vector.X, vector.Y + 20f * NPC.scale);
+            Vector2 fireFrom = new Vector2(NPC.Center.X, NPC.Center.Y + 20f * NPC.scale);
 
             // Cocoon projectile initial velocity
             float cocoonProjVelocity = 3f + (death ? 2f * (1f - lifeRatio) : 0f);
@@ -367,7 +365,7 @@ namespace CalamityMod.NPCs.Providence
             float distanceNeededToShoot = (death ? 300f : revenge ? 360f : 420f) * NPC.scale;
 
             // X distance from target
-            float distanceX = Math.Abs(vector.X - player.Center.X);
+            float distanceX = Math.Abs(NPC.Center.X - player.Center.X);
 
             // Inflict Holy Inferno if target is too far away
             float burnIntensity = CalculateBurnIntensity();    
@@ -672,7 +670,7 @@ namespace CalamityMod.NPCs.Providence
                 // Change X direction of movement
                 if (flightPath == 0)
                 {
-                    if (vector.X < player.Center.X)
+                    if (NPC.Center.X < player.Center.X)
                     {
                         flightPath = 1;
                         calamityGlobalNPC.newAI[0] = 0f;
@@ -697,9 +695,9 @@ namespace CalamityMod.NPCs.Providence
                     num851 += death ? 240f : revenge ? 180f : 120f;
 
                 // Change X movement path if far enough away from target
-                if (vector.X < player.Center.X && flightPath < 0 && distanceX > num851)
+                if (NPC.Center.X < player.Center.X && flightPath < 0 && distanceX > num851)
                     flightPath = 0;
-                if (vector.X > player.Center.X && flightPath > 0 && distanceX > num851)
+                if (NPC.Center.X > player.Center.X && flightPath > 0 && distanceX > num851)
                     flightPath = 0;
 
                 // Velocity and acceleration
@@ -893,7 +891,7 @@ namespace CalamityMod.NPCs.Providence
                     }
 
                     // If too far from target, set phase to 0
-                    if (Math.Abs(vector.X - player.Center.X) > 5600f)
+                    if (Math.Abs(NPC.Center.X - player.Center.X) > 5600f)
                         phase = (int)Phase.HolyBlast;
 
                     // Reset attack delay for laser
@@ -915,7 +913,7 @@ namespace CalamityMod.NPCs.Providence
                     if (spawnAnimation)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[3] == 0f)
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector + new Vector2(0f, -80f), Vector2.Zero, ModContent.ProjectileType<HolyAura>(), 0, 0f, Main.myPlayer, biomeType, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0f, -80f), Vector2.Zero, ModContent.ProjectileType<HolyAura>(), 0, 0f, Main.myPlayer, biomeType, 0f);
 
                         if (calamityGlobalNPC.newAI[3] == 10f && nightAI)
                             SoundEngine.PlaySound(HolyRaySound, NPC.position);
@@ -983,18 +981,19 @@ namespace CalamityMod.NPCs.Providence
                         NPC.ai[3] += 1f;
 
                         int shootBoost = death ? (int)Math.Round(5f * (1f - lifeRatio)) : (int)Math.Round(4f * (1f - lifeRatio));
-                        int num856 = (biomeEnraged ? 18 : expertMode ? 24 : 26) - shootBoost;
+                        int projectileShootGateValue = (biomeEnraged ? 18 : expertMode ? 24 : 26) - shootBoost;
 
-                        num856 = (int)(num856 * attackRateMult);
+                        projectileShootGateValue = (int)(projectileShootGateValue * attackRateMult);
 
-                        if (NPC.ai[3] >= num856)
-                            NPC.ai[3] = -num856;
+                        if (NPC.ai[3] >= projectileShootGateValue)
+                            NPC.ai[3] = -projectileShootGateValue;
 
                         if (NPC.ai[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            vector.X += NPC.velocity.X * 7f;
-                            float num857 = player.position.X + player.width * 0.5f - vector.X;
-                            float num858 = player.Center.Y - vector.Y;
+                            Vector2 npcCenter = NPC.Center;
+                            npcCenter.X += NPC.velocity.X * 7f;
+                            float num857 = player.position.X + player.width * 0.5f - npcCenter.X;
+                            float num858 = player.Center.Y - npcCenter.Y;
                             float num859 = (float)Math.Sqrt(num857 * num857 + num858 * num858);
 
                             float velocityBoost = death ? 4f * (1f - lifeRatio) : 2.5f * (1f - lifeRatio);
@@ -1007,7 +1006,7 @@ namespace CalamityMod.NPCs.Providence
                             num857 *= num859;
                             num858 *= num859;
 
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y, num857, num858, ModContent.ProjectileType<HolyBlast>(), holyBlastDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), npcCenter.X, npcCenter.Y, num857, num858, ModContent.ProjectileType<HolyBlast>(), holyBlastDamage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                     else if (NPC.ai[3] < 0f)
@@ -1036,28 +1035,28 @@ namespace CalamityMod.NPCs.Providence
                         NPC.ai[3] += 1f;
 
                         int shootBoost = death ? (int)Math.Round(6f * (1f - lifeRatio)) : (int)Math.Round(5f * (1f - lifeRatio));
-                        int num864 = (expertMode ? 36 : 39) - shootBoost;
+                        int projectileShootGateValue = (expertMode ? 36 : 39) - shootBoost;
                         if (bossRush || biomeEnraged)
-                            num864 = 27;
+                            projectileShootGateValue = 27;
 
-                        num864 = (int)(num864 * attackRateMult);
+                        projectileShootGateValue = (int)(projectileShootGateValue * attackRateMult);
 
-                        if (NPC.ai[3] >= num864)
+                        if (NPC.ai[3] >= projectileShootGateValue)
                         {
                             NPC.ai[3] = 0f;
 
-                            Vector2 vector113 = new Vector2(vector.X, NPC.position.Y + NPC.height - 64f * NPC.scale);
+                            Vector2 shootFrom = new Vector2(NPC.Center.X, NPC.position.Y + NPC.height - 64f * NPC.scale);
 
-                            float num865 = NPC.velocity.Y;
-                            if (num865 < 0f)
-                                num865 = 0f;
+                            float projectileVelocityY = NPC.velocity.Y;
+                            if (projectileVelocityY < 0f)
+                                projectileVelocityY = 0f;
 
-                            num865 += expertMode ? 4f : 3f;
+                            projectileVelocityY += expertMode ? 4f : 3f;
 
                             if (nightAI)
-                                num865 *= 2f;
+                                projectileVelocityY *= 2f;
 
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector113.X, vector113.Y, NPC.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyFire>(), holyFireDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom.X, shootFrom.Y, NPC.velocity.X * 0.25f, projectileVelocityY, ModContent.ProjectileType<HolyFire>(), holyFireDamage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
 
@@ -1257,7 +1256,7 @@ namespace CalamityMod.NPCs.Providence
                             Player player2 = Main.player[Main.myPlayer];
                             bool inLiquid = (player2.wet || player2.honeyWet) && !player2.lavaWet;
 
-                            if (!player2.dead && player2.active && Vector2.Distance(player2.Center, vector) < 2800f && !inLiquid)
+                            if (!player2.dead && player2.active && Vector2.Distance(player2.Center, NPC.Center) < 2800f && !inLiquid)
                             {
                                 SoundEngine.PlaySound(SoundID.Item20, player2.position);
                                 player2.AddBuff(ModContent.BuffType<IcarusFolly>(), 3000, true);
@@ -1311,20 +1310,21 @@ namespace CalamityMod.NPCs.Providence
                         NPC.ai[3] += 1f;
 
                         int shootBoost = death ? (int)Math.Round(5f * (1f - lifeRatio)) : (int)Math.Round(4f * (1f - lifeRatio));
-                        int num856 = (expertMode ? 24 : 26) - shootBoost;
+                        int projectileShootGateValue = (expertMode ? 24 : 26) - shootBoost;
                         if (bossRush || biomeEnraged)
-                            num856 = 18;
+                            projectileShootGateValue = 18;
 
-                        num856 = (int)(num856 * attackRateMult);
+                        projectileShootGateValue = (int)(projectileShootGateValue * attackRateMult);
 
-                        if (NPC.ai[3] >= num856)
-                            NPC.ai[3] = -num856;
+                        if (NPC.ai[3] >= projectileShootGateValue)
+                            NPC.ai[3] = -projectileShootGateValue;
 
                         if (NPC.ai[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            vector.X += NPC.velocity.X * 7f;
-                            float num857 = player.position.X + player.width * 0.5f - vector.X;
-                            float num858 = player.Center.Y - vector.Y;
+                            Vector2 npcCenter = NPC.Center;
+                            npcCenter.X += NPC.velocity.X * 7f;
+                            float num857 = player.position.X + player.width * 0.5f - npcCenter.X;
+                            float num858 = player.Center.Y - npcCenter.Y;
                             float num859 = (float)Math.Sqrt(num857 * num857 + num858 * num858);
 
                             float shootBoost2 = death ? 4f * (1f - lifeRatio) : 2.5f * (1f - lifeRatio);
@@ -1339,7 +1339,7 @@ namespace CalamityMod.NPCs.Providence
                             num857 *= num859;
                             num858 *= num859;
 
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y, num857 * 0.1f, num858, ModContent.ProjectileType<MoltenBlast>(), moltenBlastDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), npcCenter.X, npcCenter.Y, num857 * 0.1f, num858, ModContent.ProjectileType<MoltenBlast>(), moltenBlastDamage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                     else if (NPC.ai[3] < 0f)
@@ -1368,23 +1368,23 @@ namespace CalamityMod.NPCs.Providence
                         NPC.ai[3] += 1f;
 
                         int shootBoost = death ? (int)Math.Round(12f * (1f - lifeRatio)) : (int)Math.Round(10f * (1f - lifeRatio));
-                        int num864 = (biomeEnraged ? 54 : expertMode ? 73 : 77) - shootBoost;
+                        int projectileShootGateValue = (biomeEnraged ? 54 : expertMode ? 73 : 77) - shootBoost;
 
-                        num864 = (int)(num864 * attackRateMult);
+                        projectileShootGateValue = (int)(projectileShootGateValue * attackRateMult);
 
-                        if (NPC.ai[3] >= num864)
+                        if (NPC.ai[3] >= projectileShootGateValue)
                         {
                             NPC.ai[3] = 0f;
 
-                            Vector2 vector113 = new Vector2(vector.X, NPC.position.Y + NPC.height - 14f * NPC.scale);
+                            Vector2 shootFrom = new Vector2(NPC.Center.X, NPC.position.Y + NPC.height - 14f * NPC.scale);
 
-                            float num865 = NPC.velocity.Y;
-                            if (num865 < 0f)
-                                num865 = 0f;
+                            float projectileVelocityY = NPC.velocity.Y;
+                            if (projectileVelocityY < 0f)
+                                projectileVelocityY = 0f;
 
-                            num865 += expertMode ? 4f : 3f;
+                            projectileVelocityY += expertMode ? 4f : 3f;
 
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector113.X, vector113.Y, NPC.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyBomb>(), holyBombDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom.X, shootFrom.Y, NPC.velocity.X * 0.25f, projectileVelocityY, ModContent.ProjectileType<HolyBomb>(), holyBombDamage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
 
@@ -1484,7 +1484,7 @@ namespace CalamityMod.NPCs.Providence
                             if (dustDivisor < 2)
                                 dustDivisor = 2;
 
-                            Vector2 dustLineStart = new Vector2(vector.X, vector.Y + 32f * NPC.scale);
+                            Vector2 dustLineStart = new Vector2(NPC.Center.X, NPC.Center.Y + 32f * NPC.scale);
                             Vector2 dustLineEnd = crystalSpawnPos;
                             Vector2 currentDustPos = default;
                             Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(MathHelper.Pi);
@@ -1557,7 +1557,7 @@ namespace CalamityMod.NPCs.Providence
 
                 case (int)Phase.Laser:
 
-                    Vector2 value19 = new Vector2(27f, 59f);
+                    Vector2 dustPosOffset = new Vector2(27f, 59f);
 
                     float rotation = (nightAI ? 435f : 450f) + (guardianAmt * 5);
 
@@ -1566,19 +1566,19 @@ namespace CalamityMod.NPCs.Providence
                     {
                         if (NPC.ai[2] >= 40f)
                         {
-                            int num1220 = 0;
+                            int extraDustAmt = 0;
                             if (NPC.ai[2] >= 80f)
-                                num1220 = 1;
+                                extraDustAmt = 1;
 
-                            for (int d = 0; d < 1 + num1220; d++)
+                            for (int d = 0; d < 1 + extraDustAmt; d++)
                             {
                                 float scalar = 1.2f;
                                 if (d % 2 == 1)
                                     scalar = 2.8f;
 
-                                Vector2 vector199 = new Vector2(vector.X, vector.Y + 32f * NPC.scale) + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * value19 / 2f;
-                                int index = Dust.NewDust(vector199 - Vector2.One * 8f, 16, 16, dustType, NPC.velocity.X / 2f, NPC.velocity.Y / 2f, 0, default, 1f);
-                                Main.dust[index].velocity = Vector2.Normalize(vector - vector199) * 3.5f * (10f - num1220 * 2f) / 10f;
+                                Vector2 dustPos = new Vector2(NPC.Center.X, NPC.Center.Y + 32f * NPC.scale) + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * dustPosOffset / 2f;
+                                int index = Dust.NewDust(dustPos - Vector2.One * 8f, 16, 16, dustType, NPC.velocity.X / 2f, NPC.velocity.Y / 2f, 0, default, 1f);
+                                Main.dust[index].velocity = Vector2.Normalize(NPC.Center - dustPos) * 3.5f * (10f - extraDustAmt * 2f) / 10f;
                                 Main.dust[index].noGravity = true;
                                 Main.dust[index].scale = scalar;
                             }
@@ -1588,36 +1588,36 @@ namespace CalamityMod.NPCs.Providence
                     {
                         if (NPC.ai[2] == 120f)
                         {
-                            if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 2800f)
+                            if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < 2800f)
                             {
                                 SoundEngine.PlaySound(HolyRaySound, Main.LocalPlayer.position);
                             }
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                Vector2 velocity = player.Center - vector;
+                                Vector2 velocity = player.Center - NPC.Center;
                                 velocity.Normalize();
 
-                                float num1225 = -1f;
+                                float beamDirection = -1f;
                                 if (velocity.X < 0f)
-                                    num1225 = 1f;
+                                    beamDirection = 1f;
 
                                 // 60 degrees offset
-                                velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 6f);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f * NPC.scale, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                                velocity = velocity.RotatedBy(-(double)beamDirection * MathHelper.TwoPi / 6f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 32f * NPC.scale, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, beamDirection * MathHelper.TwoPi / rotation, NPC.whoAmI);
 
                                 // -60 degrees offset
                                 if (revenge)
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f * NPC.scale, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 32f * NPC.scale, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -beamDirection * MathHelper.TwoPi / rotation, NPC.whoAmI);
 
                                 if (nightAI && lifeRatio < 0.5f)
                                 {
                                     rotation *= 0.33f;
-                                    velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 2f);
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f * NPC.scale, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                                    velocity = velocity.RotatedBy(-(double)beamDirection * MathHelper.TwoPi / 2f);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 32f * NPC.scale, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, beamDirection * MathHelper.TwoPi / rotation, NPC.whoAmI);
 
                                     if (revenge)
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f * NPC.scale, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 32f * NPC.scale, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -beamDirection * MathHelper.TwoPi / rotation, NPC.whoAmI);
                                 }
 
                                 NPC.netUpdate = true;
