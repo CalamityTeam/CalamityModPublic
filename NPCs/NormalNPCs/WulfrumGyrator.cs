@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void FindFrame(int frameHeight)
         {
             NPC.frameCounter++;
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 NPC.frameCounter += 1;
             }

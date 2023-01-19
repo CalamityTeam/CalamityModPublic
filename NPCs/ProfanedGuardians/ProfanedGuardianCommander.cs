@@ -228,7 +228,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     }
                 }
 
-                if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].ai[0] == 599 && Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient) // move to zenith seed later
+                if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].ai[0] == 599 && CalamityMod.Instance.legendaryMode && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     // gain more health once the healer's channel heal is done
                     NPC.lifeMax += 7500;
@@ -336,7 +336,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float divisor = (bossRush || biomeEnraged) ? 30f : death ? 40f : revenge ? 44f : expertMode ? 50f : 60f;
-                        if (Main.getGoodWorld && healerAlive) // move to zenith seed later
+                        if (CalamityMod.Instance.legendaryMode && healerAlive)
                             divisor += 30;
                         if (!phase1)
                             divisor = (float)Math.Round(divisor * 0.8f);
@@ -346,7 +346,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             SoundEngine.PlaySound(SoundID.Item20, NPC.position);
 
                             /*int type = ModContent.ProjectileType<FlareDust>();
-                            if (Main.getGoodWorld && Main.rand.NextBool(4)) // move to zenith seed later
+                            if (CalamityMod.Instance.legendaryMode && Main.rand.NextBool(4))
                                 type = ModContent.ProjectileType<HolyFlare>();
 
                             int damage = NPC.GetProjectileDamage(type);

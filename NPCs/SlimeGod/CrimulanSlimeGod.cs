@@ -128,7 +128,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X - 30, (int)spawnAt.Y, ModContent.NPCType<SplitCrimulanSlimeGod>());
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X + 30, (int)spawnAt.Y, ModContent.NPCType<SplitCrimulanSlimeGod>());
-                if (Main.getGoodWorld && NPC.CountNPCS(ModContent.NPCType<SplitEbonianSlimeGod>()) < 3) // move to zenith seed later. split into 3 slimes if the other large slime hasn't split yet
+                if (CalamityMod.Instance.legendaryMode && NPC.CountNPCS(ModContent.NPCType<SplitEbonianSlimeGod>()) < 3) //split into 3 slimes if the other large slime hasn't split yet
                 {
                     NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X, (int)spawnAt.Y - 30, ModContent.NPCType<SplitCrimulanSlimeGod>());
                 }

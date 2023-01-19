@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Enemy
                 }
                 if (Projectile.WithinRange(Main.player[toTarget].Center, 16f))
                 {
-                    if (Main.getGoodWorld) // move to zenith seed later
+                    if (CalamityMod.Instance.legendaryMode)
                     {
                         CombatText.NewText(Main.player[toTarget].getRect(), Color.Red, "Vibe check.", true);
                     }

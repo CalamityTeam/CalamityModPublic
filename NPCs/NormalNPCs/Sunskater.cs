@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.HitSound = SoundID.NPCHit50;
-            NPC.DeathSound = Main.getGoodWorld ? AresGaussNuke.NukeExplosionSound : DeathSound; // move to zenith seed later
+            NPC.DeathSound = CalamityMod.Instance.legendaryMode ? AresGaussNuke.NukeExplosionSound : DeathSound;
             NPC.knockBackResist = 0.7f;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<SunskaterBanner>();
@@ -243,7 +243,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 64, hitDirection, -1f, 0, default, 1f);
                 }
-                if (Main.getGoodWorld) // move to zenith seed later
+                if (CalamityMod.Instance.legendaryMode)
                 {
                     float screenShakePower = 16 * Utils.GetLerpValue(1300f, 0f, NPC.Distance(Main.LocalPlayer.Center), true);
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < screenShakePower)

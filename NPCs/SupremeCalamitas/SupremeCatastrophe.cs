@@ -229,13 +229,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     DartBurstCounter = 0f;
                     SoundEngine.PlaySound(SupremeCalamitas.BrimstoneShotSound, NPC.Center);
 
-                    int type = Main.getGoodWorld ? ModContent.ProjectileType<BrimstoneHellblast2>() : ModContent.ProjectileType<BrimstoneBarrage>(); //Move to zenith seed later
+                    int type = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<BrimstoneHellblast2>() : ModContent.ProjectileType<BrimstoneBarrage>();
                     int damage = NPC.GetProjectileDamage(type);
 					if (bossRush)
 						damage /= 2;
                     int totalProjectiles = bossRush ? 20 : death ? 16 : revenge ? 14 : expertMode ? 12 : 8;
                     float radians = MathHelper.TwoPi / totalProjectiles;
-                    float velocity = Main.getGoodWorld ? 5f : 7f; // Move to zenith seed later
+                    float velocity = CalamityMod.Instance.legendaryMode ? 5f : 7f;
                     Vector2 spinningPoint = new Vector2(0f, -velocity);
                     for (int k = 0; k < totalProjectiles; k++)
                     {

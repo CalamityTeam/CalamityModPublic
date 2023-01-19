@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override bool PreAI()
         {
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 deathCounter++;
                 // If you don't attack the Dummy for a minute in gfb, it becomes sentient

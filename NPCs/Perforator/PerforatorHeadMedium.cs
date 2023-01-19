@@ -469,10 +469,8 @@ namespace CalamityMod.NPCs.Perforator
             int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
             if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            
-            //TODO -- Zenith seed.
-            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
-            if (Main.netMode != NetmodeID.MultiplayerClient && getFuckedAI)
+
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
             {
                 int type = ModContent.ProjectileType<IchorBlob>();
                 int damage = NPC.GetProjectileDamage(type);

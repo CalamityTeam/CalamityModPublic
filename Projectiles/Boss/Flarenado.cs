@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Boss
             }
             int tornadoSpeed = 10;
             int breakThreshold = -300;
-            bool breakapart = Main.getGoodWorld && Projectile.ai[0] <= breakThreshold; // move to zenith seed later
+            bool breakapart = CalamityMod.Instance.legendaryMode && Projectile.ai[0] <= breakThreshold;
             if (Projectile.ai[0] <= 0f && !breakapart)
             {
                 float num622 = 0.104719758f;

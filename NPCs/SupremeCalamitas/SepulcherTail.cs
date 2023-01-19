@@ -146,8 +146,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
             }
 
-            // move to zenith seed later
-            if (Main.getGoodWorld && !NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()))
+            if (CalamityMod.Instance.legendaryMode && !NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()))
             {
                 CalamityGlobalNPC global = NPC.Calamity();
                 global.DR = 0.5f;

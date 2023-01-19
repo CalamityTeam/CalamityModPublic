@@ -201,7 +201,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 if (NPC.ai[0] == 0f)
                 {
-                    if (Main.getGoodWorld) // move to zenith seed later
+                    if (CalamityMod.Instance.legendaryMode)
                     {
                         SoundEngine.PlaySound(SoundID.ScaryScream, Main.player[NPC.target].Center);
                     }

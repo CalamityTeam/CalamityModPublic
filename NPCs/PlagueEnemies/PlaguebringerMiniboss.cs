@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             BannerItem = ModContent.ItemType<PlaguebringerBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
-            if (Main.getGoodWorld) // become old PBG, move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 NPC.scale = 2f;
             }

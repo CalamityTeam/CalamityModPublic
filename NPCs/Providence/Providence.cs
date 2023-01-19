@@ -250,8 +250,7 @@ namespace CalamityMod.NPCs.Providence
             // Night bool and Color shifting
             bool bossRush = BossRushEvent.BossRushActive;
 
-            //TODO -- Change this to specifically the Zenith seed when available
-            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+            bool getFuckedAI = CalamityMod.Instance.legendaryMode;
             int timeToShift = 30; //Switches color every half-second
             if (getFuckedAI)
             {

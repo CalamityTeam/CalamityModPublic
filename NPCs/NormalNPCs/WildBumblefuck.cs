@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<EffulgentFeather>(), 1, 5, 7);
         public override void OnKill()
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // Move to zenith seed later
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
             {
                 SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, NPC.Center - Vector2.UnitY * 300f);
                 for (int i = 0; i < 5; i++)
@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void FindFrame(int frameHeight)
         {
             NPC.frameCounter += NPC.ai[0] == 2.1f ? 1.5 : 1D;
-            if (Main.getGoodWorld) // Move to zenith later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 NPC.frameCounter += 2D;
             }

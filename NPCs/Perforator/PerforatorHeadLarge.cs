@@ -302,15 +302,13 @@ namespace CalamityMod.NPCs.Perforator
                 }
             }
 
-            //TODO -- Zenith seed.
-            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
             //This is possibly the best or worst idea ever conceived
             float laserOffset = 1500f;
             float laserVelocity = 4f;
             int type = ModContent.ProjectileType<DoGDeath>();
             int damage = NPC.GetProjectileDamage(type);
 
-            if (getFuckedAI)
+            if (CalamityMod.Instance.legendaryMode)
                 NPC.Calamity().newAI[3]++;
 
             if (NPC.Calamity().newAI[3] > 180f) //Effectively 10 seconds but give a little headstart in case players kill it too fast

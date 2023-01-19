@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            int debuffType = Main.getGoodWorld ? ModContent.BuffType<GodSlayerInferno>() : BuffID.Confused; // move to zenith seed later
+            int debuffType = CalamityMod.Instance.legendaryMode ? ModContent.BuffType<GodSlayerInferno>() : BuffID.Confused;
             if (damage > 0)
                 player.AddBuff(debuffType, 180, true);
         }

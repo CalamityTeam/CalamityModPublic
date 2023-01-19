@@ -36,11 +36,10 @@ namespace CalamityMod.Skies
 
         public override void Update(GameTime gameTime)
         {
-            //TODO -- Zenith seed.
-            if (CrabIndex == -1 || !Main.getGoodWorld || !Main.masterMode)
+            if (CrabIndex == -1 || !CalamityMod.Instance.legendaryMode)
             {
                 UpdateBossIndex();
-                if (CrabIndex == -1 || !Main.getGoodWorld || !Main.masterMode)
+                if (CrabIndex == -1 || !CalamityMod.Instance.legendaryMode)
                     Filters.Scene["CalamityMod:DrunkCrabulon"].Deactivate();
             }
         }

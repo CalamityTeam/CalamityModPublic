@@ -150,7 +150,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
                 NPC.ai[0]++;
             if (NPC.ai[0] >= 300f)
                 NPC.ai[1] = 1f;
@@ -176,7 +176,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.spriteDirection = NPC.direction;
             }
 
-            if (NPC.ai[1] == 1f && Main.getGoodWorld) // move to zenith seed later
+            if (NPC.ai[1] == 1f && CalamityMod.Instance.legendaryMode)
             {
                 NPC.ai[2]++;
                 NPC.velocity = Vector2.Zero;

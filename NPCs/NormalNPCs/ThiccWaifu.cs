@@ -395,7 +395,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 texture = ModContent.Request<Texture2D>(Texture).Value;
                 Main.EntitySpriteDraw(texture, NPC.Center - screenPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, direction, 0);
             }
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 // I ran out of ideas, so Cloud just gets a hat like how I wanted GSS to
                 Texture2D hattexture = ModContent.Request<Texture2D>("CalamityMod/Particles/WulfrumHat").Value;

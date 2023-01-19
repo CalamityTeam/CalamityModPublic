@@ -78,7 +78,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyTypeName(ref string typeName)
         {
-            // Move to zenith seed later
             if (CalamityMod.Instance.legendaryMode)
             {
                 typeName = "YuH";

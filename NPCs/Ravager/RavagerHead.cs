@@ -108,9 +108,6 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            //TODO -- Zenith seed.
-            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
-
             if (NPC.life > 0)
             {
                 int num285 = 0;
@@ -120,7 +117,7 @@ namespace CalamityMod.NPCs.Ravager
                     num285++;
                 }
             }
-            else if (Main.netMode != NetmodeID.MultiplayerClient && !getFuckedAI) //GFB does something else
+            else if (Main.netMode != NetmodeID.MultiplayerClient && !CalamityMod.Instance.legendaryMode) //GFB does something else
             {
                 NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<RavagerHead2>(), NPC.whoAmI);
             }

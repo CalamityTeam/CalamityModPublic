@@ -8,8 +8,7 @@ namespace CalamityMod.Systems
     {
         public override SceneEffectPriority Priority => SceneEffectPriority.BossHigh;
 
-        //TODO -- Zenith seed.
-        public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(ModContent.NPCType<Crabulon>()) && Main.getGoodWorld && Main.masterMode;
+        public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(ModContent.NPCType<Crabulon>()) && CalamityMod.Instance.legendaryMode;
 
         public override void SpecialVisuals(Player player, bool isActive)
         {
