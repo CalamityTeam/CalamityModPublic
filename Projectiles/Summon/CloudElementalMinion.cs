@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (!modPlayer.cloudWaifu && !modPlayer.allWaifus)
+            if (!modPlayer.cloudWaifu && !modPlayer.allWaifus && !modPlayer.cloudWaifuVanity && !modPlayer.allWaifusVanity)
             {
                 Projectile.active = false;
                 return;
@@ -88,7 +88,72 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.frame = 0;
             }
 
-            Projectile.ChargingMinionAI(500f, 800f, 1200f, 400f, 0, 30f, 8f, 4f, new Vector2(500f, -60f), 40f, 8f, false, true, 1);
+            if (!modPlayer.cloudWaifuVanity && !modPlayer.allWaifusVanity)
+            {
+                Projectile.ChargingMinionAI(500f, 800f, 1200f, 400f, 0, 30f, 8f, 4f, new Vector2(500f, -60f), 40f, 8f, false, true, 1);
+            }
+            else
+            {
+                //Ignore tiles so she doesn't get stuck like Optic Staff
+                Projectile.tileCollide = false;
+
+                Projectile.ai[0] = 1f;
+
+                //Player distance calculations
+                Vector2 playerVec = player.Center - Projectile.Center + new Vector2(500f, -60f);
+                float playerDist = playerVec.Length();
+
+                //If the minion is actively returning, move faster
+                float playerHomeSpeed = 6f;
+                if (Projectile.ai[0] == 1f)
+                {
+                    playerHomeSpeed = 15f;
+                }
+                //Move somewhat faster if the player is kinda far~ish
+                if (playerDist > 200f && playerHomeSpeed < 8f)
+                {
+                    playerHomeSpeed = 8f;
+                }
+                //Return to normal if close enough to the player
+                if (playerDist < 400f && Projectile.ai[0] == 1f && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
+                {
+                    Projectile.ai[0] = 0f;
+                    Projectile.netUpdate = true;
+                }
+                //Teleport to the player if abnormally far
+                if (playerDist > 2000f)
+                {
+                    Projectile.position.X = player.Center.X - (float)(Projectile.width / 2);
+                    Projectile.position.Y = player.Center.Y - (float)(Projectile.height / 2);
+                    Projectile.netUpdate = true;
+                }
+                //If more than 70 pixels away, move toward the player
+                if (playerDist > 70f)
+                {
+                    playerVec.Normalize();
+                    playerVec *= playerHomeSpeed;
+                    Projectile.velocity = (Projectile.velocity * 40f + playerVec) / 41f;
+                }
+                //Minions never stay still
+                else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
+                {
+                    Projectile.velocity.X = -0.15f;
+                    Projectile.velocity.Y = -0.05f;
+                }
+            }
+        }
+        public override bool? CanDamage()
+        {
+            Player player = Main.player[Projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+            if (modPlayer.cloudWaifuVanity || modPlayer.allWaifusVanity)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

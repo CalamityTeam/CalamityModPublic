@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (!modPlayer.sandWaifu && !modPlayer.allWaifus)
+            if (!modPlayer.sandWaifu && !modPlayer.allWaifus && !modPlayer.sandWaifuVanity && !modPlayer.allWaifusVanity)
             {
                 Projectile.active = false;
                 return;
@@ -69,6 +69,7 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num503].scale *= 1.15f;
                 }
             }
+            bool passive = modPlayer.sandWaifuVanity || modPlayer.allWaifusVanity;
             if (Math.Abs(Projectile.velocity.X) > 0.2f)
             {
                 Projectile.spriteDirection = -Projectile.direction;
@@ -91,7 +92,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.tileCollide = false;
             }
-            if (player.HasMinionAttackTargetNPC)
+            if (player.HasMinionAttackTargetNPC && !passive)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(Projectile, false))
@@ -104,7 +105,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            if (!flag25)
+            if (!flag25 && !passive)
             {
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
@@ -122,7 +123,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             float num647 = num634;
-            if (flag25)
+            if (flag25 && !passive)
             {
                 if (Projectile.frame < 6)
                 {
@@ -251,6 +252,19 @@ namespace CalamityMod.Projectiles.Summon
                         Projectile.netUpdate = true;
                     }
                 }
+            }
+        }
+        public override bool? CanDamage()
+        {
+            Player player = Main.player[Projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+            if (modPlayer.sandWaifuVanity || modPlayer.allWaifusVanity)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }

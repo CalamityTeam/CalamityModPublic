@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (!modPlayer.miniOldDuke)
+            if (!modPlayer.miniOldDuke && !modPlayer.miniOldDukeVanity)
             {
                 Projectile.active = false;
                 return;
@@ -78,28 +78,33 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.frame -= Main.projFrames[Projectile.type] / 2;
             }
 
-            NPC potentialTarget = Projectile.Center.ClosestNPCAt(1600f);
-            if (potentialTarget != null)
+            if (!modPlayer.miniOldDukeVanity)
             {
-                if (Projectile.Distance(potentialTarget.Center) < DistanceBeforeCharge)
+                NPC potentialTarget = Projectile.Center.ClosestNPCAt(1600f);
+                if (potentialTarget != null)
                 {
-                    Projectile.ai[0] += 1f;
-                    int timePerCharge = playerHalfLife ? 25 : 35;
-                    float chargeSpeed = playerHalfLife ? 25f : 20f;
-                    if (Projectile.ai[0] >= timePerCharge)
+                    if (Projectile.Distance(potentialTarget.Center) < DistanceBeforeCharge)
                     {
-                        Projectile.velocity = Projectile.SafeDirectionTo(potentialTarget.Center) * chargeSpeed;
-                        Projectile.ai[0] = 0f;
+                        Projectile.ai[0] += 1f;
+                        int timePerCharge = playerHalfLife ? 25 : 35;
+                        float chargeSpeed = playerHalfLife ? 25f : 20f;
+                        if (Projectile.ai[0] >= timePerCharge)
+                        {
+                            Projectile.velocity = Projectile.SafeDirectionTo(potentialTarget.Center) * chargeSpeed;
+                            Projectile.ai[0] = 0f;
+                        }
+                        else
+                            Projectile.velocity *= 0.9825f;
                     }
                     else
-                        Projectile.velocity *= 0.9825f;
+                    {
+                        float intertia = 0.94f;
+                        float homeSpeed = playerHalfLife ? 38f : 32f;
+                        Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(potentialTarget.Center) * homeSpeed, 1f - intertia);
+                    }
                 }
-                else
-                {
-                    float intertia = 0.94f;
-                    float homeSpeed = playerHalfLife ? 38f : 32f;
-                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(potentialTarget.Center) * homeSpeed, 1f - intertia);
-                }
+                else if (!Projectile.WithinRange(player.Center, 140f))
+                    Projectile.velocity = (Projectile.velocity * 30f + Projectile.SafeDirectionTo(player.Center) * 16f) / 31f;
             }
             else if (!Projectile.WithinRange(player.Center, 140f))
                 Projectile.velocity = (Projectile.velocity * 30f + Projectile.SafeDirectionTo(player.Center) * 16f) / 31f;
