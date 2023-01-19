@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (Main.getGoodWorld)
                 NPC.scale *= 1.3f;
 
-            if (Main.getGoodWorld) //Move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
                 NPC.scale *= 0.3f; 
         }
 
@@ -390,7 +390,7 @@ namespace CalamityMod.NPCs.Leviathan
                                 num416 *= num417;
                                 vector40.X += num415 * 4f;
                                 vector40.Y += num416 * 4f;
-                                if (Main.getGoodWorld) //Move to zenith seed later
+                                if (CalamityMod.Instance.legendaryMode)
                                 {
                                     type = ProjectileID.Boulder;
                                     vector40.Y -= 5; //Shoot a bit more up since boulders are affected by gravity
@@ -507,7 +507,7 @@ namespace CalamityMod.NPCs.Leviathan
                         return;
                     }
 
-                    float gfbchargeboost = Main.getGoodWorld ? 1100 : 0; // Move to zenith seed later
+                    float gfbchargeboost = CalamityMod.Instance.legendaryMode ? 1100 : 0;
                     float chargeDistance = ((sirenAlive && !phase4) ? 1100f : 900f) * NPC.scale + gfbchargeboost;
                     chargeDistance -= 50f * enrageScale;
                     if (!sirenAlive || phase4)

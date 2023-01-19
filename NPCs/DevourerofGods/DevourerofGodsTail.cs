@@ -365,7 +365,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 8;
-                float extrapitch = Main.getGoodWorld ? 0.3f : 0f; // Move to zenith seed later
+                float extrapitch = CalamityMod.Instance.legendaryMode ? 0.3f : 0f;
                 SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound with { Pitch = CommonCalamitySounds.OtherwordlyHitSound.Pitch + extrapitch }, NPC.Center);
             }
             if (NPC.life <= 0)

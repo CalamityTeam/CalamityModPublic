@@ -1197,7 +1197,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         NPC.netSpam -= 5;
 
                         // Plasma bolts on charge
-                        if (Main.netMode != NetmodeID.MultiplayerClient && !(Main.getGoodWorld && !exoMechdusa)) // move to zenith seed later, I'm not that evil
+                        if (Main.netMode != NetmodeID.MultiplayerClient && !(CalamityMod.Instance.legendaryMode && !exoMechdusa)) // I'm not that evil
                         {
                             int totalProjectiles = bossRush ? 12 : 8;
                             float radians = MathHelper.TwoPi / totalProjectiles;

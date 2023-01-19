@@ -915,7 +915,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
                         if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
                         {
-                            if (Main.getGoodWorld && !exoMechdusa) // move to zenith seed later
+                            if (CalamityMod.Instance.legendaryMode && !exoMechdusa)
                             {
                                 AIState = (float)Phase.Deathray;
                             }

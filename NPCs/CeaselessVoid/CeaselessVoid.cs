@@ -257,7 +257,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 NPC.soundDelay = 8;
                 float pitchVar = 0;
-                if (Main.getGoodWorld) // move to zenith seed later
+                if (CalamityMod.Instance.legendaryMode)
                 {
                     pitchVar = Main.rand.Next(-60, 41) * 0.01f;
                 }

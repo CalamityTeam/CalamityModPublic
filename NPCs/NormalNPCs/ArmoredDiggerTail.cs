@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 flag = true;
             }
-            if (flag && !Main.getGoodWorld) // move to zenith seed later
+            if (flag && !CalamityMod.Instance.legendaryMode)
             {
                 NPC.life = 0;
                 NPC.HitEffect(0, 10.0);
@@ -128,8 +128,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyTypeName(ref string typeName)
         {
-            // Move to zenith seed later
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 typeName = "Mechanized Serpent";
             }
@@ -137,9 +136,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override Color? GetAlpha(Color drawColor)
         {
-            // Move to zenith seed later
             Color lightColor = Color.Orange * drawColor.A;
-            Color newColor = Main.getGoodWorld ? lightColor : new Color(255, 255, 255, drawColor.A);
+            Color newColor = CalamityMod.Instance.legendaryMode ? lightColor : new Color(255, 255, 255, drawColor.A);
             return newColor * NPC.Opacity;
         }
     }

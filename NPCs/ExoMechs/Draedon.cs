@@ -502,7 +502,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
             TalkTimer++;
 
-            if (ExoMechIsPresent && Main.getGoodWorld && GeneralTimer % 60 == 0 && !exoMechdusa) // move to zenith seed later
+            if (ExoMechIsPresent && CalamityMod.Instance.legendaryMode && GeneralTimer % 60 == 0 && !exoMechdusa)
             {
                 SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -879,7 +879,7 @@ namespace CalamityMod.NPCs.ExoMechs
                 spriteBatch.Draw(glowmask, drawPosition, frame, Color.White * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
             }
 
-            if (Main.getGoodWorld && !HasBeenKilled && HologramEffectTimer >= HologramFadeinTime && !exoMechdusa) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode && !HasBeenKilled && HologramEffectTimer >= HologramFadeinTime && !exoMechdusa)
             {
                 CalamityUtils.EnterShaderRegion(spriteBatch);
                 Color outlineColor = Color.Lerp(Color.Magenta, Color.White, 0.4f);

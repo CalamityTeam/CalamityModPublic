@@ -195,7 +195,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             Walking = false;
 
-            if (Main.getGoodWorld && !hasDoneDeathray && NPC.life <= NPC.lifeMax * 0.1f) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode && !hasDoneDeathray && NPC.life <= NPC.lifeMax * 0.1f)
             {
                 DeathrayTime++;
                 MasterSpark();

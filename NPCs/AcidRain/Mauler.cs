@@ -478,7 +478,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void OnKill()
         {
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 Vector2 valueBoom = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
                 float spreadBoom = 15f * 0.0174f;

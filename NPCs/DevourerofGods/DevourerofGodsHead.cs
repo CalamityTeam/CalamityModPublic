@@ -369,8 +369,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             bool phase6 = lifeRatio < 0.2f;
             bool phase7 = lifeRatio < 0.15f;
 
-            // Sound pitch, move to zenith seed later
-            extrapitch = Main.getGoodWorld ? 0.3f : 0f;
+            // Sound pitch
+            extrapitch = CalamityMod.Instance.legendaryMode ? 0.3f : 0f;
 
             // Velocity variables
             float fallSpeed = bossRush ? 19f : death ? 17.5f : 16f;
@@ -1454,7 +1454,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (!tail && NPC.ai[0] == 0f)
                     {
                         int Previous = NPC.whoAmI;
-                        if (Main.getGoodWorld) // Move to zenith seed later
+                        if (CalamityMod.Instance.legendaryMode)
                         {
                             maxLength = 2;
                             minLength = 1;

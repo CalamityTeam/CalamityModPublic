@@ -605,7 +605,7 @@ namespace CalamityMod.NPCs.Abyss
                         NPC.netUpdate = true;
                         return;
                     }
-                    if (Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] % 5 == 0) // move to zenith seed later
+                    if (CalamityMod.Instance.legendaryMode && Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] % 5 == 0)
                     {
                         Vector2 direction = vector - player.Center;
                         direction.Normalize();

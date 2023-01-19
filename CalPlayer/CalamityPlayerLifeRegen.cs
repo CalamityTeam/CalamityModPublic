@@ -170,8 +170,7 @@ namespace CalamityMod.CalPlayer
             }
             
             float ASPoisonLevel = 0f;
-            //TODO -- Zenith seed.
-            if (CalamityGlobalNPC.aquaticScourge >= 0 && Main.getGoodWorld && Main.masterMode)
+            if (CalamityGlobalNPC.aquaticScourge >= 0 && CalamityMod.Instance.legendaryMode)
             {
                 NPC AS = Main.npc[CalamityGlobalNPC.aquaticScourge];
                 //if the player is 50 blocks or more away from the head

@@ -100,9 +100,10 @@ namespace CalamityMod.NPCs.Cryogen
             NPC.DeathSound = DeathSound;
 
             if (Main.getGoodWorld)
-            {
                 NPC.scale *= 0.8f;
-                // Move these to zenith seed later
+
+            if (CalamityMod.Instance.legendaryMode)
+            {
                 NPC.Calamity().VulnerableToHeat = false;
                 NPC.Calamity().VulnerableToCold = true;
                 NPC.Calamity().VulnerableToWater = true;
@@ -117,8 +118,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void BossHeadSlot(ref int index)
         {
-            // Move to zenith seed later
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
                 index = pyroIconIndex;
             else
                 index = cryoIconIndex;
@@ -212,15 +212,14 @@ namespace CalamityMod.NPCs.Cryogen
             bool phase7 = lifeRatio < (death ? 0.25f : 0.15f) && revenge;
 
             // Projectile and sound variables
-            // Move to zenith seed later
-            int iceBlast = Main.getGoodWorld ? ModContent.ProjectileType<BrimstoneBarrage>() :  ModContent.ProjectileType<IceBlast>();
-            int iceBomb = Main.getGoodWorld ? ModContent.ProjectileType<SCalBrimstoneFireblast>() : ModContent.ProjectileType<IceBomb>();
-            int iceRain = Main.getGoodWorld ? ModContent.ProjectileType<BrimstoneBarrage>() : ModContent.ProjectileType<IceRain>();
-            int dustType = Main.getGoodWorld ? 235 : 67;
+            int iceBlast = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<BrimstoneBarrage>() :  ModContent.ProjectileType<IceBlast>();
+            int iceBomb = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<SCalBrimstoneFireblast>() : ModContent.ProjectileType<IceBomb>();
+            int iceRain = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<BrimstoneBarrage>() : ModContent.ProjectileType<IceRain>();
+            int dustType = CalamityMod.Instance.legendaryMode ? 235 : 67;
 
-            SoundStyle frostSound = Main.getGoodWorld ? SoundID.Item20 : SoundID.Item28;
-            NPC.HitSound = Main.getGoodWorld ? SoundID.NPCHit41 : HitSound;
-            NPC.DeathSound = Main.getGoodWorld ? SoundID.NPCDeath14 : DeathSound;
+            SoundStyle frostSound = CalamityMod.Instance.legendaryMode ? SoundID.Item20 : SoundID.Item28;
+            NPC.HitSound = CalamityMod.Instance.legendaryMode ? SoundID.NPCHit41 : HitSound;
+            NPC.DeathSound = CalamityMod.Instance.legendaryMode ? SoundID.NPCDeath14 : DeathSound;
 
             // Reset damage
             NPC.damage = NPC.defDamage;
@@ -891,13 +890,13 @@ namespace CalamityMod.NPCs.Cryogen
                     int chance = 100;
                     if (DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
                         chance = 20;
-                    if (Main.getGoodWorld) // Move to zenith seed later
+                    if (CalamityMod.Instance.legendaryMode)
                         chance = 1;
 
                     if (Main.rand.NextBool(chance))
                     {
-                        string key = Main.getGoodWorld ? "Mods.CalamityMod.PyrogenBossText" : "Mods.CalamityMod.CryogenBossText";
-                        Color messageColor = Main.getGoodWorld ? Color.Orange : Color.Cyan;
+                        string key = CalamityMod.Instance.legendaryMode ? "Mods.CalamityMod.PyrogenBossText" : "Mods.CalamityMod.CryogenBossText";
+                        Color messageColor = CalamityMod.Instance.legendaryMode ? Color.Orange : Color.Cyan;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
                 }
@@ -925,7 +924,7 @@ namespace CalamityMod.NPCs.Cryogen
                                     float radians = MathHelper.TwoPi / totalProjectiles;
                                     float newVelocity = velocity - (velocity * (phase7 ? 0.25f : 0.5f) * i);
                                     float velocityX = 0f;
-                                    float ai = Main.getGoodWorld ? 2f : NPC.target; // move to zenith seed later
+                                    float ai = CalamityMod.Instance.legendaryMode ? 2f : NPC.target;
                                     if (i > 0)
                                     {
                                         double angleA = radians * (phase7 ? 0.25 : 0.5) * (totalSpreads - i);
@@ -1107,10 +1106,9 @@ namespace CalamityMod.NPCs.Cryogen
 
         private void HandlePhaseTransition(int newPhase)
         {
-            // Move to zenith seed later
-            SoundStyle sound = Main.getGoodWorld ? SoundID.NPCDeath14 : TransitionSound;
+            SoundStyle sound = CalamityMod.Instance.legendaryMode ? SoundID.NPCDeath14 : TransitionSound;
             SoundEngine.PlaySound(sound, NPC.Center);
-            if (Main.netMode != NetmodeID.Server && !Main.getGoodWorld)
+            if (Main.netMode != NetmodeID.Server && !CalamityMod.Instance.legendaryMode)
             {
                 int chipGoreAmount = newPhase >= 5 ? 3 : newPhase >= 3 ? 2 : 1;
                 for (int i = 1; i < chipGoreAmount; i++)
@@ -1146,7 +1144,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (Main.getGoodWorld) // Move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 float compactness = NPC.width * 0.6f;
                 if (compactness < 10f)
@@ -1179,7 +1177,7 @@ namespace CalamityMod.NPCs.Cryogen
             Vector2 drawPos = NPC.Center - screenPos;
             drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            Color overlay = Main.getGoodWorld ? Color.Red : drawColor; // Move to zenith seed later
+            Color overlay = CalamityMod.Instance.legendaryMode ? Color.Red : drawColor;
             spriteBatch.Draw(texture, drawPos, NPC.frame, NPC.GetAlpha(overlay), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
             return false;
@@ -1193,8 +1191,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void ModifyTypeName(ref string typeName)
         {
-            // Move to zenith seed later
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 typeName = "Pyrogen";
             }
@@ -1202,7 +1199,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            int dusttype = Main.getGoodWorld ? 235 : 67; // Move to zenith seed later
+            int dusttype = CalamityMod.Instance.legendaryMode ? 235 : 67;
             for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, dusttype, hitDirection, -1f, 0, default, 1f);
@@ -1227,7 +1224,7 @@ namespace CalamityMod.NPCs.Cryogen
                     num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                if (Main.netMode != NetmodeID.Server && !Main.getGoodWorld) // Move to zenith seed later
+                if (Main.netMode != NetmodeID.Server && !CalamityMod.Instance.legendaryMode)
                 {
                     float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     for (int i = 1; i < 4; i++)
@@ -1337,7 +1334,7 @@ namespace CalamityMod.NPCs.Cryogen
         {
             if (damage > 0)
             {
-                if (Main.getGoodWorld) // Move to zenith seed later
+                if (CalamityMod.Instance.legendaryMode)
                 {
                     player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
                     player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);

@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.timeLeft = NPC.activeTime * 30;
             NPC.rarity = 2;
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 NPC.Calamity().VulnerableToHeat = true;
                 NPC.Calamity().VulnerableToSickness = false;
@@ -334,7 +334,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 
                     if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int npcType = Main.getGoodWorld ? ModContent.NPCType<FusionFeeder>() : NPCID.SandShark; // move to zenith seed later
+                        int npcType = CalamityMod.Instance.legendaryMode ? ModContent.NPCType<FusionFeeder>() : NPCID.SandShark;
                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 50, npcType, 0, 0f, 0f, 0f, 0f, 255);
                         SoundEngine.PlaySound(RoarSound, NPC.position);
                     }
@@ -548,7 +548,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                 NPC.rotation = MathHelper.Clamp(NPC.rotation, -0.1f, 0.1f);
             }
 
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 NPC.Calamity().newAI[0]++;
                 if (NPC.Calamity().newAI[0] >= 120)
@@ -590,7 +590,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             }
             Color color24 = NPC.GetAlpha(drawColor);
             Color color25 = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 color24 = Color.Silver;
                 color25 = Color.Orange;

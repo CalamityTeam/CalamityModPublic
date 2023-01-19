@@ -351,12 +351,9 @@ namespace CalamityMod.NPCs.HiveMind
                 if (choice < 5)
                     NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + Main.rand.Next(NPC.width), (int)NPC.position.Y + Main.rand.Next(NPC.height), type);
             }
-            
-            //TODO -- Zenith seed.
-            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
 
             //Spawn a Hive Cyst
-            if (getFuckedAI && NPC.CountNPCS(ModContent.NPCType<HiveCyst>()) < 3)
+            if (CalamityMod.Instance.legendaryMode && NPC.CountNPCS(ModContent.NPCType<HiveCyst>()) < 3)
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + Main.rand.Next(NPC.width), (int)NPC.position.Y + Main.rand.Next(NPC.height), ModContent.NPCType<HiveCyst>());
         }
 
@@ -402,9 +399,6 @@ namespace CalamityMod.NPCs.HiveMind
             bool expertMode = Main.expertMode || bossRush;
             bool revenge = CalamityWorld.revenge || bossRush;
             bool death = CalamityWorld.death || bossRush;
-
-            //TODO -- Zenith seed.
-            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
 
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -519,7 +513,7 @@ namespace CalamityMod.NPCs.HiveMind
                         int maxBlobs = death ? 15 : revenge ? 7 : expertMode ? 6 : 5;
                         if (Main.getGoodWorld)
                             maxBlobs *= 2;
-                        if (getFuckedAI)
+                        if (CalamityMod.Instance.legendaryMode)
                             maxBlobs = 50;
 
                         for (int i = 0; i < maxBlobs; i++)
@@ -1057,12 +1051,9 @@ namespace CalamityMod.NPCs.HiveMind
             // When Hive Mind starts flying around
             bool phase2 = NPC.life / (float)NPC.lifeMax < 0.8f;
 
-            //TODO -- Zenith seed.
-            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
-
             if (phase2)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient && getFuckedAI ? NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 10 : (Main.rand.NextBool(15) && NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 2))
+                if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode ? NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 10 : (Main.rand.NextBool(15) && NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 2))
                 {
                     Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
                     NPC.NewNPC(NPC.GetSource_FromThis(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveBlob2>());

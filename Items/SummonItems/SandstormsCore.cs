@@ -38,7 +38,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneDesert && !(Main.getGoodWorld && !player.Calamity().ZoneAstral) && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark>()); // move to zenith seed later
+            return player.ZoneDesert && !(CalamityMod.Instance.legendaryMode && !player.Calamity().ZoneAstral) && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark>());
         }
 
         public override bool? UseItem(Player player)

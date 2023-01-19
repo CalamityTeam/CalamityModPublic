@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.Crabulon
                 NPC.scale *= 1.5f;
                 NPC.defense += 12;
             }
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 NPC.lifeMax *= 2;
             }
@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.Crabulon
             if (Main.getGoodWorld)
                 enrageScale += 0.5f;
 
-            if (Main.getGoodWorld && Main.netMode != NetmodeID.Server) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode && Main.netMode != NetmodeID.Server)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<Trippy>(), 2);
@@ -548,7 +548,7 @@ namespace CalamityMod.NPCs.Crabulon
                             int num624 = Dust.NewDust(new Vector2(NPC.position.X - 20f, NPC.position.Y + NPC.height), NPC.width + 20, 4, 56, 0f, 0f, 100, default, 1.5f);
                             Main.dust[num624].velocity *= 0.2f;
                         }
-                        if (Main.getGoodWorld) // move to zenith seed later
+                        if (CalamityMod.Instance.legendaryMode)
                         {
                             int x = num622 / 16;
                             int y = (int)(NPC.position.Y + NPC.height) / 16;
@@ -779,9 +779,8 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override Color? GetAlpha(Color drawColor)
         {
-            // Move to zenith seed later
             Color lightColor = Color.Lime * drawColor.A;
-            Color newColor = Main.getGoodWorld ? lightColor : new Color(255, 255, 255, drawColor.A);
+            Color newColor = CalamityMod.Instance.legendaryMode ? lightColor : new Color(255, 255, 255, drawColor.A);
             return newColor * NPC.Opacity;
         }
 
@@ -893,7 +892,7 @@ namespace CalamityMod.NPCs.Crabulon
             DownedBossSystem.downedCrabulon = true;
             CalamityNetcode.SyncWorld();
 
-            if (Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 for (int i = 0; i < Main.rand.Next(10, 23); i++)
                 {

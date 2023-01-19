@@ -346,7 +346,7 @@ namespace CalamityMod.NPCs.Abyss
                     (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(240f)) ||
                     NPC.justHit)
                 {
-                    if (Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient && !clone && !hasBeenHit) // move to zenith seed later
+                    if (CalamityMod.Instance.legendaryMode && Main.netMode != NetmodeID.MultiplayerClient && !clone && !hasBeenHit)
                     {
                         // spawn some baby colossal squids in gfb
                         for (int i = 0; i < 3; i++)
@@ -634,8 +634,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyTypeName(ref string typeName)
         {
-            // Move to zenith seed later
-            if (Main.getGoodWorld && clone)
+            if (CalamityMod.Instance.legendaryMode && clone)
             {
                 typeName = "Tiny Squid";
             }

@@ -307,7 +307,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npcOffset += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
 
             // Give brimmy an outline based on current elemental mode
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 Color baseColor = Color.Red;
                 switch (currentMode)

@@ -168,7 +168,7 @@ namespace CalamityMod.NPCs.AcidRain
                     projDamage = (int)Math.Round(projDamage * 0.8);
 
                 Vector2 spikeVelocity = -NPC.velocity.RotatedByRandom(0.18f);
-                if (Main.getGoodWorld) // more true to the original concept art. move to zenith seed later
+                if (CalamityMod.Instance.legendaryMode) // more true to the original concept art.
                 {
                     spikeVelocity = -projectile.velocity;
                     spikeVelocity.Normalize();
