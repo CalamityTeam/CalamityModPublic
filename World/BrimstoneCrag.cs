@@ -31,11 +31,11 @@ namespace CalamityMod.World
         {
             //set this here so it can properly scale to the worldsize and whatever
             //the 25's are there to offset it from the exact edge of the world so no "out of bounds" crashing occurs
-            StartX = WorldGen.dungeonX < Main.maxTilesX / 2 ? 25 : (Main.maxTilesX - (Main.maxTilesX / 6)) - 25;
+            StartX = WorldGen.dungeonX < Main.maxTilesX / 2 ? 25 : (Main.maxTilesX - (Main.maxTilesX / 5)) - 25;
 
             //set these to be able to easily place things in certain locations, like structures
             int biomeStart = StartX;
-            int biomeEdge = biomeStart + (Main.maxTilesX / 6);
+            int biomeEdge = biomeStart + (Main.maxTilesX / 5);
             int biomeMiddle = (biomeStart + biomeEdge) / 2;
 
             //clear all blocks and lava in the area
@@ -82,7 +82,7 @@ namespace CalamityMod.World
             //scorched remains patches
             for (int x = biomeStart + 30; x <= biomeEdge - 30; x++)
             {
-                if (WorldGen.genRand.Next(100) == 0)
+                if (WorldGen.genRand.Next(150) == 0)
                 {
                     ScorchedGrassPatches(new Point(x, Main.maxTilesY - 135));
                 }
@@ -175,7 +175,7 @@ namespace CalamityMod.World
                     new Point16(250, 500), 15f, WorldGen.genRand.Next(200, 300), 0, true, true);
                     runner2.Start();
 
-                    LavaTileRunner runner3 = new LavaTileRunner(new Vector2(x, Main.maxTilesY - 165), new Vector2(0, 5), new Point16(-20, 20), 
+                    LavaTileRunner runner3 = new LavaTileRunner(new Vector2(x, Main.maxTilesY - 165), new Vector2(0, 5), new Point16(-500, 500), 
                     new Point16(250, 1000), 15f, WorldGen.genRand.Next(300, 400), 0, true, true);
                     runner3.Start();
 
@@ -224,22 +224,23 @@ namespace CalamityMod.World
             }
 
             //charred ore
-            for (int i = 0; i < (int)((double)(Main.maxTilesX * Main.maxTilesY * 27) * 10E-05); i++)
+            for (int x = biomeStart; x <= biomeEdge; x++)
             {
-                int x = WorldGen.genRand.Next(5, Main.maxTilesX - 5);
-                int y = WorldGen.genRand.Next(Main.maxTilesY - 150, Main.maxTilesY - 45);
-
-                Tile tile = Main.tile[x, y];
-                Tile tileUp = Main.tile[x, y - 1];
-                Tile tileDown = Main.tile[x, y + 1];
-                Tile tileLeft = Main.tile[x - 1, y];
-                Tile tileRight = Main.tile[x + 1, y];
-
-                if (tile.TileType == ModContent.TileType<BrimstoneSlag>() && (tileUp.LiquidAmount > 0 || 
-                tileDown.LiquidAmount > 0 || tileLeft.LiquidAmount > 0 || tileRight.LiquidAmount > 0)) 
+                for (int y = Main.maxTilesY - 150; y <= Main.maxTilesY - 45; y++)
                 {
-                    WorldGen.TileRunner(x + WorldGen.genRand.Next(-15, 15), y + WorldGen.genRand.Next(-15, 15), 
-                    WorldGen.genRand.Next(8, 12), WorldGen.genRand.Next(8, 12), ModContent.TileType<CharredOre>(), false, 0f, 0f, false, true);
+                    Tile tile = Main.tile[x, y];
+                    Tile tileUp = Main.tile[x, y - 1];
+                    Tile tileDown = Main.tile[x, y + 1];
+                    Tile tileLeft = Main.tile[x - 1, y];
+                    Tile tileRight = Main.tile[x + 1, y];
+
+                    //only place ore nearby lava
+                    if (WorldGen.genRand.Next(200) == 0 && tile.TileType == ModContent.TileType<BrimstoneSlag>() && (tileUp.LiquidAmount > 0 || 
+                    tileDown.LiquidAmount > 0 || tileLeft.LiquidAmount > 0 || tileRight.LiquidAmount > 0))
+                    {
+                        WorldGen.TileRunner(x + WorldGen.genRand.Next(-15, 15), y + WorldGen.genRand.Next(-15, 15), 
+                        WorldGen.genRand.Next(8, 12), WorldGen.genRand.Next(8, 12), ModContent.TileType<CharredOre>(), false, 0f, 0f, false, true);
+                    }
                 }
             }
 
@@ -265,7 +266,7 @@ namespace CalamityMod.World
         private static void GenCragsAmbience()
         {
             int biomeStart = StartX;
-            int biomeEdge = biomeStart + (Main.maxTilesX / 6);
+            int biomeEdge = biomeStart + (Main.maxTilesX / 5);
             int biomeMiddle = (biomeStart + biomeEdge) / 2;
 
             for (int x = biomeStart; x <= biomeEdge; x++)
