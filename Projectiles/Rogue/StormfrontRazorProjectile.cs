@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < times; i++)
             {
                 int lightningDamage = (int)(Projectile.damage * StormfrontRazor.LightningDamageFactor);
-                Vector2 lightningSpawnPosition = Projectile.Center - Vector2.UnitY.RotatedByRandom(0.2f) * 1000f;
+                Vector2 lightningSpawnPosition = Projectile.Center - Vector2.UnitY.RotatedByRandom(0.2f) * 1100f;
                 Vector2 lightningShootVelocity = (target.Center - lightningSpawnPosition + target.velocity * 7.5f).SafeNormalize(Vector2.UnitY) * 14f;
                 int lightning = Projectile.NewProjectile(Projectile.GetSource_FromThis(), lightningSpawnPosition, lightningShootVelocity, ModContent.ProjectileType<StormfrontLightning>(), lightningDamage, 0f, Projectile.owner);
                 if (Main.projectile.IndexInRange(lightning))
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < times; i++)
             {
                 int lightningDamage = (int)(Projectile.damage * StormfrontRazor.LightningDamageFactor);
-                Vector2 lightningSpawnPosition = Projectile.Center - Vector2.UnitY.RotatedByRandom(0.2f) * 1000f;
+                Vector2 lightningSpawnPosition = Projectile.Center - Vector2.UnitY.RotatedByRandom(0.2f) * 1100f;
                 Vector2 lightningShootVelocity = (target.Center - lightningSpawnPosition + target.velocity * 7.5f).SafeNormalize(Vector2.UnitY) * 14f;
                 int lightning = Projectile.NewProjectile(Projectile.GetSource_FromThis(), lightningSpawnPosition, lightningShootVelocity, ModContent.ProjectileType<StormfrontLightning>(), lightningDamage, 0f, Projectile.owner);
                 if (Main.projectile.IndexInRange(lightning))
@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < times; i++)
             {
                 int lightningDamage = (int)(Projectile.damage * StormfrontRazor.LightningDamageFactor);
-                Vector2 lightningSpawnPosition = Projectile.Center - Vector2.UnitY.RotatedByRandom(0.2f) * 1000f;
+                Vector2 lightningSpawnPosition = Projectile.Center - Vector2.UnitY.RotatedByRandom(0.2f) * 1100f;
                 Vector2 lightningShootVelocity = (Projectile.Center - lightningSpawnPosition + Projectile.velocity * 7.5f).SafeNormalize(Vector2.UnitY) * 14f;
                 int lightning = Projectile.NewProjectile(Projectile.GetSource_FromThis(), lightningSpawnPosition, lightningShootVelocity, ModContent.ProjectileType<StormfrontLightning>(), lightningDamage, 0f, Projectile.owner);
                 if (Main.projectile.IndexInRange(lightning))

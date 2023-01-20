@@ -45,8 +45,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            Projectile.width = 15;
-            Projectile.height = 22;
+            Projectile.width = 25;
+            Projectile.height = 50;
             Projectile.alpha = 255;
             Projectile.penetrate =3;
             Projectile.ignoreWater = true;
@@ -158,14 +158,14 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             List<Vector2> checkPoints = Projectile.oldPos.Where(oldPos => oldPos != Vector2.Zero).ToList();
-            if (checkPoints.Count <= 3)
+            if (checkPoints.Count <= 5)
                 return false;
 
             for (int i = 0; i < checkPoints.Count - 1; i++)
             {
                 float _ = 0f;
                 float width = PrimitiveWidthFunction(i / (float)checkPoints.Count);
-                if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), checkPoints[i], checkPoints[i + 1], width * 0.8f, ref _))
+                if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), checkPoints[i], checkPoints[i + 1], width * 0.5f, ref _))
                     return true;
             }
             return false;
@@ -192,7 +192,7 @@ namespace CalamityMod.Projectiles.Rogue
             GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].UseImage1("Images/Misc/Perlin");
             GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].Apply();
 
-            LightningDrawer.Draw(Projectile.oldPos, Projectile.Size * 2f - Main.screenPosition, 10);
+            LightningDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.3f - Main.screenPosition, 10);
             return false;
         }
 
