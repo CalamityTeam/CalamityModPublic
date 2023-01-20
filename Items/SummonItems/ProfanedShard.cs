@@ -59,7 +59,7 @@ namespace CalamityMod.Items.SummonItems
             Player player = Main.LocalPlayer;
             TooltipLine line1 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
 
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 line1.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld";
             }

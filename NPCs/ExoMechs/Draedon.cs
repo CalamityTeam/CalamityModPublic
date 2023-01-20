@@ -204,7 +204,7 @@ namespace CalamityMod.NPCs.ExoMechs
             NPC.spriteDirection = (PlayerToFollow.Center.X < NPC.Center.X).ToDirectionInt();
 
             // Exo Mechdusa bool setting
-            if (!exoMechdusa && CalamityWorld.DraedonMechdusa && Main.getGoodWorld)
+            if (!exoMechdusa && CalamityWorld.DraedonMechdusa && CalamityMod.Instance.legendaryMode)
             {
                 exoMechdusa = true;
                 CalamityWorld.DraedonMechdusa = false;
@@ -525,7 +525,7 @@ namespace CalamityMod.NPCs.ExoMechs
             // Define a hover destination offset if one hasn't been decided yet.
             if (Main.netMode != NetmodeID.MultiplayerClient && HoverDestinationOffset == Vector2.Zero)
             {
-                float factor = Main.getGoodWorld && !exoMechdusa ? 300f : 700f;
+                float factor = CalamityMod.Instance.legendaryMode && !exoMechdusa ? 300f : 700f;
                 HoverDestinationOffset = -Vector2.UnitY * factor;
                 NPC.netUpdate = true;
             }
@@ -543,8 +543,8 @@ namespace CalamityMod.NPCs.ExoMechs
                     offsetDirection = Main.rand.NextVector2Unit();
                 while (Vector2.Dot(directionToTarget, offsetDirection) > 0.2f);
 
-                float factormin = Main.getGoodWorld && !exoMechdusa ? 300f : 750f;
-                float factormax = Main.getGoodWorld && !exoMechdusa ? 700f : 1100f;
+                float factormin = CalamityMod.Instance.legendaryMode && !exoMechdusa ? 300f : 750f;
+                float factormax = CalamityMod.Instance.legendaryMode && !exoMechdusa ? 700f : 1100f;
                 HoverDestinationOffset = offsetDirection * Main.rand.NextFloat(factormin, factormax);
                 NPC.netUpdate = true;
             }
