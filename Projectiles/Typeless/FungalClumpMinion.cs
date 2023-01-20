@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
 
             //Periodically create dust
-            if (Main.rand.NextBool(16))
+            if (Main.rand.NextBool(16) && !modPlayer.fungalClumpVanity)
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 56, Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f);
             }
