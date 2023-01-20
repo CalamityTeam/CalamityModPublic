@@ -247,6 +247,7 @@ namespace CalamityMod.Projectiles.Typeless
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
+
         public override bool? CanDamage()
         {
             Player player = Main.player[Projectile.owner];
@@ -257,7 +258,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
             else
             {
-                return true;
+                return null;
             }
         }
     }

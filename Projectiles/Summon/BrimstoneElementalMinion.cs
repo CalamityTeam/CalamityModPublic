@@ -218,7 +218,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                return true;
+                return null;
             }
         }
     }

@@ -3220,7 +3220,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (CryoStone)
+            if (CryoStone || CryoStoneVanity)
             {
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<CryoStone>()));
                 int damage = (int)Player.GetBestClassDamage().ApplyTo(70);

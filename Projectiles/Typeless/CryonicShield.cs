@@ -51,34 +51,47 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn2, 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+            Player player = Main.player[Projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
 
-            if (target.knockBackResist <= 0f)
-                return;
-
-            if (CalamityGlobalNPC.ShouldAffectNPC(target))
+            if (!modPlayer.CryoStoneVanity)
             {
-                float knockbackMultiplier = knockback - (1f - target.knockBackResist);
-                if (knockbackMultiplier < 0)
-                    knockbackMultiplier = 0;
+                target.AddBuff(BuffID.Frostburn2, 180);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
 
-                Vector2 trueKnockback = Projectile.SafeDirectionTo(target.Center);
-                target.velocity = trueKnockback * knockbackMultiplier;
+                if (target.knockBackResist <= 0f)
+                    return;
+
+                if (CalamityGlobalNPC.ShouldAffectNPC(target))
+                {
+                    float knockbackMultiplier = knockback - (1f - target.knockBackResist);
+                    if (knockbackMultiplier < 0)
+                        knockbackMultiplier = 0;
+
+                    Vector2 trueKnockback = Projectile.SafeDirectionTo(target.Center);
+                    target.velocity = trueKnockback * knockbackMultiplier;
+                }
             }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn2, 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+            Player player = Main.player[Projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+            if (!modPlayer.CryoStoneVanity)
+            {
+                target.AddBuff(BuffID.Frostburn2, 180);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+            }
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, Projectile.Size.Length() * 0.5f, targetHitbox);
 
         public override bool? CanHitNPC(NPC target)
         {
-            if (target.catchItem != 0 && target.type != ModContent.NPCType<Radiator>())
+            Player player = Main.player[Projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+            if ((target.catchItem != 0 && target.type != ModContent.NPCType<Radiator>()) || modPlayer.CryoStoneVanity)
                 return false;
 
             return null;

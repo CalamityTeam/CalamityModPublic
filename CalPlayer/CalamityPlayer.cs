@@ -595,6 +595,7 @@ namespace CalamityMod.CalPlayer
         public bool BloomStoneRegen = false;
         public bool ChaosStone = false;
         public bool CryoStone = false;
+        public bool CryoStoneVanity = false;
         public bool voidField = false;
         public bool copyrightInfringementShield = false;
         #endregion
@@ -1663,6 +1664,7 @@ namespace CalamityMod.CalPlayer
             BloomStoneRegen = false;
             ChaosStone = false;
             CryoStone = false;
+            CryoStoneVanity = false;
             voidField = false;
             copyrightInfringementShield = false;
 

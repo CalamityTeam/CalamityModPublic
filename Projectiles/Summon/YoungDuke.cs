@@ -111,5 +111,19 @@ namespace CalamityMod.Projectiles.Summon
 
             Projectile.direction = Projectile.spriteDirection = (Projectile.velocity.X > 0).ToDirectionInt();
         }
+
+        public override bool? CanDamage()
+        {
+            Player player = Main.player[Projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+            if (modPlayer.miniOldDukeVanity)
+            {
+                return false;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
