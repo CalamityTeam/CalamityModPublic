@@ -21,9 +21,9 @@ namespace CalamityMod.NPCs.Crags
     {
         public SlotId ChainsawSoundSlot;
 
-        public static readonly SoundStyle ChainsawStartSound = new("CalamityMod/Sounds/Custom/ChainsawStart") { Volume = 0.25f };
+        public static readonly SoundStyle ChainsawStartSound = new("CalamityMod/Sounds/Custom/ChainsawStart") { Volume = 0.15f };
 
-        public static readonly SoundStyle ChainsawEndSound = new("CalamityMod/Sounds/Custom/ChainsawEnd") { Volume = 0.25f };
+        public static readonly SoundStyle ChainsawEndSound = new("CalamityMod/Sounds/Custom/ChainsawEnd") { Volume = 0.15f };
 
         public override void SetStaticDefaults()
         {
@@ -89,13 +89,14 @@ namespace CalamityMod.NPCs.Crags
                 NPC.ai[2] = 0f;
                 CalamityAI.UnicornAI(NPC, Mod, true, CalamityWorld.death ? 8f : CalamityWorld.revenge ? 6f : 4f, 5f, 0.2f);
             }
-            if (NPC.lavaWet) //float on lava
-                NPC.velocity.Y -= 0.8f;
+            if (NPC.lavaWet) //float on lava 
+                NPC.velocity.Y += -0.8f;
         }
 
         public void BuzzsawMode()
         {
             float distance;
+            float speedCap = 10f;
             //Choose Direction
             if (NPC.ai[2] == 0f)
             {
@@ -122,15 +123,23 @@ namespace CalamityMod.NPCs.Crags
                 chainsawSound.Position = NPC.Center;
             if (NPC.velocity.X == 0f) //go up if against wall
             {
-                NPC.velocity.Y = -10f;
+                if (NPC.velocity.Y > -speedCap) //Accelerate to top speed
+                    NPC.velocity.Y += -1.66f;
+                if (NPC.velocity.Y < -speedCap) //Cap top speed
+                    NPC.velocity.Y = -speedCap;
             }
+
             if (NPC.velocity.X == 0f || NPC.velocity.Y == 0f) //check if on solid ground
                 SpawnSparks();
-            if (Math.Abs(NPC.velocity.X) < 10f) //Accelerate to top speed
-                NPC.velocity.X += 0.8f * NPC.ai[2];
-            else NPC.velocity.X = NPC.velocity.X = 10f * NPC.ai[2];
+            else if (Main.player[NPC.target].Center.Y - NPC.Center.Y < 0f && NPC.velocity.Y < 0f && !NPC.lavaWet) //if not on solid ground and target player is above the NPC, reduce gravity
+                NPC.velocity.Y += -0.03f;
 
-            NPC.rotation += 10f * 0.03f * NPC.ai[2]; //rotate sprite in chosen direction
+            if (Math.Abs(NPC.velocity.X) < speedCap) //Accelerate to top speed
+                NPC.velocity.X += 1.66f * NPC.ai[2];
+            if (Math.Abs(NPC.velocity.X) > speedCap) //Cap top speed
+                NPC.velocity.X = speedCap * NPC.ai[2];
+
+            NPC.rotation += speedCap * 0.03f * NPC.ai[2]; //rotate sprite in chosen direction
             NPC.spriteDirection = -NPC.direction;
             //stop buzzsaw mode
             if (NPC.ai[1] > Main.rand.Next(670, 740))
