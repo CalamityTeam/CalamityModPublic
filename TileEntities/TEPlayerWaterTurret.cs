@@ -59,7 +59,7 @@ namespace CalamityMod.TileEntities
         {
             int indexToSet = NPCTargetIndex;
 
-            // If a player is already targeted, make sure they still exist and aren't dead.
+            // If a npc is already targeted, make sure they still exist and aren't dead.
             if (indexToSet != -1)
             {
                 NPC npc = Main.npc[NPCTargetIndex];
@@ -69,7 +69,7 @@ namespace CalamityMod.TileEntities
                     indexToSet = -1;
                 else
                 {
-                    // If the existing target player is close enough, return their position. Otherwise unmark them as a target.
+                    // If the existing target npc is close enough, return their position. Otherwise unmark them as a target.
                     Vector2 npcPos = npc.Center;
                     float distSQ = Vector2.DistanceSquared(targetingCenter, npcPos);
                     if (distSQ <= MaxRange * MaxRange)
@@ -79,7 +79,7 @@ namespace CalamityMod.TileEntities
                 }
             }
 
-            // No valid target currently exists. Loop through players (efficiently!) to look for the closest new target.
+            // No valid target currently exists. Loop through npcs (efficiently!) to look for the closest new target.
             Vector2 ret = InvalidTarget;
             float distSQToBeat = MaxRange * MaxRange;
 
@@ -98,7 +98,7 @@ namespace CalamityMod.TileEntities
                 }
             }
 
-            // Set PlayerTargetIndex now that we're sure what we're targeting. This triggers a netcode sync if the value is different.
+            // Set NPCTargetIndex now that we're sure what we're targeting. This triggers a netcode sync if the value is different.
             NPCTargetIndex = indexToSet;
             return ret;
         }
