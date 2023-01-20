@@ -120,11 +120,11 @@ namespace CalamityMod.Projectiles.Rogue
 
                     // Potential directions with very little Y speed should not be considered, because this
                     // consequentially means that the X speed would be quite large.
-                    if (potentialBaseDirection.Y > -0.25f)
+                    if (potentialBaseDirection.Y > -0.2f)
                         canChangeLightningDirection = false;
 
                     //No very fast X speeds either, its gotta hit at least consistently y'know
-                    if (potentialBaseDirection.X < -0.25f || potentialBaseDirection.X > 0.25f)
+                    if (potentialBaseDirection.X < -0.2f || potentialBaseDirection.X > 0.2f)
                         canChangeLightningDirection = false;
 
                     // If the above checks were all passed, redefine the base direction of the lightning.
