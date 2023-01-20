@@ -26,8 +26,8 @@ namespace CalamityMod.Items.SummonItems
         public override void SetDefaults()
         {
             Item.rare = ItemRarityID.Blue;
-            Item.width = Main.getGoodWorld ? 54 : 28;
-            Item.height = Main.getGoodWorld ? 78 : 28;
+            Item.width = CalamityMod.Instance.legendaryMode ? 54 : 28;
+            Item.height = CalamityMod.Instance.legendaryMode ? 78 : 28;
             Item.useAnimation = 45;
             Item.useTime = 45;
             Item.channel = true;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/SummonItems/Terminus_GFB").Value;
                 Color overlay = Color.White;
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/SummonItems/Terminus_GFB").Value;
                 spriteBatch.Draw(texture, Item.position - Main.screenPosition, null, lightColor, 0f, Vector2.Zero, 1f, 0, 0);
@@ -67,7 +67,7 @@ namespace CalamityMod.Items.SummonItems
             Player player = Main.LocalPlayer;
             TooltipLine name = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "ItemName");
 
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 name.Text = "Ogscule";
             }

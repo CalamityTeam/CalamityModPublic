@@ -14,7 +14,6 @@ namespace CalamityMod.Items.SummonItems
 {
     public class CryoKey : ModItem
     {
-        // Todo: Change all Main.getGoodWorlds here once 1.4.4 porting has begun
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
@@ -59,7 +58,7 @@ namespace CalamityMod.Items.SummonItems
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/SummonItems/CryoKey").Value;
-            Color overlay = Main.getGoodWorld ? Color.Red : Color.White;
+            Color overlay = CalamityMod.Instance.legendaryMode ? Color.Red : Color.White;
             spriteBatch.Draw(texture, position, null, overlay, 0f, origin, scale, 0, 0);
             return false;
         }
@@ -67,7 +66,7 @@ namespace CalamityMod.Items.SummonItems
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/SummonItems/CryoKey").Value;
-            Color overlay = Main.getGoodWorld ? Color.Red : lightColor;
+            Color overlay = CalamityMod.Instance.legendaryMode ? Color.Red : lightColor;
             spriteBatch.Draw(texture, Item.position - Main.screenPosition, null, overlay, 0f, Vector2.Zero, 1f, 0, 0);
             return false;
         }
@@ -78,7 +77,7 @@ namespace CalamityMod.Items.SummonItems
             TooltipLine name = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "ItemName");
             TooltipLine line0 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
 
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 name.Text = "Pyro Key";
                 line0.Text = "Summons Cryogen when used in the tundra...?";
