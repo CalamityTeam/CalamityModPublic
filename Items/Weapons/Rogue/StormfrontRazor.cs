@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Pink;
             Item.useAnimation = 20;
             Item.useTime = 20;
-            Item.damage = 25;
+            Item.damage = 43;
             Item.knockBack = 7f;
             Item.shoot = ModContent.ProjectileType<StormfrontRazorProjectile>();
             Item.shootSpeed = 8f;

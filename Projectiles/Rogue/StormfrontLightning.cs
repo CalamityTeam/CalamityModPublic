@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Rogue
                 HasPlayedSound = true;
             }
 
-            Lighting.AddLight(Projectile.Center, Color.White.ToVector3());
+            Lighting.AddLight(Projectile.Center, new Color(Main.rand.Next(20, 100), 204, 250).ToVector3());
             if (Projectile.frameCounter >= Projectile.extraUpdates * 2)
             {
                 Projectile.frameCounter = 0;
@@ -174,13 +174,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
-            target.AddBuff(BuffID.Electrified, 180);
+            target.AddBuff(BuffID.Electrified, 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
-            target.AddBuff(BuffID.Electrified, 180);
+            target.AddBuff(BuffID.Electrified, 120);
         }
 
         public override bool PreDraw(ref Color lightColor)
