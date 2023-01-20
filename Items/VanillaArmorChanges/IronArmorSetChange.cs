@@ -19,7 +19,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public const float ArmorPieceDR = 0.03f;
         public const float SetBonusDR = 0.06f;
         public const int SetBonusLifeRegen = 2;
-        public const int SetBonusMiningSpeedPercent = 25;
 
         public override void ApplyHeadPieceEffect(Player player) => player.endurance += ArmorPieceDR;
 
@@ -31,7 +30,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             StringBuilder sb = new StringBuilder(256);
             sb.Append("\nReduces damage taken by 6%\n+2 life regen");
-            sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }
 
@@ -39,7 +37,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             player.endurance += SetBonusDR;
             player.lifeRegen += SetBonusLifeRegen;
-            player.pickSpeed -= SetBonusMiningSpeedPercent * 0.01f;
         }
     }
 }

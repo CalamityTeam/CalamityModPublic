@@ -20,7 +20,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public const float LegsMoveSpeed = 0.1f;
         public const float SetBonusArmorPen = 5.0f;
         public const int SetBonusLifeRegen = 1;
-        public const int SetBonusMiningSpeedPercent = 25;
 
         public override void ApplyHeadPieceEffect(Player player) => player.GetCritChance<GenericDamageClass>() += HeadCrit;
 
@@ -32,7 +31,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             StringBuilder sb = new StringBuilder(256);
             sb.Append("\nIncreases armor penetration by 5\n+1 life regen");
-            sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }
 
@@ -40,7 +38,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             player.GetArmorPenetration<GenericDamageClass>() += SetBonusArmorPen;
             player.lifeRegen += SetBonusLifeRegen;
-            player.pickSpeed -= SetBonusMiningSpeedPercent * 0.01f;
         }
     }
 }
