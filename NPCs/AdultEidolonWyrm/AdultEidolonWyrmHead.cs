@@ -107,8 +107,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.GetNPCDamage();
             NPC.width = 254;
             NPC.height = 138;
-            NPC.defense = 100;
-            NPC.DR_NERD(0.4f);
             NPC.LifeMaxNERB(2415000, 2898000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
@@ -128,6 +126,17 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+
+            if (CalamityMod.Instance.legendaryMode)
+            {
+                NPC.defense = 999;
+                NPC.DR_NERD(0.9f);
+            }
+            else
+            {
+                NPC.defense = 100;
+                NPC.DR_NERD(0.4f);
+            }
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
