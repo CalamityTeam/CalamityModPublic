@@ -126,6 +126,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Dominic Karma",
 			"Doog",
 			"drh",
+			"dwshin",
 			"Earth",
 			"EchoDuck",
 			"ENNWAY",
