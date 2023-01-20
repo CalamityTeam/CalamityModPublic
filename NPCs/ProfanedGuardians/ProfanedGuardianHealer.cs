@@ -127,8 +127,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             CalamityGlobalNPC.doughnutBossHealer = NPC.whoAmI;
 
+            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 1.1f, 0.9f, 0f);
+
             if (CalamityGlobalNPC.doughnutBoss < 0 || !Main.npc[CalamityGlobalNPC.doughnutBoss].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;
@@ -136,6 +140,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             // Rotation
             NPC.rotation = NPC.velocity.X * 0.005f;
+
+            // Despawn
+            if (Main.npc[CalamityGlobalNPC.doughnutBoss].ai[3] == -1f)
+            {
+                NPC.velocity = Main.npc[CalamityGlobalNPC.doughnutBoss].velocity;
+                return;
+            }
 
             // Get the Guardian Commander's target
             Player player = Main.player[Main.npc[CalamityGlobalNPC.doughnutBoss].target];
@@ -212,9 +223,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 velocity *= 1.25f;
 
             float idealDistanceFromDestination = useCrystalShards ? 80f : 160f;
-            Vector2 destination = player.Center + (useCrystalShards ? Vector2.Zero : Vector2.UnitX * Vector2.Normalize(player.velocity).X * 400f) + Vector2.UnitY * -400f;
+            Vector2 destination = player.Center + (useCrystalShards ? Vector2.Zero : Vector2.UnitX * player.velocity.SafeNormalize(new Vector2(NPC.direction, 0f)).X * 400f) + Vector2.UnitY * -400f;
             Vector2 distanceFromDestination = destination - NPC.Center;
-            Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * velocity;
+            Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
+            Vector2 dustAndProjectileOffset = new Vector2(40f * NPC.direction, 20f);
+            Vector2 shootFrom = NPC.Center + dustAndProjectileOffset;
 
             // Fire crystal rain similar to Providence's Crystal attack
             if (useCrystalShards)
@@ -223,9 +236,37 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 AITimer += 1f;
                 float crystalShootGateValue = bossRush ? 240f : death ? 280f : revenge ? 300f : expertMode ? 320f : 360f;
                 float crystalShootPhaseDuration = crystalShootGateValue + 120f;
+
+                // Generate dust that scales with how close the crystals are to firing
+                float dustGateValue = crystalShootGateValue * 0.5f;
+                if (AITimer >= dustGateValue && AITimer < crystalShootGateValue)
+                {
+                    int dustChance = (int)((crystalShootGateValue - AITimer) * 0.25f);
+                    if (dustChance < 2)
+                        dustChance = 2;
+
+                    int maxDust = 10;
+                    for (int i = 0; i < maxDust; i++)
+                    {
+                        if (Main.rand.NextBool(dustChance))
+                        {
+                            Color baseColor = new Color(250, 150, 0);
+                            float brightness = 0.8f;
+                            Color dustColor = Color.Lerp(baseColor, Color.White, brightness);
+                            Dust dust = Main.dust[Dust.NewDust(NPC.Top, 0, 0, 267, 0f, 0f, 100, dustColor, 1f)];
+                            dust.velocity.X = 0f;
+                            dust.noGravity = true;
+                            dust.fadeIn = 1f;
+                            dust.position = shootFrom + Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * (4f * Main.rand.NextFloat() + 26f);
+                            dust.scale = 0.8f;
+                        }
+                    }
+                }
+
+                // Fire crystals
                 if (AITimer == crystalShootGateValue)
                 {
-                    SoundEngine.PlaySound(SoundID.Item109, NPC.Center);
+                    SoundEngine.PlaySound(SoundID.Item109, shootFrom);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int type = ModContent.ProjectileType<ProvidenceCrystalShard>();
@@ -237,7 +278,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         for (int i = 0; i < totalProjectiles; i++)
                         {
                             float x4 = Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, speedX + speedAdjustment * i + Vector2.Normalize(distanceFromDestination).X * Math.Abs(player.velocity.X), speedY, type, damage, 0f, Main.myPlayer, x4);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom.X, shootFrom.Y, speedX + speedAdjustment * i + distanceFromDestination.SafeNormalize(Vector2.Zero).X * Math.Abs(player.velocity.X), speedY, type, damage, 0f, Main.myPlayer, x4);
                         }
                     }
                 }
@@ -258,36 +299,53 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 float starShootPhaseDuration = GetStarShootGateValue() + 120f;
                 if (AITimer == GetStarShootGateValue())
                 {
-                    SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        int totalFlameProjectiles = biomeEnraged ? 20 : 16;
-                        int totalRings = 2;
-                        int healingStarChance = revenge ? 8 : expertMode ? 6 : 4;
-                        double radians = MathHelper.TwoPi / totalFlameProjectiles;
-                        SoundEngine.PlaySound(SoundID.Item20, NPC.position);
-                        double angleA = radians * 0.5;
-                        double angleB = MathHelper.ToRadians(90f) - angleA;
-                        for (int i = 0; i < totalRings; i++)
-                        {
-                            bool firstRing = i % 2 == 0;
-                            float starVelocity = firstRing ? 3f : 2f;
-                            float velocityX = (float)(starVelocity * Math.Sin(angleA) / Math.Sin(angleB));
-                            Vector2 spinningPoint = firstRing ? new Vector2(-velocityX, -starVelocity) : new Vector2(0f, -starVelocity);
-                            for (int j = 0; j < totalFlameProjectiles; j++)
-                            {
-                                Vector2 vector2 = spinningPoint.RotatedBy(radians * j);
+                    SoundEngine.PlaySound(SoundID.Item20, shootFrom);
 
-                                int type = ModContent.ProjectileType<HolyBurnOrb>();
-                                int dmgAmt = NPC.GetProjectileDamage(type);
-                                if (Main.rand.NextBool(healingStarChance) && !death)
-                                {
-                                    type = ModContent.ProjectileType<HolyLight>();
-                                    dmgAmt = NPC.GetProjectileDamageNoScaling(type);
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector2, type, 0, 0f, Main.myPlayer, 0f, dmgAmt);
-                                }
-                                else
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector2, type, dmgAmt, 0f, Main.myPlayer);
+                    int totalFlameProjectiles = biomeEnraged ? 20 : 16;
+                    int totalRings = 2;
+                    int healingStarChance = revenge ? 8 : expertMode ? 6 : 4;
+                    double radians = MathHelper.TwoPi / totalFlameProjectiles;
+                    double angleA = radians * 0.5;
+                    double angleB = MathHelper.ToRadians(90f) - angleA;
+                    for (int i = 0; i < totalRings; i++)
+                    {
+                        bool firstRing = i % 2 == 0;
+                        float starVelocity = firstRing ? 3f : 2f;
+                        float velocityX = (float)(starVelocity * Math.Sin(angleA) / Math.Sin(angleB));
+                        Vector2 spinningPoint = firstRing ? new Vector2(-velocityX, -starVelocity) : new Vector2(0f, -starVelocity);
+                        for (int j = 0; j < totalFlameProjectiles; j++)
+                        {
+                            Vector2 vector2 = spinningPoint.RotatedBy(radians * j);
+
+                            int type = ModContent.ProjectileType<HolyBurnOrb>();
+                            int dmgAmt = NPC.GetProjectileDamage(type);
+                            if (Main.rand.NextBool(healingStarChance) && !death)
+                            {
+                                type = ModContent.ProjectileType<HolyLight>();
+                                dmgAmt = NPC.GetProjectileDamageNoScaling(type);
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, vector2, type, 0, 0f, Main.myPlayer, 0f, dmgAmt);
+                            }
+                            else if (Main.netMode != NetmodeID.MultiplayerClient)
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, vector2, type, dmgAmt, 0f, Main.myPlayer);
+
+                            Color dustColor = Main.hslToRgb(Main.rgbToHsl(type == ModContent.ProjectileType<HolyBurnOrb>() ? Color.Orange : Color.Green).X, 1f, 0.5f);
+                            dustColor.A = 255;
+                            int maxDust = 3;
+                            for (int k = 0; k < maxDust; k++)
+                            {
+                                int dust = Dust.NewDust(NPC.Center, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
+                                Main.dust[dust].position = shootFrom;
+                                Main.dust[dust].velocity = vector2 * starVelocity * (k * 0.5f + 1f);
+                                Main.dust[dust].noGravity = true;
+                                Main.dust[dust].scale = 1f + k;
+                                Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
+                                Dust dust2 = Dust.CloneDust(dust);
+                                Dust dust3 = dust2;
+                                dust3.scale /= 2f;
+                                dust3 = dust2;
+                                dust3.fadeIn /= 2f;
+                                dust2.color = new Color(255, 255, 255, 255);
                             }
                         }
                     }

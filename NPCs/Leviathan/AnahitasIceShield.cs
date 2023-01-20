@@ -83,8 +83,9 @@ namespace CalamityMod.NPCs.Leviathan
 
             NPC.dontTakeDamage = false;
             NPC.life = 0;
-            NPC.HitEffect(0, 10.0);
+            NPC.HitEffect();
             NPC.active = false;
+            NPC.netUpdate = true;
         }
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

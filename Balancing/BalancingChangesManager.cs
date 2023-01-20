@@ -19,6 +19,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using CalamityMod.NPCs.ProfanedGuardians;
 
 namespace CalamityMod.Balancing
 {
@@ -207,12 +208,13 @@ namespace CalamityMod.Balancing
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Providence>(), new ProjectileResistBalancingRule(0.2f, ProjectileType<HellsSunProj>())));
             #endregion
 
-            #region Ceaseless Void / Dark Energies
+            #region Ceaseless Void / Dark Energies / Profaned Rocks
 
             // 50% resist to true melee.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<DarkEnergy>(), new TrueMeleeResistBalancingRule(0.5f)));
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<ProfanedRocks>(), new TrueMeleeResistBalancingRule(0.5f)));
 
-            #endregion Ceaseless Void / Dark Energies
+            #endregion Ceaseless Void / Dark Energies / Profaned Rocks
 
             #region Storm Weaver
 

@@ -98,6 +98,7 @@ namespace CalamityMod.Projectiles.Boss
             for (int num621 = 0; num621 < 3; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                Main.dust[num622].noGravity = true;
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[num622].scale = 0.5f;
@@ -109,6 +110,7 @@ namespace CalamityMod.Projectiles.Boss
                 int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                Main.dust[num624].noGravity = true;
             }
         }
 

@@ -55,6 +55,8 @@ namespace CalamityMod.NPCs.Ravager
         {
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;

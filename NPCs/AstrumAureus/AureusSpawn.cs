@@ -68,6 +68,9 @@ namespace CalamityMod.NPCs.AstrumAureus
             // Force despawn if Astrum Aureus isn't active
             if (CalamityGlobalNPC.astrumAureus < 0 || !Main.npc[CalamityGlobalNPC.astrumAureus].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
+                NPC.checkDead();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;

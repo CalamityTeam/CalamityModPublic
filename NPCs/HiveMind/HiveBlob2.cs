@@ -57,6 +57,8 @@ namespace CalamityMod.NPCs.HiveMind
             int num750 = CalamityGlobalNPC.hiveMind;
             if (num750 < 0 || !Main.npc[num750].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;

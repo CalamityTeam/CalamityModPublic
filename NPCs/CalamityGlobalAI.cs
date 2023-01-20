@@ -7414,7 +7414,8 @@ namespace CalamityMod.NPCs
 
                 float anglularSpeed = npc.ai[1] / (CalamityWorld.death ? 90f : 150f);
                 anglularSpeed = 0.1f + anglularSpeed * 0.4f;
-                npc.rotation += anglularSpeed * (float)npc.direction;
+                npc.rotation += anglularSpeed * npc.direction;
+
                 // Charge
                 if (npc.ai[1] >= (CalamityWorld.death ? 90f : 150f))
                 {

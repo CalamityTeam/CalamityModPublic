@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Boss
 
             double deg = Projectile.ai[1];
             double rad = deg * (Math.PI / 180);
-            double dist = bossRush ? 480D : death ? 520D : revenge ? 540D : expertMode ? 560D : 600D;
+            double dist = bossRush ? 360D : death ? 400D : revenge ? 420D : expertMode ? 440D : 480D;
             Projectile.position.X = player.Center.X - (int)(Math.Cos(rad) * dist) - Projectile.width / 2;
             Projectile.position.Y = player.Center.Y - (int)(Math.Sin(rad) * dist) - Projectile.height / 2;
             Projectile.ai[1] += 1f;

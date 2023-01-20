@@ -82,8 +82,9 @@ namespace CalamityMod.NPCs.Cryogen
                     return;
                 }
                 NPC.life = 0;
-                NPC.HitEffect(0, 10.0);
+                NPC.HitEffect();
                 NPC.active = false;
+                NPC.netUpdate = true;
             }
         }
 

@@ -106,6 +106,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 int holy = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
                 Main.dust[holy].velocity *= 3f;
+                Main.dust[holy].noGravity = true;
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[holy].scale = 0.5f;
@@ -119,6 +120,7 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[fire].velocity *= 5f;
                 fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
                 Main.dust[fire].velocity *= 2f;
+                Main.dust[fire].noGravity = true;
             }
         }
 

@@ -48,6 +48,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
             Projectile.velocity.Y += 2f / 45f;
             Projectile.position += (target.position - target.oldPosition) / 16;
+            if (Projectile.timeLeft <= 15) Projectile.position = target.Center; //puts the projectile inside the target if it somehow missed it (*Cough* WORMS)
             if (Projectile.penetrate == 3) { CheckNearTarget(target, targetVector); }
             else
             {
@@ -116,10 +117,13 @@ namespace CalamityMod.Projectiles.Typeless
                 innerColor *= intensity;
                 Vector2 orbitDrawPosition1 = drawPosition + (drawPosition.SafeNormalize(Vector2.UnitY) * 10f).RotatedBy(MathHelper.Pi);
                 Vector2 orbitDrawPosition2 = drawPosition - (drawPosition.SafeNormalize(Vector2.UnitY) * 10f).RotatedBy(MathHelper.Pi);
-                Main.EntitySpriteDraw(lightTexture, drawPosition, null, outerColor, 0f, lightTexture.Size() * 0.5f, outerScale * 0.15f, SpriteEffects.None, 0);
-                Main.EntitySpriteDraw(lightTexture, drawPosition, null, innerColor, 0f, lightTexture.Size() * 0.5f, innerScale * 0.15f, SpriteEffects.None, 0);
-                Main.EntitySpriteDraw(lightTexture, orbitDrawPosition1, null, outerColor, 0f, lightTexture.Size() * 0.5f, innerScale * 0.12f, SpriteEffects.None, 0);
-                Main.EntitySpriteDraw(lightTexture, orbitDrawPosition2, null, outerColor, 0f, lightTexture.Size() * 0.5f, innerScale * 0.12f, SpriteEffects.None, 0);
+                if (Projectile.timeLeft > 15)
+                {
+                    Main.EntitySpriteDraw(lightTexture, drawPosition, null, outerColor, 0f, lightTexture.Size() * 0.5f, outerScale * 0.15f, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(lightTexture, drawPosition, null, innerColor, 0f, lightTexture.Size() * 0.5f, innerScale * 0.15f, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(lightTexture, orbitDrawPosition1, null, outerColor, 0f, lightTexture.Size() * 0.5f, innerScale * 0.12f, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(lightTexture, orbitDrawPosition2, null, outerColor, 0f, lightTexture.Size() * 0.5f, innerScale * 0.12f, SpriteEffects.None, 0);
+                }
             }
             return false;
         }
