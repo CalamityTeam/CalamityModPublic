@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public bool HasPlayedSound;
 
-        public const int Lifetime = 60;
+        public const int Lifetime = 45;
 
         // Technically not a ratio, and more of a seed, but it is used in a 0-2pi squash
         // later in the code to get an arbitrary unit vector (which is then checked).
