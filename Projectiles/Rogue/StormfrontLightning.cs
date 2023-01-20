@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         internal PrimitiveTrail LightningDrawer;
 
-        private int noTileHitCounter = 90; //Using other projectile's methods to not collide until a certain time has passed, allowing use inside caves
+        private int noTileHitCounter = 81; //Using other projectile's methods to not collide until a certain time has passed, allowing use inside caves
 
         public bool HasPlayedSound;
 
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetDefaults()
         {
             Projectile.width = 25;
-            Projectile.height = 50;
+            Projectile.height = 25;
             Projectile.alpha = 255;
             Projectile.penetrate =3;
             Projectile.ignoreWater = true;
@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                     turnTries++;
                 }
-                while (turnTries < 50);
+                while (turnTries < 20);
 
                 // Rotation and speed ajustment
                 if (Projectile.velocity != Vector2.Zero)
@@ -153,22 +153,6 @@ namespace CalamityMod.Projectiles.Rogue
             float colorInterpolant = (float)Math.Sin(Projectile.identity / 3f + completionRatio * 20f + Main.GlobalTimeWrappedHourly * 1.1f) * 0.5f + 0.5f;
             Color color = CalamityUtils.MulticolorLerp(colorInterpolant, new Color(Main.rand.Next(20, 100), 204, 250), new Color(Main.rand.Next(20, 100), 204, 250));
             return color;
-        }
-
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            List<Vector2> checkPoints = Projectile.oldPos.Where(oldPos => oldPos != Vector2.Zero).ToList();
-            if (checkPoints.Count <= 5)
-                return false;
-
-            for (int i = 0; i < checkPoints.Count - 1; i++)
-            {
-                float _ = 0f;
-                float width = PrimitiveWidthFunction(i / (float)checkPoints.Count);
-                if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), checkPoints[i], checkPoints[i + 1], width * 0.5f, ref _))
-                    return true;
-            }
-            return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
