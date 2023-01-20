@@ -20,6 +20,7 @@ namespace CalamityMod.Tiles.Crags
             CalamityUtils.MergeWithHell(Type);
             CalamityUtils.SetMerge(Type, ModContent.TileType<BrimstoneSlag>());
 
+            DustType = 155;
             HitSound = SoundID.Dig;
             MineResist = 1f;
             MinPick = 100;

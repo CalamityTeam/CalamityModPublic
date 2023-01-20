@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.Crags.Tree
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Giant Spine");
             AddMapEntry(new Color(38, 25, 27), name);
-            DustType = 155; //idk what to put for the dust
+            DustType = 155;
 			HitSound = SoundID.DD2_SkeletonHurt;
             ItemDrop = ModContent.ItemType<Items.Placeables.ScorchedBone>();
         }
@@ -189,12 +189,12 @@ namespace CalamityMod.Tiles.Crags.Tree
             }
         }
 
-        /*
         public override bool Drop(int i, int j)
         {
+            /*
+            //drop seeds from the top of the tree
             if (Framing.GetTileSafely(i, j).TileFrameX == 36)
             {
-                //drop the custom seeds for this tree
                 int totalSeeds = Main.rand.Next(1, 3);
                 for (int numSeed = 0; numSeed < totalSeeds; numSeed++)
                 {
@@ -202,10 +202,17 @@ namespace CalamityMod.Tiles.Crags.Tree
                     Main.rand.Next(-40, 40) - 66), ModContent.ItemType<CustomTreeSeed>(), Main.rand.Next(1, 5));
                 }
             }
+            */
+
+            //chance to drop extra wood
+            if (Main.rand.NextBool())
+            {
+                Item.NewItem(new EntitySource_TileBreak(i, j), (new Vector2(i, j) * 16) + new Vector2(Main.rand.Next(-46, 46), 
+                Main.rand.Next(-40, 40) - 66), ModContent.ItemType<Items.Placeables.ScorchedBone>(), Main.rand.Next(1, 2));
+            }
 
             return true;
         }
-        */
 
         //this checks the entire tree from bottom to top
         private void CheckEntireTree(ref int x, ref int y)
@@ -315,11 +322,9 @@ namespace CalamityMod.Tiles.Crags.Tree
             if (Framing.GetTileSafely(i, j).TileFrameX == 0)
             {
                 Texture2D segmentTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineBottom").Value;
+                int frame = tile.TileFrameY / 18;
 
-                Vector2 actualPosition = pos - new Vector2(8, 0);
-
-                spriteBatch.Draw(segmentTex, actualPosition, new Rectangle(tile.TileFrameX, tile.TileFrameY, frameSizeX + 16, frameSizeY + 4),
-                new Color(col.R, col.G, col.B, 255), 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+                DrawTreeSegments(i, j, segmentTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), treeSegmentOffset, false);
             }
 
             //draw the different segments of the tree

@@ -28,15 +28,9 @@ namespace CalamityMod.Tiles.Crags.Spike
 			TileObjectData.newTile.DrawYOffset = -3;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 23, 46));
+			DustType = 155;
             HitSound = SoundID.Tink;
 		}
-
-		public override bool CreateDust(int i, int j, ref int type)
-        {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 60, 0f, 0f, 1, new Color(255, 255, 255), 1f);
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(100, 100, 100), 1f);
-            return false;
-        }
     }
 
 	public class CragStalactiteGiant2 : CragStalactiteGiant1
@@ -65,15 +59,9 @@ namespace CalamityMod.Tiles.Crags.Spike
 			TileObjectData.newTile.DrawYOffset = -3;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 23, 46));
+            DustType = 155;
             HitSound = SoundID.Tink;
 		}
-
-		public override bool CreateDust(int i, int j, ref int type)
-        {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 60, 0f, 0f, 1, new Color(255, 255, 255), 1f);
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(100, 100, 100), 1f);
-            return false;
-        }
     }
 
 	public class CragStalactiteLarge2 : CragStalactiteLarge1
@@ -98,15 +86,9 @@ namespace CalamityMod.Tiles.Crags.Spike
 			TileObjectData.newTile.DrawYOffset = -3;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 23, 46));
+            DustType = 155;
             HitSound = SoundID.Tink;
 		}
-
-		public override bool CreateDust(int i, int j, ref int type)
-        {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 60, 0f, 0f, 1, new Color(255, 255, 255), 1f);
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(100, 100, 100), 1f);
-            return false;
-        }
     }
 
 	public class CragStalactiteSmall1 : ModTile
@@ -127,15 +109,9 @@ namespace CalamityMod.Tiles.Crags.Spike
 			TileObjectData.newTile.DrawYOffset = -3;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 23, 46));
+            DustType = 155;
             HitSound = SoundID.Tink;
 		}
-
-		public override bool CreateDust(int i, int j, ref int type)
-        {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 60, 0f, 0f, 1, new Color(255, 255, 255), 1f);
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(100, 100, 100), 1f);
-            return false;
-        }
     }
 
 	public class CragStalactiteSmall2 : CragStalactiteSmall1
@@ -158,14 +134,8 @@ namespace CalamityMod.Tiles.Crags.Spike
 			TileObjectData.newTile.DrawYOffset = -3;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 23, 46));
+            DustType = 155;
             HitSound = SoundID.Tink;
 		}
-
-		public override bool CreateDust(int i, int j, ref int type)
-        {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 60, 0f, 0f, 1, new Color(255, 255, 255), 1f);
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(100, 100, 100), 1f);
-            return false;
-        }
     }
 }

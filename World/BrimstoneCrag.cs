@@ -325,11 +325,10 @@ namespace CalamityMod.World
                         }
 
                         //grow spine tree
-                        //TODO: why are they still spawning in lava i literally checked for liquid please terraria why
-                        if (WorldGen.genRand.Next(12) == 0 && tileUp.LiquidAmount == 0 && !tile.IsHalfBlock && TreeDelay == 0)
+                        if (WorldGen.genRand.Next(12) == 0 && TreeDelay == 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
                         {
                             SpineTree.Spawn(x, y - 1, -1, 22, 28, false, -1, false);
-                            TreeDelay = 12;
+                            TreeDelay = 15;
                         }
                     }
                 }
