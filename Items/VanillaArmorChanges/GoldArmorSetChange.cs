@@ -23,7 +23,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public const float GoldDropChanceFromEnemies = 0.04f;
         public const int GoldFromBosses = 3;
         public const float SetBonusCritPerGoldCoin = 0.2f; // 5 gold coins = +1% crit chance
-        public const int SetBonusMiningSpeedPercent = 25;
 
         public override void ApplyHeadPieceEffect(Player player) => player.GetDamage<GenericDamageClass>() += HeadDamage;
 
@@ -35,7 +34,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             StringBuilder sb = new StringBuilder(256);
             sb.Append("\nAll enemies have a 4% chance to drop 1 gold. All bosses killed drop 3 gold\nYou gain 1% critical strike chance for every 5 gold in your inventory, capped at 10%");
-            sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }
 
@@ -55,7 +53,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
             }
 
             player.GetCritChance<GenericDamageClass>() += critFromGold;
-            player.pickSpeed -= SetBonusMiningSpeedPercent * 0.01f;
         }
     }
 }
