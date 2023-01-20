@@ -310,10 +310,10 @@ namespace CalamityMod.NPCs.AstrumAureus
             Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
             vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-            Color toUse = Main.getGoodWorld && slimePhaseHP ? color36 : drawColor;
+            Color toUse = CalamityMod.Instance.legendaryMode && slimePhaseHP ? color36 : drawColor;
             spriteBatch.Draw(NPCTexture, vector43, frame, NPC.GetAlpha(toUse), rotation, vector11, scale, spriteEffects, 0f);
 
-            if (NPC.ai[0] != 1 || (slimePhaseHP && Main.getGoodWorld)) //draw only if not recharging
+            if (NPC.ai[0] != 1 || (slimePhaseHP && CalamityMod.Instance.legendaryMode)) //draw only if not recharging
             {
                 Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Color.Gold);
                 Color color40 = Color.Lerp(Color.White, color, 0.5f);

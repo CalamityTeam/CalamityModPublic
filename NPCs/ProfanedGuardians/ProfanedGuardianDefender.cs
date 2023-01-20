@@ -435,7 +435,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlowNight").Value;
                 color37 = Color.Cyan;

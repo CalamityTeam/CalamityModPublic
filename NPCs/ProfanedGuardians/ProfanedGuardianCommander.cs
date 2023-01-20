@@ -248,11 +248,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             Player player = Main.player[NPC.target];
 
-            if ((!Main.dayTime && !Main.getGoodWorld) || !player.active || player.dead)
+            if ((!Main.dayTime && !CalamityMod.Instance.legendaryMode) || !player.active || player.dead)
             {
                 NPC.TargetClosest(false);
                 player = Main.player[NPC.target];
-                if ((!Main.dayTime && !Main.getGoodWorld) || !player.active || player.dead)
+                if ((!Main.dayTime && !CalamityMod.Instance.legendaryMode) || !player.active || player.dead)
                 {
                     if (NPC.velocity.Y > 3f)
                         NPC.velocity.Y = 3f;

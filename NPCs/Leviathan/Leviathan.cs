@@ -168,7 +168,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (soundDelay > 0)
                 soundDelay--;
 
-            extrapitch = Main.getGoodWorld ? 0.3f : 0f;
+            extrapitch = CalamityMod.Instance.legendaryMode ? 0.3f : 0f;
 
             if (Main.rand.NextBool(600) && !spawnAnimation)
                 SoundEngine.PlaySound(((sirenAlive && !death) ? soundChoice : soundChoiceRage) with { Pitch = soundChoice.Pitch + extrapitch }, vector);

@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
             int type = ModContent.ProjectileType<CrimsonSpike>();
             int damage = NPC.GetProjectileDamage(type);
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 type = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
             }

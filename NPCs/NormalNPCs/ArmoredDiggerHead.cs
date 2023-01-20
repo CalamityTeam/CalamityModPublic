@@ -461,7 +461,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npcLoot.Add(ModContent.ItemType<MysteriousCircuitry>(), 1, 4, 8);
             npcLoot.Add(ModContent.ItemType<DubiousPlating>(), 1, 4, 8);
             npcLoot.AddIf(() => CalamityMod.Instance.legendaryMode, ModContent.ItemType<UnholyEssence>(), 1, 3, 6);
-            npcLoot.AddIf(() => Main.getGoodWorld, ModContent.ItemType<EnergyStaff>(), 10);
+            npcLoot.AddIf(() => CalamityMod.Instance.legendaryMode, ModContent.ItemType<EnergyStaff>(), 10);
         }
 
         public override void ModifyTypeName(ref string typeName)

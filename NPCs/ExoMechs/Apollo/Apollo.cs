@@ -1285,7 +1285,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     // Reset phase and variables
                     if (calamityGlobalNPC.newAI[2] >= maxCharges - 1)
                     {
-                        if (Main.getGoodWorld && !exoMechdusa)
+                        if (CalamityMod.Instance.legendaryMode && !exoMechdusa)
                         {
                             pickNewLocation = NPC.localAI[2] == 0f;
                             calamityGlobalNPC.newAI[3] = 0f;

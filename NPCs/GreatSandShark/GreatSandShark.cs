@@ -448,7 +448,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                                     Main.dust[num624].velocity.X *= 2f;
                                 }
                                 int spawnX = (int)(NPC.width / 2);
-                                int projType = Main.getGoodWorld ? ModContent.ProjectileType<AstralMeteorProj>() : ModContent.ProjectileType<GreatSandBlast>();
+                                int projType = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<AstralMeteorProj>() : ModContent.ProjectileType<GreatSandBlast>();
                                 for (int sand = 0; sand < 5; sand++)
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (float)Main.rand.Next(-spawnX, spawnX), NPC.Center.Y,
                                         (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-12, -6), projType, 40, 0f, Main.myPlayer);
