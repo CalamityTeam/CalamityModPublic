@@ -137,6 +137,7 @@ namespace CalamityMod.World
                 while (y < Main.maxTilesY)
                 {
                     //check to place the astral meteor on valid tiles, place automatically on ebonstone walls, and avoid platforms
+                    //TODO: at this point just make a list of invalid tiles the meteor cannot be placed on
                     if (((Main.tile[x, y].HasTile && Main.tileSolid[(int)Main.tile[x, y].TileType]) || Main.tile[x, y].WallType == 3) && !TileID.Sets.Platforms[Main.tile[x, y].TileType])
                     {
                         int suitableTiles = 0;
@@ -454,11 +455,12 @@ namespace CalamityMod.World
 
                     // WorldGen.gen prevents NewItem from working, and thus prevents a bunch of dumb items from being spawned immediately and deleting the WoF/Aureus loot in the process.
                     WorldGen.gen = true;
+                    // Add the average height of a tree to the Y position to offset trees usually messing with the calculation.
+                    // Then also add 10 blocks because these things seem to always like to appear standing on the floor.
+                    int finalVerticalOffset = 18;
                     bool place = true;
                     int xOffset = WorldGen.dungeonX < Main.maxTilesX / 2 ? WorldGen.genRand.Next(-80, -40) : WorldGen.genRand.Next(40, 80);
-                    bool _ = true;
-                    //TODO: fix weird issue where it decides to place too high up randomly
-                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i + xOffset, (int)height + 25), SchematicAnchor.Center, ref _);
+                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i + xOffset, (int)height + finalVerticalOffset), SchematicAnchor.Center, ref place);
                     WorldGen.gen = false;
                 }
             }

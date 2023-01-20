@@ -1,5 +1,6 @@
 using CalamityMod.Tiles.Crags;
 using CalamityMod.Tiles.Crags.Spike;
+using CalamityMod.Tiles.Crags.Tree;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Walls;
 using CalamityMod.Schematics;
@@ -25,6 +26,8 @@ namespace CalamityMod.World
 
         static int lavaLakePlaceDelay = 0;
         static int lavaLakeBigPlaceDelay = 0;
+
+        static int TreeDelay = 0;
 
         //basic terrain (sorry for the excessive amount of loops lmao)
         private static void GenCrags()
@@ -273,8 +276,11 @@ namespace CalamityMod.World
             {
                 for (int y = Main.maxTilesY - 200; y <= Main.maxTilesY - 5; y++)
                 {
+                    Tile tile = Main.tile[x, y];
+                    Tile tileUp = Main.tile[x, y - 1];
+
                     //stalactites and stalagmites
-                    if (Main.tile[x, y].TileType == ModContent.TileType<BrimstoneSlag>())
+                    if (tile.TileType == ModContent.TileType<BrimstoneSlag>())
                     {
                         if (WorldGen.genRand.Next(32) == 0)
                         {
@@ -311,6 +317,20 @@ namespace CalamityMod.World
 
                             WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Stalagmites));
                         }
+
+                        //decrease tree delay
+                        if (TreeDelay > 0)
+                        {
+                            TreeDelay--;
+                        }
+
+                        //grow spine tree
+                        //TODO: why are they still spawning in lava i literally checked for liquid please terraria why
+                        if (WorldGen.genRand.Next(12) == 0 && tileUp.LiquidAmount == 0 && !tile.IsHalfBlock && TreeDelay == 0)
+                        {
+                            SpineTree.Spawn(x, y - 1, -1, 22, 28, false, -1, false);
+                            TreeDelay = 12;
+                        }
                     }
                 }
             }
@@ -344,6 +364,7 @@ namespace CalamityMod.World
             {
                 contents.RemoveAt(0);
                 contents.Insert(0, new ChestItem(ModContent.ItemType<Items.Weapons.Melee.BladecrestOathsword>(), 1));
+                contents.Insert(1, new ChestItem(ItemID.HellstoneBar, WorldGen.genRand.Next(2, 5))); //temporary fix since removing the first item also removes hellstone bars
             }
             
             for (int i = 0; i < contents.Count; i++)
