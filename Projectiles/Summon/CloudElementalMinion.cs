@@ -73,9 +73,6 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.spriteDirection = -Projectile.direction;
             }
-            float lightScalar = (float)Main.rand.Next(90, 111) * 0.01f;
-            lightScalar *= Main.essScale;
-            Lighting.AddLight(Projectile.Center, 0.25f * lightScalar, 0.55f * lightScalar, 0.75f * lightScalar);
 
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 6)
@@ -90,6 +87,9 @@ namespace CalamityMod.Projectiles.Summon
 
             if (!modPlayer.cloudWaifuVanity && !modPlayer.allWaifusVanity)
             {
+                float lightScalar = (float)Main.rand.Next(90, 111) * 0.01f;
+                lightScalar *= Main.essScale;
+                Lighting.AddLight(Projectile.Center, 0.25f * lightScalar, 0.55f * lightScalar, 0.75f * lightScalar);
                 Projectile.ChargingMinionAI(500f, 800f, 1200f, 400f, 0, 30f, 8f, 4f, new Vector2(500f, -60f), 40f, 8f, false, true, 1);
             }
             else

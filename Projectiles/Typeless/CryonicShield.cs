@@ -36,6 +36,9 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
+            Player player = Main.player[Projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+
             // Protect against projectile reflection.
             Projectile.friendly = true;
             Projectile.hostile = false;
@@ -44,7 +47,8 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.rotation += MathHelper.Pi / 48f;
 
             Projectile.Center = Owner.Center;
-            Lighting.AddLight(Projectile.Center, Projectile.Opacity * 0.2f, Projectile.Opacity * 0.45f, Projectile.Opacity * 0.5f);
+            if (!modPlayer.CryoStoneVanity)
+                Lighting.AddLight(Projectile.Center, Projectile.Opacity * 0.2f, Projectile.Opacity * 0.45f, Projectile.Opacity * 0.5f);
 
             if (Owner is null || !Owner.active || Owner.dead)
                 Projectile.Kill();

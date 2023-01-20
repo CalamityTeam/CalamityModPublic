@@ -91,9 +91,12 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.spriteDirection = -Projectile.direction;
             }
 
-            float lightScalar = (float)Main.rand.Next(90, 111) * 0.01f;
-            lightScalar *= Main.essScale;
-            Lighting.AddLight(Projectile.Center, 0.7f * lightScalar, 0.6f * lightScalar, 0f * lightScalar);
+            if (!modPlayer.sandBoobWaifuVanity && !modPlayer.allWaifusVanity)
+            {
+                float lightScalar = (float)Main.rand.Next(90, 111) * 0.01f;
+                lightScalar *= Main.essScale;
+                Lighting.AddLight(Projectile.Center, 0.7f * lightScalar, 0.6f * lightScalar, 0f * lightScalar);
+            }
 
             Projectile.MinionAntiClump();
 

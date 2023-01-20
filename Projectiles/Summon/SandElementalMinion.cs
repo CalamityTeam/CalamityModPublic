@@ -78,9 +78,12 @@ namespace CalamityMod.Projectiles.Summon
             float num634 = 800f;
             float num635 = 1200f;
             float num636 = 200f; //150
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight(Projectile.Center, 0.7f * num, 0.6f * num, 0f * num);
+            if (!passive)
+            {
+                float num = (float)Main.rand.Next(90, 111) * 0.01f;
+                num *= Main.essScale;
+                Lighting.AddLight(Projectile.Center, 0.7f * num, 0.6f * num, 0f * num);
+            }
             Projectile.MinionAntiClump();
             Vector2 vector46 = Projectile.position;
             bool flag25 = false;

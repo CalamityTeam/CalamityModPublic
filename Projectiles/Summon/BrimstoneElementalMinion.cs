@@ -81,9 +81,12 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.frame = 0;
             }
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight(Projectile.Center, 1.25f * num, 0f * num, 0.5f * num);
+            if (!passive)
+            {
+                float num = (float)Main.rand.Next(90, 111) * 0.01f;
+                num *= Main.essScale;
+                Lighting.AddLight(Projectile.Center, 1.25f * num, 0f * num, 0.5f * num);
+            }
             if (Math.Abs(Projectile.velocity.X) > 0.2f)
             {
                 Projectile.spriteDirection = -Projectile.direction;

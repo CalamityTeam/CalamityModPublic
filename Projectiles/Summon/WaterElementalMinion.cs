@@ -68,7 +68,9 @@ namespace CalamityMod.Projectiles.Summon
                 dust--;
             }
             bool passive = modPlayer.sirenWaifuVanity || modPlayer.allWaifusVanity;
-            Lighting.AddLight(Projectile.Center, 0f, 0.25f, 1.5f);
+            if (!passive)
+                Lighting.AddLight(Projectile.Center, 0f, 0.25f, 1.5f);
+
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 6)
             {
