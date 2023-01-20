@@ -6,6 +6,8 @@ using Terraria.DataStructures;
 using Terraria.Audio;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.Items.Placeables;
+using CalamityMod.Tiles.Crags;
 using System;
 using System.Linq;
 
@@ -38,10 +40,10 @@ namespace CalamityMod.Tiles.Crags.Tree
             Main.tileBlockLight[Type] = false;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Giant Spine");
-            AddMapEntry(new Color(86, 2, 28), name);
-            DustType = -1; //idk what to put for the dust
+            AddMapEntry(new Color(38, 25, 27), name);
+            DustType = 155; //idk what to put for the dust
 			HitSound = SoundID.DD2_SkeletonHurt;
-            //ItemDrop = ModContent.ItemType<Whatever>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.ScorchedBone>();
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
