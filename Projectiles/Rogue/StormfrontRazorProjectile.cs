@@ -62,6 +62,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            target.AddBuff(BuffID.Electrified, 45);
             if (Main.rand.NextBool(10))
             {
                 int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 226, 0f, 0f, 100, new Color(Main.rand.Next(20, 100), 204, 250), 1f);
@@ -93,6 +94,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+            target.AddBuff(BuffID.Electrified, 45);
             if (Main.rand.NextBool(10))
             {
                 int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 226, 0f, 0f, 100, new Color(Main.rand.Next(20,100), 204, 250), 1f);
