@@ -21,6 +21,7 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.World;
 using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
@@ -2461,6 +2462,15 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
 
             return true;
+        }
+
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            // viable???, done here since it's conditional
+            if (CalamityMod.Instance.legendaryMode && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
+            {
+                damage *= 40;
+            }
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
