@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 return 0f;
             }
             
-            return SpawnCondition.Sky.Chance * 0.05f;
+            return SpawnCondition.Sky.Chance * 0.2f;
         }
 
         public override void HitEffect(int hitDirection, double damage)

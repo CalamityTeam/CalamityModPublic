@@ -127,10 +127,12 @@ namespace CalamityMod.World
             {
                 float worldEdgeMargin = (float)Main.maxTilesX * 0.08f;
                 int xLimit = Main.maxTilesX / 2;
-                int x = Abyss.AtLeftSideOfWorld ? rand.Next(400, xLimit) : rand.Next(xLimit, Main.maxTilesX - 400);
+
+                //limit the astral biome so it cant place past the dungeon
+                int x = Abyss.AtLeftSideOfWorld ? rand.Next(WorldGen.dungeonX + 150, xLimit) : rand.Next(xLimit, WorldGen.dungeonX - 150);
                 while ((float)x > (float)Main.spawnTileX - worldEdgeMargin && (float)x < (float)Main.spawnTileX + worldEdgeMargin)
                 {
-                    x = Abyss.AtLeftSideOfWorld ? rand.Next(400, xLimit) : rand.Next(xLimit, Main.maxTilesX - 400);
+                    x = Abyss.AtLeftSideOfWorld ? rand.Next(WorldGen.dungeonX + 150, xLimit) : rand.Next(xLimit, WorldGen.dungeonX - 150);
                 }
                 //world surface = 920 large 740 medium 560 small
                 int y = (int)(Main.worldSurface * 0.5); //Large = 522, Medium = 444, Small = 336
@@ -399,69 +401,27 @@ namespace CalamityMod.World
                     if (j < 181)
                         j = 181;
 
-                    int checkWidth = 180;
-                    float averageHeight = 0f;
-                    float lowestHeight = 0f;
-
-                    int xAreaToSpawn = i;
-
-                    Dictionary<int, float> xAreaHeightMap = new Dictionary<int, float>();
-
-                    // Gauge the bumpiness of various potential locations.
-                    // The least bumpy one will be selected as the place to spawn the monolith.
-                    for (int tries = 0; tries < 30; tries++)
-                    {
-                        int x = i + Main.rand.Next(-60, 61);
-
-                        // Don't attempt to add duplicate keys.
-                        if (xAreaHeightMap.ContainsKey(x))
-                            continue;
-
-                        float averageRelativeHeight = 0f;
-                        for (int dx = -30; dx <= 30; dx++)
-                        {
-                            WorldUtils.Find(new Point(x + dx, j - 180), Searches.Chain(new Searches.Down(360), new Conditions.IsSolid()), out Point result);
-                            averageRelativeHeight += Math.Abs(result.Y - j);
-                        }
-                        averageRelativeHeight /= 60f;
-                        xAreaHeightMap.Add(x, averageRelativeHeight);
-                    }
-
-                    i = xAreaHeightMap.OrderBy(x => x.Value).First().Key;
-
-                    for (int x = i - checkWidth / 2; x < i + checkWidth / 2; x++)
-                    {
-                        int y = j - 200;
-                        Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
-                        while (!Main.tileSolid[tileAtPosition.TileType] ||
-                            !tileAtPosition.HasTile ||
-                            TileID.Sets.Platforms[tileAtPosition.TileType])
-                        {
-                            y++;
-                            if (y > j - 10)
-                                break;
-                            tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
-                        }
-                        lowestHeight = (int)MathHelper.Max(lowestHeight, y);
-                        averageHeight += y;
-                    }
-                    lowestHeight -= 35f;
-                    averageHeight /= checkWidth;
-                    float height = lowestHeight;
-
-                    // If there's a sudden change between the average and lowest height (which is indicative of holes/chasms), go with the average.
-                    if (Math.Abs(lowestHeight - averageHeight) > 50f)
-                        height = averageHeight;
-
-                    // WorldGen.gen prevents NewItem from working, and thus prevents a bunch of dumb items from being spawned immediately and deleting the WoF/Aureus loot in the process.
-                    WorldGen.gen = true;
-                    // Add the average height of a tree to the Y position to offset trees usually messing with the calculation.
-                    // Then also add 10 blocks because these things seem to always like to appear standing on the floor.
-                    int finalVerticalOffset = 18;
-                    bool place = true;
                     int xOffset = WorldGen.dungeonX < Main.maxTilesX / 2 ? WorldGen.genRand.Next(-80, -40) : WorldGen.genRand.Next(40, 80);
-                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i + xOffset, (int)height + finalVerticalOffset), SchematicAnchor.Center, ref place);
-                    WorldGen.gen = false;
+
+                    bool altarPlaced = false;
+                    while (!altarPlaced)
+                    {
+                        int x = i + xOffset;
+                        int y = j - 100;
+
+                        while (!WorldGen.SolidTile(x, y) && y <= Main.worldSurface)
+                        {
+                            y += 5;
+                        }
+
+                        if (Main.tile[x, y].HasTile || Main.tile[x, y].WallType > 0)
+                        {
+                            bool place = true;
+                            SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(x, y - 5), SchematicAnchor.Center, ref place);
+
+                            altarPlaced = true;
+                        }
+                    }
                 }
             }
             return true;
@@ -1242,7 +1202,7 @@ namespace CalamityMod.World
             if (collapse) //Collapse ensures the ellipse is shrunk down a lot in terms of distance.
             {
                 float distY = center.Y - point.Y;
-                point.Y -= distY * 4f;
+                point.Y -= distY * 3f;
             }
             float distance1 = Vector2.Distance(point, focus1);
             float distance2 = Vector2.Distance(point, focus2);

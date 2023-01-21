@@ -325,17 +325,6 @@ namespace CalamityMod.Projectiles.Pets
                     }
                 }
 
-                /*
-                if (playerDistance < 100f)
-                {
-                    Projectile.rotation += 0.2f * (float)Projectile.direction;
-                }
-                else
-                {
-                    Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
-                }
-                */
-
                 Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
 
                 if (Projectile.Center.X < Main.player[Projectile.owner].Center.X)

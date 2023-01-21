@@ -200,15 +200,6 @@ namespace CalamityMod.World
                 }
             }
 
-            //clean up any lava above a certain threshold to prevent the biome's surface from being flooded
-            for (int x = biomeStart; x <= biomeEdge; x++)
-            {
-                for (int y = Main.maxTilesY - 150; y <= Main.maxTilesY - 125; y++)
-                {
-                    Main.tile[x, y].LiquidAmount = 0;
-                }
-            }
-
             //spread grass on all scorched remains
             for (int x = biomeStart; x <= biomeEdge; x++)
             {
@@ -247,6 +238,7 @@ namespace CalamityMod.World
                 }
             }
 
+            //place bridge in the center of the biome
             bool firstItem = false;
             SchematicManager.PlaceSchematic(SchematicManager.CragBridgeKey, new Point(biomeMiddle, Main.maxTilesY - 100),
             SchematicAnchor.Center, ref firstItem, new Action<Chest, int, bool>(FillBrimstoneChests));
@@ -261,6 +253,15 @@ namespace CalamityMod.World
                         tile.LiquidType = LiquidID.Lava;
                         tile.LiquidAmount = 255;
                     }
+                }
+            }
+
+            //clean up any lava above a certain threshold to prevent the biome's surface from being flooded
+            for (int x = biomeStart; x <= biomeEdge; x++)
+            {
+                for (int y = Main.maxTilesY - 150; y <= Main.maxTilesY - 122; y++)
+                {
+                    Main.tile[x, y].LiquidAmount = 0;
                 }
             }
         }
@@ -348,7 +349,7 @@ namespace CalamityMod.World
             int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.ObsidianSkinPotion, ItemID.BattlePotion, ItemID.InfernoPotion, ItemID.PotionOfReturn);
             List<ChestItem> contents = new List<ChestItem>()
             {
-                new ChestItem(ItemID.HellstoneBar, WorldGen.genRand.Next(2, 5)),
+                new ChestItem(ItemID.HellstoneBar, WorldGen.genRand.Next(4, 6)),
                 new ChestItem(ModContent.ItemType<Items.Materials.DemonicBoneAsh>(), WorldGen.genRand.Next(4, 15)),
                 new ChestItem(ModContent.ItemType<Items.Fishing.BrimstoneCragCatches.CoastalDemonfish>(), WorldGen.genRand.Next(2, 5)),
                 new ChestItem(ItemID.HellfireArrow, WorldGen.genRand.Next(25, 50)),
@@ -363,7 +364,8 @@ namespace CalamityMod.World
             {
                 contents.RemoveAt(0);
                 contents.Insert(0, new ChestItem(ModContent.ItemType<Items.Weapons.Melee.BladecrestOathsword>(), 1));
-                contents.Insert(1, new ChestItem(ItemID.HellstoneBar, WorldGen.genRand.Next(2, 5))); //temporary fix since removing the first item also removes hellstone bars
+                //re-add hellstone bars to the list since removing the first item also removes hellstone bars for some reason
+                contents.Insert(1, new ChestItem(ItemID.HellstoneBar, WorldGen.genRand.Next(2, 5)));
             }
             
             for (int i = 0; i < contents.Count; i++)

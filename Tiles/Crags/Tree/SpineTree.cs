@@ -342,8 +342,8 @@ namespace CalamityMod.Tiles.Crags.Tree
                 int frame = tile.TileFrameY / 18;
 
                 //branch drawing stuff
-                Texture2D leftBranchTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineRibLeft").Value;
-                Texture2D rightBranchTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineRibRight").Value;
+                Texture2D leftBranchTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineRib1Left").Value;
+                Texture2D rightBranchTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineRib1Right").Value;
 
                 Vector2 leftBranchOffset = new Vector2((xOff * 2) - (frameOff / 2) + 50, 14);
                 Vector2 rightBranchOffset = new Vector2((xOff * 2) - (frameOff / 2) + 4, 14);
