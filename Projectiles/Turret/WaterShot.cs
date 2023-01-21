@@ -1,11 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
-using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.Projectiles.Turret
 {
@@ -36,6 +34,8 @@ namespace CalamityMod.Projectiles.Turret
             Projectile.penetrate = 4;
             Projectile.extraUpdates = 4;
             Projectile.timeLeft = 240;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
 
@@ -56,23 +56,6 @@ namespace CalamityMod.Projectiles.Turret
             if (TrailLength > MaxTrailPoints)
             {
                 TrailLength = MaxTrailPoints;
-            }
-        }
-
-        public void CheckCollision()
-        {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                var source = Main.player[Main.myPlayer].GetSource_FromThis();
-                for (int i = 0; i < Main.maxNPCs; i++)
-                {
-                    NPC target = Main.npc[i];
-                    if (Projectile.position.X < target.position.X + target.width && Projectile.position.X + Projectile.width > target.position.X && Projectile.position.Y < target.position.Y + target.height && Projectile.position.Y + Projectile.height > target.position.Y && Projectile.penetrate > 0 && target.active && !target.immortal)
-                    {
-                        Projectile.NewProjectile(source, target.Center, new Vector2(0f), ModContent.ProjectileType<DirectStrike>(), Projectile.damage, Projectile.knockBack, Main.myPlayer, i);
-                        Projectile.penetrate--;
-                    }
-                }
             }
         }
 

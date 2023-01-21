@@ -15,7 +15,7 @@ namespace CalamityMod.TileEntities
         public override int HostTileHeight => PlayerWaterTurret.Height;
 
         // Projectile variables
-        public override int ProjectileType => ModContent.ProjectileType<WaterShot>();
+        public override int ProjectileType => ModContent.ProjectileType<WaterShotBuffer>();
         public override int ProjectileDamage => 23;
         public override float ProjectileKnockback => 6.5f;
         public override float ShootSpeed => 5f;
@@ -86,7 +86,7 @@ namespace CalamityMod.TileEntities
             for (int i = 0; i < Main.maxNPCs; ++i)
             {
                 NPC npc = Main.npc[i];
-                if (!npc.active)
+                if (!npc.active || npc.friendly || npc.CountsAsACritter)
                     continue;
 
                 float distSQ = npc.DistanceSQ(targetingCenter);
