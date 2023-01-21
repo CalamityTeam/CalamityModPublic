@@ -29,10 +29,11 @@ namespace CalamityMod.Projectiles.Turret
         {
             Projectile.width = 6;
             Projectile.height = 6;
+            Projectile.friendly = true;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = 4;
             Projectile.extraUpdates = 4;
             Projectile.timeLeft = 240;
         }
@@ -40,7 +41,7 @@ namespace CalamityMod.Projectiles.Turret
 
         public override void AI()
         {
-            CheckCollision();
+            //CheckCollision();
             if (Projectile.localAI[0] == 0f)
             {
                 // play a sound frame 1. changed this from space gun sound because that sound was way too annoying
@@ -60,13 +61,13 @@ namespace CalamityMod.Projectiles.Turret
 
         public void CheckCollision()
         {
-            if (Main.netMode == NetmodeID.SinglePlayer || Main.netMode == NetmodeID.Server)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 var source = Main.player[Main.myPlayer].GetSource_FromThis();
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC target = Main.npc[i];
-                    if (Projectile.position.X < target.position.X + target.width && Projectile.position.X + Projectile.width > target.position.X && Projectile.position.Y < target.position.Y + target.height && Projectile.position.Y + Projectile.height > target.position.Y && Projectile.penetrate > 0)
+                    if (Projectile.position.X < target.position.X + target.width && Projectile.position.X + Projectile.width > target.position.X && Projectile.position.Y < target.position.Y + target.height && Projectile.position.Y + Projectile.height > target.position.Y && Projectile.penetrate > 0 && target.active && !target.immortal)
                     {
                         Projectile.NewProjectile(source, target.Center, new Vector2(0f), ModContent.ProjectileType<DirectStrike>(), Projectile.damage, Projectile.knockBack, Main.myPlayer, i);
                         Projectile.penetrate--;
@@ -74,6 +75,7 @@ namespace CalamityMod.Projectiles.Turret
                 }
             }
         }
+
         public override Color? GetAlpha(Color lightColor) => new Color(255, 190, 255, 0);
 
         public override bool PreDraw(ref Color lightColor) => Projectile.DrawBeam(MaxTrailPoints, 1.5f, lightColor);
