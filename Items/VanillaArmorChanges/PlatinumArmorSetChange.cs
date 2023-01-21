@@ -21,7 +21,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public const float SetBonusLifeRegenPerDefense = 0.0666667f; // 15 defense = +1 life regen
         public const float SetBonusCritPerDefense = 0.0666667f; // 15 defense = +1% crit chance
         public const int SetBonusDefenseCap = 45;
-        public const int SetBonusMiningSpeedPercent = 25;
 
         public override void ApplyHeadPieceEffect(Player player) => player.GetDamage<GenericDamageClass>() += HeadDamage;
 
@@ -33,7 +32,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             StringBuilder sb = new StringBuilder(256);
             sb.Append("\nEvery 15 defense gives you +1 life regen and 1% increased critical strike chance\nThese effects both cap at 45 defense");
-            sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }
 
@@ -44,7 +42,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
                 defense = SetBonusDefenseCap;
             player.lifeRegen += (int)(defense * SetBonusLifeRegenPerDefense);
             player.GetCritChance<GenericDamageClass>() += defense * SetBonusCritPerDefense;
-            player.pickSpeed -= SetBonusMiningSpeedPercent * 0.01f;
         }
     }
 }

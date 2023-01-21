@@ -20,7 +20,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public const float LegsMoveSpeed = 0.05f;
         public const float SetBonusFlatDamage = 2.0f;
         public const float SetBonusMoveSpeed = 0.1f;
-        public const int SetBonusMiningSpeedPercent = 25;
 
         public override void ApplyHeadPieceEffect(Player player) => player.GetDamage<GenericDamageClass>() += HeadDamage;
 
@@ -32,7 +31,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             StringBuilder sb = new StringBuilder(256);
             sb.Append("\nIncreases all damage by 2\n10% increased movement speed");
-            sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }
 
@@ -40,7 +38,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             player.GetDamage<GenericDamageClass>().Flat += SetBonusFlatDamage;
             player.moveSpeed += SetBonusMoveSpeed;
-            player.pickSpeed -= SetBonusMiningSpeedPercent * 0.01f;
         }
     }
 }

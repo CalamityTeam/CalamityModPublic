@@ -22,11 +22,11 @@ namespace CalamityMod.Projectiles.Rogue
     {
         internal PrimitiveTrail LightningDrawer;
 
-        private int noTileHitCounter = 90; //Using other projectile's methods to not collide until a certain time has passed, allowing use inside caves
+        private int noTileHitCounter = 81; //Using other projectile's methods to not collide until a certain time has passed, allowing use inside caves
 
         public bool HasPlayedSound;
 
-        public const int Lifetime = 60;
+        public const int Lifetime = 45;
 
         // Technically not a ratio, and more of a seed, but it is used in a 0-2pi squash
         // later in the code to get an arbitrary unit vector (which is then checked).
@@ -45,8 +45,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            Projectile.width = 15;
-            Projectile.height = 22;
+            Projectile.width = 25;
+            Projectile.height = 25;
             Projectile.alpha = 255;
             Projectile.penetrate =3;
             Projectile.ignoreWater = true;
@@ -80,6 +80,14 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.tileCollide = true;
             }
 
+            //dust sparks are now a feature
+            if (Main.rand.NextBool(10))
+            {
+                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 226, 0f, 0f, 100, new Color(Main.rand.Next(20, 100), 204, 250), 1f);
+                Main.dust[d].scale += (float)Main.rand.Next(50) * 0.01f;
+                Main.dust[d].noGravity = true;
+                Main.dust[d].position = Projectile.Center;
+            }
 
             // FrameCounter in this context is really just an arbitrary timer
             // which allows random turning to occur.
@@ -98,7 +106,7 @@ namespace CalamityMod.Projectiles.Rogue
                 HasPlayedSound = true;
             }
 
-            Lighting.AddLight(Projectile.Center, Color.White.ToVector3());
+            Lighting.AddLight(Projectile.Center, new Color(Main.rand.Next(20, 100), 204, 250).ToVector3());
             if (Projectile.frameCounter >= Projectile.extraUpdates * 2)
             {
                 Projectile.frameCounter = 0;
@@ -120,11 +128,11 @@ namespace CalamityMod.Projectiles.Rogue
 
                     // Potential directions with very little Y speed should not be considered, because this
                     // consequentially means that the X speed would be quite large.
-                    if (potentialBaseDirection.Y > -0.25f)
+                    if (potentialBaseDirection.Y > -0.2f)
                         canChangeLightningDirection = false;
 
                     //No very fast X speeds either, its gotta hit at least consistently y'know
-                    if (potentialBaseDirection.X < -0.25f || potentialBaseDirection.X > 0.25f)
+                    if (potentialBaseDirection.X < -0.2f || potentialBaseDirection.X > 0.2f)
                         canChangeLightningDirection = false;
 
                     // If the above checks were all passed, redefine the base direction of the lightning.
@@ -133,7 +141,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                     turnTries++;
                 }
-                while (turnTries < 50);
+                while (turnTries < 20);
 
                 // Rotation and speed ajustment
                 if (Projectile.velocity != Vector2.Zero)
@@ -155,32 +163,18 @@ namespace CalamityMod.Projectiles.Rogue
             return color;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            List<Vector2> checkPoints = Projectile.oldPos.Where(oldPos => oldPos != Vector2.Zero).ToList();
-            if (checkPoints.Count <= 3)
-                return false;
-
-            for (int i = 0; i < checkPoints.Count - 1; i++)
-            {
-                float _ = 0f;
-                float width = PrimitiveWidthFunction(i / (float)checkPoints.Count);
-                if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), checkPoints[i], checkPoints[i + 1], width * 0.8f, ref _))
-                    return true;
-            }
-            return false;
-        }
-
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
-            target.AddBuff(BuffID.Electrified, 180);
+            target.AddBuff(BuffID.Electrified, 120);
+            Sparks();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
-            target.AddBuff(BuffID.Electrified, 180);
+            target.AddBuff(BuffID.Electrified, 120);
+            Sparks();
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -192,23 +186,29 @@ namespace CalamityMod.Projectiles.Rogue
             GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].UseImage1("Images/Misc/Perlin");
             GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].Apply();
 
-            LightningDrawer.Draw(Projectile.oldPos, Projectile.Size * 2f - Main.screenPosition, 10);
+            LightningDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.3f - Main.screenPosition, 10);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCHit53, Projectile.Center);
+            Sparks();
+        }
+        public void Sparks()
+        {
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int index = 0; index < 4; index++)
                 {
-                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(-100f, 10f, 200f, 0.01f);
                     //Visual sparks on death
-                    Vector2 sparkS = new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(0f, 10f));
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Stormfrontspark>(), 0, 3f, Projectile.owner);
+                    Vector2 sparkS = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-10f, 0f));
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Stormfrontspark>(), 0, 0f, Projectile.owner);
                 }
             }
         }
     }
+
+
 }
