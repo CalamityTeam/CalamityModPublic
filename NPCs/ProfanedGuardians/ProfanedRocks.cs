@@ -40,9 +40,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             AIType = -1;
             NPC.GetNPCDamage();
             NPC.dontTakeDamage = true;
-            NPC.width = 30;
-            NPC.height = 30;
-            NPC.scale = 1.5f;
+            NPC.width = 50;
+            NPC.height = 50;
             NPC.defense = 100;
             NPC.lifeMax = BossRushEvent.BossRushActive ? MaxBossRushHP : MaxHP;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -139,8 +138,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             bool death = CalamityWorld.death || bossRush;
 
             // Spin and fly at the target
-            if (Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] != 0f)
+            if ((Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] != 0f && Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[1] >= -60f) || NPC.Calamity().newAI[0] < 0f)
             {
+                // For safety, always remain in this section of code regardless of what the defender is currently doing
+                if (NPC.Calamity().newAI[0] > -1f)
+                    NPC.Calamity().newAI[0] = -1f;
+
                 // Get the Guardian Commander's target
                 Player player = Main.player[Main.npc[CalamityGlobalNPC.doughnutBoss].target];
 
@@ -150,8 +153,20 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 float fallDownGateValue = maxChargeDistance / chargeSpeed;
 
                 // Fall down after some time and blow up if inside tiles
-                if (NPC.Calamity().newAI[0] == -2f)
+                if (NPC.Calamity().newAI[0] == -3f)
                 {
+                    // Accelerate towards final velocity
+                    Vector2 finalVelocity = new Vector2(NPC.Calamity().newAI[2], NPC.Calamity().newAI[3]);
+                    if (NPC.velocity.Length() < finalVelocity.Length())
+                    {
+                        NPC.velocity *= 1.05f;
+                        if (NPC.velocity.Length() > finalVelocity.Length())
+                        {
+                            NPC.velocity.Normalize();
+                            NPC.velocity *= finalVelocity.Length();
+                        }
+                    }
+
                     NPC.rotation += 0.25f;
                     NPC.Calamity().newAI[1] += 1f;
                     if (NPC.Calamity().newAI[1] >= fallDownGateValue)
@@ -174,11 +189,15 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 // Charge
-                else if (NPC.Calamity().newAI[0] == -1f)
+                else if (NPC.Calamity().newAI[0] == -2f)
                 {
-                    NPC.velocity = NPC.SafeDirectionTo(player.Center, -Vector2.UnitY) * chargeSpeed;
+                    // Start off slow
+                    Vector2 finalVelocity = NPC.SafeDirectionTo(player.Center, -Vector2.UnitY) * chargeSpeed;
+                    NPC.Calamity().newAI[2] = finalVelocity.X;
+                    NPC.Calamity().newAI[3] = finalVelocity.Y;
+                    NPC.velocity = finalVelocity * 0.1f;
                     NPC.rotation += 0.25f;
-                    NPC.Calamity().newAI[0] = -2f;
+                    NPC.Calamity().newAI[0] = -3f;
                     NPC.netUpdate = true;
                 }
 
@@ -196,7 +215,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         {
                             if (i != NPC.whoAmI && Main.npc[i].type == NPC.type)
                             {
-                                if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < 32f * NPC.scale)
+                                if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < 80f)
                                 {
                                     if (NPC.position.X < Main.npc[i].position.X)
                                         NPC.velocity.X -= pushVelocity;
@@ -224,7 +243,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     if (NPC.Calamity().newAI[1] >= chargeGateValue)
                     {
                         NPC.netUpdate = true;
-                        NPC.Calamity().newAI[0] = -1f;
+                        NPC.Calamity().newAI[0] = -2f;
                         NPC.Calamity().newAI[1] = 0f;
                     }
                 }
@@ -313,7 +332,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= (NPC.ai[2] == 6f ? 10f : 14f) * NPC.scale;
+            return minDist <= (NPC.ai[2] == 6f ? 16f : 22f);
         }
 
         public override bool CheckDead() => false;

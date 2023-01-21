@@ -117,6 +117,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 return;
             }
 
+            // Projectile and dust spawn location variables
+            Vector2 dustAndProjectileOffset = new Vector2(40f * NPC.direction, 20f);
+            Vector2 shootFrom = NPC.Center + dustAndProjectileOffset;
+
             // Rotation
             NPC.rotation = NPC.velocity.X * 0.005f;
 
@@ -142,7 +146,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     healTimer++;
                     if (healTimer >= healGateValue)
                     {
-                        SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+                        SoundEngine.PlaySound(SoundID.Item8, shootFrom);
 
                         int maxHealDustIterations = (int)distanceFromHealer;
                         int maxDust = 100;
@@ -150,8 +154,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         if (dustDivisor < 2)
                             dustDivisor = 2;
 
-                        Vector2 dustLineStart = Main.npc[CalamityGlobalNPC.doughnutBossHealer].Center;
-                        Vector2 dustLineEnd = NPC.Center;
+                        Vector2 healDustOffset = new Vector2(40f * Main.npc[CalamityGlobalNPC.doughnutBossHealer].direction, 20f);
+                        Vector2 dustLineStart = Main.npc[CalamityGlobalNPC.doughnutBossHealer].Center + healDustOffset;
+                        Vector2 dustLineEnd = shootFrom;
                         Vector2 currentDustPos = default;
                         Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(MathHelper.Pi);
                         Vector2 value5 = new Vector2(2.1f, 2f);
@@ -238,23 +243,81 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             bool phase1 = healerAlive;
 
+            // Phase durations
+            float commanderGuardPhase2Duration = (bossRush || biomeEnraged) ? 420f : death ? 480f : revenge ? 510f : expertMode ? 540f : 600f;
+            float throwRocksGateValue = 60f;
+
             // Spawn rock shield
-            if (NPC.localAI[0] == 0f)
+            bool respawnRocksInPhase2 = NPC.ai[1] == -commanderGuardPhase2Duration;
+            int rockTypes = 6;
+            int maxRocks = respawnRocksInPhase2 ? 18 : 36;
+            int rockRings = 3;
+            int totalRocksPerRing = maxRocks / rockRings;
+            int spacing = 360 / totalRocksPerRing;
+            int distance2 = 80;
+            bool justSpawnedRocks = false;
+            if (NPC.localAI[0] == 0f || respawnRocksInPhase2)
             {
+                justSpawnedRocks = true;
                 NPC.localAI[0] = 1f;
-                int totalRocks = 12;
-                int spacing = 360 / totalRocks;
-                int distance2 = 80;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    for (int i = 0; i < totalRocks; i++)
+                    for (int i = 0; i < totalRocksPerRing; i++)
                     {
-                        int rockType = Main.rand.Next(1, 7);
+                        int rockType = Main.rand.Next(rockTypes) + 1;
                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.Center.X + (Math.Sin(i * spacing) * distance2)), (int)(NPC.Center.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<ProfanedRocks>(), NPC.whoAmI, i * spacing, 0f, rockType, 0f);
-                        rockType = Main.rand.Next(1, 7);
+                        rockType = Main.rand.Next(rockTypes) + 1;
                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.Center.X + (Math.Sin(i * spacing) * distance2)), (int)(NPC.Center.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<ProfanedRocks>(), NPC.whoAmI, i * spacing, 1f, rockType, 0f);
-                        rockType = Main.rand.Next(1, 7);
+                        rockType = Main.rand.Next(rockTypes) + 1;
                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.Center.X + (Math.Sin(i * spacing) * distance2)), (int)(NPC.Center.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<ProfanedRocks>(), NPC.whoAmI, i * spacing, 2f, rockType, 0f);
+                    }
+                }
+            }
+
+            // Generate new rock shields if too many are broken in phase 1
+            if (phase1)
+            {
+                int minRocks = maxRocks / 2;
+                int numRockShields = NPC.CountNPCS(ModContent.NPCType<ProfanedRocks>());
+                if (numRockShields < minRocks)
+                {
+                    justSpawnedRocks = true;
+                    totalRocksPerRing = minRocks / rockRings;
+                    spacing = 360 / totalRocksPerRing;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        for (int i = 0; i < totalRocksPerRing; i++)
+                        {
+                            int rockType = Main.rand.Next(rockTypes) + 1;
+                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.Center.X + (Math.Sin(i * spacing) * distance2)), (int)(NPC.Center.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<ProfanedRocks>(), NPC.whoAmI, i * spacing, 0f, rockType, 0f);
+                            rockType = Main.rand.Next(rockTypes) + 1;
+                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.Center.X + (Math.Sin(i * spacing) * distance2)), (int)(NPC.Center.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<ProfanedRocks>(), NPC.whoAmI, i * spacing, 1f, rockType, 0f);
+                            rockType = Main.rand.Next(rockTypes) + 1;
+                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.Center.X + (Math.Sin(i * spacing) * distance2)), (int)(NPC.Center.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<ProfanedRocks>(), NPC.whoAmI, i * spacing, 2f, rockType, 0f);
+                        }
+                    }
+                }
+            }
+
+            // Spawn three dust circles and play noise whenever rock shields are spawned
+            if (justSpawnedRocks)
+            {
+                // Meteor Staff use sound and dust circles
+                SoundEngine.PlaySound(SoundID.Item88, NPC.Center);
+                int totalDust = maxRocks;
+                for (int j = 0; j < rockRings; j++)
+                {
+                    for (int k = 0; k < totalDust; k++)
+                    {
+                        Vector2 dustSpawnPos = NPC.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(80f, 160f) * 0.75f;
+                        dustSpawnPos = dustSpawnPos.RotatedBy((double)((k - (totalDust / 2 - 1)) * MathHelper.TwoPi / totalDust), default) + NPC.Center;
+                        Vector2 dustVelocity = dustSpawnPos - NPC.Center;
+                        Color dustColor = Main.hslToRgb(Main.rgbToHsl(Color.Orange).X, 1f, 0.5f);
+                        dustColor.A = 255;
+                        int dust = Dust.NewDust(dustSpawnPos + dustVelocity, 0, 0, 267, dustVelocity.X, dustVelocity.Y, 0, dustColor, 1.4f);
+                        Main.dust[dust].noGravity = true;
+                        Main.dust[dust].noLight = true;
+                        Main.dust[dust].velocity = dustVelocity * (j * 0.1f + 0.1f);
                     }
                 }
             }
@@ -277,6 +340,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             if (NPC.ai[0] == 0f)
             {
+                // Face the target
                 if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
                 {
                     float playerLocation = NPC.Center.X - player.Center.X;
@@ -292,11 +356,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         NPC.velocity = Vector2.Zero;
 
                     NPC.ai[3] += 1f;
-                    float phaseGateValue = 60f;
-                    if (NPC.ai[3] >= phaseGateValue)
+                    if (NPC.ai[3] >= throwRocksGateValue)
                     {
                         Vector2 targetVector = player.Center - NPC.Center;
                         NPC.ai[0] = 1f;
+                        NPC.ai[1] = 0f;
                         NPC.ai[2] = targetVector.X;
                         NPC.ai[3] = targetVector.Y;
                         NPC.netUpdate = true;
@@ -305,6 +369,26 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     return;
                 }
 
+                // Lay a holy bomb every once in a while in phase 1
+                float projectileShootGateValue = (bossRush || biomeEnraged) ? 360f : death ? 400f : revenge ? 420f : expertMode ? 440f : 480f;
+                NPC.ai[1] += 1f;
+                if (NPC.ai[1] >= projectileShootGateValue)
+                {
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        float projectileVelocityY = NPC.velocity.Y;
+                        if (projectileVelocityY < 0f)
+                            projectileVelocityY = 0f;
+
+                        projectileVelocityY += expertMode ? 4f : 3f;
+                        Vector2 projectileVelocity = new Vector2(NPC.velocity.X * 0.25f, projectileVelocityY);
+                        int type = ModContent.ProjectileType<HolyBomb>();
+                        int damage = NPC.GetProjectileDamage(type);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, projectileVelocity, type, damage, 0f, Main.myPlayer);
+                    }
+                }
+
+                // Defend the commander
                 Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center - NPC.Center;
                 Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f);
                 if (distanceFromDestination.Length() > 80f)
@@ -318,8 +402,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 else
                     NPC.velocity *= 0.98f;
             }
+
+            // Phase 2
+            // Throw rocks, charge, summon holy bombs and shoot molten blasts
             else if (NPC.ai[0] == 1f)
             {
+                // Face the target
                 if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
                 {
                     float playerLocation = NPC.Center.X - player.Center.X;
@@ -327,16 +415,87 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.spriteDirection = NPC.direction;
                 }
 
-                NPC.velocity *= 0.8f;
-                if (Main.getGoodWorld)
-                    NPC.velocity *= 0.5f;
-
-                float chargeGateValue = 18f;
-                if (Main.getGoodWorld)
-                    chargeGateValue *= 0.25f;
-
+                // Slow down and throw any remaining rocks just before charging
                 NPC.ai[1] += 1f;
-                if (NPC.ai[1] >= chargeGateValue)
+                if (NPC.ai[1] >= -throwRocksGateValue)
+                {
+                    NPC.velocity *= 0.8f;
+                    if (Main.getGoodWorld)
+                        NPC.velocity *= 0.5f;
+                }
+
+                // Defend the commander
+                else
+                {
+                    // Shoot molten blasts
+                    int moltenBlastsDivisor = 4;
+                    float shootMoltenBlastsGateValue = commanderGuardPhase2Duration / moltenBlastsDivisor;
+                    if (NPC.ai[1] % shootMoltenBlastsGateValue == 0f)
+                    {
+                        float moltenBlastVelocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                        Vector2 velocity = Vector2.Normalize(player.Center - shootFrom) * moltenBlastVelocity;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            int type = ModContent.ProjectileType<MoltenBlast>();
+                            int damage = NPC.GetProjectileDamage(type);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, velocity, type, damage, 0f, Main.myPlayer);
+                                Main.projectile[proj].timeLeft = 180;
+                            }
+                        }
+
+                        // Dust for blasting out the molten blasts
+                        for (int i = 0; i < 50; i++)
+                        {
+                            int dustID;
+                            switch (Main.rand.Next(6))
+                            {
+                                case 0:
+                                case 1:
+                                case 2:
+                                case 3:
+                                    dustID = (int)CalamityDusts.ProfanedFire;
+                                    break;
+                                default:
+                                    dustID = DustID.OrangeTorch;
+                                    break;
+                            }
+
+                            // Choose a random speed and angle to blast the fire out
+                            float dustSpeed = Main.rand.NextFloat(moltenBlastVelocity * 0.5f, moltenBlastVelocity);
+                            float angleRandom = 0.06f;
+                            Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(velocity.ToRotation());
+                            dustVel = dustVel.RotatedBy(-angleRandom);
+                            dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
+
+                            // Pick a size for the fire particles
+                            float scale = Main.rand.NextFloat(1f, 2f);
+
+                            // Actually spawn the fire
+                            int idx = Dust.NewDust(shootFrom, 42, 42, dustID, dustVel.X, dustVel.Y, 0, default, scale);
+                            Main.dust[idx].noGravity = true;
+                        }
+
+                        NPC.velocity = -velocity * 0.5f;
+                    }
+
+                    Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center - NPC.Center;
+                    Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f);
+                    if (distanceFromDestination.Length() > 80f)
+                    {
+                        float inertia = 25f;
+                        if (Main.getGoodWorld)
+                            inertia *= 0.8f;
+
+                        NPC.velocity = (NPC.velocity * (inertia - 1) + desiredVelocity) / inertia;
+                    }
+                    else
+                        NPC.velocity *= 0.98f;
+                }
+
+                // Charge at target
+                if (NPC.ai[1] >= 0f)
                 {
                     NPC.ai[0] = 2f;
                     NPC.ai[1] = 0f;
@@ -347,43 +506,37 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         velocity *= 1.15f;
 
                     NPC.velocity = velocity;
+
+                    // Dust ring and sound right as charge begins
+                    SoundEngine.PlaySound(SoundID.Item20, shootFrom);
+                    int totalDust = 36;
+                    for (int k = 0; k < totalDust; k++)
+                    {
+                        Vector2 dustSpawnPos = NPC.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(80f, 160f) * 0.75f;
+                        dustSpawnPos = dustSpawnPos.RotatedBy((double)((k - (totalDust / 2 - 1)) * MathHelper.TwoPi / totalDust), default) + shootFrom;
+                        Vector2 dustVelocity = dustSpawnPos - shootFrom;
+                        int dust = Dust.NewDust(dustSpawnPos + dustVelocity, 0, 0, (int)CalamityDusts.ProfanedFire, dustVelocity.X, dustVelocity.Y, 0, default, 1f);
+                        Main.dust[dust].noGravity = true;
+                        Main.dust[dust].noLight = true;
+                        Main.dust[dust].scale = 3f;
+                        Main.dust[dust].velocity = dustVelocity * 0.3f;
+                    }
                 }
             }
+
+            // Charge at the target and spawn holy bombs
             else if (NPC.ai[0] == 2f)
             {
                 if (Math.Sign(NPC.velocity.X) != 0)
                     NPC.spriteDirection = -Math.Sign(NPC.velocity.X);
                 NPC.spriteDirection = Math.Sign(NPC.velocity.X);
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    NPC.localAI[1] += 1f;
-                    float projectileGateValue = (bossRush || biomeEnraged) ? 30f : death ? 40f : revenge ? 45f : expertMode ? 50f : 60f;
-                    if (NPC.localAI[1] >= projectileGateValue && Vector2.Distance(NPC.Center, player.Center) > 160f)
-                    {
-                        NPC.localAI[1] = 0f;
-
-                        SoundEngine.PlaySound(SoundID.Item20, NPC.position);
-
-                        /*float velocity = 5f;
-                        int totalProjectiles = 6;
-                        float radians = MathHelper.TwoPi / totalProjectiles;
-                        int type = ModContent.ProjectileType<ProfanedSpear>();
-                        int damage = NPC.GetProjectileDamage(type);
-                        for (int i = 0; i < totalProjectiles; i++)
-                        {
-                            Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
-                        }*/
-                    }
-                }
-
                 NPC.ai[1] += 1f;
                 float phaseGateValue = (bossRush || biomeEnraged) ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
                 if (NPC.ai[1] >= phaseGateValue)
                 {
                     NPC.ai[0] = 3f;
-                    NPC.ai[1] = 24f;
+                    NPC.ai[1] = 60f;
                     NPC.ai[2] = 0f;
                     NPC.ai[3] = 0f;
                     NPC.velocity /= 2f;
@@ -391,12 +544,33 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
                 else
                 {
+                    // Lay holy bombs while charging
+                    int projectileGateValue = (int)(phaseGateValue * 0.4f);
+                    if (NPC.ai[1] % projectileGateValue == 0f)
+                    {
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            float projectileVelocityY = NPC.velocity.Y;
+                            if (projectileVelocityY < 0f)
+                                projectileVelocityY = 0f;
+
+                            projectileVelocityY += expertMode ? 4f : 3f;
+                            Vector2 projectileVelocity = new Vector2(NPC.velocity.X * 0.25f, projectileVelocityY);
+                            int type = ModContent.ProjectileType<HolyBomb>();
+                            int damage = NPC.GetProjectileDamage(type);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, projectileVelocity, type, damage, 0f, Main.myPlayer);
+                        }
+                    }
+
+                    // Charge towards target
                     Vector2 targetVector = (player.Center - NPC.Center).SafeNormalize(new Vector2(NPC.direction, 0f));
                     float inertia = (bossRush || biomeEnraged) ? 35f : death ? 40f : revenge ? 42f : expertMode ? 45f : 50f;
                     float num1006 = 0.111111117f * inertia;
                     NPC.velocity = (NPC.velocity * (inertia - 1f) + targetVector * (NPC.velocity.Length() + num1006)) / inertia;
                 }
             }
+
+            // Slow down and pause for a bit
             else if (NPC.ai[0] == 3f)
             {
                 if (Math.Sign(NPC.velocity.X) != 0)
@@ -408,14 +582,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 {
                     Vector2 targetVector = player.Center - NPC.Center;
                     NPC.ai[0] = 1f;
-                    NPC.ai[1] = 0f;
+                    NPC.ai[1] = -commanderGuardPhase2Duration;
                     NPC.ai[2] = targetVector.X;
                     NPC.ai[3] = targetVector.Y;
                     NPC.TargetClosest();
                     NPC.netUpdate = true;
                 }
 
-                NPC.velocity *= 0.9f;
+                NPC.velocity *= 0.95f;
             }
         }
 

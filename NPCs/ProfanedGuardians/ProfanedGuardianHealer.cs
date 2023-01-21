@@ -138,6 +138,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 return;
             }
 
+            Vector2 dustAndProjectileOffset = new Vector2(40f * NPC.direction, 20f);
+            Vector2 shootFrom = NPC.Center + dustAndProjectileOffset;
+
             // Rotation
             NPC.rotation = NPC.velocity.X * 0.005f;
 
@@ -203,7 +206,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     for (int k = 0; k < totalProjectiles; k++)
                     {
                         Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity2, type, 0, 0f, Main.myPlayer, 0f, damage);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, velocity2, type, 0, 0f, Main.myPlayer, 0f, damage);
                     }
                     NPC.ai[2] = 0f;
                 }
@@ -226,8 +229,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             Vector2 destination = player.Center + (useCrystalShards ? Vector2.Zero : Vector2.UnitX * player.velocity.SafeNormalize(new Vector2(NPC.direction, 0f)).X * 400f) + Vector2.UnitY * -400f;
             Vector2 distanceFromDestination = destination - NPC.Center;
             Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
-            Vector2 dustAndProjectileOffset = new Vector2(40f * NPC.direction, 20f);
-            Vector2 shootFrom = NPC.Center + dustAndProjectileOffset;
 
             // Fire crystal rain similar to Providence's Crystal attack
             if (useCrystalShards)
@@ -334,7 +335,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             int maxDust = 3;
                             for (int k = 0; k < maxDust; k++)
                             {
-                                int dust = Dust.NewDust(NPC.Center, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
+                                int dust = Dust.NewDust(shootFrom, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
                                 Main.dust[dust].position = shootFrom;
                                 Main.dust[dust].velocity = vector2 * starVelocity * (k * 0.5f + 1f);
                                 Main.dust[dust].noGravity = true;

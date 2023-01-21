@@ -14,8 +14,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class HolyBomb : ModProjectile
     {
-        private int flareShootTimer = 120;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Bomb");
@@ -34,16 +32,6 @@ namespace CalamityMod.Projectiles.Boss
             CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(flareShootTimer);
-        }
-
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            flareShootTimer = reader.ReadInt32();
-        }
-
         public override void AI()
         {
             //Day mode by default but syncs with the boss
@@ -59,9 +47,9 @@ namespace CalamityMod.Projectiles.Boss
             }
             else
                 Projectile.maxPenetrate = (int)Providence.BossMode.Day;
-                
-            flareShootTimer--;
-            if (flareShootTimer <= 0)
+
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] % 120f == 0f)
             {
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
 
@@ -84,8 +72,6 @@ namespace CalamityMod.Projectiles.Boss
 
                 if (Projectile.owner == Main.myPlayer)
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, velocityY, ModContent.ProjectileType<HolyFlare>(), (int)Math.Round(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner, 0f, 0f);
-
-                flareShootTimer = 60;
             }
 
             if (Projectile.ai[1] == 0f)

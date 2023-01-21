@@ -115,6 +115,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 1.1f, 0.9f, 0f);
 
+            // Projectile and dust spawn location variables
+            Vector2 dustAndProjectileOffset = new Vector2(40f * NPC.direction, 20f);
+            Vector2 shootFrom = NPC.Center + dustAndProjectileOffset;
+
             // Rotation
             NPC.rotation = NPC.velocity.X * 0.005f;
 
@@ -175,7 +179,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     healTimer++;
                     if (healTimer >= healGateValue)
                     {
-                        SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+                        SoundEngine.PlaySound(SoundID.Item8, shootFrom);
 
                         int maxHealDustIterations = (int)distanceFromHealer;
                         int maxDust = 100;
@@ -183,8 +187,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         if (dustDivisor < 2)
                             dustDivisor = 2;
 
-                        Vector2 dustLineStart = Main.npc[CalamityGlobalNPC.doughnutBossHealer].Center;
-                        Vector2 dustLineEnd = NPC.Center;
+                        Vector2 healDustOffset = new Vector2(40f * Main.npc[CalamityGlobalNPC.doughnutBossHealer].direction, 20f);
+                        Vector2 dustLineStart = Main.npc[CalamityGlobalNPC.doughnutBossHealer].Center + healDustOffset;
+                        Vector2 dustLineEnd = shootFrom;
                         Vector2 currentDustPos = default;
                         Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(MathHelper.Pi);
                         Vector2 value5 = new Vector2(2.1f, 2f);
@@ -298,11 +303,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             bool phase1 = healerAlive || defenderAlive;
             
-            float inertia = (bossRush || biomeEnraged) ? 45f : death ? 50f : revenge ? 52f : expertMode ? 55f : 60f;
+            float inertia = (bossRush || biomeEnraged) ? 50f : death ? 60f : revenge ? 65f : expertMode ? 70f : 80f;
             if (lifeRatio < 0.5f)
                 inertia *= 0.8f;
             if (!phase1)
-                inertia *= 0.8f;
+                inertia *= 0.75f;
             if (Main.getGoodWorld)
                 inertia *= 0.8f;
 
@@ -310,6 +315,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             if (NPC.ai[0] == 0f)
             {
+                // Face the target
                 if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
                 {
                     float playerLocation = NPC.Center.X - player.Center.X;
@@ -339,42 +345,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     if (!phase1)
                         NPC.ai[3] += 1f;
 
-                    /*if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        float divisor = (bossRush || biomeEnraged) ? 30f : death ? 40f : revenge ? 44f : expertMode ? 50f : 60f;
-                        if (Main.getGoodWorld && healerAlive) // move to zenith seed later
-                            divisor += 30;
-                        if (!phase1)
-                            divisor = (float)Math.Round(divisor * 0.8f);
-
-                        if (NPC.ai[3] % divisor == 0f)
-                        {
-                            SoundEngine.PlaySound(SoundID.Item20, NPC.position);
-
-                            int type = ModContent.ProjectileType<FlareDust>();
-                            if (Main.getGoodWorld && Main.rand.NextBool(4)) // move to zenith seed later
-                                type = ModContent.ProjectileType<HolyFlare>();
-
-                            int damage = NPC.GetProjectileDamage(type);
-                            Vector2 projectileVelocity = Vector2.Normalize(player.Center - vectorCenter);
-                            int numProj = death ? 3 : 2;
-                            int spread = !phase1 ? 15 : death ? 30 : 20;
-
-                            if (Main.getGoodWorld)
-                            {
-                                numProj *= 2;
-                                spread *= 3;
-                            }
-
-                            float rotation = MathHelper.ToRadians(spread);
-                            for (int i = 0; i < numProj; i++)
-                            {
-                                Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                                Vector2 normalizedPerturbedSpeed = Vector2.Normalize(perturbedSpeed);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter, normalizedPerturbedSpeed * NPC.velocity.Length() * 1.25f, type, damage, 0f, Main.myPlayer, 3f, 0f);
-                            }
-                        }
-                    }*/
+                    
                 }
                 else
                 {
@@ -433,40 +404,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                         SoundEngine.PlaySound(SoundID.Item20, NPC.position);
 
-                        /*int totalProjectiles = phase1 ? 6 : 10;
-                        float velocity = phase1 ? 5f : 6f;
-                        int type = ModContent.ProjectileType<ProfanedSpear>();
-                        int damage = NPC.GetProjectileDamage(type);
-
-                        switch (spearType)
-                        {
-                            case 0:
-                                break;
-                            case 1:
-                                totalProjectiles = phase1 ? 10 : 15;
-                                velocity = phase1 ? 4f : 5f;
-                                break;
-                            case 2:
-                                totalProjectiles = phase1 ? 5 : 7;
-                                velocity = phase1 ? 6f : 7f;
-                                break;
-                            default:
-                                break;
-                        }
-
-                        if (bossRush || biomeEnraged)
-                            totalProjectiles *= 2;
-
-                        float radians = MathHelper.TwoPi / totalProjectiles;
-                        for (int i = 0; i < totalProjectiles; i++)
-                        {
-                            Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
-                        }
-
-                        spearType++;
-                        if (spearType > 2)
-                            spearType = 0;*/
+                        
                     }
                 }
 
