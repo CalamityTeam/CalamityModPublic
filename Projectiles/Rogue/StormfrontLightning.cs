@@ -80,6 +80,14 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.tileCollide = true;
             }
 
+            //dust sparks are now a feature
+            if (Main.rand.NextBool(10))
+            {
+                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 226, 0f, 0f, 100, new Color(Main.rand.Next(20, 100), 204, 250), 1f);
+                Main.dust[d].scale += (float)Main.rand.Next(50) * 0.01f;
+                Main.dust[d].noGravity = true;
+                Main.dust[d].position = Projectile.Center;
+            }
 
             // FrameCounter in this context is really just an arbitrary timer
             // which allows random turning to occur.
@@ -159,12 +167,14 @@ namespace CalamityMod.Projectiles.Rogue
         {
             SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
             target.AddBuff(BuffID.Electrified, 120);
+            Sparks();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
             target.AddBuff(BuffID.Electrified, 120);
+            Sparks();
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -183,16 +193,22 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCHit53, Projectile.Center);
+            Sparks();
+        }
+        public void Sparks()
+        {
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int index = 0; index < 4; index++)
                 {
-                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(-100f, 10f, 200f, 0.01f);
                     //Visual sparks on death
-                    Vector2 sparkS = new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(0f, 10f));
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Stormfrontspark>(), 0, 3f, Projectile.owner);
+                    Vector2 sparkS = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-10f, 0f));
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Stormfrontspark>(), 0, 0f, Projectile.owner);
                 }
             }
         }
     }
+
+
 }
