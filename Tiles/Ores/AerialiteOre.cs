@@ -37,5 +37,10 @@ namespace CalamityMod.Tiles.Ores
         {
             num = fail ? 1 : 3;
         }
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            TileFraming.CustomMergeFrame(i, j, Type, TileID.Cloud);
+            return false;
+        }
     }
 }
