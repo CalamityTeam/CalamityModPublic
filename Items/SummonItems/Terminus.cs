@@ -11,9 +11,7 @@ namespace CalamityMod.Items.SummonItems
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Terminus");
-            Tooltip.SetDefault("A ritualistic artifact, thought to have brought upon The End many millennia ago\n" +
-                                "Sealed away in the abyss, far from those that would seek to misuse it\n" +
-                                "Activates Boss Rush Mode, using it again will deactivate Boss Rush Mode\n" +
+            Tooltip.SetDefault("Activates Boss Rush Mode, using it again will deactivate Boss Rush Mode\n" +
                                 "During the Boss Rush, all wires and wired devices will be disabled");
         }
 

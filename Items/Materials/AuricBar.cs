@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Materials
             ItemID.Sets.ItemNoGravity[Item.type] = true;
 
             DisplayName.SetDefault("Auric Bar");
-            Tooltip.SetDefault("Godlike power emanates from the metal");
+            Tooltip.SetDefault("Boundless power emanates from the metal");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 120;
         }
 
