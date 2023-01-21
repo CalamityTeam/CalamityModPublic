@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.Yharon
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Perhaps… the last of its kind. It could decimate this Jungle in an instant if it wished, however, it seems to take great care in not doing so.")
+				new FlavorTextBestiaryInfoElement("The loyal companion of the God-Hunter, they possess immense power compared to the Dragons of the past. This is likely partly due to fighting and training by their master's side.")
             });
         }
 

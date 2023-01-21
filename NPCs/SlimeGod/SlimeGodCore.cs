@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("This creature could easily be confused for a giant amoeba. It seems to be developing past the limitations of a usual slime, thanks to all the compacted biomass it contains.")
+				new FlavorTextBestiaryInfoElement("This God is rather evasive and relies on tricky and strategic retreats due to its relatively minor strength among the Gods. It prefers to be protected rather than be in combat fighting.")
             });
         }
 

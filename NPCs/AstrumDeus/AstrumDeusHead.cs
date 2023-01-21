@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("The fragments of the star god’s corpse still hold some of their former power, and even after succumbing to a dark infection, then being torn apart by an upstart worm, they willfully seek to return to the stars.")
+                new FlavorTextBestiaryInfoElement("Revered as a God of the stars, it has been infected by the starborne illness. However, it has now been broken free from the infection's control and roams the stars once more, consuming dying stars and birthing them anew.")
             });
         }
 

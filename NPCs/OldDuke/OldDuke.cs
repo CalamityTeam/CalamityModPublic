@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.OldDuke
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Despite appearing old and decrepit, it clings to life. It does not seem native to the polluted sea, yet it has taken its place as its apex predator.")
+                new FlavorTextBestiaryInfoElement("One of the first descendants of the Dragons, its reign as the apex sea monster has been long forgotten. However, its power is still immense due to its heritage.")
             });
         }
 

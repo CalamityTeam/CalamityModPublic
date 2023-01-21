@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.Leviathan
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A gargantuan marine reptile that has lurked the ocean depths for almost a millennium. It is unknown if she is the last of her kind, and as despicable as it is, let us pray that she is.")
+				new FlavorTextBestiaryInfoElement("A gargantuan marine reptile that lurks the ocean depths along with the Water Elemental, Anahita. It is unknown if she is the last of her kind, or was simply manifested into existence like her master.")
             });
         }
 

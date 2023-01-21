@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 //Change the info part in his entry when we do the critter barter
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("The Sea King of an ancient civilization long lost to the sands of time— and the desert. He is able to give useful advice on the world around you, having lived for so long. He also used to like clams.")
+				new FlavorTextBestiaryInfoElement("The Sea King of an ancient civilization long lost to the sands of time— and the desert. He is able to give useful advice on the world around you, having lived for so long.")
             });
         }
 
