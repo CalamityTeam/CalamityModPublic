@@ -79,10 +79,6 @@ namespace CalamityMod.NPCs.Crabulon
                 NPC.scale *= 1.5f;
                 NPC.defense += 12;
             }
-            if (CalamityMod.Instance.legendaryMode)
-            {
-                NPC.lifeMax *= 2;
-            }
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -192,12 +188,6 @@ namespace CalamityMod.NPCs.Crabulon
 
             if (Main.getGoodWorld)
                 enrageScale += 0.5f;
-
-            if (CalamityMod.Instance.legendaryMode && Main.netMode != NetmodeID.Server)
-            {
-                if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<Trippy>(), 2);
-            }
 
             if (NPC.ai[0] < 2f)
             {
@@ -777,12 +767,7 @@ namespace CalamityMod.NPCs.Crabulon
             }
         }
 
-        public override Color? GetAlpha(Color drawColor)
-        {
-            Color lightColor = Color.Lime * drawColor.A;
-            Color newColor = CalamityMod.Instance.legendaryMode ? lightColor : new Color(255, 255, 255, drawColor.A);
-            return newColor * NPC.Opacity;
-        }
+        public override Color? GetAlpha(Color drawColor) => CalamityMod.Instance.legendaryMode ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, NPC.alpha) : new Color(255, 255, 255, NPC.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -790,61 +775,50 @@ namespace CalamityMod.NPCs.Crabulon
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D glow = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonGlow").Value;
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAlt").Value;
-            Texture2D textureGlow = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAltGlow").Value;
+            Texture2D textureIdle = TextureAssets.Npc[NPC.type].Value;
+            Texture2D glowIdle = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonGlow").Value;
+            Texture2D textureWalk = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAlt").Value;
+            Texture2D glowWalk = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAltGlow").Value;
             Texture2D textureAttack = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAttack").Value;
-            Texture2D textureAttackGlow = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAttackGlow").Value;
+            Texture2D glowAttack = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAttackGlow").Value;
+            Color colorToShift = CalamityMod.Instance.legendaryMode ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) : Color.Cyan;
+            Color glowColor = Color.Lerp(Color.White, colorToShift, 0.5f);
 
-            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2(TextureAssets.Npc[NPC.type].Value.Width, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
-
-            // Jumping
-            if (NPC.ai[0] > 1f)
+            int ClonesOnEachSide = CalamityMod.Instance.legendaryMode ? 2 : 0;
+            for (int c = 0 - ClonesOnEachSide; c < 1 + ClonesOnEachSide; c++)
             {
-                if (NPC.velocity.Y == 0f && NPC.ai[1] >= 0f && NPC.ai[0] == 2f)
+                Vector2 drawOrigin = new Vector2(textureIdle.Width / 2, textureIdle.Height / Main.npcFrameCount[NPC.type] / 2);
+                Vector2 drawPos = NPC.Center - screenPos + (Vector2.UnitX * textureIdle.Width * c * 1.6f);
+                // Jumping
+                if (NPC.ai[0] > 2f && NPC.velocity.Y != 0f)
                 {
-                    spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    drawOrigin = new Vector2(textureAttack.Width / 2, textureAttack.Height / 2);
+                    drawPos -= new Vector2(textureAttack.Width, textureAttack.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                    drawPos += drawOrigin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
 
-                    spriteBatch.Draw(glow, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    spriteBatch.Draw(textureAttack, drawPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
+                    spriteBatch.Draw(glowAttack, drawPos, NPC.frame, glowColor, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
                 }
+                // Walking
+                else if (NPC.ai[0] == 1f)
+                {
+                    drawOrigin = new Vector2(textureWalk.Width / 2, textureWalk.Height / 2);
+                    drawPos -= new Vector2(textureWalk.Width, textureWalk.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                    drawPos += drawOrigin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+
+                    spriteBatch.Draw(textureWalk, drawPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
+                    spriteBatch.Draw(glowWalk, drawPos, NPC.frame, glowColor, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
+                }
+                // Standing still
                 else
                 {
-                    vector11 = new Vector2(textureAttack.Width / 2, textureAttack.Height / 2);
-                    vector43 = NPC.Center - screenPos;
-                    vector43 -= new Vector2(textureAttack.Width, textureAttack.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-                    vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    drawPos -= new Vector2(textureIdle.Width, textureIdle.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                    drawPos += drawOrigin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
 
-                    spriteBatch.Draw(textureAttack, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-
-                    spriteBatch.Draw(textureAttackGlow, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    spriteBatch.Draw(textureIdle, drawPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
+                    spriteBatch.Draw(glowIdle, drawPos, NPC.frame, glowColor, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
                 }
             }
-
-            // Walking
-            else if (NPC.ai[0] == 1f)
-            {
-                vector11 = new Vector2(texture.Width / 2, texture.Height / 2);
-                vector43 = NPC.Center - screenPos;
-                vector43 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-                vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-
-                spriteBatch.Draw(texture, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-
-                spriteBatch.Draw(textureGlow, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-            }
-
-            // Standing still
-            else
-            {
-                spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-
-                spriteBatch.Draw(glow, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-            }
-
             return false;
         }
 
