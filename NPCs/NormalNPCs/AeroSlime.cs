@@ -51,12 +51,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.PlayerSafe || (!DownedBossSystem.downedHiveMind && !DownedBossSystem.downedPerforator) || spawnInfo.Player.Calamity().ZoneAbyss ||
-                spawnInfo.Player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.PlayerSafe || (!DownedBossSystem.downedHiveMind && !DownedBossSystem.downedPerforator))
             {
                 return 0f;
             }
-            return SpawnCondition.Cavern.Chance * 0.05f;
+            
+            return SpawnCondition.Sky.Chance * 0.05f;
         }
 
         public override void HitEffect(int hitDirection, double damage)

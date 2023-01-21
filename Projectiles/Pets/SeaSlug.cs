@@ -1,19 +1,30 @@
 ﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using System;
+
 namespace CalamityMod.Projectiles.Pets
 {
-    public class EidolonSnail : ModProjectile
+    public class SeaSlug : ModProjectile
     {
         private int playerStill = 0;
         private bool fly = false;
         private int idleTimer = 0;
 
+        private Form SeaSlugColor = Form.Normal;
+        private enum Form
+        {
+            Normal,
+            Sulphur,
+            Abyss,
+			Sunken,
+        }
+
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Escargidolon Snail");
+            DisplayName.SetDefault("Sea Slug");
             Main.projFrames[Projectile.type] = 6;
             Main.projPet[Projectile.type] = true;
         }
@@ -21,12 +32,78 @@ namespace CalamityMod.Projectiles.Pets
         public override void SetDefaults()
         {
             Projectile.netImportant = true;
-            Projectile.width = 62;
-            Projectile.height = 36;
+            Projectile.width = 54;
+            Projectile.height = 38;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft *= 5;
             Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+        }
+
+        private void UpdateColor(Player player)
+        {
+            if (player.InSulphur())
+            {
+                SeaSlugColor = Form.Sulphur;
+            }
+            else if (player.InAbyss())
+            {
+                SeaSlugColor = Form.Abyss;
+            }
+            else if (player.InSunkenSea())
+            {
+                SeaSlugColor = Form.Sunken;
+            }
+            else 
+            {
+                SeaSlugColor = Form.Normal;
+            }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Drawing(lightColor, ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlug").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugSulphur").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugAbyss").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugSunken").Value);
+            return false;
+        }
+
+        public override void PostDraw(Color lightColor)
+        {
+            Drawing(Color.White, ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlug_Glow").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugSulphur_Glow").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugAbyss_Glow").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugSunken_Glow").Value);
+        }
+
+        private void Drawing(Color color, Texture2D normal, Texture2D sulphur, Texture2D abyss, Texture2D sunken)
+        {
+            Texture2D texture = normal;
+            switch (SeaSlugColor)
+            {
+                case Form.Normal:
+                    texture = normal;
+                    break;
+                case Form.Sulphur:
+                    texture = sulphur;
+                    break;
+                case Form.Abyss:
+                    texture = abyss;
+                    break;
+                case Form.Sunken:
+                    texture = sunken;
+                    break;
+            }
+
+            int height = texture.Height / Main.projFrames[Projectile.type];
+            int frameHeight = height * Projectile.frame;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, Projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), Projectile.scale, spriteEffects, 0);
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -50,12 +127,14 @@ namespace CalamityMod.Projectiles.Pets
             CalamityPlayer modPlayer = player.Calamity();
             if (player.dead)
             {
-                modPlayer.eidolonSnailPet = false;
+                modPlayer.seaSlugPet = false;
             }
-            if (modPlayer.eidolonSnailPet)
+            if (modPlayer.seaSlugPet)
             {
                 Projectile.timeLeft = 2;
             }
+
+            UpdateColor(player);
 
             Vector2 vector46 = Projectile.position;
             if (!fly)
@@ -246,14 +325,18 @@ namespace CalamityMod.Projectiles.Pets
                     }
                 }
 
+                /*
                 if (playerDistance < 100f)
                 {
                     Projectile.rotation += 0.2f * (float)Projectile.direction;
                 }
                 else
                 {
-                    Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.05f * (float)Projectile.direction;
+                    Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
                 }
+                */
+
+                Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
 
                 if (Projectile.Center.X < Main.player[Projectile.owner].Center.X)
                 {
@@ -269,7 +352,7 @@ namespace CalamityMod.Projectiles.Pets
             }
         }
 
-        private bool HoleBelow() //pretty much the same as the one used in mantis
+        private bool HoleBelow()
         {
             int tileWidth = 4;
             int tileX = (int)(Projectile.Center.X / 16f) - tileWidth;

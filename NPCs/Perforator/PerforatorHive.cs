@@ -521,7 +521,7 @@ namespace CalamityMod.NPCs.Perforator
             {
                 string key = "Mods.CalamityMod.SkyOreText";
                 Color messageColor = Color.Cyan;
-                CalamityUtils.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, 0.5f, 0.7f, 3, 8);
+                SpawnAerialiteOre();
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
@@ -529,6 +529,24 @@ namespace CalamityMod.NPCs.Perforator
             // Mark The Perforator Hive as dead
             DownedBossSystem.downedPerforator = true;
             CalamityNetcode.SyncWorld();
+        }
+
+        //i love making a separate method since ore runner does not work on clouds :)
+        public static void SpawnAerialiteOre()
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                for (int x = 5; x < Main.maxTilesX - 5; x++) 
+                {
+                    for (int y = 5; y < 300; y++) 
+                    {
+                        if (WorldGen.genRand.Next(350) == 0 && Main.tile[x, y].TileType == TileID.Cloud) 
+                        {
+                            CalamityUtils.NaturalCircle(x, y, WorldGen.genRand.Next(1, 4), ModContent.TileType<AerialiteOre>());
+                        }
+                    }
+                }
+            }
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)

@@ -11,7 +11,7 @@ namespace CalamityMod.Localization
         {
             _localizations = new[]
             {
-                new [] { "SkyOreText", "The ground is glittering with cyan light." },
+                new [] { "SkyOreText", "The sky is glittering with cyan light." },
                 new [] { "IceOreText", "The ice caves are crackling with frigid energy." },
                 new [] { "PlantOreText", "Energized plant matter has formed in the underground." },
                 new [] { "TreeOreText", "Fossilized tree bark is bursting through the jungle's mud." },

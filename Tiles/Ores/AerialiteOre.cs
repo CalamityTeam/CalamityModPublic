@@ -19,6 +19,10 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.OreMergesWithMud[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.SetMerge(Type, TileID.Cloud);
+
+            TileID.Sets.ChecksForMerge[Type] = true;
+
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Aerialite");

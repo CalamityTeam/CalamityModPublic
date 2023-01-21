@@ -77,7 +77,7 @@ namespace CalamityMod.World
                     tileDown.TileType != ModContent.TileType<BrimstoneSlag>() || tileLeft.TileType != ModContent.TileType<BrimstoneSlag>() || 
                     tileRight.TileType != ModContent.TileType<BrimstoneSlag>()))
                     {
-                        NaturalCircle(x, y, WorldGen.genRand.Next(5, 22), ModContent.TileType<BrimstoneSlag>());
+                        CalamityUtils.NaturalCircle(x, y, WorldGen.genRand.Next(5, 22), ModContent.TileType<BrimstoneSlag>());
                     }
                 }
             }
@@ -98,7 +98,7 @@ namespace CalamityMod.World
                 {
                     if (WorldGen.genRand.Next(25) == 0)
                     {
-                        NaturalCircle(x, y, WorldGen.genRand.Next(5, 15), ModContent.TileType<BrimstoneSlag>());
+                        CalamityUtils.NaturalCircle(x, y, WorldGen.genRand.Next(5, 15), ModContent.TileType<BrimstoneSlag>());
                     }
                 }
             }
@@ -435,30 +435,6 @@ namespace CalamityMod.World
             distance = distance1 + distance2;
             return distance <= distanceConstant;
         }
-
-        //place a circular clump of tiles
-        public static void NaturalCircle(int i, int j, int size, int tileType)
-		{
-			int BaseRadius = size;
-			int radius = BaseRadius;
-
-			for (int y = j - radius; y <= j + radius; y++)
-			{
-				for (int x = i - radius; x <= i + radius + 1; x++)
-				{
-					if ((int)Vector2.Distance(new Vector2(x, y), new Vector2(i, j)) <= radius && WorldGen.InWorld(x, y))
-                    {
-						Tile tile = Framing.GetTileSafely(x, y);
-
-                        WorldGen.KillTile(x, y);
-                        WorldGen.PlaceTile(x, y, tileType);
-                        tile.Slope = 0;
-                    }
-				}
-
-				radius = BaseRadius - WorldGen.genRand.Next(-1, 2);
-			}
-		}
 
         public static void GenAllCragsStuff()
         {

@@ -5,7 +5,6 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Pets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -453,7 +452,6 @@ namespace CalamityMod.NPCs.Abyss
 
             // 30-40 Voidstone
             aewMinionCondition.Add(ModContent.ItemType<Voidstone>(), 1, 30, 40);
-            aewMinionCondition.Add(ModContent.ItemType<AbyssShell>(), 20);
 
             // Post-Polterghast: Soul Edge, Eidolic Wail, Stardust Staff
             LeadingConditionRule postPolter = npcLoot.DefineConditionalDropSet(DropHelper.PostPolter());
