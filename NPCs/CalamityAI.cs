@@ -5584,7 +5584,7 @@ namespace CalamityMod.NPCs
                     value44.Normalize();
                     value44 *= scaleFactor20;
                     npc.velocity = (npc.velocity * (num1377 - 1f) + value44) / num1377;
-                    if (Main.getGoodWorld)
+                    if (Main.getGoodWorld && !CalamityMod.Instance.legendaryMode)
                         npc.velocity *= 1.15f;
                 }
                 else if (npc.velocity.Length() > 2f)
@@ -5634,7 +5634,7 @@ namespace CalamityMod.NPCs
                     value45.Normalize();
                     value45 *= scaleFactor21;
                     npc.velocity = (npc.velocity * (num1378 - 1f) + value45) / num1378;
-                    if (Main.getGoodWorld)
+                    if (Main.getGoodWorld && !CalamityMod.Instance.legendaryMode)
                         npc.velocity *= 1.15f;
 
                     npc.netSpam = 5;
@@ -5663,7 +5663,7 @@ namespace CalamityMod.NPCs
                     vector242.Normalize();
                     vector242 *= scaleFactor22;
                     npc.velocity = (npc.velocity * (num1379 - 1f) + vector242) / num1379;
-                    if (Main.getGoodWorld)
+                    if (Main.getGoodWorld && !CalamityMod.Instance.legendaryMode)
                         npc.velocity *= 1.15f;
 
                     if (npc.velocity.X < 0f)
@@ -5679,7 +5679,7 @@ namespace CalamityMod.NPCs
                     if (npc.ai[1] > 10f)
                     {
                         npc.velocity = vector242;
-                        if (Main.getGoodWorld)
+                        if (Main.getGoodWorld && !CalamityMod.Instance.legendaryMode)
                             npc.velocity *= 1.15f;
 
                         if (npc.velocity.X < 0f)
