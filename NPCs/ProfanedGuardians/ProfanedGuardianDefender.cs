@@ -245,10 +245,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             // Phase durations
             float commanderGuardPhase2Duration = (bossRush || biomeEnraged) ? 420f : death ? 480f : revenge ? 510f : expertMode ? 540f : 600f;
+            float timeBeforeRocksRespawnInPhase2 = 90f;
             float throwRocksGateValue = 60f;
 
             // Spawn rock shield
-            bool respawnRocksInPhase2 = NPC.ai[1] == -commanderGuardPhase2Duration;
+            bool respawnRocksInPhase2 = NPC.ai[1] == -commanderGuardPhase2Duration + timeBeforeRocksRespawnInPhase2;
             int rockTypes = 6;
             int maxRocks = respawnRocksInPhase2 ? 18 : 36;
             int rockRings = 3;

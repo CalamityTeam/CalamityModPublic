@@ -332,27 +332,64 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Vector2 targetVector = destination - NPC.Center;
                 Vector2 desiredVelocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
                 float phaseGateValue = (bossRush || biomeEnraged) ? 50f : death ? 66f : revenge ? 75f : expertMode ? 83f : 100f;
-                if (defenderAlive)
-                    phaseGateValue *= 1.5f;
 
-                if (NPC.ai[3] < phaseGateValue || phase1)
+                if (phase1)
                 {
+                    // Move towards destination
                     if (Vector2.Distance(NPC.Center, destination) > 80f)
                         NPC.velocity = (NPC.velocity * (inertia - 1f) + desiredVelocity) / inertia;
                     else
                         NPC.velocity *= 0.98f;
 
-                    if (!phase1)
-                        NPC.ai[3] += 1f;
+                    // Fire a few extra spears and holy fires after the healer is dead and the defender is defending the commander
+                    bool fireExtraSpears = false;
+                    if (defenderAlive)
+                    {
+                        if (Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] == 1f)
+                            fireExtraSpears = true;
+                    }
 
-                    
+                    // Alternate between firing profaned spears and holy fire
+                    NPC.ai[3] += 1f;
+                    float projectileShootGateValue = (bossRush || biomeEnraged) ? 50f : death ? 66f : revenge ? 75f : expertMode ? 83f : 100f;
+                    if (NPC.ai[3] % projectileShootGateValue == 0f)
+                    {
+                        bool shootSpears = NPC.ai[3] % (projectileShootGateValue * 2f) == 0f;
+                        float spearVelocity = (bossRush || biomeEnraged) ? 11f : death ? 10f : revenge ? 9.5f : expertMode ? 9f : 8f;
+                        Vector2 finalSpearVelocity = Vector2.Normalize(player.Center - shootFrom) * spearVelocity;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            int type = shootSpears ? ModContent.ProjectileType<ProfanedSpear>() : ModContent.ProjectileType<HolyFire>();
+                            int damage = NPC.GetProjectileDamage(type);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, finalSpearVelocity, type, damage, 0f, Main.myPlayer);
+                            if (fireExtraSpears)
+                            {
+                                int baseProjectileAmt = (bossRush || biomeEnraged) ? 4 : 2;
+                                int spread = (bossRush || biomeEnraged) ? 18 : 10;
+                                float rotation = MathHelper.ToRadians(spread);
+                                for (int i = 0; i < baseProjectileAmt; i++)
+                                {
+                                    Vector2 perturbedSpeed = finalSpearVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(baseProjectileAmt - 1)));
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                }
+                            }
+                        }
+                    }
                 }
                 else
                 {
-                    NPC.ai[0] = 1f;
-                    NPC.ai[2] = targetVector.X;
-                    NPC.ai[3] = targetVector.Y;
-                    NPC.netUpdate = true;
+                    // Slow down and transition to final phase
+                    if (NPC.ai[1] >= phaseGateValue)
+                    {
+                        NPC.ai[0] = 1f;
+                        NPC.ai[2] = targetVector.X;
+                        NPC.ai[3] = targetVector.Y;
+                        NPC.netUpdate = true;
+                    }
+                    else
+                        NPC.ai[1] += 1f;
+
+                    NPC.velocity *= 0.98f;
                 }
             }
             else if (NPC.ai[0] == 1f)

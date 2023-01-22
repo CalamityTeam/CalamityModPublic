@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.SummonItems;
@@ -577,7 +577,8 @@ namespace CalamityMod.World
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
-                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.25f), (int)(Main.maxTilesY * 0.3f));
+                int numTilesBelowSurface = WorldGen.genRand.Next(50, 100);
+                int placementPositionY = (int)WorldGen.worldSurface + numTilesBelowSurface;
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
@@ -590,7 +591,7 @@ namespace CalamityMod.World
                     for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                        //Liquids are fine, the structure is sealed.
+                        // Liquids are fine, the structure is sealed.
                         if (ShouldAvoidLocation(new Point(x, y), false))
                             canGenerateInLocation = false;
 
@@ -600,19 +601,58 @@ namespace CalamityMod.World
                         if (tile.HasTile)
                             activeTilesInArea++;
                         
-                        //Avoid the desert due to sand checks
+                        // Avoid the desert due to sand checks.
                         if (tile.WallType == WallID.HardenedSand || tile.WallType == WallID.Sandstone)
                             canGenerateInLocation = false;
                     }
                 }
+
                 if (!canGenerateInLocation || normalTilesInArea < activeTilesInArea * 0.8f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
-                    bool _ = true;
-                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillSurfaceShrineChest));
-                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
-                    break;
+                    Point result;
+                    Point shrineTunnelPlacementPoint = new Point(placementPoint.X + (int)(schematicSize.X * 0.5f), placementPoint.Y);
+                    bool flag = WorldUtils.Find(shrineTunnelPlacementPoint, Searches.Chain(new Searches.Up(1000), new Conditions.IsSolid().AreaOr(1, 50).Not()), out result);
+                    if (WorldUtils.Find(shrineTunnelPlacementPoint, Searches.Chain(new Searches.Up(shrineTunnelPlacementPoint.Y - result.Y), new Conditions.IsTile(TileID.Sand)), out Point _))
+                    {
+                        tries++;
+                    }
+                    else if (!flag)
+                    {
+                        tries++;
+                    }
+                    else
+                    {
+                        result.Y += numTilesBelowSurface;
+
+                        bool[] array = new bool[TileID.Sets.GeneralPlacementTiles.Length];
+                        for (int i = 0; i < array.Length; i++)
+                            array[i] = TileID.Sets.GeneralPlacementTiles[i];
+
+                        array[TileID.Containers] = false;
+                        array[TileID.Containers2] = false;
+
+                        if (!structures.CanPlace(new Rectangle(shrineTunnelPlacementPoint.X, result.Y + 10, 1, shrineTunnelPlacementPoint.Y - result.Y - 9), array, 2))
+                        {
+                            tries++;
+                        }
+                        else
+                        {
+                            bool _ = true;
+                            PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillSurfaceShrineChest));
+                            structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+
+                            // Generate entrance tunnel
+                            ShapeData data = new ShapeData();
+                            WorldUtils.Gen(new Point(shrineTunnelPlacementPoint.X, result.Y + 10), new Shapes.Rectangle(1, shrineTunnelPlacementPoint.Y - result.Y - 9), Actions.Chain(new Modifiers.Blotches(2, 0.2), new Modifiers.SkipTiles(TileID.LivingWood, TileID.LeafBlock), new Actions.ClearTile().Output(data), new Modifiers.Expand(1), new Modifiers.OnlyTiles(TileID.Sand), new Actions.SetTile(TileID.HardenedSand).Output(data)));
+                            WorldUtils.Gen(new Point(shrineTunnelPlacementPoint.X, result.Y + 10), new ModShapes.All(data), new Actions.SetFrames(frameNeighbors: true));
+
+                            break;
+                        }
+                    }
                 }
 
             } while (tries <= 50000);

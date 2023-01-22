@@ -2924,6 +2924,8 @@ namespace CalamityMod.NPCs
                         npc.ai[0] = 4f;
                         npc.ai[1] = 0f;
 
+                        SoundEngine.PlaySound(AstrumAureus.AstrumAureus.JumpSound, npc.Center);
+
                         npc.netUpdate = true;
                     }
                 }

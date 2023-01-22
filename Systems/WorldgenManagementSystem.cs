@@ -52,19 +52,22 @@ namespace CalamityMod.Systems
                 CustomTemple.NewJungleTemple();
             });
 
-            int hiveIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Hives"));
-            tasks[JungleTempleIndex] = new PassLegacy("Giant Hive", (progress, config) =>
+            int giantHiveIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Hives"));
+            if (giantHiveIndex != -1)
             {
-                progress.Message = "Building a giant beehive";
-                int attempts = 0;
-                while (attempts < 1000)
+                tasks.Insert(giantHiveIndex + 1, new PassLegacy("Giant Hive", (progress, config) =>
                 {
-                    attempts++;
-                    Point origin = WorldGen.RandomWorldPoint((int)Main.worldSurface, 20, Main.maxTilesY - (int)Main.worldSurface - 100, 20);
-                    if (MiscWorldgenRoutines.CanPlaceGiantHive(origin, WorldGen.structures))
-                        break;
-                }
-            });
+                    progress.Message = "Building a giant beehive";
+                    int attempts = 0;
+                    while (attempts < 1000)
+                    {
+                        attempts++;
+                        Point origin = WorldGen.RandomWorldPoint((int)Main.worldSurface + 25, 20, Main.maxTilesY - (int)Main.worldSurface - 125, 20);
+                        if (MiscWorldgenRoutines.CanPlaceGiantHive(origin, WorldGen.structures))
+                            break;
+                    }
+                }));
+            }
 
             int JungleTempleIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Temple"));
             tasks[JungleTempleIndex2] = new PassLegacy("Temple", (progress, config) =>
