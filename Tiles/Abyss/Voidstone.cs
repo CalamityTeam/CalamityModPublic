@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
@@ -30,6 +29,7 @@ namespace CalamityMod.Tiles.Abyss
             ItemDrop = ModContent.ItemType<Items.Placeables.Voidstone>();
             AddMapEntry(new Color(15, 15, 15));
         }
+
         int animationFrameWidth = 288;
 
         public override bool CreateDust(int i, int j, ref int type)

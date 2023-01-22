@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.SunkenSea
             DustType = 253;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Fan Coral");
-            AddMapEntry(new Color(0, 0, 80));
+            AddMapEntry(new Color(54, 69, 72));
             MineResist = 3f;
 
             base.SetStaticDefaults();

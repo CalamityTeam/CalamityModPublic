@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Linq;
+using CalamityMod.Systems;
 using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
@@ -72,6 +74,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
+using Terraria.DataStructures;
 
 [assembly: InternalsVisibleTo("CalTestHelpers")]
 [assembly: InternalsVisibleTo("InfernumMode")]
@@ -143,6 +146,9 @@ namespace CalamityMod
         internal Mod thorium = null;
         internal Mod varia = null;
         internal Mod wikithis = null;
+
+        //hell background
+        //private List<HellBGLoad> loadCache;
 
         #region Load
         public override void Load()
@@ -239,6 +245,29 @@ namespace CalamityMod
             BalancingChangesManager.Load();
             BaseIdleHoldoutProjectile.LoadAll();
             PlayerDashManager.Load();
+
+            /*
+            //keep this disabled for now, hell bg system isnt used and there is a better way to load it
+            //hell background loading
+            HellBGManager.Load();
+
+            //load stuff for hell background
+            loadCache = new List<HellBGLoad>();
+
+            foreach (Type type in Code.GetTypes())
+            {
+                if (!type.IsAbstract && type.GetInterfaces().Contains(typeof(HellBGLoad)))
+                {
+                    var instance = Activator.CreateInstance(type);
+                    loadCache.Add(instance as HellBGLoad);
+                }
+            }
+
+            for (int k = 0; k < loadCache.Count; k++)
+            {
+                loadCache[k].Load();
+            }
+            */
         }
 
         private void LoadClient()
@@ -278,6 +307,9 @@ namespace CalamityMod
 
             Filters.Scene["CalamityMod:MonolithAccursed"] = new Filter(new MonolithScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:MonolithAccursed"] = new MonolithSky();
+
+            Filters.Scene["CalamityMod:BrimstoneCrag"] = new Filter(new MonolithScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryHigh);
+            SkyManager.Instance["CalamityMod:BrimstoneCrag"] = new BrimstoneCragSky();
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
@@ -424,6 +456,21 @@ namespace CalamityMod
             rainOriginal = null;
             manaOriginal = null;
             carpetOriginal = null;
+
+            /*
+            //unload hell background stuff
+            HellBGManager.Unload();
+
+            if (loadCache != null)
+            {
+                foreach (var loadable in loadCache)
+                {
+                    loadable.Unload();
+                }
+            }
+
+            loadCache = null;
+            */
 
             ILChanges.Unload();
             Instance = null;

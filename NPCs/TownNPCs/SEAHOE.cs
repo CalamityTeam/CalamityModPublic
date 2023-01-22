@@ -5,6 +5,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Pets;
 using CalamityMod.Projectiles.Rogue;
 using System.Collections.Generic;
 using Terraria;
@@ -374,6 +375,8 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<MagicalConch>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<PolypLauncher>());
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SeaSlugCerata>());
             nextSlot++;
             if (CalamityConfig.Instance.PotionSelling)
             {

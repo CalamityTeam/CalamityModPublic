@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -32,6 +33,48 @@ namespace CalamityMod
                     int tilesY = WorldGen.genRand.Next((int)(y * verticalStartFactor), (int)(y * verticalEndFactor));
                     if (convertibleTiles.Length <= 0 || convertibleTiles.Contains(ParanoidTileRetrieval(tilesX, tilesY).TileType))
                         WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(strengthMin, strengthMax), WorldGen.genRand.Next(3, 8), (ushort)type);
+                }
+            }
+        }
+
+        //place a circular clump of tiles
+        public static void NaturalCircle(int i, int j, int size, int tileType)
+		{
+			int BaseRadius = size;
+			int radius = BaseRadius;
+
+			for (int y = j - radius; y <= j + radius; y++)
+			{
+				for (int x = i - radius; x <= i + radius + 1; x++)
+				{
+					if ((int)Vector2.Distance(new Vector2(x, y), new Vector2(i, j)) <= radius && WorldGen.InWorld(x, y))
+                    {
+						Tile tile = Framing.GetTileSafely(x, y);
+
+                        WorldGen.KillTile(x, y);
+                        WorldGen.PlaceTile(x, y, tileType);
+                        tile.Slope = 0;
+                    }
+				}
+
+				radius = BaseRadius - WorldGen.genRand.Next(-1, 2);
+			}
+		}
+
+        //for some reason orerunner wasnt working with clouds, so just have a seperate thing for aerialite here
+        public static void SpawnAerialiteOre()
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                for (int x = 5; x < Main.maxTilesX - 5; x++) 
+                {
+                    for (int y = 5; y < 300; y++) 
+                    {
+                        if (WorldGen.genRand.Next(350) == 0 && Main.tile[x, y].TileType == TileID.Cloud) 
+                        {
+                            NaturalCircle(x, y, WorldGen.genRand.Next(1, 4), ModContent.TileType<Tiles.Ores.AerialiteOre>());
+                        }
+                    }
                 }
             }
         }
@@ -74,7 +117,7 @@ namespace CalamityMod
         }
     }
 
-    //tile runner, probably useful for caves and probably other useful stuff?
+    //tile runner, useful for caves and other stuff
     public class TileRunner
     {
         public Vector2 pos;
@@ -177,6 +220,19 @@ namespace CalamityMod
         {
             tile.HasTile = false;
             tile.LiquidType = LiquidID.Water;
+			tile.LiquidAmount = 255;
+        }
+    }
+
+    class LavaTileRunner : TileRunner
+    {
+        public LavaTileRunner(Vector2 pos, Vector2 speed, Point16 hRange, Point16 vRange, double strength, int steps, ushort type, bool addTile, bool overRide) : base(pos, speed, hRange, vRange, strength, steps, type, addTile, overRide)
+        {
+        }
+        public override void ChangeTile(Tile tile)
+        {
+            tile.HasTile = false;
+            tile.LiquidType = LiquidID.Lava;
 			tile.LiquidAmount = 255;
         }
     }

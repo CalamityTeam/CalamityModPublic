@@ -18,6 +18,9 @@ using Terraria.WorldBuilding;
 
 namespace CalamityMod.World
 {
+    //DylanDoe's TODO:
+    //change the astral monolith thing so it places away from the meteor, chosen side possibly based on the side of the world?
+    //raise the astral biome generation height limit to prevent things like mountain tops not being fully replaced, ect
     public class AstralBiome
     {
         public static readonly SoundStyle MeteorSound = new("CalamityMod/Sounds/Custom/AstralStarFall");
@@ -134,6 +137,7 @@ namespace CalamityMod.World
                 while (y < Main.maxTilesY)
                 {
                     //check to place the astral meteor on valid tiles, place automatically on ebonstone walls, and avoid platforms
+                    //TODO: at this point just make a list of invalid tiles the meteor cannot be placed on
                     if (((Main.tile[x, y].HasTile && Main.tileSolid[(int)Main.tile[x, y].TileType]) || Main.tile[x, y].WallType == 3) && !TileID.Sets.Platforms[Main.tile[x, y].TileType])
                     {
                         int suitableTiles = 0;
@@ -395,68 +399,27 @@ namespace CalamityMod.World
                     if (j < 181)
                         j = 181;
 
-                    int checkWidth = 180;
-                    float averageHeight = 0f;
-                    float lowestHeight = 0f;
+                    int xOffset = WorldGen.dungeonX < Main.maxTilesX / 2 ? WorldGen.genRand.Next(-80, -40) : WorldGen.genRand.Next(40, 80);
 
-                    int xAreaToSpawn = i;
-
-                    Dictionary<int, float> xAreaHeightMap = new Dictionary<int, float>();
-
-                    // Gauge the bumpiness of various potential locations.
-                    // The least bumpy one will be selected as the place to spawn the monolith.
-                    for (int tries = 0; tries < 30; tries++)
+                    bool altarPlaced = false;
+                    while (!altarPlaced)
                     {
-                        int x = i + Main.rand.Next(-60, 61);
+                        int x = i + xOffset;
+                        int y = j - 100;
 
-                        // Don't attempt to add duplicate keys.
-                        if (xAreaHeightMap.ContainsKey(x))
-                            continue;
-
-                        float averageRelativeHeight = 0f;
-                        for (int dx = -30; dx <= 30; dx++)
+                        while (!WorldGen.SolidTile(x, y) && y <= Main.worldSurface)
                         {
-                            WorldUtils.Find(new Point(x + dx, j - 180), Searches.Chain(new Searches.Down(360), new Conditions.IsSolid()), out Point result);
-                            averageRelativeHeight += Math.Abs(result.Y - j);
+                            y += 5;
                         }
-                        averageRelativeHeight /= 60f;
-                        xAreaHeightMap.Add(x, averageRelativeHeight);
-                    }
 
-                    i = xAreaHeightMap.OrderBy(x => x.Value).First().Key;
-
-                    for (int x = i - checkWidth / 2; x < i + checkWidth / 2; x++)
-                    {
-                        int y = j - 200;
-                        Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
-                        while (!Main.tileSolid[tileAtPosition.TileType] ||
-                            !tileAtPosition.HasTile ||
-                            TileID.Sets.Platforms[tileAtPosition.TileType])
+                        if (Main.tile[x, y].HasTile || Main.tile[x, y].WallType > 0)
                         {
-                            y++;
-                            if (y > j - 10)
-                                break;
-                            tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
+                            bool place = true;
+                            SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(x, y - 5), SchematicAnchor.Center, ref place);
+
+                            altarPlaced = true;
                         }
-                        lowestHeight = (int)MathHelper.Max(lowestHeight, y);
-                        averageHeight += y;
                     }
-                    lowestHeight -= 35f;
-                    averageHeight /= checkWidth;
-                    float height = lowestHeight;
-
-                    // If there's a sudden change between the average and lowest height (which is indicative of holes/chasms), go with the average.
-                    if (Math.Abs(lowestHeight - averageHeight) > 50f)
-                        height = averageHeight;
-
-                    // WorldGen.gen prevents NewItem from working, and thus prevents a bunch of dumb items from being spawned immediately and deleting the WoF/Aureus loot in the process.
-                    WorldGen.gen = true;
-                    // Add the average height of a tree to the Y position to offset trees usually messing with the calculation.
-                    // Then also add 10 blocks because these things seem to always like to appear standing on the floor.
-                    int finalVerticalOffset = 18;
-                    bool _ = true;
-                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i, (int)height + finalVerticalOffset), SchematicAnchor.Center, ref _);
-                    WorldGen.gen = false;
                 }
             }
             return true;
@@ -1237,7 +1200,7 @@ namespace CalamityMod.World
             if (collapse) //Collapse ensures the ellipse is shrunk down a lot in terms of distance.
             {
                 float distY = center.Y - point.Y;
-                point.Y -= distY * 8f;
+                point.Y -= distY * 3f;
             }
             float distance1 = Vector2.Distance(point, focus1);
             float distance2 = Vector2.Distance(point, focus2);
