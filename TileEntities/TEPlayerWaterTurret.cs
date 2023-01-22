@@ -16,7 +16,7 @@ namespace CalamityMod.TileEntities
 
         // Projectile variables
         public override int ProjectileType => ModContent.ProjectileType<WaterShotBuffer>();
-        public override int ProjectileDamage => 23;
+        public override int ProjectileDamage => 14;
         public override float ProjectileKnockback => 6.5f;
         public override float ShootSpeed => 6.5f;
         public override int FiringStartupDelay => 10;

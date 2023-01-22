@@ -11,8 +11,7 @@ namespace CalamityMod.Projectiles.Turret
     public class FireShot : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-
-
+        public bool ableToHit = true;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire Shot");
@@ -46,12 +45,17 @@ namespace CalamityMod.Projectiles.Turret
             Projectile.localAI[0]++;
             Projectile.velocity.Y -= 0.065f;
             if (Projectile.timeLeft < 16)
+            {
                 Projectile.velocity *= 0f;
+                ableToHit = false;
+            }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire3, 240);
+            target.AddBuff(BuffID.OnFire3, 600);
         }
+
+        public override bool? CanDamage() => ableToHit ? (bool?)null : false;
 
         public override bool PreDraw(ref Color lightColor)
         {
@@ -62,7 +66,7 @@ namespace CalamityMod.Projectiles.Turret
                 float colorInterpolation = (float)Math.Cos((Projectile.timeLeft - 16) / 7f + i / (float)Projectile.oldPos.Length * MathHelper.Pi) * 0.35f + 0.65f;
                 Color color = Color.Lerp(Color.Yellow, Color.OrangeRed, colorInterpolation) * 0.4f;
                 color.A = 7;
-                rotation += 0.2f;
+                rotation += 0.35f;
                 Vector2 drawPosition = Projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(-186f, -186f);
                 float intensity = 0.6f;
                 intensity *= MathHelper.Lerp(0.15f, 1f, 1f - i / (float)Projectile.oldPos.Length);
