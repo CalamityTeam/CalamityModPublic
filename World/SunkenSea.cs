@@ -361,30 +361,6 @@ namespace CalamityMod.World
             }
         }
 
-        //place a circular clump of tiles
-        public static void NaturalCircle(int i, int j, int size, int tileType, bool killTile)
-		{
-			int BaseRadius = size;
-			int radius = BaseRadius;
-
-			for (int y = j - radius; y <= j + radius; y++)
-			{
-				for (int x = i - radius; x <= i + radius + 1; x++)
-				{
-					if ((int)Vector2.Distance(new Vector2(x, y), new Vector2(i, j)) <= radius && WorldGen.InWorld(x, y))
-                    {
-						Tile tile = Framing.GetTileSafely(x, y);
-
-						WorldGen.KillTile(x, y);
-                        WorldGen.PlaceTile(x, y, tileType);
-                        tile.Slope = 0;
-                    }
-				}
-
-				radius = BaseRadius - WorldGen.genRand.Next(-1, 2);
-			}
-		}
-
         // Adds tile variation to generated tile clusters and generates open areas with sea prism ore called "Tits"
         // Generates sea prism crystals on prism ore and occasionally on navystone
         private static void AddGeodes(ClusterGroup clusters, Point start, Vector2 terrainApplicationScaleVector, float overallBiomeScale)

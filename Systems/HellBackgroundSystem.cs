@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿/*
+using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -220,7 +221,6 @@ namespace CalamityMod.Systems
         }
     }
 
-    /*
     //example hell background using the system
     public class SpookyHellBG : HellBGType
     {
@@ -235,5 +235,5 @@ namespace CalamityMod.Systems
 
         public override Color DrawColor => Color.Gray; //draw color of the bg
     }
-    */
 }
+*/

@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -59,6 +60,24 @@ namespace CalamityMod
 				radius = BaseRadius - WorldGen.genRand.Next(-1, 2);
 			}
 		}
+
+        //for some reason orerunner wasnt working with clouds, so just have a seperate thing for aerialite here
+        public static void SpawnAerialiteOre()
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                for (int x = 5; x < Main.maxTilesX - 5; x++) 
+                {
+                    for (int y = 5; y < 300; y++) 
+                    {
+                        if (WorldGen.genRand.Next(350) == 0 && Main.tile[x, y].TileType == TileID.Cloud) 
+                        {
+                            NaturalCircle(x, y, WorldGen.genRand.Next(1, 4), ModContent.TileType<Tiles.Ores.AerialiteOre>());
+                        }
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Settles all liquids in the world.

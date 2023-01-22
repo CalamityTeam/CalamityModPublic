@@ -148,7 +148,7 @@ namespace CalamityMod
         internal Mod wikithis = null;
 
         //hell background
-        private List<HellBGLoad> loadCache;
+        //private List<HellBGLoad> loadCache;
 
         #region Load
         public override void Load()
@@ -246,6 +246,8 @@ namespace CalamityMod
             BaseIdleHoldoutProjectile.LoadAll();
             PlayerDashManager.Load();
 
+            /*
+            //keep this disabled for now, hell bg system isnt used and there is a better way to load it
             //hell background loading
             HellBGManager.Load();
 
@@ -265,6 +267,7 @@ namespace CalamityMod
             {
                 loadCache[k].Load();
             }
+            */
         }
 
         private void LoadClient()
@@ -454,6 +457,7 @@ namespace CalamityMod
             manaOriginal = null;
             carpetOriginal = null;
 
+            /*
             //unload hell background stuff
             HellBGManager.Unload();
 
@@ -466,6 +470,7 @@ namespace CalamityMod
             }
 
             loadCache = null;
+            */
 
             ILChanges.Unload();
             Instance = null;

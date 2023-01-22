@@ -29,11 +29,12 @@ namespace CalamityMod.Items.Placeables
             Item.createTile = ModContent.TileType<Tiles.Crags.ScorchedBone>();
         }
 
-        /*public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+        public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
 		{
 			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Wood;
-        }*/
+        }
 
+        //i assume this is supposed to be for when the platforms and walls for this tile are finished
         /*public override void AddRecipes()
         {
             CreateRecipe().

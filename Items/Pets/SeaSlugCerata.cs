@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Pets
             SacrificeTotal = 1;
             DisplayName.SetDefault("Sea Slug Cerata");
             Tooltip.SetDefault("Summons a bioluminescent sea slug to follow you"
-            + "\nThe sea slug will change colors in different aquatic environments");
+            + "\nThe sea slug will change colors in different environments");
         }
 
         public override void SetDefaults()

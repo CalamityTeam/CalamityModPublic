@@ -328,7 +328,7 @@ namespace CalamityMod.World
                         //grow spine tree
                         if (WorldGen.genRand.Next(12) == 0 && TreeDelay == 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
                         {
-                            SpineTree.Spawn(x, y - 1, -1, 22, 28, false, -1, false);
+                            SpineTree.Spawn(x, y - 1, 22, 28, false, -1, false);
                             TreeDelay = 15;
                         }
                     }

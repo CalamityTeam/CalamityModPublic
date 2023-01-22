@@ -64,16 +64,8 @@ namespace CalamityMod.Tiles.Crags.Tree
             Main.tileSolid[Framing.GetTileSafely(i, j).TileType]);
         }
 
-        public static bool Spawn(int i, int j, int type = -1, int minSize = 5, int maxSize = 18, bool leaves = false, int leavesType = -1, bool saplingExists = false)
+        public static bool Spawn(int i, int j, int minSize = 5, int maxSize = 18, bool leaves = false, int leavesType = -1, bool saplingExists = false)
         {
-            //set this tree to the type
-            //TODO: left over from my other tree system, but this can probably just be changed to an int inside this method
-            //too lazy right now so im leaving it as is
-            if (type == -1) 
-            {
-                type = ModContent.TileType<SpineTree>();
-            }
-
             //if this tree grew from a sapling, then kill the sapling its growing from
             if (saplingExists)
             {
@@ -126,7 +118,7 @@ namespace CalamityMod.Tiles.Crags.Tree
             {
                 if (extraPlaces[k + 2])
                 {
-                    WorldGen.PlaceTile(i + k, j, type, true);
+                    WorldGen.PlaceTile(i + k, j, ModContent.TileType<SpineTree>(), true);
                 }
                 else
                 {
@@ -147,7 +139,7 @@ namespace CalamityMod.Tiles.Crags.Tree
 
             for (int k = 1; k < height; k++)
             {
-                WorldGen.PlaceTile(i, j - k, type, true);
+                WorldGen.PlaceTile(i, j - k, ModContent.TileType<SpineTree>(), true);
 
                 if (branchSegmentDelay > 0)
                 {
@@ -260,22 +252,12 @@ namespace CalamityMod.Tiles.Crags.Tree
 
             int belowFrame = Framing.GetTileSafely(i, j + 1).TileFrameX;
 
-            /*
-            //if theres any remaining segments below the segment you broke, turn it into a stub top segment
-            //probably not needed for this custom tree but ill keep it here just incase
-
-            if (belowFrame == 0 || belowFrame == 16)
-            {
-                Framing.GetTileSafely(i, j + 1).TileFrameX = 36;
-            }
-            */
-
             SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt, (new Vector2(i, j) * 16));
 
             //here is where you can make effects happen when the tree segments break, like adding dust, dropping gore, ect
 
             /*
-            //TODO: save this since this tree will also produce bone gores when broken
+            //TODO: save this since this tree will also produce bone gores when broken (gores for this tree still need assets)
             Gore.NewGore(new EntitySource_TileInteraction(Main.LocalPlayer, i, j), (new Vector2(i, j - 2) * 16),
             new Vector2(Main.rand.Next(-3, 3), Main.rand.Next(-3, 3)), ModContent.Find<ModGore>("CalamityMod/WhateverGore").Type);
             */

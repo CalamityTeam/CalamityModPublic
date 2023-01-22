@@ -59,21 +59,17 @@ namespace CalamityMod.Tiles.Crags
             }
         }
 
-        //do this in animate tile because its the only hook that updates a tile constantly unlike random update
-        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
-        {
-            //convert this tile back into scorched remains if any liquid is above it
-            //will change this to only check for lava if necessary
-            if (Main.tile[i, j - 1].LiquidAmount > 0)
-            {
-                Main.tile[i, j].TileType = (ushort)ModContent.TileType<ScorchedRemains>();
-            }
-        }
-
         public override void RandomUpdate(int i, int j)
         {
             Tile up = Main.tile[i, j - 1];
             Tile up2 = Main.tile[i, j - 2];
+
+            //convert this tile back into scorched remains if any liquid is above it
+            //will change this to only check for lava if necessary
+            if (up.LiquidAmount > 0)
+            {
+                Main.tile[i, j].TileType = (ushort)ModContent.TileType<ScorchedRemains>();
+            }
 
             if (WorldGen.genRand.Next(5) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount == 0)
             {
