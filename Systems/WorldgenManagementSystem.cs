@@ -141,7 +141,15 @@ namespace CalamityMod.Systems
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Special Shrines", (progress, config) =>
                 {
                     progress.Message = "Placing hidden shrines";
-                    UndergroundShrines.PlaceShrines();
+
+                    UndergroundShrines.PlaceCorruptionShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceCrimsonShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceDesertShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceGraniteShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceIceShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceMarbleShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceMushroomShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceSurfaceShrine(WorldGen.structures);
                 }));
 
                 //draedon labs
