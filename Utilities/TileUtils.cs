@@ -435,6 +435,9 @@ namespace CalamityMod
             TileID.ObsidianBrick,
             TileID.HellstoneBrick,
             TileType<BrimstoneSlag>(),
+            TileType<BrimstoneSlab>(),
+            TileType<ScorchedRemains>(),
+            TileType<ScorchedRemainsGrass>(),
         });
 
         /// <summary>

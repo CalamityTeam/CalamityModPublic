@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon
             bool flag64 = Projectile.type == ModContent.ProjectileType<BrimstoneElementalMinion>();
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (!modPlayer.brimstoneWaifu && !modPlayer.allWaifus)
+            if (!modPlayer.brimstoneWaifu && !modPlayer.allWaifus && !modPlayer.brimstoneWaifuVanity && !modPlayer.allWaifusVanity)
             {
                 Projectile.active = false;
                 return;
@@ -70,6 +70,7 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num503].scale *= 1.15f;
                 }
             }
+            bool passive = modPlayer.brimstoneWaifuVanity || modPlayer.allWaifusVanity;
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 9)
             {
@@ -80,9 +81,12 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.frame = 0;
             }
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight(Projectile.Center, 1.25f * num, 0f * num, 0.5f * num);
+            if (!passive)
+            {
+                float num = (float)Main.rand.Next(90, 111) * 0.01f;
+                num *= Main.essScale;
+                Lighting.AddLight(Projectile.Center, 1.25f * num, 0f * num, 0.5f * num);
+            }
             if (Math.Abs(Projectile.velocity.X) > 0.2f)
             {
                 Projectile.spriteDirection = -Projectile.direction;
@@ -100,7 +104,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.tileCollide = false;
             }
-            if (player.HasMinionAttackTargetNPC)
+            if (player.HasMinionAttackTargetNPC && !passive)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(Projectile, false))
@@ -113,7 +117,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            if (!flag25)
+            if (!flag25 && !passive)
             {
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
@@ -205,6 +209,19 @@ namespace CalamityMod.Projectiles.Summon
                         Projectile.netUpdate = true;
                     }
                 }
+            }
+        }
+        public override bool? CanDamage()
+        {
+            Player player = Main.player[Projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+            if (modPlayer.brimstoneWaifuVanity || modPlayer.allWaifusVanity)
+            {
+                return false;
+            }
+            else
+            {
+                return null;
             }
         }
     }

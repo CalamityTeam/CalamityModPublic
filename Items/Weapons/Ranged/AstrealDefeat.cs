@@ -13,10 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astreal Defeat");
-            Tooltip.SetDefault("Ethereal bow of the tyrant king's mother\n" +
-                "The mother strongly discouraged acts of violence throughout her life\n" +
-                "Though she kept this bow close, to protect her family in times of great disaster\n" +
-                "All arrows are converted to Astreal Arrows that emit flames as they travel");
+            Tooltip.SetDefault("All arrows are converted to Astreal Arrows that emit flames as they travel");
             SacrificeTotal = 1;
         }
 

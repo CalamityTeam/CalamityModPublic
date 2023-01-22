@@ -837,6 +837,12 @@ namespace CalamityMod.ILEditing
                 if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
                     SelectSulphuricWaterColor(x, y, ref initialColor);
 
+                if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater").Slot)
+                    SelectSulphuricWaterColor(x, y, ref initialColor);
+
+                if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/AbyssWater").Slot)
+                    SelectSulphuricWaterColor(x, y, ref initialColor);
+
                 // Apply any extra color conditions.
                 initialColor = ExtraColorChangeConditions?.Invoke(initialColor, liquidType, new(x, y)) ?? initialColor;
 
@@ -961,11 +967,13 @@ namespace CalamityMod.ILEditing
             orig(self, x, y, out outputColor);
 
             Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-            if (tile.LiquidAmount <= 0 || tile.HasTile || Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
+            if (tile.LiquidAmount <= 0 || tile.HasTile || Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot &&
+            Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater").Slot)
                 return;
 
             Tile above = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
-            if (!Main.gamePaused && !above.HasTile && above.LiquidAmount <= 0 && Main.rand.NextBool(9))
+            if (!Main.gamePaused && !above.HasTile && above.LiquidAmount <= 0 && Main.rand.NextBool(9) && 
+            Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
             {
                 MediumMistParticle acidFoam = new(new(x * 16f + Main.rand.NextFloat(16f), y * 16f + 8f), -Vector2.UnitY.RotatedByRandom(0.67f) * Main.rand.NextFloat(1f, 2.4f), Color.LightSeaGreen, Color.White, 0.16f, 128f, 0.02f);
                 GeneralParticleHandler.SpawnParticle(acidFoam);

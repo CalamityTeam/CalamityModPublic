@@ -21,7 +21,7 @@ namespace CalamityMod.BiomeManagers
 
         public override bool IsBiomeActive(Player player)
         {
-            return !player.ZoneDungeon && BiomeTileCounterSystem.AstralTiles > 950 && !player.ZoneDesert && player.ZoneSnow;
+            return !player.ZoneDungeon && BiomeTileCounterSystem.AstralTiles > 950 && player.ZoneSnow;
         }
 
         public override void SpecialVisuals(Player player, bool isActive)

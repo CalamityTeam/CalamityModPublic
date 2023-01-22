@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-            if (!modPlayer.sandBoobWaifu && !modPlayer.allWaifus)
+            if (!modPlayer.sandBoobWaifu && !modPlayer.allWaifus && !modPlayer.sandBoobWaifuVanity && !modPlayer.allWaifusVanity)
             {
                 Projectile.active = false;
                 return;
@@ -91,9 +91,12 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.spriteDirection = -Projectile.direction;
             }
 
-            float lightScalar = (float)Main.rand.Next(90, 111) * 0.01f;
-            lightScalar *= Main.essScale;
-            Lighting.AddLight(Projectile.Center, 0.7f * lightScalar, 0.6f * lightScalar, 0f * lightScalar);
+            if (!modPlayer.sandBoobWaifuVanity && !modPlayer.allWaifusVanity)
+            {
+                float lightScalar = (float)Main.rand.Next(90, 111) * 0.01f;
+                lightScalar *= Main.essScale;
+                Lighting.AddLight(Projectile.Center, 0.7f * lightScalar, 0.6f * lightScalar, 0f * lightScalar);
+            }
 
             Projectile.MinionAntiClump();
 
@@ -157,7 +160,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.localAI[0] += 1f;
             }
-            if (Projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f && !modPlayer.sandBoobWaifuVanity && !modPlayer.allWaifusVanity)
             {
                 int healProj = ModContent.ProjectileType<CactusHealOrb>();
                 if (Projectile.ai[1] == 0f && Projectile.localAI[0] >= 120f)
@@ -180,6 +183,19 @@ namespace CalamityMod.Projectiles.Summon
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, -Vector2.UnitY * 6f, healProj, 0, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
+            }
+        }
+        public override bool? CanDamage()
+        {
+            Player player = Main.player[Projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+            if (modPlayer.sandBoobWaifuVanity || modPlayer.allWaifusVanity)
+            {
+                return false;
+            }
+            else
+            {
+                return null;
             }
         }
     }

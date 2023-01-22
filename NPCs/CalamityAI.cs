@@ -2941,8 +2941,8 @@ namespace CalamityMod.NPCs
                 if (npc.velocity.Y == 0f)
                 {
                     // Play stomp sound. Gotta specify the filepath to avoid confusion between the namespace and npc
-                    SoundStyle soundToPlay = Main.getGoodWorld ? NPCs.ExoMechs.Ares.AresGaussNuke.NukeExplosionSound : NPCs.AstrumAureus.AstrumAureus.StompSound; // move to zenith seed later
-                    SoundEngine.PlaySound(soundToPlay, npc.position);
+                    // move to zenith seed later
+                    SoundEngine.PlaySound(Main.getGoodWorld ? NPCs.ExoMechs.Ares.AresGaussNuke.NukeExplosionSound : NPCs.AstrumAureus.AstrumAureus.StompSound, npc.position);
 
                     if (Main.getGoodWorld) // move to zenith seed later
                     {
@@ -7477,7 +7477,24 @@ namespace CalamityMod.NPCs
                 position.X += npc.velocity.X;
                 int x = (int)((position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num10)) / 16f);
                 int y = (int)((position.Y + (float)npc.height - 1f) / 16f);
-                if ((float)(x * 16) < position.X + (float)npc.width && (float)(x * 16 + 16) > position.X && ((Main.tile[x, y].HasUnactuatedTile && !Main.tile[x, y].TopSlope && !Main.tile[x, y - 1].TopSlope && Main.tileSolid[(int)Main.tile[x, y].TileType] && !Main.tileSolidTop[(int)Main.tile[x, y].TileType]) || (Main.tile[x, y - 1].IsHalfBlock && Main.tile[x, y - 1].HasUnactuatedTile)) && (!Main.tile[x, y - 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x, y - 1].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 1].TileType] || (Main.tile[x, y - 1].IsHalfBlock && (!Main.tile[x, y - 4].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x, y - 4].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 4].TileType]))) && (!Main.tile[x, y - 2].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x, y - 2].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 2].TileType]) && (!Main.tile[x, y - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x, y - 3].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 3].TileType]) && (!Main.tile[x - num10, y - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x - num10, y - 3].TileType]))
+
+                // 21JAN2023: Ozzatron -- this is probably the single most unmaintainable if statement I've ever seen
+                // I have broken all the individual statements out even though I do not fully understand the code.
+                Tile t_xy = CalamityUtils.ParanoidTileRetrieval(x, y);
+                Tile t_xy1 = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
+                Tile t_xy2 = CalamityUtils.ParanoidTileRetrieval(x, y - 2);
+                Tile t_xy3 = CalamityUtils.ParanoidTileRetrieval(x, y - 3);
+                Tile t_xOffY3 = CalamityUtils.ParanoidTileRetrieval(x - num10, y - 3); // 3 down, offset 1 in the direction of the NPC's movement
+                Tile t_xy4 = CalamityUtils.ParanoidTileRetrieval(x, y - 4);
+                bool positionCheck = (float)(x * 16) < position.X + (float)npc.width && (float)(x * 16 + 16) > position.X;
+                bool tileSolidityCheck1 = t_xy.HasUnactuatedTile && !t_xy.TopSlope && !t_xy1.TopSlope && Main.tileSolid[t_xy.TileType] && !Main.tileSolidTop[t_xy.TileType];
+                bool oneBelowIsSolidHalf = t_xy1.IsHalfBlock && t_xy1.HasUnactuatedTile;
+                bool canFallThrough = !t_xy1.HasUnactuatedTile || !Main.tileSolid[t_xy1.TileType] || Main.tileSolidTop[t_xy1.TileType] || (t_xy1.IsHalfBlock && (!t_xy4.HasUnactuatedTile || !Main.tileSolid[t_xy4.TileType] || Main.tileSolidTop[t_xy4.TileType]));
+                bool twoDownIsNonSolid = !t_xy2.HasUnactuatedTile || !Main.tileSolid[t_xy2.TileType] || Main.tileSolidTop[t_xy2.TileType];
+                bool threeDownIsNonSolid = !t_xy3.HasUnactuatedTile || !Main.tileSolid[t_xy3.TileType] || Main.tileSolidTop[t_xy3.TileType];
+                // Notice it doesn't check for platforms in ther offset position. This is why walking AIs twirl on 1-wide platforms in hellevators. They have to turn around before this check succeeds.
+                bool threeDownOffsetIsNonSolid = !t_xOffY3.HasUnactuatedTile || !Main.tileSolid[t_xOffY3.TileType];
+                if (positionCheck && (tileSolidityCheck1 || oneBelowIsSolidHalf) && canFallThrough && twoDownIsNonSolid && threeDownIsNonSolid && threeDownOffsetIsNonSolid)
                 {
                     float num13 = (float)(y * 16);
                     if (Main.tile[x, y].IsHalfBlock)

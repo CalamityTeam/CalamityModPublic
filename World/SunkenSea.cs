@@ -361,30 +361,6 @@ namespace CalamityMod.World
             }
         }
 
-        //place a circular clump of tiles
-        public static void NaturalCircle(int i, int j, int size, int tileType, bool killTile)
-		{
-			int BaseRadius = size;
-			int radius = BaseRadius;
-
-			for (int y = j - radius; y <= j + radius; y++)
-			{
-				for (int x = i - radius; x <= i + radius + 1; x++)
-				{
-					if ((int)Vector2.Distance(new Vector2(x, y), new Vector2(i, j)) <= radius && WorldGen.InWorld(x, y))
-                    {
-						Tile tile = Framing.GetTileSafely(x, y);
-
-						WorldGen.KillTile(x, y);
-                        WorldGen.PlaceTile(x, y, tileType);
-                        tile.Slope = 0;
-                    }
-				}
-
-				radius = BaseRadius - WorldGen.genRand.Next(-1, 2);
-			}
-		}
-
         // Adds tile variation to generated tile clusters and generates open areas with sea prism ore called "Tits"
         // Generates sea prism crystals on prism ore and occasionally on navystone
         private static void AddGeodes(ClusterGroup clusters, Point start, Vector2 terrainApplicationScaleVector, float overallBiomeScale)
@@ -666,11 +642,10 @@ namespace CalamityMod.World
                             WorldGen.PlaceTile(num5, num6 - 1, (ushort)ModContent.TileType<SeaAnemone>(), true, false, -1, 0);
                         }
 
-                        /*
                         //note: the stalactites and stalagmites only use their first frame for now
                         //this is because the previous tile frame randomizer code i had was janky and bad, ill make sure to fix it eventually
                         //stalactites
-                        /*if (WorldGen.genRand.Next(5) == 0)
+                        if (WorldGen.genRand.Next(5) == 0)
                         {
                             WorldGen.PlaceTile(num5, num6 + 2, (ushort)ModContent.TileType<SunkenStalactites>(), true, false, -1, 0);
                         }
@@ -687,7 +662,6 @@ namespace CalamityMod.World
                         {
                             WorldGen.PlaceTile(num5, num6 - 1, (ushort)ModContent.TileType<SunkenStalagmitesSmall>(), true, false, -1, 0);
                         }
-                        */
                     }
                     if (!tile.HasTile)
                     {

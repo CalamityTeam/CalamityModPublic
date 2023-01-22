@@ -264,7 +264,8 @@ namespace CalamityMod.World
             do
             {
                 int underworldTop = Main.maxTilesY - 200;
-                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.82), (int)(Main.maxTilesX * 0.925));
+                //gen opposite to the brimstone crags
+                int placementPositionX = (Main.dungeonX > Main.maxTilesX / 2) ? WorldGen.genRand.Next((int)(Main.maxTilesX / 12), (int)(Main.maxTilesX / 9)) : WorldGen.genRand.Next((int)(Main.maxTilesX * 0.82), (int)(Main.maxTilesX * 0.925));
                 int placementPositionY = WorldGen.genRand.Next(Main.maxTilesY - 150, Main.maxTilesY - 125);
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
@@ -387,8 +388,8 @@ namespace CalamityMod.World
                             shouldAvoidArea = true;
                     }
                 }
-                tries++;
                 */
+                tries++;
                 if (/*!shouldAvoidArea &&*/ structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     break;
             }

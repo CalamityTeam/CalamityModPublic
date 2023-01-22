@@ -48,5 +48,25 @@ namespace CalamityMod.Items.Accessories
                 }
             }
         }
+        public override void UpdateVanity(Player player)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.fungalClumpVanity = true;
+            if (player.whoAmI == Main.myPlayer)
+            {
+                if (player.FindBuffIndex(ModContent.BuffType<FungalClumpBuff>()) == -1)
+                {
+                    player.AddBuff(ModContent.BuffType<FungalClumpBuff>(), 3600, true);
+                }
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<FungalClumpMinion>()] < 1)
+                {
+                    var source = player.GetSource_Accessory(Item);
+                    int damage = (int)player.GetBestClassDamage().ApplyTo(FungalClumpDamage);
+                    int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), damage, 1f, player.whoAmI);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = FungalClumpDamage;
+                }
+            }
+        }
     }
 }

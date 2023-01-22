@@ -2030,8 +2030,6 @@ namespace CalamityMod.CalPlayer
             // New textures
             if (Main.netMode != NetmodeID.Server && Player.whoAmI == Main.myPlayer)
             {
-                Asset<Texture2D> sulphSeaRain = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaReplacements/RainSulphSea");
-                Asset<Texture2D> rainOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaReplacements/RainOriginal");
                 Asset<Texture2D> cometShard = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaCometShard");
                 Asset<Texture2D> etherealCore = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaEtherealCore");
                 Asset<Texture2D> phantomHeart = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaPhantomHeart");
@@ -2058,13 +2056,6 @@ namespace CalamityMod.CalPlayer
                         TextureAssets.Mana = manaOriginal;
                         break;
                 }
-
-                if (Main.bloodMoon)
-                    TextureAssets.Rain = rainOriginal;
-                else if (Main.raining && ZoneSulphur)
-                    TextureAssets.Rain = sulphSeaRain;
-                else
-                    TextureAssets.Rain = rainOriginal;
 
                 if (auricSet)
                     TextureAssets.FlyingCarpet = carpetAuric;
@@ -3220,7 +3211,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (CryoStone)
+            if (CryoStone || CryoStoneVanity)
             {
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<CryoStone>()));
                 int damage = (int)Player.GetBestClassDamage().ApplyTo(70);

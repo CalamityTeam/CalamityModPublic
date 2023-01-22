@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("When the fabric of the universe is meddled with, especially by inexperienced beings, the risk of irreparable damage is very, very high.")
+				new FlavorTextBestiaryInfoElement("A mysterious entity that acts as a portal to elsewhere. Little is known about its origins, other than that it was sealed away by the cultists.")
             });
         }
 

@@ -137,7 +137,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 new MoonLordPortraitBackgroundProviderBestiaryInfoElement(),
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Traces of them appear even in records going back to before the Golden Age of Dragons… They may very well be a glimpse into the full potential of nature.")
+                new FlavorTextBestiaryInfoElement("Traces of them appear even in records as far back as the early Draconic Era... They may very well be a glimpse into the full potential of nature.")
             });
         }
 

@@ -326,6 +326,7 @@ namespace CalamityMod.CalPlayer
         public bool bendyPet = false;
         public bool littleLightPet = false;
         public bool pineapplePet = false;
+        public bool seaSlugPet = false;
         #endregion
 
         #region Rage
@@ -532,11 +533,17 @@ namespace CalamityMod.CalPlayer
         public float jellyDmg;
         public bool oldDukeScales = false;
         public bool sandWaifu = false;
+        public bool sandWaifuVanity = false;
         public bool sandBoobWaifu = false;
+        public bool sandBoobWaifuVanity = false;
         public bool cloudWaifu = false;
+        public bool cloudWaifuVanity = false;
         public bool brimstoneWaifu = false;
+        public bool brimstoneWaifuVanity = false;
         public bool sirenWaifu = false;
+        public bool sirenWaifuVanity = false;
         public bool fungalClump = false;
+        public bool fungalClumpVanity = false;
         public bool howlsHeart = false;
         public bool howlsHeartVanity = false;
         public bool darkGodSheath = false;
@@ -565,6 +572,7 @@ namespace CalamityMod.CalPlayer
         public bool camper = false;
         public bool corrosiveSpine = false;
         public bool miniOldDuke = false;
+        public bool miniOldDukeVanity = false;
         public bool starbusterCore = false;
         public bool starTaintedGenerator = false;
         public bool hallowedRune = false;
@@ -588,6 +596,7 @@ namespace CalamityMod.CalPlayer
         public bool BloomStoneRegen = false;
         public bool ChaosStone = false;
         public bool CryoStone = false;
+        public bool CryoStoneVanity = false;
         public bool voidField = false;
         public bool copyrightInfringementShield = false;
         #endregion
@@ -905,6 +914,7 @@ namespace CalamityMod.CalPlayer
         public bool hCrab = false;
         public bool tDime = false;
         public bool allWaifus = false;
+        public bool allWaifusVanity = false;
         public bool sCrystal = false;
         public bool sWaifu = false;
         public bool dWaifu = false;
@@ -1468,6 +1478,7 @@ namespace CalamityMod.CalPlayer
             bendyPet = false;
             littleLightPet = false;
             pineapplePet = false;
+            seaSlugPet = false;
 
             onyxExcavator = false;
             rimehound = false;
@@ -1475,6 +1486,7 @@ namespace CalamityMod.CalPlayer
             crysthamyr = false;
             ExoChair = false;
             miniOldDuke = false;
+            miniOldDukeVanity = false;
 
             abyssalDivingSuitPlates = false;
 
@@ -1654,6 +1666,7 @@ namespace CalamityMod.CalPlayer
             BloomStoneRegen = false;
             ChaosStone = false;
             CryoStone = false;
+            CryoStoneVanity = false;
             voidField = false;
             copyrightInfringementShield = false;
 
@@ -1940,12 +1953,19 @@ namespace CalamityMod.CalPlayer
             dCrystal = false;
             youngDuke = false;
             sandWaifu = false;
+            sandWaifuVanity = false;
             sandBoobWaifu = false;
+            sandBoobWaifuVanity = false;
             cloudWaifu = false;
+            cloudWaifuVanity = false;
             brimstoneWaifu = false;
+            brimstoneWaifuVanity = false;
             sirenWaifu = false;
+            sirenWaifuVanity = false;
             allWaifus = false;
+            allWaifusVanity = false;
             fungalClump = false;
+            fungalClumpVanity = false;
             howlsHeart = false;
             howlsHeartVanity = false;
             redDevil = false;

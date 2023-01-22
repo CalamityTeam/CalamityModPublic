@@ -19,6 +19,10 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.OreMergesWithMud[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.SetMerge(Type, TileID.Cloud);
+
+            TileID.Sets.ChecksForMerge[Type] = true;
+
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Aerialite");
@@ -32,6 +36,11 @@ namespace CalamityMod.Tiles.Ores
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
+        }
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            TileFraming.CustomMergeFrame(i, j, Type, TileID.Cloud);
+            return false;
         }
     }
 }

@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.Calamitas
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Guardians were brought together by Calamitas to shield its body from blows. It is possible that they are soul slurpers empowered and enslaved by a different brand of magic than brimstone.")
+                new FlavorTextBestiaryInfoElement("Guardians were brought together by the clone to shield its body from blows. It is possible that they are soul slurpers empowered and enslaved by a different brand of magic than brimstone.")
             });
         }
 

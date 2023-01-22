@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Summon
             bool flag64 = Projectile.type == ModContent.ProjectileType<WaterElementalMinion>();
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (!modPlayer.sirenWaifu && !modPlayer.allWaifus)
+            if (!modPlayer.sirenWaifu && !modPlayer.allWaifus && !modPlayer.sirenWaifuVanity && !modPlayer.allWaifusVanity)
             {
                 Projectile.active = false;
                 return;
@@ -67,7 +67,10 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 dust--;
             }
-            Lighting.AddLight(Projectile.Center, 0f, 0.25f, 1.5f);
+            bool passive = modPlayer.sirenWaifuVanity || modPlayer.allWaifusVanity;
+            if (!passive)
+                Lighting.AddLight(Projectile.Center, 0f, 0.25f, 1.5f);
+
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 6)
             {
@@ -90,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             Projectile.position.X = (int)Projectile.position.X;
             Projectile.position.Y = (int)Projectile.position.Y;
-            if (Projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer && !passive)
             {
                 // Prevent firing immediately
                 if (Projectile.localAI[0] < 120f)

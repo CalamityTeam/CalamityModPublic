@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A multi-legged mechanical beast, its very existence speaks of the extent of control the astral virus has. Not even machinery can stand against it.")
+				new FlavorTextBestiaryInfoElement("A multi-legged mechanical beast, its very existence speaks of the extent of control the astral virus has over the non-sapient. Not even machinery can stand against it.")
             });
         }
 

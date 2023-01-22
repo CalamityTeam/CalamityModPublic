@@ -11,11 +11,11 @@ namespace CalamityMod.Localization
         {
             _localizations = new[]
             {
-                new [] { "SkyOreText", "The ground is glittering with cyan light." },
+                new [] { "SkyOreText", "The sky is glittering with cyan light." },
                 new [] { "IceOreText", "The ice caves are crackling with frigid energy." },
                 new [] { "PlantOreText", "Energized plant matter has formed in the underground." },
                 new [] { "TreeOreText", "Fossilized tree bark is bursting through the jungle's mud." },
-                new [] { "AuricOreText", "A godly aura has blessed the world's caverns." },
+                new [] { "AuricOreText", "Ancient draconic power manifests in the caverns, lacing itself through the rock." },
                 new [] { "FutureOreText", "A cold and dark energy has materialized in space." },
 
                 new [] { "UglyBossText", "The Sunken Sea trembles..." },
