@@ -1,39 +1,35 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Turret
 {
     public class WaterShot : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        // The DrawBeam method relies on localAI[0] for its calculations. A different parameter won't work.
-        public float TrailLength
-        {
-            get => Projectile.localAI[0];
-            set => Projectile.localAI[0] = value;
-        }
-        public const int MaxTrailPoints = 50;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water Shot");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 6;
-            Projectile.height = 6;
+            Projectile.width = 10;
+            Projectile.height = 10;
             Projectile.friendly = true;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
             Projectile.penetrate = 4;
             Projectile.extraUpdates = 4;
-            Projectile.timeLeft = 240;
+            Projectile.timeLeft = 180;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
         }
@@ -41,26 +37,47 @@ namespace CalamityMod.Projectiles.Turret
 
         public override void AI()
         {
-            //CheckCollision();
             if (Projectile.localAI[0] == 0f)
             {
-                // play a sound frame 1. changed this from space gun sound because that sound was way too annoying
-                var sound = SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound with { Volume = CommonCalamitySounds.LaserCannonSound.Volume * 0.23f}, Projectile.Center);
+                Projectile.velocity.Y -= 1f;
+                // play a sound frame 1.
+                var sound = SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/PlantyMushMine", 3), Projectile.Center);
 
                 Projectile.localAI[0] = 1f;
             }
-            Projectile.alpha = (int)(Math.Sin(Projectile.timeLeft / 240f * MathHelper.Pi) * 1.6f * 255f);
-            if (Projectile.alpha > 255)
-                Projectile.alpha = 255;
-            TrailLength += 1.5f;
-            if (TrailLength > MaxTrailPoints)
-            {
-                TrailLength = MaxTrailPoints;
-            }
+            Projectile.velocity.Y += 0.03f;
+            Projectile.velocity.X *= 0.995f;
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.Wet, 240);
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(255, 190, 255, 0);
-
-        public override bool PreDraw(ref Color lightColor) => Projectile.DrawBeam(MaxTrailPoints, 1.5f, lightColor);
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D lightTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SmallGreyscaleCircle").Value;
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
+            {
+                Color color = new Color(59, 175, 252);
+                color.A = 0;
+                Vector2 drawPosition = Projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(-32f, -32f); //Last vector is to offset the circle so that it is displayed where the hitbox actually is, instead of a bit down and to the right.
+                Color outerColor = color;
+                Color innerColor = color * 0.2f;
+                float intensity = 0.6f;
+                intensity *= MathHelper.Lerp(0.15f, 1f, 1f - i / (float)Projectile.oldPos.Length);
+                if (Projectile.timeLeft <= 45) //Shrinks to nothing when projectile is nearing death
+                {
+                    intensity *= Projectile.timeLeft / 45f;
+                }
+                // Become smaller the futher along the old positions we are.
+                Vector2 outerScale = new Vector2(1f) * intensity;
+                Vector2 innerScale = new Vector2(1f) * intensity * 0.7f;
+                outerColor *= intensity;
+                innerColor *= intensity;
+                Main.EntitySpriteDraw(lightTexture, drawPosition, null, outerColor, 0f, lightTexture.Size() * 0.5f, outerScale * 0.60f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(lightTexture, drawPosition, null, innerColor, 0f, lightTexture.Size() * 0.5f, innerScale * 0.60f, SpriteEffects.None, 0);
+            }
+            return false;
+        }
     }
 }

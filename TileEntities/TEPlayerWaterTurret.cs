@@ -18,18 +18,18 @@ namespace CalamityMod.TileEntities
         public override int ProjectileType => ModContent.ProjectileType<WaterShotBuffer>();
         public override int ProjectileDamage => 23;
         public override float ProjectileKnockback => 6.5f;
-        public override float ShootSpeed => 5f;
+        public override float ShootSpeed => 6.5f;
         public override int FiringStartupDelay => 10;
-        public override int FiringUseTime => 55;
+        public override int FiringUseTime => 25;
 
         // Projectile spawn location variables
         public override Vector2 TurretCenterOffset => new Vector2(22f + 4f * Direction, -2f);
-        protected override float ShootForwardsOffset => 6f;
+        protected override float ShootForwardsOffset => 24f;
 
         // Targeting variables
-        public override float MaxRange => 600f;
+        public override float MaxRange => 300f;
         protected override float MaxTargetAngleDeviance => MathHelper.ToRadians(12f);
-        protected override float MaxDeltaAnglePerFrame => MathHelper.ToRadians(2f);
+        protected override float MaxDeltaAnglePerFrame => MathHelper.ToRadians(3f);
         protected override float CloseAimThreshold => MathHelper.ToRadians(12f);
         protected override float CloseAimLerpFactor => 0.08f;
 

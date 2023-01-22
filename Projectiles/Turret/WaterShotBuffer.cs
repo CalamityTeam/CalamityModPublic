@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Turret
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water Shot");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
