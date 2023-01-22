@@ -21,7 +21,7 @@ namespace CalamityMod.Items.LoreItems
         // This string contains the actual lore of the lore item
         public virtual string Lore => "";
         // By default, lore text appears in white, but this can be changed.
-        public virtual Color LoreColor => Color.White;
+        public virtual Color? LoreColor => null;
 
         public override void SetStaticDefaults()
         {
@@ -68,10 +68,9 @@ namespace CalamityMod.Items.LoreItems
                     tooltips.RemoveRange(tooltipIndex, tooltipCount);
 
                     // Replace them with the full lore.
-                    TooltipLine fullLore = new(Mod, "CalamityMod:Lore", Lore)
-                    {
-                        OverrideColor = LoreColor
-                    };
+                    TooltipLine fullLore = new(Mod, "CalamityMod:Lore", Lore);
+                    if (LoreColor.HasValue)
+                        fullLore.OverrideColor = LoreColor.Value;
                     tooltips.Insert(tooltipIndex, fullLore);
                 }
             }
