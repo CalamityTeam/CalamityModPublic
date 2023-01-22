@@ -39,13 +39,16 @@ namespace CalamityMod.Projectiles.Turret
         {
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.velocity.Y -= 1f;
+                Projectile.velocity.Y -= 1.5f;
                 // play a sound frame 1.
-                var sound = SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/PlantyMushMine", 3), Projectile.Center);
+                var sound = SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/PlantyMushMine", 3) with { Volume = 0.65f }, Projectile.Center);
 
                 Projectile.localAI[0] = 1f;
             }
-            Projectile.velocity.Y += 0.03f;
+            if (Projectile.velocity.Y < 10f)
+                Projectile.velocity.Y += 0.08f;
+            if (Projectile.velocity.Y > 10f)
+                Projectile.velocity.Y = 10f;
             Projectile.velocity.X *= 0.995f;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -74,8 +77,8 @@ namespace CalamityMod.Projectiles.Turret
                 Vector2 innerScale = new Vector2(1f) * intensity * 0.7f;
                 outerColor *= intensity;
                 innerColor *= intensity;
-                Main.EntitySpriteDraw(lightTexture, drawPosition, null, outerColor, 0f, lightTexture.Size() * 0.5f, outerScale * 0.60f, SpriteEffects.None, 0);
-                Main.EntitySpriteDraw(lightTexture, drawPosition, null, innerColor, 0f, lightTexture.Size() * 0.5f, innerScale * 0.60f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(lightTexture, drawPosition, null, outerColor, 0f, lightTexture.Size() * 0.5f, outerScale * 0.40f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(lightTexture, drawPosition, null, innerColor, 0f, lightTexture.Size() * 0.5f, innerScale * 0.40f, SpriteEffects.None, 0);
             }
             return false;
         }

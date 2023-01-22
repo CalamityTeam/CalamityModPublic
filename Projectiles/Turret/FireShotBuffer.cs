@@ -4,13 +4,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Turret
 {
-    public class WaterShotBuffer : ModProjectile
+    public class FireShotBuffer : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Water Shot");
+            DisplayName.SetDefault("Fire Shot");
         }
 
         public override void SetDefaults()
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Turret
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 var source = Main.player[Main.myPlayer].GetSource_FromThis();
-                Projectile.NewProjectile(source, Projectile.Center, Projectile.velocity, ModContent.ProjectileType<WaterShot>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
+                Projectile.NewProjectile(source, Projectile.Center, Projectile.velocity, ModContent.ProjectileType<FireShot>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
                 Projectile.Kill();
             }
         }
