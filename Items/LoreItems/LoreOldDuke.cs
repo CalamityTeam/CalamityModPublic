@@ -9,7 +9,13 @@ namespace CalamityMod.Items.LoreItems
     [LegacyName("KnowledgeOldDuke")]
     public class LoreOldDuke : LoreItem
     {
-        public override string Lore => "This lore item isn't finished yet.";
+        public override string Lore =>
+@"That was possibly one of the oldest mundane living beings on the face of the planet.
+The first Fishrons were spotted in the middle of the Draconic Era. What exotic prestige…!
+Fishrons were one of the original offshoots of pure-blooded Auric Dragons.
+They are so old and venerated that many historians are convinced they are the original sea monsters of folklore.
+This particular Duke’s guile is self-evident; it evaded centuries of hunting, and until now had survived a most thorough poisoning.
+Above almost all others, this creature was a living fable. One most wonder what goes through the mind of a fading legend.";
 
         public override void SetStaticDefaults()
         {
