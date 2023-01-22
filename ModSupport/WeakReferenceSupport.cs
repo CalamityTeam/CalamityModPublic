@@ -187,7 +187,7 @@ namespace CalamityMod
 
         public static void WikiThisSupport()
         {
-			// Wikithis is a clientside mod
+            // Wikithis is a clientside mod
             if (Main.netMode == NetmodeID.Server)
                 return;
 
@@ -196,88 +196,95 @@ namespace CalamityMod
             if (wiki is null)
                 return;
 
-			bool oldVersion = wiki.Version < new Version(2, 4, 7, 5);
+            bool oldVersion = wiki.Version < new Version(2, 4, 7, 5);
 
-			wiki.Call("AddModURL", calamity, oldVersion ? CalamityWikiURLOld : CalamityWikiURL);
-			wiki.Call(0, calamity, oldVersion ? CalamityWikiURLOld : CalamityWikiURL);
-			wiki.Call("AddWikiTexture", calamity, ModContent.Request<Texture2D>("CalamityMod/ModSupport/WikiThisIcon"));
-			wiki.Call(3, calamity, ModContent.Request<Texture2D>("CalamityMod/ModSupport/WikiThisIcon"));
+            wiki.Call("AddModURL", calamity, oldVersion ? CalamityWikiURLOld : CalamityWikiURL);
+            wiki.Call(0, calamity, oldVersion ? CalamityWikiURLOld : CalamityWikiURL);
+            wiki.Call("AddWikiTexture", calamity, ModContent.Request<Texture2D>("CalamityMod/ModSupport/WikiThisIcon"));
+            wiki.Call(3, calamity, ModContent.Request<Texture2D>("CalamityMod/ModSupport/WikiThisIcon"));
 
-			// Clear up name conflicts
+            // Clear up name conflicts
             void ItemRedirect(int item, string pageName)
             {
-				wiki.Call(1, item, pageName);
+                wiki.Call(1, item, pageName);
             }
             void EnemyRedirect(int item, string pageName)
             {
-				wiki.Call(2, item, pageName);
+                wiki.Call(2, item, pageName);
             }
 
-			// Items
-			ItemRedirect(ModContent.ItemType<BloodOrange>(), "Blood Orange (calamity)");
-			ItemRedirect(ModContent.ItemType<Elderberry>(), "Elderberry (calamity)");
-			ItemRedirect(ModContent.ItemType<PineapplePet>(), "Pineapple (calamity)");
-			ItemRedirect(ModContent.ItemType<TrashmanTrashcan>(), "Trash Can (pet)");
-			ItemRedirect(ModContent.ItemType<Butcher>(), "Butcher (weapon)");
-			ItemRedirect(ModContent.ItemType<SandstormGun>(), "Sandstorm (weapon)");
-			ItemRedirect(ModContent.ItemType<Thunderstorm>(), "Thunderstorm (weapon)");
-			// Lore items
-			ItemRedirect(ModContent.ItemType<LoreAquaticScourge>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<KnowledgeAstralInfection>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreAstrumAureus>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreAstrumDeus>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<KnowledgeBloodMoon>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreBrainofCthulhu>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreAzafure>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreBrimstoneElemental>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreCalamitas>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreCalamitasClone>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreCorruption>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreCrabulon>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreCrimson>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreArchmage>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreDesertScourge>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreDestroyer>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreDevourerofGods>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreDragonfolly>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreDukeFishron>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreEaterofWorlds>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreExoMechs>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreEyeofCthulhu>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreGolem>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreHiveMind>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreKingSlime>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreLeviathanAnahita>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LorePrelude>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreMechs>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreRequiem>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<KnowledgeOcean>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreOldDuke>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LorePerforators>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LorePlaguebringerGoliath>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LorePlantera>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LorePolterghast>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreProfanedGuardians>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreProvidence>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreQueenBee>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreRavager>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<KnowledgeSentinels>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreSkeletron>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreSkeletronPrime>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreSlimeGod>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreSulphurSea>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreTwins>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreUnderworld>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreWallofFlesh>(), "Lore#Lore_Items");
-			ItemRedirect(ModContent.ItemType<LoreYharon>(), "Lore#Lore_Items");
+            // Items
+            ItemRedirect(ModContent.ItemType<BloodOrange>(), "Blood Orange (calamity)");
+            ItemRedirect(ModContent.ItemType<Elderberry>(), "Elderberry (calamity)");
+            ItemRedirect(ModContent.ItemType<PineapplePet>(), "Pineapple (calamity)");
+            ItemRedirect(ModContent.ItemType<TrashmanTrashcan>(), "Trash Can (pet)");
+            ItemRedirect(ModContent.ItemType<Butcher>(), "Butcher (weapon)");
+            ItemRedirect(ModContent.ItemType<SandstormGun>(), "Sandstorm (weapon)");
+            ItemRedirect(ModContent.ItemType<Thunderstorm>(), "Thunderstorm (weapon)");
+            // Lore items
+            ItemRedirect(ModContent.ItemType<KnowledgeAstralInfection>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<KnowledgeBloodMoon>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<KnowledgeOcean>(), "Lore#Lore_Items");
 
-			// Enemies
-			EnemyRedirect(ModContent.NPCType<Catfish>(), "Catfish (enemy)");
-			EnemyRedirect(ModContent.NPCType<HiveEnemy>(), "Hive (enemy)");
-			EnemyRedirect(ModContent.NPCType<KingSlimeJewel>(), "Crown Jewel (enemy)");
-			EnemyRedirect(ModContent.NPCType<OldDukeToothBall>(), "Tooth Ball (Old Duke)");
-			EnemyRedirect(ModContent.NPCType<CalamitasEnchantDemon>(), "Enchantment");
-			EnemyRedirect(ModContent.NPCType<LeviathanStart>(), "%3F%3F%3F");
+            ItemRedirect(ModContent.ItemType<LoreAquaticScourge>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreArchmage>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreAstrumAureus>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreAstrumDeus>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreAwakening>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreAzafure>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreBrainofCthulhu>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreBrimstoneElemental>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreCalamitas>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreCalamitasClone>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreCeaselessVoid>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreCorruption>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreCrabulon>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreCrimson>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreCynosure>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreDesertScourge>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreDestroyer>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreDevourerofGods>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreDragonfolly>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreDukeFishron>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreEaterofWorlds>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreEmpressofLight>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreExoMechs>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreEyeofCthulhu>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreGolem>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreHiveMind>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreKingSlime>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreLeviathanAnahita>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreMechs>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreOldDuke>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LorePerforators>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LorePlaguebringerGoliath>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LorePlantera>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LorePolterghast>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LorePrelude>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreProfanedGuardians>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreProvidence>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreQueenBee>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreQueenSlime>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreRavager>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreRequiem>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreSignus>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreSkeletron>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreSkeletronPrime>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreSlimeGod>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreStormWeaver>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreSulphurSea>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreTwins>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreUnderworld>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreWallofFlesh>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreYharon>(), "Lore#Lore_Items");
+
+            // Enemies
+            EnemyRedirect(ModContent.NPCType<Catfish>(), "Catfish (enemy)");
+            EnemyRedirect(ModContent.NPCType<HiveEnemy>(), "Hive (enemy)");
+            EnemyRedirect(ModContent.NPCType<KingSlimeJewel>(), "Crown Jewel (enemy)");
+            EnemyRedirect(ModContent.NPCType<OldDukeToothBall>(), "Tooth Ball (Old Duke)");
+            EnemyRedirect(ModContent.NPCType<CalamitasEnchantDemon>(), "Enchantment");
+            EnemyRedirect(ModContent.NPCType<LeviathanStart>(), "%3F%3F%3F");
         }
 
         // Wrapper function to add bosses to Boss Checklist.
@@ -669,7 +676,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("CeaselessVoid", out float order);
                 List<int> bosses = new List<int>() { NPCType<CeaselessVoid>(), NPCType<DarkEnergy>() };
                 int summon = ItemType<RuneofKos>();
-                List<int> collection = new List<int>() { ItemType<CeaselessVoidTrophy>(), ItemType<CeaselessVoidMask>(), ItemType<AncientGodSlayerHelm>(), ItemType<AncientGodSlayerChestplate>(), ItemType<AncientGodSlayerLeggings>(), ItemType<KnowledgeSentinels>(), ItemType<ThankYouPainting>() };
+                List<int> collection = new List<int>() { ItemType<CeaselessVoidTrophy>(), ItemType<CeaselessVoidMask>(), ItemType<AncientGodSlayerHelm>(), ItemType<AncientGodSlayerChestplate>(), ItemType<AncientGodSlayerLeggings>(), ItemType<LoreCeaselessVoid>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}] in the Dungeon";
                 string despawn = CalamityUtils.ColorMessage("The rift in time and space has moved away from your reach.", new Color(0x4B, 0x00, 0x82));
                 AddBoss(bossChecklist, calamity, "Ceaseless Void", order, bosses, DownedCeaselessVoid, summon, collection, instructions, despawn, () => true);
@@ -680,7 +687,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("StormWeaver", out float order);
                 List<int> segments = new List<int>() { NPCType<StormWeaverHead>(), NPCType<StormWeaverBody>(), NPCType<StormWeaverTail>() };
                 int summon = ItemType<RuneofKos>();
-                List<int> collection = new List<int>() { ItemType<WeaverTrophy>(), ItemType<StormWeaverMask>(), ItemType<AncientGodSlayerHelm>(), ItemType<AncientGodSlayerChestplate>(), ItemType<AncientGodSlayerLeggings>(), ItemType<KnowledgeSentinels>(), ItemType<LittleLight>(), ItemType<ThankYouPainting>() };
+                List<int> collection = new List<int>() { ItemType<WeaverTrophy>(), ItemType<StormWeaverMask>(), ItemType<AncientGodSlayerHelm>(), ItemType<AncientGodSlayerChestplate>(), ItemType<AncientGodSlayerLeggings>(), ItemType<LoreStormWeaver>(), ItemType<LittleLight>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}] in Space";
                 string despawn = CalamityUtils.ColorMessage("Storm Weaver hid itself once again within the stormfront.", new Color(0xEE, 0x82, 0xEE));
                 string bossLogTex = "CalamityMod/NPCs/StormWeaver/StormWeaverHead_Head_Boss";
@@ -697,7 +704,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("Signus", out float order);
                 int type = NPCType<Signus>();
                 int summon = ItemType<RuneofKos>();
-                List<int> collection = new List<int>() { ItemType<SignusTrophy>(), ItemType<SignusMask>(), ItemType<AncientGodSlayerHelm>(), ItemType<AncientGodSlayerChestplate>(), ItemType<AncientGodSlayerLeggings>(), ItemType<KnowledgeSentinels>(), ItemType<ThankYouPainting>() };
+                List<int> collection = new List<int>() { ItemType<SignusTrophy>(), ItemType<SignusMask>(), ItemType<AncientGodSlayerHelm>(), ItemType<AncientGodSlayerChestplate>(), ItemType<AncientGodSlayerLeggings>(), ItemType<LoreSignus>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}] in the Underworld";
                 string despawn = CalamityUtils.ColorMessage("The Devourer's assassin has finished its easy task.", new Color(0xBA, 0x55, 0xD3));
                 AddBoss(bossChecklist, calamity, "Signus", order, type, DownedSignus, summon, collection, instructions, despawn, () => true);
@@ -781,7 +788,7 @@ namespace CalamityMod
             {
                 BossDifficulty.TryGetValue("ExoMechs", out float order);
                 List<int> bosses = new List<int>() { NPCType<Apollo>(), NPCType<AresBody>(), NPCType<Artemis>(), NPCType<ThanatosHead>() };
-                List<int> collection = new List<int>() { ItemType<AresTrophy>(), ItemType<ThanatosTrophy>(), ItemType<ArtemisTrophy>(), ItemType<ApolloTrophy>(), ItemType<DraedonMask>(), ItemType<AresMask>(), ItemType<ThanatosMask>(), ItemType<ArtemisMask>(), ItemType<ApolloMask>(), ItemType<LoreExoMechs>(), ItemType<ThankYouPainting>() };
+                List<int> collection = new List<int>() { ItemType<AresTrophy>(), ItemType<ThanatosTrophy>(), ItemType<ArtemisTrophy>(), ItemType<ApolloTrophy>(), ItemType<DraedonMask>(), ItemType<AresMask>(), ItemType<ThanatosMask>(), ItemType<ArtemisMask>(), ItemType<ApolloMask>(), ItemType<LoreExoMechs>(), ItemType<LoreCynosure>(), ItemType<ThankYouPainting>() };
                 string instructions = "By using a high-tech computer";
                 string despawn = CalamityUtils.ColorMessage("An imperfection after all... what a shame.", new Color(0x7F, 0xFF, 0xD4));
 
@@ -803,7 +810,7 @@ namespace CalamityMod
                 int summon2 = ItemType<CeremonialUrn>();
                 int altar = ItemType<AltarOfTheAccursedItem>();
                 List<int> summons = new List<int>() { summon1, summon2 };
-                List<int> collection = new List<int>() { ItemType<SupremeCalamitasTrophy>(), ItemType<SupremeCataclysmTrophy>(), ItemType<SupremeCatastropheTrophy>(), ItemType<AshenHorns>(), ItemType<SCalMask>(), ItemType<SCalRobes>(), ItemType<SCalBoots>(), ItemType<LoreCalamitas>(), ItemType<BrimstoneJewel>(), ItemType<Levi>(), ItemType<ThankYouPainting>() };
+                List<int> collection = new List<int>() { ItemType<SupremeCalamitasTrophy>(), ItemType<SupremeCataclysmTrophy>(), ItemType<SupremeCatastropheTrophy>(), ItemType<AshenHorns>(), ItemType<SCalMask>(), ItemType<SCalRobes>(), ItemType<SCalBoots>(), ItemType<LoreCalamitas>(), ItemType<LoreCynosure>(), ItemType<BrimstoneJewel>(), ItemType<Levi>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use [i:{summon1}] or a [i:{summon2}] as offering at an [i:{altar}]";
                 string despawn = CalamityUtils.ColorMessage("Please don't waste my time.", new Color(0xFF, 0xA5, 0x00));
                 string bossHeadTex = "CalamityMod/NPCs/SupremeCalamitas/HoodedHeadIcon";
@@ -929,7 +936,7 @@ namespace CalamityMod
             // Queen Slime
             AddLoot(bossChecklist, "QueenSlime",
                 new List<int>() { ItemID.HallowedKey },
-				new List<int>() { ItemType<ThankYouPainting>() }
+                new List<int>() { ItemType<LoreQueenSlime>(), ItemType<ThankYouPainting>() }
             );
 
             // The Twins
@@ -966,7 +973,7 @@ namespace CalamityMod
             // Empress of Light
             AddLoot(bossChecklist, "HallowBoss",
                 null,
-				new List<int>() { ItemType<ThankYouPainting>() }
+                new List<int>() { ItemType<LoreEmpressofLight>(), ItemType<ThankYouPainting>() }
             );
 
             // Duke Fishron
