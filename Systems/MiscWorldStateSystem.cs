@@ -26,6 +26,7 @@ namespace CalamityMod
             CalamityGlobalNPC.voidBoss = -1;
             CalamityGlobalNPC.energyFlame = -1;
             CalamityGlobalNPC.hiveMind = -1;
+            CalamityGlobalNPC.astrumAureus = -1;
             CalamityGlobalNPC.scavenger = -1;
 
             for (int i = 0; i < CalamityGlobalNPC.bobbitWormBottom.Length; i++)

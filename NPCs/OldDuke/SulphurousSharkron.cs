@@ -19,7 +19,6 @@ namespace CalamityMod.NPCs.OldDuke
 {
     public class SulphurousSharkron : ModNPC
     {
-        bool spawnedProjectiles = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sulphurous Sharkron");
@@ -49,7 +48,7 @@ namespace CalamityMod.NPCs.OldDuke
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0f;
-            NPC.alpha = 255;
+            NPC.Opacity = 0f;
             NPC.noGravity = true;
             NPC.dontTakeDamage = true;
             NPC.noTileCollide = true;
@@ -76,18 +75,18 @@ namespace CalamityMod.NPCs.OldDuke
         {
             writer.Write(NPC.dontTakeDamage);
             writer.Write(NPC.noGravity);
-            writer.Write(spawnedProjectiles);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             NPC.dontTakeDamage = reader.ReadBoolean();
             NPC.noGravity = reader.ReadBoolean();
-            spawnedProjectiles = reader.ReadBoolean();
         }
 
         public override void AI()
         {
+            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.7f * NPC.Opacity, 0.9f * NPC.Opacity, 0f);
+
             bool bossRush = BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || bossRush;
             bool revenge = CalamityWorld.revenge || bossRush;
@@ -110,9 +109,9 @@ namespace CalamityMod.NPCs.OldDuke
                 NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X);
             }
 
-            NPC.alpha -= 6;
-            if (NPC.alpha < 0)
-                NPC.alpha = 0;
+            NPC.Opacity += 0.025f;
+            if (NPC.Opacity > 1f)
+                NPC.Opacity = 1f;
 
             // Fly towards Old Duke
             bool normalAI = NPC.ai[3] == 0f;
@@ -121,13 +120,11 @@ namespace CalamityMod.NPCs.OldDuke
             bool upwardAI = NPC.ai[3] < 0f;
 
             float flyTowardTargetGateValue = bossRush ? 60f : death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
-            float extraTime = bossRush ? 90f : death ? 100f : revenge ? 105f : expertMode ? 110f : 120f;
+            float extraTime = bossRush ? 60f : death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
             float aiGateValue = flyTowardTargetGateValue + extraTime;
-            if (!normalAI)
-                aiGateValue -= extraTime * 0.3f;
-            float dieGateValue = aiGateValue + extraTime;
-            float fallDownGateValue = aiGateValue + extraTime * 0.5f;
-            float maxVelocity = bossRush ? 26f : death ? 24f : revenge ? 23f : expertMode ? 22f : 20f;
+            float dieGateValue = aiGateValue + extraTime * 4f;
+            float fallDownGateValue = aiGateValue + extraTime;
+            float maxVelocity = bossRush ? 24f : death ? 22f : revenge ? 21f : expertMode ? 20f : 18f;
 
             if (NPC.ai[0] == 0f)
             {
@@ -162,7 +159,7 @@ namespace CalamityMod.NPCs.OldDuke
                     Vector2 vector17 = Main.player[NPC.target].Center - NPC.Center;
                     vector17.Normalize();
                     vector17 *= scaleFactor2;
-                    float inertia = bossRush ? 10f : death ? 13f : revenge ? 15f : expertMode ? 17f : 20f;
+                    float inertia = bossRush ? 20f : death ? 23f : revenge ? 25f : expertMode ? 27f : 30f;
                     NPC.velocity = (NPC.velocity * (inertia - 1f) + vector17) / inertia;
                     NPC.velocity.Normalize();
                     NPC.velocity *= scaleFactor2;
@@ -188,9 +185,8 @@ namespace CalamityMod.NPCs.OldDuke
                         SoundEngine.PlaySound(NPC.DeathSound.GetValueOrDefault(), NPC.position);
 
                     NPC.life = 0;
-                    NPC.HitEffect(0, 10.0);
+                    NPC.HitEffect();
                     NPC.checkDead();
-                    NPC.active = false;
                     return;
                 }
 
@@ -231,6 +227,18 @@ namespace CalamityMod.NPCs.OldDuke
             int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
             if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+
+            if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld)
+            {
+                int spawnX = NPC.width / 2;
+                int type = ModContent.ProjectileType<OldDukeGore>();
+                int damage = NPC.GetProjectileDamage(type);
+                for (int i = 0; i < 10; i++)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + Main.rand.Next(-spawnX, spawnX), NPC.Center.Y,
+                        Main.rand.Next(-3, 4), Main.rand.Next(-12, -6), type, damage, 0f, Main.myPlayer);
+                }
+            }
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -279,7 +287,7 @@ namespace CalamityMod.NPCs.OldDuke
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = ImmunityCooldownID.Bosses;
-            return NPC.alpha == 0;
+            return NPC.Opacity == 1f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -288,62 +296,49 @@ namespace CalamityMod.NPCs.OldDuke
                 player.AddBuff(ModContent.BuffType<Irradiated>(), 240);
         }
 
-        public override bool CheckDead()
-        {
-            SoundEngine.PlaySound(SoundID.NPCDeath12, NPC.position);
-
-            NPC.position.X = NPC.position.X + (NPC.width / 2);
-            NPC.position.Y = NPC.position.Y + (NPC.height / 2);
-            NPC.width = NPC.height = 96;
-            NPC.position.X = NPC.position.X - (NPC.width / 2);
-            NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-
-            for (int num621 = 0; num621 < 15; num621++)
-            {
-                int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity.Y *= 6f;
-                Main.dust[num622].velocity.X *= 3f;
-                if (Main.rand.NextBool(2))
-                {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
-                }
-            }
-
-            for (int num623 = 0; num623 < 30; num623++)
-            {
-                int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Blood, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity.Y *= 10f;
-                num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Blood, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity.X *= 2f;
-            }
-
-            if (Main.netMode != NetmodeID.MultiplayerClient && !spawnedProjectiles && Main.getGoodWorld)
-            {
-                spawnedProjectiles = true;
-                int spawnX = NPC.width / 2;
-                int type = ModContent.ProjectileType<OldDukeGore>();
-                int damage = NPC.GetProjectileDamage(type);
-                for (int i = 0; i < 10; i++)
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + Main.rand.Next(-spawnX, spawnX), NPC.Center.Y,
-                        Main.rand.Next(-3, 4), Main.rand.Next(-12, -6), type, damage, 0f, Main.myPlayer);
-            }
-
-            return true;
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
-            {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
-            }
+
             if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
-                {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+
+                SoundEngine.PlaySound(SoundID.NPCDeath12, NPC.position);
+
+                NPC.position.X = NPC.position.X + (NPC.width / 2);
+                NPC.position.Y = NPC.position.Y + (NPC.height / 2);
+                NPC.width = NPC.height = 96;
+                NPC.position.X = NPC.position.X - (NPC.width / 2);
+                NPC.position.Y = NPC.position.Y - (NPC.height / 2);
+
+                for (int num621 = 0; num621 < 15; num621++)
+                {
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 2f);
+                    Main.dust[num622].velocity.Y *= 6f;
+                    Main.dust[num622].velocity.X *= 3f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[num622].scale = 0.5f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                    }
+                }
+
+                for (int num623 = 0; num623 < 30; num623++)
+                {
+                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Blood, 0f, 0f, 100, default, 3f);
+                    Main.dust[num624].noGravity = true;
+                    Main.dust[num624].velocity.Y *= 10f;
+                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Blood, 0f, 0f, 100, default, 2f);
+                    Main.dust[num624].velocity.X *= 2f;
+                }
+
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SulphurousSharkronGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SulphurousSharkronGore2").Type, NPC.scale);
                 }
             }
         }

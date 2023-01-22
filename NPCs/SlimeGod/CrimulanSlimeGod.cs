@@ -132,6 +132,8 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X, (int)spawnAt.Y - 30, ModContent.NPCType<SplitCrimulanSlimeGod>());
                 }
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;

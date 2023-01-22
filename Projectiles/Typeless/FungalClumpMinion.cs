@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Typeless
             CalamityPlayer modPlayer = player.Calamity();
 
             bool correctMinion = Projectile.type == ModContent.ProjectileType<FungalClumpMinion>();
-            if (!modPlayer.fungalClump)
+            if (!modPlayer.fungalClump && !modPlayer.fungalClumpVanity)
             {
                 Projectile.active = false;
                 return;
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
 
             //Periodically create dust
-            if (Main.rand.NextBool(16))
+            if (Main.rand.NextBool(16) && !modPlayer.fungalClumpVanity)
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 56, Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f);
             }
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Typeless
             float range = 900f;
             bool npcFound = false;
             Vector2 half = new Vector2(0.5f);
-            if (!returnToPlayer)
+            if (!returnToPlayer && !modPlayer.fungalClumpVanity)
             {
                 if (player.HasMinionAttackTargetNPC)
                 {
@@ -247,5 +247,19 @@ namespace CalamityMod.Projectiles.Typeless
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
+
+        public override bool? CanDamage()
+        {
+            Player player = Main.player[Projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+            if (modPlayer.fungalClumpVanity)
+            {
+                return false;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

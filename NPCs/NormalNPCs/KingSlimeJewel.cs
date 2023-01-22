@@ -45,6 +45,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             // Despawn
             if (!NPC.AnyNPCs(NPCID.KingSlime))
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;

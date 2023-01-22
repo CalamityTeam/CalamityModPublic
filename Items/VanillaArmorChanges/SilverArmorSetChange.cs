@@ -20,7 +20,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public const int ChestLifeRegen = 2;
         public const float LegsMoveSpeed = 0.1f;
         public const int SetBonusLifeRegen = 1;
-        public const int SetBonusMiningSpeedPercent = 25;
 
         public const double SetBonusMinimumDamageToHeal = 20.0;
         public const int SetBonusHealTime = 120;
@@ -36,7 +35,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             StringBuilder sb = new StringBuilder(256);
             sb.Append("\n+1 life regen\nTwo seconds after getting hit for 20 or more damage, you heal for 10\nGetting hit again resets the timer, delaying the heal");
-            sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }
 
@@ -44,7 +42,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             player.lifeRegen += SetBonusLifeRegen;
             player.Calamity().silverMedkit = true;
-            player.pickSpeed -= SetBonusMiningSpeedPercent * 0.01f;
         }
 
         internal static void OnHealEffects(Entity entity)

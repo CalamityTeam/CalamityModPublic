@@ -56,5 +56,26 @@ namespace CalamityMod.Items.Accessories
                 }
             }
         }
+
+        public override void UpdateVanity(Player player)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.brimstoneWaifuVanity = true;
+            if (player.whoAmI == Main.myPlayer)
+            {
+                var source = player.GetSource_Accessory(Item);
+                if (player.FindBuffIndex(ModContent.BuffType<BrimstoneWaifu>()) == -1)
+                {
+                    player.AddBuff(ModContent.BuffType<BrimstoneWaifu>(), 3600, true);
+                }
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<BrimstoneElementalMinion>()] < 1)
+                {
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(60);
+                    int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BrimstoneElementalMinion>(), damage, 2f, Main.myPlayer, 0f, 0f);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = 60;
+                }
+            }
+        }
     }
 }

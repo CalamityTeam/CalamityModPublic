@@ -193,7 +193,9 @@ namespace CalamityMod.NPCs.ExoMechs
                 if (PlayerToFollow.dead || !PlayerToFollow.active)
                 {
                     NPC.life = 0;
+                    NPC.HitEffect();
                     NPC.active = false;
+                    NPC.netUpdate = true;
                     return;
                 }
             }
@@ -633,14 +635,13 @@ namespace CalamityMod.NPCs.ExoMechs
                 if (HologramEffectTimer <= 0f)
                 {
                     Main.BestiaryTracker.Kills.RegisterKill(NPC);
+                    NPC.life = 0;
+                    NPC.HitEffect();
                     NPC.active = false;
+                    NPC.netUpdate = true;
 					// Die you lil piece of shit stop creating endless loop in BR
 					if (BossRushEvent.BossRushActive)
-					{
-						NPC.HitEffect();
 						NPC.NPCLoot();
-						NPC.netUpdate = true;
-					}
                 }
             }
 

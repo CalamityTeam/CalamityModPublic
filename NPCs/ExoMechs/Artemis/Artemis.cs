@@ -406,6 +406,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<Apollo.Apollo>()))
                 {
+                    NPC.life = 0;
+                    NPC.HitEffect();
                     NPC.active = false;
                     NPC.netUpdate = true;
                 }
@@ -1561,9 +1563,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                 if (nPC.active && nPC.type == ModContent.NPCType<Apollo.Apollo>() && nPC.life > 0)
                 {
                     nPC.life = 0;
-                    nPC.HitEffect(0, 10.0);
+                    nPC.HitEffect();
                     nPC.checkDead();
                     nPC.active = false;
+                    nPC.netUpdate = true;
                 }
             }
             return true;

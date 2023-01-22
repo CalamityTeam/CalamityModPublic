@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (!modPlayer.sandWaifu && !modPlayer.allWaifus)
+            if (!modPlayer.sandWaifu && !modPlayer.allWaifus && !modPlayer.sandWaifuVanity && !modPlayer.allWaifusVanity)
             {
                 Projectile.active = false;
                 return;
@@ -69,6 +69,7 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num503].scale *= 1.15f;
                 }
             }
+            bool passive = modPlayer.sandWaifuVanity || modPlayer.allWaifusVanity;
             if (Math.Abs(Projectile.velocity.X) > 0.2f)
             {
                 Projectile.spriteDirection = -Projectile.direction;
@@ -77,9 +78,12 @@ namespace CalamityMod.Projectiles.Summon
             float num634 = 800f;
             float num635 = 1200f;
             float num636 = 200f; //150
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight(Projectile.Center, 0.7f * num, 0.6f * num, 0f * num);
+            if (!passive)
+            {
+                float num = (float)Main.rand.Next(90, 111) * 0.01f;
+                num *= Main.essScale;
+                Lighting.AddLight(Projectile.Center, 0.7f * num, 0.6f * num, 0f * num);
+            }
             Projectile.MinionAntiClump();
             Vector2 vector46 = Projectile.position;
             bool flag25 = false;
@@ -91,7 +95,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.tileCollide = false;
             }
-            if (player.HasMinionAttackTargetNPC)
+            if (player.HasMinionAttackTargetNPC && !passive)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(Projectile, false))
@@ -104,7 +108,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            if (!flag25)
+            if (!flag25 && !passive)
             {
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
@@ -122,7 +126,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             float num647 = num634;
-            if (flag25)
+            if (flag25 && !passive)
             {
                 if (Projectile.frame < 6)
                 {
@@ -251,6 +255,19 @@ namespace CalamityMod.Projectiles.Summon
                         Projectile.netUpdate = true;
                     }
                 }
+            }
+        }
+        public override bool? CanDamage()
+        {
+            Player player = Main.player[Projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+            if (modPlayer.sandWaifuVanity || modPlayer.allWaifusVanity)
+            {
+                return false;
+            }
+            else
+            {
+                return null;
             }
         }
     }

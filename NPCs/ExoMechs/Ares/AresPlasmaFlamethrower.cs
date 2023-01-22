@@ -130,9 +130,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             if (CalamityGlobalNPC.draedonExoMechPrime < 0 || !Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
             {
                 NPC.life = 0;
-                NPC.HitEffect(0, 10.0);
+                NPC.HitEffect();
                 NPC.checkDead();
                 NPC.active = false;
+                NPC.netUpdate = true;
                 return;
             }
 

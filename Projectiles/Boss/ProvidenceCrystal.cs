@@ -10,6 +10,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceCrystal : ModProjectile
@@ -43,44 +44,35 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            Player player = Main.player[Projectile.owner];
-            if (player.dead || NPC.CountNPCS(ModContent.NPCType<Providence>()) < 1)
+            if (CalamityGlobalNPC.holyBoss < 0 || !Main.npc[CalamityGlobalNPC.holyBoss].active)
             {
                 Projectile.active = false;
                 Projectile.netUpdate = true;
                 return;
             }
 
-            //Syncing to Night AI
-            if (CalamityGlobalNPC.holyBoss != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.holyBoss].active)
-                    Projectile.maxPenetrate = (int)Main.npc[CalamityGlobalNPC.holyBoss].localAI[1];
-            }
+            Player proviTarget = Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target];
 
-            Projectile.position.X = Main.player[Projectile.owner].Center.X - (Projectile.width / 2);
-            Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (Projectile.height / 2) + Main.player[Projectile.owner].gfxOffY - 360f;
-            if (Main.player[Projectile.owner].gravDir == -1f)
+            Projectile.maxPenetrate = (int)Main.npc[CalamityGlobalNPC.holyBoss].localAI[1];
+
+            Projectile.position.X = proviTarget.Center.X - (Projectile.width / 2);
+            Projectile.position.Y = proviTarget.Center.Y - (Projectile.height / 2) + proviTarget.gfxOffY - 360f;
+            if (proviTarget.gravDir == -1f)
             {
-                Projectile.position.Y = Projectile.position.Y + 400f;
-                Projectile.rotation = 3.14f;
+                Projectile.position.Y += 400f;
+                Projectile.rotation = MathHelper.Pi;
             }
             else
-            {
                 Projectile.rotation = 0f;
-            }
+
             Projectile.position.X = (int)Projectile.position.X;
             Projectile.position.Y = (int)Projectile.position.Y;
             Projectile.velocity = Vector2.Zero;
+
             Projectile.alpha -= 5;
             if (Projectile.alpha < 0)
-            {
                 Projectile.alpha = 0;
-            }
-            if (Projectile.direction == 0)
-            {
-                Projectile.direction = Main.player[Projectile.owner].direction;
-            }
+
             if (Projectile.alpha == 0 && Main.rand.NextBool(15))
             {
                 Color BaseColor = ProvUtils.GetProjectileColor(Projectile.maxPenetrate, 0);
@@ -99,9 +91,9 @@ namespace CalamityMod.Projectiles.Boss
             // Increment timer
             Projectile.localAI[0] += 1f;
 
-            //At day, fires every 300 frames but lasts 1500-3600 frames.
-            //At night, fires every 30 framges but lasts 210 frames.
-            //In GFB, fires at night rate for the first 210 frames, then at day rate for the next 1500.
+            // At day, fires every 300 frames but lasts 1500-3600 frames.
+            // At night, fires every 30 framges but lasts 210 frames.
+            // In GFB, fires at night rate for the first 210 frames, then at day rate for the next 1500.
             bool dayAI = Projectile.maxPenetrate == (int)Providence.BossMode.Day || (Projectile.maxPenetrate >= (int)Providence.BossMode.Red && Projectile.timeLeft < 1500);
 
             if (Projectile.localAI[0] >= (dayAI ? 300f : 30f))
@@ -132,10 +124,9 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 0);
-        }
+        public override bool CanHitPlayer(Player target) => false;
+
+        public override Color? GetAlpha(Color lightColor) => new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 0);
 
         public override bool PreDraw(ref Color lightColor)
         {

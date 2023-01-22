@@ -801,6 +801,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ProfanedGuardianCommander>(), velocityScaleMin },
                 { ModContent.NPCType<ProfanedGuardianDefender>(), velocityScaleMin },
                 { ModContent.NPCType<ProfanedGuardianHealer>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedRocks>(), velocityScaleMin },
                 { ModContent.NPCType<Bumblefuck>(), velocityScaleMin },
                 { ModContent.NPCType<Bumblefuck2>(), velocityScaleMin },
                 { ModContent.NPCType<CeaselessVoid>(), velocityScaleMin },

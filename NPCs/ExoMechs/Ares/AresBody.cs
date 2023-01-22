@@ -1436,6 +1436,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             // Check if the other exo mechs are alive
             bool exoWormAlive = false;
             bool exoTwinsAlive = false;
+            if (SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
+                deathraySound?.Stop();
             if (CalamityGlobalNPC.draedonExoMechWorm != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)

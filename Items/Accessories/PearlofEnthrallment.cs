@@ -58,5 +58,26 @@ namespace CalamityMod.Items.Accessories
                 }
             }
         }
+
+        public override void UpdateVanity(Player player)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.sirenWaifuVanity = true;
+            if (player.whoAmI == Main.myPlayer)
+            {
+                var source = player.GetSource_Accessory(Item);
+                if (player.FindBuffIndex(ModContent.BuffType<WaterWaifu>()) == -1)
+                {
+                    player.AddBuff(ModContent.BuffType<WaterWaifu>(), 3600, true);
+                }
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] < 1)
+                {
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(65);
+                    int anahita = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<WaterElementalMinion>(), damage, 2f, Main.myPlayer);
+                    if (Main.projectile.IndexInRange(anahita))
+                        Main.projectile[anahita].originalDamage = 65;
+                }
+            }
+        }
     }
 }

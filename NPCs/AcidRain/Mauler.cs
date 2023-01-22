@@ -19,6 +19,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
+    [AutoloadBossHead]
     public class Mauler : ModNPC
     {
         // TODO -- Potentially add another attack in higher difficulty modes at some point?
@@ -473,6 +474,13 @@ namespace CalamityMod.NPCs.AcidRain
                         Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>($"Mauler{i}").Type, NPC.scale);
                 }
             }
+        }
+
+        public override void OnKill()
+        {
+            // Mark Mauler as dead
+            DownedBossSystem.downedMauler = true;
+            CalamityNetcode.SyncWorld();
         }
     }
 }
