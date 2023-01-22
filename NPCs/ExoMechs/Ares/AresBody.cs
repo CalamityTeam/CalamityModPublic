@@ -1533,6 +1533,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             // Lore item
             mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedExoMechs, desc: DropHelper.FirstKillText), ModContent.ItemType<LoreExoMechs>()));
 
+            // Cynosure: If SCal has been defeated and this is the first kill of the Exo Mechs, drop the special lore item
+            mainDrops.Add(ItemDropRule.ByCondition(
+                DropHelper.If(
+                    () => !DownedBossSystem.downedExoMechs && DownedBossSystem.downedSCal,
+                    desc: DropHelper.CynosureText),
+                ModContent.ItemType<LoreCynosure>()
+            ));
+
             // Treasure bag
             npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(CanDropLoot), ModContent.ItemType<DraedonBag>()));
 

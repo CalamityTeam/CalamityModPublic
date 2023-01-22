@@ -115,11 +115,13 @@ namespace CalamityMod
         public static string FirstKillText = "Drops only on the first kill";
         public static string BloodMoonText = "Drops during the Blood Moon";
         public static string MechBossText = "Drops on the first kill of the final Mechanical Boss";
-        public static string SentinelText = "Drops on the first kill of the final Sentinel of the Devourer";
+        public static string CynosureText = "Drops once you have defeated both Draedon and Calamitas";
+
         public static string ProvidenceHallowText = "Drops if Providence was summoned in the Hallow\nor if Providence is only attacked during nighttime";
         public static string ProvidenceUnderworldText = "Drops if Providence was summoned in the Underworld\nor if Providence is only attacked during nighttime";
         public static string ProvidenceNightText = "Drops if Providence is only attacked during nighttime";
         public static string ProvidenceChallengeText = $"Drops if Providence was defeated only with the [i:{ModContent.ItemType<ProfanedSoulArtifact>()}] Profaned Soul Artifact\nThis is an Expert Mode drop rate";
+
         #endregion
 
         #region Block Drops

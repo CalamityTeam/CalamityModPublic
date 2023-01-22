@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 Scale = 0.55f,
             };
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
-			NPCID.Sets.MPAllowedEnemies[Type] = true;
+            NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -76,8 +76,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A mysterious entity that acts as a portal to elsewhere. Little is known about its origins, other than that it was sealed away by the cultists.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A mysterious entity that acts as a portal to elsewhere. Little is known about its origins, other than that it was sealed away by the cultists.")
             });
         }
 
@@ -192,8 +192,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
             return false;
         }
 
-        public static bool LastSentinelKilled() => !DownedBossSystem.downedCeaselessVoid && DownedBossSystem.downedStormWeaver && DownedBossSystem.downedSignus;
-
         public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
@@ -225,10 +223,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CeaselessVoidMask>(), 7);
-				var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
-				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
-				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
-				normalOnly.Add(godSlayerVanity);
+                var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+                godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+                godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+                normalOnly.Add(godSlayerVanity);
                 normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
             }
 
@@ -238,7 +236,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CeaselessVoidRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), desc: DropHelper.SentinelText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCeaselessVoid, ModContent.ItemType<LoreCeaselessVoid>(), desc: DropHelper.FirstKillText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

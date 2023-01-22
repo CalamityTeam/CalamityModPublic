@@ -1128,6 +1128,9 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.QueenSlimeMasterTrophy);
                     rev.Add(ItemID.QueenSlimePetItem, 4);
 
+                    // Lore
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedQueenSlime, ModContent.ItemType<LoreQueenSlime>(), desc: DropHelper.FirstKillText);
+
                     break;
 
                 case NPCID.TheDestroyer:
@@ -1448,6 +1451,9 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.FairyQueenMasterTrophy);
                     rev.Add(ItemID.FairyQueenPetItem, 4);
+
+                    // Lore
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedEmpressOfLight, ModContent.ItemType<LoreEmpressofLight>(), desc: DropHelper.FirstKillText);
 
                     break;
 

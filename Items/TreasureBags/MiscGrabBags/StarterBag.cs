@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Pets;
+﻿using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using Terraria;
@@ -66,6 +67,9 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
             Mod musicMod = CalamityMod.Instance.musicMod;
             if (musicMod is not null)
                 itemLoot.Add(musicMod.Find<ModItem>("CalamityMusicbox").Type);
+
+            // Awakening lore item
+            itemLoot.Add(ModContent.ItemType<LoreAwakening>());
 
             // Aleksh donator item
             // Name specific: "Aleksh" or "Shark Lad"

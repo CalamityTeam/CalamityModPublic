@@ -2642,6 +2642,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSCal, ModContent.ItemType<LoreCalamitas>(), desc: DropHelper.FirstKillText);
+
+            // Cynosure: If the Exo Mechs have been defeated and this is the first kill of SCal, drop the special lore item
+            npcLoot.Add(ItemDropRule.ByCondition(
+                DropHelper.If(
+                    () => DownedBossSystem.downedExoMechs && !DownedBossSystem.downedSCal,
+                    desc: DropHelper.CynosureText),
+                ModContent.ItemType<LoreCynosure>()
+            ));
         }
         #endregion
 
