@@ -23,6 +23,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Placeables.Walls;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.NPCs
