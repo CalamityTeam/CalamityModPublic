@@ -2641,7 +2641,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CalamitasRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSCal, ModContent.ItemType<KnowledgeCalamitas>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSCal, ModContent.ItemType<LoreCalamitas>(), desc: DropHelper.FirstKillText);
         }
         #endregion
 

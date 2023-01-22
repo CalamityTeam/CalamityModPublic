@@ -1531,7 +1531,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).AddIf(CanDropLoot, ModContent.ItemType<DraedonRelic>());
 
             // Lore item
-            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedExoMechs, desc: DropHelper.FirstKillText), ModContent.ItemType<KnowledgeExoMechs>()));
+            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedExoMechs, desc: DropHelper.FirstKillText), ModContent.ItemType<LoreExoMechs>()));
 
             // Treasure bag
             npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(CanDropLoot), ModContent.ItemType<DraedonBag>()));

@@ -216,7 +216,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<BrimstoneElementalRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<LoreBrimstoneElemental>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()

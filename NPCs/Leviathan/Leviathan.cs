@@ -824,7 +824,7 @@ namespace CalamityMod.NPCs.Leviathan
             // Lore
             bool shouldDropLore(DropAttemptInfo info) => !DownedBossSystem.downedLeviathan && LastAnLStanding();
             npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeOcean>(), desc: DropHelper.FirstKillText);
-            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeLeviathanAnahita>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<LoreLeviathanAnahita>(), desc: DropHelper.FirstKillText);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
