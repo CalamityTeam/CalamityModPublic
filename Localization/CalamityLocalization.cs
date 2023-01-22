@@ -184,6 +184,7 @@ namespace CalamityMod.Localization
 
                 new [] { "AprilFools", "The LORDE is approaching..." },
                 new [] { "AprilFools2", "A boomer awaits..." }, //possible alternative to GhostBossText4
+                new [] { "AprilFoolsGFB", "La Ruga is approaching..." },
 
                 new [] { "AcidRainStart", "A toxic downpour falls over the wasteland seas!" },
                 new [] { "AcidRainEnd", "The sulphuric skies begin to clear..." },
