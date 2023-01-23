@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.Signus
             value.Position.X += 6f;
             value.Position.Y += 10f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
-			NPCID.Sets.MPAllowedEnemies[Type] = true;
+            NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -911,10 +911,10 @@ namespace CalamityMod.NPCs.Signus
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<SignusMask>(), 7);
-				var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
-				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
-				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
-				normalOnly.Add(godSlayerVanity);
+                var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+                godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+                godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+                normalOnly.Add(godSlayerVanity);
                 normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
             }
 
@@ -924,7 +924,7 @@ namespace CalamityMod.NPCs.Signus
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<SignusRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), desc: DropHelper.SentinelText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSignus, ModContent.ItemType<LoreSignus>(), desc: DropHelper.FirstKillText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

@@ -1186,7 +1186,7 @@ namespace CalamityMod.NPCs.HiveMind
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<HiveMindRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<KnowledgeHiveMind>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<LoreHiveMind>(), desc: DropHelper.FirstKillText);
         }
     }
 }

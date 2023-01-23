@@ -1882,7 +1882,7 @@ namespace CalamityMod.NPCs.Providence
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<ProvidenceRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<KnowledgeProvidence>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<LoreProvidence>(), desc: DropHelper.FirstKillText);
         }
 
         private void SpawnLootBox()

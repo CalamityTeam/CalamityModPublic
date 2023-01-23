@@ -346,7 +346,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
             // Lore
             bool firstDeusKill(DropAttemptInfo info) => !DownedBossSystem.downedAstrumDeus && !ShouldNotDropThings(info.npc);
-            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstrumDeus>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<LoreAstrumDeus>(), desc: DropHelper.FirstKillText);
             npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstralInfection>(), desc: DropHelper.FirstKillText);
         }
 

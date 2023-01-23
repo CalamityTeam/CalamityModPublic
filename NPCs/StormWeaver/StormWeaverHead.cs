@@ -991,7 +991,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<StormWeaverRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), desc: DropHelper.SentinelText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedStormWeaver, ModContent.ItemType<LoreStormWeaver>(), desc: DropHelper.FirstKillText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

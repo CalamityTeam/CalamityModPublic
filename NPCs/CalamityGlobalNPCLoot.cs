@@ -863,7 +863,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.KingSlimePetItem, 4);
 
                     // Lore
-                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedSlimeKing, ModContent.ItemType<KnowledgeKingSlime>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedSlimeKing, ModContent.ItemType<LoreKingSlime>(), desc: DropHelper.FirstKillText);
                     break;
 
                 case NPCID.EyeofCthulhu:
@@ -880,7 +880,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.EyeOfCthulhuPetItem, 4);
 
                     // Lore
-                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedBoss1, ModContent.ItemType<KnowledgeEyeofCthulhu>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedBoss1, ModContent.ItemType<LoreEyeofCthulhu>(), desc: DropHelper.FirstKillText);
                     break;
 
                 case NPCID.EaterofWorldsHead:
@@ -901,14 +901,14 @@ namespace CalamityMod.NPCs
 
                     // Corruption World OR Drunk World: Corruption Lore
                     LeadingConditionRule eowCorruptionLore = new(DropHelper.If((info) => info.npc.boss && (!WorldGen.crimson || WorldGen.drunkWorldGen) && !NPC.downedBoss2, desc: DropHelper.FirstKillText));
-                    eowCorruptionLore.Add(ModContent.ItemType<KnowledgeCorruption>(), hideLootReport: WorldGen.crimson && !WorldGen.drunkWorldGen);
-                    eowCorruptionLore.Add(ModContent.ItemType<KnowledgeEaterofWorlds>(), hideLootReport: WorldGen.crimson && !WorldGen.drunkWorldGen);
+                    eowCorruptionLore.Add(ModContent.ItemType<LoreCorruption>(), hideLootReport: WorldGen.crimson && !WorldGen.drunkWorldGen);
+                    eowCorruptionLore.Add(ModContent.ItemType<LoreEaterofWorlds>(), hideLootReport: WorldGen.crimson && !WorldGen.drunkWorldGen);
                     npcLoot.Add(eowCorruptionLore);
 
                     // Crimson World OR Drunk World: Crimson Lore
                     LeadingConditionRule eowCrimsonLore = new(DropHelper.If((info) => info.npc.boss && (WorldGen.crimson || WorldGen.drunkWorldGen) && !NPC.downedBoss2, desc: DropHelper.FirstKillText));
-                    eowCrimsonLore.Add(ModContent.ItemType<KnowledgeCrimson>(), hideLootReport: !WorldGen.crimson && !WorldGen.drunkWorldGen);
-                    eowCrimsonLore.Add(ModContent.ItemType<KnowledgeBrainofCthulhu>(), hideLootReport: !WorldGen.crimson && !WorldGen.drunkWorldGen);
+                    eowCrimsonLore.Add(ModContent.ItemType<LoreCrimson>(), hideLootReport: !WorldGen.crimson && !WorldGen.drunkWorldGen);
+                    eowCrimsonLore.Add(ModContent.ItemType<LoreBrainofCthulhu>(), hideLootReport: !WorldGen.crimson && !WorldGen.drunkWorldGen);
                     npcLoot.Add(eowCrimsonLore);
                     break;
 
@@ -925,14 +925,14 @@ namespace CalamityMod.NPCs
 
                     // Corruption World OR Drunk World: Corruption Lore
                     LeadingConditionRule bocCorruptionLore = new(DropHelper.If(() => (!WorldGen.crimson || WorldGen.drunkWorldGen) && !NPC.downedBoss2, desc: DropHelper.FirstKillText));
-                    bocCorruptionLore.Add(ModContent.ItemType<KnowledgeCorruption>(), hideLootReport: WorldGen.crimson && !WorldGen.drunkWorldGen);
-                    bocCorruptionLore.Add(ModContent.ItemType<KnowledgeEaterofWorlds>(), hideLootReport: WorldGen.crimson && !WorldGen.drunkWorldGen);
+                    bocCorruptionLore.Add(ModContent.ItemType<LoreCorruption>(), hideLootReport: WorldGen.crimson && !WorldGen.drunkWorldGen);
+                    bocCorruptionLore.Add(ModContent.ItemType<LoreEaterofWorlds>(), hideLootReport: WorldGen.crimson && !WorldGen.drunkWorldGen);
                     npcLoot.Add(bocCorruptionLore);
 
                     // Crimson World OR Drunk World: Crimson Lore
                     LeadingConditionRule bocCrimsonLore = new(DropHelper.If(() => (WorldGen.crimson || WorldGen.drunkWorldGen) && !NPC.downedBoss2, desc: DropHelper.FirstKillText));
-                    bocCrimsonLore.Add(ModContent.ItemType<KnowledgeCrimson>(), hideLootReport: !WorldGen.crimson && !WorldGen.drunkWorldGen);
-                    bocCrimsonLore.Add(ModContent.ItemType<KnowledgeBrainofCthulhu>(), hideLootReport: !WorldGen.crimson && !WorldGen.drunkWorldGen);
+                    bocCrimsonLore.Add(ModContent.ItemType<LoreCrimson>(), hideLootReport: !WorldGen.crimson && !WorldGen.drunkWorldGen);
+                    bocCrimsonLore.Add(ModContent.ItemType<LoreBrainofCthulhu>(), hideLootReport: !WorldGen.crimson && !WorldGen.drunkWorldGen);
                     npcLoot.Add(bocCrimsonLore);
                     break;
 
@@ -999,7 +999,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.QueenBeePetItem, 4);
 
                     // Lore
-                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedQueenBee, ModContent.ItemType<KnowledgeQueenBee>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedQueenBee, ModContent.ItemType<LoreQueenBee>(), desc: DropHelper.FirstKillText);
                     break;
 
                 case NPCID.SkeletronHead:
@@ -1026,7 +1026,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.SkeletronPetItem, 4);
 
                     // Lore
-                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedBoss3, ModContent.ItemType<KnowledgeSkeletron>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedBoss3, ModContent.ItemType<LoreSkeletron>(), desc: DropHelper.FirstKillText);
                     break;
 
                 case NPCID.WallofFlesh:
@@ -1109,8 +1109,8 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.WallOfFleshGoatMountItem, 4);
 
                     // Lore
-                    npcLoot.AddConditionalPerPlayer(() => !Main.hardMode, ModContent.ItemType<KnowledgeUnderworld>(), desc: DropHelper.FirstKillText);
-                    npcLoot.AddConditionalPerPlayer(() => !Main.hardMode, ModContent.ItemType<KnowledgeWallofFlesh>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(() => !Main.hardMode, ModContent.ItemType<LoreUnderworld>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(() => !Main.hardMode, ModContent.ItemType<LoreWallofFlesh>(), desc: DropHelper.FirstKillText);
                     break;
 
                 case NPCID.QueenSlimeBoss:
@@ -1127,6 +1127,9 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.QueenSlimeMasterTrophy);
                     rev.Add(ItemID.QueenSlimePetItem, 4);
+
+                    // Lore
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedQueenSlime, ModContent.ItemType<LoreQueenSlime>(), desc: DropHelper.FirstKillText);
 
                     break;
 
@@ -1148,8 +1151,8 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.DestroyerPetItem, 4);
 
                     // Lore
-                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedMechBoss1, ModContent.ItemType<KnowledgeDestroyer>(), desc: DropHelper.FirstKillText);
-                    npcLoot.AddConditionalPerPlayer(ShouldDropMechLore, ModContent.ItemType<KnowledgeMechs>(), desc: DropHelper.MechBossText);
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedMechBoss1, ModContent.ItemType<LoreDestroyer>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(ShouldDropMechLore, ModContent.ItemType<LoreMechs>(), desc: DropHelper.MechBossText);
                     break;
 
                 case NPCID.Retinazer:
@@ -1187,8 +1190,8 @@ namespace CalamityMod.NPCs
                     rev.AddIf((info) => IsLastTwinStanding(info), ItemID.TwinsPetItem, 4);
 
                     // Lore
-                    npcLoot.AddConditionalPerPlayer((info) => !NPC.downedMechBoss2 && IsLastTwinStanding(info), ModContent.ItemType<KnowledgeTwins>(), desc: DropHelper.FirstKillText);
-                    npcLoot.AddConditionalPerPlayer(ShouldDropMechLore, ModContent.ItemType<KnowledgeMechs>(), desc: DropHelper.MechBossText);
+                    npcLoot.AddConditionalPerPlayer((info) => !NPC.downedMechBoss2 && IsLastTwinStanding(info), ModContent.ItemType<LoreTwins>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(ShouldDropMechLore, ModContent.ItemType<LoreMechs>(), desc: DropHelper.MechBossText);
                     break;
 
                 case NPCID.SkeletronPrime:
@@ -1209,8 +1212,8 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.SkeletronPrimePetItem, 4);
 
                     // Lore
-                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedMechBoss3, ModContent.ItemType<KnowledgeSkeletronPrime>(), desc: DropHelper.FirstKillText);
-                    npcLoot.AddConditionalPerPlayer(ShouldDropMechLore, ModContent.ItemType<KnowledgeMechs>(), desc: DropHelper.MechBossText);
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedMechBoss3, ModContent.ItemType<LoreSkeletronPrime>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(ShouldDropMechLore, ModContent.ItemType<LoreMechs>(), desc: DropHelper.MechBossText);
                     break;
 
                 case NPCID.Plantera:
@@ -1270,7 +1273,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.PlanteraPetItem, 4);
 
                     // Lore
-                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedPlantBoss, ModContent.ItemType<KnowledgePlantera>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedPlantBoss, ModContent.ItemType<LorePlantera>(), desc: DropHelper.FirstKillText);
                     break;
 
                 case NPCID.Golem:
@@ -1325,7 +1328,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.GolemPetItem, 4);
 
                     // Lore
-                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedGolemBoss, ModContent.ItemType<KnowledgeGolem>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedGolemBoss, ModContent.ItemType<LoreGolem>(), desc: DropHelper.FirstKillText);
                     break;
 
                 case NPCID.DD2Betsy:
@@ -1401,7 +1404,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.DukeFishronPetItem, 4);
 
                     // Lore
-                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedFishron, ModContent.ItemType<KnowledgeDukeFishron>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedFishron, ModContent.ItemType<LoreDukeFishron>(), desc: DropHelper.FirstKillText);
                     break;
 
                 case NPCID.HallowBoss:
@@ -1449,6 +1452,9 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.FairyQueenMasterTrophy);
                     rev.Add(ItemID.FairyQueenPetItem, 4);
 
+                    // Lore
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedEmpressOfLight, ModContent.ItemType<LoreEmpressofLight>(), desc: DropHelper.FirstKillText);
+
                     break;
 
                 case NPCID.CultistBoss:
@@ -1459,7 +1465,7 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Lore
-                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedAncientCultist, ModContent.ItemType<KnowledgeLunaticCultist>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedAncientCultist, ModContent.ItemType<LorePrelude>(), desc: DropHelper.FirstKillText);
 
                     // Special Blood Moon Lore
                     npcLoot.AddConditionalPerPlayer(() => Main.bloodMoon, ModContent.ItemType<KnowledgeBloodMoon>(), desc: DropHelper.BloodMoonText);
@@ -1509,7 +1515,7 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.MoonLordPetItem, 4);
 
                     // Lore
-                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedMoonlord, ModContent.ItemType<KnowledgeMoonLord>(), desc: DropHelper.FirstKillText);
+                    npcLoot.AddConditionalPerPlayer(() => !NPC.downedMoonlord, ModContent.ItemType<LoreRequiem>(), desc: DropHelper.FirstKillText);
                     break;
 
                 default:

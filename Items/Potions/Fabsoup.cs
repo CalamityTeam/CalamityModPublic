@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Potions
 {
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.Potions
             Item.width = 56;
             Item.height = 50;
             Item.value = 0;
-            Item.rare = ModContent.RarityType<CalamityRed>();
+            Item.rare = ModContent.RarityType<Violet>();
             Item.maxStack = 1;
             Item.consumable = false;
             Item.useAnimation = 901;

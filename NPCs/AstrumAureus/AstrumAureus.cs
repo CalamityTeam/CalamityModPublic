@@ -387,7 +387,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<AstrumAureusRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<LoreAstrumAureus>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()

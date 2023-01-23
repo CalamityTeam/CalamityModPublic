@@ -2425,7 +2425,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDoG, ModContent.ItemType<LoreDevourerofGods>(), desc: DropHelper.FirstKillText);
         }
 
         // Can only hit the target if within certain distance
