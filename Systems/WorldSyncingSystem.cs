@@ -159,6 +159,7 @@ namespace CalamityMod.Systems
             writer.WriteVector2(JungleLabCenter);
             writer.WriteVector2(HellLabCenter);
             writer.WriteVector2(IceLabCenter);
+            writer.WriteVector2(CavernLabCenter);
         }
         #endregion
 
@@ -297,6 +298,7 @@ namespace CalamityMod.Systems
             JungleLabCenter = reader.ReadVector2();
             HellLabCenter = reader.ReadVector2();
             IceLabCenter = reader.ReadVector2();
+            CavernLabCenter = reader.ReadVector2();
         }
         #endregion
     }

@@ -142,6 +142,7 @@ namespace CalamityMod
             tag["JungleLabCenter"] = JungleLabCenter;
             tag["HellLabCenter"] = HellLabCenter;
             tag["IceLabCenter"] = IceLabCenter;
+            tag["CavernLabCenter"] = CavernLabCenter;
         }
 
         public override void LoadWorldData(TagCompound tag)
@@ -189,6 +190,7 @@ namespace CalamityMod
             JungleLabCenter = tag.Get<Vector2>("JungleLabCenter");
             HellLabCenter = tag.Get<Vector2>("HellLabCenter");
             IceLabCenter = tag.Get<Vector2>("IceLabCenter");
+            CavernLabCenter = tag.Get<Vector2>("CavernLabCenter");
         }
         #endregion Saving/Loading
     }
