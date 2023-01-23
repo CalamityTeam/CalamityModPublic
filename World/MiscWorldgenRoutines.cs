@@ -178,6 +178,11 @@ namespace CalamityMod.World
         #endregion
 
         #region Giant Hive
+        /*public static void GrowLivingMahoganyTree(Point origin)
+        {
+
+        }*/
+        
         public static bool CanPlaceGiantHive(Point origin, StructureMap structures)
         {
             if (!structures.CanPlace(new Rectangle(origin.X - 50, origin.Y - 50, 100, 100)))
@@ -189,9 +194,47 @@ namespace CalamityMod.World
             Ref<int> ref1 = new Ref<int>(0);
             Ref<int> ref2 = new Ref<int>(0);
             Ref<int> ref3 = new Ref<int>(0);
-            WorldUtils.Gen(origin, new Shapes.Circle(15), Actions.Chain(new Modifiers.IsSolid(), new Actions.Scanner(ref1), new Modifiers.OnlyTiles(60, 59), new Actions.Scanner(ref2), new Modifiers.OnlyTiles(60), new Actions.Scanner(ref3)));
+            WorldUtils.Gen(origin, new Shapes.Circle(15), Actions.Chain(new Modifiers.IsSolid(), new Actions.Scanner(ref1), new Modifiers.OnlyTiles(TileID.JungleGrass, TileID.Mud), new Actions.Scanner(ref2), new Modifiers.OnlyTiles(TileID.JungleGrass), new Actions.Scanner(ref3)));
             if (ref2.Value / (float)ref1.Value < 0.75f || ref3.Value < 2)
                 return false;
+
+            // Detects where to play the living mahogany tree
+            /*int treeGenMaxAttempts = 100;
+            int treeGenAttempts = 0;
+            Point result;
+            do
+            {
+                bool canGenerateLivingTree = WorldUtils.Find(origin, Searches.Chain(new Searches.Up(1000), new Conditions.IsSolid().AreaOr(1, 50).Not()), out result);
+                if (!canGenerateLivingTree)
+                {
+                    treeGenAttempts++;
+                }
+                else
+                {
+                    result.Y += origin.Y - (int)WorldGen.worldSurface;
+
+                    bool[] tileArray = new bool[TileID.Sets.GeneralPlacementTiles.Length];
+                    for (int i = 0; i < tileArray.Length; i++)
+                        tileArray[i] = TileID.Sets.GeneralPlacementTiles[i];
+
+                    tileArray[TileID.Containers] = false;
+                    tileArray[TileID.Containers2] = false;
+
+                    if (!structures.CanPlace(new Rectangle(origin.X - 8, result.Y + 10, 16, origin.Y - result.Y - 9), tileArray, 2))
+                    {
+                        treeGenAttempts++;
+                    }
+                    else
+                    {
+                        GrowLivingMahoganyTree(new Point(origin.X, origin.Y - result.Y - 9));
+                        break;
+                    }
+                }
+
+                if (treeGenAttempts == treeGenMaxAttempts)
+                    return false;
+            }
+            while (treeGenAttempts < treeGenMaxAttempts);*/
 
             int num = 0;
             int[] array = new int[1000];
