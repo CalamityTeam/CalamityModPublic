@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Turret
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/NPCHit/CryogenHit", 3) with { Volume = 0.65f }, Projectile.Center);
+            SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/NPCHit/CryogenHit", 3) with { Volume = 0.55f }, Projectile.Center);
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0f, ModContent.ProjectileType<IceExplosion>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack, Main.myPlayer);
         }
     }
