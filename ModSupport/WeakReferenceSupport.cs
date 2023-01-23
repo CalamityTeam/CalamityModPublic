@@ -223,7 +223,6 @@ namespace CalamityMod
             ItemRedirect(ModContent.ItemType<Thunderstorm>(), "Thunderstorm (weapon)");
             // Lore items
             ItemRedirect(ModContent.ItemType<KnowledgeAstralInfection>(), "Lore#Lore_Items");
-            ItemRedirect(ModContent.ItemType<KnowledgeBloodMoon>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<KnowledgeOcean>(), "Lore#Lore_Items");
 
             ItemRedirect(ModContent.ItemType<LoreAquaticScourge>(), "Lore#Lore_Items");
@@ -232,6 +231,7 @@ namespace CalamityMod
             ItemRedirect(ModContent.ItemType<LoreAstrumDeus>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreAwakening>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreAzafure>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreBloodMoon>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreBrainofCthulhu>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreBrimstoneElemental>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreCalamitas>(), "Lore#Lore_Items");
@@ -991,7 +991,7 @@ namespace CalamityMod
             // Lunatic Cultist
             AddLoot(bossChecklist, "CultistBoss",
                 null,
-                new List<int>() { ItemType<LorePrelude>(), ItemType<KnowledgeBloodMoon>(), ItemType<ThankYouPainting>() }
+                new List<int>() { ItemType<LorePrelude>(), ItemType<ThankYouPainting>() }
             );
             AddSummons(bossChecklist, "CultistBoss", new List<int>() { ItemType<EidolonTablet>() });
 
