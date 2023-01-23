@@ -23,7 +23,7 @@ I had deigned to slay her myself for her treachery, but she was a notoriously ev
         {
             Item.width = 20;
             Item.height = 20;
-            Item.rare = ItemRarityID.Pink;
+            Item.rare = ItemRarityID.Yellow;
             Item.consumable = false;
         }
 
