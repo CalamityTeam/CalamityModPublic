@@ -7,31 +7,31 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.TileEntities
 {
-    public class TEPlayerWaterTurret : TEBaseTurret
+    public class TEPlayerLaserTurret : TEBaseTurret
     {
         // Tile which hosts this tile entity
-        public override int TileType => ModContent.TileType<PlayerWaterTurret>();
-        public override int HostTileWidth => PlayerWaterTurret.Width;
-        public override int HostTileHeight => PlayerWaterTurret.Height;
+        public override int TileType => ModContent.TileType<PlayerLaserTurret>();
+        public override int HostTileWidth => PlayerLaserTurret.Width;
+        public override int HostTileHeight => PlayerLaserTurret.Height;
 
         // Projectile variables
-        public override int ProjectileType => ModContent.ProjectileType<WaterShotBuffer>();
-        public override int ProjectileDamage => 14;
-        public override float ProjectileKnockback => 6.5f;
-        public override float ShootSpeed => 6.5f;
-        public override int FiringStartupDelay => 20;
-        public override int FiringUseTime => 25;
+        public override int ProjectileType => ModContent.ProjectileType<LaserShotBuffer>();
+        public override int ProjectileDamage => 60;
+        public override float ProjectileKnockback => 2.5f;
+        public override float ShootSpeed => 11f * 0.64f;
+        public override int FiringStartupDelay => 50;
+        public override int FiringUseTime => 60;
 
         // Projectile spawn location variables
         public override Vector2 TurretCenterOffset => new Vector2(22f + 4f * Direction, -2f);
-        protected override float ShootForwardsOffset => 24f;
+        protected override float ShootForwardsOffset => 36f;
 
         // Targeting variables
-        public override float MaxRange => 300f;
-        protected override float MaxTargetAngleDeviance => MathHelper.ToRadians(12f);
-        protected override float MaxDeltaAnglePerFrame => MathHelper.ToRadians(5f);
-        protected override float CloseAimThreshold => MathHelper.ToRadians(8f);
-        protected override float CloseAimLerpFactor => 0.08f;
+        public override float MaxRange => 1000f;
+        protected override float MaxTargetAngleDeviance => MathHelper.ToRadians(5f);
+        protected override float MaxDeltaAnglePerFrame => MathHelper.ToRadians(6.5f);
+        protected override float CloseAimThreshold => MathHelper.ToRadians(1f);
+        protected override float CloseAimLerpFactor => 1f;
 
         // Variables specific to this turret subclass
         private int _npcTargetIndex = -1;

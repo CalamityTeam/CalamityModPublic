@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Turret
             Projectile.timeLeft = 52;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
+            Projectile.ArmorPenetration = 10;
         }
 
 
