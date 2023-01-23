@@ -2029,24 +2029,6 @@ namespace CalamityMod.Projectiles
                         projectile.damage += 15;
                 }
 
-                // Setting this in SetDefaults didn't work
-                switch (projectile.type)
-                {
-                    case ProjectileID.RockGolemRock:
-                    case ProjectileID.BloodShot:
-                    case ProjectileID.DandelionSeed:
-                        projectile.extraUpdates += CalamityWorld.revenge ? 1 : 0;
-                        break;
-
-                    case ProjectileID.Bee:
-                    case ProjectileID.Wasp:
-                    case ProjectileID.TinyEater:
-                    case ProjectileID.GiantBee:
-                    case ProjectileID.Bat:
-                        projectile.extraUpdates += 1;
-                        break;
-                }
-
                 if (projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.Bee)
                 {
                     if (projectile.timeLeft > 570) //all of these have a time left of 600 or 660
@@ -2059,6 +2041,24 @@ namespace CalamityMod.Projectiles
                     projectile.DamageType = DamageClass.Magic;
 
                 frameOneHacksExecuted = true;
+            }
+
+            // Setting this in SetDefaults didn't work
+            switch (projectile.type)
+            {
+                case ProjectileID.RockGolemRock:
+                case ProjectileID.BloodShot:
+                case ProjectileID.DandelionSeed:
+                    projectile.extraUpdates = CalamityWorld.revenge ? 1 : 0;
+                    break;
+
+                case ProjectileID.Bee:
+                case ProjectileID.Wasp:
+                case ProjectileID.TinyEater:
+                case ProjectileID.GiantBee:
+                case ProjectileID.Bat:
+                    projectile.extraUpdates = 1;
+                    break;
             }
 
             // Accelerate for 1.5 seconds to full velocity
