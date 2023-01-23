@@ -223,7 +223,7 @@ namespace CalamityMod
             ItemRedirect(ModContent.ItemType<Thunderstorm>(), "Thunderstorm (weapon)");
             // Lore items
             ItemRedirect(ModContent.ItemType<KnowledgeAstralInfection>(), "Lore#Lore_Items");
-            ItemRedirect(ModContent.ItemType<KnowledgeOcean>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreAbyss>(), "Lore#Lore_Items");
 
             ItemRedirect(ModContent.ItemType<LoreAquaticScourge>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreArchmage>(), "Lore#Lore_Items");
@@ -541,7 +541,7 @@ namespace CalamityMod
             {
                 BossDifficulty.TryGetValue("Leviathan", out float order);
                 List<int> bosses = new List<int>() { NPCType<Leviathan>(), NPCType<Anahita>() };
-                List<int> collection = new List<int>() { ItemType<LeviathanTrophy>(), ItemType<AnahitaTrophy>(), ItemType<LeviathanMask>(), ItemType<AnahitaMask>(), ItemType<KnowledgeOcean>(), ItemType<LoreLeviathanAnahita>(), ItemType<ThankYouPainting>() };
+                List<int> collection = new List<int>() { ItemType<LeviathanTrophy>(), ItemType<AnahitaTrophy>(), ItemType<LeviathanMask>(), ItemType<AnahitaMask>(), ItemType<LoreAbyss>(), ItemType<LoreLeviathanAnahita>(), ItemType<ThankYouPainting>() };
                 string instructions = "By killing an unknown entity in the Ocean Biome";
                 string despawn = CalamityUtils.ColorMessage("The aquatic entities sink back beneath the ocean depths.", new Color(0x7F, 0xFF, 0xD4));
 
