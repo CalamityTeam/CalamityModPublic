@@ -222,7 +222,7 @@ namespace CalamityMod
             ItemRedirect(ModContent.ItemType<SandstormGun>(), "Sandstorm (weapon)");
             ItemRedirect(ModContent.ItemType<Thunderstorm>(), "Thunderstorm (weapon)");
             // Lore items
-            ItemRedirect(ModContent.ItemType<KnowledgeAstralInfection>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreAstralInfection>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreAbyss>(), "Lore#Lore_Items");
 
             ItemRedirect(ModContent.ItemType<LoreAquaticScourge>(), "Lore#Lore_Items");
@@ -609,7 +609,7 @@ namespace CalamityMod
                 int summon2 = ItemType<Starcore>();
                 int altar = ItemType<AstralBeaconItem>();
                 List<int> summons = new List<int>() { summon1, summon2 };
-                List<int> collection = new List<int>() { ItemType<AstrumDeusTrophy>(), ItemType<AstrumDeusMask>(), ItemType<LoreAstrumDeus>(), ItemType<KnowledgeAstralInfection>(), ItemType<ChromaticOrb>(), ItemType<ThankYouPainting>() };
+                List<int> collection = new List<int>() { ItemType<AstrumDeusTrophy>(), ItemType<AstrumDeusMask>(), ItemType<LoreAstrumDeus>(), ItemType<LoreAstralInfection>(), ItemType<ChromaticOrb>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon1}] or [i:{summon2}] as offering at an [i:{altar}]";
                 string despawn = CalamityUtils.ColorMessage("The infected deity retreats to the heavens.", new Color(0xFF, 0xD7, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/AstrumDeus/AstrumDeusHead_Head_Boss";
