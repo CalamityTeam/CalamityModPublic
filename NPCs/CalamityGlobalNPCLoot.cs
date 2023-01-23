@@ -1632,7 +1632,7 @@ namespace CalamityMod.NPCs
                 SetNewBossJustDowned(npc);
             }
 
-            // On-kill NON-LOOT behavior for every other vanilla boss
+            // On-kill NON-LOOT behavior for every other vanilla boss (and Dreadnautilus)
             switch (npc.type)
             {
                 case NPCID.KingSlime:
@@ -1683,6 +1683,12 @@ namespace CalamityMod.NPCs
                             CalamityUtils.DisplayLocalizedText(key3, messageColor3);
                         }
                     }
+                    break;
+
+                case NPCID.BloodNautilus:
+                    // Mark Dreadnautilus as dead (Vanilla does not keep track of it)
+                    DownedBossSystem.downedDreadnautilus = true;
+                    CalamityNetcode.SyncWorld();
                     break;
 
                 case NPCID.QueenSlimeBoss:
