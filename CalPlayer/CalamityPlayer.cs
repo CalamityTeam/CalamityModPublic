@@ -891,7 +891,7 @@ namespace CalamityMod.CalPlayer
         public bool cSlime2 = false;
         public bool aSlime = false;
         public bool brittleStar = false;
-        public bool aStar = false;
+        public bool aquaticStar = false;
         public bool SP = false;
         public bool dCreeper = false;
         public bool bClot = false;
@@ -1915,7 +1915,7 @@ namespace CalamityMod.CalPlayer
             cSlime2 = false;
             aSlime = false;
             brittleStar = false;
-            aStar = false;
+            aquaticStar = false;
             SP = false;
             dCreeper = false;
             bClot = false;
