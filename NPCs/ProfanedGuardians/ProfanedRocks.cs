@@ -8,7 +8,6 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,9 +18,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
     {
         private int invinceTime = 180;
         private bool start = true;
-        private const double MinDistance = 80D;
+        private const double MinDistance = 200D;
         private double distance = MinDistance;
-        private const double MinMaxDistance = 320D;
+        private const double MinMaxDistance = 300D;
 
         public const int MaxHP = 12000;
         public const int MaxBossRushHP = 20000;
@@ -252,7 +251,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
 
             // Distance from Defender Guardian
-            double maxDistance = bossRush ? 380D : death ? 360D : revenge ? 350D : expertMode ? 340D : MinMaxDistance;
+            double maxDistance = bossRush ? 360D : death ? 340D : revenge ? 330D : expertMode ? 320D : MinMaxDistance;
             double rateOfChangeIncrease = (maxDistance / MinMaxDistance) - 1D;
             double rateOfChange = (NPC.ai[1] * 0.5f) + 2D + rateOfChangeIncrease;
             if (NPC.Calamity().newAI[0] == 0f)

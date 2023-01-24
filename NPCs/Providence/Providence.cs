@@ -1525,7 +1525,7 @@ namespace CalamityMod.NPCs.Providence
                             int circleDustSpawned = 0;
                             for (int k = 0; k < totalDust; k++)
                             {
-                                Vector2 dustSpawnPos = Vector2.Normalize(NPC.velocity) * new Vector2(80f, 160f) * 0.75f;
+                                Vector2 dustSpawnPos = Vector2.Normalize(NPC.velocity) * new Vector2(80f, 160f);
                                 dustSpawnPos = dustSpawnPos.RotatedBy((double)((k - (totalDust / 2 - 1)) * MathHelper.TwoPi / totalDust), default) + dustLineEnd;
                                 Vector2 dustVelocity = dustSpawnPos - dustLineEnd;
                                 Color dustColor = Main.hslToRgb(Main.rgbToHsl(nightAI ? new Color(100, 200, 250) : new Color(255, 200, Math.Abs(Math.Abs(blue) - (int)(circleDustSpawned * 7.08f)))).X, 1f, 0.5f);
