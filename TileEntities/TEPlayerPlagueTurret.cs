@@ -19,7 +19,7 @@ namespace CalamityMod.TileEntities
         public override int ProjectileDamage => 100;
         public override float ProjectileKnockback => 6f;
         public override float ShootSpeed => 16f;
-        public override int FiringStartupDelay => 45;
+        public override int FiringStartupDelay => 50;
         public override int FiringUseTime => 50;
 
         // Projectile spawn location variables
@@ -57,10 +57,18 @@ namespace CalamityMod.TileEntities
 
         protected override Vector2 ChooseTarget(Vector2 targetingCenter)
         {
+            if (CalamityUtils.AnyBossNPCS())
+            {
+                NPCTargetIndex = -1;
+                return InvalidTarget;
+            }
+
             int indexToSet = NPCTargetIndex;
             Vector2 ret = InvalidTarget;
             float distSQToBeat = MaxRange * MaxRange;
 
+
+            //This turret can switch targets at any time
             for (int i = 0; i < Main.maxNPCs; ++i)
             {
                 NPC npc = Main.npc[i];

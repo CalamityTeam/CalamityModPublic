@@ -30,25 +30,27 @@ namespace CalamityMod.Projectiles.Turret
             Projectile.penetrate = 4;
             Projectile.extraUpdates = 4;
             Projectile.timeLeft = 180;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 7;
         }
 
 
         public override void AI()
         {
+            float fallSpeedCap = 10f;
+            float downwardsAccel = 0.08f;
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.velocity.Y -= 1.5f;
+                Projectile.velocity.Y -= 1.5f; // Add vertical velocity at the start
                 // play a sound frame 1.
                 var sound = SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/PlantyMushMine", 3) with { Volume = 0.65f }, Projectile.Center);
 
                 Projectile.localAI[0] = 1f;
             }
-            if (Projectile.velocity.Y < 10f)
-                Projectile.velocity.Y += 0.08f;
-            if (Projectile.velocity.Y > 10f)
-                Projectile.velocity.Y = 10f;
+            if (Projectile.velocity.Y < fallSpeedCap)
+                Projectile.velocity.Y += downwardsAccel;
+            if (Projectile.velocity.Y > fallSpeedCap)
+                Projectile.velocity.Y = fallSpeedCap;
             Projectile.velocity.X *= 0.995f;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

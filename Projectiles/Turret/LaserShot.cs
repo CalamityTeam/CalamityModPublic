@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Turret
             get => Projectile.ai[1] == 1f;
             set => Projectile.ai[1] = value.ToInt();
         }
-        public float furthest = 0f;
         public override string Texture => "CalamityMod/ExtraTextures/Lasers/TurretLaserStart";
         public override float MaxScale => 1f;
         public override float MaxLaserLength => 1030f;
@@ -45,8 +44,8 @@ namespace CalamityMod.Projectiles.Turret
             Projectile.penetrate = 100;
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = 450;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
         }
 
         public override bool PreAI()
@@ -72,6 +71,7 @@ namespace CalamityMod.Projectiles.Turret
 
         public override bool PreDraw(ref Color lightColor)
         {
+            // This is the drawcode from surge driver
             // Start texture drawing.
             Rectangle beginFrame = LaserBeginTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
             Main.EntitySpriteDraw(LaserBeginTexture,

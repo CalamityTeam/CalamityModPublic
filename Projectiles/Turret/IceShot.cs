@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Turret
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 180;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
         }
 
 
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Turret
             float downwardsAccel = 0.3f;
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.velocity.Y -= 3f;
+                Projectile.velocity.Y -= 3f; // Add vertical velocity at the start
                 // play a sound frame 1.
                 SoundEngine.PlaySound(SoundID.Item89 with { Volume = 0.4f }, Projectile.position);
             }
@@ -54,12 +54,12 @@ namespace CalamityMod.Projectiles.Turret
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (Projectile.oldVelocity.Y > 0f && Projectile.velocity.X != 0f)
+            if (Projectile.oldVelocity.Y > 0f && Projectile.velocity.X != 0f) //bounce off the ground
             {
                 Projectile.velocity.Y = -0.6f * Projectile.oldVelocity.Y;
-                Projectile.velocity.X *= 0.975f;
+                Projectile.velocity.X *= 0.975f; //ground friction
             }   
-            else if (Projectile.velocity.X == 0f)
+            else if (Projectile.velocity.X == 0f) //bounce off walls
             {
                 Projectile.velocity.X = -0.6f * Projectile.oldVelocity.X;
             }
@@ -92,7 +92,8 @@ namespace CalamityMod.Projectiles.Turret
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/NPCHit/CryogenHit", 3) with { Volume = 0.55f }, Projectile.Center);
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0f, ModContent.ProjectileType<IceExplosion>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack, Main.myPlayer);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0f, ModContent.ProjectileType<IceExplosion>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack, Main.myPlayer);
         }
     }
 }

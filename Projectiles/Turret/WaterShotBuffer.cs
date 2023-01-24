@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Turret
 {
@@ -32,7 +33,7 @@ namespace CalamityMod.Projectiles.Turret
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 var source = Main.player[Main.myPlayer].GetSource_FromThis();
-                Projectile.NewProjectile(source, Projectile.Center, Projectile.velocity, ModContent.ProjectileType<WaterShot>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
+                Projectile.NewProjectile(source, Projectile.Center + new Vector2(3f, 0f), Projectile.velocity, ModContent.ProjectileType<WaterShot>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
                 Projectile.Kill();
             }
         }

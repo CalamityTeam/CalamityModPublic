@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Turret
             }
             Projectile.localAI[0]++;
             Projectile.velocity.Y -= 0.065f;
-            if (Projectile.timeLeft < 16)
+            if (Projectile.timeLeft < 16) //stop moving at the end and remove the ability to deal damage
             {
                 Projectile.velocity *= 0f;
                 ableToHit = false;
@@ -68,17 +68,17 @@ namespace CalamityMod.Projectiles.Turret
                 Color color = Color.Lerp(Color.Yellow, Color.OrangeRed, colorInterpolation) * 0.4f;
                 color.A = 7;
                 rotation += 0.35f;
-                Vector2 drawPosition = Projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(-186f, -186f);
+                Vector2 drawPosition = Projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(-186f, -186f); //last vector displaces the texture back to where the hitbox is
                 float intensity = 0.6f;
                 intensity *= MathHelper.Lerp(0.15f, 1f, 1f - i / (float)Projectile.oldPos.Length);
                 intensity *= 1.5f * (Projectile.localAI[0] / 40f + 0.0375f); //become bigger the longer the projectile is alive
-                // Become smaller the futher along the old positions we are.
                 if (Projectile.timeLeft < 22)
                 {
                     color.A += 50;
                 }
                 if (Projectile.timeLeft < 16)
                     intensity *= Projectile.timeLeft / 15;
+                // Become smaller the futher along the old positions we are.
                 Vector2 scale = new Vector2(1f) * intensity;
                 Main.EntitySpriteDraw(lightTexture, drawPosition, null, color, rotation, lightTexture.Size() * 0.5f, scale * 0.25f, SpriteEffects.None, 0);
             }

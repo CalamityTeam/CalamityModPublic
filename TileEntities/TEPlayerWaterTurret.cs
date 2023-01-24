@@ -19,7 +19,7 @@ namespace CalamityMod.TileEntities
         public override int ProjectileDamage => 14;
         public override float ProjectileKnockback => 6.5f;
         public override float ShootSpeed => 6.5f;
-        public override int FiringStartupDelay => 20;
+        public override int FiringStartupDelay => 25;
         public override int FiringUseTime => 25;
 
         // Projectile spawn location variables
@@ -57,8 +57,13 @@ namespace CalamityMod.TileEntities
 
         protected override Vector2 ChooseTarget(Vector2 targetingCenter)
         {
-            int indexToSet = NPCTargetIndex;
+            if (CalamityUtils.AnyBossNPCS())
+            {
+                NPCTargetIndex = -1;
+                return InvalidTarget;
+            }
 
+            int indexToSet = NPCTargetIndex;
             // If a npc is already targeted, make sure they still exist and aren't dead.
             if (indexToSet != -1)
             {

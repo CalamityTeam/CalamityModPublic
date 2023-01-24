@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Turret
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 110;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
             Projectile.hide = true;
         }
 
@@ -38,11 +38,11 @@ namespace CalamityMod.Projectiles.Turret
                 // play a sound frame 1.
                 SoundEngine.PlaySound(SoundID.Item61 with { Volume = 0.3f }, Projectile.position);
             }
-            else Projectile.hide = false;
+            else Projectile.hide = false; //hide projectile for frame 1
 
             Projectile.localAI[0]++;
             CalamityUtils.HomeInOnNPC(Projectile, false, 180f, 12f, 0f);
-            Projectile.velocity = ((Projectile.oldVelocity*7f) + Projectile.velocity) / 8;
+            Projectile.velocity = ((Projectile.oldVelocity*7f) + Projectile.velocity) / 8; //inertia
             DrawParticles();
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -76,8 +76,9 @@ namespace CalamityMod.Projectiles.Turret
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(TeslaCannon.FireSound with { Volume = 0.15f }, Projectile.Center);
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0.4f, ModContent.ProjectileType<PlagueExplosionGas>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack * 0.16f, Main.myPlayer);
+            SoundEngine.PlaySound(TeslaCannon.FireSound with { Volume = 0.18f }, Projectile.Center);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0.4f, ModContent.ProjectileType<PlagueExplosionGas>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack * 0.16f, Main.myPlayer);
         }
     }
 }

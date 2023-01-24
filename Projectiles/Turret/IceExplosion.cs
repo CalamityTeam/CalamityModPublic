@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Turret
         {
             Projectile.localAI[0]++;
             Projectile.scale = 0.5f + (Projectile.localAI[0] * 0.01f) ;
-            if (Projectile.timeLeft < 30)
+            if (Projectile.timeLeft < 30) // Remove hitbox once the projectile is barely visible anymore
                 ableToHit = false;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

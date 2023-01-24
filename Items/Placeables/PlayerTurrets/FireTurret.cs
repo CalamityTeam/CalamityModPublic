@@ -12,6 +12,8 @@ namespace CalamityMod.Items.Placeables.PlayerTurrets
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
+            Tooltip.SetDefault("Roasts nearby enemies with a flamethrower at full blast\n" +
+                "Cannot attack while a boss is alive");
         }
 
         public override void SetDefaults()
