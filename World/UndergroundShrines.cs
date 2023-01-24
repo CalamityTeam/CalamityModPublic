@@ -120,7 +120,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 
@@ -196,7 +196,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
         
@@ -265,7 +265,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 
@@ -328,7 +328,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 
@@ -394,7 +394,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 
@@ -466,7 +466,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 
@@ -545,7 +545,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 
@@ -655,7 +655,7 @@ namespace CalamityMod.World
                     }
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 

@@ -119,6 +119,13 @@ namespace CalamityMod.Systems
                     MiscWorldgenRoutines.SmartGemGen();
                 }));
 
+                //dungeon archives
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Forsaken Archive", (progress, config) =>
+                {
+                    progress.Message = "Discovering the Forsaken Archive";
+                    DungeonArchive.PlaceArchive();
+                }));
+
                 //planetoids
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Planetoids", Planetoid.GenerateAllBasePlanetoids));
 

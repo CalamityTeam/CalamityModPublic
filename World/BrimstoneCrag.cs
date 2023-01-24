@@ -243,6 +243,7 @@ namespace CalamityMod.World
             SchematicManager.PlaceSchematic(SchematicManager.CragBridgeKey, new Point(biomeMiddle, Main.maxTilesY - 100),
             SchematicAnchor.Center, ref firstItem, new Action<Chest, int, bool>(FillBrimstoneChests));
 
+            //lava clean up again
             for (int x = biomeStart; x <= biomeEdge; x++)
             {
                 for (int y = Main.maxTilesY - 200; y <= Main.maxTilesY - 5; y++)
