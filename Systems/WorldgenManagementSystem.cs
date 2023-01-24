@@ -35,7 +35,7 @@ namespace CalamityMod.Systems
             {
                 tasks.Insert(islandIndex + 2, new PassLegacy("Evil Island", (progress, config) =>
                 {
-                    progress.Message = "Adding a putrid floating island";
+                    progress.Message = WorldGen.crimson ? "Adding a putrid floating island" : "Adding a grotesque floating island";
                     WorldEvilIsland.PlaceEvilIsland();
                 }));
             }

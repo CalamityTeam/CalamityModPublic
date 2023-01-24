@@ -30,8 +30,8 @@ namespace CalamityMod.World
 
             for (int x = 20; x <= Main.maxTilesX - 20; x++)
             {
-                for (int y = Main.maxTilesY - 200; y > Main.maxTilesY / 2; y--)
-                {
+                for (int y = Main.maxTilesY - 200; y > (Main.maxTilesY / 2) + 100; y--)
+                { 
                     Tile tile = Main.tile[x, y];
                     Tile tileUp = Main.tile[x, y - 1];
                     Tile tileDown = Main.tile[x, y + 1];
