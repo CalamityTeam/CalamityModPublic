@@ -1,4 +1,5 @@
-﻿using CalamityMod.Rarities;
+﻿using CalamityMod.Events;
+using CalamityMod.Rarities;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -31,14 +32,18 @@ namespace CalamityMod.Items
 
         public override bool? UseItem(Player player)
         {
+            CalamityNetcode.SyncWorld();
+            string key = "Mods.CalamityMod.SulphurSwitchLeft";
             if (Abyss.AtLeftSideOfWorld)
             {
                 Abyss.AtLeftSideOfWorld = false;
+                key = "Mods.CalamityMod.SulphurSwitchRight";
             }
             else
             {
                 Abyss.AtLeftSideOfWorld = true;
             }
+            CalamityUtils.DisplayLocalizedText(key, AcidRainEvent.TextColor);
             return true;
         }
     }
