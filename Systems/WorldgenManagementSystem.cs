@@ -122,7 +122,7 @@ namespace CalamityMod.Systems
                 //dungeon archives
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Forsaken Archive", (progress, config) =>
                 {
-                    progress.Message = "Discovering the Forsaken Archive";
+                    progress.Message = "Entombing occult literature...";
                     DungeonArchive.PlaceArchive();
                 }));
 
