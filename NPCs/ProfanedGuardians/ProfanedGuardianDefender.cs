@@ -11,6 +11,8 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.Drawing;
+using Terraria.Graphics.Renderers;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -85,6 +87,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             writer.Write(healTimer);
             writer.Write(biomeEnrageTimer);
             writer.Write(NPC.localAI[0]);
+            writer.Write(NPC.localAI[1]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -92,6 +95,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             healTimer = reader.ReadInt32();
             biomeEnrageTimer = reader.ReadInt32();
             NPC.localAI[0] = reader.ReadSingle();
+            NPC.localAI[1] = reader.ReadSingle();
         }
 
         public override void FindFrame(int frameHeight)
@@ -255,7 +259,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             int rockRings = 3;
             int totalRocksPerRing = maxRocks / rockRings;
             int spacing = 360 / totalRocksPerRing;
-            int distance2 = 80;
+            int distance2 = 200;
             bool justSpawnedRocks = false;
             if (NPC.localAI[0] == 0f || respawnRocksInPhase2)
             {
@@ -300,6 +304,34 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
             }
 
+            // Spawn particles when the healer dies to indicate the shield has broken apart
+            else
+            {
+                if (NPC.localAI[1] == 0f)
+                {
+                    // Star Wrath use sound and dust circles
+                    NPC.localAI[1] += 1f;
+                    SoundEngine.PlaySound(SoundID.Item105, NPC.Center);
+                    int shieldRings = 4;
+                    int totalDust = 36;
+                    for (int j = 0; j < shieldRings; j++)
+                    {
+                        for (int k = 0; k < totalDust; k++)
+                        {
+                            Vector2 dustSpawnPos = NPC.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(320f, 320f);
+                            dustSpawnPos = dustSpawnPos.RotatedBy((double)((k - (totalDust / 2 - 1)) * MathHelper.TwoPi / totalDust), default) + NPC.Center;
+                            Vector2 dustVelocity = dustSpawnPos - NPC.Center;
+                            Color dustColor = Main.hslToRgb(Main.rgbToHsl(Color.OrangeRed).X, 1f, 0.5f);
+                            dustColor.A = 255;
+                            int dust = Dust.NewDust(dustSpawnPos + dustVelocity, 0, 0, 267, dustVelocity.X, dustVelocity.Y, 0, dustColor, 1.4f);
+                            Main.dust[dust].noGravity = true;
+                            Main.dust[dust].noLight = true;
+                            Main.dust[dust].velocity = dustVelocity * (j * 0.1f + 0.1f);
+                        }
+                    }
+                }
+            }
+
             // Spawn three dust circles and play noise whenever rock shields are spawned
             if (justSpawnedRocks)
             {
@@ -310,7 +342,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 {
                     for (int k = 0; k < totalDust; k++)
                     {
-                        Vector2 dustSpawnPos = NPC.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(80f, 160f) * 0.75f;
+                        Vector2 dustSpawnPos = NPC.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(distance2, distance2);
                         dustSpawnPos = dustSpawnPos.RotatedBy((double)((k - (totalDust / 2 - 1)) * MathHelper.TwoPi / totalDust), default) + NPC.Center;
                         Vector2 dustVelocity = dustSpawnPos - NPC.Center;
                         Color dustColor = Main.hslToRgb(Main.rgbToHsl(Color.Orange).X, 1f, 0.5f);
@@ -371,10 +403,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 // Lay a holy bomb every once in a while in phase 1
-                float projectileShootGateValue = (bossRush || biomeEnraged) ? 360f : death ? 400f : revenge ? 420f : expertMode ? 440f : 480f;
+                float projectileShootGateValue = (bossRush || biomeEnraged) ? 480f : death ? 520f : revenge ? 540f : expertMode ? 560f : 600f;
                 NPC.ai[1] += 1f;
                 if (NPC.ai[1] >= projectileShootGateValue)
                 {
+                    NPC.ai[1] = 0f;
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float projectileVelocityY = NPC.velocity.Y;
@@ -513,7 +546,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     int totalDust = 36;
                     for (int k = 0; k < totalDust; k++)
                     {
-                        Vector2 dustSpawnPos = NPC.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(80f, 160f) * 0.75f;
+                        Vector2 dustSpawnPos = NPC.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(160f, 160f);
                         dustSpawnPos = dustSpawnPos.RotatedBy((double)((k - (totalDust / 2 - 1)) * MathHelper.TwoPi / totalDust), default) + shootFrom;
                         Vector2 dustVelocity = dustSpawnPos - shootFrom;
                         int dust = Dust.NewDust(dustSpawnPos + dustVelocity, 0, 0, (int)CalamityDusts.ProfanedFire, dustVelocity.X, dustVelocity.Y, 0, default, 1f);
@@ -603,6 +636,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
+            Vector2 drawPos = NPC.Center - screenPos;
             Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
             Color color36 = Color.White;
             float amount9 = 0.5f;
@@ -625,7 +659,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
             }
 
-            Vector2 vector43 = NPC.Center - screenPos;
+            Vector2 vector43 = drawPos;
             vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -654,6 +688,54 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
 
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+            bool healerAlive = false;
+            if (CalamityGlobalNPC.doughnutBossHealer != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].active)
+                    healerAlive = true;
+            }
+
+            // Draw shields while healer is alive
+            if (healerAlive)
+            {
+                float maxOscillation = 60f;
+                float minScale = 0.8f;
+                float maxPulseScale = 1f - minScale;
+                float minOpacity = 0.5f;
+                float maxOpacityScale = 1f - minOpacity;
+                float currentOscillation = MathHelper.Lerp(0f, maxOscillation, ((float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.Pi) + 1f) * 0.5f);
+                float shieldOpacity = minOpacity + maxOpacityScale * Utils.Remap(currentOscillation, 0f, maxOscillation, 1f, 0f);
+                float oscillationRatio = currentOscillation / maxOscillation;
+                float invertedOscillationRatio = 1f - (1f - oscillationRatio) * (1f - oscillationRatio);
+                float oscillationScale = 1f - (1f - invertedOscillationRatio) * (1f - invertedOscillationRatio);
+                float remappedOscillation = Utils.Remap(currentOscillation, maxOscillation - 15f, maxOscillation, 0f, 1f);
+                float twoOscillationsMultipliedTogetherForScaleCalculation = remappedOscillation * remappedOscillation;
+                float invertedOscillationUsedForScale = MathHelper.Lerp(minScale, 1f, 1f - twoOscillationsMultipliedTogetherForScaleCalculation);
+                float shieldScale = (minScale + maxPulseScale * oscillationScale) * invertedOscillationUsedForScale;
+                float smallerRemappedOscillation = Utils.Remap(currentOscillation, 20f, maxOscillation, 0f, 1f);
+                float invertedSmallerOscillationRatio = 1f - (1f - smallerRemappedOscillation) * (1f - smallerRemappedOscillation);
+                float smallerOscillationScale = 1f - (1f - invertedSmallerOscillationRatio) * (1f - invertedSmallerOscillationRatio);
+                float shieldScale2 = (minScale + maxPulseScale * smallerOscillationScale) * invertedOscillationUsedForScale;
+                Texture2D shieldTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleOpenCircle").Value;
+                Rectangle shieldFrame = shieldTexture.Frame();
+                Vector2 origin = shieldFrame.Size() * 0.5f;
+                Vector2 shieldDrawPos = NPC.Center - screenPos;
+                shieldDrawPos -= new Vector2(shieldTexture.Width, shieldTexture.Height) * NPC.scale / 2f;
+                shieldDrawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                float minHue = 0.06f;
+                float maxHue = 0.18f;
+                Color color = Main.hslToRgb(MathHelper.Lerp(maxHue - minHue, maxHue, ((float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.TwoPi) + 1f) * 0.5f), 1f, 0.5f) * shieldOpacity;
+                Color color2 = Main.hslToRgb(MathHelper.Lerp(minHue, maxHue - minHue, ((float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.Pi * 3f) + 1f) * 0.5f), 1f, 0.5f) * shieldOpacity;
+                color2.A = 0;
+                color *= 0.6f;
+                color2 *= 0.6f;
+                float scaleMult = 3f;
+                spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale2 * scaleMult, SpriteEffects.None, 0f);
+                spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale2 * scaleMult * 0.95f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale * scaleMult, SpriteEffects.None, 0f);
+                spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale * scaleMult * 0.95f, SpriteEffects.None, 0f);
+            }
 
             return false;
         }
@@ -692,9 +774,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
-            {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
-            }
+
             if (NPC.life <= 0)
             {
                 if (Main.netMode != NetmodeID.Server)
@@ -704,10 +785,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ProfanedGuardianBossT3").Type, 1f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ProfanedGuardianBossT4").Type, 1f);
                 }
+
                 for (int k = 0; k < 50; k++)
-                {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
-                }
             }
         }
     }

@@ -48,11 +48,11 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.ai[1] = 1f;
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             }
+
             Projectile.alpha -= (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 10 : 5;
             if (Projectile.alpha <= 0)
-            {
                 Projectile.Kill();
-            }
+
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 6)
             {
@@ -60,9 +60,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.frameCounter = 0;
             }
             if (Projectile.frame > 3)
-            {
                 Projectile.frame = 0;
-            }
         }
 
         public override Color? GetAlpha(Color lightColor)

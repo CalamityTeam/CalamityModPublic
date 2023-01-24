@@ -1,6 +1,5 @@
 ﻿using System;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -21,7 +20,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blast");
+            DisplayName.SetDefault("Crack Shot");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = TrailLenght;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 4000;

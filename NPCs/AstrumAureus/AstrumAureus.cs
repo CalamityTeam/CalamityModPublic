@@ -35,8 +35,8 @@ namespace CalamityMod.NPCs.AstrumAureus
     public class AstrumAureus : ModNPC
     {
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/AureusHit", 4);
-        public static readonly SoundStyle StompSound = new("CalamityMod/Sounds/Custom/LegStomp");
-        public static readonly SoundStyle JumpSound = new("CalamityMod/Sounds/Custom/AureusJump");
+        public static readonly SoundStyle StompSound = new("CalamityMod/Sounds/Custom/AstrumAureus/LegStomp");
+        public static readonly SoundStyle JumpSound = new("CalamityMod/Sounds/Custom/AstrumAureus/AureusJump");
 
         private bool stomping = false;
         public int slimeProjCounter = 0;
