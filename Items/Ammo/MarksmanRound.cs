@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Ammo
         {
             SacrificeTotal = 99;
             DisplayName.SetDefault("Marksman Round");
-            Tooltip.SetDefault("A carefully crafted round which can be ricocheted off of midair coins\nAny gun firing this weapon can perform Ricoshots with coins from Crackshot Colt or Midas Prime");
+            Tooltip.SetDefault("A carefully crafted round which can be ricocheted off of midair coins\nAny gun firing this bullet can perform Ricoshots with coins tossed using Midas Prime");
         }
 
         public override void SetDefaults()
