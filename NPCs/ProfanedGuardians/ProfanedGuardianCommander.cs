@@ -355,7 +355,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.spriteDirection = NPC.direction;
                 }
 
-                float velocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                float velocity = (bossRush || biomeEnraged) ? 15f : death ? 14f : revenge ? 13.5f : expertMode ? 13f : 12f;
                 if (Main.getGoodWorld)
                     velocity *= 1.25f;
 
@@ -632,7 +632,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 color2.A = 0;
                 color *= 0.6f;
                 color2 *= 0.6f;
-                float scaleMult = 3f;
+                float scaleMult = 1.2f;
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale2 * scaleMult, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale2 * scaleMult * 0.95f, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale * scaleMult, SpriteEffects.None, 0f);

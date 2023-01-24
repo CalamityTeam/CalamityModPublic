@@ -304,7 +304,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
             }
 
-            // Spawn particles when the healer dies to indicate the shield has broken apart
+            // Spawn dust when the healer dies to indicate the shield has broken apart
             else
             {
                 if (NPC.localAI[1] == 0f)
@@ -730,7 +730,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 color2.A = 0;
                 color *= 0.6f;
                 color2 *= 0.6f;
-                float scaleMult = 3f;
+                float scaleMult = 1.2f;
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale2 * scaleMult, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale2 * scaleMult * 0.95f, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale * scaleMult, SpriteEffects.None, 0f);
