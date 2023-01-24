@@ -31,7 +31,7 @@ namespace CalamityMod
         internal static bool _downedCeaselessVoid = false;
         internal static bool _downedStormWeaver = false;
         internal static bool _downedSignus = false;
-        internal static bool _downedSecondSentinels = false;
+        internal static bool _downedSecondSentinels = false; // TODO: UNUSED (DoG no longer has sentinels phase)
         internal static bool _downedPolterghast = false;
         internal static bool _downedBoomerDuke = false;
         internal static bool _downedDoG = false;
@@ -56,8 +56,9 @@ namespace CalamityMod
         internal static bool _downedAquaticScourgeAcidRain = false;
         internal static bool _downedBossRush = false;
 
-        // Betsy, because vanilla doesn't track her
+        // Betsy and Dreadnautilus because vanilla doesn't track them
         internal static bool _downedBetsy = false;
+        internal static bool _downedDreadnautilus = false;
 
         #region Wrapper Properties for Lantern Nights
         public static bool downedDesertScourge
@@ -113,6 +114,17 @@ namespace CalamityMod
                     _downedSlimeGod = false;
                 else
                     NPC.SetEventFlagCleared(ref _downedSlimeGod, -1);
+            }
+        }
+        public static bool downedDreadnautilus
+        {
+            get => _downedDreadnautilus;
+            set
+            {
+                if (!value)
+                    _downedDreadnautilus = false;
+                else
+                    NPC.SetEventFlagCleared(ref _downedDreadnautilus, -1);
             }
         }
         public static bool downedCryogen
@@ -179,6 +191,17 @@ namespace CalamityMod
                     _downedAstrumAureus = false;
                 else
                     NPC.SetEventFlagCleared(ref _downedAstrumAureus, -1);
+            }
+        }
+        public static bool downedBetsy
+        {
+            get => _downedBetsy;
+            set
+            {
+                if (!value)
+                    _downedBetsy = false;
+                else
+                    NPC.SetEventFlagCleared(ref _downedBetsy, -1);
             }
         }
         public static bool downedPlaguebringer
@@ -357,17 +380,6 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedAdultEidolonWyrm, -1);
             }
         }
-        public static bool downedGSS
-        {
-            get => _downedGSS;
-            set
-            {
-                if (!value)
-                    _downedGSS = false;
-                else
-                    NPC.SetEventFlagCleared(ref _downedGSS, -1);
-            }
-        }
         public static bool downedCLAM
         {
             get => _downedCLAM;
@@ -401,6 +413,17 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedCragmawMire, -1);
             }
         }
+        public static bool downedGSS
+        {
+            get => _downedGSS;
+            set
+            {
+                if (!value)
+                    _downedGSS = false;
+                else
+                    NPC.SetEventFlagCleared(ref _downedGSS, -1);
+            }
+        }
         public static bool downedMauler
         {
             get => _downedMauler;
@@ -421,17 +444,6 @@ namespace CalamityMod
                     _downedNuclearTerror = false;
                 else
                     NPC.SetEventFlagCleared(ref _downedNuclearTerror, -1);
-            }
-        }
-        public static bool downedBetsy
-        {
-            get => _downedBetsy;
-            set
-            {
-                if (!value)
-                    _downedBetsy = false;
-                else
-                    NPC.SetEventFlagCleared(ref _downedBetsy, -1);
             }
         }
         #endregion
@@ -500,12 +512,14 @@ namespace CalamityMod
             downedHiveMind = false;
             downedPerforator = false;
             downedSlimeGod = false;
+            downedDreadnautilus = false;
             downedCryogen = false;
             downedAquaticScourge = false;
             downedBrimstoneElemental = false;
             downedCalamitas = false;
             downedLeviathan = false;
             downedAstrumAureus = false;
+            downedBetsy = false;
             downedPlaguebringer = false;
             downedRavager = false;
             downedAstrumDeus = false;
@@ -529,17 +543,16 @@ namespace CalamityMod
             downedSecondSentinels = false;
 
             downedCLAM = false;
+            downedEoCAcidRain = false;
+
             downedCLAMHardMode = false;
-            downedGSS = false;
             downedCragmawMire = false;
+            downedAquaticScourgeAcidRain = false;
+            downedGSS = false;
+
             downedMauler = false;
             downedNuclearTerror = false;
-
-            downedEoCAcidRain = false;
-            downedAquaticScourgeAcidRain = false;
             downedBossRush = false;
-
-            downedBetsy = false;
         }
 
         public override void OnWorldLoad() => ResetAllFlags();
@@ -550,30 +563,47 @@ namespace CalamityMod
         {
             List<string> downed = new List<string>();
 
+            // Pre-hardmode bosses (progression sorted)
             if (downedDesertScourge)
                 downed.Add("desertScourge");
-            if (downedAquaticScourge)
-                downed.Add("aquaticScourge");
+            if (downedCrabulon)
+                downed.Add("crabulon");
             if (downedHiveMind)
                 downed.Add("hiveMind");
             if (downedPerforator)
                 downed.Add("perforator");
             if (downedSlimeGod)
                 downed.Add("slimeGod");
+
+            // Hardmode bosses (progression sorted)
+            if (downedDreadnautilus)
+                downed.Add("dreadnautilus");
             if (downedCryogen)
                 downed.Add("cryogen");
+            if (downedAquaticScourge)
+                downed.Add("aquaticScourge");
             if (downedBrimstoneElemental)
                 downed.Add("brimstoneElemental");
             if (downedCalamitas)
                 downed.Add("calamitas");
             if (downedLeviathan)
                 downed.Add("leviathan");
-            if (downedDoG)
-                downed.Add("devourerOfGods");
+            if (downedAstrumAureus)
+                downed.Add("astrageldon");
+            if (downedBetsy)
+                downed.Add("betsy");
             if (downedPlaguebringer)
                 downed.Add("plaguebringerGoliath");
+            if (downedRavager)
+                downed.Add("scavenger");
+            if (downedAstrumDeus)
+                downed.Add("starGod");
+
+            // Post-ML bosses (progression sorted)
             if (downedGuardians)
                 downed.Add("guardians");
+            if (downedDragonfolly)
+                downed.Add("bumblebirb");
             if (downedProvidence)
                 downed.Add("providence");
             if (downedCeaselessVoid)
@@ -584,52 +614,46 @@ namespace CalamityMod
                 downed.Add("signus");
             if (downedSecondSentinels)
                 downed.Add("secondSentinels");
+            if (downedPolterghast)
+                downed.Add("polterghast");
+            if (downedBoomerDuke)
+                downed.Add("oldDuke");
+            if (downedDoG)
+                downed.Add("devourerOfGods");
             if (downedYharon)
                 downed.Add("yharon");
-            if (downedExoMechs)
-                downed.Add("exoMechs");
-            if (downedAres)
-                downed.Add("ares");
             if (downedThanatos)
                 downed.Add("thanatos");
             if (downedArtemisAndApollo)
                 downed.Add("artemisAndApollo");
+            if (downedAres)
+                downed.Add("ares");
+            if (downedExoMechs)
+                downed.Add("exoMechs");
             if (downedSCal)
                 downed.Add("supremeCalamitas");
             if (downedAdultEidolonWyrm)
                 downed.Add("adultEidolonWyrm");
-            if (downedDragonfolly)
-                downed.Add("bumblebirb");
-            if (downedCrabulon)
-                downed.Add("crabulon");
-            if (downedBetsy)
-                downed.Add("betsy");
-            if (downedRavager)
-                downed.Add("scavenger");
-            if (downedAstrumDeus)
-                downed.Add("starGod");
-            if (downedAstrumAureus)
-                downed.Add("astrageldon");
-            if (downedPolterghast)
-                downed.Add("polterghast");
-            if (downedGSS)
-                downed.Add("greatSandShark");
-            if (downedBoomerDuke)
-                downed.Add("oldDuke");
+
+            // Minibosses and events
             if (downedCLAM)
                 downed.Add("clam");
+            if (downedEoCAcidRain)
+                downed.Add("eocRain");
+
             if (downedCLAMHardMode)
                 downed.Add("clamHardmode");
             if (downedCragmawMire)
                 downed.Add("cragmawMire");
+            if (downedAquaticScourgeAcidRain)
+                downed.Add("hmRain");
+            if (downedGSS)
+                downed.Add("greatSandShark");
+
             if (downedMauler)
                 downed.Add("mauler");
             if (downedNuclearTerror)
                 downed.Add("nuclearTerror");
-            if (downedEoCAcidRain)
-                downed.Add("eocRain");
-            if (downedAquaticScourgeAcidRain)
-                downed.Add("hmRain");
             if (downedBossRush)
                 downed.Add("bossRush");
 
@@ -639,46 +663,53 @@ namespace CalamityMod
         public override void LoadWorldData(TagCompound tag)
         {
             IList<string> downed = tag.GetList<string>("downedFlags");
+
             downedDesertScourge = downed.Contains("desertScourge");
             downedAquaticScourge = downed.Contains("aquaticScourge");
+            downedCrabulon = downed.Contains("crabulon");
             downedHiveMind = downed.Contains("hiveMind");
             downedPerforator = downed.Contains("perforator");
             downedSlimeGod = downed.Contains("slimeGod");
+
+            downedDreadnautilus = downed.Contains("dreadnautilus");
             downedCryogen = downed.Contains("cryogen");
             downedBrimstoneElemental = downed.Contains("brimstoneElemental");
             downedCalamitas = downed.Contains("calamitas");
             downedLeviathan = downed.Contains("leviathan");
-            downedDoG = downed.Contains("devourerOfGods");
+            downedAstrumAureus = downed.Contains("astrageldon");
+            downedBetsy = downed.Contains("betsy");
             downedPlaguebringer = downed.Contains("plaguebringerGoliath");
+            downedRavager = downed.Contains("scavenger");
+            downedAstrumDeus = downed.Contains("starGod");
+
             downedGuardians = downed.Contains("guardians");
+            downedDragonfolly = downed.Contains("bumblebirb");
             downedProvidence = downed.Contains("providence");
             downedCeaselessVoid = downed.Contains("ceaselessVoid");
             downedStormWeaver = downed.Contains("stormWeaver");
             downedSignus = downed.Contains("signus");
+            downedPolterghast = downed.Contains("polterghast");
+            downedBoomerDuke = downed.Contains("oldDuke");
             downedSecondSentinels = downed.Contains("secondSentinels");
+            downedDoG = downed.Contains("devourerOfGods");
             downedYharon = downed.Contains("yharon");
-            downedExoMechs = downed.Contains("exoMechs");
-            downedAres = downed.Contains("ares");
             downedThanatos = downed.Contains("thanatos");
             downedArtemisAndApollo = downed.Contains("artemisAndApollo");
+            downedAres = downed.Contains("ares");
+            downedExoMechs = downed.Contains("exoMechs");
             downedSCal = downed.Contains("supremeCalamitas");
             downedAdultEidolonWyrm = downed.Contains("adultEidolonWyrm");
-            downedDragonfolly = downed.Contains("bumblebirb");
-            downedCrabulon = downed.Contains("crabulon");
-            downedBetsy = downed.Contains("betsy");
-            downedRavager = downed.Contains("scavenger");
-            downedAstrumDeus = downed.Contains("starGod");
-            downedAstrumAureus = downed.Contains("astrageldon");
-            downedPolterghast = downed.Contains("polterghast");
-            downedGSS = downed.Contains("greatSandShark");
-            downedBoomerDuke = downed.Contains("oldDuke");
+
             downedCLAM = downed.Contains("clam");
+            downedEoCAcidRain = downed.Contains("eocRain");
+
             downedCLAMHardMode = downed.Contains("clamHardmode");
             downedCragmawMire = downed.Contains("cragmawMire");
+            downedAquaticScourgeAcidRain = downed.Contains("hmRain");
+            downedGSS = downed.Contains("greatSandShark");
+
             downedMauler = downed.Contains("mauler");
             downedNuclearTerror = downed.Contains("nuclearTerror");
-            downedEoCAcidRain = downed.Contains("eocRain");
-            downedAquaticScourgeAcidRain = downed.Contains("hmRain");
             downedBossRush = downed.Contains("bossRush");
         }
     }

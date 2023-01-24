@@ -229,11 +229,11 @@ namespace CalamityMod.World
                     Tile tileRight = Main.tile[x + 1, y];
 
                     //only place ore nearby lava
-                    if (WorldGen.genRand.Next(200) == 0 && tile.TileType == ModContent.TileType<BrimstoneSlag>() && (tileUp.LiquidAmount > 0 || 
+                    if (WorldGen.genRand.Next(180) == 0 && tile.TileType == ModContent.TileType<BrimstoneSlag>() && (tileUp.LiquidAmount > 0 || 
                     tileDown.LiquidAmount > 0 || tileLeft.LiquidAmount > 0 || tileRight.LiquidAmount > 0))
                     {
                         WorldGen.TileRunner(x + WorldGen.genRand.Next(-15, 15), y + WorldGen.genRand.Next(-15, 15), 
-                        WorldGen.genRand.Next(8, 12), WorldGen.genRand.Next(8, 12), ModContent.TileType<CharredOre>(), false, 0f, 0f, false, true);
+                        WorldGen.genRand.Next(10, 12), WorldGen.genRand.Next(10, 12), ModContent.TileType<CharredOre>(), false, 0f, 0f, false, true);
                     }
                 }
             }

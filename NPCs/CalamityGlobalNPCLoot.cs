@@ -464,7 +464,6 @@ namespace CalamityMod.NPCs
                 #endregion
 
                 #region Blood Moon
-
                 // All Blood Moon fishing enemies
                 // Drop more Blood Orbs @ 100%
 
@@ -484,8 +483,10 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 15, 30);
                     break;
 
+                // Dreadnautilus drops the Blood Moon lore
                 case NPCID.BloodNautilus:
                     npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 20, 40);
+                    npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDreadnautilus, ModContent.ItemType<LoreBloodMoon>(), desc: DropHelper.FirstKillText);
                     break;
                 #endregion
 
@@ -1466,9 +1467,6 @@ namespace CalamityMod.NPCs
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedAncientCultist, ModContent.ItemType<LorePrelude>(), desc: DropHelper.FirstKillText);
-
-                    // Special Blood Moon Lore
-                    npcLoot.AddConditionalPerPlayer(() => Main.bloodMoon, ModContent.ItemType<KnowledgeBloodMoon>(), desc: DropHelper.BloodMoonText);
                     break;
 
                 case NPCID.MoonLordCore:
@@ -1634,7 +1632,7 @@ namespace CalamityMod.NPCs
                 SetNewBossJustDowned(npc);
             }
 
-            // On-kill NON-LOOT behavior for every other vanilla boss
+            // On-kill NON-LOOT behavior for every other vanilla boss (and Dreadnautilus)
             switch (npc.type)
             {
                 case NPCID.KingSlime:
@@ -1685,6 +1683,12 @@ namespace CalamityMod.NPCs
                             CalamityUtils.DisplayLocalizedText(key3, messageColor3);
                         }
                     }
+                    break;
+
+                case NPCID.BloodNautilus:
+                    // Mark Dreadnautilus as dead (Vanilla does not keep track of it)
+                    DownedBossSystem.downedDreadnautilus = true;
+                    CalamityNetcode.SyncWorld();
                     break;
 
                 case NPCID.QueenSlimeBoss:

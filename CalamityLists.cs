@@ -1366,7 +1366,7 @@ namespace CalamityMod
                 ItemType<LoreAquaticScourge>(),
                 ItemType<LoreLeviathanAnahita>(),
                 ItemType<LoreSulphurSea>(),
-                ItemType<KnowledgeOcean>(),
+                ItemType<LoreAbyss>(),
                 ItemType<LoreOldDuke>(),
                 ItemType<PearlShard>(),
                 ItemType<AeroStone>(),

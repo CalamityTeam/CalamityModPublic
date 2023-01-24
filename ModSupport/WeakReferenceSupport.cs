@@ -222,9 +222,8 @@ namespace CalamityMod
             ItemRedirect(ModContent.ItemType<SandstormGun>(), "Sandstorm (weapon)");
             ItemRedirect(ModContent.ItemType<Thunderstorm>(), "Thunderstorm (weapon)");
             // Lore items
-            ItemRedirect(ModContent.ItemType<KnowledgeAstralInfection>(), "Lore#Lore_Items");
-            ItemRedirect(ModContent.ItemType<KnowledgeBloodMoon>(), "Lore#Lore_Items");
-            ItemRedirect(ModContent.ItemType<KnowledgeOcean>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreAstralInfection>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreAbyss>(), "Lore#Lore_Items");
 
             ItemRedirect(ModContent.ItemType<LoreAquaticScourge>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreArchmage>(), "Lore#Lore_Items");
@@ -232,6 +231,7 @@ namespace CalamityMod
             ItemRedirect(ModContent.ItemType<LoreAstrumDeus>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreAwakening>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreAzafure>(), "Lore#Lore_Items");
+            ItemRedirect(ModContent.ItemType<LoreBloodMoon>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreBrainofCthulhu>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreBrimstoneElemental>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreCalamitas>(), "Lore#Lore_Items");
@@ -541,7 +541,7 @@ namespace CalamityMod
             {
                 BossDifficulty.TryGetValue("Leviathan", out float order);
                 List<int> bosses = new List<int>() { NPCType<Leviathan>(), NPCType<Anahita>() };
-                List<int> collection = new List<int>() { ItemType<LeviathanTrophy>(), ItemType<AnahitaTrophy>(), ItemType<LeviathanMask>(), ItemType<AnahitaMask>(), ItemType<KnowledgeOcean>(), ItemType<LoreLeviathanAnahita>(), ItemType<ThankYouPainting>() };
+                List<int> collection = new List<int>() { ItemType<LeviathanTrophy>(), ItemType<AnahitaTrophy>(), ItemType<LeviathanMask>(), ItemType<AnahitaMask>(), ItemType<LoreAbyss>(), ItemType<LoreLeviathanAnahita>(), ItemType<ThankYouPainting>() };
                 string instructions = "By killing an unknown entity in the Ocean Biome";
                 string despawn = CalamityUtils.ColorMessage("The aquatic entities sink back beneath the ocean depths.", new Color(0x7F, 0xFF, 0xD4));
 
@@ -609,7 +609,7 @@ namespace CalamityMod
                 int summon2 = ItemType<Starcore>();
                 int altar = ItemType<AstralBeaconItem>();
                 List<int> summons = new List<int>() { summon1, summon2 };
-                List<int> collection = new List<int>() { ItemType<AstrumDeusTrophy>(), ItemType<AstrumDeusMask>(), ItemType<LoreAstrumDeus>(), ItemType<KnowledgeAstralInfection>(), ItemType<ChromaticOrb>(), ItemType<ThankYouPainting>() };
+                List<int> collection = new List<int>() { ItemType<AstrumDeusTrophy>(), ItemType<AstrumDeusMask>(), ItemType<LoreAstrumDeus>(), ItemType<LoreAstralInfection>(), ItemType<ChromaticOrb>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon1}] or [i:{summon2}] as offering at an [i:{altar}]";
                 string despawn = CalamityUtils.ColorMessage("The infected deity retreats to the heavens.", new Color(0xFF, 0xD7, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/AstrumDeus/AstrumDeusHead_Head_Boss";
@@ -991,7 +991,7 @@ namespace CalamityMod
             // Lunatic Cultist
             AddLoot(bossChecklist, "CultistBoss",
                 null,
-                new List<int>() { ItemType<LorePrelude>(), ItemType<KnowledgeBloodMoon>(), ItemType<ThankYouPainting>() }
+                new List<int>() { ItemType<LorePrelude>(), ItemType<ThankYouPainting>() }
             );
             AddSummons(bossChecklist, "CultistBoss", new List<int>() { ItemType<EidolonTablet>() });
 

@@ -26,12 +26,17 @@ namespace CalamityMod.Scenes.MusicScenes
             float jungleLabDistance = Vector2.DistanceSquared(CalamityWorld.JungleLabCenter, playerPosition);
             float hellLabDistance = Vector2.DistanceSquared(CalamityWorld.HellLabCenter, playerPosition);
             float iceLabDistance = Vector2.DistanceSquared(CalamityWorld.IceLabCenter, playerPosition);
+            float cavernLabDistance = Vector2.DistanceSquared(CalamityWorld.CavernLabCenter, playerPosition);
 
             // Checks if the player is behind any wall that naturally generates in Bio Labs
             bool behindLabWall =
+                backWall.WallType == WallID.ObsidianBrick ||
                 backWall.WallType == WallID.Glass ||
                 backWall.WallType == WallID.SnowWallUnsafe ||
                 backWall.WallType == WallID.IceUnsafe ||
+                backWall.WallType == WallID.Waterfall ||
+                backWall.WallType == WallID.Lavafall ||
+                backWall.WallType == WallID.IronBrick ||
                 backWall.WallType == ModContent.WallType<AstralIceWall>() ||
                 backWall.WallType == ModContent.WallType<AstralSnowWall>() ||
                 backWall.WallType == ModContent.WallType<ChaosplateWall>() ||
@@ -48,13 +53,14 @@ namespace CalamityMod.Scenes.MusicScenes
                 backWall.WallType == ModContent.WallType<RustedPlatePillar>() ||
                 backWall.WallType == ModContent.WallType<RustedPlatingWall>();
 
-            // Checks if the player is within an area from the center point of any Bio Lab
+            // Checks if the player is within a circular area from the center point of any Bio Lab
             bool nearBioLabPoint =
                 sunkenSeaLabDistance <= 1020f * 1020f ||
                 planetoidLabDistance <= 520f * 520f ||
                 jungleLabDistance <= 620f * 620f ||
                 hellLabDistance <= 700f * 700f ||
-                iceLabDistance <= 720f * 720f;
+                iceLabDistance <= 720f * 720f ||
+                cavernLabDistance <= 940f * 940f;
 
             return BiomeTileCounterSystem.ArsenalLabTiles > 150 && behindLabWall && nearBioLabPoint;
         }

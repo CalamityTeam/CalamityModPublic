@@ -113,7 +113,6 @@ namespace CalamityMod
 
         #region Bestiary Text
         public static string FirstKillText = "Drops only on the first kill";
-        public static string BloodMoonText = "Drops during the Blood Moon";
         public static string MechBossText = "Drops on the first kill of the final Mechanical Boss";
         public static string CynosureText = "Drops once you have defeated both Draedon and Calamitas";
 
