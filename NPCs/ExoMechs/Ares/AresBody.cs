@@ -952,9 +952,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                             }
                         }
 
-                        if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration) // move to zenith seed later
+                        if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
                         {
-                            if (!Main.getGoodWorld || exoMechdusa)
+                            if (!CalamityMod.Instance.legendaryMode || exoMechdusa)
                             {
                                 AIState = (float)Phase.Normal;
                                 calamityGlobalNPC.newAI[2] = 0f;

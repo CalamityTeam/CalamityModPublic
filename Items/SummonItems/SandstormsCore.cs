@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.GreatSandShark;
+using System.Linq;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,7 +38,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark>());
+            return player.ZoneDesert && !(CalamityMod.Instance.legendaryMode && !player.Calamity().ZoneAstral) && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark>());
         }
 
         public override bool? UseItem(Player player)
@@ -48,6 +50,21 @@ namespace CalamityMod.Items.SummonItems
                 NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<GreatSandShark>());
 
             return true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            Player player = Main.LocalPlayer;
+            TooltipLine line0 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+
+            if (CalamityMod.Instance.legendaryMode)
+            {
+                line0.Text = "Summons the Great Sand Shark when used in the astral desert";
+            }
+            else
+            {
+                line0.Text = "Summons the Great Sand Shark when used in the desert";
+            }
         }
 
         public override void AddRecipes()

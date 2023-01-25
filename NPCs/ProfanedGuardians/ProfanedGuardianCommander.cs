@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     }
                 }
 
-                if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].ai[0] == 599 && Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient) // move to zenith seed later
+                if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].ai[0] == 599 && CalamityMod.Instance.legendaryMode && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     // gain more health once the healer's channel heal is done
                     NPC.lifeMax += 7500;
@@ -257,11 +257,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.TargetClosest();
 
             Player player = Main.player[NPC.target];
-            if ((!Main.dayTime && !Main.getGoodWorld) || !player.active || player.dead || Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+
+            if ((!Main.dayTime && !CalamityMod.Instance.legendaryMode) || !player.active || player.dead || Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
             {
                 NPC.TargetClosest(false);
                 player = Main.player[NPC.target];
-                if ((!Main.dayTime && !Main.getGoodWorld) || !player.active || player.dead || Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+                if ((!Main.dayTime && !CalamityMod.Instance.legendaryMode) || !player.active || player.dead || Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 {
                     if (NPC.velocity.Y > 3f)
                         NPC.velocity.Y = 3f;
@@ -355,7 +356,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.spriteDirection = NPC.direction;
                 }
 
-                float velocity = (bossRush || biomeEnraged) ? 15f : death ? 14f : revenge ? 13.5f : expertMode ? 13f : 12f;
+                float velocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
                 if (Main.getGoodWorld)
                     velocity *= 1.25f;
 
@@ -383,9 +384,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                     // Alternate between firing profaned spears and holy fire
                     NPC.ai[3] += 1f;
-                    float projectileShootGateValue = (bossRush || biomeEnraged) ? 50f : death ? 66f : revenge ? 75f : expertMode ? 83f : 100f;
+                    float projectileShootGateValue = (bossRush || biomeEnraged) ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
                     if (healerAlive)
-                        projectileShootGateValue *= 2;
+                        projectileShootGateValue = (int)(projectileShootGateValue * 1.5f);
 
                     if (NPC.ai[3] % projectileShootGateValue == 0f)
                     {
@@ -562,7 +563,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianCommanderGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianCommanderGlowNight").Value;
                 color37 = Color.Cyan;

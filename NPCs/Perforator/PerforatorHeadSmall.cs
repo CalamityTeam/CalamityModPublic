@@ -274,10 +274,7 @@ namespace CalamityMod.NPCs.Perforator
                 }
             }
 
-            //TODO -- Zenith seed.
-            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
-
-            if (getFuckedAI && CalamityGlobalNPC.perfHive >= 0)
+            if (CalamityMod.Instance.legendaryMode && CalamityGlobalNPC.perfHive >= 0)
                 NPC.ai[0]++;
             
             //GFB movement

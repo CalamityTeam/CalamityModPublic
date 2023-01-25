@@ -3,9 +3,11 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
@@ -104,6 +106,12 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override string GetChat()
         {
+            if (CalamityMod.Instance.legendaryMode)
+            {
+                Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, false, -1);
+                SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, Main.player[Main.myPlayer].Center);
+            }
+
             if (CalamityUtils.AnyBossNPCS())
                 return "Why are you talking to me right now? Shouldn't you be bumbling around and dying for my amusement?";
 
@@ -137,6 +145,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 else
                 {
                     Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, false, -1);
+                    SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, Main.player[Main.myPlayer].Center);
                     return "Sorry, I have no moral compass at the moment.";
                 }
             }

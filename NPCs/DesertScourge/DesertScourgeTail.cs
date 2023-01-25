@@ -182,9 +182,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override Color? GetAlpha(Color drawColor)
         {
-            // Move to zenith seed later
             Color lightColor = Color.MediumBlue * drawColor.A;
-            Color newColor = Main.getGoodWorld ? lightColor : new Color(255, 255, 255, drawColor.A);
+            Color newColor = CalamityMod.Instance.legendaryMode ? lightColor : new Color(255, 255, 255, drawColor.A);
             return newColor * NPC.Opacity;
         }
     }

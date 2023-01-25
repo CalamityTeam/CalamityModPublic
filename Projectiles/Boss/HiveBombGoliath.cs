@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // move to zenith seed later
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
             {
                 Vector2 valueBoom = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
                 float spreadBoom = 15f * 0.0174f;
@@ -191,7 +191,7 @@ namespace CalamityMod.Projectiles.Boss
             if (damage <= 0)
                 return;
             
-            if (Main.getGoodWorld) // it is the plague, you get very sick. move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode) // it is the plague, you get very sick.
             {
                 target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240, true);
                 target.AddBuff(BuffID.Poisoned, 240, true);

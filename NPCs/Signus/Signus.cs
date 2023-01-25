@@ -21,6 +21,7 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -202,7 +203,7 @@ namespace CalamityMod.NPCs.Signus
             int stealthSoundGate = 300;
             int maxStealth = 360;
 
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 if (stealthTimer < maxStealth)
                 {
@@ -552,11 +553,7 @@ namespace CalamityMod.NPCs.Signus
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int totalLamps = Main.getGoodWorld ? 10 : 5;
-                    if (Main.getGoodWorld) // move to zenith seed later
-                    {
-                        totalLamps = 5;
-                    }
+                    int totalLamps = Main.getGoodWorld && !CalamityMod.Instance.legendaryMode ? 10 : 5;
                     if (NPC.CountNPCS(ModContent.NPCType<CosmicLantern>()) < totalLamps)
                     {
                         bool buffed = false;
@@ -568,7 +565,7 @@ namespace CalamityMod.NPCs.Signus
                         for (int x = 0; x < totalLamps; x++)
                         {
                             int type = ModContent.NPCType<CosmicLantern>();
-                            if (Main.rand.NextBool(10) && Main.getGoodWorld) // move to zenith seed later
+                            if (Main.rand.NextBool(10) && CalamityMod.Instance.legendaryMode)
                             {
                                 type = ModContent.NPCType<CosmicMine>();
                             }
@@ -688,8 +685,7 @@ namespace CalamityMod.NPCs.Signus
                             SoundEngine.PlaySound(SoundID.Item73, NPC.position);
                             int type = ModContent.ProjectileType<EssenceDust>();
                             int damage = NPC.GetProjectileDamage(type);
-                            // move getgoodworld checks to zenith seed later
-                            Vector2 velocity = Main.getGoodWorld ? new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)) : Vector2.Zero;
+                            Vector2 velocity = CalamityMod.Instance.legendaryMode ? new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)) : Vector2.Zero;
                             if (Main.getGoodWorld)
                             {
                                 velocity.Normalize();
@@ -848,7 +844,7 @@ namespace CalamityMod.NPCs.Signus
             spriteBatch.Draw(NPCTexture, vector43, new Rectangle?(frame), NPC.GetAlpha(drawColor) * transparency, rotation, vector11, scale, spriteEffects, 0f);
 
             Color color40 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 color40 = Color.MediumBlue;
             }
@@ -866,6 +862,24 @@ namespace CalamityMod.NPCs.Signus
                     vector44 += vector11 * scale + new Vector2(0f, 4f + offsetY);
                     spriteBatch.Draw(glowMaskTexture, vector44, new Rectangle?(frame), color41, rotation, vector11, scale, spriteEffects, 0f);
                 }
+            }
+
+            if (CalamityMod.Instance.legendaryMode) // make Sig's eyes more visible in the zenith seed due to the color change
+            {
+                CalamityUtils.EnterShaderRegion(spriteBatch);
+                Color outlineColor = Color.Lerp(Color.Blue, Color.White, 0.4f);
+                Vector3 outlineHSL = Main.rgbToHsl(outlineColor); //BasicTint uses the opposite hue i guess? or smth is fucked with the way shaders get their colors. anyways, we invert it
+                float outlineThickness = MathHelper.Clamp(0.5f, 0f, 1f);
+
+                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(1f);
+                GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1 - outlineHSL.X, outlineHSL.Y, outlineHSL.Z));
+                GameShaders.Misc["CalamityMod:BasicTint"].Apply();
+
+                for (float i = 0; i < 1; i += 0.125f)
+                {
+                    spriteBatch.Draw(glowMaskTexture, vector43 + (i * MathHelper.TwoPi).ToRotationVector2() * outlineThickness, new Rectangle?(frame), outlineColor, rotation, vector11, scale, spriteEffects, 0f);
+                }
+                CalamityUtils.ExitShaderRegion(spriteBatch);
             }
 
             spriteBatch.Draw(glowMaskTexture, vector43, new Rectangle?(frame), color40, rotation, vector11, scale, spriteEffects, 0f);

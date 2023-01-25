@@ -340,13 +340,12 @@ namespace CalamityMod.NPCs.Yharon
                 enraged = false;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    // move the first ftw checks to zenith seed later
-                    safeBox.X = (int)(player.Center.X - (Main.getGoodWorld ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f));
+                    safeBox.X = (int)(player.Center.X - (CalamityMod.Instance.legendaryMode ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f));
                     safeBox.Y = (int)(player.Center.Y - 10500f);
-                    safeBox.Width = Main.getGoodWorld ? 3000 : Main.getGoodWorld ? 2000 : bossRush ? 4000 : revenge ? 6000 : 7000;
+                    safeBox.Width = CalamityMod.Instance.legendaryMode ? 3000 : Main.getGoodWorld ? 2000 : bossRush ? 4000 : revenge ? 6000 : 7000;
                     safeBox.Height = 21000;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + (Main.getGoodWorld ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - (Main.getGoodWorld ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + (CalamityMod.Instance.legendaryMode ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - (CalamityMod.Instance.legendaryMode ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
                 }
 
                 // Force Yharon to send a sync packet so that the arena gets sent immediately
@@ -877,9 +876,9 @@ namespace CalamityMod.NPCs.Yharon
                                 NPC.Center = center;
 
                                 int type = ModContent.ProjectileType<YharonBulletHellVortex>();
-                                int damage = Main.getGoodWorld ? NPC.GetProjectileDamage(type) : 0;
+                                int damage = CalamityMod.Instance.legendaryMode ? NPC.GetProjectileDamage(type) : 0;
                                 float bulletHellVortexDuration = flareDustPhaseTimer + teleportPhaseTimer - 15f;
-                                int extraTime = Main.getGoodWorld ? 300 : 0;
+                                int extraTime = CalamityMod.Instance.legendaryMode ? 300 : 0;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
 
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
@@ -1226,9 +1225,9 @@ namespace CalamityMod.NPCs.Yharon
                                 NPC.Center = center;
 
                                 int type = ModContent.ProjectileType<YharonBulletHellVortex>();
-                                int damage = Main.getGoodWorld ? NPC.GetProjectileDamage(type) : 0;
+                                int damage = CalamityMod.Instance.legendaryMode ? NPC.GetProjectileDamage(type) : 0;
                                 float bulletHellVortexDuration = flareDustPhaseTimer + teleportPhaseTimer - 15f;
-                                int extraTime = Main.getGoodWorld ? 300 : 0;
+                                int extraTime = CalamityMod.Instance.legendaryMode ? 300 : 0;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
 
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
@@ -1563,7 +1562,7 @@ namespace CalamityMod.NPCs.Yharon
             bool invincible = invincibilityCounter < Phase2InvincibilityTime;
             if (invincible)
             {
-                if (Main.getGoodWorld) // move to zenith seed later
+                if (CalamityMod.Instance.legendaryMode)
                 {
                     if (NPC.life < NPC.lifeMax)
                     {
@@ -1918,9 +1917,9 @@ namespace CalamityMod.NPCs.Yharon
                                 NPC.Center = center;
 
                                 int type = ModContent.ProjectileType<YharonBulletHellVortex>();
-                                int damage = Main.getGoodWorld ? NPC.GetProjectileDamage(type) : 0;
+                                int damage = CalamityMod.Instance.legendaryMode ? NPC.GetProjectileDamage(type) : 0;
                                 float bulletHellVortexDuration = spinPhaseTimer + 15f;
-                                int extraTime = Main.getGoodWorld ? 300 : 0;
+                                int extraTime = CalamityMod.Instance.legendaryMode ? 300 : 0;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
 
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
@@ -2900,7 +2899,7 @@ namespace CalamityMod.NPCs.Yharon
             DownedBossSystem.downedYharon = true;
             CalamityNetcode.SyncWorld();
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // move to zenith seed later
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
             {
                 for (int i = 0; i < 4; i++)
                 {

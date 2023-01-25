@@ -326,48 +326,58 @@ namespace CalamityMod.World
 
         public static void PlaceSunkenSeaLab(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
         {
+            int tries = 0;
             string mapKey = SunkenSeaLabKey;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             SchematicMetaTile[,] schematic = TileMaps[mapKey];
             int labWidth = schematic.GetLength(0);
             int labHeight = schematic.GetLength(1);
 
-            // Pick a location based on the Underground Desert, because the Sunken Sea is based on the Underground Desert
-            Rectangle ugDesert = WorldGen.UndergroundDesertLocation;
-            int placementPositionX = -1;
-
-            // 50% chance to be on either the left or the right.
-            // If it's on the right then shove it left because all schematics are placed based on their top left corner.
-            if (WorldGen.genRand.NextBool())
-                placementPositionX = WorldGen.genRand.Next(ugDesert.Left - 20, ugDesert.Left + 10);
-            else
-                placementPositionX = WorldGen.genRand.Next(ugDesert.Right - 10, ugDesert.Right + 20) - labWidth;
-
-            int sunkenSeaY = 0;
-
-            //copied the desert position code from the sunken sea's generation so the lab always generates within the sunken sea properly
-            for (int y = Main.maxTilesY - 200; y >= (Main.maxTilesY / 2) - 45; y--)
+            do
             {
-                if (Main.tile[placementPositionX, y].TileType == ModContent.TileType<Navystone>() || 
-                Main.tile[placementPositionX, y].TileType == ModContent.TileType<EutrophicSand>())
+                // Pick a location based on the Underground Desert, because the Sunken Sea is based on the Underground Desert
+                Rectangle ugDesert = WorldGen.UndergroundDesertLocation;
+                int placementPositionX = -1;
+
+                // 50% chance to be on either the left or the right.
+                // If it's on the right then shove it left because all schematics are placed based on their top left corner.
+                if (WorldGen.genRand.NextBool())
+                    placementPositionX = WorldGen.genRand.Next(ugDesert.Left - 20, ugDesert.Left + 10);
+                else
+                    placementPositionX = WorldGen.genRand.Next(ugDesert.Right - 10, ugDesert.Right + 20) - labWidth;
+
+                int sunkenSeaY = 0;
+
+                //copied the desert position code from the sunken sea's generation so the lab always generates within the sunken sea properly
+                for (int y = Main.maxTilesY - 200; y >= (Main.maxTilesY / 2) - 45; y--)
                 {
-                    sunkenSeaY = y - 90; //offset so it generates nicely
+                    if (Main.tile[placementPositionX, y].TileType == ModContent.TileType<Navystone>() || 
+                    Main.tile[placementPositionX, y].TileType == ModContent.TileType<EutrophicSand>())
+                    {
+                        sunkenSeaY = y - 90; //offset so it generates nicely
+                        break;
+                    }
+                }
+
+                int placementPositionY = (int)(sunkenSeaY) - labHeight;
+
+                placementPoint = new Point(placementPositionX, placementPositionY);
+                Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
+
+                if (structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
+                    bool hasPlacedLogAndSchematic = false;
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.Center, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
+                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)), 4);
+                    //this is center-anchored so it should be correct already
+                    CalamityWorld.SunkenSeaLabCenter = placementPoint.ToWorldCoordinates();
                     break;
                 }
+                //try again if the structure is colliding with a structure from another mod
+                else
+                    tries++;
             }
-
-            int placementPositionY = (int)(sunkenSeaY) - labHeight;
-
-            placementPoint = new Point(placementPositionX, placementPositionY);
-            Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
-                
-            if (structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
-            {
-                bool hasPlacedLogAndSchematic = false;
-                PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
-                structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)), 4);
-                CalamityWorld.SunkenSeaLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
-            }
+            while (tries <= 1000);
         }
         #endregion
 

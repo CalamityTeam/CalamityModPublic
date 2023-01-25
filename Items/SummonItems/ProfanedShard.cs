@@ -1,6 +1,8 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.ProfanedGuardians;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,8 +41,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            // move check to zenith seed later
-            return !NPC.AnyNPCs(ModContent.NPCType<ProfanedGuardianCommander>()) && (Main.dayTime || Main.getGoodWorld) && (player.ZoneHallow || player.ZoneUnderworldHeight) && !BossRushEvent.BossRushActive;
+            return !NPC.AnyNPCs(ModContent.NPCType<ProfanedGuardianCommander>()) && (Main.dayTime || CalamityMod.Instance.legendaryMode) && (player.ZoneHallow || player.ZoneUnderworldHeight) && !BossRushEvent.BossRushActive;
         }
 
         public override bool? UseItem(Player player)
@@ -52,6 +53,20 @@ namespace CalamityMod.Items.SummonItems
                 NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<ProfanedGuardianCommander>());
 
             return true;
+        }
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            Player player = Main.LocalPlayer;
+            TooltipLine line1 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+
+            if (CalamityMod.Instance.legendaryMode)
+            {
+                line1.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld";
+            }
+            else
+            {
+                line1.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld during daytime";
+            }
         }
 
         public override void AddRecipes()

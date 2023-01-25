@@ -478,6 +478,47 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void OnKill()
         {
+            if (CalamityMod.Instance.legendaryMode)
+            {
+                Vector2 valueBoom = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                float spreadBoom = 15f * 0.0174f;
+                double startAngleBoom = Math.Atan2(NPC.velocity.X, NPC.velocity.Y) - spreadBoom / 2;
+                double deltaAngleBoom = spreadBoom / 8f;
+                double offsetAngleBoom;
+                int iBoom;
+                int damageBoom = 200;
+                for (iBoom = 0; iBoom < 25; iBoom++)
+                {
+                    int projectileType = Main.rand.NextBool(2) ? ModContent.ProjectileType<SulphuricAcidMist>() : ModContent.ProjectileType<SulphuricAcidBubble>();
+                    offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                    int boom1 = Projectile.NewProjectile(NPC.GetSource_Death(), valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6f), (float)(Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                    int boom2 = Projectile.NewProjectile(NPC.GetSource_Death(), valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6f), (float)(-Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                    }
+                }
+                for (int num621 = 0; num621 < 25; num621++)
+                {
+                    int num622 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 31, 0f, 0f, 100, default, 2f);
+                    Main.dust[num622].velocity *= 3f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[num622].scale = 0.5f;
+                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    }
+                    Main.dust[num622].noGravity = true;
+                }
+                for (int num623 = 0; num623 < 50; num623++)
+                {
+                    int num624 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 5, 0f, 0f, 100, default, 3f);
+                    Main.dust[num624].noGravity = true;
+                    Main.dust[num624].velocity *= 5f;
+                    num624 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 5, 0f, 0f, 100, default, 2f);
+                    Main.dust[num624].velocity *= 2f;
+                    Main.dust[num624].noGravity = true;
+                }
+                NPC.netUpdate = true;
+            }
             // Mark Mauler as dead
             DownedBossSystem.downedMauler = true;
             CalamityNetcode.SyncWorld();

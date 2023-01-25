@@ -201,6 +201,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 if (NPC.ai[0] == 0f)
                 {
+                    if (CalamityMod.Instance.legendaryMode)
+                    {
+                        SoundEngine.PlaySound(SoundID.ScaryScream, Main.player[NPC.target].Center);
+                    }
                     NPC.ai[0] = 1f;
                     NPC.dontTakeDamage = false;
                 }

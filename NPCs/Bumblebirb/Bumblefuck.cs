@@ -130,8 +130,8 @@ namespace CalamityMod.NPCs.Bumblebirb
             bool phase3 = lifeRatio < (death ? 0.4f : revenge ? 0.25f : 0.1f);
             bool birbSpawn = NPC.ai[0] == 4f && NPC.ai[1] > 0f;
 
-            // Animation goes nyoom in the zenith seed
-            if (Main.getGoodWorld)
+            // Animation goes nyoom
+            if (CalamityMod.Instance.legendaryMode)
             {
                 NPC.frameCounter += 4;
             }
@@ -412,7 +412,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            name = Main.getGoodWorld ? "A Bumblebirb" : "A Dragonfolly"; // move to zenith seed later
+            name = CalamityMod.Instance.legendaryMode ? "A Bumblebirb" : "A Dragonfolly";
             potionType = ItemID.SuperHealingPotion;
         }
 
@@ -462,7 +462,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             DownedBossSystem.downedDragonfolly = true;
             CalamityNetcode.SyncWorld();
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // Move to zenith seed later
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
             {
                 int spacing = 40;
                 int amt = 7;
@@ -487,8 +487,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void ModifyTypeName(ref string typeName)
         {
-            // Move to zenith seed later
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 typeName = "Bumblebirb";
             }

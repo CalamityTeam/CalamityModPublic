@@ -195,7 +195,7 @@ namespace CalamityMod.NPCs.OldDuke
                 }
             }
 
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {

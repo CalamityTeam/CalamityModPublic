@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Projectiles.Melee.Yoyos;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -365,7 +366,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 8;
-                float extrapitch = Main.getGoodWorld ? 0.3f : 0f; // Move to zenith seed later
+                float extrapitch = CalamityMod.Instance.legendaryMode ? 0.3f : 0f;
                 SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound with { Pitch = CommonCalamitySounds.OtherwordlyHitSound.Pitch + extrapitch }, NPC.Center);
             }
             if (NPC.life <= 0)
@@ -424,6 +425,15 @@ namespace CalamityMod.NPCs.DevourerofGods
                 return false;
             }
             return true;
+        }
+
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            // viable???, done here since it's conditional
+            if (CalamityMod.Instance.legendaryMode && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
+            {
+                damage *= 40;
+            }
         }
 
         public override bool CheckDead()

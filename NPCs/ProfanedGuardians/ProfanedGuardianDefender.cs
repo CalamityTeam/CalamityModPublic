@@ -205,7 +205,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     }
                 }
 
-                if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].ai[0] == 599 && Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient) // move to zenith seed later
+                if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].ai[0] == 599 && CalamityMod.Instance.legendaryMode && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     // gain more health once the healer's channel heal is done
                     NPC.lifeMax += 7500;
@@ -355,7 +355,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
             }
 
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
                 {
@@ -391,11 +391,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.ai[3] += 1f;
                     if (NPC.ai[3] >= throwRocksGateValue)
                     {
-                        Vector2 targetVector = player.Center - NPC.Center;
                         NPC.ai[0] = 1f;
                         NPC.ai[1] = 0f;
-                        NPC.ai[2] = targetVector.X;
-                        NPC.ai[3] = targetVector.Y;
+                        NPC.ai[3] = 0f;
                         NPC.netUpdate = true;
                     }
 
@@ -534,7 +532,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.ai[0] = 2f;
                     NPC.ai[1] = 0f;
                     NPC.netUpdate = true;
-                    Vector2 velocity = new Vector2(NPC.ai[2], NPC.ai[3]).SafeNormalize(new Vector2(NPC.direction, 0f));
+                    Vector2 targetVector = player.Center - NPC.Center;
+                    Vector2 velocity = new Vector2(targetVector.X, targetVector.Y).SafeNormalize(new Vector2(NPC.direction, 0f));
                     velocity *= (bossRush || biomeEnraged) ? 25f : death ? 22f : revenge ? 20.5f : expertMode ? 19f : 16f;
                     if (Main.getGoodWorld)
                         velocity *= 1.15f;
@@ -570,9 +569,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (NPC.ai[1] >= phaseGateValue)
                 {
                     NPC.ai[0] = 3f;
-                    NPC.ai[1] = 60f;
-                    NPC.ai[2] = 0f;
-                    NPC.ai[3] = 0f;
+                    // Slown down duration ranges from 30 to 60 frames in rev, otherwise it's always 60 frames
+                    float slowDownDurationAfterCharge = revenge ? Main.rand.Next(30, 61) : 60f;
+                    NPC.ai[1] = slowDownDurationAfterCharge;
                     NPC.velocity /= 2f;
                     NPC.netUpdate = true;
                 }
@@ -614,11 +613,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.ai[1] -= 1f;
                 if (NPC.ai[1] <= 0f)
                 {
-                    Vector2 targetVector = player.Center - NPC.Center;
                     NPC.ai[0] = 1f;
-                    NPC.ai[1] = -commanderGuardPhase2Duration;
-                    NPC.ai[2] = targetVector.X;
-                    NPC.ai[3] = targetVector.Y;
+                    NPC.ai[2] += 1f;
+
+                    // Charges either once or twice in a row in rev, otherwise it will always charge twice in a row
+                    float totalCharges = revenge ? (Main.rand.Next(2) + 1f) : 2f;
+                    bool dontCharge = NPC.ai[2] >= totalCharges;
+                    NPC.ai[1] = dontCharge ? -commanderGuardPhase2Duration : 0f;
+                    if (dontCharge)
+                        NPC.ai[2] = 0f;
+
                     NPC.TargetClosest();
                     NPC.netUpdate = true;
                 }
@@ -666,7 +670,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlowNight").Value;
                 color37 = Color.Cyan;
@@ -756,8 +760,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            // eat projectiles but take more damage based on piercing in the zenith seed, move to zenith seed later
-            if (Main.getGoodWorld && !projectile.minion)
+            // eat projectiles but take more damage based on piercing in the zenith seed
+            if (CalamityMod.Instance.legendaryMode && !projectile.minion)
             {
                 if (projectile.penetrate <= -1 || projectile.penetrate > 5)
                 {

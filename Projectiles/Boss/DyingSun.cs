@@ -9,10 +9,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
     public class DyingSun : ModProjectile
-    {
-        //TODO -- Later replace this new bool with Main.zenithWorld
-        public bool getFucked = Main.getGoodWorld && Main.masterMode;
-        
+    {        
         public PrimitiveTrail FireDrawer;
         public ref float Time => ref Projectile.ai[0];
         public ref float Radius => ref Projectile.ai[1];
@@ -47,7 +44,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public Color SunColorFunction(float completionRatio)
         {
-            Color sunColor = getFucked ? (new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) * 0.8f) : (Main.dayTime ? Color.Yellow : Color.Cyan);
+            Color sunColor = CalamityMod.Instance.legendaryMode ? (new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) * 0.8f) : (Main.dayTime ? Color.Yellow : Color.Cyan);
             return Color.Lerp(sunColor, Color.White, (float)Math.Sin(MathHelper.Pi * completionRatio) * 0.5f + 0.3f) * Projectile.Opacity;
         }
 

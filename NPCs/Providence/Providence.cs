@@ -248,8 +248,7 @@ namespace CalamityMod.NPCs.Providence
             // Night bool and Color shifting
             bool bossRush = BossRushEvent.BossRushActive;
 
-            //TODO -- Change this to specifically the Zenith seed when available
-            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+            bool getFuckedAI = CalamityMod.Instance.legendaryMode;
             int timeToShift = 30; //Switches color every half-second
             if (getFuckedAI)
             {
@@ -664,106 +663,108 @@ namespace CalamityMod.NPCs.Providence
             // Movement
             if (getFuckedAI || (AIState != (int)Phase.FlameCocoon && AIState != (int)Phase.SpearCocoon))
             {
-                // Slows down while firing Holy Rays. It would've not slowed down for the Zenith seed but apparently it was too fast (shockers).
-                bool laserPhaseSlow = AIState == (int)Phase.Laser;
-
-                // Change X direction of movement
-                if (flightPath == 0)
-                {
-                    if (NPC.Center.X < player.Center.X)
-                    {
-                        flightPath = 1;
-                        calamityGlobalNPC.newAI[0] = 0f;
-                    }
-                    else
-                    {
-                        flightPath = -1;
-                        calamityGlobalNPC.newAI[0] = 0f;
-                    }
-                }
-
-                // Increase speed over time if flying in same direction for too long
-                if (revenge)
-                    calamityGlobalNPC.newAI[0] += 1f;
-
-                // Distance needed from target to change direction
-                float num851 = 800f;
-
-                // Increase distance from target when firing molten blasts or holy bombs
-                bool stayAwayFromTarget = AIState == (int)Phase.MoltenBlobs || AIState == (int)Phase.HolyBomb;
-                if (stayAwayFromTarget)
-                    num851 += death ? 240f : revenge ? 180f : 120f;
-
-                // Change X movement path if far enough away from target
-                if (NPC.Center.X < player.Center.X && flightPath < 0 && distanceX > num851)
-                    flightPath = 0;
-                if (NPC.Center.X > player.Center.X && flightPath > 0 && distanceX > num851)
-                    flightPath = 0;
-
-                // Velocity and acceleration
-                float speedIncreaseTimer = nightAI ? 75f : death ? 120f : 150f;
-                bool increaseSpeed = calamityGlobalNPC.newAI[0] > speedIncreaseTimer || biomeEnraged;
-                float accelerationBoost = death ? 0.3f * (1f - lifeRatio) : 0.2f * (1f - lifeRatio);
-                float velocityBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
-                float acceleration = (expertMode ? 1.1f : 1.05f) + accelerationBoost;
-                float velocity = (expertMode ? 16f : 15f) + velocityBoost;
-                if (nightAI)
-                {
-                    acceleration = 1.5f;
-                    velocity = 25f;
-                }
-                if (laserPhaseSlow)
-                {
-                    acceleration *= getFuckedAI ? 0.6f : 0.4f;
-                    velocity *= getFuckedAI ? 0.6f : 0.4f;
-                }
-                else if (increaseSpeed)
-                {
-                    velocity += (calamityGlobalNPC.newAI[0] - speedIncreaseTimer) * 0.04f;
-                    if (velocity > 30f || biomeEnraged)
-                        velocity = 30f;
-                    if (biomeEnraged)
-                        acceleration = 2f;
-                }
-
-                if (Main.getGoodWorld)
-                {
-                    velocity *= 1.2f;
-                    acceleration *= 1.2f;
-                }
-
-                if (!targetDead)
-                {
-                    NPC.velocity.X += flightPath * acceleration;
-                    if (NPC.velocity.X > velocity)
-                        NPC.velocity.X = velocity;
-                    if (NPC.velocity.X < -velocity)
-                        NPC.velocity.X = -velocity;
-
-                    float num855 = player.position.Y - (NPC.position.Y + NPC.height);
-                    if (num855 < (laserPhaseSlow ? 150f : 200f)) // 150
-                        NPC.velocity.Y -= Main.getGoodWorld ? 0.4f : 0.2f;
-                    if (num855 > (laserPhaseSlow ? 200f : 250f)) // 200
-                        NPC.velocity.Y += Main.getGoodWorld ? 0.4f : 0.2f;
-
-                    float speedVariance = laserPhaseSlow ? 2f : 6f;
-                    if (Main.getGoodWorld)
-                        speedVariance *= 1.5f;
-
-                    if (NPC.velocity.Y > speedVariance)
-                        NPC.velocity.Y = speedVariance;
-                    if (NPC.velocity.Y < -speedVariance)
-                        NPC.velocity.Y = -speedVariance;
-                }
-
                 // Slowly drift down when spawning
                 if (spawnAnimation)
                 {
-                    colorShiftTimer++; //Also double the shift speed in the mean time :)
+                    colorShiftTimer++; // Also double the shift speed in the mean time :)
                     float minSpawnVelocity = 0.4f;
                     float maxSpawnVelocity = 4f;
                     float velocityY = maxSpawnVelocity - MathHelper.Lerp(minSpawnVelocity, maxSpawnVelocity, calamityGlobalNPC.newAI[3] / spawnAnimationTime);
                     NPC.velocity = new Vector2(0f, velocityY);
+                }
+                else
+                {
+                    // Slows down while firing Holy Rays. It would've not slowed down for the Zenith seed but apparently it was too fast (shockers).
+                    bool laserPhaseSlow = AIState == (int)Phase.Laser;
+
+                    // Change X direction of movement
+                    if (flightPath == 0)
+                    {
+                        if (NPC.Center.X < player.Center.X)
+                        {
+                            flightPath = 1;
+                            calamityGlobalNPC.newAI[0] = 0f;
+                        }
+                        else
+                        {
+                            flightPath = -1;
+                            calamityGlobalNPC.newAI[0] = 0f;
+                        }
+                    }
+
+                    // Increase speed over time if flying in same direction for too long
+                    if (revenge)
+                        calamityGlobalNPC.newAI[0] += 1f;
+
+                    // Distance needed from target to change direction
+                    float num851 = 800f;
+
+                    // Increase distance from target when firing molten blasts or holy bombs
+                    bool stayAwayFromTarget = AIState == (int)Phase.MoltenBlobs || AIState == (int)Phase.HolyBomb;
+                    if (stayAwayFromTarget)
+                        num851 += death ? 240f : revenge ? 180f : 120f;
+
+                    // Change X movement path if far enough away from target
+                    if (NPC.Center.X < player.Center.X && flightPath < 0 && distanceX > num851)
+                        flightPath = 0;
+                    if (NPC.Center.X > player.Center.X && flightPath > 0 && distanceX > num851)
+                        flightPath = 0;
+
+                    // Velocity and acceleration
+                    float speedIncreaseTimer = nightAI ? 75f : death ? 120f : 150f;
+                    bool increaseSpeed = calamityGlobalNPC.newAI[0] > speedIncreaseTimer || biomeEnraged;
+                    float accelerationBoost = death ? 0.3f * (1f - lifeRatio) : 0.2f * (1f - lifeRatio);
+                    float velocityBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
+                    float acceleration = (expertMode ? 1.1f : 1.05f) + accelerationBoost;
+                    float velocity = (expertMode ? 16f : 15f) + velocityBoost;
+                    if (nightAI)
+                    {
+                        acceleration = 1.5f;
+                        velocity = 25f;
+                    }
+                    if (laserPhaseSlow)
+                    {
+                        acceleration *= getFuckedAI ? 0.6f : 0.4f;
+                        velocity *= getFuckedAI ? 0.6f : 0.4f;
+                    }
+                    else if (increaseSpeed)
+                    {
+                        velocity += (calamityGlobalNPC.newAI[0] - speedIncreaseTimer) * 0.04f;
+                        if (velocity > 30f || biomeEnraged)
+                            velocity = 30f;
+                        if (biomeEnraged)
+                            acceleration = 2f;
+                    }
+
+                    if (Main.getGoodWorld)
+                    {
+                        velocity *= 1.2f;
+                        acceleration *= 1.2f;
+                    }
+
+                    if (!targetDead)
+                    {
+                        NPC.velocity.X += flightPath * acceleration;
+                        if (NPC.velocity.X > velocity)
+                            NPC.velocity.X = velocity;
+                        if (NPC.velocity.X < -velocity)
+                            NPC.velocity.X = -velocity;
+
+                        float num855 = player.position.Y - (NPC.position.Y + NPC.height);
+                        if (num855 < (laserPhaseSlow ? 150f : 200f)) // 150
+                            NPC.velocity.Y -= Main.getGoodWorld ? 0.4f : 0.2f;
+                        if (num855 > (laserPhaseSlow ? 200f : 250f)) // 200
+                            NPC.velocity.Y += Main.getGoodWorld ? 0.4f : 0.2f;
+
+                        float speedVariance = laserPhaseSlow ? 2f : 6f;
+                        if (Main.getGoodWorld)
+                            speedVariance *= 1.5f;
+
+                        if (NPC.velocity.Y > speedVariance)
+                            NPC.velocity.Y = speedVariance;
+                        if (NPC.velocity.Y < -speedVariance)
+                            NPC.velocity.Y = -speedVariance;
+                    }
                 }
             }
 
@@ -1947,28 +1948,33 @@ namespace CalamityMod.NPCs.Providence
                 }
                 else
                 {
-                    if (frameUsed == 0)
+                    switch (frameUsed)
                     {
-                        getTextureGlowString = baseGlowTextureString + "ProvidenceGlow";
-                        getTextureGlow2String = baseGlowTextureString + "ProvidenceGlow2";
-                    }
-                    else if (frameUsed == 1)
-                    {
-                        getTextureString = baseTextureString + "ProvidenceAlt";
-                        getTextureGlowString = baseGlowTextureString + "ProvidenceAltGlow";
-                        getTextureGlow2String = baseGlowTextureString + "ProvidenceAltGlow2";
-                    }
-                    else if (frameUsed == 2)
-                    {
-                        getTextureString = baseTextureString + "ProvidenceAttack";
-                        getTextureGlowString = baseGlowTextureString + "ProvidenceAttackGlow";
-                        getTextureGlow2String = baseGlowTextureString + "ProvidenceAttackGlow2";
-                    }
-                    else
-                    {
-                        getTextureString = baseTextureString + "ProvidenceAttackAlt";
-                        getTextureGlowString = baseGlowTextureString + "ProvidenceAttackAltGlow";
-                        getTextureGlow2String = baseGlowTextureString + "ProvidenceAttackAltGlow2";
+                        case 0:
+                            getTextureGlowString = baseGlowTextureString + "ProvidenceGlow";
+                            getTextureGlow2String = baseGlowTextureString + "ProvidenceGlow2";
+                            break;
+
+                        case 1:
+                            getTextureString = baseTextureString + "ProvidenceAlt";
+                            getTextureGlowString = baseGlowTextureString + "ProvidenceAltGlow";
+                            getTextureGlow2String = baseGlowTextureString + "ProvidenceAltGlow2";
+                            break;
+                        
+                        case 2:
+                            getTextureString = baseTextureString + "ProvidenceAttack";
+                            getTextureGlowString = baseGlowTextureString + "ProvidenceAttackGlow";
+                            getTextureGlow2String = baseGlowTextureString + "ProvidenceAttackGlow2";
+                            break;
+                        
+                        case 3:
+                            getTextureString = baseTextureString + "ProvidenceAttackAlt";
+                            getTextureGlowString = baseGlowTextureString + "ProvidenceAttackAltGlow";
+                            getTextureGlow2String = baseGlowTextureString + "ProvidenceAttackAltGlow2";
+                            break;
+
+                        default:
+                            break;
                     }
                 }
 
@@ -2107,22 +2113,24 @@ namespace CalamityMod.NPCs.Providence
             return false;
         }
 
-        public override void FindFrame(int frameHeight) //9 total frames
+        public override void FindFrame(int frameHeight)
         {
             if (NPC.IsABestiaryIconDummy)
                 NPC.Opacity = 1f;
 
+            int totalFrames = 3;
             if (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon)
             {
                 if (!useDefenseFrames)
                 {
-                    NPC.frameCounter += Dying ? 0.25 : 1.0;
-                    if (NPC.frameCounter > 8.0)
+                    NPC.frameCounter += Dying ? 0.25 : 1D;
+                    if (NPC.frameCounter > 10D)
                     {
-                        NPC.frame.Y = NPC.frame.Y + frameHeight;
-                        NPC.frameCounter = 0.0;
+                        NPC.frame.Y += frameHeight;
+                        NPC.frameCounter = 0D;
                     }
-                    if (NPC.frame.Y >= frameHeight * 3)
+
+                    if (NPC.frame.Y >= frameHeight * totalFrames)
                     {
                         NPC.frame.Y = 0;
                         useDefenseFrames = true;
@@ -2130,12 +2138,13 @@ namespace CalamityMod.NPCs.Providence
                 }
                 else
                 {
-                    NPC.frameCounter += Dying ? 0.25 : 1.0;
-                    if (NPC.frameCounter > 8.0)
+                    NPC.frameCounter += Dying ? 0.25 : 1D;
+                    if (NPC.frameCounter > 10D)
                     {
-                        NPC.frame.Y = NPC.frame.Y + frameHeight;
-                        NPC.frameCounter = 0.0;
+                        NPC.frame.Y += frameHeight;
+                        NPC.frameCounter = 0D;
                     }
+
                     if (NPC.frame.Y >= frameHeight * 2)
                         NPC.frame.Y = frameHeight * 2;
                 }
@@ -2145,18 +2154,21 @@ namespace CalamityMod.NPCs.Providence
                 if (useDefenseFrames)
                     useDefenseFrames = false;
 
-                NPC.frameCounter += Dying ? 0.25 : 1.0;
-                if (NPC.frameCounter > (NPC.Calamity().newAI[3] < 180f ? 8.0 : 5.0))
+                NPC.frameCounter += Dying ? 0.25 : (NPC.Calamity().newAI[3] < 180f) ? 0.625 : 1D;
+                if (NPC.frameCounter > 5D)
                 {
-                    NPC.frameCounter = 0.0;
-                    NPC.frame.Y = NPC.frame.Y + frameHeight;
+                    NPC.frameCounter = 0D;
+                    NPC.frame.Y += frameHeight;
                 }
-                if (NPC.frame.Y >= frameHeight * 3) //6
+
+                if (NPC.frame.Y >= frameHeight * totalFrames)
                 {
                     NPC.frame.Y = 0;
                     frameUsed++;
                 }
-                if (frameUsed > 3)
+
+                int totalSheets = 4;
+                if (frameUsed >= totalSheets)
                     frameUsed = 0;
             }
         }

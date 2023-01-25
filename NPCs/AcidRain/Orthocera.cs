@@ -4,9 +4,12 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Particles.Metaballs;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
@@ -78,6 +81,16 @@ namespace CalamityMod.NPCs.AcidRain
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("Within the muck of the sulphurous sea, it is not uncommon to find creatures from ages past, their bodies entirely preserved. It seems that not all simply passed away.")
             });
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(NPC.Calamity().newAI[0]);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            NPC.Calamity().newAI[0] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -192,6 +205,26 @@ namespace CalamityMod.NPCs.AcidRain
 
             // Prevent yeeting into the sky at the speed of light.
             NPC.velocity = Vector2.Clamp(NPC.velocity, new Vector2(-maxSpeed), new Vector2(maxSpeed));
+
+            if (CalamityMod.Instance.legendaryMode && !(!NPC.wet && NPC.collideY))
+            {
+                // Spread the wrath of the damned
+                NPC.Calamity().newAI[0]++;
+                if (NPC.Calamity().newAI[0] % 5 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, Main.rand.NextVector2Circular(4f, 8f), ModContent.ProjectileType<RancorFog>(), 0, 0f, Main.myPlayer);
+                    FusableParticleManager.GetParticleSetByType<RancorGroundLavaParticleSet>().SpawnParticle(NPC.Bottom + Main.rand.NextVector2Circular(10f, 10f), 135f);
+                }
+                if (NPC.Calamity().newAI[0] % 30 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, Vector2.Zero, ModContent.ProjectileType<RancorArm>(), 20, 0f, Main.myPlayer, 0, -1);
+                    if (p.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[p].DamageType = DamageClass.Default;
+                        Main.projectile[p].friendly = false;
+                    }
+                }
+            }
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)

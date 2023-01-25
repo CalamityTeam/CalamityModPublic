@@ -273,15 +273,15 @@ namespace CalamityMod.UI.DraedonSummoning
                 // If the slot is normally clicked, behavior depends on whether the player is holding power cells.
                 else
                 {
-                    bool holdingPowercell = playerHandItem.type == powercellID || (playerHandItem.type == sampleID && Main.getGoodWorld);
+                    bool holdingPowercell = playerHandItem.type == powercellID || (playerHandItem.type == sampleID && CalamityMod.Instance.legendaryMode);
                     bool powercellsinserted = !codebreakerTileEntity.ContainsBloodSample && temporaryItem.stack > 0;
                     bool cansummon = codebreakerTileEntity.ReadyToSummonDraedon && CalamityWorld.AbleToSummonDraedon;
 
                     // If the player's held power cells can be stacked on top of what's already in the codeberaker, then stack them.
                     if (holdingPowercell && temporaryItem.stack < TECodebreaker.MaxCellCapacity)
                     {
-                        // If theres no power cells inside, it's FTW, and the player has a blood sample, it can be inserted
-                        if (playerHandItem.type == sampleID && Main.getGoodWorld && !powercellsinserted && cansummon)
+                        // If theres no power cells inside, it's GFB, and the player has a blood sample, it can be inserted
+                        if (playerHandItem.type == sampleID && CalamityMod.Instance.legendaryMode && !powercellsinserted && cansummon)
                         {
                             // Play a gross sound if no samples are in yet
                             if (temporaryItem.stack == 0)
@@ -586,7 +586,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 {
                     CalamityWorld.DraedonSummonCountdown = CalamityWorld.DraedonSummonCountdownMax;
                     CalamityWorld.DraedonSummonPosition = codebreakerTileEntity.Center + new Vector2(-8f, -100f);
-                    if (Main.getGoodWorld && codebreakerTileEntity.ContainsBloodSample)
+                    if (CalamityMod.Instance.legendaryMode && codebreakerTileEntity.ContainsBloodSample)
                     {
                         CalamityWorld.DraedonMechdusa = true;
                     }
