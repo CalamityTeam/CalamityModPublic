@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.PlayerTurrets
             CreateRecipe().
                 AddIngredient<MysteriousCircuitry>(14).
                 AddIngredient<DubiousPlating>(20).
-                //AddIngredient<Onyxplate>(10).
+                AddIngredient<Onyxplate>(10).
                 AddIngredient<BlightedGel>(50).
                 AddTile(TileID.Anvils).
                 Register();
