@@ -334,7 +334,7 @@ namespace CalamityMod.World
 
         public static void PlaceSunkenSeaLab(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
         {
-            int tries = 0;
+            bool placed = false;
             string mapKey = SunkenSeaLabKey;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             SchematicMetaTile[,] schematic = TileMaps[mapKey];
@@ -371,32 +371,13 @@ namespace CalamityMod.World
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
-                
-                /*
-                //Disabled this specifically for the sunken sea lab, not sure if it's even needed since the lab now always places based on where the sunken sea is
-                //this seems to work fine, but i dont want to delete it just in case
-                int xCheckArea = 25;
-                bool shouldAvoidArea = false;
 
-                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
-                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
-                {
-                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
-                    {
-                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                        if (ShouldAvoidLocation(new Point(x, y), false))
-                            shouldAvoidArea = true;
-                    }
-                }
-                */
-                tries++;
-                if (/*!shouldAvoidArea &&*/ structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
-                    break;
+                placed = true;
             }
-            while (tries < 50000);
+            while (!placed);
 
             bool hasPlacedLogAndSchematic = false;
-            PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
+            PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.Center, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
             structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)), 4);
             CalamityWorld.SunkenSeaLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
         }
