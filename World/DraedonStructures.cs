@@ -107,7 +107,6 @@ namespace CalamityMod.World
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-                int activeTilesInArea = 0;
                 int xCheckArea = 40;
                 bool canGenerateInLocation = true;
 
@@ -121,12 +120,9 @@ namespace CalamityMod.World
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
                         if (ShouldAvoidLocation(new Point(x, y)))
                             canGenerateInLocation = false;
-
-                        if (tile.HasTile)
-                            activeTilesInArea++;
                     }
                 }
-                if (!canGenerateInLocation || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || nearbyOtherWorkshop || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
@@ -136,7 +132,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 25000);
+            } while (tries <= 10000);
         }
         #endregion
 
@@ -190,7 +186,6 @@ namespace CalamityMod.World
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-                int activeTilesInArea = 0;
                 int xCheckArea = 30;
                 bool canGenerateInLocation = true;
 
@@ -204,12 +199,9 @@ namespace CalamityMod.World
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
                         if (ShouldAvoidLocation(new Point(x, y)))
                             canGenerateInLocation = false;
-
-                        if (tile.HasTile)
-                            activeTilesInArea++;
                     }
                 }
-                if (!canGenerateInLocation || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || nearbyOtherWorkshop || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
@@ -219,7 +211,7 @@ namespace CalamityMod.World
                     break;
                 }
             }
-            while (tries <= 25000);
+            while (tries <= 10000);
         }
         #endregion
 
@@ -297,7 +289,7 @@ namespace CalamityMod.World
                     break;
                 }
             }
-            while (tries <= 50000);
+            while (tries <= 20000);
         }
         #endregion
 
@@ -334,71 +326,48 @@ namespace CalamityMod.World
 
         public static void PlaceSunkenSeaLab(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
         {
-            int tries = 0;
             string mapKey = SunkenSeaLabKey;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             SchematicMetaTile[,] schematic = TileMaps[mapKey];
             int labWidth = schematic.GetLength(0);
             int labHeight = schematic.GetLength(1);
 
-            do
+            // Pick a location based on the Underground Desert, because the Sunken Sea is based on the Underground Desert
+            Rectangle ugDesert = WorldGen.UndergroundDesertLocation;
+            int placementPositionX = -1;
+
+            // 50% chance to be on either the left or the right.
+            // If it's on the right then shove it left because all schematics are placed based on their top left corner.
+            if (WorldGen.genRand.NextBool())
+                placementPositionX = WorldGen.genRand.Next(ugDesert.Left - 20, ugDesert.Left + 10);
+            else
+                placementPositionX = WorldGen.genRand.Next(ugDesert.Right - 10, ugDesert.Right + 20) - labWidth;
+
+            int sunkenSeaY = 0;
+
+            //copied the desert position code from the sunken sea's generation so the lab always generates within the sunken sea properly
+            for (int y = Main.maxTilesY - 200; y >= (Main.maxTilesY / 2) - 45; y--)
             {
-                // Pick a location based on the Underground Desert, because the Sunken Sea is based on the Underground Desert
-                Rectangle ugDesert = WorldGen.UndergroundDesertLocation;
-                int placementPositionX = -1;
-
-                // 50% chance to be on either the left or the right.
-                // If it's on the right then shove it left because all schematics are placed based on their top left corner.
-                if (WorldGen.genRand.NextBool())
-                    placementPositionX = WorldGen.genRand.Next(ugDesert.Left - 20, ugDesert.Left + 10);
-                else
-                    placementPositionX = WorldGen.genRand.Next(ugDesert.Right - 10, ugDesert.Right + 20) - labWidth;
-
-                int sunkenSeaY = 0;
-
-                //copied the desert position code from the sunken sea's generation so the lab always generates within the sunken sea properly
-                for (int y = Main.maxTilesY - 200; y >= (Main.maxTilesY / 2) - 45; y--)
+                if (Main.tile[placementPositionX, y].TileType == ModContent.TileType<Navystone>() || 
+                Main.tile[placementPositionX, y].TileType == ModContent.TileType<EutrophicSand>())
                 {
-                    if (Main.tile[placementPositionX, y].TileType == ModContent.TileType<Navystone>() || 
-                    Main.tile[placementPositionX, y].TileType == ModContent.TileType<EutrophicSand>())
-                    {
-                        sunkenSeaY = y - 90; //offset so it generates nicely
-                        break;
-                    }
-                }
-
-                int placementPositionY = (int)(sunkenSeaY) - labHeight;
-
-                placementPoint = new Point(placementPositionX, placementPositionY);
-                Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
-                
-                /*
-                //Disabled this specifically for the sunken sea lab, not sure if it's even needed since the lab now always places based on where the sunken sea is
-                //this seems to work fine, but i dont want to delete it just in case
-                int xCheckArea = 25;
-                bool shouldAvoidArea = false;
-
-                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
-                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
-                {
-                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
-                    {
-                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                        if (ShouldAvoidLocation(new Point(x, y), false))
-                            shouldAvoidArea = true;
-                    }
-                }
-                */
-                tries++;
-                if (/*!shouldAvoidArea &&*/ structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                    sunkenSeaY = y - 90; //offset so it generates nicely
                     break;
+                }
             }
-            while (tries < 50000);
 
-            bool hasPlacedLogAndSchematic = false;
-            PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
-            structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)), 4);
-            CalamityWorld.SunkenSeaLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
+            int placementPositionY = (int)(sunkenSeaY) - labHeight;
+
+            placementPoint = new Point(placementPositionX, placementPositionY);
+            Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
+                
+            if (structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+            {
+                bool hasPlacedLogAndSchematic = false;
+                PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
+                structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)), 4);
+                CalamityWorld.SunkenSeaLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
+            }
         }
         #endregion
 
@@ -484,7 +453,7 @@ namespace CalamityMod.World
                     break;
                 }
             }
-            while (tries <= 50000);
+            while (tries <= 20000);
         }
         #endregion
 
@@ -572,7 +541,7 @@ namespace CalamityMod.World
                     break;
                 }
             }
-            while (tries <= 50000);
+            while (tries <= 20000);
         }
         #endregion
 
@@ -677,7 +646,8 @@ namespace CalamityMod.World
                     for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                        if (ShouldAvoidLocation(new Point(x, y)))
+                        //Ignore lava
+                        if (ShouldAvoidLocation(new Point(x, y), false))
                             canGenerateInLocation = false;
 
                         if (tile.HasTile)
@@ -703,7 +673,7 @@ namespace CalamityMod.World
                     break;
                 }
             }
-            while (tries <= 50000);
+            while (tries <= 20000);
         }
         #endregion
     }
