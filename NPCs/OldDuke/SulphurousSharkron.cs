@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.OldDuke
                 if (NPC.ai[1] == 0f)
                 {
                     if (normalAI)
-                        NPC.velocity = Vector2.Normalize(Main.npc[(int)NPC.ai[2]].Center - NPC.Center) * (maxVelocity - 6f);
+                        NPC.velocity = Vector2.Normalize(Main.npc[(int)NPC.ai[2]].Center - NPC.Center) * (maxVelocity * 0.67f);
                     else
                         NPC.velocity = new Vector2(NPC.ai[2], NPC.ai[3]);
 

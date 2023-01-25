@@ -2560,7 +2560,7 @@ namespace CalamityMod.NPCs
             if (expertMode)
                 astralFlameBarrageTimerIncrement += death ? (float)Math.Round(3f * (1f - lifeRatio)) : (float)Math.Round(2f * (1f - lifeRatio));
 
-            float walkingVelocity = death ? 6f : 5f;
+            float walkingVelocity = 5f;
             walkingVelocity += 3f * enrageScale;
             if (phase5)
                 walkingVelocity += 2f;
@@ -6700,8 +6700,8 @@ namespace CalamityMod.NPCs
                         int totalGore = Main.getGoodWorld ? 40 : 20;
                         for (int i = 0; i < totalGore; i++)
                         {
-                            float velocityX = npc.direction * goreVelocityX * (Main.rand.NextFloat() + 0.5f);
-                            float velocityY = goreVelocityY * (Main.rand.NextFloat() + 0.5f);
+                            float velocityX = npc.direction * goreVelocityX * (Main.rand.NextFloat(0.2f, 0.8f) + 0.5f);
+                            float velocityY = goreVelocityY * (Main.rand.NextFloat(0.2f, 0.8f) + 0.5f);
 
                             if (Main.getGoodWorld)
                             {
@@ -7029,8 +7029,8 @@ namespace CalamityMod.NPCs
                         int totalGore = Main.getGoodWorld ? 40 : 20;
                         for (int i = 0; i < totalGore; i++)
                         {
-                            float velocityX = npc.direction * goreVelocityX * (Main.rand.NextFloat() + 0.5f);
-                            float velocityY = goreVelocityY * (Main.rand.NextFloat() + 0.5f);
+                            float velocityX = npc.direction * goreVelocityX * (Main.rand.NextFloat(0.2f, 0.8f) + 0.5f);
+                            float velocityY = goreVelocityY * (Main.rand.NextFloat(0.2f, 0.8f) + 0.5f);
 
                             if (Main.getGoodWorld)
                             {
