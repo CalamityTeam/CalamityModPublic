@@ -355,7 +355,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
             }
 
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
                 {

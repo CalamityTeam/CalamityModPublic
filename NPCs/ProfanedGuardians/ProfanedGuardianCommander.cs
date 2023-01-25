@@ -258,11 +258,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             Player player = Main.player[NPC.target];
 
-            if ((!Main.dayTime && !CalamityMod.Instance.legendaryMode) || !player.active || player.dead)
+            if ((!Main.dayTime && !CalamityMod.Instance.legendaryMode) || !player.active || player.dead || Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
             {
                 NPC.TargetClosest(false);
                 player = Main.player[NPC.target];
-                if ((!Main.dayTime && !CalamityMod.Instance.legendaryMode) || !player.active || player.dead)
+                if ((!Main.dayTime && !CalamityMod.Instance.legendaryMode) || !player.active || player.dead || Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 {
                     if (NPC.velocity.Y > 3f)
                         NPC.velocity.Y = 3f;

@@ -872,7 +872,8 @@ namespace CalamityMod.NPCs
                     int enemyCount = brimmy.currentMode == 3 ? 3 : 1; // 3 angry nimbi if cloud, otherwise 1 brimling
                     if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(spawnType) < (death ? 1 : 2) && revenge && brimmy.currentMode != 2) // dont spawn anything if gfb rare sand
                     {
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<Brimling>());
+                        for (int i = 0; i < enemyCount; i++)
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<Brimling>());
                     }
                     SoundEngine.PlaySound(SoundID.Item8, npc.Center);
                     npc.alpha = 255;
