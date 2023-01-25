@@ -276,10 +276,19 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         float speedX = -15f;
                         float speedAdjustment = Math.Abs(speedX * 2f / (totalProjectiles - 1));
                         float speedY = -3f;
+                        float randomVelocityMult = death ? 2f : 1f;
                         for (int i = 0; i < totalProjectiles; i++)
                         {
                             float x4 = Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom.X, shootFrom.Y, speedX + speedAdjustment * i + distanceFromDestination.SafeNormalize(Vector2.Zero).X * Math.Abs(player.velocity.X), speedY, type, damage, 0f, Main.myPlayer, x4);
+                            Vector2 randomizedVelocity = Vector2.Zero;
+                            if (revenge)
+                            {
+                                float randomFloatX = Main.rand.NextFloat() - 0.5f;
+                                float randomFloatY = Main.rand.NextFloat() - 0.5f;
+                                randomizedVelocity = revenge ? (new Vector2(randomFloatX, randomFloatY) * randomVelocityMult) : Vector2.Zero;
+                            }
+                            Vector2 projectileVelocity = new Vector2(speedX + speedAdjustment * i + distanceFromDestination.SafeNormalize(Vector2.Zero).X * Math.Abs(player.velocity.X), speedY) + randomizedVelocity;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, projectileVelocity, type, damage, 0f, Main.myPlayer, x4);
                         }
                     }
                 }
@@ -303,7 +312,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     SoundEngine.PlaySound(SoundID.Item20, shootFrom);
 
                     int totalFlameProjectiles = biomeEnraged ? 20 : 16;
-                    int totalRings = 2;
+                    int totalRings = revenge ? 3 : 2;
                     int healingStarChance = revenge ? 8 : expertMode ? 6 : 4;
                     double radians = MathHelper.TwoPi / totalFlameProjectiles;
                     double angleA = radians * 0.5;
@@ -311,7 +320,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     for (int i = 0; i < totalRings; i++)
                     {
                         bool firstRing = i % 2 == 0;
-                        float starVelocity = firstRing ? 3f : 2f;
+                        float starVelocity = i + 2f;
                         float velocityX = (float)(starVelocity * Math.Sin(angleA) / Math.Sin(angleB));
                         Vector2 spinningPoint = firstRing ? new Vector2(-velocityX, -starVelocity) : new Vector2(0f, -starVelocity);
                         for (int j = 0; j < totalFlameProjectiles; j++)
