@@ -42,12 +42,13 @@ namespace CalamityMod.NPCs.Cryogen
             NPC.alpha = 255;
             NPC.HitSound = Cryogen.HitSound;
             NPC.DeathSound = BreakSound;
-            if (Main.getGoodWorld) // Move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 NPC.Calamity().VulnerableToHeat = false;
                 NPC.Calamity().VulnerableToCold = true;
                 NPC.Calamity().VulnerableToWater = true;
             }
+            else
             {
                 NPC.Calamity().VulnerableToHeat = true;
                 NPC.Calamity().VulnerableToCold = false;
@@ -57,9 +58,8 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void AI()
         {
-            // Move to zenith seed later
-            NPC.HitSound = Main.getGoodWorld ? SoundID.NPCHit41 : Cryogen.HitSound;
-            NPC.DeathSound = Main.getGoodWorld ? SoundID.NPCDeath14 : BreakSound;
+            NPC.HitSound = CalamityMod.Instance.legendaryMode ? SoundID.NPCHit41 : Cryogen.HitSound;
+            NPC.DeathSound = CalamityMod.Instance.legendaryMode ? SoundID.NPCDeath14 : BreakSound;
 
             NPC.alpha -= 3;
             if (NPC.alpha < 0)
@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs.Cryogen
         {
             if (damage > 0)
             {
-                if (Main.getGoodWorld) // Move to zenith seed later
+                if (CalamityMod.Instance.legendaryMode)
                 {
                     player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
                     player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.Cryogen
             Vector2 drawPos = NPC.Center - screenPos;
             drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            Color overlay = Main.getGoodWorld ? Color.Red : drawColor; // Move to zenith seed later
+            Color overlay = CalamityMod.Instance.legendaryMode ? Color.Red : drawColor;
             spriteBatch.Draw(texture, drawPos, NPC.frame, NPC.GetAlpha(overlay), NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
             return false;
         }
@@ -146,8 +146,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void ModifyTypeName(ref string typeName)
         {
-            // Move to zenith seed later
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 typeName = "Pyrogen's Shield";
             }
@@ -155,7 +154,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            int dusttype = Main.getGoodWorld ? 235 : 67; // Move to zenith seed later
+            int dusttype = CalamityMod.Instance.legendaryMode ? 235 : 67;
             for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, dusttype, hitDirection, -1f, 0, default, 1f);
@@ -182,7 +181,7 @@ namespace CalamityMod.NPCs.Cryogen
                     Main.dust[num624].velocity *= 2f;
                 }
 
-                if (Main.netMode != NetmodeID.Server && !Main.getGoodWorld) // Move to zenith seed later
+                if (Main.netMode != NetmodeID.Server && !CalamityMod.Instance.legendaryMode)
                 {
                     int totalGores = 16;
                     double radians = MathHelper.TwoPi / totalGores;

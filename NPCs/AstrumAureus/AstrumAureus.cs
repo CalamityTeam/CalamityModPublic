@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
             if (Main.getGoodWorld)
                 NPC.scale *= 0.8f;
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
                 NPC.scale *= 1.5f;
         }
 
@@ -231,7 +231,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            if (NPC.ai[0] == 0f || (slimePhaseHP && Main.getGoodWorld)) // move to zenith seed later
+            if (NPC.ai[0] == 0f || (slimePhaseHP && CalamityMod.Instance.legendaryMode))
             {
                 NPCTexture = TextureAssets.Npc[NPC.type].Value;
                 GlowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumAureus/AstrumAureusGlow").Value;
@@ -284,7 +284,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             float rotation = NPC.rotation;
             float offsetY = NPC.gfxOffY;
             Color color36 = Color.White;
-            if (Main.getGoodWorld && slimePhaseHP) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode && slimePhaseHP)
             {
                 color36 = slimePhase == 0 ? Color.Yellow : Color.Violet;
             }
@@ -311,14 +311,14 @@ namespace CalamityMod.NPCs.AstrumAureus
             Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
             vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-            Color toUse = Main.getGoodWorld && slimePhaseHP ? color36 : drawColor;
+            Color toUse = CalamityMod.Instance.legendaryMode && slimePhaseHP ? color36 : drawColor;
             spriteBatch.Draw(NPCTexture, vector43, frame, NPC.GetAlpha(toUse), rotation, vector11, scale, spriteEffects, 0f);
 
-            if (NPC.ai[0] != 1 || (slimePhaseHP && Main.getGoodWorld)) //draw only if not recharging
+            if (NPC.ai[0] != 1 || (slimePhaseHP && CalamityMod.Instance.legendaryMode)) //draw only if not recharging
             {
                 Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Color.Gold);
                 Color color40 = Color.Lerp(Color.White, color, 0.5f);
-                if (Main.getGoodWorld && slimePhaseHP) // move to zenith seed later
+                if (CalamityMod.Instance.legendaryMode && slimePhaseHP)
                 {
                     color40 = slimePhase == 0 ? Color.Violet : Color.Yellow;
                 }

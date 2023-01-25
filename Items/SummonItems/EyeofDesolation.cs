@@ -63,7 +63,7 @@ namespace CalamityMod.Items.SummonItems
             else
                 NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CalamitasClone>());
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // move to zenith seed later
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
             {
                 safeBox.X = spawnX = spawnXReset = (int)(player.Center.X - 1250f);
                 spawnX2 = spawnXReset2 = (int)(player.Center.X + 1250f);
@@ -107,12 +107,11 @@ namespace CalamityMod.Items.SummonItems
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             Player player = Main.LocalPlayer;
-            TooltipLine line4 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
-            TooltipLine line5 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
+            TooltipLine line3 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
 
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
-                line4.Text = "Doing so will create a square arena of blocks, with you at its center\nNot consumable";
+                line3.Text = "Creates a square arena of blocks, with you at its center\nEnrages during the day";
             }
         }
 

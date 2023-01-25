@@ -12,6 +12,7 @@ using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crags;
+using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.SulphurousSea;
@@ -40,8 +41,7 @@ namespace CalamityMod.NPCs
             bool revenge = CalamityWorld.revenge || bossRush;
             bool death = CalamityWorld.death || bossRush;
 
-            //TODO -- Zenith seed.
-            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
+            bool getFuckedAI = CalamityMod.Instance.legendaryMode;
 
 			if (head)
 				CalamityGlobalNPC.aquaticScourge = npc.whoAmI;
@@ -595,6 +595,7 @@ namespace CalamityMod.NPCs
         public static void BrimstoneElementalAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+            BrimstoneElemental.BrimstoneElemental brimmy = npc.ModNPC<BrimstoneElemental.BrimstoneElemental>();
 
             // Used for Brimling AI states
             CalamityGlobalNPC.brimstoneElemental = npc.whoAmI;
@@ -746,6 +747,36 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            if (CalamityMod.Instance.legendaryMode) // in gfb, Brimmy channels the power of the other elementals.
+            {
+                int newMode;
+                if (lifeRatio <= 0.8f && lifeRatio > 0.6f)
+                {
+                    newMode = 1; // Sand
+                }
+                else if (lifeRatio <= 0.6f && lifeRatio > 0.4f)
+                {
+                    newMode = 2; // Rare Sand
+                }
+                else if (lifeRatio <= 0.4f && lifeRatio > 0.2f)
+                {
+                    newMode = 3; // Cloud
+                }
+                else if (lifeRatio <= 0.2f)
+                {
+                    newMode = 4; // Water
+                }
+                else
+                {
+                    newMode = 0; // Brimstone, default
+                }
+                if (newMode != brimmy.currentMode)
+                {
+                    SoundEngine.PlaySound(SoundID.Item29, npc.Center);
+                }
+                brimmy.currentMode = newMode;
+            }
+
             if (npc.ai[0] == -1f)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -837,7 +868,9 @@ namespace CalamityMod.NPCs
                 npc.alpha += bossRush ? 4 : death ? 3 : 2;
                 if (npc.alpha >= 255)
                 {
-                    if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<Brimling>()) < (death ? 1 : 2) && revenge)
+                    int spawnType = brimmy.currentMode == 3 ? NPCID.AngryNimbus : ModContent.NPCType<Brimling>();
+                    int enemyCount = brimmy.currentMode == 3 ? 3 : 1; // 3 angry nimbi if cloud, otherwise 1 brimling
+                    if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(spawnType) < (death ? 1 : 2) && revenge && brimmy.currentMode != 2) // dont spawn anything if gfb rare sand
                     {
                         NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<Brimling>());
                     }
@@ -862,18 +895,36 @@ namespace CalamityMod.NPCs
 
                 if (npc.alpha >= 255)
                 {
-                    if (Main.getGoodWorld) // move to zenith seed later
+                    if (CalamityMod.Instance.legendaryMode)
                     {
                         SoundEngine.PlaySound(SoundID.Item68, npc.Center);
+                        int type = ModContent.ProjectileType<BrimstoneRay>();
+                        int damage = npc.GetProjectileDamage(type);
+                        Vector2 pos = npc.Center;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int type = ModContent.ProjectileType<BrimstoneRay>();
-                            int damage = npc.GetProjectileDamage(type);
-                            Vector2 pos = npc.Center;
                             Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(0, 1), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
                             Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(0, -1), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
                             Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(1, 0), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
                             Projectile.NewProjectile(npc.GetSource_FromAI(), pos, new Vector2(-1, 0), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                        }
+                        if (brimmy.currentMode >= 1 && brimmy.currentMode <= 3)
+                        {
+                            int tornadoType = brimmy.currentMode == 3 ? ModContent.ProjectileType<StormMarkHostile>() : ProjectileID.SandnadoHostileMark;
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), pos, Vector2.Zero, tornadoType, damage, 0f, Main.myPlayer, 0f, 0f);
+                            }
+                        }
+                        if (brimmy.currentMode == 2)
+                        {
+                            int healAmt = npc.lifeMax / 25;
+                            if (healAmt > 0)
+                            {
+                                npc.life += healAmt;
+                                npc.HealEffect(healAmt, true);
+                                npc.netUpdate = true;
+                            }
                         }
                     }
                 }
@@ -921,6 +972,11 @@ namespace CalamityMod.NPCs
                         float velocity = (death ? 7f : revenge ? 6f : 5f) + (2f * enrageScale) + (expertMode ? 3f * (1f - lifeRatio) : 0f);
                         int type = ModContent.ProjectileType<BrimstoneHellfireball>();
                         int damage = npc.GetProjectileDamage(type);
+                        if (brimmy.currentMode == 4)
+                        {
+                            type = ModContent.ProjectileType<FrostMist>();
+                            SoundEngine.PlaySound(SoundID.Item30, player.position);
+                        }
                         Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * velocity;
                         int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 5f, projectileVelocity, type, damage, 0f, Main.myPlayer, player.position.X, player.position.Y);
                         Main.projectile[proj].timeLeft = 240;
@@ -930,6 +986,11 @@ namespace CalamityMod.NPCs
                             velocity = (death ? 5f : 4f) + 2f * enrageScale;
                             type = ModContent.ProjectileType<BrimstoneBarrage>();
                             damage = npc.GetProjectileDamage(type);
+                            if (brimmy.currentMode == 4)
+                            {
+                                type = ModContent.ProjectileType<WaterSpear>();
+                                SoundEngine.PlaySound(SoundID.Item21, player.position);
+                            }
                             projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * velocity;
                             int numProj = death ? 8 : 4;
                             int spread = death ? 90 : 45;
@@ -1009,9 +1070,10 @@ namespace CalamityMod.NPCs
                         float radians2 = MathHelper.TwoPi / totalProjectiles;
                         type = ModContent.ProjectileType<BrimstoneBarrage>();
                         damage = npc.GetProjectileDamage(type);
-                        if (Main.getGoodWorld) // move to zenith seed later
+                        if (brimmy.currentMode == 4)
                         {
-                            type = ModContent.ProjectileType<BrimstoneHellblast>();
+                            type = ModContent.ProjectileType<SirenSong>();
+                            SoundEngine.PlaySound(SoundID.Item26, player.position);
                         }
                         double angleA = radians2 * 0.5;
                         double angleB = MathHelper.ToRadians(90f) - angleA;
@@ -1118,7 +1180,7 @@ namespace CalamityMod.NPCs
                             Projectile.NewProjectile(npc.GetSource_FromAI(), source, laserVelocity2, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
                             if (Main.getGoodWorld)
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), source, -laserVelocity2, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
-                            if (Main.getGoodWorld) // move to zenith seed later
+                            if (CalamityMod.Instance.legendaryMode)
                             {
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), source, new Vector2(-laserVelocity2.X, laserVelocity2.Y), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), source, new Vector2(laserVelocity2.X, -laserVelocity2.Y), type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
@@ -1159,7 +1221,7 @@ namespace CalamityMod.NPCs
                             if (Main.getGoodWorld)
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), source, -laserVelocity, ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
 
-                            if (Main.getGoodWorld) // move to zenith seed later
+                            if (CalamityMod.Instance.legendaryMode)
                             {
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), source, new Vector2(-laserVelocity.X, laserVelocity.Y), ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), source, new Vector2(laserVelocity.X, -laserVelocity.Y), ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
@@ -1176,7 +1238,7 @@ namespace CalamityMod.NPCs
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, npc.localAI[0], npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 1f, npc.whoAmI);
                                 if (Main.getGoodWorld)
                                     Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, -npc.localAI[0], -npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 1f, npc.whoAmI);
-                                if (Main.getGoodWorld) // move to zenith seed later
+                                if (CalamityMod.Instance.legendaryMode)
                                 {
                                     Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, -npc.localAI[0], npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 1f, npc.whoAmI);
                                     Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, npc.localAI[0], -npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 1f, npc.whoAmI);
@@ -1516,7 +1578,7 @@ namespace CalamityMod.NPCs
                         {
                             int type = ModContent.ProjectileType<SCalBrimstoneFireblast>();
                             int damage = npc.GetProjectileDamage(type);
-                            if (Main.getGoodWorld) // move to zenith seed later
+                            if (CalamityMod.Instance.legendaryMode)
                             {
                                 type = ModContent.ProjectileType<SCalBrimstoneGigablast>();
                             }
@@ -2066,7 +2128,7 @@ namespace CalamityMod.NPCs
                     npc.velocity.Y = num872 * num873;
                     npc.ai[1] = 2f;
 
-                    if (Main.getGoodWorld) // move to zenith seed later
+                    if (CalamityMod.Instance.legendaryMode)
                     {
                         SoundEngine.PlaySound(SupremeCalamitas.SupremeCalamitas.BrimstoneShotSound, npc.Center);
 
@@ -2368,7 +2430,7 @@ namespace CalamityMod.NPCs
                     npc.velocity.Y = num872 * num873;
                     npc.ai[1] = 2f;
 
-                    if (Main.getGoodWorld) // move to zenith seed later
+                    if (CalamityMod.Instance.legendaryMode)
                     {
                         SoundEngine.PlaySound(SupremeCalamitas.SupremeCalamitas.BrimstoneShotSound, npc.Center);
 
@@ -2555,7 +2617,7 @@ namespace CalamityMod.NPCs
 
             bool geldonPhase1 = lifeRatio > 0.6f && lifeRatio <= 0.7f;
             bool geldonPhase2 = lifeRatio <= 0.1f;
-            if (Main.getGoodWorld && (geldonPhase1 || geldonPhase2)) // "turn into a slime". move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode && (geldonPhase1 || geldonPhase2))
             {
                 AstrumAureus.AstrumAureus astrumAureus = npc.ModNPC<AstrumAureus.AstrumAureus>();
                 astrumAureus.slimeProjCounter++;
@@ -2941,10 +3003,10 @@ namespace CalamityMod.NPCs
                 if (npc.velocity.Y == 0f)
                 {
                     // Play stomp sound. Gotta specify the filepath to avoid confusion between the namespace and npc
-                    // move to zenith seed later
-                    SoundEngine.PlaySound(Main.getGoodWorld ? NPCs.ExoMechs.Ares.AresGaussNuke.NukeExplosionSound : NPCs.AstrumAureus.AstrumAureus.StompSound, npc.position);
+                    SoundStyle soundToPlay = CalamityMod.Instance.legendaryMode ? NPCs.ExoMechs.Ares.AresGaussNuke.NukeExplosionSound : NPCs.AstrumAureus.AstrumAureus.StompSound;
+                    SoundEngine.PlaySound(soundToPlay, npc.position);
 
-                    if (Main.getGoodWorld) // move to zenith seed later
+                    if (CalamityMod.Instance.legendaryMode)
                     {
                         float screenShakePower = 16 * Utils.GetLerpValue(1300f, 0f, npc.Distance(Main.LocalPlayer.Center), true);
                         if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < screenShakePower)
@@ -2991,7 +3053,7 @@ namespace CalamityMod.NPCs
                     SoundEngine.PlaySound(SoundID.Item33, npc.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        if (Main.getGoodWorld) // move to zenith seed later
+                        if (CalamityMod.Instance.legendaryMode)
                         {
                             int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AstralLaser>() : ModContent.ProjectileType<AstralFlame>();
                             int damage = npc.GetProjectileDamage(type);
@@ -3409,8 +3471,8 @@ namespace CalamityMod.NPCs
             // Length of worms
             int phase1Length = death ? 80 : revenge ? 70 : expertMode ? 60 : 50;
             int phase2Length = phase1Length / 2;
-            int gfbLength = phase1Length / 10; // move to zenith seed later
-            int maxLength = Main.getGoodWorld && doubleWormPhase ? gfbLength : doubleWormPhase ? phase2Length : phase1Length;
+            int gfbLength = phase1Length / 10;
+            int maxLength = CalamityMod.Instance.legendaryMode && doubleWormPhase ? gfbLength : doubleWormPhase ? phase2Length : phase1Length;
 
             // Split into two worms
             if (head)
@@ -3495,7 +3557,7 @@ namespace CalamityMod.NPCs
                         // Do not spawn worms client side. The server handles this.
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int wormamt = Main.getGoodWorld ? 5 : 1; // move to zenith seed later
+                            int wormamt = CalamityMod.Instance.legendaryMode ? 5 : 1;
                             for (int i = 0; i < wormamt; i++)
                             {
                                 // Now that the original worm doesn't exist, startCount can be zero.
@@ -3549,7 +3611,7 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-                if (Main.getGoodWorld && calamityGlobalNPC.newAI[1] < 10f) // desync the deuses, move to zenith seed later
+                if (CalamityMod.Instance.legendaryMode && calamityGlobalNPC.newAI[1] < 10f) // desync the deuses
                 {
                     float pushForce = 0.25f;
                     for (int k = 0; k < Main.maxNPCs; k++)
@@ -3598,7 +3660,7 @@ namespace CalamityMod.NPCs
                 npc.realLife = (int)npc.ai[2];
 
             // Emit light
-            if (!Main.getGoodWorld) // move to zenith seed later
+            if (!CalamityMod.Instance.legendaryMode)
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
             // Dust and alpha effects
@@ -4806,10 +4868,10 @@ namespace CalamityMod.NPCs
                     // Sound
                     if (calamityGlobalNPC.newAI[1] == newPhaseTimer - 60f)
                     {
-                        float squawkpitch = Main.getGoodWorld ? 1.3f : 0.25f; // Move to zenith seed later
+                        float squawkpitch = CalamityMod.Instance.legendaryMode ? 1.3f : 0.25f;
                         SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.position);
 
-                        if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // Move to zenith seed later
+                        if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
                         {
                             int spacing = 20;
                             int amt = 5;
@@ -4844,10 +4906,10 @@ namespace CalamityMod.NPCs
                     // Sound
                     if (calamityGlobalNPC.newAI[0] == newPhaseTimer - 60f)
                     {
-                        float squawkpitch = Main.getGoodWorld ? 1.3f : 0.25f; // Move to zenith seed later
+                        float squawkpitch = CalamityMod.Instance.legendaryMode ? 1.3f : 0.25f;
                         SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.position);
 
-                        if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // Move to zenith seed later
+                        if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
                         {
                             int spacing = 20;
                             int amt = 3;
@@ -5341,10 +5403,10 @@ namespace CalamityMod.NPCs
                     // Sound
                     if (npc.ai[1] == birbSpawnPhaseTimer - 60f)
                     {
-                        float squawkpitch = Main.getGoodWorld ? 1.3f : 0.25f; // Move to zenith seed later
+                        float squawkpitch = CalamityMod.Instance.legendaryMode ? 1.3f : 0.25f;
                         SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.position);
 
-                        if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // Move to zenith seed later
+                        if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
                         {
                             int spacing = 30;
                             int amt = 3;
@@ -5408,7 +5470,7 @@ namespace CalamityMod.NPCs
                         npc.netUpdate = true;
                     }
 
-                    if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // Move to zenith seed later
+                    if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
                     {
                         int spacing = 30;
                         int amt = 3;
@@ -5514,7 +5576,7 @@ namespace CalamityMod.NPCs
                     value44.Normalize();
                     value44 *= scaleFactor20;
                     npc.velocity = (npc.velocity * (num1377 - 1f) + value44) / num1377;
-                    if (Main.getGoodWorld)
+                    if (Main.getGoodWorld && !CalamityMod.Instance.legendaryMode)
                         npc.velocity *= 1.15f;
                 }
                 else if (npc.velocity.Length() > 2f)
@@ -5564,7 +5626,7 @@ namespace CalamityMod.NPCs
                     value45.Normalize();
                     value45 *= scaleFactor21;
                     npc.velocity = (npc.velocity * (num1378 - 1f) + value45) / num1378;
-                    if (Main.getGoodWorld)
+                    if (Main.getGoodWorld && !CalamityMod.Instance.legendaryMode)
                         npc.velocity *= 1.15f;
 
                     npc.netSpam = 5;
@@ -5593,7 +5655,7 @@ namespace CalamityMod.NPCs
                     vector242.Normalize();
                     vector242 *= scaleFactor22;
                     npc.velocity = (npc.velocity * (num1379 - 1f) + vector242) / num1379;
-                    if (Main.getGoodWorld)
+                    if (Main.getGoodWorld && !CalamityMod.Instance.legendaryMode)
                         npc.velocity *= 1.15f;
 
                     if (npc.velocity.X < 0f)
@@ -5609,7 +5671,7 @@ namespace CalamityMod.NPCs
                     if (npc.ai[1] > 10f)
                     {
                         npc.velocity = vector242;
-                        if (Main.getGoodWorld)
+                        if (Main.getGoodWorld && !CalamityMod.Instance.legendaryMode)
                             npc.velocity *= 1.15f;
 
                         if (npc.velocity.X < 0f)
@@ -5787,7 +5849,7 @@ namespace CalamityMod.NPCs
             int num13 = maxToothBallBelches * toothBallSpinPhaseDivisor;
             float spinTime = num13 / 2f;
             float toothBallSpinToothBallVelocity = bossRush ? 14f : death ? 9.5f : 9f;
-            float scaleFactor4 = Main.getGoodWorld ? 44f : 22f; // move to zenith seed later
+            float scaleFactor4 = CalamityMod.Instance.legendaryMode ? 44f : 22f;
             float num15 = MathHelper.TwoPi / spinTime;
             int num16 = 75;
 
@@ -5841,7 +5903,7 @@ namespace CalamityMod.NPCs
                 if (calamityGlobalNPC.newAI[0] % 60f == 0f)
                     SoundEngine.PlaySound(OldDuke.OldDuke.HuffSound, player.Center);
 
-                if (Main.getGoodWorld) // move to zenith seed later
+                if (CalamityMod.Instance.legendaryMode)
                 {
                     float screenShakePower = 10 * Utils.GetLerpValue(800f, 0f, npc.Distance(Main.LocalPlayer.Center), true);
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < screenShakePower)
@@ -7373,6 +7435,12 @@ namespace CalamityMod.NPCs
                         for (int k = 0; k < 10; k++)
                         {
                             Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, -1f, 0, default, 1f);
+                        }
+                        if (CalamityMod.Instance.legendaryMode)
+                        {
+                            float screenShakePower = 2 * Utils.GetLerpValue(1300f, 0f, npc.Distance(Main.LocalPlayer.Center), true);
+                            if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < screenShakePower)
+                                Main.LocalPlayer.Calamity().GeneralScreenShakePower = screenShakePower;
                         }
                     }
                     if (npc.type == ModContent.NPCType<Bohldohr>())

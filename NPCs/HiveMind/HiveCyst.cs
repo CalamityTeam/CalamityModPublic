@@ -56,11 +56,9 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-            //TODO -- Zenith seed.
-            bool getFuckedAI = Main.getGoodWorld && Main.masterMode;
             float timeToSpawn = 120f;
 
-            if (getFuckedAI && NPC.AnyNPCs(ModContent.NPCType<HiveMind>()))
+            if (CalamityMod.Instance.legendaryMode && NPC.AnyNPCs(ModContent.NPCType<HiveMind>()))
             {
                 //Passively spawns random enemies
                 NPC.ai[0]++;

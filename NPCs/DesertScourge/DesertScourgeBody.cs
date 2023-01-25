@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
             // Sometimes "Deflect" projectiles in gfb into water blasts.
-            if (Main.rand.NextBool(20) && Main.getGoodWorld) // Move to zenith seed later
+            if (Main.rand.NextBool(20) && CalamityMod.Instance.legendaryMode)
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
@@ -196,9 +196,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override Color? GetAlpha(Color drawColor)
         {
-            // Move to zenith seed later
             Color lightColor = Color.MediumBlue * drawColor.A;
-            Color newColor = Main.getGoodWorld ? lightColor : new Color(255, 255, 255, drawColor.A);
+            Color newColor = CalamityMod.Instance.legendaryMode ? lightColor : new Color(255, 255, 255, drawColor.A);
             return newColor * NPC.Opacity;
         }
     }

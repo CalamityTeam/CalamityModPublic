@@ -31,9 +31,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(ref Color lightColor)
         {
-            //TODO -- Later replace this new bool with Main.zenithWorld
-            bool getFucked = Main.getGoodWorld && Main.masterMode;
-
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() / 2f;
             float time = Main.GlobalTimeWrappedHourly % 10f / 10f;
@@ -71,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
                 Color color = Main.hslToRgb(hue[i] % 1f, 1f, 0.5f) * colorChangeAmt * colorChangeAmt2;
 
                 bool underworld = Projectile.ai[0] == 2f;
-                if (!getFucked)
+                if (!CalamityMod.Instance.legendaryMode)
                 {
                     if (Main.dayTime)
                     {

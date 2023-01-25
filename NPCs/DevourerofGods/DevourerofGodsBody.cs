@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -49,8 +50,13 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.height = 56;
             NPC.defense = 70;
             CalamityGlobalNPC global = NPC.Calamity();
-            global.DR = 0.925f;
-            global.unbreakableDR = true;
+            if (!CalamityMod.Instance.legendaryMode)
+            {
+                global.DR = 0.925f;
+                global.unbreakableDR = true;
+                NPC.chaseable = false;
+                NPC.canGhostHeal = false;
+            }
             NPC.LifeMaxNERB(888750, 1066500, 1500000); // Phase 1 is 371250, Phase 2 is 517500
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
@@ -61,8 +67,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.behindTiles = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.chaseable = false;
-            NPC.canGhostHeal = false;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
@@ -423,6 +427,15 @@ namespace CalamityMod.NPCs.DevourerofGods
                 return false;
             }
             return true;
+        }
+
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            // viable???, done here since it's conditional
+            if (CalamityMod.Instance.legendaryMode && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
+            {
+                damage *= 40;
+            }
         }
 
         public override bool CheckDead()

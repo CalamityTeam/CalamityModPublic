@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.SlimeGod
             if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart); 
             
-            if (Main.getGoodWorld && Main.rand.NextBool(5)) // Move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode && Main.rand.NextBool(5))
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {

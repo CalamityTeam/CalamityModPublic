@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.SlimeGod
         }
         public override void OnKill()
         {
-            if (Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient) // Move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int type = ModContent.ProjectileType<ShadeNimbusHostile>();
                 int damage = NPC.GetProjectileDamage(type);

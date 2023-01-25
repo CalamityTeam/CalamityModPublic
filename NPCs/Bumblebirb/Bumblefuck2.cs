@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld) // Move to zenith seed later
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
             {
                 SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, NPC.Center - Vector2.UnitY * 300f);
                 for (int i = 0; i < 5; i++)
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.Bumblebirb
         public override void FindFrame(int frameHeight)
         {
             NPC.frameCounter += NPC.ai[0] == 2.1f ? 1.5 : 1D;
-            if (Main.getGoodWorld) // Move to zenith later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 NPC.frameCounter += 2D;
             }
@@ -124,8 +124,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void ModifyTypeName(ref string typeName)
         {
-            // Move to zenith seed later
-            if (Main.getGoodWorld)
+            if (CalamityMod.Instance.legendaryMode)
             {
                 typeName = "Bumblebirb";
             }

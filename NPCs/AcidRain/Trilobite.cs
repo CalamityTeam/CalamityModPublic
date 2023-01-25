@@ -168,6 +168,12 @@ namespace CalamityMod.NPCs.AcidRain
                     projDamage = (int)Math.Round(projDamage * 0.8);
 
                 Vector2 spikeVelocity = -NPC.velocity.RotatedByRandom(0.18f);
+                if (CalamityMod.Instance.legendaryMode) // more true to the original concept art.
+                {
+                    spikeVelocity = -projectile.velocity;
+                    spikeVelocity.Normalize();
+                    spikeVelocity *= DownedBossSystem.downedPolterghast ? 8 : 5;
+                }
                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Unit() * NPC.Size * 0.7f, spikeVelocity, ModContent.ProjectileType<TrilobiteSpike>(), projDamage, 3f);
                 SpikeShootCountdown = Main.rand.Next(50, 65);
                 NPC.netUpdate = true;

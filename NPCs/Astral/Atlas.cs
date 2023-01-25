@@ -279,7 +279,7 @@ namespace CalamityMod.NPCs.Astral
 
                         swingYeet = false;
 
-                        if (Main.rand.NextBool(1000) || Main.getGoodWorld) //Launch the player very fast very rarely, move second check to zenith seed later
+                        if (Main.rand.NextBool(1000) || CalamityMod.Instance.legendaryMode) //Launch the player very fast very rarely
                         {
                             horMult = 12f;
                             verMult = 2.3f;

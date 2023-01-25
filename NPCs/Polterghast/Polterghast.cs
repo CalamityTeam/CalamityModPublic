@@ -221,7 +221,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             bool chargePhase = calamityGlobalNPC.newAI[0] >= chargePhaseGateValue;
             int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1; 
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 chargeAmt = phase4 ? int.MaxValue : getPissed ? 6 : phase3 ? 4 : phase2 ? 3 : 2;
             }
@@ -232,7 +232,7 @@ namespace CalamityMod.NPCs.Polterghast
             bool reset = NPC.ai[2] >= chargePhaseGateValue + 120f;
             float speedUpDistance = 480f - 360f * (1f - lifeRatio);
 
-            if ((Main.time >= 27000 && Main.time < 30600 && Main.dayTime == false && Main.getGoodWorld) || threeAM) // change to zenith seed later
+            if ((Main.time >= 27000 && Main.time < 30600 && Main.dayTime == false && CalamityMod.Instance.legendaryMode) || threeAM)
             {
                 threeAM = true;
                 chargeVelocity *= 2;
@@ -287,7 +287,7 @@ namespace CalamityMod.NPCs.Polterghast
             }
 
             // Play a random creepy sound every once in a while in the zenith seed
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 soundTimer++;
                 int gate = threeAM ? 60 : phase4 ? 300 : phase3 ? 420 : phase2 ? 540 : 600;
@@ -315,7 +315,7 @@ namespace CalamityMod.NPCs.Polterghast
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
 
-                if (Main.getGoodWorld) // move to zenith seed later
+                if (CalamityMod.Instance.legendaryMode)
                 {
                     for (int I = 0; I < 3; I++)
                     {
@@ -941,7 +941,7 @@ namespace CalamityMod.NPCs.Polterghast
                     {
                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterPhantom>());
 
-                        if (expertMode && !Main.getGoodWorld) // move to zenith seed later
+                        if (expertMode && !CalamityMod.Instance.legendaryMode)
                         {
                             for (int I = 0; I < 3; I++)
                             {
@@ -1052,7 +1052,7 @@ namespace CalamityMod.NPCs.Polterghast
                         }
                     }
 
-                    if (Main.getGoodWorld) // move to zenith seed later
+                    if (CalamityMod.Instance.legendaryMode)
                     {
                         NPC.GivenName = "Polterplasm";
                     }
@@ -1082,7 +1082,7 @@ namespace CalamityMod.NPCs.Polterghast
                 string sulfSeaBoostMessage = "Mods.CalamityMod.GhostBossText4";
                 Color sulfSeaBoostColor = AcidRainEvent.TextColor;
 
-                if ((Main.rand.NextBool(20) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || Main.getGoodWorld) // move to zenith seed later
+                if ((Main.rand.NextBool(20) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || CalamityMod.Instance.legendaryMode)
                 {
                     sulfSeaBoostMessage = "Mods.CalamityMod.AprilFools2"; // Goddamn boomer duke moments
                 }

@@ -1,6 +1,10 @@
 ﻿using CalamityMod.Projectiles.Magic;
 using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
+using System.Linq;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,5 +43,26 @@ namespace CalamityMod.Items.Weapons.Magic
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine name = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "ItemName");
+            if (name != null && CalamityMod.Instance.legendaryMode)
+                name.Text = "yermes christal";
+
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+            if (line != null && CalamityMod.Instance.legendaryMode)
+                line.Text = "...throughs a pice of dnimite";
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (CalamityMod.Instance.legendaryMode)
+            {
+                Projectile.NewProjectile(source, player.Center, Vector2.Zero, ProjectileID.Dynamite, 250, 0, player.whoAmI);
+                return false;
+            }
+            return true;
+        }
     }
 }

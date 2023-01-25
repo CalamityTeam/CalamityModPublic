@@ -128,6 +128,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         else
                             NPC.velocity.Y = 12f;
                     }
+                    if (!CalamityMod.Instance.legendaryMode)
                     SoundEngine.PlaySound(JumpSound, NPC.Center);
                 }
                 NPC.netUpdate = true;

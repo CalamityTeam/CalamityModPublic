@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToWater = true;
 
-            if (Main.getGoodWorld) // Move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
                 NPC.scale *= 2;
         }
 
@@ -453,9 +453,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override Color? GetAlpha(Color drawColor)
         {
-            // Move to zenith seed later
             Color lightColor = Color.Orange * drawColor.A;
-            Color newColor = Main.getGoodWorld ? lightColor : new Color(255, 255, 255, drawColor.A);
+            Color newColor = CalamityMod.Instance.legendaryMode ? lightColor : new Color(255, 255, 255, drawColor.A);
             return newColor * NPC.Opacity;
         }
     }

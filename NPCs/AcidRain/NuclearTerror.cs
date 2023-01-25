@@ -31,8 +31,10 @@ namespace CalamityMod.NPCs.AcidRain
 
         public int AttackIndex = 0;
         public int DelayTime = 0;
+        public int DeathrayTime = 0;
         public bool Dying = false;
         public bool Walking = false;
+        public bool hasDoneDeathray = false;
         public float JumpTimer = 0f;
         public Vector2 ShootPosition;
         public Player Target => Main.player[NPC.target];
@@ -136,9 +138,11 @@ namespace CalamityMod.NPCs.AcidRain
             writer.Write(NPC.dontTakeDamage);
             writer.Write(Dying);
             writer.Write(Walking);
+            writer.Write(hasDoneDeathray);
             writer.Write(AttackIndex);
             writer.Write(DelayTime);
             writer.Write(JumpTimer);
+            writer.Write(DeathrayTime);
             writer.WriteVector2(ShootPosition);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -146,8 +150,10 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.dontTakeDamage = reader.ReadBoolean();
             Dying = reader.ReadBoolean();
             Walking = reader.ReadBoolean();
+            hasDoneDeathray = reader.ReadBoolean();
             AttackIndex = reader.ReadInt32();
             DelayTime = reader.ReadInt32();
+            DeathrayTime = reader.ReadInt32();
             JumpTimer = reader.ReadSingle();
             ShootPosition = reader.ReadVector2();
         }
@@ -188,6 +194,13 @@ namespace CalamityMod.NPCs.AcidRain
             float wrappedAttackTime = AttackTime % AttackCycleTime;
 
             Walking = false;
+
+            if (CalamityMod.Instance.legendaryMode && !hasDoneDeathray && NPC.life <= NPC.lifeMax * 0.1f)
+            {
+                DeathrayTime++;
+                MasterSpark();
+                return;
+            }
 
             // Teleport if spam-collisions are done, they are pretty good indicators of being stuck.
             if (NPC.collideX)
@@ -444,6 +457,48 @@ namespace CalamityMod.NPCs.AcidRain
                         NPC.spriteDirection = (ShootPosition.X - NPC.Center.X < 0).ToDirectionInt();
                     }
                     break;
+            }
+        }
+
+        // Legendary Mode deathray attack
+        public void MasterSpark()
+        {
+            NPC.dontTakeDamage = true;
+            NPC.velocity.X *= 0.5f;
+            NPC.alpha = 0;
+            if (DeathrayTime < 240f)
+            {
+                int num5 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 200, default, 1.5f);
+                Main.dust[num5].noGravity = true;
+                Main.dust[num5].velocity *= 0.75f;
+                Main.dust[num5].fadeIn = 1.3f;
+                Vector2 vector = new Vector2((float)Main.rand.Next(-200, 201), (float)Main.rand.Next(-200, 201));
+                vector.Normalize();
+                vector *= (float)Main.rand.Next(100, 200) * 0.04f;
+                Main.dust[num5].velocity = vector;
+                vector.Normalize();
+                vector *= 34f;
+                Main.dust[num5].position = NPC.Center - vector;
+            }
+            else if (DeathrayTime == 240f)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    SoundEngine.PlaySound(SoundID.Zombie104, NPC.position);
+                    int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<GammaRayBurst>(), 250, 0f, Main.myPlayer, NPC.whoAmI);
+                    if (p.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[p].rotation = NPC.spriteDirection * -MathHelper.PiOver2;
+                    }
+                }
+                float screenShakePower = 20 * Utils.GetLerpValue(1300f, 0f, NPC.Distance(Main.LocalPlayer.Center), true);
+                if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < screenShakePower)
+                    Main.LocalPlayer.Calamity().GeneralScreenShakePower = screenShakePower;
+            }
+            else if (DeathrayTime >= 630f)
+            {
+                NPC.dontTakeDamage = false;
+                hasDoneDeathray = true;
             }
         }
 

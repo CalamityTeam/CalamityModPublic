@@ -81,9 +81,7 @@ namespace CalamityMod.NPCs.Providence
             if (maxDepth >= 0 && minDepth < 0)
             {
                 float intensity = GetIntensity();
-                //TODO -- Zenith seed.
-                bool getFucked = Main.getGoodWorld && Main.masterMode;
-                Color color = getFucked ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) : Main.dayTime ? new Color(255, 200, 100) : new Color(100, 150, 255);
+                Color color = CalamityMod.Instance.legendaryMode ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) : Main.dayTime ? new Color(255, 200, 100) : new Color(100, 150, 255);
                 spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), color * intensity);
             }
         }

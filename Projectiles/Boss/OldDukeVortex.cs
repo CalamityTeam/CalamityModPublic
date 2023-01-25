@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if (Main.getGoodWorld) // move to zenith seed later
+            if (CalamityMod.Instance.legendaryMode)
             {
                 if (Projectile.scale < 2f)
                 {
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
 
                 float distanceRequired = 800f * Projectile.scale;
-                float succPower = Main.getGoodWorld ? 1f : 0.5f; // move to zenith seed later
+                float succPower = CalamityMod.Instance.legendaryMode ? 1f : 0.5f;
                 for (int i = 0; i < Main.maxPlayers; i++)
                 {
                     Player player = Main.player[i];

@@ -276,8 +276,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            int debufftype = Main.getGoodWorld ? BuffID.Obstructed : BuffID.VortexDebuff; // move to zenith seed later
-            int duration = Main.getGoodWorld ? 30 : 60;
+            int debufftype = CalamityMod.Instance.legendaryMode ? BuffID.Obstructed : BuffID.VortexDebuff;
+            int duration = CalamityMod.Instance.legendaryMode ? 30 : 60;
             if (damage > 0)
                 player.AddBuff(debufftype, duration, true);
         }

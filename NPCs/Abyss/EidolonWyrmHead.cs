@@ -5,6 +5,7 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.NPCs.NormalNPCs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -100,6 +101,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void AI()
         {
             bool adultWyrmAlive = false;
+            SoundStyle roar = CalamityMod.Instance.legendaryMode ? Sunskater.DeathSound with { Pitch = Sunskater.DeathSound.Pitch - 0.5f } : CommonCalamitySounds.WyrmScreamSound;
             if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
@@ -125,14 +127,14 @@ namespace CalamityMod.NPCs.Abyss
                 if (NPC.soundDelay <= 0)
                 {
                     NPC.soundDelay = 420;
-                    SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, NPC.position);
+                    SoundEngine.PlaySound(roar, NPC.position);
                 }
             }
             else
             {
                 if (Main.rand.NextBool(900))
                 {
-                    SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, NPC.position);
+                    SoundEngine.PlaySound(roar, NPC.position);
                 }
             }
             if (NPC.ai[2] > 0f)
