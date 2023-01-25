@@ -156,12 +156,12 @@ namespace CalamityMod.Systems
                     //TODO -- Possible Both Evils compat whenever
                     if (WorldGen.crimson)
                     {
-                        progress.Message = "Uncovering the fossils of ancient evil";
+                        progress.Message = "Slaying a vengeful god";
                         UndergroundShrines.PlaceCrimsonShrine(WorldGen.structures);
                     }
                     else
                     {
-                        progress.Message = "Uncovering a pedestal of ancient evil";
+                        progress.Message = "Rotting a god's grave";
                         UndergroundShrines.PlaceCorruptionShrine(WorldGen.structures);
                     }                    
 
