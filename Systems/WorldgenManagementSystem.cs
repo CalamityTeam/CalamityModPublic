@@ -152,13 +152,35 @@ namespace CalamityMod.Systems
                 {
                     progress.Message = "Hiding forbidden shrines";
 
-                    UndergroundShrines.PlaceCorruptionShrine(WorldGen.structures);
-                    UndergroundShrines.PlaceCrimsonShrine(WorldGen.structures);
+                    //Cuts down on worldgen time to process the right one.
+                    //TODO -- Possible Both Evils compat whenever
+                    if (WorldGen.crimson)
+                    {
+                        progress.Message = "Uncovering the fossils of ancient evil";
+                        UndergroundShrines.PlaceCrimsonShrine(WorldGen.structures);
+                    }
+                    else
+                    {
+                        progress.Message = "Uncovering a pedestal of ancient evil";
+                        UndergroundShrines.PlaceCorruptionShrine(WorldGen.structures);
+                    }                    
+
+                    progress.Message = "Burrowing an artifact from Osiris";
                     UndergroundShrines.PlaceDesertShrine(WorldGen.structures);
+
+                    progress.Message = "Crystallizing a deep blue geode";
                     UndergroundShrines.PlaceGraniteShrine(WorldGen.structures);
+
+                    progress.Message = "Hiding a beast tamer's igloo";
                     UndergroundShrines.PlaceIceShrine(WorldGen.structures);
+
+                    progress.Message = "Recovering a piece of the Parthenon";
                     UndergroundShrines.PlaceMarbleShrine(WorldGen.structures);
+
+                    progress.Message = "Planting a mushroom rich of hyphae";
                     UndergroundShrines.PlaceMushroomShrine(WorldGen.structures);
+
+                    progress.Message = "Assembling a shinobi hideout";
                     UndergroundShrines.PlaceSurfaceShrine(WorldGen.structures);
                 }));
 
