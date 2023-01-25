@@ -484,13 +484,14 @@ namespace CalamityMod.World
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
                 int realMushroomsInArea = 0;
-                int xCheckArea = 20;
+                int extraArea = 20;
+                int yExtraArea = 40;
                 bool canGenerateInLocation = true;
 
-                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
-                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+                float requiredShrooms = 80;
+                for (int x = placementPoint.X - extraArea; x < placementPoint.X + schematicSize.X + extraArea; x++)
                 {
-                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y + yExtraArea; y++)
                     {
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
                         //For some reason, mushroom biomes are very wet
@@ -498,16 +499,12 @@ namespace CalamityMod.World
                         if (ShouldAvoidLocation(new Point(x, y), false))
                             canGenerateInLocation = false;
 
-                        //Mushroom grass are the main tiles in the mushroom.
-                        if (tile.TileType == TileID.MushroomGrass)
-                            realMushroomsInArea ++;
-
-                        //This will help make it generate within the "mushroom space". It's intended to generate as an island.
+                        //Only generated within the area of mushroom plants
                         if (tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines || tile.TileType == TileID.MushroomTrees)
-                            realMushroomsInArea += 30;
+                            realMushroomsInArea++;
                     }
                 }
-                if (!canGenerateInLocation || realMushroomsInArea < totalTiles * 0.2f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                     tries++;
                 else
                 {
