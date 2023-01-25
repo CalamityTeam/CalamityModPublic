@@ -67,6 +67,15 @@ namespace CalamityMod.Schematics
 
         internal const string CragBridgeKey = "Crags Bridge";
         internal const string CragBridgeFilename = "Schematics/CragBridge.csch";
+
+        internal const string BlueArchiveKey = "Archive Blue";
+        internal const string BlueArchiveFilename = "Schematics/DungeonArchiveBlue.csch";
+
+        internal const string GreenArchiveKey = "Archive Green";
+        internal const string GreenArchiveFilename = "Schematics/DungeonArchiveGreen.csch";
+
+        internal const string PinkArchiveKey = "Archive Pink";
+        internal const string PinkArchiveFilename = "Schematics/DungeonArchivePink.csch";
         
         internal static Dictionary<string, SchematicMetaTile[,]> TileMaps;
         internal static Dictionary<string, PilePlacementFunction> PilePlacementMaps;
@@ -103,6 +112,11 @@ namespace CalamityMod.Schematics
 
                 //crag bridge
                 [CragBridgeKey] = CalamitySchematicIO.LoadSchematic(CragBridgeFilename),
+
+                //dungeon archives
+                [BlueArchiveKey] = CalamitySchematicIO.LoadSchematic(BlueArchiveFilename),
+                [GreenArchiveKey] = CalamitySchematicIO.LoadSchematic(GreenArchiveFilename),
+                [PinkArchiveKey] = CalamitySchematicIO.LoadSchematic(PinkArchiveFilename),
 
                 // Sulphurous Sea scrap world gen structures
                 ["Sulphurous Scrap 1"] = CalamitySchematicIO.LoadSchematic("Schematics/SulphurousScrap1.csch").ShaveOffEdge(),

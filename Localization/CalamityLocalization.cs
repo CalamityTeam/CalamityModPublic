@@ -212,6 +212,9 @@ namespace CalamityMod.Localization
                 new [] { "PhantomHeartText", "You have already used a Phantom Heart. It's probably good that you can't use another." },
 
                 new [] { "SlimeGodRun", "The Slime God flees to fight another day..." },
+
+                new [] { "SulphurSwitchLeft", "The Sulphurous Sea is now on the left side of the world." },
+                new [] { "SulphurSwitchRight", "The Sulphurous Sea is now on the right side of the world." },
             };
         }
 

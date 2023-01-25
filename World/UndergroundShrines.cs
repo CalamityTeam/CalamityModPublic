@@ -43,15 +43,6 @@ namespace CalamityMod.World
             {
                 return true;
             }
-            if (tile.TileType == ModContent.TileType<HazardChevronPanels>() ||
-            tile.TileType == ModContent.TileType<LaboratoryPanels>() ||
-            tile.TileType == ModContent.TileType<LaboratoryPipePlating>() ||
-            tile.TileType == ModContent.TileType<LaboratoryPlating>() ||
-            tile.TileType == ModContent.TileType<RustedPipes>() ||
-            tile.TileType == ModContent.TileType<RustedPlating>())
-            {
-                return true;
-            }
 
             return false;
         }
@@ -120,7 +111,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 
@@ -196,7 +187,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
         
@@ -265,7 +256,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 
@@ -328,7 +319,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 
@@ -394,7 +385,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 
@@ -466,7 +457,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 
@@ -545,7 +536,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 
@@ -655,7 +646,7 @@ namespace CalamityMod.World
                     }
                 }
 
-            } while (tries <= 50000);
+            } while (tries <= 20000);
         }
         #endregion
 

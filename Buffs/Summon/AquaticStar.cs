@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
@@ -20,18 +20,14 @@ namespace CalamityMod.Buffs.Summon
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (player.ownedProjectileCounts[ModContent.ProjectileType<AquaticStarMinion>()] > 0)
-            {
-                modPlayer.aStar = true;
-            }
-            if (!modPlayer.aStar)
+                modPlayer.aquaticStar = true;
+            if (!modPlayer.aquaticStar)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;
             }
             else
-            {
                 player.buffTime[buffIndex] = 18000;
-            }
         }
     }
 }
