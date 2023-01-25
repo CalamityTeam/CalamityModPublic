@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using ReLogic.Utilities;
 using System;
+using CalamityMod.Items.Placeables;
 
 namespace CalamityMod.NPCs.Crags
 {
@@ -158,6 +159,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
+            npcLoot.Add(ModContent.ItemType<BrimstoneSlag>(), 5, 10, 30);
             LeadingConditionRule hardmode = npcLoot.DefineConditionalDropSet(DropHelper.Hardmode());
             LeadingConditionRule postProv = npcLoot.DefineConditionalDropSet(DropHelper.PostProv());
             hardmode.Add(ModContent.ItemType<EssenceofChaos>(), 3);
