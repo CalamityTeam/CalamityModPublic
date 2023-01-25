@@ -355,7 +355,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.spriteDirection = NPC.direction;
                 }
 
-                float velocity = (bossRush || biomeEnraged) ? 15f : death ? 14f : revenge ? 13.5f : expertMode ? 13f : 12f;
+                float velocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
                 if (Main.getGoodWorld)
                     velocity *= 1.25f;
 
@@ -383,9 +383,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                     // Alternate between firing profaned spears and holy fire
                     NPC.ai[3] += 1f;
-                    float projectileShootGateValue = (bossRush || biomeEnraged) ? 50f : death ? 66f : revenge ? 75f : expertMode ? 83f : 100f;
+                    float projectileShootGateValue = (bossRush || biomeEnraged) ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
                     if (healerAlive)
-                        projectileShootGateValue *= 2;
+                        projectileShootGateValue = (int)(projectileShootGateValue * 1.5f);
 
                     if (NPC.ai[3] % projectileShootGateValue == 0f)
                     {

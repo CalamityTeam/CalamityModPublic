@@ -391,11 +391,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.ai[3] += 1f;
                     if (NPC.ai[3] >= throwRocksGateValue)
                     {
-                        Vector2 targetVector = player.Center - NPC.Center;
                         NPC.ai[0] = 1f;
                         NPC.ai[1] = 0f;
-                        NPC.ai[2] = targetVector.X;
-                        NPC.ai[3] = targetVector.Y;
+                        NPC.ai[3] = 0f;
                         NPC.netUpdate = true;
                     }
 
@@ -534,7 +532,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.ai[0] = 2f;
                     NPC.ai[1] = 0f;
                     NPC.netUpdate = true;
-                    Vector2 velocity = new Vector2(NPC.ai[2], NPC.ai[3]).SafeNormalize(new Vector2(NPC.direction, 0f));
+                    Vector2 targetVector = player.Center - NPC.Center;
+                    Vector2 velocity = new Vector2(targetVector.X, targetVector.Y).SafeNormalize(new Vector2(NPC.direction, 0f));
                     velocity *= (bossRush || biomeEnraged) ? 25f : death ? 22f : revenge ? 20.5f : expertMode ? 19f : 16f;
                     if (Main.getGoodWorld)
                         velocity *= 1.15f;
@@ -570,9 +569,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (NPC.ai[1] >= phaseGateValue)
                 {
                     NPC.ai[0] = 3f;
-                    NPC.ai[1] = 60f;
-                    NPC.ai[2] = 0f;
-                    NPC.ai[3] = 0f;
+                    // Slown down duration ranges from 30 to 60 frames in rev, otherwise it's always 60 frames
+                    float slowDownDurationAfterCharge = revenge ? Main.rand.Next(30, 61) : 60f;
+                    NPC.ai[1] = slowDownDurationAfterCharge;
                     NPC.velocity /= 2f;
                     NPC.netUpdate = true;
                 }
@@ -614,11 +613,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.ai[1] -= 1f;
                 if (NPC.ai[1] <= 0f)
                 {
-                    Vector2 targetVector = player.Center - NPC.Center;
                     NPC.ai[0] = 1f;
-                    NPC.ai[1] = -commanderGuardPhase2Duration;
-                    NPC.ai[2] = targetVector.X;
-                    NPC.ai[3] = targetVector.Y;
+                    NPC.ai[2] += 1f;
+
+                    // Charges either once or twice in a row in rev, otherwise it will always charge twice in a row
+                    float totalCharges = revenge ? (Main.rand.Next(2) + 1f) : 2f;
+                    bool dontCharge = NPC.ai[2] >= totalCharges;
+                    NPC.ai[1] = dontCharge ? -commanderGuardPhase2Duration : 0f;
+                    if (dontCharge)
+                        NPC.ai[2] = 0f;
+
                     NPC.TargetClosest();
                     NPC.netUpdate = true;
                 }

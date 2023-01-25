@@ -98,11 +98,15 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             // Set the degrees used for rotation
             if (start)
             {
+                // Generate dust on spawn
+                for (int k = 0; k < 15; k++)
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, 0, 0, 0, default, 1f);
+
                 start = false;
                 NPC.ai[3] = NPC.ai[0];
             }
 
-            // Stay invincible for 3 seconds to avoid being instantly killed
+            // Stay invincible for 3 seconds to avoid being instantly killed and don't deal damage to avoid unfair hits
             if (invinceTime > 0)
             {
                 NPC.damage = 0;
@@ -203,32 +207,38 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 // Rotate
                 else
                 {
-                    // Slow down so they don't push away from each other too far
-                    NPC.velocity *= 0.95f;
-
-                    // Push away from each other
-                    float pushVelocity = bossRush ? 0.18f : death ? 0.16f : revenge ? 0.15f : expertMode ? 0.14f : 0.12f;
-                    for (int i = 0; i < Main.maxNPCs; i++)
+                    // Push away from each other in Death and Boss Rush
+                    if (death)
                     {
-                        if (Main.npc[i].active)
+                        float pushVelocity = bossRush ? 0.2f : 0.15f;
+                        for (int i = 0; i < Main.maxNPCs; i++)
                         {
-                            if (i != NPC.whoAmI && Main.npc[i].type == NPC.type)
+                            if (Main.npc[i].active)
                             {
-                                if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < 80f)
+                                if (i != NPC.whoAmI && Main.npc[i].type == NPC.type)
                                 {
-                                    if (NPC.position.X < Main.npc[i].position.X)
-                                        NPC.velocity.X -= pushVelocity;
-                                    else
-                                        NPC.velocity.X += pushVelocity;
+                                    if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < 160f)
+                                    {
+                                        if (NPC.position.X < Main.npc[i].position.X)
+                                            NPC.velocity.X -= pushVelocity;
+                                        else
+                                            NPC.velocity.X += pushVelocity;
 
-                                    if (NPC.position.Y < Main.npc[i].position.Y)
-                                        NPC.velocity.Y -= pushVelocity;
+                                        if (NPC.position.Y < Main.npc[i].position.Y)
+                                            NPC.velocity.Y -= pushVelocity;
+                                        else
+                                            NPC.velocity.Y += pushVelocity;
+                                    }
+
+                                    // Slow down so they don't push away from each other too far
                                     else
-                                        NPC.velocity.Y += pushVelocity;
+                                        NPC.velocity *= 0.95f;
                                 }
                             }
                         }
                     }
+                    else
+                        NPC.velocity *= 0.95f;
 
                     // Rotate faster and charge
                     NPC.Calamity().newAI[1] += 1f;
