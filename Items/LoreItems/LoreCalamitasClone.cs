@@ -32,7 +32,7 @@ I know not how it wields her brimstone magic. Perhaps some day one of us may fin
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CalamitasTrophy>().
+                AddIngredient<CalamitasCloneTrophy>().
                 AddTile(TileID.Bookcases).
                 Register();
         }

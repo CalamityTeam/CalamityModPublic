@@ -518,7 +518,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("CalamitasClone", out float order);
                 int type = NPCType<CalamitasClone>();
                 int summon = ItemType<EyeofDesolation>();
-                List<int> collection = new List<int>() { ItemType<CalamitasTrophy>(), ItemType<CataclysmTrophy>(), ItemType<CatastropheTrophy>(), ItemType<CalamitasMask>(), ItemType<HoodOfCalamity>(), ItemType<RobesOfCalamity>(), ItemType<LoreCalamitasClone>(), ItemType<ThankYouPainting>() };
+                List<int> collection = new List<int>() { ItemType<CalamitasCloneTrophy>(), ItemType<CataclysmTrophy>(), ItemType<CatastropheTrophy>(), ItemType<CalamitasMask>(), ItemType<HoodOfCalamity>(), ItemType<RobesOfCalamity>(), ItemType<LoreCalamitasClone>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use an [i:{summon}] at Night";
                 string despawn = CalamityUtils.ColorMessage("If you wanted a fight, you should've came more prepared.", new Color(0xFF, 0xA5, 0x00));
                 AddBoss(bossChecklist, calamity, "The Calamitas Clone", order, type, DownedCalClone, summon, collection, instructions, despawn, () => true);

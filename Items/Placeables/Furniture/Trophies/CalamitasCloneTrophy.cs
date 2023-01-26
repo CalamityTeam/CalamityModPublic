@@ -1,15 +1,16 @@
-using CalamityMod.Tiles.Furniture.BossTrophies;
+﻿using CalamityMod.Tiles.Furniture.BossTrophies;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
-    public class CalamitasTrophy : ModItem
+    [LegacyName("CalamitasTrophy")]
+    public class CalamitasCloneTrophy : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Calamitas Trophy");
+            DisplayName.SetDefault("Calamitas Clone Trophy");
         }
 
         public override void SetDefaults()
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
             Item.consumable = true;
             Item.value = 50000;
             Item.rare = ItemRarityID.Blue;
-            Item.createTile = ModContent.TileType<CalamitasTrophyTile>();
+            Item.createTile = ModContent.TileType<CalamitasCloneTrophyTile>();
         }
     }
 }

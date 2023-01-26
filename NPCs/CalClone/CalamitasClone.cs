@@ -217,7 +217,7 @@ namespace CalamityMod.NPCs.CalClone
                 normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
             }
 
-            npcLoot.Add(ModContent.ItemType<CalamitasTrophy>(), 10);
+            npcLoot.Add(ModContent.ItemType<CalamitasCloneTrophy>(), 10);
 
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CalamitasCloneRelic>());
