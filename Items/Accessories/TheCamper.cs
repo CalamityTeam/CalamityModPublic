@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.camper = true;
             player.AddBuff(BuffID.HeartLamp, 60, true);
             player.AddBuff(BuffID.Campfire, 60, true);
-            player.AddBuff(BuffID.WellFed, 60, true);
+            player.AddBuff(BuffID.WellFed3, 60, true);
             Lighting.AddLight(player.Center, 0.825f, 0.66f, 0f);
             if (Main.myPlayer == player.whoAmI)
             {
