@@ -771,9 +771,9 @@ namespace CalamityMod
             {
                 BossDifficulty.TryGetValue("Yharon", out float order);
                 int type = NPCType<Yharon>();
-                int summon = ItemType<JungleDragonEgg>();
+                int summon = ItemType<YharonEgg>();
                 List<int> collection = new List<int>() { ItemType<YharonTrophy>(), ItemType<YharonMask>(), ItemType<LoreYharon>(), ItemType<ForgottenDragonEgg>(), ItemType<McNuggets>(), ItemType<FoxDrive>(), ItemType<ThankYouPainting>() };
-                string instructions = $"Use a [i:{summon}] in the Jungle Biome";
+                string instructions = $"Use a [i:{summon}]";
                 string despawn = CalamityUtils.ColorMessage("Yharon found you too weak to stay near your gravestone.", new Color(0xFF, 0xA5, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/Yharon/Yharon_Head_Boss";
                 AddBoss(bossChecklist, calamity, "Yharon", order, type, DownedYharon, summon, collection, instructions, despawn, () => true, null, bossLogTex);

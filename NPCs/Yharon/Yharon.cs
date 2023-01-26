@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Jungle Dragon, Yharon");
+            DisplayName.SetDefault("Yharon, Stalwart Defender"); // phase 1 name
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.Yharon
             value.Position.X += 26f;
             value.Position.Y -= 14f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
-			NPCID.Sets.MPAllowedEnemies[Type] = true;
+            NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -120,9 +120,15 @@ namespace CalamityMod.NPCs.Yharon
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("The loyal companion of the God-Hunter, they possess immense power compared to the Dragons of the past. This is likely partly due to fighting and training by their master's side.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("The loyal companion of the God-Hunter, they possess immense power compared to the Dragons of the past. This is likely partly due to fighting and training by their master's side.")
             });
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (startSecondAI)
+                typeName = "Yharon, Resplendent Phoenix"; // phase 2 name
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -190,8 +196,8 @@ namespace CalamityMod.NPCs.Yharon
 
             float pie = (float)Math.PI;
 
-			CalamityGlobalNPC.yharon = NPC.whoAmI;
-			CalamityGlobalNPC.yharonP2 = -1;
+            CalamityGlobalNPC.yharon = NPC.whoAmI;
+            CalamityGlobalNPC.yharonP2 = -1;
 
             // Start phase 2 or not
             if (startSecondAI)
@@ -1532,7 +1538,7 @@ namespace CalamityMod.NPCs.Yharon
         #region AI2
         public void Yharon_AI2(bool expertMode, bool revenge, bool death, bool bossRush, float pie, float lifeRatio, CalamityGlobalNPC calamityGlobalNPC)
         {
-			CalamityGlobalNPC.yharonP2 = NPC.whoAmI;
+            CalamityGlobalNPC.yharonP2 = NPC.whoAmI;
 
             float phase2GateValue = revenge ? 0.44f : expertMode ? 0.385f : 0.275f;
             bool phase2 = death || lifeRatio <= phase2GateValue;
