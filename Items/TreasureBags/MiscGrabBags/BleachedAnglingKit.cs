@@ -49,6 +49,7 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
             normalOnly.Add(ItemID.SonarPotion, 3, 2, 3);
             normalOnly.Add(ItemID.CratePotion, 3, 2, 3);
             normalOnly.Add(ItemID.GoldenBugNet, 60);
+            normalOnly.Add(ItemID.GoldCoin, 1, 3, 4);
 
             var expertPlus = itemLoot.DefineConditionalDropSet(new Conditions.IsExpert());
             expertPlus.Add(ItemID.AnglerTackleBag, 58);
@@ -65,6 +66,7 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
             expertPlus.Add(ItemID.SonarPotion, 2, 2, 3);
             expertPlus.Add(ItemID.CratePotion, 2, 2, 3);
             expertPlus.Add(ItemID.GoldenBugNet, 48);
+            expertPlus.Add(ItemID.GoldCoin, 1, 4, 5);
         }
     }
 }
