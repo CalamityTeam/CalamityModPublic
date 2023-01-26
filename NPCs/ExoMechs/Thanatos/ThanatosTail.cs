@@ -254,15 +254,15 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                     if (NPC.Calamity().newAI[0] == 0f)
                         NPC.ai[3] += 1f;
 
-                    double numSegmentsAbleToFire = bossRush ? 35D : death ? 30D : revenge ? 28D : expertMode ? 25D : 20D;
+                    double numSegmentsAbleToFire = bossRush ? 42D : death ? 36D : revenge ? 34D : expertMode ? 30D : 24D;
                     if (shouldGetBuffedByBerserkPhase)
-                        numSegmentsAbleToFire *= 1.5;
+                        numSegmentsAbleToFire *= 1.25;
 
                     float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
 
                     if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
                     {
-                        float divisor = lastMechAlive ? 45f : shouldGetBuffedByBerserkPhase ? 60f : 90f;
+                        float divisor = lastMechAlive ? 45f : shouldGetBuffedByBerserkPhase ? 60f : 75f;
                         if ((NPC.ai[3] % divisor == 0f && NPC.ai[0] % segmentDivisor == 0f) || NPC.Calamity().newAI[0] > 0f)
                         {
                             // Body is vulnerable while firing lasers

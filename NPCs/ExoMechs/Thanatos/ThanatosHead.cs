@@ -412,8 +412,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
             // Phase gate values
             float velocityAdjustTime = 20f;
-            float speedUpTime = lastMechAlive ? 180f : shouldGetBuffedByBerserkPhase ? 240f : 360f;
-            float slowDownTime = lastMechAlive ? 30f : shouldGetBuffedByBerserkPhase ? 40f : 60f;
+            float speedUpTime = lastMechAlive ? 180f : shouldGetBuffedByBerserkPhase ? 220f : 300f;
+            float slowDownTime = lastMechAlive ? 30f : shouldGetBuffedByBerserkPhase ? 40f : 50f;
             float chargePhaseGateValue = speedUpTime + slowDownTime;
             float laserBarrageDuration = lastMechAlive ? 270f : shouldGetBuffedByBerserkPhase ? 300f : 360f;
 
@@ -493,7 +493,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             float laserBarrageLocationDistance = turnDistance * 3f;
 
             // Velocity and turn speed values
-            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (bossRush ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.15f : 0f) + (bossRush ? 1.25f : death ? 1.2f : revenge ? 1.175f : expertMode ? 1.15f : 1.1f);
             float baseVelocity = 10f * baseVelocityMult;
 
             // Increase top velocity if target is dead or if Thanatos is uncoiling
@@ -505,7 +505,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             if (Main.getGoodWorld)
                 baseVelocity *= 1.15f;
 
-            float turnDegrees = baseVelocity * 0.1f * (shouldGetBuffedByBerserkPhase ? 1.25f : 1f);
+            float turnDegrees = baseVelocity * 0.1f * (shouldGetBuffedByBerserkPhase ? 1.25f : 1.1f);
 
             float turnSpeed = MathHelper.ToRadians(turnDegrees);
             float chargeVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
@@ -523,7 +523,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             float deathrayVelocityScalarIncrement = 1f / deathrayDuration;
 
             // Scalar to use during laser barrage, passive and immune phases
-            float laserBarrageVelocityScalarIncrement = lastMechAlive ? 0.025f : shouldGetBuffedByBerserkPhase ? 0.02f : 0.015f;
+            float laserBarrageVelocityScalarIncrement = lastMechAlive ? 0.025f : shouldGetBuffedByBerserkPhase ? 0.0225f : 0.02f;
             float laserBarrageVelocityScalarDecrement = 1f / velocityAdjustTime;
 
             // Passive and Immune phases

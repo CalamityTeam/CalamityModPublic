@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Boss
                     }
                 }
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item73, Projectile.position);
             }
 
             Projectile.localAI[0] += 1f;
@@ -125,19 +125,19 @@ namespace CalamityMod.Projectiles.Boss
             {
                 for (int b = 0; b < blobAmt; b++)
                 {
-                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f) + Projectile.velocity;
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<MoltenBlob>(), (int)Math.Round(Projectile.damage * 0.75), 0f, Projectile.owner, 0f, 0f);
                 }
             }
-            SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item74, Projectile.Center);
 
             int dustType = ProvUtils.GetDustID(Projectile.maxPenetrate);
-            for (int num193 = 0; num193 < 2; num193++)
+            for (int num193 = 0; num193 < 4; num193++)
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
                 Main.dust[dust].noGravity = true;
             }
-            for (int num194 = 0; num194 < 20; num194++)
+            for (int num194 = 0; num194 < 40; num194++)
             {
                 int num195 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 2.5f);
                 Main.dust[num195].noGravity = true;

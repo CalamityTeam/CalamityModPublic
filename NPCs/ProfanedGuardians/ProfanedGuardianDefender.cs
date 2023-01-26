@@ -541,7 +541,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.velocity = velocity;
 
                     // Dust ring and sound right as charge begins
-                    SoundEngine.PlaySound(SoundID.Item20, shootFrom);
+                    SoundEngine.PlaySound(SoundID.Item74, shootFrom);
                     int totalDust = 36;
                     for (int k = 0; k < totalDust; k++)
                     {
