@@ -328,7 +328,7 @@ namespace CalamityMod.Schematics
             if (tileType == ModContent.TileType<ChargingStation>())
                 TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEChargingStation>());
             else if (tileType == ModContent.TileType<DraedonLabTurret>())
-                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEDraedonLabTurret>());
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEHostileLabTurret>());
             else if (tileType == ModContent.TileType<LabHologramProjector>())
                 TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TELabHologramProjector>());
             else if (tileType == ModContent.TileType<HostileFireTurret>())

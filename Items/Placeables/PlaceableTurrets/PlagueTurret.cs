@@ -1,25 +1,24 @@
-﻿using CalamityMod.Tiles.DraedonStructures;
+﻿using CalamityMod.Tiles.PlayerTurrets;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Plates;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Placeables.PlayerTurrets
+namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
-    public class TempHostilePlagueTurret : ModItem
+    public class PlagueTurret : ModItem
     {
-        public override string Texture => "CalamityMod/Items/Placeables/PlayerTurrets/PlagueTurret";
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            Tooltip.SetDefault("Ejects homing plague missiles towards nearby players\n" +
-                "If you see this item in a public release, tell the devs :)");
+            Tooltip.SetDefault("Ejects homing plague missiles towards nearby enemies\n" +
+                "Cannot attack while a boss is alive");
         }
 
         public override void SetDefaults()
         {
-            Item.DefaultToPlaceableTile(ModContent.TileType<HostilePlagueTurret>());
+            Item.DefaultToPlaceableTile(ModContent.TileType<PlayerPlagueTurret>());
 
             Item.value = Item.buyPrice(0, 20, 0, 0);
             Item.rare = ItemRarityID.Yellow;

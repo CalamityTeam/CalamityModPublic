@@ -5,23 +5,23 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Placeables.PlayerTurrets
+namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
-    public class LaserTurret : ModItem
+    public class WaterTurret : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            Tooltip.SetDefault("Blasts nearby enemies with lightning-fast laser beams\n" +
+            Tooltip.SetDefault("Shoots high-speed water blasts at nearby enemies\n" +
                 "Cannot attack while a boss is alive");
         }
 
         public override void SetDefaults()
         {
-            Item.DefaultToPlaceableTile(ModContent.TileType<PlayerLaserTurret>());
+            Item.DefaultToPlaceableTile(ModContent.TileType<PlayerWaterTurret>());
 
-            Item.value = Item.buyPrice(0, 10, 0, 0);
-            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.buyPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes()
@@ -29,9 +29,8 @@ namespace CalamityMod.Items.Placeables.PlayerTurrets
             CreateRecipe().
                 AddIngredient<MysteriousCircuitry>(14).
                 AddIngredient<DubiousPlating>(20).
-                AddIngredient<Cinderplate>(10).
-                AddIngredient<EssenceofSunlight>(12).
-                AddTile(TileID.MythrilAnvil).
+                AddIngredient<Navyplate>(10).
+                AddTile(TileID.Anvils).
                 Register();
         }
     }

@@ -1,25 +1,24 @@
-﻿using CalamityMod.Tiles.DraedonStructures;
+﻿using CalamityMod.Tiles.PlayerTurrets;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Plates;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Placeables.PlayerTurrets
+namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
-    public class TempHostileWaterTurret : ModItem
+    public class OnyxTurret : ModItem
     {
-        public override string Texture => "CalamityMod/Items/Placeables/PlayerTurrets/WaterTurret";
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            Tooltip.SetDefault("Shoots high-speed water blasts at nearby players\n" +
-                "If you see this item in a public release, tell the devs :)");
+            Tooltip.SetDefault("Shoots a shotgun spread of bullets at nearby enemies\n" +
+                "Cannot attack while a boss is alive");
         }
 
         public override void SetDefaults()
         {
-            Item.DefaultToPlaceableTile(ModContent.TileType<HostileWaterTurret>());
+            Item.DefaultToPlaceableTile(ModContent.TileType<PlayerOnyxTurret>());
 
             Item.value = Item.buyPrice(0, 5, 0, 0);
             Item.rare = ItemRarityID.Orange;
@@ -30,7 +29,8 @@ namespace CalamityMod.Items.Placeables.PlayerTurrets
             CreateRecipe().
                 AddIngredient<MysteriousCircuitry>(14).
                 AddIngredient<DubiousPlating>(20).
-                AddIngredient<Navyplate>(10).
+                AddIngredient<Onyxplate>(10).
+                AddIngredient<BlightedGel>(50).
                 AddTile(TileID.Anvils).
                 Register();
         }

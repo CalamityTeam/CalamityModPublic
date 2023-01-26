@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Placeables.PlayerTurrets;
+﻿using CalamityMod.Items.Placeables.PlaceableTurrets;
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

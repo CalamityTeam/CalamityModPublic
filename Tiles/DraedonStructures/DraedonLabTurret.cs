@@ -19,6 +19,7 @@ namespace CalamityMod.Tiles.DraedonStructures
         public const int OriginOffsetY = 1;
         public const int SheetSquare = 18;
 
+        public override string Texture => "CalamityMod/Tiles/PlayerTurrets/PlayerLabTurret";
         public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
@@ -37,7 +38,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.newTile.LavaDeath = false;
 
             // When this tile is placed, it places the Draedon Lab Turret tile entity.
-            ModTileEntity te = ModContent.GetInstance<TEDraedonLabTurret>();
+            ModTileEntity te = ModContent.GetInstance<TEHostileLabTurret>();
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
 
             TileObjectData.addTile(Type);
@@ -73,7 +74,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;
             int top = j - t.TileFrameY % (Height * SheetSquare) / SheetSquare;
 
-            TEDraedonLabTurret te = CalamityUtils.FindTileEntity<TEDraedonLabTurret>(i, j, Width, Height, SheetSquare);
+            TEHostileLabTurret te = CalamityUtils.FindTileEntity<TEHostileLabTurret>(i, j, Width, Height, SheetSquare);
             te?.Kill(left, top);
         }
 
@@ -84,7 +85,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             if (t.TileFrameX != 36 || t.TileFrameY != 0)
                 return;
 
-            TEDraedonLabTurret te = CalamityUtils.FindTileEntity<TEDraedonLabTurret>(i, j, Width, Height, SheetSquare);
+            TEHostileLabTurret te = CalamityUtils.FindTileEntity<TEHostileLabTurret>(i, j, Width, Height, SheetSquare);
             if (te is null)
                 return;
             int drawDirection = te.Direction;
