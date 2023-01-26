@@ -36,7 +36,7 @@ using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Bumblebirb;
-using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CalClone;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
@@ -85,7 +85,7 @@ namespace CalamityMod
 {
     internal class Downed
     {
-        public static readonly Func<bool> NotDownedCalamitas = () => !DownedBossSystem.downedCalamitas;
+        public static readonly Func<bool> NotDownedCalClone = () => !DownedBossSystem.downedCalamitas;
         public static readonly Func<bool> DownedDesertScourge = () => DownedBossSystem.downedDesertScourge;
         public static readonly Func<bool> DownedGiantClam = () => DownedBossSystem.downedCLAM;
         public static readonly Func<bool> DownedCrabulon = () => DownedBossSystem.downedCrabulon;
@@ -96,7 +96,7 @@ namespace CalamityMod
         public static readonly Func<bool> DownedBrimstoneElemental = () => DownedBossSystem.downedBrimstoneElemental;
         public static readonly Func<bool> DownedAquaticScourge = () => DownedBossSystem.downedAquaticScourge;
         public static readonly Func<bool> DownedCragmawMire = () => DownedBossSystem.downedCragmawMire;
-        public static readonly Func<bool> DownedCalamitas = () => DownedBossSystem.downedCalamitas;
+        public static readonly Func<bool> DownedCalClone = () => DownedBossSystem.downedCalamitas;
         public static readonly Func<bool> DownedGSS = () => DownedBossSystem.downedGSS;
         public static readonly Func<bool> DownedLeviathan = () => DownedBossSystem.downedLeviathan;
         public static readonly Func<bool> DownedAureus = () => DownedBossSystem.downedAstrumAureus;
@@ -141,7 +141,7 @@ namespace CalamityMod
             { "AquaticScourge", 9.5f },
             { "CragmawMire", 9.52f },
             { "BrimstoneElemental", 10.5f },
-            { "Calamitas", 11.7f },
+            { "CalamitasClone", 11.7f },
             { "GreatSandShark", 12.09f },
             { "Leviathan", 12.8f },
             { "AstrumAureus", 12.81f },
@@ -161,7 +161,7 @@ namespace CalamityMod
             { "DevourerOfGods", 21f },
             { "Yharon", 22f },
             { "ExoMechs", 22.5f },
-            { "SupremeCalamitas", 23f },
+            { "Calamitas", 23f },
             { "AdultEidolonWyrm", 23.5f },
             // { "Yharim", 24f },
             // { "Noxus", 25f },
@@ -513,17 +513,15 @@ namespace CalamityMod
                 AddBoss(bossChecklist, calamity, "Brimstone Elemental", order, type, DownedBrimstoneElemental, summon, collection, instructions, despawn, () => true);
             }
 
-            // Calamitas
+            // Calamitas Clone
             {
-                BossDifficulty.TryGetValue("Calamitas", out float order);
+                BossDifficulty.TryGetValue("CalamitasClone", out float order);
                 int type = NPCType<CalamitasClone>();
                 int summon = ItemType<EyeofDesolation>();
                 List<int> collection = new List<int>() { ItemType<CalamitasTrophy>(), ItemType<CataclysmTrophy>(), ItemType<CatastropheTrophy>(), ItemType<CalamitasMask>(), ItemType<HoodOfCalamity>(), ItemType<RobesOfCalamity>(), ItemType<LoreCalamitasClone>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use an [i:{summon}] at Night";
                 string despawn = CalamityUtils.ColorMessage("If you wanted a fight, you should've came more prepared.", new Color(0xFF, 0xA5, 0x00));
-                //Func<bool> available = () => !DownedBossSystem.downedCalamitas;
-                AddBoss(bossChecklist, calamity, "The Calamitas Clone", order, type, DownedCalamitas, summon, collection, instructions, despawn, () => true);
-                //AddBoss(bossChecklist, calamity, "Calamitas", order, type, DownedCalamitas, summon, collection, instructions, despawn, available);
+                AddBoss(bossChecklist, calamity, "The Calamitas Clone", order, type, DownedCalClone, summon, collection, instructions, despawn, () => true);
             }
 
             // Great Sand Shark
@@ -804,7 +802,7 @@ namespace CalamityMod
 
             // Supreme Calamitas
             {
-                BossDifficulty.TryGetValue("SupremeCalamitas", out float order);
+                BossDifficulty.TryGetValue("Calamitas", out float order);
                 int type = NPCType<SupremeCalamitas>();
                 int summon1 = ItemType<AshesofCalamity>();
                 int summon2 = ItemType<CeremonialUrn>();
@@ -814,7 +812,7 @@ namespace CalamityMod
                 string instructions = $"Use [i:{summon1}] or a [i:{summon2}] as offering at an [i:{altar}]";
                 string despawn = CalamityUtils.ColorMessage("Please don't waste my time.", new Color(0xFF, 0xA5, 0x00));
                 string bossHeadTex = "CalamityMod/NPCs/SupremeCalamitas/HoodedHeadIcon";
-                AddBoss(bossChecklist, calamity, "Supreme Calamitas", order, type, DownedSCal, summons, collection, instructions, despawn, () => true, null, bossHeadTex);
+                AddBoss(bossChecklist, calamity, "Supreme Witch, Calamitas", order, type, DownedSCal, summons, collection, instructions, despawn, () => true, null, bossHeadTex);
             }
         }
 
@@ -1085,7 +1083,7 @@ namespace CalamityMod
                 censusMod.Call("TownNPCCondition", NPCType<THIEF>(), "Have a [i:" + ItemID.PlatinumCoin + "] in your inventory after defeating Skeletron");
                 censusMod.Call("TownNPCCondition", NPCType<FAP>(), "Have [i:" + ItemType<FabsolsVodka>() + "] in your inventory in Hardmode");
                 censusMod.Call("TownNPCCondition", NPCType<DILF>(), "Defeat Cryogen");
-                censusMod.Call("TownNPCCondition", NPCType<WITCH>(), "Defeat Supreme Calamitas");
+                censusMod.Call("TownNPCCondition", NPCType<WITCH>(), "Defeat Supreme Witch, Calamitas");
             }
         }
 

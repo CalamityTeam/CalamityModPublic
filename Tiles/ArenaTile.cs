@@ -1,4 +1,4 @@
-﻿using CalamityMod.NPCs.Calamitas;
+﻿using CalamityMod.NPCs.CalClone;
 using CalamityMod.NPCs.SupremeCalamitas;
 using Microsoft.Xna.Framework;
 using Terraria;

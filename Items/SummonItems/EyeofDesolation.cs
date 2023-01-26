@@ -2,7 +2,7 @@
 using System.Linq;
 using CalamityMod.Events;
 using CalamityMod.Items.Materials;
-using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CalClone;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
