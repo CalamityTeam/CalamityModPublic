@@ -1,14 +1,12 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.CalClone;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -18,13 +16,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    [LegacyName("SCalBag")]
-    public class SupremeCalamitasCoffer : ModItem
+    [LegacyName("CalamitasBag")]
+    public class CalamitasCloneBag : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
-            DisplayName.SetDefault("Treasure Coffer (Supreme Calamitas)");
+            DisplayName.SetDefault("Treasure Bag (Calamitas Clone)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
 			ItemID.Sets.BossBag[Item.type] = true;
         }
@@ -35,7 +33,7 @@ namespace CalamityMod.Items.TreasureBags
             Item.consumable = true;
             Item.width = 24;
             Item.height = 24;
-            Item.rare = ItemRarityID.Purple;
+            Item.rare = ItemRarityID.Cyan;
             Item.expert = true;
         }
 
@@ -58,34 +56,32 @@ namespace CalamityMod.Items.TreasureBags
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
 			// Money
-			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<SupremeCalamitas>()));
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<CalamitasClone>()));
 
             // Materials
-            itemLoot.Add(ModContent.ItemType<AshesofAnnihilation>(), 1, 30, 40);
+            itemLoot.Add(ModContent.ItemType<AshesofCalamity>(), 1, 30, 35);
+            itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 10, 15);
 
             // Weapons
             itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
             {
-                ModContent.ItemType<Violence>(),
-                ModContent.ItemType<Condemnation>(),
-                ModContent.ItemType<Heresy>(),
-                ModContent.ItemType<Vehemence>(),
-                ModContent.ItemType<Perdition>(),
-                ModContent.ItemType<Vigilance>(),
-                ModContent.ItemType<Sacrifice>()
+                ModContent.ItemType<Oblivion>(),
+                ModContent.ItemType<Animosity>(),
+                ModContent.ItemType<LashesofChaos>(),
+                ModContent.ItemType<EntropysVigil>()
             }));
 
             // Equipment
-            itemLoot.Add(ModContent.ItemType<Calamity>());
+            itemLoot.Add(ModContent.ItemType<ChaosStone>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.Add(ModContent.ItemType<VoidofCalamity>());
+            itemLoot.Add(ModContent.ItemType<Regenator>(), 10);
             itemLoot.AddRevBagAccessories();
 
             // Vanity
-            var scalVanitySet = ItemDropRule.Common(ModContent.ItemType<SCalMask>(), 7);
-            scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AshenHorns>()));
-            scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalRobes>()));
-            scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalBoots>()));
-            itemLoot.Add(scalVanitySet);
-            itemLoot.Add(ModContent.ItemType<BrimstoneJewel>());
+            itemLoot.Add(ModContent.ItemType<CalamitasMask>(), 7);
+            var calamityRobes = ItemDropRule.Common(ModContent.ItemType<RobesOfCalamity>(), 10);
+            calamityRobes.OnSuccess(ItemDropRule.Common(ModContent.ItemType<HoodOfCalamity>()));
+            itemLoot.Add(calamityRobes);
             itemLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
         }
     }

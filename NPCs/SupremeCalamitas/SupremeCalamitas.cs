@@ -187,7 +187,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Supreme Calamitas");
+            DisplayName.SetDefault("Supreme Witch, Calamitas");
             Main.npcFrameCount[NPC.type] = 21;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
@@ -2589,14 +2589,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (!BossRushEvent.BossRushActive)
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 12, ModContent.NPCType<WITCH>());
 
-            // Mark Supreme Calamitas as defeated
+            // Mark Calamitas as defeated
             DownedBossSystem.downedCalamitas = true;
             CalamityNetcode.SyncWorld();
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<SupremeCalamitasCoffer>()));
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CalamitasCoffer>()));
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

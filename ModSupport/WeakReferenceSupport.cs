@@ -800,7 +800,7 @@ namespace CalamityMod
                 AddBoss(bossChecklist, calamity, "Exo Mechs", order, bosses, DownedExoMechs, null, collection, instructions, despawn, () => true, portrait);
             }
 
-            // Supreme Calamitas
+            // Calamitas
             {
                 BossDifficulty.TryGetValue("Calamitas", out float order);
                 int type = NPCType<SupremeCalamitas>();
