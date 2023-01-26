@@ -244,7 +244,7 @@ namespace CalamityMod.NPCs.CalClone
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
 
-            // Mark Calamitas as dead
+            // Mark the Calamitas Clone as dead
             DownedBossSystem.downedCalamitasClone = true;
             CalamityNetcode.SyncWorld();
         }
