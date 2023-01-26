@@ -314,8 +314,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
         public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
         {
-            // Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
-            if (desertProwlerSet && (item.CountsAsClass<RangedDamageClass>() || item.type == ModContent.ItemType<PrismaticBreaker>()) && item.ammo == AmmoID.None)
+            if (desertProwlerSet && item.CountsAsClass<RangedDamageClass>() && item.ammo == AmmoID.None)
                 damage.Flat += 1f;
         }
 
