@@ -55,6 +55,7 @@ namespace CalamityMod.NPCs.Polterghast
         private int soundTimer = 0;
         private bool reachedChargingPoint = false;
         private bool threeAM = false;
+        private int nameStage = 1;
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/PolterghastHit");
         public static readonly SoundStyle P2Sound = new("CalamityMod/Sounds/Custom/PolterghastP2Transition");
         public static readonly SoundStyle P3Sound = new("CalamityMod/Sounds/Custom/PolterghastP3Transition");
@@ -92,7 +93,7 @@ namespace CalamityMod.NPCs.Polterghast
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-			NPCID.Sets.MPAllowedEnemies[Type] = true;
+            NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -125,12 +126,20 @@ namespace CalamityMod.NPCs.Polterghast
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Screaming and crying, a cacophony of spirits in anguish tear through the narrow hallways of the dungeon, searching for more—alive or dead—to add to their numbers.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Screaming and crying, a cacophony of spirits in anguish tear through the narrow hallways of the dungeon, searching for more—alive or dead—to add to their numbers.")
             });
         }
 
-        
+        public override void ModifyTypeName(ref string typeName)
+        {
+            typeName = nameStage switch
+            {
+                2 => "Necroghast",
+                3 => "Necroplasm",
+                _ => "Polterghast",
+            };
+        }
 
         public override void BossHeadSlot(ref int index)
         {
@@ -701,6 +710,7 @@ namespace CalamityMod.NPCs.Polterghast
                     NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, NPC.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
 
+            // Phase 1: "Polterghast"
             if (!phase2 && !phase3)
             {
                 NPC.damage = NPC.defDamage;
@@ -788,6 +798,8 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                 }
             }
+
+            // Phase 2: "Necroghast"
             else if (!phase3)
             {
                 if (NPC.ai[0] == 0f)
@@ -833,7 +845,8 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                 }
 
-                NPC.GivenName = "Necroghast";
+                // Actually changes name to Necroghast
+                nameStage = 2;
 
                 NPC.damage = (int)(NPC.defDamage * 1.2f);
                 NPC.defense = (int)(NPC.defDefense * 0.8f);
@@ -922,6 +935,8 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                 }
             }
+
+            // Phase 3: "Necroplasm"
             else
             {
                 NPC.HitSound = SoundID.NPCHit36;
@@ -984,7 +999,8 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                 }
 
-                NPC.GivenName = "Necroplasm";
+                // Actually changes name to Necroplasm
+                nameStage = 3;
 
                 NPC.damage = (int)(NPC.defDamage * 1.4f);
                 NPC.defense = (int)(NPC.defDefense * 0.5f);
