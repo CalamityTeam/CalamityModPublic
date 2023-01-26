@@ -727,7 +727,7 @@ namespace CalamityMod
                 int type = NPCType<Mauler>();
                 int summon = ItemType<CausticTear>();
                 string instructions = $"Spawns during Acid Rain after Polterghast has been defeated.\nStart Acid Rain with a [i:{summon}]";
-                string despawn = CalamityUtils.ColorMessage("The ravenous fish has mauled everybody's corpses.", new Color(0xF0, 0xE6, 0x8C));
+                string despawn = CalamityUtils.ColorMessage("The ravenous shark has mauled everybody's corpses.", new Color(0xF0, 0xE6, 0x8C));
                 AddMiniBoss(bossChecklist, calamity, "Mauler", order, type, DownedMauler, null, null, instructions, despawn, () => true);
             }
 
