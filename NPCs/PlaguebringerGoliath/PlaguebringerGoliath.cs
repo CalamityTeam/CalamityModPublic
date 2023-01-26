@@ -798,7 +798,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 break;
                         }
 
-                        if (CalamityMod.Instance.legendaryMode)
+                        if (CalamityWorld.getFixedBoi)
                         {
                             type = ModContent.ProjectileType<HiveBombGoliath>();
                         }
@@ -887,13 +887,13 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 baseVelocity.Normalize();
                                 baseVelocity *= speed;
 
-                                if (Main.rand.NextBool(10) && CalamityMod.Instance.legendaryMode)
+                                if (Main.rand.NextBool(10) && CalamityWorld.getFixedBoi)
                                 {
                                     type = ModContent.ProjectileType<AresGaussNukeProjectile>();
                                     baseVelocity *= 0.75f;
                                     gaussMode = true;
                                 }
-                                else if (Main.rand.NextBool(2) && CalamityMod.Instance.legendaryMode)
+                                else if (Main.rand.NextBool(2) && CalamityWorld.getFixedBoi)
                                 {
                                     type = ModContent.ProjectileType<PeanutRocket>();
                                     baseVelocity *= 0.4f;
@@ -1323,7 +1323,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             if (damage > 0)
             {
-                if (CalamityMod.Instance.legendaryMode) // it is the plague, you get very sick.
+                if (CalamityWorld.getFixedBoi) // it is the plague, you get very sick.
                 {
                     player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 480, true);
                     player.AddBuff(BuffID.Poisoned, 480, true);

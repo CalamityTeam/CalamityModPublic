@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.Crabulon
             NPC.rotation = NPC.velocity.X * 0.1f;
         }
 
-        public override Color? GetAlpha(Color drawColor) => CalamityMod.Instance.legendaryMode ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, NPC.alpha) : new Color(255, 255, 255, NPC.alpha);
+        public override Color? GetAlpha(Color drawColor) => CalamityWorld.getFixedBoi ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, NPC.alpha) : new Color(255, 255, 255, NPC.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -111,10 +111,10 @@ namespace CalamityMod.NPCs.Crabulon
 
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Texture2D glow = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabShroomGlow").Value;
-            Color colorToShift = CalamityMod.Instance.legendaryMode ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) : Color.Cyan;
+            Color colorToShift = CalamityWorld.getFixedBoi ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) : Color.Cyan;
             Color glowColor = Color.Lerp(Color.White, colorToShift, 0.5f);
             
-            int ClonesAroundShroom = CalamityMod.Instance.legendaryMode ? 4 : 0;
+            int ClonesAroundShroom = CalamityWorld.getFixedBoi ? 4 : 0;
             for (int c = 0; c < 1 + ClonesAroundShroom; c++)
             {
                 Vector2 drawOrigin = new Vector2(texture.Width / 2, texture.Height / Main.npcFrameCount[NPC.type] / 2);

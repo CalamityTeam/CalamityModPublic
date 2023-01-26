@@ -1,12 +1,13 @@
-﻿using CalamityMod.Events;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.ProfanedGuardians;
-using System.Collections.Generic;
-using System.Linq;
+using CalamityMod.World;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -41,7 +42,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<ProfanedGuardianCommander>()) && (Main.dayTime || CalamityMod.Instance.legendaryMode) && (player.ZoneHallow || player.ZoneUnderworldHeight) && !BossRushEvent.BossRushActive;
+            return !NPC.AnyNPCs(ModContent.NPCType<ProfanedGuardianCommander>()) && (Main.dayTime || CalamityWorld.getFixedBoi) && (player.ZoneHallow || player.ZoneUnderworldHeight) && !BossRushEvent.BossRushActive;
         }
 
         public override bool? UseItem(Player player)
@@ -59,7 +60,7 @@ namespace CalamityMod.Items.SummonItems
             Player player = Main.LocalPlayer;
             TooltipLine line1 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 line1.Text = "Summons the Profaned Guardians when used in the Hallow or Underworld";
             }

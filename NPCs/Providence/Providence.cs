@@ -248,7 +248,7 @@ namespace CalamityMod.NPCs.Providence
             // Night bool and Color shifting
             bool bossRush = BossRushEvent.BossRushActive;
 
-            bool getFuckedAI = CalamityMod.Instance.legendaryMode;
+            bool getFuckedAI = CalamityWorld.getFixedBoi;
             int timeToShift = 30; //Switches color every half-second
             if (getFuckedAI)
             {

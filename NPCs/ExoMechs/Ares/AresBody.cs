@@ -954,7 +954,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
                         if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
                         {
-                            if (!CalamityMod.Instance.legendaryMode || exoMechdusa)
+                            if (!CalamityWorld.getFixedBoi || exoMechdusa)
                             {
                                 AIState = (float)Phase.Normal;
                                 calamityGlobalNPC.newAI[2] = 0f;

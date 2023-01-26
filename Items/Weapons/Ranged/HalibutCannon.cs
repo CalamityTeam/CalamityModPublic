@@ -1,7 +1,8 @@
-﻿using CalamityMod.Rarities;
-using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
+using CalamityMod.Rarities;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -46,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
 
-            if (line != null && CalamityMod.Instance.legendaryMode)
+            if (line != null && CalamityWorld.getFixedBoi)
                 line.Text = "No, it sucks";
         }
 
@@ -55,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             SoundEngine.PlaySound(SoundID.Item38, player.position);
             
             // Really jammed in GFB
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
                 return Main.rand.NextBool(5);
 
             int bulletAmt = Main.rand.Next(25, 36);

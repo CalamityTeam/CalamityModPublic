@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -66,7 +67,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (flag)
             {
-                if (!CalamityMod.Instance.legendaryMode)
+                if (!CalamityWorld.getFixedBoi)
                 {
                     NPC.life = 0;
                     NPC.HitEffect(0, 10.0);
@@ -113,7 +114,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         num6 *= num8;
                         num7 *= num8;
                         int num9 = 30;
-                        int num10 = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<ProvidenceCrystalShard>() : ProjectileID.SaucerScrap; 
+                        int num10 = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<ProvidenceCrystalShard>() : ProjectileID.SaucerScrap; 
                         vector.X += num6 * 5f;
                         vector.Y += num7 * 5f;
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y, num6, num7, num10, num9, 0f, Main.myPlayer, 0f, 0f);
@@ -180,7 +181,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 typeName = "Mechanized Serpent";
             }
@@ -191,7 +192,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             // Every other body segment is pink while the rest are orange in gfb
             Color baseColor = NPC.whoAmI % 2 == 0 ? Color.Orange : Color.Pink;
             Color lightColor = baseColor * drawColor.A;
-            Color newColor = CalamityMod.Instance.legendaryMode ? lightColor : new Color(255, 255, 255, drawColor.A);
+            Color newColor = CalamityWorld.getFixedBoi ? lightColor : new Color(255, 255, 255, drawColor.A);
             return newColor * NPC.Opacity;
         }
     }

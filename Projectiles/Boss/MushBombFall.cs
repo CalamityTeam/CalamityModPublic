@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool CanHitPlayer(Player target) => Projectile.velocity.Y >= 0f;
 
-        public override Color? GetAlpha(Color drawColor) => CalamityMod.Instance.legendaryMode ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, Projectile.alpha) : new Color(255, 255, 255, Projectile.alpha);
+        public override Color? GetAlpha(Color drawColor) => CalamityWorld.getFixedBoi ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, Projectile.alpha) : new Color(255, 255, 255, Projectile.alpha);
         
         public override bool PreDraw(ref Color lightColor)
         {
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Boss
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 56, 0f, 0f, 100, default, 2f);
             }
 
-            if (CalamityMod.Instance.legendaryMode && NPC.CountNPCS(NPCID.Crab) < 20 && Main.netMode != NetmodeID.MultiplayerClient)
+            if (CalamityWorld.getFixedBoi && NPC.CountNPCS(NPCID.Crab) < 20 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int crab = NPC.NewNPC(Projectile.GetSource_FromAI(), (int)Projectile.Center.X, (int)Projectile.Center.Y, NPCID.Crab);
                 if (crab.WithinBounds(Main.maxNPCs))

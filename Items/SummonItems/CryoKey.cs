@@ -1,10 +1,11 @@
-﻿using CalamityMod.Events;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.Cryogen;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -58,7 +59,7 @@ namespace CalamityMod.Items.SummonItems
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/SummonItems/CryoKey").Value;
-            Color overlay = CalamityMod.Instance.legendaryMode ? Color.Red : Color.White;
+            Color overlay = CalamityWorld.getFixedBoi ? Color.Red : Color.White;
             spriteBatch.Draw(texture, position, null, overlay, 0f, origin, scale, 0, 0);
             return false;
         }
@@ -66,7 +67,7 @@ namespace CalamityMod.Items.SummonItems
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/SummonItems/CryoKey").Value;
-            Color overlay = CalamityMod.Instance.legendaryMode ? Color.Red : lightColor;
+            Color overlay = CalamityWorld.getFixedBoi ? Color.Red : lightColor;
             spriteBatch.Draw(texture, Item.position - Main.screenPosition, null, overlay, 0f, Vector2.Zero, 1f, 0, 0);
             return false;
         }
@@ -77,7 +78,7 @@ namespace CalamityMod.Items.SummonItems
             TooltipLine name = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "ItemName");
             TooltipLine line0 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 name.Text = "Pyro Key";
                 line0.Text = "Summons Cryogen when used in the tundra...?";

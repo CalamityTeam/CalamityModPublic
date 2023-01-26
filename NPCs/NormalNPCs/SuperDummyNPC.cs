@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.IO;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.IO;
-using Terraria;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -44,7 +45,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override bool PreAI()
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 deathCounter++;
                 // If you don't attack the Dummy for a minute in gfb, it becomes sentient

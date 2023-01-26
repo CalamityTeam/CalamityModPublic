@@ -1,11 +1,11 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Projectiles.Boss;
+﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
             {
                 Vector2 valueBoom = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
                 float spreadBoom = 15f * 0.0174f;
@@ -191,7 +191,7 @@ namespace CalamityMod.Projectiles.Boss
             if (damage <= 0)
                 return;
             
-            if (CalamityMod.Instance.legendaryMode) // it is the plague, you get very sick.
+            if (CalamityWorld.getFixedBoi) // it is the plague, you get very sick.
             {
                 target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240, true);
                 target.AddBuff(BuffID.Poisoned, 240, true);

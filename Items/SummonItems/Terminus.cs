@@ -1,10 +1,10 @@
-﻿using CalamityMod.Projectiles.Typeless;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,8 +24,8 @@ namespace CalamityMod.Items.SummonItems
         public override void SetDefaults()
         {
             Item.rare = ItemRarityID.Blue;
-            Item.width = CalamityMod.Instance.legendaryMode ? 54 : 28;
-            Item.height = CalamityMod.Instance.legendaryMode ? 78 : 28;
+            Item.width = CalamityWorld.getFixedBoi ? 54 : 28;
+            Item.height = CalamityWorld.getFixedBoi ? 78 : 28;
             Item.useAnimation = 45;
             Item.useTime = 45;
             Item.channel = true;
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/SummonItems/Terminus_GFB").Value;
                 Color overlay = Color.White;
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/SummonItems/Terminus_GFB").Value;
                 spriteBatch.Draw(texture, Item.position - Main.screenPosition, null, lightColor, 0f, Vector2.Zero, 1f, 0, 0);
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.SummonItems
             Player player = Main.LocalPlayer;
             TooltipLine name = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "ItemName");
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 name.Text = "Ogscule";
             }

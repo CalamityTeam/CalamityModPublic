@@ -1,11 +1,12 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -83,7 +84,7 @@ namespace CalamityMod.Projectiles.Boss
             if (damage <= 0 || Projectile.timeLeft < 51)
                 return;
 
-            if (Projectile.ai[0] == 0f || CalamityMod.Instance.legendaryMode)
+            if (Projectile.ai[0] == 0f || CalamityWorld.getFixedBoi)
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
             else
                 target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);

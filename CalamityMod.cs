@@ -109,9 +109,6 @@ namespace CalamityMod
         public const float velocityScaleMin = 0.5f;
         public const float bitingEnemeyVelocityScale = 0.8f;
 
-        // TODO -- Once the Zenith seed is available, replace all instance of this with Main.zenithWorld
-        internal bool legendaryMode => Main.getGoodWorld && Main.masterMode;
-
         // Life steal cap
         public const int lifeStealCap = 10;
 

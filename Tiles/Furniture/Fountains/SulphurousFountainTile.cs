@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.Furniture.Fountains;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -21,7 +22,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            string waterColor = CalamityMod.Instance.legendaryMode ? "CalamityMod/PissWater" : "CalamityMod/SulphuricWater";
+            string waterColor = CalamityWorld.getFixedBoi ? "CalamityMod/PissWater" : "CalamityMod/SulphuricWater";
             if (Main.tile[i, j].TileFrameX >= 36)
                 CalamityGlobalTile.SetActiveFountainColor(ModContent.Find<ModWaterStyle>(waterColor).Slot);
         }

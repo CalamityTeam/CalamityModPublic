@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
             }
 
-            if (CalamityMod.Instance.legendaryMode && !NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()))
+            if (CalamityWorld.getFixedBoi && !NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()))
             {
                 CalamityGlobalNPC global = NPC.Calamity();
                 global.DR = 0.4f;
@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.DeathSound = DeathSound;
             }
 
-            if (Main.player[NPC.target].dead || (!NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()) && !CalamityMod.Instance.legendaryMode) || CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
+            if (Main.player[NPC.target].dead || (!NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()) && !CalamityWorld.getFixedBoi) || CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
                 NPC.TargetClosest(false);
                 SoundEngine.PlaySound(DeathSound, Main.player[NPC.target].Center);

@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
@@ -82,7 +83,7 @@ namespace CalamityMod.NPCs.Crags
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    int count = CalamityMod.Instance.legendaryMode ? 20 : 1; // remember that old oversight in the draedon update?
+                    int count = CalamityWorld.getFixedBoi ? 20 : 1; // remember that old oversight in the draedon update?
                     for (int g = 0; g < count; g++)
                     {
                         Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("CultistAssassin").Type, NPC.scale);

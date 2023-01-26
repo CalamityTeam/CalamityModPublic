@@ -188,7 +188,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
 
                 // Emit dust
-                if (!CalamityMod.Instance.legendaryMode) // you must see his glory.
+                if (!CalamityWorld.getFixedBoi) // you must see his glory.
                 {
                     for (int k = 0; k < 5; k++)
                     {
@@ -548,11 +548,11 @@ namespace CalamityMod.NPCs.SlimeGod
             float num160 = 0f;
             int num161 = num159;
             spriteBatch.Draw(texture2D3, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, color24, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0);
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 spriteBatch.Draw(pog, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, color24, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0);
             }
-            if (!CalamityMod.Instance.legendaryMode)
+            if (!CalamityWorld.getFixedBoi)
                 while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityConfig.Instance.Afterimages)
                 {
                     Color color26 = NPC.GetAlpha(color25);
@@ -650,7 +650,7 @@ namespace CalamityMod.NPCs.SlimeGod
         {
             if (damage > 0)
             {
-                int debufftype = CalamityMod.Instance.legendaryMode ? BuffID.VortexDebuff : BuffID.Slow;
+                int debufftype = CalamityWorld.getFixedBoi ? BuffID.VortexDebuff : BuffID.Slow;
                 player.AddBuff(debufftype, 180, true);
                 player.AddBuff(BuffID.Weak, 180, true);
                 player.AddBuff(BuffID.Darkness, 180, true);

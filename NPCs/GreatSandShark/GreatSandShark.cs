@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.timeLeft = NPC.activeTime * 30;
             NPC.rarity = 2;
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 NPC.Calamity().VulnerableToHeat = true;
                 NPC.Calamity().VulnerableToSickness = false;
@@ -334,7 +334,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 
                     if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int npcType = CalamityMod.Instance.legendaryMode ? ModContent.NPCType<FusionFeeder>() : NPCID.SandShark;
+                        int npcType = CalamityWorld.getFixedBoi ? ModContent.NPCType<FusionFeeder>() : NPCID.SandShark;
                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 50, npcType, 0, 0f, 0f, 0f, 0f, 255);
                         SoundEngine.PlaySound(RoarSound, NPC.position);
                     }
@@ -448,7 +448,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                                     Main.dust[num624].velocity.X *= 2f;
                                 }
                                 int spawnX = (int)(NPC.width / 2);
-                                int projType = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<AstralMeteorProj>() : ModContent.ProjectileType<GreatSandBlast>();
+                                int projType = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<AstralMeteorProj>() : ModContent.ProjectileType<GreatSandBlast>();
                                 for (int sand = 0; sand < 5; sand++)
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (float)Main.rand.Next(-spawnX, spawnX), NPC.Center.Y,
                                         (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-12, -6), projType, 40, 0f, Main.myPlayer);
@@ -548,7 +548,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                 NPC.rotation = MathHelper.Clamp(NPC.rotation, -0.1f, 0.1f);
             }
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 NPC.Calamity().newAI[0]++;
                 if (NPC.Calamity().newAI[0] >= 120)
@@ -590,7 +590,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             }
             Color color24 = NPC.GetAlpha(drawColor);
             Color color25 = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 color24 = Color.Silver;
                 color25 = Color.Orange;

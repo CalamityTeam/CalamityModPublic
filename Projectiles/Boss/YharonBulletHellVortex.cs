@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using System.IO;
 using CalamityMod.NPCs.Yharon;
-using System.IO;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -43,7 +44,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if ((Main.npc[(int)Projectile.ai[1]].active && Main.npc[(int)Projectile.ai[1]].type == ModContent.NPCType<Yharon>()) || CalamityMod.Instance.legendaryMode)
+            if ((Main.npc[(int)Projectile.ai[1]].active && Main.npc[(int)Projectile.ai[1]].type == ModContent.NPCType<Yharon>()) || CalamityWorld.getFixedBoi)
             {
                 if (TimeCountdown > 0f)
                 {
@@ -55,7 +56,7 @@ namespace CalamityMod.Projectiles.Boss
                     TimeCountdown--;
 
                     // chase players in the zenith seed
-                    if (CalamityMod.Instance.legendaryMode)
+                    if (CalamityWorld.getFixedBoi)
                     {
                         Projectile.hostile = true;
                         Projectile.width = Projectile.height = (int)(408f * Projectile.scale);

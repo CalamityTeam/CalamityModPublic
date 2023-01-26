@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using System;
+using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AdultEidolonWyrm;
@@ -8,8 +9,8 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.SunkenSea;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Events;
@@ -85,7 +86,7 @@ namespace CalamityMod.Systems
             // Very, very, very rarely display a Lorde joke text if the system clock is set to April Fools Day.
             if (Main.rand.NextBool(100000000) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
             {
-                string key = CalamityMod.Instance.legendaryMode ? "Mods.CalamityMod.AprilFoolsGFB" : "Mods.CalamityMod.AprilFools";
+                string key = CalamityWorld.getFixedBoi ? "Mods.CalamityMod.AprilFoolsGFB" : "Mods.CalamityMod.AprilFools";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
@@ -340,7 +341,7 @@ namespace CalamityMod.Systems
         #region Handle Armored Digger Random Spawns
         public static void TrySpawnArmoredDigger(Player player, CalamityPlayer modPlayer)
         {
-            bool gfbCondition = CalamityMod.Instance.legendaryMode && (player.ZoneHallow || player.ZoneUnderworldHeight) && NPC.downedMoonlord;
+            bool gfbCondition = CalamityWorld.getFixedBoi && (player.ZoneHallow || player.ZoneUnderworldHeight) && NPC.downedMoonlord;
             if ((gfbCondition || (player.ZoneRockLayerHeight && !player.ZoneUnderworldHeight && !player.ZoneJungle)) && !player.ZoneDungeon && !modPlayer.ZoneSunkenSea && !modPlayer.ZoneAbyss && !CalamityPlayer.areThereAnyDamnBosses)
             {
                 if (NPC.downedPlantBoss && player.townNPCs < 3f)
@@ -416,7 +417,7 @@ namespace CalamityMod.Systems
         #region Handle Adult Eidolon Wyrm Spawns
         public static void TrySpawnAEoW(Player player, CalamityPlayer modPlayer)
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient || !(modPlayer.ZoneAbyss || CalamityMod.Instance.legendaryMode) || !player.chaosState || player.dead)
+            if (Main.netMode == NetmodeID.MultiplayerClient || !(modPlayer.ZoneAbyss || CalamityWorld.getFixedBoi) || !player.chaosState || player.dead)
                 return;
 
             bool adultWyrmAlive = CalamityGlobalNPC.adultEidolonWyrmHead != -1 && Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active;

@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.Cryogen
             if (Main.getGoodWorld)
                 NPC.scale *= 0.8f;
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 NPC.Calamity().VulnerableToHeat = false;
                 NPC.Calamity().VulnerableToCold = true;
@@ -118,7 +118,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void BossHeadSlot(ref int index)
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
                 index = pyroIconIndex;
             else
                 index = cryoIconIndex;
@@ -212,14 +212,14 @@ namespace CalamityMod.NPCs.Cryogen
             bool phase7 = lifeRatio < (death ? 0.25f : 0.15f) && revenge;
 
             // Projectile and sound variables
-            int iceBlast = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<BrimstoneBarrage>() :  ModContent.ProjectileType<IceBlast>();
-            int iceBomb = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<SCalBrimstoneFireblast>() : ModContent.ProjectileType<IceBomb>();
-            int iceRain = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<BrimstoneBarrage>() : ModContent.ProjectileType<IceRain>();
-            int dustType = CalamityMod.Instance.legendaryMode ? 235 : 67;
+            int iceBlast = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<BrimstoneBarrage>() :  ModContent.ProjectileType<IceBlast>();
+            int iceBomb = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<SCalBrimstoneFireblast>() : ModContent.ProjectileType<IceBomb>();
+            int iceRain = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<BrimstoneBarrage>() : ModContent.ProjectileType<IceRain>();
+            int dustType = CalamityWorld.getFixedBoi ? 235 : 67;
 
-            SoundStyle frostSound = CalamityMod.Instance.legendaryMode ? SoundID.Item20 : SoundID.Item28;
-            NPC.HitSound = CalamityMod.Instance.legendaryMode ? SoundID.NPCHit41 : HitSound;
-            NPC.DeathSound = CalamityMod.Instance.legendaryMode ? SoundID.NPCDeath14 : DeathSound;
+            SoundStyle frostSound = CalamityWorld.getFixedBoi ? SoundID.Item20 : SoundID.Item28;
+            NPC.HitSound = CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound;
+            NPC.DeathSound = CalamityWorld.getFixedBoi ? SoundID.NPCDeath14 : DeathSound;
 
             // Reset damage
             NPC.damage = NPC.defDamage;
@@ -890,13 +890,13 @@ namespace CalamityMod.NPCs.Cryogen
                     int chance = 100;
                     if (DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
                         chance = 20;
-                    if (CalamityMod.Instance.legendaryMode)
+                    if (CalamityWorld.getFixedBoi)
                         chance = 1;
 
                     if (Main.rand.NextBool(chance))
                     {
-                        string key = CalamityMod.Instance.legendaryMode ? "Mods.CalamityMod.PyrogenBossText" : "Mods.CalamityMod.CryogenBossText";
-                        Color messageColor = CalamityMod.Instance.legendaryMode ? Color.Orange : Color.Cyan;
+                        string key = CalamityWorld.getFixedBoi ? "Mods.CalamityMod.PyrogenBossText" : "Mods.CalamityMod.CryogenBossText";
+                        Color messageColor = CalamityWorld.getFixedBoi ? Color.Orange : Color.Cyan;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
                 }
@@ -924,7 +924,7 @@ namespace CalamityMod.NPCs.Cryogen
                                     float radians = MathHelper.TwoPi / totalProjectiles;
                                     float newVelocity = velocity - (velocity * (phase7 ? 0.25f : 0.5f) * i);
                                     float velocityX = 0f;
-                                    float ai = CalamityMod.Instance.legendaryMode ? 2f : NPC.target;
+                                    float ai = CalamityWorld.getFixedBoi ? 2f : NPC.target;
                                     if (i > 0)
                                     {
                                         double angleA = radians * (phase7 ? 0.25 : 0.5) * (totalSpreads - i);
@@ -1106,9 +1106,9 @@ namespace CalamityMod.NPCs.Cryogen
 
         private void HandlePhaseTransition(int newPhase)
         {
-            SoundStyle sound = CalamityMod.Instance.legendaryMode ? SoundID.NPCDeath14 : TransitionSound;
+            SoundStyle sound = CalamityWorld.getFixedBoi ? SoundID.NPCDeath14 : TransitionSound;
             SoundEngine.PlaySound(sound, NPC.Center);
-            if (Main.netMode != NetmodeID.Server && !CalamityMod.Instance.legendaryMode)
+            if (Main.netMode != NetmodeID.Server && !CalamityWorld.getFixedBoi)
             {
                 int chipGoreAmount = newPhase >= 5 ? 3 : newPhase >= 3 ? 2 : 1;
                 for (int i = 1; i < chipGoreAmount; i++)
@@ -1144,7 +1144,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 float compactness = NPC.width * 0.6f;
                 if (compactness < 10f)
@@ -1177,7 +1177,7 @@ namespace CalamityMod.NPCs.Cryogen
             Vector2 drawPos = NPC.Center - screenPos;
             drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            Color overlay = CalamityMod.Instance.legendaryMode ? Color.Red : drawColor;
+            Color overlay = CalamityWorld.getFixedBoi ? Color.Red : drawColor;
             spriteBatch.Draw(texture, drawPos, NPC.frame, NPC.GetAlpha(overlay), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
             return false;
@@ -1191,7 +1191,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 typeName = "Pyrogen";
             }
@@ -1199,7 +1199,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            int dusttype = CalamityMod.Instance.legendaryMode ? 235 : 67;
+            int dusttype = CalamityWorld.getFixedBoi ? 235 : 67;
             for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, dusttype, hitDirection, -1f, 0, default, 1f);
@@ -1224,7 +1224,7 @@ namespace CalamityMod.NPCs.Cryogen
                     num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                if (Main.netMode != NetmodeID.Server && !CalamityMod.Instance.legendaryMode)
+                if (Main.netMode != NetmodeID.Server && !CalamityWorld.getFixedBoi)
                 {
                     float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     for (int i = 1; i < 4; i++)
@@ -1334,7 +1334,7 @@ namespace CalamityMod.NPCs.Cryogen
         {
             if (damage > 0)
             {
-                if (CalamityMod.Instance.legendaryMode)
+                if (CalamityWorld.getFixedBoi)
                 {
                     player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
                     player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);

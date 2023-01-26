@@ -1086,7 +1086,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     // Reset phase and variables
                     if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
                     {
-                        if (CalamityMod.Instance.legendaryMode && !exoMechdusa)
+                        if (CalamityWorld.getFixedBoi && !exoMechdusa)
                         {
                             calamityGlobalNPC.newAI[3] = 0f;
                             AIState = (float)Phase.Deathray;

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.NPCs.Crabulon;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Effects;
@@ -36,10 +37,10 @@ namespace CalamityMod.Skies
 
         public override void Update(GameTime gameTime)
         {
-            if (CrabIndex == -1 || !CalamityMod.Instance.legendaryMode)
+            if (CrabIndex == -1 || !CalamityWorld.getFixedBoi)
             {
                 UpdateBossIndex();
-                if (CrabIndex == -1 || !CalamityMod.Instance.legendaryMode)
+                if (CrabIndex == -1 || !CalamityWorld.getFixedBoi)
                     Filters.Scene["CalamityMod:DrunkCrabulon"].Deactivate();
             }
         }

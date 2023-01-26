@@ -195,7 +195,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             Walking = false;
 
-            if (CalamityMod.Instance.legendaryMode && !hasDoneDeathray && NPC.life <= NPC.lifeMax * 0.1f)
+            if (CalamityWorld.getFixedBoi && !hasDoneDeathray && NPC.life <= NPC.lifeMax * 0.1f)
             {
                 DeathrayTime++;
                 MasterSpark();

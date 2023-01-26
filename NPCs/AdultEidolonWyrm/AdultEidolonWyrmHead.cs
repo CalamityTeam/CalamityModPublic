@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 NPC.defense = 999;
                 NPC.DR_NERD(0.9f);
@@ -1458,7 +1458,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 typeName = "Jared";
             }

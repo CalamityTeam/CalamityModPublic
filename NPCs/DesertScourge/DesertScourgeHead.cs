@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.DesertScourge
             if (Main.getGoodWorld)
                 NPC.scale *= 0.4f;
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
                 NPC.scale *= 4f;
 
 
@@ -218,7 +218,7 @@ namespace CalamityMod.NPCs.DesertScourge
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 // become moist if in an aquatic biome
-                if (CalamityMod.Instance.legendaryMode && (player.ZoneBeach || player.Calamity().ZoneAbyss || player.Calamity().ZoneSunkenSea || player.Calamity().ZoneSulphur) && NPC.CountNPCS(ModContent.NPCType<AquaticScourgeHead>()) < 1)
+                if (CalamityWorld.getFixedBoi && (player.ZoneBeach || player.Calamity().ZoneAbyss || player.Calamity().ZoneSunkenSea || player.Calamity().ZoneSulphur) && NPC.CountNPCS(ModContent.NPCType<AquaticScourgeHead>()) < 1)
                 {
                     NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AquaticScourgeHead>());
                     NPC.active = false;
@@ -280,7 +280,7 @@ namespace CalamityMod.NPCs.DesertScourge
                             {
                                 Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
-                                if (CalamityMod.Instance.legendaryMode)
+                                if (CalamityWorld.getFixedBoi)
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 3f, perturbedSpeed, type2, damage, 0f, Main.myPlayer);
                             }
                         }
@@ -797,7 +797,7 @@ namespace CalamityMod.NPCs.DesertScourge
         public override Color? GetAlpha(Color drawColor)
         {
             Color lightColor = Color.MediumBlue * drawColor.A;
-            Color newColor = CalamityMod.Instance.legendaryMode ? lightColor : new Color(255, 255, 255, drawColor.A);
+            Color newColor = CalamityWorld.getFixedBoi ? lightColor : new Color(255, 255, 255, drawColor.A);
             return newColor * NPC.Opacity;
         }
     }

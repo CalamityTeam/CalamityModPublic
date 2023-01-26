@@ -282,7 +282,7 @@ namespace CalamityMod.NPCs.SunkenSea
                 }
 
                 // Gains Calamitas' bullet hells in the zenith seed
-                if (CalamityMod.Instance.legendaryMode)
+                if (CalamityWorld.getFixedBoi)
                 {
                     calamityGlobalNPC.newAI[0] += 1f;
 
@@ -461,7 +461,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 if (Main.hardMode)
                 {

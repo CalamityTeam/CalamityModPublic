@@ -1,12 +1,13 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Sounds;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -78,7 +79,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<EffulgentFeather>(), 1, 5, 7);
         public override void OnKill()
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
             {
                 SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, NPC.Center - Vector2.UnitY * 300f);
                 for (int i = 0; i < 5; i++)
@@ -95,7 +96,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void FindFrame(int frameHeight)
         {
             NPC.frameCounter += NPC.ai[0] == 2.1f ? 1.5 : 1D;
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 NPC.frameCounter += 2D;
             }

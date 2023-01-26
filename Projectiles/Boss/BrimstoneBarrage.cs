@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Boss
             if (damage <= 0 || Projectile.Opacity != 1f)
                 return;
 
-            if (Projectile.ai[0] == 0f || CalamityMod.Instance.legendaryMode)
+            if (Projectile.ai[0] == 0f || CalamityWorld.getFixedBoi)
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
             else
                 target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);

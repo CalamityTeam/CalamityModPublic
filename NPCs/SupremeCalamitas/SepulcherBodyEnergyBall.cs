@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.alpha = HeadSegment.alpha;
 
             AttackTimer += BossRushEvent.BossRushActive ? 1.5f : 1f;
-            float attackgate = !HeadSegment.Calamity().unbreakableDR && CalamityMod.Instance.legendaryMode ? 450f : 900f;
+            float attackgate = !HeadSegment.Calamity().unbreakableDR && CalamityWorld.getFixedBoi ? 450f : 900f;
             if (AttackTimer >= attackgate)
             {
                 AttackTimer = 0f;

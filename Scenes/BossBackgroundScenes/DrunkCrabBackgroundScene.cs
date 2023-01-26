@@ -1,4 +1,5 @@
 ﻿using CalamityMod.NPCs.Crabulon;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -8,7 +9,7 @@ namespace CalamityMod.Systems
     {
         public override SceneEffectPriority Priority => SceneEffectPriority.BossHigh;
 
-        public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(ModContent.NPCType<Crabulon>()) && CalamityMod.Instance.legendaryMode;
+        public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(ModContent.NPCType<Crabulon>()) && CalamityWorld.getFixedBoi;
 
         public override void SpecialVisuals(Player player, bool isActive)
         {

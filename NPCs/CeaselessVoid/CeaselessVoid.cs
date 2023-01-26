@@ -255,7 +255,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 NPC.soundDelay = 8;
                 float pitchVar = 0;
-                if (CalamityMod.Instance.legendaryMode)
+                if (CalamityWorld.getFixedBoi)
                 {
                     pitchVar = Main.rand.Next(-60, 41) * 0.01f;
                 }

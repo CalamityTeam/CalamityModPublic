@@ -1,15 +1,16 @@
-﻿using CalamityMod.BiomeManagers;
+﻿using System;
+using System.IO;
+using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
-using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Particles.Metaballs;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
-using System.IO;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
@@ -206,7 +207,7 @@ namespace CalamityMod.NPCs.AcidRain
             // Prevent yeeting into the sky at the speed of light.
             NPC.velocity = Vector2.Clamp(NPC.velocity, new Vector2(-maxSpeed), new Vector2(maxSpeed));
 
-            if (CalamityMod.Instance.legendaryMode && !(!NPC.wet && NPC.collideY))
+            if (CalamityWorld.getFixedBoi && !(!NPC.wet && NPC.collideY))
             {
                 // Spread the wrath of the damned
                 NPC.Calamity().newAI[0]++;

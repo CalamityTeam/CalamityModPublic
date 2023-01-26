@@ -1,25 +1,26 @@
-﻿using CalamityMod.BiomeManagers;
+﻿using System;
+using System.IO;
+using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.Sounds;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
-using Terraria.Audio;
-using CalamityMod.NPCs.AdultEidolonWyrm;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Abyss
 {
@@ -101,7 +102,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void AI()
         {
             bool adultWyrmAlive = false;
-            SoundStyle roar = CalamityMod.Instance.legendaryMode ? Sunskater.DeathSound with { Pitch = Sunskater.DeathSound.Pitch - 0.5f } : CommonCalamitySounds.WyrmScreamSound;
+            SoundStyle roar = CalamityWorld.getFixedBoi ? Sunskater.DeathSound with { Pitch = Sunskater.DeathSound.Pitch - 0.5f } : CommonCalamitySounds.WyrmScreamSound;
             if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)

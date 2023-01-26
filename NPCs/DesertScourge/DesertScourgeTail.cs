@@ -183,7 +183,7 @@ namespace CalamityMod.NPCs.DesertScourge
         public override Color? GetAlpha(Color drawColor)
         {
             Color lightColor = Color.MediumBlue * drawColor.A;
-            Color newColor = CalamityMod.Instance.legendaryMode ? lightColor : new Color(255, 255, 255, drawColor.A);
+            Color newColor = CalamityWorld.getFixedBoi ? lightColor : new Color(255, 255, 255, drawColor.A);
             return newColor * NPC.Opacity;
         }
     }

@@ -158,7 +158,7 @@ namespace CalamityMod.NPCs.Calamitas
 
             texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Calamitas/CalamitasCloneGlow").Value;
             Color color = Color.Lerp(Color.White, Color.Red, 0.5f);
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 color = Color.CornflowerBlue;
             }
