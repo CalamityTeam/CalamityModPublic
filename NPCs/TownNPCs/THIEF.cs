@@ -319,7 +319,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
                 nextSlot++;
             }
-            if (DownedBossSystem.downedCalamitas)
+            if (DownedBossSystem.downedCalamitasClone)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
                 nextSlot++;

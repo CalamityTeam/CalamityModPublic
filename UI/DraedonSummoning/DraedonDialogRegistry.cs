@@ -9,10 +9,10 @@ namespace CalamityMod.UI.DraedonSummoning
             "The exact circumstances, I do not know. I do know that my first instance of awareness was that I was surrounded by a workshop.\n\n" +
             "All I have known since then was the act of creation and destruction.");
 
-        public static readonly DraedonDialogEntry CalamitasBeforeHerDefeat = new("Calamitas", "The witch? She is a walking weapon. Such powerful magic in a living being was destined to be so. Look at yourself now.", () => !DownedBossSystem.downedSCal);
+        public static readonly DraedonDialogEntry CalamitasBeforeHerDefeat = new("Calamitas", "The witch? She is a walking weapon. Such powerful magic in a living being was destined to be so. Look at yourself now.", () => !DownedBossSystem.downedCalamitas);
 
         public static readonly DraedonDialogEntry CalamitasAfterHerDefeat = new("Calamitas", "She has mellowed, I've noticed. For you creatures so burdened by emotion and guilt, I wonder now, how she manages to live with herself.", () => 
-            DownedBossSystem.downedSCal);
+            DownedBossSystem.downedCalamitas);
 
         public static readonly DraedonDialogEntry Plague = new("The Plague", "Fascinating, isn't it? I wasn't able to control it, unfortunately, but for science there is no such thing as failure as long as you record the results.\n\n" +
             "I knew the Astral Infection was capable of converting even machinery, but for nanotechnology I'd given it to react in kind, and begin to use the virus as a building block itself...\n\n" +
@@ -26,7 +26,7 @@ namespace CalamityMod.UI.DraedonSummoning
         public static readonly DraedonDialogEntry TheTyrant = new("The Tyrant", "My patron...\n" +
             "He is not someone I have spoken to in a very long time.\n\n" +
             "Is that such a surprise? He no longer required my services and I no longer needed his patronage. Many years ago now he withdrew himself to some secret hideaway. I suspect, to the grave of dragons he spoke of...\n\n" +
-            "Should you locate him, I'll await the news of either his or your death. Perhaps I will collect the cadaver.", () => DownedBossSystem.downedSCal);
+            "Should you locate him, I'll await the news of either his or your death. Perhaps I will collect the cadaver.", () => DownedBossSystem.downedCalamitas);
 
         internal static List<DraedonDialogEntry> DialogOptions = new()
         {

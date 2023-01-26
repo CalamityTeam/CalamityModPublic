@@ -6087,7 +6087,7 @@ namespace CalamityMod.NPCs
             }
             else if (type == NPCType<CalamitasClone>())
             {
-                return DownedBossSystem.downedCalamitas;
+                return DownedBossSystem.downedCalamitasClone;
             }
             else if (type == NPCType<Leviathan.Leviathan>() || type == NPCType<Anahita>())
             {
@@ -6155,7 +6155,7 @@ namespace CalamityMod.NPCs
             }
             else if (type == NPCType<SupremeCalamitas.SupremeCalamitas>())
             {
-                return DownedBossSystem.downedSCal;
+                return DownedBossSystem.downedCalamitas;
             }
             else if (type == NPCType<AdultEidolonWyrmHead>())
             {

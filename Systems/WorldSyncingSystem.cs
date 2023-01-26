@@ -21,7 +21,7 @@ namespace CalamityMod.Systems
             flags[3] = downedSlimeGod;
             flags[4] = downedCryogen;
             flags[5] = downedBrimstoneElemental;
-            flags[6] = downedCalamitas;
+            flags[6] = downedCalamitasClone;
             flags[7] = downedLeviathan;
 
             BitsByte flags2 = new BitsByte();
@@ -36,7 +36,7 @@ namespace CalamityMod.Systems
 
             // Don't write meaningful values for the now-unused vanilla boss booleans
             BitsByte flags3 = new BitsByte();
-            flags3[0] = downedSCal;
+            flags3[0] = downedCalamitas;
             flags3[1] = downedDragonfolly;
             flags3[2] = downedCrabulon;
             flags3[3] = downedBetsy;
@@ -173,7 +173,7 @@ namespace CalamityMod.Systems
             downedSlimeGod = flags[3];
             downedCryogen = flags[4];
             downedBrimstoneElemental = flags[5];
-            downedCalamitas = flags[6];
+            downedCalamitasClone = flags[6];
             downedLeviathan = flags[7];
 
             BitsByte flags2 = reader.ReadByte();
@@ -188,7 +188,7 @@ namespace CalamityMod.Systems
 
             // Explicitly discard the now-unused vanilla boss booleans
             BitsByte flags3 = reader.ReadByte();
-            downedSCal = flags3[0];
+            downedCalamitas = flags3[0];
             downedDragonfolly = flags3[1];
             downedCrabulon = flags3[2];
             downedBetsy = flags3[3];

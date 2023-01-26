@@ -223,20 +223,20 @@ namespace CalamityMod.NPCs.CalClone
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CalamitasCloneRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<LoreCalamitasClone>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitasClone, ModContent.ItemType<LoreCalamitasClone>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedCalamitas);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedCalamitasClone);
 
             // Abyss awakens after killing Calamitas
             string key = "Mods.CalamityMod.PlantBossText";
             Color messageColor = Color.RoyalBlue;
 
-            if (!DownedBossSystem.downedCalamitas)
+            if (!DownedBossSystem.downedCalamitasClone)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, Main.player[Main.myPlayer].position);
@@ -245,7 +245,7 @@ namespace CalamityMod.NPCs.CalClone
             }
 
             // Mark Calamitas as dead
-            DownedBossSystem.downedCalamitas = true;
+            DownedBossSystem.downedCalamitasClone = true;
             CalamityNetcode.SyncWorld();
         }
 

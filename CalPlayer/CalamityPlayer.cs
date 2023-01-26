@@ -3455,7 +3455,7 @@ namespace CalamityMod.CalPlayer
         public override bool CanSellItem(NPC vendor, Item[] shopInventory, Item item)
         {
             if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
-                return DownedBossSystem.downedSCal; //no easy moneycoins for post doggo/yhar
+                return DownedBossSystem.downedCalamitas; //no easy moneycoins for post doggo/yhar
             return base.CanSellItem(vendor, shopInventory, item);
         }
 
@@ -6416,7 +6416,7 @@ namespace CalamityMod.CalPlayer
                     price += Item.buyPrice(0, 1, 20, 0);
                 else if (NPC.downedGolemBoss)
                     price += Item.buyPrice(0, 0, 90, 0);
-                else if (NPC.downedPlantBoss || DownedBossSystem.downedCalamitas)
+                else if (NPC.downedPlantBoss || DownedBossSystem.downedCalamitasClone)
                     price += Item.buyPrice(0, 0, 60, 0);
                 else if (NPC.downedMechBossAny)
                     price += Item.buyPrice(0, 0, 40, 0);

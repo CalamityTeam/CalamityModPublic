@@ -1425,7 +1425,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 80, 100);
             npcLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
-            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitasClone);
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenyl>(), 1, 50, 108, 65, 135));
             postClone.Add(ItemID.Ectoplasm, 1, 21, 32);
         }

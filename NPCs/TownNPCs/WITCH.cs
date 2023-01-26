@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.TownNPCs
             });
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => DownedBossSystem.downedSCal && !NPC.AnyNPCs(NPCType<SCalBoss>());
+        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => DownedBossSystem.downedCalamitas && !NPC.AnyNPCs(NPCType<SCalBoss>());
 
 		public override List<string> SetNPCNameList() => new List<string>() { "Calamitas" };
 

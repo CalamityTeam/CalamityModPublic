@@ -85,7 +85,7 @@ namespace CalamityMod
 {
     internal class Downed
     {
-        public static readonly Func<bool> NotDownedCalClone = () => !DownedBossSystem.downedCalamitas;
+        public static readonly Func<bool> NotDownedCalClone = () => !DownedBossSystem.downedCalamitasClone;
         public static readonly Func<bool> DownedDesertScourge = () => DownedBossSystem.downedDesertScourge;
         public static readonly Func<bool> DownedGiantClam = () => DownedBossSystem.downedCLAM;
         public static readonly Func<bool> DownedCrabulon = () => DownedBossSystem.downedCrabulon;
@@ -96,7 +96,7 @@ namespace CalamityMod
         public static readonly Func<bool> DownedBrimstoneElemental = () => DownedBossSystem.downedBrimstoneElemental;
         public static readonly Func<bool> DownedAquaticScourge = () => DownedBossSystem.downedAquaticScourge;
         public static readonly Func<bool> DownedCragmawMire = () => DownedBossSystem.downedCragmawMire;
-        public static readonly Func<bool> DownedCalClone = () => DownedBossSystem.downedCalamitas;
+        public static readonly Func<bool> DownedCalClone = () => DownedBossSystem.downedCalamitasClone;
         public static readonly Func<bool> DownedGSS = () => DownedBossSystem.downedGSS;
         public static readonly Func<bool> DownedLeviathan = () => DownedBossSystem.downedLeviathan;
         public static readonly Func<bool> DownedAureus = () => DownedBossSystem.downedAstrumAureus;
@@ -116,7 +116,7 @@ namespace CalamityMod
         public static readonly Func<bool> DownedDoG = () => DownedBossSystem.downedDoG;
         public static readonly Func<bool> DownedYharon = () => DownedBossSystem.downedYharon;
         public static readonly Func<bool> DownedExoMechs = () => DownedBossSystem.downedExoMechs;
-        public static readonly Func<bool> DownedSCal = () => DownedBossSystem.downedSCal;
+        public static readonly Func<bool> DownedSCal = () => DownedBossSystem.downedCalamitas;
         public static readonly Func<bool> DownedAdultEidolonWyrm = () => DownedBossSystem.downedAdultEidolonWyrm;
 
         public static readonly Func<bool> DownedAcidRainInitial = () => DownedBossSystem.downedEoCAcidRain;

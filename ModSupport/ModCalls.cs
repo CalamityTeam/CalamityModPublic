@@ -127,7 +127,7 @@ namespace CalamityMod
                 case "clonelamitas":
                 case "calamitasdoppelganger":
                 case "calamitas doppelganger":
-                    return DownedBossSystem.downedCalamitas;
+                    return DownedBossSystem.downedCalamitasClone;
 
                 case "gss":
                 case "greatsandshark":
@@ -293,7 +293,7 @@ namespace CalamityMod
                 case "supremewitchcalamitas":
                 case "supreme witch calamitas":
                 case "supreme witch, calamitas":
-                    return DownedBossSystem.downedSCal;
+                    return DownedBossSystem.downedCalamitas;
 
                 case "adulteidolonwyrm":
                 case "adult eidolon wyrm":

@@ -39,7 +39,7 @@ namespace CalamityMod.Buffs.StatBuffs
                         (enrage ? "\nYour weakened life force fuels your desperate attacks" : "");
                 }
             }
-            else if (DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs)
+            else if (DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs)
             {
                 tip = "Your profaned soul is constrained by your insufficient summoning powers";
             }
