@@ -17,7 +17,6 @@ namespace CalamityMod.Projectiles.Turret
         {
             Projectile.width = 6;
             Projectile.height = 6;
-            Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
@@ -32,7 +31,7 @@ namespace CalamityMod.Projectiles.Turret
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 var source = Main.player[Main.myPlayer].GetSource_FromThis();
-                Projectile.NewProjectile(source, Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueShot>(), Projectile.damage, Projectile.knockBack, Main.myPlayer, 0f, Projectile.ai[1]);
+                Projectile.NewProjectile(source, Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueShot>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
                 Projectile.Kill();
             }
         }

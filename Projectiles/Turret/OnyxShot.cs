@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Turret
         {
             Projectile.width = 4;
             Projectile.height = 4;
-            Projectile.friendly = true;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 2;
@@ -30,6 +29,16 @@ namespace CalamityMod.Projectiles.Turret
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
         }
+        public override bool PreAI()
+        {
+            // If projectile knockback is set to 0 in the tile entity file, projectile hits players instead
+            // This is used to check if the projectile came from the hostile version of the tile entity
+            if (Projectile.knockBack == 0f)
+                Projectile.hostile = true;
+            else Projectile.friendly = true;
+            return true;
+        }
+
         public override void AI()
         {
             if (Projectile.localAI[0] > 0f)

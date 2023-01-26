@@ -19,13 +19,21 @@ namespace CalamityMod.Projectiles.Turret
         {
             Projectile.width = 22;
             Projectile.height = 24;
-            Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 180;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
         }
 
+        public override bool PreAI()
+        {
+            // If projectile knockback is set to 0 in the tile entity file, projectile hits players instead
+            // This is used to check if the projectile came from the hostile version of the tile entity
+            if (Projectile.knockBack == 0f)
+                Projectile.hostile = true;
+            else Projectile.friendly = true;
+            return true;
+        }
 
         public override void AI()
         {
@@ -50,6 +58,12 @@ namespace CalamityMod.Projectiles.Turret
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
             target.AddBuff(BuffID.Frostburn2, 180);
+        }
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+            target.AddBuff(BuffID.Frostburn2, 180);
+            Projectile.Kill();
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -93,7 +107,9 @@ namespace CalamityMod.Projectiles.Turret
         {
             SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/NPCHit/CryogenHit", 3) with { Volume = 0.55f }, Projectile.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0f, ModContent.ProjectileType<IceExplosion>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack, Main.myPlayer);
+            } 
         }
     }
 }

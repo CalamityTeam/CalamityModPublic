@@ -23,7 +23,6 @@ namespace CalamityMod.Projectiles.Turret
         {
             Projectile.width = 32;
             Projectile.height = 32;
-            Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
@@ -35,6 +34,15 @@ namespace CalamityMod.Projectiles.Turret
             Projectile.ArmorPenetration = 10;
         }
 
+        public override bool PreAI()
+        {
+            // If projectile knockback is set to 0 in the tile entity file, projectile hits players instead
+            // This is used to check if the projectile came from the hostile version of the tile entity
+            if (Projectile.knockBack == 0f)
+                Projectile.hostile = true;
+            else Projectile.friendly = true;
+            return true;
+        }
 
         public override void AI()
         {
@@ -54,6 +62,10 @@ namespace CalamityMod.Projectiles.Turret
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.OnFire3, 600);
+        }
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire3, 100);
         }
 
         public override bool? CanDamage() => ableToHit ? (bool?)null : false;

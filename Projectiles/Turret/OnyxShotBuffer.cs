@@ -19,7 +19,6 @@ namespace CalamityMod.Projectiles.Turret
         {
             Projectile.width = 6;
             Projectile.height = 6;
-            Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
