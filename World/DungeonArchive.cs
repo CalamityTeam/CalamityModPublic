@@ -28,18 +28,20 @@ namespace CalamityMod.World
             bool foundValidPosition = false;
             int dungeonArchiveColor = 0; //0 = blue, 1 = green, 2 = pink
 
-            for (int x = 20; x <= Main.maxTilesX - 20; x++)
+            int heightLimit = (Main.maxTilesY / 2) + 200;
+
+            for (int x = 5; x <= Main.maxTilesX - 5; x++)
             {
-                for (int y = Main.maxTilesY - 200; y > (Main.maxTilesY / 2) + 100; y--)
+                for (int y = Main.maxTilesY - 5; y >= heightLimit; y--)
                 { 
                     Tile tile = Main.tile[x, y];
                     Tile tileUp = Main.tile[x, y - 1];
                     Tile tileDown = Main.tile[x, y + 1];
 
-                    if (!tile.HasTile && !tileUp.HasTile && (tileDown.TileType == 41 || tileDown.TileType == 43 || tileDown.TileType == 44))
+                    if ((tile.TileType == 41 || tile.TileType == 43 || tile.TileType == 44 || tile.TileType == 48) && !tileUp.HasTile)
                     {
                         //blue brick walls
-                        if (tile.WallType == 7 || tile.WallType == 94 || tile.WallType == 95)
+                        if (tileUp.WallType == 7 || tileUp.WallType == 94 || tileUp.WallType == 95)
                         {
                             dungeonArchiveColor = 0;
                             archiveX = x;
@@ -48,7 +50,7 @@ namespace CalamityMod.World
                             foundValidPosition = true;
                         }
                         //green brick walls
-                        if (tile.WallType == 8 || tile.WallType == 98 || tile.WallType == 99)
+                        if (tileUp.WallType == 8 || tileUp.WallType == 98 || tileUp.WallType == 99)
                         {
                             dungeonArchiveColor = 1;
                             archiveX = x;
@@ -57,7 +59,7 @@ namespace CalamityMod.World
                             foundValidPosition = true;
                         }
                         //pink brick walls
-                        if (tile.WallType == 9 || tile.WallType == 96 || tile.WallType == 97)
+                        if (tileUp.WallType == 9 || tileUp.WallType == 96 || tileUp.WallType == 97)
                         {
                             dungeonArchiveColor = 2;
                             archiveX = x;
@@ -65,6 +67,17 @@ namespace CalamityMod.World
 
                             foundValidPosition = true;
                         }
+                    }
+
+                    //in order to make sure the archive places at the very bottom of the dungeon:
+                    //loop upward a certain amount, and if it doesnt place reset everything and increase the check height before the loop ends
+                    //this way it will keep checking upward so it places nicely and doesnt destroy other parts of the dungeon (or at least not as much)
+                    if (x >= Main.maxTilesX - 5 && y <= heightLimit + 5 && !foundValidPosition)
+                    {
+                        x = 5;
+                        y = Main.maxTilesY - 5;
+
+                        heightLimit = heightLimit - 2;
                     }
                 }
             }

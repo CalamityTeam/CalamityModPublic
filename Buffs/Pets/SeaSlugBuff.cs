@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sea Slug");
-            Description.SetDefault("The bioluminscent sea slug is following you");
+            DisplayName.SetDefault("Nudibranch");
+            Description.SetDefault("The cutest and most colorful sea creature");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

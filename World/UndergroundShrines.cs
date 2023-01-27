@@ -500,7 +500,7 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
 
                         //Only generated within the area of mushroom plants
-                        if (tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines || tile.TileType == TileID.MushroomTrees)
+                        if (tile.TileType == TileID.MushroomGrass || tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines || tile.TileType == TileID.MushroomTrees)
                             realMushroomsInArea++;
                     }
                 }

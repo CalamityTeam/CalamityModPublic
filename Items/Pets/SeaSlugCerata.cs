@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Pets
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Sea Slug Cerata");
-            Tooltip.SetDefault("Summons a bioluminescent sea slug to follow you"
-            + "\nThe sea slug will change colors in different environments");
+            DisplayName.SetDefault("Colorful Cerata");
+            Tooltip.SetDefault("Summons a Bioluminescent Nudibranch to follow you"
+            + "\nThe Nudibranch will change colors and patterns in different environments");
         }
 
         public override void SetDefaults()
@@ -25,11 +25,11 @@ namespace CalamityMod.Items.Pets
             Item.useAnimation = 20;
             Item.useTime = 20;
             Item.noMelee = true;
-            Item.width = 26;
-            Item.height = 28;
+            Item.width = 28;
+            Item.height = 22;
 
             Item.value = Item.sellPrice(gold: 20);
-            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.rare = ItemRarityID.Orange;
             Item.Calamity().devItem = true;
 
             Item.shoot = ModContent.ProjectileType<SeaSlug>();
