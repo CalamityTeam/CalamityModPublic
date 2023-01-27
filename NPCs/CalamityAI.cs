@@ -3005,7 +3005,7 @@ namespace CalamityMod.NPCs
                 {
                     // Play stomp sound. Gotta specify the filepath to avoid confusion between the namespace and npc
                     SoundStyle soundToPlay = CalamityWorld.getFixedBoi ? NPCs.ExoMechs.Ares.AresGaussNuke.NukeExplosionSound : NPCs.AstrumAureus.AstrumAureus.StompSound;
-                    SoundEngine.PlaySound(soundToPlay, npc.position);
+                    SoundEngine.PlaySound(soundToPlay, npc.Center);
 
                     if (CalamityWorld.getFixedBoi)
                     {
@@ -4870,7 +4870,7 @@ namespace CalamityMod.NPCs
                     if (calamityGlobalNPC.newAI[1] == newPhaseTimer - 60f)
                     {
                         float squawkpitch = CalamityWorld.getFixedBoi ? 1.3f : 0.25f;
-                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.position);
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.Center);
 
                         if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
                         {
@@ -4908,7 +4908,7 @@ namespace CalamityMod.NPCs
                     if (calamityGlobalNPC.newAI[0] == newPhaseTimer - 60f)
                     {
                         float squawkpitch = CalamityWorld.getFixedBoi ? 1.3f : 0.25f;
-                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.position);
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.Center);
 
                         if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
                         {
@@ -5405,7 +5405,7 @@ namespace CalamityMod.NPCs
                     if (npc.ai[1] == birbSpawnPhaseTimer - 60f)
                     {
                         float squawkpitch = CalamityWorld.getFixedBoi ? 1.3f : 0.25f;
-                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.position);
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.Center);
 
                         if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
                         {
