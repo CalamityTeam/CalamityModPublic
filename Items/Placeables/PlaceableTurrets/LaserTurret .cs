@@ -1,9 +1,12 @@
 ﻿using CalamityMod.Tiles.PlayerTurrets;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Plates;
+using CalamityMod.CustomRecipes;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.Placeables.PlaceableTurrets
 {
@@ -24,6 +27,7 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
             Item.rare = ItemRarityID.Pink;
         }
 
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 2);
         public override void AddRecipes()
         {
             CreateRecipe().
@@ -31,6 +35,7 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
                 AddIngredient<DubiousPlating>(20).
                 AddIngredient<Cinderplate>(10).
                 AddIngredient<EssenceofSunlight>(12).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(2, out Predicate<Recipe> condition), condition).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
