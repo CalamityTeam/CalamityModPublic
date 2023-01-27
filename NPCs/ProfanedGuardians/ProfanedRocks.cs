@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
                         {
                             if (NPC.DeathSound.HasValue)
-                                SoundEngine.PlaySound(NPC.DeathSound.GetValueOrDefault(), NPC.position);
+                                SoundEngine.PlaySound(NPC.DeathSound.GetValueOrDefault(), NPC.Center);
 
                             NPC.life = 0;
                             NPC.HitEffect();

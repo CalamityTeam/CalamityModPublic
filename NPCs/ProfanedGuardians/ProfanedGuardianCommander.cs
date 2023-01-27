@@ -346,6 +346,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             float num1006 = 0.111111117f * inertia;
 
+            int totalDustPerProjectile = 15;
+
             if (NPC.ai[0] == 0f)
             {
                 // Face the target
@@ -365,8 +367,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Vector2 targetVector = destination - NPC.Center;
                 Vector2 desiredVelocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
                 float phaseGateValue = (bossRush || biomeEnraged) ? 50f : death ? 66f : revenge ? 75f : expertMode ? 83f : 100f;
+                bool continueShootingProjectiles = phase1 || (NPC.ai[2] < (phaseGateValue * 5f));
 
-                if (phase1)
+                if (continueShootingProjectiles)
                 {
                     // Move towards destination
                     if (Vector2.Distance(NPC.Center, destination) > 80f)
@@ -374,35 +377,37 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     else
                         NPC.velocity *= 0.98f;
 
-                    // Fire a few extra spears and holy fires after the healer is dead and the defender is defending the commander
-                    bool fireExtraSpears = false;
-                    if (defenderAlive)
-                    {
-                        if (Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] == 1f)
-                            fireExtraSpears = true;
-                    }
-
                     // Alternate between firing profaned spears and holy fire
-                    NPC.ai[3] += 1f;
+                    // Shoot holy blasts in final phase
+                    NPC.ai[2] += 1f;
                     float projectileShootGateValue = (bossRush || biomeEnraged) ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
-                    if (healerAlive)
+                    if (healerAlive || !phase1)
                         projectileShootGateValue = (int)(projectileShootGateValue * 1.5f);
 
-                    if (NPC.ai[3] % projectileShootGateValue == 0f)
+                    if (NPC.ai[2] % projectileShootGateValue == 0f)
                     {
-                        bool shootSpears = NPC.ai[3] % (projectileShootGateValue * 2f) == 0f;
-                        float spearVelocity = (bossRush || biomeEnraged) ? 11f : death ? 10f : revenge ? 9.5f : expertMode ? 9f : 8f;
-                        Vector2 finalSpearVelocity = Vector2.Normalize(player.Center - shootFrom) * spearVelocity;
-
-                        int totalDustPerProjectile = 15;
-                        for (int k = 0; k < totalDustPerProjectile; k++)
-                            Dust.NewDust(shootFrom, 30, 30, (int)CalamityDusts.ProfanedFire, finalSpearVelocity.X, finalSpearVelocity.Y, 0, default, 1f);
-
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        if (phase1)
                         {
+                            // Fire a few extra spears and holy fires after the healer is dead and the defender is defending the commander
+                            bool fireExtraSpears = false;
+                            if (defenderAlive)
+                            {
+                                if (Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] == 1f)
+                                    fireExtraSpears = true;
+                            }
+
+                            bool shootSpears = NPC.ai[2] % (projectileShootGateValue * 2f) == 0f;
+                            float spearVelocity = (bossRush || biomeEnraged) ? 11f : death ? 10f : revenge ? 9.5f : expertMode ? 9f : 8f;
+                            Vector2 finalSpearVelocity = Vector2.Normalize(player.Center - shootFrom) * spearVelocity;
+
+                            for (int k = 0; k < totalDustPerProjectile; k++)
+                                Dust.NewDust(shootFrom, 30, 30, (int)CalamityDusts.ProfanedFire, finalSpearVelocity.X, finalSpearVelocity.Y, 0, default, 1f);
+
                             int type = shootSpears ? ModContent.ProjectileType<ProfanedSpear>() : ModContent.ProjectileType<HolyFire>();
                             int damage = NPC.GetProjectileDamage(type);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, finalSpearVelocity, type, damage, 0f, Main.myPlayer);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, finalSpearVelocity, type, damage, 0f, Main.myPlayer);
+
                             if (fireExtraSpears)
                             {
                                 int baseProjectileAmt = (bossRush || biomeEnraged) ? 4 : 2;
@@ -415,30 +420,81 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                                     for (int k = 0; k < totalDustPerProjectile; k++)
                                         Dust.NewDust(shootFrom, 30, 30, (int)CalamityDusts.ProfanedFire, perturbedSpeed.X, perturbedSpeed.Y, 0, default, 1f);
 
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, perturbedSpeed, type, damage, 0f, Main.myPlayer);
                                 }
                             }
+                        }
+                        else
+                        {
+                            // Shoot holy blasts
+                            float holyBlastVelocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                            Vector2 finalHolyBlastVelocity = Vector2.Normalize(player.Center - shootFrom) * holyBlastVelocity;
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                int type = ModContent.ProjectileType<HolyBlast>();
+                                int damage = NPC.GetProjectileDamage(type);
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, finalHolyBlastVelocity, type, damage, 0f, Main.myPlayer);
+                                    Main.projectile[proj].timeLeft = 180;
+                                }
+                            }
+
+                            // Dust for blasting out the holy blasts
+                            for (int i = 0; i < 100; i++)
+                            {
+                                int dustID;
+                                switch (Main.rand.Next(6))
+                                {
+                                    case 0:
+                                    case 1:
+                                    case 2:
+                                    case 3:
+                                        dustID = (int)CalamityDusts.ProfanedFire;
+                                        break;
+                                    default:
+                                        dustID = DustID.OrangeTorch;
+                                        break;
+                                }
+
+                                // Choose a random speed and angle to blast the fire out
+                                float dustSpeed = Main.rand.NextFloat(holyBlastVelocity * 0.5f, holyBlastVelocity);
+                                float angleRandom = 0.06f;
+                                Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(finalHolyBlastVelocity.ToRotation());
+                                dustVel = dustVel.RotatedBy(-angleRandom);
+                                dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
+
+                                // Pick a size for the fire particles
+                                float scale = Main.rand.NextFloat(1f, 2f);
+
+                                // Actually spawn the fire
+                                int idx = Dust.NewDust(shootFrom, 180, 180, dustID, dustVel.X, dustVel.Y, 0, default, scale);
+                                Main.dust[idx].noGravity = true;
+                            }
+
+                            NPC.velocity = -finalHolyBlastVelocity * 0.5f;
                         }
                     }
                 }
                 else
                 {
                     // Slow down and transition to final phase
+                    NPC.velocity *= 0.98f;
                     if (NPC.ai[1] >= phaseGateValue)
                     {
                         NPC.ai[0] = 1f;
-                        NPC.ai[2] = targetVector.X;
-                        NPC.ai[3] = targetVector.Y;
+                        NPC.ai[1] = 0f;
+                        NPC.ai[2] = 0f;
                         NPC.netUpdate = true;
                     }
                     else
                         NPC.ai[1] += 1f;
-
-                    NPC.velocity *= 0.98f;
                 }
             }
             else if (NPC.ai[0] == 1f)
             {
+                // Face the target
                 if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
                 {
                     float playerLocation = NPC.Center.X - player.Center.X;
@@ -446,69 +502,78 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.spriteDirection = NPC.direction;
                 }
 
-                NPC.velocity *= 0.8f;
+                NPC.ai[0] = 2f;
+                NPC.netUpdate = true;
+                Vector2 targetVector = player.Center - NPC.Center;
+                Vector2 velocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f));
+                velocity *= (bossRush || biomeEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
                 if (Main.getGoodWorld)
-                    NPC.velocity *= 0.5f;
+                    velocity *= 1.15f;
 
-                float chargeGateValue = 12f;
-                if (Main.getGoodWorld)
-                    chargeGateValue *= 0.25f;
+                NPC.velocity = velocity;
 
-                NPC.ai[1] += 1f;
-                if (NPC.ai[1] >= chargeGateValue)
+                // Dust ring and sound right as charge begins
+                SoundEngine.PlaySound(SoundID.Item74, shootFrom);
+                int totalDust = 36;
+                for (int k = 0; k < totalDust; k++)
                 {
-                    NPC.ai[0] = 2f;
-                    NPC.ai[1] = 0f;
-                    NPC.netUpdate = true;
-                    Vector2 velocity = new Vector2(NPC.ai[2], NPC.ai[3]).SafeNormalize(new Vector2(NPC.direction, 0f));
-                    velocity *= (bossRush || biomeEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
-                    if (defenderAlive)
-                        velocity *= 0.8f;
-                    if (Main.getGoodWorld)
-                        velocity *= 1.15f;
-
-                    NPC.velocity = velocity;
+                    Vector2 dustSpawnPos = NPC.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(160f, 160f);
+                    dustSpawnPos = dustSpawnPos.RotatedBy((double)((k - (totalDust / 2 - 1)) * MathHelper.TwoPi / totalDust), default) + shootFrom;
+                    Vector2 dustVelocity = dustSpawnPos - shootFrom;
+                    int dust = Dust.NewDust(dustSpawnPos + dustVelocity, 0, 0, (int)CalamityDusts.ProfanedFire, dustVelocity.X, dustVelocity.Y, 0, default, 1f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].noLight = true;
+                    Main.dust[dust].scale = 3f;
+                    Main.dust[dust].velocity = dustVelocity * 0.3f;
                 }
             }
             else if (NPC.ai[0] == 2f)
             {
+                // Face the direction of the charge
                 if (Math.Sign(NPC.velocity.X) != 0)
                     NPC.spriteDirection = -Math.Sign(NPC.velocity.X);
                 NPC.spriteDirection = Math.Sign(NPC.velocity.X);
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    NPC.localAI[0] += 1f;
-                    float projectileGateValue = (bossRush || biomeEnraged) ? 30f : death ? 35f : revenge ? 37f : expertMode ? 40f : 45f;
-                    if (NPC.localAI[0] >= projectileGateValue && Vector2.Distance(NPC.Center, player.Center) > 160f)
-                    {
-                        NPC.localAI[0] = 0f;
-
-                        SoundEngine.PlaySound(SoundID.Item20, NPC.position);
-
-                        
-                    }
-                }
-
                 NPC.ai[1] += 1f;
-                float phaseGateValue = (bossRush || biomeEnraged) ? 60f : death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
+                float phaseGateValue = (bossRush || biomeEnraged) ? 60f : death ? 70f : revenge ? 74f : expertMode ? 80f : 90f;
                 if (NPC.ai[1] >= phaseGateValue)
                 {
                     NPC.ai[0] = 3f;
-                    NPC.ai[1] = phase1 ? 24f : 6f;
-                    NPC.ai[2] = 0f;
-                    NPC.ai[3] = 0f;
+                    // Slown down duration ranges from 20 to 40 frames in rev, otherwise it's always 40 frames
+                    float slowDownDurationAfterCharge = revenge ? Main.rand.Next(20, 41) : 40f;
+                    NPC.ai[1] = slowDownDurationAfterCharge;
                     NPC.velocity /= 2f;
                     NPC.netUpdate = true;
                 }
                 else
                 {
+                    // Throw down holy fire while charging
+                    int projectileGateValue = (int)(phaseGateValue * 0.4f);
+                    if (NPC.ai[1] % projectileGateValue == 0f)
+                    {
+                        float projectileVelocityY = NPC.velocity.Y;
+                        if (projectileVelocityY < 0f)
+                            projectileVelocityY = 0f;
+
+                        projectileVelocityY += expertMode ? 3f : 2f;
+                        Vector2 projectileVelocity = new Vector2(NPC.velocity.X * 0.2f, projectileVelocityY);
+
+                        for (int k = 0; k < totalDustPerProjectile; k++)
+                            Dust.NewDust(shootFrom, 30, 30, (int)CalamityDusts.ProfanedFire, projectileVelocity.X, projectileVelocity.Y, 0, default, 1f);
+
+                        int type = ModContent.ProjectileType<HolyFire>();
+                        int damage = NPC.GetProjectileDamage(type);
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, projectileVelocity, type, damage, 0f, Main.myPlayer);
+                    }
+
                     Vector2 targetVector = (player.Center - NPC.Center).SafeNormalize(new Vector2(NPC.direction, 0f));
                     NPC.velocity = (NPC.velocity * (inertia - 1f) + targetVector * (NPC.velocity.Length() + num1006)) / inertia;
                 }
             }
             else if (NPC.ai[0] == 3f)
             {
+                // Face the direction of the charge
                 if (Math.Sign(NPC.velocity.X) != 0)
                     NPC.spriteDirection = -Math.Sign(NPC.velocity.X);
                 NPC.spriteDirection = Math.Sign(NPC.velocity.X);
@@ -516,13 +581,27 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.ai[1] -= 1f;
                 if (NPC.ai[1] <= 0f)
                 {
-                    NPC.ai[0] = 0f;
-                    NPC.ai[1] = 0f;
+                    NPC.ai[2] += 1f;
+
+                    // Charges one to three times in a row in rev, otherwise it will always charge twice in a row
+                    float totalCharges = revenge ? (Main.rand.Next(3) + 1f) : 2f;
+                    bool dontCharge = NPC.ai[2] >= totalCharges;
+                    bool useSpears = NPC.ai[3] % 2f == 0f;
+                    NPC.ai[0] = dontCharge ? (useSpears ? 4f : 0f) : 1f;
+                    if (dontCharge)
+                        NPC.ai[2] = 0f;
+
                     NPC.TargetClosest();
                     NPC.netUpdate = true;
                 }
 
-                NPC.velocity *= phase1 ? 0.9f : 0.66f;
+                NPC.velocity *= 0.92f;
+            }
+            else if (NPC.ai[0] == 4f)
+            {
+                // Make the commander either stand still and use spears or fly to the left/right and fire projectiles by incrementing ai[3] at the end of the spear phase
+                // NPC.ai[0] = 0f;
+                // NPC.ai[3] += 1f;
             }
         }
 

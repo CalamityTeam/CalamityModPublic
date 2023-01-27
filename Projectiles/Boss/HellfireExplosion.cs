@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Boss
             Lighting.AddLight(Projectile.Center, 0.75f, 0f, 0f);
             if (Projectile.localAI[0] == 0f)
             {
-                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
                 Projectile.localAI[0] += 1f;
             }
             bool flag15 = false;

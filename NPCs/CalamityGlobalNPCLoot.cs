@@ -1771,7 +1771,7 @@ namespace CalamityMod.NPCs
                     if (!NPC.downedGolemBoss)
                     {
                         if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                            SoundEngine.PlaySound(PlagueSound, Main.player[Main.myPlayer].position);
+                            SoundEngine.PlaySound(PlagueSound, Main.player[Main.myPlayer].Center);
 
                         string key3 = "Mods.CalamityMod.BabyBossText";
                         Color messageColor3 = Color.Lime;
@@ -1985,7 +1985,7 @@ namespace CalamityMod.NPCs
                 {
                     if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     {
-                        SoundEngine.PlaySound(Mauler.RoarSound, Main.player[Main.myPlayer].position);
+                        SoundEngine.PlaySound(Mauler.RoarSound, Main.player[Main.myPlayer].Center);
                     }
 
                     int lastPlayer = npc.lastInteraction;

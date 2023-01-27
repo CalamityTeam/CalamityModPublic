@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.Ravager
                 {
                     if (NPC.ai[1] == -1f)
                     {
-                        SoundEngine.PlaySound(SoundID.Item62, NPC.position);
+                        SoundEngine.PlaySound(SoundID.Item62, NPC.Center);
 
                         for (int num621 = 0; num621 < 10; num621++)
                         {
@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 if (NPC.velocity.Y == 0f || Vector2.Distance(NPC.Center, Main.npc[CalamityGlobalNPC.scavenger].Center) > 2800f)
                 {
-                    SoundEngine.PlaySound(SoundID.Item14, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
                     NPC.ai[0] = 0f;
                     NPC.life = 0;
                     HitEffect(NPC.direction, 9999);
@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs.Ravager
             if (damage <= 0)
                 return;
             player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240, true);
-            SoundEngine.PlaySound(SoundID.Item14, NPC.position);
+            SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
             NPC.ai[0] = 0f;
             NPC.life = 0;
             HitEffect(NPC.direction, 9999);

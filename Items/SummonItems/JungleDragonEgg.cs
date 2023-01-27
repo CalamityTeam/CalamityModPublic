@@ -46,7 +46,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(Yharon.FireSound, player.position);
+            SoundEngine.PlaySound(Yharon.FireSound, player.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Yharon>());
             else

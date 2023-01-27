@@ -252,7 +252,7 @@ namespace CalamityMod.Events
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
-                    SoundEngine.PlaySound(SoundID.ScaryScream, player.position);
+                    SoundEngine.PlaySound(SoundID.ScaryScream, player.Center);
                     int ravager = NPC.NewNPC(Source, (int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 600f), type, 1);
                     Main.npc[ravager].timeLeft *= 20;
                     CalamityUtils.BossAwakenMessage(ravager);
@@ -590,7 +590,7 @@ namespace CalamityMod.Events
 
                     // Play a special boss roar sound by default.
                     if (!Bosses[BossRushStage].UsesSpecialSound)
-                        SoundEngine.PlaySound(BossSummonSound, Main.player[ClosestPlayerToWorldCenter].position);
+                        SoundEngine.PlaySound(BossSummonSound, Main.player[ClosestPlayerToWorldCenter].Center);
 
                     // And spawn the boss.
                     Bosses[BossRushStage].SpawnContext.Invoke(CurrentlyFoughtBoss);

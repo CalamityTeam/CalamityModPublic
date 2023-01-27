@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Boss
                     }
                 }
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item73, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item73, Projectile.Center);
             }
 
             Projectile.localAI[0] += 1f;

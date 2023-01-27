@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override bool CheckDead()
         {
-            SoundEngine.PlaySound(SoundID.NPCDeath14, NPC.position);
+            SoundEngine.PlaySound(SoundID.NPCDeath14, NPC.Center);
             NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
             NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
             NPC.width = NPC.height = 40;

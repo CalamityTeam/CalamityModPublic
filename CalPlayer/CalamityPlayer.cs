@@ -2581,7 +2581,7 @@ namespace CalamityMod.CalPlayer
                 rogueStealth -= rogueStealthMax * 0.1f;
                 int veil = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, Player.whoAmI);
                 Main.projectile[veil].Center = Player.Center;
-                SoundEngine.PlaySound(SoundID.Item45, Player.position);
+                SoundEngine.PlaySound(SoundID.Item45, Player.Center);
             }
             if (CalamityKeybinds.SpectralVeilHotKey.JustPressed && spectralVeil && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0)
@@ -2833,7 +2833,7 @@ namespace CalamityMod.CalPlayer
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
                         Player.TeleportationPotion();
-                        SoundEngine.PlaySound(SoundID.Item6, Player.position);
+                        SoundEngine.PlaySound(SoundID.Item6, Player.Center);
                     }
                     else if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
                     {
@@ -3014,7 +3014,7 @@ namespace CalamityMod.CalPlayer
                     int offset = Player.height;
                     if (Player.gravDir == -1f)
                         offset = 0;
-                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.position);
+                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.Center);
                     Player.velocity.Y = -Player.jumpSpeed * Player.gravDir;
                     Player.jump = (int)(Player.jumpHeight * 1.25);
                     for (int d = 0; d < 30; ++d)
@@ -3036,7 +3036,7 @@ namespace CalamityMod.CalPlayer
                     int offset = Player.height;
                     if (Player.gravDir == -1f)
                         offset = 0;
-                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.position);
+                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.Center);
                     Player.velocity.Y = -Player.jumpSpeed * Player.gravDir;
                     Player.jump = (int)(Player.jumpHeight * 1.5);
                     for (int d = 0; d < 30; ++d)
@@ -3596,7 +3596,7 @@ namespace CalamityMod.CalPlayer
         private void GodSlayerDodge()
         {
             Player.GiveIFrames(Player.longInvince ? 100 : 60, true);
-            SoundEngine.PlaySound(SoundID.Item67, Player.position);
+            SoundEngine.PlaySound(SoundID.Item67, Player.Center);
 
             for (int j = 0; j < 30; j++)
             {
@@ -3796,7 +3796,7 @@ namespace CalamityMod.CalPlayer
 
             if (nCore && !Player.HasCooldown(Cooldowns.NebulousCore.ID))
             {
-                SoundEngine.PlaySound(SoundID.Item67, Player.position);
+                SoundEngine.PlaySound(SoundID.Item67, Player.Center);
 
                 for (int j = 0; j < 50; j++)
                 {
@@ -3833,7 +3833,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (silvaCountdown == silvaReviveDuration && !hasSilvaEffect)
                 {
-                    SoundEngine.PlaySound(SilvaHeadSummon.ActivationSound, Player.position);
+                    SoundEngine.PlaySound(SilvaHeadSummon.ActivationSound, Player.Center);
 
                     Player.AddBuff(ModContent.BuffType<SilvaRevival>(), silvaReviveDuration);
 
@@ -3862,7 +3862,7 @@ namespace CalamityMod.CalPlayer
 
                 Player.statLife = Player.statLifeMax2 * 3 / 10;
 
-                SoundEngine.PlaySound(SoundID.Item92, Player.position);
+                SoundEngine.PlaySound(SoundID.Item92, Player.Center);
 
                 for (int i = 0; i < 60; i++)
                 {
@@ -5517,43 +5517,43 @@ namespace CalamityMod.CalPlayer
                 if (Player.GetModPlayer<RoverDrivePlayer>().ProtectionMatrixDurability > 0)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(RoverDrive.ShieldHurtSound, Player.position);
+                    SoundEngine.PlaySound(RoverDrive.ShieldHurtSound, Player.Center);
                     hurtSoundTimer = 20;
                 }
                 else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(Providence.HurtSound, Player.position);
+                    SoundEngine.PlaySound(Providence.HurtSound, Player.Center);
                     hurtSoundTimer = 20;
                 }
                 else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.position); //metal hit noise
+                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.Center); //metal hit noise
                     hurtSoundTimer = 10;
                 }
                 else if ((aquaticHeartPower || aquaticHeartForce) && !aquaticHeartHide)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(SoundID.FemaleHit, Player.position); //female hit noise
+                    SoundEngine.PlaySound(SoundID.FemaleHit, Player.Center); //female hit noise
                     hurtSoundTimer = 10;
                 }
                 else if (titanHeartSet)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(NPCs.Astral.Atlas.HurtSound, Player.position);
+                    SoundEngine.PlaySound(NPCs.Astral.Atlas.HurtSound, Player.Center);
                     hurtSoundTimer = 10;
                 }
                 else if (Player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.position);
+                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.Center);
                     hurtSoundTimer = 10;
                 }
                 else if (Player.GetModPlayer<WulfrumArmorPlayer>().wulfrumSet && (Player.name.ToLower() == "wagstaff" || Player.name.ToLower() == "john wulfrum"))
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(SoundID.DSTMaleHurt, Player.position);
+                    SoundEngine.PlaySound(SoundID.DSTMaleHurt, Player.Center);
                     hurtSoundTimer = 10;
                 }
             }
@@ -5716,7 +5716,7 @@ namespace CalamityMod.CalPlayer
                 if (amidiasBlessing && damage > 50)
                 {
                     Player.ClearBuff(ModContent.BuffType<AmidiasBlessing>());
-                    SoundEngine.PlaySound(SoundID.Item96, Player.position);
+                    SoundEngine.PlaySound(SoundID.Item96, Player.Center);
                 }
 
                 if ((gShell || flameLickedShell) && !Player.panic)
@@ -5733,7 +5733,7 @@ namespace CalamityMod.CalPlayer
 
                     if (abyssalDivingSuitPlateHits >= 3)
                     {
-                        SoundEngine.PlaySound(SoundID.NPCDeath14, Player.position);
+                        SoundEngine.PlaySound(SoundID.NPCDeath14, Player.Center);
                         if (plateCDExists)
                             cooldowns.Remove(DivingPlatesBreaking.ID);
                         Player.AddCooldown(DivingPlatesBroken.ID, 10830);
@@ -5801,7 +5801,7 @@ namespace CalamityMod.CalPlayer
 
                 if ((fBarrier || (aquaticHeart && NPC.downedBoss3)) && !areThereAnyDamnBosses)
                 {
-                    SoundEngine.PlaySound(SoundID.Item27, Player.position);
+                    SoundEngine.PlaySound(SoundID.Item27, Player.Center);
                     for (int m = 0; m < Main.maxNPCs; m++)
                     {
                         NPC npc = Main.npc[m];
@@ -6003,7 +6003,7 @@ namespace CalamityMod.CalPlayer
                 if (aBulwarkRare)
                 {
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<HideofAstrumDeus>()));
-                    SoundEngine.PlaySound(SoundID.Item74, Player.position);
+                    SoundEngine.PlaySound(SoundID.Item74, Player.Center);
                     int blazeDamage = (int)Player.GetBestClassDamage().ApplyTo(25);
                     int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(320);
                     Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), blazeDamage, 5f, Player.whoAmI, 0f, 1f);
@@ -6032,7 +6032,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<FungalCarapace>()));
                     if (damage > 0)
                     {
-                        SoundEngine.PlaySound(SoundID.NPCHit45, Player.position);
+                        SoundEngine.PlaySound(SoundID.NPCHit45, Player.Center);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -6058,7 +6058,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<HideofAstrumDeus>()));
                     if (damage > 0)
                     {
-                        SoundEngine.PlaySound(SoundID.Item93, Player.position);
+                        SoundEngine.PlaySound(SoundID.Item93, Player.Center);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -6099,7 +6099,7 @@ namespace CalamityMod.CalPlayer
                         rogueStealth += 0.5f;
                         for (int i = 0; i < 3; i++)
                         {
-                            SoundEngine.PlaySound(SoundID.Item61, Player.position);
+                            SoundEngine.PlaySound(SoundID.Item61, Player.Center);
                             int ink = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-0f, -4f), ModContent.ProjectileType<InkBombProjectile>(), 0, 0, Player.whoAmI);
                             if (ink.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[ink].DamageType = DamageClass.Generic;
@@ -6129,7 +6129,7 @@ namespace CalamityMod.CalPlayer
                     var fuckYouBitch = Player.GetSource_Misc("21");
                     if (damage > 0)
                     {
-                        SoundEngine.PlaySound(SoundID.Item74, Player.position);
+                        SoundEngine.PlaySound(SoundID.Item74, Player.Center);
                         int eDamage = (int)Player.GetBestClassDamage().ApplyTo(100);
                         if (Player.whoAmI == Main.myPlayer)
                             Projectile.NewProjectile(fuckYouBitch, Player.Center, Vector2.Zero, ModContent.ProjectileType<DeepseaBlaze>(), eDamage, 1f, Player.whoAmI, 0f, 0f);
@@ -6140,7 +6140,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Misc("22");
                     if (damage > 0)
                     {
-                        SoundEngine.PlaySound(SoundID.Item27, Player.position);
+                        SoundEngine.PlaySound(SoundID.Item27, Player.Center);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -6178,7 +6178,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Misc("24");
                     if (damage > 80)
                     {
-                        SoundEngine.PlaySound(SoundID.Item73, Player.position);
+                        SoundEngine.PlaySound(SoundID.Item73, Player.Center);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -6287,7 +6287,7 @@ namespace CalamityMod.CalPlayer
                     Player.KillMeForGood();
                 }
             }
-            SoundEngine.PlaySound(SoundID.PlayerKilled, Player.position);
+            SoundEngine.PlaySound(SoundID.PlayerKilled, Player.Center);
             Player.headVelocity.Y = (float)Main.rand.Next(-40, -10) * 0.1f;
             Player.bodyVelocity.Y = (float)Main.rand.Next(-40, -10) * 0.1f;
             Player.legVelocity.Y = (float)Main.rand.Next(-40, -10) * 0.1f;
@@ -6319,7 +6319,7 @@ namespace CalamityMod.CalPlayer
             PlayerDeathReason damageSource = PlayerDeathReason.ByOther(Player.Male ? 14 : 15);
             if (abyssDeath)
             {
-                SoundEngine.PlaySound(DrownSound, Player.position);
+                SoundEngine.PlaySound(DrownSound, Player.Center);
 
                 if (Main.rand.NextBool(2))
                 {
@@ -6470,7 +6470,7 @@ namespace CalamityMod.CalPlayer
             if (playRogueStealthSound && rogueStealth >= rogueStealthMax && Player.whoAmI == Main.myPlayer)
             {
                 playRogueStealthSound = false;
-                SoundEngine.PlaySound(RogueStealthSound, Player.position);
+                SoundEngine.PlaySound(RogueStealthSound, Player.Center);
             }
 
             // If the player isn't at full stealth, reset the sound so it'll play again when they hit full stealth.
@@ -6906,7 +6906,7 @@ namespace CalamityMod.CalPlayer
             // Play a sound from taking defense damage.
             if (hurtSoundTimer == 0 && Main.myPlayer == Player.whoAmI)
             {
-                SoundEngine.PlaySound(DefenseDamageSound with { Volume = DefenseDamageSound.Volume * 0.75f}, Player.position);
+                SoundEngine.PlaySound(DefenseDamageSound with { Volume = DefenseDamageSound.Volume * 0.75f}, Player.Center);
                 hurtSoundTimer = 30;
             }
 

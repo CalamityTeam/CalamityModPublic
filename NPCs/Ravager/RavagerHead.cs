@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.ai[1] += 1f;
             if (NPC.ai[1] >= (death ? 420f : 480f))
             {
-                SoundEngine.PlaySound(MissileSound, NPC.position);
+                SoundEngine.PlaySound(MissileSound, NPC.Center);
 
                 // Get a target
                 if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)

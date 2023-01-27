@@ -136,7 +136,7 @@ namespace CalamityMod.NPCs.Ravager
             }
             else if (NPC.ai[0] == 1f)
             {
-                SoundEngine.PlaySound(RavagerBody.FistSound, NPC.position);
+                SoundEngine.PlaySound(RavagerBody.FistSound, NPC.Center);
                 NPC.noTileCollide = true;
                 NPC.collideX = false;
                 NPC.collideY = false;

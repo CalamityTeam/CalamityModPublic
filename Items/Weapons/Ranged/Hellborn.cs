@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             float num52 = 4f;
             Vector2 value3 = (target.rotation - MathHelper.PiOver2).ToRotationVector2();
             Vector2 value4 = value3 * target.velocity.Length();
-            SoundEngine.PlaySound(SoundID.Item14, target.position);
+            SoundEngine.PlaySound(SoundID.Item14, target.Center);
             for (int num53 = 0; num53 < 80; num53++)
             {
                 int num54 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 174, 0f, 0f, 200, default, num50);

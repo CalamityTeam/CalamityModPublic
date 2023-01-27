@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs.AcidRain
                 DustAngleMultiplier2 = Main.rand.NextFloat(4f);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie104, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<GammaBeam>(), Main.expertMode ? 96 : 120, 4f, Main.myPlayer, 0f, NPC.whoAmI);
                 }
                 NPC.netUpdate = true;

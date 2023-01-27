@@ -331,7 +331,7 @@ namespace CalamityMod.NPCs.Leviathan
             // Play sound
             float extrapitch = CalamityMod.Instance.legendaryMode ? -0.5f : 0;
             if (Main.rand.NextBool(300))
-                SoundEngine.PlaySound(SoundID.Zombie35 with { Pitch = SoundID.Zombie35.Pitch + extrapitch}, NPC.position);
+                SoundEngine.PlaySound(SoundID.Zombie35 with { Pitch = SoundID.Zombie35.Pitch + extrapitch}, NPC.Center);
 
             // Time left
             if (NPC.timeLeft < 1800)
@@ -503,7 +503,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                 if (Collision.CanHit(vector119, 1, 1, player.position, player.width, player.height) && flag103)
                 {
-                    SoundEngine.PlaySound(SoundID.Item85, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Item85, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int spawn = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, NPCID.DetonatingBubble);
@@ -617,19 +617,19 @@ namespace CalamityMod.NPCs.Leviathan
                     switch ((int)NPC.localAI[3])
                     {
                         case 0:
-                            SoundEngine.PlaySound(SoundID.Item21, player.position);
+                            SoundEngine.PlaySound(SoundID.Item21, player.Center);
                             break;
                         case 1:
                             totalProjectiles = 3;
                             type = ModContent.ProjectileType<FrostMist>();
-                            SoundEngine.PlaySound(SoundID.Item30, player.position);
+                            SoundEngine.PlaySound(SoundID.Item30, player.Center);
                             break;
                         case 2:
                             totalProjectiles = 6;
                             type = ModContent.ProjectileType<SirenSong>();
                             float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
                             Main.musicPitch = soundPitch;
-                            SoundEngine.PlaySound(SoundID.Item26, player.position);
+                            SoundEngine.PlaySound(SoundID.Item26, player.Center);
                             break;
                     }
                     NPC.localAI[3] += 1f;

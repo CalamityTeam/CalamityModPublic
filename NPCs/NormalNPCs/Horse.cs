@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (NPC.life <= 0)
             {
-                SoundEngine.PlaySound(SoundID.Item14, NPC.position);
+                SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
                 NPC.width = 160;

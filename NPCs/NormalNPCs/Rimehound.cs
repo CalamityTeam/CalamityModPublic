@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Main.rand.NextBool(900))
             {
-                SoundEngine.PlaySound(GrowlSound, NPC.position);
+                SoundEngine.PlaySound(GrowlSound, NPC.Center);
             }
             bool phase2 = (double)NPC.life <= (double)NPC.lifeMax * (CalamityWorld.death ? 0.9 : CalamityWorld.revenge ? 0.7 : 0.5);
             if (phase2)

@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.localAI[0] = 1f;
-                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             }
 
             float inertia = revenge ? 80f : 100f;

@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Boss
                     }
                 }
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(ShootSound, Projectile.position);
+                SoundEngine.PlaySound(ShootSound, Projectile.Center);
             }
             if (Math.Abs(Projectile.velocity.X) > 0.2)
             {

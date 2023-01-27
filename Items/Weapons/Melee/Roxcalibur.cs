@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     Main.dust[d].noGravity = true;
                     Main.dust[d].position = player.Center;
                 }
-                SoundEngine.PlaySound(SoundID.Item70, player.position);
+                SoundEngine.PlaySound(SoundID.Item70, player.Center);
             }
             // Resets the weapon usage if the alt fire collides with the ground
             if (RoxAlt && player.ownedProjectileCounts[ModContent.ProjectileType<RoxSlam>()] <= 0)

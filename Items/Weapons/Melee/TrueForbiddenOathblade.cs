@@ -110,7 +110,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 target.AddBuff(ModContent.BuffType<Shadowflame>(), 450);
                 target.AddBuff(BuffID.OnFire, 900);
-                SoundEngine.PlaySound(SoundID.Item14, target.position);
+                SoundEngine.PlaySound(SoundID.Item14, target.Center);
             }
         }
 

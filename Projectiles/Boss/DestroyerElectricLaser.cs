@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Boss
             }
             if (Projectile.localAI[1] == 0f)
             {
-                SoundEngine.PlaySound(SoundID.Item33, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item33, Projectile.Center);
                 Projectile.localAI[1] = 1f;
             }
             if (Projectile.velocity.Length() < 12f)

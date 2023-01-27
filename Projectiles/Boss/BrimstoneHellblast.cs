@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.ai[1] == 0f)
             {
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             }
 
             if (Projectile.velocity.Length() < 18f)
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             for (int dust = 0; dust <= 5; dust++)
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f);

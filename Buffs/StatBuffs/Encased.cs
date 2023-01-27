@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,7 +21,7 @@ namespace CalamityMod.Buffs.StatBuffs
             player.Calamity().encased = true;
             if (player.buffTime[buffIndex] == 2)
             {
-                SoundEngine.PlaySound(SoundID.Item27, player.position);
+                SoundEngine.PlaySound(SoundID.Item27, player.Center);
                 player.GiveIFrames(90, true);
             }
         }

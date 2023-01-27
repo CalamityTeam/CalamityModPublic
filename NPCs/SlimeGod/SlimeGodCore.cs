@@ -211,7 +211,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 if (NPC.Opacity <= 0f)
                 {
                     NPC.Opacity = 0f;
-                    SoundEngine.PlaySound(PossessionSound, NPC.position);
+                    SoundEngine.PlaySound(PossessionSound, NPC.Center);
                     NPC.position.X = NPC.position.X + (NPC.width / 2);
                     NPC.position.Y = NPC.position.Y + (NPC.height / 2);
                     NPC.width = 40;
@@ -319,7 +319,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
                 if (buffedSlime == 0)
                 {
-                    SoundEngine.PlaySound(PossessionSound, NPC.position);
+                    SoundEngine.PlaySound(PossessionSound, NPC.Center);
 
                     if (purpleSlimeAlive && redSlimeAlive)
                         buffedSlime = Main.rand.Next(2) + 1;
@@ -357,7 +357,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.TargetClosest();
                     calamityGlobalNPC.newAI[2] = 0f;
                     NPC.velocity = Vector2.UnitY * -12f;
-                    SoundEngine.PlaySound(ExitSound, NPC.position);
+                    SoundEngine.PlaySound(ExitSound, NPC.Center);
                     for (int i = 0; i < 20; i++)
                     {
                         Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;

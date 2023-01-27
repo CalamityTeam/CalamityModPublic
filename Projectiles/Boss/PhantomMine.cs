@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             Projectile.position.X = Projectile.position.X + (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y + (Projectile.height / 2);
             Projectile.width = 150;

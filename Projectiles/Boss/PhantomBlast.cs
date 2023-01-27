@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.ai[1] == 0f)
             {
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             }
 
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item125, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item125, Projectile.Center);
             Projectile.position.X = Projectile.position.X + (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y + (Projectile.height / 2);
             Projectile.width = 50;

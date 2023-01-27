@@ -484,7 +484,7 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie104, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
                     int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<GammaRayBurst>(), 250, 0f, Main.myPlayer, NPC.whoAmI);
                     if (p.WithinBounds(Main.maxProjectiles))
                     {

@@ -127,14 +127,14 @@ namespace CalamityMod.NPCs.Abyss
                 if (NPC.soundDelay <= 0)
                 {
                     NPC.soundDelay = 420;
-                    SoundEngine.PlaySound(roar, NPC.position);
+                    SoundEngine.PlaySound(roar, NPC.Center);
                 }
             }
             else
             {
                 if (Main.rand.NextBool(900))
                 {
-                    SoundEngine.PlaySound(roar, NPC.position);
+                    SoundEngine.PlaySound(roar, NPC.Center);
                 }
             }
             if (NPC.ai[2] > 0f)

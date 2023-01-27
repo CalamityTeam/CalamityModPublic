@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            SoundEngine.PlaySound(SoundID.Item20, player.position);
+            SoundEngine.PlaySound(SoundID.Item20, player.Center);
             for (int index = 0; index < 3; ++index)
             {
                 float SpeedX = velocity.X + (float)Main.rand.Next(-40, 41) * 0.05f;

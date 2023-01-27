@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         }
                     }
 
-                    SoundEngine.PlaySound(SoundID.Item8, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                     int damage = NPC.GetProjectileDamage(type);
                     if (CalamityWorld.death || BossRushEvent.BossRushActive)
                     {

@@ -135,7 +135,7 @@ namespace CalamityMod.NPCs.Astral
                 NPC.velocity.X *= 0.95f;
                 if (NPC.ai[2] == 20f) //Don't do >= 20f or it'll cause a wave of scythes
                 {
-                    SoundEngine.PlaySound(SoundID.Item71, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
                     Vector2 vector = Main.player[NPC.target].Center - NPC.Center;
                     vector.Normalize();
                     int damage = DownedBossSystem.downedAstrumAureus ? 55 : 45;

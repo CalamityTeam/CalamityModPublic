@@ -136,7 +136,7 @@ namespace CalamityMod.NPCs.OldDuke
                     else
                         NPC.velocity = new Vector2(NPC.ai[2], NPC.ai[3]);
 
-                    SoundEngine.PlaySound(SoundID.NPCDeath19, NPC.position);
+                    SoundEngine.PlaySound(SoundID.NPCDeath19, NPC.Center);
                 }
 
                 // Fly towards a target after a certain time has passed
@@ -182,7 +182,7 @@ namespace CalamityMod.NPCs.OldDuke
                 if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height) || NPC.ai[1] >= dieGateValue)
                 {
                     if (NPC.DeathSound.HasValue)
-                        SoundEngine.PlaySound(NPC.DeathSound.GetValueOrDefault(), NPC.position);
+                        SoundEngine.PlaySound(NPC.DeathSound.GetValueOrDefault(), NPC.Center);
 
                     NPC.life = 0;
                     NPC.HitEffect();
@@ -306,7 +306,7 @@ namespace CalamityMod.NPCs.OldDuke
                 for (int k = 0; k < 20; k++)
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
 
-                SoundEngine.PlaySound(SoundID.NPCDeath12, NPC.position);
+                SoundEngine.PlaySound(SoundID.NPCDeath12, NPC.Center);
 
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);

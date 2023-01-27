@@ -472,7 +472,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 {
                     calamityGlobalNPC.newAI[3] = 0f;
 
-                    SoundEngine.PlaySound(SoundID.Item117, player.position);
+                    SoundEngine.PlaySound(SoundID.Item117, player.Center);
 
                     for (int i = 0; i < 20; i++)
                     {

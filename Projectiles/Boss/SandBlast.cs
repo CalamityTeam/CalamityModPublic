@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             for (int dust = 0; dust <= 3; dust++)
             {
                 float num463 = Main.rand.Next(-10, 11);

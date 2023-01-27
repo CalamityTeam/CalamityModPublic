@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.localAI[0] = 1f;
-                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             }
 
             // Main chunky dark purple dust at the front of the fireball
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
             int killDust = 20;
             for (int i = 0; i < killDust; ++i)
             {

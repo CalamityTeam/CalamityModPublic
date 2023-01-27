@@ -315,7 +315,7 @@ namespace CalamityMod.NPCs.Perforator
             {
                 if (NPC.Calamity().newAI[3] % 60 == 59)
                 {
-                    SoundEngine.PlaySound(SoundID.Item12, player.position);
+                    SoundEngine.PlaySound(SoundID.Item12, player.Center);
                     for (int i = -7; i < 8; i++) //15 lasers
                     {
                         float laserGap = (i * 128f);
@@ -432,7 +432,7 @@ namespace CalamityMod.NPCs.Perforator
                         num24 = 20f;
                     }
                     NPC.soundDelay = (int)num24;
-                    SoundEngine.PlaySound(SoundID.WormDig, NPC.position);
+                    SoundEngine.PlaySound(SoundID.WormDig, NPC.Center);
                 }
                 num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
                 float num25 = Math.Abs(num20);

@@ -108,7 +108,7 @@ namespace CalamityMod.NPCs.Abyss
                     {
                         if (screamTimer == screamLimit)
                         {
-                            SoundEngine.PlaySound(ScreamSound, NPC.position);
+                            SoundEngine.PlaySound(ScreamSound, NPC.Center);
                             if (Main.netMode != NetmodeID.Server)
                             {
                                 if (!Main.player[NPC.target].dead && Main.player[NPC.target].active)

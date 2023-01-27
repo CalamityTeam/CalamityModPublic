@@ -682,7 +682,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                     // Summon Cosmic Guardians
                                     if (Main.netMode != NetmodeID.MultiplayerClient)
                                     {
-                                        SoundEngine.PlaySound(AttackSound with { Pitch = AttackSound.Pitch + extrapitch }, player.position);
+                                        SoundEngine.PlaySound(AttackSound with { Pitch = AttackSound.Pitch + extrapitch }, player.Center);
 
                                         for (int i = 0; i < 3; i++)
                                             NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<CosmicGuardianHead>());
@@ -747,7 +747,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                             if (calamityGlobalNPC.newAI[1] % divisor == 0f)
                             {
-                                SoundEngine.PlaySound(SoundID.Item12, player.position);
+                                SoundEngine.PlaySound(SoundID.Item12, player.Center);
 
                                 // Side walls
                                 float targetPosY = player.position.Y;
@@ -1414,7 +1414,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         spawnDoGCountdown--;
                         if (spawnDoGCountdown == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            SoundEngine.PlaySound(AttackSound with { Pitch = AttackSound.Pitch + extrapitch }, player.position);
+                            SoundEngine.PlaySound(AttackSound with { Pitch = AttackSound.Pitch + extrapitch }, player.Center);
 
                             for (int i = 0; i < 2; i++)
                                 NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<CosmicGuardianHead>());
@@ -1436,7 +1436,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         spawnDoGCountdown--;
                         if (spawnDoGCountdown == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            SoundEngine.PlaySound(AttackSound with { Pitch = AttackSound.Pitch + extrapitch }, player.position);
+                            SoundEngine.PlaySound(AttackSound with { Pitch = AttackSound.Pitch + extrapitch }, player.Center);
 
                             NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<CosmicGuardianHead>());
                         }
@@ -1492,7 +1492,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                             if (calamityGlobalNPC.newAI[1] % (laserBarrageShootGateValue * 0.5f) == 0f && calamityGlobalNPC.newAI[1] > 0f)
                             {
-                                SoundEngine.PlaySound(SoundID.Item12, player.position);
+                                SoundEngine.PlaySound(SoundID.Item12, player.Center);
 
                                 // Side walls
                                 int type = ModContent.ProjectileType<DoGDeath>();

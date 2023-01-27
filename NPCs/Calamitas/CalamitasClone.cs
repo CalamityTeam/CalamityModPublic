@@ -239,7 +239,7 @@ namespace CalamityMod.NPCs.Calamitas
             if (!DownedBossSystem.downedCalamitas)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, Main.player[Main.myPlayer].position);
+                    SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, Main.player[Main.myPlayer].Center);
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }

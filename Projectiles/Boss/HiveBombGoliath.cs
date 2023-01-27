@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             Projectile.Damage();
-            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             for (int num621 = 0; num621 < 8; num621++)
             {
                 int num622 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 89, 0f, 0f, 100, default, 2f);
