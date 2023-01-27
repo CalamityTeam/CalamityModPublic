@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             NPC.Calamity().VulnerableToWater = true;
             SpawnModBiomes = new int[1] { ModContent.GetInstance<BrimstoneCragsBiome>().Type };
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
                 NPC.scale *= 0.7f;
         }
 

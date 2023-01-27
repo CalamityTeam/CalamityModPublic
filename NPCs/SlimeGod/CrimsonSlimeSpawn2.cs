@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
             int type = ModContent.ProjectileType<CrimsonSpike>();
             int damage = NPC.GetProjectileDamage(type);
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 type = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
             }
@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     }
                     if (Main.netMode != NetmodeID.MultiplayerClient && spikeTimer == 0f)
                     {
-                        int projcount = CalamityMod.Instance.legendaryMode ? 12 : 5;
+                        int projcount = CalamityWorld.getFixedBoi ? 12 : 5;
                         for (int n = 0; n < projcount; n++)
                         {
                             Vector2 vector4 = new Vector2((float)(n - 2), -4f);

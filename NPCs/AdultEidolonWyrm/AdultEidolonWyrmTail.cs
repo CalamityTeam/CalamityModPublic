@@ -149,7 +149,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 typeName = "Jared";
             }

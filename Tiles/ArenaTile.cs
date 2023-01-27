@@ -1,10 +1,11 @@
-﻿using CalamityMod.NPCs.Calamitas;
+﻿using CalamityMod.NPCs.CalClone;
 using CalamityMod.NPCs.SupremeCalamitas;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Skies;
+using CalamityMod.World;
 
 namespace CalamityMod.Tiles
 {
@@ -35,7 +36,7 @@ namespace CalamityMod.Tiles
         {
             if (closer)
             {
-                if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) && !SCalSky.RitualDramaProjectileIsPresent && !(NPC.AnyNPCs(ModContent.NPCType<CalamitasClone>()) && CalamityMod.Instance.legendaryMode))
+                if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) && !SCalSky.RitualDramaProjectileIsPresent && !(NPC.AnyNPCs(ModContent.NPCType<CalamitasClone>()) && CalamityWorld.getFixedBoi))
                 {
                     WorldGen.KillTile(i, j, false, false, false);
                     if (!Main.tile[i, j].HasTile && Main.netMode != NetmodeID.SinglePlayer)

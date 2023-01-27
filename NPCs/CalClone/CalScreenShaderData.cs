@@ -5,7 +5,7 @@ using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.Calamitas
+namespace CalamityMod.NPCs.CalClone
 {
     public class CalScreenShaderData : ScreenShaderData
     {

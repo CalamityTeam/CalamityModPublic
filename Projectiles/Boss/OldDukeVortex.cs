@@ -1,11 +1,12 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using System;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -37,7 +38,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 if (Projectile.scale < 2f)
                 {
@@ -122,7 +123,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
 
                 float distanceRequired = 800f * Projectile.scale;
-                float succPower = CalamityMod.Instance.legendaryMode ? 1f : 0.5f;
+                float succPower = CalamityWorld.getFixedBoi ? 1f : 0.5f;
                 for (int i = 0; i < Main.maxPlayers; i++)
                 {
                     Player player = Main.player[i];

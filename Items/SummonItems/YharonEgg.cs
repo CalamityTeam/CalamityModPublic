@@ -9,18 +9,18 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {
-    [LegacyName("ChickenEgg")]
-    public class JungleDragonEgg : ModItem
+    [LegacyName("ChickenEgg", "JungleDragonEgg")]
+    public class YharonEgg : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Jungle Dragon Egg");
-            Tooltip.SetDefault("An imitation of the egg that bore the loyal guardian of the tyrant king\n" +
-                               "Summons Jungle Dragon, Yharon when used in the Jungle\n" +
+            DisplayName.SetDefault("Blessed Phoenix Egg");
+            Tooltip.SetDefault("An effigy of a Phoenix Dragon egg, used in worship\n" +
+                               "Summons Yharon, Stalwart Defender\n" +
                                "Enrages outside the fire walls\n" +
                                "Not consumable");
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
+            ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()
@@ -34,14 +34,14 @@ namespace CalamityMod.Items.SummonItems
             Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
-		}
+        public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+        {
+            itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+        }
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneJungle && !NPC.AnyNPCs(ModContent.NPCType<Yharon>()) && !BossRushEvent.BossRushActive;
+            return !NPC.AnyNPCs(ModContent.NPCType<Yharon>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool? UseItem(Player player)

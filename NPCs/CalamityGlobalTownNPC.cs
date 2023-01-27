@@ -1515,7 +1515,7 @@ namespace CalamityMod.NPCs
                 damageMult += 0.6f;
                 defense += 20;
             }
-            if (DownedBossSystem.downedSCal)
+            if (DownedBossSystem.downedCalamitas)
             {
                 damageMult += 0.6f;
                 defense += 20;

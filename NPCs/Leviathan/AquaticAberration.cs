@@ -256,7 +256,7 @@ namespace CalamityMod.NPCs.Leviathan
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
 
             // Explode into bubbles on gfb
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {

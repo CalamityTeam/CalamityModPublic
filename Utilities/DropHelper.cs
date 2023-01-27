@@ -628,9 +628,9 @@ namespace CalamityMod
         public static IItemDropRuleCondition PostSP(bool ui = true) => If(() => NPC.downedMechBoss3, ui, "Drops after defeating Skeletron Prime");
         public static IItemDropRuleCondition Post1Mech(bool ui = true) => If(() => NPC.downedMechBossAny, ui, "Drops after defeating a Mechanical Boss");
         public static IItemDropRuleCondition Post3Mechs(bool ui = true) => If(() => NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3, ui, "Drops after defeating all three Mechanical Bosses");
-        public static IItemDropRuleCondition PostCal(bool ui = true) => If(() => DownedBossSystem.downedCalamitas, ui, "Drops after defeating Calamitas");
+        public static IItemDropRuleCondition PostCal(bool ui = true) => If(() => DownedBossSystem.downedCalamitasClone, ui, "Drops after defeating Calamitas Clone");
         public static IItemDropRuleCondition PostPlant(bool ui = true) => If(() => NPC.downedPlantBoss, ui, "Drops after defeating Plantera");
-        public static IItemDropRuleCondition PostCalPlant(bool ui = true) => If(() => DownedBossSystem.downedCalamitas || NPC.downedPlantBoss, ui, "Drops after defeating Calamitas or Plantera");
+        public static IItemDropRuleCondition PostCalPlant(bool ui = true) => If(() => DownedBossSystem.downedCalamitasClone || NPC.downedPlantBoss, ui, "Drops after defeating Calamitas or Plantera");
         public static IItemDropRuleCondition PostLevi(bool ui = true) => If(() => DownedBossSystem.downedLeviathan, ui, "Drops after defeating the Leviathan and Anahita");
         public static IItemDropRuleCondition PostAureus(bool ui = true) => If(() => DownedBossSystem.downedAstrumAureus, ui, "Drops after defeating Astrum Aureus");
         public static IItemDropRuleCondition PostGolem(bool ui = true) => If(() => NPC.downedGolemBoss, ui, "Drops after defeating Golem");
@@ -652,7 +652,7 @@ namespace CalamityMod
         public static IItemDropRuleCondition PostDoG(bool ui = true) => If(() => DownedBossSystem.downedDoG, ui, "Drops after defeating the Devourer of Gods");
         public static IItemDropRuleCondition PostYharon(bool ui = true) => If(() => DownedBossSystem.downedYharon, ui, "Drops after defeating Yharon");
         public static IItemDropRuleCondition PostExos(bool ui = true) => If(() => DownedBossSystem.downedExoMechs, ui, "Drops after defeating the Exo Mechs");
-        public static IItemDropRuleCondition PostSCal(bool ui = true) => If(() => DownedBossSystem.downedSCal, ui, "Drops after defeating Supreme Calamitas");
+        public static IItemDropRuleCondition PostSCal(bool ui = true) => If(() => DownedBossSystem.downedCalamitas, ui, "Drops after defeating Calamitas");
         public static IItemDropRuleCondition PostAEW(bool ui = true) => If(() => DownedBossSystem.downedAdultEidolonWyrm, ui, "Drops after defeating the Adult Eidolon Wyrm");
         public static IItemDropRuleCondition PostClam(bool ui = true) => If(() => DownedBossSystem.downedCLAM, ui, "Drops after defeating the Giant Clam");
         public static IItemDropRuleCondition PostClamHM(bool ui = true) => If(() => DownedBossSystem.downedCLAMHardMode, ui, "Drops after defeating the Giant Clam in Hardmode");

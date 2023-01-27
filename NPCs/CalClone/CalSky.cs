@@ -6,7 +6,7 @@ using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.Calamitas
+namespace CalamityMod.NPCs.CalClone
 {
     public class CalSky : CustomSky
     {

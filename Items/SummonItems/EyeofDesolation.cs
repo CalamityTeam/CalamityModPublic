@@ -1,13 +1,14 @@
-﻿using CalamityMod.Events;
-using CalamityMod.Items.Materials;
-using CalamityMod.NPCs.Calamitas;
-using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
+using CalamityMod.Events;
+using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.CalClone;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.SummonItems
             SacrificeTotal = 1;
             DisplayName.SetDefault("Eye of Desolation");
             Tooltip.SetDefault("Tonight is going to be a horrific night...\n" +
-                "Summons Calamitas when used during nighttime\n" +
+                "Summons the Calamitas Clone when used during nighttime\n" +
                 "Enrages during the day\n" +
                 "Not consumable");
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 10; // Pirate Map
@@ -63,7 +64,7 @@ namespace CalamityMod.Items.SummonItems
             else
                 NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CalamitasClone>());
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
             {
                 safeBox.X = spawnX = spawnXReset = (int)(player.Center.X - 1250f);
                 spawnX2 = spawnXReset2 = (int)(player.Center.X + 1250f);
@@ -109,7 +110,7 @@ namespace CalamityMod.Items.SummonItems
             Player player = Main.LocalPlayer;
             TooltipLine line3 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 line3.Text = "Creates a square arena of blocks, with you at its center\nEnrages during the day";
             }

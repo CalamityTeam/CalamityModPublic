@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Jungle Dragon, Yharon");
+            DisplayName.SetDefault("Yharon, Stalwart Defender"); // phase 1 name
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.Yharon
             value.Position.X += 26f;
             value.Position.Y -= 14f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
-			NPCID.Sets.MPAllowedEnemies[Type] = true;
+            NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -120,9 +120,15 @@ namespace CalamityMod.NPCs.Yharon
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("The loyal companion of the God-Hunter, they possess immense power compared to the Dragons of the past. This is likely partly due to fighting and training by their master's side.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("The loyal companion of the God-Hunter, they possess immense power compared to the Dragons of the past. This is likely partly due to fighting and training by their master's side.")
             });
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (startSecondAI)
+                typeName = "Yharon, Resplendent Phoenix"; // phase 2 name
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -190,8 +196,8 @@ namespace CalamityMod.NPCs.Yharon
 
             float pie = (float)Math.PI;
 
-			CalamityGlobalNPC.yharon = NPC.whoAmI;
-			CalamityGlobalNPC.yharonP2 = -1;
+            CalamityGlobalNPC.yharon = NPC.whoAmI;
+            CalamityGlobalNPC.yharonP2 = -1;
 
             // Start phase 2 or not
             if (startSecondAI)
@@ -340,12 +346,12 @@ namespace CalamityMod.NPCs.Yharon
                 enraged = false;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    safeBox.X = (int)(player.Center.X - (CalamityMod.Instance.legendaryMode ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f));
+                    safeBox.X = (int)(player.Center.X - (CalamityWorld.getFixedBoi ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f));
                     safeBox.Y = (int)(player.Center.Y - 10500f);
-                    safeBox.Width = CalamityMod.Instance.legendaryMode ? 3000 : Main.getGoodWorld ? 2000 : bossRush ? 4000 : revenge ? 6000 : 7000;
+                    safeBox.Width = CalamityWorld.getFixedBoi ? 3000 : Main.getGoodWorld ? 2000 : bossRush ? 4000 : revenge ? 6000 : 7000;
                     safeBox.Height = 21000;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + (CalamityMod.Instance.legendaryMode ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - (CalamityMod.Instance.legendaryMode ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + (CalamityWorld.getFixedBoi ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - (CalamityWorld.getFixedBoi ? 1500f : Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
                 }
 
                 // Force Yharon to send a sync packet so that the arena gets sent immediately
@@ -876,9 +882,9 @@ namespace CalamityMod.NPCs.Yharon
                                 NPC.Center = center;
 
                                 int type = ModContent.ProjectileType<YharonBulletHellVortex>();
-                                int damage = CalamityMod.Instance.legendaryMode ? NPC.GetProjectileDamage(type) : 0;
+                                int damage = CalamityWorld.getFixedBoi ? NPC.GetProjectileDamage(type) : 0;
                                 float bulletHellVortexDuration = flareDustPhaseTimer + teleportPhaseTimer - 15f;
-                                int extraTime = CalamityMod.Instance.legendaryMode ? 300 : 0;
+                                int extraTime = CalamityWorld.getFixedBoi ? 300 : 0;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
 
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
@@ -1225,9 +1231,9 @@ namespace CalamityMod.NPCs.Yharon
                                 NPC.Center = center;
 
                                 int type = ModContent.ProjectileType<YharonBulletHellVortex>();
-                                int damage = CalamityMod.Instance.legendaryMode ? NPC.GetProjectileDamage(type) : 0;
+                                int damage = CalamityWorld.getFixedBoi ? NPC.GetProjectileDamage(type) : 0;
                                 float bulletHellVortexDuration = flareDustPhaseTimer + teleportPhaseTimer - 15f;
-                                int extraTime = CalamityMod.Instance.legendaryMode ? 300 : 0;
+                                int extraTime = CalamityWorld.getFixedBoi ? 300 : 0;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
 
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
@@ -1532,7 +1538,7 @@ namespace CalamityMod.NPCs.Yharon
         #region AI2
         public void Yharon_AI2(bool expertMode, bool revenge, bool death, bool bossRush, float pie, float lifeRatio, CalamityGlobalNPC calamityGlobalNPC)
         {
-			CalamityGlobalNPC.yharonP2 = NPC.whoAmI;
+            CalamityGlobalNPC.yharonP2 = NPC.whoAmI;
 
             float phase2GateValue = revenge ? 0.44f : expertMode ? 0.385f : 0.275f;
             bool phase2 = death || lifeRatio <= phase2GateValue;
@@ -1562,7 +1568,7 @@ namespace CalamityMod.NPCs.Yharon
             bool invincible = invincibilityCounter < Phase2InvincibilityTime;
             if (invincible)
             {
-                if (CalamityMod.Instance.legendaryMode)
+                if (CalamityWorld.getFixedBoi)
                 {
                     if (NPC.life < NPC.lifeMax)
                     {
@@ -1917,9 +1923,9 @@ namespace CalamityMod.NPCs.Yharon
                                 NPC.Center = center;
 
                                 int type = ModContent.ProjectileType<YharonBulletHellVortex>();
-                                int damage = CalamityMod.Instance.legendaryMode ? NPC.GetProjectileDamage(type) : 0;
+                                int damage = CalamityWorld.getFixedBoi ? NPC.GetProjectileDamage(type) : 0;
                                 float bulletHellVortexDuration = spinPhaseTimer + 15f;
-                                int extraTime = CalamityMod.Instance.legendaryMode ? 300 : 0;
+                                int extraTime = CalamityWorld.getFixedBoi ? 300 : 0;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, bulletHellVortexDuration + extraTime, NPC.whoAmI);
 
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
@@ -2899,7 +2905,7 @@ namespace CalamityMod.NPCs.Yharon
             DownedBossSystem.downedYharon = true;
             CalamityNetcode.SyncWorld();
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
             {
                 for (int i = 0; i < 4; i++)
                 {

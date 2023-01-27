@@ -1,6 +1,7 @@
-﻿using CalamityMod.Items.Placeables.Banners;
+﻿using System;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -63,7 +64,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 flag = true;
             }
-            if (flag && !CalamityMod.Instance.legendaryMode)
+            if (flag && !CalamityWorld.getFixedBoi)
             {
                 NPC.life = 0;
                 NPC.HitEffect(0, 10.0);
@@ -128,7 +129,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 typeName = "Mechanized Serpent";
             }
@@ -137,7 +138,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override Color? GetAlpha(Color drawColor)
         {
             Color lightColor = Color.Orange * drawColor.A;
-            Color newColor = CalamityMod.Instance.legendaryMode ? lightColor : new Color(255, 255, 255, drawColor.A);
+            Color newColor = CalamityWorld.getFixedBoi ? lightColor : new Color(255, 255, 255, drawColor.A);
             return newColor * NPC.Opacity;
         }
     }

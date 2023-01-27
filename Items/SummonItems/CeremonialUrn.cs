@@ -13,7 +13,7 @@ namespace CalamityMod.Items.SummonItems
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Ceremonial Urn");
-            Tooltip.SetDefault("Use at the Altar of the Accursed to summon Supreme Calamitas\n" + "Not consumable");
+            Tooltip.SetDefault("Use at the Altar of the Accursed to summon the Supreme Witch, Calamitas\n" + "Not consumable");
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 

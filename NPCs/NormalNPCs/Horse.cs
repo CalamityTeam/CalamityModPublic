@@ -1,17 +1,18 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using System;
+using System.IO;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
-using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -201,7 +202,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 if (NPC.ai[0] == 0f)
                 {
-                    if (CalamityMod.Instance.legendaryMode)
+                    if (CalamityWorld.getFixedBoi)
                     {
                         SoundEngine.PlaySound(SoundID.ScaryScream, Main.player[NPC.target].Center);
                     }

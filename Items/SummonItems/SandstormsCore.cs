@@ -1,11 +1,12 @@
-﻿using CalamityMod.Items.Materials;
-using CalamityMod.NPCs.GreatSandShark;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
+using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.GreatSandShark;
+using CalamityMod.World;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneDesert && !(CalamityMod.Instance.legendaryMode && !player.Calamity().ZoneAstral) && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark>());
+            return player.ZoneDesert && !(CalamityWorld.getFixedBoi && !player.Calamity().ZoneAstral) && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark>());
         }
 
         public override bool? UseItem(Player player)
@@ -57,7 +58,7 @@ namespace CalamityMod.Items.SummonItems
             Player player = Main.LocalPlayer;
             TooltipLine line0 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 line0.Text = "Summons the Great Sand Shark when used in the astral desert";
             }

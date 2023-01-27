@@ -1,9 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class MushBomb : ModProjectile
@@ -45,7 +47,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.velocity.X *= 0.995f;
         }
 
-        public override Color? GetAlpha(Color drawColor) => CalamityMod.Instance.legendaryMode ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, Projectile.alpha) : new Color(255, 255, 255, Projectile.alpha);
+        public override Color? GetAlpha(Color drawColor) => CalamityWorld.getFixedBoi ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, Projectile.alpha) : new Color(255, 255, 255, Projectile.alpha);
 
         public override bool PreDraw(ref Color lightColor)
         {

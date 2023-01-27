@@ -4,6 +4,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
@@ -216,7 +217,7 @@ namespace CalamityMod.NPCs.Abyss
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Bloatfish3").Type, NPC.scale);
                 }
             }
-            if (NPC.scale < 2f || CalamityMod.Instance.legendaryMode)
+            if (NPC.scale < 2f || CalamityWorld.getFixedBoi)
             {
                 NPC.scale += 0.05f;
             }

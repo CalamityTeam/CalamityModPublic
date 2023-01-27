@@ -308,7 +308,7 @@ namespace CalamityMod.NPCs.Perforator
             int type = ModContent.ProjectileType<DoGDeath>();
             int damage = NPC.GetProjectileDamage(type);
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
                 NPC.Calamity().newAI[3]++;
 
             if (NPC.Calamity().newAI[3] > 180f) //Effectively 10 seconds but give a little headstart in case players kill it too fast

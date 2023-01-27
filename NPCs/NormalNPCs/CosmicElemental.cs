@@ -1,11 +1,11 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
-using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            int debuffType = CalamityMod.Instance.legendaryMode ? ModContent.BuffType<GodSlayerInferno>() : BuffID.Confused;
+            int debuffType = CalamityWorld.getFixedBoi ? ModContent.BuffType<GodSlayerInferno>() : BuffID.Confused;
             if (damage > 0)
                 player.AddBuff(debuffType, 180, true);
         }

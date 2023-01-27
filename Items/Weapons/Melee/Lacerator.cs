@@ -1,8 +1,9 @@
-﻿using CalamityMod.Items.Materials;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.Rarities;
-using System.Collections.Generic;
-using System.Linq;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -52,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Player player = Main.LocalPlayer;
             TooltipLine line3 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 line3.Text = "May be viable weapon against DoG...";
             }

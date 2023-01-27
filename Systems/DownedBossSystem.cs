@@ -19,7 +19,7 @@ namespace CalamityMod
         internal static bool _downedCryogen = false;
         internal static bool _downedAquaticScourge = false;
         internal static bool _downedBrimstoneElemental = false;
-        internal static bool _downedCalamitas = false;
+        internal static bool _downedCalamitasClone = false;
         internal static bool _downedLeviathan = false;
         internal static bool _downedAstrumAureus = false;
         internal static bool _downedPlaguebringer = false;
@@ -40,7 +40,7 @@ namespace CalamityMod
         internal static bool _downedThanatos = false; // only used for loot drops
         internal static bool _downedArtemisAndApollo = false; // only used for loot drops
         internal static bool _downedExoMechs = false;
-        internal static bool _downedSCal = false;
+        internal static bool _downedCalamitas = false;
         internal static bool _downedAdultEidolonWyrm = false;
 
         // Minibosses
@@ -160,15 +160,15 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedBrimstoneElemental, -1);
             }
         }
-        public static bool downedCalamitas
+        public static bool downedCalamitasClone
         {
-            get => _downedCalamitas;
+            get => _downedCalamitasClone;
             set
             {
                 if (!value)
-                    _downedCalamitas = false;
+                    _downedCalamitasClone = false;
                 else
-                    NPC.SetEventFlagCleared(ref _downedCalamitas, -1);
+                    NPC.SetEventFlagCleared(ref _downedCalamitasClone, -1);
             }
         }
         public static bool downedLeviathan
@@ -358,15 +358,15 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedExoMechs, -1);
             }
         }
-        public static bool downedSCal
+        public static bool downedCalamitas
         {
-            get => _downedSCal;
+            get => _downedCalamitas;
             set
             {
                 if (!value)
-                    _downedSCal = false;
+                    _downedCalamitas = false;
                 else
-                    NPC.SetEventFlagCleared(ref _downedSCal, -1);
+                    NPC.SetEventFlagCleared(ref _downedCalamitas, -1);
             }
         }
         public static bool downedAdultEidolonWyrm
@@ -516,7 +516,7 @@ namespace CalamityMod
             downedCryogen = false;
             downedAquaticScourge = false;
             downedBrimstoneElemental = false;
-            downedCalamitas = false;
+            downedCalamitasClone = false;
             downedLeviathan = false;
             downedAstrumAureus = false;
             downedBetsy = false;
@@ -537,7 +537,7 @@ namespace CalamityMod
             downedThanatos = false;
             downedArtemisAndApollo = false;
             downedExoMechs = false;
-            downedSCal = false;
+            downedCalamitas = false;
             downedAdultEidolonWyrm = false;
 
             downedSecondSentinels = false;
@@ -584,7 +584,7 @@ namespace CalamityMod
                 downed.Add("aquaticScourge");
             if (downedBrimstoneElemental)
                 downed.Add("brimstoneElemental");
-            if (downedCalamitas)
+            if (downedCalamitasClone)
                 downed.Add("calamitas");
             if (downedLeviathan)
                 downed.Add("leviathan");
@@ -630,7 +630,7 @@ namespace CalamityMod
                 downed.Add("ares");
             if (downedExoMechs)
                 downed.Add("exoMechs");
-            if (downedSCal)
+            if (downedCalamitas)
                 downed.Add("supremeCalamitas");
             if (downedAdultEidolonWyrm)
                 downed.Add("adultEidolonWyrm");
@@ -674,7 +674,7 @@ namespace CalamityMod
             downedDreadnautilus = downed.Contains("dreadnautilus");
             downedCryogen = downed.Contains("cryogen");
             downedBrimstoneElemental = downed.Contains("brimstoneElemental");
-            downedCalamitas = downed.Contains("calamitas");
+            downedCalamitasClone = downed.Contains("calamitas");
             downedLeviathan = downed.Contains("leviathan");
             downedAstrumAureus = downed.Contains("astrageldon");
             downedBetsy = downed.Contains("betsy");
@@ -697,7 +697,7 @@ namespace CalamityMod
             downedArtemisAndApollo = downed.Contains("artemisAndApollo");
             downedAres = downed.Contains("ares");
             downedExoMechs = downed.Contains("exoMechs");
-            downedSCal = downed.Contains("supremeCalamitas");
+            downedCalamitas = downed.Contains("supremeCalamitas");
             downedAdultEidolonWyrm = downed.Contains("adultEidolonWyrm");
 
             downedCLAM = downed.Contains("clam");

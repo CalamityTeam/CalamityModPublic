@@ -1,21 +1,22 @@
-﻿using CalamityMod.BiomeManagers;
+﻿using System;
+using System.IO;
+using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.Abyss
 {
@@ -346,7 +347,7 @@ namespace CalamityMod.NPCs.Abyss
                     (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(240f)) ||
                     NPC.justHit)
                 {
-                    if (CalamityMod.Instance.legendaryMode && Main.netMode != NetmodeID.MultiplayerClient && !clone && !hasBeenHit)
+                    if (CalamityWorld.getFixedBoi && Main.netMode != NetmodeID.MultiplayerClient && !clone && !hasBeenHit)
                     {
                         // spawn some baby colossal squids in gfb
                         for (int i = 0; i < 3; i++)
@@ -634,7 +635,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityMod.Instance.legendaryMode && clone)
+            if (CalamityWorld.getFixedBoi && clone)
             {
                 typeName = "Tiny Squid";
             }

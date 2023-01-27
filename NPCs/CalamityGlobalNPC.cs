@@ -15,7 +15,7 @@ using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.Bumblebirb;
-using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CalClone;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Crags;
@@ -1310,7 +1310,7 @@ namespace CalamityMod.NPCs
             else if (CalamityLists.DestroyerIDs.Contains(npc.type))
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.25);
-                npc.scale *= CalamityMod.Instance.legendaryMode ? 2.5f : CalamityWorld.death ? 2f : 1.5f;
+                npc.scale *= CalamityWorld.getFixedBoi ? 2.5f : CalamityWorld.death ? 2f : 1.5f;
                 npc.npcSlots = 10f;
             }
             else if (npc.type == NPCID.Probe)
@@ -1318,7 +1318,7 @@ namespace CalamityMod.NPCs
                 if (CalamityWorld.death)
                     npc.lifeMax = (int)(npc.lifeMax * 2.0);
 
-                npc.scale *= CalamityMod.Instance.legendaryMode ? 2f : CalamityWorld.death ? 1.5f : 1.2f;
+                npc.scale *= CalamityWorld.getFixedBoi ? 2f : CalamityWorld.death ? 1.5f : 1.2f;
             }
             else if (npc.type == NPCID.SkeletronPrime)
             {
@@ -5822,7 +5822,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (CalamityMod.Instance.legendaryMode && NPC.AnyNPCs(NPCType<CeaselessVoid.CeaselessVoid>()))
+            if (CalamityWorld.getFixedBoi && NPC.AnyNPCs(NPCType<CeaselessVoid.CeaselessVoid>()))
             {
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
@@ -6087,7 +6087,7 @@ namespace CalamityMod.NPCs
             }
             else if (type == NPCType<CalamitasClone>())
             {
-                return DownedBossSystem.downedCalamitas;
+                return DownedBossSystem.downedCalamitasClone;
             }
             else if (type == NPCType<Leviathan.Leviathan>() || type == NPCType<Anahita>())
             {
@@ -6155,7 +6155,7 @@ namespace CalamityMod.NPCs
             }
             else if (type == NPCType<SupremeCalamitas.SupremeCalamitas>())
             {
-                return DownedBossSystem.downedSCal;
+                return DownedBossSystem.downedCalamitas;
             }
             else if (type == NPCType<AdultEidolonWyrmHead>())
             {

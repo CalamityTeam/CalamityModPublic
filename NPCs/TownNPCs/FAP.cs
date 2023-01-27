@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override string GetChat()
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, false, -1);
                 SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, Main.player[Main.myPlayer].Center);

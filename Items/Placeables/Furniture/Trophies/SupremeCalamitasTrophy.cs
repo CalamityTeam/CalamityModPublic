@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Furniture.BossTrophies;
+﻿using CalamityMod.Tiles.Furniture.BossTrophies;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Supreme Calamitas Trophy");
+            DisplayName.SetDefault("Calamitas Trophy");
         }
 
         public override void SetDefaults()

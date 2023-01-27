@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 NPC.defense = 999;
                 NPC.DR_NERD(0.9f);
@@ -1425,7 +1425,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 80, 100);
             npcLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
-            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitasClone);
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenyl>(), 1, 50, 108, 65, 135));
             postClone.Add(ItemID.Ectoplasm, 1, 21, 32);
         }
@@ -1458,7 +1458,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 typeName = "Jared";
             }

@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
             SpawnModBiomes = new int[1] { ModContent.GetInstance<UndergroundAstralBiome>().Type };
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 NPC.scale = 3f;
             }

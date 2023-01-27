@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             bool birbSpawn = NPC.ai[0] == 4f && NPC.ai[1] > 0f;
 
             // Animation goes nyoom
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 NPC.frameCounter += 4;
             }
@@ -412,7 +412,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            name = CalamityMod.Instance.legendaryMode ? "A Bumblebirb" : "A Dragonfolly";
+            name = CalamityWorld.getFixedBoi ? "A Bumblebirb" : "A Dragonfolly";
             potionType = ItemID.SuperHealingPotion;
         }
 
@@ -462,7 +462,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             DownedBossSystem.downedDragonfolly = true;
             CalamityNetcode.SyncWorld();
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode)
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
             {
                 int spacing = 40;
                 int amt = 7;
@@ -487,7 +487,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 typeName = "Bumblebirb";
             }

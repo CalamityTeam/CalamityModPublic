@@ -121,14 +121,13 @@ namespace CalamityMod
                 case "brimstone elemental":
                     return DownedBossSystem.downedBrimstoneElemental;
 
-                case "calamitas":
                 case "clone":
                 case "calamitasclone":
                 case "calamitas clone":
                 case "clonelamitas":
                 case "calamitasdoppelganger":
                 case "calamitas doppelganger":
-                    return DownedBossSystem.downedCalamitas;
+                    return DownedBossSystem.downedCalamitasClone;
 
                 case "gss":
                 case "greatsandshark":
@@ -287,10 +286,14 @@ namespace CalamityMod
                 case "ares":
                     return DownedBossSystem.downedExoMechs;
 
+                case "calamitas":
                 case "scal":
                 case "supremecalamitas":
                 case "supreme calamitas":
-                    return DownedBossSystem.downedSCal;
+                case "supremewitchcalamitas":
+                case "supreme witch calamitas":
+                case "supreme witch, calamitas":
+                    return DownedBossSystem.downedCalamitas;
 
                 case "adulteidolonwyrm":
                 case "adult eidolon wyrm":

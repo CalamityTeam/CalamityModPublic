@@ -55,6 +55,7 @@ namespace CalamityMod.NPCs.Polterghast
         private int soundTimer = 0;
         private bool reachedChargingPoint = false;
         private bool threeAM = false;
+        private int nameStage = 1;
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/PolterghastHit");
         public static readonly SoundStyle P2Sound = new("CalamityMod/Sounds/Custom/PolterghastP2Transition");
         public static readonly SoundStyle P3Sound = new("CalamityMod/Sounds/Custom/PolterghastP3Transition");
@@ -92,7 +93,7 @@ namespace CalamityMod.NPCs.Polterghast
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-			NPCID.Sets.MPAllowedEnemies[Type] = true;
+            NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -125,12 +126,20 @@ namespace CalamityMod.NPCs.Polterghast
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Screaming and crying, a cacophony of spirits in anguish tear through the narrow hallways of the dungeon, searching for more—alive or dead—to add to their numbers.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Screaming and crying, a cacophony of spirits in anguish tear through the narrow hallways of the dungeon, searching for more—alive or dead—to add to their numbers.")
             });
         }
 
-        
+        public override void ModifyTypeName(ref string typeName)
+        {
+            typeName = nameStage switch
+            {
+                2 => "Necroghast",
+                3 => "Necroplasm",
+                _ => "Polterghast",
+            };
+        }
 
         public override void BossHeadSlot(ref int index)
         {
@@ -221,7 +230,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             bool chargePhase = calamityGlobalNPC.newAI[0] >= chargePhaseGateValue;
             int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1; 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 chargeAmt = phase4 ? int.MaxValue : getPissed ? 6 : phase3 ? 4 : phase2 ? 3 : 2;
             }
@@ -232,7 +241,7 @@ namespace CalamityMod.NPCs.Polterghast
             bool reset = NPC.ai[2] >= chargePhaseGateValue + 120f;
             float speedUpDistance = 480f - 360f * (1f - lifeRatio);
 
-            if ((Main.time >= 27000 && Main.time < 30600 && Main.dayTime == false && CalamityMod.Instance.legendaryMode) || threeAM)
+            if ((Main.time >= 27000 && Main.time < 30600 && Main.dayTime == false && CalamityWorld.getFixedBoi) || threeAM)
             {
                 threeAM = true;
                 chargeVelocity *= 2;
@@ -287,7 +296,7 @@ namespace CalamityMod.NPCs.Polterghast
             }
 
             // Play a random creepy sound every once in a while in the zenith seed
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 soundTimer++;
                 int gate = threeAM ? 60 : phase4 ? 300 : phase3 ? 420 : phase2 ? 540 : 600;
@@ -315,7 +324,7 @@ namespace CalamityMod.NPCs.Polterghast
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
 
-                if (CalamityMod.Instance.legendaryMode)
+                if (CalamityWorld.getFixedBoi)
                 {
                     for (int I = 0; I < 3; I++)
                     {
@@ -701,6 +710,7 @@ namespace CalamityMod.NPCs.Polterghast
                     NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, NPC.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
 
+            // Phase 1: "Polterghast"
             if (!phase2 && !phase3)
             {
                 NPC.damage = NPC.defDamage;
@@ -788,6 +798,8 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                 }
             }
+
+            // Phase 2: "Necroghast"
             else if (!phase3)
             {
                 if (NPC.ai[0] == 0f)
@@ -833,7 +845,8 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                 }
 
-                NPC.GivenName = "Necroghast";
+                // Actually changes name to Necroghast
+                nameStage = 2;
 
                 NPC.damage = (int)(NPC.defDamage * 1.2f);
                 NPC.defense = (int)(NPC.defDefense * 0.8f);
@@ -922,6 +935,8 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                 }
             }
+
+            // Phase 3: "Necroplasm"
             else
             {
                 NPC.HitSound = SoundID.NPCHit36;
@@ -941,7 +956,7 @@ namespace CalamityMod.NPCs.Polterghast
                     {
                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterPhantom>());
 
-                        if (expertMode && !CalamityMod.Instance.legendaryMode)
+                        if (expertMode && !CalamityWorld.getFixedBoi)
                         {
                             for (int I = 0; I < 3; I++)
                             {
@@ -984,7 +999,8 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                 }
 
-                NPC.GivenName = "Necroplasm";
+                // Actually changes name to Necroplasm
+                nameStage = 3;
 
                 NPC.damage = (int)(NPC.defDamage * 1.4f);
                 NPC.defense = (int)(NPC.defDefense * 0.5f);
@@ -1052,7 +1068,7 @@ namespace CalamityMod.NPCs.Polterghast
                         }
                     }
 
-                    if (CalamityMod.Instance.legendaryMode)
+                    if (CalamityWorld.getFixedBoi)
                     {
                         NPC.GivenName = "Polterplasm";
                     }
@@ -1082,7 +1098,7 @@ namespace CalamityMod.NPCs.Polterghast
                 string sulfSeaBoostMessage = "Mods.CalamityMod.GhostBossText4";
                 Color sulfSeaBoostColor = AcidRainEvent.TextColor;
 
-                if ((Main.rand.NextBool(20) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || CalamityMod.Instance.legendaryMode)
+                if ((Main.rand.NextBool(20) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || CalamityWorld.getFixedBoi)
                 {
                     sulfSeaBoostMessage = "Mods.CalamityMod.AprilFools2"; // Goddamn boomer duke moments
                 }

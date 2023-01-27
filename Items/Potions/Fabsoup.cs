@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿/*using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Rarities;
 using Terraria;
 using Terraria.Audio;
@@ -56,4 +56,4 @@ namespace CalamityMod.Items.Potions
             }
         }
     }
-}
+}*/

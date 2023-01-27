@@ -937,7 +937,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetCritChance<GenericDamageClass>() += critUp;
             }
 
-            bool canProvideBuffs = profanedCrystalBuffs || (!profanedCrystal && pArtifact) || (profanedCrystal && DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs);
+            bool canProvideBuffs = profanedCrystalBuffs || (!profanedCrystal && pArtifact) || (profanedCrystal && DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs);
             bool attack = Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] > 0;
 
             // Guardian bonuses if not burnt out

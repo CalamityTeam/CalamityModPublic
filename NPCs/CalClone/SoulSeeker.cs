@@ -11,7 +11,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.Calamitas
+namespace CalamityMod.NPCs.CalClone
 {
     public class SoulSeeker : ModNPC
     {
@@ -209,7 +209,7 @@ namespace CalamityMod.NPCs.Calamitas
             drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture, drawPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
-            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Calamitas/SoulSeekerGlow").Value;
+            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/CalClone/SoulSeekerGlow").Value;
             Color glow = Color.Lerp(Color.White, Color.Red, colorLerpAmt);
 
             if (CalamityConfig.Instance.Afterimages)

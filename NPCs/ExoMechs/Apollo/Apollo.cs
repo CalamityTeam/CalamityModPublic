@@ -1199,7 +1199,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         NPC.netSpam -= 5;
 
                         // Plasma bolts on charge
-                        if (Main.netMode != NetmodeID.MultiplayerClient && !(CalamityMod.Instance.legendaryMode && !exoMechdusa)) // I'm not that evil
+                        if (Main.netMode != NetmodeID.MultiplayerClient && !(CalamityWorld.getFixedBoi && !exoMechdusa)) // I'm not that evil
                         {
                             int totalProjectiles = bossRush ? 12 : 8;
                             float radians = MathHelper.TwoPi / totalProjectiles;
@@ -1287,7 +1287,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     // Reset phase and variables
                     if (calamityGlobalNPC.newAI[2] >= maxCharges - 1)
                     {
-                        if (CalamityMod.Instance.legendaryMode && !exoMechdusa)
+                        if (CalamityWorld.getFixedBoi && !exoMechdusa)
                         {
                             pickNewLocation = NPC.localAI[2] == 0f;
                             calamityGlobalNPC.newAI[3] = 0f;

@@ -353,7 +353,7 @@ namespace CalamityMod.NPCs.HiveMind
             }
 
             //Spawn a Hive Cyst
-            if (CalamityMod.Instance.legendaryMode && NPC.CountNPCS(ModContent.NPCType<HiveCyst>()) < 3)
+            if (CalamityWorld.getFixedBoi && NPC.CountNPCS(ModContent.NPCType<HiveCyst>()) < 3)
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + Main.rand.Next(NPC.width), (int)NPC.position.Y + Main.rand.Next(NPC.height), ModContent.NPCType<HiveCyst>());
         }
 
@@ -513,7 +513,7 @@ namespace CalamityMod.NPCs.HiveMind
                         int maxBlobs = death ? 15 : revenge ? 7 : expertMode ? 6 : 5;
                         if (Main.getGoodWorld)
                             maxBlobs *= 2;
-                        if (CalamityMod.Instance.legendaryMode)
+                        if (CalamityWorld.getFixedBoi)
                             maxBlobs = 50;
 
                         for (int i = 0; i < maxBlobs; i++)
@@ -1053,7 +1053,7 @@ namespace CalamityMod.NPCs.HiveMind
 
             if (phase2)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient && CalamityMod.Instance.legendaryMode ? NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 10 : (Main.rand.NextBool(15) && NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 2))
+                if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi ? NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 10 : (Main.rand.NextBool(15) && NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 2))
                 {
                     Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
                     NPC.NewNPC(NPC.GetSource_FromThis(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveBlob2>());

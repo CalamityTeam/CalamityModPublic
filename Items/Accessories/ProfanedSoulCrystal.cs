@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            bool scal = DownedBossSystem.downedSCal;
+            bool scal = DownedBossSystem.downedCalamitas;
             bool draedon = DownedBossSystem.downedExoMechs;
             if (!scal || !draedon)
             {
@@ -163,7 +163,7 @@ namespace CalamityMod.Items.Accessories
 
         internal static void DetermineTransformationEligibility(Player player)
         {
-            if (DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs && (player.maxMinions - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce && player.HasBuff<ProfanedCrystalBuff>())
+            if (DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs && (player.maxMinions - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce && player.HasBuff<ProfanedCrystalBuff>())
             {
                 player.Calamity().profanedCrystalBuffs = true;
             }

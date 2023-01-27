@@ -187,7 +187,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Supreme Calamitas");
+            DisplayName.SetDefault("Supreme Witch, Calamitas");
             Main.npcFrameCount[NPC.type] = 21;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
@@ -239,7 +239,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void BossHeadSlot(ref int index)
         {
             bool inPhase2 = NPC.ai[0] == 3f;
-            if (!DownedBossSystem.downedSCal || BossRushEvent.BossRushActive)
+            if (!DownedBossSystem.downedCalamitas || BossRushEvent.BossRushActive)
                 index = inPhase2 ? hoodedHeadIconP2Index : hoodedHeadIconIndex;
             else
                 index = inPhase2 ? hoodlessHeadIconP2Index : hoodlessHeadIconIndex;
@@ -410,12 +410,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				hellblastDamage /= 2;
             }
 
-            int bulletHellblast = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast2>();
+            int bulletHellblast = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast2>();
             int barrage = ModContent.ProjectileType<BrimstoneBarrage>();
-            int gigablast = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<SCalBrimstoneFireblast>() : ModContent.ProjectileType<SCalBrimstoneGigablast>();
-            int fireblast = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<SCalBrimstoneGigablast>() : ModContent.ProjectileType<SCalBrimstoneFireblast>();
-            int wave = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<BrimstoneHellblast2>() : ModContent.ProjectileType<BrimstoneWave>();
-            int hellblast = CalamityMod.Instance.legendaryMode ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast>();
+            int gigablast = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<SCalBrimstoneFireblast>() : ModContent.ProjectileType<SCalBrimstoneGigablast>();
+            int fireblast = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<SCalBrimstoneGigablast>() : ModContent.ProjectileType<SCalBrimstoneFireblast>();
+            int wave = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<BrimstoneHellblast2>() : ModContent.ProjectileType<BrimstoneWave>();
+            int hellblast = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast>();
 
             int bodyWidth = 44;
             int bodyHeight = 42;
@@ -441,7 +441,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.SCalSummonText";
-                    if (DownedBossSystem.downedSCal)
+                    if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
                 }
@@ -558,7 +558,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             int xoffset = 0;
                             int yoffset = 0;
                             int maxoffset = 3;
-                            if (CalamityMod.Instance.legendaryMode)
+                            if (CalamityWorld.getFixedBoi)
                             {
                                 xoffset += Main.rand.Next(-maxoffset, maxoffset + 1);
                                 yoffset += Main.rand.Next(-maxoffset, maxoffset + 1);
@@ -640,7 +640,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     forcefieldOpacity = Utils.GetLerpValue(0.1f, 0.6f, NPC.Opacity, true);
                     if (NPC.alpha >= 230)
                     {
-                        if (DownedBossSystem.downedSCal && !bossRush)
+                        if (DownedBossSystem.downedCalamitas && !bossRush)
                         {
                             // Create a teleport line effect
                             Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, Color.Red);
@@ -732,7 +732,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        if (bulletHellCounter2 < 300 && !CalamityMod.Instance.legendaryMode) // Blasts from above
+                        if (bulletHellCounter2 < 300 && !CalamityWorld.getFixedBoi) // Blasts from above
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -743,7 +743,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                         else // Blasts from above, left, and right
                         {
-                            if (!CalamityMod.Instance.legendaryMode)
+                            if (!CalamityWorld.getFixedBoi)
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * uDieLul, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * uDieLul, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
@@ -819,7 +819,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        if (bulletHellCounter2 < 1200 && !CalamityMod.Instance.legendaryMode) // Blasts from below
+                        if (bulletHellCounter2 < 1200 && !CalamityWorld.getFixedBoi) // Blasts from below
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y + 1000f, 0f, -4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -842,7 +842,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.SCalBH2Text";
-                    if (DownedBossSystem.downedSCal)
+                    if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
                 }
@@ -880,7 +880,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        if (bulletHellCounter2 < 2100 && !CalamityMod.Instance.legendaryMode) // Blasts from above
+                        if (bulletHellCounter2 < 2100 && !CalamityWorld.getFixedBoi) // Blasts from above
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -903,7 +903,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.SCalBH3Text";
-                    if (DownedBossSystem.downedSCal)
+                    if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
                 }
@@ -950,7 +950,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        if (bulletHellCounter2 < 3000 && !CalamityMod.Instance.legendaryMode) // Blasts from below
+                        if (bulletHellCounter2 < 3000 && !CalamityWorld.getFixedBoi) // Blasts from below
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y + 1000f, 0f, -4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -973,7 +973,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.SCalBH4Text";
-                    if (DownedBossSystem.downedSCal)
+                    if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
                 }
@@ -1018,7 +1018,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        if (bulletHellCounter2 < 3900 && !CalamityMod.Instance.legendaryMode) // Blasts from above
+                        if (bulletHellCounter2 < 3900 && !CalamityWorld.getFixedBoi) // Blasts from above
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -1029,7 +1029,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                         else // Blasts from above, left, and right
                         {
-                            if (!CalamityMod.Instance.legendaryMode)
+                            if (!CalamityWorld.getFixedBoi)
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * uDieLul, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * uDieLul, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * uDieLul, 0f, bulletHellblast, bulletHellblastDamage, 0f, Main.myPlayer);
@@ -1045,7 +1045,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (!bossRush)
                 {
-                    if (DownedBossSystem.downedSCal)
+                    if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
                 }
@@ -1074,7 +1074,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (!canDespawn)
                         NPC.velocity.X *= 0.96f;
 
-                    if (DownedBossSystem.downedSCal && !bossRush)
+                    if (DownedBossSystem.downedCalamitas && !bossRush)
                     {
                         if (giveUpCounter == 720)
                         {
@@ -1143,7 +1143,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (!bossRush)
                     {
                         string key = "Mods.CalamityMod.SCalDesparationText4";
-                        if (DownedBossSystem.downedSCal)
+                        if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
                         CalamityUtils.DisplayLocalizedText(key, textColor);
                     }
@@ -1155,7 +1155,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (!bossRush)
                     {
                         string key = "Mods.CalamityMod.SCalDesparationText3";
-                        if (DownedBossSystem.downedSCal)
+                        if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
                         CalamityUtils.DisplayLocalizedText(key, textColor);
                     }
@@ -1167,7 +1167,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (!bossRush)
                     {
                         string key = "Mods.CalamityMod.SCalDesparationText2";
-                        if (DownedBossSystem.downedSCal)
+                        if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
                         CalamityUtils.DisplayLocalizedText(key, textColor);
                     }
@@ -1179,7 +1179,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (!bossRush)
                     {
                         string key = "Mods.CalamityMod.SCalDesparationText1";
-                        if (DownedBossSystem.downedSCal)
+                        if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
                         CalamityUtils.DisplayLocalizedText(key, textColor);
                     }
@@ -1248,7 +1248,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.SCalPhase2Text";
-                    if (DownedBossSystem.downedSCal)
+                    if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
                 }
@@ -1262,7 +1262,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (!bossRush)
                     {
                         string key = "Mods.CalamityMod.SCalSeekerRingText";
-                        if (DownedBossSystem.downedSCal)
+                        if (DownedBossSystem.downedCalamitas)
                             key += "Rematch";
                         CalamityUtils.DisplayLocalizedText(key, textColor);
                     }
@@ -2368,7 +2368,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (!BossRushEvent.BossRushActive)
                 {
-                    if (DownedBossSystem.downedSCal)
+                    if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
                 }
@@ -2489,7 +2489,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (!BossRushEvent.BossRushActive)
                 {
                     string key = "Mods.CalamityMod.SCalBrothersText";
-                    if (DownedBossSystem.downedSCal)
+                    if (DownedBossSystem.downedCalamitas)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
                 }
@@ -2589,14 +2589,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (!BossRushEvent.BossRushActive)
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 12, ModContent.NPCType<WITCH>());
 
-            // Mark Supreme Calamitas as defeated
-            DownedBossSystem.downedSCal = true;
+            // Mark Calamitas as defeated
+            DownedBossSystem.downedCalamitas = true;
             CalamityNetcode.SyncWorld();
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<SupremeCalamitasCoffer>()));
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CalamitasCoffer>()));
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -2641,12 +2641,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CalamitasRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSCal, ModContent.ItemType<LoreCalamitas>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<LoreCalamitas>(), desc: DropHelper.FirstKillText);
 
             // Cynosure: If the Exo Mechs have been defeated and this is the first kill of SCal, drop the special lore item
             npcLoot.Add(ItemDropRule.ByCondition(
                 DropHelper.If(
-                    () => DownedBossSystem.downedExoMechs && !DownedBossSystem.downedSCal,
+                    () => DownedBossSystem.downedExoMechs && !DownedBossSystem.downedCalamitas,
                     desc: DropHelper.CynosureText),
                 ModContent.ItemType<LoreCynosure>()
             ));
@@ -2733,7 +2733,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture2D15 = DownedBossSystem.downedSCal && !BossRushEvent.BossRushActive ? TextureAssets.Npc[NPC.type].Value : ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasHooded").Value;
+            Texture2D texture2D15 = DownedBossSystem.downedCalamitas && !BossRushEvent.BossRushActive ? TextureAssets.Npc[NPC.type].Value : ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasHooded").Value;
 
             Vector2 vector11 = new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[NPC.type] / 2f);
             Color color36 = Color.White;
@@ -2765,7 +2765,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (inPhase2)
             {
                 // Make the sprite jitter with rage in phase 2. This does not happen in rematches since it would make little sense logically.
-                if (!DownedBossSystem.downedSCal)
+                if (!DownedBossSystem.downedCalamitas)
                     vector43 += Main.rand.NextVector2Circular(0.25f, 0.7f);
 
                 // And gain a flaming aura.

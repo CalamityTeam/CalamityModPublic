@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.height = 56;
             NPC.defense = 70;
             CalamityGlobalNPC global = NPC.Calamity();
-            if (!CalamityMod.Instance.legendaryMode)
+            if (!CalamityWorld.getFixedBoi)
             {
                 global.DR = 0.925f;
                 global.unbreakableDR = true;
@@ -432,7 +432,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             // viable???, done here since it's conditional
-            if (CalamityMod.Instance.legendaryMode && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
+            if (CalamityWorld.getFixedBoi && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
             {
                 damage *= 40;
             }

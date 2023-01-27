@@ -27,7 +27,7 @@ using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Bumblebirb;
-using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CalClone;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
@@ -108,9 +108,6 @@ namespace CalamityMod
         public static SortedDictionary<int, float> bossVelocityDamageScaleValues;
         public const float velocityScaleMin = 0.5f;
         public const float bitingEnemeyVelocityScale = 0.8f;
-
-        // TODO -- Once the Zenith seed is available, replace all instance of this with Main.zenithWorld
-        internal bool legendaryMode => Main.getGoodWorld && Main.masterMode;
 
         // Life steal cap
         public const int lifeStealCap = 10;

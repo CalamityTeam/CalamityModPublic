@@ -241,7 +241,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     int Previous = NPC.whoAmI;
                     int totalLength = death ? 60 : revenge ? 50 : expertMode ? 40 : 30;
                     int npcCounts = 0;
-                    if (CalamityMod.Instance.legendaryMode) // use up every remaining npc but 20 for safety in the zenith seed
+                    if (CalamityWorld.getFixedBoi) // use up every remaining npc but 20 for safety in the zenith seed
                     {
                         for (int i = 0; i < Main.maxNPCs; i++)
                         {

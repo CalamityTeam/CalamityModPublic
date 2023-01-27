@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
@@ -58,7 +59,7 @@ namespace CalamityMod.NPCs.HiveMind
         {
             float timeToSpawn = 120f;
 
-            if (CalamityMod.Instance.legendaryMode && NPC.AnyNPCs(ModContent.NPCType<HiveMind>()))
+            if (CalamityWorld.getFixedBoi && NPC.AnyNPCs(ModContent.NPCType<HiveMind>()))
             {
                 //Passively spawns random enemies
                 NPC.ai[0]++;

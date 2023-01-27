@@ -954,7 +954,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
                         if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
                         {
-                            if (!CalamityMod.Instance.legendaryMode || exoMechdusa)
+                            if (!CalamityWorld.getFixedBoi || exoMechdusa)
                             {
                                 AIState = (float)Phase.Normal;
                                 calamityGlobalNPC.newAI[2] = 0f;
@@ -1536,7 +1536,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             // Cynosure: If SCal has been defeated and this is the first kill of the Exo Mechs, drop the special lore item
             mainDrops.Add(ItemDropRule.ByCondition(
                 DropHelper.If(
-                    () => !DownedBossSystem.downedExoMechs && DownedBossSystem.downedSCal,
+                    () => !DownedBossSystem.downedExoMechs && DownedBossSystem.downedCalamitas,
                     desc: DropHelper.CynosureText),
                 ModContent.ItemType<LoreCynosure>()
             ));
@@ -1545,7 +1545,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(CanDropLoot), ModContent.ItemType<DraedonBag>()));
 
             // Legendary seed soup
-            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(info => info.npc.type == ModContent.NPCType<AresBody>() && info.npc.ModNPC<Ares.AresBody>().exoMechdusa), ModContent.ItemType<Fabsoup>()), hideLootReport: true);
+            //mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(info => info.npc.type == ModContent.NPCType<AresBody>() && info.npc.ModNPC<Ares.AresBody>().exoMechdusa), ModContent.ItemType<Fabsoup>()), hideLootReport: true);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)

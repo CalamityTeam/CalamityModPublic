@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Bestiary;
@@ -73,7 +74,7 @@ namespace CalamityMod.NPCs.SlimeGod
         }
         public override void OnKill()
         {
-            if (CalamityMod.Instance.legendaryMode && Main.netMode != NetmodeID.MultiplayerClient)
+            if (CalamityWorld.getFixedBoi && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int type = ModContent.ProjectileType<ShadeNimbusHostile>();
                 int damage = NPC.GetProjectileDamage(type);

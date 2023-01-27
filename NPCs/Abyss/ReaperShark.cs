@@ -1,19 +1,20 @@
-﻿using CalamityMod.BiomeManagers;
+﻿using System;
+using System.IO;
+using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
-using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.Abyss
 {
@@ -605,7 +606,7 @@ namespace CalamityMod.NPCs.Abyss
                         NPC.netUpdate = true;
                         return;
                     }
-                    if (CalamityMod.Instance.legendaryMode && Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] % 5 == 0)
+                    if (CalamityWorld.getFixedBoi && Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] % 5 == 0)
                     {
                         Vector2 direction = vector - player.Center;
                         direction.Normalize();

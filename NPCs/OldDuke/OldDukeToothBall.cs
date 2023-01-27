@@ -195,7 +195,7 @@ namespace CalamityMod.NPCs.OldDuke
                 }
             }
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {

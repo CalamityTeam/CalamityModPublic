@@ -1,11 +1,12 @@
-﻿using CalamityMod.Events;
+﻿using System;
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
@@ -62,7 +63,7 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToWater = true;
 
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
                 NPC.scale *= 2;
         }
 
@@ -454,7 +455,7 @@ namespace CalamityMod.NPCs.DesertScourge
         public override Color? GetAlpha(Color drawColor)
         {
             Color lightColor = Color.Orange * drawColor.A;
-            Color newColor = CalamityMod.Instance.legendaryMode ? lightColor : new Color(255, 255, 255, drawColor.A);
+            Color newColor = CalamityWorld.getFixedBoi ? lightColor : new Color(255, 255, 255, drawColor.A);
             return newColor * NPC.Opacity;
         }
     }

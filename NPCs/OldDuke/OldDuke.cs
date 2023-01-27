@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (CalamityMod.Instance.legendaryMode)
+            if (CalamityWorld.getFixedBoi)
             {
                 typeName = "The Boomer Duke";
             }

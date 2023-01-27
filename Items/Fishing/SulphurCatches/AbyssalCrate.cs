@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
         {
             // The contents of this crate depend massively on progression, so it uses a large number of LeadingConditionRules.
             var tier1AbyssAvailable = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedSlimeGod || Main.hardMode);
-            var tier2AbyssAvailable = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            var tier2AbyssAvailable = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitasClone);
             var scoriaAvailable = itemLoot.DefineConditionalDropSet(() => NPC.downedGolemBoss);
             var tier1AcidRain = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedEoCAcidRain);
             var tier2AcidRain = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAquaticScourgeAcidRain);
