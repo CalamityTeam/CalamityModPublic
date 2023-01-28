@@ -39,7 +39,7 @@ namespace CalamityMod.Tiles.Ores
             //ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Aerialite Ore");
-            AddMapEntry(new Color(255, 242, 130), name);
+            AddMapEntry(new Color(204, 170, 81), name);
             MineResist = 2f;
             MinPick = 65;
             HitSound = SoundID.Tink;
