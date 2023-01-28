@@ -47,15 +47,18 @@ namespace CalamityMod.NPCs
 				CalamityGlobalNPC.aquaticScourge = npc.whoAmI;
 
             // Adjust hostility and stats
+            bool nonHostile = calamityGlobalNPC.newAI[0] == 0f;
             if (npc.justHit || npc.life <= npc.lifeMax * 0.999 || bossRush || Main.getGoodWorld)
             {
-                if (calamityGlobalNPC.newAI[0] == 0f)
+                if (nonHostile)
                 {
                     // Kiss my motherfucking ass you piece of shit game
                     npc.timeLeft *= 20;
+                    npc.npcSlots = 16f;
                     CalamityMod.bossKillTimes.TryGetValue(npc.type, out int revKillTime);
                     calamityGlobalNPC.KillTime = revKillTime;
                     calamityGlobalNPC.newAI[0] = 1f;
+                    nonHostile = false;
                     npc.boss = head;
                     npc.chaseable = true;
                     npc.netUpdate = true;
@@ -359,7 +362,7 @@ namespace CalamityMod.NPCs
             }
 
             float maxDistance = calamityGlobalNPC.newAI[0] == 1f ? 12800f : 6400f;
-            if (player.dead || Vector2.Distance(npc.Center, player.Center) > maxDistance)
+            if (player.dead || Vector2.Distance(npc.Center, player.Center) > maxDistance || (nonHostile && biomeEnraged))
             {
                 calamityGlobalNPC.newAI[1] = 1f;
                 npc.TargetClosest(false);
