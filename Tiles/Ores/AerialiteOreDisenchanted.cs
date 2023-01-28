@@ -8,37 +8,38 @@ using Terraria.ID;
 
 namespace CalamityMod.Tiles.Ores
 {
-    public class AerialiteOre : ModTile
+    public class AerialiteOreDisenchanted : ModTile
     {
         internal static Texture2D GlowTexture;
         public override void SetStaticDefaults()
         {
             if (!Main.dedServ)
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Ores/AerialiteOreGlow", AssetRequestMode.ImmediateLoad).Value;
-            Main.tileOreFinderPriority[Type] = 450;
-            Main.tileBlockLight[Type] = false;
+                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Ores/AerialiteOreDisenchantedGlow", AssetRequestMode.ImmediateLoad).Value;
+            Main.tileOreFinderPriority[Type] = 445;
+            Main.tileBlockLight[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileLighted[Type] = true;
-            Main.tileNoSunLight[Type] = false;
+            //Main.tileNoSunLight[Type] = false;
 
             TileID.Sets.Ore[Type] = true;
 
-            //CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.SetMerge(Type, ModContent.TileType<AerialiteOre>());
             CalamityUtils.SetMerge(Type, TileID.Cloud);
             CalamityUtils.SetMerge(Type, TileID.RainCloud);
             CalamityUtils.SetMerge(Type, TileID.SnowCloud);
             //Main.tileMerge[TileID.Cloud][ModContent.TileType<AerialiteOre>()] = true;
 
-            Main.tileShine[Type] = 3500;
-            Main.tileShine2[Type] = false;
+            //Main.tileShine[Type] = 3500;
+            Main.tileShine2[Type] = true;
 
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 33;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOre>();
+            //ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Aerialite Ore");
-            AddMapEntry(new Color(0, 255, 255), name);
+            AddMapEntry(new Color(255, 242, 130), name);
             MineResist = 2f;
             MinPick = 65;
             HitSound = SoundID.Tink;
@@ -57,15 +58,15 @@ namespace CalamityMod.Tiles.Ores
         }
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, TileID.Cloud);
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AerialiteOre>());
             return false;
         }
-        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        /*public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.14f;
-            g = 0.346f;
-            b = 0.42f;
-        }
+            r = 0.21f;
+            g = 0.52f;
+            b = 0.63f;
+        }*/
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             int uniqueAnimationFrameX = 0;
@@ -253,7 +254,7 @@ namespace CalamityMod.Tiles.Ores
             xPos += xOffset;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = GetDrawColour(i, j, new Color(100, 100, 100, 50));
+            Color drawColour = GetDrawColour(i, j, new Color(75, 75, 75, 50));
             Tile trackTile = Main.tile[i, j];
 
             if (!trackTile.IsHalfBlock && trackTile.Slope == 0)
