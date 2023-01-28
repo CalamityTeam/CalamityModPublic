@@ -39,7 +39,7 @@ namespace CalamityMod.World
                 }
             }
 
-            int treeHeight = (int)Main.worldSurface - (Main.maxTilesY / 6); //start here to not touch floating islands
+            int treeHeight = (int)Main.worldSurface - (Main.maxTilesY / 8); //start here to not touch floating islands
             bool validheightFound = false;
             int attempts = 0;
             while (!validheightFound && attempts++ < 100000)
@@ -58,7 +58,7 @@ namespace CalamityMod.World
 
             while (validheightFound)
             {
-                int num3 = (origin.Y + treeHeight) / 20; //the height of the tree
+                int num3 = (origin.Y + treeHeight) / 23; //the height of the tree
                 int num4 = num3 * 5;
                 int num5 = 0;
                 double num6 = WorldGen.genRand.NextDouble() + 1.0;
@@ -75,7 +75,8 @@ namespace CalamityMod.World
                     int num9 = ((num8 < num5) ? (num8 - num5) : 0);
 
                     //places the actual log of the tree
-                    WorldUtils.Gen(new Point(origin.X + num5 + num9, origin.Y - (i + 1) * 5), new Shapes.Rectangle(6, 6), 
+                    //i genuinely cannot figure out how to make this get thicker as it goes down, im giving up on that for now
+                    WorldUtils.Gen(new Point(origin.X + num5 + num9, origin.Y - (i + 1) * 5), new Shapes.Rectangle(6 + Math.Abs(num8 - num5), 7), 
                     Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), new Modifiers.SkipWalls(87), new Actions.RemoveWall(), 
                     new Actions.SetTile(383), new Actions.SetFrames()));
 
@@ -85,8 +86,8 @@ namespace CalamityMod.World
                     new Actions.ClearTile(frameNeighbors: true), new Actions.PlaceWall(78)));
 
                     //place wood walls on the inside of the tree
-                    WorldUtils.Gen(new Point(origin.X + num5 + 2, origin.Y - i * 5), new Shapes.Rectangle(6, 6), 
-                    Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), new Modifiers.SkipWalls(87), 
+                    WorldUtils.Gen(new Point(origin.X + num5 + 2, origin.Y - i * 5), new Shapes.Rectangle(2, 2), 
+                    Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), new Modifiers.SkipWalls(87),
                     new Actions.ClearTile(frameNeighbors: true), new Actions.PlaceWall(78)));
 
                     num5 = num8;

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.SummonItems;
@@ -488,24 +488,28 @@ namespace CalamityMod.World
                 int yExtraArea = 40;
                 bool canGenerateInLocation = true;
 
-                float requiredShrooms = 80;
+                float requiredShrooms = 20; //for now lower this, will look through the gen later
                 for (int x = placementPoint.X - extraArea; x < placementPoint.X + schematicSize.X + extraArea; x++)
                 {
                     for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y + yExtraArea; y++)
                     {
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+
                         //For some reason, mushroom biomes are very wet
                         //It gets way too difficult to generate if it doesn't ignore water
+                        
                         if (ShouldAvoidLocation(new Point(x, y), false))
                             canGenerateInLocation = false;
 
                         //Only generated within the area of mushroom plants
-                        if (tile.TileType == TileID.MushroomGrass || tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines || tile.TileType == TileID.MushroomTrees)
+                        if (tile.TileType == TileID.MushroomPlants || tile.TileType == TileID.MushroomVines || tile.TileType == TileID.MushroomTrees)
                             realMushroomsInArea++;
                     }
                 }
                 if (!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;
@@ -546,8 +550,10 @@ namespace CalamityMod.World
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
-                int numTilesBelowSurface = WorldGen.genRand.Next(50, 100);
-                int placementPositionY = (int)WorldGen.worldSurface + numTilesBelowSurface;
+                int numTilesBelowSurface = WorldGen.genRand.Next(25, 50);
+                
+                //use Main.worldSurface and not WorldGen.WorldSurface, i believe that is why it was genning on the surface so much
+                int placementPositionY = (int)Main.worldSurface + numTilesBelowSurface;
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));

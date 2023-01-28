@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Pets
         private Form SeaSlugColor = Form.Normal;
         private enum Form
         {
-            Normal, Sulphur, Abyss, Sunken, Astral, Crags, Hell, Snow, Desert, Jungle, Mushroom, Dungeon, Hallow, Corrupt, Crimson
+            Normal, Sulphur, Abyss, Sunken, Astral, Crags, Hell, Snow, Desert, Jungle, Mushroom, Dungeon, Hallow, Corrupt, Crimson, CoolBlue
         }
 
         public override void SetStaticDefaults()
@@ -43,50 +43,35 @@ namespace CalamityMod.Projectiles.Pets
             //note to self: the higher it is in this else if chain, the higher the priority
 
             //sulphur
-            if (player.InSulphur())
-                SeaSlugColor = Form.Sulphur;
+            if (player.InSulphur()) SeaSlugColor = Form.Sulphur;
             //abyss
-            else if (player.InAbyss())
-                SeaSlugColor = Form.Abyss;
+            else if (player.InAbyss()) SeaSlugColor = Form.Abyss;
             //sunken sea
-            else if (player.InSunkenSea())
-                SeaSlugColor = Form.Sunken;
+            else if (player.InSunkenSea()) SeaSlugColor = Form.Sunken;
             //astral
-            else if (player.InAstral())
-                SeaSlugColor = Form.Astral;
+            else if (player.InAstral()) SeaSlugColor = Form.Astral;
             //brimstone crag
-            else if (player.InCalamity())
-                SeaSlugColor = Form.Crags;
+            else if (player.InCalamity()) SeaSlugColor = Form.Crags;
             //underworld
-            else if (player.ZoneUnderworldHeight)
-                SeaSlugColor = Form.Hell;
-            //dungeon
-            else if (player.ZoneDungeon)
-                SeaSlugColor = Form.Dungeon;
+            else if (player.ZoneUnderworldHeight) SeaSlugColor = Form.Hell;
             //mushroom
-            else if (player.ZoneGlowshroom)
-                SeaSlugColor = Form.Mushroom;
+            else if (player.ZoneGlowshroom) SeaSlugColor = Form.Mushroom;
             //hallow
-            else if (player.ZoneHallow)
-                SeaSlugColor = Form.Hallow;
+            else if (player.ZoneHallow) SeaSlugColor = Form.Hallow;
             //corruption
-            else if (player.ZoneCorrupt)
-                SeaSlugColor = Form.Corrupt;
+            else if (player.ZoneCorrupt) SeaSlugColor = Form.Corrupt;
             //crimson
-            else if (player.ZoneCrimson)
-                SeaSlugColor = Form.Crimson;
+            else if (player.ZoneCrimson) SeaSlugColor = Form.Crimson;
             //jungle
-            else if (player.ZoneJungle)
-                SeaSlugColor = Form.Jungle;
+            else if (player.ZoneJungle) SeaSlugColor = Form.Jungle;
             //snow
-            else if (player.ZoneSnow)
-                SeaSlugColor = Form.Snow;
+            else if (player.ZoneSnow) SeaSlugColor = Form.Snow;
             //desert
-            else if (player.ZoneDesert)
-                SeaSlugColor = Form.Desert;
+            else if (player.ZoneDesert) SeaSlugColor = Form.Desert;
+            //secret easter egg :)
+            else if (player.name == "DylanDoe21") SeaSlugColor = Form.CoolBlue;
             //normal
-            else 
-                SeaSlugColor = Form.Normal;
+            else SeaSlugColor = Form.Normal;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -98,6 +83,9 @@ namespace CalamityMod.Projectiles.Pets
             {
                 case Form.Normal:
                     newColor = new Color(255, 255, 255, 0).MultiplyRGB(lightColor);
+                    break;
+                case Form.CoolBlue:
+                    newColor = new Color(57, 138, 209, 0).MultiplyRGB(lightColor);
                     break;
                 case Form.Sulphur:
                     newColor = new Color(36, 166, 125, 0).MultiplyRGB(lightColor);
@@ -129,9 +117,6 @@ namespace CalamityMod.Projectiles.Pets
                 case Form.Mushroom:
                     newColor = new Color(175, 189, 142, 0).MultiplyRGB(lightColor);
                     break;
-                case Form.Dungeon:
-                    newColor = new Color(130, 229, 255, 0).MultiplyRGB(lightColor);
-                    break;
                 case Form.Hallow:
                     newColor = new Color(255, 255, 255, 0).MultiplyRGB(lightColor);
                     break;
@@ -161,10 +146,10 @@ namespace CalamityMod.Projectiles.Pets
             ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugDesert").Value,
             ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugJungle").Value,
             ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugMushroom").Value,
-            ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugDungeon").Value,
             ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugHallow").Value,
             ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugCorrupt").Value,
-            ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugCrimson").Value);
+            ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugCrimson").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SeaSlugCoolBlue").Value);
         }
 
         private void Draw(Color color, Texture2D texture)
@@ -178,14 +163,17 @@ namespace CalamityMod.Projectiles.Pets
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, Projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), Projectile.scale, spriteEffects, 0);
         }
 
-        private void DrawGlowmask(Color color, Texture2D normal, Texture2D sulphur, Texture2D abyss, Texture2D sunken, Texture2D astral, Texture2D crags,
-        Texture2D hell, Texture2D snow, Texture2D desert, Texture2D jungle, Texture2D mushroom, Texture2D dungeon, Texture2D hallow, Texture2D corrupt, Texture2D crimson)
+        private void DrawGlowmask(Color color, Texture2D normal, Texture2D sulphur, Texture2D abyss, Texture2D sunken, Texture2D astral, Texture2D crags, Texture2D hell, 
+        Texture2D snow, Texture2D desert, Texture2D jungle, Texture2D mushroom, Texture2D hallow, Texture2D corrupt, Texture2D crimson, Texture2D coolBlue)
         {
             Texture2D texture = normal;
             switch (SeaSlugColor)
             {
                 case Form.Normal:
                     texture = normal;
+                    break;
+                case Form.CoolBlue:
+                    texture = coolBlue;
                     break;
                 case Form.Sulphur:
                     texture = sulphur;
@@ -216,9 +204,6 @@ namespace CalamityMod.Projectiles.Pets
                     break;
                 case Form.Mushroom:
                     texture = mushroom;
-                    break;
-                case Form.Dungeon:
-                    texture = dungeon;
                     break;
                 case Form.Hallow:
                     texture = hallow;

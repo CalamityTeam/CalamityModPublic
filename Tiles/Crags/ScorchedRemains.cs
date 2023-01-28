@@ -35,7 +35,7 @@ namespace CalamityMod.Tiles.Crags
 
             if (WorldGen.genRand.Next(3) == 0 && (left.TileType == ModContent.TileType<ScorchedRemainsGrass>() || right.TileType == ModContent.TileType<ScorchedRemainsGrass>()))
             {
-                WorldGen.SpreadGrass(i, j, Type, ModContent.TileType<ScorchedRemainsGrass>(), false);
+                Main.tile[i, j].TileType = (ushort)ModContent.TileType<ScorchedRemainsGrass>();
             }
         }
 

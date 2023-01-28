@@ -10,7 +10,7 @@ namespace CalamityMod.Buffs.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nudibranch");
-            Description.SetDefault("The cutest and most colorful sea creature");
+            Description.SetDefault("The glubbiest sea creature");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

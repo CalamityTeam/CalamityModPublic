@@ -698,7 +698,7 @@ namespace CalamityMod.World
 
                     //do not replace dungeon walls ever
                     int[] DungeonWalls = { 7, 94, 95, 8, 98, 99, 9, 96, 97 };
-                    if (tileAtPosition.WallType > WallID.None && !DungeonWalls.Contains(tileAtPosition.TileType))
+                    if (tileAtPosition.WallType > WallID.None && !DungeonWalls.Contains(tileAtPosition.WallType))
                         Main.tile[x, y].WallType = wallID;
                 }
             }

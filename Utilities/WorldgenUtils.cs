@@ -2,10 +2,14 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.GameContent.Generation;
+using Terraria.WorldBuilding;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
+using System.Collections.Generic;
+using CalamityMod.DataStructures;
 
 namespace CalamityMod
 {
@@ -38,7 +42,7 @@ namespace CalamityMod
         }
 
         //place a circular clump of tiles
-        public static void NaturalCircle(int i, int j, int size, int tileType)
+        public static void NaturalCircle(int i, int j, int size, int tileType, bool hasRandomness = false)
 		{
 			int BaseRadius = size;
 			int radius = BaseRadius;
@@ -57,7 +61,7 @@ namespace CalamityMod
                     }
 				}
 
-				radius = BaseRadius - WorldGen.genRand.Next(-1, 2);
+				radius = BaseRadius - (hasRandomness ? WorldGen.genRand.Next(-1, 2) : 0);
 			}
 		}
 
@@ -72,7 +76,21 @@ namespace CalamityMod
                     {
                         if (WorldGen.genRand.Next(350) == 0 && Main.tile[x, y].TileType == TileID.Cloud) 
                         {
-                            NaturalCircle(x, y, WorldGen.genRand.Next(1, 4), ModContent.TileType<Tiles.Ores.AerialiteOre>());
+                            ShapeData circle = new ShapeData();
+                            GenAction blotchMod = new Modifiers.Blotches(2, 0.4);
+
+                            int outerRadius = (int)(WorldGen.genRand.Next(2, 5) * WorldGen.genRand.NextFloat(0.74f, 0.82f));
+
+                            WorldUtils.Gen(new Point(x, y), new Shapes.Circle(outerRadius), Actions.Chain(new GenAction[]
+                            {
+                                blotchMod.Output(circle)
+                            }));
+
+                            WorldUtils.Gen(new Point(x, y), new ModShapes.All(circle), Actions.Chain(new GenAction[]
+                            {
+                                new Actions.ClearTile(),
+                                new Actions.PlaceTile((ushort)ModContent.TileType<Tiles.Ores.AerialiteOre>())
+                            }));
                         }
                     }
                 }

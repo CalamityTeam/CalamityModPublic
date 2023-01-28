@@ -28,7 +28,7 @@ namespace CalamityMod.World
             bool foundValidPosition = false;
             int dungeonArchiveColor = 0; //0 = blue, 1 = green, 2 = pink
 
-            int heightLimit = (Main.maxTilesY / 2) + 200;
+            int heightLimit = (Main.maxTilesY / 2) + (Main.maxTilesY / 7);
 
             for (int x = 5; x <= Main.maxTilesX - 5; x++)
             {
