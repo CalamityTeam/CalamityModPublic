@@ -912,7 +912,6 @@ namespace CalamityMod.CalPlayer
         public int healCounter = 300;
         public bool shellfish = false;
         public bool hCrab = false;
-        public bool tDime = false;
         public bool allWaifus = false;
         public bool allWaifusVanity = false;
         public bool sCrystal = false;
@@ -1975,7 +1974,6 @@ namespace CalamityMod.CalPlayer
             daedalusCrystal = false;
             shellfish = false;
             hCrab = false;
-            tDime = false;
             endoHydra = false;
             powerfulRaven = false;
             dragonFamily = false;

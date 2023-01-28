@@ -77,7 +77,7 @@ namespace CalamityMod.World
                     tileDown.TileType != ModContent.TileType<BrimstoneSlag>() || tileLeft.TileType != ModContent.TileType<BrimstoneSlag>() || 
                     tileRight.TileType != ModContent.TileType<BrimstoneSlag>()))
                     {
-                        CalamityUtils.NaturalCircle(x, y, WorldGen.genRand.Next(5, 22), ModContent.TileType<BrimstoneSlag>());
+                        CalamityUtils.NaturalCircle(x, y, WorldGen.genRand.Next(5, 22), ModContent.TileType<BrimstoneSlag>(), true);
                     }
                 }
             }
@@ -98,7 +98,7 @@ namespace CalamityMod.World
                 {
                     if (WorldGen.genRand.Next(25) == 0)
                     {
-                        CalamityUtils.NaturalCircle(x, y, WorldGen.genRand.Next(5, 15), ModContent.TileType<BrimstoneSlag>());
+                        CalamityUtils.NaturalCircle(x, y, WorldGen.genRand.Next(5, 15), ModContent.TileType<BrimstoneSlag>(), true);
                     }
                 }
             }

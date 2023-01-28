@@ -167,6 +167,8 @@ namespace CalamityMod
                 light += 1;
             if (mp.sparks)
                 light += 1;
+            if (mp.thiefsDime)
+                light += 1;
             if (mp.fathomSwarmerVisage)
                 light += 1;
             if (mp.aquaticHeart)
