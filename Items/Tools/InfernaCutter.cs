@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Tools
             CreateRecipe().
                 AddIngredient<AxeofPurity>().
                 AddIngredient(ItemID.SoulofFright, 8).
-                AddIngredient<EssenceofChaos>(3).
+                AddIngredient<EssenceofHavoc>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

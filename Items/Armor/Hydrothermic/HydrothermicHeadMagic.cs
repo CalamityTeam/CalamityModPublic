@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
         {
             CreateRecipe().
                 AddIngredient<ScoriaBar>(7).
-                AddIngredient<CoreofChaos>().
+                AddIngredient<CoreofHavoc>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

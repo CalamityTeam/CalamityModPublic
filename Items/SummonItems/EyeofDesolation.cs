@@ -120,7 +120,7 @@ namespace CalamityMod.Items.SummonItems
         {
             CreateRecipe().
                 AddIngredient(ItemID.HellstoneBar, 10).
-                AddIngredient<EssenceofChaos>(7).
+                AddIngredient<EssenceofHavoc>(7).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

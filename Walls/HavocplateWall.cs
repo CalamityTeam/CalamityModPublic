@@ -1,16 +1,17 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Walls
 {
-    public class ChaosplateWall : ModWall
+    [LegacyName("ChaosplateWall")]
+    public class HavocplateWall : ModWall
     {
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.ChaosplateWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.HavocplateWall>();
             AddMapEntry(new Color(123, 50, 66));
         }
 

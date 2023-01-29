@@ -7,14 +7,15 @@ using Terraria.GameContent;
 
 namespace CalamityMod.Items.Materials
 {
-    public class EssenceofChaos : ModItem
+    [LegacyName("EssenceofChaos")]
+    public class EssenceofHavoc : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
 
-            DisplayName.SetDefault("Essence of Chaos");
+            DisplayName.SetDefault("Essence of Havoc");
             Tooltip.SetDefault("The essence of chaotic creatures");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 71; // Soul of Light
         }

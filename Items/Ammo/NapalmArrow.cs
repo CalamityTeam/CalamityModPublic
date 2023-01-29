@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Ammo
         {
             CreateRecipe(250).
                 AddIngredient(ItemID.WoodenArrow, 250).
-                AddIngredient<EssenceofChaos>().
+                AddIngredient<EssenceofHavoc>().
                 AddIngredient(ItemID.Torch).
                 AddTile(TileID.Anvils).
                 Register();

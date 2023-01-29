@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<Gehenna>().
                 AddIngredient<Abaddon>().
                 AddIngredient<VoidofCalamity>().
-                AddIngredient<CoreofChaos>().
+                AddIngredient<CoreofHavoc>().
                 AddIngredient<ScoriaBar>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();

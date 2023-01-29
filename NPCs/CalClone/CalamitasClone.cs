@@ -206,7 +206,7 @@ namespace CalamityMod.NPCs.CalClone
                 normalOnly.Add(ModContent.ItemType<Regenator>(), 10);
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 10);
+                normalOnly.Add(ModContent.ItemType<EssenceofHavoc>(), 1, 5, 10);
                 normalOnly.Add(ModContent.ItemType<AshesofCalamity>(), 1, 25, 30);
 
                 // Vanity
