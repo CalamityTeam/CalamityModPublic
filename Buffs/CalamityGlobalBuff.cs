@@ -124,7 +124,7 @@ namespace CalamityMod.Buffs
                     break;
 
                 case BuffID.LeafCrystal:
-                    tip = "Emits powerful life pulses when nearby enemies";
+                    tip = "Emits powerful life pulses at nearby enemies";
                     break;
 
                 case BuffID.NebulaUpDmg1:
