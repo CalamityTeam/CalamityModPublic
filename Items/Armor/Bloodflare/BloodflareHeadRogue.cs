@@ -48,7 +48,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
             player.setBonus = "Greatly increases life regen\n" +
                 "Enemies below 50% life drop a heart when struck\n" +
                 "This effect has a 5 second cooldown\n" +
-                "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
 				"+120 maximum stealth\n" +
                 "Being over 80% life boosts your defense by 30 and rogue crit by 5%\n" +
                 "Being below 80% life boosts your rogue damage by 10%\n" +
