@@ -62,6 +62,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.Chat;
 using Terraria.DataStructures;
+using Terraria.GameContent.Events;
 using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -4385,12 +4386,13 @@ namespace CalamityMod.CalPlayer
             // Fearmonger armor reduces the summoner cross-class nerf
             // Forbidden armor reduces said nerf when holding the respective helmet's preferred weapon type
             // Profaned Soul Crystal encourages use of other weapons, nerfing the damage would not make sense.
+            // Having the Old One's Army event active also disables this during the duration of the event
 
-            bool forbidden = Player.head == ArmorIDs.Head.AncientBattleArmor && Player.body == ArmorIDs.Body.AncientBattleArmor && Player.legs == ArmorIDs.Legs.AncientBattleArmor;
-            bool reducedNerf = fearmongerSet || (forbidden && heldItem.CountsAsClass<MagicDamageClass>()) || (GemTechSet && GemTechState.IsBlueGemActive);
+            bool forbidden = Player.armor[0].type == ItemID.AncientBattleArmorHat && Player.armor[1].type == ItemID.AncientBattleArmorShirt && Player.armor[2].type == ItemID.AncientBattleArmorPants;
+            bool penaltyNegation = fearmongerSet || (forbidden && heldItem.CountsAsClass<MagicDamageClass>()) || (GemTechSet && GemTechState.IsBlueGemActive);
 
-            double summonNerfMult = reducedNerf ? 0.75 : 0.5;
-            if (isSummon && heldItem.type > ItemID.None && !profanedCrystalBuffs)
+            double summonNerfMult = 0.75;
+            if (isSummon && heldItem.type > ItemID.None && !profanedCrystalBuffs && !penaltyNegation && !DD2Event.Ongoing)
             {
                 bool classCheck = !heldItem.CountsAsClass<SummonDamageClass>() && 
                     (heldItem.CountsAsClass<MeleeDamageClass>() || heldItem.CountsAsClass<RangedDamageClass>() || heldItem.CountsAsClass<MagicDamageClass>() || 
