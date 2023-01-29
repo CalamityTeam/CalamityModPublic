@@ -7,11 +7,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.HiveMind
 {
-    public class HiveCyst : ModNPC
+    public class HiveTumor : ModNPC
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hive Cyst");
+            DisplayName.SetDefault("Hive Tumor");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
@@ -99,7 +99,7 @@ namespace CalamityMod.NPCs.HiveMind
             if (spawnInfo.Player.Calamity().disableHiveCystSpawns)
                 return 0f;
 
-            bool anyBossElements = NPC.AnyNPCs(ModContent.NPCType<HiveCyst>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>());
+            bool anyBossElements = NPC.AnyNPCs(ModContent.NPCType<HiveTumor>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>());
             bool corrupt = TileID.Sets.Corrupt[spawnInfo.SpawnTileType] || spawnInfo.SpawnTileType == TileID.Demonite && spawnInfo.Player.ZoneCorrupt;
             if (anyBossElements || spawnInfo.PlayerSafe || !corrupt)
                 return 0f;

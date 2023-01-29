@@ -279,7 +279,7 @@ namespace CalamityMod
             ItemRedirect(ModContent.ItemType<LoreYharon>(), "Lore#Lore_Items");
 
             // Enemies
-            EnemyRedirect(ModContent.NPCType<Catfish>(), "Catfish (enemy)");
+            EnemyRedirect(ModContent.NPCType<Toxicatfish>(), "Catfish (enemy)");
             EnemyRedirect(ModContent.NPCType<HiveEnemy>(), "Hive (enemy)");
             EnemyRedirect(ModContent.NPCType<KingSlimeJewel>(), "Crown Jewel (enemy)");
             EnemyRedirect(ModContent.NPCType<OldDukeToothBall>(), "Tooth Ball (Old Duke)");
@@ -435,7 +435,7 @@ namespace CalamityMod
                 int type = NPCType<HiveMind>();
                 int summon = ItemType<Teratoma>();
                 List<int> collection = new List<int>() { ItemType<HiveMindTrophy>(), ItemType<HiveMindMask>(), ItemType<LoreHiveMind>(), ItemType<RottingEyeball>(), ItemType<ThankYouPainting>() };
-                string instructions = $"Kill a Cyst in the Corruption or use a [i:{summon}] in the Corruption";
+                string instructions = $"Kill a Tumor in the Corruption or use a [i:{summon}] in the Corruption";
                 string despawn = CalamityUtils.ColorMessage("The corrupted colony began searching for a new breeding ground.", new Color(0x94, 0x00, 0xD3));
                 string bossHeadTex = "CalamityMod/NPCs/HiveMind/HiveMindP2_Head_Boss";
                 AddBoss(bossChecklist, calamity, "The Hive Mind", order, type, DownedHiveMind, summon, collection, instructions, despawn, () => true, null, bossHeadTex);
@@ -1112,7 +1112,7 @@ namespace CalamityMod
             RegisterSummon(ItemType<BelladonnaSpiritStaff>(), BuffType<BelladonnaSpiritBuff>(), ProjectileType<BelladonnaSpirit>());
             RegisterSummon(ItemType<StormjawStaff>(), BuffType<BabyStormlionBuff>(), ProjectileType<StormjawBaby>());
             RegisterSummon(ItemType<SeaboundStaff>(), BuffType<BrittleStar>(), ProjectileType<BrittleStarMinion>());
-            RegisterSummon(ItemType<MagicalConch>(), BuffType<HermitCrab>(), ProjectileType<HermitCrabMinion>());
+            RegisterSummon(ItemType<EnchantedConch>(), BuffType<HermitCrab>(), ProjectileType<HermitCrabMinion>());
             RegisterSummon(ItemType<DeathstareRod>(), BuffType<MiniatureEyeofCthulhu>(), ProjectileType<DeathstareEyeball>());
             RegisterSummon(ItemType<PuffShroom>(), BuffType<PuffWarriorBuff>(), ProjectileType<PuffWarrior>());
             RegisterSummon(ItemType<VileFeeder>(), BuffType<VileFeederBuff>(), ProjectileType<VileFeederSummon>());
