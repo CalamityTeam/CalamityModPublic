@@ -177,7 +177,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<Devastation>().
-                AddIngredient<TrueForbiddenOathblade>().
+                AddIngredient<ExaltedOathblade>().
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<NightmareFuel>(20).
                 AddTile(ModContent.TileType<CosmicAnvil>()).

@@ -109,7 +109,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<BladecrestOathsword>().
-                AddIngredient<OldLordOathsword>().
+                AddIngredient<OldLordClaymore>().
                 AddIngredient(ItemID.SoulofFright, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();

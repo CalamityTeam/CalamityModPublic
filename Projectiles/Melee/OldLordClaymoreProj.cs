@@ -12,7 +12,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class OldLordOathswordProj : BaseIdleHoldoutProjectile
+    public class OldLordClaymoreProj : BaseIdleHoldoutProjectile
     {
         public enum SwingState
         {
@@ -27,19 +27,19 @@ namespace CalamityMod.Projectiles.Melee
         public ref float ChargeTime => ref Projectile.ai[0];
         public ref float GeneralTime => ref Projectile.ai[1];
         public ref float PostSwingRepositionDelay => ref Projectile.localAI[0];
-        public ref bool RMBChannel => ref (Owner.HeldItem.ModItem as OldLordOathsword).RMBchannel;
+        public ref bool RMBChannel => ref (Owner.HeldItem.ModItem as OldLordClaymore).RMBchannel;
         public bool LMBUse => Owner.altFunctionUse != 2 && !RMBChannel && Owner.itemAnimation > 0;
         public ref float ChargePower => ref Projectile.localAI[1];
 
         public const int MaxChargeTime = 60;
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/OldLordOathsword";
-        public override int AssociatedItemID => ModContent.ItemType<OldLordOathsword>();
-        public override int IntendedProjectileType => ModContent.ProjectileType<OldLordOathswordProj>();
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/OldLordClaymore";
+        public override int AssociatedItemID => ModContent.ItemType<OldLordClaymore>();
+        public override int IntendedProjectileType => ModContent.ProjectileType<OldLordClaymoreProj>();
         public override bool? CanDamage() => CurrentState != 0; //Could also disable the damage during the channel state,
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Old Lord Oathsword");
+            DisplayName.SetDefault("Old Lord Claymore");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
         }
