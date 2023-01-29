@@ -253,6 +253,11 @@ namespace CalamityMod.Items
             // Numerous random tooltip edits which don't fit into another category
             #region Various Tooltip Edits
 
+            // Master Mode items also drop in Revengeance
+            // Only affects vanilla and Calamity items
+            if (item.master && (item.type < ItemID.Count || item.ModItem?.Mod is CalamityMod))
+                EditTooltipByName("Master", (line) => line.Text += " or Revengeance");
+
             // Add a tooltip about Slimed's effects
             if (item.type == ItemID.SlimeGun)
                 EditTooltipByNum(0, (line) => line.Text += "\nSlimed enemies take more damage from fire-based debuffs");
@@ -322,6 +327,13 @@ namespace CalamityMod.Items
             // Golden Fishing Rod inherently contains High Test Fishing Line
             if (item.type == ItemID.GoldenFishingRod)
                 EditTooltipByName("NeedsBait", (line) => line.Text += "\nIts fishing line will never break");
+
+            // Information about graveyards
+            // There are no item sets for tombstones wtf
+            if (item.type == ItemID.Tombstone || item.type == ItemID.GraveMarker || item.type == ItemID.CrossGraveMarker || item.type == ItemID.Headstone || item.type == ItemID.Gravestone || item.type == ItemID.Obelisk
+                || item.type == ItemID.RichGravestone1 || item.type == ItemID.RichGravestone2 || item.type == ItemID.RichGravestone3 || item.type == ItemID.RichGravestone4 || item.type == ItemID.RichGravestone5)
+                EditTooltipByName("Material", (line) => line.Text += "\n20 of any tombstone turns the surrounding area into a graveyard"
+                + "\nGraveyards have various new item sales and recipes");
 
             // Eternity Crystal notifies the player that they can accelerate the invasion
             if (item.type == ItemID.DD2ElderCrystal)
