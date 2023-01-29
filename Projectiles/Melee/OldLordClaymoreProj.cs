@@ -304,7 +304,7 @@ namespace CalamityMod.Projectiles.Melee
                 GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0.7f - ((Main.GlobalTimeWrappedHourly * 30) % 30f / 60f));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
-            var texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OldLordOathsword").Value;
+            var texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OldLordClaymore").Value;
 
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, Projectile.Size / 2f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             Main.spriteBatch.ExitShaderRegion();

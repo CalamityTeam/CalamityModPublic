@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Placeables.Plates
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaosplate");
+            DisplayName.SetDefault("Havocplate");
             Tooltip.SetDefault("It resonates with otherworldly energy.");
             SacrificeTotal = 100;
         }
