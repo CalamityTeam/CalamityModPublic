@@ -1432,19 +1432,15 @@ namespace CalamityMod.Items
             {
                 /* Prehardmode = 1
                  * Hardmode = 2
-                 * Post-Golem = 2
-                 * Post-Moon Lord = 2
-                 * Post-Provi = 2
-                 * Post-Polter = 3
-                 * Post-DoG = 3
-                 * Post-Yharon = 4
+                 * Post-Moon Lord = 3
+                 * Post-DoG = 4
                  */
 
-                if (DownedBossSystem.downedYharon)
+                if (DownedBossSystem.downedDoG)
                     player.statDefense += 3;
-                else if (DownedBossSystem.downedPolterghast || DownedBossSystem.downedDoG)
+                else if (NPC.downedMoonlord)
                     player.statDefense += 2;
-                else if (Main.hardMode || NPC.downedGolemBoss || NPC.downedMoonlord || DownedBossSystem.downedProvidence)
+                else if (Main.hardMode)
                     player.statDefense += 1;
 
                 player.endurance += 0.0025f;
@@ -1453,21 +1449,13 @@ namespace CalamityMod.Items
             {
                 /* Prehardmode = 2
                  * Hardmode = 3
-                 * Post-Golem = 4
                  * Post-Moon Lord = 4
-                 * Post-Provi = 5
-                 * Post-Polter = 5
                  * Post-DoG = 6
-                 * Post-Yharon = 7
                  */
 
-                if (DownedBossSystem.downedYharon)
-                    player.statDefense += 5;
-                else if (DownedBossSystem.downedDoG)
+                if (DownedBossSystem.downedDoG)
                     player.statDefense += 4;
-                else if (DownedBossSystem.downedProvidence || DownedBossSystem.downedPolterghast)
-                    player.statDefense += 3;
-                else if (NPC.downedGolemBoss || NPC.downedMoonlord)
+                else if (NPC.downedMoonlord)
                     player.statDefense += 2;
                 else if (Main.hardMode)
                     player.statDefense += 1;
@@ -1478,25 +1466,15 @@ namespace CalamityMod.Items
             {
                 /* Prehardmode = 3
                  * Hardmode = 5
-                 * Post-Golem = 5
                  * Post-Moon Lord = 6
-                 * Post-Provi = 7
-                 * Post-Polter = 8
-                 * Post-DoG = 9
-                 * Post-Yharon = 10
+                 * Post-DoG = 8
                  */
 
-                if (DownedBossSystem.downedYharon)
-                    player.statDefense += 7;
-                else if (DownedBossSystem.downedDoG)
-                    player.statDefense += 6;
-                else if (DownedBossSystem.downedPolterghast)
+                if (DownedBossSystem.downedDoG)
                     player.statDefense += 5;
-                else if (DownedBossSystem.downedProvidence)
-                    player.statDefense += 4;
                 else if (NPC.downedMoonlord)
                     player.statDefense += 3;
-                else if (Main.hardMode || NPC.downedGolemBoss)
+                else if (Main.hardMode)
                     player.statDefense += 2;
 
                 player.endurance += 0.0075f;
@@ -1505,26 +1483,14 @@ namespace CalamityMod.Items
             {
                 /* Prehardmode = 4
                  * Hardmode = 6
-                 * Post-Golem = 7
                  * Post-Moon Lord = 8
-                 * Post-Provi = 9
-                 * Post-Polter = 10
-                 * Post-DoG = 11
-                 * Post-Yharon = 12
+                 * Post-DoG = 10
                  */
 
-                if (DownedBossSystem.downedYharon)
-                    player.statDefense += 8;
-                else if (DownedBossSystem.downedDoG)
-                    player.statDefense += 7;
-                else if (DownedBossSystem.downedPolterghast)
+                if (DownedBossSystem.downedDoG)
                     player.statDefense += 6;
-                else if (DownedBossSystem.downedProvidence)
-                    player.statDefense += 5;
                 else if (NPC.downedMoonlord)
                     player.statDefense += 4;
-                else if (NPC.downedGolemBoss)
-                    player.statDefense += 3;
                 else if (Main.hardMode)
                     player.statDefense += 2;
 
