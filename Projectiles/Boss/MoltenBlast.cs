@@ -44,7 +44,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            //Day mode by default but syncs with the boss
+            Lighting.AddLight(Projectile.Center, 0.45f, 0.35f, 0f);
+
+            // Day mode by default but syncs with the boss
             if (CalamityGlobalNPC.holyBoss != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.holyBoss].active)
