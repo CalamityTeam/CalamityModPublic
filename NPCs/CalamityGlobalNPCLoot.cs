@@ -1584,6 +1584,10 @@ namespace CalamityMod.NPCs
         #region Pre Kill
         public override bool PreKill(NPC npc)
         {
+            // Stop Eater of Worlds segments and Brain of Cthulhu Creepers from dropping partial loot in Rev+
+            if (CalamityWorld.revenge && (CalamityLists.EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper))
+                DropHelper.BlockDrops(ItemID.DemoniteOre, ItemID.ShadowScale, ItemID.CrimtaneOre, ItemID.TissueSample);
+
             // Boss Rush pre-kill effects
             if (BossRushEvent.BossRushActive)
             {
@@ -1611,10 +1615,6 @@ namespace CalamityMod.NPCs
             // Stop Death Mode splitting worms from dropping excessive loot
             if (CalamityWorld.death && !SplittingWormLootBlockWrapper(npc, Mod))
                 DropHelper.BlockEverything();
-
-            // Stop Eater of Worlds segments and Brain of Cthulhu Creepers from dropping partial loot in Rev+
-            if (CalamityWorld.revenge && (CalamityLists.EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper))
-                DropHelper.BlockDrops(ItemID.DemoniteOre, ItemID.ShadowScale, ItemID.CrimtaneOre, ItemID.TissueSample);
 
             // Check whether bosses should be spawned naturally as a result of this NPC's death.
             CheckBossSpawn(npc);
