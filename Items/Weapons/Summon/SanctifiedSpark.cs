@@ -7,11 +7,12 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class EnergyStaff : ModItem
+    [LegacyName("EnergyStaff")]
+    public class SanctifiedSpark : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Energy Staff");
+            DisplayName.SetDefault("Sanctified Spark");
             Tooltip.SetDefault("Summons a profaned energy turret to fight for you");
             Item.staff[Item.type] = true;
             SacrificeTotal = 1;
