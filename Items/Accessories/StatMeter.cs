@@ -107,7 +107,7 @@ namespace CalamityMod.Items.Accessories
             int abyssDefenseLoss = modPlayer.abyssDefenseLossStat;
 
             // The notice about held item mattering is always displayed first.
-            StringBuilder sb = new StringBuilder("Displays almost all player stats\nOffensive stats displayed vary with held item\n\n", 1024);
+            StringBuilder sb = new StringBuilder("Displays almost all player stats\nOffensive stats displayed vary with held item", 1024);
 
             // Only append rippers stats in Rev+
             if (CalamityWorld.revenge)
@@ -115,10 +115,9 @@ namespace CalamityMod.Items.Accessories
                 string rageDamageDisplay = TwoPlaces(100f * rageDamage);
                 string adrenalineDamageDisplay = TwoPlaces(100f * adrenalineDamage);
                 string adrenalineDRDisplay = TwoPlaces(100f * adrenalineDR);
-                sb.Append("Rage Damage Boost: ").Append(rageDamageDisplay).Append("%\n");
+                sb.Append("\n\nRage Damage Boost: ").Append(rageDamageDisplay).Append("%\n");
                 sb.Append("Adrenaline Damage Boost: ").Append(adrenalineDamageDisplay)
-                    .Append("% | Adrenaline DR Boost: ").Append(adrenalineDRDisplay)
-                    .Append("%\n\n");
+                    .Append("% | Adrenaline DR Boost: ").Append(adrenalineDRDisplay).Append("%");
             }
 
             // Append item stats only if the held item isn't null, and base it off of the item's damage type.
@@ -174,7 +173,7 @@ namespace CalamityMod.Items.Accessories
                 float armorPen = player.GetTotalArmorPenetration(dc); // starts at 0f = +0 armor pen
 
                 // Attack damage tooltip. The boosts are displayed in exactly the order they are applied
-                sb.Append(damageClassName).Append(" Damage: ");
+                sb.Append("\n\n").Append(damageClassName).Append(" Damage: ");
 
                 // Flat base damage additions are extremely rare and only appear when relevant
                 if (baseFlatDamage != 0f)

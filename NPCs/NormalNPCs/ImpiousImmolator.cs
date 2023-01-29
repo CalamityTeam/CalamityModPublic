@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -270,6 +271,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npcLoot.Add(ModContent.ItemType<UnholyEssence>(), 1, 2, 4);
             npcLoot.Add(ModContent.ItemType<EnergyStaff>(), 15);
+            npcLoot.Add(ModContent.ItemType<BlasphemousDonut>(), 50);
         }
 
         public override void HitEffect(int hitDirection, double damage)
