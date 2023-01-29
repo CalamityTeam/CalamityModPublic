@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe().
                 AddIngredient<IceStar>(100).
                 AddIngredient<Avalanche>().
-                AddIngredient<EffluviumBow>().
+                AddIngredient<HoarfrostBow>().
                 AddIngredient<Icebreaker>().
                 AddIngredient<SnowstormStaff>().
                 AddIngredient<EssenceofEleum>(10).

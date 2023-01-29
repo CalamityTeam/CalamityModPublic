@@ -7,11 +7,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class EffluviumBow : ModItem
+    [LegacyName("EffluviumBow")]
+    public class HoarfrostBow : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Effluvium Bow");
+            DisplayName.SetDefault("Hoarfrost Bow");
             Tooltip.SetDefault("Fires two arrows at once\n" +
                 "Converts wooden arrows into mist arrows");
             SacrificeTotal = 1;
