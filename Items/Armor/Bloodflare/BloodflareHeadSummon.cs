@@ -48,7 +48,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
                 "Greatly increases life regen\n" +
                 "Enemies below 50% life drop a heart when struck\n" +
                 "This effect has a 5 second cooldown\n" +
-                "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
                 "Summons polterghast mines to circle you\n" +
                 "At 90% life and above you gain 10% increased minion damage\n" +
                 "At 50% life and below you gain 20 defense and 2 life regen";
