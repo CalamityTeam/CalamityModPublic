@@ -2644,16 +2644,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<GenericDamageClass>() -= 0.15f;
             }
 
-            if (bBlood)
-            {
-                Player.blind = true;
-                Player.statDefense -= 3;
-                Player.moveSpeed += 0.1f;
-                Player.GetDamage<MeleeDamageClass>() += 0.05f;
-                Player.GetDamage<RangedDamageClass>() -= 0.1f;
-                Player.GetDamage<MagicDamageClass>() -= 0.1f;
-            }
-
             if (aCrunch && !laudanum)
             {
                 Player.statDefense -= ArmorCrunch.DefenseReduction;
