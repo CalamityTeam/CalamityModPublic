@@ -8,11 +8,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class MagicalConch : ModItem
+    [LegacyName("MagicalConch")]
+    public class EnchantedConch : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Magical Conch");
+            DisplayName.SetDefault("Enchanted Conch");
             Tooltip.SetDefault("Summons a hermit crab to fight for you");
             SacrificeTotal = 1;
         }
