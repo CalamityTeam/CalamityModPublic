@@ -9,8 +9,11 @@ using CalamityMod.Tiles.Crags;
 using CalamityMod.Tiles.FurnitureAncient;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Walls;
+using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using Terraria;
@@ -19,6 +22,7 @@ using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using Terraria.WorldBuilding;
+using Terraria.DataStructures;
 using Terraria.GameContent.Generation;
 
 namespace CalamityMod.World
@@ -39,13 +43,14 @@ namespace CalamityMod.World
                 }
             }
 
-            int treeHeight = (int)Main.worldSurface - (Main.maxTilesY / 8); //start here to not touch floating islands
+            int treeHeight = (int)Main.worldSurface - (Main.maxTilesY / 10); //start here to not touch floating islands
             bool validheightFound = false;
             int attempts = 0;
+
             while (!validheightFound && attempts++ < 100000)
             {
 
-                while (!WorldGen.SolidTile(origin.X, treeHeight) && treeHeight <= Main.worldSurface)
+                while (!WorldGen.SolidTile(origin.X, treeHeight))
 				{
 					treeHeight++;
 				}
@@ -56,101 +61,85 @@ namespace CalamityMod.World
 				}
             }
 
+            int extraWidth = 0;
+            
             while (validheightFound)
             {
-                int num3 = (origin.Y + treeHeight) / 23; //the height of the tree
-                int num4 = num3 * 5;
-                int num5 = 0;
-                double num6 = WorldGen.genRand.NextDouble() + 1.0;
-                double num7 = WorldGen.genRand.NextDouble() + 2.0;
-
-                if (WorldGen.genRand.Next(2) == 0)
-                {
-                    num7 = 0.0 - num7;
-                }
-
-                for (int i = 0; i < num3; i++)
-                {
-                    int num8 = (int)(Math.Sin((double)(i + 1) / 12.0 * num6 * 3.1415927410125732) * num7);
-                    int num9 = ((num8 < num5) ? (num8 - num5) : 0);
-
-                    //places the actual log of the tree
-                    //i genuinely cannot figure out how to make this get thicker as it goes down, im giving up on that for now
-                    WorldUtils.Gen(new Point(origin.X + num5 + num9, origin.Y - (i + 1) * 5), new Shapes.Rectangle(6 + Math.Abs(num8 - num5), 7), 
-                    Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), new Modifiers.SkipWalls(87), new Actions.RemoveWall(), 
-                    new Actions.SetTile(383), new Actions.SetFrames()));
-
-                    //digs out the hole on the middle of the tree
-                    WorldUtils.Gen(new Point(origin.X + num5 + num9 + 2, origin.Y - (i + 1) * 5), new Shapes.Rectangle(2 + Math.Abs(num8 - num5), 5), 
-                    Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), new Modifiers.SkipWalls(87), 
-                    new Actions.ClearTile(frameNeighbors: true), new Actions.PlaceWall(78)));
-
-                    //place wood walls on the inside of the tree
-                    WorldUtils.Gen(new Point(origin.X + num5 + 2, origin.Y - i * 5), new Shapes.Rectangle(2, 2), 
-                    Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), new Modifiers.SkipWalls(87),
-                    new Actions.ClearTile(frameNeighbors: true), new Actions.PlaceWall(78)));
-
-                    num5 = num8;
-                }
-
-                int num10 = 6;
-                if (num7 < 0.0)
-                {
-                    num10 = 0;
-                }
-
-                List<Point> list = new List<Point>();
-
-                //loop to place extra branches on the top of the tree
-                for (int j = 0; j < 6; j++)
-                {
-                    double num11 = ((double)j + 1.0) / 3.0;
-                    int num12 = num10 + (int)(Math.Sin((double)num3 * num11 / 12.0 * num6 * 3.1415927410125732) * num7);
-                    double num13 = WorldGen.genRand.NextDouble() * 0.7853981852531433 - 0.7853981852531433 - 0.2;
-
-                    if (num10 == 0)
-                    {
-                        num13 -= 1.5707963705062866;
-                    }
-
-                    //branches
-                    WorldUtils.Gen(new Point(origin.X + num12, origin.Y - (int)((double)(num3 * 5))),
-                    new ShapeBranch(num13, WorldGen.genRand.Next(12, 22)).OutputEndpoints(list), Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), 
-                    new Modifiers.SkipWalls(87), new Actions.SetTile(383), new Actions.SetFrames(frameNeighbors: true)));
-
-                    num10 = 6 - num10;
-                }
-
-                int num14 = (int)(Math.Sin((double)num3 / 12.0 * num6 * 3.1415927410125732) * num7);
-
-                //places branches for the leaves to grow on
-                WorldUtils.Gen(new Point(origin.X + 6 + num14, origin.Y - num4), new ShapeBranch(-0.6853981852531433, 
-                WorldGen.genRand.Next(16, 22)).OutputEndpoints(list), Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), 
-                new Modifiers.SkipWalls(87), new Actions.SetTile(383), new Actions.SetFrames(frameNeighbors: true)));
-                
-                WorldUtils.Gen(new Point(origin.X + num14, origin.Y - num4), new ShapeBranch(-2.45619455575943, 
-                WorldGen.genRand.Next(16, 22)).OutputEndpoints(list), Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), 
-                new Modifiers.SkipWalls(87), new Actions.SetTile(383), new Actions.SetFrames(frameNeighbors: true)));
-                
-                foreach (Point item in list)
-                {
-                    //place living mahogany leaves
-                    WorldUtils.Gen(item, new Shapes.Circle(4), Actions.Chain(new Modifiers.Blotches(WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(3, 6)), 
-                    new Modifiers.SkipTiles(383, 21, 467, 226, 237), new Modifiers.SkipWalls(78, 87), new Actions.SetTile(384), new Actions.SetFrames(frameNeighbors: true)));
-                }
-
-                for (int k = 0; k < 5; k++)
+                //place the roots first so the bottom of the hole doesnt look strange
+                for (int k = 0; k < 6; k++)
                 {
                     double angle = (double)k / 3.0 * 2.0 + 0.57075;
-                    WorldUtils.Gen(origin, new ShapeRoot((float)angle, WorldGen.genRand.Next(40, 60)), Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), 
-                    new Modifiers.SkipWalls(87), new Actions.SetTile(383, setSelfFrames: true)));
+                    WorldUtils.Gen(new Point(origin.X + 2, origin.Y - 30), new ShapeRoot((int)angle, WorldGen.genRand.Next(80, 120)), 
+                    Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), new Modifiers.SkipWalls(87), 
+                    new Actions.SetTile(TileID.LivingMahogany, setSelfFrames: true)));
                 }
 
-                WorldGen.AddBuriedChest(origin.X + 3, origin.Y - 1, (WorldGen.genRand.Next(4) != 0) ? WorldGen.GetNextJungleChestItem() : 0, notNearOtherChests: false, 10, trySlope: false, 0);
-                
-                //i dunno how to use this properly, so disabled it stays
-                //though i guess theres not really any other structures in the surface jungle anyways
-                //structures.AddProtectedStructure(new Rectangle(origin.X - 30, origin.Y - 30, 60, 60));
+                for (int y = treeHeight - 50; y <= origin.Y - 30; y++)
+                {
+                    if (y % 35 == 0)
+                    {
+                        extraWidth++;
+                    }
+
+                    //place branches at the top of the tree
+                    if (y <= treeHeight - 45)
+                    {
+                        //create a list of points for the ends of each branch
+                        List<Point> list = new List<Point>();
+
+                        WorldUtils.Gen(new Point(origin.X + WorldGen.genRand.Next(-3, 3), y), new ShapeBranch(-0.6853981852531433, 
+                        WorldGen.genRand.Next(5, 25)).OutputEndpoints(list), Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), 
+                        new Modifiers.SkipWalls(87), new Actions.SetTile(TileID.LivingMahogany), new Actions.SetFrames(frameNeighbors: true)));
+
+                        WorldUtils.Gen(new Point(origin.X + WorldGen.genRand.Next(-3, 3), y), new ShapeBranch(-2.45619455575943, 
+                        WorldGen.genRand.Next(5, 25)).OutputEndpoints(list), Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), 
+                        new Modifiers.SkipWalls(87), new Actions.SetTile(TileID.LivingMahogany), new Actions.SetFrames(frameNeighbors: true)));
+
+                        //place living mahogany leaves at the end of each branch
+                        foreach (Point item in list)
+                        {
+                            WorldUtils.Gen(item, new Shapes.Circle(WorldGen.genRand.Next(5, 12)), Actions.Chain(new Modifiers.Blotches(WorldGen.genRand.Next(3, 5), WorldGen.genRand.Next(3, 5)), 
+                            new Modifiers.SkipTiles(383, 21, 467, 226, 237), new Modifiers.SkipWalls(78, 87), new Actions.SetTile(TileID.LivingMahoganyLeaves), new Actions.SetFrames(frameNeighbors: true)));
+                        }
+                    }
+
+                    //place the tree itself
+                    WorldUtils.Gen(new Point(origin.X + WorldGen.genRand.Next(-1 - extraWidth, 1), y), new Shapes.Rectangle(6 + extraWidth, 3 + extraWidth), 
+                    Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), new Modifiers.SkipWalls(87), new Actions.RemoveWall(),
+                    new Actions.SetTile(TileID.LivingMahogany), new Actions.SetFrames()));
+
+                    WorldUtils.Gen(new Point(origin.X + WorldGen.genRand.Next(-1, 1), y), new Shapes.Rectangle(6 + extraWidth, 3 + extraWidth), 
+                    Actions.Chain(new Modifiers.SkipTiles(21, 467, 226, 237), new Modifiers.SkipWalls(87), new Actions.RemoveWall(),
+                    new Actions.SetTile(TileID.LivingMahogany), new Actions.SetFrames()));
+
+                    //dig hole in tree
+                    ShapeData circle = new ShapeData();
+                    ShapeData biggerCircle = new ShapeData();
+                    GenAction blotchMod = new Modifiers.Blotches(2, 0.4);
+
+                    int radius = extraWidth - 1;
+
+                    WorldUtils.Gen(new Point(origin.X + 2, y), new Shapes.Circle(radius), Actions.Chain(new GenAction[]
+                    {
+                        blotchMod.Output(circle)
+                    }));
+                    WorldUtils.Gen(new Point(origin.X + 2, y), new Shapes.Circle(radius + 1), Actions.Chain(new GenAction[]
+                    {
+                        blotchMod.Output(biggerCircle)
+                    }));
+
+                    //main circle of walls, also dig out hole in the tree
+                    WorldUtils.Gen(new Point(origin.X + 2, y), new ModShapes.All(circle), Actions.Chain(new GenAction[]
+                    {
+                        new Actions.ClearTile(),
+                        new Actions.PlaceWall(WallID.LivingWood)
+                    }));
+                    //bigger circle so that walls can place behind blocks (basically makes it not look ugly in game)
+                    WorldUtils.Gen(new Point(origin.X + 2, y), new ModShapes.All(biggerCircle), Actions.Chain(new GenAction[]
+                    {
+                        new Actions.PlaceWall(WallID.LivingWood)
+                    }));
+                }
 
                 return true;
             }
@@ -179,8 +168,6 @@ namespace CalamityMod.World
             Vector2 larvaLocation = origin.ToVector2();
             int numHiveTunnels = WorldGen.genRand.Next(10, 13);
 
-            GrowLivingJungleTree(new Point(origin.X, origin.Y));
-
             for (int i = 0; i < numHiveTunnels; i++)
             {
                 Vector2 vector2 = larvaLocation;
@@ -195,6 +182,8 @@ namespace CalamityMod.World
             }
 
             FrameOutAllHiveContents(origin, 50);
+
+            GrowLivingJungleTree(new Point(origin.X, origin.Y));
 
             for (int k = 0; k < num; k++)
             {

@@ -174,11 +174,11 @@ namespace CalamityMod.Items
             if (item.type == ModContent.ItemType<Earth>())
             {
                 List<Color> earthColors = new List<Color>()
-                            {
-                                new Color(255, 99, 146),
-                                new Color(255, 228, 94),
-                                new Color(127, 200, 248)
-                            };
+                {
+                    new Color(255, 99, 146),
+                    new Color(255, 228, 94),
+                    new Color(127, 200, 248)
+                };
                 if (nameLine != null)
                 {
                     int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % earthColors.Count);

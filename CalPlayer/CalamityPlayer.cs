@@ -326,7 +326,6 @@ namespace CalamityMod.CalPlayer
         public bool bendyPet = false;
         public bool littleLightPet = false;
         public bool pineapplePet = false;
-        public bool seaSlugPet = false;
         #endregion
 
         #region Rage
@@ -1478,7 +1477,6 @@ namespace CalamityMod.CalPlayer
             bendyPet = false;
             littleLightPet = false;
             pineapplePet = false;
-            seaSlugPet = false;
 
             onyxExcavator = false;
             rimehound = false;

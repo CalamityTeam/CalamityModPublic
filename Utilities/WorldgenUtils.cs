@@ -79,9 +79,9 @@ namespace CalamityMod
                             ShapeData circle = new ShapeData();
                             GenAction blotchMod = new Modifiers.Blotches(2, 0.4);
 
-                            int outerRadius = (int)(WorldGen.genRand.Next(2, 5) * WorldGen.genRand.NextFloat(0.74f, 0.82f));
+                            int radius = (int)(WorldGen.genRand.Next(2, 5) * WorldGen.genRand.NextFloat(0.74f, 0.82f));
 
-                            WorldUtils.Gen(new Point(x, y), new Shapes.Circle(outerRadius), Actions.Chain(new GenAction[]
+                            WorldUtils.Gen(new Point(x, y), new Shapes.Circle(radius), Actions.Chain(new GenAction[]
                             {
                                 blotchMod.Output(circle)
                             }));

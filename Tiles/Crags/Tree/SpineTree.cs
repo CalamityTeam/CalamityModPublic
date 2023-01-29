@@ -138,6 +138,7 @@ namespace CalamityMod.Tiles.Crags.Tree
             }
 
             int branchSegmentDelay = 0;
+            int numSegments = 0;
 
             for (int k = 1; k < height; k++)
             {
@@ -152,22 +153,23 @@ namespace CalamityMod.Tiles.Crags.Tree
                 //also dont place branches below a certain threshold
                 if (Main.rand.Next(2) == 0 && branchSegmentDelay == 0 && k > 5)
                 {
-                    float divide = 1.5f;
+                    float divide = 1.65f;
 
-                    if (k < height / 2)
+                    if (numSegments < 2)
                     {
                         Framing.GetTileSafely(i, j - k).TileFrameX = 3 * 18;
                     }
-                    else if (k > height / 2 && k < height / (int)divide)
+                    else if (numSegments < 5)
                     {
                         Framing.GetTileSafely(i, j - k).TileFrameX = 4 * 18;
                     }
-                    else if (k > height / (int)divide && k < height)
+                    else if (numSegments > 5)
                     {
                         Framing.GetTileSafely(i, j - k).TileFrameX = 5 * 18;
                     }
 
                     Framing.GetTileSafely(i, j - k).TileFrameY = (short)(Main.rand.Next(3) * 18);
+                    numSegments++;
                     branchSegmentDelay = 3;
                 }
                 //otherwise place a normal segment
