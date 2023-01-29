@@ -140,7 +140,7 @@ namespace CalamityMod.Items.Armor.GemTech
                         tooltips.Insert(setBonusIndex, greenGemTooltip);
 
                         setBonusIndex++;
-                        TooltipLine blueGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus5", "[i:" + ItemID.Sapphire + "]" + $"The blue gem grants {SummonMinionCountBoost} extra maximum minions, increased minion damage, and reduces the penalty for summoner items while holding a non-summoner weapon");
+                        TooltipLine blueGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus5", "[i:" + ItemID.Sapphire + "]" + $"The blue gem grants {SummonMinionCountBoost} extra maximum minions, increased minion damage, and negates the minion damage penalty while wielding non-summoner weapons");
                         blueGemTooltip.OverrideColor = new Color(37, 119, 206);
                         tooltips.Insert(setBonusIndex, blueGemTooltip);
 

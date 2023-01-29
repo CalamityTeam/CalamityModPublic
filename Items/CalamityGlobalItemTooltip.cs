@@ -877,9 +877,9 @@ namespace CalamityMod.Items
                 EditTooltipByName("Defense", (line) => line.Text += $"\n{GladiatorArmorSetChange.LeggingRogueVelocityBoostPercent}% increased rogue velocity");
 
             // Forbidden (UNLESS you are wearing the Circlet, which is Summon/Rogue and does not get this line)
-            if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants
+            if ((item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants)
                 && !Main.LocalPlayer.Calamity().forbiddenCirclet)
-                EditTooltipByName("SetBonus", (line) => line.Text += "\nThe minion damage nerf is reduced while wielding magic weapons");
+                EditTooltipByName("SetBonus", (line) => line.Text += "\nMinions no longer deal less damage while wielding magic weapons");
             #endregion
 
             // Provide the full stats of every vanilla set of wings
