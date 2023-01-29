@@ -384,7 +384,7 @@ namespace CalamityMod
                     item = ModContent.ItemType<RepairUnitBanner>();
                     break;
                 case 1:
-                    item = ModContent.ItemType<FlounderBanner>();
+                    item = ModContent.ItemType<SulflounderBanner>();
                     break;
                 case 2:
                     item = ModContent.ItemType<GnasherBanner>();
@@ -393,7 +393,7 @@ namespace CalamityMod
                     item = ModContent.ItemType<TrasherBanner>();
                     break;
                 case 4:
-                    item = ModContent.ItemType<CatfishBanner>();
+                    item = ModContent.ItemType<ToxicatfishBanner>();
                     break;
                 case 6:
                     item = ModContent.ItemType<AndroombaBanner>();
@@ -746,7 +746,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<RepairUnitCritter>();
                     break;
                 case 1:
-                    npc = ModContent.NPCType<Flounder>();
+                    npc = ModContent.NPCType<Sulflounder>();
                     break;
                 case 2:
                     npc = ModContent.NPCType<Gnasher>();
@@ -755,7 +755,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<Trasher>();
                     break;
                 case 4:
-                    npc = ModContent.NPCType<Catfish>();
+                    npc = ModContent.NPCType<Toxicatfish>();
                     break;
                 case 6:
                     npc = ModContent.NPCType<Androomba>();

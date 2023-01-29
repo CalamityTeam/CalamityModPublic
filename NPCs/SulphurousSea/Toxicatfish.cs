@@ -9,11 +9,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class Catfish : ModNPC
+    public class Toxicatfish : ModNPC
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Catfish");
+            DisplayName.SetDefault("Toxicatfish");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
             value.Position.X += 10f;
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.DeathSound = SoundID.NPCDeath40;
             NPC.knockBackResist = 0.8f;
             Banner = NPC.type;
-            BannerItem = ModContent.ItemType<CatfishBanner>();
+            BannerItem = ModContent.ItemType<ToxicatfishBanner>();
             NPC.chaseable = false;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
@@ -125,8 +125,8 @@ namespace CalamityMod.NPCs.SulphurousSea
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Catfish").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Catfish2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Toxicatfish").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Toxicatfish2").Type, 1f);
                 }
             }
         }

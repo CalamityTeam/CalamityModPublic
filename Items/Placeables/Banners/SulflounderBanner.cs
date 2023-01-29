@@ -1,16 +1,17 @@
-using CalamityMod.Tiles;
+﻿using CalamityMod.Tiles;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Banners
 {
-    public class CatfishBanner : ModItem
+    [LegacyName("FlounderBanner")]
+    public class SulflounderBanner : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Catfish");
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Sulflounder");
         }
 
         public override void SetDefaults()
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Placeables.Banners
             Item.rare = ItemRarityID.Blue;
             Item.value = Item.buyPrice(0, 0, 10, 0);
             Item.createTile = ModContent.TileType<MonsterBanner>();
-            Item.placeStyle = 4;
+            Item.placeStyle = 1;
         }
     }
 }
