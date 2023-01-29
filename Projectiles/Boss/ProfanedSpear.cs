@@ -29,6 +29,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, 0.45f, 0.35f, 0f);
+
             if (Projectile.timeLeft < 510)
                 Projectile.tileCollide = true;
 

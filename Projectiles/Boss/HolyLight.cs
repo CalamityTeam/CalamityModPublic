@@ -31,6 +31,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, 0f, 0.6f, 0f);
+
             if (Projectile.ai[0] < 240f)
             {
                 Projectile.ai[0] += 1f;
