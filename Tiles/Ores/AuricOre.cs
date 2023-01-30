@@ -28,6 +28,8 @@ namespace CalamityMod.Tiles.Ores
             Main.tileBlockLight[Type] = true;
             Main.tileSpelunker[Type] = true;
             Main.tileOreFinderPriority[Type] = 1000;
+            Main.tileShine[Type] = 3500;
+            Main.tileShine2[Type] = false;
 
             CalamityUtils.MergeWithGeneral(Type);
 
