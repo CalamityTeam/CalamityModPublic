@@ -123,6 +123,10 @@ namespace CalamityMod.World
                     {
                         blotchMod.Output(circle)
                     }));
+                    WorldUtils.Gen(new Point(origin.X + 2, y), new Shapes.Circle(radius), Actions.Chain(new GenAction[]
+                    {
+                        blotchMod.Output(circle)
+                    }));
                     WorldUtils.Gen(new Point(origin.X + 2, y), new Shapes.Circle(radius + 1), Actions.Chain(new GenAction[]
                     {
                         blotchMod.Output(biggerCircle)
@@ -134,6 +138,17 @@ namespace CalamityMod.World
                         new Actions.ClearTile(),
                         new Actions.PlaceWall(WallID.LivingWood)
                     }));
+
+                    //chance to place blocks inside the tree for randomness
+                    if (WorldGen.genRand.Next(20) == 0)
+                    {
+                        WorldUtils.Gen(new Point(origin.X + WorldGen.genRand.Next(-2, 2), y), new ModShapes.All(tinyCircle), Actions.Chain(new GenAction[]
+                        {
+                            new Actions.ClearTile(),
+                            new Actions.PlaceWall(WallID.LivingWood)
+                        }));
+                    }
+
                     //bigger circle so that walls can place behind blocks (basically makes it not look ugly in game)
                     WorldUtils.Gen(new Point(origin.X + 2, y), new ModShapes.All(biggerCircle), Actions.Chain(new GenAction[]
                     {
