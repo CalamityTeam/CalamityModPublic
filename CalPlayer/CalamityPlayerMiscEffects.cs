@@ -504,7 +504,7 @@ namespace CalamityMod.CalPlayer
                             AuricOre.Animate = true;
                             Player.RemoveAllGrapplingHooks();
                             var velocity = Vector2.Normalize(Player.Center - touchedTile.ToWorldCoordinates());
-                            Player.Hurt(PlayerDeathReason.ByCustomReason(Player.name + " was not worthy"), 100, 0);
+                            Player.Hurt(PlayerDeathReason.ByCustomReason(Player.name + " was not worthy"), 300, 0);
                             Player.velocity += velocity * 50f; // Adjust to make it more or less insane
                             SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/ExoMechs/TeslaShoot1"));
                         }
