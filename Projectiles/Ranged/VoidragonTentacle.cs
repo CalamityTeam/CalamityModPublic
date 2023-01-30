@@ -98,10 +98,5 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
         }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<DemonFlames>(), 180); //Apotheosis also inflicts this, so this weapon might as well
-        }
     }
 }

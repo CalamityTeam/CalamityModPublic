@@ -62,7 +62,5 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(191, 63, 54, 100);
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<DemonFlames>(), 120);
     }
 }

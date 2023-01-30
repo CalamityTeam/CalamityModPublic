@@ -1331,10 +1331,6 @@ namespace CalamityMod.CalPlayer
             {
                 CalamityUtils.Inflict246DebuffsNPC(target, BuffType<CrushDepth>());
             }
-            if (dsSetBonus)
-            {
-                CalamityUtils.Inflict246DebuffsNPC(target, BuffType<DemonFlames>());
-            }
             if (alchFlask)
             {
                 CalamityUtils.Inflict246DebuffsNPC(target, BuffType<Plague>());

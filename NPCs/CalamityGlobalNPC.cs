@@ -208,7 +208,6 @@ namespace CalamityMod.NPCs
         public int yellowCandle = 0;
         public int pearlAura = 0;
         public int bBlood = 0;
-        public int dFlames = 0;
         public int marked = 0;
         public int irradiated = 0;
         public int bFlames = 0;
@@ -413,7 +412,6 @@ namespace CalamityMod.NPCs
             myClone.yellowCandle = yellowCandle;
             myClone.pearlAura = pearlAura;
             myClone.bBlood = bBlood;
-            myClone.dFlames = dFlames;
             myClone.marked = marked;
             myClone.irradiated = irradiated;
             myClone.bFlames = bFlames;
@@ -903,13 +901,6 @@ namespace CalamityMod.NPCs
                 ApplyDPSDebuff(baseDragonFireDoTValue, baseDragonFireDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
-            // Demon Flames
-            if (dFlames > 0)
-            {
-                int baseDemonFlamesDoTValue = (int)(2500 * heatDamageMult);
-                ApplyDPSDebuff(baseDemonFlamesDoTValue, baseDemonFlamesDoTValue / 5, ref npc.lifeRegen, ref damage);
-            }
-
             // Banishing Fire
             if (banishingFire > 0)
             {
@@ -945,7 +936,7 @@ namespace CalamityMod.NPCs
             // Oiled
             bool hasColdOil = npc.onFrostBurn || npc.onFrostBurn2;
             bool hasHotOil = npc.onFire || npc.onFire2 || npc.onFire3 || npc.shadowFlame;
-            bool hasModHotOil = bFlames > 0 || hFlames > 0 || gsInferno > 0 || dragonFire > 0 || dFlames > 0 || banishingFire > 0 || vulnerabilityHex > 0;
+            bool hasModHotOil = bFlames > 0 || hFlames > 0 || gsInferno > 0 || dragonFire > 0 || banishingFire > 0 || vulnerabilityHex > 0;
             if (npc.oiled && (hasColdOil || hasHotOil || hasModHotOil))
             {
                 double multiplier = 1D;
@@ -4229,8 +4220,6 @@ namespace CalamityMod.NPCs
                 pearlAura--;
             if (bBlood > 0)
                 bBlood--;
-            if (dFlames > 0)
-                dFlames--;
             if (vulnerabilityHex > 0)
                 vulnerabilityHex--;
             if (marked > 0)
@@ -5398,23 +5387,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (dFlames > 0)
-            {
-                if (Main.rand.Next(5) < 4)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, (int)CalamityDusts.PurpleCosmilite, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.2f;
-                    Main.dust[dust].velocity.Y -= 0.15f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-                Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
-            }
-
             if (sulphurPoison > 0)
             {
                 if (Main.rand.Next(5) < 4)
@@ -5539,8 +5511,6 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BurningBlood").Value);
                     if (cDepth > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/CrushDepth").Value);
-                    if (dFlames > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/DemonFlames").Value);
                     if (dragonFire > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Dragonfire").Value);
                     if (gsInferno > 0)
