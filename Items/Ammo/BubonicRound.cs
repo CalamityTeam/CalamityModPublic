@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Ammo
         {
             SacrificeTotal = 99;
             DisplayName.SetDefault("Bubonic Round");
-            Tooltip.SetDefault("Explodes into acid that inflicts the plague\n" +
+            Tooltip.SetDefault("Bursts into virulent plague on contact\n" +
                 "Does more damage the higher the target's defense");
         }
 
