@@ -362,7 +362,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (Main.getGoodWorld)
                     velocity *= 1.25f;
 
-                float distanceToStayAwayFromTarget = 720f;
+                float distanceToStayAwayFromTarget = healerAlive ? 800f : defenderAlive ? 720f : 600f;
                 Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * -NPC.direction;
                 Vector2 targetVector = destination - NPC.Center;
                 Vector2 desiredVelocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
@@ -389,33 +389,33 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         if (phase1)
                         {
                             // Fire a few extra spears and holy fires after the healer is dead and the defender is defending the commander
-                            bool fireExtraSpears = false;
+                            bool fireExtraProjectiles = false;
                             if (defenderAlive)
                             {
                                 if (Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] == 1f)
-                                    fireExtraSpears = true;
+                                    fireExtraProjectiles = true;
                             }
 
-                            bool shootSpears = NPC.ai[2] % (projectileShootGateValue * 2f) == 0f;
-                            float spearVelocity = (bossRush || biomeEnraged) ? 11f : death ? 10f : revenge ? 9.5f : expertMode ? 9f : 8f;
-                            Vector2 finalSpearVelocity = Vector2.Normalize(player.Center - shootFrom) * spearVelocity;
+                            bool shootProjectiles = NPC.ai[2] % (projectileShootGateValue * 2f) == 0f;
+                            float projectileVelocity = (bossRush || biomeEnraged) ? 16f : death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
+                            Vector2 finalProjectileVelocity = Vector2.Normalize(player.Center - shootFrom) * projectileVelocity;
+                            int type = shootProjectiles ? ModContent.ProjectileType<ProfanedSpear>() : ModContent.ProjectileType<HolyFire2>();
+                            int damage = NPC.GetProjectileDamage(type);
+
+                            if (type == ModContent.ProjectileType<HolyFire2>())
+                                finalProjectileVelocity *= 0.5f;
 
                             for (int k = 0; k < totalDustPerProjectile; k++)
-                                Dust.NewDust(shootFrom, 30, 30, (int)CalamityDusts.ProfanedFire, finalSpearVelocity.X, finalSpearVelocity.Y, 0, default, 1f);
+                                Dust.NewDust(shootFrom, 30, 30, (int)CalamityDusts.ProfanedFire, finalProjectileVelocity.X, finalProjectileVelocity.Y, 0, default, 1f);
 
-                            int type = shootSpears ? ModContent.ProjectileType<ProfanedSpear>() : ModContent.ProjectileType<HolyFire>();
-                            int damage = NPC.GetProjectileDamage(type);
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, finalSpearVelocity, type, damage, 0f, Main.myPlayer);
-
-                            if (fireExtraSpears)
+                            if (fireExtraProjectiles)
                             {
                                 int baseProjectileAmt = (bossRush || biomeEnraged) ? 4 : 2;
                                 int spread = (bossRush || biomeEnraged) ? 18 : 10;
                                 float rotation = MathHelper.ToRadians(spread);
                                 for (int i = 0; i < baseProjectileAmt; i++)
                                 {
-                                    Vector2 perturbedSpeed = finalSpearVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(baseProjectileAmt - 1)));
+                                    Vector2 perturbedSpeed = finalProjectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(baseProjectileAmt - 1)));
 
                                     for (int k = 0; k < totalDustPerProjectile; k++)
                                         Dust.NewDust(shootFrom, 30, 30, (int)CalamityDusts.ProfanedFire, perturbedSpeed.X, perturbedSpeed.Y, 0, default, 1f);
@@ -424,6 +424,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                                         Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, perturbedSpeed, type, damage, 0f, Main.myPlayer);
                                 }
                             }
+                            else if (Main.netMode != NetmodeID.MultiplayerClient)
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, finalProjectileVelocity, type, damage, 0f, Main.myPlayer);
                         }
                         else
                         {

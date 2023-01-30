@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.height = 164;
             NPC.defense = 30;
             NPC.DR_NERD(0.2f);
-            NPC.LifeMaxNERB(25000, 30000, 20000);
+            NPC.LifeMaxNERB(50000, 60000, 40000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             });
         }
 
-        public float GetStarShootSlowDownGateValue() => BossRushEvent.BossRushActive ? 240f : CalamityWorld.death ? 280f : CalamityWorld.revenge ? 300f : Main.expertMode ? 320f : 360f;
+        public float GetStarShootSlowDownGateValue() => BossRushEvent.BossRushActive ? 180f : CalamityWorld.death ? 210f : CalamityWorld.revenge ? 225f : Main.expertMode ? 240f : 270f;
 
         public float GetStarShootGateValue() => GetStarShootSlowDownGateValue() + 60f;
 
@@ -235,7 +235,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             {
                 // Increment timer
                 AITimer += 1f;
-                float crystalShootGateValue = bossRush ? 240f : death ? 280f : revenge ? 300f : expertMode ? 320f : 360f;
+                float crystalShootGateValue = bossRush ? 180f : death ? 210f : revenge ? 225f : expertMode ? 240f : 270f;
                 float crystalShootPhaseDuration = crystalShootGateValue + 120f;
 
                 // Generate dust that scales with how close the crystals are to firing
