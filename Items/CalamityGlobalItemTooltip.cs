@@ -673,9 +673,9 @@ namespace CalamityMod.Items
             if (item.type == ItemID.MagmaStone || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
                 EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
 
-            // Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
+            // Yoyo Glove/Bag apply a 0.5x damage multiplier on the second yoyo
             if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
-                EditTooltipByNum(0, (line) => line.Text += "\nYoyos will do 33% less damage");
+                EditTooltipByNum(0, (line) => line.Text += "\nSecondary yoyos will do 50% less damage");
 
             // Falcon Blade +20% move speed while holding
             if (item.type == ItemID.FalconBlade)

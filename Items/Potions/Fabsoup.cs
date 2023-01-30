@@ -52,7 +52,6 @@ namespace CalamityMod.Items.Potions
                 player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), time);
                 player.AddBuff(ModContent.BuffType<Dragonfire>(), time);
                 player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), time);
-                player.AddBuff(ModContent.BuffType<DemonFlames>(), time);
             }
         }
     }
