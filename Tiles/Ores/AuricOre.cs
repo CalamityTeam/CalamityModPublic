@@ -58,9 +58,9 @@ namespace CalamityMod.Tiles.Ores
         {
             if (!Animate)
             {return;}
-            r = 0.48f;
-            g = 0.80f;
-            b = 0.93f;
+            r = 0.24f;
+            g = 0.40f;
+            b = 0.47f;
         }
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
@@ -90,7 +90,7 @@ namespace CalamityMod.Tiles.Ores
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             int xPos = Main.tile[i, j].TileFrameX;
-            int yPos = Main.tile[i, j].TileFrameY;
+            int yPos = Main.tile[i, j].TileFrameY + AnimationFrameHeight * Main.tileFrame[Type];
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/Ores/AuricOreGlow").Value;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
