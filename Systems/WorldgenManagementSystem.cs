@@ -86,7 +86,7 @@ namespace CalamityMod.Systems
                     {
                         attempts++;
                         Point origin = WorldGen.RandomWorldPoint((int)Main.worldSurface + 25, 20, Main.maxTilesY - (int)Main.worldSurface - 125, 20);
-                        if (MiscWorldgenRoutines.CanPlaceGiantHive(origin, WorldGen.structures))
+                        if (GiantHive.CanPlaceGiantHive(origin, WorldGen.structures))
                             break;
                     }
                 }));

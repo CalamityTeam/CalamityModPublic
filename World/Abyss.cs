@@ -340,9 +340,9 @@ namespace CalamityMod.World
                 if (abyssHouse != 20)
                 {
                     AbyssIslandHouse(AbyssIslandPositions[abyssHouse].X,
-                        AbyssIslandPositions[abyssHouse].Y,
-                        AbyssItemArray[abyssHouse > 9 ? (abyssHouse - 10) : abyssHouse], //10 choices 0 to 9
-                        AbyssIslandPositions[abyssHouse].Y > (rockLayer + y * 0.143));
+                    AbyssIslandPositions[abyssHouse].Y,
+                    AbyssItemArray[abyssHouse > 9 ? (abyssHouse - 10) : abyssHouse], //10 choices 0 to 9
+                    AbyssIslandPositions[abyssHouse].Y > (rockLayer + y * 0.143));
                 }
             }
 

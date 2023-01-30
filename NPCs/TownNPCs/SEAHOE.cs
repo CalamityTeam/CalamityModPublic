@@ -369,8 +369,6 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<PolypLauncher>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SeaSlugCerata>());
-            nextSlot++;
             if (CalamityConfig.Instance.PotionSelling)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.GillsPotion);

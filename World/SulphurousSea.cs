@@ -696,7 +696,9 @@ namespace CalamityMod.World
                     else if (tileAtPosition.HasTile && ValidBeachCovertTiles.Contains(tileAtPosition.TileType) && WorldGen.genRand.NextFloat() >= ditherChance)
                         Main.tile[x, y].TileType = sandID;
 
-                    if (tileAtPosition.WallType > WallID.None)
+                    //do not replace dungeon walls ever
+                    int[] DungeonWalls = { 7, 94, 95, 8, 98, 99, 9, 96, 97 };
+                    if (tileAtPosition.WallType > WallID.None && !DungeonWalls.Contains(tileAtPosition.WallType))
                         Main.tile[x, y].WallType = wallID;
                 }
             }

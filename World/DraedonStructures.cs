@@ -367,7 +367,7 @@ namespace CalamityMod.World
                 if (structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                 {
                     bool hasPlacedLogAndSchematic = false;
-                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.Center, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
                     structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)), 4);
                     //this is center-anchored so it should be correct already
                     CalamityWorld.SunkenSeaLabCenter = placementPoint.ToWorldCoordinates();

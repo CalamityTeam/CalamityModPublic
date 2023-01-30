@@ -119,7 +119,7 @@ namespace CalamityMod.World.Planets
                         }
                         //Place chest
                         int chestID = WorldGen.PlaceChest(testX, testY + 1, 21, false, 29);
-                        MiscWorldgenRoutines.FillHoneyChest(chestID, WorldGen.genRand);
+                        GiantHive.FillHoneyChest(chestID, WorldGen.genRand);
                         placedChest = true;
                     }
                 }

@@ -21,9 +21,11 @@ namespace CalamityMod.Tiles.Crags.Tree
         X frame 0 (orange) = bottom segment
         X frame 18 (dark purple) = main body segment, each of the three y-frame variants draws a different tree segment variant
         X frame 36 (light purple) = top of the tree
-        X frame 54 (teal) = rib branch segments, each of the three y-frame variants has a different pattern where:
+        X frame 54 (teal) = small rib branch segments
+        X frame 72 (lime) = medium rib branch segments
+        X frame 90 (yellow) = large rib branch segments
         
-        for the branch segments:
+        each of the branch frames have a pattern where
         y-frame 1 = left branch
         y-frame 2 = right branch
         y-frame 3 = both left and right branch
@@ -136,6 +138,7 @@ namespace CalamityMod.Tiles.Crags.Tree
             }
 
             int branchSegmentDelay = 0;
+            int numSegments = 0;
 
             for (int k = 1; k < height; k++)
             {
@@ -148,10 +151,25 @@ namespace CalamityMod.Tiles.Crags.Tree
 
                 //chance to place a branch segment
                 //also dont place branches below a certain threshold
-                if (Main.rand.Next(3) == 0 && branchSegmentDelay == 0 && k > 5)
+                if (Main.rand.Next(2) == 0 && branchSegmentDelay == 0 && k > 5)
                 {
-                    Framing.GetTileSafely(i, j - k).TileFrameX = 3 * 18;
+                    float divide = 1.65f;
+
+                    if (numSegments < 2)
+                    {
+                        Framing.GetTileSafely(i, j - k).TileFrameX = 3 * 18;
+                    }
+                    else if (numSegments < 5)
+                    {
+                        Framing.GetTileSafely(i, j - k).TileFrameX = 4 * 18;
+                    }
+                    else if (numSegments > 5)
+                    {
+                        Framing.GetTileSafely(i, j - k).TileFrameX = 5 * 18;
+                    }
+
                     Framing.GetTileSafely(i, j - k).TileFrameY = (short)(Main.rand.Next(3) * 18);
+                    numSegments++;
                     branchSegmentDelay = 3;
                 }
                 //otherwise place a normal segment
@@ -300,25 +318,26 @@ namespace CalamityMod.Tiles.Crags.Tree
             Vector2 treeSegmentOffset = new Vector2((xOff * 2) - (frameOff / 2) + 25, 14);
             Vector2 topSegmentOffset = new Vector2((xOff * 2) - (frameOff / 2) + 20, 16);
 
+            Texture2D baseTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineBottom").Value;
+            Texture2D segmentTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineSegments").Value;
+
             //draw the base of the tree
             if (Framing.GetTileSafely(i, j).TileFrameX == 0)
             {
-                Texture2D segmentTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineBottom").Value;
                 int frame = tile.TileFrameY / 18;
 
-                DrawTreeSegments(i, j, segmentTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), treeSegmentOffset, false);
+                DrawTreeSegments(i, j, baseTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), treeSegmentOffset, false);
             }
 
             //draw the different segments of the tree
             if (Framing.GetTileSafely(i, j).TileFrameX == 18)
             {
-                Texture2D segmentTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineSegments").Value;
                 int frame = tile.TileFrameY / 18;
 
                 DrawTreeSegments(i, j, segmentTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), treeSegmentOffset, false);
             }
 
-            //draw branch segments
+            //draw small branch segments
             if (Framing.GetTileSafely(i, j).TileFrameX == 54)
             {
                 int frame = tile.TileFrameY / 18;
@@ -337,8 +356,44 @@ namespace CalamityMod.Tiles.Crags.Tree
                 DrawTreeSegments(i, j, rightBranchTex, new Rectangle(38 * frame, 0, 38, 40), TileOffset.ToWorldCoordinates(), rightBranchOffset, false);
 
                 //draw segments
-                Texture2D segmentTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineSegments").Value;
+                DrawTreeSegments(i, j, segmentTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), treeSegmentOffset, false);
+            }
 
+            //draw medium branch segments
+            if (Framing.GetTileSafely(i, j).TileFrameX == 72)
+            {
+                int frame = tile.TileFrameY / 18;
+
+                //branch drawing stuff
+                Texture2D leftBranchTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineRib2Left").Value;
+                Texture2D rightBranchTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineRib2Right").Value;
+
+                Vector2 leftBranchOffset = new Vector2((xOff * 2) - (frameOff / 2) + 60, 14);
+                Vector2 rightBranchOffset = new Vector2((xOff * 2) - (frameOff / 2) + 4, 14);
+
+                DrawTreeSegments(i, j, leftBranchTex, new Rectangle(50 * frame, 0, 48, 52), TileOffset.ToWorldCoordinates(), leftBranchOffset, false);
+                DrawTreeSegments(i, j, rightBranchTex, new Rectangle(50 * frame, 0, 48, 52), TileOffset.ToWorldCoordinates(), rightBranchOffset, false);
+
+                //draw segments
+                DrawTreeSegments(i, j, segmentTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), treeSegmentOffset, false);
+            }
+
+            //draw large branch segments
+            if (Framing.GetTileSafely(i, j).TileFrameX == 90)
+            {
+                int frame = tile.TileFrameY / 18;
+
+                //branch drawing stuff
+                Texture2D leftBranchTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineRib3Left").Value;
+                Texture2D rightBranchTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineRib3Right").Value;
+
+                Vector2 leftBranchOffset = new Vector2((xOff * 2) - (frameOff / 2) + 80, 14);
+                Vector2 rightBranchOffset = new Vector2((xOff * 2) - (frameOff / 2) + 4, 14);
+
+                DrawTreeSegments(i, j, leftBranchTex, new Rectangle(62 * frame, 0, 60, 58), TileOffset.ToWorldCoordinates(), leftBranchOffset, false);
+                DrawTreeSegments(i, j, rightBranchTex, new Rectangle(62 * frame, 0, 60, 58), TileOffset.ToWorldCoordinates(), rightBranchOffset, false);
+
+                //draw segments
                 DrawTreeSegments(i, j, segmentTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), treeSegmentOffset, false);
             }
 
