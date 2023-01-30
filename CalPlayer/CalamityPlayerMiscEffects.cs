@@ -46,6 +46,7 @@ using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Tiles.Ores;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -90,6 +91,9 @@ namespace CalamityMod.CalPlayer
                 OldPositions[i] = OldPositions[i - 1];
             }
             OldPositions[0] = Player.position;
+
+            // Tile effects for touching tiles
+            HandleTileEffects();
 
             // Hurt the nearest NPC to the mouse if using the burning mouse.
             if (blazingCursorDamage || blazingCursorVisuals)
@@ -484,6 +488,36 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Misc Effects
+        private void HandleTileEffects()
+        {
+            foreach (Point touchedTile in Collision.GetEntityEdgeTiles(Player))
+            {
+                Tile tile = Main.tile[touchedTile];
+                if (tile != null && tile.HasTile && tile.HasUnactuatedTile)
+                {
+                    if (tile.TileType == ModContent.TileType<AuricOre>())
+                    {
+                        //player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);
+                        Player.AddBuff(BuffID.Electrified, 300);
+                        AuricOre.Animate = true;
+                        Player.RemoveAllGrapplingHooks();
+                        //if (!Player.immune)
+                        {
+                            var velocity = Vector2.Normalize(Player.Center - touchedTile.ToWorldCoordinates());
+                            Player.Hurt(PlayerDeathReason.ByCustomReason(Player.name + " was not worthy"), 100, 0);
+                            Player.velocity += velocity * 50f; // Adjust to make it more or less insane
+                            SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/ExoMechs/TeslaShoot1"));
+                        }
+                        break;
+                    }
+                    if (tile.TileType == ModContent.TileType<AstralOre>())
+                    {
+                        Player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);
+                        break;
+                    }
+                }
+            }
+        }
         private void HandleBlazingMouseEffects()
         {
             // The sigil's brightness slowly fades away every frame if not incinerating anything.
