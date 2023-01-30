@@ -478,8 +478,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             {
                 pickNewLocation = false;
 
-                int randomLocationVarianceX = 50;
-                int randomLocationVarianceY = 250;
+                int randomLocationVarianceX = shouldGetBuffedByBerserkPhase ? 50 : 20;
+                int randomLocationVarianceY = shouldGetBuffedByBerserkPhase ? 250 : 100;
 
                 if (Main.getGoodWorld)
                 {
