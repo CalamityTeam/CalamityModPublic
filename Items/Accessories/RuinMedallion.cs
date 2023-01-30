@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<CoinofDeceit>().
                 AddIngredient<UnholyCore>(4).
-                AddIngredient<EssenceofChaos>(2).
+                AddIngredient<EssenceofHavoc>(2).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

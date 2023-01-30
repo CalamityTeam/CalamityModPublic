@@ -12,7 +12,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class OldLordOathswordProj : BaseIdleHoldoutProjectile
+    public class OldLordClaymoreProj : BaseIdleHoldoutProjectile
     {
         public enum SwingState
         {
@@ -27,19 +27,19 @@ namespace CalamityMod.Projectiles.Melee
         public ref float ChargeTime => ref Projectile.ai[0];
         public ref float GeneralTime => ref Projectile.ai[1];
         public ref float PostSwingRepositionDelay => ref Projectile.localAI[0];
-        public ref bool RMBChannel => ref (Owner.HeldItem.ModItem as OldLordOathsword).RMBchannel;
+        public ref bool RMBChannel => ref (Owner.HeldItem.ModItem as OldLordClaymore).RMBchannel;
         public bool LMBUse => Owner.altFunctionUse != 2 && !RMBChannel && Owner.itemAnimation > 0;
         public ref float ChargePower => ref Projectile.localAI[1];
 
         public const int MaxChargeTime = 60;
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/OldLordOathsword";
-        public override int AssociatedItemID => ModContent.ItemType<OldLordOathsword>();
-        public override int IntendedProjectileType => ModContent.ProjectileType<OldLordOathswordProj>();
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/OldLordClaymore";
+        public override int AssociatedItemID => ModContent.ItemType<OldLordClaymore>();
+        public override int IntendedProjectileType => ModContent.ProjectileType<OldLordClaymoreProj>();
         public override bool? CanDamage() => CurrentState != 0; //Could also disable the damage during the channel state,
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Old Lord Oathsword");
+            DisplayName.SetDefault("Old Lord Claymore");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
         }
@@ -304,7 +304,7 @@ namespace CalamityMod.Projectiles.Melee
                 GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0.7f - ((Main.GlobalTimeWrappedHourly * 30) % 30f / 60f));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
-            var texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OldLordOathsword").Value;
+            var texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OldLordClaymore").Value;
 
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, Projectile.Size / 2f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             Main.spriteBatch.ExitShaderRegion();

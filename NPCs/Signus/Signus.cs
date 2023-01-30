@@ -371,7 +371,7 @@ namespace CalamityMod.NPCs.Signus
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
                     {
-                        SoundEngine.PlaySound(SoundID.Item122, NPC.position);
+                        SoundEngine.PlaySound(SoundID.Item122, NPC.Center);
 
                         int num660 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X + 750f), (int)player.position.Y, ModContent.NPCType<CosmicMine>());
                         if (Main.netMode == NetmodeID.Server)
@@ -682,7 +682,7 @@ namespace CalamityMod.NPCs.Signus
                         NPC.ai[2] += 1f;
                         if ((phase2 || buffed) && NPC.ai[2] % 3f == 0f)
                         {
-                            SoundEngine.PlaySound(SoundID.Item73, NPC.position);
+                            SoundEngine.PlaySound(SoundID.Item73, NPC.Center);
                             int type = ModContent.ProjectileType<EssenceDust>();
                             int damage = NPC.GetProjectileDamage(type);
                             Vector2 velocity = CalamityWorld.getFixedBoi ? new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)) : Vector2.Zero;

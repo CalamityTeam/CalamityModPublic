@@ -9,11 +9,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class Flounder : ModNPC
+    public class Sulflounder : ModNPC
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flounder");
+            DisplayName.SetDefault("Sulflounder");
             Main.npcFrameCount[NPC.type] = 4;
         }
 
@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.DeathSound = SoundID.NPCDeath53;
             NPC.knockBackResist = 0.35f;
             Banner = NPC.type;
-            BannerItem = ModContent.ItemType<FlounderBanner>();
+            BannerItem = ModContent.ItemType<SulflounderBanner>();
             NPC.chaseable = false;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
@@ -159,8 +159,8 @@ namespace CalamityMod.NPCs.SulphurousSea
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Flounder").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Flounder2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Sulflounder").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Sulflounder2").Type, 1f);
                 }
             }
         }

@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 player.rocketDelay2--;
                 if (player.rocketDelay2 <= 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Item13, player.position);
+                    SoundEngine.PlaySound(SoundID.Item13, player.Center);
                     player.rocketDelay2 = 60;
                 }
                 int dustAmt = 2;

@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<EssenceofChaos>(), 3);
+            npcLoot.Add(ModContent.ItemType<EssenceofHavoc>(), 3);
             LeadingConditionRule postProv = npcLoot.DefineConditionalDropSet(DropHelper.PostProv());
             postProv.Add(ModContent.ItemType<Bloodstone>(), 4);
         }

@@ -1268,7 +1268,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        SoundEngine.PlaySound(SoundID.Item74, NPC.position);
+                        SoundEngine.PlaySound(SoundID.Item74, NPC.Center);
                         for (int I = 0; I < 20; I++)
                         {
                             int FireEye = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(vectorCenter.X + (Math.Sin(I * 18) * 300)), (int)(vectorCenter.Y + (Math.Cos(I * 18) * 300)), ModContent.NPCType<SoulSeekerSupreme>(), NPC.whoAmI, 0, 0, 0, -1);

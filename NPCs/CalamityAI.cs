@@ -47,15 +47,18 @@ namespace CalamityMod.NPCs
 				CalamityGlobalNPC.aquaticScourge = npc.whoAmI;
 
             // Adjust hostility and stats
+            bool nonHostile = calamityGlobalNPC.newAI[0] == 0f;
             if (npc.justHit || npc.life <= npc.lifeMax * 0.999 || bossRush || Main.getGoodWorld)
             {
-                if (calamityGlobalNPC.newAI[0] == 0f)
+                if (nonHostile)
                 {
                     // Kiss my motherfucking ass you piece of shit game
                     npc.timeLeft *= 20;
+                    npc.npcSlots = 16f;
                     CalamityMod.bossKillTimes.TryGetValue(npc.type, out int revKillTime);
                     calamityGlobalNPC.KillTime = revKillTime;
                     calamityGlobalNPC.newAI[0] = 1f;
+                    nonHostile = false;
                     npc.boss = head;
                     npc.chaseable = true;
                     npc.netUpdate = true;
@@ -263,7 +266,7 @@ namespace CalamityMod.NPCs
                         {
                             npc.localAI[0] = 0f;
                             npc.netUpdate = true;
-                            SoundEngine.PlaySound(SoundID.NPCDeath13, npc.position);
+                            SoundEngine.PlaySound(SoundID.NPCDeath13, npc.Center);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
@@ -359,7 +362,7 @@ namespace CalamityMod.NPCs
             }
 
             float maxDistance = calamityGlobalNPC.newAI[0] == 1f ? 12800f : 6400f;
-            if (player.dead || Vector2.Distance(npc.Center, player.Center) > maxDistance)
+            if (player.dead || Vector2.Distance(npc.Center, player.Center) > maxDistance || (nonHostile && biomeEnraged))
             {
                 calamityGlobalNPC.newAI[1] = 1f;
                 npc.TargetClosest(false);
@@ -976,7 +979,7 @@ namespace CalamityMod.NPCs
                         if (brimmy.currentMode == 4)
                         {
                             type = ModContent.ProjectileType<FrostMist>();
-                            SoundEngine.PlaySound(SoundID.Item30, player.position);
+                            SoundEngine.PlaySound(SoundID.Item30, player.Center);
                         }
                         Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * velocity;
                         int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 5f, projectileVelocity, type, damage, 0f, Main.myPlayer, player.position.X, player.position.Y);
@@ -990,7 +993,7 @@ namespace CalamityMod.NPCs
                             if (brimmy.currentMode == 4)
                             {
                                 type = ModContent.ProjectileType<WaterSpear>();
-                                SoundEngine.PlaySound(SoundID.Item21, player.position);
+                                SoundEngine.PlaySound(SoundID.Item21, player.Center);
                             }
                             projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * velocity;
                             int numProj = death ? 8 : 4;
@@ -1074,7 +1077,7 @@ namespace CalamityMod.NPCs
                         if (brimmy.currentMode == 4)
                         {
                             type = ModContent.ProjectileType<SirenSong>();
-                            SoundEngine.PlaySound(SoundID.Item26, player.position);
+                            SoundEngine.PlaySound(SoundID.Item26, player.Center);
                         }
                         double angleA = radians2 * 0.5;
                         double angleB = MathHelper.ToRadians(90f) - angleA;
@@ -1212,7 +1215,7 @@ namespace CalamityMod.NPCs
                     }
 
                     if (npc.ai[1] % playSoundTimer == 0f)
-                        SoundEngine.PlaySound(SoundID.Item20, npc.position);
+                        SoundEngine.PlaySound(SoundID.Item20, npc.Center);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -1286,7 +1289,7 @@ namespace CalamityMod.NPCs
             // Seeker ring
             if (calamityGlobalNPC.newAI[1] == 0f && phase3 && expertMode)
             {
-                SoundEngine.PlaySound(SoundID.Item72, npc.position);
+                SoundEngine.PlaySound(SoundID.Item72, npc.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int seekerAmt = death ? 10 : 5;
@@ -2072,7 +2075,7 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[2] > 22f)
                     {
                         npc.localAI[2] = 0f;
-                        SoundEngine.PlaySound(SoundID.Item34, npc.position);
+                        SoundEngine.PlaySound(SoundID.Item34, npc.Center);
                     }
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2108,7 +2111,7 @@ namespace CalamityMod.NPCs
             {
                 if (npc.ai[1] == 1f)
                 {
-                    SoundEngine.PlaySound(SoundID.Roar, npc.position);
+                    SoundEngine.PlaySound(SoundID.Roar, npc.Center);
                     npc.rotation = num842;
 
                     float num870 = 14f + (death ? 4f * (1f - lifeRatio) : 0f);
@@ -2374,7 +2377,7 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[2] > 36f)
                     {
                         npc.localAI[2] = 0f;
-                        SoundEngine.PlaySound(SoundID.Item34, npc.position);
+                        SoundEngine.PlaySound(SoundID.Item34, npc.Center);
                     }
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2410,7 +2413,7 @@ namespace CalamityMod.NPCs
             {
                 if (npc.ai[1] == 1f)
                 {
-                    SoundEngine.PlaySound(SoundID.Roar, npc.position);
+                    SoundEngine.PlaySound(SoundID.Roar, npc.Center);
                     npc.rotation = num842;
 
                     float num870 = (NPC.AnyNPCs(ModContent.NPCType<Cataclysm>()) ? 12f : 16f) + (death ? 4f * (1f - lifeRatio) : 0f);
@@ -2690,7 +2693,7 @@ namespace CalamityMod.NPCs
                     if (npc.ai[0] >= 5f && npc.ai[0] != 7)
                     {
                         npc.localAI[0] = 0f;
-                        SoundEngine.PlaySound(SoundID.Item109, npc.position);
+                        SoundEngine.PlaySound(SoundID.Item109, npc.Center);
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
@@ -2714,7 +2717,7 @@ namespace CalamityMod.NPCs
                     {
                         npc.localAI[0] = 0f;
 
-                        SoundEngine.PlaySound(SoundID.Item33, npc.position);
+                        SoundEngine.PlaySound(SoundID.Item33, npc.Center);
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
@@ -3005,7 +3008,7 @@ namespace CalamityMod.NPCs
                 {
                     // Play stomp sound. Gotta specify the filepath to avoid confusion between the namespace and npc
                     SoundStyle soundToPlay = CalamityWorld.getFixedBoi ? NPCs.ExoMechs.Ares.AresGaussNuke.NukeExplosionSound : NPCs.AstrumAureus.AstrumAureus.StompSound;
-                    SoundEngine.PlaySound(soundToPlay, npc.position);
+                    SoundEngine.PlaySound(soundToPlay, npc.Center);
 
                     if (CalamityWorld.getFixedBoi)
                     {
@@ -3051,7 +3054,7 @@ namespace CalamityMod.NPCs
                     }
 
                     // Fire lasers or flames on stomp
-                    SoundEngine.PlaySound(SoundID.Item33, npc.position);
+                    SoundEngine.PlaySound(SoundID.Item33, npc.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         if (CalamityWorld.getFixedBoi)
@@ -3285,7 +3288,7 @@ namespace CalamityMod.NPCs
                 if (npc.soundDelay == 0)
                 {
                     npc.soundDelay = 15;
-                    SoundEngine.PlaySound(SoundID.Item109, npc.position);
+                    SoundEngine.PlaySound(SoundID.Item109, npc.Center);
                 }
 
                 // Emit dust to make the teleport pretty
@@ -3354,7 +3357,7 @@ namespace CalamityMod.NPCs
                 if (npc.soundDelay == 0)
                 {
                     npc.soundDelay = 15;
-                    SoundEngine.PlaySound(SoundID.Item109, npc.position);
+                    SoundEngine.PlaySound(SoundID.Item109, npc.Center);
                 }
 
                 // Emit dust to make the teleport pretty
@@ -4870,7 +4873,7 @@ namespace CalamityMod.NPCs
                     if (calamityGlobalNPC.newAI[1] == newPhaseTimer - 60f)
                     {
                         float squawkpitch = CalamityWorld.getFixedBoi ? 1.3f : 0.25f;
-                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.position);
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.Center);
 
                         if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
                         {
@@ -4908,7 +4911,7 @@ namespace CalamityMod.NPCs
                     if (calamityGlobalNPC.newAI[0] == newPhaseTimer - 60f)
                     {
                         float squawkpitch = CalamityWorld.getFixedBoi ? 1.3f : 0.25f;
-                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.position);
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.Center);
 
                         if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
                         {
@@ -5405,7 +5408,7 @@ namespace CalamityMod.NPCs
                     if (npc.ai[1] == birbSpawnPhaseTimer - 60f)
                     {
                         float squawkpitch = CalamityWorld.getFixedBoi ? 1.3f : 0.25f;
-                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.position);
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyScream with { Pitch = squawkpitch }, npc.Center);
 
                         if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
                         {
@@ -6128,7 +6131,7 @@ namespace CalamityMod.NPCs
                         Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
                     }
 
-                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.Center);
                 }
 
                 npc.ai[2] += 1f;
@@ -6293,12 +6296,12 @@ namespace CalamityMod.NPCs
 
                 // Play sounds and spawn Tooth Balls
                 if (npc.ai[2] == 0f)
-                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.Center);
 
                 if (npc.ai[2] % toothBallBelchPhaseDivisor == 0f)
                 {
                     if (npc.ai[2] != 0f)
-                        SoundEngine.PlaySound(OldDuke.OldDuke.VomitSound, npc.position);
+                        SoundEngine.PlaySound(OldDuke.OldDuke.VomitSound, npc.Center);
 
                     Vector2 vector6 = Vector2.Normalize(player.Center - npc.Center) * (npc.width + 20) / 2f + npc.Center;
                     Vector2 toothBallVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * toothBallFinalVelocity;
@@ -6373,7 +6376,7 @@ namespace CalamityMod.NPCs
 
                 // Play sound and spawn sharks
                 if (npc.ai[2] == num9 - 30)
-                    SoundEngine.PlaySound(OldDuke.OldDuke.VomitSound, npc.position);
+                    SoundEngine.PlaySound(OldDuke.OldDuke.VomitSound, npc.Center);
 
                 if (npc.ai[2] >= num9 - 90)
                 {
@@ -6413,7 +6416,7 @@ namespace CalamityMod.NPCs
 
                 // Sound
                 if (npc.ai[2] == num10 - 60)
-                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.Center);
 
                 if (npc.ai[2] >= num10 - 60)
                 {
@@ -6604,7 +6607,7 @@ namespace CalamityMod.NPCs
                 // Play sounds and spawn Tooth Balls and a Vortex
                 if (npc.ai[2] == 0f)
                 {
-                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.Center);
 
                     int type = ModContent.ProjectileType<OldDukeVortex>();
                     int damage = npc.GetProjectileDamage(type);
@@ -6618,7 +6621,7 @@ namespace CalamityMod.NPCs
                 if (npc.ai[2] % toothBallSpinPhaseDivisor == 0f)
                 {
                     if (npc.ai[2] != 0f)
-                        SoundEngine.PlaySound(OldDuke.OldDuke.VomitSound, npc.position);
+                        SoundEngine.PlaySound(OldDuke.OldDuke.VomitSound, npc.Center);
 
                     Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + npc.Center;
                     Vector2 toothBallVelocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * toothBallSpinToothBallVelocity;
@@ -6690,7 +6693,7 @@ namespace CalamityMod.NPCs
                 // Play sound
                 if (npc.ai[2] == num9 - 30)
                 {
-                    SoundEngine.PlaySound(OldDuke.OldDuke.VomitSound, npc.position);
+                    SoundEngine.PlaySound(OldDuke.OldDuke.VomitSound, npc.Center);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -6747,7 +6750,7 @@ namespace CalamityMod.NPCs
 
                 // Sound
                 if (npc.ai[2] == num10 - 60)
-                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.Center);
 
                 if (npc.ai[2] >= num10 - 60)
                 {
@@ -6964,7 +6967,7 @@ namespace CalamityMod.NPCs
 
                 // Play sound
                 if (npc.ai[2] == num12 / 2)
-                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.Center);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == num12 / 2)
                 {
@@ -7019,7 +7022,7 @@ namespace CalamityMod.NPCs
                 // Play sound
                 if (npc.ai[2] == num9 - 30)
                 {
-                    SoundEngine.PlaySound(OldDuke.OldDuke.VomitSound, npc.position);
+                    SoundEngine.PlaySound(OldDuke.OldDuke.VomitSound, npc.Center);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -7079,7 +7082,7 @@ namespace CalamityMod.NPCs
                 // Play sounds and spawn Tooth Balls and a Vortex
                 if (npc.ai[2] == 0f)
                 {
-                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.Center);
 
                     int type = ModContent.ProjectileType<OldDukeVortex>();
                     int damage = npc.GetProjectileDamage(type);
@@ -7093,7 +7096,7 @@ namespace CalamityMod.NPCs
                 if (npc.ai[2] % toothBallSpinPhaseDivisor == 0f)
                 {
                     if (npc.ai[2] != 0f)
-                        SoundEngine.PlaySound(OldDuke.OldDuke.VomitSound, npc.position);
+                        SoundEngine.PlaySound(OldDuke.OldDuke.VomitSound, npc.Center);
 
                     Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + npc.Center;
                     Vector2 toothBallVelocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * toothBallSpinToothBallVelocity;
@@ -7679,7 +7682,7 @@ namespace CalamityMod.NPCs
                             npc.chaseable = true; //once the enemy has detected the player, let minions fuck it up
                         }
                     }
-                    if (npc.type == ModContent.NPCType<Flounder>())
+                    if (npc.type == ModContent.NPCType<Sulflounder>())
                     {
                         if (!target.dead)
                         {
@@ -7787,7 +7790,7 @@ namespace CalamityMod.NPCs
                     }
 
 					// Flounder shoot Sulphuric Mist at the player
-                    if (npc.type == ModContent.NPCType<Flounder>())
+                    if (npc.type == ModContent.NPCType<Sulflounder>())
                     {
                         if ((target.Center - npc.Center).Length() < 350f)
                         {

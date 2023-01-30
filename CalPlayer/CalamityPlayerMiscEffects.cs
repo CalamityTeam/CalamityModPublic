@@ -2644,16 +2644,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<GenericDamageClass>() -= 0.15f;
             }
 
-            if (bBlood)
-            {
-                Player.blind = true;
-                Player.statDefense -= 3;
-                Player.moveSpeed += 0.1f;
-                Player.GetDamage<MeleeDamageClass>() += 0.05f;
-                Player.GetDamage<RangedDamageClass>() -= 0.1f;
-                Player.GetDamage<MagicDamageClass>() -= 0.1f;
-            }
-
             if (aCrunch && !laudanum)
             {
                 Player.statDefense -= ArmorCrunch.DefenseReduction;
@@ -3553,8 +3543,8 @@ namespace CalamityMod.CalPlayer
             ref int lostDef = ref bloodflareCoreLostDefense;
             if (lostDef > 0)
             {
-                // Defense regeneration occurs every four frames while defense is missing
-                if (Player.miscCounter % 4 == 0)
+                // Defense regeneration occurs every six frames while defense is missing
+                if (Player.miscCounter % 6 == 0)
                 {
                     --lostDef;
                     if (bloodflareCore)

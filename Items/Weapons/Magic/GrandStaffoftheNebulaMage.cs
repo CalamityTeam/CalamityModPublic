@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useTime = 30;
             Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundID.Item117;
+            Item.UseSound = null;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;

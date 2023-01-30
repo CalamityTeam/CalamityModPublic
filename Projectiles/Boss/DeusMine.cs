@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.ai[1] == 0f)
             {
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item33, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item33, Projectile.Center);
             }
 
             // Deal no damage if fading out and not set to explode
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Boss
             // Explode and split into accelerating lasers
             if (Projectile.ai[0] == 1f)
             {
-                SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
                 Projectile.position = Projectile.Center;
                 Projectile.width = Projectile.height = 96;
                 Projectile.position.X = Projectile.position.X - (Projectile.width / 2);

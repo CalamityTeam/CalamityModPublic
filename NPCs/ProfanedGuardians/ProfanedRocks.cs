@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         private double distance = MinDistance;
         private const double MinMaxDistance = 300D;
 
-        public const int MaxHP = 12000;
+        public const int MaxHP = 8000;
         public const int MaxBossRushHP = 20000;
 
         public override void SetStaticDefaults()
@@ -151,7 +151,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Player player = Main.player[Main.npc[CalamityGlobalNPC.doughnutBoss].target];
 
                 // Distance the rock travels before it starts to fall down
-                float maxChargeDistance = 2400f;
+                float maxChargeDistance = 4000f;
                 float chargeSpeed = bossRush ? 20f : death ? 18f : revenge ? 17f : expertMode ? 16f : 14f;
                 float fallDownGateValue = maxChargeDistance / chargeSpeed;
 
@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
                         {
                             if (NPC.DeathSound.HasValue)
-                                SoundEngine.PlaySound(NPC.DeathSound.GetValueOrDefault(), NPC.position);
+                                SoundEngine.PlaySound(NPC.DeathSound.GetValueOrDefault(), NPC.Center);
 
                             NPC.life = 0;
                             NPC.HitEffect();

@@ -4,13 +4,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class OldLordOathsword : ModItem
+    [LegacyName("OldLordOathsword")]
+    public class OldLordClaymore : ModItem
     {
         public bool RMBchannel = false;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Old Lord Oathsword");
+            DisplayName.SetDefault("Old Lord Claymore");
             Tooltip.SetDefault("A relic of the ancient underworld\n" +
                 "Holding right click rapidly absorbs energy into the blade until it is sufficiently charged\n" +
                 "Left clicking will either swing the blade as usual or cause you to fly in the direction of the cursor, depending on if the blade was fully charged\n" +

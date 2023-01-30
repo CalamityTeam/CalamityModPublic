@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(FlareSound, Projectile.position);
+            SoundEngine.PlaySound(FlareSound, Projectile.Center);
             int dustAmt = 36;
             for (int d = 0; d < dustAmt; d++)
             {

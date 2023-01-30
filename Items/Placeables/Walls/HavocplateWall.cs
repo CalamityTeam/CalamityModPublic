@@ -1,10 +1,11 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using WallTiles = CalamityMod.Walls;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Walls
 {
-    public class ChaosplateWall : ModItem
+    [LegacyName("ChaosplateWall")]
+    public class HavocplateWall : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -22,12 +23,12 @@ namespace CalamityMod.Items.Placeables.Walls
             Item.useTime = 7;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createWall = ModContent.WallType<WallTiles.ChaosplateWall>();
+            Item.createWall = ModContent.WallType<WallTiles.HavocplateWall>();
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<Plates.Chaosplate>()).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(4).AddIngredient(ModContent.ItemType<Plates.Havocplate>()).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

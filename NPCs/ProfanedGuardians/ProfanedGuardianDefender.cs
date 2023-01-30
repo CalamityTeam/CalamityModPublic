@@ -421,7 +421,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 // Defend the commander
-                Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center - NPC.Center;
+                float distanceInFrontOfCommander = 120f;
+                Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center + Vector2.UnitX * distanceInFrontOfCommander * Main.npc[CalamityGlobalNPC.doughnutBoss].direction - NPC.Center;
                 Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f);
                 if (distanceFromDestination.Length() > 80f)
                 {
@@ -533,7 +534,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.ai[1] = 0f;
                     NPC.netUpdate = true;
                     Vector2 targetVector = player.Center - NPC.Center;
-                    Vector2 velocity = new Vector2(targetVector.X, targetVector.Y).SafeNormalize(new Vector2(NPC.direction, 0f));
+                    Vector2 velocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f));
                     velocity *= (bossRush || biomeEnraged) ? 25f : death ? 22f : revenge ? 20.5f : expertMode ? 19f : 16f;
                     if (Main.getGoodWorld)
                         velocity *= 1.15f;

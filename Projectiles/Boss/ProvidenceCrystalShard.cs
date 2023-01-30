@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.width = 34;
             Projectile.height = 34;
             Projectile.hostile = true;
-            Projectile.alpha = 255;
+            Projectile.Opacity = 0f;
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
@@ -46,6 +46,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, 0.3f * Projectile.Opacity, 0.3f * Projectile.Opacity, 0.3f * Projectile.Opacity);
+
             // Day mode by default but syncs with the boss
             if (CalamityGlobalNPC.holyBoss != -1)
             {
@@ -60,22 +62,19 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.extraUpdates = 1;
 
             if (Projectile.timeLeft < 300)
-            {
                 Projectile.tileCollide = true;
-            }
+
             Color newColor2 = Main.hslToRgb(Projectile.ai[0], 1f, 0.5f);
-            if (Projectile.alpha > 0)
-            {
-                Projectile.alpha -= 8;
-            }
-            if (Projectile.alpha < 0)
-            {
-                Projectile.alpha = 0;
-            }
-            if (Projectile.alpha == 0)
-            {
+
+            if (Projectile.Opacity < 1f)
+                Projectile.Opacity += 0.03f;
+
+            if (Projectile.Opacity > 1f)
+                Projectile.Opacity = 1f;
+
+            if (Projectile.Opacity == 1f)
                 Lighting.AddLight(Projectile.Center, newColor2.ToVector3() * 0.5f);
-            }
+
             Projectile.velocity.X *= 0.995f;
             if (Projectile.velocity.Y < 0f)
             {
@@ -86,16 +85,17 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.velocity.Y *= 1.06f;
                 float fallSpeed = (CalamityWorld.revenge || (Projectile.maxPenetrate != (int)Providence.BossMode.Day)) ? 3.5f : 3f;
                 if (Projectile.velocity.Y > fallSpeed)
-                {
                     Projectile.velocity.Y = fallSpeed;
-                }
             }
+
             if (Projectile.velocity.Y > -0.5f && Projectile.localAI[1] == 0f)
             {
                 Projectile.localAI[1] = 1f;
                 Projectile.velocity.Y = 0.5f;
             }
-            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) - 1.57f;
+
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) - MathHelper.PiOver2;
+
             for (int num979 = 0; num979 < 2; num979++)
             {
                 if (Main.rand.NextBool(10))
@@ -109,6 +109,7 @@ namespace CalamityMod.Projectiles.Boss
                     dust24.velocity = value55;
                 }
             }
+
             for (int num980 = 0; num980 < 2; num980++)
             {
                 if (Main.rand.NextBool(10))
@@ -122,6 +123,7 @@ namespace CalamityMod.Projectiles.Boss
                     dust25.velocity = value56;
                 }
             }
+
             if (Main.rand.NextBool(10))
             {
                 float scaleFactor13 = 1f + Main.rand.NextFloat() * 2f;
@@ -165,7 +167,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
             Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(MathHelper.Pi);
             float num69 = Main.rand.Next(7, 13);
             Vector2 value5 = new Vector2(1.6f, 1.5f);
@@ -205,10 +207,7 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 0);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(255 * Projectile.Opacity, 255 * Projectile.Opacity, 255 * Projectile.Opacity, 0);
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {

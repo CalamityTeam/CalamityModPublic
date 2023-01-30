@@ -188,7 +188,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
                         NPC.velocity.X = num1045 * num1047;
                         NPC.velocity.Y = num1046 * num1047;
                         NPC.spriteDirection = NPC.direction;
-                        SoundEngine.PlaySound(SoundID.Roar, NPC.position);
+                        SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
                         return;
                     }
                     NPC.localAI[0] = 0f;
@@ -355,7 +355,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
                 }
                 if (Collision.CanHit(vector119, 1, 1, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) && flag103)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCHit8, NPC.position);
+                    SoundEngine.PlaySound(SoundID.NPCHit8, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int num1061;
@@ -453,7 +453,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
                 }
                 if (flag104 && NPC.position.Y + (float)NPC.height < Main.player[NPC.target].position.Y && Collision.CanHit(vector121, 1, 1, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                 {
-                    SoundEngine.PlaySound(SoundID.Item42, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num1070 = 6f;

@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 float num52 = 2f;
                 Vector2 value3 = (target.rotation - 1.57079637f).ToRotationVector2();
                 Vector2 value4 = value3 * target.velocity.Length();
-                SoundEngine.PlaySound(SoundID.Item14, target.position);
+                SoundEngine.PlaySound(SoundID.Item14, target.Center);
                 int num3;
                 for (int num53 = 0; num53 < 40; num53 = num3 + 1)
                 {
@@ -101,7 +101,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 target.AddBuff(ModContent.BuffType<Shadowflame>(), 360);
                 target.AddBuff(BuffID.OnFire, 720);
-                SoundEngine.PlaySound(SoundID.Item14, target.position);
+                SoundEngine.PlaySound(SoundID.Item14, target.Center);
             }
         }
 
@@ -109,7 +109,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<BladecrestOathsword>().
-                AddIngredient<OldLordOathsword>().
+                AddIngredient<OldLordClaymore>().
                 AddIngredient(ItemID.SoulofFright, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();

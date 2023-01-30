@@ -539,46 +539,6 @@ namespace CalamityMod
             return p.Calamity().tarraSet;
         });
 
-        private static bool CanDropBloodOrbs(DropAttemptInfo info)
-        {
-            // Blood Orbs do not drop unless it's a Blood Moon.
-            if (!Main.bloodMoon)
-                return false;
-
-            // If the drop info has a player, then check whether the player is "on the surface".
-            bool onSurface = false;
-            Player p = info.player;
-            if (p != null && p.active)
-                onSurface = p.ZoneOverworldHeight || p.ZoneSkyHeight;
-
-            // Also check whether the NPC is considered "on the surface".
-            NPC npc = info.npc;
-            if (npc.Center.Y <= Main.worldSurface)
-                onSurface = true;
-
-            // Blood Orbs do not drop unless either the NPC killed or the player that killed the NPC are on the surface.
-            if (!onSurface)
-                return false;
-
-            // Blood Orbs do not drop from the following:
-            // 1 - NPCs spawned from statues
-            // 2 - NPCs with no contact damage, unless they are bosses.
-            // 3 - NPCs that are not targeting a player.
-            return !npc.SpawnedFromStatue && (npc.damage > 5 || npc.boss) && npc.HasPlayerTarget;
-        }
-
-        public static IItemDropRuleCondition BloodOrbBaseCondition = If(CanDropBloodOrbs);
-        public static IItemDropRuleCondition BloodOrbBloodflareCondition = If((info) =>
-        {
-            bool bloodOrbsAvailable = CanDropBloodOrbs(info);
-            if (!bloodOrbsAvailable)
-                return false;
-
-            // To receive the extra orbs from Bloodflare Armor, you must be wearing Bloodflare Armor.
-            Player p = info.player;
-            return p != null && p.active && p.Calamity().bloodflareSet;
-        });
-
         internal const float TrasherEatDistance = 96f;
         public static IItemDropRuleCondition AnglerFedToTrasherCondition = If((info) =>
         {

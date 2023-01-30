@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<ExodiumCluster>(25).
-                AddIngredient<Chaosplate>(25).
+                AddIngredient<Havocplate>(25).
                 AddIngredient<DivineGeode>(5).
                 AddTile(TileID.DemonAltar).
                 Register();

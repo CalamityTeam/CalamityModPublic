@@ -143,7 +143,7 @@ namespace CalamityMod.Items.Mounts
                 if (player.mount.PlayerOffset == 28)
                 {
                     if (!player.flapSound)
-                        SoundEngine.PlaySound(SoundID.Item32, player.position);
+                        SoundEngine.PlaySound(SoundID.Item32, player.Center);
                     player.flapSound = true;
                 }
                 else

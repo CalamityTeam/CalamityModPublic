@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             var source = player.GetSource_ItemUse(Item);
-            SoundEngine.PlaySound(SoundID.Item14, target.position);
+            SoundEngine.PlaySound(SoundID.Item14, target.Center);
             float spread = 45f * 0.0174f;
             double startAngle = Math.Atan2(Item.shootSpeed, Item.shootSpeed) - spread / 2;
             double deltaAngle = spread / 8f;
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             var source = player.GetSource_ItemUse(Item);
-            SoundEngine.PlaySound(SoundID.Item14, target.position);
+            SoundEngine.PlaySound(SoundID.Item14, target.Center);
             float spread = 45f * 0.0174f;
             double startAngle = Math.Atan2(Item.shootSpeed, Item.shootSpeed) - spread / 2;
             double deltaAngle = spread / 8f;

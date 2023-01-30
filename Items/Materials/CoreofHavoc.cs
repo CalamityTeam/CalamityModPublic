@@ -6,14 +6,15 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class CoreofChaos : ModItem
+    [LegacyName("CoreofChaos")]
+    public class CoreofHavoc : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
 
-            DisplayName.SetDefault("Core of Chaos");
+            DisplayName.SetDefault("Core of Havoc");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 94; // Spectre Bar
         }
 
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Materials
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Materials/CoreofChaosGlow").Value);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Materials/CoreofHavocGlow").Value);
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             CreateRecipe(3).
-                AddIngredient<EssenceofChaos>().
+                AddIngredient<EssenceofHavoc>().
                 AddIngredient(ItemID.Ectoplasm).
                 AddTile(TileID.MythrilAnvil).
                 Register();

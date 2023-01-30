@@ -11,11 +11,12 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class TrueForbiddenOathblade : ModItem
+    [LegacyName("TrueForbiddenOathblade")]
+    public class ExaltedOathblade : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Forbidden Oathblade");
+            DisplayName.SetDefault("Exalted Oathblade");
             Tooltip.SetDefault("Fires a spread of demonic scythes and critical hits cause shadowflame explosions");
             SacrificeTotal = 1;
         }
@@ -110,7 +111,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 target.AddBuff(ModContent.BuffType<Shadowflame>(), 450);
                 target.AddBuff(BuffID.OnFire, 900);
-                SoundEngine.PlaySound(SoundID.Item14, target.position);
+                SoundEngine.PlaySound(SoundID.Item14, target.Center);
             }
         }
 

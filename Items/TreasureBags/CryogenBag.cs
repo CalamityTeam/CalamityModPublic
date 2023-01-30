@@ -67,7 +67,7 @@ namespace CalamityMod.Items.TreasureBags
             {
                 ModContent.ItemType<Avalanche>(),
                 ModContent.ItemType<Icebreaker>(),
-                ModContent.ItemType<EffluviumBow>(),
+                ModContent.ItemType<HoarfrostBow>(),
                 ModContent.ItemType<SnowstormStaff>(),
             }));
             itemLoot.Add(ModContent.ItemType<ColdDivinity>(), 10);

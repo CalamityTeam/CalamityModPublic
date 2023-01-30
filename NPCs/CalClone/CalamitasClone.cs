@@ -206,7 +206,7 @@ namespace CalamityMod.NPCs.CalClone
                 normalOnly.Add(ModContent.ItemType<Regenator>(), 10);
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 10);
+                normalOnly.Add(ModContent.ItemType<EssenceofHavoc>(), 1, 5, 10);
                 normalOnly.Add(ModContent.ItemType<AshesofCalamity>(), 1, 25, 30);
 
                 // Vanity
@@ -239,7 +239,7 @@ namespace CalamityMod.NPCs.CalClone
             if (!DownedBossSystem.downedCalamitasClone)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, Main.player[Main.myPlayer].position);
+                    SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, Main.player[Main.myPlayer].Center);
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }

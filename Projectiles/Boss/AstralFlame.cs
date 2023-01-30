@@ -6,6 +6,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Events;
+using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -37,6 +39,12 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            // Difficulty modes
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
+
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 4)
             {
@@ -91,6 +99,39 @@ namespace CalamityMod.Projectiles.Boss
 
                 Projectile.ai[1] += 1f;
             }
+            else
+            {
+                // Move away from other flames
+                if (Projectile.ai[0] >= 60f)
+                {
+                    float pushForce = bossRush ? 0.07f : death ? 0.06f : revenge ? 0.055f : expertMode ? 0.05f : 0.04f;
+                    float pushDistance = bossRush ? 180f : death ? 150f : revenge ? 135f : expertMode ? 120f : 90f;
+                    for (int k = 0; k < Main.maxProjectiles; k++)
+                    {
+                        Projectile otherProj = Main.projectile[k];
+
+                        // Short circuits to make the loop as fast as possible
+                        if (!otherProj.active || k == Projectile.whoAmI)
+                            continue;
+
+                        // If the other projectile is indeed the same owned by the same player and they're too close, nudge them away
+                        bool sameProjType = otherProj.type == Projectile.type;
+                        float taxicabDist = Vector2.Distance(Projectile.Center, otherProj.Center);
+                        if (sameProjType && taxicabDist < pushDistance)
+                        {
+                            if (Projectile.position.X < otherProj.position.X)
+                                Projectile.velocity.X -= pushForce;
+                            else
+                                Projectile.velocity.X += pushForce;
+
+                            if (Projectile.position.Y < otherProj.position.Y)
+                                Projectile.velocity.Y -= pushForce;
+                            else
+                                Projectile.velocity.Y += pushForce;
+                        }
+                    }
+                }
+            }
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -114,7 +155,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Zombie103, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Zombie103, Projectile.Center);
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 96;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);

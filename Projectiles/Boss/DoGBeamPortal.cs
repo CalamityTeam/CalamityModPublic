@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Boss
                     Projectile.localAI[0] = 0f;
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        SoundEngine.PlaySound(SoundID.Item33, Projectile.position);
+                        SoundEngine.PlaySound(SoundID.Item33, Projectile.Center);
                         float speed = death ? 5f : revenge ? 4.5f : expertMode ? 4f : 3f;
                         speed *= Main.npc[CalamityGlobalNPC.voidBoss].ai[1];
                         int totalProjectiles = 3;

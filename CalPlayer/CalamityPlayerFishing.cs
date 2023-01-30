@@ -581,7 +581,7 @@ namespace CalamityMod.CalPlayer
 							ModContent.ItemType<BrimstoneFish>(),
 							ModContent.ItemType<Shadowfish>()
 						};
-                        uncommonCatches.AddWithCondition<int>(ModContent.ItemType<ChaoticFish>(), Main.hardMode);
+                        uncommonCatches.AddWithCondition<int>(ModContent.ItemType<Havocfish>(), Main.hardMode);
 						itemDrop = uncommonCatches[Main.rand.Next(uncommonCatches.Count)];
                     }
 					else

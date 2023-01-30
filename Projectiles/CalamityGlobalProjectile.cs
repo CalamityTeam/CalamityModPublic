@@ -166,6 +166,10 @@ namespace CalamityMod.Projectiles
             if (pointBlankShotDuration > 0)
                 pointBlankShotDuration--;
 
+            // Reduce secondary yoyo damage if the player has Yoyo Glove
+            if (Main.player[projectile.owner].yoyoGlove && projectile.aiStyle == 99 && projectile.ai[0] == 1f)
+                projectile.damage = (int)(projectile.originalDamage * 0.5f);
+
             // Chlorophyte Crystal AI rework.
             if (projectile.type == ProjectileID.CrystalLeaf)
                 return ChlorophyteCrystalAI.DoChlorophyteCrystalAI(projectile);

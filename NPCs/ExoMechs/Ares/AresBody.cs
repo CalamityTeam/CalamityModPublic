@@ -825,7 +825,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                             // Play enrage sound
                             if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
                             {
-                                SoundEngine.PlaySound(EnragedSound, Main.player[Main.myPlayer].position);
+                                SoundEngine.PlaySound(EnragedSound, Main.player[Main.myPlayer].Center);
                             }
 
                             // Draedon comments on how foolish it is to run

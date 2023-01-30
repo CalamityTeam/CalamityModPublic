@@ -500,7 +500,7 @@ namespace CalamityMod.NPCs.Ravager
 
                         if (velocityY != 16)
                         {
-                            SoundEngine.PlaySound(JumpSound, NPC.position);
+                            SoundEngine.PlaySound(JumpSound, NPC.Center);
                         }
                         velocityY = -16f;
 
@@ -564,7 +564,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 if (NPC.velocity.Y == 0f && (NPC.ai[1] == 31f || NPC.ai[0] == 1f))
                 {
-                    SoundEngine.PlaySound(StompSound, NPC.position);
+                    SoundEngine.PlaySound(StompSound, NPC.Center);
 
                     NPC.ai[0] = 0f;
                     NPC.ai[1] = 0f;
@@ -590,7 +590,7 @@ namespace CalamityMod.NPCs.Ravager
 
                             if (!anyrockpillars || !anyflamepillars)
                             {
-                                SoundEngine.PlaySound(PillarSound, NPC.position);
+                                SoundEngine.PlaySound(PillarSound, NPC.Center);
                             }
                             if (!anyrockpillars || Main.getGoodWorld)
                             {
@@ -640,7 +640,7 @@ namespace CalamityMod.NPCs.Ravager
                     {
                         if (calamityGlobalNPC.newAI[3] == 0)
                         {
-                            SoundEngine.PlaySound(JumpSound, NPC.position);
+                            SoundEngine.PlaySound(JumpSound, NPC.Center);
                         }
                         NPC.noTileCollide = true;
 

@@ -6,14 +6,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Ammo
 {
-    [LegacyName("AcidBullet")]
-    public class AcidRound : ModItem
+    [LegacyName("AcidBullet", "AcidRound")]
+    public class BubonicRound : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 99;
-            DisplayName.SetDefault("Acid Round");
-            Tooltip.SetDefault("Explodes into acid that inflicts the plague\n" +
+            DisplayName.SetDefault("Bubonic Round");
+            Tooltip.SetDefault("Bursts into virulent plague on contact\n" +
                 "Does more damage the higher the target's defense");
         }
 
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Ammo
             Item.knockBack = 1.5f;
             Item.value = Item.sellPrice(copper: 16);
             Item.rare = ItemRarityID.Yellow;
-            Item.shoot = ModContent.ProjectileType<AcidRoundProj>();
+            Item.shoot = ModContent.ProjectileType<BubonicRoundProj>();
             Item.shootSpeed = 10f;
             Item.ammo = AmmoID.Bullet;
         }

@@ -373,7 +373,7 @@ namespace CalamityMod.NPCs.Perforator
                             num24 = 20f;
                         }
                         NPC.soundDelay = (int)num24;
-                        SoundEngine.PlaySound(SoundID.WormDig, NPC.position);
+                        SoundEngine.PlaySound(SoundID.WormDig, NPC.Center);
                     }
                     num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
                     float num25 = Math.Abs(num20);

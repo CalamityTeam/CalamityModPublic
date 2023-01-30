@@ -291,7 +291,14 @@ namespace CalamityMod.NPCs.Yharon
             float spinPhaseVelocity = 25f;
             float spinPhaseRotation = MathHelper.TwoPi * 3 / spinTime;
 
-            float increasedIdleTimeAfterBulletHell = -120f;
+            float increasedIdleTimeAfterBulletHell = 120f;
+            bool moveSlowerAfterBulletHell = NPC.ai[2] < 0f;
+            if (moveSlowerAfterBulletHell)
+            {
+                float reducedMovementMultiplier = MathHelper.Lerp(0.1f, 1f, (NPC.ai[2] + increasedIdleTimeAfterBulletHell) / increasedIdleTimeAfterBulletHell);
+                acceleration *= reducedMovementMultiplier;
+                velocity *= reducedMovementMultiplier;
+            }
 
             float teleportPhaseTimer = 30f;
 
@@ -503,7 +510,7 @@ namespace CalamityMod.NPCs.Yharon
                         Main.dust[num1470].velocity = Vector2.Normalize(value16) * 3f;
                     }
 
-                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
                 }
 
                 NPC.ai[2] += 1f;
@@ -618,7 +625,7 @@ namespace CalamityMod.NPCs.Yharon
                     else if (aiState == 5)
                     {
                         if (playFastChargeRoarSound)
-                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
 
                         if (doFastCharge)
                         {
@@ -680,7 +687,7 @@ namespace CalamityMod.NPCs.Yharon
                     NPC.velocity *= 0.98f;
 
                 if (NPC.ai[2] == 0f)
-                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
 
                 if (NPC.ai[2] % flareBombSpawnDivisor == 0f)
                 {
@@ -721,7 +728,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == fireTornadoPhaseTimer - 30)
-                    SoundEngine.PlaySound(ShortRoarSound, NPC.position);
+                    SoundEngine.PlaySound(ShortRoarSound, NPC.Center);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] == fireTornadoPhaseTimer - 30)
                 {
@@ -747,7 +754,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == newPhaseTimer - 60)
-                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= newPhaseTimer)
@@ -874,7 +881,7 @@ namespace CalamityMod.NPCs.Yharon
                         bool spawnBulletHellVortex = NPC.ai[2] == phaseSwitchTimer + 15f;
                         if (spawnBulletHellVortex)
                         {
-                            SoundEngine.PlaySound(ShortRoarSound, NPC.position);
+                            SoundEngine.PlaySound(ShortRoarSound, NPC.Center);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
@@ -930,7 +937,7 @@ namespace CalamityMod.NPCs.Yharon
                     else if (aiState == 5)
                     {
                         if (playFastChargeRoarSound)
-                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
 
                         if (doFastCharge)
                         {
@@ -1001,8 +1008,8 @@ namespace CalamityMod.NPCs.Yharon
             {
                 if (NPC.ai[2] == 0f)
                 {
-                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
-                    SoundEngine.PlaySound(OrbSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
+                    SoundEngine.PlaySound(OrbSound, NPC.Center);
                 } 
 
                 NPC.ai[2] += 1f;
@@ -1021,7 +1028,7 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     NPC.ai[0] = 6f;
                     NPC.ai[1] = 0f;
-                    NPC.ai[2] = increasedIdleTimeAfterBulletHell;
+                    NPC.ai[2] = -increasedIdleTimeAfterBulletHell;
                     NPC.TargetClosest();
                     NPC.netUpdate = true;
                 }
@@ -1034,7 +1041,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == fireTornadoPhaseTimer - 30)
-                    SoundEngine.PlaySound(ShortRoarSound, NPC.position);
+                    SoundEngine.PlaySound(ShortRoarSound, NPC.Center);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] == fireTornadoPhaseTimer - 30)
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<BigFlare>(), 0, 0f, Main.myPlayer, 1f, NPC.target + 1);
@@ -1057,7 +1064,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == newPhaseTimer - 60)
-                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= newPhaseTimer)
@@ -1093,7 +1100,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 12f)
             {
                 if (NPC.ai[2] == 0f)
-                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
 
                 NPC.ai[2] += 1f;
 
@@ -1223,7 +1230,7 @@ namespace CalamityMod.NPCs.Yharon
                         bool spawnBulletHellVortex = NPC.ai[2] == phaseSwitchTimer + 15f;
                         if (spawnBulletHellVortex)
                         {
-                            SoundEngine.PlaySound(ShortRoarSound, NPC.position);
+                            SoundEngine.PlaySound(ShortRoarSound, NPC.Center);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
@@ -1279,7 +1286,7 @@ namespace CalamityMod.NPCs.Yharon
                     else if (aiState == 5)
                     {
                         if (playFastChargeRoarSound)
-                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
 
                         if (doFastCharge)
                         {
@@ -1357,8 +1364,8 @@ namespace CalamityMod.NPCs.Yharon
             {
                 if (NPC.ai[2] == 0f)
                 {
-                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
-                    SoundEngine.PlaySound(OrbSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
+                    SoundEngine.PlaySound(OrbSound, NPC.Center);
                 }
 
                 NPC.ai[2] += 1f;
@@ -1376,7 +1383,7 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     NPC.ai[0] = 13f;
                     NPC.ai[1] = 0f;
-                    NPC.ai[2] = increasedIdleTimeAfterBulletHell;
+                    NPC.ai[2] = -increasedIdleTimeAfterBulletHell;
                     NPC.localAI[2] = 0f;
                     NPC.TargetClosest();
                     NPC.netUpdate = true;
@@ -1390,7 +1397,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == fireTornadoPhaseTimer - 30)
-                    SoundEngine.PlaySound(ShortRoarSound, NPC.position);
+                    SoundEngine.PlaySound(ShortRoarSound, NPC.Center);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] == fireTornadoPhaseTimer - 30)
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<BigFlare>(), 0, 0f, Main.myPlayer, 1f, NPC.target + 1);
@@ -1414,7 +1421,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == newPhaseTimer - 60)
-                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= newPhaseTimer)
@@ -1451,7 +1458,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 19f)
             {
                 if (NPC.ai[2] == 0f)
-                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
 
                 NPC.ai[2] += 1f;
 
@@ -1499,7 +1506,7 @@ namespace CalamityMod.NPCs.Yharon
                     NPC.velocity *= 0.98f;
 
                 if (NPC.ai[2] == 0f)
-                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
 
                 if (NPC.ai[2] % flareBombSpawnDivisor == 0f)
                 {
@@ -1696,7 +1703,15 @@ namespace CalamityMod.NPCs.Yharon
             int spinPhaseTimer = secondPhasePhase == 4 ? (bossRush ? 80 : death ? 100 : 120) : (bossRush ? 120 : death ? 150 : 180);
             int flareDustSpawnDivisor = spinPhaseTimer / 10;
             int flareDustSpawnDivisor2 = spinPhaseTimer / 20 + (secondPhasePhase == 4 ? spinPhaseTimer / 60 : 0);
-            float increasedIdleTimeAfterBulletHell = -120f;
+
+            float increasedIdleTimeAfterBulletHell = 120f;
+            bool moveSlowerAfterBulletHell = NPC.ai[1] < 0f;
+            if (moveSlowerAfterBulletHell)
+            {
+                float reducedMovementMultiplier = MathHelper.Lerp(0.1f, 1f, (NPC.ai[1] + increasedIdleTimeAfterBulletHell) / increasedIdleTimeAfterBulletHell);
+                acceleration *= reducedMovementMultiplier;
+                velocity *= reducedMovementMultiplier;
+            }
 
             float flareSpawnDecelerationTimer = bossRush ? 60f : death ? 75f : 90f;
             int flareSpawnPhaseTimerReduction = revenge ? (int)(flareSpawnDecelerationTimer * (ai2GateValue - lifeRatio)) : 0;
@@ -1915,7 +1930,7 @@ namespace CalamityMod.NPCs.Yharon
                         bool spawnBulletHellVortex = NPC.ai[1] == phaseSwitchTimer + timeBeforeTeleport;
                         if (spawnBulletHellVortex)
                         {
-                            SoundEngine.PlaySound(ShortRoarSound, NPC.position);
+                            SoundEngine.PlaySound(ShortRoarSound, NPC.Center);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
@@ -1960,7 +1975,7 @@ namespace CalamityMod.NPCs.Yharon
                             NPC.rotation = NPC.rotation.AngleTowards(newRotation, amount);
 
                         if (playFastChargeRoarSound)
-                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
 
                         NPC.localAI[1] += 1f;
 
@@ -2073,7 +2088,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 2f)
             {
                 if (NPC.ai[1] == 1f)
-                    SoundEngine.PlaySound(ShortRoarSound, NPC.position);
+                    SoundEngine.PlaySound(ShortRoarSound, NPC.Center);
 
                 ChargeDust(7, pie);
 
@@ -2219,8 +2234,8 @@ namespace CalamityMod.NPCs.Yharon
             {
                 if (NPC.ai[1] == 1f)
                 {
-                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
-                    SoundEngine.PlaySound(OrbSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
+                    SoundEngine.PlaySound(OrbSound, NPC.Center);
                 }
 
                 NPC.ai[1] += 1f;
@@ -2269,7 +2284,7 @@ namespace CalamityMod.NPCs.Yharon
                 if (NPC.ai[1] >= spinPhaseTimer)
                 {
                     NPC.ai[0] = 1f;
-                    NPC.ai[1] = increasedIdleTimeAfterBulletHell;
+                    NPC.ai[1] = -increasedIdleTimeAfterBulletHell;
                     NPC.ai[2] = 0f;
                     NPC.localAI[2] = 0f;
                     NPC.TargetClosest();
@@ -2315,7 +2330,7 @@ namespace CalamityMod.NPCs.Yharon
                     {
                         if (NPC.ai[1] == 20f || NPC.ai[1] == 80f || NPC.ai[1] == 140f)
                         {
-                            SoundEngine.PlaySound(ShortRoarSound, NPC.position);
+                            SoundEngine.PlaySound(ShortRoarSound, NPC.Center);
 
                             DoFireRing(expertMode ? 300 : 180, NPC.GetProjectileDamage(ModContent.ProjectileType<FlareBomb>()), NPC.target, 1f);
                         }
@@ -2326,7 +2341,7 @@ namespace CalamityMod.NPCs.Yharon
 
                 if (NPC.ai[1] >= flareSpawnPhaseTimer)
                 {
-                    SoundEngine.PlaySound(ShortRoarSound, NPC.position);
+                    SoundEngine.PlaySound(ShortRoarSound, NPC.Center);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<BigFlare2>(), 0, 0f, Main.myPlayer, 1f, NPC.target + 1);
@@ -2342,7 +2357,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 7f)
             {
                 if (NPC.ai[1] == 1f)
-                    SoundEngine.PlaySound(ShortRoarSound, NPC.position);
+                    SoundEngine.PlaySound(ShortRoarSound, NPC.Center);
 
                 ChargeDust(14, pie);
 
@@ -2370,7 +2385,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == 15f)
-                    SoundEngine.PlaySound(ShortRoarSound, NPC.position);
+                    SoundEngine.PlaySound(ShortRoarSound, NPC.Center);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] == 15f)
                 {
@@ -2427,7 +2442,7 @@ namespace CalamityMod.NPCs.Yharon
                         }
                     }
 
-                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.Center);
                 }
 
                 NPC.ai[2] += 1f;
@@ -2917,7 +2932,7 @@ namespace CalamityMod.NPCs.Yharon
         }
         #endregion
 
-            #region On Hit Player
+        #region On Hit Player
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (damage > 0)

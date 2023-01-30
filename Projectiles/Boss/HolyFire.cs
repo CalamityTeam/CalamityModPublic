@@ -34,7 +34,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            //Day mode by default but syncs with the boss
+            Lighting.AddLight(Projectile.Center, 0.3f, 0.225f, 0f);
+
+            // Day mode by default but syncs with the boss
             if (CalamityGlobalNPC.holyBoss != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.holyBoss].active)
@@ -46,7 +48,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.ai[1] == 0f)
             {
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             }
 
             Projectile.alpha -= (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 10 : 5;

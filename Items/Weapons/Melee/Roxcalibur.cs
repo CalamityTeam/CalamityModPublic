@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     Main.dust[d].noGravity = true;
                     Main.dust[d].position = player.Center;
                 }
-                SoundEngine.PlaySound(SoundID.Item70, player.position);
+                SoundEngine.PlaySound(SoundID.Item70, player.Center);
             }
             // Resets the weapon usage if the alt fire collides with the ground
             if (RoxAlt && player.ownedProjectileCounts[ModContent.ProjectileType<RoxSlam>()] <= 0)
@@ -309,7 +309,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient(ItemID.HellstoneBar, 25).
                 AddIngredient(ItemID.SoulofNight, 10).
-                AddIngredient<EssenceofChaos>(5).
+                AddIngredient<EssenceofHavoc>(5).
                 AddIngredient(ItemID.Obsidian, 10).
                 AddIngredient(ItemID.StoneBlock, 100).
                 AddIngredient(ItemID.Amethyst, 2).

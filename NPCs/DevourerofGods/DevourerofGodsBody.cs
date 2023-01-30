@@ -227,7 +227,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 if (!AnyTeleportRifts())
                                 {
                                     NPC.TargetClosest();
-                                    SoundEngine.PlaySound(SoundID.Item12, player.position);
+                                    SoundEngine.PlaySound(SoundID.Item12, player.Center);
                                     float maxProjectileVelocity = bossRush ? 8f : death ? 7.5f : revenge ? 7.25f : expertMode ? 7f : 6.5f;
                                     float minProjectileVelocity = maxProjectileVelocity * 0.25f;
                                     float projectileVelocity = MathHelper.Clamp(Vector2.Distance(player.Center, NPC.Center) * 0.01f, minProjectileVelocity, maxProjectileVelocity);
@@ -252,7 +252,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                             if (NPC.localAI[0] >= laserBarrageGateValue * (Main.getGoodWorld ? 0.1f : 0.2f) && NPC.ai[0] % (expertMode ? 10f : 20f) == 0f)
                             {
                                 NPC.TargetClosest();
-                                SoundEngine.PlaySound(SoundID.Item12, player.position);
+                                SoundEngine.PlaySound(SoundID.Item12, player.Center);
                                 NPC.localAI[0] = 0f;
                                 float maxProjectileVelocity = bossRush ? 7.5f : death ? 7f : revenge ? 6.75f : expertMode ? 6.5f : 6f;
                                 float minProjectileVelocity = maxProjectileVelocity * 0.25f;

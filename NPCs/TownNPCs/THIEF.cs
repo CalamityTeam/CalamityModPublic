@@ -310,7 +310,6 @@ namespace CalamityMod.NPCs.TownNPCs
             if (NPC.downedPirates)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<ThiefsDime>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
                 nextSlot++;
             }
             if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)

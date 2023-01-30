@@ -8,7 +8,8 @@ using ReLogic.Content;
 
 namespace CalamityMod.Tiles.Plates
 {
-    public class Chaosplate : ModTile
+    [LegacyName("Chaosplate")]
+    public class Havocplate : ModTile
     {
         internal static Texture2D GlowTexture;
         internal static Texture2D PulseTexture;
@@ -18,10 +19,10 @@ namespace CalamityMod.Tiles.Plates
         {
             if (!Main.dedServ)
             {
-                PulseTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/ChaosplatePulse", AssetRequestMode.ImmediateLoad).Value;
+                PulseTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/HavocplatePulse", AssetRequestMode.ImmediateLoad).Value;
                 PulseColors = new Color[PulseTexture.Width];
                 Main.QueueMainThreadAction(() => PulseTexture.GetData(PulseColors));
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/ChaosplateGlow", AssetRequestMode.ImmediateLoad).Value;
+                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/HavocplateGlow", AssetRequestMode.ImmediateLoad).Value;
             }
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
@@ -31,7 +32,7 @@ namespace CalamityMod.Tiles.Plates
 
             HitSound = SoundID.Tink;
             MineResist = 1f;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Plates.Chaosplate>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Plates.Havocplate>();
             AddMapEntry(new Color(235, 108, 108));
         }
 

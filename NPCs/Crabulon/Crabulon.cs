@@ -224,7 +224,7 @@ namespace CalamityMod.NPCs.Crabulon
                         }
                         float num353 = 10f;
                         int type = ModContent.ProjectileType<MushBomb>();
-                        SoundEngine.PlaySound(SoundID.Item42, NPC.position);
+                        SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                         if (phase2)
                         {
                             num353 += 1f;
@@ -463,14 +463,14 @@ namespace CalamityMod.NPCs.Crabulon
             {
                 if (NPC.velocity.Y == 0f)
                 {
-                    SoundEngine.PlaySound(SoundID.Item14, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
 
                     int type = ModContent.ProjectileType<MushBombFall>();
                     int damage = NPC.GetProjectileDamage(type);
 
                     if (NPC.ai[2] % 2f == 0f && phase2 && revenge)
                     {
-                        SoundEngine.PlaySound(SoundID.Item42, NPC.position);
+                        SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             float projectileVelocity = BossRushEvent.BossRushActive ? 24f : CalamityWorld.death ? 12f : 10f;
@@ -494,7 +494,7 @@ namespace CalamityMod.NPCs.Crabulon
                     {
                         if (revenge && !phase2)
                         {
-                            SoundEngine.PlaySound(SoundID.Item42, NPC.position);
+                            SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 float projectileVelocity = BossRushEvent.BossRushActive ? 24f : CalamityWorld.death ? 12f : 10f;

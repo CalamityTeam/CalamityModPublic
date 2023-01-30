@@ -274,7 +274,7 @@ namespace CalamityMod.NPCs.Perforator
 
                         NPC.TargetClosest();
 
-                        SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.position);
+                        SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.Center);
 
                         for (int num621 = 0; num621 < 16; num621++)
                         {
@@ -327,7 +327,7 @@ namespace CalamityMod.NPCs.Perforator
                         {
                             NPC.ai[2] = 0f;
 
-                            SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.position);
+                            SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.Center);
 
                             for (int num621 = 0; num621 < 32; num621++)
                             {
@@ -388,7 +388,7 @@ namespace CalamityMod.NPCs.Perforator
                 if (NPC.localAI[0] >= (revenge ? 200f : 250f) + wormsAlive * 150f && NPC.position.Y + NPC.height < player.position.Y && Vector2.Distance(player.Center, NPC.Center) > 80f)
                 {
                     NPC.localAI[0] = 0f;
-                    SoundEngine.PlaySound(SoundID.NPCHit20, NPC.position);
+                    SoundEngine.PlaySound(SoundID.NPCHit20, NPC.Center);
 
                     for (int num621 = 0; num621 < 8; num621++)
                     {

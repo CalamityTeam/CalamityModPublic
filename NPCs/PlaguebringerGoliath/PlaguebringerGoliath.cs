@@ -624,7 +624,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (flag103)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCHit8, NPC.position);
+                    SoundEngine.PlaySound(SoundID.NPCHit8, NPC.Center);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -704,7 +704,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (flag103)
                 {
-                    SoundEngine.PlaySound(SoundID.Item88,NPC.position);
+                    SoundEngine.PlaySound(SoundID.Item88,NPC.Center);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -768,7 +768,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (NPC.ai[1] % num650 == (num650 - 1) && vectorCenter.Y < player.position.Y)
                 {
-                    SoundEngine.PlaySound(SoundID.Item42, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {

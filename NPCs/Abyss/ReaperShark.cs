@@ -101,11 +101,11 @@ namespace CalamityMod.NPCs.Abyss
                 NPC.soundDelay = 360;
                 if (hasBeenHit)
                 {
-                    SoundEngine.PlaySound(EnragedRoarSound, NPC.position);
+                    SoundEngine.PlaySound(EnragedRoarSound, NPC.Center);
                 }
                 else
                 {
-                    SoundEngine.PlaySound(SearchRoarSound, NPC.position);
+                    SoundEngine.PlaySound(SearchRoarSound, NPC.Center);
                 }
             }
             if (phase3 || phase1)
@@ -496,7 +496,7 @@ namespace CalamityMod.NPCs.Abyss
                             Main.dust[num21].noLight = true;
                             Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
                         }
-                        SoundEngine.PlaySound(EnragedRoarSound, NPC.position);
+                        SoundEngine.PlaySound(EnragedRoarSound, NPC.Center);
                     }
                     NPC.ai[2] += 1f;
                     if (NPC.ai[2] >= (float)num16)

@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Armor.Fearmonger
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "20% increased minion damage and +2 max minions\n" +
-            "The minion damage nerf while wielding weaponry is reduced\n" +
+            "Minions no longer deal less damage while wielding non-summoner weapons\n" +
             "Immunity to all forms of frost and flame\n" +
             "All minion attacks grant colossal life regeneration\n" +
             "15% increased damage reduction during the Pumpkin and Frost Moons\n" +

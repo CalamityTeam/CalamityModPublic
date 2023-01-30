@@ -34,11 +34,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            //Day mode by default but syncs with the boss
+            Lighting.AddLight(Projectile.Center, 0.45f, 0.35f, 0f);
+
             /*
-            Uses maxPenetrate because it's kinda pointless for a boss projectile
-            and it's convenient to copypaste without having to do adjustments
-            If someone really feels like making a proper int for this purpose they can do it themselves - Iris
+             * Day mode by default but syncs with the boss
+             * Uses maxPenetrate because it's kinda pointless for a boss projectile
+             * and it's convenient to copypaste without having to do adjustments
+             * If someone really feels like making a proper int for this purpose they can do it themselves - Iris
             */
             if (CalamityGlobalNPC.holyBoss != -1)
             {

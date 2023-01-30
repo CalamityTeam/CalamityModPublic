@@ -279,7 +279,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         num24 = 20f;
                     }
                     NPC.soundDelay = (int)num24;
-                    SoundEngine.PlaySound(SoundID.WormDig, NPC.position);
+                    SoundEngine.PlaySound(SoundID.WormDig, NPC.Center);
                 }
                 num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
                 float num25 = Math.Abs(num20);
@@ -461,7 +461,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npcLoot.Add(ModContent.ItemType<MysteriousCircuitry>(), 1, 4, 8);
             npcLoot.Add(ModContent.ItemType<DubiousPlating>(), 1, 4, 8);
             npcLoot.AddIf(() => CalamityWorld.getFixedBoi, ModContent.ItemType<UnholyEssence>(), 1, 3, 6);
-            npcLoot.AddIf(() => CalamityWorld.getFixedBoi, ModContent.ItemType<EnergyStaff>(), 10);
+            npcLoot.AddIf(() => CalamityWorld.getFixedBoi, ModContent.ItemType<SanctifiedSpark>(), 10);
         }
 
         public override void ModifyTypeName(ref string typeName)

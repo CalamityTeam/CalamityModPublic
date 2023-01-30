@@ -108,7 +108,7 @@ namespace CalamityMod.NPCs.Abyss
                         Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DevilFishMask" + i).Type, 1f);
                     }
                 }
-                SoundEngine.PlaySound(MaskBreakSound, NPC.position);
+                SoundEngine.PlaySound(MaskBreakSound, NPC.Center);
             }
 
             if (NPC.wet)

@@ -450,7 +450,7 @@ namespace CalamityMod.NPCs
                 // Old Lord Oathsword @ 8.33% Normal, 14.29% Expert+
                 case NPCID.BoneSerpentHead:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<DemonicBoneAsh>(), 3, 2));
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<OldLordOathsword>(), 12, 7));
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<OldLordClaymore>(), 12, 7));
                     break;
 
                 // Red Devil
@@ -460,13 +460,21 @@ namespace CalamityMod.NPCs
                 case NPCID.RedDevil:
                     npcLoot.ChangeDropRate(ItemID.FireFeather, 1, 10);
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<DemonicBoneAsh>(), 3, 2));
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<EssenceofChaos>(), 2, 1));
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<EssenceofHavoc>(), 2, 1));
                     break;
                 #endregion
 
                 #region Blood Moon
-                // All Blood Moon fishing enemies
-                // Drop more Blood Orbs @ 100%
+                // All Blood Moon enemies
+                // Drop Blood Orbs @ 100% (25% for common enemies)
+                case NPCID.BloodZombie:
+                case NPCID.Drippler:
+                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 4);
+                    break;
+
+                case NPCID.Clown:
+                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 6, 12);
+                    break;
 
                 // Wandering Eye Fish
                 // Bouncing Eyeball @ 10% Normal, 16.66% Expert+
@@ -1564,26 +1572,16 @@ namespace CalamityMod.NPCs
             LeadingConditionRule tarragonDrop = new LeadingConditionRule(DropHelper.TarragonSetBonusHeartCondition);
             tarragonDrop.Add(ItemID.Heart, 5, hideLootReport: true);
             globalLoot.Add(tarragonDrop);
-
-            // Blood Orb drops: 20% chance from any valid enemy on the surface during a Blood Moon
-            // See the condition lambda in DropHelper for details
-            // Does not show up in the Bestiary
-            LeadingConditionRule bloodOrbDrop = new LeadingConditionRule(DropHelper.BloodOrbBaseCondition);
-            bloodOrbDrop.Add(ModContent.ItemType<BloodOrb>(), 5, hideLootReport: true);
-            globalLoot.Add(bloodOrbDrop);
-
-            // Bloodflare set bonus Blood Orb drops: 50% chance from any valid enemy on the surface during a Blood Moon
-            // See the condition lambda in DropHelper for details
-            // Does not show up in the Bestiary
-            LeadingConditionRule bloodflareBloodOrbDrop = new LeadingConditionRule(DropHelper.BloodOrbBloodflareCondition);
-            bloodflareBloodOrbDrop.Add(ModContent.ItemType<BloodOrb>(), 2, hideLootReport: true);
-            globalLoot.Add(bloodflareBloodOrbDrop);
         }
         #endregion
 
         #region Pre Kill
         public override bool PreKill(NPC npc)
         {
+            // Stop Eater of Worlds segments and Brain of Cthulhu Creepers from dropping partial loot in Rev+
+            if (CalamityWorld.revenge && (CalamityLists.EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper))
+                DropHelper.BlockDrops(ItemID.DemoniteOre, ItemID.ShadowScale, ItemID.CrimtaneOre, ItemID.TissueSample);
+
             // Boss Rush pre-kill effects
             if (BossRushEvent.BossRushActive)
             {
@@ -1611,10 +1609,6 @@ namespace CalamityMod.NPCs
             // Stop Death Mode splitting worms from dropping excessive loot
             if (CalamityWorld.death && !SplittingWormLootBlockWrapper(npc, Mod))
                 DropHelper.BlockEverything();
-
-            // Stop Eater of Worlds segments and Brain of Cthulhu Creepers from dropping partial loot in Rev+
-            if (CalamityWorld.revenge && (CalamityLists.EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper))
-                DropHelper.BlockDrops(ItemID.DemoniteOre, ItemID.ShadowScale, ItemID.CrimtaneOre, ItemID.TissueSample);
 
             // Check whether bosses should be spawned naturally as a result of this NPC's death.
             CheckBossSpawn(npc);
@@ -1771,7 +1765,7 @@ namespace CalamityMod.NPCs
                     if (!NPC.downedGolemBoss)
                     {
                         if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                            SoundEngine.PlaySound(PlagueSound, Main.player[Main.myPlayer].position);
+                            SoundEngine.PlaySound(PlagueSound, Main.player[Main.myPlayer].Center);
 
                         string key3 = "Mods.CalamityMod.BabyBossText";
                         Color messageColor3 = Color.Lime;
@@ -1985,7 +1979,7 @@ namespace CalamityMod.NPCs
                 {
                     if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     {
-                        SoundEngine.PlaySound(Mauler.RoarSound, Main.player[Main.myPlayer].position);
+                        SoundEngine.PlaySound(Mauler.RoarSound, Main.player[Main.myPlayer].Center);
                     }
 
                     int lastPlayer = npc.lastInteraction;

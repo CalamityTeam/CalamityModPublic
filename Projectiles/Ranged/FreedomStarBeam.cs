@@ -180,8 +180,9 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.myPlayer == Projectile.owner)
             {
-                SoundEngine.PlaySound(SoundID.Item14, target.Center);
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ProjectileID.LunarFlare, Projectile.damage / 5, Projectile.knockBack, Projectile.owner, 0f, -1f);
+                Vector2 explosionOffset = new Vector2(Projectile.width, Projectile.height).RotatedByRandom(MathHelper.TwoPi);
+                SoundEngine.PlaySound(SoundID.Item14, target.Center + explosionOffset);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center + explosionOffset, Vector2.Zero, ProjectileID.LunarFlare, Projectile.damage / 5, Projectile.knockBack, Projectile.owner, 0f, -1f);
                 Main.projectile[proj].DamageType = DamageClass.Ranged;
                 Main.projectile[proj].scale = Projectile.scale * 0.7f;
                 Main.projectile[proj].netUpdate = true;

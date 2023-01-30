@@ -60,7 +60,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             itemLoot.Add(ModContent.ItemType<AshesofCalamity>(), 1, 30, 35);
-            itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 10, 15);
+            itemLoot.Add(ModContent.ItemType<EssenceofHavoc>(), 1, 10, 15);
 
             // Weapons
             itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]

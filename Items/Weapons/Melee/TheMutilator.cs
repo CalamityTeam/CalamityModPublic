@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         Item.NewItem(player.GetSource_OnHit(target), (int)target.position.X, (int)target.position.Y, target.width, target.height, 58, 1, false, 0, false, false);
                     }
                 }
-                SoundEngine.PlaySound(SoundID.Item14, target.position);
+                SoundEngine.PlaySound(SoundID.Item14, target.Center);
                 target.position.X += target.width / 2;
                 target.position.Y += target.height / 2;
                 target.position.X -= target.width / 2;

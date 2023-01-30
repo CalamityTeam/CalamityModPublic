@@ -123,6 +123,10 @@ namespace CalamityMod.Buffs
                     tip = "10% increased movement speed and 20% increased mining speed";
                     break;
 
+                case BuffID.LeafCrystal:
+                    tip = "Emits powerful life pulses at nearby enemies";
+                    break;
+
                 case BuffID.NebulaUpDmg1:
                     tip = "7.5% increased damage";
                     break;

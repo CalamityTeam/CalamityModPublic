@@ -365,7 +365,7 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<AmidiasTrident>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<MagicalConch>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EnchantedConch>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<PolypLauncher>());
             nextSlot++;
