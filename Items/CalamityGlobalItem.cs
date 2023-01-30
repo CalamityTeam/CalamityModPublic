@@ -874,10 +874,6 @@ namespace CalamityMod.Items
         #region Modify Weapon Damage
         public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage)
         {
-            // Nerf yoyo glove and bag because it's bad and stupid and dumb and bad.
-            if (player.yoyoGlove && ItemID.Sets.Yoyo[item.type])
-                damage *= 0.66f;
-
             if (item.type < ItemID.Count)
                 return;
 
