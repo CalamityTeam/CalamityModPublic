@@ -490,31 +490,37 @@ namespace CalamityMod.CalPlayer
         #region Misc Effects
         private void HandleTileEffects()
         {
+            int astralOreID = ModContent.TileType<AstralOre>();
+            int auricOreID = ModContent.TileType<AuricOre>();
+
+            int auricRejectionDamage = 300;
+            float auricRejectionKB = Player.noKnockback ? 20f : 40f;
+
             foreach (Point touchedTile in Collision.GetEntityEdgeTiles(Player))
             {
                 Tile tile = Main.tile[touchedTile];
-                if (tile != null && tile.HasTile && tile.HasUnactuatedTile)
+                if (!tile.HasTile || !tile.HasUnactuatedTile)
+                    continue;
+
+                // Astral Ore inflicts Astral Infection briefly on contact
+                if (tile.TileType == astralOreID)
+                    Player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);
+
+                // Auric Ore causes an Auric Rejection unless you are wearing Auric Armor
+                // Auric Rejection causes an electrical explosion that yeets the player a considerable distance
+                else if (tile.TileType == auricOreID && !auricSet)
                 {
-                    if (tile.TileType == ModContent.TileType<AuricOre>())
-                    {
-                        if (!Player.Calamity().auricSet)
-                        {
-                            //player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);
-                            Player.AddBuff(BuffID.Electrified, 300);
-                            AuricOre.Animate = true;
-                            Player.RemoveAllGrapplingHooks();
-                            var velocity = Vector2.Normalize(Player.Center - touchedTile.ToWorldCoordinates());
-                            Player.Hurt(PlayerDeathReason.ByCustomReason(Player.name + " was not worthy"), 300, 0);
-                            Player.velocity += velocity * 50f; // Adjust to make it more or less insane
-                            SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/ExoMechs/TeslaShoot1"));
-                        }
-                        break;
-                    }
-                    if (tile.TileType == ModContent.TileType<AstralOre>())
-                    {
-                        Player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);
-                        break;
-                    }
+                    // Cut grappling hooks so the player is surely thrown
+                    Player.RemoveAllGrapplingHooks();
+
+                    // Force Auric Ore to animate with its crackling electricity
+                    AuricOre.Animate = true;
+
+                    var yeetVec = Vector2.Normalize(Player.Center - touchedTile.ToWorldCoordinates());
+                    Player.velocity += yeetVec * auricRejectionKB;
+                    Player.Hurt(PlayerDeathReason.ByCustomReason(Player.name + " was not worthy"), auricRejectionDamage, 0);
+                    Player.AddBuff(BuffID.Electrified, 300);
+                    SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/ExoMechs/TeslaShoot1"));
                 }
             }
         }
@@ -3042,23 +3048,23 @@ namespace CalamityMod.CalPlayer
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
                         Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
 
-					gDefense = true;
+                    gDefense = true;
 
-					if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < guardianAmt)
-					{
-						int guardian = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, 0f, 0f);
-						if (Main.projectile.IndexInRange(guardian))
-							Main.projectile[guardian].originalDamage = 1;
-					}
+                    if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < guardianAmt)
+                    {
+                        int guardian = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, 0f, 0f);
+                        if (Main.projectile.IndexInRange(guardian))
+                            Main.projectile[guardian].originalDamage = 1;
+                    }
 
-					gOffense = true;
+                    gOffense = true;
 
-					if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < guardianAmt)
-					{
-						int guardian = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, 0f, 0f);
-						if (Main.projectile.IndexInRange(guardian))
-							Main.projectile[guardian].originalDamage = 1;
-					}
+                    if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < guardianAmt)
+                    {
+                        int guardian = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, 0f, 0f);
+                        if (Main.projectile.IndexInRange(guardian))
+                            Main.projectile[guardian].originalDamage = 1;
+                    }
                 }
             }
 
