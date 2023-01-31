@@ -52,18 +52,16 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.frameCounter = 0;
             }
             if (Projectile.frame > 3)
-            {
                 Projectile.frame = 0;
-            }
+
             if (Math.Abs(Projectile.velocity.X) < 7f)
-            {
                 Projectile.velocity.X *= 1.05f;
-            }
+
             int num103 = Player.FindClosest(Projectile.Center, 1, 1);
+
             if (Projectile.ai[1] == 0f)
-            {
                 Projectile.damage = Projectile.GetProjectileDamage(ModContent.NPCType<Providence>());
-            }
+
             Projectile.ai[1] += 1f;
             if (Projectile.ai[1] < 180f && Projectile.ai[1] > 60f)
             {
@@ -76,6 +74,8 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.velocity.Normalize();
                 Projectile.velocity *= scaleFactor2;
             }
+
+            Projectile.rotation = Projectile.velocity.X * 0.025f;
         }
 
         public override Color? GetAlpha(Color lightColor)
