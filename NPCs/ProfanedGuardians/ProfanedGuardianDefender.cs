@@ -89,7 +89,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             writer.Write(NPC.localAI[0]);
             writer.Write(NPC.localAI[1]);
             writer.Write(NPC.localAI[2]);
-            writer.Write(NPC.localAI[3]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -99,7 +98,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
-            NPC.localAI[3] = reader.ReadSingle();
         }
 
         public override void FindFrame(int frameHeight)
@@ -258,6 +256,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             // Charge variables
             float chargeVelocityMult = 0.25f;
+            float maxChargeVelocity = (bossRush || biomeEnraged) ? 25f : death ? 22f : revenge ? 20.5f : expertMode ? 19f : 16f;
+            if (Main.getGoodWorld)
+                maxChargeVelocity *= 1.15f;
 
             // Spawn rock shield
             bool respawnRocksInPhase2 = NPC.ai[1] == -commanderGuardPhase2Duration + timeBeforeRocksRespawnInPhase2;
@@ -542,14 +543,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.netUpdate = true;
                     Vector2 targetVector = player.Center - NPC.Center;
                     Vector2 velocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f));
-                    velocity *= (bossRush || biomeEnraged) ? 25f : death ? 22f : revenge ? 20.5f : expertMode ? 19f : 16f;
-                    if (Main.getGoodWorld)
-                        velocity *= 1.15f;
+                    velocity *= maxChargeVelocity;
 
-                    // Set velocities here
                     // Start slow and accelerate
-                    NPC.localAI[2] = velocity.X;
-                    NPC.localAI[3] = velocity.Y;
                     NPC.velocity = velocity * chargeVelocityMult;
 
                     // Dust ring and sound right as charge begins
@@ -585,22 +581,35 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     // Slown down duration ranges from 30 to 60 frames in rev, otherwise it's always 60 frames
                     float slowDownDurationAfterCharge = revenge ? Main.rand.Next(30, 61) : 60f;
                     NPC.ai[1] = slowDownDurationAfterCharge;
+                    NPC.localAI[2] = 0f;
                     NPC.velocity /= 2f;
                     NPC.netUpdate = true;
                 }
                 else
                 {
-                    // Accelerate
-                    Vector2 desiredVelocity = new Vector2(NPC.localAI[2], NPC.localAI[3]);
-                    if (NPC.velocity.Length() < desiredVelocity.Length())
+                    Vector2 targetVector = (player.Center - NPC.Center).SafeNormalize(new Vector2(NPC.direction, 0f));
+
+                    if (NPC.localAI[2] == 0f)
                     {
-                        float velocityMult = (bossRush || biomeEnraged) ? 1.04f : death ? 1.036667f : revenge ? 1.035f : expertMode ? 1.033333f : 1.03f;
-                        NPC.velocity *= velocityMult;
-                        if (NPC.velocity.Length() > desiredVelocity.Length())
+                        // Accelerate
+                        if (NPC.velocity.Length() < maxChargeVelocity)
                         {
-                            NPC.velocity.SafeNormalize(new Vector2(NPC.direction, 0f));
-                            NPC.velocity *= desiredVelocity.Length();
+                            float velocityMult = (bossRush || biomeEnraged) ? 1.04f : death ? 1.036667f : revenge ? 1.035f : expertMode ? 1.033333f : 1.03f;
+                            NPC.velocity = targetVector * (NPC.velocity.Length() * velocityMult);
+                            if (NPC.velocity.Length() > maxChargeVelocity)
+                            {
+                                NPC.localAI[2] = 1f;
+                                NPC.velocity.SafeNormalize(new Vector2(NPC.direction, 0f));
+                                NPC.velocity *= maxChargeVelocity;
+                            }
                         }
+                    }
+                    else
+                    {
+                        // Charge towards target
+                        float inertia = (bossRush || biomeEnraged) ? 35f : death ? 40f : revenge ? 42f : expertMode ? 45f : 50f;
+                        float num1006 = 0.111111117f * inertia;
+                        NPC.velocity = (NPC.velocity * (inertia - 1f) + targetVector * (NPC.velocity.Length() + num1006)) / inertia;
                     }
 
                     // Lay holy bombs while charging
@@ -620,12 +629,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, projectileVelocity, type, damage, 0f, Main.myPlayer);
                         }
                     }
-
-                    // Charge towards target
-                    Vector2 targetVector = (player.Center - NPC.Center).SafeNormalize(new Vector2(NPC.direction, 0f));
-                    float inertia = (bossRush || biomeEnraged) ? 35f : death ? 40f : revenge ? 42f : expertMode ? 45f : 50f;
-                    float num1006 = 0.111111117f * inertia;
-                    NPC.velocity = (NPC.velocity * (inertia - 1f) + targetVector * (NPC.velocity.Length() + num1006)) / inertia;
                 }
             }
 

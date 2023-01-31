@@ -65,7 +65,7 @@ namespace CalamityMod.UI
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            if (!IsActive)
+            if (!IsActive || Main.invasionProgressMode == 0)
                 return;
 
             int barOffsetY = 0;
