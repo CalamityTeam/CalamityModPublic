@@ -172,7 +172,7 @@ namespace CalamityMod.UI.ModeIndicator
                 //Get a "regexed" size which matches the text properly.
                 //Indeed, there is some scuffery in the code that makes it so that chat tags still get accounted as extra size, so we have to use 2 different values
                 //One for the displacement, which is the improper size vanilla uses, and another for the actual visual size, which is the one the textbox will use
-                int numLines = Regex.Matches(textToDisplay, "\n").Count; //It's inconsistent. Adding one by default makes some textboxes too large, not adding one can make some too small
+                int numLines = 1 + Regex.Matches(textToDisplay, "\n").Count; //It's inconsistent. Adding one by default makes some textboxes too large, not adding one can make some too small
                 string heightCalculator = string.Concat(Enumerable.Repeat("mis nuevos los gatos \n", numLines));
                 Vector2 regexedBoxSize = new Vector2(ChatManager.GetStringSize(MouseText.Value, textToDisplay, Vector2.One).X, ChatManager.GetStringSize(MouseText.Value, heightCalculator, Vector2.One).Y);
 
