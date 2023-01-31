@@ -18,7 +18,7 @@ I was destined to consume his Auric soul when he hatched, and rule forever as Go
 [c/FCA92B:Destiny is for the weak.]
 
 I rejected their whims, and upended their scheme. I was sentenced to execution for treason.
-Their meek, ingratiated swine cast both Yharon’s egg and I into the magma of Hell.
+Their meek, ingratiated swine cast both Yharon's egg and I into the magma of Hell.
 The intense heat hideously scarred me, but birthed Yharon anew. He rose, wreathed in fire, and saved my life.
 From that day, our souls were one. He shared with me the tale of Zeratros, and the genocide of his kind.
 I promised him I would have justice. So the war began, Yharon rallying all as a beacon of hope.

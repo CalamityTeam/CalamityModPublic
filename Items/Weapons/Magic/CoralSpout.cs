@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Magic
                                "Grabbing the chunk of coral after it falls from the enemy replenishes 150 mana\n" +
                                "The mana-charged coral also provides a buff that increases the coral's damage and the convergence speed\n" +
                                //Lore tooltip time. Sekiro.
-                               "[c/5C95A1:Knowledge is important, and the Old Sea Kingdom’s many scribes knew it had to be preserved at any cost.]\n" +
+                               "[c/5C95A1:Knowledge is important, and the Old Sea Kingdom's many scribes knew it had to be preserved at any cost.]\n" +
                                "[c/5C95A1:Their libraries were much larger than most, because of the water-proof stone tablets occupying them.]"
                 );
             SacrificeTotal = 1;

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.LoreItems
     public class LoreHiveMind : LoreItem
     {
         public override string Lore =>
-@"Some semblance of a God’s mind may survive death, like the twitches of a crushed insect.
+@"Some semblance of a God's mind may survive death, like the twitches of a crushed insect.
 What little remains attempts to convene, to coalesce in worship, so that its power may yet be restored. How pitiful.
 Fortunately for us, the futility of this effort is unmatched. The biomass obeys, but nothing is accomplished.
 Far from all divine power flows from faith. A God is forged of its own strength; followers may choose to worship.";

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.LoreItems
     public class LoreBrimstoneElemental : LoreItem
     {
         public override string Lore =>
-@"A peculiar being. Until recently, she had laid dormant for ages, posing as the city’s silent matron.
+@"A peculiar being. Until recently, she had laid dormant for ages, posing as the city's silent matron.
 As its economy boomed, traces of brimstone found their way all across the known world.
 It was never clear why her slumber ended. At first she stirred. The people were cautiously optimistic.
 When she woke, it was horrific. Her inferno billowed through the streets. None were safe.

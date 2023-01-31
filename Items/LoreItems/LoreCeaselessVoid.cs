@@ -12,7 +12,7 @@ namespace CalamityMod.Items.LoreItems
         public override string Lore =>
 @"A contained, previously inert portal sealed in the Dungeon. The presiding cult kept it a closely guarded secret.
 Upon sighting the Devourer of Gods, their leader hurriedly led me to its chamber to reveal its existence to me.
-The portal led to the Devourer’s home. It was identical to his, only ancient and perfectly stable.
+The portal led to the Devourer's home. It was identical to his, only ancient and perfectly stable.
 The serpent claimed it, too, was his creation. Its permanence was a mistake he later rectified.
 But this rift was unquestionably far older than he. It dated back to the Golden Age of Dragons.
 His lie was thin and forced. Something far more powerful than the Devourer was at hand.

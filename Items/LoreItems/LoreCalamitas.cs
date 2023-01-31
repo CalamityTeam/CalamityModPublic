@@ -18,7 +18,7 @@ The Witch entered his tutelage, and soon after, my service. She was ablaze with 
 Indeed, the faithful already quaked in her presence. Her name was a moniker of theirs, one uttered quietly in fear.
 In my campaigns, I counted on her sheer capacity for annihilation as my ace in the hole.
 No man, no army, no city, and no God could stand against her unbridled fury.
-Eventually, the girl’s horrific sin was too much for her to bear. She left my side along with her mentor.
+Eventually, the girl's horrific sin was too much for her to bear. She left my side along with her mentor.
 The weight of her deeds haunts her to this day. She despises me, and I cannot blame her.
 Please, if you would, show her respect where I did not.";
 

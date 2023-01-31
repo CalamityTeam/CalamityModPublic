@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Roxcalibur");
-            Tooltip.SetDefault("You couldn’t get it out of the rock, so you just brought the rock instead\n" +
-                "A hellish entity of flesh holds the key to this weapon’s power\n" +
+            Tooltip.SetDefault("You couldn't get it out of the rock, so you just brought the rock instead\n" +
+                "A hellish entity of flesh holds the key to this weapon's power\n" +
                 "Left click to shoot several rock shards\n" +
                 "Right click to dive downwards and bounce off enemies\n" +
                 "Diving into blocks creates a shockwave");

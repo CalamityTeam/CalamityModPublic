@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Pets
             SacrificeTotal = 1;
             DisplayName.SetDefault("Hermit's Box of One Hundred Medicines");
             Tooltip.SetDefault("As the ice melts in the springs\n" +
-                "And waves wash the old moss’ hair...\n" +
+                "And waves wash the old moss' hair...\n" +
                 "Thank you, Goodbye.\n" +
                 "Summons the Third Sage\n" +
                 "Use the item with right click in the hotbar to toggle the Third Sage's blessing.\n" +
