@@ -5,6 +5,7 @@ using ReLogic.Content;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using System;
 
 namespace CalamityMod.Tiles.Ores
 {
@@ -20,6 +21,8 @@ namespace CalamityMod.Tiles.Ores
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileOreFinderPriority[Type] = 710;
+            Main.tileShine[Type] = 2500;
+            Main.tileShine2[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
 
@@ -46,12 +49,115 @@ namespace CalamityMod.Tiles.Ores
         {
             num = fail ? 1 : 3;
         }
-
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.04f;
-            g = 0.10f;
-            b = 0.02f;
+            //The base green color glow
+            r = 0.08f;
+            g = 0.2f;
+            b = 0.04f;
+            var tile = Main.tile[i, j];
+            var pos = new Vector2(tile.TileFrameX, tile.TileFrameY);
+
+            Vector2[] positionsFlower = new Vector2[]
+            {
+                //Top row (always y = 0 on tile sheets)
+                new Vector2(0, 0),
+                new Vector2(36, 0),
+                new Vector2(72, 0),
+                new Vector2(252, 0),
+
+                //Second row (always y = 18 on tile sheets)
+                new Vector2(18, 18),
+                new Vector2(54, 18),
+                new Vector2(252, 18),
+
+                //Third row (always y = 36 on tile sheets)
+                new Vector2(36, 36),
+                new Vector2(252, 36),
+
+                //Forth row (always y = 54 on tile sheets)
+                new Vector2(250, 54),
+
+                //Nothing on fifth row (always y = 72 on tile sheets)
+
+                //Sixth row (always y = 90 on tile sheets)
+                new Vector2(72, 90),
+                new Vector2(90, 90),
+                new Vector2(144, 90),
+                new Vector2(180, 90),
+                new Vector2(198, 90),
+                new Vector2(216, 90),
+
+                //Seventh row (always y = 108 on tile sheets)
+                new Vector2(72, 108),
+                new Vector2(144, 108),
+                new Vector2(180, 108),
+
+                //Eighth row (always y = 126 on tile sheets)
+                new Vector2(0, 126),
+                new Vector2(18, 126),
+                new Vector2(36, 126),
+                new Vector2(54, 126),
+                new Vector2(144, 126),
+                new Vector2(162, 126),
+                new Vector2(180, 126),
+                new Vector2(198, 126),
+                new Vector2(216, 126),
+
+                //Ninth row (always y = 144 on tile sheets)
+                new Vector2(0, 144),
+                new Vector2(18, 144),
+                new Vector2(36, 144),
+                new Vector2(54, 144),
+                new Vector2(72, 144),
+                new Vector2(90, 144),
+                new Vector2(198, 144),
+                new Vector2(216, 144),
+                //Tenth row (always y = 162 on tile sheets)
+                new Vector2(0, 162),
+                new Vector2(18, 162),
+                new Vector2(36, 162),
+                new Vector2(54, 162),
+                new Vector2(72, 162),
+                new Vector2(144, 162),
+                new Vector2(162, 162),
+                new Vector2(180, 162),
+                //Eleventh row (always y = 180 on tile sheets)
+                new Vector2(0, 180),
+                new Vector2(18, 180),
+                new Vector2(36, 180),
+                new Vector2(54, 180),
+                new Vector2(144, 180),
+                new Vector2(180, 180),
+                new Vector2(198, 180),
+                new Vector2(216, 180),
+                //Twelfth row (always y = 198 on tile sheets)
+                new Vector2(18, 198),
+                new Vector2(72, 198),
+                new Vector2(108, 198),
+                new Vector2(144, 198),
+                //Thirteenth row (always y = 216 on tile sheets)
+                new Vector2(18, 216),
+                new Vector2(72, 216),
+                //Nothing on fourteenth row (always y = 249 on tile sheets)
+
+                //Nothing on fifteenth row (always y = 252 on tile sheets)
+            };
+            foreach (var positionFlower in positionsFlower)
+            {
+                if (pos == positionFlower)
+                {
+                    float brightness = 0.7f;
+                    brightness *= MathF.Sin(Main.GameUpdateCount * 0.02f);
+                    brightness += 0.3f;
+                    r = 0.83f;
+                    g = 0.16f;
+                    b = 0.31f;
+                    r *= brightness;
+                    g *= brightness;
+                    b *= brightness;
+                }
+            }
         }
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
@@ -240,7 +346,7 @@ namespace CalamityMod.Tiles.Ores
             xPos += xOffset;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
+            Color drawColour = GetDrawColour(i, j, new Color(175, 175, 175, 175));
             Tile trackTile = Main.tile[i, j];
 
             if (!trackTile.IsHalfBlock && trackTile.Slope == 0)
