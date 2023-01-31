@@ -80,14 +80,6 @@ namespace CalamityMod.Tiles.Ores
                 }
             }
         }
-        /*public override void FloorVisuals(Player player)
-        {
-            //player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);
-            player.AddBuff(BuffID.Electrified, 300);
-            base.FloorVisuals(player);
-            Animate = true;
-            player.RemoveAllGrapplingHooks();
-        }*/
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {

@@ -61,12 +61,6 @@ namespace CalamityMod.Tiles.Ores
             TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AerialiteOre>());
             return false;
         }
-        /*public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-        {
-            r = 0.21f;
-            g = 0.52f;
-            b = 0.63f;
-        }*/
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             int uniqueAnimationFrameX = 0;

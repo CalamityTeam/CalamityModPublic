@@ -70,12 +70,6 @@ namespace CalamityMod.Tiles.Ores
             b = 0.07f;
         }
 
-        //public override void FloorVisuals(Player player)
-        //{
-        //    player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);
-        //    base.FloorVisuals(player);
-        //}
-
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
