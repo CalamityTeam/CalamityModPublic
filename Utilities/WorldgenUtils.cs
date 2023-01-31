@@ -65,38 +65,6 @@ namespace CalamityMod
 			}
 		}
 
-        //for some reason orerunner wasnt working with clouds, so just have a seperate thing for aerialite here
-        public static void SpawnAerialiteOre()
-        {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                for (int x = 5; x < Main.maxTilesX - 5; x++) 
-                {
-                    for (int y = 5; y < 300; y++) 
-                    {
-                        if (WorldGen.genRand.Next(365) == 0 && Main.tile[x, y].TileType == TileID.Cloud)
-                        {
-                            ShapeData circle = new ShapeData();
-                            GenAction blotchMod = new Modifiers.Blotches(2, 0.4);
-
-                            int outerRadius = (int)(WorldGen.genRand.Next(3, 5) * WorldGen.genRand.NextFloat(0.74f, 0.82f));
-
-                            WorldUtils.Gen(new Point(x, y), new Shapes.Circle(outerRadius), Actions.Chain(new GenAction[]
-                            {
-                                blotchMod.Output(circle)
-                            }));
-
-                            WorldUtils.Gen(new Point(x, y), new ModShapes.All(circle), Actions.Chain(new GenAction[]
-                            {
-                                new Actions.ClearTile(),
-                                new Actions.PlaceTile((ushort)ModContent.TileType<Tiles.Ores.AerialiteOre>())
-                            }));
-                        }
-                    }
-                }
-            }
-        }
-
         /// <summary>
         /// Settles all liquids in the world.
         /// </summary>

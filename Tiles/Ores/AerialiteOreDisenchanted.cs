@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
@@ -10,11 +9,8 @@ namespace CalamityMod.Tiles.Ores
 {
     public class AerialiteOreDisenchanted : ModTile
     {
-        internal static Texture2D GlowTexture;
         public override void SetStaticDefaults()
         {
-            if (!Main.dedServ)
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Ores/AerialiteOreDisenchantedGlow", AssetRequestMode.ImmediateLoad).Value;
             Main.tileOreFinderPriority[Type] = 445;
             Main.tileBlockLight[Type] = true;
             Main.tileSolid[Type] = true;
@@ -58,7 +54,7 @@ namespace CalamityMod.Tiles.Ores
         }
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AerialiteOre>());
+            TileFraming.CustomMergeFrame(i, j, Type, TileID.Cloud);
             return false;
         }
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
@@ -151,115 +147,7 @@ namespace CalamityMod.Tiles.Ores
             }
             frameXOffset = uniqueAnimationFrameX * animationFrameWidth;
         }
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
-        {
-            if (GlowTexture is null)
-                return;
 
-            int xPos = Main.tile[i, j].TileFrameX;
-            int yPos = Main.tile[i, j].TileFrameY;
-            int xOffset = 0;
-            int relativeXPos = i % 4;
-            int relativeYPos = j % 4;
-            switch (relativeXPos)
-            {
-                case 0:
-                    switch (relativeYPos)
-                    {
-                        case 0:
-                            xOffset = 0;
-                            break;
-                        case 1:
-                            xOffset = 2;
-                            break;
-                        case 2:
-                            xOffset = 1;
-                            break;
-                        case 3:
-                            xOffset = 2;
-                            break;
-                        default:
-                            xOffset = 2;
-                            break;
-                    }
-                    break;
-                case 1:
-                    switch (relativeYPos)
-                    {
-                        case 0:
-                            xOffset = 2;
-                            break;
-                        case 1:
-                            xOffset = 0;
-                            break;
-                        case 2:
-                            xOffset = 2;
-                            break;
-                        case 3:
-                            xOffset = 2;
-                            break;
-                        default:
-                            xOffset = 2;
-                            break;
-                    }
-                    break;
-                case 2:
-                    switch (relativeYPos)
-                    {
-                        case 0:
-                            xOffset = 2;
-                            break;
-                        case 1:
-                            xOffset = 0;
-                            break;
-                        case 2:
-                            xOffset = 1;
-                            break;
-                        case 3:
-                            xOffset = 2;
-                            break;
-                        default:
-                            xOffset = 2;
-                            break;
-                    }
-                    break;
-                case 3:
-                    switch (relativeYPos)
-                    {
-                        case 0:
-                            xOffset = 1;
-                            break;
-                        case 1:
-                            xOffset = 2;
-                            break;
-                        case 2:
-                            xOffset = 0;
-                            break;
-                        case 3:
-                            xOffset = 2;
-                            break;
-                        default:
-                            xOffset = 2;
-                            break;
-                    }
-                    break;
-            }
-            xOffset *= 288;
-            xPos += xOffset;
-            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = GetDrawColour(i, j, new Color(75, 75, 75, 50));
-            Tile trackTile = Main.tile[i, j];
-
-            if (!trackTile.IsHalfBlock && trackTile.Slope == 0)
-            {
-                Main.spriteBatch.Draw(GlowTexture, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
-            }
-            else if (trackTile.IsHalfBlock)
-            {
-                Main.spriteBatch.Draw(GlowTexture, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
-            }
-        }
         private Color GetDrawColour(int i, int j, Color colour)
         {
             int colType = Main.tile[i, j].TileColor;

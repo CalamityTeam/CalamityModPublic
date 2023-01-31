@@ -31,25 +31,12 @@ namespace CalamityMod.World
     {
         public static bool GrowLivingJungleTree(Point origin)
         {
-            if (!WorldGen.drunkWorldGen || WorldGen.genRand.Next(50) > 0)
-            {
-                Dictionary<ushort, int> dictionary = new Dictionary<ushort, int>();
-                WorldUtils.Gen(new Point(origin.X - 25, origin.Y - 25), new Shapes.Rectangle(50, 50), new Actions.TileScanner(0, 59, 60, 147, 1).Output(dictionary));
-                int num = dictionary[0] + dictionary[1];
-                int num2 = dictionary[59] + dictionary[60];
-                if (dictionary[147] > num2 || num > num2 || num2 < 50)
-                {
-                    return false;
-                }
-            }
-
             int treeHeight = (int)Main.worldSurface - (Main.maxTilesY / 10); //start here to not touch floating islands
-            bool validheightFound = false;
+            bool validHeightFound = false;
             int attempts = 0;
 
-            while (!validheightFound && attempts++ < 100000)
+            while (!validHeightFound && attempts++ < 100000)
             {
-
                 while (!WorldGen.SolidTile(origin.X, treeHeight))
 				{
 					treeHeight++;
@@ -57,13 +44,13 @@ namespace CalamityMod.World
 
                 if (Main.tile[origin.X, treeHeight].HasTile || Main.tile[origin.X, treeHeight].WallType > 0)
 				{
-                    validheightFound = true;
+                    validHeightFound = true;
 				}
             }
 
             int extraWidth = 0;
             
-            while (validheightFound)
+            while (validHeightFound)
             {
                 //place the roots first so the bottom of the hole doesnt look strange
                 for (int k = 0; k < 6; k++)
@@ -76,6 +63,7 @@ namespace CalamityMod.World
 
                 for (int y = treeHeight - 50; y <= origin.Y - 30; y++)
                 {
+                    //increase extra width to make the tree wider as it goes down
                     if (y % 35 == 0)
                     {
                         extraWidth++;
@@ -194,8 +182,6 @@ namespace CalamityMod.World
 
             FrameOutAllHiveContents(origin, 50);
 
-            GrowLivingJungleTree(new Point(origin.X, origin.Y));
-
             for (int k = 0; k < num; k++)
             {
                 int num4 = array[k];
@@ -225,6 +211,8 @@ namespace CalamityMod.World
                     }
                 }
             }
+
+            GrowLivingJungleTree(new Point(origin.X, origin.Y));
 
             CreateStandForLarva(larvaLocation);
 

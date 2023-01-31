@@ -184,6 +184,14 @@ namespace CalamityMod.Systems
                     UndergroundShrines.PlaceSurfaceShrine(WorldGen.structures);
                 }));
 
+                //aerialite
+                //this MUST generate after the evil island, otherwise the ores keep getting painted from the evil island gen
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Aerialite", (progress, config) =>
+                {
+                    progress.Message = "Generating Aerialite"; //placeholder, i assume this will be changed to something more fancy
+                    AerialiteOreGen.Generate(false);
+                }));
+
                 // Draedon Labs
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Draedon Structures", (progress, config) =>
                 {

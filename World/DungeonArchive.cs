@@ -22,15 +22,16 @@ namespace CalamityMod.World
             int archiveX = 0;
             int archiveY = 0;
 
-            bool continueLooping = true;
             bool placedArchive = false;
-            bool actuallyPlaced = false;
             bool foundValidPosition = false;
             int dungeonArchiveColor = 0; //0 = blue, 1 = green, 2 = pink
 
             int heightLimit = (Main.maxTilesY / 2) + (Main.maxTilesY / 7);
 
-            for (int x = 5; x <= Main.maxTilesX - 5; x++)
+            int xMin = WorldGen.dungeonSide == -1 ? 5 : (Main.maxTilesX / 2) + 5;
+            int xMax = WorldGen.dungeonSide == -1 ? (Main.maxTilesX / 2) - 5 : Main.maxTilesX - 5;
+
+            for (int x = xMin; x <= xMax; x++)
             {
                 for (int y = Main.maxTilesY - 5; y >= heightLimit; y--)
                 { 
@@ -69,12 +70,12 @@ namespace CalamityMod.World
                         }
                     }
 
-                    //in order to make sure the archive places at the very bottom of the dungeon:
-                    //loop upward a certain amount, and if it doesnt place reset everything and increase the check height before the loop ends
+                    //in order to make sure the archive places at the very bottom of the dungeon
+                    //loop upward a certain amount, and if it doesnt place reset everything and increase the maximum check height before the loop ends
                     //this way it will keep checking upward so it places nicely and doesnt destroy other parts of the dungeon (or at least not as much)
                     if (x >= Main.maxTilesX - 5 && y <= heightLimit + 5 && !foundValidPosition)
                     {
-                        x = 5;
+                        x = xMin;
                         y = Main.maxTilesY - 5;
 
                         heightLimit = heightLimit - 2;
@@ -82,7 +83,7 @@ namespace CalamityMod.World
                 }
             }
 
-            if (foundValidPosition && !actuallyPlaced)
+            if (foundValidPosition && !placedArchive)
             {
                 bool firstItem = false;
 
@@ -102,7 +103,7 @@ namespace CalamityMod.World
                     ref firstItem, new Action<Chest, int, bool>(FillArchiveChests));
                 }
 
-                actuallyPlaced = true;
+                placedArchive = true;
             }
         }
 
@@ -130,6 +131,7 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(5, 10)),
             };
             
+            //this is normally not a good idea with separate items lists, but both lists are the same size so it is fine here
             for (int i = 0; i < contents1.Count; i++)
             {
                 if (!firstItem)

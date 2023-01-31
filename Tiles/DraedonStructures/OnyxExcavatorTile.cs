@@ -15,6 +15,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileSpelunker[Type] = true;
+            Main.tileLavaDeath[Type] = false;
+            Main.tileWaterDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
             TileObjectData.newTile.Width = 8;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };

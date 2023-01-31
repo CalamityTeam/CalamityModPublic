@@ -170,16 +170,8 @@ namespace CalamityMod.World
                 //the reason theres three different runners being used is so that a shallow lava pit is placed above each lava pit
                 if (lavaLakeBigPlaceDelay == 0)
                 {
-                    LavaTileRunner runner1 = new LavaTileRunner(new Vector2(x - 10, Main.maxTilesY - 110), new Vector2(0, 5), new Point16(-150, 150),
-                    new Point16(250, 500), 15f, WorldGen.genRand.Next(200, 300), 0, true, true);
-                    runner1.Start();
-
-                    LavaTileRunner runner2 = new LavaTileRunner(new Vector2(x + 10, Main.maxTilesY - 110), new Vector2(0, 5), new Point16(-150, 150),
-                    new Point16(250, 500), 15f, WorldGen.genRand.Next(200, 300), 0, true, true);
-                    runner2.Start();
-
                     LavaTileRunner runner3 = new LavaTileRunner(new Vector2(x, Main.maxTilesY - 165), new Vector2(0, 5), new Point16(-500, 500), 
-                    new Point16(250, 1000), 15f, WorldGen.genRand.Next(300, 400), 0, true, true);
+                    new Point16(250, 1000), 15f, WorldGen.genRand.Next(300, 1000), 0, true, true);
                     runner3.Start();
 
                     lavaLakeBigPlaceDelay = 240; //set lava lake delay so it cant just spam lava lakes everywhere
