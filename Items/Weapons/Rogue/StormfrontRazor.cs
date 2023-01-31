@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Stormfront Razor");
             Tooltip.SetDefault("Throws a knife that summons lightning on hit.\n" +
                                "Stealth strikes cause the knife to be faster and summon multiple lightning bolts on hit\n" +
-                               "[c/24c7f0:Quite shocking]");
+                               "[c/24c7f0:Strike and stem the flow]");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
             SacrificeTotal = 1;
@@ -40,17 +40,17 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Pink;
             Item.useAnimation = 20;
             Item.useTime = 20;
-            Item.damage = 43;
+            Item.damage = 38;
             Item.knockBack = 7f;
             Item.shoot = ModContent.ProjectileType<StormfrontRazorProjectile>();
-            Item.shootSpeed = 8f;
+            Item.shootSpeed = 8.2f;
             Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
 
-		public override float StealthDamageMultiplier => 1f;
+		public override float StealthDamageMultiplier => 1.2f;
         public override float StealthVelocityMultiplier => 1.5f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

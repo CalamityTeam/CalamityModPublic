@@ -997,7 +997,6 @@ namespace CalamityMod.CalPlayer
                 {
                     Main.projectile[projectileIndex].DamageType = DamageClass.Generic;
                     Main.projectile[projectileIndex].netUpdate = true;
-                    Main.projectile[projectileIndex].localNPCHitCooldown = 10;
                 }
             }
 
@@ -1537,7 +1536,7 @@ namespace CalamityMod.CalPlayer
                     Main.player[Main.myPlayer].lifeSteal -= cooldown;
                 }
 
-                if (vampiricTalisman && proj.CountsAsClass<ThrowingDamageClass>() && crit)
+                if (vampiricTalisman && proj.CountsAsClass<RogueDamageClass>() && crit)
                 {
                     float heal = MathHelper.Clamp(damage * 0.011f, 0f, 5f);
                     if ((int)heal > 0)
@@ -1550,8 +1549,11 @@ namespace CalamityMod.CalPlayer
 
                 if (bloodyGlove && proj.CountsAsClass<RogueDamageClass>() && modProj.stealthStrike)
                 {
+                    float cooldown = 0;
+                    cooldown += 15;
                     Player.statLife += 2;
                     Player.HealEffect(2);
+                    Main.player[Main.myPlayer].lifeSteal -= cooldown;
                 }
 
                 if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
