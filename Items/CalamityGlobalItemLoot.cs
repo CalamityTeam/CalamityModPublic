@@ -342,7 +342,7 @@ namespace CalamityMod.Items
 
                 case ItemID.LavaCrate:
                 case ItemID.LavaCrateHard:
-                    loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 5, 2, 4); // 20% 2-4 Essence of Chaos
+                    loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofHavoc>(), 5, 2, 4); // 20% 2-4 Essence of Chaos
                     break;
 
                 // Calamity does not touch Oasis Crates yet

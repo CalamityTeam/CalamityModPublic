@@ -450,7 +450,7 @@ namespace CalamityMod.NPCs
                 // Old Lord Oathsword @ 8.33% Normal, 14.29% Expert+
                 case NPCID.BoneSerpentHead:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<DemonicBoneAsh>(), 3, 2));
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<OldLordOathsword>(), 12, 7));
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<OldLordClaymore>(), 12, 7));
                     break;
 
                 // Red Devil
@@ -460,7 +460,7 @@ namespace CalamityMod.NPCs
                 case NPCID.RedDevil:
                     npcLoot.ChangeDropRate(ItemID.FireFeather, 1, 10);
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<DemonicBoneAsh>(), 3, 2));
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<EssenceofChaos>(), 2, 1));
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<EssenceofHavoc>(), 2, 1));
                     break;
                 #endregion
 

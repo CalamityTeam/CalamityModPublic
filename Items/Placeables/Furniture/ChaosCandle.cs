@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.WaterCandle, 3).AddIngredient(ItemID.SoulofNight, 3).AddIngredient(ModContent.ItemType<CoreofChaos>(), 2).AddIngredient(ModContent.ItemType<ZergPotion>()).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(1).AddIngredient(ItemID.WaterCandle, 3).AddIngredient(ItemID.SoulofNight, 3).AddIngredient(ModContent.ItemType<CoreofHavoc>(), 2).AddIngredient(ModContent.ItemType<ZergPotion>()).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

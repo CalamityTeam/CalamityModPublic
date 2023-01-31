@@ -7682,7 +7682,7 @@ namespace CalamityMod.NPCs
                             npc.chaseable = true; //once the enemy has detected the player, let minions fuck it up
                         }
                     }
-                    if (npc.type == ModContent.NPCType<Flounder>())
+                    if (npc.type == ModContent.NPCType<Sulflounder>())
                     {
                         if (!target.dead)
                         {
@@ -7790,7 +7790,7 @@ namespace CalamityMod.NPCs
                     }
 
 					// Flounder shoot Sulphuric Mist at the player
-                    if (npc.type == ModContent.NPCType<Flounder>())
+                    if (npc.type == ModContent.NPCType<Sulflounder>())
                     {
                         if ((target.Center - npc.Center).Length() < 350f)
                         {

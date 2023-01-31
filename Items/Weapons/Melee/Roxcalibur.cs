@@ -309,7 +309,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient(ItemID.HellstoneBar, 25).
                 AddIngredient(ItemID.SoulofNight, 10).
-                AddIngredient<EssenceofChaos>(5).
+                AddIngredient<EssenceofHavoc>(5).
                 AddIngredient(ItemID.Obsidian, 10).
                 AddIngredient(ItemID.StoneBlock, 100).
                 AddIngredient(ItemID.Amethyst, 2).

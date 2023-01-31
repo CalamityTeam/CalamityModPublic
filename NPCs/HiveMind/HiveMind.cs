@@ -353,8 +353,8 @@ namespace CalamityMod.NPCs.HiveMind
             }
 
             //Spawn a Hive Cyst
-            if (CalamityWorld.getFixedBoi && NPC.CountNPCS(ModContent.NPCType<HiveCyst>()) < 3)
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + Main.rand.Next(NPC.width), (int)NPC.position.Y + Main.rand.Next(NPC.height), ModContent.NPCType<HiveCyst>());
+            if (CalamityWorld.getFixedBoi && NPC.CountNPCS(ModContent.NPCType<HiveTumor>()) < 3)
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + Main.rand.Next(NPC.width), (int)NPC.position.Y + Main.rand.Next(NPC.height), ModContent.NPCType<HiveTumor>());
         }
 
         private void ReelBack()

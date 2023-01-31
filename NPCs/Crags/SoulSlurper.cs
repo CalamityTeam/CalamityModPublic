@@ -297,7 +297,7 @@ namespace CalamityMod.NPCs.Crags
 
             LeadingConditionRule hardmode = npcLoot.DefineConditionalDropSet(DropHelper.Hardmode());
             LeadingConditionRule postProv = npcLoot.DefineConditionalDropSet(DropHelper.PostProv());
-            hardmode.Add(ModContent.ItemType<EssenceofChaos>(), 3);
+            hardmode.Add(ModContent.ItemType<EssenceofHavoc>(), 3);
             postProv.Add(ModContent.ItemType<Bloodstone>(), 4);
         }
 

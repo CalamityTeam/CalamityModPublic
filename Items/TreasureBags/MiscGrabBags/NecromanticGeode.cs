@@ -47,7 +47,7 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
             normalOnly.Add(ModContent.ItemType<ScoriaBar>(), 1, 5, 10);
             normalOnly.Add(ModContent.ItemType<CoreofEleum>(), 1, 1, 3);
             normalOnly.Add(ModContent.ItemType<CoreofSunlight>(), 1, 1, 3);
-            normalOnly.Add(ModContent.ItemType<CoreofChaos>(), 1, 1, 3);
+            normalOnly.Add(ModContent.ItemType<CoreofHavoc>(), 1, 1, 3);
             normalOnly.Add(ModContent.ItemType<LifeAlloy>(), 2);
             normalOnly.Add(ModContent.ItemType<CoreofCalamity>(), 3);
             normalOnly.Add(ModContent.ItemType<Bloodstone>(), 1, 100, 120);
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
             expertPlus.Add(ModContent.ItemType<ScoriaBar>(), 1, 7, 12);
             expertPlus.Add(ModContent.ItemType<CoreofEleum>(), 1, 2, 4);
             expertPlus.Add(ModContent.ItemType<CoreofSunlight>(), 1, 2, 4);
-            expertPlus.Add(ModContent.ItemType<CoreofChaos>(), 1, 2, 4);
+            expertPlus.Add(ModContent.ItemType<CoreofHavoc>(), 1, 2, 4);
             expertPlus.Add(ModContent.ItemType<LifeAlloy>());
             expertPlus.Add(ModContent.ItemType<CoreofCalamity>(), 2);
             expertPlus.Add(ModContent.ItemType<Bloodstone>(), 1, 120, 140);

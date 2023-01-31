@@ -95,7 +95,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient<UnholyCore>(10).
-                AddIngredient<EssenceofChaos>(5).
+                AddIngredient<EssenceofHavoc>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

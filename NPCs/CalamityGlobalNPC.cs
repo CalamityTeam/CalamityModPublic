@@ -4509,7 +4509,7 @@ namespace CalamityMod.NPCs
             MakeTownNPCsTakeMoreDamage(npc, projectile, Mod, ref damage);
 
             //Block natural falling stars from killing boss spawners randomly
-            if ((projectile.type == ProjectileID.FallingStar && projectile.damage >= 1000) && (npc.type == NPCType<PerforatorCyst>() || npc.type == NPCType<HiveCyst>() || npc.type == NPCType<LeviathanStart>()))
+            if ((projectile.type == ProjectileID.FallingStar && projectile.damage >= 1000) && (npc.type == NPCType<PerforatorCyst>() || npc.type == NPCType<HiveTumor>() || npc.type == NPCType<LeviathanStart>()))
                 damage = 0;
 
             // Supercrits

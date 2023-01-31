@@ -39,7 +39,7 @@ namespace CalamityMod.Scenes.MusicScenes
                 backWall.WallType == WallID.IronBrick ||
                 backWall.WallType == ModContent.WallType<AstralIceWall>() ||
                 backWall.WallType == ModContent.WallType<AstralSnowWall>() ||
-                backWall.WallType == ModContent.WallType<ChaosplateWall>() ||
+                backWall.WallType == ModContent.WallType<HavocplateWall>() ||
                 backWall.WallType == ModContent.WallType<CinderplateWall>() ||
                 backWall.WallType == ModContent.WallType<ElumplateWall>() ||
                 backWall.WallType == ModContent.WallType<HazardChevronWall>() ||

@@ -61,7 +61,7 @@ namespace CalamityMod.Items.TreasureBags
 			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<BrimstoneElemental>()));
 
             // Materials
-            itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 9);
+            itemLoot.Add(ModContent.ItemType<EssenceofHavoc>(), 1, 5, 9);
 
             // Weapons
             itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]

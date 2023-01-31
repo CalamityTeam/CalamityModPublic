@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Materials
             CreateRecipe().
                 AddIngredient<CoreofSunlight>(3).
                 AddIngredient<CoreofEleum>(3).
-                AddIngredient<CoreofChaos>(3).
+                AddIngredient<CoreofHavoc>(3).
                 AddIngredient<AshesofCalamity>().
                 AddTile(TileID.MythrilAnvil).
                 Register();

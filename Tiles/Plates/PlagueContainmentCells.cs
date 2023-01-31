@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
 using ReLogic.Content;
@@ -9,6 +10,7 @@ namespace CalamityMod.Tiles.Plates
 {
     public class PlagueContainmentCells : ModTile
     {
+        public static readonly SoundStyle MinePlatingSound = new("CalamityMod/Sounds/Custom/PlatingMine", 3);
         internal static Texture2D GlowTexture;
         internal static Texture2D PulseTexture;
         internal static Color[] PulseColors;
@@ -27,7 +29,7 @@ namespace CalamityMod.Tiles.Plates
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            HitSound = SoundID.Tink;
+            HitSound = MinePlatingSound;
             MineResist = 1f;
             ItemDrop = ModContent.ItemType<Items.Placeables.Plates.Plagueplate>();
             AddMapEntry(new Color(128, 188, 67));

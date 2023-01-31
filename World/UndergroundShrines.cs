@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.SummonItems;
@@ -102,7 +102,9 @@ namespace CalamityMod.World
                     }
                 }
                 if (!canGenerateInLocation || corruptStuffInArea < totalTiles * 0.5f ||  !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;
@@ -172,7 +174,9 @@ namespace CalamityMod.World
                     }
                 }
                 if (!canGenerateInLocation || crimsonStuffInArea < totalTiles * 0.5f ||  !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;
@@ -236,7 +240,9 @@ namespace CalamityMod.World
                     }
                 }
                 if (!canGenerateInLocation || desertTilesInArea < totalTiles * 0.3f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;
@@ -299,7 +305,9 @@ namespace CalamityMod.World
                     }
                 }
                 if (!canGenerateInLocation || graniteWallsInArea < totalTiles * 0.95f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;
@@ -364,8 +372,10 @@ namespace CalamityMod.World
                                 iceTilesInArea++;
                     }
                 }
-                if (!canGenerateInLocation || iceTilesInArea < totalTiles * 0.35f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || iceTilesInArea < totalTiles * 0.2f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;
@@ -437,7 +447,9 @@ namespace CalamityMod.World
                 }
 
                 if (!canGenerateInLocation || marbleStuffInArea < totalTiles * 0.9f || airTilesBetweenPillar < totalTiles * 0.3f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;
@@ -488,14 +500,16 @@ namespace CalamityMod.World
                 int yExtraArea = 40;
                 bool canGenerateInLocation = true;
 
-                float requiredShrooms = 80;
+                float requiredShrooms = 20; //for now lower this, will look through the gen later
                 for (int x = placementPoint.X - extraArea; x < placementPoint.X + schematicSize.X + extraArea; x++)
                 {
                     for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y + yExtraArea; y++)
                     {
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+
                         //For some reason, mushroom biomes are very wet
                         //It gets way too difficult to generate if it doesn't ignore water
+                        
                         if (ShouldAvoidLocation(new Point(x, y), false))
                             canGenerateInLocation = false;
 
@@ -505,7 +519,9 @@ namespace CalamityMod.World
                     }
                 }
                 if (!canGenerateInLocation || realMushroomsInArea < requiredShrooms || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;
@@ -546,8 +562,10 @@ namespace CalamityMod.World
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
-                int numTilesBelowSurface = WorldGen.genRand.Next(50, 100);
-                int placementPositionY = (int)WorldGen.worldSurface + numTilesBelowSurface;
+                int numTilesBelowSurface = WorldGen.genRand.Next(25, 50);
+                
+                //use Main.worldSurface and not WorldGen.WorldSurface, i believe that is why it was genning on the surface so much
+                int placementPositionY = (int)Main.worldSurface + numTilesBelowSurface;
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));

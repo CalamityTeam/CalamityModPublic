@@ -270,7 +270,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<UnholyEssence>(), 1, 2, 4);
-            npcLoot.Add(ModContent.ItemType<EnergyStaff>(), 15);
+            npcLoot.Add(ModContent.ItemType<SanctifiedSpark>(), 15);
             npcLoot.Add(ModContent.ItemType<BlasphemousDonut>(), 50);
         }
 

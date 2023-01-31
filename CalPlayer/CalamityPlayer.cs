@@ -327,7 +327,7 @@ namespace CalamityMod.CalPlayer
         public bool bendyPet = false;
         public bool littleLightPet = false;
         public bool pineapplePet = false;
-        public bool seaSlugPet = false;
+        public bool eidolonSnailPet = false;
         #endregion
 
         #region Rage
@@ -1478,7 +1478,7 @@ namespace CalamityMod.CalPlayer
             bendyPet = false;
             littleLightPet = false;
             pineapplePet = false;
-            seaSlugPet = false;
+            eidolonSnailPet = false;
 
             onyxExcavator = false;
             rimehound = false;
@@ -4356,7 +4356,7 @@ namespace CalamityMod.CalPlayer
                 int knockbackAdd = (int)(damage * 0.15 * (1f - target.knockBackResist));
                 damage += knockbackAdd;
             }
-            if (proj.type == ModContent.ProjectileType<AcidRoundProj>())
+            if (proj.type == ModContent.ProjectileType<BubonicRoundProj>())
             {
                 int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
