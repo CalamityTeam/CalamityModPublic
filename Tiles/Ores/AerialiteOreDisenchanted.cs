@@ -36,12 +36,12 @@ namespace CalamityMod.Tiles.Ores
 
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 33;
-            //ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOre>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOreDisenchanted>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Disenchanted Aerialite Ore");
             AddMapEntry(new Color(204, 170, 81), name);
             MineResist = 2f;
-            MinPick = 65;
+            MinPick = 110;
             HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
