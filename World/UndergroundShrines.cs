@@ -102,7 +102,9 @@ namespace CalamityMod.World
                     }
                 }
                 if (!canGenerateInLocation || corruptStuffInArea < totalTiles * 0.5f ||  !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;
@@ -172,7 +174,9 @@ namespace CalamityMod.World
                     }
                 }
                 if (!canGenerateInLocation || crimsonStuffInArea < totalTiles * 0.5f ||  !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;
@@ -236,7 +240,9 @@ namespace CalamityMod.World
                     }
                 }
                 if (!canGenerateInLocation || desertTilesInArea < totalTiles * 0.3f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;
@@ -299,7 +305,9 @@ namespace CalamityMod.World
                     }
                 }
                 if (!canGenerateInLocation || graniteWallsInArea < totalTiles * 0.95f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;
@@ -364,8 +372,10 @@ namespace CalamityMod.World
                                 iceTilesInArea++;
                     }
                 }
-                if (!canGenerateInLocation || iceTilesInArea < totalTiles * 0.35f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || iceTilesInArea < totalTiles * 0.2f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;
@@ -437,7 +447,9 @@ namespace CalamityMod.World
                 }
 
                 if (!canGenerateInLocation || marbleStuffInArea < totalTiles * 0.9f || airTilesBetweenPillar < totalTiles * 0.3f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
                     tries++;
+                }
                 else
                 {
                     bool _ = true;

@@ -283,7 +283,36 @@ namespace CalamityMod.World
 
             // Place the Terminus shrine.
             UndergroundShrines.SpecialHut((ushort)ModContent.TileType<SmoothVoidstone>(), (ushort)ModContent.TileType<Voidstone>(),
-                (ushort)ModContent.WallType<VoidstoneWallUnsafe>(), UndergroundShrines.UndergroundShrineType.Abyss, abyssChasmX, AbyssChasmBottom);
+            (ushort)ModContent.WallType<VoidstoneWallUnsafe>(), UndergroundShrines.UndergroundShrineType.Abyss, abyssChasmX, AbyssChasmBottom);
+
+            //place eidolon snail fossil
+            int realFossilY = 0;
+            bool placedFossil = false;
+
+            while (!placedFossil)
+            {
+                //make sure it places at the very bottom, below where the terminus shrine is
+                for (int fossilCheckY = AbyssChasmBottom + 30; fossilCheckY < AbyssChasmBottom + 100; fossilCheckY++)
+                {
+                    if (Main.tile[abyssChasmX, fossilCheckY].HasTile &&  Main.tile[abyssChasmX, fossilCheckY].TileType == ModContent.TileType<Voidstone>())
+                    {
+                        realFossilY = fossilCheckY;
+
+                        //place a box of voidstone for the fossil to spawn on
+                        for (int fossilX = abyssChasmX - 3; fossilX <= abyssChasmX + 3; fossilX++)
+                        {
+                            for (int fossilY = realFossilY - 2; fossilY <= realFossilY + 3; fossilY++)
+                            {
+                                WorldGen.PlaceTile(fossilX, fossilY, ModContent.TileType<Voidstone>());
+                            }
+                        }
+
+                        WorldGen.PlaceObject(abyssChasmX, realFossilY - 3, (ushort)ModContent.TileType<AbyssFossilTile>());
+                        
+                        placedFossil = true;
+                    }
+                }
+            }
 
             int islandLocationOffset = 30;
             int islandLocationY = rockLayer;
@@ -355,8 +384,7 @@ namespace CalamityMod.World
                         //pots
                         if (!Main.tile[abyssIndex, abyssIndex2].HasTile)
                         {
-                            if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) &&
-                                abyssIndex2 > rockLayer)
+                            if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) && abyssIndex2 > rockLayer)
                             {
                                 if (WorldGen.genRand.NextBool(5))
                                 {
@@ -364,8 +392,7 @@ namespace CalamityMod.World
                                     CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
                                 }
                             }
-                            else if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) &&
-                                     abyssIndex2 < (int)Main.worldSurface)
+                            else if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) && abyssIndex2 < (int)Main.worldSurface)
                             {
                                 if (WorldGen.genRand.NextBool(3))
                                 {
@@ -386,8 +413,7 @@ namespace CalamityMod.World
                         //pots
                         if (!Main.tile[abyssIndex, abyssIndex2].HasTile)
                         {
-                            if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) &&
-                                abyssIndex2 > rockLayer)
+                            if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) && abyssIndex2 > rockLayer)
                             {
                                 if (WorldGen.genRand.NextBool(5))
                                 {
@@ -395,8 +421,7 @@ namespace CalamityMod.World
                                     CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
                                 }
                             }
-                            else if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) &&
-                                     abyssIndex2 < (int)Main.worldSurface)
+                            else if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) && abyssIndex2 < (int)Main.worldSurface)
                             {
                                 if (WorldGen.genRand.NextBool(3))
                                 {
