@@ -474,7 +474,7 @@ namespace CalamityMod.NPCs.Providence
             }
 
             // Whether the boss can be homed in on or healed off of
-            NPC.chaseable = normalAttackRate && AIState != (int)Phase.FlameCocoon && AIState != (int)Phase.SpearCocoon && AIState != (int)Phase.Laser;
+            NPC.chaseable = normalAttackRate;
             NPC.canGhostHeal = NPC.chaseable;
 
             // Prevent lag by stopping rain
