@@ -92,8 +92,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             writer.Write(spearType);
             writer.Write(healTimer);
             writer.Write(biomeEnrageTimer);
+            writer.Write(NPC.localAI[0]);
             writer.Write(NPC.localAI[1]);
             writer.Write(NPC.localAI[2]);
+            writer.Write(NPC.localAI[3]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -101,8 +103,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             spearType = reader.ReadInt32();
             healTimer = reader.ReadInt32();
             biomeEnrageTimer = reader.ReadInt32();
+            NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
         }
 
         public override void FindFrame(int frameHeight)
@@ -134,9 +138,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[1] == 0f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] == 0f)
             {
-                NPC.localAI[1] = 1f;
+                NPC.localAI[0] = 1f;
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ProfanedGuardianDefender>());
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ProfanedGuardianHealer>());
             }
@@ -291,6 +295,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             else if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;
 
+            // Reset the despawn variable to be used for spear attacks
+            if (NPC.ai[3] < 0f)
+                NPC.ai[3] = 0f;
+
             // Become immune over time if target isn't in hell or hallow
             bool isHoly = player.ZoneHallow;
             bool isHell = player.ZoneUnderworldHeight;
@@ -311,10 +319,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             if (!phase1)
             {
                 // Spawn particles when the defender dies to indicate the shield has broken apart
-                if (NPC.localAI[2] == 0f)
+                if (NPC.localAI[1] == 0f)
                 {
                     // Star Wrath use sound and dust circles
-                    NPC.localAI[2] += 1f;
+                    NPC.localAI[1] += 1f;
                     SoundEngine.PlaySound(SoundID.Item105, NPC.Center);
                     int shieldRings = 4;
                     int totalDust = 36;
@@ -335,6 +343,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     }
                 }
             }
+
+            // Charge variables
+            float chargeVelocityMult = 0.25f;
 
             float inertia = (bossRush || biomeEnraged) ? 50f : death ? 60f : revenge ? 65f : expertMode ? 70f : 80f;
             if (lifeRatio < 0.5f)
@@ -481,7 +492,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
                 else
                 {
-                    // Slow down and transition to final phase
+                    // Slow down and transition to charge phase
                     NPC.velocity *= 0.98f;
                     if (NPC.ai[1] >= phaseGateValue)
                     {
@@ -512,7 +523,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (Main.getGoodWorld)
                     velocity *= 1.15f;
 
-                NPC.velocity = velocity;
+                // Set velocities here
+                // Start slow and accelerate
+                NPC.localAI[2] = velocity.X;
+                NPC.localAI[3] = velocity.Y;
+                NPC.velocity = velocity * chargeVelocityMult;
 
                 // Dust ring and sound right as charge begins
                 SoundEngine.PlaySound(SoundID.Item74, shootFrom);
@@ -537,10 +552,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.spriteDirection = Math.Sign(NPC.velocity.X);
 
                 NPC.ai[1] += 1f;
-                float phaseGateValue = (bossRush || biomeEnraged) ? 60f : death ? 70f : revenge ? 74f : expertMode ? 80f : 90f;
+                float phaseGateValue = (bossRush || biomeEnraged) ? 90f : death ? 100f : revenge ? 110f : expertMode ? 120f : 135f;
                 if (NPC.ai[1] >= phaseGateValue)
                 {
                     NPC.ai[0] = 3f;
+
                     // Slown down duration ranges from 20 to 40 frames in rev, otherwise it's always 40 frames
                     float slowDownDurationAfterCharge = revenge ? Main.rand.Next(20, 41) : 40f;
                     NPC.ai[1] = slowDownDurationAfterCharge;
@@ -549,6 +565,19 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
                 else
                 {
+                    // Accelerate
+                    Vector2 desiredVelocity = new Vector2(NPC.localAI[2], NPC.localAI[3]);
+                    if (NPC.velocity.Length() < desiredVelocity.Length())
+                    {
+                        float velocityMult = (bossRush || biomeEnraged) ? 1.053333f : death ? 1.05037f : revenge ? 1.047407f : expertMode ? 1.044444f : 1.04f;
+                        NPC.velocity *= velocityMult;
+                        if (NPC.velocity.Length() > desiredVelocity.Length())
+                        {
+                            NPC.velocity.SafeNormalize(new Vector2(NPC.direction, 0f));
+                            NPC.velocity *= desiredVelocity.Length();
+                        }
+                    }
+
                     // Throw down holy fire while charging
                     int projectileGateValue = (int)(phaseGateValue * 0.4f);
                     if (NPC.ai[1] % projectileGateValue == 0f)
@@ -591,19 +620,26 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     bool useSpears = NPC.ai[3] % 2f == 0f;
                     NPC.ai[0] = dontCharge ? (useSpears ? 4f : 0f) : 1f;
                     if (dontCharge)
+                    {
                         NPC.ai[2] = 0f;
+                        NPC.ai[3] += 1f;
+                    }
 
                     NPC.TargetClosest();
                     NPC.netUpdate = true;
                 }
 
-                NPC.velocity *= 0.92f;
+                NPC.velocity *= 0.95f;
             }
             else if (NPC.ai[0] == 4f)
             {
-                // Make the commander either stand still and use spears or fly to the left/right and fire projectiles by incrementing ai[3] at the end of the spear phase
-                // NPC.ai[0] = 0f;
-                // NPC.ai[3] += 1f;
+                NPC.ai[1] += 1f;
+                float phaseGateValue = (bossRush || biomeEnraged) ? 90f : death ? 100f : revenge ? 110f : expertMode ? 120f : 135f;
+                if (NPC.ai[1] >= phaseGateValue)
+                {
+                    NPC.ai[0] = 0f;
+                    NPC.ai[1] = 0f;
+                }
             }
         }
 

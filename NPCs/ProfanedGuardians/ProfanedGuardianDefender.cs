@@ -88,6 +88,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             writer.Write(biomeEnrageTimer);
             writer.Write(NPC.localAI[0]);
             writer.Write(NPC.localAI[1]);
+            writer.Write(NPC.localAI[2]);
+            writer.Write(NPC.localAI[3]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -96,6 +98,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             biomeEnrageTimer = reader.ReadInt32();
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
+            NPC.localAI[2] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
         }
 
         public override void FindFrame(int frameHeight)
@@ -251,6 +255,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float commanderGuardPhase2Duration = (bossRush || biomeEnraged) ? 420f : death ? 480f : revenge ? 510f : expertMode ? 540f : 600f;
             float timeBeforeRocksRespawnInPhase2 = 90f;
             float throwRocksGateValue = 60f;
+
+            // Charge variables
+            float chargeVelocityMult = 0.25f;
 
             // Spawn rock shield
             bool respawnRocksInPhase2 = NPC.ai[1] == -commanderGuardPhase2Duration + timeBeforeRocksRespawnInPhase2;
@@ -539,7 +546,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     if (Main.getGoodWorld)
                         velocity *= 1.15f;
 
-                    NPC.velocity = velocity;
+                    // Set velocities here
+                    // Start slow and accelerate
+                    NPC.localAI[2] = velocity.X;
+                    NPC.localAI[3] = velocity.Y;
+                    NPC.velocity = velocity * chargeVelocityMult;
 
                     // Dust ring and sound right as charge begins
                     SoundEngine.PlaySound(SoundID.Item74, shootFrom);
@@ -566,10 +577,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.spriteDirection = Math.Sign(NPC.velocity.X);
 
                 NPC.ai[1] += 1f;
-                float phaseGateValue = (bossRush || biomeEnraged) ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
+                float phaseGateValue = (bossRush || biomeEnraged) ? 120f : death ? 140f : revenge ? 150f : expertMode ? 160f : 180f;
                 if (NPC.ai[1] >= phaseGateValue)
                 {
                     NPC.ai[0] = 3f;
+
                     // Slown down duration ranges from 30 to 60 frames in rev, otherwise it's always 60 frames
                     float slowDownDurationAfterCharge = revenge ? Main.rand.Next(30, 61) : 60f;
                     NPC.ai[1] = slowDownDurationAfterCharge;
@@ -578,6 +590,19 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
                 else
                 {
+                    // Accelerate
+                    Vector2 desiredVelocity = new Vector2(NPC.localAI[2], NPC.localAI[3]);
+                    if (NPC.velocity.Length() < desiredVelocity.Length())
+                    {
+                        float velocityMult = (bossRush || biomeEnraged) ? 1.04f : death ? 1.036667f : revenge ? 1.035f : expertMode ? 1.033333f : 1.03f;
+                        NPC.velocity *= velocityMult;
+                        if (NPC.velocity.Length() > desiredVelocity.Length())
+                        {
+                            NPC.velocity.SafeNormalize(new Vector2(NPC.direction, 0f));
+                            NPC.velocity *= desiredVelocity.Length();
+                        }
+                    }
+
                     // Lay holy bombs while charging
                     int projectileGateValue = (int)(phaseGateValue * 0.4f);
                     if (NPC.ai[1] % projectileGateValue == 0f)
@@ -628,7 +653,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.netUpdate = true;
                 }
 
-                NPC.velocity *= 0.95f;
+                NPC.velocity *= 0.97f;
             }
         }
 
