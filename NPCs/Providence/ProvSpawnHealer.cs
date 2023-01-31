@@ -55,7 +55,11 @@ namespace CalamityMod.NPCs.Providence
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += 0.2f;
+            if (CalamityGlobalNPC.holyBoss < 0 || !Main.npc[CalamityGlobalNPC.holyBoss].active)
+                NPC.frameCounter += 0.2f;
+            else
+                NPC.frameCounter += 0.12f + Main.npc[CalamityGlobalNPC.holyBoss].velocity.Length() / 120f;
+
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
             NPC.frame.Y = frame * frameHeight;
@@ -76,6 +80,9 @@ namespace CalamityMod.NPCs.Providence
                 NPC.netUpdate = true;
                 return;
             }
+
+            // Rotation
+            NPC.rotation = Main.npc[CalamityGlobalNPC.holyBoss].velocity.X * 0.005f;
 
             NPC parent = Main.npc[CalamityGlobalNPC.holyBoss];
             if (start)

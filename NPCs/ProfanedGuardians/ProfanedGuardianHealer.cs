@@ -309,7 +309,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 float starShootPhaseDuration = GetStarShootGateValue() + 120f;
                 if (AITimer == GetStarShootGateValue())
                 {
-                    SoundEngine.PlaySound(SoundID.Item20, shootFrom);
+                    SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, shootFrom);
 
                     int totalFlameProjectiles = biomeEnraged ? 20 : 16;
                     int totalRings = revenge ? 3 : 2;

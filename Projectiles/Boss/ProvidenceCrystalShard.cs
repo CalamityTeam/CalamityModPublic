@@ -46,6 +46,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            bool healerGuardianAlive = true;
+            if (CalamityGlobalNPC.doughnutBossHealer < 0 || !Main.npc[CalamityGlobalNPC.doughnutBossHealer].active)
+                healerGuardianAlive = false;
+
             Lighting.AddLight(Projectile.Center, 0.3f * Projectile.Opacity, 0.3f * Projectile.Opacity, 0.3f * Projectile.Opacity);
 
             // Day mode by default but syncs with the boss
@@ -57,8 +61,8 @@ namespace CalamityMod.Projectiles.Boss
             else
                 Projectile.maxPenetrate = (int)Providence.BossMode.Day;
             
-            // Night AI
-            if (Projectile.maxPenetrate != (int)Providence.BossMode.Day)
+            // Night AI or Guardian Healer
+            if (Projectile.maxPenetrate != (int)Providence.BossMode.Day || healerGuardianAlive)
                 Projectile.extraUpdates = 1;
 
             if (Projectile.timeLeft < 300)

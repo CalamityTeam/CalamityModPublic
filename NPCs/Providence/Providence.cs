@@ -916,7 +916,7 @@ namespace CalamityMod.NPCs.Providence
                         if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[3] == 0f)
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0f, -80f), Vector2.Zero, ModContent.ProjectileType<HolyAura>(), 0, 0f, Main.myPlayer, biomeType, 0f);
 
-                        if (calamityGlobalNPC.newAI[3] == 10f && nightAI)
+                        if (calamityGlobalNPC.newAI[3] == 10f)
                             SoundEngine.PlaySound(HolyRaySound, NPC.Center);
 
                         if (calamityGlobalNPC.newAI[3] > 10f && calamityGlobalNPC.newAI[3] < 150f)
@@ -1095,7 +1095,7 @@ namespace CalamityMod.NPCs.Providence
                     {
                         if (NPC.ai[3] % divisor == 0f)
                         {
-                            SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
+                            SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, NPC.Center);
                             bool normalSpread = calamityGlobalNPC.newAI[1] % 2f == 0f;
                             double radians = MathHelper.TwoPi / chains;
                             double angleA = radians * 0.5;
@@ -1152,7 +1152,7 @@ namespace CalamityMod.NPCs.Providence
                         {
                             calamityGlobalNPC.newAI[1] += 1f;
                             double radians = MathHelper.TwoPi / totalFlameProjectiles;
-                            SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
+                            SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, NPC.Center);
                             double angleA = radians * 0.5;
                             double angleB = MathHelper.ToRadians(90f) - angleA;
                             float velocityX = (float)(cocoonProjVelocity * Math.Sin(angleA) / Math.Sin(angleB));
@@ -1259,7 +1259,7 @@ namespace CalamityMod.NPCs.Providence
 
                             if (!player2.dead && player2.active && Vector2.Distance(player2.Center, NPC.Center) < 2800f && !inLiquid)
                             {
-                                SoundEngine.PlaySound(SoundID.Item20, player2.Center);
+                                SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, player2.Center);
                                 player2.AddBuff(ModContent.BuffType<IcarusFolly>(), 3000, true);
 
                                 for (int num621 = 0; num621 < 40; num621++)
@@ -1424,19 +1424,26 @@ namespace CalamityMod.NPCs.Providence
 
                         int projectileType = ModContent.ProjectileType<HolySpear>();
 
+                        int totalDustPerSpear = 15;
+
                         if (calamityGlobalNPC.newAI[2] % 2f == 0f)
                         {
                             int totalSpearProjectiles = biomeEnraged ? 15 : 12;
                             double radians = MathHelper.TwoPi / totalSpearProjectiles;
                             Vector2 spinningPoint = Vector2.Normalize(new Vector2(-calamityGlobalNPC.newAI[1], -cocoonProjVelocity));
 
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            for (int i = 0; i < totalSpearProjectiles; i++)
                             {
-                                for (int i = 0; i < totalSpearProjectiles; i++)
+                                Vector2 vector2 = spinningPoint.RotatedBy(radians * i) * cocoonProjVelocity;
+
+                                for (int k = 0; k < totalDustPerSpear; k++)
                                 {
-                                    Vector2 vector2 = spinningPoint.RotatedBy(radians * i) * cocoonProjVelocity;
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer);
+                                    int dust = Dust.NewDust(fireFrom, 30, 30, dustType, vector2.X, vector2.Y, 0, default, 1f);
+                                    Main.dust[dust].noGravity = true;
                                 }
+
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer);
                             }
 
                             if (spearRateIncrease > 1f)
@@ -1448,12 +1455,17 @@ namespace CalamityMod.NPCs.Providence
 
                         calamityGlobalNPC.newAI[2] += 1f;
 
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        cocoonProjVelocity = death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
+                        Vector2 velocity2 = Vector2.Normalize(player.Center - fireFrom) * cocoonProjVelocity;
+
+                        for (int k = 0; k < totalDustPerSpear; k++)
                         {
-                            cocoonProjVelocity = death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
-                            Vector2 velocity2 = Vector2.Normalize(player.Center - fireFrom) * cocoonProjVelocity;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
+                            int dust = Dust.NewDust(fireFrom, 30, 30, dustType, velocity2.X, velocity2.Y, 0, default, 1f);
+                            Main.dust[dust].noGravity = true;
                         }
+
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
                     }
 
                     NPC.ai[3] += 1f;
