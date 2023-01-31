@@ -10,7 +10,7 @@ namespace CalamityMod.UI.DraedonLogs
         {
             return "Within an army, as weapons do, the soldiers serve different purposes.\n" +
                 "That distinction is crucial, as the wrong tool in the wrong hands—no matter how potent—may as well be a wooden club.\n" +
-                "Addendum: Seek out my base of operations closest to the Lihzahrd’s home.\n" + 
+                "Addendum: Seek out my base of operations closest to the Lihzahrd's home.\n" + 
                 "I wish you the best of luck with all sincerity, for it has been a long time since I have had a worthy test subject.";
         }
         public override Texture2D GetTextureByPage()

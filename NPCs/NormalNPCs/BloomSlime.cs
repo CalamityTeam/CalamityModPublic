@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("With the solar energy released from the profaned goddess’ destruction, uelibloom has sprouted in the jungle’s mud, and in the slimes which inhabit the biome.")
+				new FlavorTextBestiaryInfoElement("With the solar energy released from the profaned goddess' destruction, uelibloom has sprouted in the jungle's mud, and in the slimes which inhabit the biome.")
             });
         }
 

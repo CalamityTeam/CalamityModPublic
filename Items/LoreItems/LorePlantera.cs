@@ -15,7 +15,7 @@ Through ritual blessing of the soil, it was fed legions of souls.
 Elders of the village wished to bring forth a new age of botanical prosperity.
 Indeed, the plant was awe inspiring. But it was wild and untamed, with a will of its own.
 Now that you have slain it, still more disorderly spiritual energies are flooding the lands.
-The village’s ignorance was shameful in its own right, but this is worse still.";
+The village's ignorance was shameful in its own right, but this is worse still.";
 
         public override void SetStaticDefaults()
         {

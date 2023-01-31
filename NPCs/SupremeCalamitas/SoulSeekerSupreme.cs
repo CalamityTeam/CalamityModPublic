@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SCal,
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Incomplete, ghoulish skulls, their forms are limited but their devotion boundless. It’s likely each yearns for a soul of their own to be complete, whether it’s given by Calamitas or ripped from the foe they kill.")
+                new FlavorTextBestiaryInfoElement("Incomplete, ghoulish skulls, their forms are limited but their devotion boundless. It's likely each yearns for a soul of their own to be complete, whether it's given by Calamitas or ripped from the foe they kill.")
             });
         }
 

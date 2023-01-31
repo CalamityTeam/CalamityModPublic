@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.AcidRain
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Encrusted with gunk that evaporates slowly from the sulphurous sea, these slimes actually form in the upper atmosphere’s acidic rain, before falling back to the earth.")
+				new FlavorTextBestiaryInfoElement("Encrusted with gunk that evaporates slowly from the sulphurous sea, these slimes actually form in the upper atmosphere's acidic rain, before falling back to the earth.")
             });
         }
 

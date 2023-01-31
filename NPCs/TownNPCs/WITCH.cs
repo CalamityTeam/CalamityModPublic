@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,                
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A most surprising sight to see this powerful foe live along friendly faces. Will history repeat itself or has she finally managed to free herself from the Tyrant’s grasp?")
+				new FlavorTextBestiaryInfoElement("A most surprising sight to see this powerful foe live along friendly faces. Will history repeat itself or has she finally managed to free herself from the Tyrant's grasp?")
             });
         }
 

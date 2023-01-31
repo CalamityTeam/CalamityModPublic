@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A burning spirit, with no regard or acknowledgment for its surroundings. Anyone who intrudes upon the Profaned Goddess’ holy grounds will be turned to ash.")
+				new FlavorTextBestiaryInfoElement("A burning spirit, with no regard or acknowledgment for its surroundings. Anyone who intrudes upon the Profaned Goddess' holy grounds will be turned to ash.")
             });
         }
 

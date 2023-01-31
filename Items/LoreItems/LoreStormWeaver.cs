@@ -14,7 +14,7 @@ They are clearly of the same species. Even this serpent was known to devour Wyve
 Very little is known about the realm or space that the Great Devourer hails from.
 Even Draedon and his obsessive research has been unable to discern its true nature.
 The Weaver slipped through a rift from this place opened by the Devourer, and he has monitored it since.
-In his mind, the lesser serpent’s similar powers could lead it to be too threatening for him to let live.
+In his mind, the lesser serpent's similar powers could lead it to be too threatening for him to let live.
 He thinks himself invincible. Little does he know, he has ever stood in a similar position.";
 
         public override void SetStaticDefaults()

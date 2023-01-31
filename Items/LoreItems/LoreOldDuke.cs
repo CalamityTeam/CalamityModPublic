@@ -14,7 +14,7 @@ namespace CalamityMod.Items.LoreItems
 The first Fishrons were spotted in the middle of the Draconic Era. What exotic prestige…!
 Fishrons were one of the original offshoots of pure-blooded Auric Dragons.
 They are so old and venerated that many historians are convinced they are the original sea monsters of folklore.
-This particular Duke’s guile is self-evident; it evaded centuries of hunting, and until now had survived a most thorough poisoning.
+This particular Duke's guile is self-evident; it evaded centuries of hunting, and until now had survived a most thorough poisoning.
 Above almost all others, this creature was a living fable. One most wonder what goes through the mind of a fading legend.";
 
         public override void SetStaticDefaults()

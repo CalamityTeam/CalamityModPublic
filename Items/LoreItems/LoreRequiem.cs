@@ -9,7 +9,7 @@ namespace CalamityMod.Items.LoreItems
     {
         public override string Lore =>
 @"As the Light Dragon was fading, the monk visited him. Nearly none understand what transpired that day.
-Most say his passing was eased. The truth? Zeratros’ Auric soul was consumed, utterly.
+Most say his passing was eased. The truth? Zeratros' Auric soul was consumed, utterly.
 The monk stood, wreathed in Primordial Light, and declared themselves Xeroc, the First God.
 When a Dragon is laid to rest on the Aerie, its powers are relinquished so they may one day return.
 Xeroc renounced their sworn oath and broke the cycle, becoming a traitor without equal.

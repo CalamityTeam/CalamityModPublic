@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Its face is warped and softened by the corrosive effects of the plague nanobots, and it seeks to share that uncomfortable fate with others under both its own will, and the plague’s.")
+				new FlavorTextBestiaryInfoElement("Its face is warped and softened by the corrosive effects of the plague nanobots, and it seeks to share that uncomfortable fate with others under both its own will, and the plague's.")
             });
         }
 

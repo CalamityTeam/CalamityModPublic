@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SCal,
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Calamitas’ necromancy is outmatched by no one, but no one can truly bring the departed back from the dead.")
+                new FlavorTextBestiaryInfoElement("Calamitas' necromancy is outmatched by no one, but no one can truly bring the departed back from the dead.")
             });
         }
 

@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.Astral
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Within their shells, the virus brews a potent chemical. When the seer approaches a foe, it spits this chemical out of its mandibles, hoping to melt the intruder’s flesh.")
+				new FlavorTextBestiaryInfoElement("Within their shells, the virus brews a potent chemical. When the seer approaches a foe, it spits this chemical out of its mandibles, hoping to melt the intruder's flesh.")
             });
         }
 

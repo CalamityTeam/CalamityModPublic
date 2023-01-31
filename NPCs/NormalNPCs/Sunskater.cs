@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Some creatures which skirt the edges of our atmosphere tend to absorb and channel the sun’s rays better than others. At any rate, this is a passive creature that means you no harm. You should return the favor.")
+				new FlavorTextBestiaryInfoElement("Some creatures which skirt the edges of our atmosphere tend to absorb and channel the sun's rays better than others. At any rate, this is a passive creature that means you no harm. You should return the favor.")
             });
         }
 

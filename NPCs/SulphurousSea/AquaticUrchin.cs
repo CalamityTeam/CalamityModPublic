@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("A relative of its brethren in the far ocean, this one’s spines have been hardened by the sulphuric waters. They drip with the venom they inhabit, so it’s better to not be struck by them.")
+                new FlavorTextBestiaryInfoElement("A relative of its brethren in the far ocean, this one's spines have been hardened by the sulphuric waters. They drip with the venom they inhabit, so it's better to not be struck by them.")
             });
         }
 

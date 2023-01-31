@@ -177,7 +177,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Under every armored plate on this machine lies an advanced weapon. This sacrifices the machine’s durability, but it makes it a very effective mass murderer.")
+                new FlavorTextBestiaryInfoElement("Under every armored plate on this machine lies an advanced weapon. This sacrifices the machine's durability, but it makes it a very effective mass murderer.")
             });
         }
 

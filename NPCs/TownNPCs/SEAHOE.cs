@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
             if (NPC.homeless)
             {
-                return "How much more has the world fallen to ruin? Even the Tyrant’s empire...";
+                return "How much more has the world fallen to ruin? Even the Tyrant's empire...";
             }
             if (Main.dayTime)
             {
@@ -156,7 +156,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
             if (DownedBossSystem.downedDoG)
             {
-                dialogue.Add("To see that Tyrant’s serpent free of its shackles. It gave me chills.");
+                dialogue.Add("To see that Tyrant's serpent free of its shackles. It gave me chills.");
             }
 
             return dialogue[Main.rand.Next(dialogue.Count)];

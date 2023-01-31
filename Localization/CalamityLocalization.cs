@@ -64,20 +64,20 @@ namespace CalamityMod.Localization
 
                 // Some of these keys are incorrect in terms of their contents, but they remain as their bases + an addon at the end to make it
                 // easier to define them.
-                new [] { "SCalSummonTextRematch", "If you’re looking for some fourth-degree burns, you’ve got the right person." },
+                new [] { "SCalSummonTextRematch", "If you're looking for some fourth-degree burns, you've got the right person." },
                 new [] { "SCalStartTextRematch", "When the time comes, would you like to join my creation?" },
-                new [] { "SCalBH2TextRematch", "You’ll still have to work hard for this victory." },
-                new [] { "SCalBH3TextRematch", "I haven’t had such an interesting target dummy to test my magic on in a long time." },
+                new [] { "SCalBH2TextRematch", "You'll still have to work hard for this victory." },
+                new [] { "SCalBH3TextRematch", "I haven't had such an interesting target dummy to test my magic on in a long time." },
                 new [] { "SCalBrothersTextRematch", "Empty shells of their former selves. I doubt even a scrap of their spirits remain." },
                 new [] { "SCalPhase2TextRematch", "Here we go again." },
-                new [] { "SCalBH4TextRematch", "I wonder if you’ve seen these in your nightmares since our first battle?" },
+                new [] { "SCalBH4TextRematch", "I wonder if you've seen these in your nightmares since our first battle?" },
                 new [] { "SCalSeekerRingTextRematch", "Your skill hasn't faltered in the least." },
                 new [] { "SCalBH5TextRematch", "Isn't this exciting?" },
                 new [] { "SCalSepulcher2TextRematch", "Here comes the crawling tomb, one last time." },
                 new [] { "SCalDesparationText1Rematch", "A terrific display, I concede this match to you." },
                 new [] { "SCalDesparationText2Rematch", "No doubt you will face enemies stronger than I." },
                 new [] { "SCalDesparationText3Rematch", "I trust you will not make the same mistakes he did." },
-                new [] { "SCalDesparationText4Rematch", "I can’t imagine what your future holds now." },
+                new [] { "SCalDesparationText4Rematch", "I can't imagine what your future holds now." },
 
                 new [] { "EdgyBossText", "Don't get cocky!" },
                 new [] { "EdgyBossText2", "A fatal mistake!" },

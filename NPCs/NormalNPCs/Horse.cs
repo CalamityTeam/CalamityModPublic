@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("It is civilization’s goal to wrest nature under its control. This is the result of one such conquest, an artificial elemental, run by clockwork gears.")
+				new FlavorTextBestiaryInfoElement("It is civilization's goal to wrest nature under its control. This is the result of one such conquest, an artificial elemental, run by clockwork gears.")
             });
         }
 

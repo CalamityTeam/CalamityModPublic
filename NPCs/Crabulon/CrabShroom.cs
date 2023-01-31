@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.Crabulon
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundMushroom,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Mushrooms that grow only on Crabulon’s shell, feasting off the nutrients in the husk. By jolting its body, it flings these off in defense.")
+				new FlavorTextBestiaryInfoElement("Mushrooms that grow only on Crabulon's shell, feasting off the nutrients in the husk. By jolting its body, it flings these off in defense.")
             });
         }
 
