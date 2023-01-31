@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.AcidRain
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("From below, the tips of their legs barely penetrate the surface of the water, and it is hard to distinguish their movements from the rain on the water’s surface.")
+				new FlavorTextBestiaryInfoElement("From below, the tips of their legs barely penetrate the surface of the water, and it is hard to distinguish their movements from the rain on the water's surface.")
             });
         }
 

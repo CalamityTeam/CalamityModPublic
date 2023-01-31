@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.Crags
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("The remnants of a soul which has feasted, been feasted upon, and torn into the souls of others. No one knows how the cycle begins, but you don’t want to find out yourself.")
+				new FlavorTextBestiaryInfoElement("The remnants of a soul which has feasted, been feasted upon, and torn into the souls of others. No one knows how the cycle begins, but you don't want to find out yourself.")
             });
         }
 

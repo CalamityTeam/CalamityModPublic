@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.Perforator
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCrimson,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Though birthed by the crimson, it is unknown whether they fully serve that creator. The worms of the hive frequently carve huge tunnels in the crimson’s flesh.")
+				new FlavorTextBestiaryInfoElement("Though birthed by the crimson, it is unknown whether they fully serve that creator. The worms of the hive frequently carve huge tunnels in the crimson's flesh.")
             });
         }
 

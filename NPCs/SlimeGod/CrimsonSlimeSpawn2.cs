@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Embedded in these slime’s bodies are shards of crimulan stone, which drip with a toxin meant to impair your vision.")
+				new FlavorTextBestiaryInfoElement("Embedded in these slime's bodies are shards of crimulan stone, which drip with a toxin meant to impair your vision.")
             });
         }
 

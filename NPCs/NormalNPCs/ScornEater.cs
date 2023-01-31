@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("The brute force of the Profaned Goddess’ creations and devotees. Their jaws are filled to the brim with razor-sharp crystals and scorching holy flames.")
+                new FlavorTextBestiaryInfoElement("The brute force of the Profaned Goddess' creations and devotees. Their jaws are filled to the brim with razor-sharp crystals and scorching holy flames.")
             });
         }
 

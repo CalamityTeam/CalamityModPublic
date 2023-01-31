@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,                   
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("A kleptomaniac who is a bit of a coward when it comes to face-to-face fights. She’s rather good at getting herself both into and out of dicey situations.")
+                new FlavorTextBestiaryInfoElement("A kleptomaniac who is a bit of a coward when it comes to face-to-face fights. She's rather good at getting herself both into and out of dicey situations.")
             });
         }
 
@@ -170,8 +170,8 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             if (NPC.downedMoonlord)
             {
-                PossibleDialogs.Add("If you find anything cool, make sure to drop by and show it to me, I promise I’ll keep my hands off it.");
-                PossibleDialogs.Add("So many new things to steal, I can’t think of where to start!");
+                PossibleDialogs.Add("If you find anything cool, make sure to drop by and show it to me, I promise I'll keep my hands off it.");
+                PossibleDialogs.Add("So many new things to steal, I can't think of where to start!");
                 PossibleDialogs.Add("If I end up angering some deities or whatever, would you mind taking the blame for me?");
             }
             if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<Valediction>()))

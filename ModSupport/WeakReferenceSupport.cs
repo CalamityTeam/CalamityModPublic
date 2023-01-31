@@ -558,7 +558,7 @@ namespace CalamityMod
                 int summon = ItemType<AstralChunk>();
                 List<int> collection = new List<int>() { ItemType<AstrumAureusTrophy>(), ItemType<AstrumAureusMask>(), ItemType<LoreAstrumAureus>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use an [i:{summon}] at Night in the Astral Biome";
-                string despawn = CalamityUtils.ColorMessage("Astrum Aureus’ program has been executed. Initiate recall.", new Color(0xFF, 0xD7, 0x00));
+                string despawn = CalamityUtils.ColorMessage("Astrum Aureus' program has been executed. Initiate recall.", new Color(0xFF, 0xD7, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/AstrumAureus/AstrumAureus_Head_Boss";
                 AddBoss(bossChecklist, calamity, "Astrum Aureus", order, type, DownedAureus, summon, collection, instructions, despawn, () => true, null, bossLogTex);
             }

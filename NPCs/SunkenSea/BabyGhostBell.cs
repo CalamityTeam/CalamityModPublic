@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.SunkenSea
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Like their adult counterparts, they shimmer gently, and would make great sources of light if the prisms around them didn’t already do so. Maybe if there was a way to bring one with you.")
+                new FlavorTextBestiaryInfoElement("Like their adult counterparts, they shimmer gently, and would make great sources of light if the prisms around them didn't already do so. Maybe if there was a way to bring one with you.")
             });
         }
 
