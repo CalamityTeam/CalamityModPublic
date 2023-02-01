@@ -225,6 +225,7 @@ namespace CalamityMod.NPCs
         public int cDepth = 0;
         public int gsInferno = 0;
         public int dragonFire = 0;
+        public int miracleBlight = 0;
         public int astralInfection = 0;
         public int wDeath = 0;
         public int nightwither = 0;
@@ -425,6 +426,7 @@ namespace CalamityMod.NPCs
 
             myClone.cDepth = cDepth;
             myClone.gsInferno = gsInferno;
+            myClone.miracleBlight = miracleBlight;
             myClone.dragonFire = dragonFire;
             myClone.astralInfection = astralInfection;
             myClone.wDeath = wDeath;
@@ -1037,6 +1039,8 @@ namespace CalamityMod.NPCs
                 Shred.TickDebuff(npc, this);
             if (bBlood > 0)
                 ApplyDPSDebuff(50, 10, ref npc.lifeRegen, ref damage);
+            if (miracleBlight > 0)
+                ApplyDPSDebuff(500, 100, ref npc.lifeRegen, ref damage);
 
             // Reduce DoT on worm bosses by 75%.
             if (wormBoss && npc.lifeRegen < 0)
@@ -4241,6 +4245,8 @@ namespace CalamityMod.NPCs
                 gsInferno--;
             if (dragonFire > 0)
                 dragonFire--;
+            if (miracleBlight > 0)
+                miracleBlight--;
             if (astralInfection > 0)
                 astralInfection--;
             if (wDeath > 0)
@@ -5513,6 +5519,8 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/CrushDepth").Value);
                     if (dragonFire > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Dragonfire").Value);
+                    if (miracleBlight > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/MiracleBlight").Value);
                     if (gsInferno > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/GodSlayerInferno").Value);
                     if (hFlames > 0)

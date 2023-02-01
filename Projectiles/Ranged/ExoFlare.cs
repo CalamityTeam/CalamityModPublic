@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -68,6 +69,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.rotation = (Projectile.position - Projectile.oldPos[1]).ToRotation();
             OffsetRotation += OffsetSpeed;
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D lightTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SmallGreyscaleCircle").Value;
@@ -93,7 +95,9 @@ namespace CalamityMod.Projectiles.Ranged
             }
             return false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.ExoDebuffs(2f);
-        public override void OnHitPvp(Player target, int damage, bool crit) => target.ExoDebuffs(2f);
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
     }
 }

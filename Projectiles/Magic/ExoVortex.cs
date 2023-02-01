@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using System.Collections.Generic;
 using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -72,12 +73,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.ExoDebuffs();
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.ExoDebuffs();
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
         // Draw these vortices behind other projectiles to ensure that they do not obstruct SCal's projectiles.

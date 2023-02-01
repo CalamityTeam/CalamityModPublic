@@ -761,6 +761,7 @@ namespace CalamityMod.CalPlayer
         public bool shadowflame = false;
         public bool wDeath = false;
         public bool dragonFire = false;
+        public bool miracleBlight = false;
         public bool aCrunch = false;
         public bool irradiated = false;
         public bool bFlames = false;
@@ -1792,6 +1793,7 @@ namespace CalamityMod.CalPlayer
             shadowflame = false;
             wDeath = false;
             dragonFire = false;
+            miracleBlight = false;
             aCrunch = false;
             irradiated = false;
             bFlames = false;
@@ -2178,6 +2180,7 @@ namespace CalamityMod.CalPlayer
             shadowflame = false;
             wDeath = false;
             dragonFire = false;
+            miracleBlight = false;
             aCrunch = false;
             irradiated = false;
             bFlames = false;
@@ -3907,6 +3910,10 @@ namespace CalamityMod.CalPlayer
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s ashes scatter in the wind.");
                 }
+                if (miracleBlight)
+                {
+                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + (Main.rand.NextBool() ? " was blown away by miraculous technological advancements." : " disintegrated from the overpowering exotic resonance."));
+                }
                 if (hInferno)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was turned to ashes by the Profaned Goddess.");
@@ -4983,7 +4990,8 @@ namespace CalamityMod.CalPlayer
                 if (proj.type == ProjectileID.TorchGod)
                 {
                     int fireDebuffTypes = CalamityWorld.death ? 9 : CalamityWorld.revenge ? 7 : Main.expertMode ? 5 : 3;
-                    switch (Main.rand.Next(fireDebuffTypes))
+                    int choice = CalamityWorld.getFixedBoi ? 9 : Main.rand.Next(fireDebuffTypes);
+                    switch (choice)
                     {
                         case 0:
                             Player.AddBuff(BuffID.OnFire, 600);
@@ -5019,6 +5027,10 @@ namespace CalamityMod.CalPlayer
 
                         case 8:
                             Player.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
+                            break;
+
+                        case 9:
+                            Player.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
                             break;
                     }
                 }

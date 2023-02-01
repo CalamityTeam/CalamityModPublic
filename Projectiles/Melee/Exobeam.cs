@@ -1,17 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.Items.Weapons.Melee;
 using Terraria.Graphics.Shaders;
-using Terraria.Graphics.Effects;
 using static CalamityMod.CalamityUtils;
 using static Terraria.ModLoader.ModContent;
 using System;
 using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
 using ReLogic.Content;
 
 namespace CalamityMod.Projectiles.Melee
@@ -109,12 +107,12 @@ namespace CalamityMod.Projectiles.Melee
                     Main.projectile[slash].timeLeft = 20;
             }
 
-            target.ExoDebuffs();
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.ExoDebuffs();
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
         public override Color? GetAlpha(Color lightColor) => Color.White with { A = 0 } * Projectile.Opacity;

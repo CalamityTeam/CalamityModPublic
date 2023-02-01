@@ -271,6 +271,15 @@ namespace CalamityMod.CalPlayer
                 lifeRegenLost += 36;
             }
 
+            if (miracleBlight)
+            {
+                if (Player.lifeRegen > 0)
+                    Player.lifeRegen = 0;
+
+                Player.lifeRegenTime = 0;
+                lifeRegenLost += 40;
+            }
+
             if (cDepth)
             {
                 if (Player.statDefense > 0)

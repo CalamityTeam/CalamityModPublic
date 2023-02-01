@@ -974,7 +974,8 @@ namespace CalamityMod
                 BuffType<Eutrophication>(),
                 BuffType<Dragonfire>(),
                 BuffType<Nightwither>(),
-                BuffType<VulnerabilityHex>()
+                BuffType<VulnerabilityHex>(),
+                BuffType<MiracleBlight>()
             };
 
             alcoholList = new List<int>()

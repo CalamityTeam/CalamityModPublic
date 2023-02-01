@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -79,12 +80,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.ExoDebuffs();
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.ExoDebuffs();
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
         public override void Kill(int timeLeft)

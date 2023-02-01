@@ -1,4 +1,5 @@
-﻿using CalamityMod.Events;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.World;
@@ -238,8 +239,7 @@ namespace CalamityMod.Projectiles.Boss
             if (damage <= 0)
                 return;
 
-            target.AddBuff(BuffID.OnFire, 360);
-            target.AddBuff(BuffID.Frostburn, 360);
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
         public override bool CanHitPlayer(Player target) => Projectile.scale >= 0.5f;

@@ -1,3 +1,4 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -66,8 +67,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override Color? GetAlpha(Color lightColor) => new Color(0, 250, 75, Projectile.alpha);
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.ExoDebuffs();
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => target.ExoDebuffs();
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
     }
 }

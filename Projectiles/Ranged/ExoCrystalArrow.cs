@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,7 +9,6 @@ using CalamityMod.Particles;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Items.Weapons.Ranged;
-using Terraria.DataStructures;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -132,6 +132,10 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.projectile[lightning].ai[0] = lightningShootVelocity.ToRotation();
                 Main.projectile[lightning].ai[1] = Main.rand.Next(100);
             }
+
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
     }
 }

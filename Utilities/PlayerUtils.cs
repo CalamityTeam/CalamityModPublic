@@ -548,20 +548,6 @@ namespace CalamityMod
                 target.AddBuff(buff, SecondsToFrames(timeBase), false);
             }
         }
-
-        /// <summary>
-        /// Inflict typical exo weapon debuffs in pvp.
-        /// </summary>
-        /// <param name="target">The Player attacked.</param>
-        /// <param name="multiplier">Debuff time multiplier if needed.</param>
-        /// <returns>Inflicts debuffs if the target isn't immune.</returns>
-        public static void ExoDebuffs(this Player target, float multiplier = 1f)
-        {
-            target.AddBuff(BuffType<ExoFreeze>(), (int)(30 * multiplier));
-            target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
-            target.AddBuff(BuffID.Frostburn, (int)(150 * multiplier));
-            target.AddBuff(BuffID.OnFire, (int)(180 * multiplier));
-        }
         #endregion
 
         #region Arms Control

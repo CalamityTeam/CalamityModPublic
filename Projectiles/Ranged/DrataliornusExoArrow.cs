@@ -63,7 +63,6 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Dragonfire>(), 180);
-            target.ExoDebuffs();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -71,7 +70,6 @@ namespace CalamityMod.Projectiles.Ranged
             target.immune[Projectile.owner] = 0;
 
             target.AddBuff(ModContent.BuffType<Dragonfire>(), 180);
-            target.ExoDebuffs();
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(250, 25, 0, Projectile.alpha);

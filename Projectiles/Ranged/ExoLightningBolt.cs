@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Weapons.Ranged;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Ranged;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -170,5 +171,9 @@ namespace CalamityMod.Projectiles.Ranged
             LightningDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 18);
             return false;
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
     }
 }
