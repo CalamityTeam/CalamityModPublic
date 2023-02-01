@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 310;
+            Projectile.timeLeft = 210;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
@@ -38,15 +38,15 @@ namespace CalamityMod.Projectiles.Rogue
                 SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
 
-            //Spawn a skull ever 20 frames
-            if (Projectile.timeLeft % 20 == 0)
+            //Spawn a skull every 30 frames
+            if (Projectile.timeLeft % 30 == 0)
             {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0.2f, ModContent.ProjectileType<GrimreaverSkull>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 1f, 0f);
             }
 
             CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 4f, 14f);
 
-            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 1).ToDirectionInt();
             Projectile.rotation += 0.1f * Projectile.spriteDirection;
         }
 
