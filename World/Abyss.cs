@@ -303,10 +303,6 @@ namespace CalamityMod.World
                 maxAbyssIslands = 16; //Medium World
             }
 
-            // Place the Terminus shrine.
-            UndergroundShrines.SpecialHut((ushort)ModContent.TileType<SmoothVoidstone>(), (ushort)ModContent.TileType<Voidstone>(),
-            (ushort)ModContent.WallType<VoidstoneWallUnsafe>(), UndergroundShrines.UndergroundShrineType.Abyss, abyssChasmX, AbyssChasmBottom);
-
             //place eidolon snail fossil
             int realFossilY = 0;
             bool placedFossil = false;
@@ -348,6 +344,13 @@ namespace CalamityMod.World
                     }
                 }
             }
+
+            //place a single abyss island under the terminus shrine
+            AbyssIsland(abyssChasmX, AbyssChasmBottom + 5, 65, 75, 40, 45, false, false, true);
+
+            //place terminus shrine
+            UndergroundShrines.SpecialHut((ushort)ModContent.TileType<SmoothVoidstone>(), (ushort)ModContent.TileType<Voidstone>(),
+            (ushort)ModContent.WallType<VoidstoneWallUnsafe>(), UndergroundShrines.UndergroundShrineType.Abyss, abyssChasmX, AbyssChasmBottom);
 
             int islandLocationOffset = 30;
             int islandLocationY = rockLayer;
@@ -400,18 +403,18 @@ namespace CalamityMod.World
             }
 
             //place some islands lining the walls in layer 4
-            for (int voidIslandY = (int)(rockLayer + y * 0.262); voidIslandY <= AbyssChasmBottom; voidIslandY++)
+            for (int voidIslandY = (int)(rockLayer + y * 0.262); voidIslandY <= AbyssChasmBottom - 20; voidIslandY++)
             {
                 if (WorldGen.genRand.NextBool(8))
                 {
-                    int randomIsland = WorldGen.genRand.Next(2); //0 1
+                    int randomIsland = WorldGen.genRand.Next(2);
                     switch (randomIsland)
                     {
                         case 0:
-                            AbyssIsland(abyssChasmX + 42, voidIslandY, 55, 75, 35, 45, false, true, true);
+                            AbyssIsland(abyssChasmX + WorldGen.genRand.Next(42, 48), voidIslandY, 55, 75, 35, 45, false, true, true);
                             break;
                         case 1:
-                            AbyssIsland(abyssChasmX - 42, voidIslandY, 55, 75, 35, 45, false, true, true);
+                            AbyssIsland(abyssChasmX - WorldGen.genRand.Next(42, 48), voidIslandY, 55, 75, 35, 45, false, true, true);
                             break;
                     }
 
