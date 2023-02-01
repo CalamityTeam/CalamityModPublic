@@ -352,26 +352,6 @@ namespace CalamityMod.World
             int islandLocationOffset = 30;
             int islandLocationY = rockLayer;
 
-            //place sparce islands lining the walls in layer 4
-            for (int voidIslandY = (int)(rockLayer + y * 0.262); voidIslandY <= AbyssChasmBottom; voidIslandY++)
-            {
-                if (WorldGen.genRand.NextBool(15))
-                {
-                    int randomIsland = WorldGen.genRand.Next(2); //0 1
-                    switch (randomIsland)
-                    {
-                        case 0:
-                            AbyssIsland(abyssChasmX + 48, voidIslandY, 55, 65, 35, 45, false, true, true);
-                            break;
-                        case 1:
-                            AbyssIsland(abyssChasmX - 48, voidIslandY, 55, 65, 35, 45, false, true, true);
-                            break;
-                    }
-
-                    voidIslandY += 10;
-                }
-            }
-
             for (int islands = 0; islands < maxAbyssIslands; islands++)
             {
                 int islandLocationX = abyssChasmX;
@@ -417,6 +397,27 @@ namespace CalamityMod.World
                 islandLocationY += islandLocationOffset;
                 if (islandLocationY >= AbyssChasmBottom - 50)
                     break;
+            }
+
+            //place some islands lining the walls in layer 4
+            for (int voidIslandY = (int)(rockLayer + y * 0.262); voidIslandY <= AbyssChasmBottom; voidIslandY++)
+            {
+                if (WorldGen.genRand.NextBool(8))
+                {
+                    int randomIsland = WorldGen.genRand.Next(2); //0 1
+                    switch (randomIsland)
+                    {
+                        case 0:
+                            AbyssIsland(abyssChasmX + 42, voidIslandY, 55, 75, 35, 45, false, true, true);
+                            break;
+                        case 1:
+                            AbyssIsland(abyssChasmX - 42, voidIslandY, 55, 75, 35, 45, false, true, true);
+                            break;
+                    }
+
+                    //increase y value so islands cant be spammed on top of each other
+                    voidIslandY += WorldGen.genRand.Next(10, 20);
+                }
             }
 
             AbyssItemArray = CalamityUtils.ShuffleArray(AbyssItemArray);

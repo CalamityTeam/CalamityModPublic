@@ -404,6 +404,9 @@ namespace CalamityMod.Tiles.Crags.Tree
                 int frame = tile.TileFrameY / 18;
 
                 DrawTreeSegments(i, j, topTex, new Rectangle(26 * frame, 0, 24, 24), TileOffset.ToWorldCoordinates(), topSegmentOffset, false);
+
+                //draw segments
+                DrawTreeSegments(i, j, segmentTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), treeSegmentOffset, false);
             }
 
             return false;
