@@ -16,7 +16,7 @@ Here, I disposed of the burgeoning remains of Silva, the Goddess of Life itself.
 My wishes were that she would be forgotten, but her tenacity is remarkable.
 Diffused, her influence inundated that pit of crushing pressure with flora and fauna aplenty.
 Her great roots continue to thrash and tear at the impossibly dense stone, growing uncontrollably.
-She will soon remake it in her image. I can think of no worse fate for this accursed, benthic domain.";
+She will soon remake it in her image. I can think of no worse fate for this accursed, hadal domain.";
 
         public override void SetStaticDefaults()
         {

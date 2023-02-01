@@ -16,7 +16,7 @@ I ordered Draedon to armor his gargantuan form, so he could safely best even gre
 Fittingly, he had a serpent's tongue. He manipulated me incessantly, driving me to awful acts.
 I recruited him out of desperation. My war had dragged on for decades, and I would do anything to have it end.
 It was then my negligence was born. My descent began the moment recruiting this scoundrel crossed my mind.
-His dearth of loyalty was clear as day, even at the time. However, I suspect it goes beyond that.
+His absence of loyalty was clear as day, even at the time. However, I suspect it goes beyond that.
 The Devourer's alien capabilities and domineering tactics hint that his allegiance lay elsewhere.
 Is he but one soldier, of a malevolence far beyond…?";
 

@@ -45,10 +45,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            Projectile.width = 25;
-            Projectile.height = 25;
+            Projectile.width = 35;
+            Projectile.height = 35;
             Projectile.alpha = 255;
-            Projectile.penetrate =3;
+            Projectile.penetrate =4;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.friendly = true;
@@ -166,14 +166,14 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
-            target.AddBuff(BuffID.Electrified, 120);
+            target.AddBuff(BuffID.Electrified, 150);
             Sparks();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
-            target.AddBuff(BuffID.Electrified, 120);
+            target.AddBuff(BuffID.Electrified, 150);
             Sparks();
         }
 
