@@ -1191,7 +1191,7 @@ namespace CalamityMod.CalPlayer
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
                         int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(10);
-                        int spark = Projectile.NewProjectile(spawnSource, position, velocity, ProjectileType<Spark>(), damage, 0f, Player.whoAmI);
+                        int spark = Projectile.NewProjectile(spawnSource, position, velocity, ProjectileType<EGloveSpark>(), damage, 0f, Player.whoAmI);
                         if (spark.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[spark].DamageType = DamageClass.Generic;
@@ -1550,7 +1550,7 @@ namespace CalamityMod.CalPlayer
                 if (bloodyGlove && proj.CountsAsClass<RogueDamageClass>() && modProj.stealthStrike)
                 {
                     float cooldown = 0;
-                    cooldown += 15;
+                    cooldown += 20;
                     Player.statLife += 2;
                     Player.HealEffect(2);
                     Main.player[Main.myPlayer].lifeSteal -= cooldown;

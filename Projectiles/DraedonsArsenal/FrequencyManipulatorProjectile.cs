@@ -29,12 +29,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 180;
-            Projectile.penetrate = 4;
+            Projectile.penetrate = 2;
             Projectile.extraUpdates = 1;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.tileCollide = false;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 30;
+            Projectile.idStaticNPCHitCooldown = 45;
         }
 
         public override void AI()
