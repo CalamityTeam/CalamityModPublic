@@ -159,11 +159,11 @@ namespace CalamityMod.Tiles.Crags.Tree
                     {
                         Framing.GetTileSafely(i, j - k).TileFrameX = 3 * 18;
                     }
-                    else if (numSegments < 5)
+                    if (numSegments < 6 && numSegments > 2)
                     {
                         Framing.GetTileSafely(i, j - k).TileFrameX = 4 * 18;
                     }
-                    else if (numSegments > 5)
+                    if (numSegments > 6)
                     {
                         Framing.GetTileSafely(i, j - k).TileFrameX = 5 * 18;
                     }
@@ -371,8 +371,8 @@ namespace CalamityMod.Tiles.Crags.Tree
                 Vector2 leftBranchOffset = new Vector2((xOff * 2) - (frameOff / 2) + 60, 14);
                 Vector2 rightBranchOffset = new Vector2((xOff * 2) - (frameOff / 2) + 4, 14);
 
-                DrawTreeSegments(i, j, leftBranchTex, new Rectangle(50 * frame, 0, 48, 52), TileOffset.ToWorldCoordinates(), leftBranchOffset, false);
-                DrawTreeSegments(i, j, rightBranchTex, new Rectangle(50 * frame, 0, 48, 52), TileOffset.ToWorldCoordinates(), rightBranchOffset, false);
+                DrawTreeSegments(i, j, leftBranchTex, new Rectangle(50 * frame, 0, 50, 54), TileOffset.ToWorldCoordinates(), leftBranchOffset, false);
+                DrawTreeSegments(i, j, rightBranchTex, new Rectangle(50 * frame, 0, 50, 54), TileOffset.ToWorldCoordinates(), rightBranchOffset, false);
 
                 //draw segments
                 DrawTreeSegments(i, j, segmentTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), treeSegmentOffset, false);
@@ -390,8 +390,8 @@ namespace CalamityMod.Tiles.Crags.Tree
                 Vector2 leftBranchOffset = new Vector2((xOff * 2) - (frameOff / 2) + 80, 14);
                 Vector2 rightBranchOffset = new Vector2((xOff * 2) - (frameOff / 2) + 4, 14);
 
-                DrawTreeSegments(i, j, leftBranchTex, new Rectangle(62 * frame, 0, 60, 58), TileOffset.ToWorldCoordinates(), leftBranchOffset, false);
-                DrawTreeSegments(i, j, rightBranchTex, new Rectangle(62 * frame, 0, 60, 58), TileOffset.ToWorldCoordinates(), rightBranchOffset, false);
+                DrawTreeSegments(i, j, leftBranchTex, new Rectangle(62 * frame, 0, 62, 60), TileOffset.ToWorldCoordinates(), leftBranchOffset, false);
+                DrawTreeSegments(i, j, rightBranchTex, new Rectangle(62 * frame, 0, 62, 60), TileOffset.ToWorldCoordinates(), rightBranchOffset, false);
 
                 //draw segments
                 DrawTreeSegments(i, j, segmentTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), treeSegmentOffset, false);
@@ -404,6 +404,9 @@ namespace CalamityMod.Tiles.Crags.Tree
                 int frame = tile.TileFrameY / 18;
 
                 DrawTreeSegments(i, j, topTex, new Rectangle(26 * frame, 0, 24, 24), TileOffset.ToWorldCoordinates(), topSegmentOffset, false);
+
+                //draw segments
+                DrawTreeSegments(i, j, segmentTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), treeSegmentOffset, false);
             }
 
             return false;
