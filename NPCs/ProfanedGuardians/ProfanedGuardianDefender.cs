@@ -599,8 +599,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             if (NPC.velocity.Length() > maxChargeVelocity)
                             {
                                 NPC.localAI[2] = 1f;
-                                NPC.velocity.SafeNormalize(new Vector2(NPC.direction, 0f));
-                                NPC.velocity *= maxChargeVelocity;
+                                NPC.velocity = NPC.velocity.SafeNormalize(new Vector2(NPC.direction, 0f)) * maxChargeVelocity;
                             }
                         }
                     }

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -37,13 +38,9 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Projectile.timeLeft % 8 == 0)
                 {
                     Vector2 velocity = new Vector2(Main.rand.NextFloat(-7f, 7f), Main.rand.NextFloat(-7f, 7f));
-                    int slime = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ProjectileID.SlimeGun, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
+                    int slime = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SlimeStream>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, Main.rand.Next(2), 1f);
                     if (slime.WithinBounds(Main.maxProjectiles))
-                    {
                         Main.projectile[slime].DamageType = RogueDamageClass.Instance;
-                        Main.projectile[slime].usesLocalNPCImmunity = true;
-                        Main.projectile[slime].localNPCHitCooldown = 10;
-                    }
                 }
             }
         }
