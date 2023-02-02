@@ -122,7 +122,8 @@ namespace CalamityMod.Tiles.Crags.Tree
                 {
                     WorldGen.PlaceTile(i + k, j, ModContent.TileType<SpineTree>(), true);
 
-                    Framing.GetTileSafely(i + k, j).TileFrameX = 1;
+                    Framing.GetTileSafely(i + k, j).TileFrameX = 0;
+                    Framing.GetTileSafely(i, j - k).TileFrameY = (short)(Main.rand.Next(3) * 18);
                 }
                 else
                 {
@@ -147,18 +148,20 @@ namespace CalamityMod.Tiles.Crags.Tree
                 {
                     float divide = 1.65f;
 
-                    if (k > 1 && k < 7)
+                    if (k > 1 && k < 10)
                     {
                         Framing.GetTileSafely(i, j - k).TileFrameX = 3 * 18;
                     }
-                    if (k >= 7 && k < 15)
+                    if (k >= 10 && k < 17)
                     {
                         Framing.GetTileSafely(i, j - k).TileFrameX = 4 * 18;
                     }
-                    if (k >= 15)
+                    if (k >= 17)
                     {
                         Framing.GetTileSafely(i, j - k).TileFrameX = 5 * 18;
                     }
+
+                    Framing.GetTileSafely(i, j - k).TileFrameY = (short)(Main.rand.Next(3) * 18);
 
                     branchSegmentDelay = 3;
                 }
@@ -175,8 +178,6 @@ namespace CalamityMod.Tiles.Crags.Tree
                     Framing.GetTileSafely(i, j - k).TileFrameX = 2 * 18;
                     Framing.GetTileSafely(i, j - k).TileFrameY = (short)(Main.rand.Next(3) * 18);
                 }
-
-                Framing.GetTileSafely(i, j - k).TileFrameY = (short)(Main.rand.Next(3) * 18);
             }
 
             return true;
@@ -272,6 +273,8 @@ namespace CalamityMod.Tiles.Crags.Tree
             new Vector2(Main.rand.Next(-3, 3), Main.rand.Next(-3, 3)), ModContent.Find<ModGore>("CalamityMod/WhateverGore").Type);
             */
 
+            //TODO: spawn all the gores here
+
             //bottom segment
             if (Framing.GetTileSafely(i, j).TileFrameX == 0)
             {
@@ -338,6 +341,7 @@ namespace CalamityMod.Tiles.Crags.Tree
             Vector2 offset = new((xOff * 2) - (frameOff / 2), 0);
             Vector2 pos = TileCustomPosition(i, j) - offset;
 
+            Vector2 baseSegmentOffset = new Vector2((xOff * 2) - (frameOff / 2) + 26, 14);
             Vector2 treeSegmentOffset = new Vector2((xOff * 2) - (frameOff / 2) + 25, 14);
             Vector2 topSegmentOffset = new Vector2((xOff * 2) - (frameOff / 2) + 20, 16);
 
@@ -349,7 +353,7 @@ namespace CalamityMod.Tiles.Crags.Tree
             {
                 int frame = tile.TileFrameY / 18;
 
-                DrawTreeSegments(i, j, baseTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), treeSegmentOffset, false);
+                DrawTreeSegments(i, j, baseTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), baseSegmentOffset, false);
             }
 
             //draw the different segments of the tree
@@ -432,20 +436,15 @@ namespace CalamityMod.Tiles.Crags.Tree
                 DrawTreeSegments(i, j, segmentTex, new Rectangle(34 * frame, 0, 32, 20), TileOffset.ToWorldCoordinates(), treeSegmentOffset, false);
             }
 
+            /*
+            //keep this here for debugging
             Texture2D treeTex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/Tree/SpineTree").Value;
 
             spriteBatch.Draw(treeTex, pos, new Rectangle(tile.TileFrameX + frameOff, tile.TileFrameY, frameSize, frameSizeY), 
             new Color(col.R, col.G, col.B, 255), 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            */
 
             return false;
         }
-
-        /*
-        //this is where you can draw any glowmasks, if needed
-        //literally all you have to do is copy all the code from predraw and just get the glowmask textures instead of the regular ones
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
-        {
-        }
-        */
     }
 }
