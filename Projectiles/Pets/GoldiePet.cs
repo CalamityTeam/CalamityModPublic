@@ -12,8 +12,9 @@ namespace CalamityMod.Projectiles.Pets
         public Player Owner => Main.player[Projectile.owner];
 
         public ref float MovementTimer => ref Projectile.ai[0];
-        public ref float ShineLevel => ref Projectile.ai[1];
-        public float MaxShineTime = 30f;
+        public ref float SparkleTimer => ref Projectile.ai[1];
+        public float MaxBloomTime = 30f;
+        public float MaxSparkleTime = 150f;
         public static Color GoldColor = Color.Goldenrod;
 
         public override void SetStaticDefaults()
@@ -43,10 +44,10 @@ namespace CalamityMod.Projectiles.Pets
             Projectile.frame = Projectile.frameCounter / 5 % Main.projFrames[Projectile.type];
             Lighting.AddLight(Projectile.Center, GoldColor.ToVector3() * 0.9f);
 
-            if (ShineLevel < MaxShineTime)
-                ShineLevel++;
-            else if (ShineLevel > MaxShineTime)
-                ShineLevel--;
+            if (SparkleTimer < MaxBloomTime)
+                SparkleTimer++;
+            else if (SparkleTimer > MaxBloomTime)
+                SparkleTimer--;
 
             if (Main.rand.NextBool(6))
                 Dust.QuickDust(Projectile.Center, GoldColor);
@@ -73,8 +74,8 @@ namespace CalamityMod.Projectiles.Pets
                             NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemIndex, 0f, 0f, 0f, 0, 0, 0);
                         }
 
-                        //Big shine boost on collect
-                        ShineLevel += 30f;
+                        //Max sparkle on collect
+                        SparkleTimer = MaxSparkleTime;
                     }
                     //Otherwise, start chasing
                     if (distanceToPotential < itemDist && itemDist < range)
@@ -100,7 +101,7 @@ namespace CalamityMod.Projectiles.Pets
             else if (MovementTimer == -1f)
             {
                 Vector2 restingSpot = Owner.Center + Vector2.UnitY * -80f;
-                Projectile.velocity = (restingSpot - Projectile.Center) / 10f;
+                Projectile.velocity = (restingSpot - Projectile.Center) / 15f;
                 Projectile.rotation = Projectile.velocity.X * 0.05f;
                 
                 //Start spinning again when rested
@@ -114,6 +115,9 @@ namespace CalamityMod.Projectiles.Pets
                 Projectile.rotation = playerDist.ToRotation() - MathHelper.PiOver2;
                 Projectile.Center = Owner.Center + Vector2.UnitY.RotatedBy(MovementTimer) * -80f;
                 MovementTimer += MathHelper.ToRadians(4f);
+
+                if (Main.rand.NextBool(150) && SparkleTimer <= MaxBloomTime)
+                    SparkleTimer = MaxSparkleTime * 0.6f; //Slight sparkle randomly
             }
         }
 
@@ -138,19 +142,20 @@ namespace CalamityMod.Projectiles.Pets
         {
             //Similar coin shining to Midas Prime coins. Thought it'd look pretty neat for a light pet.
             Texture2D shineTex = ModContent.Request<Texture2D>("CalamityMod/Particles/Sparkle").Value;
+            float shinePercent = Utils.SmoothStep(MaxBloomTime, MaxSparkleTime, SparkleTimer);
+            float shineScale = (float)Math.Log10(shinePercent + 0.01) + 2f;
+            
             Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
+            float bloomPercent = Math.Clamp(SparkleTimer / MaxBloomTime, 0f, 5f); //Max of 500% when collecting coins
+            float bloomScale = Math.Clamp(bloomPercent, 0f, 2.5f);
 
-            float shinePercent = Math.Clamp(ShineLevel / MaxShineTime, 0f, 3f); //Max of 300% when collecting coins
-            Vector2 shineScale = new Vector2(1f, 3f - shinePercent * 2f);
-            Color shineColor = GoldColor;
-
-            if (shinePercent > 0f)
+            if (bloomPercent > 0f)
             {
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-                Main.EntitySpriteDraw(bloomTex, Projectile.Center - Main.screenPosition, null, shineColor * shinePercent * 0.15f, Projectile.rotation, bloomTex.Size() / 2f, shineScale * Projectile.scale * 0.6f, SpriteEffects.None, 0);
-                Main.EntitySpriteDraw(shineTex, Projectile.Center - Main.screenPosition, null, shineColor * shinePercent * 0.6f, Projectile.rotation, shineTex.Size() / 2f, shineScale * Projectile.scale, SpriteEffects.None, 0);
+                
+                Main.EntitySpriteDraw(bloomTex, Projectile.Center - Main.screenPosition, null, GoldColor * bloomPercent * 0.2f, Projectile.rotation, bloomTex.Size() / 2f, bloomPercent * Projectile.scale * 0.3f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(shineTex, Projectile.Center - Main.screenPosition, null, GoldColor * shinePercent, Projectile.rotation, shineTex.Size() / 2f, shineScale * Projectile.scale, SpriteEffects.None, 0);
 
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);

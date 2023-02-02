@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.Ores
             //Main.tileMerge[TileID.Cloud][ModContent.TileType<AerialiteOre>()] = true;
 
             //Main.tileShine[Type] = 3500;
-            Main.tileShine2[Type] = true;
+            Main.tileShine2[Type] = false;
 
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 33;
