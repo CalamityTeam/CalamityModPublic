@@ -109,7 +109,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("Necromancy was never a field I found interesting. Why utilize the rotting corpses of people, when you could form far more elegant servants of ice?");
             }
 
-            dialogue.Add("The tundra's unnatural state is not all my doing. Decades ago, I came across it and amplified the climate with my magic.");
             dialogue.Add("If you have a request, make it quick. I am in the process of weaving a spell, which requires great focus.");
             dialogue.Add("You have the makings of a gifted mage. Tell me, what do you think of ice magic?");
             dialogue.Add("Flowers and the like don't hold a candle to the beauty of intricately formed ice.");
