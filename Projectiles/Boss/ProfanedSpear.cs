@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.ai[0] > 40f)
                 Projectile.ai[0] = 0f;
 
-            float maxVelocity = 16f;
+            float maxVelocity = 20f;
             if (Projectile.velocity.Length() > maxVelocity)
             {
                 Projectile.velocity.Normalize();

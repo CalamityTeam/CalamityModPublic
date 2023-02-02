@@ -151,7 +151,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Player player = Main.player[Main.npc[CalamityGlobalNPC.doughnutBoss].target];
 
                 // Distance the rock travels before it starts to fall down
-                float maxChargeDistance = 4000f;
+                float maxChargeDistance = 4800f;
                 float chargeSpeed = bossRush ? 20f : death ? 18f : revenge ? 17f : expertMode ? 16f : 14f;
                 float fallDownGateValue = maxChargeDistance / chargeSpeed;
 

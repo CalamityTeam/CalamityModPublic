@@ -110,6 +110,9 @@ namespace CalamityMod.NPCs.Providence
         public static float normalDR = 0.3f;
         public static float cocoonDR = 0.9f;
 
+        private const float TimeForStarDespawn = 120f;
+        private const float TimeForShieldDespawn = 120f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Providence, the Profaned Goddess");
@@ -183,8 +186,10 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(NPC.dontTakeDamage);
             writer.Write(NPC.chaseable);
             writer.Write(NPC.canGhostHeal);
+            writer.Write(NPC.localAI[0]);
             writer.Write(NPC.localAI[1]);
             writer.Write(NPC.localAI[2]);
+            writer.Write(NPC.localAI[3]);
             writer.Write(SoundWarningLevel);
             writer.Write(Dying);
             writer.Write(DeathAnimationTimer);
@@ -208,8 +213,10 @@ namespace CalamityMod.NPCs.Providence
             NPC.dontTakeDamage = reader.ReadBoolean();
             NPC.chaseable = reader.ReadBoolean();
             NPC.canGhostHeal = reader.ReadBoolean();
+            NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
             SoundWarningLevel = reader.ReadSingle();
             Dying = reader.ReadBoolean();
             DeathAnimationTimer = reader.ReadInt32();
@@ -447,6 +454,40 @@ namespace CalamityMod.NPCs.Providence
                 {
                     guardianAmt++;
                     healerAlive = true;
+                }
+            }
+
+            // Makes it so star shit can only happen if the attacker has spawned
+            if (attackerAlive && NPC.localAI[0] == 0f)
+                NPC.localAI[0] = 1f;
+
+            // Can only run after the attacker has spawned and died
+            if (!attackerAlive && NPC.localAI[0] > 0f)
+            {
+                if (NPC.localAI[0] < TimeForStarDespawn)
+                {
+                    // Star Wrath use sound
+                    if (NPC.localAI[0] == 1f)
+                        SoundEngine.PlaySound(SoundID.Item105, NPC.Center);
+
+                    NPC.localAI[0] += 1f;
+                }
+            }
+
+            // Makes it so shield shit can only happen if the defender has spawned
+            if (defenderAlive && NPC.localAI[3] == 0f)
+                NPC.localAI[3] = 1f;
+
+            // Can only run after the defender has spawned and died
+            if (!defenderAlive && NPC.localAI[3] > 0f)
+            {
+                if (NPC.localAI[3] < TimeForShieldDespawn)
+                {
+                    // Star Wrath use sound
+                    if (NPC.localAI[3] == 1f)
+                        SoundEngine.PlaySound(SoundID.Item105, NPC.Center);
+
+                    NPC.localAI[3] += 1f;
                 }
             }
 
@@ -2122,15 +2163,8 @@ namespace CalamityMod.NPCs.Providence
                 drawProvidenceInstance(drawOffset, totalProvidencesToDraw == 1 ? null : (Color?)baseColor);
             }
 
-            bool attackerAlive = false;
-            if (CalamityGlobalNPC.holyBossAttacker != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.holyBossAttacker].active)
-                    attackerAlive = true;
-            }
-
-            // Draw red star while attacker is alive
-            if (attackerAlive)
+            // Draw orange star while attacker is alive
+            if (NPC.localAI[0] > 0f && NPC.localAI[0] < TimeForStarDespawn)
             {
                 float lerpMult = MathHelper.Lerp(0.5f, 1.5f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.TwoPi) / 2f + 1f);
                 Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/StarProj").Value;
@@ -2141,10 +2175,14 @@ namespace CalamityMod.NPCs.Providence
                 baseColor.A = 0;
                 Color colorA = baseColor;
                 Color colorB = baseColor * 0.5f;
-                colorA *= lerpMult;
-                colorB *= lerpMult;
+                float opacityScaleDuringStarDespawn = (TimeForStarDespawn - NPC.localAI[0]) / TimeForStarDespawn;
+                float scaleDuringStarDespawnScale = 1.8f;
+                float scaleDuringStarDespawn = (1f - opacityScaleDuringStarDespawn) * scaleDuringStarDespawnScale;
+                float colorScale = MathHelper.Lerp(0f, lerpMult, opacityScaleDuringStarDespawn);
+                colorA *= colorScale;
+                colorB *= colorScale;
                 Vector2 origin = texture.Size() / 2f;
-                Vector2 scale = new Vector2(1.5f, 2.5f) * lerpMult;
+                Vector2 scale = new Vector2(1.5f + scaleDuringStarDespawn, 2.5f + scaleDuringStarDespawn) * lerpMult;
                 float upRight = MathHelper.PiOver4 + NPC.rotation;
                 float up = MathHelper.PiOver2 + NPC.rotation;
                 float upLeft = 3f * MathHelper.PiOver4 + NPC.rotation;
@@ -2159,15 +2197,8 @@ namespace CalamityMod.NPCs.Providence
                 Main.EntitySpriteDraw(texture, drawPos, null, colorB, left, origin, scale * 0.36f, SpriteEffects.None, 0);
             }
 
-            bool defenderAlive = false;
-            if (CalamityGlobalNPC.holyBossDefender != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.holyBossDefender].active)
-                    defenderAlive = true;
-            }
-
             // Draw shields while defender is alive
-            if (defenderAlive)
+            if (NPC.localAI[3] > 0f && NPC.localAI[3] < TimeForShieldDespawn)
             {
                 float maxOscillation = 60f;
                 float minScale = 0.9f;
@@ -2195,12 +2226,16 @@ namespace CalamityMod.NPCs.Providence
                 shieldDrawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                 float minHue = 0.06f;
                 float maxHue = 0.18f;
-                Color color = Main.hslToRgb(MathHelper.Lerp(maxHue - minHue, maxHue, ((float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.TwoPi) + 1f) * 0.5f), 1f, 0.5f) * shieldOpacity;
-                Color color2 = Main.hslToRgb(MathHelper.Lerp(minHue, maxHue - minHue, ((float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.Pi * 3f) + 1f) * 0.5f), 1f, 0.5f) * shieldOpacity;
+                float opacityScaleDuringShieldDespawn = (TimeForShieldDespawn - NPC.localAI[3]) / TimeForShieldDespawn;
+                float scaleDuringShieldDespawnScale = 1.8f;
+                float scaleDuringShieldDespawn = (1f - opacityScaleDuringShieldDespawn) * scaleDuringShieldDespawnScale;
+                float colorScale = MathHelper.Lerp(0f, shieldOpacity, opacityScaleDuringShieldDespawn);
+                Color color = Main.hslToRgb(MathHelper.Lerp(maxHue - minHue, maxHue, ((float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.TwoPi) + 1f) * 0.5f), 1f, 0.5f) * colorScale;
+                Color color2 = Main.hslToRgb(MathHelper.Lerp(minHue, maxHue - minHue, ((float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.Pi * 3f) + 1f) * 0.5f), 1f, 0.5f) * colorScale;
                 color2.A = 0;
                 color *= 0.6f;
                 color2 *= 0.6f;
-                float scaleMult = 2.2f;
+                float scaleMult = 2.2f + scaleDuringShieldDespawn;
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale2 * scaleMult, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale2 * scaleMult * 0.95f, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale * scaleMult, SpriteEffects.None, 0f);

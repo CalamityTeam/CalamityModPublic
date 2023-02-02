@@ -30,6 +30,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         private int spearType = 0;
         private int healTimer = 0;
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+        private const float TimeForShieldDespawn = 120f;
 
         public override void SetStaticDefaults()
         {
@@ -92,6 +93,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             writer.Write(spearType);
             writer.Write(healTimer);
             writer.Write(biomeEnrageTimer);
+            writer.Write(NPC.chaseable);
             writer.Write(NPC.localAI[0]);
             writer.Write(NPC.localAI[1]);
             writer.Write(NPC.localAI[2]);
@@ -102,6 +104,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             spearType = reader.ReadInt32();
             healTimer = reader.ReadInt32();
             biomeEnrageTimer = reader.ReadInt32();
+            NPC.chaseable = reader.ReadBoolean();
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
@@ -314,31 +317,17 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             bool phase1 = healerAlive || defenderAlive;
 
+            NPC.chaseable = !phase1;
+
             if (!phase1)
             {
-                // Spawn particles when the defender dies to indicate the shield has broken apart
-                if (NPC.localAI[1] == 0f)
+                if (NPC.localAI[1] < TimeForShieldDespawn)
                 {
-                    // Star Wrath use sound and dust circles
+                    // Star Wrath use sound
+                    if (NPC.localAI[1] == 0f)
+                        SoundEngine.PlaySound(SoundID.Item105, NPC.Center);
+
                     NPC.localAI[1] += 1f;
-                    SoundEngine.PlaySound(SoundID.Item105, NPC.Center);
-                    int shieldRings = 4;
-                    int totalDust = 36;
-                    for (int j = 0; j < shieldRings; j++)
-                    {
-                        for (int k = 0; k < totalDust; k++)
-                        {
-                            Vector2 dustSpawnPos = NPC.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(320f, 320f);
-                            dustSpawnPos = dustSpawnPos.RotatedBy((double)((k - (totalDust / 2 - 1)) * MathHelper.TwoPi / totalDust), default) + NPC.Center;
-                            Vector2 dustVelocity = dustSpawnPos - NPC.Center;
-                            Color dustColor = Main.hslToRgb(Main.rgbToHsl(Color.OrangeRed).X, 1f, 0.5f);
-                            dustColor.A = 255;
-                            int dust = Dust.NewDust(dustSpawnPos + dustVelocity, 0, 0, 267, dustVelocity.X, dustVelocity.Y, 0, dustColor, 1.4f);
-                            Main.dust[dust].noGravity = true;
-                            Main.dust[dust].noLight = true;
-                            Main.dust[dust].velocity = dustVelocity * (j * 0.1f + 0.1f);
-                        }
-                    }
                 }
             }
 
@@ -394,7 +383,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.ai[2] += 1f;
                     float projectileShootGateValue = (bossRush || biomeEnraged) ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
                     if (healerAlive || !phase1)
-                        projectileShootGateValue = (int)(projectileShootGateValue * 1.5f);
+                        projectileShootGateValue = (int)(projectileShootGateValue * 1.25f);
 
                     if (NPC.ai[2] % projectileShootGateValue == 0f)
                     {
@@ -408,10 +397,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                                     fireExtraProjectiles = true;
                             }
 
-                            bool shootProjectiles = NPC.ai[2] % (projectileShootGateValue * 2f) == 0f;
-                            float projectileVelocity = (bossRush || biomeEnraged) ? 16f : death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
+                            bool shootSpear = NPC.ai[2] % (projectileShootGateValue * 2f) == 0f;
+                            float projectileVelocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
                             Vector2 finalProjectileVelocity = Vector2.Normalize(player.Center - shootFrom) * projectileVelocity;
-                            int type = shootProjectiles ? ModContent.ProjectileType<ProfanedSpear>() : ModContent.ProjectileType<HolyFire2>();
+                            int type = shootSpear ? ModContent.ProjectileType<ProfanedSpear>() : ModContent.ProjectileType<HolyFire2>();
                             int damage = NPC.GetProjectileDamage(type);
 
                             if (type == ModContent.ProjectileType<HolyFire2>())
@@ -717,7 +706,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
 
             // Draw shields while healer or defender are alive
-            if (defenderAlive || healerAlive)
+            if (NPC.localAI[1] < TimeForShieldDespawn)
             {
                 float maxOscillation = 60f;
                 float minScale = 0.8f;
@@ -745,12 +734,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 shieldDrawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                 float minHue = (defenderAlive && healerAlive) ? 0.18f : 0.06f;
                 float maxHue = minHue + 0.12f;
-                Color color = Main.hslToRgb(MathHelper.Lerp(maxHue - minHue, maxHue, ((float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.TwoPi) + 1f) * 0.5f), 1f, 0.5f) * shieldOpacity;
-                Color color2 = Main.hslToRgb(MathHelper.Lerp(minHue, maxHue - minHue, ((float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.Pi * 3f) + 1f) * 0.5f), 1f, 0.5f) * shieldOpacity;
+                float opacityScaleDuringShieldDespawn = (TimeForShieldDespawn - NPC.localAI[1]) / TimeForShieldDespawn;
+                float scaleDuringShieldDespawnScale = 1.8f;
+                float scaleDuringShieldDespawn = (1f - opacityScaleDuringShieldDespawn) * scaleDuringShieldDespawnScale;
+                float colorScale = MathHelper.Lerp(0f, shieldOpacity, opacityScaleDuringShieldDespawn);
+                Color color = Main.hslToRgb(MathHelper.Lerp(maxHue - minHue, maxHue, ((float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.TwoPi) + 1f) * 0.5f), 1f, 0.5f) * colorScale;
+                Color color2 = Main.hslToRgb(MathHelper.Lerp(minHue, maxHue - minHue, ((float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.Pi * 3f) + 1f) * 0.5f), 1f, 0.5f) * colorScale;
                 color2.A = 0;
                 color *= 0.6f;
                 color2 *= 0.6f;
-                float scaleMult = 1.2f;
+                float scaleMult = 1.2f + scaleDuringShieldDespawn;
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale2 * scaleMult, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color2, NPC.rotation, origin, shieldScale2 * scaleMult * 0.95f, SpriteEffects.None, 0f);
                 spriteBatch.Draw(shieldTexture, shieldDrawPos, shieldFrame, color, NPC.rotation, origin, shieldScale * scaleMult, SpriteEffects.None, 0f);
