@@ -1549,8 +1549,7 @@ namespace CalamityMod.CalPlayer
 
                 if (bloodyGlove && proj.CountsAsClass<RogueDamageClass>() && modProj.stealthStrike)
                 {
-                    float cooldown = 0;
-                    cooldown += 20;
+                    float cooldown = 20;
                     Player.statLife += 2;
                     Player.HealEffect(2);
                     Main.player[Main.myPlayer].lifeSteal -= cooldown;
