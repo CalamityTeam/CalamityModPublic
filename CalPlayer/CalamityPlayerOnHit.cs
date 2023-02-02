@@ -997,6 +997,8 @@ namespace CalamityMod.CalPlayer
                 {
                     Main.projectile[projectileIndex].DamageType = DamageClass.Generic;
                     Main.projectile[projectileIndex].netUpdate = true;
+                    Main.projectile[projectileIndex].usesIDStaticNPCImmunity = true;
+                    Main.projectile[projectileIndex].idStaticNPCHitCooldown = 10;
                 }
             }
 
