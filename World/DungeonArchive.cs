@@ -24,25 +24,27 @@ namespace CalamityMod.World
 
             bool placedArchive = false;
             bool foundValidPosition = false;
+            bool shouldPlaceTheDamnThing = false;
             int dungeonArchiveColor = 0; //0 = blue, 1 = green, 2 = pink
 
-            int heightLimit = (Main.maxTilesY / 2) + (Main.maxTilesY / 9);
+            int heightLimit = (Main.maxTilesY / 2) + (Main.maxTilesY / 8);
 
-            int xMin = WorldGen.dungeonSide == -1 ? 5 : (Main.maxTilesX / 2) + 5;
-            int xMax = WorldGen.dungeonSide == -1 ? (Main.maxTilesX / 2) - 5 : Main.maxTilesX - 5;
-
-            for (int x = xMin; x <= xMax; x++)
+            for (int x = WorldGen.dungeonX - 100; x <= WorldGen.dungeonX + 100; x++)
             {
-                for (int y = Main.maxTilesY - 5; y >= heightLimit; y--)
+                for (int y = Main.maxTilesY - 200; y >= heightLimit; y--)
                 { 
                     Tile tile = Main.tile[x, y];
                     Tile tileUp = Main.tile[x, y - 1];
+                    Tile tileUp2 = Main.tile[x, y - 2];
+                    Tile tileUp3 = Main.tile[x, y - 3];
                     Tile tileDown = Main.tile[x, y + 1];
 
                     if ((tile.TileType == 41 || tile.TileType == 43 || tile.TileType == 44 || tile.TileType == 48) && !tileUp.HasTile)
                     {
                         //blue brick walls
-                        if (tileUp.WallType == 7 || tileUp.WallType == 94 || tileUp.WallType == 95)
+                        if ((tileUp.WallType == 7 || tileUp.WallType == 94 || tileUp.WallType == 95) && 
+                        (tileUp2.WallType == 7 || tileUp2.WallType == 94 || tileUp2.WallType == 95) && 
+                        (tileUp3.WallType == 7 || tileUp3.WallType == 94 || tileUp3.WallType == 95))
                         {
                             dungeonArchiveColor = 0;
                             archiveX = x;
@@ -51,7 +53,9 @@ namespace CalamityMod.World
                             foundValidPosition = true;
                         }
                         //green brick walls
-                        if (tileUp.WallType == 8 || tileUp.WallType == 98 || tileUp.WallType == 99)
+                        if ((tileUp.WallType == 8 || tileUp.WallType == 98 || tileUp.WallType == 99) &&
+                        (tileUp2.WallType == 8 || tileUp2.WallType == 98 || tileUp2.WallType == 99) &&
+                        (tileUp3.WallType == 8 || tileUp3.WallType == 98 || tileUp3.WallType == 99))
                         {
                             dungeonArchiveColor = 1;
                             archiveX = x;
@@ -60,7 +64,9 @@ namespace CalamityMod.World
                             foundValidPosition = true;
                         }
                         //pink brick walls
-                        if (tileUp.WallType == 9 || tileUp.WallType == 96 || tileUp.WallType == 97)
+                        if ((tileUp.WallType == 9 || tileUp.WallType == 96 || tileUp.WallType == 97) &&
+                        (tileUp2.WallType == 9 || tileUp2.WallType == 96 || tileUp2.WallType == 97) &&
+                        (tileUp3.WallType == 9 || tileUp3.WallType == 96 || tileUp3.WallType == 97))
                         {
                             dungeonArchiveColor = 2;
                             archiveX = x;
@@ -73,8 +79,9 @@ namespace CalamityMod.World
                     //in order to make sure the archive places at the very bottom of the dungeon
                     //loop upward a certain amount, and if it doesnt place reset everything and increase the maximum check height before the loop ends
                     //this way it will keep checking upward so it places nicely and doesnt destroy other parts of the dungeon (or at least not as much)
-                    if (x >= Main.maxTilesX - 5 && y <= heightLimit + 5 && !foundValidPosition)
+                    if (x >= (WorldGen.dungeonX + 100) - 5 && y <= heightLimit + 5 && !foundValidPosition)
                     {
+                        x = WorldGen.dungeonX - 100;
                         heightLimit -= 1;
                     }
                 }
