@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,8 +28,6 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, 0.5f * Projectile.Opacity, 0.5f * Projectile.Opacity, 0.5f * Projectile.Opacity);
-
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 9)
             {
@@ -62,10 +61,12 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool PreDraw(ref Color lightColor)
         {
-            lightColor.R = (byte)(255 * Projectile.Opacity);
-            lightColor.G = (byte)(255 * Projectile.Opacity);
-            lightColor.B = (byte)(255 * Projectile.Opacity);
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 drawOrigin = new(tex.Width * 0.5f, Projectile.height * 0.5f);
+            Vector2 vector = new Vector2(Projectile.Center.X, Projectile.Center.Y) - Main.screenPosition + new Vector2(0, Projectile.gfxOffY);
+            Rectangle rectangle = new(0, tex.Height / Main.projFrames[Projectile.type] * Projectile.frame, tex.Width, tex.Height / Main.projFrames[Projectile.type]);
+            Main.EntitySpriteDraw(tex, vector, rectangle, Color.DarkGray * 0.5f, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0);
+
             return false;
         }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -26,8 +27,6 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, 0.5f * Projectile.Opacity, 0.5f * Projectile.Opacity, 0.5f * Projectile.Opacity);
-
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] > 10f)
             {
@@ -47,10 +46,12 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool PreDraw(ref Color lightColor)
         {
-            lightColor.R = (byte)(255 * Projectile.Opacity);
-            lightColor.G = (byte)(255 * Projectile.Opacity);
-            lightColor.B = (byte)(255 * Projectile.Opacity);
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 drawOrigin = new(tex.Width * 0.5f, Projectile.height * 0.5f);
+            Vector2 vector = new Vector2(Projectile.Center.X, Projectile.Center.Y) - Main.screenPosition + new Vector2(0, Projectile.gfxOffY);
+            Rectangle rectangle = new(0, tex.Height / Main.projFrames[Projectile.type] * Projectile.frame, tex.Width, tex.Height / Main.projFrames[Projectile.type]);
+            Main.EntitySpriteDraw(tex, vector, rectangle, Color.DarkGray, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0);
+
             return false;
         }
 
@@ -65,7 +66,7 @@ namespace CalamityMod.Projectiles.Enemy
                     Vector2 vector15 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
                     vector15.Normalize();
                     vector15 *= Main.rand.Next(50, 401) * 0.01f;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<InkPoisonCloud>() + Main.rand.Next(3), (int)Math.Round(Projectile.damage * 0.165), 1f, Projectile.owner, Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<InkPoisonCloud>(), (int)Math.Round(Projectile.damage * 0.165), 1f, Projectile.owner, Main.rand.Next(-45, 1));
                 }
             }
             Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);

@@ -75,10 +75,7 @@ namespace CalamityMod.World
                     //this way it will keep checking upward so it places nicely and doesnt destroy other parts of the dungeon (or at least not as much)
                     if (x >= Main.maxTilesX - 5 && y <= heightLimit + 5 && !foundValidPosition)
                     {
-                        x = xMin;
-                        y = Main.maxTilesY - 5;
-
-                        heightLimit = heightLimit - 2;
+                        heightLimit -= 1;
                     }
                 }
             }
