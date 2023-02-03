@@ -630,20 +630,26 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.spriteDirection = NPC.direction;
                 }
 
+                bool boostVelocityToCatchUp = NPC.ai[1] == 0f;
                 float velocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
                 if (Main.getGoodWorld)
                     velocity *= 1.25f;
+                if (boostVelocityToCatchUp)
+                    velocity *= 2f;
 
-                float distanceToStayAwayFromTarget = 800f;
+                float distanceToStayAwayFromTarget = 160f;
                 Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * -NPC.direction;
                 Vector2 targetVector = destination - NPC.Center;
                 Vector2 desiredVelocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
 
-                NPC.ai[1] += 1f;
                 float totalSpears = 10f;
                 float shootDuration = (bossRush || biomeEnraged) ? 180f : death ? 200f : revenge ? 210f : expertMode ? 220f : 240f;
                 float dontShootTime = shootDuration * 0.3f;
                 float phaseGateValue = dontShootTime + shootDuration;
+
+                // Don't attack until close enough to the target
+                if (NPC.ai[1] > 0f)
+                    NPC.ai[1] += 1f;
 
                 if (NPC.ai[1] < phaseGateValue)
                 {
@@ -654,7 +660,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         NPC.velocity = (NPC.velocity * (inertia - 1f) + desiredVelocity) / inertia;
                     }
                     else
-                        NPC.velocity *= 0.98f;
+                    {
+                        // Set the Commander to be able to attack
+                        if (NPC.ai[1] == 0f)
+                            NPC.ai[1] = 1f;
+
+                        NPC.velocity *= 0.96f;
+                    }
                 }
 
                 int spearShootDivisor = (int)(shootDuration / totalSpears);
@@ -687,7 +699,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                         if (NPC.ai[1] % (spearShootDivisor * 3) == 0f)
                         {
-                            knockbackVelocity *= 5f;
+                            knockbackVelocity *= 2f;
                             int baseProjectileAmt = (bossRush || biomeEnraged) ? 8 : expertMode ? 4 : 2;
                             int spread = (bossRush || biomeEnraged) ? 36 : expertMode ? 20 : 12;
                             float rotation = MathHelper.ToRadians(spread);
@@ -699,7 +711,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                                     Dust.NewDust(shootFrom, 30, 30, (int)CalamityDusts.ProfanedFire, perturbedSpeed.X, perturbedSpeed.Y, 0, default, 1f);
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, perturbedSpeed, type, damage, 0f, Main.myPlayer, -1f, 0f);
                             }
                         }
 

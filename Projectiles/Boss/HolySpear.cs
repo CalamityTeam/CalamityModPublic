@@ -72,14 +72,14 @@ namespace CalamityMod.Projectiles.Boss
                     velocity = Projectile.velocity;
             }
 
-            float timeGateValue = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 420f : 540f;
-            if (Projectile.ai[0] == 0f)
+            float timeGateValue = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 420f : (Projectile.ai[0] == -1f ? 360f : 540f);
+            if (Projectile.ai[0] <= 0f)
             {
                 Projectile.ai[1] += 1f;
 
-                float slowGateValue = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 60f : 90f;
+                float slowGateValue = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 60f : (Projectile.ai[0] == -1f ? 30f : 90f);
                 float fastGateValue = 30f;
-                float minVelocity = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 4f : 3f;
+                float minVelocity = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 4f : (Projectile.ai[0] == -1f ? 5f : 3f);
                 float maxVelocity = minVelocity * 4f;
                 float extremeVelocity = maxVelocity * 2f;
                 float deceleration = 0.95f;
@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D value = ModContent.Request<Texture2D>(Texture).Value;
-            bool aimedSpear = Projectile.ai[0] != 0f;
+            bool aimedSpear = Projectile.ai[0] > 0f;
 
             int red = 255;
             int green = 255;

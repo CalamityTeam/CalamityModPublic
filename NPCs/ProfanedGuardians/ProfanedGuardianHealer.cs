@@ -236,7 +236,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 // Increment timer
                 AITimer += 1f;
                 float crystalShootGateValue = bossRush ? 180f : death ? 210f : revenge ? 225f : expertMode ? 240f : 270f;
-                float crystalShootPhaseDuration = crystalShootGateValue + 120f;
+                float crystalShootPhaseDuration = crystalShootGateValue + crystalShootGateValue * 0.25f;
 
                 // Generate dust that scales with how close the crystals are to firing
                 float dustGateValue = crystalShootGateValue * 0.5f;
@@ -306,7 +306,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             {
                 // Increment timer
                 AITimer += 1f;
-                float starShootPhaseDuration = GetStarShootGateValue() + 120f;
+                float starShootPhaseDuration = GetStarShootGateValue() + 60f;
                 if (AITimer == GetStarShootGateValue())
                 {
                     SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, shootFrom);
