@@ -127,7 +127,7 @@ namespace CalamityMod.World
             {
                 float worldEdgeMargin = (float)Main.maxTilesX * 0.08f;
                 int xLimit = Main.maxTilesX / 2;
-                int x = Abyss.AtLeftSideOfWorld ? rand.Next(700, xLimit) : rand.Next(xLimit, Main.maxTilesX - 700);
+                int x = Abyss.AtLeftSideOfWorld ? rand.Next(625, xLimit) : rand.Next(xLimit, Main.maxTilesX - 625);
                 /*
                 while ((float)x > (float)Main.spawnTileX - worldEdgeMargin && (float)x < (float)Main.spawnTileX + worldEdgeMargin)
                 {

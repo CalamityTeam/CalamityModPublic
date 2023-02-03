@@ -2645,7 +2645,7 @@ namespace CalamityMod.Projectiles
                         for (int i = 0; i < 2; i++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(25);
+                            int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
                             int soul = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), damage, 0f, projectile.owner);
                             Main.projectile[soul].tileCollide = false;
                             if (soul.WithinBounds(Main.maxProjectiles))
@@ -2655,7 +2655,7 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.scuttlersJewel && stealthStrike && modPlayer.scuttlerCooldown <= 0)
                     {
-                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
+                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
                         int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), damage, projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                         if (spike.WithinBounds(Main.maxProjectiles))

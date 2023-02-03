@@ -307,6 +307,10 @@ namespace CalamityMod.World
             int realFossilY = 0;
             bool placedFossil = false;
 
+            //place islands to hide the fossil (funny)
+            AbyssIsland(abyssChasmX + 32, AbyssChasmBottom + 25, 55, 75, 35, 45, false, true, true);
+            AbyssIsland(abyssChasmX - 32, AbyssChasmBottom + 25, 55, 75, 35, 45, false, true, true);
+
             while (!placedFossil)
             {
                 //make sure it places at the very bottom, below where the terminus shrine is
@@ -407,13 +411,17 @@ namespace CalamityMod.World
             {
                 if (WorldGen.genRand.NextBool(8))
                 {
-                    int randomIsland = WorldGen.genRand.Next(2);
+                    int randomIsland = WorldGen.genRand.Next(3);
                     switch (randomIsland)
                     {
                         case 0:
                             AbyssIsland(abyssChasmX + WorldGen.genRand.Next(42, 48), voidIslandY, 55, 75, 35, 45, false, true, true);
                             break;
                         case 1:
+                            AbyssIsland(abyssChasmX - WorldGen.genRand.Next(42, 48), voidIslandY, 55, 75, 35, 45, false, true, true);
+                            break;
+                        case 2:
+                            AbyssIsland(abyssChasmX + WorldGen.genRand.Next(42, 48), voidIslandY, 55, 75, 35, 45, false, true, true);
                             AbyssIsland(abyssChasmX - WorldGen.genRand.Next(42, 48), voidIslandY, 55, 75, 35, 45, false, true, true);
                             break;
                     }

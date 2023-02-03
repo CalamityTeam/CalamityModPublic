@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.penetrate = 2;
-            Projectile.timeLeft = 320;
+            Projectile.timeLeft = 210;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }

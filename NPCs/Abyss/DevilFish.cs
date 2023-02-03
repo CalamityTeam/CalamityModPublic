@@ -42,8 +42,8 @@ namespace CalamityMod.NPCs.Abyss
             NPC.lavaImmune = true;
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.damage = 90;
-            NPC.width = 126;
-            NPC.height = 66;
+            NPC.width = 136;
+            NPC.height = 62;
             NPC.defense = 999999;
             NPC.lifeMax = 400;
             NPC.aiStyle = -1;
@@ -281,19 +281,15 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (NPC.spriteDirection == 1)
+            if (!NPC.IsABestiaryIconDummy)
             {
-                spriteEffects = SpriteEffects.FlipHorizontally;
+                Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/DevilFishGlow").Value;
+
+                var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+                Main.EntitySpriteDraw(tex, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY + 4), 
+                NPC.frame, Color.White * 0.5f, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, effects, 0);
             }
-            Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
-            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
-            Vector2 vector = center - screenPos;
-            vector -= new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/DevilFishGlow").Value.Width, (float)(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/DevilFishGlow").Value.Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
-            Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Red);
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/DevilFishGlow").Value, vector,
-                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

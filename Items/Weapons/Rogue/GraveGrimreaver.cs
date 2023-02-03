@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Grave Grimreaver");
             Tooltip.SetDefault("Hurls a cursed scythe which homes in\n"+
             "The scythe summons skulls as it flies and explodes into bats on hit\n"+
-            "Stealth strikes spawn a flood of bats and falling skulls\n"+
+            "Stealth strikes spawn a flood of bats and falling skulls when destroyed\n"+
             "Inflicts cursed flames and confusion\n"+
             "'A dapper skeleton's weapon of choice'");
             SacrificeTotal = 1;
@@ -23,26 +23,26 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 80;
-            Item.damage = 25;
+            Item.damage = 31;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 50;
-            Item.useTime = 50;
+            Item.useAnimation = 48;
+            Item.useTime = 48;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 4f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 68;
             Item.shoot = ModContent.ProjectileType<GraveGrimreaverProjectile>();
-            Item.shootSpeed = 16f;
+            Item.shootSpeed = 16.5f;
             Item.DamageType = RogueDamageClass.Instance;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            Item.rare = ItemRarityID.LightPurple;
+            Item.rare = ItemRarityID.Pink;
             Item.Calamity().donorItem = true;
         }
 
-		public override float StealthDamageMultiplier => 1.55f;
-        public override float StealthVelocityMultiplier => 1.1f;
+		public override float StealthDamageMultiplier => 0.45f;
+        public override float StealthVelocityMultiplier => 1f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

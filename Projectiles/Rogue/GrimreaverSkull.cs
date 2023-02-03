@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 210;
             Projectile.tileCollide = false;
         }
 
@@ -68,12 +68,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.CursedInferno, 240);
+            target.AddBuff(BuffID.CursedInferno, 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.CursedInferno, 240);
+            target.AddBuff(BuffID.CursedInferno, 180);
         }
     }
 }

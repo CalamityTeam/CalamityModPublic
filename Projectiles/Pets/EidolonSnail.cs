@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Pets
                 Vector2 center2 = Projectile.Center;
                 Vector2 vector48 = player.Center - center2;
                 float playerDistance = vector48.Length();
-                if (Projectile.velocity.Y == 0 && (HoleBelow() || (playerDistance > 110f && Projectile.position.X == Projectile.oldPosition.X)))
+                if (Projectile.velocity.Y == 0 && (HoleBelow() || (playerDistance > 130f && Projectile.position.X == Projectile.oldPosition.X)))
                 {
                     Projectile.velocity.Y = -8f;
                 }
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Pets
                 {
                     Projectile.velocity.Y = 15f;
                 }
-                if (playerDistance > 600f)
+                if (playerDistance > 520f)
                 {
                     fly = true;
                     Projectile.velocity.X = 0f;
@@ -114,18 +114,18 @@ namespace CalamityMod.Projectiles.Pets
                 {
                     if (player.position.X - Projectile.position.X > 0f)
                     {
-                        Projectile.velocity.X += 0.10f;
-                        if (Projectile.velocity.X > 5f)
+                        Projectile.velocity.X += 0.12f;
+                        if (Projectile.velocity.X > 6f)
                         {
-                            Projectile.velocity.X = 5f;
+                            Projectile.velocity.X = 6f;
                         }
                     }
                     else
                     {
-                        Projectile.velocity.X -= 0.10f;
-                        if (Projectile.velocity.X < -5f)
+                        Projectile.velocity.X -= 0.12f;
+                        if (Projectile.velocity.X < -6f)
                         {
-                            Projectile.velocity.X = -5f;
+                            Projectile.velocity.X = -6f;
                         }
                     }
                 }

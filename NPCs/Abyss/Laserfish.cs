@@ -25,8 +25,8 @@ namespace CalamityMod.NPCs.Abyss
         {
             NPC.noGravity = true;
             NPC.damage = 40;
-            NPC.width = 60;
-            NPC.height = 26;
+            NPC.width = 58;
+            NPC.height = 32;
             NPC.defense = 15;
             NPC.lifeMax = 480;
             NPC.aiStyle = -1;
@@ -96,19 +96,15 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (NPC.spriteDirection == 1)
+            if (!NPC.IsABestiaryIconDummy)
             {
-                spriteEffects = SpriteEffects.FlipHorizontally;
+                Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/LaserfishGlow").Value;
+
+                var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+                Main.EntitySpriteDraw(tex, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY + 4), 
+                NPC.frame, Color.White * 0.5f, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, effects, 0);
             }
-            Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
-            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
-            Vector2 vector = center - screenPos;
-            vector -= new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/LaserfishGlow").Value.Width, (float)(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/LaserfishGlow").Value.Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
-            Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Color.Yellow);
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/LaserfishGlow").Value, vector,
-                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
