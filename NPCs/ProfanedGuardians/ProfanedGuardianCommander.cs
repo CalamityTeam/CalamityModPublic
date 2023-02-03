@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.height = 186;
             NPC.defense = 40;
             NPC.DR_NERD(0.3f);
-            NPC.LifeMaxNERB(56250, 67500, 165000); // Old HP - 102500, 112500
+            NPC.LifeMaxNERB(90000, 108000, 200000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
@@ -622,12 +622,92 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             else if (NPC.ai[0] == 4f)
             {
-                NPC.ai[1] += 1f;
-                float phaseGateValue = (bossRush || biomeEnraged) ? 90f : death ? 100f : revenge ? 110f : expertMode ? 120f : 135f;
-                if (NPC.ai[1] >= phaseGateValue)
+                // Face the target
+                if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
                 {
-                    NPC.ai[0] = 0f;
-                    NPC.ai[1] = 0f;
+                    float playerLocation = NPC.Center.X - player.Center.X;
+                    NPC.direction = playerLocation < 0f ? 1 : -1;
+                    NPC.spriteDirection = NPC.direction;
+                }
+
+                float velocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                if (Main.getGoodWorld)
+                    velocity *= 1.25f;
+
+                float distanceToStayAwayFromTarget = 800f;
+                Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * -NPC.direction;
+                Vector2 targetVector = destination - NPC.Center;
+                Vector2 desiredVelocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
+
+                NPC.ai[1] += 1f;
+                float totalSpears = 10f;
+                float shootDuration = (bossRush || biomeEnraged) ? 180f : death ? 200f : revenge ? 210f : expertMode ? 220f : 240f;
+                float dontShootTime = shootDuration * 0.3f;
+                float phaseGateValue = dontShootTime + shootDuration;
+
+                if (NPC.ai[1] < phaseGateValue)
+                {
+                    // Move towards destination
+                    if (Vector2.Distance(NPC.Center, destination) > 80f)
+                    {
+                        inertia *= 0.5f;
+                        NPC.velocity = (NPC.velocity * (inertia - 1f) + desiredVelocity) / inertia;
+                    }
+                    else
+                        NPC.velocity *= 0.98f;
+                }
+
+                int spearShootDivisor = (int)(shootDuration / totalSpears);
+                float totalPhaseDuration = phaseGateValue + dontShootTime;
+                if (NPC.ai[1] >= dontShootTime)
+                {
+                    if (NPC.ai[1] >= phaseGateValue)
+                    {
+                        // Slow down and transition to charge phase
+                        NPC.velocity *= 0.98f;
+
+                        if (NPC.ai[1] >= totalPhaseDuration)
+                        {
+                            NPC.ai[0] = 1f;
+                            NPC.ai[1] = 0f;
+                            NPC.netUpdate = true;
+                        }
+                    }
+                    else if (NPC.ai[1] % spearShootDivisor == 0f)
+                    {
+                        float spearVelocity = velocity;
+                        Vector2 velocity2 = Vector2.Normalize(player.Center - shootFrom) * spearVelocity;
+                        Vector2 knockbackVelocity = velocity2 * 0.1f;
+                        int type = ModContent.ProjectileType<HolySpear>();
+                        int damage = NPC.GetProjectileDamage(type);
+
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyFireballShot, shootFrom);
+                        for (int k = 0; k < totalDustPerProjectile; k++)
+                            Dust.NewDust(shootFrom, 30, 30, (int)CalamityDusts.ProfanedFire, velocity2.X, velocity2.Y, 0, default, 1f);
+
+                        if (NPC.ai[1] % (spearShootDivisor * 3) == 0f)
+                        {
+                            knockbackVelocity *= 5f;
+                            int baseProjectileAmt = (bossRush || biomeEnraged) ? 8 : expertMode ? 4 : 2;
+                            int spread = (bossRush || biomeEnraged) ? 36 : expertMode ? 20 : 12;
+                            float rotation = MathHelper.ToRadians(spread);
+                            for (int i = 0; i < baseProjectileAmt; i++)
+                            {
+                                Vector2 perturbedSpeed = velocity2.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(baseProjectileAmt - 1))) * 0.25f;
+
+                                for (int k = 0; k < totalDustPerProjectile; k++)
+                                    Dust.NewDust(shootFrom, 30, 30, (int)CalamityDusts.ProfanedFire, perturbedSpeed.X, perturbedSpeed.Y, 0, default, 1f);
+
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                            }
+                        }
+
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, velocity2, type, damage, 0f, Main.myPlayer, 1f, 0f);
+
+                        NPC.velocity = -knockbackVelocity;
+                    }
                 }
             }
         }
