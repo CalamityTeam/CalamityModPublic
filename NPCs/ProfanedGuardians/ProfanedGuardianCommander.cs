@@ -866,6 +866,29 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             CalamityNetcode.SyncWorld();
         }
 
+        // Can only hit the target if within certain distance
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+            cooldownSlot = ImmunityCooldownID.Bosses;
+
+            Rectangle targetHitbox = target.Hitbox;
+
+            float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
+            float dist2 = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
+            float dist3 = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
+            float dist4 = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
+
+            float minDist = dist1;
+            if (dist2 < minDist)
+                minDist = dist2;
+            if (dist3 < minDist)
+                minDist = dist3;
+            if (dist4 < minDist)
+                minDist = dist4;
+
+            return minDist <= 80f;
+        }
+
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (damage > 0)
