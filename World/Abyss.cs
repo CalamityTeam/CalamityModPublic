@@ -522,7 +522,7 @@ namespace CalamityMod.World
                 }
             }
 
-            //clear lava away from the side of the abyss
+            //clear lava and glowing moss away from the side of the abyss because it ruins immersion
             if (AtLeftSideOfWorld)
             {
                 for (int abyssIndex = 0; abyssIndex < abyssChasmX + 155; abyssIndex++)
@@ -534,6 +534,13 @@ namespace CalamityMod.World
                         if (tile.LiquidType == LiquidID.Lava && tile.LiquidAmount > 0)
                         {
                             tile.LiquidAmount = 0;
+                        }
+
+                        int[] Mosses = { 381, 534, 536, 539, 625, 627 };
+
+                        if (Mosses.Contains(tile.TileType))
+                        {
+                            tile.TileType = TileID.Stone;
                         }
                     }
                 }
@@ -549,6 +556,13 @@ namespace CalamityMod.World
                         if (tile.LiquidType == LiquidID.Lava && tile.LiquidAmount > 0)
                         {
                             tile.LiquidAmount = 0;
+                        }
+
+                        int[] Mosses = { 381, 534, 536, 539, 625, 627 };
+
+                        if (Mosses.Contains(tile.TileType))
+                        {
+                            tile.TileType = TileID.Stone;
                         }
                     }
                 }
