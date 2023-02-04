@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -39,7 +40,7 @@ namespace CalamityMod.NPCs.Cryogen
             {
                 NPC.lifeMax = 10000;
             }
-            NPC.alpha = 255;
+            NPC.Opacity = 0f;
             NPC.HitSound = Cryogen.HitSound;
             NPC.DeathSound = BreakSound;
             if (CalamityWorld.getFixedBoi)
@@ -61,9 +62,9 @@ namespace CalamityMod.NPCs.Cryogen
             NPC.HitSound = CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : Cryogen.HitSound;
             NPC.DeathSound = CalamityWorld.getFixedBoi ? SoundID.NPCDeath14 : BreakSound;
 
-            NPC.alpha -= 3;
-            if (NPC.alpha < 0)
-                NPC.alpha = 0;
+            NPC.Opacity += 0.012f;
+            if (NPC.Opacity > 1f)
+                NPC.Opacity = 1f;
 
             NPC.rotation += 0.15f;
 
@@ -106,7 +107,7 @@ namespace CalamityMod.NPCs.Cryogen
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= 100f * NPC.scale && NPC.alpha == 0;
+            return minDist <= (100f * NPC.scale) && NPC.Opacity == 1f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -129,6 +130,8 @@ namespace CalamityMod.NPCs.Cryogen
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Cryogen/CryogenShield").Value;
+
+            NPC.DrawBackglow(Cryogen.BackglowColor, 4f, SpriteEffects.None, NPC.frame, screenPos);
 
             Vector2 origin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
             Vector2 drawPos = NPC.Center - screenPos;
