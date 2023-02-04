@@ -186,7 +186,8 @@ namespace CalamityMod.NPCs.Yharon
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             // Stop rain
-            CalamityMod.StopRain();
+            if (CalamityConfig.Instance.BossesStopWeather)
+                CalamityMod.StopRain();
 
             // Variables
             bool bossRush = BossRushEvent.BossRushActive;

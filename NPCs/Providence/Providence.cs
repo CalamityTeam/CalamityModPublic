@@ -520,7 +520,8 @@ namespace CalamityMod.NPCs.Providence
             NPC.canGhostHeal = NPC.chaseable;
 
             // Prevent lag by stopping rain
-            CalamityMod.StopRain();
+            if (CalamityConfig.Instance.BossesStopWeather)
+                CalamityMod.StopRain();
 
             // Set target biome type
             if (biomeType == 0)

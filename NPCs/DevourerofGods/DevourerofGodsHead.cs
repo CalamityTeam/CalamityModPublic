@@ -335,7 +335,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             CalamityGlobalNPC.DoGP2 = -1;
 
             // Stop rain
-            CalamityMod.StopRain();
+            if (CalamityConfig.Instance.BossesStopWeather)
+                CalamityMod.StopRain();
 
             // Get a target
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)

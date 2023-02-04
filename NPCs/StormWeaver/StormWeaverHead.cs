@@ -167,7 +167,9 @@ namespace CalamityMod.NPCs.StormWeaver
             bool revenge = CalamityWorld.revenge || bossRush;
             bool expertMode = Main.expertMode || bossRush;
 
-            if (!Main.raining && !bossRush)
+            if (CalamityConfig.Instance.BossesStopWeather)
+                CalamityMod.StopRain();
+            else if (!Main.raining && !bossRush)
                 CalamityUtils.StartRain();
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;

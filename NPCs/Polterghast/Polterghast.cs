@@ -309,7 +309,8 @@ namespace CalamityMod.NPCs.Polterghast
             }
 
             // Stop rain
-            CalamityMod.StopRain();
+            if (CalamityConfig.Instance.BossesStopWeather)
+                CalamityMod.StopRain();
 
             // Set time left
             if (NPC.timeLeft < 1800)

@@ -381,7 +381,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 CalamityNetcode.SyncWorld();
             }
 
-            CalamityMod.StopRain();
+            if (CalamityConfig.Instance.BossesStopWeather)
+                CalamityMod.StopRain();
 
             bool bossRush = BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || bossRush;

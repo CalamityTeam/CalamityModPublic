@@ -254,7 +254,10 @@ namespace CalamityMod.NPCs.Cryogen
                     NPC.localAI[1] -= 1f;
             }
 
-            CalamityMod.StopRain();
+            if (CalamityConfig.Instance.BossesStopWeather)
+                CalamityMod.StopRain();
+            else if (!Main.raining)
+                CalamityUtils.StartRain();
 
             if (!player.active || player.dead)
             {
