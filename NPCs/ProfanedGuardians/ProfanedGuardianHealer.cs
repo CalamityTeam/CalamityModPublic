@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.height = 164;
             NPC.defense = 30;
             NPC.DR_NERD(0.2f);
-            NPC.LifeMaxNERB(55000, 66000, 44000);
+            NPC.LifeMaxNERB(60000, 72000, 50000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
@@ -235,7 +235,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             {
                 // Increment timer
                 AITimer += 1f;
-                float crystalShootGateValue = bossRush ? 180f : death ? 210f : revenge ? 225f : expertMode ? 240f : 270f;
+                float crystalShootGateValue = bossRush ? 140f : death ? 180f : revenge ? 200f : expertMode ? 220f : 260f;
                 float crystalShootPhaseDuration = crystalShootGateValue + crystalShootGateValue * 0.25f;
 
                 // Generate dust that scales with how close the crystals are to firing
@@ -272,10 +272,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     {
                         int type = ModContent.ProjectileType<ProvidenceCrystalShard>();
                         int damage = NPC.GetProjectileDamage(type);
-                        int totalProjectiles = biomeEnraged ? 15 : 10;
-                        float speedX = -15f;
+                        int totalProjectiles = biomeEnraged ? 18 : death ? 16 : revenge ? 14 : expertMode ? 12 : 10;
+                        float speedX = -12f;
                         float speedAdjustment = Math.Abs(speedX * 2f / (totalProjectiles - 1));
-                        float speedY = -3f;
+                        float speedY = -4f;
                         float randomVelocityMult = death ? 2f : 1f;
                         for (int i = 0; i < totalProjectiles; i++)
                         {

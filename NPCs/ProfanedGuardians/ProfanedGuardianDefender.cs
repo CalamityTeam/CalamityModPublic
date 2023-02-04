@@ -417,7 +417,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 // Defend the commander
                 float distanceInFrontOfCommander = 120f;
                 Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center + Vector2.UnitX * distanceInFrontOfCommander * Main.npc[CalamityGlobalNPC.doughnutBoss].direction - NPC.Center;
-                Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f);
+                Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f);
                 if (distanceFromDestination.Length() > 80f)
                 {
                     float inertia = 25f;
@@ -427,7 +427,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.velocity = (NPC.velocity * (inertia - 1) + desiredVelocity) / inertia;
                 }
                 else
-                    NPC.velocity *= 0.98f;
+                    NPC.velocity *= 0.96f;
             }
 
             // Phase 2
@@ -460,6 +460,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     if (NPC.ai[1] % shootMoltenBlastsGateValue == 0f)
                     {
                         float moltenBlastVelocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                        int projTimeLeft = (int)(2400f / moltenBlastVelocity);
                         Vector2 velocity = Vector2.Normalize(player.Center - shootFrom) * moltenBlastVelocity;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
@@ -468,7 +469,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, velocity, type, damage, 0f, Main.myPlayer);
-                                Main.projectile[proj].timeLeft = 180;
+                                Main.projectile[proj].timeLeft = projTimeLeft;
                             }
                         }
 

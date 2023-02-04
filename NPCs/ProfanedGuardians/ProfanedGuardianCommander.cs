@@ -362,6 +362,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 float velocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
                 if (Main.getGoodWorld)
                     velocity *= 1.25f;
+                if (healerAlive)
+                    velocity *= 0.8f;
 
                 float distanceToStayAwayFromTarget = healerAlive ? 800f : defenderAlive ? 720f : 600f;
                 Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * -NPC.direction;
@@ -381,10 +383,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     // Alternate between firing profaned spears and holy fire
                     // Shoot holy blasts in final phase
                     NPC.ai[2] += 1f;
-                    float projectileShootGateValue = (bossRush || biomeEnraged) ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
-                    if (healerAlive || !phase1)
-                        projectileShootGateValue = (int)(projectileShootGateValue * 1.25f);
-
+                    float projectileShootGateValue = (bossRush || biomeEnraged) ? 40f : death ? 60f : revenge ? 90f : expertMode ? 100f : 150f;
                     if (NPC.ai[2] % projectileShootGateValue == 0f)
                     {
                         if (phase1)
@@ -393,7 +392,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             bool fireExtraProjectiles = false;
                             if (defenderAlive)
                             {
-                                if (Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] == 1f)
+                                if (Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] == 2f)
                                     fireExtraProjectiles = true;
                             }
 
@@ -431,7 +430,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         else
                         {
                             // Shoot holy blasts
-                            float holyBlastVelocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                            float holyBlastVelocity = (bossRush || biomeEnraged) ? 20f : death ? 18f : revenge ? 17f : expertMode ? 16f : 14f;
                             int projTimeLeft = (int)(2000f / holyBlastVelocity);
                             Vector2 finalHolyBlastVelocity = Vector2.Normalize(player.Center - shootFrom) * holyBlastVelocity;
                             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -643,8 +642,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Vector2 targetVector = destination - NPC.Center;
                 Vector2 desiredVelocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
 
-                float totalSpears = 10f;
-                float shootDuration = (bossRush || biomeEnraged) ? 180f : death ? 200f : revenge ? 210f : expertMode ? 220f : 240f;
+                float totalSpears = 12f;
+                float shootDuration = (bossRush || biomeEnraged) ? 240f : death ? 280f : revenge ? 300f : expertMode ? 320f : 360f;
                 float dontShootTime = shootDuration * 0.3f;
                 float phaseGateValue = dontShootTime + shootDuration;
 

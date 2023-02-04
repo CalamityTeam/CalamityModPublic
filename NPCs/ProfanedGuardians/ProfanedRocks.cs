@@ -46,6 +46,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
+            NPC.chaseable = false;
             NPC.noTileCollide = true;
             NPC.canGhostHeal = false;
             NPC.HitSound = SoundID.NPCHit52;
