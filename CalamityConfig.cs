@@ -18,6 +18,7 @@ using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.UI.Rippers;
 using CalamityMod.UI.DraedonsArsenal;
 using CalamityMod.UI.SulphurousWaterMeter;
+using CalamityMod.Items.Tools.ClimateChange;
 
 namespace CalamityMod
 {
@@ -56,6 +57,12 @@ namespace CalamityMod
         [DefaultValue(500)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.ParticleLimit")]
         public int ParticleLimit { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.BossesStopWeather")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(false)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossesStopWeather")]
+        public bool BossesStopWeather { get; set; }
 
         [Label("$Mods.CalamityMod.Config.EntryTitle.Screenshake")]
         [BackgroundColor(192, 54, 64, 192)]
@@ -378,8 +385,9 @@ namespace CalamityMod
             var configLabelItemEmbeds = new KeyValuePair<string, int>[]
             {
                 new("Afterimages", ItemID.SteampunkGoggles),
-                new("Screenshake", ModContent.ItemType<WavePounder>()),
                 new("ParticleLimit", ItemID.FragmentStardust),
+                new("BossesStopWeather", ModContent.ItemType<TorrentialTear>()),
+                new("Screenshake", ModContent.ItemType<WavePounder>()),
                 new("StealthInvisibility", ModContent.ItemType<StealthHairDye>()),
                 new("ShopNewAlert", ItemID.GoldChest),
                 new("WikiStatusMessage", ItemID.Book),
@@ -405,6 +413,7 @@ namespace CalamityMod
                 new("SpeedrunTimerPosX", ItemID.LaserRuler),
                 new("SpeedrunTimerPosY", ItemID.LaserRuler),
 
+                new("FasterFallHotkey", ModContent.ItemType<BallAndChain>()),
                 new("RemoveReforgeRNG", ItemID.TinHammer),
                 new("EarlyHardmodeProgressionRework", ItemID.Pwnhammer),
                 new("BossZen", ModContent.ItemType<ZenPotion>()),
@@ -416,7 +425,6 @@ namespace CalamityMod
                 new("FasterBaseSpeed", ItemID.HermesBoots),
                 new("HigherJumpHeight", ItemID.ShinyRedBalloon),
                 new("FasterJumpSpeed", ItemID.FrogLeg),
-                new("FasterFallHotkey", ModContent.ItemType<BallAndChain>()),
                 new("FasterTilePlacement", ItemID.ArchitectGizmoPack),
 
                 new("NerfExpertDebuffs", ItemID.AnkhCharm),
