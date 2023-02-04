@@ -190,7 +190,6 @@ namespace CalamityMod.CalPlayer
         #region Timer and Counter
         public int gaelSwipes = 0;
         public int gaelRageAttackCooldown = 0;
-        public int bossRushImmunityFrameCurseTimer = 0;
         public int aBulwarkRareMeleeBoostTimer = 0;
         public int nebulaManaNerfCounter = 0;
         public int alcoholPoisonLevel = 0;
@@ -2150,7 +2149,6 @@ namespace CalamityMod.CalPlayer
             bloodflareMageCooldown = 0;
             tarraRangedCooldown = 0;
             tarraMageHealCooldown = 0;
-            bossRushImmunityFrameCurseTimer = 0;
             aBulwarkRareMeleeBoostTimer = 0;
             acidRoundMultiplier = 1D;
             externalAbyssLight = 0;
@@ -5388,7 +5386,7 @@ namespace CalamityMod.CalPlayer
         #region Limitations
         private void ForceVariousEffects()
         {
-            if (blockAllDashes || (CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive))
+            if (blockAllDashes)
                 DisableDashes();
             if (weakPetrification)
                 WeakPetrification();
@@ -5514,12 +5512,9 @@ namespace CalamityMod.CalPlayer
                 return false;
             }
 
-            // If Armageddon is active or the Boss Rush Immunity Curse is triggered, instantly kill the player.
-            if (CalamityWorld.armageddon || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
-            {
-                if (areThereAnyDamnBosses || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
-                    KillPlayer();
-            }
+            // If Armageddon is active, instantly kill the player.
+            if (CalamityWorld.armageddon && areThereAnyDamnBosses)
+                KillPlayer();
             #endregion
 
             //Todo - At some point it'd be nice to have a "TransformationPlayer" that has all the transformation sfx and visuals so their priorities can be more easily managed.
@@ -6000,9 +5995,6 @@ namespace CalamityMod.CalPlayer
                 else
                     Player.immuneTime += iFramesToAdd;
 
-                if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushIFrameCurse)
-                    bossRushImmunityFrameCurseTimer = 180 + Player.immuneTime;
-
                 if (aeroSet && damage > 25)
                 {
                     var source = new ProjectileSource_AerospecSetFeathers(Player);
@@ -6345,10 +6337,6 @@ namespace CalamityMod.CalPlayer
             else if (CalamityWorld.armageddon && areThereAnyDamnBosses)
             {
                 damageSource = PlayerDeathReason.ByCustomReason(Player.name + " failed the challenge at hand.");
-            }
-            else if (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was destroyed by a mysterious force.");
             }
             NetworkText deathText = damageSource.GetDeathText(Player.name);
             if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)

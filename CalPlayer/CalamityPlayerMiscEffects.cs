@@ -1176,8 +1176,6 @@ namespace CalamityMod.CalPlayer
                 xerocDmg = 0f;
             if (aBulwarkRareMeleeBoostTimer > 0)
                 aBulwarkRareMeleeBoostTimer--;
-            if (bossRushImmunityFrameCurseTimer > 0)
-                bossRushImmunityFrameCurseTimer--;
             if (gaelRageAttackCooldown > 0)
                 gaelRageAttackCooldown--;
             if (projRefRareLifeRegenCounter > 0)

@@ -367,28 +367,6 @@ namespace CalamityMod
         public float AdrenalineMeterPosY { get; set; }
         #endregion
 
-        #region Boss Rush Curses
-        [Header("$Mods.CalamityMod.Config.SectionTitle.BossRushCurses")]
-
-        [Label("$Mods.CalamityMod.Config.EntryTitle.BossRushRegenCurse")]
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(false)]
-        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossRushRegenCurse")]
-        public bool BossRushRegenCurse { get; set; }
-
-        [Label("$Mods.CalamityMod.Config.EntryTitle.BossRushDashCurse")]
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(false)]
-        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossRushDashCurse")]
-        public bool BossRushDashCurse { get; set; }
-
-        [Label("$Mods.CalamityMod.Config.EntryTitle.BossRushIFrameCurse")]
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(false)]
-        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossRushIFrameCurse")]
-        public bool BossRushIFrameCurse { get; set; }
-        #endregion
-
         #region Dynamic Localization (Item Icon Injection)
         
         // Because it is impossible to know the item IDs of Calamity items until runtime,
