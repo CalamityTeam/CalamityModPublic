@@ -3195,12 +3195,11 @@ namespace CalamityMod.CalPlayer
             // TODO -- why is boss health bar code in Player.UpdateEquips and not a ModSystem
             CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
+            // If the config is enabled, vastly increase the player's base tile and wall placement speeds
+            // This stacks with the Brick Layer and Portable Cement Mixer
             if (CalamityConfig.Instance.FasterTilePlacement)
             {
-                // Increase tile placement speed to speed up early game a bit and make building more fun
                 Player.tileSpeed += 0.5f;
-
-                // Increase wall placement speed to speed up early game a bit and make building more fun
                 Player.wallSpeed += 0.5f;
             }
 

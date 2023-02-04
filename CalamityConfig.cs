@@ -205,6 +205,12 @@ namespace CalamityMod
         #region General Gameplay Changes
         [Header("$Mods.CalamityMod.Config.SectionTitle.Gameplay")]
 
+        [Label("$Mods.CalamityMod.Config.EntryTitle.FasterFallHotkey")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterFallHotkey")]
+        public bool FasterFallHotkey { get; set; }
+
         [Label("$Mods.CalamityMod.Config.EntryTitle.RemoveReforgeRNG")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
@@ -281,13 +287,6 @@ namespace CalamityMod
         [DefaultValue(true)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterJumpSpeed")]
         public bool FasterJumpSpeed { get; set; }
-
-
-        [Label("$Mods.CalamityMod.Config.EntryTitle.FasterFallHotkey")]
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(true)]
-        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterFallHotkey")]
-        public bool FasterFallHotkey { get; set; }
 
         [Label("$Mods.CalamityMod.Config.EntryTitle.FasterTilePlacement")]
         [BackgroundColor(192, 54, 64, 192)]
