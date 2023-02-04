@@ -105,7 +105,7 @@ Config:
         "PotionSelling": "Allows town NPCs to sell various potions.\nCertain potions are sold after specific bosses have been defeated.",
         "TownNPCSpawnRateMultiplier": "Directly multiply the rate at which town NPCs spawn and respawn.\nThis reduces waiting times if a boss or event wipes your whole town.",
         "TownNPCsSpawnAtNight": "When enabled, town NPCs can spawn and respawn at night.\nThis includes the Old Man.",
-        "VanillaCooldownDisplay": "Adds the vanilla debuffs Potion Sickness and Chaos State to the Cooldown Rack.\nThis doesn't remove them from your buff list, but can help with visibility nontheless",
+        "VanillaCooldownDisplay": "Adds the vanilla debuffs Potion Sickness and Chaos State to the Cooldown Rack.\nThis doesn't remove them from your buff list, but can help with visibility nonetheless",
         "WikiStatusMessage": "Enable or disable the status message promoting the Official Calamity Wiki that plays on world entry.",
     }
 }
