@@ -41,30 +41,6 @@ namespace CalamityMod
             }
         }
 
-        //place a circular clump of tiles
-        public static void NaturalCircle(int i, int j, int size, int tileType, bool hasRandomness = false)
-		{
-			int BaseRadius = size;
-			int radius = BaseRadius;
-
-			for (int y = j - radius; y <= j + radius; y++)
-			{
-				for (int x = i - radius; x <= i + radius + 1; x++)
-				{
-					if ((int)Vector2.Distance(new Vector2(x, y), new Vector2(i, j)) <= radius && WorldGen.InWorld(x, y))
-                    {
-						Tile tile = Framing.GetTileSafely(x, y);
-
-                        WorldGen.KillTile(x, y);
-                        WorldGen.PlaceTile(x, y, tileType);
-                        tile.Slope = 0;
-                    }
-				}
-
-				radius = BaseRadius - (hasRandomness ? WorldGen.genRand.Next(-1, 2) : 0);
-			}
-		}
-
         /// <summary>
         /// Settles all liquids in the world.
         /// </summary>

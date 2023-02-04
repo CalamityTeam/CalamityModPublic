@@ -19,95 +19,89 @@ namespace CalamityMod.World
     {
         public static void PlaceArchive()
         {
-            int archiveX = 0;
-            int archiveY = 0;
+            int worldThird = Main.maxTilesX / 3;
 
-            bool placedArchive = false;
-            bool foundValidPosition = false;
-            bool shouldPlaceTheDamnThing = false;
             int dungeonArchiveColor = 0; //0 = blue, 1 = green, 2 = pink
 
-            int heightLimit = (Main.maxTilesY / 2) + (Main.maxTilesY / 8);
-
-            for (int x = WorldGen.dungeonX - 100; x <= WorldGen.dungeonX + 100; x++)
+            //start much higher above the top of hell so it doesnt get nuked by the crags generation, and so it wont generate too low
+            for (int j = Main.maxTilesY - 380; j > 0; j--)
             {
-                for (int y = Main.maxTilesY - 200; y >= heightLimit; y--)
-                { 
-                    Tile tile = Main.tile[x, y];
-                    Tile tileUp = Main.tile[x, y - 1];
-                    Tile tileUp2 = Main.tile[x, y - 2];
-                    Tile tileUp3 = Main.tile[x, y - 3];
-                    Tile tileDown = Main.tile[x, y + 1];
+                int i = 100;
+                if (WorldGen.dungeonSide == 1)
+                {
+                    i = Main.maxTilesX - 100;
+                }
 
-                    if ((tile.TileType == 41 || tile.TileType == 43 || tile.TileType == 44 || tile.TileType == 48) && !tileUp.HasTile)
+                bool shouldContinue = true;
+                bool placedArchive = false;
+                int color = 0;
+
+                while (shouldContinue)
+                {
+                    if (WorldGen.dungeonSide == 1)
                     {
-                        //blue brick walls
-                        if ((tileUp.WallType == 7 || tileUp.WallType == 94 || tileUp.WallType == 95) && 
-                        (tileUp2.WallType == 7 || tileUp2.WallType == 94 || tileUp2.WallType == 95) && 
-                        (tileUp3.WallType == 7 || tileUp3.WallType == 94 || tileUp3.WallType == 95))
+                        i--;
+                        if (i < Main.maxTilesX - worldThird)
                         {
+                            shouldContinue = false;
+                        }
+                    }
+                    else
+                    {
+                        i++;
+                        if (i > worldThird)
+                        {
+                            shouldContinue = false;
+                        }
+                    }
+
+                    Tile tile = Main.tile[i, j];
+                    Tile tileUp1 = Main.tile[i, j - 1];
+                    Tile tileUp2 = Main.tile[i, j - 2];
+                    Tile tileUp3 = Main.tile[i, j - 3];
+                    Tile tileUp4 = Main.tile[i, j - 4];
+                    Tile tileUp5 = Main.tile[i, j - 5];
+
+                    if (Main.tileDungeon[tile.TileType] && !tileUp1.HasTile && !tileUp2.HasTile && !tileUp3.HasTile && !tileUp4.HasTile && !tileUp5.HasTile)
+                    {
+                        //i += WorldGen.dungeonSide * -16;
+
+                        //determine the archive brick color
+                        if (tile.TileType == TileID.BlueDungeonBrick)
                             dungeonArchiveColor = 0;
-                            archiveX = x;
-                            archiveY = y;
-
-                            foundValidPosition = true;
-                        }
-                        //green brick walls
-                        if ((tileUp.WallType == 8 || tileUp.WallType == 98 || tileUp.WallType == 99) &&
-                        (tileUp2.WallType == 8 || tileUp2.WallType == 98 || tileUp2.WallType == 99) &&
-                        (tileUp3.WallType == 8 || tileUp3.WallType == 98 || tileUp3.WallType == 99))
-                        {
+                        else if (tile.TileType == TileID.GreenDungeonBrick)
                             dungeonArchiveColor = 1;
-                            archiveX = x;
-                            archiveY = y;
-
-                            foundValidPosition = true;
-                        }
-                        //pink brick walls
-                        if ((tileUp.WallType == 9 || tileUp.WallType == 96 || tileUp.WallType == 97) &&
-                        (tileUp2.WallType == 9 || tileUp2.WallType == 96 || tileUp2.WallType == 97) &&
-                        (tileUp3.WallType == 9 || tileUp3.WallType == 96 || tileUp3.WallType == 97))
-                        {
+                        else if (tile.TileType == TileID.PinkDungeonBrick)
                             dungeonArchiveColor = 2;
-                            archiveX = x;
-                            archiveY = y;
+                        
+                        placedArchive = true;
 
-                            foundValidPosition = true;
-                        }
+                        break;
                     }
+                }
 
-                    //in order to make sure the archive places at the very bottom of the dungeon
-                    //loop upward a certain amount, and if it doesnt place reset everything and increase the maximum check height before the loop ends
-                    //this way it will keep checking upward so it places nicely and doesnt destroy other parts of the dungeon (or at least not as much)
-                    if (x >= (WorldGen.dungeonX + 100) - 5 && y <= heightLimit + 5 && !foundValidPosition)
+                if (placedArchive)
+                {
+                    bool firstItem = false;
+
+                    if (dungeonArchiveColor == 0)
                     {
-                        x = WorldGen.dungeonX - 100;
-                        heightLimit -= 1;
+                        SchematicManager.PlaceSchematic(SchematicManager.BlueArchiveKey, new Point(i, j), SchematicAnchor.TopCenter,
+                        ref firstItem, new Action<Chest, int, bool>(FillArchiveChests));
                     }
-                }
-            }
+                    if (dungeonArchiveColor == 1)
+                    {
+                        SchematicManager.PlaceSchematic(SchematicManager.GreenArchiveKey, new Point(i, j), SchematicAnchor.TopCenter, 
+                        ref firstItem, new Action<Chest, int, bool>(FillArchiveChests));
+                    }
+                    if (dungeonArchiveColor == 2)
+                    {
+                        SchematicManager.PlaceSchematic(SchematicManager.PinkArchiveKey, new Point(i, j), SchematicAnchor.TopCenter, 
+                        ref firstItem, new Action<Chest, int, bool>(FillArchiveChests));
+                    }
 
-            if (foundValidPosition && !placedArchive)
-            {
-                bool firstItem = false;
-
-                if (dungeonArchiveColor == 0)
-                {
-                    SchematicManager.PlaceSchematic(SchematicManager.BlueArchiveKey, new Point(archiveX - 10, archiveY), SchematicAnchor.TopCenter,
-                    ref firstItem, new Action<Chest, int, bool>(FillArchiveChests));
+                    break;
                 }
-                if (dungeonArchiveColor == 1)
-                {
-                    SchematicManager.PlaceSchematic(SchematicManager.GreenArchiveKey, new Point(archiveX - 10, archiveY), SchematicAnchor.TopCenter, 
-                    ref firstItem, new Action<Chest, int, bool>(FillArchiveChests));
-                }
-                if (dungeonArchiveColor == 2)
-                {
-                    SchematicManager.PlaceSchematic(SchematicManager.PinkArchiveKey, new Point(archiveX - 10, archiveY), SchematicAnchor.TopCenter, 
-                    ref firstItem, new Action<Chest, int, bool>(FillArchiveChests));
-                }
-
-                placedArchive = true;
             }
         }
 
