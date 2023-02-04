@@ -62,6 +62,9 @@ namespace CalamityMod.World
                     Tile tileUp4 = Main.tile[i, j - 4];
                     Tile tileUp5 = Main.tile[i, j - 5];
 
+                    int[] DungeonWalls = { 7, 94, 95, 8, 98, 99, 9, 96, 97 };
+                    //if (Main.tileDungeon[tile.TileType] && DungeonWalls.Contains(tileUp.WallType) && !tileUp.HasTile)
+
                     if (Main.tileDungeon[tile.TileType] && !tileUp1.HasTile && !tileUp2.HasTile && !tileUp3.HasTile && !tileUp4.HasTile && !tileUp5.HasTile)
                     {
                         //i += WorldGen.dungeonSide * -16;
