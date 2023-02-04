@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.height = 186;
             NPC.defense = 40;
             NPC.DR_NERD(0.3f);
-            NPC.LifeMaxNERB(90000, 108000, 200000);
+            NPC.LifeMaxNERB(108000, 129600, 200000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
@@ -432,6 +432,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         {
                             // Shoot holy blasts
                             float holyBlastVelocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                            int projTimeLeft = (int)(2000f / holyBlastVelocity);
                             Vector2 finalHolyBlastVelocity = Vector2.Normalize(player.Center - shootFrom) * holyBlastVelocity;
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
@@ -440,7 +441,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, finalHolyBlastVelocity, type, damage, 0f, Main.myPlayer);
-                                    Main.projectile[proj].timeLeft = 180;
+                                    Main.projectile[proj].timeLeft = projTimeLeft;
                                 }
                             }
 
@@ -637,7 +638,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (boostVelocityToCatchUp)
                     velocity *= 2f;
 
-                float distanceToStayAwayFromTarget = 160f;
+                float distanceToStayAwayFromTarget = 320f;
                 Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * -NPC.direction;
                 Vector2 targetVector = destination - NPC.Center;
                 Vector2 desiredVelocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
@@ -654,7 +655,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (NPC.ai[1] < phaseGateValue)
                 {
                     // Move towards destination
-                    if (Vector2.Distance(NPC.Center, destination) > 80f)
+                    if (Vector2.Distance(NPC.Center, destination) > 160f)
                     {
                         inertia *= 0.5f;
                         NPC.velocity = (NPC.velocity * (inertia - 1f) + desiredVelocity) / inertia;
