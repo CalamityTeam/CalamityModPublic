@@ -76,6 +76,7 @@ namespace CalamityMod.NPCs.Providence
             Blue = 5,
             Violet = 6
         }
+        public static Color BackglowColor => new Color(20, 0, 30, 40);
         public int currentMode = (int)BossMode.Day;
         public int colorShiftTimer = -1;
 

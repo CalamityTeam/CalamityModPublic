@@ -224,7 +224,6 @@ namespace CalamityMod
             // Lore items
             ItemRedirect(ModContent.ItemType<LoreAstralInfection>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreAbyss>(), "Lore#Lore_Items");
-
             ItemRedirect(ModContent.ItemType<LoreAquaticScourge>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreArchmage>(), "Lore#Lore_Items");
             ItemRedirect(ModContent.ItemType<LoreAstrumAureus>(), "Lore#Lore_Items");
@@ -279,7 +278,6 @@ namespace CalamityMod
             ItemRedirect(ModContent.ItemType<LoreYharon>(), "Lore#Lore_Items");
 
             // Enemies
-            EnemyRedirect(ModContent.NPCType<Toxicatfish>(), "Catfish (enemy)");
             EnemyRedirect(ModContent.NPCType<HiveEnemy>(), "Hive (enemy)");
             EnemyRedirect(ModContent.NPCType<KingSlimeJewel>(), "Crown Jewel (enemy)");
             EnemyRedirect(ModContent.NPCType<OldDukeToothBall>(), "Tooth Ball (Old Duke)");

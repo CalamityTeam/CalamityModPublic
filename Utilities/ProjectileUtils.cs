@@ -507,9 +507,9 @@ namespace CalamityMod
             return false;
         }
 
-        public static void DrawBackglow(this Projectile projectile, Color backglowColor, float backglowArea, Rectangle? frame = null)
+        public static void DrawBackglow(this Projectile projectile, Color backglowColor, float backglowArea, Texture2D? texture = null, Rectangle? frame = null)
         {
-            Texture2D texture = TextureAssets.Projectile[projectile.type].Value;
+            texture ??= TextureAssets.Projectile[projectile.type].Value;
 
             // Use a fallback for the frame.
             frame ??= texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
@@ -524,9 +524,9 @@ namespace CalamityMod
             }
         }
 
-        public static void DrawProjectileWithBackglow(this Projectile projectile, Color backglowColor, Color lightColor, float backglowArea, Rectangle? frame = null)
+        public static void DrawProjectileWithBackglow(this Projectile projectile, Color backglowColor, Color lightColor, float backglowArea, Texture2D? texture = null, Rectangle? frame = null)
         {
-            Texture2D texture = TextureAssets.Projectile[projectile.type].Value;
+            texture ??= TextureAssets.Projectile[projectile.type].Value;
 
             // Use a fallback for the frame.
             frame ??= texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
@@ -534,7 +534,7 @@ namespace CalamityMod
             Vector2 drawPosition = projectile.Center - Main.screenPosition;
             Vector2 origin = frame.Value.Size() * 0.5f;
 
-            projectile.DrawBackglow(backglowColor, backglowArea, frame);
+            projectile.DrawBackglow(backglowColor, backglowArea, texture, frame);
             Main.spriteBatch.Draw(texture, drawPosition, frame, projectile.GetAlpha(lightColor), projectile.rotation, origin, projectile.scale, 0, 0f);
         }
 

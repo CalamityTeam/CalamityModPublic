@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Pets
     {
         public Player Owner => Main.player[Projectile.owner];
 
-        public ref float MovementTimer => ref Projectile.ai[0];
+        public ref float RotationTimer => ref Projectile.ai[0];
         public ref float SparkleTimer => ref Projectile.ai[1];
         public float MaxBloomTime = 30f;
         public float MaxSparkleTime = 150f;
@@ -90,15 +90,14 @@ namespace CalamityMod.Projectiles.Pets
             //Chase after coins
             if (foundCoin)
             {
-                float itemDist = Vector2.Distance(targetLocation, Projectile.Center);
                 Vector2 destination = Projectile.SafeDirectionTo(targetLocation);
                 destination *= 12f;
                 Projectile.velocity = (Projectile.velocity * 40f + destination) / 41f;
                 Projectile.rotation = Projectile.velocity.X * 0.05f;
-                MovementTimer = -1f;
+                RotationTimer = -1f;
             }
             //Return to resting position
-            else if (MovementTimer == -1f)
+            else if (RotationTimer == -1f)
             {
                 Vector2 restingSpot = Owner.Center + Vector2.UnitY * -80f;
                 Projectile.velocity = (restingSpot - Projectile.Center) / 15f;
@@ -106,15 +105,15 @@ namespace CalamityMod.Projectiles.Pets
                 
                 //Start spinning again when rested
                 if (Vector2.Distance(restingSpot, Projectile.Center) <= 2f)
-                    MovementTimer++;
+                    RotationTimer++;
             }
             //Rotate
             else
             {
                 Vector2 playerDist = Owner.Center - Projectile.Center;
                 Projectile.rotation = playerDist.ToRotation() - MathHelper.PiOver2;
-                Projectile.Center = Owner.Center + Vector2.UnitY.RotatedBy(MovementTimer) * -80f;
-                MovementTimer += MathHelper.ToRadians(4f);
+                Projectile.Center = Owner.Center + Vector2.UnitY.RotatedBy(RotationTimer) * -80f;
+                RotationTimer += MathHelper.ToRadians(4f);
 
                 if (Main.rand.NextBool(150) && SparkleTimer <= MaxBloomTime)
                     SparkleTimer = MaxSparkleTime * 0.6f; //Slight sparkle randomly
@@ -151,14 +150,12 @@ namespace CalamityMod.Projectiles.Pets
 
             if (bloomPercent > 0f)
             {
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
                 
                 Main.EntitySpriteDraw(bloomTex, Projectile.Center - Main.screenPosition, null, GoldColor * bloomPercent * 0.2f, Projectile.rotation, bloomTex.Size() / 2f, bloomPercent * Projectile.scale * 0.3f, SpriteEffects.None, 0);
                 Main.EntitySpriteDraw(shineTex, Projectile.Center - Main.screenPosition, null, GoldColor * shinePercent, Projectile.rotation, shineTex.Size() / 2f, shineScale * Projectile.scale, SpriteEffects.None, 0);
 
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                Main.spriteBatch.ExitShaderRegion();
             }
 
             return true;
