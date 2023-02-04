@@ -30,10 +30,12 @@ namespace CalamityMod.Tiles.Crags
 
         public override void RandomUpdate(int i, int j)
         {
+            Tile up = Main.tile[i, j - 1];
             Tile left = Main.tile[i - 1, j];
             Tile right = Main.tile[i + 1, j];
 
-            if (WorldGen.genRand.Next(3) == 0 && (left.TileType == ModContent.TileType<ScorchedRemainsGrass>() || right.TileType == ModContent.TileType<ScorchedRemainsGrass>()))
+            if (WorldGen.genRand.Next(3) == 0 && !up.HasTile && (left.TileType == ModContent.TileType<ScorchedRemainsGrass>() || 
+            right.TileType == ModContent.TileType<ScorchedRemainsGrass>()))
             {
                 Main.tile[i, j].TileType = (ushort)ModContent.TileType<ScorchedRemainsGrass>();
             }

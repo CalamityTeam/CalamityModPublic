@@ -319,7 +319,7 @@ namespace CalamityMod.Systems
             if (tileType == ModContent.TileType<LumenylCrystals>() && !DownedBossSystem.downedCalamitasClone)
                 return false;
 
-            int minDistanceFromOtherTiles = 6;
+            int minDistanceFromOtherTiles = 10;
             int sameTilesNearby = 0;
             for (int i = x - minDistanceFromOtherTiles; i < x + minDistanceFromOtherTiles; i++)
             {

@@ -28,10 +28,9 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             CreateRecipe(25).
-                AddIngredient(ModContent.ItemType<BrimstoneSlab>()).
-                AddTile(TileID.HeavyWorkBench).
-                Register();
+            AddIngredient(ModContent.ItemType<BrimstoneSlag>()).
+            AddTile(TileID.HeavyWorkBench).
+            Register();
         }
-
     }
 }

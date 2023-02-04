@@ -44,9 +44,9 @@ namespace CalamityMod.Tiles.Abyss
             Tile leftTile = Main.tile[i - 1, j];
 
             if ((belowTile.Slope == SlopeType.Solid && !belowTile.IsHalfBlock && belowTile.HasTile && belowTile.IsTileSolid()) ||
-                (aboveTile.Slope == SlopeType.Solid && !aboveTile.IsHalfBlock && aboveTile.HasTile && aboveTile.IsTileSolid()) ||
-                (rightTile.Slope == SlopeType.Solid && !rightTile.IsHalfBlock && rightTile.HasTile && rightTile.IsTileSolid()) ||
-                (leftTile.Slope == SlopeType.Solid && !leftTile.IsHalfBlock && leftTile.HasTile && leftTile.IsTileSolid()))
+            (aboveTile.Slope == SlopeType.Solid && !aboveTile.IsHalfBlock && aboveTile.HasTile && aboveTile.IsTileSolid()) ||
+            (rightTile.Slope == SlopeType.Solid && !rightTile.IsHalfBlock && rightTile.HasTile && rightTile.IsTileSolid()) ||
+            (leftTile.Slope == SlopeType.Solid && !leftTile.IsHalfBlock && leftTile.HasTile && leftTile.IsTileSolid()))
                 return true;
 
             return false;
@@ -75,6 +75,7 @@ namespace CalamityMod.Tiles.Abyss
             {
                 Main.tile[i, j].TileFrameY = 54;
             }
+            
             Main.tile[i, j].TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
         }
     }

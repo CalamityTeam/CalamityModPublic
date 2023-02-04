@@ -25,7 +25,9 @@ namespace CalamityMod.World
                     {
                         if (!Convert)
                         {
-                            if (WorldGen.genRand.Next(365) == 0 && Main.tile[x, y].TileType == TileID.Cloud && Main.tile[x, y].HasTile)
+                            Tile tile = Main.tile[x, y];
+
+                            if (WorldGen.genRand.Next(365) == 0 && tile.TileType == TileID.Cloud && tile.HasTile)
                             {
                                 ShapeData circle = new ShapeData();
                                 GenAction blotchMod = new Modifiers.Blotches(2, 0.4);

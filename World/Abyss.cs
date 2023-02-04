@@ -7,13 +7,17 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.Abyss.AbyssAmbient;
 using CalamityMod.Tiles.FurnitureVoid;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.IO;
 using Terraria.ModLoader;
 
 namespace CalamityMod.World
@@ -65,37 +69,35 @@ namespace CalamityMod.World
 
                         if (abyssIndex2 > rockLayer - WorldGen.genRand.Next(30))
                         {
+                            //dithering on the edge of the abyss
                             if (abyssIndex > abyssChasmX + 75)
-                            {
-                                if (WorldGen.genRand.NextBool(4))
-                                {
-                                    if (canConvert)
-                                    {
-                                        tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                        tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
-                                    }
-                                    else if (!tile.HasTile)
-                                    {
-                                        tile.Get<TileWallWireStateData>().HasTile = true;
-                                        tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                        tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
-                                    }
-                                }
-                            }
-                            else if (abyssIndex > abyssChasmX + 70)
                             {
                                 if (WorldGen.genRand.NextBool(2))
                                 {
-                                    if (canConvert)
+                                    WorldGen.KillTile(abyssIndex, abyssIndex2);
+
+                                    if (abyssIndex2 > (rockLayer + y * 0.262))
                                     {
-                                        tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                        tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
+                                        WorldGen.PlaceTile(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<Voidstone>());
                                     }
-                                    else if (!tile.HasTile)
+                                    else if (abyssIndex2 > (rockLayer + y * 0.140) && WorldGen.genRand.NextBool(3))
                                     {
-                                        tile.Get<TileWallWireStateData>().HasTile = true;
-                                        tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                        tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
+                                        WorldGen.PlaceTile(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<Voidstone>());
+                                    }
+                                    else if (abyssIndex2 > (rockLayer + y * 0.145))
+                                    {
+                                        if (WorldGen.genRand.NextBool(3))
+                                        {
+                                            WorldGen.PlaceTile(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<Voidstone>());
+                                        }
+                                        else
+                                        {
+                                            WorldGen.PlaceTile(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<AbyssGravel>());
+                                        }
+                                    }
+                                    else
+                                    {
+                                        WorldGen.PlaceTile(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<AbyssGravel>());
                                     }
                                 }
                             }
@@ -187,37 +189,35 @@ namespace CalamityMod.World
 
                         if (abyssIndex2 > rockLayer - WorldGen.genRand.Next(30))
                         {
+                            //dithering on the edge of the abyss
                             if (abyssIndex < abyssChasmX - 75)
-                            {
-                                if (WorldGen.genRand.NextBool(4))
-                                {
-                                    if (canConvert)
-                                    {
-                                        tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                        tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
-                                    }
-                                    else if (!tile.HasTile)
-                                    {
-                                        tile.Get<TileWallWireStateData>().HasTile = true;
-                                        tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                        tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
-                                    }
-                                }
-                            }
-                            else if (abyssIndex < abyssChasmX - 70)
                             {
                                 if (WorldGen.genRand.NextBool(2))
                                 {
-                                    if (canConvert)
+                                    WorldGen.KillTile(abyssIndex, abyssIndex2);
+
+                                    if (abyssIndex2 > (rockLayer + y * 0.262))
                                     {
-                                        tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                        tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
+                                        WorldGen.PlaceTile(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<Voidstone>());
                                     }
-                                    else if (!tile.HasTile)
+                                    else if (abyssIndex2 > (rockLayer + y * 0.140) && WorldGen.genRand.NextBool(3))
                                     {
-                                        tile.Get<TileWallWireStateData>().HasTile = true;
-                                        tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                        tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
+                                        WorldGen.PlaceTile(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<Voidstone>());
+                                    }
+                                    else if (abyssIndex2 > (rockLayer + y * 0.145))
+                                    {
+                                        if (WorldGen.genRand.NextBool(3))
+                                        {
+                                            WorldGen.PlaceTile(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<Voidstone>());
+                                        }
+                                        else
+                                        {
+                                            WorldGen.PlaceTile(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<AbyssGravel>());
+                                        }
+                                    }
+                                    else
+                                    {
+                                        WorldGen.PlaceTile(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<AbyssGravel>());
                                     }
                                 }
                             }
@@ -427,7 +427,7 @@ namespace CalamityMod.World
                     }
 
                     //increase y value so islands cant be spammed on top of each other
-                    voidIslandY += WorldGen.genRand.Next(10, 20);
+                    voidIslandY += WorldGen.genRand.Next(20, 32);
                 }
             }
 
@@ -525,15 +525,98 @@ namespace CalamityMod.World
                 }
             }
 
+            //clear lava and glowing moss away from the side of the abyss because it ruins immersion
+            if (AtLeftSideOfWorld)
+            {
+                for (int abyssIndex = 0; abyssIndex < abyssChasmX + 155; abyssIndex++)
+                {
+                    for (int abyssIndex2 = 0; abyssIndex2 < abyssChasmY; abyssIndex2++)
+                    {
+                        Tile tile = Main.tile[abyssIndex, abyssIndex2];
+
+                        if (tile.LiquidType == LiquidID.Lava && tile.LiquidAmount > 0)
+                        {
+                            tile.LiquidAmount = 0;
+                        }
+
+                        int[] Mosses = { 381, 534, 536, 539, 625, 627 };
+
+                        if (Mosses.Contains(tile.TileType))
+                        {
+                            tile.TileType = TileID.Stone;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int abyssIndex = abyssChasmX - 155; abyssIndex < x; abyssIndex++)
+                {
+                    for (int abyssIndex2 = 0; abyssIndex2 < abyssChasmY; abyssIndex2++)
+                    {
+                        Tile tile = Main.tile[abyssIndex, abyssIndex2];
+
+                        if (tile.LiquidType == LiquidID.Lava && tile.LiquidAmount > 0)
+                        {
+                            tile.LiquidAmount = 0;
+                        }
+
+                        int[] Mosses = { 381, 534, 536, 539, 625, 627 };
+
+                        if (Mosses.Contains(tile.TileType))
+                        {
+                            tile.TileType = TileID.Stone;
+                        }
+                    }
+                }
+            }
+
+            //ambient tiles and pots
             if (AtLeftSideOfWorld)
             {
                 for (int abyssIndex = 0; abyssIndex < abyssChasmX + 80; abyssIndex++) //235
                 {
                     for (int abyssIndex2 = 0; abyssIndex2 < abyssChasmY; abyssIndex2++)
                     {
-                        //pots
                         if (!Main.tile[abyssIndex, abyssIndex2].HasTile)
                         {
+                            //above the 4th layer
+                            if (abyssIndex2 < (int)(rockLayer + y * 0.262) && WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1))
+                            {
+                                //giant kelp, more often in upper layers
+                                if ((WorldGen.genRand.NextBool(18) && Main.tile[abyssIndex, abyssIndex2 + 1].TileType == ModContent.TileType<AbyssGravel>()) ||
+                                (WorldGen.genRand.NextBool(35) && Main.tile[abyssIndex, abyssIndex2 + 1].TileType == ModContent.TileType<Voidstone>()))
+                                {
+                                    ushort[] Kelps = new ushort[] { (ushort)ModContent.TileType<AbyssGiantKelp1>(), (ushort)ModContent.TileType<AbyssGiantKelp2>(),
+                                    (ushort)ModContent.TileType<AbyssGiantKelp3>(), (ushort)ModContent.TileType<AbyssGiantKelp4>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Kelps));
+                                }
+
+                                //bulb trees on voidstone
+                                if (WorldGen.genRand.NextBool(25) && Main.tile[abyssIndex, abyssIndex2 + 1].TileType == ModContent.TileType<Voidstone>())
+                                {
+                                    ushort[] BulbTrees = new ushort[] { (ushort)ModContent.TileType<BulbTree1>(),
+                                    (ushort)ModContent.TileType<BulbTree2>(), (ushort)ModContent.TileType<BulbTree3>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(BulbTrees));
+                                }
+                            }
+
+                            //below 4th layer
+                            if (abyssIndex2 >= (int)(rockLayer + y * 0.262) && WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1))
+                            {
+                                //bulb trees on voidstone
+                                if (WorldGen.genRand.NextBool(6) && Main.tile[abyssIndex, abyssIndex2 + 1].TileType == ModContent.TileType<Voidstone>())
+                                {
+                                    ushort[] BulbTrees = new ushort[] { (ushort)ModContent.TileType<BulbTree1>(),
+                                    (ushort)ModContent.TileType<BulbTree2>(), (ushort)ModContent.TileType<BulbTree3>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(BulbTrees));
+                                }
+                            }
+
+                            //pots
                             if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) && abyssIndex2 > rockLayer)
                             {
                                 if (WorldGen.genRand.NextBool(5))
@@ -542,6 +625,7 @@ namespace CalamityMod.World
                                     CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
                                 }
                             }
+                            //sulphur pots
                             else if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) && abyssIndex2 < (int)Main.worldSurface)
                             {
                                 if (WorldGen.genRand.NextBool(3))
@@ -560,9 +644,45 @@ namespace CalamityMod.World
                 {
                     for (int abyssIndex2 = 0; abyssIndex2 < abyssChasmY; abyssIndex2++)
                     {
-                        //pots
                         if (!Main.tile[abyssIndex, abyssIndex2].HasTile)
                         {
+                            //above the 4th layer
+                            if (abyssIndex2 < (int)(rockLayer + y * 0.262) && WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1))
+                            {
+                                //giant kelp, more often in upper layers
+                                if ((WorldGen.genRand.NextBool(18) && Main.tile[abyssIndex, abyssIndex2 + 1].TileType == ModContent.TileType<AbyssGravel>()) ||
+                                (WorldGen.genRand.NextBool(35) && Main.tile[abyssIndex, abyssIndex2 + 1].TileType == ModContent.TileType<Voidstone>()))
+                                {
+                                    ushort[] Kelps = new ushort[] { (ushort)ModContent.TileType<AbyssGiantKelp1>(), (ushort)ModContent.TileType<AbyssGiantKelp2>(),
+                                    (ushort)ModContent.TileType<AbyssGiantKelp3>(), (ushort)ModContent.TileType<AbyssGiantKelp4>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Kelps));
+                                }
+
+                                //bulb trees on voidstone
+                                if (WorldGen.genRand.NextBool(25) && Main.tile[abyssIndex, abyssIndex2 + 1].TileType == ModContent.TileType<Voidstone>())
+                                {
+                                    ushort[] BulbTrees = new ushort[] { (ushort)ModContent.TileType<BulbTree1>(),
+                                    (ushort)ModContent.TileType<BulbTree2>(), (ushort)ModContent.TileType<BulbTree3>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(BulbTrees));
+                                }
+                            }
+
+                            //below 4th layer
+                            if (abyssIndex2 >= (int)(rockLayer + y * 0.262) && WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1))
+                            {
+                                //bulb trees on voidstone
+                                if (WorldGen.genRand.NextBool(6) && Main.tile[abyssIndex, abyssIndex2 + 1].TileType == ModContent.TileType<Voidstone>())
+                                {
+                                    ushort[] BulbTrees = new ushort[] { (ushort)ModContent.TileType<BulbTree1>(),
+                                    (ushort)ModContent.TileType<BulbTree2>(), (ushort)ModContent.TileType<BulbTree3>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(BulbTrees));
+                                }
+                            }
+
+                            //pots
                             if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) && abyssIndex2 > rockLayer)
                             {
                                 if (WorldGen.genRand.NextBool(5))
@@ -571,6 +691,7 @@ namespace CalamityMod.World
                                     CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
                                 }
                             }
+                            //sulphur pots
                             else if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) && abyssIndex2 < (int)Main.worldSurface)
                             {
                                 if (WorldGen.genRand.NextBool(3))

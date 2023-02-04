@@ -186,7 +186,7 @@ namespace CalamityMod.NPCs.Abyss
         {
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water && NPC.CountNPCS(ModContent.NPCType<Bloatfish>()) < 3)
             {
-                return SpawnCondition.CaveJellyfish.Chance * 0.3f;
+                return SpawnCondition.CaveJellyfish.Chance * 0.5f;
             }
             return 0f;
         }

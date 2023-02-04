@@ -11,9 +11,8 @@ namespace CalamityMod.Tiles.Abyss
     {
         public override void SetStaticDefaults()
         {
-            Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);

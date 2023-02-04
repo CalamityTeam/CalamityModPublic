@@ -372,7 +372,7 @@ namespace CalamityMod.World
                                 iceTilesInArea++;
                     }
                 }
-                if (!canGenerateInLocation || iceTilesInArea < totalTiles * 0.2f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || iceTilesInArea < totalTiles * 0.35f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                 {
                     tries++;
                 }
