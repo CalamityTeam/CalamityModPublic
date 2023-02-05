@@ -293,7 +293,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             drawPos -= new Vector2(texture.Width, texture.Height) * NPC.scale / 2f;
             drawPos += drawOrigin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             Rectangle frame = new Rectangle(0, 0, texture.Width, texture.Height);
+
+            NPC.DrawBackglow(Color.Orange, 4f, SpriteEffects.None, frame, screenPos);
+
             spriteBatch.Draw(texture, drawPos, frame, NPC.GetAlpha(drawColor), NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0f);
+
             return false;
         }
 

@@ -568,7 +568,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         }
                     }
                     else
+                    {
+                        inertia *= 1.5f;
                         NPC.velocity = (NPC.velocity * (inertia - 1f) + targetVector * (NPC.velocity.Length() + num1006)) / inertia;
+                    }
 
                     // Throw down holy fire while charging
                     int projectileGateValue = (int)(phaseGateValue * 0.4f);

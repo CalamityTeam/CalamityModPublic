@@ -257,6 +257,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float timeBeforeRocksRespawnInPhase2 = 90f;
             float throwRocksGateValue = 60f;
 
+            // Distance
+            float distanceInFrontOfCommander = 160f;
+
             // Charge variables
             float chargeVelocityMult = 0.25f;
             float maxChargeVelocity = (bossRush || biomeEnraged) ? 25f : death ? 22f : revenge ? 20.5f : expertMode ? 19f : 16f;
@@ -415,7 +418,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 // Defend the commander
-                float distanceInFrontOfCommander = 120f;
                 Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center + Vector2.UnitX * distanceInFrontOfCommander * Main.npc[CalamityGlobalNPC.doughnutBoss].direction - NPC.Center;
                 Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f);
                 if (distanceFromDestination.Length() > 80f)
@@ -508,7 +510,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         NPC.velocity = -velocity * 0.5f;
                     }
 
-                    Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center - NPC.Center;
+                    Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center + Vector2.UnitX * distanceInFrontOfCommander * Main.npc[CalamityGlobalNPC.doughnutBoss].direction - NPC.Center;
                     Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f);
                     if (distanceFromDestination.Length() > 80f)
                     {
@@ -593,7 +595,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     else
                     {
                         // Charge towards target
-                        float inertia = (bossRush || biomeEnraged) ? 35f : death ? 40f : revenge ? 42f : expertMode ? 45f : 50f;
+                        float inertia = (bossRush || biomeEnraged) ? 57f : death ? 63f : revenge ? 66f : expertMode ? 69f : 75f;
                         float num1006 = 0.111111117f * inertia;
                         NPC.velocity = (NPC.velocity * (inertia - 1f) + targetVector * (NPC.velocity.Length() + num1006)) / inertia;
                     }
