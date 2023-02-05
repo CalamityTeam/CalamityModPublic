@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.Projectiles.Enemy
 {
@@ -15,11 +16,10 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            Projectile.width = 52;
-            Projectile.height = 48;
+            Projectile.width = 45;
+            Projectile.height = 45;
             Projectile.hostile = true;
             Projectile.friendly = true;
-            Projectile.Opacity = 0f;
             Projectile.penetrate = 7;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
@@ -29,15 +29,6 @@ namespace CalamityMod.Projectiles.Enemy
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, 0.3f * Projectile.Opacity, 1.2f * Projectile.Opacity, 0f);
-
-            Projectile.frameCounter++;
-            if (Projectile.frameCounter > 9)
-            {
-                Projectile.frame++;
-                Projectile.frameCounter = 0;
-            }
-            if (Projectile.frame > 3)
-                Projectile.frame = 0;
 
             if (Main.rand.NextBool(2))
                 Projectile.velocity *= 0.95f;
@@ -49,22 +40,31 @@ namespace CalamityMod.Projectiles.Enemy
                 Projectile.velocity *= 0.8f;
 
             Projectile.ai[0] += 1f;
-            if (Projectile.ai[0] >= 560f)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                if (Projectile.Opacity > 0f)
-                {
-                    Projectile.Opacity -= 0.02f;
-                    if (Projectile.Opacity < 0f)
-                        Projectile.Opacity = 0f;
-                }
-                else if (Projectile.owner == Main.myPlayer)
-                    Projectile.Kill();
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            else if (Projectile.Opacity < 0.9f)
+            if (Projectile.ai[0] < 560f)
             {
-                Projectile.Opacity += 0.12f;
-                if (Projectile.Opacity > 0.9f)
-                    Projectile.Opacity = 0.9f;
+                if (Projectile.frame >= 4)
+                {
+                    Projectile.frame = 0;
+                }
+            }
+            if (Projectile.ai[0] > 560f)
+            {
+                Projectile.damage = 0;
+            }
+            else if (Projectile.frame >= Main.projFrames[Projectile.type])
+            {
+                Projectile.Kill();
+            }
+
+            if (Math.Abs(Projectile.velocity.X) > 0f)
+            {
+                Projectile.spriteDirection = -Projectile.direction;
             }
         }
 
@@ -85,9 +85,8 @@ namespace CalamityMod.Projectiles.Enemy
         {
             if (damage <= 0)
                 return;
-
-            if (Projectile.Opacity >= 0.9f)
-                target.AddBuff(BuffID.Poisoned, 240);
+            
+            target.AddBuff(BuffID.Poisoned, 240);
         }
 
         public override bool? CanHitNPC(NPC target) => Projectile.Opacity >= 0.9f;
