@@ -310,7 +310,7 @@ namespace CalamityMod.NPCs.Cryogen
                 if (calamityGlobalNPC.newAI[3] >= (bossRush ? 660f : 900f))
                 {
                     calamityGlobalNPC.newAI[3] = 0f;
-                    SoundEngine.PlaySound(Main.getGoodWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                    SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
                     int totalProjectiles = 3;
                     float radians = MathHelper.TwoPi / totalProjectiles;
                     int type = iceBomb;
@@ -341,7 +341,7 @@ namespace CalamityMod.NPCs.Cryogen
                         NPC.TargetClosest();
                         if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                         {
-                            SoundEngine.PlaySound(Main.getGoodWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                            SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
                             int totalProjectiles = bossRush ? 24 : 16;
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = iceBlast;
@@ -401,7 +401,7 @@ namespace CalamityMod.NPCs.Cryogen
                             NPC.TargetClosest();
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
-                                SoundEngine.PlaySound(Main.getGoodWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                                SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int totalProjectiles = bossRush ? 18 : 12;
                                 float radians = MathHelper.TwoPi / totalProjectiles;
                                 int type = iceBlast;
@@ -475,7 +475,7 @@ namespace CalamityMod.NPCs.Cryogen
                         {
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
-                                SoundEngine.PlaySound(Main.getGoodWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                                SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int type = iceRain;
                                 int damage = NPC.GetProjectileDamage(type);
                                 float maxVelocity = 9f + enrageScale;
@@ -575,7 +575,7 @@ namespace CalamityMod.NPCs.Cryogen
                             NPC.TargetClosest();
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
-                                SoundEngine.PlaySound(Main.getGoodWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                                SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int totalProjectiles = bossRush ? 18 : 12;
                                 float radians = MathHelper.TwoPi / totalProjectiles;
                                 int type = iceBlast;
@@ -621,7 +621,7 @@ namespace CalamityMod.NPCs.Cryogen
                         {
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
-                                SoundEngine.PlaySound(Main.getGoodWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                                SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int type = iceRain;
                                 int damage = NPC.GetProjectileDamage(type);
                                 float maxVelocity = 9f + enrageScale;
@@ -723,7 +723,7 @@ namespace CalamityMod.NPCs.Cryogen
                         NPC.localAI[0] = 0f;
                         if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                         {
-                            SoundEngine.PlaySound(Main.getGoodWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                            SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
                             int totalProjectiles = bossRush ? 18 : 12;
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = iceBlast;
@@ -833,7 +833,7 @@ namespace CalamityMod.NPCs.Cryogen
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
                                 NPC.localAI[0] = 0f;
-                                SoundEngine.PlaySound(Main.getGoodWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                                SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int type = iceRain;
                                 int damage = NPC.GetProjectileDamage(type);
                                 float velocity = 9f + enrageScale;
@@ -916,7 +916,7 @@ namespace CalamityMod.NPCs.Cryogen
                         {
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
-                                SoundEngine.PlaySound(Main.getGoodWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                                SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
                                 int type = iceBlast;
                                 int damage = NPC.GetProjectileDamage(type);
                                 float velocity = 1.5f + enrageScale * 0.5f;
@@ -1030,7 +1030,7 @@ namespace CalamityMod.NPCs.Cryogen
                 if (calamityGlobalNPC.newAI[3] >= (bossRush ? 50f : 75f))
                 {
                     calamityGlobalNPC.newAI[3] = 0f;
-                    SoundEngine.PlaySound(Main.getGoodWorld ? SoundID.NPCHit41 : HitSound, NPC.Center);
+                    SoundEngine.PlaySound(CalamityWorld.getFixedBoi ? SoundID.NPCHit41 : HitSound, NPC.Center);
                     int totalProjectiles = 2;
                     float radians = MathHelper.TwoPi / totalProjectiles;
                     int type = iceBomb;
