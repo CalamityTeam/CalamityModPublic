@@ -308,12 +308,12 @@ namespace CalamityMod.World
                 float depthFactor = (float)Math.Pow(Math.Sin((1f - i / (float)width) * MathHelper.PiOver2), descentSmoothness);
 
                 // Determine the top and botton of the water strip.
-                int top = YStart - 10;
+                int top = YStart - 20;
                 int bottom = top + (int)(maxDepth * depthFactor * 2);
                 for (int y = top; y < bottom; y++)
                 {
                     if (y >= top + DepthForWater)
-                        Main.tile[x, y + WorldGen.genRand.Next(10, 12)].WallType = (ushort)ModContent.WallType<SulphurousSandWall>();
+                        Main.tile[x, y + WorldGen.genRand.Next(15, 17)].WallType = (ushort)ModContent.WallType<SulphurousSandWall>();
                         Main.tile[x, y].LiquidAmount = byte.MaxValue;
                     Main.tile[x, y].Get<TileWallWireStateData>().HasTile = false;
                 }
