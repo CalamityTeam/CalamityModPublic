@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -11,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxic Cloud");
-            Main.projFrames[Projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 10;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -19,10 +20,9 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetDefaults()
         {
             Projectile.Calamity().DealsDefenseDamage = true;
-            Projectile.width = 52;
-            Projectile.height = 48;
+            Projectile.width = 45;
+            Projectile.height = 45;
             Projectile.hostile = true;
-            Projectile.Opacity = 0f;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
@@ -33,35 +33,34 @@ namespace CalamityMod.Projectiles.Boss
         {
             Lighting.AddLight(Projectile.Center, 0.5f * Projectile.Opacity, 0.3f * Projectile.Opacity, 0f);
 
+            Projectile.ai[0] += 1f;
             Projectile.frameCounter++;
-            if (Projectile.frameCounter > 9)
+            if (Projectile.frameCounter > 6)
             {
                 Projectile.frame++;
                 Projectile.frameCounter = 0;
             }
-            if (Projectile.frame > 3)
-                Projectile.frame = 0;
+            if (Projectile.ai[0] < 1620f)
+            {
+                if (Projectile.frame >= 4)
+                {
+                    Projectile.frame = 0;
+                }
+            }
+            if (Projectile.ai[0] > 1620f)
+            {
+                Projectile.damage = 0;
+            }
+            else if (Projectile.frame >= Main.projFrames[Projectile.type])
+            {
+                Projectile.Kill();
+            }
 
             Projectile.velocity *= 0.995f;
 
-            if (Projectile.timeLeft < 180)
+            if (Math.Abs(Projectile.velocity.X) > 0f)
             {
-                Projectile.damage = 0;
-                if (Projectile.Opacity > 0f)
-                {
-                    Projectile.Opacity -= 0.02f;
-                    if (Projectile.Opacity <= 0f)
-                    {
-                        Projectile.Opacity = 0f;
-                        Projectile.Kill();
-                    }
-                }
-            }
-            else if (Projectile.Opacity < 0.9f)
-            {
-                Projectile.Opacity += 0.12f;
-                if (Projectile.Opacity > 0.9f)
-                    Projectile.Opacity = 0.9f;
+                Projectile.spriteDirection = -Projectile.direction;
             }
         }
 
@@ -83,8 +82,7 @@ namespace CalamityMod.Projectiles.Boss
             if (damage <= 0)
                 return;
 
-            if (Projectile.Opacity >= 0.9f)
-                target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
         }
     }
 }

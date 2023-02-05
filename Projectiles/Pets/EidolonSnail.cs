@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Pets
                 Vector2 center2 = Projectile.Center;
                 Vector2 vector48 = player.Center - center2;
                 float playerDistance = vector48.Length();
-                if (Projectile.velocity.Y == 0 && (HoleBelow() || (playerDistance > 130f && Projectile.position.X == Projectile.oldPosition.X)))
+                if (Projectile.velocity.Y == 0 && (HoleBelow() || (playerDistance > 150f && Projectile.position.X == Projectile.oldPosition.X)))
                 {
                     Projectile.velocity.Y = -8f;
                 }
@@ -321,7 +321,7 @@ namespace CalamityMod.Projectiles.Pets
             {
                 for (int x = tileX; x < tileX + tileWidth; x++)
                 {
-                    if (Main.tile[x, y].HasTile)
+                    if (Main.tile[x, y].HasTile && (Main.tile[x - 1, y].HasTile || Main.tile[x + 1, y].HasTile))
                     {
                         return false;
                     }

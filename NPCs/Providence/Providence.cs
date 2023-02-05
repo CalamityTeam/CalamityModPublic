@@ -76,7 +76,6 @@ namespace CalamityMod.NPCs.Providence
             Blue = 5,
             Violet = 6
         }
-        public static Color BackglowColor => new Color(20, 0, 30, 40);
         public int currentMode = (int)BossMode.Day;
         public int colorShiftTimer = -1;
 
@@ -2494,32 +2493,36 @@ namespace CalamityMod.NPCs.Providence
     //These will be used for almost every single one of her projectiles, so it's useful to have.
     public static class ProvUtils
     {
-        public static Color GetProjectileColor(int Mode, int Alpha)
+        public static Color GetProjectileColor(int Mode, int Alpha, bool Outline = false)
         {
-            Color FinalColor = new Color(250, 150, 0, Alpha); //Default to day
+            Color FinalColor = new Color(250, Outline ? 0 : 150, 0, Alpha); //Default to day
             switch (Mode)
             {
                 case (int)Providence.BossMode.Red:
-                    FinalColor = new Color(250, 100, 100, Alpha);
+                    FinalColor = new Color(250, 100, Outline ? 200 : 100, Alpha);
                     break;
                 case (int)Providence.BossMode.Orange:
-                    FinalColor = new Color(250, 150, 100, Alpha);
+                    FinalColor = new Color(250, 150, Outline ? 150 : 100, Alpha);
                     break;
                 case (int)Providence.BossMode.Yellow: //Same as day
                     break;
                 case (int)Providence.BossMode.Green:
-                    FinalColor = new Color(100, 250, 100, Alpha);
+                    FinalColor = new Color(Outline ? 200 : 100, 250, 100, Alpha);
                     break;
                 case (int)Providence.BossMode.Blue: //Same as night
                 case (int)Providence.BossMode.Night:
-                    FinalColor = new Color(100, 200, 250, Alpha);
+                    FinalColor = new Color(100, Outline ? 250 : 200, Outline ? 200 : 250, Alpha);
                     break;
                 case (int)Providence.BossMode.Violet:
-                    FinalColor = new Color(150, 100, 250, Alpha);
+                    FinalColor = new Color(Outline ? 100 : 150, Outline ? 150 : 100, 250, Alpha);
                     break;
                 default:
                     break;
             }
+
+            if (Outline)
+                FinalColor *= 0.1f;
+
             return FinalColor;
         }
 
