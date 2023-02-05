@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs.OldDuke
             float aiGateValue = flyTowardTargetGateValue + extraTime;
             float dieGateValue = aiGateValue + extraTime * 4f;
             float fallDownGateValue = aiGateValue + extraTime;
-            float maxVelocity = bossRush ? 24f : death ? 22f : revenge ? 21f : expertMode ? 20f : 18f;
+            float maxVelocity = bossRush ? 22f : death ? 20f : revenge ? 19f : expertMode ? 18f : 16f;
 
             if (NPC.ai[0] == 0f)
             {
