@@ -40,7 +40,7 @@ namespace CalamityMod.World
 
         public const int TotalSandTilesBeforeWaterMax = 45;
 
-        public const float OpenSeaWidthPercentage = 0.53f;
+        public const float OpenSeaWidthPercentage = 0.795f;
 
         public const float IslandWidthPercentage = 0.36f;
 
@@ -308,11 +308,12 @@ namespace CalamityMod.World
                 float depthFactor = (float)Math.Pow(Math.Sin((1f - i / (float)width) * MathHelper.PiOver2), descentSmoothness);
 
                 // Determine the top and botton of the water strip.
-                int top = YStart;
-                int bottom = top + (int)(maxDepth * depthFactor);
+                int top = YStart - 10;
+                int bottom = top + (int)(maxDepth * depthFactor * 2);
                 for (int y = top; y < bottom; y++)
                 {
                     if (y >= top + DepthForWater)
+                        Main.tile[x, y + WorldGen.genRand.Next(10, 12)].WallType = (ushort)ModContent.WallType<SulphurousSandWall>();
                         Main.tile[x, y].LiquidAmount = byte.MaxValue;
                     Main.tile[x, y].Get<TileWallWireStateData>().HasTile = false;
                 }
@@ -747,9 +748,9 @@ namespace CalamityMod.World
 
                     // Check to see if the tile has any cardinal neighbors. If it doesn't, destroy it.
                     if (!CalamityUtils.ParanoidTileRetrieval(x - 1, y).HasTile &&
-                        !CalamityUtils.ParanoidTileRetrieval(x + 1, y).HasTile &&
-                        !CalamityUtils.ParanoidTileRetrieval(x, y - 1).HasTile &&
-                        !CalamityUtils.ParanoidTileRetrieval(x, y + 1).HasTile)
+                    !CalamityUtils.ParanoidTileRetrieval(x + 1, y).HasTile &&
+                    !CalamityUtils.ParanoidTileRetrieval(x, y - 1).HasTile &&
+                    !CalamityUtils.ParanoidTileRetrieval(x, y + 1).HasTile)
                     {
                         WorldUtils.Gen(new(x, y), new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
                         {

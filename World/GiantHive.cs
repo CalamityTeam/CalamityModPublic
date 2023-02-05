@@ -64,7 +64,7 @@ namespace CalamityMod.World
                 for (int y = treeHeight - 50; y <= origin.Y - 30; y++)
                 {
                     //increase extra width to make the tree wider as it goes down
-                    if (y % 35 == 0)
+                    if (y % 45 == 0 && extraWidth < 3)
                     {
                         extraWidth++;
                     }

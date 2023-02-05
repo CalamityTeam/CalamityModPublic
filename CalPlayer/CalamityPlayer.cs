@@ -6798,6 +6798,7 @@ namespace CalamityMod.CalPlayer
         public float GetAbyssAggro(float range)
         {
             range *= fishAlert ? 3f : 1f;
+            range *= eidolonSnailPet ? 0.85f : 1f;
             range *= anechoicCoating ? 0.5f : 1f;
             range *= anechoicPlating ? 0.5f : 1f;
             range *= abyssalMirror ? 0.65f : 1f;
