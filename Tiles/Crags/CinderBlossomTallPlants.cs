@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.Crags
 
             HitSound = SoundID.Grass;
 
-            AddMapEntry(new Color(200, 80, 210));
+            AddMapEntry(new Color(170, 50, 180));
 
             base.SetStaticDefaults();
         }
