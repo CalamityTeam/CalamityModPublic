@@ -66,7 +66,7 @@ namespace CalamityMod.World
             //place clusters of slag around the edges of the main square to create a more interesting shape
             for (int x = biomeStart; x <= biomeEdge; x++)
             {
-                for (int y = Main.maxTilesY - 110; y <= Main.maxTilesY - 5; y++)
+                for (int y = Main.maxTilesY - 110; y <= Main.maxTilesY - 20; y++)
                 {
                     Tile tile = Main.tile[x, y];
                     Tile tileUp = Main.tile[x, y - 1];
@@ -80,7 +80,7 @@ namespace CalamityMod.World
                     {
                         ShapeData circle = new ShapeData();
                         GenAction blotchMod = new Modifiers.Blotches(2, 0.4);
-                        int radius = WorldGen.genRand.Next(5, 22);
+                        int radius = WorldGen.genRand.Next(5, 20);
                         WorldUtils.Gen(new Point(x, y), new Shapes.Circle(radius), Actions.Chain(new GenAction[]
                         {
                             blotchMod.Output(circle)

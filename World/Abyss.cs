@@ -561,7 +561,7 @@ namespace CalamityMod.World
                             tile.LiquidAmount = 0;
                         }
 
-                        int[] Mosses = { 381, 534, 536, 539, 625, 627 };
+                        int[] Mosses = { 184, 374, 381, 534, 536, 539, 625, 627 };
 
                         if (Mosses.Contains(tile.TileType))
                         {

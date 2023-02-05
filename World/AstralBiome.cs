@@ -127,14 +127,13 @@ namespace CalamityMod.World
             {
                 float worldEdgeMargin = (float)Main.maxTilesX * 0.08f;
                 int xLimit = Main.maxTilesX / 2;
-                int x = Abyss.AtLeftSideOfWorld ? rand.Next(650, xLimit) : rand.Next(xLimit, Main.maxTilesX - 650);
+                int x = Abyss.AtLeftSideOfWorld ? rand.Next(650, xLimit - 200) : rand.Next(xLimit + 200, Main.maxTilesX - 650);
                 
                 //world surface = 920 large 740 medium 560 small
                 int y = (int)(Main.worldSurface * 0.5); //Large = 522, Medium = 444, Small = 336
                 while (y < Main.maxTilesY)
                 {
                     //check to place the astral meteor on valid tiles, place automatically on ebonstone walls, and avoid platforms
-                    //TODO: at this point just make a list of invalid tiles the meteor cannot be placed on
                     if (((Main.tile[x, y].HasTile && Main.tileSolid[(int)Main.tile[x, y].TileType]) || Main.tile[x, y].WallType == 3) && !TileID.Sets.Platforms[Main.tile[x, y].TileType])
                     {
                         int suitableTiles = 0;
@@ -160,7 +159,9 @@ namespace CalamityMod.World
 
                                     // Prevent the Astral biome from overriding or interfering with an AA biome
                                     else if (ancientsAwakened is not null && aaTilesToAvoid.Contains(Main.tile[l, m].TileType))
+                                    {
                                         suitableTiles -= 100;
+                                    }
                                 }
 
                                 // Liquid aversion makes meteors less likely to fall in lakes
