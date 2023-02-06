@@ -17,7 +17,7 @@ namespace CalamityMod.Items.SummonItems
             SacrificeTotal = 1;
             DisplayName.SetDefault("Blessed Phoenix Egg");
             Tooltip.SetDefault("An effigy of a Phoenix Dragon egg, used in worship\n" +
-                               "Summons Yharon, Stalwart Defender\n" +
+                               "Summons Yharon, Dragon of Rebirth\n" +
                                "Enrages outside the fire walls\n" +
                                "Not consumable");
             ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
