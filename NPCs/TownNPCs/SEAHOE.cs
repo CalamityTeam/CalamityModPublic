@@ -403,6 +403,17 @@ namespace CalamityMod.NPCs.TownNPCs
                   shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
                 nextSlot++;
             }
+
+            bool happy = Main.LocalPlayer.currentShoppingSettings.PriceAdjustment <= 0.8999999761581421;
+            if (happy)
+            {
+                if (Main.LocalPlayer.ZoneBeach)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemID.ShrimpPoBoy);
+                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 50, 0);
+                    nextSlot++;
+                }
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)

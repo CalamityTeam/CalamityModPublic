@@ -201,6 +201,17 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodRune>());
                 nextSlot++;
             }
+
+            bool happy = Main.LocalPlayer.currentShoppingSettings.PriceAdjustment <= 0.8999999761581421;
+            if (happy)
+            {
+                if (Main.LocalPlayer.ZoneSnow)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemID.IceCream);
+                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+                    nextSlot++;
+                }
+            }
         }
 
         // Make this Town NPC teleport to the King statue when triggered.

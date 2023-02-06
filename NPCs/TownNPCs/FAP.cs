@@ -83,9 +83,7 @@ namespace CalamityMod.NPCs.TownNPCs
         public override void AI()
         {
             if (!CalamityWorld.spawnedCirrus)
-            {
                 CalamityWorld.spawnedCirrus = true;
-            }
         }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
@@ -95,9 +93,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 Player player = Main.player[k];
                 bool hasVodka = player.InventoryHas(ModContent.ItemType<FabsolsVodka>())/* || player.PortableStorageHas(ModContent.ItemType<FabsolsVodka>())*/;
                 if (player.active && hasVodka)
-                {
                     return Main.hardMode || CalamityWorld.spawnedCirrus;
-                }
             }
             return CalamityWorld.spawnedCirrus;
         }
@@ -454,11 +450,15 @@ namespace CalamityMod.NPCs.TownNPCs
             if (happyAsFuck)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.MilkCarton);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
                 nextSlot++;
 
                 if (Main.LocalPlayer.ZoneHallow)
                 {
+                    shop.item[nextSlot].SetDefaults(ItemID.UnicornHorn);
+                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 50, 0);
+                    nextSlot++;
+
                     shop.item[nextSlot].SetDefaults(ItemID.Milkshake);
                     shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 5, 0, 0);
                     nextSlot++;
