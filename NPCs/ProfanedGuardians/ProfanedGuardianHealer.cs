@@ -101,8 +101,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public float GetStarShootGateValue() => GetStarShootSlowDownGateValue() + 60f;
 
-        public bool SlowingDownDuringStarShootPhase() => AIState == (float)Phase.Stars && AITimer >= GetStarShootSlowDownGateValue() && AITimer <= GetStarShootGateValue();
-
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(biomeEnrageTimer);
@@ -366,13 +364,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 {
                     AITimer = 0f;
                     AIState = (float)Phase.CrystalShards;
-                }
-
-                // Slow down before firing stars
-                if (SlowingDownDuringStarShootPhase())
-                {
-                    NPC.velocity *= 0.95f;
-                    return;
                 }
             }
 
