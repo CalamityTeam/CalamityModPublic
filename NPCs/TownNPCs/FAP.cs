@@ -449,6 +449,21 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<OddMushroom>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
             nextSlot++;
+
+            bool happyAsFuck = Main.LocalPlayer.currentShoppingSettings.PriceAdjustment <= 0.8999999761581421;
+            if (happyAsFuck)
+            {
+                shop.item[nextSlot].SetDefaults(ItemID.MilkCarton);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
+                nextSlot++;
+
+                if (Main.LocalPlayer.ZoneHallow)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemID.Milkshake);
+                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 5, 0, 0);
+                    nextSlot++;
+                }
+            }
         }
 
         // Make this Town NPC teleport to the Queen statue when triggered.
