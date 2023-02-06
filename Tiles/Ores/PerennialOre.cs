@@ -31,7 +31,7 @@ namespace CalamityMod.Tiles.Ores
 
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.PerennialOre>();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Perennial Ore");
+            name.SetDefault("Perennial");
             AddMapEntry(new Color(200, 250, 100), name);
             MineResist = 3f;
             MinPick = 200;

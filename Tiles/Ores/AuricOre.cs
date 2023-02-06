@@ -39,7 +39,7 @@ namespace CalamityMod.Tiles.Ores
             DustType = 55;
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AuricOre>();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Auric Ore");
+            name.SetDefault("Auric");
             AddMapEntry(new Color(255, 200, 0), name);
             MineResist = 10f;
             MinPick = 250;

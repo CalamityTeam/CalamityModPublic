@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using Terraria.Audio;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,6 +12,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class Voidstone : ModTile
     {
+        public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/VoidstoneMine", 3);
         internal static Texture2D GlowTexture;
         public override void SetStaticDefaults()
         {
@@ -24,7 +27,7 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithAbyss(Type);
 
             TileID.Sets.ChecksForMerge[Type] = true;
-            HitSound = SoundID.Tink;
+            HitSound = MineSound;
             MineResist = 10f;
             MinPick = 180;
             ItemDrop = ModContent.ItemType<Items.Placeables.Voidstone>();
@@ -35,7 +38,7 @@ namespace CalamityMod.Tiles.Abyss
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 180, 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 180, 0f, 0f, 1, new Color(128, 128, 128), 1f);
             return false;
         }
 
@@ -256,8 +259,14 @@ namespace CalamityMod.Tiles.Abyss
             xPos += xOffset;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = GetDrawColour(i, j, new Color(25, 25, 25, 25));
+            Color drawColour = GetDrawColour(i, j, new Color(255, 255, 255, 255));
             Tile trackTile = Main.tile[i, j];
+            float brightness = 1f;
+            brightness *= (float)MathF.Sin(i / 18f + Main.GameUpdateCount * 0.007f);
+            brightness *= (float)MathF.Sin(j / 18f + Main.GameUpdateCount * 0.007f);
+            brightness *= (float)MathF.Sin(i * 18f + Main.GameUpdateCount * 0.007f);
+            brightness *= (float)MathF.Sin(j * 18f + Main.GameUpdateCount * 0.007f);
+            drawColour *= brightness;
 
             if (!trackTile.IsHalfBlock && trackTile.Slope == 0)
             {

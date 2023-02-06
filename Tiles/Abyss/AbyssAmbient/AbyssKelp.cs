@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using System;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.GameContent.Metadata;
@@ -46,9 +47,16 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             Tile tile = Framing.GetTileSafely(i, j);
             if (tile.TileFrameX >= 72)
             {
+                float brightness = 0.7f;
+                brightness *= (float)MathF.Sin(-j / 8f + Main.GameUpdateCount * 0.01f + i);
+                brightness *= (float)MathF.Sin(-i / 8f + Main.GameUpdateCount * 0.01f + j);
+                brightness += 0.7f;
                 r = 233f / 350f;
                 g = 144f / 350f;
                 b = 30f / 350f;
+                r *= brightness;
+                g *= brightness;
+                b *= brightness;
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Metadata;
@@ -12,10 +13,12 @@ namespace CalamityMod.Tiles.Abyss
         public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
+            Main.tileBlockLight[Type] = false;
             Main.tileCut[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLavaDeath[Type] = true;
             Main.tileNoFail[Type] = true;
+            Main.tileNoSunLight[Type] = false;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sulphurous Vines");
             AddMapEntry(new Color(0, 50, 0), name);
@@ -110,9 +113,16 @@ namespace CalamityMod.Tiles.Abyss
         }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
+            float brightness = 0.7f;
+            brightness *= (float)MathF.Sin(-j / 40f + Main.GameUpdateCount * 0.01f + i);
+            //brightness *= (float)MathF.Sin(-i / 50f + Main.GameUpdateCount * 0.01f);
+            brightness += 0.5f;
             r = 173f / 255f;
             g = 1f;
             b = 200f / 255f;
+            r *= brightness;
+            g *= brightness;
+            b *= brightness;
         }
     }
 }
