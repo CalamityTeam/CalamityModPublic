@@ -21,7 +21,7 @@ namespace CalamityMod.World
             {
                 for (int x = 5; x < Main.maxTilesX - 5; x++) 
                 {
-                    for (int y = 5; y < 300; y++) 
+                    for (int y = 5; y < Main.worldSurface; y++)
                     {
                         if (!Convert)
                         {
