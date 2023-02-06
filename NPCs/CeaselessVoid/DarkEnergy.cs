@@ -15,7 +15,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
 {
     public class DarkEnergy : ModNPC
     {
-        private int invinceTime = 180;
         private bool start = true;
         private const double minDistance = 10D;
         private double distance = minDistance;
@@ -46,6 +45,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
+            NPC.Opacity = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.canGhostHeal = false;
@@ -72,20 +72,20 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(invinceTime);
             writer.Write(start);
             writer.Write(distance);
             writer.Write(NPC.dontTakeDamage);
+            writer.Write(NPC.Opacity);
             for (int i = 0; i < 4; i++)
                 writer.Write(NPC.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            invinceTime = reader.ReadInt32();
             start = reader.ReadBoolean();
             distance = reader.ReadDouble();
             NPC.dontTakeDamage = reader.ReadBoolean();
+            NPC.Opacity = reader.ReadSingle();
             for (int i = 0; i < 4; i++)
                 NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
@@ -108,10 +108,13 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
 
             // Stay invincible for 3 seconds to avoid being instantly killed
-            if (invinceTime > 0)
+            if (NPC.Opacity < 1f)
             {
                 NPC.damage = 0;
-                invinceTime--;
+
+                NPC.Opacity += 0.0056f;
+                if (NPC.Opacity > 1f)
+                    NPC.Opacity = 1f;
             }
             else
             {
@@ -210,7 +213,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
             Texture2D texture2D16 = ModContent.Request<Texture2D>("CalamityMod/NPCs/CeaselessVoid/DarkEnergyGlow2").Value;
             Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
-            Color color36 = Color.White;
+            Color color36 = Color.White * NPC.Opacity;
             float amount9 = 0.5f;
             int num153 = 5;
 
@@ -236,8 +239,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/CeaselessVoid/DarkEnergyGlow").Value;
-            Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
-            Color color42 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
+            Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f) * NPC.Opacity;
+            Color color42 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f) * NPC.Opacity;
 
             if (CalamityConfig.Instance.Afterimages)
             {

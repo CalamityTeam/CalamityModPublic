@@ -15,7 +15,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 {
     public class ProfanedRocks : ModNPC
     {
-        private int invinceTime = 180;
         private bool start = true;
         private const double MinDistance = 200D;
         private double distance = MinDistance;
@@ -45,6 +44,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
+            NPC.Opacity = 0f;
             NPC.noGravity = true;
             NPC.chaseable = false;
             NPC.noTileCollide = true;
@@ -59,22 +59,22 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(invinceTime);
             writer.Write(start);
             writer.Write(distance);
             writer.Write(NPC.dontTakeDamage);
             writer.Write(NPC.noGravity);
+            writer.Write(NPC.Opacity);
             for (int i = 0; i < 4; i++)
                 writer.Write(NPC.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            invinceTime = reader.ReadInt32();
             start = reader.ReadBoolean();
             distance = reader.ReadDouble();
             NPC.dontTakeDamage = reader.ReadBoolean();
             NPC.noGravity = reader.ReadBoolean();
+            NPC.Opacity = reader.ReadSingle();
             for (int i = 0; i < 4; i++)
                 NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
@@ -93,10 +93,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
 
             // Stay invincible for 3 seconds to avoid being instantly killed and don't deal damage to avoid unfair hits
-            if (invinceTime > 0)
+            if (NPC.Opacity < 1f)
             {
                 NPC.damage = 0;
-                invinceTime--;
+
+                NPC.Opacity += 0.01f;
+                if (NPC.Opacity > 1f)
+                    NPC.Opacity = 1f;
             }
             else
             {
