@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.width = 42;
             Projectile.height = 42;
             Projectile.hostile = true;
+            Projectile.tileCollide = false;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 90;
             CooldownSlot = ImmunityCooldownID.Bosses;
@@ -35,16 +36,21 @@ namespace CalamityMod.Projectiles.Boss
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(Projectile.localAI[0]);
+            writer.Write(Projectile.localAI[1]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             Projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[1] = reader.ReadSingle();
         }
 
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, 0.45f, 0.35f, 0f);
+
+            if (Projectile.Hitbox.Intersects(new Rectangle((int)Projectile.ai[0], (int)Projectile.ai[1], Player.defaultWidth, Player.defaultHeight)))
+                Projectile.tileCollide = true;
 
             // Day mode by default but syncs with the boss
             if (CalamityGlobalNPC.holyBoss != -1)
@@ -64,11 +70,8 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.frame > 3)
                 Projectile.frame = 0;
 
-            if (Projectile.wet || Projectile.lavaWet)
-                Projectile.Kill();
-
             int dustType = ProvUtils.GetDustID(Projectile.maxPenetrate);
-            if (Projectile.ai[1] == 0f)
+            if (Projectile.localAI[1] == 0f)
             {
                 for (int d = 0; d < 10; d++)
                 {
@@ -81,7 +84,7 @@ namespace CalamityMod.Projectiles.Boss
                         Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                Projectile.ai[1] = 1f;
+                Projectile.localAI[1] = 1f;
                 SoundEngine.PlaySound(SoundID.Item73, Projectile.Center);
             }
 

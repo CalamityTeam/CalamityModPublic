@@ -439,7 +439,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                                 int damage = NPC.GetProjectileDamage(type);
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, finalHolyBlastVelocity, type, damage, 0f, Main.myPlayer);
+                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, finalHolyBlastVelocity, type, damage, 0f, Main.myPlayer, player.position.X, player.position.Y);
                                     Main.projectile[proj].timeLeft = projTimeLeft;
                                 }
                             }

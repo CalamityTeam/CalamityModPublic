@@ -46,10 +46,15 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Projectile.wet || Projectile.lavaWet)
             {
-                Projectile.velocity.Y = 0f;
+                Projectile.velocity.Y -= 0.2f;
+                if (Projectile.velocity.Y < -10f)
+                    Projectile.velocity.Y = -10f;
             }
             else
             {
+                if (Projectile.velocity.Y < 0f)
+                    Projectile.velocity.Y = 0f;
+
                 Projectile.velocity.Y += 0.1f;
                 if (Projectile.velocity.Y > 5f)
                     Projectile.velocity.Y = 5f;

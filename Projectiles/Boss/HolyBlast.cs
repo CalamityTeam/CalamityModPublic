@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using System.IO;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -27,14 +28,28 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.width = 180;
             Projectile.height = 180;
             Projectile.hostile = true;
+            Projectile.tileCollide = false;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 120;
             CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Projectile.localAI[0]);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Projectile.localAI[0] = reader.ReadSingle();
+        }
+
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, 0.9f, 0.7f, 0f);
+
+            if (Projectile.Hitbox.Intersects(new Rectangle((int)Projectile.ai[0], (int)Projectile.ai[1], Player.defaultWidth, Player.defaultHeight)))
+                Projectile.tileCollide = true;
 
             // Day mode by default but syncs with the boss
             if (CalamityGlobalNPC.holyBoss != -1)
@@ -52,14 +67,9 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.frameCounter = 0;
             }
             if (Projectile.frame > 3)
-            {
                 Projectile.frame = 0;
-            }
-            if (Projectile.wet || Projectile.lavaWet)
-            {
-                Projectile.Kill();
-            }
-            if (Projectile.ai[1] == 0f)
+
+            if (Projectile.localAI[0] == 0f)
             {
                 int dustType = ProvUtils.GetDustID(Projectile.maxPenetrate);
                 for (int num621 = 0; num621 < 10; num621++)
@@ -73,21 +83,17 @@ namespace CalamityMod.Projectiles.Boss
                         Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                Projectile.ai[1] = 1f;
+                Projectile.localAI[0] = 1f;
                 SoundEngine.PlaySound(ShootSound, Projectile.Center);
             }
+
             if (Math.Abs(Projectile.velocity.X) > 0.2)
-            {
                 Projectile.spriteDirection = -Projectile.direction;
-            }
+
             if (Projectile.velocity.X < 0f)
-            {
                 Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X);
-            }
             else
-            {
                 Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X);
-            }
         }
 
         public override Color? GetAlpha(Color lightColor)

@@ -1049,7 +1049,7 @@ namespace CalamityMod.NPCs.Providence
                             num857 *= num859;
                             num858 *= num859;
 
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), npcCenter.X, npcCenter.Y, num857, num858, ModContent.ProjectileType<HolyBlast>(), holyBlastDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), npcCenter.X, npcCenter.Y, num857, num858, ModContent.ProjectileType<HolyBlast>(), holyBlastDamage, 0f, Main.myPlayer, player.position.X, player.position.Y);
                         }
                     }
                     else if (NPC.ai[3] < 0f)
@@ -1382,7 +1382,7 @@ namespace CalamityMod.NPCs.Providence
                             num857 *= num859;
                             num858 *= num859;
 
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), npcCenter.X, npcCenter.Y, num857 * 0.1f, num858, ModContent.ProjectileType<MoltenBlast>(), moltenBlastDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), npcCenter.X, npcCenter.Y, num857 * 0.1f, num858, ModContent.ProjectileType<MoltenBlast>(), moltenBlastDamage, 0f, Main.myPlayer, player.position.X, player.position.Y);
                         }
                     }
                     else if (NPC.ai[3] < 0f)
