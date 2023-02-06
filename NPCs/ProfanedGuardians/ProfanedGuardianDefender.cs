@@ -422,7 +422,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f);
                 if (distanceFromDestination.Length() > 80f)
                 {
-                    float inertia = 25f;
+                    float inertia = 20f;
                     if (Main.getGoodWorld)
                         inertia *= 0.8f;
 
@@ -514,14 +514,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f);
                     if (distanceFromDestination.Length() > 80f)
                     {
-                        float inertia = 25f;
+                        float inertia = 20f;
                         if (Main.getGoodWorld)
                             inertia *= 0.8f;
 
                         NPC.velocity = (NPC.velocity * (inertia - 1) + desiredVelocity) / inertia;
                     }
                     else
-                        NPC.velocity *= 0.98f;
+                        NPC.velocity *= 0.96f;
                 }
 
                 // Charge at target

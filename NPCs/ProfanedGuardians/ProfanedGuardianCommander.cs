@@ -366,6 +366,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     velocity *= 0.8f;
 
                 float distanceToStayAwayFromTarget = healerAlive ? 800f : defenderAlive ? 720f : 600f;
+                if (Vector2.Distance(NPC.Center, player.Center) > (distanceToStayAwayFromTarget + 160f))
+                {
+                    inertia *= 0.5f;
+                    velocity *= 1.5f;
+                }
+
                 Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * -NPC.direction;
                 Vector2 targetVector = destination - NPC.Center;
                 Vector2 desiredVelocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
