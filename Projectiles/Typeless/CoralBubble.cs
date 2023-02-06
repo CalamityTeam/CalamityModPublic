@@ -30,40 +30,31 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 Projectile.alpha -= 5;
                 if (Projectile.alpha < 100)
-                {
                     Projectile.alpha = 100;
-                }
             }
             else
-            {
                 Projectile.localAI[0] += 1f;
-            }
+
             if (Projectile.ai[1] > 30f)
             {
                 if (Projectile.velocity.Y > -1.5f)
-                {
                     Projectile.velocity.Y = Projectile.velocity.Y - 0.05f;
-                }
             }
             else
-            {
                 Projectile.ai[1] += 1f;
-            }
+
             if (Projectile.wet)
             {
                 if (Projectile.velocity.Y > 0f)
-                {
                     Projectile.velocity.Y = Projectile.velocity.Y * 0.98f;
-                }
                 if (Projectile.velocity.Y > -1f)
-                {
                     Projectile.velocity.Y = Projectile.velocity.Y - 0.2f;
-                }
             }
-            int closestPlayer = (int)Player.FindClosest(Projectile.Center, 1, 1);
-            Vector2 distance = Main.player[closestPlayer].Center - Projectile.Center;
+
+            int closestPlayer = Player.FindClosest(Projectile.Center, 1, 1);
             if (Projectile.Distance(Main.player[closestPlayer].Center) < 14f)
             {
+                SoundEngine.PlaySound(SoundID.Item54, Projectile.Center);
                 Main.player[closestPlayer].AddBuff(BuffID.Gills, 90);
                 Projectile.Kill();
             }
@@ -71,16 +62,12 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
-            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item54, Projectile.position);
             for (int i = 0; i < 10; i++)
             {
                 int size = 12;
