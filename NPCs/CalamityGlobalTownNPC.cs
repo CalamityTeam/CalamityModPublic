@@ -1544,6 +1544,8 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.JourneymanBait, NPC.downedBoss3);
                 SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedPlantBoss);
                 SetShopItem(ref shop, ref nextSlot, ItemID.AngelStatue, NPC.FindFirstNPC(NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Burger, happy, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Hotdog, happy, Item.buyPrice(0, 5));
             }
 
             if (type == NPCID.DyeTrader)
@@ -1609,6 +1611,7 @@ namespace CalamityMod.NPCs
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.StinkPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemType<StatMeter>());
+                SetShopItem(ref shop, ref nextSlot, ItemID.Spaghetti, happy, Item.buyPrice(0, 5));
             }
 
             if (type == NPCID.Mechanic)
@@ -1681,6 +1684,7 @@ namespace CalamityMod.NPCs
             if (type == NPCID.PartyGirl)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.GenderChangePotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Pizza, happy, Item.buyPrice(0, 5));
             }
 
             if (type == NPCID.Princess)
@@ -1699,7 +1703,13 @@ namespace CalamityMod.NPCs
             if (type == NPCID.SkeletonMerchant)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemType<CalciumPotion>(), CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 0, 20, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemID.MilkCarton);
                 SetShopItem(ref shop, ref nextSlot, ItemID.Marrow, Main.hardMode, Item.buyPrice(0, 36));
+            }
+
+            if (type == NPCID.Golfer)
+            {
+                SetShopItem(ref shop, ref nextSlot, ItemID.PotatoChips, happy, Item.buyPrice(0, 1));
             }
         }
 
