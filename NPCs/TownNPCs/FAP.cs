@@ -308,6 +308,10 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original alcohol value
         {
+            int wife = NPC.FindFirstNPC(NPCID.Stylist);
+            bool wifeIsAround = wife != -1;
+            bool beLessDrunk = wifeIsAround && NPC.downedMoonlord;
+
             if (CalamityConfig.Instance.PotionSelling)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.HeartreachPotion);
@@ -426,6 +430,25 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
 
+            if (beLessDrunk)
+            {
+                shop.item[nextSlot].SetDefaults(ItemID.BloodyMoscato);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                nextSlot++;
+
+                shop.item[nextSlot].SetDefaults(ItemID.BananaDaiquiri);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 75, 0);
+                nextSlot++;
+
+                shop.item[nextSlot].SetDefaults(ItemID.PeachSangria);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
+                nextSlot++;
+
+                shop.item[nextSlot].SetDefaults(ItemID.PinaColada);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                nextSlot++;
+            }
+
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<WeightlessCandle>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 50, 0, 0);
             nextSlot++;
@@ -449,9 +472,12 @@ namespace CalamityMod.NPCs.TownNPCs
             bool happyAsFuck = Main.LocalPlayer.currentShoppingSettings.PriceAdjustment <= 0.8999999761581421;
             if (happyAsFuck)
             {
-                shop.item[nextSlot].SetDefaults(ItemID.MilkCarton);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                nextSlot++;
+                if (wifeIsAround)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemID.MilkCarton);
+                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                    nextSlot++;
+                }
 
                 if (Main.LocalPlayer.ZoneHallow)
                 {
@@ -459,9 +485,12 @@ namespace CalamityMod.NPCs.TownNPCs
                     shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 50, 0);
                     nextSlot++;
 
-                    shop.item[nextSlot].SetDefaults(ItemID.Milkshake);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 5, 0, 0);
-                    nextSlot++;
+                    if (wifeIsAround)
+                    {
+                        shop.item[nextSlot].SetDefaults(ItemID.Milkshake);
+                        shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 5, 0, 0);
+                        nextSlot++;
+                    }
                 }
             }
         }

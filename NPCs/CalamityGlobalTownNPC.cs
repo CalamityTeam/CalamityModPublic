@@ -1528,6 +1528,8 @@ namespace CalamityMod.NPCs
         {
             int goldCost = NPC.downedMoonlord ? 8 : Main.hardMode ? 4 : 2;
 
+            bool happy = Main.LocalPlayer.currentShoppingSettings.PriceAdjustment <= 0.8999999761581421;
+
             if (type == NPCID.Merchant)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.Bottle, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 0, 0, 20));
@@ -1582,6 +1584,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemType<RageHairDye>(), CalamityWorld.revenge);
                 SetShopItem(ref shop, ref nextSlot, ItemID.StylistKilLaKillScissorsIWish, true, Item.buyPrice(0, 15));
                 SetShopItem(ref shop, ref nextSlot, ItemType<CirrusDress>(), Main.LocalPlayer.Calamity().alcoholPoisoning && NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ref nextSlot, ItemID.ChocolateChipCookie, happy && NPC.FindFirstNPC(NPCType<FAP>()) != -1, Item.buyPrice(0, 3));
             }
 
             if (type == NPCID.Cyborg)
@@ -1684,6 +1687,13 @@ namespace CalamityMod.NPCs
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.PrincessWeapon, true, Item.buyPrice(0, 50, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemType<LanternCenter>());
+                SetShopItem(ref shop, ref nextSlot, ItemID.AppleJuice, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ref nextSlot, ItemID.FruitJuice, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ref nextSlot, ItemID.GrapeJuice, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ref nextSlot, ItemID.Lemonade, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ref nextSlot, ItemID.PrismaticPunch, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ref nextSlot, ItemID.SmoothieofDarkness, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ref nextSlot, ItemID.TropicalSmoothie, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
             }
 
             if (type == NPCID.SkeletonMerchant)

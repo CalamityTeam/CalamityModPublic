@@ -1140,6 +1140,36 @@ namespace CalamityMod
             r.AddIngredient(ModContent.ItemType<SeaMinnowItem>());
             r.AddTile(TileID.CookingPots);
             r.Register();
+
+            r = Recipe.Create(ItemID.ApplePie);
+            r.AddIngredient(ItemID.Apple, 3);
+            r.AddTile(TileID.Furnaces);
+            r.Register();
+
+            r = Recipe.Create(ItemID.BananaSplit);
+            r.AddIngredient(ItemID.Banana);
+            r.AddIngredient(ItemID.IceBlock);
+            r.AddIngredient(ItemID.MilkCarton);
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
+            r = Recipe.Create(ItemID.BBQRibs);
+            r.AddIngredient(ItemID.FleshBlock, 6);
+            r.AddIngredient(ItemID.Bone, 6);
+            r.AddTile(TileID.Furnaces);
+            r.Register();
+
+            r = Recipe.Create(ItemID.MilkCarton);
+            r.AddIngredient(ItemID.BottledWater);
+            r.AddIngredient(ItemID.Bone, 2);
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
+            r = Recipe.Create(ItemID.Nachos);
+            r.AddIngredient(ItemID.PotatoChips);
+            r.AddIngredient(ItemID.MilkCarton);
+            r.AddTile(TileID.CookingPots);
+            r.Register();
         }
         #endregion
 

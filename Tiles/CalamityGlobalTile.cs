@@ -17,8 +17,10 @@ using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.Tiles
 {
@@ -140,6 +142,118 @@ namespace CalamityMod.Tiles
         public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             Tile tile = Main.tile[i, j];
+
+            // Fruit from trees upon tree destruction
+            GetTreeBottom(i, j, out int treeX, out int treeY);
+            TreeTypes treeType = WorldGen.GetTreeType(Main.tile[treeX, treeY].TileType);
+            if (treeType != TreeTypes.None)
+            {
+                treeY--;
+                while (treeY > 10 && Main.tile[treeX, treeY].HasTile && TileID.Sets.IsShakeable[Main.tile[treeX, treeY].TileType])
+                    treeY--;
+
+                treeY++;
+
+                if (WorldGen.IsTileALeafyTreeTop(treeX, treeY) && !Collision.SolidTiles(treeX - 2, treeX + 2, treeY - 2, treeY + 2))
+                {
+                    int randomAmt = WorldGen.genRand.Next(1, 4);
+                    for (int z = 0; z < randomAmt; z++)
+                    {
+                        int treeDropItemType = 0;
+                        switch (treeType)
+                        {
+                            case TreeTypes.Forest:
+
+                                switch (WorldGen.genRand.Next(5))
+                                {
+                                    case 0:
+                                        treeDropItemType = ItemID.Apple;
+                                        break;
+                                    case 1:
+                                        treeDropItemType = ItemID.Apricot;
+                                        break;
+                                    case 2:
+                                        treeDropItemType = ItemID.Peach;
+                                        break;
+                                    case 3:
+                                        treeDropItemType = ItemID.Grapefruit;
+                                        break;
+                                    default:
+                                        treeDropItemType = ItemID.Lemon;
+                                        break;
+                                }
+
+                                break;
+
+                            case TreeTypes.Snow:
+                                treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Cherry : ItemID.Plum;
+                                break;
+
+                            case TreeTypes.Jungle:
+                                treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Mango : ItemID.Pineapple;
+                                break;
+
+                            case TreeTypes.Palm:
+
+                                if (WorldGen.IsPalmOasisTree(treeX))
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
+
+                                break;
+
+                            case TreeTypes.PalmCorrupt:
+
+                                if (WorldGen.genRand.NextBool())
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BlackCurrant : ItemID.Elderberry;
+                                else if (WorldGen.IsPalmOasisTree(treeX))
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
+                                else
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BlackCurrant : ItemID.Elderberry;
+
+                                break;
+
+                            case TreeTypes.Corrupt:
+                                treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BlackCurrant : ItemID.Elderberry;
+                                break;
+
+                            case TreeTypes.PalmHallowed:
+
+                                if (WorldGen.genRand.NextBool())
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Dragonfruit : ItemID.Starfruit;
+                                else if (WorldGen.IsPalmOasisTree(treeX))
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
+                                else
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Dragonfruit : ItemID.Starfruit;
+
+                                break;
+
+                            case TreeTypes.Hallowed:
+                                treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Dragonfruit : ItemID.Starfruit;
+                                break;
+
+                            case TreeTypes.PalmCrimson:
+
+                                if (WorldGen.genRand.NextBool())
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BloodOrange : ItemID.Rambutan;
+                                else if (WorldGen.IsPalmOasisTree(treeX))
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
+                                else
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BloodOrange : ItemID.Rambutan;
+
+                                break;
+
+                            case TreeTypes.Crimson:
+                                treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BloodOrange : ItemID.Rambutan;
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        if (treeDropItemType != 0)
+                            Item.NewItem(new EntitySource_TileBreak(treeX, treeY), treeX * 16, treeY * 16, 16, 16, treeDropItemType);
+                    }
+                }
+            }
 
             // Helper function to shatter crystals attached to neighboring solid tiles.
             void CheckShatterCrystal(int xPos, int yPos, bool dontShatter)
@@ -312,6 +426,46 @@ namespace CalamityMod.Tiles
                 return false;
 
             return base.CanKillTile(i, j, type, ref blockDamaged);
+        }
+
+        // "Private" my ass, fuck off
+        public static void GetTreeBottom(int i, int j, out int x, out int y)
+        {
+            x = i;
+            y = j;
+            Tile tileSafely = Framing.GetTileSafely(x, y);
+            if (tileSafely.TileType == TileID.PalmTree)
+            {
+                while (y < Main.maxTilesY - 50 && (!tileSafely.HasTile || tileSafely.TileType == TileID.PalmTree))
+                {
+                    y++;
+                    tileSafely = Framing.GetTileSafely(x, y);
+                }
+
+                return;
+            }
+
+            int num = tileSafely.TileFrameX / 22;
+            int num2 = tileSafely.TileFrameY / 22;
+            if (num == 3 && num2 <= 2)
+                x++;
+            else if (num == 4 && num2 >= 3 && num2 <= 5)
+                x--;
+            else if (num == 1 && num2 >= 6 && num2 <= 8)
+                x--;
+            else if (num == 2 && num2 >= 6 && num2 <= 8)
+                x++;
+            else if (num == 2 && num2 >= 9)
+                x++;
+            else if (num == 3 && num2 >= 9)
+                x--;
+
+            tileSafely = Framing.GetTileSafely(x, y);
+            while (y < Main.maxTilesY - 50 && (!tileSafely.HasTile || TileID.Sets.IsATreeTrunk[tileSafely.TileType] || tileSafely.TileType == TileID.MushroomTrees))
+            {
+                y++;
+                tileSafely = Framing.GetTileSafely(x, y);
+            }
         }
     }
 }
