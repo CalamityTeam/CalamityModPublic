@@ -34,7 +34,7 @@ namespace CalamityMod.Tiles.Ores
             DustType = 33;
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOreDisenchanted>();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Disenchanted Aerialite Ore");
+            name.SetDefault("Disenchanted Aerialite");
             AddMapEntry(new Color(204, 170, 81), name);
             MineResist = 2f;
             MinPick = 110;

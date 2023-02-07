@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using Terraria.Audio;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -10,6 +11,7 @@ namespace CalamityMod.Tiles.Ores
 {
     public class AerialiteOre : ModTile
     {
+        public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/MagicalRockMine", 3);
         internal static Texture2D GlowTexture;
         public override void SetStaticDefaults()
         {
@@ -37,11 +39,11 @@ namespace CalamityMod.Tiles.Ores
             DustType = 33;
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOre>();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Aerialite Ore");
+            name.SetDefault("Aerialite");
             AddMapEntry(new Color(145, 255, 255), name);
             MineResist = 2f;
             MinPick = 65;
-            HitSound = SoundID.Tink;
+            HitSound = MineSound;
             Main.tileSpelunker[Type] = true;
         }
         public override void PostSetDefaults()

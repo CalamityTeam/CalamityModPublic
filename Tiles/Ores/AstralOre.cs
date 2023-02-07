@@ -3,6 +3,7 @@ using CalamityMod.Tiles.Astral;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -65,9 +66,18 @@ namespace CalamityMod.Tiles.Ores
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.09f;
-            g = 0.03f;
-            b = 0.07f;
+            float brightness = 0.7f;
+            brightness *= (float)MathF.Sin(-j / 40f + Main.GameUpdateCount * 0.007f);
+            brightness *= (float)MathF.Sin(-i / 40f + Main.GameUpdateCount * 0.005f);
+            brightness *= (float)MathF.Sin(-j / 40f + Main.GameUpdateCount * 0.006f);
+            brightness *= (float)MathF.Sin(-i / 40f + Main.GameUpdateCount * 0.009f);
+            brightness += 0.5f;
+            r = Main.DiscoR / 255f * 0.5f;
+            g = 0.5f;
+            b = (255 - Main.DiscoR) / 255f * 0.5f;
+            r *= brightness;
+            g *= brightness;
+            b *= brightness;
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
