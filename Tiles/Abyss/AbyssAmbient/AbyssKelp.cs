@@ -48,8 +48,9 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             if (tile.TileFrameX >= 72)
             {
                 float brightness = 0.7f;
-                brightness *= (float)MathF.Sin(-j / 8f + Main.GameUpdateCount * 0.01f + i);
-                brightness *= (float)MathF.Sin(-i / 8f + Main.GameUpdateCount * 0.01f + j);
+                float declareThisHereToPreventRunningTheSameCalculationMultipleTimes = Main.GameUpdateCount * 0.01f;
+                brightness *= (float)MathF.Sin(-j / 8f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes + i);
+                brightness *= (float)MathF.Sin(-i / 8f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes + j);
                 brightness += 0.7f;
                 r = 233f / 350f;
                 g = 144f / 350f;

@@ -262,10 +262,11 @@ namespace CalamityMod.Tiles.Abyss
             Color drawColour = GetDrawColour(i, j, new Color(255, 255, 255, 255));
             Tile trackTile = Main.tile[i, j];
             float brightness = 1f;
-            brightness *= (float)MathF.Sin(i / 18f + Main.GameUpdateCount * 0.007f);
-            brightness *= (float)MathF.Sin(j / 18f + Main.GameUpdateCount * 0.007f);
-            brightness *= (float)MathF.Sin(i * 18f + Main.GameUpdateCount * 0.007f);
-            brightness *= (float)MathF.Sin(j * 18f + Main.GameUpdateCount * 0.007f);
+            float declareThisHereToPreventRunningTheSameCalculationMultipleTimes = Main.GameUpdateCount * 0.007f;
+            brightness *= (float)MathF.Sin(i / 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
+            brightness *= (float)MathF.Sin(j / 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
+            brightness *= (float)MathF.Sin(i * 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
+            brightness *= (float)MathF.Sin(j * 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
             drawColour *= brightness;
 
             if (!trackTile.IsHalfBlock && trackTile.Slope == 0)
