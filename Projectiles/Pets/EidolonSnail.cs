@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Pets
                 Vector2 center2 = Projectile.Center;
                 Vector2 vector48 = player.Center - center2;
                 float playerDistance = vector48.Length();
-                if (Projectile.velocity.Y == 0 && (HoleBelow() || (playerDistance > 150f && Projectile.position.X == Projectile.oldPosition.X)))
+                if (Projectile.velocity.Y == 0 && ((HoleBelow() && playerDistance > 150f) || (playerDistance > 150f && Projectile.position.X == Projectile.oldPosition.X)))
                 {
                     Projectile.velocity.Y = -8f;
                 }
@@ -159,12 +159,12 @@ namespace CalamityMod.Projectiles.Pets
                     Projectile.frameCounter = 0;
                 }
                 //falling frame
-                if (Projectile.velocity.Y > 0.3f && Projectile.position.Y != Projectile.oldPosition.Y)
+                else if (Projectile.velocity.Y > 0.3f && Projectile.position.Y != Projectile.oldPosition.Y)
                 {
                     Projectile.frame = 4;
                     Projectile.frameCounter = 0;
                 }
-                else
+                else if (Projectile.velocity.X != 0)
                 {
                     //moving animation
                     Projectile.frameCounter++;

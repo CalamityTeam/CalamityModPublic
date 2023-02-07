@@ -62,6 +62,8 @@ namespace CalamityMod.Projectiles.Enemy
                 Projectile.Kill();
             }
 
+            Projectile.velocity *= 0.98f;
+
             if (Math.Abs(Projectile.velocity.X) > 0f)
             {
                 Projectile.spriteDirection = -Projectile.direction;
