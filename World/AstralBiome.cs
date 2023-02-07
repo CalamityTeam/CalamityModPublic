@@ -57,12 +57,12 @@ namespace CalamityMod.World
                 while (y < Main.worldSurface)
                 {
                     if (Main.tile[x, y].HasTile &&
-                        (Main.tile[x, y].TileType == ModContent.TileType<AstralSand>() || Main.tile[x, y].TileType == ModContent.TileType<AstralSandstone>() ||
-                        Main.tile[x, y].TileType == ModContent.TileType<HardenedAstralSand>() || Main.tile[x, y].TileType == ModContent.TileType<AstralIce>() ||
-                        Main.tile[x, y].TileType == ModContent.TileType<AstralDirt>() || Main.tile[x, y].TileType == ModContent.TileType<AstralStone>() ||
-                        Main.tile[x, y].TileType == ModContent.TileType<AstralGrass>() || Main.tile[x, y].TileType == ModContent.TileType<NovaeSlag>() ||
-                        Main.tile[x, y].TileType == ModContent.TileType<CelestialRemains>() || Main.tile[x, y].TileType == ModContent.TileType<AstralSnow>() ||
-                        Main.tile[x, y].TileType == ModContent.TileType<AstralClay>() || Main.tile[x, y].TileType == ModContent.TileType<AstralStone>()))
+                    (Main.tile[x, y].TileType == ModContent.TileType<AstralSand>() || Main.tile[x, y].TileType == ModContent.TileType<AstralSandstone>() ||
+                    Main.tile[x, y].TileType == ModContent.TileType<HardenedAstralSand>() || Main.tile[x, y].TileType == ModContent.TileType<AstralIce>() ||
+                    Main.tile[x, y].TileType == ModContent.TileType<AstralDirt>() || Main.tile[x, y].TileType == ModContent.TileType<AstralStone>() ||
+                    Main.tile[x, y].TileType == ModContent.TileType<AstralGrass>() || Main.tile[x, y].TileType == ModContent.TileType<NovaeSlag>() ||
+                    Main.tile[x, y].TileType == ModContent.TileType<CelestialRemains>() || Main.tile[x, y].TileType == ModContent.TileType<AstralSnow>() ||
+                    Main.tile[x, y].TileType == ModContent.TileType<AstralClay>() || Main.tile[x, y].TileType == ModContent.TileType<AstralStone>()))
                     {
                         astralTileCount++;
                         if (astralTileCount > astralTilesAllowed)
@@ -127,7 +127,7 @@ namespace CalamityMod.World
             {
                 float worldEdgeMargin = (float)Main.maxTilesX * 0.08f;
                 int xLimit = Main.maxTilesX / 2;
-                int x = Abyss.AtLeftSideOfWorld ? rand.Next(650, xLimit - 200) : rand.Next(xLimit + 200, Main.maxTilesX - 650);
+                int x = Abyss.AtLeftSideOfWorld ? rand.Next(Main.dungeonX + 200, xLimit - 350) : rand.Next(xLimit + 350, Main.dungeonX - 200);
                 
                 //world surface = 920 large 740 medium 560 small
                 int y = (int)(Main.worldSurface * 0.5); //Large = 522, Medium = 444, Small = 336
@@ -146,18 +146,27 @@ namespace CalamityMod.World
                                 {
                                     suitableTiles++;
 
-                                    // Avoid floating islands: Clouds and Sunplate both harshly punish attempted meteor spawns
+                                    //Avoid floating islands: Clouds and Sunplate both harshly punish attempted meteor spawns
                                     if (Main.tile[l, m].TileType == TileID.Cloud || Main.tile[l, m].TileType == TileID.Sunplate)
                                     {
                                         suitableTiles -= 100;
                                     }
-                                    // Avoid Sulphurous Sea beach: Cannot be converted by astral
+                                    //Avoid the hallowed so it doesnt get demolished by the astral biome
+                                    else if (Main.tile[l, m].TileType == TileID.HallowedGrass || Main.tile[l, m].TileType == TileID.Pearlstone)
+                                    {
+                                        suitableTiles -= 100;
+                                    }
+                                    //Avoid living trees, doesnt land on them too often but its better to prevent it
+                                    else if (Main.tile[l, m].TileType == TileID.LivingWood || Main.tile[l, m].TileType == TileID.LeafBlock)
+                                    {
+                                        suitableTiles -= 100;
+                                    }
+                                    //Avoid Sulphurous Sea beach: Cannot be converted by astral
                                     else if (Main.tile[l, m].TileType == ModContent.TileType<SulphurousSand>() || Main.tile[l, m].TileType == ModContent.TileType<SulphurousSandstone>())
                                     {
                                         suitableTiles -= 100;
                                     }
-
-                                    // Prevent the Astral biome from overriding or interfering with an AA biome
+                                    //Prevent the Astral biome from overriding or interfering with an AA biome
                                     else if (ancientsAwakened is not null && aaTilesToAvoid.Contains(Main.tile[l, m].TileType))
                                     {
                                         suitableTiles -= 100;
