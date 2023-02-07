@@ -182,24 +182,27 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.ai[3] += minRotationVelocity + rotationVelocityIncrease;
 
             // Flash and pulse effect
-            if (NPC.ai[2] == 0f)
+            if (!NPC.dontTakeDamage)
             {
-                NPC.scale -= 0.01f;
-                NPC.alpha += 15;
-                if (NPC.alpha >= 125)
+                if (NPC.ai[2] == 0f)
                 {
-                    NPC.alpha = 130;
-                    NPC.ai[2] = 1f;
+                    NPC.scale -= 0.01f;
+                    NPC.Opacity -= 0.06f;
+                    if (NPC.Opacity <= 0.5f)
+                    {
+                        NPC.Opacity = 0.5f;
+                        NPC.ai[2] = 1f;
+                    }
                 }
-            }
-            else
-            {
-                NPC.scale += 0.01f;
-                NPC.alpha -= 15;
-                if (NPC.alpha <= 0)
+                else
                 {
-                    NPC.alpha = 0;
-                    NPC.ai[2] = 0f;
+                    NPC.scale += 0.01f;
+                    NPC.Opacity += 0.06f;
+                    if (NPC.Opacity >= 1f)
+                    {
+                        NPC.Opacity = 1f;
+                        NPC.ai[2] = 0f;
+                    }
                 }
             }
         }

@@ -422,9 +422,9 @@ namespace CalamityMod
                 return null;
         }
 
-        public static void DrawBackglow(this NPC npc, Color backglowColor, float backglowArea, SpriteEffects spriteEffects, Rectangle frame, Vector2 screenPos)
+        public static void DrawBackglow(this NPC npc, Color backglowColor, float backglowArea, SpriteEffects spriteEffects, Rectangle frame, Vector2 screenPos, Texture2D overrideTexture = null)
         {
-            Texture2D texture = TextureAssets.Npc[npc.type].Value;
+            Texture2D texture = overrideTexture is null ? TextureAssets.Npc[npc.type].Value : overrideTexture;
             Vector2 drawPosition = npc.Center - screenPos;
             Vector2 origin = frame.Size() * 0.5f;
             Color backAfterimageColor = backglowColor * npc.Opacity;

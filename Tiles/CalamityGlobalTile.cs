@@ -144,113 +144,116 @@ namespace CalamityMod.Tiles
             Tile tile = Main.tile[i, j];
 
             // Fruit from trees upon tree destruction
-            GetTreeBottom(i, j, out int treeX, out int treeY);
-            TreeTypes treeType = WorldGen.GetTreeType(Main.tile[treeX, treeY].TileType);
-            if (treeType != TreeTypes.None)
+            if (!effectOnly && fail && Main.netMode != NetmodeID.MultiplayerClient && TileID.Sets.IsShakeable[type])
             {
-                treeY--;
-                while (treeY > 10 && Main.tile[treeX, treeY].HasTile && TileID.Sets.IsShakeable[Main.tile[treeX, treeY].TileType])
-                    treeY--;
-
-                treeY++;
-
-                if (WorldGen.IsTileALeafyTreeTop(treeX, treeY) && !Collision.SolidTiles(treeX - 2, treeX + 2, treeY - 2, treeY + 2))
+                GetTreeBottom(i, j, out int treeX, out int treeY);
+                TreeTypes treeType = WorldGen.GetTreeType(Main.tile[treeX, treeY].TileType);
+                if (treeType != TreeTypes.None)
                 {
-                    int randomAmt = WorldGen.genRand.Next(2, 4);
-                    for (int z = 0; z < randomAmt; z++)
+                    treeY--;
+                    while (treeY > 10 && Main.tile[treeX, treeY].HasTile && TileID.Sets.IsShakeable[Main.tile[treeX, treeY].TileType])
+                        treeY--;
+
+                    treeY++;
+
+                    if (WorldGen.IsTileALeafyTreeTop(treeX, treeY) && !Collision.SolidTiles(treeX - 2, treeX + 2, treeY - 2, treeY + 2))
                     {
-                        int treeDropItemType = 0;
-                        switch (treeType)
+                        int randomAmt = WorldGen.genRand.Next(2, 4);
+                        for (int z = 0; z < randomAmt; z++)
                         {
-                            case TreeTypes.Forest:
+                            int treeDropItemType = 0;
+                            switch (treeType)
+                            {
+                                case TreeTypes.Forest:
 
-                                switch (WorldGen.genRand.Next(5))
-                                {
-                                    case 0:
-                                        treeDropItemType = ItemID.Apple;
-                                        break;
-                                    case 1:
-                                        treeDropItemType = ItemID.Apricot;
-                                        break;
-                                    case 2:
-                                        treeDropItemType = ItemID.Peach;
-                                        break;
-                                    case 3:
-                                        treeDropItemType = ItemID.Grapefruit;
-                                        break;
-                                    default:
-                                        treeDropItemType = ItemID.Lemon;
-                                        break;
-                                }
+                                    switch (WorldGen.genRand.Next(5))
+                                    {
+                                        case 0:
+                                            treeDropItemType = ItemID.Apple;
+                                            break;
+                                        case 1:
+                                            treeDropItemType = ItemID.Apricot;
+                                            break;
+                                        case 2:
+                                            treeDropItemType = ItemID.Peach;
+                                            break;
+                                        case 3:
+                                            treeDropItemType = ItemID.Grapefruit;
+                                            break;
+                                        default:
+                                            treeDropItemType = ItemID.Lemon;
+                                            break;
+                                    }
 
-                                break;
+                                    break;
 
-                            case TreeTypes.Snow:
-                                treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Cherry : ItemID.Plum;
-                                break;
+                                case TreeTypes.Snow:
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Cherry : ItemID.Plum;
+                                    break;
 
-                            case TreeTypes.Jungle:
-                                treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Mango : ItemID.Pineapple;
-                                break;
+                                case TreeTypes.Jungle:
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Mango : ItemID.Pineapple;
+                                    break;
 
-                            case TreeTypes.Palm:
+                                case TreeTypes.Palm:
 
-                                if (WorldGen.IsPalmOasisTree(treeX))
-                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
+                                    if (WorldGen.IsPalmOasisTree(treeX))
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
 
-                                break;
+                                    break;
 
-                            case TreeTypes.PalmCorrupt:
+                                case TreeTypes.PalmCorrupt:
 
-                                if (WorldGen.genRand.NextBool())
+                                    if (WorldGen.genRand.NextBool())
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BlackCurrant : ItemID.Elderberry;
+                                    else if (WorldGen.IsPalmOasisTree(treeX))
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
+                                    else
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BlackCurrant : ItemID.Elderberry;
+
+                                    break;
+
+                                case TreeTypes.Corrupt:
                                     treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BlackCurrant : ItemID.Elderberry;
-                                else if (WorldGen.IsPalmOasisTree(treeX))
-                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
-                                else
-                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BlackCurrant : ItemID.Elderberry;
+                                    break;
 
-                                break;
+                                case TreeTypes.PalmHallowed:
 
-                            case TreeTypes.Corrupt:
-                                treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BlackCurrant : ItemID.Elderberry;
-                                break;
+                                    if (WorldGen.genRand.NextBool())
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Dragonfruit : ItemID.Starfruit;
+                                    else if (WorldGen.IsPalmOasisTree(treeX))
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
+                                    else
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Dragonfruit : ItemID.Starfruit;
 
-                            case TreeTypes.PalmHallowed:
+                                    break;
 
-                                if (WorldGen.genRand.NextBool())
+                                case TreeTypes.Hallowed:
                                     treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Dragonfruit : ItemID.Starfruit;
-                                else if (WorldGen.IsPalmOasisTree(treeX))
-                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
-                                else
-                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Dragonfruit : ItemID.Starfruit;
+                                    break;
 
-                                break;
+                                case TreeTypes.PalmCrimson:
 
-                            case TreeTypes.Hallowed:
-                                treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Dragonfruit : ItemID.Starfruit;
-                                break;
+                                    if (WorldGen.genRand.NextBool())
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BloodOrange : ItemID.Rambutan;
+                                    else if (WorldGen.IsPalmOasisTree(treeX))
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
+                                    else
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BloodOrange : ItemID.Rambutan;
 
-                            case TreeTypes.PalmCrimson:
+                                    break;
 
-                                if (WorldGen.genRand.NextBool())
+                                case TreeTypes.Crimson:
                                     treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BloodOrange : ItemID.Rambutan;
-                                else if (WorldGen.IsPalmOasisTree(treeX))
-                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
-                                else
-                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BloodOrange : ItemID.Rambutan;
+                                    break;
 
-                                break;
+                                default:
+                                    break;
+                            }
 
-                            case TreeTypes.Crimson:
-                                treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BloodOrange : ItemID.Rambutan;
-                                break;
-
-                            default:
-                                break;
+                            if (treeDropItemType != 0)
+                                Item.NewItem(new EntitySource_TileBreak(treeX, treeY), treeX * 16, treeY * 16, 16, 16, treeDropItemType);
                         }
-
-                        if (treeDropItemType != 0)
-                            Item.NewItem(new EntitySource_TileBreak(treeX, treeY), treeX * 16, treeY * 16, 16, 16, treeDropItemType);
                     }
                 }
             }
