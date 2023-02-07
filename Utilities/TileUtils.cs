@@ -335,6 +335,7 @@ namespace CalamityMod
             TileType<AstralSnow>(),
             TileType<Navystone>(),
             TileType<EutrophicSand>(),
+            TileType<SulphurousShale>(),
             TileType<AbyssGravel>(),
             TileType<Voidstone>(),
         });
@@ -448,6 +449,7 @@ namespace CalamityMod
             // Sulphurous Sea
             TileType<SulphurousSand>(),
             TileType<SulphurousSandstone>(),
+            TileType<SulphurousShale>(),
             // Abyss
             TileType<AbyssGravel>(),
             TileType<Voidstone>(),
