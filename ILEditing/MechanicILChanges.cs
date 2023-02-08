@@ -834,14 +834,16 @@ namespace CalamityMod.ILEditing
                 initialColor.TopRightColor = SelectLavaColor(initialTexture, initialColor.TopRightColor, liquidType == 1);
                 initialColor.BottomLeftColor = SelectLavaColor(initialTexture, initialColor.BottomLeftColor, liquidType == 1);
                 initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor, liquidType == 1);
-                if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
-                    SelectSulphuricWaterColor(x, y, ref initialColor);
 
-                if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater").Slot)
+                if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater").Slot || 
+                liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot ||
+                liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricDepthsWater").Slot ||
+                liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/UpperAbyssWater").Slot ||
+                liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/MiddleAbyssWater").Slot ||
+                liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/VoidWater").Slot)
+                {
                     SelectSulphuricWaterColor(x, y, ref initialColor);
-
-                if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/AbyssWater").Slot)
-                    SelectSulphuricWaterColor(x, y, ref initialColor);
+                }
 
                 // Apply any extra color conditions.
                 initialColor = ExtraColorChangeConditions?.Invoke(initialColor, liquidType, new(x, y)) ?? initialColor;
@@ -967,8 +969,7 @@ namespace CalamityMod.ILEditing
             orig(self, x, y, out outputColor);
 
             Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-            if (tile.LiquidAmount <= 0 || tile.HasTile || Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot &&
-            Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater").Slot)
+            if (tile.LiquidAmount <= 0 || tile.HasTile || Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
                 return;
 
             Tile above = CalamityUtils.ParanoidTileRetrieval(x, y - 1);

@@ -17,22 +17,22 @@ namespace CalamityMod.BiomeManagers
             }
         }
 
-        public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/AbyssWater");
+        public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/MiddleAbyssWater");
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
-        public override string BestiaryIcon => "CalamityMod/BiomeManagers/AbyssIcon";
+        public override string BestiaryIcon => "CalamityMod/BiomeManagers/AbyssLayer3Icon";
         public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer23";
         public override string MapBackground => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer23";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Abyss: Third Layer");
+            DisplayName.SetDefault("Lower Abyss");
         }
 
         public override bool IsBiomeActive(Player player)
         {
             return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) &&
-                playerYTileCoords > (Main.rockLayer + Main.maxTilesY * 0.14) &&
-                playerYTileCoords <= (Main.rockLayer + Main.maxTilesY * 0.26);
+            playerYTileCoords > Main.rockLayer + Main.maxTilesY * 0.145 &&
+            playerYTileCoords <= Main.rockLayer + Main.maxTilesY * 0.262;
         }
     }
 }

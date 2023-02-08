@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Enemy
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxic Cloud");
-            Main.projFrames[Projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 10;
         }
 
         public override void SetDefaults()
@@ -61,6 +61,8 @@ namespace CalamityMod.Projectiles.Enemy
             {
                 Projectile.Kill();
             }
+
+            Projectile.velocity *= 0.98f;
 
             if (Math.Abs(Projectile.velocity.X) > 0f)
             {

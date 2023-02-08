@@ -35,9 +35,9 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 49f / 255f;
-            g = 159f / 255f;
-            b = 242f / 255f;
+            r = 49f / 500f;
+            g = 159f / 500f;
+            b = 242f / 500f;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

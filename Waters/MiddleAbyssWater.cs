@@ -3,11 +3,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Waters
 {
-    public class AbyssWater : ModWaterStyle
+    public class MiddleAbyssWater : ModWaterStyle
     {
         public override int ChooseWaterfallStyle()
         {
-            return ModContent.Find<ModWaterfallStyle>("CalamityMod/AbyssWaterflow").Slot;
+            return ModContent.Find<ModWaterfallStyle>("CalamityMod/MiddleAbyssWaterflow").Slot;
         }
 
         public override int GetSplashDust()

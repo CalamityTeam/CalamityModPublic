@@ -1,6 +1,7 @@
 using CalamityMod.Tiles.Crags;
 using CalamityMod.Tiles.Crags.Spike;
 using CalamityMod.Tiles.Crags.Tree;
+using CalamityMod.Tiles.Crags.Lily;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Walls;
 using CalamityMod.Schematics;
@@ -27,8 +28,6 @@ namespace CalamityMod.World
         static int lavaLakePlaceDelay = 0;
         static int lavaLakeBigPlaceDelay = 0;
         static int numLavaLakes = 0;
-
-        static int TreeDelay = 0;
 
         //all the main crags terrain generation
         private static void GenCrags()
@@ -98,7 +97,7 @@ namespace CalamityMod.World
             //scorched remains patches
             for (int x = biomeStart + 30; x <= biomeEdge - 30; x++)
             {
-                if (WorldGen.genRand.Next(150) == 0)
+                if (WorldGen.genRand.Next(145) == 0)
                 {
                     ScorchedGrassPatches(new Point(x, Main.maxTilesY - 135));
                 }
@@ -221,23 +220,6 @@ namespace CalamityMod.World
                 }
             }
 
-            //spread grass on all scorched remains
-            for (int x = biomeStart; x <= biomeEdge; x++)
-            {
-                for (int y = Main.maxTilesY - 200; y <= Main.maxTilesY - 5; y++)
-                {
-                    Tile tile = Main.tile[x, y];
-                    Tile tileUp = Main.tile[x, y - 1];
-
-                    if (tile.TileType == ModContent.TileType<ScorchedRemains>() && !tileUp.HasTile && tileUp.LiquidAmount == 0)
-                    {
-                        tile.TileType = (ushort)ModContent.TileType<ScorchedRemainsGrass>();
-                    }
-
-                    Tile.SmoothSlope(x, y, true);
-                }
-            }
-
             //place clumps of charred ore
             for (int x = biomeStart; x <= biomeEdge; x++)
             {
@@ -270,10 +252,30 @@ namespace CalamityMod.World
                 for (int y = Main.maxTilesY - 200; y <= Main.maxTilesY - 5; y++)
                 {
                     Tile tile = Main.tile[x, y];
+                    Tile tileAbove = Main.tile[x, y - 1];
+
                     if (tile.LiquidAmount > 0)
                     {
                         tile.LiquidType = LiquidID.Lava;
                         tile.LiquidAmount = 255;
+                    }
+
+                    //get rid of lava above scorched remains as much as possible
+                    if (tile.TileType == ModContent.TileType<ScorchedRemains>() && !tileAbove.HasTile)
+                    {
+                        for (int i = x - 1; i <= x + 1; i++)
+                        {
+                            for (int j = y - 5; j <= y; j++)
+                            {
+                                Tile lavaTile = Main.tile[i, j];
+                                Tile lavaTileDown = Main.tile[i, j + 1];
+
+                                if (lavaTile.WallType == 0 && lavaTileDown.WallType == 0)
+                                {
+                                    lavaTile.LiquidAmount = 0;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -284,6 +286,24 @@ namespace CalamityMod.World
                 for (int y = Main.maxTilesY - 150; y <= Main.maxTilesY - 122; y++)
                 {
                     Main.tile[x, y].LiquidAmount = 0;
+                }
+            }
+
+            //settle all liquids
+            CalamityUtils.SettleWater();
+
+            //spread grass on all scorched remains with no lava above them
+            for (int x = biomeStart; x <= biomeEdge; x++)
+            {
+                for (int y = Main.maxTilesY - 200; y <= Main.maxTilesY - 110; y++)
+                {
+                    Tile tile = Main.tile[x, y];
+                    Tile tileUp = Main.tile[x, y - 1];
+
+                    if (tile.TileType == ModContent.TileType<ScorchedRemains>() && !tileUp.HasTile && tileUp.LiquidAmount == 0)
+                    {
+                        tile.TileType = (ushort)ModContent.TileType<ScorchedRemainsGrass>();
+                    }
                 }
             }
         }
@@ -300,7 +320,8 @@ namespace CalamityMod.World
                 for (int y = Main.maxTilesY - 200; y <= Main.maxTilesY - 5; y++)
                 {
                     Tile tile = Main.tile[x, y];
-                    Tile tileUp = Main.tile[x, y - 1];
+
+                    Tile.SmoothSlope(x, y, true);
 
                     //stalactites and stalagmites
                     if (tile.TileType == ModContent.TileType<BrimstoneSlag>())
@@ -340,21 +361,65 @@ namespace CalamityMod.World
 
                             WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Stalagmites));
                         }
+                    }
 
-                        if (TreeDelay > 0)
+                    //place lillies on scorched remains grass
+                    if (tile.TileType == ModContent.TileType<ScorchedRemainsGrass>())
+                    {
+                        //place them often since they are pretty big tiles, also dont place them in lava
+                        if (WorldGen.genRand.Next(3) == 0)
                         {
-                            TreeDelay--;
+                            ushort[] Lillies = new ushort[] { (ushort)ModContent.TileType<LavaLily1>(),
+                            (ushort)ModContent.TileType<LavaLily2>(), (ushort)ModContent.TileType<LavaLily3>() };
+
+                            WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Lillies));
                         }
+                    }
+                }
 
+                //separate y loop so trees dont grow too deep
+                for (int y = Main.maxTilesY - 150; y <= Main.maxTilesY - 122; y++)
+                {
+                    Tile tile = Main.tile[x, y];
+
+                    Tile.SmoothSlope(x, y, true);
+
+                    //stalactites and stalagmites
+                    if (tile.TileType == ModContent.TileType<BrimstoneSlag>())
+                    {
                         //grow spine tree
-                        if (WorldGen.genRand.Next(3) == 0 && TreeDelay == 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
+                        if (WorldGen.genRand.Next(12) == 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
                         {
-                            SpineTree.Spawn(x, y - 1, 22, 28, false, -1, false);
-                            TreeDelay = 20;
+                            PlaceTree(x, y - 1, ModContent.TileType<SpineTree>());
                         }
                     }
                 }
             }
+        }
+
+        public static bool PlaceTree(int x, int y, int tileType)
+        {
+            int minDistance = 5;
+            int treeNearby = 0;
+
+            for (int i = x - minDistance; i < x + minDistance; i++)
+            {
+                for (int j = y - minDistance; j < y + minDistance; j++)
+                {
+                    if (Main.tile[i, j].HasTile && Main.tile[i, j].TileType == tileType)
+                    {
+                        treeNearby++;
+                        if (treeNearby > 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            SpineTree.Spawn(x, y, 22, 28, false, -1, false);
+
+            return true;
         }
 
         public static void FillBrimstoneChests(Chest chest, int Type, bool firstItem)
