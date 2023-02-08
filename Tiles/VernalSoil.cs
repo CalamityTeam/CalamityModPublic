@@ -35,7 +35,7 @@ namespace CalamityMod.Tiles
                 if (WorldGen.genRand.NextBool(15))
                 {
                     bool placeBulb = true;
-                    int minDistanceFromOtherBulbs = 5;
+                    int minDistanceFromOtherBulbs = 8;
                     for (int k = i - minDistanceFromOtherBulbs; k < i + minDistanceFromOtherBulbs; k += 2)
                     {
                         for (int l = j - minDistanceFromOtherBulbs; l < j + minDistanceFromOtherBulbs; l += 2)
