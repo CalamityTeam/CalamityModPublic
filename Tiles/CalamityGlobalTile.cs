@@ -144,7 +144,7 @@ namespace CalamityMod.Tiles
             Tile tile = Main.tile[i, j];
 
             // Fruit from trees upon tree destruction
-            if (!effectOnly && fail && Main.netMode != NetmodeID.MultiplayerClient && TileID.Sets.IsShakeable[type])
+            if (!effectOnly && !fail && Main.netMode != NetmodeID.MultiplayerClient && TileID.Sets.IsShakeable[type])
             {
                 GetTreeBottom(i, j, out int treeX, out int treeY);
                 TreeTypes treeType = WorldGen.GetTreeType(Main.tile[treeX, treeY].TileType);

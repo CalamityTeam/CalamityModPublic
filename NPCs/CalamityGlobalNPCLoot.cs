@@ -1578,6 +1578,32 @@ namespace CalamityMod.NPCs
         #region Pre Kill
         public override bool PreKill(NPC npc)
         {
+            // Stop all random food drops that aren't sold, crafted or etc.
+            var randomFoodItems = new int[]
+            {
+                ItemID.ApplePie,
+                ItemID.BananaSplit,
+                ItemID.BBQRibs,
+                ItemID.Burger,
+                ItemID.MilkCarton,
+                ItemID.ChocolateChipCookie,
+                ItemID.CoffeeCup,
+                ItemID.CreamSoda,
+                ItemID.FriedEgg,
+                ItemID.Fries,
+                ItemID.Grapes,
+                ItemID.Hotdog,
+                ItemID.IceCream,
+                ItemID.Milkshake,
+                ItemID.Nachos,
+                ItemID.Pizza,
+                ItemID.PotatoChips,
+                ItemID.ShrimpPoBoy,
+                ItemID.Spaghetti,
+                ItemID.Steak
+            };
+            DropHelper.BlockDrops(randomFoodItems);
+
             // Stop Eater of Worlds segments and Brain of Cthulhu Creepers from dropping partial loot in Rev+
             if (CalamityWorld.revenge && (CalamityLists.EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper))
                 DropHelper.BlockDrops(ItemID.DemoniteOre, ItemID.ShadowScale, ItemID.CrimtaneOre, ItemID.TissueSample);
