@@ -13,8 +13,9 @@ namespace CalamityMod.Projectiles.Rogue
     {
         internal PrimitiveTrail LightningDrawer;
 
-        public const int MaximumBranchingIterations = 3;
+        public const int MaximumBranchingIterations = 5;
         public const float LightningTurnRandomnessFactor = 1.7f;
+        public const int Lifetime = 60;
         public ref float InitialVelocityAngle => ref Projectile.ai[0];
         // Technically not a ratio, and more of a seed, but it is used in a 0-2pi squash
         // later in the code to get an arbitrary unit vector (which is then checked).
@@ -29,20 +30,21 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Electricity");
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 100;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 50;
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 10000;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
         public override void SetDefaults()
         {
-            Projectile.width = 14;
-            Projectile.height = 14;
+            Projectile.width = 28;
+            Projectile.height = 28;
             Projectile.friendly = true;
             Projectile.alpha = 255;
             Projectile.penetrate = 2;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.extraUpdates = 20;
-            Projectile.timeLeft = 45 * Projectile.extraUpdates;
+            Projectile.extraUpdates = 10;
+            Projectile.timeLeft = Lifetime * Projectile.extraUpdates;
             Projectile.DamageType = RogueDamageClass.Instance;
 
             // Readjust the velocity magnitude the moment this projectile is created
@@ -57,10 +59,9 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             Projectile.frameCounter++;
-
-            Projectile.scale = (float)Math.Sin(MathHelper.Pi * Projectile.timeLeft / (45f * (Projectile.MaxUpdates - 1))) * 4f;
-            if (Projectile.scale > 1f)
-                Projectile.scale = 1f;
+            float adjustedTimeLife = Projectile.timeLeft / Projectile.MaxUpdates;
+            Projectile.Opacity = Utils.GetLerpValue(0f, 9f, adjustedTimeLife, true) * Utils.GetLerpValue(Lifetime, Lifetime - 3f, adjustedTimeLife, true);
+            Projectile.scale = Projectile.Opacity;
 
             Lighting.AddLight(Projectile.Center, Color.Blue.ToVector3());
             if (Projectile.frameCounter >= Projectile.extraUpdates * 2)
@@ -102,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                     turnTries++;
                 }
-                while (turnTries < 100);
+                while (turnTries < 20);
 
                 if (Projectile.velocity != Vector2.Zero)
                 {
@@ -119,7 +120,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.maxPenetrate = -1;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 20;
             Projectile.Damage();
         }
 
