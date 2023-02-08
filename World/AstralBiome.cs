@@ -127,7 +127,7 @@ namespace CalamityMod.World
             {
                 float worldEdgeMargin = (float)Main.maxTilesX * 0.08f;
                 int xLimit = Main.maxTilesX / 2;
-                int x = Abyss.AtLeftSideOfWorld ? rand.Next(Main.dungeonX + 200, xLimit - 350) : rand.Next(xLimit + 350, Main.dungeonX - 200);
+                int x = Abyss.AtLeftSideOfWorld ? rand.Next(Main.dungeonX + 200, xLimit - 400) : rand.Next(xLimit + 400, Main.dungeonX - 200);
                 
                 //world surface = 920 large 740 medium 560 small
                 int y = (int)(Main.worldSurface * 0.5); //Large = 522, Medium = 444, Small = 336

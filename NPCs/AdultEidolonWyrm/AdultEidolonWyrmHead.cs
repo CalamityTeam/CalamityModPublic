@@ -18,6 +18,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -354,7 +355,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     NPC.Opacity = 0f;
             }
 
-            // Direction
+            // Direction and rotation
+            NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
             int direction = NPC.direction;
             NPC.direction = NPC.spriteDirection = (NPC.velocity.X > 0f) ? 1 : (-1);
             if (direction != NPC.direction)
@@ -399,8 +401,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     break;
             }
             Vector2 chargeLocation = destination + chargeVector;
-            Vector2 chargeVectorFlipped = chargeVector * -1f;
-            float chargePredictionAmt = death ? 50f : revenge ? 40f : expertMode ? 30f : 20f;
 
             // Lightning Rain variables
             Vector2 lightningRainLocation = new Vector2(0f, -baseDistance);
@@ -408,7 +408,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
             // Wyrm and Eidolist variables
             Vector2 eidolonWyrmPhaseLocation = new Vector2(0f, baseDistance);
-            float eidolonWyrmPhaseLocationDistance = baseAttackTriggerDistance;
             int eidolistScale = death ? 3 : revenge ? 2 : expertMode ? 1 : 0;
             int maxEidolists = (targetDownDeep ? 3 : 6) + eidolistScale;
 
@@ -423,7 +422,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
             // Ancient Doom variables
             Vector2 ancientDoomLocation = new Vector2(0f, -baseDistance);
-            float ancientDoomLocationDistance = baseAttackTriggerDistance;
             int ancientDoomScale = death ? 3 : revenge ? 2 : expertMode ? 1 : 0;
             int ancientDoomLimit = (targetDownDeep ? 4 : 8) + ancientDoomScale;
             int ancientDoomDistance = death ? 520 : revenge ? 535 : expertMode ? 550 : 600;
@@ -433,7 +431,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             Vector2 lightningChargeVector = NPC.localAI[2] == 0f ? new Vector2(baseDistance, 0f) : new Vector2(-baseDistance, 0f);
             float lightningChargeLocationDistance = baseAttackTriggerDistance;
             Vector2 lightningChargeLocation = destination + lightningChargeVector;
-            Vector2 lightningChargeVectorFlipped = lightningChargeVector * -1f;
             float lightningSpawnY = 540f;
             Vector2 lightningSpawnLocation = new Vector2(NPC.Center.X, NPC.Center.Y - lightningSpawnY);
             int numLightningBolts = death ? 10 : revenge ? 8 : expertMode ? 6 : 4;
@@ -441,11 +438,11 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
             // Velocity and turn speed values
             float velocityScale = death ? 1.8f : revenge ? 1.5f : expertMode ? 1.2f : 0f;
-            float baseVelocity = (targetDownDeep ? 12f : 24f) + (targetDownDeep ? velocityScale : velocityScale * 2f);
+            float baseVelocity = (targetDownDeep ? 10f : 15f) + (targetDownDeep ? velocityScale : velocityScale * 1.5f);
             if (Main.getGoodWorld)
                 baseVelocity *= 1.15f;
 
-            float turnSpeed = baseVelocity * 0.125f;
+            float turnSpeed = baseVelocity * 0.015f;
             float normalChargeVelocityMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
             float normalChargeTurnSpeedMult = MathHelper.Lerp(1f, 4f, chargeVelocityScalar);
             float invisiblePhaseVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
@@ -509,6 +506,9 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         if (chargeVelocityScalar > 1f)
                             chargeVelocityScalar = 1f;
 
+                        baseVelocity *= normalChargeVelocityMult;
+                        turnSpeed *= normalChargeTurnSpeedMult;
+
                         if ((chargeLocation - NPC.Center).Length() < chargeLocationDistance || calamityGlobalNPC.newAI[2] > chargePhaseGateValue)
                         {
                             // Set the scalar to max
@@ -522,26 +522,26 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             // Turn towards the target
                             if (!lookingAtTarget && calamityGlobalNPC.newAI[2] < chargePhaseGateValue + 2f)
                             {
-                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                    SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
-
                                 baseVelocity /= normalChargeVelocityMult;
-                                turnSpeed *= normalChargeTurnSpeedMult;
+                                turnSpeed /= normalChargeTurnSpeedMult;
                             }
 
                             // Charge at the target
                             else
                             {
+                                if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
+                                {
+                                    if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                        SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
+                                }
+
                                 // Lock into the charge phase and use this for a charge time check
                                 calamityGlobalNPC.newAI[2] += 1f;
 
                                 // Become totally visible
                                 NPC.Opacity = 1f;
 
-                                baseVelocity *= normalChargeVelocityMult;
-                                turnSpeed /= normalChargeTurnSpeedMult;
-
-                                float totalChargeTime = totalChargeDistance / baseVelocity;
+                                float totalChargeTime = (totalChargeDistance / baseVelocity) + chargePhaseGateValue + 1f;
                                 if (calamityGlobalNPC.newAI[2] > totalChargeTime)
                                 {
                                     NPC.ai[3] += 1f;
@@ -566,12 +566,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             }
                         }
                         else
-                        {
                             destination += chargeVector;
-
-                            baseVelocity *= normalChargeVelocityMult;
-                            turnSpeed *= normalChargeTurnSpeedMult;
-                        }
                     }
                     else
                         calamityGlobalNPC.newAI[2] += 1f;
@@ -699,6 +694,9 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         if (chargeVelocityScalar > 1f)
                             chargeVelocityScalar = 1f;
 
+                        baseVelocity *= fastChargeVelocityMult;
+                        turnSpeed *= fastChargeTurnSpeedMult;
+
                         if ((chargeLocation - NPC.Center).Length() < chargeLocationDistance || calamityGlobalNPC.newAI[2] > chargePhaseGateValue)
                         {
                             // Set the scalar to max
@@ -712,26 +710,26 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             // Turn towards the target
                             if (!lookingAtTarget && calamityGlobalNPC.newAI[2] < chargePhaseGateValue + 2f)
                             {
-                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                    SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
-
                                 baseVelocity /= fastChargeVelocityMult;
-                                turnSpeed *= fastChargeTurnSpeedMult;
+                                turnSpeed /= fastChargeTurnSpeedMult;
                             }
 
                             // Charge very quickly
                             else
                             {
+                                if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
+                                {
+                                    if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                        SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
+                                }
+
                                 // Lock into the charge phase and use this for a charge time check
                                 calamityGlobalNPC.newAI[2] += 1f;
 
                                 // Become totally visible
                                 NPC.Opacity = 1f;
 
-                                baseVelocity *= fastChargeVelocityMult;
-                                turnSpeed /= fastChargeTurnSpeedMult;
-
-                                float totalChargeTime = totalChargeDistance / baseVelocity;
+                                float totalChargeTime = (totalChargeDistance / baseVelocity) + chargePhaseGateValue + 1f;
                                 if (calamityGlobalNPC.newAI[2] > totalChargeTime)
                                 {
                                     if (!phase5)
@@ -763,12 +761,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             }
                         }
                         else
-                        {
                             destination += chargeVector;
-
-                            baseVelocity *= fastChargeVelocityMult;
-                            turnSpeed *= fastChargeTurnSpeedMult;
-                        }
                     }
                     else
                         calamityGlobalNPC.newAI[2] += 1f;
@@ -785,12 +778,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         if (calamityGlobalNPC.newAI[2] == 0f)
                         {
                             if (!NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHead>()))
-                            {
-                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                    SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, Main.player[Main.myPlayer].Center);
-
                                 NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<EidolonWyrmHead>());
-                            }
                         }
                     }
 
@@ -818,6 +806,9 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         if (chargeVelocityScalar > 1f)
                             chargeVelocityScalar = 1f;
 
+                        baseVelocity *= normalChargeVelocityMult;
+                        turnSpeed *= normalChargeTurnSpeedMult;
+
                         if ((chargeLocation - NPC.Center).Length() < chargeLocationDistance || calamityGlobalNPC.newAI[2] > chargePhaseGateValue)
                         {
                             // Set the scalar to max
@@ -831,26 +822,26 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             // Turn towards the target
                             if (!lookingAtTarget && calamityGlobalNPC.newAI[2] < chargePhaseGateValue + 2f)
                             {
-                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                    SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
-
                                 baseVelocity /= normalChargeVelocityMult;
-                                turnSpeed *= normalChargeTurnSpeedMult;
+                                turnSpeed /= normalChargeTurnSpeedMult;
                             }
 
                             // Charge
                             else
                             {
+                                if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
+                                {
+                                    if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                        SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
+                                }
+
                                 // Lock into the charge phase and use this for a charge time check
                                 calamityGlobalNPC.newAI[2] += 1f;
 
                                 // Become totally visible
                                 NPC.Opacity = 1f;
 
-                                baseVelocity *= normalChargeVelocityMult;
-                                turnSpeed /= normalChargeTurnSpeedMult;
-
-                                float totalChargeTime = totalChargeDistance / baseVelocity;
+                                float totalChargeTime = (totalChargeDistance / baseVelocity) + chargePhaseGateValue + 1f;
                                 if (calamityGlobalNPC.newAI[2] > totalChargeTime)
                                 {
                                     NPC.ai[3] += 1f;
@@ -875,12 +866,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             }
                         }
                         else
-                        {
                             destination += chargeVector;
-
-                            baseVelocity *= normalChargeVelocityMult;
-                            turnSpeed *= normalChargeTurnSpeedMult;
-                        }
                     }
                     else
                         calamityGlobalNPC.newAI[2] += 1f;
@@ -1033,9 +1019,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             }
                         }
 
-                        // Do rotation here due to the return
-                        NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
-
                         // Return to prevent other velocity code from being called
                         return;
                     }
@@ -1103,6 +1086,9 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         if (chargeVelocityScalar > 1f)
                             chargeVelocityScalar = 1f;
 
+                        baseVelocity *= normalChargeVelocityMult;
+                        turnSpeed *= normalChargeTurnSpeedMult;
+
                         if ((lightningChargeLocation - NPC.Center).Length() < lightningChargeLocationDistance || calamityGlobalNPC.newAI[2] > lightningChargePhaseGateValue)
                         {
                             // Set the scalar to max
@@ -1116,24 +1102,24 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             // Turn towards the target
                             if (!lookingAtTarget && calamityGlobalNPC.newAI[2] < lightningChargePhaseGateValue + 2f)
                             {
-                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                    SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
-
                                 baseVelocity /= normalChargeVelocityMult;
-                                turnSpeed *= normalChargeTurnSpeedMult;
+                                turnSpeed /= normalChargeTurnSpeedMult;
                             }
 
                             // Charge
                             else
                             {
+                                if (calamityGlobalNPC.newAI[2] == lightningChargePhaseGateValue + 1f)
+                                {
+                                    if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                        SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
+                                }
+
                                 // Lock into the charge phase and use this for a charge time check
                                 calamityGlobalNPC.newAI[2] += 1f;
 
                                 // Become totally visible
                                 NPC.Opacity = 1f;
-
-                                baseVelocity *= normalChargeVelocityMult;
-                                turnSpeed /= normalChargeTurnSpeedMult;
 
                                 // Lightning barrage
                                 if (NPC.localAI[3] == 0f)
@@ -1149,8 +1135,9 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                         for (int i = 0; i < numLightningBolts; i++)
                                         {
                                             Vector2 projectileDestination = player.Center - lightningSpawnLocation;
+                                            Vector2 projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * baseVelocity * 0.5f;
                                             float ai = Main.rand.Next(100);
-                                            int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), lightningSpawnLocation, NPC.velocity * 0.5f, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+                                            int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), lightningSpawnLocation, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
                                             Main.projectile[proj].tileCollide = false;
                                             lightningSpawnLocation.Y += distanceBetweenBolts;
                                             if (i == numLightningBolts / 2)
@@ -1159,7 +1146,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                     }
                                 }
 
-                                float totalChargeTime = totalChargeDistance / baseVelocity;
+                                float totalChargeTime = (totalChargeDistance / baseVelocity) + lightningChargePhaseGateValue + 1f;
                                 if (calamityGlobalNPC.newAI[2] > totalChargeTime)
                                 {
                                     AIState = NPC.localAI[2] == 0f ? (float)Phase.LightningRain : (float)Phase.IceMist;
@@ -1177,12 +1164,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             }
                         }
                         else
-                        {
                             destination += lightningChargeVector;
-
-                            baseVelocity *= normalChargeVelocityMult;
-                            turnSpeed *= normalChargeTurnSpeedMult;
-                        }
                     }
                     else
                         calamityGlobalNPC.newAI[2] += 1f;
@@ -1326,9 +1308,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             }
                         }
 
-                        // Do rotation here due to the return
-                        NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
-
                         // Return to prevent other velocity code from being called
                         return;
                     }
@@ -1382,9 +1361,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         NPC.velocity.X += NPC.velocity.X.DirectionalSign() * turnSpeed;
                 }
             }
-
-            // Rotation
-            NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         private void ChargeDust(int dustAmt, float pie)
@@ -1441,18 +1417,27 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             return null;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (NPC.IsABestiaryIconDummy)
-            {
                 NPC.Opacity = 1f;
-                return;
-            }
 
-            Vector2 center = NPC.Center;
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmHeadGlow").Value;
-            SpriteEffects spriteEffects = NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Main.spriteBatch.Draw(texture, center - screenPos, NPC.frame, Color.White, NPC.rotation, texture.Size() * 0.5f, NPC.scale, spriteEffects, 0f);
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (NPC.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            Vector2 vector = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
+
+            Vector2 center = NPC.Center - screenPos;
+            center -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+            center += vector * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture, center, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
+
+            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmHeadGlow").Value;
+            spriteBatch.Draw(texture, center, NPC.frame, Color.White * NPC.Opacity, NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
+
+            return false;
         }
 
         public override void BossLoot(ref string name, ref int potionType)

@@ -366,8 +366,8 @@ namespace CalamityMod.World
                     //place lillies on scorched remains grass
                     if (tile.TileType == ModContent.TileType<ScorchedRemainsGrass>())
                     {
-                        //place them decently often since they are pretty big tiles, also dont place them in lava
-                        if (WorldGen.genRand.Next(4) == 0)
+                        //place them often since they are pretty big tiles, also dont place them in lava
+                        if (WorldGen.genRand.Next(3) == 0)
                         {
                             ushort[] Lillies = new ushort[] { (ushort)ModContent.TileType<LavaLily1>(),
                             (ushort)ModContent.TileType<LavaLily2>(), (ushort)ModContent.TileType<LavaLily3>() };

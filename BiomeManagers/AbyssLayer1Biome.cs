@@ -16,18 +16,18 @@ namespace CalamityMod.BiomeManagers
             int y = Main.maxTilesY;
             int genLimit = x / 2;
             int abyssChasmY = y - 250;
-            int abyssChasmX = Abyss.AtLeftSideOfWorld ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135);
+            int abyssChasmX = Abyss.AtLeftSideOfWorld ? genLimit - (genLimit - 135) + 35 : genLimit + (genLimit - 135) - 35;
 
             bool abyssPosX = false;
-            bool abyssPosY = point.Y <= abyssChasmY;
+            bool abyssPosY = point.Y >= (Main.rockLayer - Main.maxTilesY / 13);
             if (Abyss.AtLeftSideOfWorld)
             {
-                if (point.X < abyssChasmX + 80)
+                if (point.X < abyssChasmX + 125)
                     abyssPosX = true;
             }
             else
             {
-                if (point.X > abyssChasmX - 80)
+                if (point.X > abyssChasmX - 125)
                     abyssPosX = true;
             }
 
@@ -36,16 +36,13 @@ namespace CalamityMod.BiomeManagers
             if (WeakReferenceSupport.InAnySubworld())
                 return false;
 
-            return point.Y > SulphurousSea.YStart + SulphurousSea.BlockDepth - 78 &&
-                !player.lavaWet &&
-                !player.honeyWet &&
-                abyssPosY &&
-                abyssPosX;
+            return !player.lavaWet && !player.honeyWet && abyssPosY && abyssPosX;
         }
 
-        public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/AbyssWater");
+        //temporarily use sulphur for now
+        public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricDepthsWater");
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
-        public override string BestiaryIcon => "CalamityMod/BiomeManagers/AbyssIcon";
+        public override string BestiaryIcon => "CalamityMod/BiomeManagers/AbyssLayer1Icon";
         public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer1";
         public override string MapBackground => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer1";
 
@@ -61,13 +58,14 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Abyss: First Layer");
+            DisplayName.SetDefault("Sulphuric Depths");
         }
 
         public override bool IsBiomeActive(Player player)
         {
             return MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && 
-                playerYTileCoords <= (Main.rockLayer + Main.maxTilesY * 0.03);
+            playerYTileCoords >= Main.rockLayer - Main.maxTilesY / 15 &&
+            playerYTileCoords <= Main.rockLayer - 22;
         }
     }
 }

@@ -313,7 +313,7 @@ namespace CalamityMod.World
                 for (int y = top; y < bottom; y++)
                 {
                     if (y >= top + DepthForWater)
-                        Main.tile[x, y + WorldGen.genRand.Next(15, 17)].WallType = (ushort)ModContent.WallType<SulphurousSandWall>();
+                        Main.tile[x, y + WorldGen.genRand.Next(22, 25)].WallType = (ushort)ModContent.WallType<SulphurousSandWall>();
                         Main.tile[x, y].LiquidAmount = byte.MaxValue;
                     Main.tile[x, y].Get<TileWallWireStateData>().HasTile = false;
                 }
@@ -867,7 +867,7 @@ namespace CalamityMod.World
 
                 // Try again if there is no tile above or the ceiling is not level.
                 if (!WorldUtils.Find(new(x, y), searchCondition, out Point top) ||
-                    !WorldUtils.Find(new(x + 1, y), searchCondition, out Point topRight) || top.Y != topRight.Y)
+                !WorldUtils.Find(new(x + 1, y), searchCondition, out Point topRight) || top.Y != topRight.Y)
                 {
                     tryAgain = true;
                 }
@@ -882,7 +882,10 @@ namespace CalamityMod.World
                     continue;
                 }
 
-                GenerateColumn(x, top.Y, y);
+                if (WorldGen.genRand.NextBool(2))
+                {
+                    GenerateColumn(x, top.Y, y);
+                }
             }
         }
 
@@ -983,7 +986,7 @@ namespace CalamityMod.World
                             if (WorldGen.InWorld(x + dx, y + dy))
                             {
                                 if (CalamityUtils.ParanoidTileRetrieval(x + dx, y + dy).TileType != sandstoneID &&
-                                    SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x + dx, y + dy).TileType))
+                                SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x + dx, y + dy).TileType))
                                 {
                                     Main.tile[x + dx, y + dy].WallType = sandstoneWallID;
                                     Main.tile[x + dx, y + dy].TileType = sandstoneID;
@@ -1029,9 +1032,12 @@ namespace CalamityMod.World
                                 type++;
                                 int height = heightFromType(type);
 
-                                PlaceStalactite(x, y, height, CalamityMod.Instance.Find<ModTile>($"SulphurousStalactite{type}").Type);
-                                if (WorldGen.SolidTile(x, y + dy + 1))
+                                if ((Main.tile[x, y + dy + 1].TileType == ModContent.TileType<HardenedSulphurousSandstone>() || 
+                                Main.tile[x, y + dy + 1].TileType == ModContent.TileType<SulphurousSandstone>()) &&
+                                !Main.tile[x, y + dy + 1].LeftSlope && !Main.tile[x, y + dy + 1].RightSlope && !Main.tile[x, y + dy + 1].IsHalfBlock)
+                                {
                                     PlaceStalacmite(x, y + dy, height, CalamityMod.Instance.Find<ModTile>($"SulphurousStalacmite{type}").Type);
+                                }
                             }
                         }
                     }
