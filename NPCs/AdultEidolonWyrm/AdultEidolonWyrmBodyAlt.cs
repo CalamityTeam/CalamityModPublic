@@ -63,9 +63,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             bool revenge = CalamityWorld.revenge;
             bool expertMode = Main.expertMode;
 
-            // Fade in.
-            NPC.Opacity = MathHelper.Clamp(NPC.Opacity + 0.2f, 0f, 1f);
-
             if (NPC.ai[2] > 0f)
                 NPC.realLife = (int)NPC.ai[2];
 
@@ -160,13 +157,24 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.spriteDirection = (directionToNextSegment.X > 0).ToDirectionInt();
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            SpriteEffects spriteEffects = NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
-            Vector2 vector = center - screenPos;
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmBodyAltGlow").Value, vector,
-                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), Color.White, NPC.rotation, NPC.frame.Size() * 0.5f, 1f, spriteEffects, 0f);
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (NPC.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            Vector2 vector = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
+
+            Vector2 center = NPC.Center - screenPos;
+            center -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+            center += vector * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture, center, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
+
+            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmBodyAltGlow").Value;
+            spriteBatch.Draw(texture, center, NPC.frame, Color.White * NPC.Opacity, NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
+
+            return false;
         }
 
         public override bool CheckActive() => false;
