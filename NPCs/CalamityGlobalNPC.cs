@@ -1040,7 +1040,7 @@ namespace CalamityMod.NPCs
             if (bBlood > 0)
                 ApplyDPSDebuff(50, 10, ref npc.lifeRegen, ref damage);
             if (miracleBlight > 0)
-                ApplyDPSDebuff(500, 100, ref npc.lifeRegen, ref damage);
+                ApplyDPSDebuff(2500, 500, ref npc.lifeRegen, ref damage);
 
             // Reduce DoT on worm bosses by 75%.
             if (wormBoss && npc.lifeRegen < 0)
