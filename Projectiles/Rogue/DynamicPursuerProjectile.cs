@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
             set => Projectile.ai[1] = value;
         }
         public const float MaxTargetSearchDistance = 480f;
-        public float ReturnAcceleration = 0.15f;
-        public float ReturnMaxSpeed = 12f;
+        public float ReturnAcceleration = 0.5f;
+        public float ReturnMaxSpeed = 18f;
         public float ElectricVelocityCharge = 0f;
         public float LaserVelocityCharge = 0f;
         public bool Ricochet = false;
@@ -42,8 +42,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            Projectile.width = 30;
-            Projectile.height = 30;
+            Projectile.width = 42;
+            Projectile.height = 42;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 1;
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Rogue
             Time++;
             if (!ReturningToPlayer)
             {
-                if (Time >= 45f && !Ricochet)
+                if (Time >= 40f && !Ricochet)
                 {
                     ReturningToPlayer = true;
                     Projectile.tileCollide = false;
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Projectile.Kill();
 
                 // This is done instead of a Normalize or DirectionTo call because the variables needed are already present and calculating the square root again would be unnecessary.
-                ReturnMaxSpeed = (float)Math.Pow(Math.E, Time / 175);
+                ReturnMaxSpeed = (float)Math.Pow(Math.E, Time / 150);
 
                 if (Projectile.Calamity().stealthStrike)
                 {

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage<ThrowingDamageClass>() += 0.1f;
+            player.GetDamage<ThrowingDamageClass>() += 0.10f;
             player.Calamity().veneratedLocket = true;
         }
     }
