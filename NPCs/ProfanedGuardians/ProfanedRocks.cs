@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.ai[3] = NPC.ai[0];
             }
 
-            // Stay invincible for 3 seconds to avoid being instantly killed and don't deal damage to avoid unfair hits
+            // Stay invincible for 100 frames to avoid being instantly killed and don't deal damage to avoid unfair hits
             if (NPC.Opacity < 1f)
             {
                 NPC.damage = 0;
@@ -100,6 +100,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.Opacity += 0.01f;
                 if (NPC.Opacity > 1f)
                     NPC.Opacity = 1f;
+
+                NPC.scale = MathHelper.Lerp(0.05f, 1f, NPC.Opacity);
             }
             else
             {
@@ -297,7 +299,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             drawPos += drawOrigin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             Rectangle frame = new Rectangle(0, 0, texture.Width, texture.Height);
 
-            NPC.DrawBackglow(Color.Orange, 4f, SpriteEffects.None, frame, screenPos, texture);
+            if (!NPC.dontTakeDamage)
+                NPC.DrawBackglow(Color.Orange, 4f, SpriteEffects.None, frame, screenPos, texture);
 
             spriteBatch.Draw(texture, drawPos, frame, NPC.GetAlpha(drawColor), NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0f);
 

@@ -52,9 +52,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.HitSound = SoundID.NPCHit53;
             NPC.DeathSound = SoundID.NPCDeath44;
             NPC.Calamity().VulnerableToSickness = false;
-
-            if (Main.getGoodWorld)
-                NPC.scale *= 0.5f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -107,14 +104,16 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 NPC.ai[3] = NPC.ai[0];
             }
 
-            // Stay invincible for 3 seconds to avoid being instantly killed
+            // Stay invincible for 200 frames to avoid being instantly killed and don't deal damage to avoid unfair hits
             if (NPC.Opacity < 1f)
             {
                 NPC.damage = 0;
 
-                NPC.Opacity += 0.0056f;
+                NPC.Opacity += 0.005f;
                 if (NPC.Opacity > 1f)
                     NPC.Opacity = 1f;
+
+                NPC.scale = MathHelper.Lerp(0.05f, Main.getGoodWorld ? 0.5f : 1f, NPC.Opacity);
             }
             else
             {
@@ -180,31 +179,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.position.X = parent.Center.X - (int)(Math.Cos(radians) * distance) - NPC.width / 2;
             NPC.position.Y = parent.Center.Y - (int)(Math.Sin(radians) * distance) - NPC.height / 2;
             NPC.ai[3] += minRotationVelocity + rotationVelocityIncrease;
-
-            // Flash and pulse effect
-            if (!NPC.dontTakeDamage)
-            {
-                if (NPC.ai[2] == 0f)
-                {
-                    NPC.scale -= 0.01f;
-                    NPC.Opacity -= 0.06f;
-                    if (NPC.Opacity <= 0.5f)
-                    {
-                        NPC.Opacity = 0.5f;
-                        NPC.ai[2] = 1f;
-                    }
-                }
-                else
-                {
-                    NPC.scale += 0.01f;
-                    NPC.Opacity += 0.06f;
-                    if (NPC.Opacity >= 1f)
-                    {
-                        NPC.Opacity = 1f;
-                        NPC.ai[2] = 0f;
-                    }
-                }
-            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -240,6 +214,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
 
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+            if (NPC.dontTakeDamage)
+                return false;
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/CeaselessVoid/DarkEnergyGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f) * NPC.Opacity;
