@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
 
             // Stay invincible for 200 frames to avoid being instantly killed and don't deal damage to avoid unfair hits
-            if (NPC.Opacity < 1f)
+            if (NPC.Opacity < 1f && NPC.dontTakeDamage)
             {
                 NPC.damage = 0;
 
@@ -117,8 +117,21 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
             else
             {
+                if (NPC.dontTakeDamage)
+                {
+                    for (int k = 0; k < 10; k++)
+                    {
+                        int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0, 0, 0, default, 1f);
+                        Main.dust[dust].noGravity = true;
+                    }
+                }
+
                 NPC.damage = NPC.defDamage;
                 NPC.dontTakeDamage = false;
+                float scalar = (float)Math.Cos(NPC.Calamity().newAI[1] * MathHelper.TwoPi) / 2f + 0.5f;
+                NPC.scale = MathHelper.Lerp(0.9f, 1f, scalar);
+                NPC.Opacity = MathHelper.Lerp(0.5f, 1f, scalar);
+                NPC.Calamity().newAI[1] += 1f;
             }
 
             // Force despawn if Ceaseless Void isn't active
