@@ -19,15 +19,15 @@ namespace CalamityMod.BiomeManagers
             int abyssChasmX = Abyss.AtLeftSideOfWorld ? genLimit - (genLimit - 135) + 35 : genLimit + (genLimit - 135) - 35;
 
             bool abyssPosX = false;
-            bool abyssPosY = point.Y >= (Main.rockLayer - Main.maxTilesY / 13);
+            bool abyssPosY = point.Y >= (Main.rockLayer - Main.maxTilesY / 13) && point.Y <= Main.maxTilesY - 200;
             if (Abyss.AtLeftSideOfWorld)
             {
-                if (point.X < abyssChasmX + 125)
+                if (point.X < abyssChasmX + 140)
                     abyssPosX = true;
             }
             else
             {
-                if (point.X > abyssChasmX - 125)
+                if (point.X > abyssChasmX - 140)
                     abyssPosX = true;
             }
 
@@ -52,7 +52,9 @@ namespace CalamityMod.BiomeManagers
             {
                 if (CalamityPlayer.areThereAnyDamnBosses)
                     return Main.curMusic;
-                return CalamityMod.Instance.GetMusicFromMusicMod("Abyss1") ?? MusicID.Hell;
+                return !Main.dayTime
+                ? CalamityMod.Instance.GetMusicFromMusicMod("SulphurousSeaNight") ?? MusicID.Desert // Nighttime
+                : CalamityMod.Instance.GetMusicFromMusicMod("SulphurousSeaDay") ?? MusicID.Desert; // Daytime
             }
         }
 

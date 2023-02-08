@@ -31,16 +31,17 @@ namespace CalamityMod.BiomeManagers
                     if (acidRain)
                     {
                         music = DownedBossSystem.downedPolterghast
-                            ? CalamityMod.Instance.GetMusicFromMusicMod("AcidRain2") ?? MusicID.Monsoon // Acid Rain Tier 3
-                            : CalamityMod.Instance.GetMusicFromMusicMod("AcidRain1") ?? MusicID.OldOnesArmy; // Acid Rain Tier 1 + 2
+                        ? CalamityMod.Instance.GetMusicFromMusicMod("AcidRain2") ?? MusicID.Monsoon // Acid Rain Tier 3
+                        : CalamityMod.Instance.GetMusicFromMusicMod("AcidRain1") ?? MusicID.OldOnesArmy; // Acid Rain Tier 1 + 2
                     }
 
                     // Regular Sulphur Sea themes, when Acid Rain is not occurring
                     else
                         music = !Main.dayTime
-                            ? CalamityMod.Instance.GetMusicFromMusicMod("SulphurousSeaNight") ?? MusicID.Desert // Nighttime
-                            : CalamityMod.Instance.GetMusicFromMusicMod("SulphurousSeaDay") ?? MusicID.Desert; // Daytime
+                        ? CalamityMod.Instance.GetMusicFromMusicMod("SulphurousSeaNight") ?? MusicID.Desert // Nighttime
+                        : CalamityMod.Instance.GetMusicFromMusicMod("SulphurousSeaDay") ?? MusicID.Desert; // Daytime
                 }
+                
                 return music;
             }
         }
@@ -64,7 +65,8 @@ namespace CalamityMod.BiomeManagers
                 if (point.X > Main.maxTilesX - 380)
                     sulphurPosX = true;
             }
-            return (BiomeTileCounterSystem.SulphurTiles >= 300 || (player.ZoneOverworldHeight && sulphurPosX)) && !player.Calamity().ZoneAbyss;
+            
+            return (BiomeTileCounterSystem.SulphurTiles >= 300 || (point.Y < (Main.rockLayer - Main.maxTilesY / 13) && sulphurPosX)) && !player.Calamity().ZoneAbyss;
         }
     }
 }
