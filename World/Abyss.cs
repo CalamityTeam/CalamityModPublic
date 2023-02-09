@@ -429,7 +429,7 @@ namespace CalamityMod.World
                     Tile tileRight = Main.tile[abyssIndex + 1, abyssIndex2];
 
                     if (tile.TileType == ModContent.TileType<AbyssGravel>() || tile.TileType == ModContent.TileType<Voidstone>() || 
-                    tile.TileType == ModContent.TileType<PlantyMush>() || tile.TileType == ModContent.TileType<ChaoticOre>() ||
+                    tile.TileType == ModContent.TileType<PlantyMush>() || tile.TileType == ModContent.TileType<ScoriaOre>() ||
                     tile.TileType == ModContent.TileType<SulphurousShale>())
                     {
                         //slope tiles
@@ -688,7 +688,7 @@ namespace CalamityMod.World
 
                 if (WorldGen.genRand.NextBool(4))
                 {
-                    num16 = hasChest ? ModContent.TileType<ChaoticOre>() : ModContent.TileType<PlantyMush>();
+                    num16 = hasChest ? ModContent.TileType<ScoriaOre>() : ModContent.TileType<PlantyMush>();
                 }
                 for (int n = m - num15; n <= m + num15; n++)
                 {
