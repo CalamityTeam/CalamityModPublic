@@ -492,7 +492,7 @@ namespace CalamityMod.CalPlayer
         {
             int astralOreID = ModContent.TileType<AstralOre>();
             int auricOreID = ModContent.TileType<AuricOre>();
-            int chaotiOreID = ModContent.TileType<ChaoticOre>();
+            int scoriaOreID = ModContent.TileType<ScoriaOre>();
 
             int auricRejectionDamage = 300;
             float auricRejectionKB = Player.noKnockback ? 20f : 40f;
@@ -508,7 +508,7 @@ namespace CalamityMod.CalPlayer
                     Player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);
 
                 // You will need to set each resistant item here for burning as it gets bypassed for somereason
-                if (tile.TileType == chaotiOreID)
+                if (tile.TileType == scoriaOreID)
                     Player.AddBuff(BuffID.Burning, 2);
 
                 // Auric Ore causes an Auric Rejection unless you are wearing Auric Armor

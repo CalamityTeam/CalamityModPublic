@@ -368,7 +368,7 @@ namespace CalamityMod
             TileType<CryonicOre>(),
             TileType<PerennialOre>(),
             TileType<CharredOre>(),
-            TileType<ChaoticOre>(),
+            TileType<ScoriaOre>(),
             TileType<AstralOre>(),
             TileType<UelibloomOre>(),
             TileType<AuricOre>(),
@@ -454,7 +454,7 @@ namespace CalamityMod
             TileType<AbyssGravel>(),
             TileType<Voidstone>(),
             TileType<PlantyMush>(),
-            TileType<ChaoticOre>(),
+            TileType<ScoriaOre>(),
         });
 
         /// <summary>
