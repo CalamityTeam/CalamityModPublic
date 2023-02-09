@@ -472,12 +472,12 @@ namespace CalamityMod.NPCs.TownNPCs
             bool happyAsFuck = Main.LocalPlayer.currentShoppingSettings.PriceAdjustment <= 0.8999999761581421;
             if (happyAsFuck)
             {
-                if (wifeIsAround)
+                /*if (wifeIsAround)
                 {
                     shop.item[nextSlot].SetDefaults(ItemID.MilkCarton);
                     shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
                     nextSlot++;
-                }
+                }*/
 
                 if (Main.LocalPlayer.ZoneHallow)
                 {
