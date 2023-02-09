@@ -30,10 +30,24 @@ namespace CalamityMod.World
                             if (WorldGen.genRand.Next(365) == 0 && tile.TileType == TileID.Cloud && tile.HasTile)
                             {
                                 ShapeData circle = new ShapeData();
+                                ShapeData biggerCircle = new ShapeData();
                                 GenAction blotchMod = new Modifiers.Blotches(2, 0.4);
 
                                 int outerRadius = (int)(WorldGen.genRand.Next(3, 5) * WorldGen.genRand.NextFloat(0.74f, 0.82f));
 
+                                //big cloud circle
+                                WorldUtils.Gen(new Point(x, y), new Shapes.Circle(outerRadius + 3), Actions.Chain(new GenAction[]
+                                {
+                                    blotchMod.Output(biggerCircle)
+                                }));
+
+                                WorldUtils.Gen(new Point(x, y), new ModShapes.All(biggerCircle), Actions.Chain(new GenAction[]
+                                {
+                                    new Actions.ClearTile(),
+                                    new Actions.PlaceTile((ushort)TileID.Cloud)
+                                }));
+
+                                //circle of ore
                                 WorldUtils.Gen(new Point(x, y), new Shapes.Circle(outerRadius), Actions.Chain(new GenAction[]
                                 {
                                     blotchMod.Output(circle)

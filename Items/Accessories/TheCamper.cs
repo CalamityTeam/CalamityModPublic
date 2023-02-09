@@ -40,9 +40,24 @@ namespace CalamityMod.Items.Accessories
             var source = player.GetSource_Accessory(Item);
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.camper = true;
-            player.AddBuff(BuffID.HeartLamp, 60, true);
-            player.AddBuff(BuffID.Campfire, 60, true);
-            player.AddBuff(BuffID.WellFed3, 60, true);
+            player.AddBuff(BuffID.HeartLamp, 60);
+            Main.SceneMetrics.HasHeartLantern = true;
+            player.AddBuff(BuffID.Campfire, 60);
+            Main.SceneMetrics.HasCampfire = true;
+
+            // Only hand out the buff if the player is not already fully fed. This prevents the player from being robbed of food.
+            if (!player.HasBuff(BuffID.WellFed3))
+                player.AddBuff(BuffID.WellFed3, 80);
+            else
+            {
+                // Prevent it from flickering
+                for (int l = 0; l < Player.MaxBuffs; l++)
+                {
+                    if (player.buffType[l] == BuffID.WellFed3 && player.buffTime[l] < 80)
+                        player.buffTime[l] = 80;
+                }
+            }
+            
             Lighting.AddLight(player.Center, 0.825f, 0.66f, 0f);
             if (Main.myPlayer == player.whoAmI)
             {

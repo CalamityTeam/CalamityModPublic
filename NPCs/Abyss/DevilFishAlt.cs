@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.Abyss
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
-            SpawnModBiomes = new int[2] { ModContent.GetInstance<AbyssLayer1Biome>().Type, ModContent.GetInstance<AbyssLayer2Biome>().Type };
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbyssLayer2Biome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -296,10 +296,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.Calamity().ZoneAbyssLayer1 && spawnInfo.Water)
-            {
-                return SpawnCondition.CaveJellyfish.Chance * 0.225f;
-            }
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer2 && spawnInfo.Water)
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.3f;

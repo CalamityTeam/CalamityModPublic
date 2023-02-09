@@ -920,13 +920,16 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // The Camper regen boost activates while moving so it can stack with Shiny Stone like effects
-            if (camper && Player.statLife < actualMaxLife && !Player.StandingStill())
+            // The Camper counteracts the regen loss while moving horizontally
+            if (camper && (Player.velocity.X != 0 && Player.grappling[0] <= 0))
             {
-                float camperRegenMult = areThereAnyDamnBosses ? 1.25f : 2f;
-                int camperRegenCount = areThereAnyDamnBosses ? 1 : 4;
-                Player.lifeRegen = (int)(Player.lifeRegen * camperRegenMult);
-                Player.lifeRegenCount += camperRegenCount;
+                // Vanilla base regen rate which gets boosted when resting
+                // The first 6 boosts increment every 300 frames, up to 6 at 1800
+                // Then, the last 3 boosts increment every 600 frames, up to 9 at 3600 which is the cap
+                int baseRegenRate = Math.Clamp(Player.lifeRegenTime / 300, 0, 6) + Math.Clamp((Player.lifeRegenTime - 1800) / 600, 0, 3);
+                // Normally 1.25 while resting and 0.5 while not
+                Player.lifeRegen += (int)(baseRegenRate * 0.75f);
+
                 if (Main.rand.Next(30000) < Player.lifeRegenTime || Main.rand.NextBool(2))
                 {
                     int regen = Dust.NewDust(Player.position, Player.width, Player.height, 12, 0f, 0f, 200, Color.OrangeRed, 1f);

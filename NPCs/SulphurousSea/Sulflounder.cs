@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
-            SpawnModBiomes = new int[1] { ModContent.GetInstance<SulphurousSeaBiome>().Type };
+            SpawnModBiomes = new int[2] { ModContent.GetInstance<SulphurousSeaBiome>().Type, ModContent.GetInstance<AbyssLayer1Biome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -139,6 +139,10 @@ namespace CalamityMod.NPCs.SulphurousSea
             if (spawnInfo.Player.Calamity().ZoneSulphur && spawnInfo.Water)
             {
                 return 0.2f;
+            }
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer1 && spawnInfo.Water)
+            {
+                return 0.35f;
             }
             return 0f;
         }
