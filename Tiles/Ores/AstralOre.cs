@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using CalamityMod.Tiles.Astral;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,6 +41,22 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.ChecksForMerge[Type] = true;
             TileID.Sets.DoesntGetReplacedWithTileReplacement[Type] = true;
         }
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            Tile tile = Main.tile[i, j];
+            Tile up = Main.tile[i, j - 1];
+            Tile up2 = Main.tile[i, j - 2];
+            if (closer && Main.rand.NextBool(60) && !up.HasTile && !up2.HasTile && j < Main.worldSurface)
+            {
+                //Cyan Cinders below
+                Dust dust;
+                dust = Main.dust[Dust.NewDust(new Vector2(i * 16f, j * 16f), 16, 16, ModContent.DustType<AstralBlue>(), -0.4651165f, 0f, 17, new Color(0, 255, 244), 1.5f)];
+
+                //Orange Cinders below
+                dust = Main.dust[Dust.NewDust(new Vector2(i * 16f, j * 16f), 16, 16, ModContent.DustType<AstralOrange>(), -0.4651165f, 0f, 17, new Color(255, 255, 255), 1.5f)];
+
+            }
+        }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {
@@ -54,14 +71,6 @@ namespace CalamityMod.Tiles.Ores
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
-        }
-
-        public override void RandomUpdate(int i, int j)
-        {
-            if (Main.rand.Next(7) <= 2)
-            {
-                Dust.NewDust(new Vector2(i * 16f, j * 16f), 16, 16, 156, Main.rand.NextFloat(-0.05f, 0.05f), Main.rand.NextFloat(-0.05f, -0.001f));
-            }
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
