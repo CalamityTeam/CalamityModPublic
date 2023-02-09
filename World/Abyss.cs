@@ -301,27 +301,24 @@ namespace CalamityMod.World
             {
                 if (WorldGen.genRand.NextBool(2))
                 {
-                    int randomIsland = WorldGen.genRand.Next(4);
+                    int randomIsland = WorldGen.genRand.Next(3);
                     switch (randomIsland)
                     {
                         case 0:
-                            AbyssIsland(abyssChasmX - WorldGen.genRand.Next(55, 78), sulphurIslandY, 55, 75, 35, 45, false, false, false, true);
+                            AbyssIsland(abyssChasmX - WorldGen.genRand.Next(-40, 40), sulphurIslandY, 55, 75, 35, 45, false, false, false, true);
                             break;
                         case 1:
                             AbyssIsland(abyssChasmX + WorldGen.genRand.Next(55, 78), sulphurIslandY, 55, 75, 35, 45, false, false, false, true);
-                            break;
-                        case 2:
-                            AbyssIsland(abyssChasmX + WorldGen.genRand.Next(55, 78), sulphurIslandY, 55, 75, 35, 45, false, false, false, true);
                             AbyssIsland(abyssChasmX - WorldGen.genRand.Next(10, 20), sulphurIslandY, 55, 75, 35, 45, false, false, false, true);
                             break;
-                        case 3:
+                        case 2:
                             AbyssIsland(abyssChasmX - WorldGen.genRand.Next(55, 78), sulphurIslandY, 55, 75, 35, 45, false, false, false, true);
                             AbyssIsland(abyssChasmX + WorldGen.genRand.Next(10, 20), sulphurIslandY, 55, 75, 35, 45, false, false, false, true);
                             break;
                     }
 
                     //increase y value so islands cant be spammed on top of each other
-                    sulphurIslandY += 12;
+                    sulphurIslandY += 15;
                 }
             }
 
@@ -495,7 +492,28 @@ namespace CalamityMod.World
                             //sulphur shale stuff 
                             if (tile.TileType == ModContent.TileType<SulphurousShale>())
                             {
-                                if (WorldGen.genRand.NextBool(8))
+                                if (WorldGen.genRand.NextBool(25))
+                                {
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<SulphurTubeCoral>());
+                                }
+
+                                if (WorldGen.genRand.NextBool(18))
+                                {
+                                    ushort[] ShalePiles = new ushort[] { (ushort)ModContent.TileType<ShalePile1>(),
+                                    (ushort)ModContent.TileType<ShalePile2>(), (ushort)ModContent.TileType<ShalePile3>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(ShalePiles));
+                                }
+
+                                if (WorldGen.genRand.NextBool(15))
+                                {
+                                    ushort[] PireCorals = new ushort[] { (ushort)ModContent.TileType<SulphurPireCoral1>(),
+                                    (ushort)ModContent.TileType<SulphurPireCoral2>(), (ushort)ModContent.TileType<SulphurPireCoral3>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(PireCorals));
+                                }
+
+                                if (WorldGen.genRand.NextBool(10))
                                 {
                                     ushort[] SulphuricFossils = new ushort[] { (ushort)ModContent.TileType<SulphuricFossil1>(),
                                     (ushort)ModContent.TileType<SulphuricFossil2>(), (ushort)ModContent.TileType<SulphuricFossil3>() };
@@ -503,7 +521,7 @@ namespace CalamityMod.World
                                     WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(SulphuricFossils));
                                 }
 
-                                if (WorldGen.genRand.NextBool(6))
+                                if (WorldGen.genRand.NextBool(10))
                                 {
                                     ushort[] Ribs = new ushort[] { (ushort)ModContent.TileType<SulphurousRib1>(),
                                     (ushort)ModContent.TileType<SulphurousRib2>(), (ushort)ModContent.TileType<SulphurousRib3>(), 

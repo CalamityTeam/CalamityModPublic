@@ -1031,13 +1031,10 @@ namespace CalamityMod.World
                                 int type = WorldGen.genRand.Next(6);
                                 type++;
                                 int height = heightFromType(type);
-
-                                if ((Main.tile[x, y + dy + 1].TileType == ModContent.TileType<HardenedSulphurousSandstone>() || 
-                                Main.tile[x, y + dy + 1].TileType == ModContent.TileType<SulphurousSandstone>()) &&
-                                !Main.tile[x, y + dy + 1].LeftSlope && !Main.tile[x, y + dy + 1].RightSlope && !Main.tile[x, y + dy + 1].IsHalfBlock)
-                                {
+                                
+                                PlaceStalactite(x, y, height, CalamityMod.Instance.Find<ModTile>($"SulphurousStalactite{type}").Type);
+                                if (WorldGen.SolidTile(x, y + dy + 1))
                                     PlaceStalacmite(x, y + dy, height, CalamityMod.Instance.Find<ModTile>($"SulphurousStalacmite{type}").Type);
-                                }
                             }
                         }
                     }
