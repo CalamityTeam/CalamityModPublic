@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -30,7 +30,7 @@ namespace CalamityMod.Tiles.AstralDesert
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             // CustomTileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralSand>(), false, false, false, false, resetFrame);
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralSand>());
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralSand>(), false, false, false);
             return false;
         }
 

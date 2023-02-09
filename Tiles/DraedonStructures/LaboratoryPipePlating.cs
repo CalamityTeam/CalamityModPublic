@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<RustedPipes>());
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<RustedPipes>(), false, false, false);
             return false;
         }
     }
