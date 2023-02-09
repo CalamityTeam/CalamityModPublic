@@ -413,9 +413,12 @@ namespace CalamityMod.NPCs.TownNPCs
                     shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 50, 0);
                     nextSlot++;
 
-                    shop.item[nextSlot].SetDefaults(ItemID.Fries);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-                    nextSlot++;
+                    if (NPC.downedBoss1)
+                    {
+                        shop.item[nextSlot].SetDefaults(ItemID.Fries);
+                        shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+                        nextSlot++;
+                    }
                 }
             }
         }

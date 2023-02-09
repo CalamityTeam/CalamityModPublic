@@ -1132,7 +1132,7 @@ namespace CalamityMod
 
             r = Recipe.Create(ItemID.Bacon);
             r.AddIngredient(ModContent.ItemType<PiggyItem>());
-            r.AddTile(TileID.CookingPots);
+            r.AddTile(TileID.Hellforge);
             r.Register();
 
             r = Recipe.Create(ItemID.BowlofSoup);
@@ -1143,7 +1143,7 @@ namespace CalamityMod
 
             r = Recipe.Create(ItemID.ApplePie);
             r.AddIngredient(ItemID.Apple, 3);
-            r.AddTile(TileID.Furnaces);
+            r.AddTile(TileID.Hellforge);
             r.Register();
 
             r = Recipe.Create(ItemID.BananaSplit);
@@ -1156,7 +1156,7 @@ namespace CalamityMod
             r = Recipe.Create(ItemID.BBQRibs);
             r.AddIngredient(ItemID.FleshBlock, 6);
             r.AddIngredient(ItemID.Bone, 6);
-            r.AddTile(TileID.Furnaces);
+            r.AddTile(TileID.Hellforge);
             r.Register();
 
             r = Recipe.Create(ItemID.MilkCarton);
