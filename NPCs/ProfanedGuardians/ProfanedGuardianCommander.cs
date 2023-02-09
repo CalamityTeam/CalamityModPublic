@@ -360,6 +360,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             if (NPC.ai[0] == 0f)
             {
+                // Face the target
+                if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
+                {
+                    float playerLocation = NPC.Center.X - player.Center.X;
+                    NPC.direction = playerLocation < 0f ? 1 : -1;
+                    NPC.spriteDirection = NPC.direction;
+                }
+
                 // Dictates when the commander and defender will swap to the other side in phase 1
                 if (healerAlive)
                     NPC.localAI[3] += 1f;
@@ -370,24 +378,17 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 bool goLow = (NPC.localAI[3] > moveToOtherSideInPhase1GateValue - goLowDuration && NPC.localAI[3] <= moveToOtherSideInPhase1GateValue + goLowDuration) ||
                     NPC.localAI[3] > timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration || NPC.localAI[3] < 0f;
 
-                // Swap from side to side over time
-                if (NPC.localAI[3] > moveToOtherSideInPhase1GateValue)
-                {
-                    if (NPC.localAI[3] > timeBeforeMoveToOtherSideInPhase1Reset)
-                        NPC.localAI[3] = -goLowDuration;
+                // Set side to stay on while not going low
+                if (!goLow)
+                    calamityGlobalNPC.newAI[0] = NPC.direction;
 
-                    calamityGlobalNPC.newAI[0] = -1f;
-                }
-                else
-                    calamityGlobalNPC.newAI[0] = 1f;
+                // Swap sides while going low
+                if (NPC.localAI[3] == (moveToOtherSideInPhase1GateValue - goLowDuration * 0.5f) || NPC.localAI[3] == (timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration * 0.5f))
+                    calamityGlobalNPC.newAI[0] *= -1f;
 
-                // Face the target
-                if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
-                {
-                    float playerLocation = NPC.Center.X - player.Center.X;
-                    NPC.direction = playerLocation < 0f ? 1 : -1;
-                    NPC.spriteDirection = NPC.direction;
-                }
+                // Reset the timer to a negative value
+                if (NPC.localAI[3] > timeBeforeMoveToOtherSideInPhase1Reset)
+                    NPC.localAI[3] = -goLowDuration;
 
                 float velocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
                 if (Main.getGoodWorld)
@@ -407,7 +408,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     velocity *= 1.25f;
                 }
 
-                Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * -NPC.direction * calamityGlobalNPC.newAI[0];
+                Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * calamityGlobalNPC.newAI[0];
                 if (goLow)
                     destination.Y += goLowDistance;
 
