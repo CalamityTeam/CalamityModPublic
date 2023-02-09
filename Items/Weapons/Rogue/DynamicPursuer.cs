@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CalamityGlobalItem modItem = Item.Calamity();
 
-            Item.damage = 3300;
+            Item.damage = 2550;
             Item.DamageType = RogueDamageClass.Instance;
 
             Item.width = 30;
@@ -49,10 +49,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.autoReuse = true;
 
             Item.shoot = ModContent.ProjectileType<DynamicPursuerProjectile>();
-            Item.shootSpeed = 25f;
+            Item.shootSpeed = 28f;
 
             modItem.UsesCharge = true;
-            modItem.MaxCharge = 320f; // Tesla Cannon = 250f
+            modItem.MaxCharge = 300f; // Tesla Cannon = 250f
             modItem.ChargePerUse = 0.5f; // Tesla Cannon = 0.9f
         }
 
