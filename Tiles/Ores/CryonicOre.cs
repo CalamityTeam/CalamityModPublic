@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.Ores
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, TileID.SnowBlock);
+            TileFraming.CustomMergeFrame(i, j, Type, TileID.SnowBlock, false, false, false);
             return false;
         }
 

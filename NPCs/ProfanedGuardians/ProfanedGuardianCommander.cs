@@ -97,6 +97,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             writer.Write(NPC.localAI[0]);
             writer.Write(NPC.localAI[1]);
             writer.Write(NPC.localAI[2]);
+            writer.Write(NPC.localAI[3]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -108,6 +109,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
         }
 
         public override void FindFrame(int frameHeight)
@@ -121,6 +123,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         public override void AI()
         {
             CalamityGlobalNPC.doughnutBoss = NPC.whoAmI;
+
+            CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();
 
             Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 1.1f, 0.9f, 0f);
 
@@ -229,7 +233,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         healTimer = 0;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int healAmt = NPC.lifeMax / 20;
+                            int healAmt = NPC.lifeMax / 10;
                             if (healAmt > NPC.lifeMax - NPC.life)
                                 healAmt = NPC.lifeMax - NPC.life;
 
@@ -332,6 +336,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
 
             // Charge variables
+            float moveToOtherSideInPhase1GateValue = 900f;
+            float timeBeforeMoveToOtherSideInPhase1Reset = moveToOtherSideInPhase1GateValue * 2f;
+            float totalGoLowDuration = 240f;
+            float goLowDuration = totalGoLowDuration * 0.5f;
+            float goLowDistance = 480f;
             float chargeVelocityMult = 0.25f;
             float maxChargeVelocity = (bossRush || biomeEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
             if (Main.getGoodWorld)
@@ -351,6 +360,27 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             if (NPC.ai[0] == 0f)
             {
+                // Dictates when the commander and defender will swap to the other side in phase 1
+                if (healerAlive)
+                    NPC.localAI[3] += 1f;
+                else
+                    NPC.localAI[3] = 0f;
+
+                // Go low just before moving to the other side to avoid bullshit hits
+                bool goLow = (NPC.localAI[3] > moveToOtherSideInPhase1GateValue - goLowDuration && NPC.localAI[3] <= moveToOtherSideInPhase1GateValue + goLowDuration) ||
+                    NPC.localAI[3] > timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration || NPC.localAI[3] < 0f;
+
+                // Swap from side to side over time
+                if (NPC.localAI[3] > moveToOtherSideInPhase1GateValue)
+                {
+                    if (NPC.localAI[3] > timeBeforeMoveToOtherSideInPhase1Reset)
+                        NPC.localAI[3] = -goLowDuration;
+
+                    calamityGlobalNPC.newAI[0] = -1f;
+                }
+                else
+                    calamityGlobalNPC.newAI[0] = 1f;
+
                 // Face the target
                 if (Math.Abs(NPC.Center.X - player.Center.X) > 10f)
                 {
@@ -371,8 +401,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     inertia *= 0.5f;
                     velocity *= 1.5f;
                 }
+                if (goLow)
+                {
+                    inertia *= 0.75f;
+                    velocity *= 1.25f;
+                }
 
-                Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * -NPC.direction;
+                Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * -NPC.direction * calamityGlobalNPC.newAI[0];
+                if (goLow)
+                    destination.Y += goLowDistance;
+
                 Vector2 targetVector = destination - NPC.Center;
                 Vector2 desiredVelocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
                 float phaseGateValue = (bossRush || biomeEnraged) ? 50f : death ? 66f : revenge ? 75f : expertMode ? 83f : 100f;

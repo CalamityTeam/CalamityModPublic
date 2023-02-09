@@ -194,7 +194,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         healTimer = 0;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int healAmt = NPC.lifeMax / 20;
+                            int healAmt = NPC.lifeMax / 10;
                             if (healAmt > NPC.lifeMax - NPC.life)
                                 healAmt = NPC.lifeMax - NPC.life;
 

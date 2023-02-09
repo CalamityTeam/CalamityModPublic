@@ -1544,8 +1544,8 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.JourneymanBait, NPC.downedBoss3);
                 SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedPlantBoss);
                 SetShopItem(ref shop, ref nextSlot, ItemID.AngelStatue, NPC.FindFirstNPC(NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.Burger, happy, Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.Hotdog, happy, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Burger, happy && NPC.downedBoss3, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Hotdog, happy && Main.hardMode, Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, ItemID.CoffeeCup, happy, Item.buyPrice(0, 2));
             }
 
@@ -1606,14 +1606,14 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, ItemType<RomajedaOrchid>());
-                SetShopItem(ref shop, ref nextSlot, ItemID.Grapes, happy, Item.buyPrice(0, 2, 50));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Grapes, happy && NPC.downedBoss3, Item.buyPrice(0, 2, 50));
             }
 
             if (type == NPCID.GoblinTinkerer)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.StinkPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemType<StatMeter>());
-                SetShopItem(ref shop, ref nextSlot, ItemID.Spaghetti, happy, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Spaghetti, happy && NPC.downedBoss3, Item.buyPrice(0, 5));
             }
 
             if (type == NPCID.Mechanic)
@@ -1687,7 +1687,7 @@ namespace CalamityMod.NPCs
             if (type == NPCID.PartyGirl)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.GenderChangePotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.Pizza, happy, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Pizza, happy && NPC.downedBoss3, Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, ItemID.CreamSoda, happy, Item.buyPrice(0, 2, 50));
             }
 
@@ -1697,7 +1697,6 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemType<LanternCenter>());
                 SetShopItem(ref shop, ref nextSlot, ItemID.AppleJuice, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
                 SetShopItem(ref shop, ref nextSlot, ItemID.FruitJuice, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
-                SetShopItem(ref shop, ref nextSlot, ItemID.GrapeJuice, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
                 SetShopItem(ref shop, ref nextSlot, ItemID.Lemonade, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
                 SetShopItem(ref shop, ref nextSlot, ItemID.PrismaticPunch, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
                 SetShopItem(ref shop, ref nextSlot, ItemID.SmoothieofDarkness, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
@@ -1718,7 +1717,7 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.BestiaryGirl)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.Steak, happy, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Steak, happy && Main.hardMode, Item.buyPrice(0, 5));
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Tiles.Abyss;
-using CalamityMod.Tiles.Abyss.AbyssAmbient;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.AstralSnow;
@@ -63,7 +62,6 @@ namespace CalamityMod
             PlantCheckAgainst[ModContent.TileType<AstralShortPlants>()] = new int[1] { ModContent.TileType<AstralGrass>() };
             PlantCheckAgainst[ModContent.TileType<AstralTallPlants>()] = new int[1] { ModContent.TileType<AstralGrass>() };
             PlantCheckAgainst[ModContent.TileType<CinderBlossomTallPlants>()] = new int[1] { ModContent.TileType<ScorchedRemainsGrass>() };
-            PlantCheckAgainst[ModContent.TileType<AbyssKelp>()] = new int[2] { ModContent.TileType<AbyssGravel>(), ModContent.TileType<Voidstone>() };
 
             VineToGrass = new Dictionary<ushort, ushort>
             {
@@ -566,7 +564,9 @@ namespace CalamityMod
             return true;
         }
 
-        internal static bool BrimstoneFraming(int x, int y, bool resetFrame)
+        // BRIMSTONE COMPATIBILITY IMPLEMENTATION
+        // Added parameters to force a merge in a direction for use in the merge frame function
+        internal static bool BrimstoneFraming(int x, int y, bool resetFrame, bool forceSameDown = false, bool forceSameUp = false, bool forceSameRight = false, bool forceSameLeft = false)
         {
             if (x < 0 || x >= Main.maxTilesX)
                 return false;
@@ -580,6 +580,12 @@ namespace CalamityMod
             }
 
             GetAdjacentTiles(x, y, out bool up, out bool down, out bool left, out bool right, out bool upLeft, out bool upRight, out bool downLeft, out bool downRight);
+
+            // Implement forced connections
+            up = forceSameUp || up;
+            down = forceSameDown || down;
+            left = forceSameLeft || left;
+            right = forceSameRight || right;
 
             // Reset the tile's random frame style if the frame is being reset.
             int randomFrame;
@@ -1166,14 +1172,33 @@ namespace CalamityMod
         #endregion
 
         #region Generic Custom Framing Code
+
+        // New Variables (rename as fitting):
+        // myTypeBrimFrame - Whether the tile that this function is framing should use brimstone framing
+        // overrideBrimStates - Used in a situation where a brimstone state and a merge state could each be used, setting this to true will use the merge state, and setting this to false will use the brimstone state
+
         internal static void CustomMergeFrameExplicit(int x, int y, int myType, int mergeType, out bool mergedUp,
             out bool mergedLeft, out bool mergedRight, out bool mergedDown, bool forceSameDown = false,
-            bool forceSameUp = false, bool forceSameLeft = false, bool forceSameRight = false, bool resetFrame = true)
+            bool forceSameUp = false, bool forceSameLeft = false, bool forceSameRight = false, bool resetFrame = true, bool myTypeBrimFrame = false, bool overrideBrimStates = false)
         {
             if (x < 0 || x >= Main.maxTilesX || y < 0 || y >= Main.maxTilesY)
             {
                 mergedUp = mergedLeft = mergedRight = mergedDown = false;
                 return;
+            }
+
+            // BRIMSTONE COMPATIBILITY IMPLEMENTATION
+            // Used when set to prioritize brimstone states over blend states
+            // This will try to preserve the brimstone tile's own tiling, though it might produce some strange blending with the tile it merges with
+            if (myTypeBrimFrame && !overrideBrimStates)
+            {
+                // BrimstoneFraming returns false if the tile uses a custom tile state, and true if it should use default tile framing
+                bool usedBrimstoneFrame = BrimstoneFraming(x, y, resetFrame, forceSameDown, forceSameUp, forceSameRight, forceSameLeft);
+                if (!usedBrimstoneFrame)
+                {
+                    mergedUp = mergedLeft = mergedRight = mergedDown = false;
+                    return;
+                }
             }
 
             // Disable vanilla trying to merge these tiles automtaically.
@@ -1712,13 +1737,26 @@ namespace CalamityMod
             SetFrameAt(x, y, 216, 18 * randomFrame);
             return;
             #endregion
+
+            // BRIMSTONE COMPATIBILITY IMPLEMENTATION
+            // Used when set to prioritize blend states over brimstone states.
+            // This will create smoother blending with other tiles, though it will most likely result in unpleasant tiling between blend and non-blend states. Test to see if it looks good
+            // The tile frame checks are to see whether the tile that frame that has been picked out is a blend state (in which case a brimstone state isn't used) or a 'default' state (in which case a brimstone state might be used instead)
+            if (myTypeBrimFrame && overrideBrimStates && (Main.tile[x, y].TileFrameX < 234 && Main.tile[x, y].TileFrameY < 90))
+            {
+                BrimstoneFraming(x, y, resetFrame, forceSameDown, forceSameUp, forceSameRight, forceSameLeft);
+            }
         }
 
         internal static void CustomMergeFrame(int x, int y, int myType, int mergeType, bool forceSameDown = false,
             bool forceSameUp = false, bool forceSameLeft = false, bool forceSameRight = false, bool resetFrame = true)
             => CustomMergeFrameExplicit(x, y, myType, mergeType, out _, out _, out _, out _, forceSameDown, forceSameUp, forceSameLeft, forceSameRight, resetFrame);
 
-        internal static void CustomMergeFrame(int x, int y, int myType, int mergeType)
+        // New Variables (rename as fitting):
+        // myTypeBrimFrame - Whether the tile that this function is framing uses brimstone framing
+        // mergeTypeBrimFrame - Whether the tile that this tile merges with uses brimstone framing
+        // overrideBrimStates - Used in a situation where a brimstone state and a merge state could each be used, setting this to true will use the merge state, and setting this to false will use the brimstone state
+        internal static void CustomMergeFrame(int x, int y, int myType, int mergeType, bool myTypeBrimFrame = false, bool mergeTypeBrimFrame = false, bool overrideBrimStates = false)
         {
             if (x < 0 || x >= Main.maxTilesX)
                 return;
@@ -1741,8 +1779,8 @@ namespace CalamityMod
                 CalamityUtils.SetMerge(myType, north.TileType, false);
                 TileID.Sets.ChecksForMerge[myType] = true;
 
-                // Properly frame the tile given this constraint.
-                CustomMergeFrameExplicit(x, y - 1, north.TileType, myType, out _, out _, out _, out forceSameUp, false, false, false, false, false);
+                // Properly frame the adjacent tile given this constraint.
+                CustomMergeFrameExplicit(x, y - 1, north.TileType, myType, out _, out _, out _, out forceSameUp, false, false, false, false, false, mergeTypeBrimFrame, false);
             }
             if (west != null && west.HasTile && tileMergeTypes[myType][west.TileType])
             {
@@ -1750,8 +1788,8 @@ namespace CalamityMod
                 CalamityUtils.SetMerge(myType, west.TileType, false);
                 TileID.Sets.ChecksForMerge[myType] = true;
 
-                // Properly frame the tile given this constraint.
-                CustomMergeFrameExplicit(x - 1, y, west.TileType, myType, out _, out _, out forceSameLeft, out _, false, false, false, false, false);
+                // Properly frame the adjacent tile given this constraint.
+                CustomMergeFrameExplicit(x - 1, y, west.TileType, myType, out _, out _, out forceSameLeft, out _, false, false, false, false, false, mergeTypeBrimFrame, false);
             }
             if (east != null && east.HasTile && tileMergeTypes[myType][east.TileType])
             {
@@ -1759,8 +1797,8 @@ namespace CalamityMod
                 CalamityUtils.SetMerge(myType, east.TileType, false);
                 TileID.Sets.ChecksForMerge[myType] = true;
 
-                // Properly frame the tile given this constraint.
-                CustomMergeFrameExplicit(x + 1, y, east.TileType, myType, out _, out forceSameRight , out _, out _, false, false, false, false, false);
+                // Properly frame the adjacent tile given this constraint.
+                CustomMergeFrameExplicit(x + 1, y, east.TileType, myType, out _, out forceSameRight , out _, out _, false, false, false, false, false, mergeTypeBrimFrame, false);
             }
             if (south != null && south.HasTile && tileMergeTypes[myType][south.TileType])
             {
@@ -1768,12 +1806,12 @@ namespace CalamityMod
                 CalamityUtils.SetMerge(myType, south.TileType, false);
                 TileID.Sets.ChecksForMerge[myType] = true;
 
-                // Properly frame the tile given this constraint.
-                CustomMergeFrameExplicit(x, y + 1, south.TileType, myType, out forceSameDown, out _, out _, out _, false, false, false, false, false);
+                // Properly frame the adjacent tile given this constraint.
+                CustomMergeFrameExplicit(x, y + 1, south.TileType, myType, out forceSameDown, out _, out _, out _, false, false, false, false, false, mergeTypeBrimFrame, false);
             }
 
             // With all constraints determined, properly frame the tile a final time.
-            CustomMergeFrameExplicit(x, y, myType, mergeType, out _, out _, out _, out _, forceSameDown, forceSameUp, forceSameLeft, forceSameRight, true);
+            CustomMergeFrameExplicit(x, y, myType, mergeType, out _, out _, out _, out _, forceSameDown, forceSameUp, forceSameLeft, forceSameRight, true, myTypeBrimFrame, overrideBrimStates);
         }
         #endregion
     }

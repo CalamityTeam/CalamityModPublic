@@ -36,7 +36,10 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            return TileFraming.BrimstoneFraming(i, j, resetFrame);
+            TileFraming.CustomMergeFrame(i, j, Type, TileID.Sandstone, true, false, false);
+            return false;
+
+            //return TileFraming.BrimstoneFraming(i, j, resetFrame);
         }
     }
 }

@@ -54,7 +54,7 @@ namespace CalamityMod.Tiles.Ores
         }
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, TileID.Cloud);
+            TileFraming.CustomMergeFrame(i, j, Type, TileID.Cloud, false, false, false);
             return false;
         }
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
