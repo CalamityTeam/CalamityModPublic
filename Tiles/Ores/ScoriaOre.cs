@@ -6,11 +6,11 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace CalamityMod.Tiles.Ores
 {
-    public class ChaoticOre : ModTile
+    [LegacyName("ChaoticOre")]
+    public class ScoriaOre : ModTile
     {
         public override void SetStaticDefaults()
         {
@@ -36,7 +36,6 @@ namespace CalamityMod.Tiles.Ores
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            Tile tile = Main.tile[i, j];
             Tile up = Main.tile[i, j - 1];
             Tile up2 = Main.tile[i, j - 2];
             if (closer && Main.rand.NextBool(30) && !up.HasTile && !up2.HasTile)
@@ -105,7 +104,7 @@ namespace CalamityMod.Tiles.Ores
         {
             int xPos = Main.tile[i, j].TileFrameX;
             int yPos = Main.tile[i, j].TileFrameY;
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/Ores/ChaoticOreGlow").Value;
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/Ores/ScoriaOreGlow").Value;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));

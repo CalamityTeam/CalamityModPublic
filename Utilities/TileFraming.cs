@@ -91,7 +91,7 @@ namespace CalamityMod
             tileMergeTypes[ModContent.TileType<EutrophicSand>()][ModContent.TileType<Navystone>()] = true;
             tileMergeTypes[ModContent.TileType<Navystone>()][ModContent.TileType<SeaPrism>()] = true;
 
-            tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<ChaoticOre>()] = true;
+            tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<ScoriaOre>()] = true;
             tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<PlantyMush>()] = true;
             tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<Voidstone>()] = true;
             tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<SulphurousSandstone>()] = true;
