@@ -710,7 +710,7 @@ namespace CalamityMod.CalPlayer
                 Player.lifeRegenTime += 1;
             }
 
-            if (projRefRareLifeRegenCounter > 0)
+            if (evolutionLifeRegenCounter > 0)
             {
                 Player.lifeRegenTime += 2;
                 Player.lifeRegen += 2;

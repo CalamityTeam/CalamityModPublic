@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("The Transformer");
-            Tooltip.SetDefault("Taking damage releases a blast of sparks\n" +
+            Tooltip.SetDefault("Multiplies all electricity-based debuff damage by 1.5\n" +
+                                "Taking damage releases a blast of sparks\n" +
                                 "Immunity to Electrified and you resist all electrical projectile and enemy damage\n" +
                                 "Enemy bullets do half damage to you and are reflected back at the enemy for 800% their original damage");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 16));
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.aSparkRare = true;
+            modPlayer.transformer = true;
             modPlayer.aSpark = true;
         }
     }

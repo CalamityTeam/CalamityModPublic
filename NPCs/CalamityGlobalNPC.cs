@@ -111,13 +111,21 @@ namespace CalamityMod.NPCs
         public const double VulnerableToDoTDamageMult = 2D;
         public const double VulnerableToDoTDamageMult_Worms_SlimeGod = 1.5;
 
-        // Eskimo Set effect
+        // Eskimo Set and Cryo Stone effects
         public bool IncreasedColdEffects_EskimoSet = false;
+        public bool IncreasedColdEffects_CryoStone = false;
+
+        // Transformer effect
+
+        public bool IncreasedElectricityEffects_Transformer = false;
 
         // Fireball, Cinnamon Roll and Hellfire Treads effects
         public bool IncreasedHeatEffects_Fireball = false;
         public bool IncreasedHeatEffects_CinnamonRoll = false;
         public bool IncreasedHeatEffects_HellfireTreads = false;
+
+        // Toxic Heart effect
+        public bool IncreasedSicknessEffects_ToxicHeart = false;
 
         // Evergreen Gin effect
         public bool IncreasedSicknessAndWaterEffects_EvergreenGin = false;
@@ -361,9 +369,12 @@ namespace CalamityMod.NPCs
             myClone.VulnerableToWater = VulnerableToWater;
 
             myClone.IncreasedColdEffects_EskimoSet = IncreasedColdEffects_EskimoSet;
+            myClone.IncreasedColdEffects_CryoStone = IncreasedColdEffects_CryoStone;
+            myClone.IncreasedElectricityEffects_Transformer = IncreasedElectricityEffects_Transformer;
             myClone.IncreasedHeatEffects_Fireball = IncreasedHeatEffects_Fireball;
             myClone.IncreasedHeatEffects_CinnamonRoll = IncreasedHeatEffects_CinnamonRoll;
             myClone.IncreasedHeatEffects_HellfireTreads = IncreasedHeatEffects_HellfireTreads;
+            myClone.IncreasedSicknessEffects_ToxicHeart = IncreasedSicknessEffects_ToxicHeart;
             myClone.IncreasedSicknessAndWaterEffects_EvergreenGin = IncreasedSicknessAndWaterEffects_EvergreenGin;
 
             myClone.velocityPriorToPhaseSwap = velocityPriorToPhaseSwap;
@@ -800,15 +811,23 @@ namespace CalamityMod.NPCs
                     waterDamageMult *= 0.5;
             }
 
+            if (IncreasedColdEffects_EskimoSet)
+                coldDamageMult += 0.25;
+            if (IncreasedColdEffects_CryoStone)
+                coldDamageMult += 0.5;
+
+            if (IncreasedElectricityEffects_Transformer)
+                electricityDamageMult += 0.5;
+
             if (IncreasedHeatEffects_Fireball)
                 heatDamageMult += 0.25;
             if (IncreasedHeatEffects_CinnamonRoll)
                 heatDamageMult += 0.5;
             if (IncreasedHeatEffects_HellfireTreads)
                 heatDamageMult += 0.5;
-
-            if (IncreasedColdEffects_EskimoSet)
-                coldDamageMult += 0.25;
+            
+            if (IncreasedSicknessEffects_ToxicHeart)
+                sicknessDamageMult += 0.5;
 
             if (IncreasedSicknessAndWaterEffects_EvergreenGin)
             {

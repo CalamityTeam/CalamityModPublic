@@ -190,7 +190,7 @@ namespace CalamityMod.CalPlayer
         #region Timer and Counter
         public int gaelSwipes = 0;
         public int gaelRageAttackCooldown = 0;
-        public int aBulwarkRareMeleeBoostTimer = 0;
+        public int hideOfDeusMeleeBoostTimer = 0;
         public int nebulaManaNerfCounter = 0;
         public int alcoholPoisonLevel = 0;
         public int modStealthTimer;
@@ -221,7 +221,7 @@ namespace CalamityMod.CalPlayer
         public int auralisAuroraCounter = 0;
         public int auralisAuroraCooldown = 0;
         public int auralisAurora = 0;
-        public int aBulwarkRareTimer = 0;
+        public int hideOfDeusTimer = 0;
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
         public int RustyMedallionCooldown = 0;
@@ -427,12 +427,10 @@ namespace CalamityMod.CalPlayer
         public bool evasionScarf = false;
         public bool badgeOfBravery = false;
         public bool warbannerOfTheSun = false;
-        public float warBannerBonus = 0f;
         public bool cryogenSoul = false;
         public bool yInsignia = false;
         public bool eGauntlet = false;
         public bool eTalisman = false;
-        public bool statisBeltOfCurses = false;
         public int statisTimer = 0;
         public bool nucleogenesis = false;
         public bool nuclearRod = false;
@@ -445,8 +443,8 @@ namespace CalamityMod.CalPlayer
         public bool aquaticHeartWaterBuff = false;
         public bool aquaticHeartIce = false;
         public bool aSpark = false;
-        public bool aSparkRare = false;
-        public bool aBulwarkRare = false;
+        public bool transformer = false;
+        public bool hideOfDeus = false;
         public bool dAmulet = false;
         public bool fCarapace = false;
         public bool gShell = false;
@@ -473,13 +471,14 @@ namespace CalamityMod.CalPlayer
         public bool frostFlare = false;
         public bool beeResist = false;
         public bool uberBees = false;
-        public bool projRefRare = false;
-        public int projRefRareLifeRegenCounter = 0;
+        public bool evolution = false;
+        public int evolutionLifeRegenCounter = 0;
         public bool nanotech = false;
         public bool deadshotBrooch = false;
         public bool shadowMinions = false;
         public bool holyMinions = false;
         public bool alchFlask = false;
+        public bool toxicHeart = false;
         public bool abaddon = false;
         public bool aeroStone = false;
         public bool community = false;
@@ -880,7 +879,6 @@ namespace CalamityMod.CalPlayer
         #region Minion
         public bool wDroid = false;
         public bool resButterfly = false;
-        public bool glSword = false;
         public bool mWorm = false;
         public bool iClasper = false;
         public bool magicHat = false;
@@ -1572,8 +1570,8 @@ namespace CalamityMod.CalPlayer
             badgeOfBravery = false;
             warbannerOfTheSun = false;
             aSpark = false;
-            aSparkRare = false;
-            aBulwarkRare = false;
+            transformer = false;
+            hideOfDeus = false;
             dAmulet = false;
             fCarapace = false;
             gShell = false;
@@ -1587,20 +1585,20 @@ namespace CalamityMod.CalPlayer
             frostFlare = false;
             beeResist = false;
             uberBees = false;
-            projRefRare = false;
+            evolution = false;
             nanotech = false;
             deadshotBrooch = false;
             cryogenSoul = false;
             yInsignia = false;
             eGauntlet = false;
             eTalisman = false;
-            statisBeltOfCurses = false;
             nucleogenesis = false;
             nuclearRod = false;
             heartOfDarkness = false;
             shadowMinions = false;
             holyMinions = false;
             alchFlask = false;
+            toxicHeart = false;
             abaddon = false;
             aeroStone = false;
             community = false;
@@ -1905,7 +1903,6 @@ namespace CalamityMod.CalPlayer
 
             wDroid = false;
             resButterfly = false;
-            glSword = false;
             mWorm = false;
             iClasper = false;
             magicHat = false;
@@ -2136,7 +2133,7 @@ namespace CalamityMod.CalPlayer
             auralisAuroraCounter = 0;
             auralisAuroraCooldown = 0;
             auralisAurora = 0;
-            aBulwarkRareTimer = 0;
+            hideOfDeusTimer = 0;
             RustyMedallionCooldown = 0;
             SulphWaterPoisoningLevel = 0f;
             spiritOriginConvertedCrit = 0;
@@ -2151,7 +2148,7 @@ namespace CalamityMod.CalPlayer
             bloodflareMageCooldown = 0;
             tarraRangedCooldown = 0;
             tarraMageHealCooldown = 0;
-            aBulwarkRareMeleeBoostTimer = 0;
+            hideOfDeusMeleeBoostTimer = 0;
             acidRoundMultiplier = 1D;
             externalAbyssLight = 0;
             externalColdImmunity = externalHeatImmunity = false;
@@ -4555,7 +4552,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (aSparkRare)
+            if (transformer)
             {
                 if (npc.type == NPCID.BlueJellyfish || npc.type == NPCID.PinkJellyfish || npc.type == NPCID.GreenJellyfish ||
                     npc.type == NPCID.FungoFish || npc.type == NPCID.BloodJelly || npc.type == NPCID.AngryNimbus || npc.type == NPCID.GigaZapper ||
@@ -4683,11 +4680,11 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (aBulwarkRare)
+            if (hideOfDeus)
             {
-                aBulwarkRareMeleeBoostTimer += 3 * damage;
-                if (aBulwarkRareMeleeBoostTimer > 900)
-                    aBulwarkRareMeleeBoostTimer = 900;
+                hideOfDeusMeleeBoostTimer += 3 * damage;
+                if (hideOfDeusMeleeBoostTimer > 900)
+                    hideOfDeusMeleeBoostTimer = 900;
             }
         }
         #endregion
@@ -4701,7 +4698,7 @@ namespace CalamityMod.CalPlayer
                 if (!disableAllDodges && !Player.HasCooldown(GlobalDodge.ID))
                 {
                     // The Evolution
-                    if (projRefRare)
+                    if (evolution)
                     {
                         proj.hostile = false;
                         proj.friendly = true;
@@ -4711,7 +4708,7 @@ namespace CalamityMod.CalPlayer
                         Player.GiveIFrames(20, false);
 
                         damage = 0;
-                        projRefRareLifeRegenCounter = 300;
+                        evolutionLifeRegenCounter = 300;
                         projTypeJustHitBy = proj.type;
 
                         Player.AddCooldown(GlobalDodge.ID, BalancingConstants.EvolutionReflectCooldown);
@@ -4845,13 +4842,13 @@ namespace CalamityMod.CalPlayer
             // The amount of damage that will be dealt is yet to be determined.
             //
 
-            if (projRefRare)
+            if (evolution)
             {
                 if (proj.type == projTypeJustHitBy)
                     projectileDamageReduction += 0.15;
             }
 
-            if (aSparkRare)
+            if (transformer)
             {
                 if (proj.type == ProjectileID.MartianTurretBolt || proj.type == ProjectileID.GigaZapperSpear || proj.type == ProjectileID.CultistBossLightningOrbArc || proj.type == ProjectileID.VortexLightning || proj.type == ModContent.ProjectileType<DestroyerElectricLaser>() ||
                     proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
@@ -4861,7 +4858,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
             {
                 // Daedalus Reflect counts as a reflect but doesn't actually stop you from taking damage
-                if (daedalusReflect && !disableAllDodges && !projRefRare && !Player.HasCooldown(GlobalDodge.ID))
+                if (daedalusReflect && !disableAllDodges && !evolution && !Player.HasCooldown(GlobalDodge.ID))
                     projectileDamageReduction += 0.5;
             }
 
@@ -5112,7 +5109,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
             {
                 // The Transformer can reflect bullets
-                if (aSparkRare)
+                if (transformer)
                 {
                     if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
                     {
@@ -5128,7 +5125,7 @@ namespace CalamityMod.CalPlayer
                 // Reflects count as dodges. They share the timer and can be disabled by global dodge disabling effects.
                 if (!disableAllDodges && !Player.HasCooldown(GlobalDodge.ID))
                 {
-                    if (daedalusReflect && !projRefRare)
+                    if (daedalusReflect && !evolution)
                     {
                         proj.hostile = false;
                         proj.friendly = true;
@@ -6005,7 +6002,7 @@ namespace CalamityMod.CalPlayer
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), featherDamage, 1f, Player.whoAmI);
                     }
                 }
-                if (aBulwarkRare)
+                if (hideOfDeus)
                 {
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<HideofAstrumDeus>()));
                     SoundEngine.PlaySound(SoundID.Item74, Player.Center);
@@ -6071,7 +6068,7 @@ namespace CalamityMod.CalPlayer
                         
                         // Start with base damage, then apply the best damage class you can
                         int sDamage = 6;
-                        if (aSparkRare)
+                        if (transformer)
                             sDamage += 42;
                         sDamage = (int)Player.GetBestClassDamage().ApplyTo(sDamage);
                         if (Player.whoAmI == Main.myPlayer)

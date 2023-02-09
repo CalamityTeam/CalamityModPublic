@@ -803,7 +803,7 @@ namespace CalamityMod.CalPlayer
             ProvidenceBurnEffectDrawer.Update();
 
             // Transformer immunity to Electrified
-            if (aSparkRare)
+            if (transformer)
                 Player.buffImmune[BuffID.Electrified] = true;
 
             // Reduce breath meter while in icy water instead of chilling
@@ -1194,12 +1194,12 @@ namespace CalamityMod.CalPlayer
                 xerocDmg -= 2f;
             if (xerocDmg < 0f)
                 xerocDmg = 0f;
-            if (aBulwarkRareMeleeBoostTimer > 0)
-                aBulwarkRareMeleeBoostTimer--;
+            if (hideOfDeusMeleeBoostTimer > 0)
+                hideOfDeusMeleeBoostTimer--;
             if (gaelRageAttackCooldown > 0)
                 gaelRageAttackCooldown--;
-            if (projRefRareLifeRegenCounter > 0)
-                projRefRareLifeRegenCounter--;
+            if (evolutionLifeRegenCounter > 0)
+                evolutionLifeRegenCounter--;
             if (hurtSoundTimer > 0)
                 hurtSoundTimer--;
             if (icicleCooldown > 0)
@@ -1222,8 +1222,8 @@ namespace CalamityMod.CalPlayer
                 dogTextCooldown--;
             if (titanCooldown > 0)
                 titanCooldown--;
-            if (aBulwarkRareTimer > 0)
-                aBulwarkRareTimer--;
+            if (hideOfDeusTimer > 0)
+                hideOfDeusTimer--;
             if (hellbornBoost > 0)
                 hellbornBoost--;
             if (persecutedEnchantSummonTimer < 1800)
