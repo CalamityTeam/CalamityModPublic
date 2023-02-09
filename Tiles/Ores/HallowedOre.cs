@@ -44,7 +44,7 @@ namespace CalamityMod.Tiles.Ores
         }
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, TileID.Pearlstone);
+            TileFraming.CustomMergeFrame(i, j, Type, TileID.Pearlstone, false, false, false);
             return false;
         }
 
