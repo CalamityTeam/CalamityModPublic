@@ -50,7 +50,8 @@ namespace CalamityMod.Tiles
             (ushort)ModContent.TileType<AstralShortPlants>(),
             (ushort)ModContent.TileType<AstralTallPlants>(),
             (ushort)ModContent.TileType<CinderBlossomTallPlants>(),
-            (ushort)ModContent.TileType<AbyssKelp>()
+            (ushort)ModContent.TileType<AbyssKelp>(),
+            (ushort)ModContent.TileType<SulphurTentacleCorals>(),
         };
 
         public static List<int> GrowthTiles = new List<int>()
