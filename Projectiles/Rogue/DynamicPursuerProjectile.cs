@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public const float MaxTargetSearchDistance = 480f;
         public float ReturnAcceleration = 0.5f;
-        public float ReturnMaxSpeed = 18f;
+        public float ReturnMaxSpeed = 24f;
         public float ElectricVelocityCharge = 0f;
         public float LaserVelocityCharge = 0f;
         public bool Ricochet = false;
@@ -48,6 +48,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 1;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 360;
         }
 
         public override void AI()
@@ -77,13 +79,13 @@ namespace CalamityMod.Projectiles.Rogue
                 else if (Ricochet)
                 {
                     if (nextTarget != null)
-                        Projectile.velocity = (float)Math.Pow(Math.E, Time / 100)*(nextTarget.Center - Projectile.Center).SafeNormalize(Vector2.One);
+                        Projectile.velocity = (float)Math.Pow(Math.E, Time / 250)*(nextTarget.Center - Projectile.Center).SafeNormalize(Vector2.One);
 
                     ElectricVelocityCharge += Projectile.velocity.Length();
 
                     if (ElectricVelocityCharge >= 300f)
                     {
-                        ElectricVelocityCharge -= 300f;
+                        ElectricVelocityCharge = 0f;
                         AttemptToFireElectricity((int)(Projectile.damage * 0.25));
                     }
                 }
@@ -167,7 +169,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     if (Main.myPlayer == Projectile.owner)
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MassivePlasmaExplosion>(), Projectile.damage, Projectile.knockBack * 2f, Projectile.owner);
-                    if (!Main.dedServ)
+
                     {
                         for (int i = 0; i < 220; i++)
                         {
@@ -192,7 +194,7 @@ namespace CalamityMod.Projectiles.Rogue
                 //Retarget
                 Ricochet = true;
                 NPC newTarget = null;
-                float closestNPCDistance = 10000f;
+                float closestNPCDistance = 3000f;
                 float targettingDistance = 1000f;
 
 

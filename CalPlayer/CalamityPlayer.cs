@@ -5193,7 +5193,7 @@ namespace CalamityMod.CalPlayer
                     num79 *= num80;
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                    int p = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.08), knockBack * 0.5f, Player.whoAmI);
+                    int p = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.075), knockBack * 0.5f, Player.whoAmI);
 
                     if (p.WithinBounds(Main.maxProjectiles))
                         Main.projectile[p].DamageType = DamageClass.Generic; //in case melee/rogue variants bug out
