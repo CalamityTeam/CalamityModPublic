@@ -63,6 +63,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 using CalamityMod.Items.Armor.Wulfrum;
+using CalamityMod.Tiles.Abyss.AbyssAmbient;
 
 namespace CalamityMod.CalPlayer
 {
@@ -492,6 +493,8 @@ namespace CalamityMod.CalPlayer
         {
             int astralOreID = ModContent.TileType<AstralOre>();
             int auricOreID = ModContent.TileType<AuricOre>();
+            int scoriaOreID = ModContent.TileType<ScoriaOre>();
+            int abyssKelpID = ModContent.TileType<AbyssKelp>();
 
             int auricRejectionDamage = 300;
             float auricRejectionKB = Player.noKnockback ? 20f : 40f;
@@ -502,9 +505,26 @@ namespace CalamityMod.CalPlayer
                 if (!tile.HasTile || !tile.HasUnactuatedTile)
                     continue;
 
+                if (tile.TileType == abyssKelpID)
+                {
+                    if (Player.velocity.Length() == 0)
+                    { return; }
+
+                    Dust dust;
+                    dust = Main.dust[Dust.NewDust(Player.Center, 16, 16, 304, 0.23255825f, 10f, 0, new Color(117, 55, 15), 1.5116279f)];
+                    dust.noGravity = true;
+                    dust.noLight = true;
+                    dust.fadeIn = 2.5813954f;
+                }
+
+                // Ores below here
                 // Astral Ore inflicts Astral Infection briefly on contact
                 if (tile.TileType == astralOreID)
                     Player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);
+
+                // You will need to set each resistant item here for burning as it gets bypassed for somereason
+                if (tile.TileType == scoriaOreID)
+                    Player.AddBuff(BuffID.Burning, 2);
 
                 // Auric Ore causes an Auric Rejection unless you are wearing Auric Armor
                 // Auric Rejection causes an electrical explosion that yeets the player a considerable distance

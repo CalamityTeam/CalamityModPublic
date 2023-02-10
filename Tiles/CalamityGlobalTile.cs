@@ -50,7 +50,8 @@ namespace CalamityMod.Tiles
             (ushort)ModContent.TileType<AstralShortPlants>(),
             (ushort)ModContent.TileType<AstralTallPlants>(),
             (ushort)ModContent.TileType<CinderBlossomTallPlants>(),
-            (ushort)ModContent.TileType<AbyssKelp>()
+            (ushort)ModContent.TileType<AbyssKelp>(),
+            (ushort)ModContent.TileType<SulphurTentacleCorals>(),
         };
 
         public static List<int> GrowthTiles = new List<int>()
@@ -158,7 +159,7 @@ namespace CalamityMod.Tiles
 
                     if (WorldGen.IsTileALeafyTreeTop(treeX, treeY) && !Collision.SolidTiles(treeX - 2, treeX + 2, treeY - 2, treeY + 2))
                     {
-                        int randomAmt = WorldGen.genRand.Next(2, 4);
+                        int randomAmt = WorldGen.genRand.Next(1, 3);
                         for (int z = 0; z < randomAmt; z++)
                         {
                             int treeDropItemType = 0;

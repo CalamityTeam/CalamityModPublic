@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Placeables.Ores
 
         public override void SetDefaults()
         {
-            Item.createTile = ModContent.TileType<Tiles.Ores.ChaoticOre>();
+            Item.createTile = ModContent.TileType<Tiles.Ores.ScoriaOre>();
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = 15;
