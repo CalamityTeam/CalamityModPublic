@@ -13,7 +13,6 @@ namespace CalamityMod.Tiles.Abyss
         public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
-            Main.tileBlockLight[Type] = false;
             Main.tileCut[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLavaDeath[Type] = true;

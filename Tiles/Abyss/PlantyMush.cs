@@ -26,7 +26,7 @@ namespace CalamityMod.Tiles.Abyss
             ItemDrop = ModContent.ItemType<Items.Placeables.PlantyMush>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Planty Mush");
-            AddMapEntry(new Color(0, 120, 0), name);
+            AddMapEntry(new Color(84, 102, 39), name);
             MineResist = 1f;
             HitSound = MineSound;
         }
