@@ -375,12 +375,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.localAI[3] = 0f;
 
                 // Go low just before moving to the other side to avoid bullshit hits
-                bool goLow = (NPC.localAI[3] > moveToOtherSideInPhase1GateValue - goLowDuration && NPC.localAI[3] <= moveToOtherSideInPhase1GateValue + goLowDuration) ||
-                    NPC.localAI[3] > timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration || NPC.localAI[3] < 0f;
+                bool goLow = (NPC.localAI[3] > (moveToOtherSideInPhase1GateValue - goLowDuration) && NPC.localAI[3] <= (moveToOtherSideInPhase1GateValue + goLowDuration * 0.5f)) ||
+                    NPC.localAI[3] > (timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration) || NPC.localAI[3] <= (-goLowDuration * 0.5f);
 
                 // Set side to stay on while not going low
                 if (!goLow)
-                    calamityGlobalNPC.newAI[0] = NPC.direction;
+                    calamityGlobalNPC.newAI[0] = -NPC.direction;
 
                 // Swap sides while going low
                 if (NPC.localAI[3] == (moveToOtherSideInPhase1GateValue - goLowDuration * 0.5f) || NPC.localAI[3] == (timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration * 0.5f))
@@ -404,8 +404,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
                 if (goLow)
                 {
-                    inertia *= 0.75f;
-                    velocity *= 1.25f;
+                    inertia *= 0.66f;
+                    velocity *= 1.33f;
                 }
 
                 Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * calamityGlobalNPC.newAI[0];
