@@ -23,13 +23,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetDefaults()
         {
-            Item.damage = 120;
-            Item.shootSpeed = 15f;
+            Item.damage = 220;
+            Item.shootSpeed = 18f;
             Item.shoot = ModContent.ProjectileType<ApoctolithProj>();
             Item.width = 66;
             Item.height = 64;
-            Item.useTime = 24;
-            Item.useAnimation = 24;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 10f;
             Item.value = CalamityGlobalItem.Rarity7BuyPrice;

@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Kylie : RogueWeapon
     {
-        public static float Speed = 11f;
+        public static float Speed = 12f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kylie");
-            Tooltip.SetDefault("Stealth strikes throws three short ranged kylies instead of a single long range one\n" + "'Also known as Dowak'");
+            Tooltip.SetDefault("Stealth strikes throws three shorter ranged kylies instead of a single long range one\n" + "'Also known as Dowak'");
             SacrificeTotal = 1;
         }
 
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 16;
 
 		public override float StealthDamageMultiplier => 0.3333f;
-        public override float StealthVelocityMultiplier => 0.3333f;
+        public override float StealthVelocityMultiplier => 0.666f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

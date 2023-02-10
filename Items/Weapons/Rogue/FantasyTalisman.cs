@@ -22,7 +22,7 @@ Stealth strikes release more souls and leave behind souls as they travel");
         public override void SetDefaults()
         {
             Item.width = 30;
-            Item.damage = 93;
+            Item.damage = 82;
             Item.noMelee = true;
             Item.consumable = true;
             Item.noUseGraphic = true;
@@ -37,7 +37,7 @@ Stealth strikes release more souls and leave behind souls as they travel");
             Item.value = Item.buyPrice(0, 0, 60, 0);
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<FantasyTalismanProj>();
-            Item.shootSpeed = 18f;
+            Item.shootSpeed = 16.5f;
             Item.DamageType = RogueDamageClass.Instance;
         }
 

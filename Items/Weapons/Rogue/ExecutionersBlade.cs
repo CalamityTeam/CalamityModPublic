@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 64;
-            Item.damage = 200;
+            Item.damage = 82;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useTime = 3;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.height = 64;
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.shoot = ModContent.ProjectileType<ExecutionersBladeProj>();
-            Item.shootSpeed = 26f;
+            Item.shootSpeed = 24f;
             Item.DamageType = RogueDamageClass.Instance;
             Item.rare = ModContent.RarityType<DarkBlue>();
         }

@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             AIType = ProjectileID.BoneJavelin;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 8;
+            Projectile.localNPCHitCooldown = 10;
             Projectile.extraUpdates = 1;
         }
 

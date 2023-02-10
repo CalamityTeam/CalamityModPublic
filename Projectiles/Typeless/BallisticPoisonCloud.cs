@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,14 +9,14 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cloud");
+            DisplayName.SetDefault("Ballistic Cloud");
             Main.projFrames[Projectile.type] = 10;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 32;
-            Projectile.height = 32;
+            Projectile.width = 34;
+            Projectile.height = 34;
             Projectile.friendly = true;
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 3600;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 40;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()

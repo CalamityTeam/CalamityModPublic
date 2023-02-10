@@ -27,6 +27,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 60;
         }
 
         public override void AI()
@@ -67,11 +69,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 150);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 150);
             if (Projectile.Calamity().stealthStrike)
             {
-                target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
+                target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 150);
             }
         }
 
