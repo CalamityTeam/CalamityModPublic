@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 15;
+            Projectile.localNPCHitCooldown = 30;
             Projectile.coldDamage = true;
 
             Projectile.DamageType = RogueDamageClass.Instance;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.tileCollide = true;
             //Decide the range of the boomerang depending on stealth
             if (Projectile.Calamity().stealthStrike)
-                ReboundTime = 27f;
+                ReboundTime = 36f;
             else
                 ReboundTime = 55f;
 
@@ -150,14 +150,17 @@ namespace CalamityMod.Projectiles.Rogue
         {
             OnHitEffects();
             target.AddBuff(BuffID.Frostburn2, 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+            if (Projectile.Calamity().stealthStrike)
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 45);
+
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             OnHitEffects();
             target.AddBuff(BuffID.Frostburn2, 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+            if (Projectile.Calamity().stealthStrike)
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 45);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

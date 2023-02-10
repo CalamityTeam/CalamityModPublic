@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<SacrificeProjectile>();
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 15f;
             Item.DamageType = RogueDamageClass.Instance;
 
             Item.rare = ModContent.RarityType<Violet>();

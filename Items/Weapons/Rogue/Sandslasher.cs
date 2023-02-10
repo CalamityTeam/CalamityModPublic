@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<SandslasherProj>();
-            Item.shootSpeed = 7f;
+            Item.shootSpeed = 8f;
             Item.DamageType = RogueDamageClass.Instance;
         }
 

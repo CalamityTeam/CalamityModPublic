@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (ReturningToOwner)
             {
                 Projectile.timeLeft = 2;
-                Projectile.velocity = Projectile.SafeDirectionTo(Owner.Center) * 24f;
+                Projectile.velocity = Projectile.SafeDirectionTo(Owner.Center) * 28f;
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.Pi + MathHelper.PiOver4;
 
                 // Heal the player and disappear when touching them.

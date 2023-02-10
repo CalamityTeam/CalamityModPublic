@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class DragonScales : ModItem
     {
-        internal static int ShitBaseDamage = 50;
+        internal static int ShitBaseDamage = 55;
         
         public override void SetStaticDefaults()
         {

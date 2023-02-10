@@ -22,7 +22,7 @@ Stealth strikes leak tar as they fly");
         public override void SetDefaults()
         {
             Item.width = 32;
-            Item.damage = 55;
+            Item.damage = 50;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = 28;
@@ -39,7 +39,7 @@ Stealth strikes leak tar as they fly");
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-		public override float StealthDamageMultiplier => 1.15f;
+		public override float StealthDamageMultiplier => 1.3f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

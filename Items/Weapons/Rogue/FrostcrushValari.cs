@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Frostcrush Valari");
             Tooltip.SetDefault(@"Fires a long ranged boomerang that explodes into icicles on hit
-Stealth strikes throw three short ranged boomerangs along with a spread of icicles");
+Stealth strikes throw three shorter ranged boomerangs that freeze along with a spread of icicles");
             SacrificeTotal = 1;
         }
 
@@ -29,8 +29,8 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
             Item.DamageType = DamageClass.Throwing;
             Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
-            Item.useTime = 19;
-            Item.useAnimation = 19;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
             Item.width = 32;
             Item.height = 46;
             Item.useStyle = ItemUseStyleID.Swing;

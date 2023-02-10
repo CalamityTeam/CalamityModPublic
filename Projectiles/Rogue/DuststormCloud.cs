@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cloud");
+            DisplayName.SetDefault("Dust Cloud");
             Main.projFrames[Projectile.type] = 4;
         }
 
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = 3600;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 5;
+            Projectile.idStaticNPCHitCooldown = 6;
         }
 
         public override void AI()
