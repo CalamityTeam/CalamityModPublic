@@ -452,6 +452,8 @@ namespace CalamityMod
             TileType<SulphurousShale>(),
             // Abyss
             TileType<AbyssGravel>(),
+            TileType<PyreMantle>(),
+            TileType<PyreMantleMolten>(),
             TileType<Voidstone>(),
             TileType<PlantyMush>(),
             TileType<ScoriaOre>(),
