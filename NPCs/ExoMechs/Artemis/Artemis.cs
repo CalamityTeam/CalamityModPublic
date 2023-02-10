@@ -120,6 +120,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         // Total duration of the deathray telegraph
         private const float deathrayTelegraphDuration = 60f;
 
+        // The amount of time Artemis pauses for before shooting
+        private const float PauseDurationBeforeLaserActuallyFires = ArtemisLaser.TelegraphTotalTime;
+
+        // The rotation Artemis had the moment a laser telegraph was created
+        private float laserShootRotation = 0f;
+
         // Total duration of the deathray
         private const float deathrayDuration = 180f;
 
@@ -198,8 +204,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //We'll probably want a custom background for Exos like ML has.
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
+                // We'll probably want a custom background for Exos like ML has.
+                // BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
 
                 // Will move to localization whenever that is cleaned up.
                 new FlavorTextBestiaryInfoElement("The Exo Twins are the ultimate recon units. Capable of detecting various wavelengths of light unknown to us, nothing can hide.")
@@ -218,6 +224,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+            writer.Write(laserShootRotation);
             writer.Write(velocityBoostMult);
             writer.WriteVector2(spinVelocity);
             writer.WriteVector2(chargeVelocityNormalized);
@@ -238,6 +245,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+            laserShootRotation = reader.ReadSingle();
             velocityBoostMult = reader.ReadSingle();
             spinVelocity = reader.ReadVector2();
             chargeVelocityNormalized = reader.ReadVector2();
@@ -595,6 +603,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     float y = spinningPoint.Y - NPC.Center.Y;
                     NPC.rotation = (float)Math.Atan2(y, x) + MathHelper.PiOver2;
                 }
+                else if (laserShootRotation != 0f)
+                {
+                    rateOfRotation = 0f;
+                    NPC.rotation = laserShootRotation + MathHelper.PiOver2;
+                }
                 else
                 {
                     float x = player.Center.X + predictionVector.X - NPC.Center.X;
@@ -746,28 +759,38 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     {
                         if (firingLasers)
                         {
-                            // Fire lasers
-                            float divisor = nerfedAttacks ? 60f : lastMechAlive ? 35f : 45f;
+                            // Fire lasers or swap to a new location
+                            float divisor = nerfedAttacks ? 50f : lastMechAlive ? 30f : 38f;
                             float laserTimer = calamityGlobalNPC.newAI[3] - 2f;
                             if (laserTimer % divisor == 0f && canFire)
                             {
-                                pickNewLocation = true;
-
-                                SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound, NPC.Center);
-                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                if (laserTimer % (divisor * 2f) == 0f)
                                 {
-                                    int type = ModContent.ProjectileType<ArtemisLaser>();
-                                    int damage = NPC.GetProjectileDamage(type);
+                                    laserShootRotation = 0f;
+                                    pickNewLocation = true;
+                                }
+                                else
+                                {
                                     Vector2 laserVelocity = Vector2.Normalize(aimedVector);
-                                    Vector2 projectileDestination = player.Center + predictionVector;
-                                    Vector2 offset = laserVelocity * 70f;
-                                    float setVelocityInAI = 7.5f;
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, projectileDestination, type, damage, 0f, Main.myPlayer, setVelocityInAI, NPC.whoAmI);
+                                    laserShootRotation = laserVelocity.ToRotation();
+                                    SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound, NPC.Center);
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    {
+                                        int type = ModContent.ProjectileType<ArtemisLaser>();
+                                        int damage = NPC.GetProjectileDamage(type);
+                                        Vector2 projectileDestination = player.Center + predictionVector;
+                                        Vector2 offset = laserVelocity * 70f;
+                                        float setVelocityInAI = 7.5f;
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, projectileDestination, type, damage, 0f, Main.myPlayer, setVelocityInAI, NPC.whoAmI);
+                                    }
                                 }
                             }
                         }
                         else
+                        {
+                            laserShootRotation = 0f;
                             calamityGlobalNPC.newAI[2] = 0f;
+                        }
 
                         // Enter charge phase after a certain time has passed
                         // This is replaced by a laser shotgun in phase 2
@@ -776,6 +799,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                         if (lineUpAttack)
                         {
                             // Return to normal laser phase if in passive state
+                            laserShootRotation = 0f;
                             if (SecondaryAIState == (float)SecondaryPhase.Passive)
                             {
                                 pickNewLocation = true;
@@ -887,16 +911,18 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     // Fire lasers
                     int numSpreads = lastMechAlive ? 3 : 2;
                     float divisor2 = laserShotgunDuration / numSpreads;
-                    if (calamityGlobalNPC.newAI[2] % divisor2 == 0f && canFire)
+                    if (calamityGlobalNPC.newAI[2] % divisor2 == 0f && canFire && calamityGlobalNPC.newAI[2] < laserShotgunDuration)
                     {
-                        pickNewLocation = true;
+                        SoundEngine.PlaySound(LaserShotgunSound, NPC.Center);
+
+                        Vector2 laserVelocity = Vector2.Normalize(aimedVector) * 10f;
+                        laserShootRotation = laserVelocity.ToRotation();
+
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             int type = ModContent.ProjectileType<ArtemisLaser>();
                             int damage = NPC.GetProjectileDamage(type);
-                            SoundEngine.PlaySound(LaserShotgunSound, NPC.Center);
-
-                            Vector2 laserVelocity = Vector2.Normalize(aimedVector) * 10f;
+                            
                             /* Spread:
                              * lastMechAlive = 20, 25, 30
                              * normal = 16, 20, 24
@@ -925,8 +951,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
                     // Reset phase and variables
                     calamityGlobalNPC.newAI[2] += 1f;
-                    if (calamityGlobalNPC.newAI[2] >= laserShotgunDuration)
+                    if (calamityGlobalNPC.newAI[2] >= (laserShotgunDuration + PauseDurationBeforeLaserActuallyFires))
                     {
+                        laserShootRotation = 0f;
                         pickNewLocation = true;
                         AIState = (float)Phase.Normal;
                         NPC.localAI[2] = shouldGetBuffedByBerserkPhase ? 1f : 0f;
@@ -1058,8 +1085,18 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                             }
                             else
                             {
+                                // This first variable is used to adjust how long it takes for the rotation rate to reach max
+                                float rotationSpeedMult = bossRush ? 4f : death ? 3f : revenge ? 2.75f : expertMode ? 2.5f : 2f;
+
                                 // This is used to adjust both the radians and the velocity of the spin moved per frame
-                                float rotationMult = (calamityGlobalNPC.newAI[2] - deathrayTelegraphDuration) / deathrayDuration * 4f;
+                                // At 25% progress it will be at max rotation in Boss Rush
+                                // At 33% progress it will be at max rotation in Death Mode
+                                // At 36% progress it will be at max rotation in Rev Mode
+                                // At 40% progress it will be at max rotation in Expert Mode
+                                // At 50% progress it will be at max rotation in Normal Mode
+                                float rotationMult = (calamityGlobalNPC.newAI[2] - deathrayTelegraphDuration) / deathrayDuration * rotationSpeedMult;
+
+                                // Max rotation
                                 if (rotationMult > 1f)
                                 {
                                     // The radians moved per frame during the spin
