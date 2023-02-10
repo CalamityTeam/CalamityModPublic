@@ -123,8 +123,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         // The amount of time Artemis pauses for before shooting
         private const float PauseDurationBeforeLaserActuallyFires = ArtemisLaser.TelegraphTotalTime;
 
-        // The rotation Artemis had the moment a laser telegraph was created
-        private float laserShootRotation = 0f;
+        // Vector to look at after a laser has been fired
+        private Vector2 pointToLookAt = default;
 
         // Total duration of the deathray
         private const float deathrayDuration = 180f;
@@ -224,8 +224,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(laserShootRotation);
             writer.Write(velocityBoostMult);
+            writer.WriteVector2(pointToLookAt);
             writer.WriteVector2(spinVelocity);
             writer.WriteVector2(chargeVelocityNormalized);
             writer.Write(frameX);
@@ -245,8 +245,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            laserShootRotation = reader.ReadSingle();
             velocityBoostMult = reader.ReadSingle();
+            pointToLookAt = reader.ReadVector2();
             spinVelocity = reader.ReadVector2();
             chargeVelocityNormalized = reader.ReadVector2();
             frameX = reader.ReadInt32();
@@ -605,10 +605,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     float y = spinningPoint.Y - NPC.Center.Y;
                     NPC.rotation = (float)Math.Atan2(y, x) + MathHelper.PiOver2;
                 }
-                else if (laserShootRotation != 0f)
+                else if (pointToLookAt != default)
                 {
                     rateOfRotation = 0f;
-                    NPC.rotation = laserShootRotation + MathHelper.PiOver2;
+                    float x = pointToLookAt.X - NPC.Center.X;
+                    float y = pointToLookAt.Y - NPC.Center.Y;
+                    NPC.rotation = (float)Math.Atan2(y, x) + MathHelper.PiOver2;
                 }
                 else
                 {
@@ -762,25 +764,25 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                         if (firingLasers)
                         {
                             // Fire lasers or swap to a new location
-                            float divisor = nerfedAttacks ? 50f : lastMechAlive ? 30f : 38f;
+                            float divisor = nerfedAttacks ? 45f : lastMechAlive ? 25f : 30f;
                             float laserTimer = calamityGlobalNPC.newAI[3] - 2f;
                             if (laserTimer % divisor == 0f && canFire)
                             {
                                 if (laserTimer % (divisor * 2f) == 0f)
                                 {
-                                    laserShootRotation = 0f;
+                                    pointToLookAt = default;
                                     pickNewLocation = true;
                                 }
                                 else
                                 {
                                     Vector2 laserVelocity = Vector2.Normalize(aimedVector);
-                                    laserShootRotation = laserVelocity.ToRotation();
+                                    Vector2 projectileDestination = player.Center + predictionVector;
+                                    pointToLookAt = projectileDestination;
                                     SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound, NPC.Center);
                                     if (Main.netMode != NetmodeID.MultiplayerClient)
                                     {
                                         int type = ModContent.ProjectileType<ArtemisLaser>();
                                         int damage = NPC.GetProjectileDamage(type);
-                                        Vector2 projectileDestination = player.Center + predictionVector;
                                         Vector2 offset = laserVelocity * 70f;
                                         float setVelocityInAI = 7.5f;
                                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, projectileDestination, type, damage, 0f, Main.myPlayer, setVelocityInAI, NPC.whoAmI);
@@ -790,7 +792,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                         }
                         else
                         {
-                            laserShootRotation = 0f;
+                            pointToLookAt = default;
                             calamityGlobalNPC.newAI[2] = 0f;
                         }
 
@@ -801,7 +803,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                         if (lineUpAttack)
                         {
                             // Return to normal laser phase if in passive state
-                            laserShootRotation = 0f;
+                            pointToLookAt = default;
                             if (SecondaryAIState == (float)SecondaryPhase.Passive)
                             {
                                 pickNewLocation = true;
@@ -918,36 +920,34 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                         SoundEngine.PlaySound(LaserShotgunSound, NPC.Center);
 
                         Vector2 laserVelocity = Vector2.Normalize(aimedVector) * 10f;
-                        laserShootRotation = laserVelocity.ToRotation();
 
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        int type = ModContent.ProjectileType<ArtemisLaser>();
+                        int damage = NPC.GetProjectileDamage(type);
+
+                        /* Spread:
+                         * lastMechAlive = 20, 25, 30
+                         * normal = 16, 20, 24
+                         * nerfedAttacks = 12, 15, 18
+                         */
+                        int numLasersAddedByDifficulty = bossRush ? 3 : death ? 2 : expertMode ? 1 : 0;
+                        int numLasersPerSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 3 : lastMechAlive ? 7 : 5) + numLasersAddedByDifficulty;
+                        int baseSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 9 : lastMechAlive ? 20 : 15) + numLasersAddedByDifficulty * 2;
+                        int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
+                        float rotation = MathHelper.ToRadians(spread);
+                        float distanceFromTarget = Vector2.Distance(NPC.Center, player.Center + predictionVector);
+                        float setVelocityInAI = 7.5f;
+                        pointToLookAt = player.Center + predictionVector;
+
+                        for (int i = 0; i < numLasersPerSpread + 1; i++)
                         {
-                            int type = ModContent.ProjectileType<ArtemisLaser>();
-                            int damage = NPC.GetProjectileDamage(type);
-                            
-                            /* Spread:
-                             * lastMechAlive = 20, 25, 30
-                             * normal = 16, 20, 24
-                             * nerfedAttacks = 12, 15, 18
-                             */
-                            int numLasersAddedByDifficulty = bossRush ? 3 : death ? 2 : expertMode ? 1 : 0;
-                            int numLasersPerSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 3 : lastMechAlive ? 7 : 5) + numLasersAddedByDifficulty;
-                            int baseSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 9 : lastMechAlive ? 20 : 15) + numLasersAddedByDifficulty * 2;
-                            int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
-                            float rotation = MathHelper.ToRadians(spread);
-                            float distanceFromTarget = Vector2.Distance(NPC.Center, player.Center + predictionVector);
-                            float setVelocityInAI = 7.5f;
+                            Vector2 perturbedSpeed = laserVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numLasersPerSpread - 1)));
+                            Vector2 normalizedPerturbedSpeed = Vector2.Normalize(perturbedSpeed);
 
-                            for (int i = 0; i < numLasersPerSpread + 1; i++)
-                            {
-                                Vector2 perturbedSpeed = laserVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numLasersPerSpread - 1)));
-                                Vector2 normalizedPerturbedSpeed = Vector2.Normalize(perturbedSpeed);
+                            Vector2 offset = normalizedPerturbedSpeed * 70f;
+                            Vector2 newCenter = NPC.Center + offset;
 
-                                Vector2 offset = normalizedPerturbedSpeed * 70f;
-                                Vector2 newCenter = NPC.Center + offset;
-
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, setVelocityInAI, NPC.whoAmI);
-                            }
                         }
                     }
 
@@ -955,7 +955,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     calamityGlobalNPC.newAI[2] += 1f;
                     if (calamityGlobalNPC.newAI[2] >= (laserShotgunDuration + PauseDurationBeforeLaserActuallyFires))
                     {
-                        laserShootRotation = 0f;
+                        pointToLookAt = default;
                         pickNewLocation = true;
                         AIState = (float)Phase.Normal;
                         NPC.localAI[2] = shouldGetBuffedByBerserkPhase ? 1f : 0f;
