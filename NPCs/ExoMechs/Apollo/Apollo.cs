@@ -522,7 +522,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             baseVelocity *= 1f + velocityBoostMult;
 
             // If Apollo can fire projectiles, cannot fire if too close to the target
-            bool canFire = Vector2.Distance(NPC.Center, player.Center) > 320f;
+            bool canFire = distanceFromDestination.Length() <= 320f;
 
             // Rotation
             Vector2 aimedVector = player.Center - NPC.Center;
@@ -1079,7 +1079,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     // Smooth movement towards the location Apollo is meant to be at
                     CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
 
-                    calamityGlobalNPC.newAI[2] += 1f;
+                    if (canFire || calamityGlobalNPC.newAI[2] > 0f)
+                        calamityGlobalNPC.newAI[2] += 1f;
+
                     if (calamityGlobalNPC.newAI[2] % (rocketPhaseDuration / numRockets) == 0f && canFire)
                     {
                         // Play a missile firing sound.

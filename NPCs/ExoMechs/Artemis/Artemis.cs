@@ -527,9 +527,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             // Laser shotgun variables
             float laserShotgunDuration = lastMechAlive ? 120f : 90f;
 
-            // If Artemis can fire projectiles, cannot fire if too close to the target
-            bool canFire = Vector2.Distance(NPC.Center, player.Center) > 320f && canFireLasers;
-
             // Add some random distance to the destination after certain attacks
             if (pickNewLocation)
             {
@@ -584,6 +581,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     velocityBoostMult -= 0.004f;
             }
             baseVelocity *= 1f + velocityBoostMult;
+
+            // If Artemis can fire projectiles, cannot fire if too close to the target
+            bool canFire = distanceFromDestination.Length() <= 320f && canFireLasers;
 
             // Rotation
             Vector2 predictionVector = AIState == (float)Phase.Deathray ? Vector2.Zero : player.velocity * predictionAmt;
@@ -952,7 +952,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     }
 
                     // Reset phase and variables
-                    calamityGlobalNPC.newAI[2] += 1f;
+                    if (canFire || calamityGlobalNPC.newAI[2] > 0f)
+                        calamityGlobalNPC.newAI[2] += 1f;
+
                     if (calamityGlobalNPC.newAI[2] >= (laserShotgunDuration + PauseDurationBeforeLaserActuallyFires))
                     {
                         pointToLookAt = default;
