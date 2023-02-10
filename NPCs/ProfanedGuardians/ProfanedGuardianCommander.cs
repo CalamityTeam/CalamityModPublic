@@ -335,12 +335,21 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
             }
 
-            // Charge variables
+            // Side swap variables for Phase 1
             float moveToOtherSideInPhase1GateValue = 900f;
             float timeBeforeMoveToOtherSideInPhase1Reset = moveToOtherSideInPhase1GateValue * 2f;
             float totalGoLowDuration = 240f;
             float goLowDuration = totalGoLowDuration * 0.5f;
             float goLowDistance = 480f;
+
+            // Side swap variables for Phase 2
+            float defenderCommanderGuardPhase2Duration = (bossRush || biomeEnraged) ? 420f : death ? 480f : revenge ? 510f : expertMode ? 540f : 600f;
+            float moveToOtherSideInPhase2GateValue = defenderCommanderGuardPhase2Duration - 120f;
+            float timeBeforeMoveToOtherSideInPhase2Reset = moveToOtherSideInPhase2GateValue * 2f;
+            float totalGoLowDurationPhase2 = 180f;
+            float goLowDurationPhase2 = totalGoLowDurationPhase2 * 0.5f;
+
+            // Charge variables
             float chargeVelocityMult = 0.25f;
             float maxChargeVelocity = (bossRush || biomeEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
             if (Main.getGoodWorld)
@@ -378,10 +387,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 bool goLow = (NPC.localAI[3] > (moveToOtherSideInPhase1GateValue - goLowDuration) && NPC.localAI[3] <= (moveToOtherSideInPhase1GateValue + goLowDuration * 0.5f)) ||
                     NPC.localAI[3] > (timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration) || NPC.localAI[3] <= (-goLowDuration * 0.5f);
 
-                // Set side to stay on while not going low
-                if (!goLow)
-                    calamityGlobalNPC.newAI[0] = -NPC.direction;
-
                 // Swap sides while going low
                 if (NPC.localAI[3] == (moveToOtherSideInPhase1GateValue - goLowDuration * 0.5f) || NPC.localAI[3] == (timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration * 0.5f))
                     calamityGlobalNPC.newAI[0] *= -1f;
@@ -390,19 +395,54 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (NPC.localAI[3] > timeBeforeMoveToOtherSideInPhase1Reset)
                     NPC.localAI[3] = -goLowDuration;
 
+                bool canSwapPlacesWithDefender = false;
+                if (defenderAlive)
+                {
+                    if (Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] == 1f && Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[1] < -120f)
+                        canSwapPlacesWithDefender = true;
+                }
+
+                // Dictates when the commander and defender will swap sides in phase 2
+                if (!healerAlive && defenderAlive && canSwapPlacesWithDefender)
+                    calamityGlobalNPC.newAI[1] += 1f;
+                else
+                    calamityGlobalNPC.newAI[1] = 0f;
+
+                // Go low just before moving to the other side to avoid bullshit hits
+                bool goLowPhase2 = (calamityGlobalNPC.newAI[1] > (moveToOtherSideInPhase2GateValue - goLowDurationPhase2) && calamityGlobalNPC.newAI[1] <= (moveToOtherSideInPhase2GateValue + goLowDurationPhase2 * 0.5f)) ||
+                    calamityGlobalNPC.newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) || calamityGlobalNPC.newAI[1] <= (-goLowDurationPhase2 * 0.5f);
+
+                // Swap sides while going low
+                if (calamityGlobalNPC.newAI[1] == (moveToOtherSideInPhase2GateValue - goLowDurationPhase2 * 0.5f) || calamityGlobalNPC.newAI[1] == (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2 * 0.5f))
+                    calamityGlobalNPC.newAI[0] *= -1f;
+
+                // Reset the timer to a negative value
+                if (calamityGlobalNPC.newAI[1] > timeBeforeMoveToOtherSideInPhase2Reset)
+                    calamityGlobalNPC.newAI[1] = -goLowDurationPhase2;
+
+                // Set side to stay on while not going low
+                if (!goLow && !goLowPhase2)
+                    calamityGlobalNPC.newAI[0] = -NPC.direction;
+
                 float velocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
                 if (Main.getGoodWorld)
                     velocity *= 1.25f;
                 if (healerAlive)
                     velocity *= 0.8f;
 
+                // Reduce inertia and boost velocity while far away from target or swapping sides
                 float distanceToStayAwayFromTarget = healerAlive ? 800f : defenderAlive ? 720f : 600f;
                 if (Vector2.Distance(NPC.Center, player.Center) > (distanceToStayAwayFromTarget + 160f))
                 {
                     inertia *= 0.5f;
                     velocity *= 1.5f;
                 }
-                if (goLow)
+                if (goLowPhase2)
+                {
+                    inertia *= 0.5f;
+                    velocity *= 1.5f;
+                }
+                else if (goLow)
                 {
                     inertia *= 0.66f;
                     velocity *= 1.33f;

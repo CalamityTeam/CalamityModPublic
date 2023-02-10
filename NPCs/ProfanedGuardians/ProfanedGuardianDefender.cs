@@ -444,8 +444,21 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.spriteDirection = NPC.direction;
                 }
 
-                // Slow down and throw any remaining rocks just before charging
-                NPC.ai[1] += 1f;
+                // Go low just before moving to the other side to avoid bullshit hits
+                float moveToOtherSideInPhase2GateValue = commanderGuardPhase2Duration - 120f;
+                float timeBeforeMoveToOtherSideInPhase2Reset = moveToOtherSideInPhase2GateValue * 2f;
+                float totalGoLowDurationPhase2 = 180f;
+                float goLowDurationPhase2 = totalGoLowDurationPhase2 * 0.5f;
+                bool commanderGoingLowInPhase2 = (Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (moveToOtherSideInPhase2GateValue - goLowDurationPhase2) &&
+                    Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (moveToOtherSideInPhase2GateValue + goLowDurationPhase2 * 0.5f)) ||
+                    Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) ||
+                    Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (-goLowDurationPhase2 * 0.5f);
+
+                // Do not increment the phase timer while swapping sides along with the commander in phase 2
+                if (!commanderGoingLowInPhase2)
+                    NPC.ai[1] += 1f;
+
+                // Slow down before throwing rock shields
                 if (NPC.ai[1] >= -throwRocksGateValue)
                 {
                     NPC.velocity *= 0.8f;
@@ -511,7 +524,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     }
 
                     Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center + Vector2.UnitX * distanceInFrontOfCommander * Main.npc[CalamityGlobalNPC.doughnutBoss].direction - NPC.Center;
-                    Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f);
+                    Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f);
                     if (distanceFromDestination.Length() > 80f)
                     {
                         float inertia = 20f;
