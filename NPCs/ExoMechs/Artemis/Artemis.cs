@@ -294,6 +294,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             bool exoTwinGreenAlive = false;
             bool exoWormAlive = false;
             bool exoPrimeAlive = false;
+            bool apolloUsingChargeCombo = false;
             if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
@@ -306,6 +307,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                         NPC.life = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life;
 
                     exoTwinGreenAlive = true;
+                    apolloUsingChargeCombo = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[0] == 2f || Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[0] == 3f;
                 }
             }
             if (CalamityGlobalNPC.draedonExoMechWorm != -1)
@@ -859,7 +861,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                     calamityGlobalNPC.newAI[3] = 0f;
                                     if (phase2)
                                     {
-                                        AIState = NPC.localAI[2] == 1f ? (float)Phase.Deathray : (float)Phase.LaserShotgun;
+                                        AIState = (NPC.localAI[2] == 1f && !apolloUsingChargeCombo) ? (float)Phase.Deathray : (float)Phase.LaserShotgun;
                                     }
                                     else
                                     {

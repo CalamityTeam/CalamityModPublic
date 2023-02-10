@@ -259,11 +259,13 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             bool exoWormAlive = false;
             bool exoPrimeAlive = false;
             bool exoMechTwinRedAlive = false;
+            bool artemisUsingDeathray = false;
             if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
                 {
                     exoMechTwinRedAlive = true;
+                    artemisUsingDeathray = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[0] == 3f;
 
                     // Link the HP of both twins
                     if (NPC.life > Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life)
@@ -1062,7 +1064,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                                 calamityGlobalNPC.newAI[3] = 0f;
 
                                 if (phase2)
-                                    AIState = NPC.localAI[2] == 1f ? (float)Phase.LineUpChargeCombo : (float)Phase.RocketBarrage;
+                                    AIState = (NPC.localAI[2] == 1f && !artemisUsingDeathray) ? (float)Phase.LineUpChargeCombo : (float)Phase.RocketBarrage;
                                 else
                                     AIState = (float)Phase.RocketBarrage;
                             }
