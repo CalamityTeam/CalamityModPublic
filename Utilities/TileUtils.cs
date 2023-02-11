@@ -367,7 +367,7 @@ namespace CalamityMod
             TileType<AerialiteOre>(),
             TileType<CryonicOre>(),
             TileType<PerennialOre>(),
-            TileType<CharredOre>(),
+            TileType<InfernalSuevite>(),
             TileType<ScoriaOre>(),
             TileType<AstralOre>(),
             TileType<UelibloomOre>(),
@@ -427,7 +427,7 @@ namespace CalamityMod
         });
 
         /// <summary>
-        /// Makes the specified tile merge with all tiles which generate in hell. Does not include Charred Ore.
+        /// Makes the specified tile merge with all tiles which generate in hell. Does not include Infernal Suevite.
         /// </summary>
         /// <param name="type">The tile whose merging properties will be set.</param>
         public static void MergeWithHell(int type) => MergeWithSet(type, new int[] {

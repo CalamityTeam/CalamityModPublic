@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
         {
             CreateRecipe().
                 AddIngredient<BrimstoneSlag>(10).
-                AddIngredient<CharredOre>(10).
+                AddIngredient<InfernalSuevite>(10).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -6,7 +6,8 @@ using Terraria.ID;
 
 namespace CalamityMod.Tiles.Ores
 {
-    public class CharredOre : ModTile
+    [LegacyName("CharredOre")]
+    public class InfernalSuevite : ModTile
     {
         private int sheetWidth = 288;
         private int sheetHeight = 270;
@@ -23,9 +24,9 @@ namespace CalamityMod.Tiles.Ores
 
             TileID.Sets.Ore[Type] = true;
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.CharredOre>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.InfernalSuevite>();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Charred Ore");
+            name.SetDefault("Infernal Suevite");
             AddMapEntry(new Color(17, 16, 26), name);
             MineResist = 6f;
             MinPick = 150;
