@@ -340,7 +340,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float timeBeforeMoveToOtherSideInPhase1Reset = moveToOtherSideInPhase1GateValue * 2f;
             float totalGoLowDuration = 240f;
             float goLowDuration = totalGoLowDuration * 0.5f;
-            float goLowOrHighDistance = 500f;
+            float goLowOrHighDistance = 480f;
 
             // Side swap variables for Phase 2
             float defenderCommanderGuardPhase2Duration = (bossRush || biomeEnraged) ? 420f : death ? 480f : revenge ? 510f : expertMode ? 540f : 600f;
@@ -403,8 +403,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 // Dictates when the commander and defender will swap sides in phase 2
-                if (!healerAlive && defenderAlive && canSwapPlacesWithDefender)
-                    calamityGlobalNPC.newAI[1] += 1f;
+                if (!healerAlive && defenderAlive)
+                {
+                    if (canSwapPlacesWithDefender)
+                        calamityGlobalNPC.newAI[1] += 1f;
+                }
                 else
                     calamityGlobalNPC.newAI[1] = 0f;
 
