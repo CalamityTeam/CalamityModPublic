@@ -516,7 +516,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (State == SwingState.Swinging)
             {
-                Effect swingFX = Filters.Scene["SwingSprite"].GetShader().Shader;
+                Effect swingFX = Filters.Scene["CalamityMod:SwingSprite"].GetShader().Shader;
                 swingFX.Parameters["rotation"].SetValue(SwingAngleShift + MathHelper.PiOver4 + (Direction == -1 ? MathHelper.Pi : 0f));
                 swingFX.Parameters["pommelToOriginPercent"].SetValue(0.05f);
                 swingFX.Parameters["color"].SetValue(Color.White.ToVector4());
