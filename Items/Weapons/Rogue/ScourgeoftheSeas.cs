@@ -19,12 +19,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetDefaults()
         {
-            Item.damage = 45;
+            Item.damage = 56;
             Item.knockBack = 3.5f;
-            Item.useAnimation = Item.useTime = 20;
+            Item.useAnimation = Item.useTime = 24;
             Item.autoReuse = true;
             Item.DamageType = RogueDamageClass.Instance;
-            Item.shootSpeed = 8f;
+            Item.shootSpeed = 10f;
             Item.shoot = ModContent.ProjectileType<ScourgeoftheSeasProjectile>();
 
             Item.width = 64;
@@ -36,6 +36,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Pink;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
         }
+
+        public override float StealthDamageMultiplier => 1.4f;
+        public override float StealthVelocityMultiplier => 1.2f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

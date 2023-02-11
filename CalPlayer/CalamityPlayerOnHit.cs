@@ -1148,7 +1148,7 @@ namespace CalamityMod.CalPlayer
 
                         if (type != -1)
                         {
-                            int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(30);
+                            int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(24);
                             float speed = Main.rand.NextFloat(5f, 11f);
                             int cloud = Projectile.NewProjectile(spawnSource, position, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed, type, damage, proj.knockBack, Player.whoAmI);
                             if (cloud.WithinBounds(Main.maxProjectiles))
@@ -1276,7 +1276,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (corrosiveSpine)
                 {
-                    target.AddBuff(BuffID.Venom, 240);
+                    target.AddBuff(BuffID.Poisoned, 240);
                 }
             }
             if (summon)
