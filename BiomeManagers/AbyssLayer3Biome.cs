@@ -25,14 +25,14 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lower Abyss");
+            DisplayName.SetDefault("Thermal Vents");
         }
 
         public override bool IsBiomeActive(Player player)
         {
             return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) &&
-            playerYTileCoords > Main.rockLayer + Main.maxTilesY * 0.145 &&
-            playerYTileCoords <= Main.rockLayer + Main.maxTilesY * 0.262;
+            playerYTileCoords > Main.rockLayer + Main.maxTilesY * 0.140 &&
+            playerYTileCoords <= Main.rockLayer + Main.maxTilesY * 0.270;
         }
     }
 }

@@ -94,15 +94,6 @@ namespace CalamityMod.World
                 }
             }
 
-            //scorched remains patches
-            for (int x = biomeStart + 30; x <= biomeEdge - 30; x++)
-            {
-                if (WorldGen.genRand.Next(145) == 0)
-                {
-                    ScorchedGrassPatches(new Point(x, Main.maxTilesY - 135));
-                }
-            }
-
             //place ceiling of slag across the top of the biome
             for (int x = biomeStart; x <= biomeEdge; x++)
             {
@@ -217,6 +208,15 @@ namespace CalamityMod.World
                         new Point16(-12, 12), 15f, WorldGen.genRand.Next(-12, 25), 0, true, true);
                         runner.Start();
                     }
+                }
+            }
+
+            //scorched remains patches
+            for (int x = biomeStart + 30; x <= biomeEdge - 30; x++)
+            {
+                if (WorldGen.genRand.Next(145) == 0)
+                {
+                    ScorchedGrassPatches(new Point(x, Main.maxTilesY - 135));
                 }
             }
 
@@ -370,7 +370,9 @@ namespace CalamityMod.World
                         if (WorldGen.genRand.Next(3) == 0)
                         {
                             ushort[] Lillies = new ushort[] { (ushort)ModContent.TileType<LavaLily1>(),
-                            (ushort)ModContent.TileType<LavaLily2>(), (ushort)ModContent.TileType<LavaLily3>() };
+                            (ushort)ModContent.TileType<LavaLily2>(), (ushort)ModContent.TileType<LavaLily3>(),
+                            (ushort)ModContent.TileType<LavaLily4>(), (ushort)ModContent.TileType<LavaLily5>(),
+                            (ushort)ModContent.TileType<LavaLily6>() };
 
                             WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Lillies));
                         }
@@ -388,7 +390,7 @@ namespace CalamityMod.World
                     if (tile.TileType == ModContent.TileType<BrimstoneSlag>())
                     {
                         //grow spine tree
-                        if (WorldGen.genRand.Next(12) == 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
+                        if (WorldGen.genRand.Next(8) == 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
                         {
                             PlaceTree(x, y - 1, ModContent.TileType<SpineTree>());
                         }
@@ -471,7 +473,7 @@ namespace CalamityMod.World
             float angle = MathHelper.Pi * 0.15f;
             float otherAngle = MathHelper.PiOver2 - angle;
 
-            int distanceInTiles = WorldGen.genRand.Next(20, 50);
+            int distanceInTiles = WorldGen.genRand.Next(30, 45);
             float distance = distanceInTiles * 16f;
             float constant = distance * 2f / (float)Math.Sin(angle);
 

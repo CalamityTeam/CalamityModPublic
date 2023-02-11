@@ -132,17 +132,13 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.PlayerSafe)
-            {
-                return 0f;
-            }
             if (spawnInfo.Player.Calamity().ZoneSulphur && spawnInfo.Water)
             {
                 return 0.2f;
             }
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer1 && spawnInfo.Water)
             {
-                return 0.35f;
+                return 0.45f;
             }
             return 0f;
         }

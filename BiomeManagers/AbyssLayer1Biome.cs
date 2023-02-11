@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.World;
+using CalamityMod.Systems;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -9,17 +10,16 @@ namespace CalamityMod.BiomeManagers
 {
     public class AbyssLayer1Biome : ModBiome
     {
+        //keep this here even though layer one now uses a tile check, cannot be bothered to move it for now
         public static bool MeetsBaseAbyssRequirement(Player player, out int playerYTileCoords)
         {
             Point point = player.Center.ToTileCoordinates();
             int x = Main.maxTilesX;
             int y = Main.maxTilesY;
             int genLimit = x / 2;
-            int abyssChasmY = y - 250;
             int abyssChasmX = Abyss.AtLeftSideOfWorld ? genLimit - (genLimit - 135) + 35 : genLimit + (genLimit - 135) - 35;
 
             bool abyssPosX = false;
-            bool abyssPosY = point.Y >= (Main.rockLayer - Main.maxTilesY / 13) && point.Y <= Main.maxTilesY - 200;
             if (Abyss.AtLeftSideOfWorld)
             {
                 if (point.X < abyssChasmX + 140)
@@ -36,7 +36,7 @@ namespace CalamityMod.BiomeManagers
             if (WeakReferenceSupport.InAnySubworld())
                 return false;
 
-            return !player.lavaWet && !player.honeyWet && abyssPosY && abyssPosX;
+            return !player.lavaWet && !player.honeyWet && abyssPosX && playerYTileCoords <= Main.maxTilesY - 200;
         }
 
         //temporarily use sulphur for now
@@ -65,9 +65,12 @@ namespace CalamityMod.BiomeManagers
 
         public override bool IsBiomeActive(Player player)
         {
-            return MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && 
-            playerYTileCoords >= Main.rockLayer - Main.maxTilesY / 15 &&
-            playerYTileCoords <= Main.rockLayer - 22;
+            Point point = player.Center.ToTileCoordinates();
+
+            int abyssStartHeight = (SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90;
+
+            return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && point.Y >= abyssStartHeight &&
+            !player.Calamity().ZoneAbyssLayer2 && !player.Calamity().ZoneAbyssLayer3 && !player.Calamity().ZoneAbyssLayer4;
         }
     }
 }
