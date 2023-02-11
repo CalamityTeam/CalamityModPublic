@@ -66,7 +66,7 @@ namespace CalamityMod.Tiles.Crags.Tree
             Main.tileSolid[Framing.GetTileSafely(i, j).TileType]);
         }
 
-        public static bool Spawn(int i, int j, int minSize = 5, int maxSize = 18, bool leaves = false, int leavesType = -1, bool saplingExists = false)
+        public static bool Spawn(int i, int j, int minSize = 5, int maxSize = 18, bool saplingExists = false)
         {
             //if this tree grew from a sapling, then kill the sapling its growing from
             if (saplingExists)
@@ -194,7 +194,6 @@ namespace CalamityMod.Tiles.Crags.Tree
 
         public override bool Drop(int i, int j)
         {
-            /*
             //drop seeds from the top of the tree
             if (Framing.GetTileSafely(i, j).TileFrameX == 36)
             {
@@ -202,10 +201,9 @@ namespace CalamityMod.Tiles.Crags.Tree
                 for (int numSeed = 0; numSeed < totalSeeds; numSeed++)
                 {
                     Item.NewItem(new EntitySource_TileBreak(i, j), (new Vector2(i, j) * 16) + new Vector2(Main.rand.Next(-46, 46), 
-                    Main.rand.Next(-40, 40) - 66), ModContent.ItemType<CustomTreeSeed>(), Main.rand.Next(1, 5));
+                    Main.rand.Next(-40, 40) - 66), ModContent.ItemType<Items.Placeables.SpineSapling>(), Main.rand.Next(1, 5));
                 }
             }
-            */
 
             //chance to drop extra wood
             if (Main.rand.NextBool())

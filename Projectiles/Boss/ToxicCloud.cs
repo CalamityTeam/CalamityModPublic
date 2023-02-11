@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 900;
+            Projectile.alpha = 125;
         }
 
         public override void AI()

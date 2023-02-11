@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
@@ -138,7 +139,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             }
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer1 && spawnInfo.Water)
             {
-                return 0.45f;
+                return SpawnCondition.OceanMonster.Chance * 2f;
             }
             return 0f;
         }

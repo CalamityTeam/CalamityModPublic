@@ -34,16 +34,12 @@ namespace CalamityMod.Items.Placeables
 			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Wood;
         }
 
-        //i assume this is supposed to be for when the platforms and walls for this tile are finished
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<AcidwoodPlatform>(2).
-                Register();
-
-            CreateRecipe(1).
-            AddIngredient(ModContent.ItemType<AcidwoodWallItem>(), 4).
-            AddTile(TileID.WorkBenches).Register();
-        }*/
+            AddIngredient(ModContent.ItemType<ScorchedBoneWall>(), 4).
+            AddTile(TileID.WorkBenches).
+            Register();
+        }
     }
 }

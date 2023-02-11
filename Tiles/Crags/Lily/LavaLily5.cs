@@ -55,8 +55,8 @@ namespace CalamityMod.Tiles.Crags.Lily
 			//draw in the middle of the tile so it doesnt draw more than once
 			if (Framing.GetTileSafely(i, j).TileFrameX == 36 && Framing.GetTileSafely(i, j).TileFrameY == 18)
             {
-				DrawLilyTop(i, j, lilyTex, new Rectangle(0, 0, 192, 206), TileOffset.ToWorldCoordinates(), new Vector2(114, 209), false);
-				DrawLilyTop(i, j, glowTex, new Rectangle(0, 0, 192, 206), TileOffset.ToWorldCoordinates(), new Vector2(114, 209), true);
+				DrawLilyTop(i, j, lilyTex, new Rectangle(0, 0, 192, 206), TileOffset.ToWorldCoordinates(), new Vector2(118, 209), false);
+				DrawLilyTop(i, j, glowTex, new Rectangle(0, 0, 192, 206), TileOffset.ToWorldCoordinates(), new Vector2(118, 209), true);
 			}
 		}
 	}

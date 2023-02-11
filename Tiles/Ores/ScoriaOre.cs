@@ -87,7 +87,8 @@ namespace CalamityMod.Tiles.Ores
         {
             num = fail ? 1 : 3;
         }
-    public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             r = 0.04f;
             g = 0.00f;

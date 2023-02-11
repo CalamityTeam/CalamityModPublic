@@ -127,7 +127,12 @@ namespace CalamityMod.World
             {
                 float worldEdgeMargin = (float)Main.maxTilesX * 0.08f;
                 int xLimit = Main.maxTilesX / 2;
-                int x = Abyss.AtLeftSideOfWorld ? rand.Next(Main.dungeonX + 200, xLimit - 400) : rand.Next(xLimit + 400, Main.dungeonX - 200);
+
+                int x = Abyss.AtLeftSideOfWorld ? rand.Next(400, xLimit) : rand.Next(xLimit, Main.maxTilesX - 400);
+                while ((float)x > (float)Main.spawnTileX - worldEdgeMargin && (float)x < (float)Main.spawnTileX + worldEdgeMargin)
+                {
+                    x = Abyss.AtLeftSideOfWorld ? rand.Next(400, xLimit) : rand.Next(xLimit, Main.maxTilesX - 400);
+                }
                 
                 //world surface = 920 large 740 medium 560 small
                 int y = (int)(Main.worldSurface * 0.5); //Large = 522, Medium = 444, Small = 336
@@ -213,6 +218,8 @@ namespace CalamityMod.World
 
         public static bool GenerateAstralMeteor(int i, int j)
         {
+            WorldGen.gen = true;
+
             UnifiedRandom rand = WorldGen.genRand;
             if (i < 50 || i > Main.maxTilesX - 50)
             {
@@ -391,6 +398,8 @@ namespace CalamityMod.World
                 }
             }
 
+            WorldGen.gen = false;
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendTileSquare(-1, i, j, 40, TileChangeType.None);
@@ -411,6 +420,8 @@ namespace CalamityMod.World
                     bool altarPlaced = false;
                     while (!altarPlaced)
                     {
+                        WorldGen.gen = true;
+
                         int x = i + xOffset;
                         int y = j - 100;
 
@@ -424,11 +435,14 @@ namespace CalamityMod.World
                             bool place = true;
                             SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(x, y - 5), SchematicAnchor.Center, ref place);
 
+                            WorldGen.gen = false;
+
                             altarPlaced = true;
                         }
                     }
                 }
             }
+
             return true;
         }
 
