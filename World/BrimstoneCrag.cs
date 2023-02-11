@@ -187,9 +187,9 @@ namespace CalamityMod.World
                     //do not place lava in the general middle area of the biome because it keeps flooding the crag bridge
                     if (numLavaLakes != 2 && numLavaLakes != 3)
                     {
-                        LavaTileRunner runner3 = new LavaTileRunner(new Vector2(x, Main.maxTilesY - 165), new Vector2(0, 5), new Point16(-500, 500), 
+                        LavaTileRunner runner = new LavaTileRunner(new Vector2(x, Main.maxTilesY - 165), new Vector2(0, 5), new Point16(-500, 500), 
                         new Point16(250, 1000), 15f, WorldGen.genRand.Next(300, 1000), 0, true, true);
-                        runner3.Start();
+                        runner.Start();
                     }
 
                     numLavaLakes++;
@@ -245,6 +245,25 @@ namespace CalamityMod.World
             bool firstItem = false;
             SchematicManager.PlaceSchematic(SchematicManager.CragBridgeKey, new Point(biomeMiddle, Main.maxTilesY - 100),
             SchematicAnchor.Center, ref firstItem, new Action<Chest, int, bool>(FillBrimstoneChests));
+
+            //place crag ruins
+            bool place = true;
+
+            SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragRuinKey3,
+            new Point(biomeStart + 150, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
+            PlaceSquareForCragHouses(biomeStart + 150, Main.maxTilesY - 125);
+
+            SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragRuinKey1,
+            new Point(biomeMiddle - 235, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
+            PlaceSquareForCragHouses(biomeMiddle - 235, Main.maxTilesY - 125);
+
+            SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragRuinKey4,
+            new Point(biomeMiddle + 235, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
+            PlaceSquareForCragHouses(biomeMiddle + 235, Main.maxTilesY - 125);
+            
+            SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragRuinKey2,
+            new Point(biomeEdge - 150, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
+            PlaceSquareForCragHouses(biomeEdge - 150, Main.maxTilesY - 125);
 
             //lava clean up again
             for (int x = biomeStart; x <= biomeEdge; x++)
@@ -399,6 +418,18 @@ namespace CalamityMod.World
             }
         }
 
+        public static void PlaceSquareForCragHouses(int x, int y)
+        {
+            //loop to place tiles under the house so it doesnt look weird
+            for (int i = x - 25; i <= x + 25; i++)
+            {
+                for (int j = y; j <= y + 15; j++)
+                {
+                    WorldGen.PlaceTile(i, j, ModContent.TileType<BrimstoneSlag>());
+                }
+            }
+        }
+
         public static bool PlaceTree(int x, int y, int tileType)
         {
             int minDistance = 5;
@@ -419,7 +450,7 @@ namespace CalamityMod.World
                 }
             }
 
-            SpineTree.Spawn(x, y, 22, 28, false, -1, false);
+            SpineTree.Spawn(x, y, 22, 28, false);
 
             return true;
         }

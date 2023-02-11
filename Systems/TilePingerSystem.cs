@@ -261,7 +261,7 @@ namespace CalamityMod.Systems
             if (emptyFrame == null)
                 emptyFrame = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value;
 
-            Effect tileEffect = Filters.Scene["WulfrumTilePing"].GetShader().Shader;
+            Effect tileEffect = Filters.Scene["CalamityMod:WulfrumTilePing"].GetShader().Shader;
             tileEffect.Parameters["pingCenter"].SetValue(PingCenter);
             tileEffect.Parameters["pingRadius"].SetValue(MaxPingRadius);
             tileEffect.Parameters["pingWaveThickness"].SetValue(PingWaveThickness);

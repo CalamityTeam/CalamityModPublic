@@ -64,7 +64,7 @@ namespace CalamityMod
             PlantCheckAgainst[ModContent.TileType<AstralTallPlants>()] = new int[1] { ModContent.TileType<AstralGrass>() };
             PlantCheckAgainst[ModContent.TileType<CinderBlossomTallPlants>()] = new int[1] { ModContent.TileType<ScorchedRemainsGrass>() };
             PlantCheckAgainst[ModContent.TileType<SulphurTentacleCorals>()] = new int[1] { ModContent.TileType<SulphurousShale>() };
-            PlantCheckAgainst[ModContent.TileType<AbyssKelp>()] = new int[2] { ModContent.TileType<AbyssGravel>(), ModContent.TileType<Voidstone>() };
+            PlantCheckAgainst[ModContent.TileType<AbyssKelp>()] = new int[3] { ModContent.TileType<AbyssGravel>(), ModContent.TileType<PyreMantle>(), ModContent.TileType<Voidstone>() };
 
             VineToGrass = new Dictionary<ushort, ushort>
             {

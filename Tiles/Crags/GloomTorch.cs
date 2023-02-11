@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ObjectData;
+using Terraria.DataStructures;
+using Terraria.Enums;
 
 namespace CalamityMod.Tiles.Crags
 {
@@ -16,11 +18,12 @@ namespace CalamityMod.Tiles.Crags
             name.SetDefault("Torch");
             AddMapEntry(new Color(253, 221, 3), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Furniture.GloomTorch>();
-            AdjTiles = new int[] { TileID.Torches };
             TileID.Sets.Torch[Type] = true;
             Main.tileWaterDeath[Type] = true;
             TileID.Sets.FramesOnKillWall[Type] = true;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Furniture.GloomTorch>();
+            AdjTiles = new int[] { TileID.Torches };
+            
         }
 
         public override bool CreateDust(int i, int j, ref int type)

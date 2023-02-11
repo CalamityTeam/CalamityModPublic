@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Magic
                 blinkage = (float)Math.Sin(MathHelper.Clamp((Charge - MaxCharge * 1.5f) / 15f, 0, 1) * MathHelper.PiOver2 + MathHelper.PiOver2);
             }
 
-            Effect effect = Filters.Scene["SpreadTelegraph"].GetShader().Shader;
+            Effect effect = Filters.Scene["CalamityMod:SpreadTelegraph"].GetShader().Shader;
             effect.Parameters["centerOpacity"].SetValue(0.7f);
             effect.Parameters["mainOpacity"].SetValue((float)Math.Sqrt(ChargeProgress));
             effect.Parameters["halfSpreadAngle"].SetValue(Spread / 2f);

@@ -912,7 +912,7 @@ namespace CalamityMod.NPCs.ExoMechs
                 // Beam
                 if (KillReappearDelay <= 0f && !leaving)
                 {
-                    Effect effect = Terraria.Graphics.Effects.Filters.Scene["SpreadTelegraph"].GetShader().Shader;
+                    Effect effect = Terraria.Graphics.Effects.Filters.Scene["CalamityMod:SpreadTelegraph"].GetShader().Shader;
                     effect.Parameters["centerOpacity"].SetValue(0.7f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f) * 0.05f);
                     effect.Parameters["mainOpacity"].SetValue(1f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f) * 0.05f);
                     effect.Parameters["halfSpreadAngle"].SetValue(MathHelper.PiOver4);

@@ -76,6 +76,15 @@ namespace CalamityMod.Schematics
 
         internal const string PinkArchiveKey = "Archive Pink";
         internal const string PinkArchiveFilename = "Schematics/DungeonArchivePink.csch";
+
+        internal const string CragRuinKey1 = "Crag Ruin 1";
+        internal const string CragRuinKey1Filename = "Schematics/CragRuin1.csch";
+        internal const string CragRuinKey2 = "Crag Ruin 21";
+        internal const string CragRuinKey2Filename = "Schematics/CragRuin2.csch";
+        internal const string CragRuinKey3 = "Crag Ruin 3";
+        internal const string CragRuinKey3Filename = "Schematics/CragRuin3.csch";
+        internal const string CragRuinKey4 = "Crag Ruin 4";
+        internal const string CragRuinKey4Filename = "Schematics/CragRuin4.csch";
         
         internal static Dictionary<string, SchematicMetaTile[,]> TileMaps;
         internal static Dictionary<string, PilePlacementFunction> PilePlacementMaps;
@@ -117,6 +126,12 @@ namespace CalamityMod.Schematics
                 [BlueArchiveKey] = CalamitySchematicIO.LoadSchematic(BlueArchiveFilename),
                 [GreenArchiveKey] = CalamitySchematicIO.LoadSchematic(GreenArchiveFilename),
                 [PinkArchiveKey] = CalamitySchematicIO.LoadSchematic(PinkArchiveFilename),
+
+                //crags ruins
+                [CragRuinKey1] = CalamitySchematicIO.LoadSchematic(CragRuinKey1Filename),
+                [CragRuinKey2] = CalamitySchematicIO.LoadSchematic(CragRuinKey2Filename),
+                [CragRuinKey3] = CalamitySchematicIO.LoadSchematic(CragRuinKey3Filename),
+                [CragRuinKey4] = CalamitySchematicIO.LoadSchematic(CragRuinKey4Filename),
 
                 // Sulphurous Sea scrap world gen structures
                 ["Sulphurous Scrap 1"] = CalamitySchematicIO.LoadSchematic("Schematics/SulphurousScrap1.csch").ShaveOffEdge(),
