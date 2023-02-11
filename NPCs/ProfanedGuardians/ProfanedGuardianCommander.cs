@@ -340,7 +340,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float timeBeforeMoveToOtherSideInPhase1Reset = moveToOtherSideInPhase1GateValue * 2f;
             float totalGoLowDuration = 240f;
             float goLowDuration = totalGoLowDuration * 0.5f;
-            float goLowDistance = 480f;
+            float goLowDistance = 500f;
 
             // Side swap variables for Phase 2
             float defenderCommanderGuardPhase2Duration = (bossRush || biomeEnraged) ? 420f : death ? 480f : revenge ? 510f : expertMode ? 540f : 600f;
@@ -449,7 +449,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * calamityGlobalNPC.newAI[0];
-                if (goLow)
+                if (goLow || goLowPhase2)
                     destination.Y += goLowDistance;
 
                 Vector2 targetVector = destination - NPC.Center;

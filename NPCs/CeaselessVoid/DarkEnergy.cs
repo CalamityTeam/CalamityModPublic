@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 if (NPC.dontTakeDamage)
                 {
-                    for (int k = 0; k < 10; k++)
+                    for (int k = 0; k < 15; k++)
                     {
                         int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0, 0, 0, default, 1f);
                         Main.dust[dust].noGravity = true;
@@ -128,11 +128,13 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
                 NPC.damage = NPC.defDamage;
                 NPC.dontTakeDamage = false;
-                float scalar = (float)Math.Cos(NPC.Calamity().newAI[1] * MathHelper.TwoPi) / 2f + 0.5f;
-                NPC.scale = MathHelper.Lerp(0.9f, 1f, scalar);
+                float scalar = (float)Math.Cos(NPC.Calamity().newAI[1] * 0.33f) / 2f + 0.5f;
+                NPC.scale = MathHelper.Lerp(0.8f, 1f, scalar);
                 NPC.Opacity = MathHelper.Lerp(0.5f, 1f, scalar);
                 NPC.Calamity().newAI[1] += 1f;
             }
+
+            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.8f * NPC.Opacity, 0f, 1.2f * NPC.Opacity);
 
             // Force despawn if Ceaseless Void isn't active
             if (CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
