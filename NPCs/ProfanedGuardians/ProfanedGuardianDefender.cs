@@ -449,13 +449,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 float timeBeforeMoveToOtherSideInPhase2Reset = moveToOtherSideInPhase2GateValue * 2f;
                 float totalGoLowDurationPhase2 = 180f;
                 float goLowDurationPhase2 = totalGoLowDurationPhase2 * 0.5f;
-                bool commanderGoingLowInPhase2 = (Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (moveToOtherSideInPhase2GateValue - goLowDurationPhase2) &&
+                bool commanderGoingLowOrHighInPhase2 = (Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (moveToOtherSideInPhase2GateValue - goLowDurationPhase2) &&
                     Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (moveToOtherSideInPhase2GateValue + goLowDurationPhase2 * 0.5f)) ||
                     Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) ||
                     Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (-goLowDurationPhase2 * 0.5f);
 
                 // Do not increment the phase timer while swapping sides along with the commander in phase 2
-                if (!commanderGoingLowInPhase2)
+                if (!commanderGoingLowOrHighInPhase2)
                     NPC.ai[1] += 1f;
 
                 // Slow down before throwing rock shields
