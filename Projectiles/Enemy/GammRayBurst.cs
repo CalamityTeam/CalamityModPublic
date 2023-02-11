@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gamma Ray Burst");
+            DisplayName.SetDefault("G-FUEL BEAM");
             Main.projFrames[Projectile.type] = 5;
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
