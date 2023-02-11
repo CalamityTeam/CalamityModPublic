@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.width = 18;
-            Item.damage = 4;
+            Item.damage = 9;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.noMelee = true;
             Item.noUseGraphic = true;
@@ -105,7 +104,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient(ItemID.ThrowingKnife, 200).
                 AddIngredient(ItemID.LifeCrystal).
                 AddIngredient(ItemID.LesserHealingPotion, 5).
-                AddIngredient<PearlShard>(10).
                 AddTile(TileID.Anvils).
                 Register();
         }

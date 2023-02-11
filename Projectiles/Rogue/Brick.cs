@@ -58,23 +58,23 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.ai[0] == 1)
             {
                 int split = 0;
-                while (split < 3)
+                while (split < 5)
                 {
                     //Calculate the velocity of the projectile
-                    float shardspeedX = -Projectile.velocity.X * Main.rand.NextFloat(.5f, .7f) + Main.rand.NextFloat(-3f, 3f);
-                    float shardspeedY = -Projectile.velocity.Y * Main.rand.Next(50, 70) * 0.01f + Main.rand.Next(-8, 9) * 0.2f;
+                    float shardspeedX = -Projectile.velocity.X * Main.rand.NextFloat(.1f, .15f) + Main.rand.NextFloat(-3f, 3f);
+                    float shardspeedY = -Projectile.velocity.Y * Main.rand.NextFloat(.5f, .9f) + Main.rand.NextFloat(-6f, -3f);
                     //Prevents the projectile speed from being too low
-                    if (shardspeedX < 2f && shardspeedX > -2f)
+                    if (shardspeedX < 1f && shardspeedX > -1f)
                     {
                         shardspeedX += -Projectile.velocity.X;
                     }
-                    if (shardspeedY > 2f && shardspeedY < 2f)
+                    if (shardspeedY > -3f)
                     {
                         shardspeedY += -Projectile.velocity.Y;
                     }
 
                     //Spawn the projectile
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<BrickFragment>(), (int)(Projectile.damage * 0.3), Projectile.knockBack / 2f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<BrickFragment>(), Projectile.damage / 2, Projectile.knockBack / 2f, Projectile.owner);
                     split += 1;
                 }
             }

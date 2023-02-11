@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Armor.SnowRuffian
             Item.height = 18;
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
-            Item.defense = 2; //4
+            Item.defense = 4; //9
         }
 
         public override void UpdateEquip(Player player)
