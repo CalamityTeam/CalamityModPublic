@@ -969,7 +969,8 @@ namespace CalamityMod.ILEditing
             orig(self, x, y, out outputColor);
 
             Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-            if (tile.LiquidAmount <= 0 || tile.HasTile || Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
+            if (tile.LiquidAmount <= 0 || tile.HasTile || (Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot &&
+            Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricDepthsWater").Slot))
                 return;
 
             Tile above = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
@@ -981,7 +982,16 @@ namespace CalamityMod.ILEditing
             }
 
             if (tile.TileType != (ushort)ModContent.TileType<RustyChestTile>())
-                outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
+            {
+                if (Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
+                {
+                    outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
+                }
+                if (Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricDepthsWater").Slot)
+                {
+                    outputColor = Vector3.Lerp(outputColor, Color.MediumSeaGreen.ToVector3(), 0.18f);
+                }
+            }
         }
         #endregion Sulph Sea Water Visuals
 

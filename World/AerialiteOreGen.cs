@@ -33,10 +33,10 @@ namespace CalamityMod.World
                                 ShapeData biggerCircle = new ShapeData();
                                 GenAction blotchMod = new Modifiers.Blotches(2, 0.4);
 
-                                int outerRadius = (int)(WorldGen.genRand.Next(3, 5) * WorldGen.genRand.NextFloat(0.74f, 0.82f));
+                                int radius = (int)(WorldGen.genRand.Next(3, 5) * WorldGen.genRand.NextFloat(0.74f, 0.82f));
 
                                 //big cloud circle
-                                WorldUtils.Gen(new Point(x, y), new Shapes.Circle(outerRadius + 3), Actions.Chain(new GenAction[]
+                                WorldUtils.Gen(new Point(x, y), new Shapes.Circle(radius + 1), Actions.Chain(new GenAction[]
                                 {
                                     blotchMod.Output(biggerCircle)
                                 }));
@@ -48,7 +48,7 @@ namespace CalamityMod.World
                                 }));
 
                                 //circle of ore
-                                WorldUtils.Gen(new Point(x, y), new Shapes.Circle(outerRadius), Actions.Chain(new GenAction[]
+                                WorldUtils.Gen(new Point(x, y), new Shapes.Circle(radius), Actions.Chain(new GenAction[]
                                 {
                                     blotchMod.Output(circle)
                                 }));

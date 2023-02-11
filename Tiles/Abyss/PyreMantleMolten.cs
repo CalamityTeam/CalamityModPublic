@@ -31,7 +31,7 @@ namespace CalamityMod.Tiles.Abyss
             HitSound = MineSound;
             MineResist = 10f;
             MinPick = 180;
-            ItemDrop = ModContent.ItemType<Items.Placeables.PyreMantle>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.PyreMantleMolten>();
             AddMapEntry(new Color(113, 49, 16));
         }
 
@@ -39,7 +39,7 @@ namespace CalamityMod.Tiles.Abyss
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 180, 0f, 0f, 1, new Color(128, 128, 128), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 162, 0f, 0f, 1, new Color(128, 128, 128), 1f);
             return false;
         }
 

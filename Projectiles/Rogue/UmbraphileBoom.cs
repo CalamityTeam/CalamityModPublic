@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -48,16 +48,19 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (Main.dayTime || Main.rand.NextBool(3)) //100% during day, 33.33% chance at night
-                target.AddBuff(BuffID.Daybreak, 60);
+                target.AddBuff(BuffID.Daybreak, 45);
 
             if (!Main.dayTime || Main.rand.NextBool(3)) //100% at night, 33.33% chance during day
-                target.AddBuff(ModContent.BuffType<Nightwither>(), 60);
+                target.AddBuff(ModContent.BuffType<Nightwither>(), 45);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+            if (Main.dayTime || Main.rand.NextBool(3)) //100% during day, 33.33% chance at night
+                target.AddBuff(BuffID.Daybreak, 45);
+
             if (!Main.dayTime || Main.rand.NextBool(3)) //100% at night, 33.33% chance during day
-                target.AddBuff(ModContent.BuffType<Nightwither>(), 60);
+                target.AddBuff(ModContent.BuffType<Nightwither>(), 45);
         }
     }
 }

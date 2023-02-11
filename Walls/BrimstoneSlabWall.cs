@@ -21,6 +21,11 @@ namespace CalamityMod.Walls
             return false;
         }
 
+        public override bool CanExplode(int i, int j)
+		{
+			return false;
+		}
+
         public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)

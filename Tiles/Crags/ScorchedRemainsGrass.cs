@@ -84,6 +84,27 @@ namespace CalamityMod.Tiles.Crags
                     NetMessage.SendTileSquare(-1, i, j - 1, 3, TileChangeType.None);
                 }
             }
+
+            //convert this tile back into scorched remains if any liquid is above it
+            //will change this to only check for lava if necessary
+            if (up.LiquidAmount > 0)
+            {
+                Main.tile[i, j].TileType = (ushort)ModContent.TileType<ScorchedRemains>();
+            }
+
+            if (WorldGen.genRand.Next(10) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount == 0)
+            {
+                up.TileType = (ushort)ModContent.TileType<LavaPistil>();
+                up.HasTile = true;
+                up.TileFrameY = 0;
+                up.TileFrameX = (short)(WorldGen.genRand.Next(21) * 18);
+                WorldGen.SquareTileFrame(i, j - 1, true);
+
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    NetMessage.SendTileSquare(-1, i, j - 1, 3, TileChangeType.None);
+                }
+            }
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
@@ -93,7 +114,7 @@ namespace CalamityMod.Tiles.Crags
 
             if (!Main.gamePaused && Main.instance.IsActive && !Above.HasTile && isPlayerNear)
             {
-                if (Main.rand.Next(550) == 0)
+                if (Main.rand.Next(300) == 0)
                 {
                     int newDust = Dust.NewDust(new Vector2((i - 2) * 16, (j - 1) * 16), 5, 5, ModContent.DustType<CinderBlossomDust>());
                     Main.dust[newDust].velocity.Y += 0.09f;

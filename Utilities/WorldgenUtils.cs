@@ -41,6 +41,28 @@ namespace CalamityMod
             }
         }
 
+        public static void GrowVines(int VineX, int VineY, int numVines, ushort vineType, bool finished = false)
+		{
+            for (int Y = VineY; Y <= VineY + numVines && !finished; Y++)
+            {
+                Tile tileBelow = Framing.GetTileSafely(VineX, Y + 1);
+
+                if ((!tileBelow.HasTile || tileBelow.TileType == TileID.Cobweb) && WorldGen.InWorld(VineX, Y))
+                {
+                    WorldGen.PlaceTile(VineX, Y, vineType);
+                }
+                else
+                {
+                    finished = true;
+				}
+                
+                if (numVines <= 1)
+                {
+                    finished = true;
+                }
+            }
+        }
+
         /// <summary>
         /// Settles all liquids in the world.
         /// </summary>
