@@ -4,18 +4,19 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Ores
 {
-    public class CharredOre : ModItem
+    [LegacyName("CharredOre")]
+    public class InfernalSuevite : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 100;
-            DisplayName.SetDefault("Charred Ore");
+            DisplayName.SetDefault("Infernal Suevite");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 90; // Chlorophyte Ore
         }
 
         public override void SetDefaults()
         {
-            Item.createTile = ModContent.TileType<Tiles.Ores.CharredOre>();
+            Item.createTile = ModContent.TileType<Tiles.Ores.InfernalSuevite>();
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = 15;

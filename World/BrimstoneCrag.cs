@@ -220,7 +220,7 @@ namespace CalamityMod.World
                 }
             }
 
-            //place clumps of charred ore
+            //place clumps of Infernal Suevite
             for (int x = biomeStart; x <= biomeEdge; x++)
             {
                 for (int y = Main.maxTilesY - 150; y <= Main.maxTilesY - 45; y++)
@@ -236,7 +236,7 @@ namespace CalamityMod.World
                     tileDown.LiquidAmount > 0 || tileLeft.LiquidAmount > 0 || tileRight.LiquidAmount > 0))
                     {
                         WorldGen.TileRunner(x + WorldGen.genRand.Next(-15, 15), y + WorldGen.genRand.Next(-15, 15), 
-                        WorldGen.genRand.Next(10, 12), WorldGen.genRand.Next(10, 12), ModContent.TileType<CharredOre>(), false, 0f, 0f, false, true);
+                        WorldGen.genRand.Next(10, 12), WorldGen.genRand.Next(10, 12), ModContent.TileType<InfernalSuevite>(), false, 0f, 0f, false, true);
                     }
                 }
             }

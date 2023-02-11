@@ -88,7 +88,7 @@ namespace CalamityMod
             tileMergeTypes[ModContent.TileType<HardenedAstralSand>()][ModContent.TileType<AstralSandstone>()] = true;
             tileMergeTypes[ModContent.TileType<AstralSandstone>()][ModContent.TileType<CelestialRemains>()] = true;
 
-            tileMergeTypes[ModContent.TileType<BrimstoneSlag>()][ModContent.TileType<CharredOre>()] = true;
+            tileMergeTypes[ModContent.TileType<BrimstoneSlag>()][ModContent.TileType<InfernalSuevite>()] = true;
 
             tileMergeTypes[TileID.Sandstone][ModContent.TileType<EutrophicSand>()] = true;
             tileMergeTypes[ModContent.TileType<EutrophicSand>()][ModContent.TileType<Navystone>()] = true;
