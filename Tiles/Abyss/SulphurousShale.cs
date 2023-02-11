@@ -56,7 +56,7 @@ namespace CalamityMod.Tiles.Abyss
                     if (WorldGen.InWorld(x, y))
                     {
                         if (CalamityUtils.ParanoidTileRetrieval(x, y).HasTile &&
-                            CalamityUtils.ParanoidTileRetrieval(x, y).TileType == (ushort)ModContent.TileType<SulphurousVines>())
+                        CalamityUtils.ParanoidTileRetrieval(x, y).TileType == (ushort)ModContent.TileType<SulphurousVines>())
                         {
                             nearbyVineCount++;
                         }
@@ -105,15 +105,15 @@ namespace CalamityMod.Tiles.Abyss
             Tile up = Main.tile[i, j - 1];
             Tile up2 = Main.tile[i, j - 2];
 
-            //place kelp
-            if (WorldGen.genRand.Next(8) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount > 0 && up2.LiquidAmount > 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
+            //place sulphur tentacle corals
+            if (WorldGen.genRand.Next(10) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount > 0 && up2.LiquidAmount > 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
             {
                 up.TileType = (ushort)ModContent.TileType<SulphurTentacleCorals>();
                 up.HasTile = true;
                 up.TileFrameY = 0;
 
-                //7 different frames, choose a random one
-                up.TileFrameX = (short)(WorldGen.genRand.Next(11) * 18);
+                //18 different frames, choose a random one
+                up.TileFrameX = (short)(WorldGen.genRand.Next(22) * 18);
                 WorldGen.SquareTileFrame(i, j - 1, true);
 
                 if (Main.netMode == NetmodeID.Server)

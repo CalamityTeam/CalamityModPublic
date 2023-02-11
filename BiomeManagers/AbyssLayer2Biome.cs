@@ -25,14 +25,14 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Upper Abyss");
+            DisplayName.SetDefault("Murky Waters");
         }
 
         public override bool IsBiomeActive(Player player)
         {
             return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) &&
-            playerYTileCoords > Main.rockLayer - 22 &&
-            playerYTileCoords <= Main.rockLayer + Main.maxTilesY * 0.145;
+            playerYTileCoords > Main.rockLayer - 10 &&
+            playerYTileCoords <= Main.rockLayer + Main.maxTilesY * 0.140;
         }
     }
 }

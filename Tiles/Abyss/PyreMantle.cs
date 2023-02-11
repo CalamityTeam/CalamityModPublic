@@ -13,9 +13,9 @@ namespace CalamityMod.Tiles.Abyss
     public class PyreMantle : ModTile
     {
         public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/VoidstoneMine", 3) { Volume = 0.4f };
+        
         public override void SetStaticDefaults()
         {
-
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileBrick[Type] = true;
@@ -35,7 +35,7 @@ namespace CalamityMod.Tiles.Abyss
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 180, 0f, 0f, 1, new Color(128, 128, 128), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 162, 0f, 0f, 1, new Color(128, 128, 128), 1f);
             return false;
         }
 

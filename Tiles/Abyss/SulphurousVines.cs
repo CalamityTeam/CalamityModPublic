@@ -35,6 +35,19 @@ namespace CalamityMod.Tiles.Abyss
             num = fail ? 1 : 3;
         }
 
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+		{
+			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
+
+			if (!tileAbove.HasTile)
+            {
+                WorldGen.KillTile(i, j);
+				return true;
+			}
+
+			return true;
+		}
+
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             //GIVE VINE ROPE IF SPECIAL VINE BOOK

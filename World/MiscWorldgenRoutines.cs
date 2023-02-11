@@ -252,8 +252,17 @@ namespace CalamityMod.World
                     num3 += WorldGen.genRand.Next(2);
                     num3 -= WorldGen.genRand.Next(2);
                     float smallHoleLimit = 790f; //small
+                    
                     if (Main.maxTilesY > 1500)
-                    { smallHoleLimit = 1360f; if (Main.maxTilesY > 2100) { smallHoleLimit = 1950f; } }
+                    { 
+                        smallHoleLimit = 1360f; 
+                        
+                        if (Main.maxTilesY > 2100) 
+                        { 
+                            smallHoleLimit = 1950f; 
+                        } 
+                    }
+                    
                     if (ocean && num > smallHoleLimit)
                     {
                         if (num3 < 7.0) //min width
@@ -291,7 +300,7 @@ namespace CalamityMod.World
                 if (Main.maxTilesY > 2100)
                 {
                     if (((double)vector.Y > Abyss.AbyssChasmBottom && num > 0f && ocean) ||
-                        (vector.Y >= Main.maxTilesY && num > 0f && !ocean))
+                    (vector.Y >= Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
                     }
@@ -299,7 +308,7 @@ namespace CalamityMod.World
                 else if (Main.maxTilesY > 1500)
                 {
                     if (((double)vector.Y > Abyss.AbyssChasmBottom && num > 0f && ocean) ||
-                        (vector.Y > Main.maxTilesY && num > 0f && !ocean))
+                    (vector.Y > Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
                     }
@@ -307,11 +316,12 @@ namespace CalamityMod.World
                 else
                 {
                     if (((double)vector.Y > Abyss.AbyssChasmBottom && num > 0f && ocean) ||
-                        (vector.Y > Main.maxTilesY && num > 0f && !ocean))
+                    (vector.Y > Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
                     }
                 }
+
                 num -= 1f;
                 int num4;
                 int num5;
