@@ -98,7 +98,7 @@ namespace CalamityMod.Systems
             {
                 tasks.Insert(vernalIndex + 1, new PassLegacy("Vernal Pass", (progress, config) =>
                 {
-                    progress.Message = "Generating vernal pass"; //placeholder until something more fancy is made
+                    progress.Message = "Blessing a flourishing jungle grove";
                     VernalPass.PlaceVernalPass(WorldGen.structures);
                 }));
             }
