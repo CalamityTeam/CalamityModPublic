@@ -98,6 +98,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             writer.Write(NPC.localAI[1]);
             writer.Write(NPC.localAI[2]);
             writer.Write(NPC.localAI[3]);
+            for (int i = 0; i < 4; i++)
+                writer.Write(NPC.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -110,6 +112,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
             NPC.localAI[3] = reader.ReadSingle();
+            for (int i = 0; i < 4; i++)
+                NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
 
         public override void FindFrame(int frameHeight)
