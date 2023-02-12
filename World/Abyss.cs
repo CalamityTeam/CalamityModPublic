@@ -563,6 +563,14 @@ namespace CalamityMod.World
 
                                 WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Kelps));
                             }
+                            //Gravel rock piles
+                            if (WorldGen.genRand.NextBool(15) && tile.TileType == ModContent.TileType<AbyssGravel>())
+                            {
+                                ushort[] ShalePiles = new ushort[] { (ushort)ModContent.TileType<GravelPile1>(),
+                                    (ushort)ModContent.TileType<GravelPile2>(), (ushort)ModContent.TileType<GravelPile3>() };
+
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(ShalePiles));
+                            }
 
                             //thermal vents on pyre mantle
                             if (WorldGen.genRand.NextBool(15) && tile.TileType == ModContent.TileType<PyreMantle>())

@@ -92,7 +92,7 @@ namespace CalamityMod.Tiles.Crags
                 Main.tile[i, j].TileType = (ushort)ModContent.TileType<ScorchedRemains>();
             }
 
-            if (WorldGen.genRand.Next(10) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount == 0)
+            if (WorldGen.genRand.Next(60) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount == 0)
             {
                 up.TileType = (ushort)ModContent.TileType<LavaPistil>();
                 up.HasTile = true;
