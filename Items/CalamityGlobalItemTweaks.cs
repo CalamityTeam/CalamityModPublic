@@ -345,7 +345,10 @@ namespace CalamityMod.Items
                 { ItemID.IceSickle, Do(AutoReuse, UseMeleeSpeed, DamageExact(95), ShootSpeedExact(20f)) },
                 { ItemID.IchorArrow, Do(DamageExact(15)) },
                 { ItemID.ImpStaff, Do(AutoReuse, UseExact(30)) },
-                { ItemID.InfernoFork, Do(DamageRatio(1.2f)) },
+
+                // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
+                { ItemID.InfernoFork, Do(DamageRatio(1.66f)) },
+                // { ItemID.InfernoFork, Do(DamageRatio(1.2f)) },
 
                 // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
                 { ItemID.InfluxWaver, Do(UseMeleeSpeed, DamageRatio(0.75f)) },
@@ -427,7 +430,11 @@ namespace CalamityMod.Items
                 { ItemID.MonkStaffT2, Do(AutoReuse, TrueMelee, DamageRatio(2f)) }, // Ghastly Glaive
                 { ItemID.MonkStaffT3, Do(DamageExact(225)) }, // Sky Dragon's Fury
                 { ItemID.MoonlordArrow, Do(DamageRatio(1.1f)) }, // Luminite Arrow
-                { ItemID.MoonlordTurretStaff, Do(UseExact(15)) }, //Lunar Portal Staff
+
+                // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
+                { ItemID.MoonlordTurretStaff, Do(UseExact(15), DamageRatio(1.5f)) },
+                // { ItemID.MoonlordTurretStaff, Do(UseExact(15)) }, // Lunar Portal Staff
+
                 { ItemID.Muramasa, Do(ScaleRatio(1.5f), DamageRatio(1.5f), UseExact(14), CritDelta(+30)) },
                 { ItemID.Mushroom, Do(Value(0)) },
                 { ItemID.MushroomSpear, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(100)) },
@@ -456,7 +463,11 @@ namespace CalamityMod.Items
                 { ItemID.ObsidianSkullRose, Do(DefenseExact(4)) },
                 { ItemID.ObsidianSwordfish, Do(AutoReuse, TrueMelee, DamageExact(45)) },
                 { ItemID.OnyxBlaster, Do(PointBlank, UseTurn) },
-                { ItemID.OpticStaff, Do(AutoReuse, UseExact(25)) },
+
+                // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
+                { ItemID.OpticStaff, Do(AutoReuse, UseExact(25), DamageRatio(0.75f)) }, // NOTE: Optic Staff minions have local iframes, so they should be much better overall
+                // { ItemID.OpticStaff, Do(AutoReuse, UseExact(25)) },
+
                 { ItemID.OrangePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(51)) },
 
                 // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
