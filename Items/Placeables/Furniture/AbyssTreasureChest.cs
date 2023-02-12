@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Abyss;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
+            DisplayName.SetDefault("Ancient Treasure Chest");
         }
 
         public override void SetDefaults()

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -38,8 +38,8 @@ namespace CalamityMod.Tiles.Abyss
 			TileObjectData.addTile(Type);
 			ContainerName.SetDefault("Abyssal Chest");
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Abyssal Chest");
-			AddMapEntry(new Color(142, 101, 71), name);
+			name.SetDefault("Ancient Treasure Chest");
+			AddMapEntry(new Color(135, 119, 41), name);
 			DustType = 33;
 			HitSound = SoundID.Dig;
 		}
