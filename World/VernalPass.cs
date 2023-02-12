@@ -1,19 +1,9 @@
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Mounts;
-using CalamityMod.Items.Placeables.Furniture;
-using CalamityMod.Items.SummonItems;
-using CalamityMod.Tiles.DraedonStructures;
-using CalamityMod.Tiles.SunkenSea;
-using CalamityMod.Walls;
+﻿using System;
 using CalamityMod.Schematics;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.WorldBuilding;
-
 using static CalamityMod.Schematics.SchematicManager;
 
 namespace CalamityMod.World
