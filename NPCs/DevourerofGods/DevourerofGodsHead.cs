@@ -73,9 +73,9 @@ namespace CalamityMod.NPCs.DevourerofGods
         }
 
         // Laser spread variables
-        private const int shotSpacingMax = 1050;
+        private const int shotSpacingMax = 1470;
         private int shotSpacing = shotSpacingMax;
-        private const int totalShots = 10;
+        private const int totalShots = 14;
         private const int spacingVar = shotSpacingMax / totalShots * 2;
         private int laserWallType = 0;
         private const float laserWallSpacingOffset = 16f;
@@ -116,11 +116,11 @@ namespace CalamityMod.NPCs.DevourerofGods
         }
 
         // Laser wall variables
-        private const int shotSpacingMax_Phase2 = 1050;
+        private const int shotSpacingMax_Phase2 = 1470;
         private int[] shotSpacing_Phase2 = new int[4] { shotSpacingMax_Phase2, shotSpacingMax_Phase2, shotSpacingMax_Phase2, shotSpacingMax_Phase2 };
         private const int spacingVar_Phase2 = 105;
-        private const int totalShots_Phase2 = 20;
-        private const int totalDiagonalShots = 6;
+        private const int totalShots_Phase2 = 28;
+        private const int totalDiagonalShots = 8;
         private const int diagonalSpacingVar = shotSpacingMax_Phase2 / totalDiagonalShots * 2;
         private int laserWallType_Phase2 = 0;
         public int laserWallPhase = 0;
@@ -743,7 +743,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         // Laser walls
                         if (!spawnedGuardians3 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
                         {
-                            float spawnOffset = 1500f;
+                            float spawnOffset = 2100f;
                             float divisor = bossRush ? 80f : 120f;
 
                             if (calamityGlobalNPC.newAI[1] % divisor == 0f)
@@ -1483,7 +1483,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                     if (phase2)
                     {
-                        float spawnOffset = 1500f;
+                        float spawnOffset = 2100f;
 
                         calamityGlobalNPC.newAI[1] += 1f;
                         if (calamityGlobalNPC.newAI[1] >= laserBarragePhaseGateValue)
