@@ -89,8 +89,14 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
                     else
                     {
+                        float timeToReachNextColor = 90f;
+                        float phaseTimer = Main.npc[DoGIndex].Calamity().newAI[2];
+                        float colorChangeProgress = phaseTimer / timeToReachNextColor;
+                        if (colorChangeProgress > 1f)
+                            colorChangeProgress = 1f;
+
                         spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2),
-                            (Main.npc[DoGIndex].ai[3] == 0f ? Color.Cyan : Color.Fuchsia) * intensity);
+                            (Main.npc[DoGIndex].ai[3] == 0f ? Color.Lerp(Color.Fuchsia, Color.Cyan, colorChangeProgress) : Color.Lerp(Color.Cyan, Color.Fuchsia, colorChangeProgress)) * intensity);
                     }
                 }
             }
