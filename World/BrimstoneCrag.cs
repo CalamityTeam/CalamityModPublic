@@ -250,24 +250,24 @@ namespace CalamityMod.World
             bool place = true;
 
             int house1Offset = WorldGen.genRand.Next(0, 55);
+            PlaceSquareForCragHouses(biomeStart + 150 + house1Offset, Main.maxTilesY - 125);
             SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragRuinKey3,
             new Point(biomeStart + 150 + house1Offset, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
-            PlaceSquareForCragHouses(biomeStart + 150 + house1Offset, Main.maxTilesY - 125);
 
             int house2Offset = WorldGen.genRand.Next(-55, 0);
+            PlaceSquareForCragHouses(biomeMiddle - 235 + house2Offset, Main.maxTilesY - 125);
             SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragRuinKey1,
             new Point(biomeMiddle - 235 + house2Offset, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
-            PlaceSquareForCragHouses(biomeMiddle - 235 + house2Offset, Main.maxTilesY - 125);
 
             int house3Offset = WorldGen.genRand.Next(0, 55);
+            PlaceSquareForCragHouses(biomeMiddle + 235 + house3Offset, Main.maxTilesY - 125);
             SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragRuinKey4,
             new Point(biomeMiddle + 235 + house3Offset, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
-            PlaceSquareForCragHouses(biomeMiddle + 235 + house3Offset, Main.maxTilesY - 125);
             
             int house4Offset = WorldGen.genRand.Next(-55, 0);
+            PlaceSquareForCragHouses(biomeEdge - 150 + house4Offset, Main.maxTilesY - 125);
             SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragRuinKey2,
             new Point(biomeEdge - 150 + house4Offset, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
-            PlaceSquareForCragHouses(biomeEdge - 150 + house4Offset, Main.maxTilesY - 125);
 
             //lava clean up again
             for (int x = biomeStart; x <= biomeEdge; x++)
@@ -390,15 +390,12 @@ namespace CalamityMod.World
                     if (tile.TileType == ModContent.TileType<ScorchedRemainsGrass>())
                     {
                         //place them often since they are pretty big tiles, also dont place them in lava
-                        if (WorldGen.genRand.Next(3) == 0)
-                        {
-                            ushort[] Lillies = new ushort[] { (ushort)ModContent.TileType<LavaLily1>(),
-                            (ushort)ModContent.TileType<LavaLily2>(), (ushort)ModContent.TileType<LavaLily3>(),
-                            (ushort)ModContent.TileType<LavaLily4>(), (ushort)ModContent.TileType<LavaLily5>(),
-                            (ushort)ModContent.TileType<LavaLily6>() };
+                        ushort[] Lillies = new ushort[] { (ushort)ModContent.TileType<LavaLily1>(),
+                        (ushort)ModContent.TileType<LavaLily2>(), (ushort)ModContent.TileType<LavaLily3>(),
+                        (ushort)ModContent.TileType<LavaLily4>(), (ushort)ModContent.TileType<LavaLily5>(),
+                        (ushort)ModContent.TileType<LavaLily6>() };
 
-                            WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Lillies));
-                        }
+                        PlaceCragLily(x, y - 1, WorldGen.genRand.Next(Lillies));
                     }
                 }
 
@@ -455,6 +452,39 @@ namespace CalamityMod.World
             }
 
             SpineTree.Spawn(x, y, 22, 28, false);
+
+            return true;
+        }
+
+        public static bool PlaceCragLily(int x, int y, int tileType)
+        {
+            int minDistance = 5;
+            int lilyNearby = 0;
+
+            for (int i = x - minDistance; i < x + minDistance; i++)
+            {
+                for (int j = y - minDistance; j < y + minDistance; j++)
+                {
+                    if (Main.tile[i, j].HasTile && Main.tile[i, j].TileType == tileType)
+                    {
+                        lilyNearby++;
+                        if (lilyNearby > 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                for (int j = y - 10; j < y; j++)
+                {
+                    if (Main.tile[i, j].HasTile)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            WorldGen.PlaceObject(x, y, tileType);
 
             return true;
         }

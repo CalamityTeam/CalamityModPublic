@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.Abyss
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
-			ContainerName.SetDefault("Abyssal Chest");
+			ContainerName.SetDefault("Ancient Treasure Chest");
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Ancient Treasure Chest");
 			AddMapEntry(new Color(71, 49, 41), name);
@@ -122,17 +122,14 @@ namespace CalamityMod.Tiles.Abyss
 			}
 			else 
 			{
+				/*
+				//perhaps a message can be put here, in case players try to open the chest too early
 				if (isLocked) 
 				{
-					if (NPC.downedBoss3 && Chest.Unlock(left, top)) 
-					{
-						if (Main.netMode == NetmodeID.MultiplayerClient) 
-						{
-							NetMessage.SendData(MessageID.Unlock, -1, -1, null, player.whoAmI, 1f, left, top);
-						}
-					}
 				}
-				else 
+				*/
+
+				if (!isLocked)
 				{
 					int chest = Chest.FindChest(left, top);
 					if (chest >= 0) 
@@ -184,8 +181,8 @@ namespace CalamityMod.Tiles.Abyss
 			}
 			else 
 			{
-				player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Abyssal Chest";
-				if (player.cursorItemIconText == "Abyssal Chest") 
+				player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Ancient Treasure Chest";
+				if (player.cursorItemIconText == "Ancient Treasure Chest") 
 				{
 					player.cursorItemIconID = ModContent.ItemType<Items.Placeables.Furniture.AbyssTreasureChest>();
 
