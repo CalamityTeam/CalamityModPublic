@@ -137,13 +137,28 @@ namespace CalamityMod.Items
                 { ItemID.ChristmasTreeSword, Do(AutoReuse, UseTurn, UseMeleeSpeed, DamageExact(114)) },
                 { ItemID.ClingerStaff, Do(DamageExact(118)) },
                 { ItemID.ClockworkAssaultRifle, Do(PointBlank, DamageExact(21)) },
-                { ItemID.CobaltBreastplate, Do(DefenseDelta(+1)) },
+
+                // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
+                { ItemID.CobaltBreastplate, Do(DefenseDelta(+3)) },
+                // { ItemID.CobaltBreastplate, Do(DefenseDelta(+1)) },
+
                 { ItemID.CobaltChainsaw, Do(TrueMeleeNoSpeed, AxePower(70), UseTimeExact(4), TileBoostExact(-1)) },
                 { ItemID.CobaltDrill, Do(TrueMeleeNoSpeed, PickPower(130), UseTimeExact(5)) },
-                { ItemID.CobaltHat, Do(DefenseDelta(+1)) },
-                { ItemID.CobaltHelmet, Do(DefenseDelta(+2)) },
+
+                // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
+                { ItemID.CobaltHat, Do(DefenseDelta(+2)) },
+                // { ItemID.CobaltHat, Do(DefenseDelta(+1)) },
+
+                // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
+                { ItemID.CobaltHelmet, Do(DefenseDelta(+4)) },
+                // { ItemID.CobaltHelmet, Do(DefenseDelta(+2)) },
+
                 { ItemID.CobaltLeggings, Do(DefenseDelta(+2)) },
-                { ItemID.CobaltMask, Do(DefenseDelta(+2)) },
+
+                // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
+                { ItemID.CobaltMask, Do(DefenseDelta(+3)) },
+                // { ItemID.CobaltMask, Do(DefenseDelta(+2)) },
+
                 { ItemID.CobaltNaginata, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(90)) },
                 { ItemID.CobaltPickaxe, Do(PickPower(130), UseTimeExact(9)) },
                 { ItemID.CobaltRepeater, Do(PointBlank, DamageExact(50), UseExact(20)) },
