@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithAbyss(Type);
 
             ItemDrop = ModContent.ItemType<Items.Placeables.SulphurousShale>();
-            AddMapEntry(new Color(77, 60, 93));
+            AddMapEntry(new Color(57, 44, 93));
             MineResist = 5f;
             MinPick = 65;
             HitSound = MineSound;

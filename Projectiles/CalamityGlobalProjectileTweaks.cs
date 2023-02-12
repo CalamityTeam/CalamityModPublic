@@ -134,6 +134,10 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.LostSoulFriendly, pointBlank }, // TODO -- why does LostSoulFriendly have point blank enabled
                 { ProjectileID.LostSoulHostile, Do(TileCollide) },
                 { ProjectileID.MeteorShot, standardBulletTweaks },
+
+                // TODO -- DELETE THIS LINE IN 1.4.4 PORT
+                { ProjectileID.MiniRetinaLaser, Do(LocalIFrames(10)) },
+
                 { ProjectileID.MonkStaffT1, Do(TrueMeleeNoSpeed, ScaleExact(3f)) }, // Sleepy Octopod
                 { ProjectileID.MonkStaffT2, Do(TrueMelee, IDStaticIFrames(18)) }, // Ghastly Glaive
                 { ProjectileID.MonkStaffT3, Do(ScaleRatio(2f)) }, // Sky Dragon's Fury
@@ -173,6 +177,10 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Rally, Do(LocalIFrames(10)) },
                 { ProjectileID.RedCounterweight, counterweightTweaks },
                 { ProjectileID.RedsYoyo, Do(LocalIFrames(10)) },
+
+                // TODO -- DELETE THIS LINE IN 1.4.4 PORT
+                { ProjectileID.Retanimini, Do(LocalIFrames(10)) }, // Optic Staff (Mini Retinazer)
+
                 { ProjectileID.RocketSkeleton, defenseDamage }, // Skeleton Commando rockets
                 { ProjectileID.RockGolemRock, defenseDamage },
                 { ProjectileID.RulerStab, trueMelee },
@@ -192,6 +200,10 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.SnowBallFriendly, pointBlank },
                 { ProjectileID.SolarFlareChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.SolarFlareDrill, trueMeleeNoSpeed },
+
+                // TODO -- DELETE THIS LINE IN 1.4.4 PORT
+                { ProjectileID.Spazmamini, Do(IDStaticIFrames(12)) }, // Optic Staff (Mini Spazmatism)
+
                 { ProjectileID.Spear, trueMelee },
                 { ProjectileID.Spike, defenseDamage }, // Santank spike balls
                 { ProjectileID.Stake, pointBlank },

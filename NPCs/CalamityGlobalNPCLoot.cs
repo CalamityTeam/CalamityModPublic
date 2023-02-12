@@ -1678,6 +1678,13 @@ namespace CalamityMod.NPCs
                 case NPCID.SkeletronHead:
                     SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.Dryad, NPCID.Demolitionist }, NPC.downedBoss3);
                     SetNewBossJustDowned(npc);
+
+                    // First kill: Notify of Abyss chests being unlocked.
+                    if (!NPC.downedBoss3)
+                    {
+                        string keysk = "Mods.CalamityMod.SkeletronAbyssChestNotification";
+                        CalamityUtils.DisplayLocalizedText(keysk, new Color(76, 181, 76));
+                    }
                     break;
 
                 case NPCID.WallofFlesh:

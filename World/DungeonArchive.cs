@@ -1,4 +1,4 @@
-using CalamityMod.Schematics;
+﻿using CalamityMod.Schematics;
 using static CalamityMod.Schematics.SchematicManager;
 using Terraria;
 using Terraria.IO;
@@ -34,7 +34,6 @@ namespace CalamityMod.World
 
                 bool shouldContinue = true;
                 bool placedArchive = false;
-                int color = 0;
 
                 while (shouldContinue)
                 {

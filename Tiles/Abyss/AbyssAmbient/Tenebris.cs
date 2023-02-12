@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 {
-    public class AbyssKelp : ModTile
+    public class TenebrisRemnant : ModTile
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(92, 93, 42));
+            AddMapEntry(new Color(46, 103, 96));
             DustType = DustID.Grass;
             HitSound = SoundID.Grass;
 
@@ -37,27 +37,8 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
         {
-            offsetY = -16;
-            height = 32;
-        }
-
-        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-        {
-            Tile tile = Framing.GetTileSafely(i, j);
-            if (tile.TileFrameX >= 146)
-            {
-                float brightness = 0.7f;
-                float declareThisHereToPreventRunningTheSameCalculationMultipleTimes = Main.GameUpdateCount * 0.01f;
-                brightness *= (float)MathF.Sin(-j / 8f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes + i);
-                brightness *= (float)MathF.Sin(-i / 8f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes + j);
-                brightness += 0.7f;
-                r = 233f / 350f;
-                g = 144f / 350f;
-                b = 30f / 350f;
-                r *= brightness;
-                g *= brightness;
-                b *= brightness;
-            }
+            offsetY = -30;
+            height = 48;
         }
     }
 }

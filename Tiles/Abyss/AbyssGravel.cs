@@ -53,8 +53,8 @@ namespace CalamityMod.Tiles.Abyss
                 up.HasTile = true;
                 up.TileFrameY = 0;
 
-                //7 different frames, choose a random one
-                up.TileFrameX = (short)(WorldGen.genRand.Next(7) * 18);
+                //16 different frames, choose a random one
+                up.TileFrameX = (short)(WorldGen.genRand.Next(16) * 18);
                 WorldGen.SquareTileFrame(i, j - 1, true);
 
                 if (Main.netMode == NetmodeID.Server) 

@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Geyser");
-            AddMapEntry(new Color(150, 100, 50), name);
+            AddMapEntry(new Color(103, 65, 64), name);
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
 
             base.SetStaticDefaults();

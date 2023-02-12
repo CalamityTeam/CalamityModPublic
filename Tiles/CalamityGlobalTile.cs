@@ -53,6 +53,7 @@ namespace CalamityMod.Tiles
             (ushort)ModContent.TileType<CinderBlossomTallPlants>(),
             (ushort)ModContent.TileType<SulphurTentacleCorals>(),
             (ushort)ModContent.TileType<AbyssKelp>(),
+            (ushort)ModContent.TileType<TenebrisRemnant>(),
 
         };
 

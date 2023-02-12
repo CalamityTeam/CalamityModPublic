@@ -249,21 +249,25 @@ namespace CalamityMod.World
             //place crag ruins
             bool place = true;
 
+            int house1Offset = WorldGen.genRand.Next(0, 55);
             SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragRuinKey3,
-            new Point(biomeStart + 150, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
-            PlaceSquareForCragHouses(biomeStart + 150, Main.maxTilesY - 125);
+            new Point(biomeStart + 150 + house1Offset, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
+            PlaceSquareForCragHouses(biomeStart + 150 + house1Offset, Main.maxTilesY - 125);
 
+            int house2Offset = WorldGen.genRand.Next(-55, 0);
             SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragRuinKey1,
-            new Point(biomeMiddle - 235, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
-            PlaceSquareForCragHouses(biomeMiddle - 235, Main.maxTilesY - 125);
+            new Point(biomeMiddle - 235 + house2Offset, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
+            PlaceSquareForCragHouses(biomeMiddle - 235 + house2Offset, Main.maxTilesY - 125);
 
+            int house3Offset = WorldGen.genRand.Next(0, 55);
             SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragRuinKey4,
-            new Point(biomeMiddle + 235, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
-            PlaceSquareForCragHouses(biomeMiddle + 235, Main.maxTilesY - 125);
+            new Point(biomeMiddle + 235 + house3Offset, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
+            PlaceSquareForCragHouses(biomeMiddle + 235 + house3Offset, Main.maxTilesY - 125);
             
+            int house4Offset = WorldGen.genRand.Next(-55, 0);
             SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.CragRuinKey2,
-            new Point(biomeEdge - 150, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
-            PlaceSquareForCragHouses(biomeEdge - 150, Main.maxTilesY - 125);
+            new Point(biomeEdge - 150 + house4Offset, Main.maxTilesY - 125), SchematicAnchor.BottomCenter, ref place);
+            PlaceSquareForCragHouses(biomeEdge - 150 + house4Offset, Main.maxTilesY - 125);
 
             //lava clean up again
             for (int x = biomeStart; x <= biomeEdge; x++)

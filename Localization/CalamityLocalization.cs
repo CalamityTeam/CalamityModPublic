@@ -18,6 +18,8 @@ namespace CalamityMod.Localization
                 new [] { "AuricOreText", "Ancient draconic power manifests in the caverns, lacing itself through the rock." },
                 new [] { "FutureOreText", "A cold and dark energy has materialized in space." },
 
+                new [] { "SkeletronAbyssChestNotification", "The First Dryad's vines deem you worthy of their abyssal treasures." },
+
                 new [] { "UglyBossText", "The Sunken Sea trembles..." },
 
                 new [] { "SteelSkullBossText", "A blood red inferno lingers in the night..." },

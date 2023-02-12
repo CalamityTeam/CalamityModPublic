@@ -794,6 +794,10 @@ namespace CalamityMod
                     ChangeIngredientStack(ItemID.CrystalShard, 20) // TODO -- PORT: 1.4.4 reduces Phasesaber crystals to 25, remove this
                 },
                 { Vanilla(ItemID.ChlorophyteBar), ChangeIngredientStack(ItemID.ChlorophyteOre, 4) },
+
+                // TODO -- DELETE THIS LINE IN 1.4.4 PORT
+                { Vanilla(ItemID.AnkhCharm), AddIngredient(ItemID.PocketMirror) },
+
                 { Vanilla(ItemID.ShroomiteBar), ChangeIngredientStack(ItemID.GlowingMushroom, 5) },
                 { Vanilla(ItemID.TrueNightsEdge), TrueNightsEdgeRecipeEdit },
                 { Vanilla(ItemID.TrueExcalibur), ChangeIngredientStack(ItemID.ChlorophyteBar, 12) },
