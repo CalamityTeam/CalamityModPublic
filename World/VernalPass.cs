@@ -31,12 +31,12 @@ namespace CalamityMod.World
             
             do
             {
-                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.1f), (int)(Main.maxTilesX * 0.9f));
-                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY / 2), (int)((Main.maxTilesY - 300)));
+                int placementPositionX = WorldGen.genRand.Next(WorldGen.jungleOriginX - 300, WorldGen.jungleOriginX + 300);
+                int placementPositionY = WorldGen.genRand.Next((int)(Main.maxTilesY / 2), (int)((Main.maxTilesY - 500)));
                 Point placementPoint = new Point(placementPositionX, placementPositionY);
 
                 Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-                int jungleGrassInArea = 0;
+                int jungleStuffInArea = 0;
                 bool canGenerateInLocation = true;
 
                 float totalTiles = schematicSize.X * schematicSize.Y;
@@ -51,13 +51,23 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
                         }
 
-                        if (tile.TileType == TileID.JungleGrass || tile.TileType == TileID.JunglePlants || tile.TileType == TileID.JungleVines)
+                        //check for jungle grasses
+                        if (tile.TileType == TileID.JungleGrass || tile.TileType == TileID.JunglePlants || tile.TileType == TileID.JungleVines ||
+                        tile.WallType == WallID.MudUnsafe || tile.WallType == WallID.JungleUnsafe)
                         {
-                            jungleGrassInArea++;
+                            jungleStuffInArea++;
+                        }
+
+                        //immediately reset the counter if any invalid tiles are found
+                        if (tile.TileType == TileID.LihzahrdBrick || tile.WallType == WallID.LihzahrdBrickUnsafe || 
+                        tile.TileType == TileID.Hive || tile.WallType == WallID.HiveUnsafe)
+                        {
+                            canGenerateInLocation = false;
                         }
                     }
                 }
-                if (!canGenerateInLocation || jungleGrassInArea < totalTiles * 0.1f ||  !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+
+                if (!canGenerateInLocation || jungleStuffInArea < totalTiles * 0.1f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                 {
                     tries++;
                 }
