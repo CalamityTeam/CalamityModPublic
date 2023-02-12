@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.Abyss
         }
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AbyssGravel>(), false, false, false, false, resetFrame);
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<SulphurousShale>(), false, false, false, false, resetFrame);
             return false;
         }
         public override void RandomUpdate(int i, int j)
