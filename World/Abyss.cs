@@ -46,13 +46,6 @@ namespace CalamityMod.World
             AbyssChasmBottom = abyssChasmY - 100; //850 small 1450 medium 2050 large
             int abyssChasmX = AtLeftSideOfWorld ? genLimit - (genLimit - 135) + 35 : genLimit + (genLimit - 135) - 35; //2100 - 1965 = 135 : 2100 + 1965 = 4065
 
-            bool plantyMushSide = true;
-
-            if (abyssChasmX < genLimit)
-            {
-                plantyMushSide = false;
-            }
-
             int abyssMinX = AtLeftSideOfWorld ? 0 : abyssChasmX - 150;
             int abyssMaxX = AtLeftSideOfWorld ? abyssChasmX + 150 : x;
 
