@@ -39,7 +39,7 @@ namespace CalamityMod.Tiles.Abyss
 			ContainerName.SetDefault("Abyssal Chest");
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Ancient Treasure Chest");
-			AddMapEntry(new Color(135, 119, 41), name);
+			AddMapEntry(new Color(71, 49, 41), name);
 			DustType = 33;
 			HitSound = SoundID.Dig;
 		}

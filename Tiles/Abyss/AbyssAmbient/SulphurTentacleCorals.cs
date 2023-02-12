@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(111, 89, 127));
+            AddMapEntry(new Color(32, 65, 65));
             DustType = 32;
 
             base.SetStaticDefaults();

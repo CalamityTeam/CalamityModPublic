@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(137, 151, 60));
+            AddMapEntry(new Color(92, 93, 42));
             DustType = DustID.Grass;
             HitSound = SoundID.Grass;
 
