@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Tiles.Abyss;
-using CalamityMod.Tiles.Abyss.AbyssAmbient;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.AstralSnow;
@@ -569,7 +568,14 @@ namespace CalamityMod
 
         // BRIMSTONE COMPATIBILITY IMPLEMENTATION
         // Added parameters to force a merge in a direction for use in the merge frame function
-        internal static bool BrimstoneFraming(int x, int y, bool resetFrame, bool forceSameDown = false, bool forceSameUp = false, bool forceSameRight = false, bool forceSameLeft = false)
+        internal static bool BrimstoneFraming(int x, int y, bool resetFrame)
+        {
+            return BrimstoneFraming(x, y, resetFrame, false, false, false, false, false, false, false, false);
+        }
+
+        internal static bool BrimstoneFraming(int x, int y, bool resetFrame, 
+            bool forceSameDown, bool forceSameUp, bool forceSameRight, bool forceSameLeft, 
+            bool forceSameDR, bool forceSameDL, bool forceSameUR, bool forceSameUL)
         {
             if (x < 0 || x >= Main.maxTilesX)
                 return false;
@@ -589,6 +595,10 @@ namespace CalamityMod
             down = forceSameDown || down;
             left = forceSameLeft || left;
             right = forceSameRight || right;
+            upLeft = forceSameUL || upLeft;
+            upRight = forceSameUR || upRight;
+            downLeft = forceSameDL || downLeft;
+            downRight = forceSameDR || downRight;
 
             // Reset the tile's random frame style if the frame is being reset.
             int randomFrame;
@@ -1190,20 +1200,6 @@ namespace CalamityMod
                 return;
             }
 
-            // BRIMSTONE COMPATIBILITY IMPLEMENTATION
-            // Used when set to prioritize brimstone states over blend states
-            // This will try to preserve the brimstone tile's own tiling, though it might produce some strange blending with the tile it merges with
-            if (myTypeBrimFrame && !overrideBrimStates)
-            {
-                // BrimstoneFraming returns false if the tile uses a custom tile state, and true if it should use default tile framing
-                bool usedBrimstoneFrame = BrimstoneFraming(x, y, resetFrame, forceSameDown, forceSameUp, forceSameRight, forceSameLeft);
-                if (!usedBrimstoneFrame)
-                {
-                    mergedUp = mergedLeft = mergedRight = mergedDown = false;
-                    return;
-                }
-            }
-
             // Disable vanilla trying to merge these tiles automtaically.
             Main.tileMerge[myType][mergeType] = false;
 
@@ -1244,7 +1240,53 @@ namespace CalamityMod
             // Initialize all merged variables to false.
             mergedDown = mergedLeft = mergedRight = mergedUp = false;
 
+            // BRIMSTONE COMPATIBILITY IMPLEMENTATION
+            // Used when set to prioritize brimstone states over blend states
+            // This will try to preserve the brimstone tile's own tiling, though it might produce some strange blending with the tile it merges with
+            // Moved since last implementation since I think that fixes some minor issues
+            if (myTypeBrimFrame && !overrideBrimStates)
+            {
+                // Diagonals
+                bool forceDownRight = forceSameDown || forceSameRight;
+                bool forceDownLeft = forceSameDown || forceSameLeft;
+                bool forceUpRight = forceSameUp || forceSameRight;
+                bool forceUpLeft = forceSameUp || forceSameLeft;
+                // BrimstoneFraming returns false if the tile uses a custom tile state, and true if it should use default tile framing
+                bool usedBrimstoneFrame = BrimstoneFraming(x, y, resetFrame, forceSameDown, forceSameUp, forceSameRight, forceSameLeft, forceDownRight, forceDownLeft, forceUpRight, forceUpLeft);
+                if (!usedBrimstoneFrame)
+                {
+                    return;
+                }
+            }
+
+            // BRIMSTONE COMPATIBILITY IMPLEMENTATION
+            // Moved the custom merge conditional tree to a separate procedure. This was done so that the returns could be left in place as they seem to be needed
+            // This should leave the functionality unchanged (I hope) while allowing code to be run after this
+            CustomMergeConditionalTree(x, y, randomFrame, leftSim, rightSim, upSim, downSim, topLeftSim, topRightSim, bottomLeftSim, bottomRightSim, out mergedLeft, out mergedRight, out mergedUp, out mergedDown);
+
+            // BRIMSTONE COMPATIBILITY IMPLEMENTATION
+            // Used when set to prioritize blend states over brimstone states.
+            // This will create smoother blending with other tiles, though it will most likely result in unpleasant tiling between blend and non-blend states. Test to see if it looks good
+            // The tile frame checks are to see whether the tile that frame that has been picked out is a blend state (in which case a brimstone state isn't used) or a 'default' state (in which case a brimstone state might be used instead)
+            if (myTypeBrimFrame && overrideBrimStates && (Main.tile[x, y].TileFrameX < 234 && Main.tile[x, y].TileFrameY < 90))
+            {
+                // Diagonals
+                bool forceDownRight = forceSameDown || forceSameRight;
+                bool forceDownLeft = forceSameDown || forceSameLeft;
+                bool forceUpRight = forceSameUp || forceSameRight;
+                bool forceUpLeft = forceSameUp || forceSameLeft;
+                // This will only override the frame if it uses a brimstone frame, otherwise the tile frame will remain unchanged
+                BrimstoneFraming(x, y, resetFrame, forceSameDown, forceSameUp, forceSameRight, forceSameLeft, forceDownRight, forceDownLeft, forceUpRight, forceUpLeft);
+            }
+        }
+
+        private static void CustomMergeConditionalTree(int x, int y, int randomFrame, 
+            Similarity leftSim, Similarity rightSim, Similarity upSim, Similarity downSim, 
+            Similarity topLeftSim, Similarity topRightSim, Similarity bottomLeftSim, Similarity bottomRightSim,
+            out bool mergedLeft, out bool mergedRight, out bool mergedUp, out bool mergedDown)
+        {
             #region Custom Merge Conditional Tree
+            mergedLeft = mergedRight = mergedUp = mergedDown = false;
             if (leftSim == Similarity.None)
             {
                 if (upSim == Similarity.Same)
@@ -1740,15 +1782,6 @@ namespace CalamityMod
             SetFrameAt(x, y, 216, 18 * randomFrame);
             return;
             #endregion
-
-            // BRIMSTONE COMPATIBILITY IMPLEMENTATION
-            // Used when set to prioritize blend states over brimstone states.
-            // This will create smoother blending with other tiles, though it will most likely result in unpleasant tiling between blend and non-blend states. Test to see if it looks good
-            // The tile frame checks are to see whether the tile that frame that has been picked out is a blend state (in which case a brimstone state isn't used) or a 'default' state (in which case a brimstone state might be used instead)
-            if (myTypeBrimFrame && overrideBrimStates && (Main.tile[x, y].TileFrameX < 234 && Main.tile[x, y].TileFrameY < 90))
-            {
-                BrimstoneFraming(x, y, resetFrame, forceSameDown, forceSameUp, forceSameRight, forceSameLeft);
-            }
         }
 
         internal static void CustomMergeFrame(int x, int y, int myType, int mergeType, bool forceSameDown = false,

@@ -266,8 +266,18 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             if (Main.getGoodWorld)
                 maxChargeVelocity *= 1.15f;
 
+            // Go low just before moving to the other side to avoid bullshit hits
+            float moveToOtherSideInPhase2GateValue = commanderGuardPhase2Duration - 120f;
+            float timeBeforeMoveToOtherSideInPhase2Reset = moveToOtherSideInPhase2GateValue * 2f;
+            float totalGoLowDurationPhase2 = 180f;
+            float goLowDurationPhase2 = totalGoLowDurationPhase2 * 0.5f;
+            bool commanderGoingLowOrHighInPhase2 = (Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (moveToOtherSideInPhase2GateValue - goLowDurationPhase2) &&
+                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (moveToOtherSideInPhase2GateValue + goLowDurationPhase2 * 0.5f)) ||
+                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) ||
+                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (-goLowDurationPhase2 * 0.5f);
+
             // Spawn rock shield
-            bool respawnRocksInPhase2 = NPC.ai[1] == -commanderGuardPhase2Duration + timeBeforeRocksRespawnInPhase2;
+            bool respawnRocksInPhase2 = NPC.ai[1] == (-commanderGuardPhase2Duration + timeBeforeRocksRespawnInPhase2) && !commanderGoingLowOrHighInPhase2;
             int rockTypes = 6;
             int maxRocks = respawnRocksInPhase2 ? 18 : 36;
             int rockRings = 3;
@@ -444,16 +454,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.spriteDirection = NPC.direction;
                 }
 
-                // Go low just before moving to the other side to avoid bullshit hits
-                float moveToOtherSideInPhase2GateValue = commanderGuardPhase2Duration - 120f;
-                float timeBeforeMoveToOtherSideInPhase2Reset = moveToOtherSideInPhase2GateValue * 2f;
-                float totalGoLowDurationPhase2 = 180f;
-                float goLowDurationPhase2 = totalGoLowDurationPhase2 * 0.5f;
-                bool commanderGoingLowOrHighInPhase2 = (Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (moveToOtherSideInPhase2GateValue - goLowDurationPhase2) &&
-                    Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (moveToOtherSideInPhase2GateValue + goLowDurationPhase2 * 0.5f)) ||
-                    Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) ||
-                    Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (-goLowDurationPhase2 * 0.5f);
-
                 // Do not increment the phase timer while swapping sides along with the commander in phase 2
                 if (!commanderGoingLowOrHighInPhase2)
                     NPC.ai[1] += 1f;
@@ -472,7 +472,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     // Shoot molten blasts
                     int moltenBlastsDivisor = 4;
                     float shootMoltenBlastsGateValue = commanderGuardPhase2Duration / moltenBlastsDivisor;
-                    if (NPC.ai[1] % shootMoltenBlastsGateValue == 0f)
+                    if (NPC.ai[1] % shootMoltenBlastsGateValue == 0f && !commanderGoingLowOrHighInPhase2)
                     {
                         float moltenBlastVelocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
                         int projTimeLeft = (int)(2400f / moltenBlastVelocity);
