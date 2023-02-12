@@ -312,12 +312,12 @@ namespace CalamityMod.World
             //place islands in the sulphuric depths layer
             //start placing islands at the world surface so the abyss hole isnt completely empty
             int abyssStartHeight = (SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90;
-            for (int sulphurIslandY = abyssStartHeight; sulphurIslandY <= rockLayer - 15; sulphurIslandY++)
+            for (int sulphurIslandY = abyssStartHeight; sulphurIslandY <= rockLayer - 25; sulphurIslandY++)
             {
                 int islandLocationX = abyssChasmX;
                 int islandLocationOffset = WorldGen.genRand.Next(15, 22);
                 int randomPositon = WorldGen.genRand.Next(35, 80);
-                int randomIsland = WorldGen.genRand.Next(4);
+                int randomIsland = WorldGen.genRand.Next(5);
                 switch (randomIsland)
                 {
                     case 0:
@@ -331,16 +331,18 @@ namespace CalamityMod.World
                         AbyssIsland(islandLocationX - randomPositon, sulphurIslandY + 10, 60, 85, 30, 35, ModContent.TileType<SulphurousShale>(), false, false, false);
                         AbyssIsland(islandLocationX, sulphurIslandY + 15, 60, 85, 30, 35, ModContent.TileType<SulphurousShale>(), false, false, false);
                         AbyssIsland(islandLocationX + randomPositon, sulphurIslandY, 60, 85, 30, 35, ModContent.TileType<SulphurousShale>(), false, false, false);
-                        islandLocationX += 30;
+                        islandLocationX += 15;
                         break;
                     case 2:
-                        //1 island, right only
-                        AbyssIsland(islandLocationX - randomPositon, sulphurIslandY + 10, 55, 65, 30, 35, ModContent.TileType<SulphurousShale>(), false, false, false);
-                        islandLocationX -= 30;
+                        //2 islands, left, and slightly right
+                        AbyssIsland(islandLocationX - randomPositon, sulphurIslandY + 15, 55, 65, 30, 35, ModContent.TileType<SulphurousShale>(), false, false, false);
+                        AbyssIsland(islandLocationX + WorldGen.genRand.Next(15, 30), sulphurIslandY + 15, 60, 85, 30, 35, ModContent.TileType<SulphurousShale>(), false, false, false);
+                        islandLocationX -= 15;
                         break;
                     case 3:
-                        //1 island, right only
-                        AbyssIsland(islandLocationX + randomPositon, sulphurIslandY + 15, 60, 85, 30, 55, ModContent.TileType<SulphurousShale>(), false, false, false);
+                        //2 islands, slightly left, and right
+                        AbyssIsland(islandLocationX - WorldGen.genRand.Next(15, 30), sulphurIslandY + 10, 55, 65, 30, 35, ModContent.TileType<SulphurousShale>(), false, false, false);
+                        AbyssIsland(islandLocationX + randomPositon, sulphurIslandY + 15, 60, 85, 30, 35, ModContent.TileType<SulphurousShale>(), false, false, false);
                         islandLocationX += 25;
                         break;
                     case 4:
@@ -421,7 +423,7 @@ namespace CalamityMod.World
             {
                 int islandLocationX = abyssChasmX;
                 int islandLocationOffset = WorldGen.genRand.Next(18, 30);
-                int randomPositon = WorldGen.genRand.Next(45, 80);
+                int randomPositon = WorldGen.genRand.Next(40, 65);
                 bool hasScoria = WorldGen.genRand.NextBool(2); //50% chance to place scoria in each island instead of planty mush
 
                 int randomIsland = WorldGen.genRand.Next(4);
@@ -429,7 +431,7 @@ namespace CalamityMod.World
                 {
                     case 0:
                         //3 islands, left, middle, and right
-                        AbyssIsland(islandLocationX - randomPositon - 10, thermalIslandY + 15, 60, 65, 45, 55, ModContent.TileType<PyreMantle>(), false, true, false);
+                        AbyssIsland(islandLocationX - randomPositon - 10, thermalIslandY + 15, 65, 85, 45, 55, ModContent.TileType<PyreMantle>(), false, true, false);
                         AbyssIsland(islandLocationX, thermalIslandY, 60, 65, 45, 55, ModContent.TileType<PyreMantle>(), false, true, true);
                         AbyssIsland(islandLocationX + randomPositon + 10, thermalIslandY + 15, 60, 65, 45, 55, ModContent.TileType<PyreMantle>(), false, true, false);
                         islandLocationX -= 30;
@@ -437,22 +439,22 @@ namespace CalamityMod.World
                     case 1:
                         //3 islands, left, middle (slightly lower), and right
                         AbyssIsland(islandLocationX - randomPositon, thermalIslandY + 10, 60, 85, 30, 35, ModContent.TileType<PyreMantle>(), false, true, true);
-                        AbyssIsland(islandLocationX, thermalIslandY + 15, 60, 85, 30, 35, ModContent.TileType<PyreMantle>(), false, true, false);
-                        AbyssIsland(islandLocationX + randomPositon, thermalIslandY, 60, 85, 30, 35, ModContent.TileType<PyreMantle>(), false, true, false);
+                        AbyssIsland(islandLocationX, thermalIslandY + 15, 75, 85, 30, 35, ModContent.TileType<PyreMantle>(), false, true, false);
+                        AbyssIsland(islandLocationX + randomPositon, thermalIslandY, 65, 85, 30, 35, ModContent.TileType<PyreMantle>(), false, true, false);
                         islandLocationX += 30;
                         break;
                     case 2:
                         //3 islands, left, middle (slightly left), and right
                         AbyssIsland(islandLocationX - randomPositon - 20, thermalIslandY, 55, 65, 30, 35, ModContent.TileType<PyreMantle>(), false, true, true);
-                        AbyssIsland(islandLocationX - 20, thermalIslandY + 15, 55, 65, 30, 35, ModContent.TileType<PyreMantle>(), false, true, false);
-                        AbyssIsland(islandLocationX + randomPositon + 20, thermalIslandY + 10, 55, 65, 30, 35, ModContent.TileType<PyreMantle>(), false, true, false);
+                        AbyssIsland(islandLocationX - 20, thermalIslandY + 15, 60, 70, 30, 35, ModContent.TileType<PyreMantle>(), false, true, false);
+                        AbyssIsland(islandLocationX + randomPositon + 20, thermalIslandY + 10, 65, 70, 30, 35, ModContent.TileType<PyreMantle>(), false, true, false);
                         islandLocationX -= 25;
                         break;
                     case 3:
                         //3 islands, left, middle (slightly right), and right
-                        AbyssIsland(islandLocationX - randomPositon, thermalIslandY + 15, 60, 85, 30, 55, ModContent.TileType<PyreMantle>(), false, true, false);
-                        AbyssIsland(islandLocationX + 20, thermalIslandY + 5, 60, 85, 30, 55, ModContent.TileType<PyreMantle>(), false, true, false);
-                        AbyssIsland(islandLocationX + randomPositon, thermalIslandY, 60, 85, 30, 55, ModContent.TileType<PyreMantle>(), false, true, true);
+                        AbyssIsland(islandLocationX - randomPositon, thermalIslandY + 15, 75, 85, 30, 55, ModContent.TileType<PyreMantle>(), false, true, false);
+                        AbyssIsland(islandLocationX + 20, thermalIslandY + 5, 75, 85, 30, 55, ModContent.TileType<PyreMantle>(), false, true, false);
+                        AbyssIsland(islandLocationX + randomPositon, thermalIslandY, 75, 85, 30, 55, ModContent.TileType<PyreMantle>(), false, true, true);
                         islandLocationX += 25;
                         break;
                 }
@@ -561,13 +563,23 @@ namespace CalamityMod.World
                         if (abyssIndex2 < (int)(rockLayer + y * 0.262) && WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1))
                         {
                             //giant kelp, more often in upper layers
-                            if ((WorldGen.genRand.NextBool(18) && tile.TileType == ModContent.TileType<AbyssGravel>()) ||
-                            (WorldGen.genRand.NextBool(15) && tile.TileType == ModContent.TileType<PyreMantle>()))
+                            if (WorldGen.genRand.NextBool(16) && tile.TileType == ModContent.TileType<AbyssGravel>() ||
+                            WorldGen.genRand.NextBool(25) && tile.TileType == ModContent.TileType<PyreMantle>())
                             {
                                 ushort[] Kelps = new ushort[] { (ushort)ModContent.TileType<AbyssGiantKelp1>(), (ushort)ModContent.TileType<AbyssGiantKelp2>(),
                                 (ushort)ModContent.TileType<AbyssGiantKelp3>(), (ushort)ModContent.TileType<AbyssGiantKelp4>() };
 
                                 WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Kelps));
+                            }
+
+                            //thermal vents
+                            if (WorldGen.genRand.NextBool(72) && tile.TileType == ModContent.TileType<AbyssGravel>() ||
+                            WorldGen.genRand.NextBool(15) && tile.TileType == ModContent.TileType<PyreMantle>())
+                            {
+                                ushort[] Vents = new ushort[] { (ushort)ModContent.TileType<ThermalVent1>(),
+                                (ushort)ModContent.TileType<ThermalVent2>(), (ushort)ModContent.TileType<ThermalVent3>() };
+
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Vents));
                             }
 
                             //bulb trees on voidstone
@@ -583,7 +595,7 @@ namespace CalamityMod.World
                             if (tile.TileType == ModContent.TileType<SulphurousShale>())
                             {
                                 //tube coral
-                                if (WorldGen.genRand.NextBool(25))
+                                if (WorldGen.genRand.NextBool(85))
                                 {
                                     WorldGen.PlaceObject(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<SulphurTubeCoral>());
                                 }
@@ -607,7 +619,7 @@ namespace CalamityMod.World
                                 }
 
                                 //sulphur fossils
-                                if (WorldGen.genRand.NextBool(10))
+                                if (WorldGen.genRand.NextBool(12))
                                 {
                                     ushort[] SulphuricFossils = new ushort[] { (ushort)ModContent.TileType<SulphuricFossil1>(),
                                     (ushort)ModContent.TileType<SulphuricFossil2>(), (ushort)ModContent.TileType<SulphuricFossil3>() };
@@ -616,7 +628,7 @@ namespace CalamityMod.World
                                 }
 
                                 //ribs
-                                if (WorldGen.genRand.NextBool(10))
+                                if (WorldGen.genRand.NextBool(12))
                                 {
                                     ushort[] Ribs = new ushort[] { (ushort)ModContent.TileType<SulphurousRib1>(),
                                     (ushort)ModContent.TileType<SulphurousRib2>(), (ushort)ModContent.TileType<SulphurousRib3>(), 

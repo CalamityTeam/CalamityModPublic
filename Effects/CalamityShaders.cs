@@ -10,165 +10,348 @@ namespace CalamityMod.Effects
     // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public class CalamityShaders
     {
-        public static Effect AstralFogShader;
-        public static Effect LightShader;
-        public static Effect SCalMouseShader;
-        public static Effect TentacleShader;
-        public static Effect TeleportDisplacementShader;
-        public static Effect LightDistortionShader;
-        public static Effect PhaseslayerRipShader;
-        public static Effect FadedUVMapStreakShader;
-        public static Effect FlameStreakShader;
-        public static Effect FadingSolidTrailShader;
-        public static Effect ScarletDevilShader;
-        public static Effect BordernadoFireShader;
-        public static Effect PrismCrystalShader;
-        public static Effect ImpFlameTrailShader;
-        public static Effect SCalShieldShader;
-        public static Effect RancorMagicCircleShader;
-        public static Effect BasicTintShader;
-        public static Effect CircularBarShader;
-        public static Effect CircularBarSpriteShader;
-        public static Effect DoGDisintegrationShader;
-        public static Effect ArtAttackTrailShader;
-        public static Effect CircularAoETelegraph;
-        public static Effect IntersectionClipShader;
-        public static Effect LocalLinearTransformationShader;
-        public static Effect BasicPrimitiveShader;
-        public static Effect ArtemisLaserShader;
-        public static Effect ExobladeSlashShader;
-        public static Effect ExobladePierceShader;
-        public static Effect ExoVortexShader;
-        public static Effect SideStreakTrailShader;
-        public static Effect HeavenlyGaleTrailShader;
-        public static Effect HeavenlyGaleLightningShader;
-        public static Effect BlueStaticShader;
-        public static Effect PrimTextureOverlayShader;
+        private const string ShaderPath = "Effects/";
+        internal const string CalamityShaderPrefix = "CalamityMod:";
 
-        public static Effect BaseFusableParticleEdgeShader;
-        public static Effect AdditiveFusableParticleEdgeShader;
+        // made by boffin. Source code not available. Creates fog in the astral infection
+        internal static Effect AstralFogShader;
 
-        public static Effect DoGPortalShader;
+        //
+        // All below shaders created by Dominic Karma
+        //
+        #region Dominic's Shaders
 
-        public static Effect FluidShaders;
+        // The Dance of Light's Blinding Light
+        internal static Effect DanceOfLightBlindingShader;
+
+        // Calamity accessory
+        internal static Effect CalamityAccessoryMouseShader;
+
+        // Subsuming Vortex tentacles
+        internal static Effect SubsumingVortexTentacleShader;
+
+        // Draedon teleporting shader
+        internal static Effect DraedonTeleportShader;
+
+        // UNKNOWN -- PROBABLY UNUSED
+        internal static Effect LightDistortionShader;
+
+        // Phaseslayer red energy trail
+        internal static Effect PhaseslayerRipShader;
+
+        // Generic UV-fade streak trail shader. Used by many things?
+        internal static Effect FadedUVMapStreakShader;
+
+        // Generic flaming streak trail shader. Used by many things?
+        internal static Effect FlameStreakShader;
+
+        // Generic solid trail shader. Used by many things?
+        internal static Effect FadingSolidTrailShader;
+
+        // Scarlet Devil main spear glowing trail. BEWARE: Is reused by many other items!
+        internal static Effect ScarletDevilShader;
+
+        // Yharon border suns (or flame pillars?) unsure. it's one or the other. maybe both
+        internal static Effect BordernadoFireShader;
+
+        // Photon Ripper hardlight teeth trail shader
+        internal static Effect PrismCrystalShader;
+
+        // Generic flame trail. BEWARE: Reused by Apollo, Artemis, Cosmilamp, Gem Tech broken gems, and Persecuted enchant portal demons
+        internal static Effect ImpFlameTrailShader;
+
+        // Supreme Witch, Calamitas' force field (which is her visual hitbox)
+        internal static Effect SCalShieldShader;
+
+        // Rancor's alchemical / satanic circle which floats near the player. The laser is emitted from here
+        internal static Effect RancorMagicCircleShader;
+
+        // Generic colored glow shader. BEWARE: Used by about a billion things, including Ares telegraphs, the Biome Blade line, etc.
+        internal static Effect BasicTintShader;
+
+        // Generic "pie chart" shader that renders only certain arc sectors of things. Used for the Cooldown Rack and various other visuals.
+        internal static Effect CircularBarShader;
+
+        // Cooldown Rack shader used to draw the cooldown's icon appropriately.
+        internal static Effect CircularBarSpriteShader;
+
+        // Devourer of Gods' death animation where he disintegrates into purple energy stuff.
+        internal static Effect DoGDisintegrationShader;
+
+        // Art Attack's main projectile trail shader (Visually designed to match Paper Mario)
+        internal static Effect ArtAttackTrailShader;
+
+        // Generic AoE telegraph. Used for Ares' nukes to denote their area of effect.
+        internal static Effect CircularAoETelegraph;
+
+        // Clips a sprite along a fixed plane. Used by Stream Gouge to have half-spears come out of portals.
+        internal static Effect IntersectionClipShader;
+
+        // Used by Dom's Bladecrest Oathsword. Appears to govern the swing animation.
+        internal static Effect LocalLinearTransformationShader;
+
+        // UNUSED -- Probably leftover from Dominic's experiments with applying shaders to primitives (arbitrary GPU-rendered triangles)
+        internal static Effect BasicPrimitiveShader;
+
+        // Artemis Ohio Beam. Also used by get fixed boi Nuclear Terror's "G-FUEL BEAM"
+        internal static Effect ArtemisLaserShader;
+
+        // Exoblade's melee slash trails. Also used by Terratomere
+        internal static Effect ExobladeSlashShader;
+
+        // Exoblade's projectile on-hit "aniume slash marks". Also used by Terratomere
+        internal static Effect ExobladePierceShader;
+
+        // Used by Subsuming Vortex's various vortices. Draws the main vortices
+        internal static Effect ExoVortexShader;
+
+        // Used by Subsuming Vortex's side vortices. Draws the swirling energy tendrils.
+        internal static Effect SideStreakTrailShader;
+
+        // Used by Heavenly Gale's hardlight arrows.
+        internal static Effect HeavenlyGaleTrailShader;
+
+        // Used by Heavenly Gale's exo lightning strikes. Also used by Stormfront Razor lightning.
+        internal static Effect HeavenlyGaleLightningShader;
+
+        // Used in the Codebreaker on Draedon's sprite while communicating with him.
+        internal static Effect BlueStaticShader;
+
+        // Used by Acid Eels, presumably to have their snaking movements look more smooth.
+        internal static Effect PrimTextureOverlayShader;
+
+        // Used by Devourer of Gods. Renders the portal that he escapes through at the end of phase 1.
+        internal static Effect DoGPortalShader;
+
+        // Fusable particles. See the FusableParticleManager for comments on how this system works.
+        // These shaders are leveraged to render the results of the fusable particle simulation to the screen.
+        // The "Base" shader draws the particles themselves.
+        // The "Additive" shader actually FUSES the particles into their blobby mess.
+        //
+        // Backing textures vary. The primary use of this system is Gruesome Eminence.
+        internal static Effect BaseFusableParticleEdgeShader;
+        internal static Effect AdditiveFusableParticleEdgeShader;
+
+        // Used to render the results of Navier-Stokes fluid simulations.
+        internal static Effect FluidShaders;
+        #endregion
+
+        //
+        // All below shaders were added to Calamity by IbanPlay
+        // Authorship between IbanPlay and other SLR devs unknown
+        //
+        #region Iban's Shaders
+
+        // Used by Coral Spout and Titanium Railgun while charging to indicate current projectile spread.
+        internal static Effect SpreadTelegraph;
+
+        // Used by Wulfrum Screwdriver and Titanium Railgun. Renders a pixelly "laser sight".
+        internal static Effect PixelatedSightLine;
+
+        // Used by the Wulfrum Treasure Pinger to highlight tiles in range
+        internal static Effect WulfrumTilePing;
+
+        // Used by the Wulfrum Scaffold Kit to highlight locations where Scaffold tiles will be placed
+        internal static Effect WulfrumScaffoldSelection;
+
+        // Used to render the Rover Drive's force field around the player
+        internal static Effect RoverDriveShield;
+
+        // UNUSED -- Probably leftover from Iban's work on the Biome Blade and Ark lines.
+        internal static Effect RotateSprite;
+
+        // Used on Exoblade to draw the sword swinging dramatically. This was the edit Iban made to Dom's Exoblade.
+        internal static Effect SwingSprite;
+        #endregion
+
+        // Shorthand to register a loaded shader in Terraria's graphics engine
+        // All shaders registered this way are accessible under GameShaders.Misc
+        // They will use the prefix described above
+        private static void RegisterMiscShader(Effect shader, string passName, string registrationName)
+        {
+            Ref<Effect> shaderPointer = new(shader);
+            MiscShaderData passParamRegistration = new(shaderPointer, passName);
+            GameShaders.Misc[$"{CalamityShaderPrefix}{registrationName}"] = passParamRegistration;
+        }
+
+        private static void RegisterSceneFilter(ScreenShaderData passReg, string registrationName, EffectPriority priority = EffectPriority.High)
+        {
+            string prefixedRegistrationName = $"{CalamityShaderPrefix}{registrationName}";
+            Filters.Scene[prefixedRegistrationName] = new Filter(passReg, priority);
+            Filters.Scene[prefixedRegistrationName].Load();
+        }
+
+        // Shorthand to register a loaded shader in Terraria's graphics engine
+        // All shaders registered this way are accessible under Filters.Scene
+        // They will use the prefix described above
+        private static void RegisterScreenShader(Effect shader, string passName, string registrationName, EffectPriority priority = EffectPriority.High)
+        {
+            Ref<Effect> shaderPointer = new(shader);
+            ScreenShaderData passParamRegistration = new(shaderPointer, passName);
+            RegisterSceneFilter(passParamRegistration, registrationName, priority);
+        }
 
         public static void LoadShaders()
         {
             if (Main.dedServ)
                 return;
 
-            AstralFogShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/CustomShader", AssetRequestMode.ImmediateLoad).Value;
-            LightShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/LightBurstShader", AssetRequestMode.ImmediateLoad).Value;
-            TentacleShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/TentacleShader", AssetRequestMode.ImmediateLoad).Value;
-            TeleportDisplacementShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/TeleportDisplacementShader", AssetRequestMode.ImmediateLoad).Value;
-            SCalMouseShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/SCalMouseShader", AssetRequestMode.ImmediateLoad).Value;
-            LightDistortionShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/DistortionShader", AssetRequestMode.ImmediateLoad).Value;
-            PhaseslayerRipShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/PhaseslayerRipShader", AssetRequestMode.ImmediateLoad).Value;
-            ScarletDevilShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ScarletDevilStreak", AssetRequestMode.ImmediateLoad).Value;
-            BordernadoFireShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/BordernadoFire", AssetRequestMode.ImmediateLoad).Value;
-            PrismCrystalShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/PrismCrystalStreak", AssetRequestMode.ImmediateLoad).Value;
-            FadedUVMapStreakShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/FadedUVMapStreak", AssetRequestMode.ImmediateLoad).Value;
-            FlameStreakShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/Flame", AssetRequestMode.ImmediateLoad).Value;
-            FadingSolidTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/FadingSolidTrail", AssetRequestMode.ImmediateLoad).Value;
-            ImpFlameTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ImpFlameTrail", AssetRequestMode.ImmediateLoad).Value;
-            SCalShieldShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/SupremeShieldShader", AssetRequestMode.ImmediateLoad).Value;
-            RancorMagicCircleShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/RancorMagicCircle", AssetRequestMode.ImmediateLoad).Value;
-            BasicTintShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/BasicTint", AssetRequestMode.ImmediateLoad).Value;
-            CircularBarShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/CircularBarShader", AssetRequestMode.ImmediateLoad).Value;
-            CircularBarSpriteShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/CircularBarSpriteShader", AssetRequestMode.ImmediateLoad).Value;
-            DoGDisintegrationShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/DoGDisintegration", AssetRequestMode.ImmediateLoad).Value;
-            ArtAttackTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ArtAttackTrail", AssetRequestMode.ImmediateLoad).Value;
-            CircularAoETelegraph = CalamityMod.Instance.Assets.Request<Effect>("Effects/CircularAoETelegraph", AssetRequestMode.ImmediateLoad).Value;
-            IntersectionClipShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/IntersectionClipShader", AssetRequestMode.ImmediateLoad).Value;
-            LocalLinearTransformationShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/LocalLinearTransformationShader", AssetRequestMode.ImmediateLoad).Value;
-            BasicPrimitiveShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/BasicPrimitiveShader", AssetRequestMode.ImmediateLoad).Value;
-            ArtemisLaserShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ArtemisLaserShader", AssetRequestMode.ImmediateLoad).Value;
-            ExobladeSlashShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ExobladeSlashShader", AssetRequestMode.ImmediateLoad).Value;
-            ExobladePierceShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ExobladePierceShader", AssetRequestMode.ImmediateLoad).Value;
-            ExoVortexShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ExoVortexShader", AssetRequestMode.ImmediateLoad).Value;
-            SideStreakTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/SideStreakTrail", AssetRequestMode.ImmediateLoad).Value;
-            HeavenlyGaleTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/HeavenlyGaleTrailShader", AssetRequestMode.ImmediateLoad).Value;
-            HeavenlyGaleLightningShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/HeavenlyGaleLightningShader", AssetRequestMode.ImmediateLoad).Value;
-            BlueStaticShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/BlueStaticShader", AssetRequestMode.ImmediateLoad).Value;
-            PrimTextureOverlayShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/PrimTextureOverlayShader", AssetRequestMode.ImmediateLoad).Value;
+            AssetRepository calAss = CalamityMod.Instance.Assets;
 
-            BaseFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/BaseFusableParticleEdgeShader", AssetRequestMode.ImmediateLoad).Value;
-            AdditiveFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/AdditiveFusableParticleEdgeShader", AssetRequestMode.ImmediateLoad).Value;
+            // Shorthand to load shaders immediately.
+            // Strings provided to LoadShader are the .xnb file paths.
+            Effect LoadShader(string path) => calAss.Request<Effect>($"{ShaderPath}{path}", AssetRequestMode.ImmediateLoad).Value;
 
-            DoGPortalShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ScreenShaders/DoGPortalShader", AssetRequestMode.ImmediateLoad).Value;
+            //
+            // Loading and registering each individual compiled shader for use.
+            //
 
-            FluidShaders = CalamityMod.Instance.Assets.Request<Effect>("Effects/FluidShaders", AssetRequestMode.ImmediateLoad).Value;
+            AstralFogShader = LoadShader("AstralFogShader");
+            var astralPassReg = new AstralScreenShaderData(new Ref<Effect>(AstralFogShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f);
+            RegisterSceneFilter(astralPassReg, "Astral", EffectPriority.VeryHigh);
 
-            Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(AstralFogShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
+            #region Loading Dominic's Shaders
 
-            Filters.Scene["CalamityMod:LightBurst"] = new Filter(new ScreenShaderData(new Ref<Effect>(LightShader), "BurstPass"), EffectPriority.VeryHigh);
-            Filters.Scene["CalamityMod:LightBurst"].Load();
+            DanceOfLightBlindingShader = LoadShader("LightBurstShader");
+            RegisterScreenShader(DanceOfLightBlindingShader, "BurstPass", "LightBurst");
 
-            GameShaders.Misc["CalamityMod:FireMouse"] = new MiscShaderData(new Ref<Effect>(SCalMouseShader), "DyePass");
-            GameShaders.Misc["CalamityMod:SubsumingTentacle"] = new MiscShaderData(new Ref<Effect>(TentacleShader), "BurstPass");
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"] = new MiscShaderData(new Ref<Effect>(TeleportDisplacementShader), "GlitchPass");
-            GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"] = new MiscShaderData(new Ref<Effect>(PhaseslayerRipShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:TrailStreak"] = new MiscShaderData(new Ref<Effect>(FadedUVMapStreakShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:Flame"] = new MiscShaderData(new Ref<Effect>(FlameStreakShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:FadingSolidTrail"] = new MiscShaderData(new Ref<Effect>(FadingSolidTrailShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"] = new MiscShaderData(new Ref<Effect>(ScarletDevilShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:Bordernado"] = new MiscShaderData(new Ref<Effect>(BordernadoFireShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:PrismaticStreak"] = new MiscShaderData(new Ref<Effect>(PrismCrystalShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:ImpFlameTrail"] = new MiscShaderData(new Ref<Effect>(ImpFlameTrailShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:SupremeShield"] = new MiscShaderData(new Ref<Effect>(SCalShieldShader), "ShieldPass");
-            GameShaders.Misc["CalamityMod:RancorMagicCircle"] = new MiscShaderData(new Ref<Effect>(RancorMagicCircleShader), "ShieldPass");
-            GameShaders.Misc["CalamityMod:BasicTint"] = new MiscShaderData(new Ref<Effect>(BasicTintShader), "TintPass");
-            GameShaders.Misc["CalamityMod:CircularBarShader"] = new MiscShaderData(new Ref<Effect>(CircularBarShader), "Pass0");
-            GameShaders.Misc["CalamityMod:CircularBarSpriteShader"] = new MiscShaderData(new Ref<Effect>(CircularBarSpriteShader), "Pass0");
-            GameShaders.Misc["CalamityMod:DoGDisintegration"] = new MiscShaderData(new Ref<Effect>(DoGDisintegrationShader), "DisintegrationPass");
-            GameShaders.Misc["CalamityMod:ArtAttack"] = new MiscShaderData(new Ref<Effect>(ArtAttackTrailShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:CircularAoETelegraph"] = new MiscShaderData(new Ref<Effect>(CircularAoETelegraph), "TelegraphPass");
-            GameShaders.Misc["CalamityMod:IntersectionClip"] = new MiscShaderData(new Ref<Effect>(IntersectionClipShader), "ClipPass");
-            GameShaders.Misc["CalamityMod:LinearTransformation"] = new MiscShaderData(new Ref<Effect>(LocalLinearTransformationShader), "TransformationPass");
-            GameShaders.Misc["CalamityMod:PrimitiveDrawer"] = new MiscShaderData(new Ref<Effect>(BasicPrimitiveShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:ArtemisLaser"] = new MiscShaderData(new Ref<Effect>(ArtemisLaserShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:ExobladeSlash"] = new MiscShaderData(new Ref<Effect>(ExobladeSlashShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:ExobladePierce"] = new MiscShaderData(new Ref<Effect>(ExobladePierceShader), "PiercePass");
-            GameShaders.Misc["CalamityMod:ExoVortex"] = new MiscShaderData(new Ref<Effect>(ExoVortexShader), "VortexPass");
-            GameShaders.Misc["CalamityMod:SideStreakTrail"] = new MiscShaderData(new Ref<Effect>(SideStreakTrailShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"] = new MiscShaderData(new Ref<Effect>(HeavenlyGaleTrailShader), "PiercePass");
-            GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"] = new MiscShaderData(new Ref<Effect>(HeavenlyGaleLightningShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:BlueStatic"] = new MiscShaderData(new Ref<Effect>(BlueStaticShader), "GlitchPass");
-            GameShaders.Misc["CalamityMod:PrimitiveTexture"] = new MiscShaderData(new Ref<Effect>(PrimTextureOverlayShader), "TrailPass");
+            SubsumingVortexTentacleShader = LoadShader("TentacleShader");
+            RegisterMiscShader(SubsumingVortexTentacleShader, "BurstPass", "SubsumingTentacle");
 
-            GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(BaseFusableParticleEdgeShader), "ParticlePass");
-            GameShaders.Misc["CalamityMod:AdditiveFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(AdditiveFusableParticleEdgeShader), "ParticlePass");
+            DraedonTeleportShader = LoadShader("TeleportDisplacementShader");
+            RegisterMiscShader(DraedonTeleportShader, "GlitchPass", "TeleportDisplacement");
 
-            GameShaders.Misc["CalamityMod:DoGPortal"] = new MiscShaderData(new Ref<Effect>(DoGPortalShader), "ScreenPass");
+            CalamityAccessoryMouseShader = LoadShader("SCalMouseShader");
+            RegisterMiscShader(CalamityAccessoryMouseShader, "DyePass", "FireMouse");
 
-            //A little experimenting courtesy of looking at how slr does it.
-            var screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/SpreadTelegraph", AssetRequestMode.ImmediateLoad).Value);
-            Filters.Scene["SpreadTelegraph"] = new Filter(new ScreenShaderData(screenRef, "TelegraphPass"), EffectPriority.High);
-            Filters.Scene["SpreadTelegraph"].Load();
+            // THIS SHADER IS UNUSED.
+            LightDistortionShader = LoadShader("DistortionShader");
 
-            screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/PixelatedSightLine", AssetRequestMode.ImmediateLoad).Value);
-            Filters.Scene["PixelatedSightLine"] = new Filter(new ScreenShaderData(screenRef, "SightLinePass"), EffectPriority.High);
-            Filters.Scene["PixelatedSightLine"].Load();
+            PhaseslayerRipShader = LoadShader("PhaseslayerRipShader");
+            RegisterMiscShader(PhaseslayerRipShader, "TrailPass", "PhaseslayerRipEffect");
 
-            screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/WulfrumTilePing", AssetRequestMode.ImmediateLoad).Value);
-            Filters.Scene["WulfrumTilePing"] = new Filter(new ScreenShaderData(screenRef, "TilePingPass"), EffectPriority.High);
-            Filters.Scene["WulfrumTilePing"].Load();
+            FadedUVMapStreakShader = LoadShader("FadedUVMapStreak");
+            RegisterMiscShader(FadedUVMapStreakShader, "TrailPass", "TrailStreak");
 
-            screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/WulfrumScaffoldSelection", AssetRequestMode.ImmediateLoad).Value);
-            Filters.Scene["WulfrumScaffoldSelection"] = new Filter(new ScreenShaderData(screenRef, "TilePingPass"), EffectPriority.High);
-            Filters.Scene["WulfrumScaffoldSelection"].Load();
+            FlameStreakShader = LoadShader("Flame");
+            RegisterMiscShader(FlameStreakShader, "TrailPass", "Flame");
 
-            screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/RoverDriveShield", AssetRequestMode.ImmediateLoad).Value);
-            Filters.Scene["RoverDriveShield"] = new Filter(new ScreenShaderData(screenRef, "ShieldPass"), EffectPriority.High);
-            Filters.Scene["RoverDriveShield"].Load();
+            FadingSolidTrailShader = LoadShader("FadingSolidTrail");
+            RegisterMiscShader(FadingSolidTrailShader, "TrailPass", "FadingSolidTrail");
 
-            screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/RotateSprite", AssetRequestMode.ImmediateLoad).Value);
-            Filters.Scene["RotateSprite"] = new Filter(new ScreenShaderData(screenRef, "RotationPass"), EffectPriority.High);
-            Filters.Scene["RotateSprite"].Load();
+            ScarletDevilShader = LoadShader("ScarletDevilStreak");
+            RegisterMiscShader(ScarletDevilShader, "TrailPass", "OverpoweredTouhouSpearShader");
 
-            screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/SwingSprite", AssetRequestMode.ImmediateLoad).Value);
-            Filters.Scene["SwingSprite"] = new Filter(new ScreenShaderData(screenRef, "SwingPass"), EffectPriority.High);
-            Filters.Scene["SwingSprite"].Load();
+            BordernadoFireShader = LoadShader("BordernadoFire");
+            RegisterMiscShader(BordernadoFireShader, "TrailPass", "Bordernado");
+
+            PrismCrystalShader = LoadShader("PrismCrystalStreak");
+            RegisterMiscShader(PrismCrystalShader, "TrailPass", "PrismaticStreak");
+
+            ImpFlameTrailShader = LoadShader("ImpFlameTrail");
+            RegisterMiscShader(ImpFlameTrailShader, "TrailPass", "ImpFlameTrail");
+
+            SCalShieldShader = LoadShader("SupremeShieldShader");
+            RegisterMiscShader(SCalShieldShader, "ShieldPass", "SupremeShield");
+
+            RancorMagicCircleShader = LoadShader("RancorMagicCircle");
+            RegisterMiscShader(RancorMagicCircleShader, "ShieldPass", "RancorMagicCircle");
+
+            BasicTintShader = LoadShader("BasicTint");
+            RegisterMiscShader(BasicTintShader, "TintPass", "BasicTint");
+
+            CircularBarShader = LoadShader("CircularBarShader");
+            RegisterMiscShader(CircularBarShader, "Pass0", "CircularBarShader");
+
+            CircularBarSpriteShader = LoadShader("CircularBarSpriteShader");
+            RegisterMiscShader(CircularBarSpriteShader, "Pass0", "CircularBarSpriteShader");
+
+            DoGDisintegrationShader = LoadShader("DoGDisintegration");
+            RegisterMiscShader(DoGDisintegrationShader, "DisintegrationPass", "DoGDisintegration");
+
+            ArtAttackTrailShader = LoadShader("ArtAttackTrail");
+            RegisterMiscShader(ArtAttackTrailShader, "TrailPass", "ArtAttack");
+
+            CircularAoETelegraph = LoadShader("CircularAoETelegraph");
+            RegisterMiscShader(CircularAoETelegraph, "TelegraphPass", "CircularAoETelegraph");
+
+            IntersectionClipShader = LoadShader("IntersectionClipShader");
+            RegisterMiscShader(IntersectionClipShader, "ClipPass", "IntersectionClip");
+
+            LocalLinearTransformationShader = LoadShader("LocalLinearTransformationShader");
+            RegisterMiscShader(LocalLinearTransformationShader, "TransformationPass", "LinearTransformation");
+
+            // NOTE: despite being registered, this shader is UNUSED
+            BasicPrimitiveShader = LoadShader("BasicPrimitiveShader");
+            RegisterMiscShader(BasicPrimitiveShader, "TrailPass", "PrimitiveDrawer");
+
+            ArtemisLaserShader = LoadShader("ArtemisLaserShader");
+            RegisterMiscShader(ArtemisLaserShader, "TrailPass", "ArtemisLaser");
+
+            ExobladeSlashShader = LoadShader("ExobladeSlashShader");
+            RegisterMiscShader(ExobladeSlashShader, "TrailPass", "ExobladeSlash");
+
+            ExobladePierceShader = LoadShader("ExobladePierceShader");
+            RegisterMiscShader(ExobladePierceShader, "PiercePass", "ExobladePierce");
+
+            ExoVortexShader = LoadShader("ExoVortexShader");
+            RegisterMiscShader(ExoVortexShader, "VortexPass", "ExoVortex");
+
+            SideStreakTrailShader = LoadShader("SideStreakTrail");
+            RegisterMiscShader(SideStreakTrailShader, "TrailPass", "SideStreakTrail");
+
+            HeavenlyGaleTrailShader = LoadShader("HeavenlyGaleTrailShader");
+            RegisterMiscShader(HeavenlyGaleTrailShader, "PiercePass", "HeavenlyGaleTrail");
+
+            HeavenlyGaleLightningShader = LoadShader("HeavenlyGaleLightningShader");
+            RegisterMiscShader(HeavenlyGaleLightningShader, "TrailPass", "HeavenlyGaleLightningArc");
+
+            BlueStaticShader = LoadShader("BlueStaticShader");
+            RegisterMiscShader(BlueStaticShader, "GlitchPass", "BlueStatic");
+
+            PrimTextureOverlayShader = LoadShader("PrimTextureOverlayShader");
+            RegisterMiscShader(PrimTextureOverlayShader, "TrailPass", "PrimitiveTexture");
+
+            DoGPortalShader = LoadShader("ScreenShaders/DoGPortalShader");
+            RegisterMiscShader(DoGPortalShader, "ScreenPass", "DoGPortal");
+
+            // These two shaders are often (but not always) used together.
+            BaseFusableParticleEdgeShader = LoadShader("ParticleFusion/BaseFusableParticleEdgeShader");
+            RegisterMiscShader(BaseFusableParticleEdgeShader, "ParticlePass", "BaseFusableParticleEdge");
+
+            AdditiveFusableParticleEdgeShader = LoadShader("ParticleFusion/AdditiveFusableParticleEdgeShader");
+            RegisterMiscShader(AdditiveFusableParticleEdgeShader, "ParticlePass", "AdditiveFusableParticleEdge");
+
+            // This shader is not registered with the game but is invoked directly to render the results of fluid simulation.
+            FluidShaders = LoadShader("FluidShaders");
+            #endregion
+
+            // to do: add miracle blight shader
+
+            #region Loading Iban's Shaders
+
+            SpreadTelegraph = LoadShader("SpreadTelegraph");
+            RegisterScreenShader(SpreadTelegraph, "TelegraphPass", "SpreadTelegraph");
+
+            PixelatedSightLine = LoadShader("PixelatedSightLine");
+            RegisterScreenShader(PixelatedSightLine, "SightLinePass", "PixelatedSightLine");
+
+            WulfrumTilePing = LoadShader("WulfrumTilePing");
+            RegisterScreenShader(WulfrumTilePing, "TilePingPass", "WulfrumTilePing");
+
+            WulfrumScaffoldSelection = LoadShader("WulfrumScaffoldSelection");
+            RegisterScreenShader(WulfrumScaffoldSelection, "TilePingPass", "WulfrumScaffoldSelection");
+
+            RoverDriveShield = LoadShader("RoverDriveShield");
+            RegisterScreenShader(RoverDriveShield, "ShieldPass", "RoverDriveShield");
+
+            // THIS SHADER IS UNUSED.
+            RotateSprite = LoadShader("RotateSprite");
+            RegisterScreenShader(RotateSprite, "RotationPass", "RotateSprite");
+
+            SwingSprite = LoadShader("SwingSprite");
+            RegisterScreenShader(SwingSprite, "SwingPass", "SwingSprite");
+            #endregion
         }
     }
 }

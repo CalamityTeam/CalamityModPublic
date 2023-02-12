@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             if ((spawnInfo.Player.Calamity().ZoneSulphur || spawnInfo.Player.Calamity().ZoneAbyssLayer1) && 
             spawnInfo.Water && NPC.CountNPCS(ModContent.NPCType<AquaticUrchin>()) < 12)
             {
-                return 1.1f;
+                return 2.2f;
             }
             return 0f;
         }

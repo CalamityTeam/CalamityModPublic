@@ -17,13 +17,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws sacrificial daggers that lodge themselves in enemies\n" +
                 "Right click causes all stuck daggers to fly back at you and give you life\n" +
                 "Daggers stuck to enemies release bloodsplosions over time\n" +
-                "Stealth strikes provide much more life when returning to you");
+                "Stealth strikes lodge for longer and provide much more life when returning to you");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 290;
+            Item.damage = 345;
             Item.width = Item.height = 68;
             Item.useAnimation = Item.useTime = 9;
             Item.noMelee = true;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<SacrificeProjectile>();
-            Item.shootSpeed = 15f;
+            Item.shootSpeed = 16f;
             Item.DamageType = RogueDamageClass.Instance;
 
             Item.rare = ModContent.RarityType<Violet>();
@@ -41,6 +41,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
 
         public override bool AltFunctionUse(Player player) => player.ownedProjectileCounts[Item.shoot] > 0;
+
+        public override float StealthDamageMultiplier => 1.6f;
+        public override float StealthVelocityMultiplier => 1.2f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

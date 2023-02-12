@@ -164,7 +164,7 @@ namespace CalamityMod.Projectiles.Melee
                 Texture2D empty = Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value;
 
                 //Setup the laser sights effect.
-                Effect laserScopeEffect = Filters.Scene["PixelatedSightLine"].GetShader().Shader;
+                Effect laserScopeEffect = Filters.Scene["CalamityMod:PixelatedSightLine"].GetShader().Shader;
                 laserScopeEffect.Parameters["sampleTexture2"].SetValue(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/CertifiedCrustyNoise").Value);
                 laserScopeEffect.Parameters["noiseOffset"].SetValue(Main.GameUpdateCount * -0.003f);
 
