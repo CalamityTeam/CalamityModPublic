@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(76, 72, 35));
+            AddMapEntry(new Color(137, 151, 60));
             DustType = DustID.Grass;
             HitSound = SoundID.Grass;
 
@@ -44,7 +44,7 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             Tile tile = Framing.GetTileSafely(i, j);
-            if (tile.TileFrameX >= 72)
+            if (tile.TileFrameX >= 146)
             {
                 float brightness = 0.7f;
                 float declareThisHereToPreventRunningTheSameCalculationMultipleTimes = Main.GameUpdateCount * 0.01f;

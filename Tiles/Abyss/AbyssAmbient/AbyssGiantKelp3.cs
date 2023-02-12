@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(76, 72, 35));
+            AddMapEntry(new Color(137, 151, 60));
             DustType = DustID.Grass;
             HitSound = SoundID.Grass;
 

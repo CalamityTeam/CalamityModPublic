@@ -76,7 +76,7 @@ namespace CalamityMod.Tiles.Crags
                 up.TileType = (ushort)ModContent.TileType<CinderBlossomTallPlants>();
                 up.HasTile = true;
                 up.TileFrameY = 0;
-                up.TileFrameX = (short)(WorldGen.genRand.Next(21) * 18);
+                up.TileFrameX = (short)(WorldGen.genRand.Next(20) * 18);
                 WorldGen.SquareTileFrame(i, j - 1, true);
 
                 if (Main.netMode == NetmodeID.Server) 
@@ -97,7 +97,7 @@ namespace CalamityMod.Tiles.Crags
                 up.TileType = (ushort)ModContent.TileType<LavaPistil>();
                 up.HasTile = true;
                 up.TileFrameY = 0;
-                up.TileFrameX = (short)(WorldGen.genRand.Next(21) * 18);
+                up.TileFrameX = (short)(WorldGen.genRand.Next(8) * 18);
                 WorldGen.SquareTileFrame(i, j - 1, true);
 
                 if (Main.netMode == NetmodeID.Server)
