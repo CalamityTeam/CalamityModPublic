@@ -453,7 +453,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             // Phase 7 - 0, 1, 2
 
             // Predictiveness
-            float predictionAmt = 30f;
+            float predictionAmt = 20f;
             if (AIState == (float)Phase.LaserShotgun)
                 predictionAmt *= 1.5f;
             if (nerfedAttacks)
@@ -1090,12 +1090,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                             else
                             {
                                 // This first variable is used to adjust how long it takes for the rotation rate to reach max
-                                float rotationSpeedMult = bossRush ? 4f : death ? 3f : revenge ? 2.75f : expertMode ? 2.5f : 2f;
+                                float rotationSpeedMult = bossRush ? 6.66f : death ? 4f : revenge ? 3f : expertMode ? 2.5f : 2f;
 
                                 // This is used to adjust both the radians and the velocity of the spin moved per frame
-                                // At 25% progress it will be at max rotation in Boss Rush
-                                // At 33% progress it will be at max rotation in Death Mode
-                                // At 36% progress it will be at max rotation in Rev Mode
+                                // At 15% progress it will be at max rotation in Boss Rush
+                                // At 25% progress it will be at max rotation in Death Mode
+                                // At 33% progress it will be at max rotation in Rev Mode
                                 // At 40% progress it will be at max rotation in Expert Mode
                                 // At 50% progress it will be at max rotation in Normal Mode
                                 float rotationMult = (calamityGlobalNPC.newAI[2] - deathrayTelegraphDuration) / deathrayDuration * rotationSpeedMult;

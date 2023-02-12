@@ -1205,7 +1205,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         // Plasma bolts on charge
                         if (Main.netMode != NetmodeID.MultiplayerClient && !(CalamityWorld.getFixedBoi && !exoMechdusa)) // I'm not that evil
                         {
-                            int totalProjectiles = bossRush ? 12 : 8;
+                            int totalProjectiles = bossRush ? 16 : death ? 12 : 8;
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = ModContent.ProjectileType<AresPlasmaBolt>();
                             int damage = (int)(NPC.GetProjectileDamage(ModContent.ProjectileType<ApolloFireball>()) * 0.8);
