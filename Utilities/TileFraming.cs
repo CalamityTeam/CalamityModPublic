@@ -1264,7 +1264,7 @@ namespace CalamityMod
             // BRIMSTONE COMPATIBILITY IMPLEMENTATION
             // Moved the custom merge conditional tree to a separate procedure. This was done so that the returns could be left in place as they seem to be needed
             // This should leave the functionality unchanged (I hope) while allowing code to be run after this
-            CustomMergeConditionalTree(x, y, randomFrame, leftSim, rightSim, upSim, downSim, topLeftSim, topRightSim, bottomLeftSim, bottomRightSim, out mergedLeft, out mergedRight, out mergedUp, out mergedDown);
+            CustomMergeConditionalTree(x, y, randomFrame, leftSim, rightSim, upSim, downSim, topLeftSim, topRightSim, bottomLeftSim, bottomRightSim, ref mergedLeft, ref mergedRight, ref mergedUp, ref mergedDown);
 
             // BRIMSTONE COMPATIBILITY IMPLEMENTATION
             // Used when set to prioritize blend states over brimstone states.
@@ -1285,10 +1285,9 @@ namespace CalamityMod
         private static void CustomMergeConditionalTree(int x, int y, int randomFrame, 
             Similarity leftSim, Similarity rightSim, Similarity upSim, Similarity downSim, 
             Similarity topLeftSim, Similarity topRightSim, Similarity bottomLeftSim, Similarity bottomRightSim,
-            out bool mergedLeft, out bool mergedRight, out bool mergedUp, out bool mergedDown)
+            ref bool mergedLeft, ref bool mergedRight, ref bool mergedUp, ref bool mergedDown)
         {
             #region Custom Merge Conditional Tree
-            mergedLeft = mergedRight = mergedUp = mergedDown = false;
             if (leftSim == Similarity.None)
             {
                 if (upSim == Similarity.Same)
