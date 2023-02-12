@@ -29,7 +29,7 @@ namespace CalamityMod.Systems
         #region ModifyWorldGenTasks
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
-            // Evil Floating Island
+            //Evil Floating Island
             int islandIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Floating Island Houses"));
             if (islandIndex != -1)
             {
@@ -40,14 +40,14 @@ namespace CalamityMod.Systems
                 }));
             }
 
-            // Calamity's biome chests in the dungeon
+            //Calamity's biome chests in the dungeon
             int DungeonChestIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Dungeon"));
             if (DungeonChestIndex != -1)
             {
                 tasks.Insert(DungeonChestIndex + 1, new PassLegacy("CalamityDungeonBiomeChests", MiscWorldgenRoutines.GenerateBiomeChests));
             }
 
-            // Larger Jungle Temple
+            //Larger Jungle Temple
             int JungleTempleIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Temple"));
             tasks[JungleTempleIndex] = new PassLegacy("Jungle Temple", (progress, config) =>
             {
@@ -55,7 +55,7 @@ namespace CalamityMod.Systems
                 CustomTemple.NewJungleTemple();
             });
 
-            // Improved Golem arena
+            //Improved Golem arena
             int JungleTempleIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Temple"));
             tasks[JungleTempleIndex2] = new PassLegacy("Temple", (progress, config) =>
             {
@@ -66,7 +66,7 @@ namespace CalamityMod.Systems
                 Main.tileSolid[232] = false;
             });
 
-            // Better Lihzahrd altar (consistency?)
+            //Better Lihzahrd altar (consistency?)
             int LihzahrdAltarIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Lihzahrd Altars"));
             tasks[LihzahrdAltarIndex] = new PassLegacy("Lihzahrd Altars", (progress, config) =>
             {
@@ -74,7 +74,7 @@ namespace CalamityMod.Systems
                 CustomTemple.NewJungleTempleLihzahrdAltar();
             });
 
-            // Giant beehive
+            //Giant beehive
             int giantHiveIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Hives"));
             if (giantHiveIndex != -1)
             {
@@ -92,7 +92,18 @@ namespace CalamityMod.Systems
                 }));
             }
 
-            // Sunken sea
+            //Vernal pass
+            int vernalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Smooth World"));
+            if (vernalIndex != -1)
+            {
+                tasks.Insert(vernalIndex + 1, new PassLegacy("Vernal Pass", (progress, config) =>
+                {
+                    progress.Message = "Generating vernal pass"; //placeholder until something more fancy is made
+                    VernalPass.PlaceVernalPass(WorldGen.structures);
+                }));
+            }
+
+            //Sunken sea
             int SunkenSeaIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Settle Liquids Again"));
             if (SunkenSeaIndex != -1)
             {
@@ -107,11 +118,11 @@ namespace CalamityMod.Systems
                 }));
             }
 
-            // All further tasks occur after vanilla worldgen is completed
+            //All further tasks occur after vanilla worldgen is completed
             int FinalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
             if (FinalIndex != -1)
             {
-                // Reallocate gems so rarity corresponds to depth
+                //Reallocate gems so rarity corresponds to depth
                 int currentFinalIndex = FinalIndex;
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Gem Depth Adjustment", (progress, config) =>
                 {
@@ -119,17 +130,17 @@ namespace CalamityMod.Systems
                     MiscWorldgenRoutines.SmartGemGen();
                 }));
 
-                // Forsaken Archive structure in the Dungeon
+                //Forsaken Archive structure in the Dungeon
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Forsaken Archive", (progress, config) =>
                 {
                     progress.Message = "Entombing occult literature";
                     DungeonArchive.PlaceArchive();
                 }));
 
-                // Planetoids
+                //Planetoids
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Planetoids", Planetoid.GenerateAllBasePlanetoids));
 
-                // Sulphurous Sea (Step 1)
+                //Sulphurous Sea (Step 1)
                 int SulphurIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
                 if (SulphurIndex != -1)
                 {
@@ -140,14 +151,14 @@ namespace CalamityMod.Systems
                     }));
                 }
 
-                // Brimstone Crags
+                //Brimstone Crags
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Brimstone Crag", (progress, config) =>
                 {
                     progress.Message = "Incinerating Azafure";
                     BrimstoneCrag.GenAllCragsStuff();
                 }));
 
-                // Biome shrines
+                //Biome shrines
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Special Shrines", (progress, config) =>
                 {
                     progress.Message = "Hiding forbidden shrines";
@@ -192,7 +203,7 @@ namespace CalamityMod.Systems
                     AerialiteOreGen.Generate(false);
                 }));
 
-                // Draedon Labs
+                //Draedon Labs
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Draedon Structures", (progress, config) =>
                 {
                     progress.Message = "Rust and Dust";
@@ -240,21 +251,21 @@ namespace CalamityMod.Systems
                     }
                 }));
 
-                // Abyss
+                //Abyss
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Abyss", (progress, config) =>
                 {
                     progress.Message = "Disposing of Silva's remains";
                     Abyss.PlaceAbyss();
                 }));
 
-                // Sulphurous Sea (Part 2, after Abyss)
+                //Sulphurous Sea (Part 2, after Abyss)
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Sulphur Sea 2", (progress, config) =>
                 {
                     progress.Message = "Irradiating one of the oceans";
                     SulphurousSea.SulphurSeaGenerationAfterAbyss();
                 }));
 
-                // Roxcalibur
+                //Roxcalibur
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Roxcalibur", (progress, config) =>
                 {
                     progress.Message = "I wanna rock";
@@ -263,7 +274,7 @@ namespace CalamityMod.Systems
             }
         }
 
-        // An Astral Meteor always falls at the beginning of Hardmode.
+        //An Astral Meteor always falls at the beginning of Hardmode.
         public override void ModifyHardmodeTasks(List<GenPass> tasks)
         {
             int announceIndex = tasks.FindIndex(match => match.Name == "Hardmode Announcement");

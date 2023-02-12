@@ -62,7 +62,7 @@ namespace CalamityMod.Tiles.Ores
             {
                 return;
             }
-            if (closer && Main.rand.NextBool(300))
+            if (closer && Main.rand.NextBool(400))
             {
                 int tileLocationY = j + 1;
                 if (Main.tile[i, tileLocationY] != null)

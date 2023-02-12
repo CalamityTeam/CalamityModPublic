@@ -266,10 +266,6 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.Text = "Throws a mixture of slime and sparkling crystals"
                 + "\nSlimed enemies take more damage from fire-based debuffs");
 
-            // Add a tooltip about location of Shadow Chests
-            if (item.type == ItemID.ShadowKey)
-                EditTooltipByNum(0, (line) => line.Text += "\nShadow Chests can be found in the Abyss, Brimstone Crag and Underworld");
-
             // Flesh Knuckles giving extra max life.
             if (item.type == ItemID.FleshKnuckles || item.type == ItemID.HeroShield || item.type == ItemID.BerserkerGlove)
                 EditTooltipByNum(0, (line) => line.Text += "\nMax life increased by 45");

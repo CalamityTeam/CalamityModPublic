@@ -57,8 +57,8 @@ namespace CalamityMod.World
 
                     if (tile.LiquidType == LiquidID.Lava && tile.LiquidAmount > 0)
                     {
-                        tile.LiquidType = LiquidID.Water;
-                        tile.LiquidAmount = 255;
+                        tile.Get<LiquidData>().LiquidType = LiquidID.Water;
+                        tile.LiquidAmount = byte.MaxValue;
                     }
 
                     bool canConvert = tile.HasTile && tile.TileType < TileID.Count && tile.TileType != ModContent.TileType<SulphurousSandstone>();
@@ -471,16 +471,16 @@ namespace CalamityMod.World
                     {
                         case 0:
                             //1 island, to the left
-                            AbyssIsland(abyssChasmX - WorldGen.genRand.Next(65, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, true, false);
+                            AbyssIsland(abyssChasmX - WorldGen.genRand.Next(65, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, false, false);
                             break;
                         case 1:
                             //1 island, to the right
-                            AbyssIsland(abyssChasmX + WorldGen.genRand.Next(65, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, true, false);
+                            AbyssIsland(abyssChasmX + WorldGen.genRand.Next(65, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, false, false);
                             break;
                         case 2:
                             //2 islands, left and right
-                            AbyssIsland(abyssChasmX - WorldGen.genRand.Next(65, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, true, false);
-                            AbyssIsland(abyssChasmX + WorldGen.genRand.Next(65, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, true, false);
+                            AbyssIsland(abyssChasmX - WorldGen.genRand.Next(65, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, false, false);
+                            AbyssIsland(abyssChasmX + WorldGen.genRand.Next(65, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, false, false);
                             break;
                     }
 
@@ -529,8 +529,8 @@ namespace CalamityMod.World
                     if (!tile.HasTile && tile.WallType > 0)
                     {
                         //fill up any air pockets with water
-                        tile.LiquidType = LiquidID.Water;
-                        tile.LiquidAmount = 255;
+                        tile.Get<LiquidData>().LiquidType = LiquidID.Water;
+                        tile.LiquidAmount = byte.MaxValue;
                     }
 
                     //kill obsidian
@@ -555,9 +555,8 @@ namespace CalamityMod.World
                         //above the 4th layer
                         if (abyssIndex2 < (int)(rockLayer + y * 0.262) && WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1))
                         {
-                            //giant kelp, more often in upper layers
-                            if (WorldGen.genRand.NextBool(16) && tile.TileType == ModContent.TileType<AbyssGravel>() ||
-                            WorldGen.genRand.NextBool(25) && tile.TileType == ModContent.TileType<PyreMantle>())
+                            //giant kelp on abyss gravel
+                            if (WorldGen.genRand.NextBool(15) && tile.TileType == ModContent.TileType<AbyssGravel>())
                             {
                                 ushort[] Kelps = new ushort[] { (ushort)ModContent.TileType<AbyssGiantKelp1>(), (ushort)ModContent.TileType<AbyssGiantKelp2>(),
                                 (ushort)ModContent.TileType<AbyssGiantKelp3>(), (ushort)ModContent.TileType<AbyssGiantKelp4>() };
@@ -565,9 +564,8 @@ namespace CalamityMod.World
                                 WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Kelps));
                             }
 
-                            //thermal vents
-                            if (WorldGen.genRand.NextBool(72) && tile.TileType == ModContent.TileType<AbyssGravel>() ||
-                            WorldGen.genRand.NextBool(15) && tile.TileType == ModContent.TileType<PyreMantle>())
+                            //thermal vents on pyre mantle
+                            if (WorldGen.genRand.NextBool(15) && tile.TileType == ModContent.TileType<PyreMantle>())
                             {
                                 ushort[] Vents = new ushort[] { (ushort)ModContent.TileType<ThermalVent1>(),
                                 (ushort)ModContent.TileType<ThermalVent2>(), (ushort)ModContent.TileType<ThermalVent3>() };
@@ -822,7 +820,7 @@ namespace CalamityMod.World
                         //essentially places molten blocks if scoria is enabled
                         //if scoria is not enabled, then it places planty mush with a 1 in 5 chance, and otherwise place actual scoria
                         //very backwards logic of having scoria not place when enabled but it makes it place more often so whatever
-                        num16 = hasScoria ? ModContent.TileType<PyreMantleMolten>() : WorldGen.genRand.Next(5) == 0 ? ModContent.TileType<PlantyMush>() : ModContent.TileType<ScoriaOre>();
+                        num16 = hasScoria ? ModContent.TileType<PyreMantleMolten>() : WorldGen.genRand.Next(3) == 0 ? ModContent.TileType<PlantyMush>() : ModContent.TileType<ScoriaOre>();
                     }
                 }
 
@@ -839,7 +837,6 @@ namespace CalamityMod.World
                                 Main.tile[n, num17].Get<TileWallWireStateData>().HasTile = true;
 
                                 Main.tile[n, num17].TileType = (ushort)num16;
-
                                 CalamityUtils.SafeSquareTileFrame(n, num17, true);
                             }
                         }
@@ -917,6 +914,7 @@ namespace CalamityMod.World
                             }
                         }
                     }
+
                     num23 += WorldGen.genRand.Next(num25, (int)(num25 * 1.5));
                 }
             }
@@ -1001,7 +999,12 @@ namespace CalamityMod.World
             }
 
             //place the chest itself
-            WorldGen.AddBuriedChest(i, j - 1, itemChoice, false, 4);
+            //TODO: will create a proper loot pool to go in abyss chests along with the main item
+            int ChestIndex = WorldGen.PlaceChest(i, j - 2, (ushort)ModContent.TileType<Tiles.Abyss.AbyssTreasureChest>(), false, 1);
+            if (ChestIndex != -1)
+            {
+                Main.chest[ChestIndex].item[0].SetDefaults(itemChoice);
+            }
         }
     }
 }
