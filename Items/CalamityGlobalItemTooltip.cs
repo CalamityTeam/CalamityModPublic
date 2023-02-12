@@ -965,8 +965,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.SteampunkWings)
                 AddWingStats(7.5f, 1f, 1, 180, "+8 defense, 10% increased movement speed,\n" + "4% increased damage, and 2% increased critical strike chance");
 
+            // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
             if (item.type == ItemID.LeafWings)
-                AddWingStats(7.5f, 1f, 1, 160, "+5 defense, 5% increased damage reduction,\n" + "and permanent Dryad's Blessing while wearing the Tiki Armor");
+                AddWingStats(6.25f, 1f, 1, 100, "+5 defense, 5% increased damage reduction,\n" + "and permanent Dryad's Blessing while wearing the Tiki Armor");
+            // AddWingStats(7.5f, 1f, 1, 160, "+5 defense, 5% increased damage reduction,\n" + "and permanent Dryad's Blessing while wearing the Tiki Armor");
 
             if (item.type == ItemID.BatWings)
                 AddWingStats(7.5f, 1f, 1, 160, "At night or during an eclipse, you will gain the following boosts:\n" +
