@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Boss
                 target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
         }
 
-        public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;
+        public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 0) * Projectile.Opacity;
 
         public override bool PreDraw(ref Color lightColor)
         {
