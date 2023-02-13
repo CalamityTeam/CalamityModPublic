@@ -23,6 +23,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent.Generation;
 using Terraria.DataStructures;
 using Terraria.WorldBuilding;
+using System.Diagnostics;
 
 namespace CalamityMod.World
 {
@@ -605,21 +606,39 @@ namespace CalamityMod.World
                                     WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Ribs));
                                 }
                             }
+                            //PlantyMush
+                            if (tile.TileType == ModContent.TileType<PlantyMush>())
+                            {
+                                if (WorldGen.genRand.NextBool(8))
+                                {
+                                    ushort[] PlantPiles = new ushort[] { (ushort)ModContent.TileType<PlantyMushPile1>(),
+                                    (ushort)ModContent.TileType<PlantyMushPile2>(), (ushort)ModContent.TileType<PlantyMushPile3>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(PlantPiles));
+                                }
+                            }
 
                             //abyss gravel stuff
                             if (tile.TileType == ModContent.TileType<AbyssGravel>())
                             {
                                 //giant kelp on abyss gravel
-                                if (WorldGen.genRand.NextBool(15) )
+                                if (WorldGen.genRand.NextBool(15))
                                 {
                                     ushort[] Kelps = new ushort[] { (ushort)ModContent.TileType<AbyssGiantKelp1>(), (ushort)ModContent.TileType<AbyssGiantKelp2>(),
                                     (ushort)ModContent.TileType<AbyssGiantKelp3>(), (ushort)ModContent.TileType<AbyssGiantKelp4>() };
 
                                     WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Kelps));
                                 }
+                                if (WorldGen.genRand.NextBool(40))
+                                {
+                                    ushort[] PlantPiles = new ushort[] { (ushort)ModContent.TileType<PlantyMushPile1>(),
+                                    (ushort)ModContent.TileType<PlantyMushPile2>(), (ushort)ModContent.TileType<PlantyMushPile3>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(PlantPiles));
+                                }
 
                                 //gravel rock piles
-                                if (WorldGen.genRand.NextBool(12))
+                                if (WorldGen.genRand.NextBool(15))
                                 {
                                     ushort[] GravelPiles = new ushort[] { (ushort)ModContent.TileType<GravelPile1>(),
                                     (ushort)ModContent.TileType<GravelPile2>(), (ushort)ModContent.TileType<GravelPile3>() };
@@ -635,15 +654,38 @@ namespace CalamityMod.World
 
                                     WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Vents));
                                 }
+
+                                //pirate crates
+                                if (WorldGen.genRand.NextBool(17))
+                                {
+                                    ushort[] PirateCrate = new ushort[] { (ushort)ModContent.TileType<PirateCrate1>(),
+                                    (ushort)ModContent.TileType<PirateCrate2>(), (ushort)ModContent.TileType<PirateCrate3>(), (ushort)ModContent.TileType<PirateCrate4>(), (ushort)ModContent.TileType<PirateCrate5>(), (ushort)ModContent.TileType<PirateCrate6>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(PirateCrate));
+                                }
                             }
 
-                            //thermal vents on pyre mantle
-                            if (WorldGen.genRand.NextBool(15) && tile.TileType == ModContent.TileType<PyreMantle>())
+                            //prye mantle stuff
+                            if (tile.TileType == ModContent.TileType<PyreMantle>())
                             {
-                                ushort[] Vents = new ushort[] { (ushort)ModContent.TileType<ThermalVent1>(),
-                                (ushort)ModContent.TileType<ThermalVent2>(), (ushort)ModContent.TileType<ThermalVent3>() };
+                                //spider coral
+                                if (WorldGen.genRand.NextBool(12))
+                                {
+                                    ushort[] SpiderCorals = new ushort[] { (ushort)ModContent.TileType<SpiderCoral1>(),
+                                    (ushort)ModContent.TileType<SpiderCoral2>(), (ushort)ModContent.TileType<SpiderCoral3>(),
+                                    (ushort)ModContent.TileType<SpiderCoral4>(), (ushort)ModContent.TileType<SpiderCoral5>() };
 
-                                WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Vents));
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(SpiderCorals));
+                                }
+
+                                //thermal vent
+                                if (WorldGen.genRand.NextBool(15))
+                                {
+                                    ushort[] Vents = new ushort[] { (ushort)ModContent.TileType<ThermalVent1>(),
+                                    (ushort)ModContent.TileType<ThermalVent2>(), (ushort)ModContent.TileType<ThermalVent3>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Vents));
+                                }
                             }
 
                             //bulb trees on voidstone
@@ -677,6 +719,17 @@ namespace CalamityMod.World
                             {
                                 WorldGen.PlacePot(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<AbyssalPots>());
                                 CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
+                            }
+                        }
+                        //pirate crates
+                        if ((tile.TileType == ModContent.TileType<AbyssGravel>()) && abyssIndex2 > rockLayer)
+                        {
+                            if (WorldGen.genRand.NextBool(17))
+                            {
+                                ushort[] PirateCrate = new ushort[] { (ushort)ModContent.TileType<PirateCrate1>(),
+                                (ushort)ModContent.TileType<PirateCrate2>(), (ushort)ModContent.TileType<PirateCrate3>(), (ushort)ModContent.TileType<PirateCrate4>(), (ushort)ModContent.TileType<PirateCrate5>(), (ushort)ModContent.TileType<PirateCrate6>() };
+
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(PirateCrate));
                             }
                         }
 
@@ -1027,9 +1080,31 @@ namespace CalamityMod.World
             //place the chest itself
             //TODO: will create a proper loot pool to go in abyss chests along with the main item
             int ChestIndex = WorldGen.PlaceChest(i, j - 2, (ushort)ModContent.TileType<Tiles.Abyss.AbyssTreasureChest>(), false, 1);
+
+            int[] Potions1 = new int[] { ItemID.ShinePotion, ItemID.GillsPotion, ItemID.TeleportationPotion, ItemID.LuckPotionLesser };
+            int[] Potions2 = new int[] { ItemID.ThornsPotion, ItemID.FlipperPotion, ItemID.BattlePotion, ItemID.IronskinPotion };
+
             if (ChestIndex != -1)
             {
                 Main.chest[ChestIndex].item[0].SetDefaults(itemChoice);
+
+                Main.chest[ChestIndex].item[1].SetDefaults(WorldGen.genRand.Next(Potions1));
+                Main.chest[ChestIndex].item[1].stack = WorldGen.genRand.Next(1, 3);
+
+                Main.chest[ChestIndex].item[2].SetDefaults(WorldGen.genRand.Next(Potions2));
+                Main.chest[ChestIndex].item[2].stack = WorldGen.genRand.Next(1, 3);
+
+                Main.chest[ChestIndex].item[3].SetDefaults(ItemID.HealingPotion);
+                Main.chest[ChestIndex].item[3].stack = WorldGen.genRand.Next(1, 3);
+
+                Main.chest[ChestIndex].item[4].SetDefaults(ItemID.ManaPotion);
+                Main.chest[ChestIndex].item[4].stack = WorldGen.genRand.Next(2, 5);
+
+                Main.chest[ChestIndex].item[5].SetDefaults(ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssTorch>());
+                Main.chest[ChestIndex].item[5].stack = WorldGen.genRand.Next(3, 12);
+
+                Main.chest[ChestIndex].item[6].SetDefaults(ItemID.GoldCoin);
+                Main.chest[ChestIndex].item[6].stack = WorldGen.genRand.Next(2, 5);
             }
         }
 

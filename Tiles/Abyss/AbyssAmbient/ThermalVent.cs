@@ -47,8 +47,8 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 255f / 355f;
-            g = 83f / 355f;
+            r = 145f / 350f;
+            g = 75f / 350f;
             b = 0f;
         }
 

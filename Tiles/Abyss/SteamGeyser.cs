@@ -15,6 +15,7 @@ namespace CalamityMod.Tiles.Abyss
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
+            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();

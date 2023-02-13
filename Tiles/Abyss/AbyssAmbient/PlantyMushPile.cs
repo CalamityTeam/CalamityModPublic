@@ -9,7 +9,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 {
-    public class GravelPile1 : ModTile
+    public class PlantyMushPile1 : ModTile
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(17, 19, 38));
+            AddMapEntry(new Color(84, 102, 39));
             DustType = 33;
 
             base.SetStaticDefaults();
@@ -39,11 +39,11 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
         }
     }
 
-    public class GravelPile2 : GravelPile1
+    public class PlantyMushPile2 : PlantyMushPile1
     {
     }
     
-    public class GravelPile3 : GravelPile1
+    public class PlantyMushPile3 : PlantyMushPile1
     {
     }
 }
