@@ -11,35 +11,83 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 {
-    public class SpiderCoral : ModTile
+    public class SpiderCoral1 : ModTile
     {
         public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
-            Main.tileCut[Type] = true;
-            Main.tileSolid[Type] = false;
-            Main.tileNoAttach[Type] = true;
-            Main.tileNoFail[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            Main.tileWaterDeath[Type] = true;
             Main.tileFrameImportant[Type] = true;
-			TileID.Sets.ReplaceTileBreakUp[Type] = true;
-			TileID.Sets.SwaysInWindBasic[Type] = true;
-			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
+            Main.tileNoAttach[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(46, 103, 96));
-            DustType = DustID.Grass;
-            HitSound = SoundID.Grass;
+            AddMapEntry(new Color(82, 49, 27));
+            DustType = 32;
 
             base.SetStaticDefaults();
         }
 
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            offsetY = -32;
-            height = 32;
-            width = 32;
+            r = 190f / 400f;
+            g = 48f / 400f;
+            b = 30f / 400f;
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            Tile tile = Framing.GetTileSafely(i, j);
+			Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AbyssAmbient/SpiderCoral1Glow").Value;
+			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+
+			spriteBatch.Draw(tex, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
+        }
+    }
+
+    public class SpiderCoral2 : SpiderCoral1
+    {
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            Tile tile = Framing.GetTileSafely(i, j);
+			Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AbyssAmbient/SpiderCoral2Glow").Value;
+			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+
+			spriteBatch.Draw(tex, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
+        }
+    }
+
+    public class SpiderCoral3 : SpiderCoral1
+    {
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            Tile tile = Framing.GetTileSafely(i, j);
+			Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AbyssAmbient/SpiderCoral3Glow").Value;
+			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+
+			spriteBatch.Draw(tex, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
+        }
+    }
+
+    public class SpiderCoral4 : SpiderCoral1
+    {
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            Tile tile = Framing.GetTileSafely(i, j);
+			Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AbyssAmbient/SpiderCoral4Glow").Value;
+			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+
+			spriteBatch.Draw(tex, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
+        }
+    }
+
+    public class SpiderCoral5 : SpiderCoral1
+    {
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            Tile tile = Framing.GetTileSafely(i, j);
+			Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AbyssAmbient/SpiderCoral5Glow").Value;
+			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+
+			spriteBatch.Draw(tex, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
         }
     }
 }

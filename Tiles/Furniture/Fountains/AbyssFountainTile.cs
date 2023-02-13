@@ -12,6 +12,8 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 {
     public class AbyssFountainTile : ModTile
     {
+        int mode = 0;
+
         public override void SetStaticDefaults()
         {
             this.SetUpFountain();
@@ -22,7 +24,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
         public override void NearbyEffects(int i, int j, bool closer)
         {
             if (Main.tile[i, j].TileFrameX >= 36)
-                CalamityGlobalTile.SetActiveFountainColor(ModContent.Find<ModWaterStyle>("CalamityMod/AbyssWater").Slot);
+                CalamityGlobalTile.SetActiveFountainColor(ModContent.Find<ModWaterStyle>("CalamityMod/VoidWater").Slot);
         }
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;

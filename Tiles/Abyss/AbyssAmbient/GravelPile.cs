@@ -39,11 +39,11 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
         }
     }
 
-    public class GravelPile2 : ShalePile1
+    public class GravelPile2 : GravelPile1
     {
     }
     
-    public class GravelPile3 : ShalePile1
+    public class GravelPile3 : GravelPile1
     {
     }
 }

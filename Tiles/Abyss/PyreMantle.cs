@@ -31,8 +31,6 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(19, 20, 32));
         }
 
-        int animationFrameWidth = 288;
-
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 162, 0f, 0f, 1, new Color(128, 128, 128), 1f);

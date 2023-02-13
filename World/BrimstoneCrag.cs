@@ -458,7 +458,7 @@ namespace CalamityMod.World
 
         public static bool PlaceCragLily(int x, int y, int tileType)
         {
-            int minDistance = 5;
+            int minDistance = 3;
             int lilyNearby = 0;
 
             for (int i = x - minDistance; i < x + minDistance; i++)
@@ -474,13 +474,13 @@ namespace CalamityMod.World
                         }
                     }
                 }
+            }
 
-                for (int j = y - 10; j < y; j++)
+            for (int upChechY = y - 8; upChechY < y; upChechY++)
+            {
+                if (Main.tile[x, upChechY].HasTile)
                 {
-                    if (Main.tile[i, j].HasTile)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 

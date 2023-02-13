@@ -27,10 +27,16 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Abandoned Crate");
             AddMapEntry(new Color(97, 69, 52), name);
-            DustType = 22;
+            DustType = DustID.WoodFurniture;
             HitSound = MineSound;
 
             base.SetStaticDefaults();
+        }
+
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) 
+		{
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemID.GoldCoin, Main.rand.Next(1, 2));
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemID.SilverCoin, Main.rand.Next(45, 75));
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -46,12 +52,15 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
     public class PirateCrate3 : PirateCrate1
     {
     }
+
     public class PirateCrate4 : PirateCrate1
     {
     }
+
     public class PirateCrate5 : PirateCrate1
     {
     }
+
     public class PirateCrate6 : PirateCrate1
     {
     }
