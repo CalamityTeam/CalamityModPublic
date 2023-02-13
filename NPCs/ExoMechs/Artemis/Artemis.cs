@@ -843,7 +843,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                         int spread = bossRush ? 30 : death ? 26 : expertMode ? 21 : 15;
                                         float rotation = MathHelper.ToRadians(spread);
                                         float distanceFromTarget = Vector2.Distance(NPC.Center, NPC.Center + chargeVelocityNormalized * chargeDistance);
-                                        float setVelocityInAI = 7.5f;
+                                        float setVelocityInAI = 5f;
 
                                         for (int i = 0; i < numLasersPerSpread + 1; i++)
                                         {

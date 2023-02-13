@@ -349,8 +349,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             Player player = Main.player[NPC.target];
 
             // Variables
-            Vector2 vector = NPC.Center;
-            bool flies = NPC.ai[3] == 0f;
+            bool flyUpDuringLaserWalls = laserWallPhase == (int)LaserWallPhase.FireLaserWalls || (laserWallPhase == (int)LaserWallPhase.End && teleportTimer > 0);
+            bool flies = NPC.ai[3] == 0f || flyUpDuringLaserWalls;
+            Vector2 destination = flyUpDuringLaserWalls ? (player.Center - Vector2.UnitY * 480f) : player.Center;
             bool bossRush = BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || bossRush;
             bool revenge = CalamityWorld.revenge || bossRush;
@@ -396,7 +397,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (expertMode)
                 groundPhaseTurnSpeed += 0.1f * (1f - lifeRatio);
 
-            groundPhaseTurnSpeed += Vector2.Distance(player.Center, NPC.Center) * 0.0002f;
+            groundPhaseTurnSpeed += Vector2.Distance(destination, NPC.Center) * 0.0002f;
 
             if (Main.getGoodWorld)
             {
@@ -452,7 +453,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
             }
 
-            float distanceFromTarget = Vector2.Distance(player.Center, vector);
+            float distanceFromTarget = Vector2.Distance(destination, NPC.Center);
             bool increaseSpeed = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance200Tiles;
             bool increaseSpeedMore = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance350Tiles;
 
@@ -719,8 +720,9 @@ namespace CalamityMod.NPCs.DevourerofGods
                             float fireballSpeed = 8f;
                             Vector2 fireballVelocity = Vector2.Normalize(player.Center - NPC.Center) * fireballSpeed + NPC.velocity * 0.5f;
 
+                            Vector2 dustVelocity = fireballVelocity * 2f;
                             for (int k = 0; k < 50; k++)
-                                Dust.NewDust(NPC.Center, 50, 50, (int)CalamityDusts.PurpleCosmilite, fireballVelocity.X, fireballVelocity.Y, 0, default, 1f);
+                                Dust.NewDust(NPC.Center, 52, 52, (int)CalamityDusts.PurpleCosmilite, dustVelocity.X, dustVelocity.Y, 0, default, 1f);
 
                             int type = ModContent.ProjectileType<DoGFire>();
                             int damage = NPC.GetProjectileDamage(type);
@@ -928,7 +930,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     {
                         if (Main.netMode != NetmodeID.Server)
                         {
-                            if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < CalamityGlobalNPC.CatchUpDistance350Tiles)
+                            if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < CalamityGlobalNPC.CatchUpDistance350Tiles)
                             {
                                 if (Main.player[Main.myPlayer].wingTime < Main.player[Main.myPlayer].wingTimeMax)
                                     Main.player[Main.myPlayer].wingTime = Main.player[Main.myPlayer].wingTimeMax;
@@ -961,7 +963,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     {
                         if (Main.netMode != NetmodeID.Server)
                         {
-                            if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < CalamityGlobalNPC.CatchUpDistance350Tiles)
+                            if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < CalamityGlobalNPC.CatchUpDistance350Tiles)
                                 Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<Warped>(), 2);
                         }
 
@@ -990,11 +992,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                         float num188 = speed;
                         float num189 = turnSpeed;
                         Vector2 vector18 = NPC.Center;
-                        float num191 = player.Center.X;
-                        float num192 = player.Center.Y;
+                        float num191 = destination.X;
+                        float num192 = destination.Y;
                         int num42 = -1;
-                        int num43 = (int)(player.Center.X / 16f);
-                        int num44 = (int)(player.Center.Y / 16f);
+                        int num43 = (int)(destination.X / 16f);
+                        int num44 = (int)(destination.Y / 16f);
 
                         // Charge at target for 1.5 seconds
                         bool flyAtTarget = (!phase4 || spawnedGuardians3) && calamityGlobalNPC.newAI[2] > phaseLimit - 90 && revenge;
@@ -1013,7 +1015,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 break;
                         }
 
-                        if (!flyAtTarget)
+                        if (!flyAtTarget && destination == player.Center)
                         {
                             if (num42 > 0)
                             {
@@ -1022,12 +1024,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 if (player.position.Y > num47)
                                 {
                                     num192 = num47;
-                                    if (Math.Abs(NPC.Center.X - player.Center.X) < 500f)
+                                    if (Math.Abs(NPC.Center.X - destination.X) < 500f)
                                     {
                                         if (NPC.velocity.X > 0f)
-                                            num191 = player.Center.X + 600f;
+                                            num191 = destination.X + 600f;
                                         else
-                                            num191 = player.Center.X - 600f;
+                                            num191 = destination.X - 600f;
                                     }
                                 }
                             }
@@ -1038,8 +1040,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                             num189 = homingTurnSpeed;
                         }
 
-                        num188 += Vector2.Distance(player.Center, NPC.Center) * 0.005f;
-                        num189 += Vector2.Distance(player.Center, NPC.Center) * 0.00025f;
+                        num188 += Vector2.Distance(destination, NPC.Center) * 0.005f;
+                        num189 += Vector2.Distance(destination, NPC.Center) * 0.00025f;
 
                         float num48 = num188 * 1.3f;
                         float num49 = num188 * 0.7f;
@@ -1167,7 +1169,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     {
                         if (Main.netMode != NetmodeID.Server)
                         {
-                            if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < CalamityGlobalNPC.CatchUpDistance350Tiles)
+                            if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < CalamityGlobalNPC.CatchUpDistance350Tiles)
                                 Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<DoGExtremeGravity>(), 2);
                         }
 
@@ -1250,8 +1252,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                         float num189 = groundPhaseTurnSpeed;
                         Vector2 vector18 = NPC.Center;
-                        float num191 = player.Center.X;
-                        float num192 = player.Center.Y;
+                        float num191 = destination.X;
+                        float num192 = destination.Y;
                         num191 = (int)(num191 / 16f) * 16;
                         num192 = (int)(num192 / 16f) * 16;
                         vector18.X = (int)(vector18.X / 16f) * 16;
@@ -1705,7 +1707,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < CalamityGlobalNPC.CatchUpDistance350Tiles)
+                        if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < CalamityGlobalNPC.CatchUpDistance350Tiles)
                             Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<Warped>(), 2);
                     }
 
@@ -1726,8 +1728,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                     float num191 = player.position.X + (player.width / 2);
                     float num192 = player.position.Y + (player.height / 2);
                     int num42 = -1;
-                    int num43 = (int)(player.Center.X / 16f);
-                    int num44 = (int)(player.Center.Y / 16f);
+                    int num43 = (int)(destination.X / 16f);
+                    int num44 = (int)(destination.Y / 16f);
 
                     for (int num45 = num43 - 2; num45 <= num43 + 2; num45++)
                     {
@@ -1750,12 +1752,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                         if (player.position.Y > num47)
                         {
                             num192 = num47;
-                            if (Math.Abs(NPC.Center.X - player.Center.X) < 500f)
+                            if (Math.Abs(NPC.Center.X - destination.X) < 500f)
                             {
                                 if (NPC.velocity.X > 0f)
-                                    num191 = player.Center.X + 600f;
+                                    num191 = destination.X + 600f;
                                 else
-                                    num191 = player.Center.X - 600f;
+                                    num191 = destination.X - 600f;
                             }
                         }
                     }
@@ -1897,7 +1899,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < CalamityGlobalNPC.CatchUpDistance350Tiles)
+                        if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < CalamityGlobalNPC.CatchUpDistance350Tiles)
                             Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<DoGExtremeGravity>(), 2);
                     }
 
@@ -1968,8 +1970,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                     float num189 = groundPhaseTurnSpeed;
                     Vector2 vector18 = NPC.Center;
-                    float num191 = player.Center.X;
-                    float num192 = player.Center.Y;
+                    float num191 = destination.X;
+                    float num192 = destination.Y;
                     num191 = (int)(num191 / 16f) * 16;
                     num192 = (int)(num192 / 16f) * 16;
                     vector18.X = (int)(vector18.X / 16f) * 16;
@@ -2204,7 +2206,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             postTeleportTimer = (int)Math.Round(maxChargeDistance / chargeVelocity);
             AwaitingPhase2Teleport = false;
             NPC.Opacity = 1f - (postTeleportTimer / 255f);
-            NPC.velocity = Vector2.Normalize(player.Center + player.velocity * 40f - NPC.Center) * chargeVelocity;
+            // Prediction is commented out for now because it's weird without the line telegraph that Shayy spoke about
+            // Vector2 predictionVector = player.velocity * 40f;
+            NPC.velocity = Vector2.Normalize(player.Center /*+ predictionVector*/ - NPC.Center) * chargeVelocity;
             NPC.netUpdate = true;
 
             for (int i = 0; i < Main.maxNPCs; i++)

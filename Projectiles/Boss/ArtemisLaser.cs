@@ -115,7 +115,8 @@ namespace CalamityMod.Projectiles.Boss
                 // Accelerate to max velocity.
                 if (Projectile.velocity.Length() < LaserVelocity)
                 {
-                    Projectile.velocity *= 1.0125f;
+                    float acceleration = 1f + LaserVelocity * 0.0016667f;
+                    Projectile.velocity *= acceleration;
                     if (Projectile.velocity.Length() > LaserVelocity)
                     {
                         Projectile.velocity.Normalize();
