@@ -606,6 +606,17 @@ namespace CalamityMod.World
                                     WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Ribs));
                                 }
                             }
+                            //PlantyMush
+                            if (tile.TileType == ModContent.TileType<PlantyMush>())
+                            {
+                                if (WorldGen.genRand.NextBool(8))
+                                {
+                                    ushort[] PlantPiles = new ushort[] { (ushort)ModContent.TileType<PlantyMushPile1>(),
+                                    (ushort)ModContent.TileType<PlantyMushPile2>(), (ushort)ModContent.TileType<PlantyMushPile3>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(PlantPiles));
+                                }
+                            }
 
                             //abyss gravel stuff
                             if (tile.TileType == ModContent.TileType<AbyssGravel>())
@@ -617,6 +628,13 @@ namespace CalamityMod.World
                                     (ushort)ModContent.TileType<AbyssGiantKelp3>(), (ushort)ModContent.TileType<AbyssGiantKelp4>() };
 
                                     WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Kelps));
+                                }
+                                if (WorldGen.genRand.NextBool(40))
+                                {
+                                    ushort[] PlantPiles = new ushort[] { (ushort)ModContent.TileType<PlantyMushPile1>(),
+                                    (ushort)ModContent.TileType<PlantyMushPile2>(), (ushort)ModContent.TileType<PlantyMushPile3>() };
+
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(PlantPiles));
                                 }
 
                                 //gravel rock piles
