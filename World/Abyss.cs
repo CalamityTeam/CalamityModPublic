@@ -23,6 +23,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent.Generation;
 using Terraria.DataStructures;
 using Terraria.WorldBuilding;
+using System.Diagnostics;
 
 namespace CalamityMod.World
 {
@@ -619,7 +620,7 @@ namespace CalamityMod.World
                                 }
 
                                 //gravel rock piles
-                                if (WorldGen.genRand.NextBool(12))
+                                if (WorldGen.genRand.NextBool(15))
                                 {
                                     ushort[] GravelPiles = new ushort[] { (ushort)ModContent.TileType<GravelPile1>(),
                                     (ushort)ModContent.TileType<GravelPile2>(), (ushort)ModContent.TileType<GravelPile3>() };
@@ -677,6 +678,17 @@ namespace CalamityMod.World
                             {
                                 WorldGen.PlacePot(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<AbyssalPots>());
                                 CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
+                            }
+                        }
+                        //pirate crates
+                        if ((tile.TileType == ModContent.TileType<AbyssGravel>()) && abyssIndex2 > rockLayer)
+                        {
+                            if (WorldGen.genRand.NextBool(17))
+                            {
+                                ushort[] PirateCrate = new ushort[] { (ushort)ModContent.TileType<PirateCrate1>(),
+                                (ushort)ModContent.TileType<PirateCrate2>(), (ushort)ModContent.TileType<PirateCrate3>(), (ushort)ModContent.TileType<PirateCrate4>(), (ushort)ModContent.TileType<PirateCrate5>(), (ushort)ModContent.TileType<PirateCrate6>() };
+
+                                WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(PirateCrate));
                             }
                         }
 
