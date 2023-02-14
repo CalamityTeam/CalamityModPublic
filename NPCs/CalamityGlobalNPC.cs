@@ -5845,11 +5845,11 @@ namespace CalamityMod.NPCs
                 if (lifeRatio < 0.1f)
                     flickerPower += 0.1f;
                 float opacity = 1f;
-                opacity *= MathHelper.Lerp(MathHelper.Max(1f - flickerPower, 0.56f), 1f, (float)Math.Pow(Math.Cos(Main.GlobalTimeWrappedHourly * MathHelper.Lerp(3f, 5f, flickerPower)) * 0.5 + 0.5, 4D));
+                opacity *= MathHelper.Lerp(MathHelper.Max(1f - flickerPower, 0.56f), 1f, (float)Math.Pow(Math.Cos(Main.GlobalTimeWrappedHourly * MathHelper.Lerp(3f, 5f, flickerPower)) * 0.5 + 0.5, 24D));
 
                 // Dampen the opacity and intensity slightly, to allow Cultist to be more easily visible inside of the forcefield.
                 // Dampen the opacity and intensity a bit more for the Clones.
-                float intensityAndOpacityMult = npc.type == NPCID.CultistBossClone ? 0.85f : 1f;
+                float intensityAndOpacityMult = npc.type == NPCID.CultistBossClone ? 0.75f : 1f;
                 intensity *= intensityAndOpacityMult;
                 opacity *= intensityAndOpacityMult;
 
