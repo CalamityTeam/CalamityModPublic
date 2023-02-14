@@ -136,6 +136,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         private const int TimeBeforeTeleport_Normal = 180;
         private bool spawnedGuardians3 = false;
         private const float alphaGateValue = 669f;
+        public const float SkyColorTransitionTime = 90f;
 
         // Death animation variables
         public bool Dying;
@@ -246,6 +247,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             // Phase 2 syncs
             writer.Write(NPC.localAI[2]);
+            writer.Write(NPC.localAI[3]);
             writer.Write(shotSpacing_Phase2[0]);
             writer.Write(shotSpacing_Phase2[1]);
             writer.Write(shotSpacing_Phase2[2]);
@@ -301,6 +303,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             // Phase 2 syncs
             NPC.localAI[2] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
             shotSpacing_Phase2[0] = reader.ReadInt32();
             shotSpacing_Phase2[1] = reader.ReadInt32();
             shotSpacing_Phase2[2] = reader.ReadInt32();
@@ -370,6 +373,21 @@ namespace CalamityMod.NPCs.DevourerofGods
             bool phase5 = lifeRatio < 0.4f;
             bool phase6 = lifeRatio < 0.2f;
             bool phase7 = lifeRatio < 0.15f;
+
+            // Black sky timer
+            if (!death)
+            {
+                if (phase7)
+                {
+                    if (NPC.localAI[3] < SkyColorTransitionTime)
+                        NPC.localAI[3] += 1f;
+                }
+                else if (summonSentinels)
+                {
+                    if (NPC.localAI[3] > 0f)
+                        NPC.localAI[3] -= 1f;
+                }
+            }
 
             // Sound pitch
             extrapitch = CalamityWorld.getFixedBoi ? 0.3f : 0f;
@@ -1427,6 +1445,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                 // Spawn Guardians
                 if (phase3)
                 {
+                    if (!death)
+                    {
+                        if (NPC.localAI[3] < SkyColorTransitionTime)
+                            NPC.localAI[3] += 1f;
+                    }
+
                     if (!spawnedGuardians)
                     {
                         if (revenge)

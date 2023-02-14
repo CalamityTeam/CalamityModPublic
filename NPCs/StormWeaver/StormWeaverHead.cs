@@ -440,7 +440,22 @@ namespace CalamityMod.NPCs.StormWeaver
 
                         // Dictates whether Storm Weaver will use frost or tornadoes
                         if (phase4)
+                        {
+                            // Lightning strike
+                            if (!Main.DisableIntenseVisualEffects)
+                            {
+                                if (Main.netMode != NetmodeID.Server)
+                                {
+                                    if (lightningSpeed == 0f)
+                                    {
+                                        lightningDecay = Main.rand.NextFloat() * 0.05f + 0.008f;
+                                        lightningSpeed = Main.rand.NextFloat() * 0.05f + 0.05f;
+                                    }
+                                }
+                            }
+
                             calamityGlobalNPC.newAI[3] += 1f;
+                        }
 
                         // Play a sound on the player getting frost waves rained on them, as a telegraph
                         SoundEngine.PlaySound(SoundID.Item120, Main.player[NPC.target].Center);
@@ -774,6 +789,10 @@ namespace CalamityMod.NPCs.StormWeaver
                     else if (lightning > 0f)
                         lightning -= lightningDecay;
                 }
+
+                // Thunder sound
+                if (lightning == 1f)
+                    SoundEngine.PlaySound(SoundID.Thunder, NPC.Center);
 
                 // Start a storm when in third phase. Don't do this during Boss Rush
                 if (Main.netMode == NetmodeID.MultiplayerClient || (Main.netMode == NetmodeID.SinglePlayer && Main.gameMenu) || calamityGlobalNPC.newAI[1] > 0f || bossRush)
