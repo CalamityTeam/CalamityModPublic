@@ -13,7 +13,7 @@ namespace CalamityMod.BiomeManagers
             {
                 if (CalamityPlayer.areThereAnyDamnBosses)
                     return Main.curMusic;
-                return CalamityMod.Instance.GetMusicFromMusicMod("Abyss2") ?? MusicID.Hell;
+                return CalamityMod.Instance.GetMusicFromMusicMod("DeepAbyss") ?? MusicID.Hell;
             }
         }
 

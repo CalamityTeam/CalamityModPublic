@@ -1,11 +1,11 @@
-using CalamityMod.NPCs.Perforator;
+﻿using CalamityMod.NPCs.Perforator;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Systems
 {
-    public class PerforatorMusicScene : BaseMusicSceneEffect
+    public class PerforatorsMusicScene : BaseMusicSceneEffect
     {
         public override SceneEffectPriority Priority => SceneEffectPriority.BossMedium;
 

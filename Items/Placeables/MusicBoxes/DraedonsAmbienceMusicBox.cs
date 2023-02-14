@@ -1,5 +1,4 @@
-using CalamityMod.Tiles.MusicBoxes;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 
@@ -11,6 +10,7 @@ namespace CalamityMod.Items.Placeables.MusicBoxes
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Music Box (Draedon's Ambience)");
+            Tooltip.SetDefault("Plays high tech ambience by PinpinNeon");
         }
 
         public override void SetDefaults()
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Placeables.MusicBoxes
             Item.useTime = 10;
             Item.autoReuse = true;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<DraedonsAmbienceMusicBoxTile>();
+            Item.createTile = ModContent.TileType<Tiles.MusicBoxes.DraedonsAmbienceMusicBox>();
             Item.width = 24;
             Item.height = 24;
             Item.rare = ItemRarityID.LightRed;

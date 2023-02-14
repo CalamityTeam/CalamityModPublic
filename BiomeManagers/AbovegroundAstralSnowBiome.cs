@@ -12,7 +12,7 @@ namespace CalamityMod.BiomeManagers
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
         public override string MapBackground => "CalamityMod/Backgrounds/MapBackgrounds/AstralBG";
 
-        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("Astral") ?? MusicID.Space;
+        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("AstralInfection") ?? MusicID.Space;
 
         public override void SetStaticDefaults()
         {
