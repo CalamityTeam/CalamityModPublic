@@ -207,7 +207,6 @@ namespace CalamityMod.World
             ClearAloneTiles();
             var scrapPilePositions = PlaceScrapPiles();
             GenerateColumnsInCaverns();
-            GenerateSteamGeysersInCaverns();
             GenerateHardenedSandstone();
             PlaceAmbience();
             GenerateChests(scrapPilePositions);
@@ -890,49 +889,6 @@ namespace CalamityMod.World
             }
         }
 
-        public static void GenerateSteamGeysersInCaverns()
-        {
-            int geyserCount = GeyserCount;
-            int width = BiomeWidth;
-            int depth = BlockDepth;
-            ushort geyserID = (ushort)ModContent.TileType<SteamGeyser>();
-
-            for (int g = 0; g < geyserCount; g++)
-            {
-                int x = GetActualX(WorldGen.genRand.Next(20, width - 32));
-                int y = WorldGen.genRand.Next(YStart + depth / 2, YStart + depth - 42);
-
-                bool tryAgain = false;
-
-                // Try again if inside a tile.
-                for (int dx = 0; dx < 2; dx++)
-                {
-                    for (int dy = 0; dy < 2; dy++)
-                    {
-                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x + dx, y - dy);
-                        if (tile.HasTile)
-                            tryAgain = true;
-                    }
-                }
-
-                // Try again if there is no ground.
-                for (int dx = 0; dx < 2; dx++)
-                {
-                    Tile tile = CalamityUtils.ParanoidTileRetrieval(x + dx, y + 1);
-                    if (!WorldGen.SolidTile(tile))
-                        tryAgain = true;
-                }
-
-                if (tryAgain)
-                {
-                    g--;
-                    continue;
-                }
-
-                WorldGen.PlacePot(x, y, geyserID);
-            }
-        }
-
         public static void GenerateHardenedSandstone()
         {
             int sandstoneSeed = WorldGen.genRand.Next();
@@ -1016,6 +972,14 @@ namespace CalamityMod.World
                         //stalagmites, fossiles, and ribs
                         if (tileUp.LiquidType == LiquidID.Water && tileUp.LiquidAmount > 0 && !tileUp.HasTile)
                         {
+                            if (WorldGen.genRand.NextBool(18))
+                            {
+                                ushort[] Vents = new ushort[] { (ushort)ModContent.TileType<SteamGeyser1>(),
+                                (ushort)ModContent.TileType<SteamGeyser2>(), (ushort)ModContent.TileType<SteamGeyser3>() };
+
+                                WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Vents));
+                            }
+
                             if (WorldGen.genRand.NextBool(12))
                             {
                                 ushort[] Stalagmites = new ushort[] { (ushort)ModContent.TileType<SulphurousStalacmite1>(),

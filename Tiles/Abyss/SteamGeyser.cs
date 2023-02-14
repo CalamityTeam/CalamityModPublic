@@ -9,8 +9,11 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Abyss
 {
-    public class SteamGeyser : ModTile
+    [LegacyName("SteamGeyser")]
+    public class SteamGeyser1 : ModTile
     {
+        int steamTimer = 0;
+
         public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
@@ -32,18 +35,48 @@ namespace CalamityMod.Tiles.Abyss
         {
             num = fail ? 1 : 2;
         }
+
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        {
+            Tile t = CalamityUtils.ParanoidTileRetrieval(i, j);
+            Vector2 spawnPosition = new(i * 16f + 24f, j * 16f - 4f);
+
+            if (!Main.gamePaused && t.TileFrameX % 36 == 0 && t.TileFrameY % 36 == 0 && Collision.CanHitLine(spawnPosition, 1, 1, spawnPosition - Vector2.UnitY * 100f, 1, 1))
+            {
+                steamTimer += Main.rand.Next(0, 2);
+
+                if (steamTimer >= 240)
+                {
+                    steamTimer = 0;
+                }
+            }
+        }
+
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Tile t = CalamityUtils.ParanoidTileRetrieval(i, j);
-
             Vector2 spawnPosition = new(i * 16f + 24f, j * 16f - 4f);
-            if (!Main.gamePaused && t.TileFrameX % 36 == 0 && t.TileFrameY % 36 == 0 && Collision.CanHitLine(spawnPosition, 1, 1, spawnPosition - Vector2.UnitY * 100f, 1, 1) && Main.rand.NextBool(5))
+            
+            if (!Main.gamePaused && t.TileFrameX % 36 == 0 && t.TileFrameY % 36 == 0 && Collision.CanHitLine(spawnPosition, 1, 1, spawnPosition - Vector2.UnitY * 100f, 1, 1))
             {
                 float positionInterpolant = (i + j) * 0.041f % 1f;
                 Vector2 smokeVelocity = -Vector2.UnitY.RotatedByRandom(0.11f) * MathHelper.Lerp(4.8f, 8.1f, positionInterpolant);
                 smokeVelocity.X += (float)Math.Cos(MathHelper.TwoPi * positionInterpolant) * 1.1f;
-                Projectile.NewProjectile(new EntitySource_WorldEvent(), spawnPosition, smokeVelocity, ModContent.ProjectileType<HotSteam>(), Main.expertMode ? 12 : 15, 0f);
+                smokeVelocity.Y -= Main.rand.Next(3, 6);
+
+                if (steamTimer >= 180 && Main.rand.NextBool(3))
+                {
+                    Projectile.NewProjectile(new EntitySource_WorldEvent(), spawnPosition, smokeVelocity, ModContent.ProjectileType<HotSteam>(), Main.expertMode ? 65 : 45, 0f);
+                }
             }
         }
+    }
+
+    public class SteamGeyser2 : SteamGeyser1
+    {
+    }
+
+    public class SteamGeyser3 : SteamGeyser1
+    {
     }
 }
