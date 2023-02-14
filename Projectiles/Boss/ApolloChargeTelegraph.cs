@@ -42,7 +42,9 @@ namespace CalamityMod.Projectiles.Boss
             bool revenge = CalamityWorld.revenge || bossRush;
             bool expertMode = Main.expertMode || bossRush;
 
-            Projectile.timeLeft = bossRush ? 60 : death ? 80 : revenge ? 90 : expertMode ? 100 : 120;
+            Projectile.timeLeft = bossRush ? 45 : death ? 60 : revenge ? 68 : expertMode ? 75 : 90;
+            if (Main.getGoodWorld)
+                Projectile.timeLeft /= 2;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -82,7 +84,10 @@ namespace CalamityMod.Projectiles.Boss
             bool expertMode = Main.expertMode || bossRush;
 
             // Determine opacity
-            float telegraphTotalTime = bossRush ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
+            float telegraphTotalTime = bossRush ? 45f : death ? 60f : revenge ? 68f : expertMode ? 75f : 90f;
+            if (Main.getGoodWorld)
+                telegraphTotalTime *= 0.5f;
+
             Projectile.Opacity = Utils.GetLerpValue(0f, 6f, Projectile.timeLeft, true) * Utils.GetLerpValue(telegraphTotalTime, telegraphTotalTime - 6f, Projectile.timeLeft, true);
         }
 

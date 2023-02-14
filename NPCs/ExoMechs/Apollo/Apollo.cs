@@ -417,7 +417,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             float berserkAttackTime = lastMechAlive ? 225f - reducedTimeForGateValue_Berserk : 270f - reducedTimeForGateValue_Berserk;
             float attackPhaseGateValue = shouldGetBuffedByBerserkPhase ? berserkAttackTime : normalAttackTime;
             float timeToLineUpAttack = 30f;
-            float timeToLineUpCharge = bossRush ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
+            float timeToLineUpCharge = bossRush ? 45f : death ? 60f : revenge ? 68f : expertMode ? 75f : 90f;
 
             if (Main.getGoodWorld)
             {

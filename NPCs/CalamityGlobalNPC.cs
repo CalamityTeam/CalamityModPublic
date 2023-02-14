@@ -5845,12 +5845,11 @@ namespace CalamityMod.NPCs
                 if (lifeRatio < 0.1f)
                     flickerPower += 0.1f;
                 float opacity = 1f;
-
-                opacity *= MathHelper.Lerp(1f, MathHelper.Max(1f - flickerPower, 0.56f), (float)Math.Pow(Math.Cos(Main.GlobalTimeWrappedHourly * MathHelper.Lerp(3f, 5f, flickerPower)) * 0.5 + 0.5, 24D));
+                opacity *= MathHelper.Lerp(MathHelper.Max(1f - flickerPower, 0.56f), 1f, (float)Math.Pow(Math.Cos(Main.GlobalTimeWrappedHourly * MathHelper.Lerp(3f, 5f, flickerPower)) * 0.5 + 0.5, 4D));
 
                 // Dampen the opacity and intensity slightly, to allow Cultist to be more easily visible inside of the forcefield.
                 // Dampen the opacity and intensity a bit more for the Clones.
-                float intensityAndOpacityMult = npc.type == NPCID.CultistBossClone ? 0.75f : 1f;
+                float intensityAndOpacityMult = npc.type == NPCID.CultistBossClone ? 0.85f : 1f;
                 intensity *= intensityAndOpacityMult;
                 opacity *= intensityAndOpacityMult;
 
@@ -5858,7 +5857,7 @@ namespace CalamityMod.NPCs
                 GameShaders.Misc["CalamityMod:SupremeShield"].UseImage1("Images/Misc/Perlin");
 
                 Color forcefieldColor = Color.Goldenrod;
-                Color secondaryForcefieldColor = Color.Lerp(Color.Gold, Color.Cyan, lifeRatio);
+                Color secondaryForcefieldColor = Color.Lerp(Color.Cyan, Color.Gold, (float)Math.Pow((double)(1f - lifeRatio), 4D));
 
                 forcefieldColor *= opacity;
                 secondaryForcefieldColor *= opacity;
