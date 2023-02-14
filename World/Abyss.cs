@@ -612,7 +612,7 @@ namespace CalamityMod.World
                             //planty mush stuff
                             if (tile.TileType == ModContent.TileType<PlantyMush>())
                             {
-                                if (WorldGen.genRand.NextBool(8))
+                                if (WorldGen.genRand.NextBool(2))
                                 {
                                     ushort[] PlantPiles = new ushort[] { (ushort)ModContent.TileType<PlantyMushPile1>(),
                                     (ushort)ModContent.TileType<PlantyMushPile2>(), (ushort)ModContent.TileType<PlantyMushPile3>() };
@@ -631,16 +631,6 @@ namespace CalamityMod.World
                                     (ushort)ModContent.TileType<AbyssGiantKelp3>(), (ushort)ModContent.TileType<AbyssGiantKelp4>() };
 
                                     WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Kelps));
-                                }
-
-                                //planty mush piles
-                                //place these very often since planty mush spawns in somewhat small clusters
-                                if (WorldGen.genRand.NextBool(5))
-                                {
-                                    ushort[] PlantPiles = new ushort[] { (ushort)ModContent.TileType<PlantyMushPile1>(),
-                                    (ushort)ModContent.TileType<PlantyMushPile2>(), (ushort)ModContent.TileType<PlantyMushPile3>() };
-
-                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(PlantPiles));
                                 }
 
                                 //gravel rock piles
