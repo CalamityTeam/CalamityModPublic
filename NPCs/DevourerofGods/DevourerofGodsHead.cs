@@ -680,8 +680,13 @@ namespace CalamityMod.NPCs.DevourerofGods
                         }
                         else if (laserWallPhase == (int)LaserWallPhase.End)
                         {
-                            // End laser wall phase after 4.25 seconds
-                            NPC.Opacity += 0.004f;
+                            // End laser wall phase after 4.1667 seconds
+                            float totalTimeBeforeFullOpacity = 250f;
+                            float timeBeforeTeleportHappens = death ? TimeBeforeTeleport_Death : CalamityWorld.revenge ? TimeBeforeTeleport_Revengeance : Main.expertMode ? TimeBeforeTeleport_Expert : TimeBeforeTeleport_Normal;
+                            float opacityIncrement = 1f / (totalTimeBeforeFullOpacity - timeBeforeTeleportHappens);
+                            if (teleportTimer == 0)
+                                NPC.Opacity += opacityIncrement;
+
                             if (NPC.Opacity >= 1f)
                             {
                                 NPC.Opacity = 1f;
