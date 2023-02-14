@@ -30,7 +30,13 @@ namespace CalamityMod.Tiles.Abyss
             MineResist = 1f;
             HitSound = MineSound;
         }
+        
         int animationFrameWidth = 288;
+
+        public override bool CanExplode(int i, int j)
+        {
+            return false;
+        }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
@@ -48,6 +54,7 @@ namespace CalamityMod.Tiles.Abyss
                 }
             }
         }
+        
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             int uniqueAnimationFrameX = 0;

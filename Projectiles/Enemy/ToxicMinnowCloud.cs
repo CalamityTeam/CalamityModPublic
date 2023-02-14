@@ -24,11 +24,12 @@ namespace CalamityMod.Projectiles.Enemy
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 600;
+            Projectile.alpha = 120;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, 0.3f * Projectile.Opacity, 1.2f * Projectile.Opacity, 0f);
+            Lighting.AddLight(Projectile.Center, 0.1f * Projectile.Opacity, 1f * Projectile.Opacity, 0f);
 
             if (Main.rand.NextBool(2))
                 Projectile.velocity *= 0.95f;
@@ -95,8 +96,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (Projectile.Opacity >= 0.9f)
-                target.AddBuff(BuffID.Poisoned, 240);
+            target.AddBuff(BuffID.Poisoned, 240);
         }
     }
 }

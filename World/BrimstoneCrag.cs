@@ -329,9 +329,34 @@ namespace CalamityMod.World
                     }
                 }
             }
+
+            for (int x = biomeStart; x <= biomeEdge; x++)
+            {
+                for (int y = Main.maxTilesY - 200; y <= Main.maxTilesY - 5; y++)
+                {
+                    Tile tile = Main.tile[x, y];
+                    Tile tileUp = Main.tile[x, y - 1];
+                    Tile tileDown = Main.tile[x, y + 1];
+                    Tile tileLeft = Main.tile[x - 1, y];
+                    Tile tileRight = Main.tile[x + 1, y];
+
+                    if (tile.TileType == ModContent.TileType<BrimstoneSlag>() || tile.TileType == ModContent.TileType<ScorchedRemains>() || 
+                    tile.TileType == ModContent.TileType<ScorchedRemainsGrass>())
+                    {
+                        //slope tiles
+                        Tile.SmoothSlope(x, y, true);
+
+                        //kill any individual floating tiles
+                        if (!tileUp.HasTile && !tileDown.HasTile && !tileLeft.HasTile && !tileRight.HasTile)
+                        {
+                            WorldGen.KillTile(x, y);
+                        }
+                    }
+                }
+            }
         }
 
-        //place ambient objects and other stuff
+        //place ambient objects
         private static void GenCragsAmbience()
         {
             int biomeStart = StartX;
@@ -343,8 +368,6 @@ namespace CalamityMod.World
                 for (int y = Main.maxTilesY - 200; y <= Main.maxTilesY - 5; y++)
                 {
                     Tile tile = Main.tile[x, y];
-
-                    Tile.SmoothSlope(x, y, true);
 
                     //stalactites and stalagmites
                     if (tile.TileType == ModContent.TileType<BrimstoneSlag>())
@@ -458,7 +481,7 @@ namespace CalamityMod.World
 
         public static bool PlaceCragLily(int x, int y, int tileType)
         {
-            int minDistance = 3;
+            int minDistance = 10;
             int lilyNearby = 0;
 
             for (int i = x - minDistance; i < x + minDistance; i++)
@@ -476,7 +499,7 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int upChechY = y - 8; upChechY < y; upChechY++)
+            for (int upChechY = y - 10; upChechY < y; upChechY++)
             {
                 if (Main.tile[x, upChechY].HasTile)
                 {
