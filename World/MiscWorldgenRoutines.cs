@@ -249,8 +249,8 @@ namespace CalamityMod.World
             {
                 if (num > 0f)
                 {
-                    num3 += WorldGen.genRand.Next(15);
-                    num3 -= WorldGen.genRand.Next(15);
+                    num3 += WorldGen.genRand.Next(10);
+                    num3 -= WorldGen.genRand.Next(10);
                     float smallHoleLimit = 790f; //small
                     
                     if (Main.maxTilesY > 1500)
