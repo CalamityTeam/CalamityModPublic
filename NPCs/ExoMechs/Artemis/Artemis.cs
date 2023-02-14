@@ -452,15 +452,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             // Berserk, final phase of Artemis and Apollo
             // Phase 7 - 0, 1, 2
 
-            // Predictiveness
-            float predictionAmt = 20f;
-            if (AIState == (float)Phase.LaserShotgun)
-                predictionAmt *= 1.5f;
-            if (nerfedAttacks)
-                predictionAmt *= 0.5f;
-            if (SecondaryAIState == (float)SecondaryPhase.Passive)
-                predictionAmt *= 0.5f;
-
             // Gate values
             float reducedTimeForGateValue = bossRush ? 48f : death ? 32f : revenge ? 24f : expertMode ? 16f : 0f;
             float reducedTimeForGateValue_Berserk = reducedTimeForGateValue * 0.5f;
@@ -506,15 +497,27 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             float movementDistanceGateValue = 100f;
 
             // Charge variables
-            float chargeVelocity = nerfedAttacks ? 75f : bossRush ? 100f : death ? 90f : revenge ? 86.25f : expertMode ? 82.5f : 75f;
+            float chargeVelocity = nerfedAttacks ? 35f : bossRush ? 56f : death ? 49f : revenge ? 45.5f : expertMode ? 42f : 35f;
 
             if (Main.getGoodWorld)
                 chargeVelocity *= 1.15f;
 
             float chargeDistance = 2000f;
             float chargeDuration = chargeDistance / chargeVelocity;
+            bool aimTowardsChargeTarget = calamityGlobalNPC.newAI[3] >= (attackPhaseGateValue - 30f + 2f) && !phase2 && AIState == (float)Phase.Normal;
             bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
             bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
+
+            // Predictiveness
+            float predictionAmt = 20f;
+            if (aimTowardsChargeTarget)
+                predictionAmt *= 2f;
+            if (AIState == (float)Phase.LaserShotgun)
+                predictionAmt *= 1.5f;
+            if (nerfedAttacks)
+                predictionAmt *= 0.5f;
+            if (SecondaryAIState == (float)SecondaryPhase.Passive)
+                predictionAmt *= 0.5f;
 
             // Velocity and acceleration values
             float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (bossRush ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
@@ -843,7 +846,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                         int spread = bossRush ? 30 : death ? 26 : expertMode ? 21 : 15;
                                         float rotation = MathHelper.ToRadians(spread);
                                         float distanceFromTarget = Vector2.Distance(NPC.Center, NPC.Center + chargeVelocityNormalized * chargeDistance);
-                                        float setVelocityInAI = 5f;
+                                        float setVelocityInAI = death ? 7f : revenge ? 6.75f : expertMode ? 6.5f : 6f;
 
                                         for (int i = 0; i < numLasersPerSpread + 1; i++)
                                         {
@@ -935,7 +938,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                         int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
                         float rotation = MathHelper.ToRadians(spread);
                         float distanceFromTarget = Vector2.Distance(NPC.Center, player.Center + predictionVector);
-                        float setVelocityInAI = 5f;
+                        float setVelocityInAI = death ? 6f : revenge ? 5.75f : expertMode ? 5.5f : 5f;
                         pointToLookAt = player.Center + predictionVector;
 
                         for (int i = 0; i < numLasersPerSpread + 1; i++)

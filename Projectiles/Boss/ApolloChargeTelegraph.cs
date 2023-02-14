@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public PrimitiveTrail TelegraphDrawer = null;
         public const float TelegraphFadeTime = 15f;
-        public const float TelegraphWidth = 943.39811f; // a squared plus b squared equals c squared, dumbass
+        public const float TelegraphWidth = 1132.07774f; // a squared plus b squared equals c squared, dumbass
 
         public override void SetStaticDefaults()
         {
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Boss
             bool revenge = CalamityWorld.revenge || bossRush;
             bool expertMode = Main.expertMode || bossRush;
 
-            Projectile.timeLeft = bossRush ? 30 : death ? 40 : revenge ? 45 : expertMode ? 50 : 60;
+            Projectile.timeLeft = bossRush ? 60 : death ? 80 : revenge ? 90 : expertMode ? 100 : 120;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Boss
             bool expertMode = Main.expertMode || bossRush;
 
             // Determine opacity
-            float telegraphTotalTime = bossRush ? 30f : death ? 40f : revenge ? 45f : expertMode ? 50f : 60f;
+            float telegraphTotalTime = bossRush ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
             Projectile.Opacity = Utils.GetLerpValue(0f, 6f, Projectile.timeLeft, true) * Utils.GetLerpValue(telegraphTotalTime, telegraphTotalTime - 6f, Projectile.timeLeft, true);
         }
 

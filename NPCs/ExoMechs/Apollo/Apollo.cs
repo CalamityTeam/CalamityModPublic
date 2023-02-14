@@ -417,7 +417,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             float berserkAttackTime = lastMechAlive ? 225f - reducedTimeForGateValue_Berserk : 270f - reducedTimeForGateValue_Berserk;
             float attackPhaseGateValue = shouldGetBuffedByBerserkPhase ? berserkAttackTime : normalAttackTime;
             float timeToLineUpAttack = 30f;
-            float timeToLineUpCharge = bossRush ? 30f : death ? 40f : revenge ? 45f : expertMode ? 50f : 60f;
+            float timeToLineUpCharge = bossRush ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
 
             if (Main.getGoodWorld)
             {
@@ -468,11 +468,11 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             bool flyRight = NPC.ai[0] % 2f == 0f || NPC.ai[0] < 10f || !revenge;
             float destinationX = flyRight ? 750f : -750f;
             float destinationY = player.Center.Y;
-            float chargeComboXOffset = flyRight ? -500f : 500f;
-            float chargeComboYOffset = NPC.ai[2] % 2f == 0f ? 400f : -400f;
+            float chargeComboXOffset = flyRight ? -600f : 600f;
+            float chargeComboYOffset = NPC.ai[2] % 2f == 0f ? 480f : -480f;
             Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) :
                 SecondaryAIState == (float)SecondaryPhase.Passive ? new Vector2(player.Center.X + destinationX, destinationY + 360f) :
-                AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + destinationX, destinationY + chargeComboYOffset) :
+                AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + destinationX * 1.2f, destinationY + chargeComboYOffset) :
                 new Vector2(player.Center.X + destinationX, destinationY);
 
             // Add some random distance to the destination after certain attacks
