@@ -2892,6 +2892,10 @@ namespace CalamityMod.NPCs
             // Cultist shield hitbox
             if (npc.type == NPCID.CultistBoss)
             {
+                // Decrement the hit counter for the shield flicker
+                if (newAI[1] > 0f)
+                    newAI[1] -= 1f;
+
                 Vector2 hitboxSize = new Vector2(216f / 1.4142f);
                 if (npc.Size != hitboxSize)
                     npc.Size = hitboxSize;

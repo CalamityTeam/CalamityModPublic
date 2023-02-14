@@ -34,10 +34,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
-            // Decrement the hit counter for the shield flicker
-            if (calamityGlobalNPC.newAI[1] > 0f)
-                calamityGlobalNPC.newAI[1] -= 1f;
-
             // Phases
             bool bossRush = BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || bossRush;
