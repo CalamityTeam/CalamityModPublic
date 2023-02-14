@@ -2889,6 +2889,14 @@ namespace CalamityMod.NPCs
                 npc.ai[0] = 1f;
             }
 
+            // Cultist shield hitbox
+            if (npc.type == NPCID.CultistBoss)
+            {
+                Vector2 hitboxSize = new Vector2(216f / 1.4142f);
+                if (npc.Size != hitboxSize)
+                    npc.Size = hitboxSize;
+            }
+
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 switch (npc.type)
@@ -5869,7 +5877,7 @@ namespace CalamityMod.NPCs
                 GameShaders.Misc["CalamityMod:SupremeShield"].Apply();
 
                 // Actual Cultist has a bigger shield than the Clones.
-                float shieldScale = npc.type == NPCID.CultistBossClone ? 1.75f : 2.5f;
+                float shieldScale = npc.type == NPCID.CultistBossClone ? 1.5f : 3f;
                 spriteBatch.Draw(forcefieldTexture, npc.Center - Main.screenPosition, null, Color.White * opacity, 0f, forcefieldTexture.Size() * 0.5f, shieldScale, SpriteEffects.None, 0f);
 
                 spriteBatch.ExitShaderRegion();
