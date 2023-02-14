@@ -126,6 +126,7 @@ namespace CalamityMod.World
                         }
                         else
                         {
+                            //replaces blocks wand walls that can be converted
                             if (canConvert)
                             {
                                 //layer 4
@@ -179,6 +180,7 @@ namespace CalamityMod.World
                                     tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
                                 }
                             }
+                            //basically places smaller clusters everywhere else
                             else if (!tile.HasTile)
                             {
                                 tile.Get<TileWallWireStateData>().HasTile = true;
@@ -213,7 +215,7 @@ namespace CalamityMod.World
                                     if (WorldGen.genRand.NextBool(2))
                                     {
                                         tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
-                                        tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                        tile.WallType = (ushort)ModContent.WallType<PlantyMushWall>();
                                     }
                                     else
                                     {
@@ -231,7 +233,7 @@ namespace CalamityMod.World
                                 else
                                 {
                                     tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
-                                    tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                    tile.WallType = (ushort)ModContent.WallType<PlantyMushWall>();
                                 }
                             }
                         }
@@ -431,7 +433,7 @@ namespace CalamityMod.World
                         //3 islands, left, middle, and right
                         AbyssIsland(islandLocationX - randomPositon - 10, thermalIslandY + 15, 55, 65, 45, 55, ModContent.TileType<PyreMantle>(), false, true, false);
                         AbyssIsland(islandLocationX, thermalIslandY, 60, 65, 45, 55, ModContent.TileType<PyreMantle>(), false, true, true);
-                        AbyssIsland(islandLocationX + randomPositon + 10, thermalIslandY + 15, 60, 65, 45, 55, ModContent.TileType<PyreMantle>(), false, true, false);
+                        AbyssIsland(islandLocationX + randomPositon + 10, thermalIslandY + 15, 60, 65, 45, 55, ModContent.TileType<PyreMantle>(), false, true, true);
                         islandLocationX -= 30;
                         break;
                     case 1:
@@ -445,12 +447,12 @@ namespace CalamityMod.World
                         //3 islands, left, middle (slightly left), and right
                         AbyssIsland(islandLocationX - randomPositon - 20, thermalIslandY, 55, 65, 30, 35, ModContent.TileType<PyreMantle>(), false, true, true);
                         AbyssIsland(islandLocationX - 20, thermalIslandY + 15, 60, 70, 30, 35, ModContent.TileType<PyreMantle>(), false, true, false);
-                        AbyssIsland(islandLocationX + randomPositon + 20, thermalIslandY + 10, 65, 70, 30, 35, ModContent.TileType<PyreMantle>(), false, true, false);
+                        AbyssIsland(islandLocationX + randomPositon + 20, thermalIslandY + 10, 65, 70, 30, 35, ModContent.TileType<PyreMantle>(), false, true, true);
                         islandLocationX -= 25;
                         break;
                     case 3:
                         //3 islands, left, middle (slightly right), and right
-                        AbyssIsland(islandLocationX - randomPositon, thermalIslandY + 15, 60, 75, 30, 55, ModContent.TileType<PyreMantle>(), false, true, false);
+                        AbyssIsland(islandLocationX - randomPositon, thermalIslandY + 15, 60, 75, 30, 55, ModContent.TileType<PyreMantle>(), false, true, true);
                         AbyssIsland(islandLocationX + 20, thermalIslandY + 5, 60, 75, 30, 55, ModContent.TileType<PyreMantle>(), false, true, false);
                         AbyssIsland(islandLocationX + randomPositon, thermalIslandY, 60, 75, 30, 55, ModContent.TileType<PyreMantle>(), false, true, true);
                         islandLocationX += 25;
@@ -606,7 +608,8 @@ namespace CalamityMod.World
                                     WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Ribs));
                                 }
                             }
-                            //PlantyMush
+
+                            //planty mush stuff
                             if (tile.TileType == ModContent.TileType<PlantyMush>())
                             {
                                 if (WorldGen.genRand.NextBool(8))
@@ -629,7 +632,10 @@ namespace CalamityMod.World
 
                                     WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(Kelps));
                                 }
-                                if (WorldGen.genRand.NextBool(40))
+
+                                //planty mush piles
+                                //place these very often since planty mush spawns in somewhat small clusters
+                                if (WorldGen.genRand.NextBool(5))
                                 {
                                     ushort[] PlantPiles = new ushort[] { (ushort)ModContent.TileType<PlantyMushPile1>(),
                                     (ushort)ModContent.TileType<PlantyMushPile2>(), (ushort)ModContent.TileType<PlantyMushPile3>() };
@@ -719,17 +725,6 @@ namespace CalamityMod.World
                             {
                                 WorldGen.PlacePot(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<AbyssalPots>());
                                 CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
-                            }
-                        }
-                        //pirate crates
-                        if ((tile.TileType == ModContent.TileType<AbyssGravel>()) && abyssIndex2 > rockLayer)
-                        {
-                            if (WorldGen.genRand.NextBool(17))
-                            {
-                                ushort[] PirateCrate = new ushort[] { (ushort)ModContent.TileType<PirateCrate1>(),
-                                (ushort)ModContent.TileType<PirateCrate2>(), (ushort)ModContent.TileType<PirateCrate3>(), (ushort)ModContent.TileType<PirateCrate4>(), (ushort)ModContent.TileType<PirateCrate5>(), (ushort)ModContent.TileType<PirateCrate6>() };
-
-                                WorldGen.PlaceObject(abyssIndex, abyssIndex2, WorldGen.genRand.Next(PirateCrate));
                             }
                         }
 
@@ -895,11 +890,8 @@ namespace CalamityMod.World
                     //if the tile is pyre mantle then always place scoria
                     else
                     {
-                        //goofy ahh checking 
-                        //essentially places molten blocks if scoria is enabled
-                        //if scoria is not enabled, then it places planty mush with a 1 in 5 chance, and otherwise place actual scoria
-                        //very backwards logic of having scoria not place when enabled but it makes it place more often so whatever
-                        num16 = hasScoria ? ModContent.TileType<PyreMantleMolten>() : WorldGen.genRand.Next(3) == 0 ? ModContent.TileType<PlantyMush>() : ModContent.TileType<ScoriaOre>();
+                        //place molten pyre mantle and scorcia ore
+                        num16 = hasScoria ? ModContent.TileType<ScoriaOre>() : ModContent.TileType<PyreMantleMolten>();
                     }
                 }
 
