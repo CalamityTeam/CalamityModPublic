@@ -249,8 +249,8 @@ namespace CalamityMod.World
             {
                 if (num > 0f)
                 {
-                    num3 += WorldGen.genRand.Next(2);
-                    num3 -= WorldGen.genRand.Next(2);
+                    num3 += WorldGen.genRand.Next(15);
+                    num3 -= WorldGen.genRand.Next(15);
                     float smallHoleLimit = 790f; //small
                     
                     if (Main.maxTilesY > 1500)
@@ -269,20 +269,20 @@ namespace CalamityMod.World
                         {
                             num3 = 7.0; //min width
                         }
-                        if (num3 > 11.0) //max width
+                        if (num3 > 45.0) //max width
                         {
-                            num3 = 11.0; //max width
+                            num3 = 45.0; //max width
                         }
                     }
                     else //dig large hole
                     {
-                        if (num3 < (ocean ? 45.0 : 8.0)) //min width
+                        if (num3 < (ocean ? 30.0 : 8.0)) //min width
                         {
-                            num3 = ocean ? 45.0 : 8.0; //min width
+                            num3 = ocean ? 30.0 : 8.0; //min width
                         }
-                        if (num3 > (ocean ? 50.0 : 20.0)) //max width
+                        if (num3 > (ocean ? 70.0 : 20.0)) //max width
                         {
-                            num3 = ocean ? 50.0 : 20.0; //max width
+                            num3 = ocean ? 70.0 : 20.0; //max width
                         }
                         if (num == 1f && num3 < (ocean ? 50.0 : 15.0))
                         {

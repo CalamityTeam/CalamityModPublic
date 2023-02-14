@@ -242,9 +242,19 @@ namespace CalamityMod.World
             }
 
             //just place three craters next to each other to make it wider, genuinely could not understand the ChasmGenerator generation code
-            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX + 25, (int)WorldGen.worldSurfaceLow, AbyssChasmBottom, true);
+            //MiscWorldgenRoutines.ChasmGenerator(abyssChasmX + 15, (int)WorldGen.worldSurfaceLow, AbyssChasmBottom, true);
             MiscWorldgenRoutines.ChasmGenerator(abyssChasmX, (int)WorldGen.worldSurfaceLow + 65, AbyssChasmBottom, true);
-            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX - 25, (int)WorldGen.worldSurfaceLow, AbyssChasmBottom, true);
+            if (AtLeftSideOfWorld)
+            {
+                MiscWorldgenRoutines.ChasmGenerator(abyssChasmX - 26, (int)WorldGen.worldSurfaceLow, AbyssChasmBottom, true);
+                MiscWorldgenRoutines.ChasmGenerator(abyssChasmX + 10, (int)WorldGen.worldSurfaceLow, AbyssChasmBottom, true);
+            }
+            if (!AtLeftSideOfWorld)
+            {
+                MiscWorldgenRoutines.ChasmGenerator(abyssChasmX + 26, (int)WorldGen.worldSurfaceLow, AbyssChasmBottom, true);
+                MiscWorldgenRoutines.ChasmGenerator(abyssChasmX - 10, (int)WorldGen.worldSurfaceLow, AbyssChasmBottom, true);
+            }
+
 
             int maxAbyssIslands = 11; //Small World
 
