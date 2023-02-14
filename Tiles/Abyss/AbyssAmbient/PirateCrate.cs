@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             //explode when broken (troll!)
             //also instakill players in for the worthy
             Vector2 spawnPosition = new(i * 16f + 24f, j * 16f - 4f);
-			Projectile.NewProjectile(new EntitySource_WorldEvent(), spawnPosition.X, spawnPosition.Y, 0, 0, ProjectileID.Explosives, Main.getGoodWorld ? 99999 : 85, 0f);
+			Projectile.NewProjectile(new EntitySource_WorldEvent(), spawnPosition.X, spawnPosition.Y, 0, 0, ProjectileID.Explosives, Main.getGoodWorld ? 99999 : 130, 0f);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
