@@ -344,10 +344,13 @@ namespace CalamityMod.World
                     }
 
                     //kill any random floating tiles
-                    if ((tile.TileType == ModContent.TileType<Navystone>() || tile.TileType == ModContent.TileType<EutrophicSand>()) && 
-                    !tileUp.HasTile && !tileDown.HasTile && !tileLeft.HasTile && !tileRight.HasTile)
+                    if (tile.TileType == ModContent.TileType<Navystone>() || tile.TileType == ModContent.TileType<EutrophicSand>())
                     {
-                        WorldGen.KillTile(x, y);
+                        //kill any individual floating tiles
+                        if (!tileUp.HasTile && !tileDown.HasTile && !tileLeft.HasTile && !tileRight.HasTile)
+                        {
+                            WorldGen.KillTile(x, y);
+                        }
                     }
 
                     //kill any random clumps of navystone without eutrophic sand around them

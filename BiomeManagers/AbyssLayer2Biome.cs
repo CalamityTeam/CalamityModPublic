@@ -32,7 +32,7 @@ namespace CalamityMod.BiomeManagers
         {
             return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) &&
             playerYTileCoords > Main.rockLayer - 10 &&
-            playerYTileCoords <= Main.rockLayer + Main.maxTilesY * 0.140;
+            playerYTileCoords <= Main.rockLayer + Main.maxTilesY * 0.143;
         }
     }
 }
