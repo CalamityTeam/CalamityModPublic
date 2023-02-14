@@ -2235,9 +2235,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             postTeleportTimer = (int)Math.Round(maxChargeDistance / chargeVelocity);
             AwaitingPhase2Teleport = false;
             NPC.Opacity = 1f - (postTeleportTimer / 255f);
-            // Prediction is commented out for now because it's weird without the line telegraph that Shayy spoke about
-            // Vector2 predictionVector = player.velocity * 40f;
-            NPC.velocity = Vector2.Normalize(player.Center /*+ predictionVector*/ - NPC.Center) * chargeVelocity;
+            // Prediction is Death Mode only for now because it's weird without the line telegraph that Shayy spoke about
+            Vector2 predictionVector = death ? player.velocity * 40f : Vector2.Zero;
+            NPC.velocity = Vector2.Normalize(player.Center + predictionVector - NPC.Center) * chargeVelocity;
             NPC.netUpdate = true;
 
             for (int i = 0; i < Main.maxNPCs; i++)
