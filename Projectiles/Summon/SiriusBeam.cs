@@ -18,35 +18,33 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 4;
-            Projectile.height = 4;
+            Projectile.width = Projectile.height = 4;
+
+            Projectile.minionSlots = 0f;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 220; // Random number to make it go fast.
+            Projectile.localNPCHitCooldown = 110; // Random number so it doesn't multi-hit.
+            Projectile.timeLeft = 1000; // Random number so it doesn't die too fast.
+
             Projectile.friendly = true;
             Projectile.minion = true;
-            Projectile.minionSlots = 0f;
-            Projectile.extraUpdates = 220;
-            Projectile.timeLeft = 1000;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 110;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            Projectile.localAI[0] += 1f;
-            if (Projectile.localAI[0] > 3f)
+            for (int d = 0; d < 4; d++)
             {
-                for (int num447 = 0; num447 < 4; num447++)
-                {
-                    Vector2 vector33 = Projectile.position;
-                    vector33 -= Projectile.velocity * ((float)num447 * 0.25f);
-                    Projectile.alpha = 255;
-                    int num448 = Dust.NewDust(vector33, 1, 1, 20, 0f, 0f, 0, default, 1f);
-                    Main.dust[num448].position = vector33;
-                    Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-                    Main.dust[num448].velocity *= 0.2f;
-                    Main.dust[num448].noGravity = true;
-                }
+                Vector2 vector33 = Projectile.position;
+                vector33 -= Projectile.velocity * (d * 0.25f);
+                Projectile.alpha = 255;
+                int trailDust = Dust.NewDust(vector33, 1, 1, 20, 0f, 0f, 0, default, 1f);
+                Main.dust[trailDust].position = vector33;
+                Main.dust[trailDust].scale = Main.rand.Next(70, 110) * 0.013f;
+                Main.dust[trailDust].velocity *= 0.2f;
+                Main.dust[trailDust].noGravity = true;
             }
         }
 
