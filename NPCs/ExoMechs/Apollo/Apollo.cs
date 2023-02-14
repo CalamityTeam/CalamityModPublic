@@ -1191,6 +1191,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 // Charge to several locations almost instantly (Apollo doesn't teleport here, he's just moving very fast :D)
                 case (int)Phase.ChargeCombo:
 
+                    // Tell Artemis to not fire lasers for a short time
+                    NPC.ai[3] = 61f;
+
                     // Set charge velocity and fire halos of plasma bolts
                     if (NPC.localAI[2] == 0f)
                     {
@@ -1306,9 +1309,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                             if (NPC.ai[0] < 10f)
                                 NPC.ai[0] = 10f;
                             NPC.ai[0] += 1f;
-
-                            // Tell Artemis to not fire lasers for a short time while swapping positions
-                            NPC.ai[3] = 61f;
                         }
 
                         NPC.localAI[2] = 0f;

@@ -854,7 +854,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             vec4 = new Vector2(npc.direction, 0f);
 
                         Vector2 vector18 = npc.Center + new Vector2(npc.direction * 30, 12f);
-                        float scaleFactor = 10f;
+                        float scaleFactor = death ? 6f : 4f;
 
                         float num48 = 0.251327425f;
                         int num49 = 0;
@@ -1064,7 +1064,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.ai[0] < duration - 60f)
                 {
                     if (npc.velocity.Length() < 20f)
-                        npc.velocity *= 1.02f;
+                        npc.velocity *= 1.03f;
                 }
 
                 // Intersect velocity paths with other Ancient Lights for 1 second
@@ -1087,7 +1087,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float duration = 420f;
             float spawnAnimTime = 120f;
             int rateOfChange = 1;
-            float splitProjVelocity = 5f;
+            float splitProjVelocity = death ? 4.8f : 3.2f;
 
             // Percent life remaining for Cultist or Eidolon Wyrm
             float lifeRatio = Main.npc[(int)npc.ai[0]].life / (float)Main.npc[(int)npc.ai[0]].lifeMax;

@@ -1454,8 +1454,8 @@ namespace CalamityMod.Projectiles
 
                 else if (projectile.type == ProjectileID.AncientDoomProjectile)
                 {
-                    if (projectile.velocity.Length() < 12f)
-                        projectile.velocity *= 1.02f;
+                    if (projectile.velocity.Length() < 8f)
+                        projectile.velocity *= 1.01f;
                 }
 
                 else if (projectile.type == ProjectileID.CultistBossLightningOrb && BossRushEvent.BossRushActive)
