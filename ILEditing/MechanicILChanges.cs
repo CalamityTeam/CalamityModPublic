@@ -967,6 +967,8 @@ namespace CalamityMod.ILEditing
         private static void MakeSulphSeaWaterBetter(On.Terraria.Graphics.Light.TileLightScanner.orig_GetTileLight orig, TileLightScanner self, int x, int y, out Vector3 outputColor)
         {
             orig(self, x, y, out outputColor);
+            if (outputColor == Vector3.One || outputColor == new Vector3(0.25f, 0.25f, 0.25f) || outputColor == new Vector3(0.5f, 0.5f, 0.5f))
+                return;
 
             Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
             if (tile.LiquidAmount <= 0 || tile.HasTile || (Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot &&
