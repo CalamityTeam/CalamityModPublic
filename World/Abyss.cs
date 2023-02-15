@@ -67,7 +67,7 @@ namespace CalamityMod.World
                     //normally i would organize each layer of blocks by the order of how they are placed in the abyss
                     //but i cannot be bothered, and when i do it, it keeps messing up or making certain parts like transitions not gen right
                     //i have at least left comments so people reading will know what does what
-                    if (abyssIndex2 > (rockLayer - Main.maxTilesY / 15) + 50)
+                    if (abyssIndex2 > (rockLayer - Main.maxTilesY / 15) + 25)
                     {
                         //replaces blocks wand walls that can be converted
                         if (canConvert)
