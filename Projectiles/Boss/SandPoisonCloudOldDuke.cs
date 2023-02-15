@@ -26,12 +26,13 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 1800;
+            Projectile.alpha = 125;
             CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, 0.5f, 0.3f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.25f, 0.5f, 0f);
 
             Projectile.ai[0] += 1f;
             Projectile.frameCounter++;
