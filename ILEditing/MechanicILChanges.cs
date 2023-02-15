@@ -983,13 +983,44 @@ namespace CalamityMod.ILEditing
 
             if (tile.TileType != (ushort)ModContent.TileType<RustyChestTile>())
             {
-                if (Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
+                if (Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot && Main.dayTime == true)
                 {
-                    outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
+                    float brightness = MathHelper.Clamp(0.2f - (y / 540), 0.0f, 0.2f);
+                    float wave1 = (Main.GameUpdateCount * 0.014f) * -50 + (x + (-y / 2)) * 15;
+                    float wave2 = (Main.GameUpdateCount * 0.10f) * -10 + (x + (-y / 2)) * 14;
+                    float wave3 = (Main.GameUpdateCount * 0.014f) * -100 + (x + (-y / 2)) * 13;
+                    float wave4 = (Main.GameUpdateCount * 0.10f) * 10 + (x + (-y / 2)) * 25;
+                    float wave5 = (Main.GameUpdateCount * 0.014f) * -70 + (x + (-y / 2)) * 5;
+                    float wave1angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave1));
+                    float wave2angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave2));
+                    float wave3angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave3));
+                    float wave4angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave4));
+                    float wave5angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave5));
+                    outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), (0.41f + wave1angle + wave2angle + wave3angle + wave4angle + wave5angle));
+                    outputColor *= brightness;
                 }
+                if (Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot && Main.dayTime == false)
+                {
+                    float brightness = MathHelper.Clamp(0.1f - (y / 540), 0.0f, 0.1f);
+                    float wave1 = (Main.GameUpdateCount * 0.014f) * -50 + (x + (-y / 2)) * 15;
+                    float wave2 = (Main.GameUpdateCount * 0.10f) * -10 + (x + (-y / 2)) * 14;
+                    float wave3 = (Main.GameUpdateCount * 0.014f) * -100 + (x + (-y / 2)) * 13;
+                    float wave4 = (Main.GameUpdateCount * 0.10f) * 10 + (x + (-y / 2)) * 25;
+                    float wave5 = (Main.GameUpdateCount * 0.014f) * -70 + (x + (-y / 2)) * 5;
+                    float wave1angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave1));
+                    float wave2angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave2));
+                    float wave3angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave3));
+                    float wave4angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave4));
+                    float wave5angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave5));
+                    outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), (0.41f + wave1angle + wave2angle + wave3angle + wave4angle + wave5angle));
+                    outputColor *= brightness;
+                }
+
                 if (Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricDepthsWater").Slot)
                 {
+
                     outputColor = Vector3.Lerp(outputColor, Color.MediumSeaGreen.ToVector3(), 0.18f);
+
                 }
             }
         }
