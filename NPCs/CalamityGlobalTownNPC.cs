@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs
         private static readonly string[] NurseNames =
         {
             "Farsni",
-			"Fanny", // <@!799749125720637460> (zombiewolf511#4581)
+            "Fanny", // <@!799749125720637460> (zombiewolf511#4581)
         };
         private static readonly string[] PainterNames =
         {
@@ -152,7 +152,7 @@ namespace CalamityMod.NPCs
             "Catalyst", // <@!156672312425316352> (xAqult#1122)
             "Nyapano", // <@!120976656826368003> (Emi - Nyapano She/Her#4040)
             "Jade", // <@!187395834625785869> (VeryMasterNinja#7728)
-			"Nyavi Aceso", // <@!270260920888852480> (Navigator#8739)
+            "Nyavi Aceso", // <@!270260920888852480> (Navigator#8739)
         };
         private static readonly string[] SkeletonMerchantNames =
         {
@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs
             "Tim Lockwood", // <@!605839945483026434> (Deimelo#0001)
             "Sir Samuel Winchester Jenkins Kester II", // <@!107659695749070848> (Ryaegos#1661)
             "Brutus", // <@!591889650692521984> (Brutus#4337)
-			"Sloth", // <@!486265327387279391> (BossyPunch#4983)
+            "Sloth", // <@!486265327387279391> (BossyPunch#4983)
         };
         private static readonly string[] TaxCollectorNames =
         {
@@ -208,7 +208,7 @@ namespace CalamityMod.NPCs
             "Chris Tallballs", // <@!770211589076418571> (Bewearium#1111)
             "Syethas", // <@!325413275066171393> (CosmicStarIight#4430)
             "Nextdoor Psycho", // <@!173261518572486656> (⋈-NextdoorPsycho-⋈#0001)
-			"Lacuna", // <@!790746689211203604> (Lacuna#8629)
+            "Lacuna", // <@!790746689211203604> (Lacuna#8629)
         };
         private static readonly string[] ZoologistNames =
         {

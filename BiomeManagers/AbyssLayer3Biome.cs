@@ -31,8 +31,8 @@ namespace CalamityMod.BiomeManagers
         public override bool IsBiomeActive(Player player)
         {
             return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) &&
-            playerYTileCoords > Main.rockLayer + Main.maxTilesY * 0.140 &&
-            playerYTileCoords <= Main.rockLayer + Main.maxTilesY * 0.270;
+            playerYTileCoords > Main.rockLayer + Main.maxTilesY * 0.143 &&
+            playerYTileCoords <= Main.rockLayer + Main.maxTilesY * 0.268;
         }
     }
 }

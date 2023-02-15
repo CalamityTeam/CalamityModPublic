@@ -417,7 +417,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             float berserkAttackTime = lastMechAlive ? 225f - reducedTimeForGateValue_Berserk : 270f - reducedTimeForGateValue_Berserk;
             float attackPhaseGateValue = shouldGetBuffedByBerserkPhase ? berserkAttackTime : normalAttackTime;
             float timeToLineUpAttack = 30f;
-            float timeToLineUpCharge = bossRush ? 30f : death ? 40f : revenge ? 45f : expertMode ? 50f : 60f;
+            float timeToLineUpCharge = bossRush ? 45f : death ? 60f : revenge ? 68f : expertMode ? 75f : 90f;
 
             if (Main.getGoodWorld)
             {
@@ -468,11 +468,11 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             bool flyRight = NPC.ai[0] % 2f == 0f || NPC.ai[0] < 10f || !revenge;
             float destinationX = flyRight ? 750f : -750f;
             float destinationY = player.Center.Y;
-            float chargeComboXOffset = flyRight ? -500f : 500f;
-            float chargeComboYOffset = NPC.ai[2] % 2f == 0f ? 400f : -400f;
+            float chargeComboXOffset = flyRight ? -600f : 600f;
+            float chargeComboYOffset = NPC.ai[2] % 2f == 0f ? 480f : -480f;
             Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) :
                 SecondaryAIState == (float)SecondaryPhase.Passive ? new Vector2(player.Center.X + destinationX, destinationY + 360f) :
-                AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + destinationX, destinationY + chargeComboYOffset) :
+                AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + destinationX * 1.2f, destinationY + chargeComboYOffset) :
                 new Vector2(player.Center.X + destinationX, destinationY);
 
             // Add some random distance to the destination after certain attacks
@@ -1191,6 +1191,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 // Charge to several locations almost instantly (Apollo doesn't teleport here, he's just moving very fast :D)
                 case (int)Phase.ChargeCombo:
 
+                    // Tell Artemis to not fire lasers for a short time
+                    NPC.ai[3] = 61f;
+
                     // Set charge velocity and fire halos of plasma bolts
                     if (NPC.localAI[2] == 0f)
                     {
@@ -1306,9 +1309,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                             if (NPC.ai[0] < 10f)
                                 NPC.ai[0] = 10f;
                             NPC.ai[0] += 1f;
-
-                            // Tell Artemis to not fire lasers for a short time while swapping positions
-                            NPC.ai[3] = 61f;
                         }
 
                         NPC.localAI[2] = 0f;

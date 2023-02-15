@@ -4,6 +4,7 @@ using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Schematics;
 using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.Abyss.Stalactite;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using System;
@@ -206,9 +207,8 @@ namespace CalamityMod.World
             ClearAloneTiles();
             var scrapPilePositions = PlaceScrapPiles();
             GenerateColumnsInCaverns();
-            GenerateSteamGeysersInCaverns();
             GenerateHardenedSandstone();
-            PlaceStalactites();
+            PlaceAmbience();
             GenerateChests(scrapPilePositions);
         }
         #endregion
@@ -889,49 +889,6 @@ namespace CalamityMod.World
             }
         }
 
-        public static void GenerateSteamGeysersInCaverns()
-        {
-            int geyserCount = GeyserCount;
-            int width = BiomeWidth;
-            int depth = BlockDepth;
-            ushort geyserID = (ushort)ModContent.TileType<SteamGeyser>();
-
-            for (int g = 0; g < geyserCount; g++)
-            {
-                int x = GetActualX(WorldGen.genRand.Next(20, width - 32));
-                int y = WorldGen.genRand.Next(YStart + depth / 2, YStart + depth - 42);
-
-                bool tryAgain = false;
-
-                // Try again if inside a tile.
-                for (int dx = 0; dx < 2; dx++)
-                {
-                    for (int dy = 0; dy < 2; dy++)
-                    {
-                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x + dx, y - dy);
-                        if (tile.HasTile)
-                            tryAgain = true;
-                    }
-                }
-
-                // Try again if there is no ground.
-                for (int dx = 0; dx < 2; dx++)
-                {
-                    Tile tile = CalamityUtils.ParanoidTileRetrieval(x + dx, y + 1);
-                    if (!WorldGen.SolidTile(tile))
-                        tryAgain = true;
-                }
-
-                if (tryAgain)
-                {
-                    g--;
-                    continue;
-                }
-
-                WorldGen.PlacePot(x, y, geyserID);
-            }
-        }
-
         public static void GenerateHardenedSandstone()
         {
             int sandstoneSeed = WorldGen.genRand.Next();
@@ -998,43 +955,70 @@ namespace CalamityMod.World
             }
         }
 
-        public static void PlaceStalactites()
-        {
-            static int heightFromType(int type)
-            {
-                if (type <= 2)
-                    return 2;
-                else if (type <= 4)
-                    return 3;
-                else
-                    return 4;
-            };
-            
-            for (int i = 1; i < BiomeWidth; i++)
+        public static void PlaceAmbience()
+        {   
+            for (int i = 0; i < BiomeWidth; i++)
             {
                 int x = GetActualX(i);
-                for (int y = YStart; y <= YStart + BlockDepth; y++)
+                for (int y = YStart - 140; y < Main.rockLayer; y++)
                 {
-                    if (y - YStart > BlockDepth * 0.25f)
+                    Tile tile = Main.tile[x, y];
+                    Tile tileUp = Main.tile[x, y - 1];
+                    Tile tileDown = Main.tile[x, y + 1];
+
+                    if (tile.TileType == ModContent.TileType<SulphurousSand>() || tile.TileType == ModContent.TileType<SulphurousSandstone>() || 
+                    tile.TileType == ModContent.TileType<HardenedSulphurousSandstone>() || tile.TileType == ModContent.TileType<SulphurousShale>())
                     {
-                        if (WorldGen.SolidTile(x, y - 1) && WorldGen.genRand.NextBool(10))
+                        //stalagmites, fossiles, and ribs
+                        if (tileUp.LiquidType == LiquidID.Water && tileUp.LiquidAmount > 0 && !tileUp.HasTile)
                         {
-                            int dy = 1;
-                            while (!CalamityUtils.ParanoidTileRetrieval(x, y + dy).HasTile)
+                            if (WorldGen.genRand.NextBool(18))
                             {
-                                dy++;
-                                if (dy > StalactitePairMaxDistance)
-                                    break;
+                                ushort[] Vents = new ushort[] { (ushort)ModContent.TileType<SteamGeyser1>(),
+                                (ushort)ModContent.TileType<SteamGeyser2>(), (ushort)ModContent.TileType<SteamGeyser3>() };
+
+                                WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Vents));
                             }
-                            if (dy <= StalactitePairMaxDistance && dy >= StalactitePairMinDistance)
+
+                            if (WorldGen.genRand.NextBool(12))
                             {
-                                int type = WorldGen.genRand.Next(6);
-                                type++;
-                                int height = heightFromType(type);
-                                
-                                PlaceStalactite(x, y, height, CalamityMod.Instance.Find<ModTile>($"SulphurousStalactite{type}").Type);
-                                if (WorldGen.SolidTile(x, y + dy + 1))
-                                    PlaceStalacmite(x, y + dy, height, CalamityMod.Instance.Find<ModTile>($"SulphurousStalacmite{type}").Type);
+                                ushort[] Stalagmites = new ushort[] { (ushort)ModContent.TileType<SulphurousStalacmite1>(),
+                                (ushort)ModContent.TileType<SulphurousStalacmite2>(), (ushort)ModContent.TileType<SulphurousStalacmite3>(),
+                                (ushort)ModContent.TileType<SulphurousStalacmite4>(), (ushort)ModContent.TileType<SulphurousStalacmite5>(),
+                                (ushort)ModContent.TileType<SulphurousStalacmite6>() };
+
+                                WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Stalagmites));
+                            }
+
+                            if (WorldGen.genRand.NextBool(15))
+                            {
+                                ushort[] SulphuricFossils = new ushort[] { (ushort)ModContent.TileType<SulphuricFossil1>(),
+                                (ushort)ModContent.TileType<SulphuricFossil2>(), (ushort)ModContent.TileType<SulphuricFossil3>() };
+
+                                WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(SulphuricFossils));
+                            }
+
+                            if (WorldGen.genRand.NextBool(18))
+                            {
+                                ushort[] Ribs = new ushort[] { (ushort)ModContent.TileType<SulphurousRib1>(),
+                                (ushort)ModContent.TileType<SulphurousRib2>(), (ushort)ModContent.TileType<SulphurousRib3>(), 
+                                (ushort)ModContent.TileType<SulphurousRib4>(), (ushort)ModContent.TileType<SulphurousRib5>() };
+
+                                WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Ribs));
+                            }
+                        }
+
+                        //stalactites
+                        if (tileDown.LiquidType == LiquidID.Water && tileDown.LiquidAmount > 0 && !tileDown.HasTile)
+                        {
+                            if (WorldGen.genRand.NextBool(12))
+                            {
+                                ushort[] Stalactites = new ushort[] { (ushort)ModContent.TileType<SulphurousStalactite1>(),
+                                (ushort)ModContent.TileType<SulphurousStalactite2>(), (ushort)ModContent.TileType<SulphurousStalactite3>(),
+                                (ushort)ModContent.TileType<SulphurousStalactite4>(), (ushort)ModContent.TileType<SulphurousStalactite5>(),
+                                (ushort)ModContent.TileType<SulphurousStalactite6>() };
+
+                                WorldGen.PlaceObject(x, y + 1, WorldGen.genRand.Next(Stalactites));
                             }
                         }
                     }

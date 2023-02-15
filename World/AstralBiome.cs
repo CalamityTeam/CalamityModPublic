@@ -18,9 +18,6 @@ using Terraria.WorldBuilding;
 
 namespace CalamityMod.World
 {
-    //DylanDoe's TODO:
-    //change the astral monolith thing so it places away from the meteor, chosen side possibly based on the side of the world?
-    //raise the astral biome generation height limit to prevent things like mountain tops not being fully replaced, ect
     public class AstralBiome
     {
         public static readonly SoundStyle MeteorSound = new("CalamityMod/Sounds/Custom/AstralStarFall");
@@ -128,10 +125,11 @@ namespace CalamityMod.World
                 float worldEdgeMargin = (float)Main.maxTilesX * 0.08f;
                 int xLimit = Main.maxTilesX / 2;
 
-                int x = Abyss.AtLeftSideOfWorld ? rand.Next(400, xLimit) : rand.Next(xLimit, Main.maxTilesX - 400);
+                int x = Abyss.AtLeftSideOfWorld ? rand.Next(Main.dungeonX + 200, xLimit - 400) : rand.Next(xLimit + 400, Main.dungeonX - 200);
+
                 while ((float)x > (float)Main.spawnTileX - worldEdgeMargin && (float)x < (float)Main.spawnTileX + worldEdgeMargin)
                 {
-                    x = Abyss.AtLeftSideOfWorld ? rand.Next(400, xLimit) : rand.Next(xLimit, Main.maxTilesX - 400);
+                    x = Abyss.AtLeftSideOfWorld ? rand.Next(Main.dungeonX + 200, xLimit - 400) : rand.Next(xLimit + 400, Main.dungeonX - 200);
                 }
                 
                 //world surface = 920 large 740 medium 560 small

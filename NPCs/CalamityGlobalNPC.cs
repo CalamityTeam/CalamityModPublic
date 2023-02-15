@@ -60,6 +60,7 @@ using Terraria.Enums;
 using Terraria.GameContent.Achievements;
 using Terraria.GameContent.Events;
 using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -2888,6 +2889,18 @@ namespace CalamityMod.NPCs
                 npc.ai[0] = 1f;
             }
 
+            // Cultist shield hitbox
+            if (npc.type == NPCID.CultistBoss)
+            {
+                // Decrement the hit counter for the shield flicker
+                if (newAI[1] > 0f)
+                    newAI[1] -= 1f;
+
+                Vector2 hitboxSize = new Vector2(216f / 1.4142f);
+                if (npc.Size != hitboxSize)
+                    npc.Size = hitboxSize;
+            }
+
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 switch (npc.type)
@@ -4711,6 +4724,16 @@ namespace CalamityMod.NPCs
             if (npc.life <= 0 && npc.Organic() && RancorBurnTime > 0)
                 DeathAshParticle.CreateAshesFromNPC(npc);
 
+            // Cultist shield flicker
+            if (npc.type == NPCID.CultistBoss)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    newAI[1] = 35f;
+                    npc.netUpdate = true;
+                }
+            }
+
             if (CalamityWorld.revenge)
             {
                 switch (npc.type)
@@ -5812,6 +5835,58 @@ namespace CalamityMod.NPCs
 
         public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            // Energy shield
+            if (npc.type == NPCID.CultistBoss || npc.type == NPCID.CultistBossClone)
+            {
+                spriteBatch.EnterShaderRegion();
+
+                float intensity = newAI[1] / 35f;
+
+                float lifeRatio = npc.life / (float)npc.lifeMax;
+                float flickerPower = 0f;
+                if (lifeRatio < 0.85f)
+                    flickerPower += 0.1f;
+                if (lifeRatio < 0.7f)
+                    flickerPower += 0.1f;
+                if (lifeRatio < 0.55f)
+                    flickerPower += 0.1f;
+                if (lifeRatio < 0.4f)
+                    flickerPower += 0.1f;
+                if (lifeRatio < 0.25f)
+                    flickerPower += 0.1f;
+                if (lifeRatio < 0.1f)
+                    flickerPower += 0.1f;
+                float opacity = 1f;
+                opacity *= MathHelper.Lerp(MathHelper.Max(1f - flickerPower, 0.56f), 1f, (float)Math.Pow(Math.Cos(Main.GlobalTimeWrappedHourly * MathHelper.Lerp(3f, 5f, flickerPower)) * 0.5 + 0.5, 24D));
+
+                // Dampen the opacity and intensity slightly, to allow Cultist to be more easily visible inside of the forcefield.
+                // Dampen the opacity and intensity a bit more for the Clones.
+                float intensityAndOpacityMult = npc.type == NPCID.CultistBossClone ? 0.75f : 1f;
+                intensity *= intensityAndOpacityMult;
+                opacity *= intensityAndOpacityMult;
+
+                Texture2D forcefieldTexture = Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/ForcefieldTexture").Value;
+                GameShaders.Misc["CalamityMod:SupremeShield"].UseImage1("Images/Misc/Perlin");
+
+                Color forcefieldColor = Color.Goldenrod;
+                Color secondaryForcefieldColor = Color.Lerp(Color.Cyan, Color.Gold, (float)Math.Pow((double)(1f - lifeRatio), 4D));
+
+                forcefieldColor *= opacity;
+                secondaryForcefieldColor *= opacity;
+
+                GameShaders.Misc["CalamityMod:SupremeShield"].UseSecondaryColor(secondaryForcefieldColor);
+                GameShaders.Misc["CalamityMod:SupremeShield"].UseColor(forcefieldColor);
+                GameShaders.Misc["CalamityMod:SupremeShield"].UseSaturation(intensity);
+                GameShaders.Misc["CalamityMod:SupremeShield"].UseOpacity(opacity);
+                GameShaders.Misc["CalamityMod:SupremeShield"].Apply();
+
+                // Actual Cultist has a bigger shield than the Clones.
+                float shieldScale = npc.type == NPCID.CultistBossClone ? 1.5f : 3f;
+                spriteBatch.Draw(forcefieldTexture, npc.Center - Main.screenPosition, null, Color.White * opacity, 0f, forcefieldTexture.Size() * 0.5f, shieldScale, SpriteEffects.None, 0f);
+
+                spriteBatch.ExitShaderRegion();
+            }
+
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 // His afterimages I can't get to work, so fuck it
