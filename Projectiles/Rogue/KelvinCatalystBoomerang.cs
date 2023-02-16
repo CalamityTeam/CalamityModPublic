@@ -28,9 +28,11 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
-            Projectile.extraUpdates = 1;
+            Projectile.MaxUpdates = 2;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.coldDamage = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20 * Projectile.MaxUpdates; //20 effective, 40 total
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -172,20 +174,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void OnHitEffects()
         {
-            int projType = ModContent.ProjectileType<KelvinCatalystStar>();
-            if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].ownedProjectileCounts[projType] < 25)
-            {
-                float spread = 45f * 0.0174f;
-                double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-                double deltaAngle = spread / 8f;
-                double offsetAngle;
-                for (int i = 0; i < 4; i++)
+            if (Projectile.owner == Main.myPlayer && Projectile.numHits < 1)
+            {            
+                for (int i = 0; i < 8; i++)
                 {
-                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f), projType, Projectile.damage / 6, Projectile.knockBack * 0.5f, Projectile.owner);
-
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f), projType, Projectile.damage / 6, Projectile.knockBack * 0.5f, Projectile.owner);
+                    Vector2 velocity = (MathHelper.TwoPi * i / 8f).ToRotationVector2() * 4f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
             SoundEngine.PlaySound(SoundID.Item30, Projectile.position);

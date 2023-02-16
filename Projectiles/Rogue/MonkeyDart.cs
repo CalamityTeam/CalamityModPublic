@@ -62,12 +62,6 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[d].position = Projectile.Center;
                 dustsplash += 1;
             }
-
-            //Randomly not consume item if it wasnt a stealth strike
-            if (Main.rand.Next(4) == 0 && Projectile.ai[0] != 1)
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, 27, 27, ModContent.ItemType<MonkeyDarts>());
-            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

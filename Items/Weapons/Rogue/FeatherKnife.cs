@@ -51,10 +51,8 @@ Stealth strike throws a volley of knives");
                     Vector2 perturbedspeed = new Vector2(velocity.X + Main.rand.Next(-3, 4), velocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(source, position, perturbedspeed, type, damage, knockback, player.whoAmI);
                     if (proj.WithinBounds(Main.maxProjectiles))
-                    {
                         Main.projectile[proj].Calamity().stealthStrike = true;
-                        Main.projectile[proj].noDropItem = true;
-                    }
+
                     spread -= Main.rand.Next(2, 6);
                 }
                 return false;

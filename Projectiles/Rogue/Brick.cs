@@ -41,11 +41,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<ThrowingBrick>());
-            }
-
             SoundEngine.PlaySound(SoundID.Item50, Projectile.position);
             //Dust on impact
             int dust_splash = 0;

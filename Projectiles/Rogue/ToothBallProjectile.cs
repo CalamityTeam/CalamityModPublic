@@ -36,14 +36,6 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void Kill(int timeLeft)
-        {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<ToothBall>());
-            }
-        }
-
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);

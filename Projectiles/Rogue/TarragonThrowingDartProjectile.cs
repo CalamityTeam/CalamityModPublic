@@ -49,14 +49,6 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void Kill(int timeLeft)
-        {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<TarragonThrowingDart>());
-            }
-        }
-
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (Main.myPlayer == Projectile.owner)

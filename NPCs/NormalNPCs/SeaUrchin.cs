@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.OceanMonster.Chance * 0.2f;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<UrchinStinger>(), 1, 15, 25);
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<UrchinStinger>(), 1, 30, 50);
 
         public override void HitEffect(int hitDirection, double damage)
         {

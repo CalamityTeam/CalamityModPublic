@@ -74,13 +74,5 @@ namespace CalamityMod.Projectiles.Rogue
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
-
-        public override void Kill(int timeLeft)
-        {
-            if (Main.rand.NextBool(2) && !Projectile.Calamity().stealthStrike)
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<PalladiumJavelin>());
-            }
-        }
     }
 }

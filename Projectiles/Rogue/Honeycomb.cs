@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Rogue
         public void SpawnFragments()
         {
             int split = 0;
-            while (split < 3)
+            while (split < 2)
             {
                 //Calculate the velocity of the projectile
                 float shardspeedX = -Projectile.velocity.X * Main.rand.NextFloat(.5f, .7f) + Main.rand.NextFloat(-3f, 3f);
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
 
                 //Spawn the projectile
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(Projectile.damage * 0.7), 2f, Projectile.owner, Main.rand.Next(3), 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.Next(3), 0f);
                 split += 1;
             }
         }
@@ -117,10 +117,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 9, -Projectile.velocity.X * 0.15f, -Projectile.velocity.Y * 0.15f, 159, default, 1.5f);
                 dust_splash += 1;
-            }
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<HardenedHoneycomb>());
             }
         }
     }

@@ -24,16 +24,15 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 20;
-            Item.damage = 60;
+            Item.height = 20;
+            Item.damage = 80;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.autoReuse = true;
-            Item.useAnimation = 30;
+            Item.useAnimation = Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 30;
             Item.knockBack = 4f;
             Item.UseSound = SoundID.Item1;
-            Item.height = 20;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.Calamity().donorItem = true;

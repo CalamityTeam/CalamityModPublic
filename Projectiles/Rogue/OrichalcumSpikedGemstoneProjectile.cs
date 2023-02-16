@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = 600;
             AIType = ProjectileID.ThrowingKnife;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }
 
@@ -87,14 +88,6 @@ namespace CalamityMod.Projectiles.Rogue
                 int petal = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPos, pathToTravel, ProjectileID.FlowerPetal, Projectile.damage, 0f, Projectile.owner);
                 if (petal.WithinBounds(Main.maxProjectiles))
                     Main.projectile[petal].DamageType = RogueDamageClass.Instance;
-            }
-        }
-
-        public override void Kill(int timeLeft)
-        {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<OrichalcumSpikedGemstone>());
             }
         }
     }
