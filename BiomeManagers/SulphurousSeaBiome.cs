@@ -1,9 +1,11 @@
-﻿using CalamityMod.CalPlayer;
+﻿using System.Security.Policy;
+using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Systems;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -67,6 +69,21 @@ namespace CalamityMod.BiomeManagers
             }
             
             return (BiomeTileCounterSystem.SulphurTiles >= 300 || (point.Y < (Main.rockLayer - Main.maxTilesY / 13) && sulphurPosX)) && !player.Calamity().ZoneAbyss;
+        }
+        public override void SpecialVisuals(Player player, bool isActive)
+        {
+            string biomeName = "CalamityMod:SulphurSea";
+            if (SkyManager.Instance[biomeName] != null && isActive != SkyManager.Instance[biomeName].IsActive())
+            {
+                if (isActive)
+                {
+                    SkyManager.Instance.Activate(biomeName);
+                }
+                else
+                {
+                    SkyManager.Instance.Deactivate(biomeName);
+                }
+            }
         }
     }
 }

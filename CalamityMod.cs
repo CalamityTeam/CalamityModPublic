@@ -97,6 +97,8 @@ namespace CalamityMod
         public static Asset<Texture2D> manaOriginal;
         public static Asset<Texture2D> carpetOriginal;
         public static Texture2D AstralSky;
+        public static Texture2D SulphurSeaSky;
+        public static Texture2D SulphurSeaSkyFront;
 
         // DR data structure
         public static SortedDictionary<int, float> DRValues;
@@ -273,6 +275,8 @@ namespace CalamityMod
         private void LoadClient()
         {
             AstralSky = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSky", AssetRequestMode.ImmediateLoad).Value;
+            SulphurSeaSky = ModContent.Request<Texture2D>("CalamityMod/Skies/SulphurSeaSky", AssetRequestMode.ImmediateLoad).Value;
+            SulphurSeaSkyFront = ModContent.Request<Texture2D>("CalamityMod/Skies/SulphurSeaSkyFront", AssetRequestMode.ImmediateLoad).Value;
 
             // TODO -- Sky shaders should probably be loaded in a ModSystem
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
@@ -316,6 +320,7 @@ namespace CalamityMod
             SkyManager.Instance["CalamityMod:BrimstoneCrag"] = new BrimstoneCragSky();
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
+            SkyManager.Instance["CalamityMod:SulphurSea"] = new SulphurSeaSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 

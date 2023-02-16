@@ -1008,7 +1008,7 @@ namespace CalamityMod.ILEditing
                 }
                 if (Main.waterStyle == SulphuricWater.Type && Main.dayTime == false && !Main.raining)
                 {
-                    float brightness = MathHelper.Clamp(0.1f - (y / 680), 0.0f, 0.1f);
+                    float brightness = MathHelper.Clamp(0.17f - (y / 680), 0.0f, 0.17f);
                     if (y > 380)
                     {
                         brightness *= 1f - (y - 380) / 300f;
