@@ -44,6 +44,7 @@ using CalamityMod.Particles.Metaballs;
 using Terraria.GameContent.Drawing;
 using CalamityMod.Tiles.Abyss;
 using System.Collections.Generic;
+using CalamityMod.BiomeManagers;
 
 namespace CalamityMod.ILEditing
 {
@@ -985,12 +986,12 @@ namespace CalamityMod.ILEditing
 
             if (tile.TileType != (ushort)ModContent.TileType<RustyChestTile>())
             {
-                if (Main.waterStyle == SulphuricWater.Type && Main.dayTime == true)
+                if (Main.waterStyle == SulphuricWater.Type && Main.dayTime == true && !Main.raining)
                 {
-                    float brightness = MathHelper.Clamp(0.2f - (y / 540), 0.0f, 0.2f);
-                    if (y > 480)
+                    float brightness = MathHelper.Clamp(0.2f - (y / 680), 0.0f, 0.2f);
+                    if (y > 380)
                     {
-                        brightness *= 1f - (y - 480) / 60f;
+                        brightness *= 1f - (y - 380) / 300f;
                     }
                     float wave1 = (Main.GameUpdateCount * 0.014f) * -50 + (x + (-y / 2)) * 15;
                     float wave2 = (Main.GameUpdateCount * 0.10f) * -10 + (x + (-y / 2)) * 14;
@@ -1005,12 +1006,12 @@ namespace CalamityMod.ILEditing
                     outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), (0.41f + wave1angle + wave2angle + wave3angle + wave4angle + wave5angle));
                     outputColor *= brightness;
                 }
-                if (Main.waterStyle == SulphuricWater.Type && Main.dayTime == false)
+                if (Main.waterStyle == SulphuricWater.Type && Main.dayTime == false && !Main.raining)
                 {
-                    float brightness = MathHelper.Clamp(0.1f - (y / 540), 0.0f, 0.1f);
-                    if (y > 480)
+                    float brightness = MathHelper.Clamp(0.1f - (y / 680), 0.0f, 0.1f);
+                    if (y > 380)
                     {
-                        brightness *= 1f - (y - 480) / 60f;
+                        brightness *= 1f - (y - 380) / 300f;
                     }
                     float wave1 = (Main.GameUpdateCount * 0.014f) * -50 + (x + (-y / 2)) * 15;
                     float wave2 = (Main.GameUpdateCount * 0.10f) * -10 + (x + (-y / 2)) * 14;
@@ -1023,6 +1024,16 @@ namespace CalamityMod.ILEditing
                     float wave4angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave4));
                     float wave5angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave5));
                     outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), (0.41f + wave1angle + wave2angle + wave3angle + wave4angle + wave5angle));
+                    outputColor *= brightness;
+                }
+                if (Main.waterStyle == SulphuricWater.Type && Main.raining)
+                {
+                    float brightness = MathHelper.Clamp(1f - (y / 680), 0.0f, 1f);
+                    if (y > 380)
+                    {
+                        brightness *= 1f - (y - 380) / 300f;
+                    }
+                    outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
                     outputColor *= brightness;
                 }
 
