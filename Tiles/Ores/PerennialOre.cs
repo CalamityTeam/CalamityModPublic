@@ -147,7 +147,6 @@ namespace CalamityMod.Tiles.Ores
             {
                 if (pos == positionFlower)
                 {
-                    float pseudoRandom = MathF.Abs(MathF.Sin((positionFlower.X * 1294.2943f) + (positionFlower.Y * 96.454f))) % 1;
                     float brightness = 0.7f;
                     brightness *= (float)MathF.Sin(j / 14f + Main.GameUpdateCount * 0.017f);
                     brightness *= (float)MathF.Sin(i / 14f + Main.GameUpdateCount * 0.017f);
