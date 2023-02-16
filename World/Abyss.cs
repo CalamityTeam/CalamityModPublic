@@ -67,7 +67,7 @@ namespace CalamityMod.World
                     //normally i would organize each layer of blocks by the order of how they are placed in the abyss
                     //but i cannot be bothered, and when i do it, it keeps messing up or making certain parts like transitions not gen right
                     //i have at least left comments so people reading will know what does what
-                    if (abyssIndex2 > (rockLayer - Main.maxTilesY / 15) + 50)
+                    if (abyssIndex2 > (rockLayer - Main.maxTilesY / 15) + 35)
                     {
                         //replaces blocks wand walls that can be converted
                         if (canConvert)
@@ -199,47 +199,7 @@ namespace CalamityMod.World
                 maxAbyssIslands = 16; //Medium World
             }
 
-            //place eidolon snail fossil
-            int realFossilY = 0;
-            bool placedFossil = false;
-
-            while (!placedFossil)
-            {
-                //make sure it places at the very bottom, below where the terminus shrine is
-                for (int fossilCheckY = AbyssChasmBottom + 30; fossilCheckY < AbyssChasmBottom + 75; fossilCheckY++)
-                {
-                    Tile tile = Main.tile[abyssChasmX, fossilCheckY];
-                    Tile tileleft = Main.tile[abyssChasmX - 1, fossilCheckY];
-                    Tile tileRight = Main.tile[abyssChasmX + 1, fossilCheckY];
-
-                    if (tile.HasTile || tileleft.HasTile || tileRight.HasTile)
-                    {
-                        realFossilY = fossilCheckY;
-
-                        //place a box of voidstone for the fossil to spawn on
-                        for (int fossilX = abyssChasmX - 55; fossilX <= abyssChasmX + 55; fossilX++)
-                        {
-                            for (int fossilY = realFossilY - 2; fossilY <= realFossilY + 25; fossilY++)
-                            {
-                                WorldGen.PlaceTile(fossilX, fossilY, ModContent.TileType<Voidstone>());
-                            }
-                        }
-
-                        //kill any tiles in a small area above to prevent the fossil from not placing correctly
-                        for (int fossilX = abyssChasmX - 2; fossilX <= abyssChasmX + 2; fossilX++)
-                        {
-                            for (int fossilY = realFossilY - 3; fossilY <= realFossilY - 8; fossilY++)
-                            {
-                                WorldGen.KillTile(fossilX, fossilY);
-                            }
-                        }
-
-                        WorldGen.PlaceObject(abyssChasmX, realFossilY - 3, (ushort)ModContent.TileType<AbyssFossilTile>());
-                        
-                        placedFossil = true;
-                    }
-                }
-            }
+            PlaceSnailFossil(abyssChasmX, AbyssChasmBottom + 45);
 
             //place a single abyss island under the terminus shrine
             AbyssIsland(abyssChasmX, AbyssChasmBottom + 5, 65, 75, 40, 45, ModContent.TileType<Voidstone>(), false, false, false);
@@ -362,7 +322,7 @@ namespace CalamityMod.World
             {
                 int islandLocationX = abyssChasmX;
                 int islandLocationOffset = WorldGen.genRand.Next(18, 30);
-                int randomPositon = WorldGen.genRand.Next(40, 65);
+                int randomPositon = WorldGen.genRand.Next(40, 75);
                 bool hasScoria = WorldGen.genRand.NextBool(2); //50% chance to place scoria in each island instead of planty mush
 
                 int randomIsland = WorldGen.genRand.Next(4);
@@ -417,16 +377,16 @@ namespace CalamityMod.World
                     {
                         case 0:
                             //1 island, to the left
-                            AbyssIsland(abyssChasmX - WorldGen.genRand.Next(65, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, false, false);
+                            AbyssIsland(abyssChasmX - WorldGen.genRand.Next(70, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, false, false);
                             break;
                         case 1:
                             //1 island, to the right
-                            AbyssIsland(abyssChasmX + WorldGen.genRand.Next(65, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, false, false);
+                            AbyssIsland(abyssChasmX + WorldGen.genRand.Next(70, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, false, false);
                             break;
                         case 2:
                             //2 islands, left and right
-                            AbyssIsland(abyssChasmX - WorldGen.genRand.Next(65, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, false, false);
-                            AbyssIsland(abyssChasmX + WorldGen.genRand.Next(65, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, false, false);
+                            AbyssIsland(abyssChasmX - WorldGen.genRand.Next(70, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, false, false);
+                            AbyssIsland(abyssChasmX + WorldGen.genRand.Next(70, 78), voidIslandY, 65, 85, 35, 45, ModContent.TileType<Voidstone>(), false, false, false);
                             break;
                     }
 
@@ -695,6 +655,9 @@ namespace CalamityMod.World
                     }
                 }
             }
+
+            //ugh ill edit this later so i can customize the check positions and tiles for columns
+            //SulphurousSea.GenerateColumnsInCaverns();
         }
 
         public static void AbyssIsland(int i, int j, int sizeMin, int sizeMax, int sizeMin2, int sizeMax2, int tileType, bool hasChest, bool hasClumps, bool hasScoria)
@@ -1027,6 +990,49 @@ namespace CalamityMod.World
                 Main.chest[ChestIndex].item[6].SetDefaults(ItemID.GoldCoin);
                 Main.chest[ChestIndex].item[6].stack = WorldGen.genRand.Next(2, 5);
             }
+        }
+
+        public static void PlaceSnailFossil(int i, int j)
+        {
+            //place an island
+            AbyssIsland(i, j + 2, 55, 75, 35, 45, ModContent.TileType<Voidstone>(), false, true, false);
+
+            //clear decently big circular area where the chest will be
+            for (int clearX = i - 2; clearX <= i + 2; clearX++)
+            {
+                for (int clearY = j - 8; clearY <= j - 1; clearY++)
+                {
+                    //clear area for the chest to place
+                    ShapeData circle = new ShapeData();
+                    GenAction blotchMod = new Modifiers.Blotches(2, 0.4);
+
+                    int radius = (int)(WorldGen.genRand.Next(3, 5) * WorldGen.genRand.NextFloat(0.74f, 0.82f));
+                    
+                    WorldUtils.Gen(new Point(clearX, clearY), new Shapes.Circle(radius), Actions.Chain(new GenAction[]
+                    {
+                        blotchMod.Output(circle)
+                    }));
+
+                    WorldUtils.Gen(new Point(clearX, clearY), new ModShapes.All(circle), Actions.Chain(new GenAction[]
+                    {
+                        new Actions.ClearTile()
+                    }));
+                }
+            }
+
+            //place cluster where chest will spawn
+            WorldGen.TileRunner(i, j + 4, 8, 5, ModContent.TileType<Voidstone>(), true, 0, 0, false, true);
+
+            //clear another small square exactly around where the chest will be so it has a flat area to place on
+            for (int clearX = i - 7; clearX <= i + 7; clearX++)
+            {
+                for (int clearY = j - 1; clearY <= j + 5; clearY++)
+                {
+                    WorldGen.PlaceTile(clearX, clearY, ModContent.TileType<Voidstone>());
+                }
+            }
+
+            WorldGen.PlaceObject(i, j - 2, (ushort)ModContent.TileType<AbyssFossilTile>());
         }
 
         public static void UnlockAllAbyssChests()

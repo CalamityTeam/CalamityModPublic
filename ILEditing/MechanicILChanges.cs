@@ -44,6 +44,7 @@ using CalamityMod.Particles.Metaballs;
 using Terraria.GameContent.Drawing;
 using CalamityMod.Tiles.Abyss;
 using System.Collections.Generic;
+using CalamityMod.BiomeManagers;
 
 namespace CalamityMod.ILEditing
 {
@@ -963,19 +964,21 @@ namespace CalamityMod.ILEditing
         }
         #endregion Custom Lava Visuals
 
-        #region Sulph Sea Water Visuals
+        #region Water Visuals
         private static void MakeSulphSeaWaterBetter(On.Terraria.Graphics.Light.TileLightScanner.orig_GetTileLight orig, TileLightScanner self, int x, int y, out Vector3 outputColor)
         {
             orig(self, x, y, out outputColor);
+            if (outputColor == Vector3.One || outputColor == new Vector3(0.25f, 0.25f, 0.25f) || outputColor == new Vector3(0.5f, 0.5f, 0.5f))
+                return;
 
             Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-            if (tile.LiquidAmount <= 0 || tile.HasTile || (Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot &&
-            Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricDepthsWater").Slot))
+            if (tile.LiquidAmount <= 0 || tile.HasTile || (Main.waterStyle != SulphuricWater.Type &&
+            Main.waterStyle != SulphuricDepthsWater.Type && Main.waterStyle != SunkenSeaWater.Type))
                 return;
 
             Tile above = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
             if (!Main.gamePaused && !above.HasTile && above.LiquidAmount <= 0 && Main.rand.NextBool(9) && 
-            Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
+            Main.waterStyle == SulphuricWater.Type)
             {
                 MediumMistParticle acidFoam = new(new(x * 16f + Main.rand.NextFloat(16f), y * 16f + 8f), -Vector2.UnitY.RotatedByRandom(0.67f) * Main.rand.NextFloat(1f, 2.4f), Color.LightSeaGreen, Color.White, 0.16f, 128f, 0.02f);
                 GeneralParticleHandler.SpawnParticle(acidFoam);
@@ -983,17 +986,86 @@ namespace CalamityMod.ILEditing
 
             if (tile.TileType != (ushort)ModContent.TileType<RustyChestTile>())
             {
-                if (Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
+                if (Main.waterStyle == SulphuricWater.Type && Main.dayTime == true && !Main.raining)
                 {
-                    outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
+                    float brightness = MathHelper.Clamp(0.2f - (y / 680), 0.0f, 0.2f);
+                    if (y > 380)
+                    {
+                        brightness *= 1f - (y - 380) / 300f;
+                    }
+                    float wave1 = (Main.GameUpdateCount * 0.014f) * -50 + (x + (-y / 2)) * 15;
+                    float wave2 = (Main.GameUpdateCount * 0.10f) * -10 + (x + (-y / 2)) * 14;
+                    float wave3 = (Main.GameUpdateCount * 0.014f) * -100 + (x + (-y / 2)) * 13;
+                    float wave4 = (Main.GameUpdateCount * 0.10f) * 10 + (x + (-y / 2)) * 25;
+                    float wave5 = (Main.GameUpdateCount * 0.014f) * -70 + (x + (-y / 2)) * 5;
+                    float wave1angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave1));
+                    float wave2angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave2));
+                    float wave3angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave3));
+                    float wave4angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave4));
+                    float wave5angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave5));
+                    outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), (0.41f + wave1angle + wave2angle + wave3angle + wave4angle + wave5angle));
+                    outputColor *= brightness;
                 }
-                if (Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricDepthsWater").Slot)
+                if (Main.waterStyle == SulphuricWater.Type && Main.dayTime == false && !Main.raining)
                 {
+                    float brightness = MathHelper.Clamp(0.17f - (y / 680), 0.0f, 0.17f);
+                    if (y > 380)
+                    {
+                        brightness *= 1f - (y - 380) / 300f;
+                    }
+                    float wave1 = (Main.GameUpdateCount * 0.014f) * -50 + (x + (-y / 2)) * 15;
+                    float wave2 = (Main.GameUpdateCount * 0.10f) * -10 + (x + (-y / 2)) * 14;
+                    float wave3 = (Main.GameUpdateCount * 0.014f) * -100 + (x + (-y / 2)) * 13;
+                    float wave4 = (Main.GameUpdateCount * 0.10f) * 10 + (x + (-y / 2)) * 25;
+                    float wave5 = (Main.GameUpdateCount * 0.014f) * -70 + (x + (-y / 2)) * 5;
+                    float wave1angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave1));
+                    float wave2angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave2));
+                    float wave3angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave3));
+                    float wave4angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave4));
+                    float wave5angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave5));
+                    outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), (0.41f + wave1angle + wave2angle + wave3angle + wave4angle + wave5angle));
+                    outputColor *= brightness;
+                }
+                if (Main.waterStyle == SulphuricWater.Type && Main.raining)
+                {
+                    float brightness = MathHelper.Clamp(1f - (y / 680), 0.0f, 1f);
+                    if (y > 380)
+                    {
+                        brightness *= 1f - (y - 380) / 300f;
+                    }
+                    outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
+                    outputColor *= brightness;
+                }
+
+                if (Main.waterStyle == SulphuricDepthsWater.Type)
+                {
+
                     outputColor = Vector3.Lerp(outputColor, Color.MediumSeaGreen.ToVector3(), 0.18f);
+
+                }
+                if (Main.waterStyle == SunkenSeaWater.Type)
+                {
+                    float brightness = MathHelper.Clamp(0.07f, 0.0f, 0.07f);
+                    float wave1 = (Main.GameUpdateCount * 0.024f) * -50 + ((-x / 30) + (y / 30)) * 25;
+                    float wave2 = (Main.GameUpdateCount * 0.10f) * -10 + ((-x / 15) + (-y / 2)) * 45;
+                    float wave3 = (Main.GameUpdateCount * 0.028f) * -100 + ((x / 7) + (y / 50)) * 25;
+                    float wave4 = (Main.GameUpdateCount * 0.15f) * 10 + ((x / 3) + (-y / 2)) * 45;
+                    float wave5 = (Main.GameUpdateCount * 0.028f) * -70 + ((-x / 25) + (-y / 25)) * 20;
+                    float wave6 = (Main.GameUpdateCount * 0.10f) * -10 + ((x / 15) + (-y / 2)) * 45;
+                    float bigwave = (Main.GameUpdateCount * 0.01f) * -70 + ((-x / 2) + (-y / 40)) * 5;
+                    float wave1angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave1));
+                    float wave2angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave2));
+                    float wave3angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave3));
+                    float wave4angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave4));
+                    float wave5angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave5));
+                    float wave6angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave6));
+                    float bigwaveangle = 0.55f + 0.80f * (float)Math.Sin(MathHelper.ToRadians(bigwave));
+                    outputColor = Vector3.Lerp(outputColor, Color.DeepSkyBlue.ToVector3(), (0.07f + wave1angle + wave2angle + wave3angle + wave4angle + wave5angle + wave6angle + bigwaveangle));
+                    outputColor *= brightness;
                 }
             }
         }
-        #endregion Sulph Sea Water Visuals
+        #endregion Water Visuals
 
         #region Statue Additions
         /// <summary>

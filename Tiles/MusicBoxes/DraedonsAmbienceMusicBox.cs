@@ -1,5 +1,4 @@
-﻿using CalamityMod.Items.Placeables.MusicBoxes;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
@@ -9,7 +8,8 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.MusicBoxes
 {
-    public class DraedonsAmbienceMusicBoxTile : ModTile
+    [LegacyName("DraedonsAmbienceMusicBoxTile")]
+    public class DraedonsAmbienceMusicBox : ModTile
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.MusicBoxes
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i * 16, j * 16), i * 16, j * 16, 16, 48, ModContent.ItemType<DraedonsAmbienceMusicBox>());
+            Item.NewItem(new EntitySource_TileBreak(i * 16, j * 16), i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeables.MusicBoxes.DraedonsAmbienceMusicBox>());
         }
 
         public override void MouseOver(int i, int j)
@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.MusicBoxes
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<DraedonsAmbienceMusicBox>();
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.MusicBoxes.DraedonsAmbienceMusicBox>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

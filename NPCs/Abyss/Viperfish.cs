@@ -139,6 +139,10 @@ namespace CalamityMod.NPCs.Abyss
             {
                 return SpawnCondition.CaveJellyfish.Chance * 1.2f;
             }
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer3 && spawnInfo.Water)
+            {
+                return SpawnCondition.CaveJellyfish.Chance * 1.5f;
+            }
             return 0f;
         }
 

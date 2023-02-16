@@ -789,7 +789,7 @@ namespace CalamityMod.World
                     break;
                 case UndergroundShrineType.Abyss:
                     item = ModContent.ItemType<Terminus>();
-                    chestSubType = 4; //Locked Shadow
+                    chestType = ModContent.TileType<Tiles.FurnitureVoid.VoidChest>();
                     break;
             }
 

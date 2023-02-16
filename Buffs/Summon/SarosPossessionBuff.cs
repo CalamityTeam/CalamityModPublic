@@ -18,19 +18,15 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<SarosAura>()] > 0)
-            {
-                modPlayer.radiantResolution = true;
-            }
-            if (!modPlayer.radiantResolution)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<SarosMicrosun>()] > 0)
+                modPlayer.saros = true;
+            if (!modPlayer.saros)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;
             }
             else
-            {
                 player.buffTime[buffIndex] = 18000;
-            }
         }
     }
 }

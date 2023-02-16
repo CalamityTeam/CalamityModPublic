@@ -203,9 +203,6 @@ namespace CalamityMod.Items
                 { ItemID.DartPistol, pointBlank },
                 { ItemID.DartRifle, Do(PointBlank, DamageExact(58)) },
 
-                // if Daybreak still needs a buff after the 1.4 explosion change, apply it here
-                // { ItemID.DayBreak, Do(DamageRatio(1.0f)) }
-
                 // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
                 { ItemID.DD2BallistraTowerT1Popper, Do(AutoReuse, UseExact(30)) }, // Ballista Tier 1
                 // { ItemID.DD2BallistraTowerT1Popper, autoReuse }, // Ballista Tier 1

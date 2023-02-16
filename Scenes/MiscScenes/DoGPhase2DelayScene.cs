@@ -7,7 +7,7 @@ namespace CalamityMod.Systems
 {
     public class DoGPhase2DelayScene : ModSceneEffect
     {
-        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
+        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("DevourerofGodsPhase2") ?? MusicID.LunarBoss;
         public override SceneEffectPriority Priority => SceneEffectPriority.BossMedium;
 
         public override bool IsSceneEffectActive(Player player)

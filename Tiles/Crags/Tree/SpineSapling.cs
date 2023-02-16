@@ -54,7 +54,7 @@ namespace CalamityMod.Tiles.Crags.Tree
 
 				if (isPlayerNear && Main.tile[i, j + 1].TileType != ModContent.TileType<SpineSapling>())
 				{
-					SpineTree.Spawn(i, j, 22, 28, true);
+					SpineTree.Spawn(i, j + 1, 22, 28, true);
 				}
 			}
 		}
