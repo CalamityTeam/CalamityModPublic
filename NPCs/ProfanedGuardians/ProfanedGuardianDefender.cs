@@ -266,6 +266,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             if (Main.getGoodWorld)
                 maxChargeVelocity *= 1.15f;
 
+            // Whether the commander is calling all guardians together for the laser attack
+            bool commanderUsingLaser = Main.npc[CalamityGlobalNPC.doughnutBoss].ai[0] == 5f;
+
             // Go low just before moving to the other side to avoid bullshit hits
             float moveToOtherSideInPhase2GateValue = commanderGuardPhase2Duration - 120f;
             float timeBeforeMoveToOtherSideInPhase2Reset = moveToOtherSideInPhase2GateValue * 2f;
@@ -407,30 +410,33 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     return;
                 }
 
-                // Lay a holy bomb every once in a while in phase 1
-                float projectileShootGateValue = (bossRush || biomeEnraged) ? 420f : death ? 480f : revenge ? 510f : expertMode ? 540f : 600f;
-                NPC.ai[1] += 1f;
-                if (NPC.ai[1] >= projectileShootGateValue)
+                // Lay a holy bomb every once in a while in phase 1 and while not doing the laser attack
+                if (!commanderUsingLaser)
                 {
-                    NPC.ai[1] = 0f;
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    float projectileShootGateValue = (bossRush || biomeEnraged) ? 420f : death ? 480f : revenge ? 510f : expertMode ? 540f : 600f;
+                    NPC.ai[1] += 1f;
+                    if (NPC.ai[1] >= projectileShootGateValue)
                     {
-                        float projectileVelocityY = NPC.velocity.Y;
-                        if (projectileVelocityY < 0f)
-                            projectileVelocityY = 0f;
+                        NPC.ai[1] = 0f;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            float projectileVelocityY = NPC.velocity.Y;
+                            if (projectileVelocityY < 0f)
+                                projectileVelocityY = 0f;
 
-                        projectileVelocityY += expertMode ? 4f : 3f;
-                        Vector2 projectileVelocity = new Vector2(NPC.velocity.X * 0.25f, projectileVelocityY);
-                        int type = ModContent.ProjectileType<HolyBomb>();
-                        int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, projectileVelocity, type, damage, 0f, Main.myPlayer);
+                            projectileVelocityY += expertMode ? 4f : 3f;
+                            Vector2 projectileVelocity = new Vector2(NPC.velocity.X * 0.25f, projectileVelocityY);
+                            int type = ModContent.ProjectileType<HolyBomb>();
+                            int damage = NPC.GetProjectileDamage(type);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, projectileVelocity, type, damage, 0f, Main.myPlayer);
+                        }
                     }
                 }
 
                 // Defend the commander
-                Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center + Vector2.UnitX * distanceInFrontOfCommander * Main.npc[CalamityGlobalNPC.doughnutBoss].direction - NPC.Center;
+                Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center + Vector2.UnitX * (commanderUsingLaser ? 0f : distanceInFrontOfCommander) * Main.npc[CalamityGlobalNPC.doughnutBoss].direction - NPC.Center;
                 Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f);
-                if (distanceFromDestination.Length() > 80f)
+                if (distanceFromDestination.Length() > (commanderUsingLaser ? 40f : 80f))
                 {
                     float inertia = 20f;
                     if (Main.getGoodWorld)
@@ -665,63 +671,104 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (NPC.spriteDirection == 1)
-                spriteEffects = SpriteEffects.FlipHorizontally;
-
-            Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 drawPos = NPC.Center - screenPos;
-            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
-            Color color36 = Color.White;
-            float amount9 = 0.5f;
-            int num153 = 5;
-            if (NPC.ai[0] == 2f)
-                num153 = 10;
-
-            if (CalamityConfig.Instance.Afterimages)
+            void drawGuardianInstance(Vector2 drawOffset, Color? colorOverride)
             {
-                for (int num155 = 1; num155 < num153; num155 += 2)
+                SpriteEffects spriteEffects = SpriteEffects.None;
+                if (NPC.spriteDirection == 1)
+                    spriteEffects = SpriteEffects.FlipHorizontally;
+
+                Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
+                Vector2 drawPos = NPC.Center - screenPos;
+                Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
+                Color color36 = Color.White;
+                float amount9 = 0.5f;
+                int num153 = 5;
+                if (NPC.ai[0] == 2f)
+                    num153 = 10;
+
+                if (CalamityConfig.Instance.Afterimages)
                 {
-                    Color color38 = drawColor;
-                    color38 = Color.Lerp(color38, color36, amount9);
-                    color38 = NPC.GetAlpha(color38);
-                    color38 *= (num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
-                    vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-                    vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    for (int num155 = 1; num155 < num153; num155 += 2)
+                    {
+                        Color color38 = drawColor;
+                        color38 = Color.Lerp(color38, color36, amount9);
+                        color38 = NPC.GetAlpha(color38);
+                        color38 *= (num153 - num155) / 15f;
+                        if (colorOverride != null)
+                            color38 = colorOverride.Value;
+
+                        Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                        vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                        vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY) + drawOffset;
+                        spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    }
+                }
+
+                Vector2 vector43 = drawPos;
+                vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY) + drawOffset;
+                spriteBatch.Draw(texture2D15, vector43, NPC.frame, colorOverride ?? NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlow").Value;
+                Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+                if (CalamityWorld.getFixedBoi)
+                {
+                    texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlowNight").Value;
+                    color37 = Color.Cyan;
+                }
+                if (colorOverride != null)
+                    color37 = colorOverride.Value;
+
+                if (CalamityConfig.Instance.Afterimages)
+                {
+                    for (int num163 = 1; num163 < num153; num163++)
+                    {
+                        Color color41 = color37;
+                        color41 = Color.Lerp(color41, color36, amount9);
+                        color41 = NPC.GetAlpha(color41);
+                        color41 *= (num153 - num163) / 15f;
+                        if (colorOverride != null)
+                            color41 = colorOverride.Value;
+
+                        Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                        vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                        vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY) + drawOffset;
+                        spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    }
+                }
+
+                spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            }
+
+            // Draw laser effects
+            float useLaserGateValue = 120f;
+            float stopLaserGateValue = (CalamityWorld.revenge || BossRushEvent.BossRushActive) ? 235f : 315f;
+            float maxIntensity = 45f;
+            float increaseIntensityGateValue = useLaserGateValue - maxIntensity;
+            float decreaseIntensityGateValue = stopLaserGateValue - maxIntensity;
+            bool usingLaser = Main.npc[CalamityGlobalNPC.doughnutBoss].ai[0] == 5f;
+            bool increaseIntensity = Main.npc[CalamityGlobalNPC.doughnutBoss].ai[1] > increaseIntensityGateValue;
+            bool decreaseIntensity = Main.npc[CalamityGlobalNPC.doughnutBoss].ai[1] > decreaseIntensityGateValue;
+            if (usingLaser)
+            {
+                float burnIntensity = decreaseIntensity ? Utils.GetLerpValue(0f, maxIntensity, maxIntensity - (Main.npc[CalamityGlobalNPC.doughnutBoss].ai[1] - decreaseIntensityGateValue), true) : Utils.GetLerpValue(0f, maxIntensity, Main.npc[CalamityGlobalNPC.doughnutBoss].ai[1], true);
+                int totalGuardiansToDraw = (int)MathHelper.Lerp(1f, 30f, burnIntensity);
+                for (int i = 0; i < totalGuardiansToDraw; i++)
+                {
+                    float offsetAngle = MathHelper.TwoPi * i * 2f / totalGuardiansToDraw;
+                    float drawOffsetFactor = (float)Math.Sin(offsetAngle * 6f + Main.GlobalTimeWrappedHourly * MathHelper.Pi);
+                    drawOffsetFactor *= (float)Math.Pow(burnIntensity, 3f) * 50f;
+
+                    Vector2 drawOffset = offsetAngle.ToRotationVector2() * drawOffsetFactor;
+                    Color baseColor = Color.White * (MathHelper.Lerp(0.4f, 0.8f, burnIntensity) / totalGuardiansToDraw * 1.5f);
+                    baseColor.A = 0;
+
+                    baseColor = Color.Lerp(Color.White, baseColor, burnIntensity);
+                    drawGuardianInstance(drawOffset, totalGuardiansToDraw == 1 ? null : baseColor);
                 }
             }
-
-            Vector2 vector43 = drawPos;
-            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlow").Value;
-            Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
-            if (CalamityWorld.getFixedBoi)
-            {
-                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlowNight").Value;
-                color37 = Color.Cyan;
-            }
-
-            if (CalamityConfig.Instance.Afterimages)
-            {
-                for (int num163 = 1; num163 < num153; num163++)
-                {
-                    Color color41 = color37;
-                    color41 = Color.Lerp(color41, color36, amount9);
-                    color41 = NPC.GetAlpha(color41);
-                    color41 *= (num153 - num163) / 15f;
-                    Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
-                    vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-                    vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-                }
-            }
-
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            else
+                drawGuardianInstance(Vector2.Zero, null);
 
             // Draw shields while healer is alive
             if (NPC.localAI[1] < TimeForShieldDespawn)

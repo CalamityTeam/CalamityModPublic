@@ -798,14 +798,14 @@ namespace CalamityMod.NPCs.Providence
                         if (num855 > (laserPhaseSlow ? 200f : 250f)) // 200
                             NPC.velocity.Y += Main.getGoodWorld ? 0.4f : 0.2f;
 
-                        float speedVariance = laserPhaseSlow ? 2f : 6f;
+                        float speedCap = laserPhaseSlow ? 2f : 6f;
                         if (Main.getGoodWorld)
-                            speedVariance *= 1.5f;
+                            speedCap *= 1.5f;
 
-                        if (NPC.velocity.Y > speedVariance)
-                            NPC.velocity.Y = speedVariance;
-                        if (NPC.velocity.Y < -speedVariance)
-                            NPC.velocity.Y = -speedVariance;
+                        if (NPC.velocity.Y > speedCap)
+                            NPC.velocity.Y = speedCap;
+                        if (NPC.velocity.Y < -speedCap)
+                            NPC.velocity.Y = -speedCap;
                     }
                 }
             }

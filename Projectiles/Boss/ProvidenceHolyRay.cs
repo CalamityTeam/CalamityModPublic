@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -48,7 +49,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            //Day mode by default but syncs with the boss
+            // Day mode by default but syncs with the boss
             if (CalamityGlobalNPC.holyBoss != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.holyBoss].active)
@@ -61,24 +62,21 @@ namespace CalamityMod.Projectiles.Boss
             Vector2? vector78 = null;
 
             if (Projectile.velocity.HasNaNs() || Projectile.velocity == Vector2.Zero)
-            {
                 Projectile.velocity = -Vector2.UnitY;
-            }
 
-            if (Main.npc[(int)Projectile.ai[1]].active && Main.npc[(int)Projectile.ai[1]].type == ModContent.NPCType<Providence>())
+            if (Main.npc[(int)Projectile.ai[1]].active && (Main.npc[(int)Projectile.ai[1]].type == ModContent.NPCType<Providence>() || Main.npc[(int)Projectile.ai[1]].type == ModContent.NPCType<ProfanedGuardianCommander>()))
             {
-                Vector2 fireFrom = new Vector2(Main.npc[(int)Projectile.ai[1]].Center.X, Main.npc[(int)Projectile.ai[1]].Center.Y + 32f);
+                Vector2 laserOffset = Main.npc[(int)Projectile.ai[1]].type == ModContent.NPCType<ProfanedGuardianCommander>() ? new Vector2(40f * Main.npc[(int)Projectile.ai[1]].direction, 20f) : Vector2.UnitY * 32f;
+                Vector2 fireFrom = new Vector2(Main.npc[(int)Projectile.ai[1]].Center.X, Main.npc[(int)Projectile.ai[1]].Center.Y) + laserOffset;
                 Projectile.position = fireFrom - new Vector2(Projectile.width, Projectile.height) / 2f;
             }
             else
                 Projectile.Kill();
 
             if (Projectile.velocity.HasNaNs() || Projectile.velocity == Vector2.Zero)
-            {
                 Projectile.velocity = -Vector2.UnitY;
-            }
 
-            float num801 = 1f;
+            float num801 = Main.npc[(int)Projectile.ai[1]].type == ModContent.NPCType<ProfanedGuardianCommander>() ? 0.66f : 1f;
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] >= (scissorLasers ? 100f : 180f))
             {
@@ -88,23 +86,19 @@ namespace CalamityMod.Projectiles.Boss
 
             Projectile.scale = (float)Math.Sin(Projectile.localAI[0] * MathHelper.Pi / (scissorLasers ? 100f : 180f)) * 10f * num801;
             if (Projectile.scale > num801)
-            {
                 Projectile.scale = num801;
-            }
 
             float num804 = Projectile.velocity.ToRotation();
             num804 += Projectile.ai[0];
             Projectile.rotation = num804 - MathHelper.PiOver2;
             Projectile.velocity = num804.ToRotationVector2();
 
-            float num805 = 3f; //3f
+            float num805 = 3f;
             float num806 = Projectile.width;
 
             Vector2 samplingPoint = Projectile.Center;
             if (vector78.HasValue)
-            {
                 samplingPoint = vector78.Value;
-            }
 
             float[] array3 = new float[(int)num805];
             Collision.LaserScan(samplingPoint, Projectile.velocity, num806 * Projectile.scale, 2400f, array3);
@@ -117,17 +111,15 @@ namespace CalamityMod.Projectiles.Boss
 
             // Fire laser through walls at max length if target cannot be seen
             if (!Collision.CanHitLine(Main.npc[(int)Projectile.ai[1]].Center, 1, 1, Main.player[Main.npc[(int)Projectile.ai[1]].target].Center, 1, 1))
-            {
                 num807 = 2400f;
-            }
 
             int dustType = ProvUtils.GetDustID(Projectile.maxPenetrate);
-            float amount = 0.5f; //0.5f
-            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], num807, amount); //length of laser, linear interpolation
+            float amount = 0.5f;
+            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], num807, amount); // Length of laser, linear interpolation
             Vector2 vector79 = Projectile.Center + Projectile.velocity * (Projectile.localAI[1] - 14f);
             for (int num809 = 0; num809 < 2; num809++)
             {
-                float num810 = Projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
+                float num810 = Projectile.velocity.ToRotation() + (Main.rand.NextBool() ? -1f : 1f) * MathHelper.PiOver2;
                 float num811 = (float)Main.rand.NextDouble() * 2f + 2f;
                 Vector2 vector80 = new Vector2((float)Math.Cos(num810) * num811, (float)Math.Sin(num810) * num811);
                 int num812 = Dust.NewDust(vector79, 0, 0, dustType, vector80.X, vector80.Y, 0, default, 1f);
@@ -151,16 +143,16 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.velocity == Vector2.Zero)
-            {
                 return false;
-            }
-            bool dayTime = (Projectile.maxPenetrate == (int)Providence.BossMode.Day);
+
+            bool dayTime = Projectile.maxPenetrate == (int)Providence.BossMode.Day;
             Texture2D texture2D19 = dayTime ? ModContent.Request<Texture2D>(Texture, AssetRequestMode.ImmediateLoad).Value : 
                 ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/ProvidenceHolyRayNight", AssetRequestMode.ImmediateLoad).Value;
             Texture2D texture2D20 = dayTime ? ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMid", AssetRequestMode.ImmediateLoad).Value : 
                 ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMidNight", AssetRequestMode.ImmediateLoad).Value;
             Texture2D texture2D21 = dayTime ? ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEnd", AssetRequestMode.ImmediateLoad).Value : 
                 ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEndNight", AssetRequestMode.ImmediateLoad).Value;
+
             float num223 = Projectile.localAI[1]; //length of laser
             Color color44 = ProvUtils.GetProjectileColor(Projectile.maxPenetrate, 0) * 0.9f;
             Vector2 vector = Projectile.Center - Main.screenPosition;
@@ -169,6 +161,7 @@ namespace CalamityMod.Projectiles.Boss
             num223 -= (texture2D19.Height / 2 + texture2D21.Height) * Projectile.scale;
             Vector2 value20 = Projectile.Center;
             value20 += Projectile.velocity * Projectile.scale * texture2D19.Height / 2f;
+
             if (num223 > 0f)
             {
                 float num224 = 0f;
@@ -176,22 +169,23 @@ namespace CalamityMod.Projectiles.Boss
                 while (num224 + 1f < num223)
                 {
                     if (num223 - num224 < rectangle7.Height)
-                    {
                         rectangle7.Height = (int)(num223 - num224);
-                    }
+
                     Main.spriteBatch.Draw(texture2D20, value20 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle7), color44, Projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0);
                     num224 += rectangle7.Height * Projectile.scale;
                     value20 += Projectile.velocity * rectangle7.Height * Projectile.scale;
                     rectangle7.Y += 36;
+
                     if (rectangle7.Y + rectangle7.Height > texture2D20.Height)
-                    {
                         rectangle7.Y = 0;
-                    }
                 }
             }
+
             Vector2 vector2 = value20 - Main.screenPosition;
             sourceRectangle2 = null;
+
             Main.spriteBatch.Draw(texture2D21, vector2, sourceRectangle2, color44, Projectile.rotation, texture2D21.Frame(1, 1, 0, 0).Top(), Projectile.scale, SpriteEffects.None, 0);
+
             return false;
         }
 
@@ -205,24 +199,22 @@ namespace CalamityMod.Projectiles.Boss
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             if (projHitbox.Intersects(targetHitbox))
-            {
                 return true;
-            }
+
             float num6 = 0f;
             if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], 22f * Projectile.scale, ref num6))
-            {
                 return true;
-            }
+
             return false;
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            //In GFB, "real damage" is replaced with negative healing
+            // In GFB, "real damage" is replaced with negative healing
             if (Projectile.maxPenetrate >= (int)Providence.BossMode.Red)
                 damage = 0;
 
-            //If the player is dodging, don't apply debuffs
+            // If the player is dodging, don't apply debuffs
             if (damage <= 0 && Projectile.maxPenetrate < (int)Providence.BossMode.Red || target.creativeGodMode)
                 return;
 
