@@ -15,7 +15,7 @@ namespace CalamityMod.BiomeManagers
         public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/AstralBG";
         public override string MapBackground => "CalamityMod/Backgrounds/MapBackgrounds/AstralBG";
 
-        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("UndergroundAstralInfection") ?? MusicID.Space;
+        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("AstralInfectionUnderground") ?? MusicID.Space;
 
         public override void SetStaticDefaults()
         {
