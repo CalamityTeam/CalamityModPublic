@@ -36,7 +36,7 @@ namespace CalamityMod.Skies
         {
             if (maxDepth >= 4f && minDepth < 4f)
             {
-                spriteBatch.Draw(CalamityMod.SulphurSeaSky, new Rectangle(0, (int)(-Main.screenPosition.Y / 6f) + 1300, Main.screenWidth, Main.screenHeight), Color.Lerp(Main.ColorOfTheSkies, Color.White, 0.33f) * 0.2f * opacity);
+                spriteBatch.Draw(CalamityMod.SulphurSeaSky, new Rectangle(0, (int)(-Main.screenPosition.Y / 6f) + 1300, Main.screenWidth, Main.screenHeight), Color.Lerp(Main.ColorOfTheSkies, Color.LightSeaGreen, 0.33f) * 0.2f * opacity);
             }
             //if (maxDepth >= 1f && minDepth < 1f)
             //{
@@ -54,7 +54,7 @@ namespace CalamityMod.Skies
                 for (int k = -1; k <= 1; k++)
                 {
                     var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
-                    spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, Color.Lerp(Main.ColorOfTheSkies, Color.White, 0.33f) * 0.7f * opacity, 0f, new Vector2(0f, 0f), scale, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, Color.Lerp(Main.ColorOfTheSkies, Color.LightSeaGreen, 0.33f) * 0.7f * opacity, 0f, new Vector2(0f, 0f), scale, SpriteEffects.None, 0f);
                 }
             }
             if (maxDepth >= 3f && minDepth < 3f)
