@@ -40,9 +40,9 @@ namespace CalamityMod.World
                 bool canGenerateInLocation = true;
 
                 float totalTiles = schematicSize.X * schematicSize.Y;
-                for (int x = placementPoint.X; x < placementPoint.X + schematicSize.X; x++)
+                for (int x = placementPoint.X - 50; x < placementPoint.X + schematicSize.X + 50; x++)
                 {
-                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                    for (int y = placementPoint.Y - 50; y < placementPoint.Y + schematicSize.Y + 50; y++)
                     {
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
 

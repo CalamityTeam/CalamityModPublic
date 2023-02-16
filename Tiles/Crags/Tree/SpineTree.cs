@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Crags.Tree
         What each frame of the tree means
         (refer to the sprite sheet for the colors)
         X frame 0 (orange) = bottom segment
-        X frame 18 (dark purple) = main body segment, each of the three y-frame variants draws a different tree segment variant
+        X frame 18 (dark purple) = main tree segment, each of the three y-frame variants draws a different tree segment variant
         X frame 36 (light purple) = top of the tree
         X frame 54 (teal) = small rib branch segments
         X frame 72 (lime) = medium rib branch segments

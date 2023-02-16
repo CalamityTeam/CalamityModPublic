@@ -67,7 +67,7 @@ namespace CalamityMod.World
                     //normally i would organize each layer of blocks by the order of how they are placed in the abyss
                     //but i cannot be bothered, and when i do it, it keeps messing up or making certain parts like transitions not gen right
                     //i have at least left comments so people reading will know what does what
-                    if (abyssIndex2 > (rockLayer - Main.maxTilesY / 15) + 25)
+                    if (abyssIndex2 > (rockLayer - Main.maxTilesY / 15) + 35)
                     {
                         //replaces blocks wand walls that can be converted
                         if (canConvert)
@@ -655,6 +655,9 @@ namespace CalamityMod.World
                     }
                 }
             }
+
+            //ugh ill edit this later so i can customize the check positions and tiles for columns
+            //SulphurousSea.GenerateColumnsInCaverns();
         }
 
         public static void AbyssIsland(int i, int j, int sizeMin, int sizeMax, int sizeMin2, int sizeMax2, int tileType, bool hasChest, bool hasClumps, bool hasScoria)

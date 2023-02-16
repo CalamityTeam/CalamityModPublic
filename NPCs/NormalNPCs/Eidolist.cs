@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
-            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbyssLayer3Biome>().Type };
+            SpawnModBiomes = new int[2] { ModContent.GetInstance<AbyssLayer3Biome>().Type, ModContent.GetInstance<AbyssLayer4Biome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -319,7 +319,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer3 && spawnInfo.Water)
             {
-                return 0.1f;
+                return 0.25f;
+            }
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water)
+            {
+                return 0.5f;
             }
             return 0f;
         }
