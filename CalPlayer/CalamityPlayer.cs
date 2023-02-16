@@ -937,7 +937,7 @@ namespace CalamityMod.CalPlayer
         public bool powerfulRaven = false;
         public bool dragonFamily = false;
         public bool providenceStabber = false;
-        public bool radiantResolution = false;
+        public bool saros = false;
         public bool plaguebringerMK2 = false;
         public bool igneousExaltation = false;
         public bool coldDivinity = false;
@@ -1986,7 +1986,7 @@ namespace CalamityMod.CalPlayer
             voidAura = false;
             voidAuraDamage = false;
             voidConcentrationAura = false;
-            radiantResolution = false;
+            saros = false;
             virili = false;
             frostBlossom = false;
             cinderBlossom = false;
