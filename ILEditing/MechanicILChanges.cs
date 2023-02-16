@@ -971,13 +971,13 @@ namespace CalamityMod.ILEditing
                 return;
 
             Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-            if (tile.LiquidAmount <= 0 || tile.HasTile || (Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot &&
-            Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricDepthsWater").Slot))
+            if (tile.LiquidAmount <= 0 || tile.HasTile || (Main.waterStyle != SulphuricWater.Type &&
+            Main.waterStyle != SulphuricDepthsWater.Type))
                 return;
 
             Tile above = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
             if (!Main.gamePaused && !above.HasTile && above.LiquidAmount <= 0 && Main.rand.NextBool(9) && 
-            Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
+            Main.waterStyle == SulphuricWater.Type)
             {
                 MediumMistParticle acidFoam = new(new(x * 16f + Main.rand.NextFloat(16f), y * 16f + 8f), -Vector2.UnitY.RotatedByRandom(0.67f) * Main.rand.NextFloat(1f, 2.4f), Color.LightSeaGreen, Color.White, 0.16f, 128f, 0.02f);
                 GeneralParticleHandler.SpawnParticle(acidFoam);
@@ -985,9 +985,13 @@ namespace CalamityMod.ILEditing
 
             if (tile.TileType != (ushort)ModContent.TileType<RustyChestTile>())
             {
-                if (Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot && Main.dayTime == true)
+                if (Main.waterStyle == SulphuricWater.Type && Main.dayTime == true)
                 {
                     float brightness = MathHelper.Clamp(0.2f - (y / 540), 0.0f, 0.2f);
+                    if (y > 480)
+                    {
+                        brightness *= 1f - (y - 480) / 60f;
+                    }
                     float wave1 = (Main.GameUpdateCount * 0.014f) * -50 + (x + (-y / 2)) * 15;
                     float wave2 = (Main.GameUpdateCount * 0.10f) * -10 + (x + (-y / 2)) * 14;
                     float wave3 = (Main.GameUpdateCount * 0.014f) * -100 + (x + (-y / 2)) * 13;
@@ -1001,9 +1005,13 @@ namespace CalamityMod.ILEditing
                     outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), (0.41f + wave1angle + wave2angle + wave3angle + wave4angle + wave5angle));
                     outputColor *= brightness;
                 }
-                if (Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot && Main.dayTime == false)
+                if (Main.waterStyle == SulphuricWater.Type && Main.dayTime == false)
                 {
                     float brightness = MathHelper.Clamp(0.1f - (y / 540), 0.0f, 0.1f);
+                    if (y > 480)
+                    {
+                        brightness *= 1f - (y - 480) / 60f;
+                    }
                     float wave1 = (Main.GameUpdateCount * 0.014f) * -50 + (x + (-y / 2)) * 15;
                     float wave2 = (Main.GameUpdateCount * 0.10f) * -10 + (x + (-y / 2)) * 14;
                     float wave3 = (Main.GameUpdateCount * 0.014f) * -100 + (x + (-y / 2)) * 13;
@@ -1018,7 +1026,7 @@ namespace CalamityMod.ILEditing
                     outputColor *= brightness;
                 }
 
-                if (Main.waterStyle == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricDepthsWater").Slot)
+                if (Main.waterStyle == SulphuricDepthsWater.Type)
                 {
 
                     outputColor = Vector3.Lerp(outputColor, Color.MediumSeaGreen.ToVector3(), 0.18f);

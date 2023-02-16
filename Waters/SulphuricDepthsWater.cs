@@ -5,6 +5,11 @@ namespace CalamityMod.Waters
 {
     public class SulphuricDepthsWater : ModWaterStyle
     {
+        public static int Type;
+        public override void SetStaticDefaults()
+        {
+            Type = Slot;
+        }
         public override int ChooseWaterfallStyle()
         {
             return ModContent.Find<ModWaterfallStyle>("CalamityMod/SulphuricDepthsWaterflow").Slot;
