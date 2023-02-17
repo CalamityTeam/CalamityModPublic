@@ -369,8 +369,8 @@ namespace CalamityMod.World
                     bool hasPlacedLogAndSchematic = false;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
                     structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)), 4);
-                    //this is center-anchored so it should be correct already
-                    CalamityWorld.SunkenSeaLabCenter = placementPoint.ToWorldCoordinates();
+                    //Reverted changes to center point placement; the change caused it to not center like it should, offsetting the range at which the bio lab theme plays
+                    CalamityWorld.SunkenSeaLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
                     break;
                 }
                 //try again if the structure is colliding with a structure from another mod
