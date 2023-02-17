@@ -212,7 +212,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (DownedBossSystem.downedProvidence)
             {
-                switch (NPC.Calamity().newAI[0] % 3f)
+                switch (NPC.Calamity().newAI[0] % 2f)
                 {
                     case 0f:
                         displayThisText = "The Rune of Kos holds a significant portion of Providence's brand of magic, easily distinguishable from all others. Activating it in certain places would have some... risky consequences.";
@@ -224,7 +224,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (NPC.downedMoonlord)
             {
-                switch (NPC.Calamity().newAI[0] % 6f)
+                switch (NPC.Calamity().newAI[0] % 5f)
                 {
                     case 0f:
                         displayThisText = "Your adventure focuses to the jungle it seems. The Dragonfolly and its swarming offspring should be eliminated before their numbers spiral out of control.";
@@ -260,28 +260,28 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (Main.hardMode)
             {
-                switch (NPC.Calamity().newAI[0] % 8f)
+                switch (NPC.Calamity().newAI[0] % (!DownedBossSystem.downedCryogen ? 7f : 6f))
                 {
                     case 0f:
-                        displayThisText = !DownedBossSystem.downedCryogen ? "Have you ever heard of the Archmage, Permafrost? Once an advisor to Yharim, he one day vanished and Calamitas abandoned Yharim's cause soon after. From what I know, Permafrost was akin to a father to her. Perhaps if she had something to do with his disappearance, he may yet live...?" : "";
-                        break;
-                    case 1f:
                         displayThisText = "I would recommend saving some of your old items. You never know if you can engineer them into stronger weapons in the future.";
                         break;
-                    case 2f:
+                    case 1f:
                         displayThisText = "If you take an idol down to the Brimstone Crags you might be able to see just what is lurking in the shadows.";
                         break;
-                    case 3f:
+                    case 2f:
                         displayThisText = "Azafure, the city founded in the Brimstone Crags, was one of the first places to support Yharim in his war. Now, it is nothing more than ruins... Just what happened there?";
                         break;
-                    case 4f:
+                    case 3f:
                         displayThisText = "If you've gathered the souls used to power those automatons head once more to the jungle. You will find a powerful enemy to fight, which will unleash the full fervor of the jungle once defeated. Do not underestimate it!";
                         break;
-                    case 5f:
+                    case 4f:
                         displayThisText = "Be careful when defeating Plantera and the Golem. You might accidentally unleash a new threat in the jungle that needs to be quelled.";
                         break;
-                    case 6f:
+                    case 5f:
                         displayThisText = "When exploring the jungle temple be careful. You may not wish to disturb the Lihzahrd's idol, the Golem. It's quite the destructive force.";
+                        break;
+                    case 6f:
+                        displayThisText = "Have you ever heard of the Archmage, Permafrost? Once an advisor to Yharim, he one day vanished and Calamitas abandoned Yharim's cause soon after. From what I know, Permafrost was akin to a father to her. Perhaps if she had something to do with his disappearance, he may yet live...?";
                         break;
                 }
             }
