@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Boss
 
                 float slowGateValue = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 60f : (Projectile.ai[0] == -1f ? 30f : 90f);
                 float fastGateValue = 30f;
-                float minVelocity = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 4f : (Projectile.ai[0] == -1f ? 5f : 3f);
+                float minVelocity = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 4f : (Projectile.ai[0] == -1f ? 4.5f : 3f);
                 float maxVelocity = minVelocity * 4f;
                 float extremeVelocity = maxVelocity * 2f;
                 float deceleration = 0.95f;

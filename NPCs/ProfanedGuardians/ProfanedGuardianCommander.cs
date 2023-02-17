@@ -358,7 +358,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float timeBeforeMoveToOtherSideInPhase1Reset = moveToOtherSideInPhase1GateValue * 2f;
             float totalGoLowDuration = 240f;
             float goLowDuration = totalGoLowDuration * 0.5f;
-            float goLowOrHighDistance = 480f;
+            float goLowOrHighDistance = 540f;
 
             // Side swap variables for Phase 2
             float defenderCommanderGuardPhase2Duration = (bossRush || biomeEnraged) ? 420f : death ? 480f : revenge ? 510f : expertMode ? 540f : 600f;
@@ -373,7 +373,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             if (Main.getGoodWorld)
                 maxChargeVelocity *= 1.15f;
 
-            float inertia = (bossRush || biomeEnraged) ? 50f : death ? 60f : revenge ? 65f : expertMode ? 70f : 80f;
+            float inertia = (bossRush || biomeEnraged) ? 40f : death ? 45f : revenge ? 47f : expertMode ? 50f : 55f;
             if (lifeRatio < 0.5f)
                 inertia *= 0.8f;
             if (!phase1)
@@ -456,17 +456,17 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (Vector2.Distance(NPC.Center, player.Center) > (distanceToStayAwayFromTarget + 160f))
                 {
                     inertia *= 0.5f;
-                    velocity *= 1.5f;
+                    velocity *= 2f;
                 }
                 if (goLowPhase2 || goHigh)
                 {
                     inertia *= 0.5f;
-                    velocity *= 1.5f;
+                    velocity *= 2f;
                 }
                 else if (goLow)
                 {
                     inertia *= 0.66f;
-                    velocity *= 1.33f;
+                    velocity *= 1.66f;
                 }
 
                 Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * calamityGlobalNPC.newAI[0];
@@ -746,7 +746,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (boostVelocityToCatchUp)
                     velocity *= 2f;
 
-                float distanceToStayAwayFromTarget = 320f;
+                float distanceToStayAwayFromTarget = 400f;
                 Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * -NPC.direction;
                 Vector2 targetVector = destination - NPC.Center;
                 Vector2 desiredVelocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
@@ -763,7 +763,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (NPC.ai[1] < phaseGateValue)
                 {
                     // Move towards destination
-                    if (Vector2.Distance(NPC.Center, destination) > 160f)
+                    if (Vector2.Distance(NPC.Center, destination) > 80f)
                     {
                         inertia *= 0.5f;
                         NPC.velocity = (NPC.velocity * (inertia - 1f) + desiredVelocity) / inertia;
@@ -814,13 +814,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             float rotation = MathHelper.ToRadians(spread);
                             for (int i = 0; i < baseProjectileAmt; i++)
                             {
-                                Vector2 perturbedSpeed = velocity2.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(baseProjectileAmt - 1))) * 0.25f;
+                                Vector2 perturbedSpeed = velocity2.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(baseProjectileAmt - 1))) * 0.3f;
 
                                 for (int k = 0; k < totalDustPerProjectile; k++)
                                     Dust.NewDust(shootFrom, 30, 30, (int)CalamityDusts.ProfanedFire, perturbedSpeed.X, perturbedSpeed.Y, 0, default, 1f);
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, perturbedSpeed, type, damage, 0f, Main.myPlayer, -1f, 0f);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, perturbedSpeed, type, damage, 0f, Main.myPlayer, -1f, -30f);
                             }
                         }
 
@@ -849,7 +849,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     velocity *= 1.25f;
 
                 calamityGlobalNPC.newAI[0] = -NPC.direction;
-                float distanceToStayAwayFromTarget = 600f;
+                float distanceToStayAwayFromTarget = 720f;
                 Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * calamityGlobalNPC.newAI[0];
                 Vector2 targetVector = destination - NPC.Center;
                 Vector2 desiredVelocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
