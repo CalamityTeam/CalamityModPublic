@@ -98,12 +98,12 @@ namespace CalamityMod.Tiles
                                     for (int projIndex = 0; projIndex < numProj; projIndex++)
                                     {
                                         Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, projIndex / (float)(numProj - 1))) * (Main.rand.NextFloat() + 0.25f);
-                                        Projectile.NewProjectile(new EntitySource_Misc("0"), spawn, perturbedSpeed, type, 0, 0f, Player.FindClosest(new Vector2(i * 16, j2 * 16), 16, 16));
+                                        Projectile.NewProjectile(new EntitySource_TileUpdate(i, j2), spawn, perturbedSpeed, type, 0, 0f, Player.FindClosest(new Vector2(i * 16, j2 * 16), 16, 16));
                                     }
                                     for (int npcIndex = 0; npcIndex < numNPCs; npcIndex++)
                                     {
                                         Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, npcIndex / (float)(numNPCs - 1))) * (Main.rand.NextFloat() + 0.5f) * 0.5f;
-                                        int spore = NPC.NewNPC(new EntitySource_Misc("0"), (int)spawn.X, (int)spawn.Y, NPCID.Spore);
+                                        int spore = NPC.NewNPC(new EntitySource_TileUpdate(i, j2), (int)spawn.X, (int)spawn.Y, NPCID.Spore, 0, -1f);
                                         Main.npc[spore].velocity.X = perturbedSpeed.X;
                                         Main.npc[spore].velocity.Y = perturbedSpeed.Y;
                                         Main.npc[spore].netUpdate = true;
