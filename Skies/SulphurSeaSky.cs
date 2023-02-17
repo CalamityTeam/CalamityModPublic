@@ -43,7 +43,19 @@ namespace CalamityMod.Skies
             //    spriteBatch.Draw(CalamityMod.SulphurSeaSkyFront, new Rectangle(0, (int)(-Main.screenPosition.Y / 6f) + 1300, Main.screenWidth, Main.screenHeight), Color.Lerp(Main.ColorOfTheSkies, Color.White, 0.33f) * 1.5f * opacity);
             //}
 
-            int sulphurSeaHeight = (World.SulphurousSea.YStart + (int)Main.worldSurface) / 5;
+            //small worlds, default draw height
+            int sulphurSeaHeight = (World.SulphurousSea.YStart + (int)Main.worldSurface) / 2;
+
+            //medium worlds
+            if (Main.maxTilesX >= 6400 && Main.maxTilesX < 8400)
+            {
+                sulphurSeaHeight = (World.SulphurousSea.YStart + (int)Main.worldSurface) / 5;
+            }
+            //large worlds (and anything bigger)
+            if (Main.maxTilesX >= 8400)
+            {
+                sulphurSeaHeight = (World.SulphurousSea.YStart + (int)Main.worldSurface) / 98;
+            }
 
             if (maxDepth >= 1f && minDepth < 1f)
             {
