@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using System;
 
 namespace CalamityMod.Tiles
 {
@@ -49,6 +50,27 @@ namespace CalamityMod.Tiles
         public override bool CanExplode(int i, int j)
         {
 			return Main.hardMode;
+        }
+
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            float x = i * 16;
+            float y = j * 16;
+            float distanceFromPlayer = -1f;
+            int player = 0;
+            for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
+            {
+                float dist = Math.Abs(Main.player[playerIndex].position.X - x) + Math.Abs(Main.player[playerIndex].position.Y - y);
+                if (dist < distanceFromPlayer || distanceFromPlayer == -1f)
+                {
+                    player = playerIndex;
+                    distanceFromPlayer = dist;
+                }
+            }
+
+            // Spawn Plantera if the bulb was broken within a distance of 50 tiles or less
+            if (distanceFromPlayer / 16f < 50f)
+                NPC.SpawnOnPlayer(player, NPCID.Plantera);
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
