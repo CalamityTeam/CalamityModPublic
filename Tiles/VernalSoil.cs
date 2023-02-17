@@ -76,39 +76,8 @@ namespace CalamityMod.Tiles
 
                         if (placeTile)
                         {
-                            int num = 36;
-                            for (int k = -4; k <= 0; k++)
-                            {
-                                short frameY = (short)((4 + k) * 18);
-                                Main.tile[i - 2, j2 + k].Get<TileWallWireStateData>().HasTile = true;
-                                Main.tile[i - 2, j2 + k].TileFrameY = frameY;
-                                Main.tile[i - 2, j2 + k].TileFrameX = (short)(num - 36);
-                                Main.tile[i - 2, j2 + k].TileType = tileTypeToPlace;
-                                WorldGen.SquareTileFrame(i - 2, j2 + k);
-                                Main.tile[i - 1, j2 + k].Get<TileWallWireStateData>().HasTile = true;
-                                Main.tile[i - 1, j2 + k].TileFrameY = frameY;
-                                Main.tile[i - 1, j2 + k].TileFrameX = (short)(num - 18);
-                                Main.tile[i - 1, j2 + k].TileType = tileTypeToPlace;
-                                WorldGen.SquareTileFrame(i - 1, j2 + k);
-                                Main.tile[i, j2 + k].Get<TileWallWireStateData>().HasTile = true;
-                                Main.tile[i, j2 + k].TileFrameY = frameY;
-                                Main.tile[i, j2 + k].TileFrameX = (short)num;
-                                Main.tile[i, j2 + k].TileType = tileTypeToPlace;
-                                WorldGen.SquareTileFrame(i, j2 + k);
-                                Main.tile[i + 1, j2 + k].Get<TileWallWireStateData>().HasTile = true;
-                                Main.tile[i + 1, j2 + k].TileFrameY = frameY;
-                                Main.tile[i + 1, j2 + k].TileFrameX = (short)(num + 18);
-                                Main.tile[i + 1, j2 + k].TileType = tileTypeToPlace;
-                                WorldGen.SquareTileFrame(i + 1, j2 + k);
-                                Main.tile[i + 2, j2 + k].Get<TileWallWireStateData>().HasTile = true;
-                                Main.tile[i + 2, j2 + k].TileFrameY = frameY;
-                                Main.tile[i + 2, j2 + k].TileFrameX = (short)(num + 36);
-                                Main.tile[i + 2, j2 + k].TileType = tileTypeToPlace;
-                                WorldGen.SquareTileFrame(i + 2, j2 + k);
-                            }
-
-                            if (Main.tile[i, j2].TileType == tileTypeToPlace && Main.netMode == NetmodeID.Server)
-                                NetMessage.SendTileSquare(-1, i, j2, tileTypeToPlaceThickness, tileTypeToPlaceThickness);
+                            WorldGen.PlaceObject(i, j2, tileTypeToPlace, true);
+                            NetMessage.SendObjectPlacment(-1, i, j2, tileTypeToPlace, 0, 0, -1, -1);
                         }
                     }
                 }
