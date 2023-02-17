@@ -2901,6 +2901,16 @@ namespace CalamityMod.NPCs
                     npc.Size = hitboxSize;
             }
 
+            // Spore enemies deal no damage if Plantera isn't alive
+            if (npc.type == NPCID.Spore)
+            {
+                if (npc.damage > 0)
+                {
+                    if (!NPC.AnyNPCs(NPCID.Plantera))
+                        npc.damage = npc.defDamage = 0;
+                }
+            }
+
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 switch (npc.type)
