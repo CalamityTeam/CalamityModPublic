@@ -253,7 +253,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f);
                 if (distanceFromDestination.Length() > 40f)
                 {
-                    float inertia = 20f;
+                    float inertia = 10f;
                     if (Main.getGoodWorld)
                         inertia *= 0.8f;
 
