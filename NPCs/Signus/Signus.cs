@@ -480,11 +480,11 @@ namespace CalamityMod.NPCs.Signus
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, NPC.target + 1);
                             if (stealthTimer >= maxStealth)
                             {
+                                damage *= 2;
                                 SoundEngine.PlaySound(RaidersTalisman.StealthHitSound, NPC.Center);
                                 for (int i = 0; i < 4; i++)
                                 {
                                     Vector2 offset = new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6));
-                                    damage *= 2;
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, num1071 + offset.X, num1072 + offset.Y, type, damage, 0f, Main.myPlayer, 0f, NPC.target + 1);
                                 }
                                 stealthTimer = 0;
