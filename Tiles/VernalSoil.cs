@@ -80,21 +80,34 @@ namespace CalamityMod.Tiles
                             WorldGen.PlaceObject(i, j2, tileTypeToPlace, true);
                             NetMessage.SendObjectPlacment(-1, i, j2, tileTypeToPlace, 0, 0, -1, -1);
 
-                            // Spread of Chlorophyte Partisan clouds
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            // Spread of Chlorophyte Partisan clouds if the bulb spawns while a player is near
+                            bool isPlayerNear = WorldGen.PlayerLOS(i, j2);
+                            if (isPlayerNear)
                             {
-                                float projectileVelocity = 6f;
-                                int type = ProjectileID.SporeCloud;
-                                Vector2 spawn = new Vector2(i * 16, j2 * 16);
-                                Vector2 destination = new Vector2(i * 16, (j2 - 2) * 16) - spawn;
-                                destination.Normalize();
-                                destination *= projectileVelocity;
-                                int numProj = 20;
-                                float rotation = MathHelper.ToRadians(100);
-                                for (int projIndex = 0; projIndex < numProj; projIndex++)
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, projIndex / (float)(numProj - 1))) * (Main.rand.NextFloat() + 0.25f);
-                                    Projectile.NewProjectile(new EntitySource_Misc("0"), spawn, perturbedSpeed, type, 0, 0f, Player.FindClosest(new Vector2(i * 16, j2 * 16), 16, 16));
+                                    float projectileVelocity = 6f;
+                                    int type = ProjectileID.SporeCloud;
+                                    Vector2 spawn = new Vector2(i * 16, j2 * 16);
+                                    Vector2 destination = new Vector2(i * 16, (j2 - 2) * 16) - spawn;
+                                    destination.Normalize();
+                                    destination *= projectileVelocity;
+                                    int numProj = 20;
+                                    int numNPCs = 5;
+                                    float rotation = MathHelper.ToRadians(100);
+                                    for (int projIndex = 0; projIndex < numProj; projIndex++)
+                                    {
+                                        Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, projIndex / (float)(numProj - 1))) * (Main.rand.NextFloat() + 0.25f);
+                                        Projectile.NewProjectile(new EntitySource_Misc("0"), spawn, perturbedSpeed, type, 0, 0f, Player.FindClosest(new Vector2(i * 16, j2 * 16), 16, 16));
+                                    }
+                                    for (int npcIndex = 0; npcIndex < numNPCs; npcIndex++)
+                                    {
+                                        Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, npcIndex / (float)(numNPCs - 1))) * (Main.rand.NextFloat() + 0.5f) * 0.5f;
+                                        int spore = NPC.NewNPC(new EntitySource_Misc("0"), (int)spawn.X, (int)spawn.Y, NPCID.Spore);
+                                        Main.npc[spore].velocity.X = perturbedSpeed.X;
+                                        Main.npc[spore].velocity.Y = perturbedSpeed.Y;
+                                        Main.npc[spore].netUpdate = true;
+                                    }
                                 }
                             }
                         }
