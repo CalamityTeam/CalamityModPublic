@@ -4,6 +4,7 @@ using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Schematics;
 using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.Abyss.AbyssAmbient;
 using CalamityMod.Tiles.Abyss.Stalactite;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
@@ -839,6 +840,7 @@ namespace CalamityMod.World
             return pastPlacementPositions;
         }
 
+        //GenerateColumnsInCaverns(int width, int depth, int maxHeight, int minHeight, int columnCount)
         public static void GenerateColumnsInCaverns()
         {
             int columnCount = ColumnCount;
@@ -972,6 +974,14 @@ namespace CalamityMod.World
                         //stalagmites, fossiles, and ribs
                         if (tileUp.LiquidType == LiquidID.Water && tileUp.LiquidAmount > 0 && !tileUp.HasTile)
                         {
+                            if (WorldGen.genRand.NextBool(25))
+                            {
+                                ushort[] Crates = new ushort[] { (ushort)ModContent.TileType<PirateCrate4>(),
+                                (ushort)ModContent.TileType<PirateCrate5>(), (ushort)ModContent.TileType<PirateCrate6>() };
+
+                                WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Crates));
+                            }
+
                             if (WorldGen.genRand.NextBool(18))
                             {
                                 ushort[] Vents = new ushort[] { (ushort)ModContent.TileType<SteamGeyser1>(),

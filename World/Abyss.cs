@@ -523,6 +523,12 @@ namespace CalamityMod.World
                             //abyss gravel stuff
                             if (tile.TileType == ModContent.TileType<AbyssGravel>())
                             {
+                                //rare pearls
+                                if (WorldGen.genRand.NextBool(50))
+                                {
+                                    WorldGen.PlaceObject(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<MassiveRarePearl>());
+                                }
+
                                 //giant kelp on abyss gravel
                                 if (WorldGen.genRand.NextBool(15))
                                 {
