@@ -10,7 +10,8 @@ using System;
 
 namespace CalamityMod.Tiles.SunkenSea
 {
-	public class SunkenStalactites : ModTile
+	[LegacyName("SunkenStalactites")]
+	public class SunkenStalactite1 : ModTile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -27,5 +28,13 @@ namespace CalamityMod.Tiles.SunkenSea
 
             base.SetStaticDefaults();
 		}
+	}
+
+	public class SunkenStalactite2 : SunkenStalactite1
+	{
+	}
+
+	public class SunkenStalactite3 : SunkenStalactite1
+	{
 	}
 }

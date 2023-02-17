@@ -15,8 +15,7 @@ namespace CalamityMod.World
             Tile tile = CalamityUtils.ParanoidTileRetrieval(placementPoint.X, placementPoint.Y);
 
             //avoid hive and jungle temple blocks
-            if (tile.TileType == TileID.LihzahrdBrick || tile.WallType == WallID.LihzahrdBrickUnsafe || 
-            tile.TileType == TileID.Hive || tile.WallType == WallID.HiveUnsafe)
+            if (tile.TileType == TileID.LihzahrdBrick || tile.WallType == WallID.LihzahrdBrickUnsafe)
             {
                 return true;
             }
@@ -53,14 +52,13 @@ namespace CalamityMod.World
 
                         //check for jungle grasses
                         if (tile.TileType == TileID.JungleGrass || tile.TileType == TileID.JunglePlants || tile.TileType == TileID.JungleVines ||
-                        tile.WallType == WallID.MudUnsafe || tile.WallType == WallID.JungleUnsafe)
+                        tile.WallType == WallID.MudUnsafe || tile.WallType == WallID.JungleUnsafe || tile.TileType == TileID.Hive || tile.WallType == WallID.HiveUnsafe)
                         {
                             jungleStuffInArea++;
                         }
 
                         //immediately reset the counter if any invalid tiles are found
-                        if (tile.TileType == TileID.LihzahrdBrick || tile.WallType == WallID.LihzahrdBrickUnsafe || 
-                        tile.TileType == TileID.Hive || tile.WallType == WallID.HiveUnsafe)
+                        if (tile.TileType == TileID.LihzahrdBrick || tile.WallType == WallID.LihzahrdBrickUnsafe)
                         {
                             canGenerateInLocation = false;
                         }
@@ -81,7 +79,7 @@ namespace CalamityMod.World
                     break;
                 }
 
-            } while (tries <= 20000);
+            } while (tries <= 10000);
         }
     }
 }
