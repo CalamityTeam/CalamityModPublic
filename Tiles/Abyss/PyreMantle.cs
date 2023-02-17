@@ -41,6 +41,29 @@ namespace CalamityMod.Tiles.Abyss
         {
             return false;
         }
+        public override void RandomUpdate(int i, int j)
+        {
+            Tile tile = Main.tile[i, j];
+            Tile up = Main.tile[i, j - 1];
+            Tile up2 = Main.tile[i, j - 2];
+
+            //place Phoviamare Halm
+            if (WorldGen.genRand.Next(12) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount > 0 && up2.LiquidAmount > 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
+            {
+                up.TileType = (ushort)ModContent.TileType<PhoviamareHalm>();
+                up.HasTile = true;
+                up.TileFrameY = 0;
+
+                //16 different frames, choose a random one
+                up.TileFrameX = (short)(WorldGen.genRand.Next(16) * 18);
+                WorldGen.SquareTileFrame(i, j - 1, true);
+
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    NetMessage.SendTileSquare(-1, i, j - 1, 3, TileChangeType.None);
+                }
+            }
+        }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {

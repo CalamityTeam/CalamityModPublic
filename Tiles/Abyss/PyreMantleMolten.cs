@@ -54,15 +54,15 @@ namespace CalamityMod.Tiles.Abyss
             Tile up = Main.tile[i, j - 1];
             Tile up2 = Main.tile[i, j - 2];
 
-            //place kelp
-            if (WorldGen.genRand.Next(25) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount > 0 && up2.LiquidAmount > 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
+            //place PhoviamareHalm
+            if (WorldGen.genRand.Next(12) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount > 0 && up2.LiquidAmount > 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
             {
-                up.TileType = (ushort)ModContent.TileType<AbyssKelp>();
+                up.TileType = (ushort)ModContent.TileType<PhoviamareHalm>();
                 up.HasTile = true;
                 up.TileFrameY = 0;
 
-                //7 different frames, choose a random one
-                up.TileFrameX = (short)(WorldGen.genRand.Next(7) * 18);
+                //16 different frames, choose a random one
+                up.TileFrameX = (short)(WorldGen.genRand.Next(16) * 18);
                 WorldGen.SquareTileFrame(i, j - 1, true);
 
                 if (Main.netMode == NetmodeID.Server) 
