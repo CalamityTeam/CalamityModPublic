@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -78,6 +79,24 @@ namespace CalamityMod.Tiles
                         {
                             WorldGen.PlaceObject(i, j2, tileTypeToPlace, true);
                             NetMessage.SendObjectPlacment(-1, i, j2, tileTypeToPlace, 0, 0, -1, -1);
+
+                            // Spread of Chlorophyte Partisan clouds
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                float projectileVelocity = 6f;
+                                int type = ProjectileID.SporeCloud;
+                                Vector2 spawn = new Vector2(i * 16, j2 * 16);
+                                Vector2 destination = new Vector2(i * 16, (j2 - 2) * 16) - spawn;
+                                destination.Normalize();
+                                destination *= projectileVelocity;
+                                int numProj = 20;
+                                float rotation = MathHelper.ToRadians(100);
+                                for (int projIndex = 0; projIndex < numProj; projIndex++)
+                                {
+                                    Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, projIndex / (float)(numProj - 1))) * (Main.rand.NextFloat() + 0.25f);
+                                    Projectile.NewProjectile(new EntitySource_Misc("0"), spawn, perturbedSpeed, type, 0, 0f, Player.FindClosest(new Vector2(i * 16, j2 * 16), 16, 16));
+                                }
+                            }
                         }
                     }
                 }
