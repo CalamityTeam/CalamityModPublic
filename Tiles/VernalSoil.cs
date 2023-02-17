@@ -27,86 +27,90 @@ namespace CalamityMod.Tiles
 
         public override void RandomUpdate(int i, int j)
         {
-            int j2 = j - 1;
-            if (j2 < 10)
-                j2 = 10;
-
-            if (Main.tile[i, j2].LiquidAmount == 0)
+            bool underground = j >= (int)Main.worldSurface - 1 && j < Main.maxTilesY - 20;
+            if (underground)
             {
-                if (WorldGen.genRand.NextBool(15))
+                int j2 = j - 1;
+                if (j2 < 10)
+                    j2 = 10;
+
+                if (Main.tile[i, j2].LiquidAmount == 0)
                 {
-                    ushort tileTypeToPlace = (ushort)ModContent.TileType<GiantPlanteraBulb>();
-                    int tileTypeToPlaceThickness = 5;
-                    bool placeBulb = true;
-                    int minDistanceFromOtherBulbs = 10;
-                    for (int k = i - minDistanceFromOtherBulbs; k < i + minDistanceFromOtherBulbs; k += 2)
+                    if (WorldGen.genRand.NextBool(15))
                     {
-                        for (int l = j - minDistanceFromOtherBulbs; l < j + minDistanceFromOtherBulbs; l += 2)
+                        ushort tileTypeToPlace = (ushort)ModContent.TileType<GiantPlanteraBulb>();
+                        int tileTypeToPlaceThickness = 5;
+                        bool placeBulb = true;
+                        int minDistanceFromOtherBulbs = 10;
+                        for (int k = i - minDistanceFromOtherBulbs; k < i + minDistanceFromOtherBulbs; k += 2)
                         {
-                            if (k > tileTypeToPlaceThickness && k < Main.maxTilesX - tileTypeToPlaceThickness && l > tileTypeToPlaceThickness && l < Main.maxTilesY - tileTypeToPlaceThickness && Main.tile[k, l].HasTile && Main.tile[k, l].TileType == tileTypeToPlace)
+                            for (int l = j - minDistanceFromOtherBulbs; l < j + minDistanceFromOtherBulbs; l += 2)
                             {
-                                placeBulb = false;
-                                break;
+                                if (k > tileTypeToPlaceThickness && k < Main.maxTilesX - tileTypeToPlaceThickness && l > tileTypeToPlaceThickness && l < Main.maxTilesY - tileTypeToPlaceThickness && Main.tile[k, l].HasTile && Main.tile[k, l].TileType == tileTypeToPlace)
+                                {
+                                    placeBulb = false;
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    if (placeBulb)
-                    {
-                        if (i < tileTypeToPlaceThickness || i > Main.maxTilesX - tileTypeToPlaceThickness || j2 < tileTypeToPlaceThickness || j2 > Main.maxTilesY - tileTypeToPlaceThickness)
-                            return;
-
-                        bool placeTile = true;
-                        for (int i2 = i - 2; i2 < i + 3; i2++)
+                        if (placeBulb)
                         {
-                            for (int j3 = j2 - 4; j3 < j2 + 1; j3++)
+                            if (i < tileTypeToPlaceThickness || i > Main.maxTilesX - tileTypeToPlaceThickness || j2 < tileTypeToPlaceThickness || j2 > Main.maxTilesY - tileTypeToPlaceThickness)
+                                return;
+
+                            bool placeTile = true;
+                            for (int i2 = i - 2; i2 < i + 3; i2++)
                             {
-                                if (Main.tile[i2, j3] == null)
+                                for (int j3 = j2 - 4; j3 < j2 + 1; j3++)
+                                {
+                                    if (Main.tile[i2, j3] == null)
+                                        return;
+
+                                    if (Main.tile[i2, j3].HasTile)
+                                        placeTile = false;
+                                }
+
+                                if (Main.tile[i2, j2 + 1] == null)
                                     return;
 
-                                if (Main.tile[i2, j3].HasTile)
+                                if (!WorldGen.SolidTile2(i2, j2 + 1))
                                     placeTile = false;
                             }
 
-                            if (Main.tile[i2, j2 + 1] == null)
-                                return;
-
-                            if (!WorldGen.SolidTile2(i2, j2 + 1))
-                                placeTile = false;
-                        }
-
-                        if (placeTile)
-                        {
-                            WorldGen.PlaceObject(i, j2, tileTypeToPlace, true);
-                            NetMessage.SendObjectPlacment(-1, i, j2, tileTypeToPlace, 0, 0, -1, -1);
-
-                            // Spread of Chlorophyte Partisan clouds if the bulb spawns while a player is near
-                            bool isPlayerNear = WorldGen.PlayerLOS(i, j2);
-                            if (isPlayerNear)
+                            if (placeTile)
                             {
-                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                WorldGen.PlaceObject(i, j2, tileTypeToPlace, true);
+                                NetMessage.SendObjectPlacment(-1, i, j2, tileTypeToPlace, 0, 0, -1, -1);
+
+                                // Spread of Chlorophyte Partisan clouds if the bulb spawns while a player is near
+                                bool isPlayerNear = WorldGen.PlayerLOS(i, j2);
+                                if (isPlayerNear)
                                 {
-                                    float projectileVelocity = 6f;
-                                    int type = ProjectileID.SporeCloud;
-                                    Vector2 spawn = new Vector2(i * 16, j2 * 16);
-                                    Vector2 destination = new Vector2(i * 16, (j2 - 2) * 16) - spawn;
-                                    destination.Normalize();
-                                    destination *= projectileVelocity;
-                                    int numProj = 20;
-                                    int numNPCs = 5;
-                                    float rotation = MathHelper.ToRadians(100);
-                                    for (int projIndex = 0; projIndex < numProj; projIndex++)
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
                                     {
-                                        Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, projIndex / (float)(numProj - 1))) * (Main.rand.NextFloat() + 0.25f);
-                                        Projectile.NewProjectile(new EntitySource_TileUpdate(i, j2), spawn, perturbedSpeed, type, 0, 0f, Player.FindClosest(new Vector2(i * 16, j2 * 16), 16, 16));
-                                    }
-                                    for (int npcIndex = 0; npcIndex < numNPCs; npcIndex++)
-                                    {
-                                        Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, npcIndex / (float)(numNPCs - 1))) * (Main.rand.NextFloat() + 0.5f) * 0.5f;
-                                        int spore = NPC.NewNPC(new EntitySource_TileUpdate(i, j2), (int)spawn.X, (int)spawn.Y, NPCID.Spore, 0, -1f);
-                                        Main.npc[spore].velocity.X = perturbedSpeed.X;
-                                        Main.npc[spore].velocity.Y = perturbedSpeed.Y;
-                                        Main.npc[spore].netUpdate = true;
+                                        float projectileVelocity = 6f;
+                                        int type = ProjectileID.SporeCloud;
+                                        Vector2 spawn = new Vector2(i * 16, j2 * 16);
+                                        Vector2 destination = new Vector2(i * 16, (j2 - 2) * 16) - spawn;
+                                        destination.Normalize();
+                                        destination *= projectileVelocity;
+                                        int numProj = 20;
+                                        int numNPCs = 5;
+                                        float rotation = MathHelper.ToRadians(100);
+                                        for (int projIndex = 0; projIndex < numProj; projIndex++)
+                                        {
+                                            Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, projIndex / (float)(numProj - 1))) * (Main.rand.NextFloat() + 0.25f);
+                                            Projectile.NewProjectile(new EntitySource_TileUpdate(i, j2), spawn, perturbedSpeed, type, 0, 0f, Player.FindClosest(new Vector2(i * 16, j2 * 16), 16, 16));
+                                        }
+                                        for (int npcIndex = 0; npcIndex < numNPCs; npcIndex++)
+                                        {
+                                            Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, npcIndex / (float)(numNPCs - 1))) * (Main.rand.NextFloat() + 0.5f) * 0.5f;
+                                            int spore = NPC.NewNPC(new EntitySource_TileUpdate(i, j2), (int)spawn.X, (int)spawn.Y, NPCID.Spore, 0, -1f);
+                                            Main.npc[spore].velocity.X = perturbedSpeed.X;
+                                            Main.npc[spore].velocity.Y = perturbedSpeed.Y;
+                                            Main.npc[spore].netUpdate = true;
+                                        }
                                     }
                                 }
                             }
