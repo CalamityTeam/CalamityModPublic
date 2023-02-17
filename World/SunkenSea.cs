@@ -645,21 +645,26 @@ namespace CalamityMod.World
                             WorldGen.PlaceTile(num5, num6 - 1, (ushort)ModContent.TileType<SeaAnemone>(), true, false, -1, 0);
                         }
 
-                        //note: the stalactites and stalagmites only use their first frame for now
-                        //this is because the previous tile frame randomizer code i had was janky and bad, ill make sure to fix it eventually
                         //stalactites
                         if (WorldGen.genRand.Next(5) == 0)
                         {
-                            WorldGen.PlaceTile(num5, num6 + 2, (ushort)ModContent.TileType<SunkenStalactites>(), true, false, -1, 0);
+                            ushort[] Stalactites = new ushort[] { (ushort)ModContent.TileType<SunkenStalactite1>(),
+                            (ushort)ModContent.TileType<SunkenStalactite2>(), (ushort)ModContent.TileType<SunkenStalactite3>() };
+
+                            WorldGen.PlaceObject(num5, num6 + 2, WorldGen.genRand.Next(Stalactites));
                         }
                         if (WorldGen.genRand.Next(5) == 0)
                         {
                             WorldGen.PlaceTile(num5, num6 + 1, (ushort)ModContent.TileType<SunkenStalactitesSmall>(), true, false, -1, 0);
                         }
+
                         //stalagmites
                         if (WorldGen.genRand.Next(5) == 0)
                         {
-                            WorldGen.PlaceTile(num5, num6 - 2, (ushort)ModContent.TileType<SunkenStalagmites>(), true, false, -1, 0);
+                            ushort[] Stalagmites = new ushort[] { (ushort)ModContent.TileType<SunkenStalagmite1>(),
+                            (ushort)ModContent.TileType<SunkenStalagmite2>(), (ushort)ModContent.TileType<SunkenStalagmite3>() };
+
+                            WorldGen.PlaceObject(num5, num6 - 2, WorldGen.genRand.Next(Stalagmites));
                         }
                         if (WorldGen.genRand.Next(5) == 0)
                         {
