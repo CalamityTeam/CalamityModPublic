@@ -54,6 +54,7 @@ namespace CalamityMod.Tiles
             (ushort)ModContent.TileType<SulphurTentacleCorals>(),
             (ushort)ModContent.TileType<AbyssKelp>(),
             (ushort)ModContent.TileType<TenebrisRemnant>(),
+            (ushort)ModContent.TileType<PhoviamareHalm>(),
 
         };
 
