@@ -94,7 +94,11 @@ namespace CalamityMod.NPCs.TownNPCs
 
             if (NPC.homeless)
             {
-                return "How much more has the world fallen to ruin? Even the Tyrant's empire...";
+                if (Main.rand.NextBool(2))
+                    return "How much more has the world fallen to ruin? Even the Tyrant's empire...";
+                else
+                    return "I do not expect a kingdom from you, but I would appreciate a safe haven.";
+             
             }
             if (Main.dayTime)
             {
