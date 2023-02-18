@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -91,6 +92,7 @@ namespace CalamityMod.Tiles
                                     int projType = ProjectileID.SporeCloud;
                                     int npcType = NPCID.Spore;
                                     Vector2 spawn = new Vector2(i * 16, j2 * 16);
+                                    SoundEngine.PlaySound(SoundID.Item73, spawn);
                                     Vector2 destination = new Vector2(i * 16, (j2 - 2) * 16) - spawn;
                                     destination.Normalize();
                                     destination *= projectileVelocity;

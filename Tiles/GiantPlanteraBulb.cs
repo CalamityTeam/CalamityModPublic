@@ -1,14 +1,13 @@
-﻿using CalamityMod.Dusts;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using System;
-using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Tiles
 {
@@ -31,8 +30,10 @@ namespace CalamityMod.Tiles
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
             AnimationFrameHeight = 90;
+            MineResist = 3f;
             AddMapEntry(Main.hardMode ? new Color(243, 82, 171) : new Color(107, 125, 33));
             DustType = DustID.PlanteraBulb;
+            HitSound = SoundID.Grass;
 
             base.SetStaticDefaults();
         }
@@ -81,6 +82,7 @@ namespace CalamityMod.Tiles
                 int projType = ProjectileID.SporeCloud;
                 int npcType = NPCID.Spore;
                 Vector2 spawn = new Vector2(i * 16, j * 16);
+                SoundEngine.PlaySound(SoundID.Item74, spawn);
                 Vector2 destination = new Vector2(i * 16, (j - 2) * 16) - spawn;
                 destination.Normalize();
                 destination *= projectileVelocity;
