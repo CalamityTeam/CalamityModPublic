@@ -9397,37 +9397,48 @@ namespace CalamityMod.NPCs
             if (npc.velocity.Y > 1f)
                 npc.velocity.Y = 1f;
 
-            npc.TargetClosest(true);
-            float acceleration = 0.2f;
-            float velocity = 5f;
-            if (CalamityWorld.death)
+            // Use regular AI if not spawned by a Giant Plantera Bulb
+            if (npc.ai[0] != -1f)
             {
-                acceleration *= 1.25f;
-                velocity *= 1.25f;
+                npc.TargetClosest(true);
+                float acceleration = Main.expertMode ? 0.2f : 0.1f;
+                float velocity = Main.expertMode ? 5f : 3f;
+                if (CalamityWorld.death)
+                {
+                    acceleration *= 1.25f;
+                    velocity *= 1.25f;
+                }
+
+                // Simple movement AI. You shouldn't need any help from comments to parse this.
+                if (npc.Center.X < Main.player[npc.target].position.X)
+                {
+                    if (npc.velocity.X < 0f)
+                    {
+                        npc.velocity.X *= 0.96f;
+                    }
+                    npc.velocity.X += acceleration;
+                }
+                else if (npc.position.X > Main.player[npc.target].Center.X)
+                {
+                    if (npc.velocity.X > 0f)
+                    {
+                        npc.velocity.X *= 0.96f;
+                    }
+                    npc.velocity.X -= acceleration;
+                }
+                if (npc.velocity.X > velocity || npc.velocity.X < -velocity)
+                {
+                    npc.velocity.X *= 0.97f;
+                }
+            }
+            else
+            {
+                npc.velocity.X *= 0.98f;
+                npc.damage = npc.defDamage = 0;
             }
 
-            // Simple movement AI. You shouldn't need any help from comments to parse this.
-            if (npc.Center.X < Main.player[npc.target].position.X)
-            {
-                if (npc.velocity.X < 0f)
-                {
-                    npc.velocity.X *= 0.96f;
-                }
-                npc.velocity.X += acceleration;
-            }
-            else if (npc.position.X > Main.player[npc.target].Center.X)
-            {
-                if (npc.velocity.X > 0f)
-                {
-                    npc.velocity.X *= 0.96f;
-                }
-                npc.velocity.X -= acceleration;
-            }
-            if (npc.velocity.X > velocity || npc.velocity.X < -velocity)
-            {
-                npc.velocity.X *= 0.97f;
-            }
             npc.rotation = npc.velocity.X * 0.2f;
+
             return false;
         }
         #endregion

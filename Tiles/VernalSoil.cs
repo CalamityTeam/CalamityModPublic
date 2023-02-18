@@ -91,9 +91,10 @@ namespace CalamityMod.Tiles
                                     float projectileVelocity = 6f;
                                     int projType = ProjectileID.SporeCloud;
                                     int npcType = NPCID.Spore;
-                                    Vector2 spawn = new Vector2(i * 16, j2 * 16);
+                                    Vector2 spawn = new Vector2(i * 16 + 8, j2 * 16 + 8);
+                                    Vector2 dustSpawn = new Vector2(i * 16, j2 * 16);
                                     SoundEngine.PlaySound(SoundID.Item73, spawn);
-                                    Vector2 destination = new Vector2(i * 16, (j2 - 2) * 16) - spawn;
+                                    Vector2 destination = new Vector2(i * 16 + 8, (j2 - 2) * 16 + 8) - spawn;
                                     destination.Normalize();
                                     destination *= projectileVelocity;
                                     int numProj = 15;
@@ -107,9 +108,10 @@ namespace CalamityMod.Tiles
                                         if (Main.netMode != NetmodeID.MultiplayerClient)
                                             Projectile.NewProjectile(new EntitySource_TileUpdate(i, j2), spawn, perturbedSpeed, projType, 0, 0f, Player.FindClosest(new Vector2(i * 16, j2 * 16), 16, 16));
 
-                                        Dust dust = Dust.NewDustDirect(spawn, 16, 16, DustID.JungleSpore, perturbedSpeed.X, perturbedSpeed.Y, 250, default, 0.8f);
+                                        perturbedSpeed *= 2f;
+                                        Dust dust = Dust.NewDustDirect(dustSpawn, 16, 16, DustID.JungleSpore, perturbedSpeed.X, perturbedSpeed.Y, 250);
                                         dust.fadeIn = 0.7f;
-                                        Dust.NewDustDirect(spawn, 16, 16, (!WorldGen.genRand.NextBool(3) && Main.hardMode) ? DustID.Plantera_Pink : DustID.Plantera_Green, perturbedSpeed.X, perturbedSpeed.Y);
+                                        Dust.NewDustDirect(dustSpawn, 16, 16, (!WorldGen.genRand.NextBool(3) && Main.hardMode) ? DustID.Plantera_Pink : DustID.Plantera_Green, perturbedSpeed.X, perturbedSpeed.Y);
                                     }
 
                                     if (Main.hardMode)
@@ -126,9 +128,10 @@ namespace CalamityMod.Tiles
                                                 Main.npc[spore].netUpdate = true;
                                             }
 
-                                            Dust dust = Dust.NewDustDirect(spawn, 16, 16, DustID.JungleSpore, perturbedSpeed.X, perturbedSpeed.Y, 250, default, 0.8f);
+                                            perturbedSpeed *= 2f;
+                                            Dust dust = Dust.NewDustDirect(dustSpawn, 16, 16, DustID.JungleSpore, perturbedSpeed.X, perturbedSpeed.Y, 250);
                                             dust.fadeIn = 0.7f;
-                                            Dust.NewDustDirect(spawn, 16, 16, DustID.Plantera_Pink, perturbedSpeed.X, perturbedSpeed.Y);
+                                            Dust.NewDustDirect(dustSpawn, 16, 16, DustID.Plantera_Pink, perturbedSpeed.X, perturbedSpeed.Y);
                                         }
                                     }
                                 }

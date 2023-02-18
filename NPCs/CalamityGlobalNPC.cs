@@ -2889,21 +2889,37 @@ namespace CalamityMod.NPCs
                 npc.ai[0] = 1f;
             }
 
-            // Cultist shield hitbox
-            if (npc.type == NPCID.CultistBoss)
+            if (npc.type == NPCID.CultistBoss || npc.type == NPCID.CultistBossClone)
             {
-                // Decrement the hit counter for the shield flicker
-                if (newAI[1] > 0f)
-                    newAI[1] -= 1f;
+                if (npc.type == NPCID.CultistBossClone)
+                {
+                    if (Main.npc[(int)npc.ai[3]].active)
+                    {
+                        // Emit light
+                        float lifeRatio = Main.npc[(int)npc.ai[3]].life / (float)Main.npc[(int)npc.ai[3]].lifeMax;
+                        float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 4D);
+                        Color lightColor = Color.Lerp(Color.Cyan, Color.Blue, colorTransitionAmt);
+                        Lighting.AddLight(npc.Center, lightColor.R / 255f, lightColor.G / 255f, lightColor.B / 255f);
+                    }
+                }
+                else
+                {
+                    // Emit light
+                    float lifeRatio = npc.life / (float)npc.lifeMax;
+                    float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 4D);
+                    Color lightColor = Color.Lerp(Color.Cyan, Color.Blue, colorTransitionAmt);
+                    Lighting.AddLight(npc.Center, lightColor.R / 255f, lightColor.G / 255f, lightColor.B / 255f);
 
-                Vector2 hitboxSize = new Vector2(216f / 1.4142f);
-                if (npc.Size != hitboxSize)
-                    npc.Size = hitboxSize;
+                    // Decrement the hit counter for the shield flicker
+                    if (newAI[1] > 0f)
+                        newAI[1] -= 1f;
+
+                    // Cultist shield hitbox
+                    Vector2 hitboxSize = new Vector2(216f / 1.4142f);
+                    if (npc.Size != hitboxSize)
+                        npc.Size = hitboxSize;
+                }
             }
-
-            // Spore enemies deal no damage if spawned by Giant Plantera Bulb growth
-            if (npc.type == NPCID.Spore && npc.ai[0] == -1f)
-                npc.damage = npc.defDamage = 0;
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
@@ -3620,15 +3636,6 @@ namespace CalamityMod.NPCs
                         }
                         break;
 
-                    case NPCAIStyleID.Spore:
-                        switch (npc.type)
-                        {
-                            case NPCID.FungiSpore:
-                            case NPCID.Spore:
-                                return CalamityGlobalAI.BuffedSporeAI(npc, Mod);
-                        }
-                        break;
-
                     case NPCAIStyleID.TeslaTurret:
                         switch (npc.type)
                         {
@@ -3727,11 +3734,9 @@ namespace CalamityMod.NPCs
                         break;
                 }
             }
-            else if (Main.expertMode)
-            {
-                if (npc.type == NPCID.FungiSpore || npc.type == NPCID.Spore)
-                    return CalamityGlobalAI.BuffedSporeAI(npc, Mod);
-            }
+
+            if (npc.type == NPCID.FungiSpore || npc.type == NPCID.Spore)
+                return CalamityGlobalAI.BuffedSporeAI(npc, Mod);
 
             // Fairies don't run away and are immune to damage while wearing Fairy Boots.
             if (npc.type >= NPCID.FairyCritterPink && npc.type <= NPCID.FairyCritterBlue && (npc.ai[2] < 2f || npc.ai[2] == 7f))
@@ -5846,7 +5851,8 @@ namespace CalamityMod.NPCs
 
                 float intensity = newAI[1] / 35f;
 
-                float lifeRatio = npc.life / (float)npc.lifeMax;
+                float lifeRatio = npc.type == NPCID.CultistBoss ? (npc.life / (float)npc.lifeMax) : (Main.npc[(int)npc.ai[3]].life / (float)Main.npc[(int)npc.ai[3]].lifeMax);
+
                 float flickerPower = 0f;
                 if (lifeRatio < 0.85f)
                     flickerPower += 0.1f;
@@ -5860,20 +5866,26 @@ namespace CalamityMod.NPCs
                     flickerPower += 0.1f;
                 if (lifeRatio < 0.1f)
                     flickerPower += 0.1f;
+
                 float opacity = 1f;
                 opacity *= MathHelper.Lerp(MathHelper.Max(1f - flickerPower, 0.56f), 1f, (float)Math.Pow(Math.Cos(Main.GlobalTimeWrappedHourly * MathHelper.Lerp(3f, 5f, flickerPower)) * 0.5 + 0.5, 24D));
 
                 // Dampen the opacity and intensity slightly, to allow Cultist to be more easily visible inside of the forcefield.
                 // Dampen the opacity and intensity a bit more for the Clones.
-                float intensityAndOpacityMult = npc.type == NPCID.CultistBossClone ? 0.75f : 1f;
+                float intensityAndOpacityMult = npc.type == NPCID.CultistBossClone ? 0.9f : 1f;
                 intensity *= intensityAndOpacityMult;
                 opacity *= intensityAndOpacityMult;
 
                 Texture2D forcefieldTexture = Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/ForcefieldTexture").Value;
-                GameShaders.Misc["CalamityMod:SupremeShield"].UseImage1("Images/Misc/Perlin");
 
-                Color forcefieldColor = Color.Goldenrod;
-                Color secondaryForcefieldColor = Color.Lerp(Color.Cyan, Color.Gold, (float)Math.Pow((double)(1f - lifeRatio), 4D));
+                if (npc.type == NPCID.CultistBoss)
+                    GameShaders.Misc["CalamityMod:SupremeShield"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/EternityStreak"));
+                else
+                    GameShaders.Misc["CalamityMod:SupremeShield"].UseImage1("Images/Misc/noise");
+
+                float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 4D);
+                Color forcefieldColor = Color.Lerp(Color.MediumSpringGreen, Color.Black, colorTransitionAmt);
+                Color secondaryForcefieldColor = Color.Lerp(Color.Cyan, Color.Blue, colorTransitionAmt);
 
                 forcefieldColor *= opacity;
                 secondaryForcefieldColor *= opacity;
@@ -5885,7 +5897,7 @@ namespace CalamityMod.NPCs
                 GameShaders.Misc["CalamityMod:SupremeShield"].Apply();
 
                 // Actual Cultist has a bigger shield than the Clones.
-                float shieldScale = npc.type == NPCID.CultistBossClone ? 1.5f : 3f;
+                float shieldScale = npc.type == NPCID.CultistBossClone ? 1.65f : MathHelper.Lerp(1.65f, 3f, lifeRatio);
                 spriteBatch.Draw(forcefieldTexture, npc.Center - Main.screenPosition, null, Color.White * opacity, 0f, forcefieldTexture.Size() * 0.5f, shieldScale, SpriteEffects.None, 0f);
 
                 spriteBatch.ExitShaderRegion();
