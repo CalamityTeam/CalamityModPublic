@@ -78,7 +78,7 @@ namespace CalamityMod.Skies
                 for (int k = -1; k <= 1; k++)
                 {
                     var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
-                    spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, Color.Lerp(Main.ColorOfTheSkies, Color.LightSeaGreen, 0.33f) * 0.7f * opacity, 0f, new Vector2(0f, (float)sulphurSeaHeight), scale, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, Color.LightSeaGreen * 0.5f * opacity, 0f, new Vector2(0f, (float)sulphurSeaHeight), scale, SpriteEffects.None, 0f);
                 }
             }
             if (maxDepth >= 3f && minDepth < 3f)
