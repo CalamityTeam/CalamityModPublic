@@ -75,7 +75,7 @@ namespace CalamityMod.World
 
                     //TODO: this needs to have items placed in chests, will do that later
                     SchematicManager.PlaceSchematic<Action<Chest>>(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.Center, ref place);
-                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
+                    structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 30);
                     break;
                 }
 

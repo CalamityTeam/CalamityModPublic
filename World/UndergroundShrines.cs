@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.SummonItems;
@@ -101,7 +101,7 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
                     }
                 }
-                if (!canGenerateInLocation || corruptStuffInArea < totalTiles * 0.5f ||  !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || corruptStuffInArea < totalTiles * 0.5f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                 {
                     tries++;
                 }
@@ -173,7 +173,7 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
                     }
                 }
-                if (!canGenerateInLocation || crimsonStuffInArea < totalTiles * 0.5f ||  !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                if (!canGenerateInLocation || crimsonStuffInArea < totalTiles * 0.5f || !structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
                 {
                     tries++;
                 }
