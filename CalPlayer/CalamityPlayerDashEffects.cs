@@ -116,11 +116,11 @@ namespace CalamityMod.CalPlayer
                 {
                     VerticalGodslayerDashTimer++;
                     if (VerticalGodslayerDashTimer >= 25)
-					{
+                    {
                         Player.dashDelay = dashDelayToApply;
-						// Stop the player from going flying
-						Player.velocity *= 0.2f;
-					}
+                        // Stop the player from going flying
+                        Player.velocity *= 0.2f;
+                    }
                 }
 
                 if (HasCustomDash)
@@ -205,11 +205,20 @@ namespace CalamityMod.CalPlayer
         {
             direction = DashDirection.Directionless;
             bool justDashed = false;
-            bool pressedManualHotkey = CalamityKeybinds.DashHotkey.JustPressed;
-            bool left = (Player.controlRight && Player.releaseRight && !CalamityKeybinds.DashHotkey.HasValidBinding()) || (pressedManualHotkey && Player.direction == 1);
-            bool right = (Player.controlLeft && Player.releaseLeft && !CalamityKeybinds.DashHotkey.HasValidBinding()) || (pressedManualHotkey && Player.direction == -1);
 
-            if (left)
+            // If the manual hotkey is bound, standard Terraria dashes cannot be triggered by double tapping.
+            bool manualHotkeyBound = CalamityKeybinds.DashHotkey.GetAssignedKeys().Count > 0;
+            bool pressedManualHotkey = CalamityKeybinds.DashHotkey.JustPressed;
+
+            bool vanillaRightDashInput = Player.controlRight && Player.releaseRight && !manualHotkeyBound;
+            bool manualRightDashInput = pressedManualHotkey && Player.direction == 1;
+            bool executeRightDash = vanillaRightDashInput || manualRightDashInput;
+
+            bool vanillaLeftDashInput = Player.controlLeft && Player.releaseLeft && !manualHotkeyBound;
+            bool manualLeftDashInput = pressedManualHotkey && Player.direction == -1;
+            bool executeLeftDash = vanillaLeftDashInput || manualLeftDashInput;
+
+            if (executeRightDash)
             {
                 if (dashTimeMod > 0 || pressedManualHotkey)
                 {
@@ -220,7 +229,7 @@ namespace CalamityMod.CalPlayer
                 else
                     dashTimeMod = 15;
             }
-            else if (right)
+            else if (executeLeftDash)
             {
                 if (dashTimeMod < 0 || pressedManualHotkey)
                 {
