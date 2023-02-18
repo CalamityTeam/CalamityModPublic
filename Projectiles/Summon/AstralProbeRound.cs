@@ -5,62 +5,68 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Microsoft.Xna.Framework.Graphics;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class AstralProbeRound : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Ranged/AstralRound";
+        public override string Texture => "CalamityMod/Projectiles/Boss/AstralLaser";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blast");
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            DisplayName.SetDefault("Astral Probe Laser");
+            Main.projFrames[Projectile.type] = 3;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 4;
-            Projectile.height = 4;
+            Projectile.timeLeft = 600;
+            Projectile.penetrate = 1;
+
+            Projectile.width = 62;
+            Projectile.height = 20;
+            Projectile.alpha = 125;
+
+            Projectile.DamageType = DamageClass.Summon;
+            Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.minionSlots = 0f;
             Projectile.minion = true;
-            Projectile.penetrate = 1;
-            Projectile.timeLeft = 300;
-            Projectile.extraUpdates = 2;
-            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, 0.3f, 0.5f, 0.1f);
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            if (Main.rand.NextBool(3))
-            {
-                int randomDust = Utils.SelectRandom(Main.rand, new int[]
-                {
-                    ModContent.DustType<AstralOrange>(),
-                    ModContent.DustType<AstralBlue>()
-                });
-                int astral = Dust.NewDust(Projectile.position, 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
-                Main.dust[astral].alpha = Projectile.alpha;
-                Main.dust[astral].velocity *= 0f;
-                Main.dust[astral].noGravity = true;
-            }
-            NPC potentialTarget = Projectile.Center.MinionHoming(1200f, Main.player[Projectile.owner]);
-            if (potentialTarget != null)
-                Projectile.velocity = (Projectile.velocity * 20f + Projectile.SafeDirectionTo(potentialTarget.Center) * 17f) / 21f;
+            Projectile.rotation = Projectile.velocity.ToRotation(); // The projectile looks at where it's going.
+
+            Projectile.frameCounter++;
+            Projectile.frame = Projectile.frameCounter / 3 % Main.projFrames[Projectile.type];
+            // The projectile does it's animation.
+
+            Lighting.AddLight(Projectile.Center, Vector3.One * 0.1f); // The projectile emtis light.
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
 
-        public override bool PreDraw(ref Color lightColor)
+        public override bool PreDraw(ref Color lightColor) 
         {
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
-            return false;
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
+            Vector2 origin = frame.Size() * 0.5f;
+            SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
+            {
+                Color afterimageDrawColor = Color.White with { A = 25 } * Projectile.Opacity * (1f - i / (float)Projectile.oldPos.Length);
+                Vector2 afterimageDrawPosition = Projectile.oldPos[i] + Projectile.Size * 0.5f - Main.screenPosition;
+                Main.EntitySpriteDraw(texture, afterimageDrawPosition, frame, afterimageDrawColor, Projectile.rotation, origin, Projectile.scale, direction, 0);
+            }
+            // Makes the projectile have afterimages.
+
+            return true;
         }
 
         public override void Kill(int timeLeft)
@@ -68,15 +74,11 @@ namespace CalamityMod.Projectiles.Summon
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             for (int k = 0; k < 5; k++)
             {
-                int randomDust = Main.rand.Next(2);
-                if (randomDust == 0)
+                int randomDust = Utils.SelectRandom(Main.rand, new int[]
                 {
-                    randomDust = ModContent.DustType<AstralOrange>();
-                }
-                else
-                {
-                    randomDust = ModContent.DustType<AstralBlue>();
-                }
+                    ModContent.DustType<AstralOrange>(),
+                    ModContent.DustType<AstralBlue>()
+                });
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, randomDust, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }

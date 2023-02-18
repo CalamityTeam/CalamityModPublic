@@ -268,7 +268,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
 
-            if (!CalamityKeybinds.DashHotkey.HasValidBinding())
+            if (CalamityKeybinds.DashHotkey.GetAssignedKeys().Count == 0)
                 orig(self, out dir, out dashing, dashStartAction);
             else
             {

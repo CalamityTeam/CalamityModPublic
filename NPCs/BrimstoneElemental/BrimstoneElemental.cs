@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             };
             value.Position.Y -= 24f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
-			NPCID.Sets.MPAllowedEnemies[Type] = true;
+            NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -89,8 +89,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A fallen goddess, past her prime of faithful worshippers. She feels an intense hatred for any being with enough self awareness to pity her.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A fallen goddess, past her prime of faithful worshippers. She feels an intense hatred for any being with enough self awareness to pity her.")
             });
         }
 
@@ -229,6 +229,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<BrimstoneElementalRelic>());
 
             // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<LoreAzafure>(), desc: DropHelper.FirstKillText);
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<LoreBrimstoneElemental>(), desc: DropHelper.FirstKillText);
         }
 
