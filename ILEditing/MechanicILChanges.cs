@@ -1029,9 +1029,9 @@ namespace CalamityMod.ILEditing
                 if (Main.waterStyle == SulphuricWater.Type && Main.raining)
                 {
                     float brightness = MathHelper.Clamp(1f - (y / 680), 0.0f, 1f);
-                    if (y > 380)
+                    if (y > 430)
                     {
-                        brightness *= 1f - (y - 380) / 300f;
+                        brightness *= 1f - (y - 430) / 250f;
                     }
                     outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
                     outputColor *= brightness;
