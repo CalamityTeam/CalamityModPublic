@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -87,29 +88,47 @@ namespace CalamityMod.Tiles
                                 bool isPlayerNear = WorldGen.PlayerLOS(i, j2);
                                 if (isPlayerNear)
                                 {
-                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    float projectileVelocity = 6f;
+                                    int projType = ProjectileID.SporeCloud;
+                                    int npcType = NPCID.Spore;
+                                    Vector2 spawn = new Vector2(i * 16, j2 * 16);
+                                    SoundEngine.PlaySound(SoundID.Item73, spawn);
+                                    Vector2 destination = new Vector2(i * 16, (j2 - 2) * 16) - spawn;
+                                    destination.Normalize();
+                                    destination *= projectileVelocity;
+                                    int numProj = 15;
+                                    int numNPCs = 5;
+                                    float rotation = MathHelper.ToRadians(100);
+
+                                    for (int projIndex = 0; projIndex < numProj; projIndex++)
                                     {
-                                        float projectileVelocity = 6f;
-                                        int type = ProjectileID.SporeCloud;
-                                        Vector2 spawn = new Vector2(i * 16, j2 * 16);
-                                        Vector2 destination = new Vector2(i * 16, (j2 - 2) * 16) - spawn;
-                                        destination.Normalize();
-                                        destination *= projectileVelocity;
-                                        int numProj = 20;
-                                        int numNPCs = 5;
-                                        float rotation = MathHelper.ToRadians(100);
-                                        for (int projIndex = 0; projIndex < numProj; projIndex++)
-                                        {
-                                            Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, projIndex / (float)(numProj - 1))) * (Main.rand.NextFloat() + 0.25f);
-                                            Projectile.NewProjectile(new EntitySource_TileUpdate(i, j2), spawn, perturbedSpeed, type, 0, 0f, Player.FindClosest(new Vector2(i * 16, j2 * 16), 16, 16));
-                                        }
+                                        Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, projIndex / (float)(numProj - 1))) * (Main.rand.NextFloat() + 0.25f);
+
+                                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                                            Projectile.NewProjectile(new EntitySource_TileUpdate(i, j2), spawn, perturbedSpeed, projType, 0, 0f, Player.FindClosest(new Vector2(i * 16, j2 * 16), 16, 16));
+
+                                        Dust dust = Dust.NewDustDirect(spawn, 16, 16, DustID.JungleSpore, perturbedSpeed.X, perturbedSpeed.Y, 250, default, 0.8f);
+                                        dust.fadeIn = 0.7f;
+                                        Dust.NewDustDirect(spawn, 16, 16, (!WorldGen.genRand.NextBool(3) && Main.hardMode) ? DustID.Plantera_Pink : DustID.Plantera_Green, perturbedSpeed.X, perturbedSpeed.Y);
+                                    }
+
+                                    if (Main.hardMode)
+                                    {
                                         for (int npcIndex = 0; npcIndex < numNPCs; npcIndex++)
                                         {
                                             Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, npcIndex / (float)(numNPCs - 1))) * (Main.rand.NextFloat() + 0.5f) * 0.5f;
-                                            int spore = NPC.NewNPC(new EntitySource_TileUpdate(i, j2), (int)spawn.X, (int)spawn.Y, NPCID.Spore, 0, -1f);
-                                            Main.npc[spore].velocity.X = perturbedSpeed.X;
-                                            Main.npc[spore].velocity.Y = perturbedSpeed.Y;
-                                            Main.npc[spore].netUpdate = true;
+
+                                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                                            {
+                                                int spore = NPC.NewNPC(new EntitySource_TileUpdate(i, j2), (int)spawn.X, (int)spawn.Y, npcType, 0, -1f);
+                                                Main.npc[spore].velocity.X = perturbedSpeed.X;
+                                                Main.npc[spore].velocity.Y = perturbedSpeed.Y;
+                                                Main.npc[spore].netUpdate = true;
+                                            }
+
+                                            Dust dust = Dust.NewDustDirect(spawn, 16, 16, DustID.JungleSpore, perturbedSpeed.X, perturbedSpeed.Y, 250, default, 0.8f);
+                                            dust.fadeIn = 0.7f;
+                                            Dust.NewDustDirect(spawn, 16, 16, DustID.Plantera_Pink, perturbedSpeed.X, perturbedSpeed.Y);
                                         }
                                     }
                                 }
