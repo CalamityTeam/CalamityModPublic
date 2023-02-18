@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (!Projectile.Calamity().stealthStrike || Projectile.owner != Main.myPlayer || Projectile.Calamity().lineColor >= 2)
                 return;
             Projectile.localAI[0]++;
-            if (Projectile.localAI[0] >= 30f)
+            if (Projectile.localAI[0] >= 15f)
             {
                 Vector2 vector2 = new Vector2(20f, 20f);
                 for (int index1 = 0; index1 < 10; ++index1)
@@ -73,6 +73,15 @@ namespace CalamityMod.Projectiles.Rogue
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => OnHitEffects();
+        public override void OnHitPvp(Player target, int damage, bool crit) => OnHitEffects();
+
+        public void OnHitEffects()
+        {
+            if (Projectile.owner == Main.myPlayer && Projectile.Calamity().stealthStrike)
+                Main.player[Projectile.owner].AddBuff(BuffID.RapidHealing, 300);
         }
     }
 }

@@ -69,9 +69,9 @@ namespace CalamityMod.Projectiles.Rogue
                     break;
                 case 2:
                     // Will target the targetted NPC that minions use btw
-                    Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
+                    Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 1, 40f, 12f, 6f, new Vector2(0f, -60f), 40f, 12f, true, true);
                     Projectile.localAI[0] += 1f;
-                    if (Projectile.localAI[0] >= 120)
+                    if (Projectile.localAI[0] >= 180)
                     {
                         ResetStats(false);
                     }
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = 8;
-                SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item7, Projectile.Center);
             }
 
             int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 1f);
@@ -174,15 +174,16 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void OnHitEffects()
         {
-            if (Projectile.owner == Main.myPlayer && Projectile.numHits < 1)
+            int maxSpawns = Projectile.Calamity().stealthStrike ? 3 : 1;
+            if (Projectile.owner == Main.myPlayer && Projectile.numHits < maxSpawns)
             {            
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 5; i++)
                 {
-                    Vector2 velocity = (MathHelper.TwoPi * i / 8f).ToRotationVector2() * 4f;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Vector2 velocity = (MathHelper.TwoPi * i / 5f).ToRotationVector2() * 4f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
                 }
+                SoundEngine.PlaySound(SoundID.Item30, Projectile.Center);
             }
-            SoundEngine.PlaySound(SoundID.Item30, Projectile.position);
         }
 
         public override bool PreDraw(ref Color lightColor)

@@ -12,8 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
     public class HeavenfallenStardiskBoomerang : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/HeavenfallenStardisk";
-
-        private bool explode = false;
+        public Player Owner => Main.player[Projectile.owner];
 
         public override void SetStaticDefaults()
         {
@@ -31,29 +30,14 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.ignoreWater = true;
             Projectile.netImportant = true;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 300;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            Player player = Main.player[Projectile.owner];
-
-            if (Projectile.Calamity().stealthStrike)
-            {
-                if (Projectile.timeLeft % 5f == 0f) //every 5 ticks
-                {
-                    var source = Projectile.GetSource_FromThis();
-                    if (Main.rand.NextBool(2))
-                    {
-                        int energyAmt = Main.rand.Next(1, 4); //1 to 3 energy
-                        for (int n = 0; n < energyAmt; n++)
-                        {
-                            CalamityUtils.ProjectileRain(source, Projectile.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(Projectile.damage * 0.4), Projectile.knockBack * 0.4f, Projectile.owner);
-                        }
-                    }
-                }
-            }
+            if (Projectile.Calamity().stealthStrike && Projectile.timeLeft % 5f == 4f) // every 5 frames
+                CalamityUtils.ProjectileRain(Projectile.GetSource_FromThis(), Projectile.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<HeavenfallenEnergy>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);            
 
             if (Projectile.alpha > 0)
             {
@@ -79,21 +63,19 @@ namespace CalamityMod.Projectiles.Rogue
 
             Projectile.rotation += 0.5f;
 
-            if (player.position.Y != player.oldPosition.Y && Projectile.ai[0] == 0f)
-            {
-                explode = true;
-            }
+            if (Owner.position.Y != Owner.oldPosition.Y && Projectile.ai[0] == 0f)
+                Projectile.ai[1]++;            
 
-            Projectile.ai[0] += 1f;
+            Projectile.ai[0]++;
 
             if (Main.myPlayer == Projectile.owner && Projectile.ai[0] == 20f)
             {
-                if (player.channel)
+                if (Owner.channel)
                 {
                     float num115 = 20f;
                     float num116 = (float)Main.mouseX + Main.screenPosition.X - Projectile.Center.X;
                     float num117 = (float)Main.mouseY + Main.screenPosition.Y - Projectile.Center.Y;
-                    if (player.gravDir == -1f)
+                    if (Owner.gravDir == -1f)
                     {
                         num117 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - Projectile.Center.Y;
                     }
@@ -135,14 +117,14 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 vector11 = Projectile.Center;
                     float num128 = (float)Main.mouseX + Main.screenPosition.X - vector11.X;
                     float num129 = (float)Main.mouseY + Main.screenPosition.Y - vector11.Y;
-                    if (player.gravDir == -1f)
+                    if (Owner.gravDir == -1f)
                     {
                         num129 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector11.Y;
                     }
                     float num130 = (float)Math.Sqrt((double)(num128 * num128 + num129 * num129));
                     if (num130 == 0f || Projectile.ai[0] < 0f)
                     {
-                        vector11 = player.Center;
+                        vector11 = Owner.Center;
                         num128 = Projectile.Center.X - vector11.X;
                         num129 = Projectile.Center.Y - vector11.Y;
                         num130 = (float)Math.Sqrt((double)(num128 * num128 + num129 * num129));
@@ -168,8 +150,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Player player = Main.player[Projectile.owner];
-
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             for (int i = 0; i < 10; i++)
             {
@@ -183,21 +163,13 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }
-
-            if (explode && player.position.Y != player.oldPosition.Y)
+            
+            if (Projectile.owner == Main.myPlayer && Projectile.ai[1] > 0)
             {
-                if (Projectile.owner == Main.myPlayer)
+                for (int i = 0; i < 5; i++)
                 {
-                    float spread = 45f * 0.0174f;
-                    double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-                    double deltaAngle = spread / 8f;
-                    double offsetAngle;
-                    for (int i = 0; i < 4; i++)
-                    {
-                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(Projectile.damage * 0.4), Projectile.knockBack * 0.4f, Projectile.owner, 0f, 0f);
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(Projectile.damage * 0.4), Projectile.knockBack * 0.4f, Projectile.owner, 0f, 0f);
-                    }
+                    Vector2 velocity = ((MathHelper.TwoPi * i / 5f) - MathHelper.PiOver2).ToRotationVector2() * 4f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<HeavenfallenEnergy>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner, 0f, 1f);
                 }
             }
         }

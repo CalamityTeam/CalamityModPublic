@@ -31,6 +31,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = -1;
             Projectile.timeLeft = 10;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 35; // Hits 3 times when stealth
         }
 
         public override void AI()
@@ -114,10 +116,10 @@ namespace CalamityMod.Projectiles.Rogue
                 int projType = Utils.SelectRandom(Main.rand, new int[]
                 {
                     ModContent.ProjectileType<AstralStar>(),
-                    ProjectileID.HallowStar,
+                    ProjectileID.StarCloakStar,
                     ModContent.ProjectileType<FallenStarProj>()
                 });
-                Projectile star = CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, 500f, 800f, 25f, projType, (int)(Projectile.damage * 0.75), 5f, Projectile.owner);
+                Projectile star = CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, 500f, 800f, 25f, projType, (int)(Projectile.damage * 0.75), Projectile.knockBack * 0.75f, Projectile.owner);
                 if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                 {
                     star.DamageType = RogueDamageClass.Instance;
