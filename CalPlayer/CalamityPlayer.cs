@@ -6787,7 +6787,10 @@ namespace CalamityMod.CalPlayer
                 CalamityMod.SpeedrunTimer.Restart();
 
             if (CalamityConfig.Instance.WikiStatusMessage)
-                Main.NewText($"[i:{ItemID.Book}]" + " [c/EE4939:Be sure to check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] " + $"[i:{ItemID.Book}]");
+            {
+                Main.NewText($"[i:{ItemID.Book}]" + " [c/EE4939:Note: The Fandom wiki is no longer supported by Calamity.] " + $"[i:{ItemID.Book}]");
+                Main.NewText($"[i:{ItemID.Book}]" + " [c/EE4939:Check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] " + $"[i:{ItemID.Book}]");
+            }
         }
 
         /// <summary>
