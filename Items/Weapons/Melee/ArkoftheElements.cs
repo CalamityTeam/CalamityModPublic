@@ -31,16 +31,16 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float blastFalloffStrenght = 0.75f; //Value between 0 and 1 that determines how much falloff increases affect the damage : Closer to 0 = damage falls off less intensely, closer to 1 : damage falls off way harder
 
 
-        const string ComboTooltip = "Performs a combo of swings, throwing the blade out every 5 swings\n" +
-                "Releasing the mouse while the blade is out will throw the second half towards it, making the scissors snap\n" +
-                "Snapping the scissors together increase their damage and empower your next two swings";
+        const string ComboTooltip = "Using LMB performs a 5-swing combo that ends by throwing the blade\n" +
+        "Releasing LMB while the blade is out will deal extra damage and give 2 charges";
 
         const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you\n" +
-                "Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
-                "You can also parry projectiles and temporarily make them deal 200 less damage\n" +
-                "Parrying will empower the next 10 swings of the sword, letting you use both blades at once";
+        "Hitting an enemy with it will parry them, granting you brief invulnerability\n" +
+        "You can also parry projectiles to make them deal 200 less damage for a short period\n" +
+        "Parrying will empower the next 10 swings of the sword, letting you use both blades at once";
 
-        const string BlastTooltip = "Using RMB and pressing up while the Ark is empowered will throw the blades in front of you to provoke a Big Rip in spacetime, using up all your charges in the process";
+        const string BlastTooltip = "Using RMB while pressing UP with empowered charges will provoke a Big Rip in spacetime and use all charges\n" +
+        "If more than 5 charges were used, you can dash across the rip by holding UP";
 
         public override void SetStaticDefaults()
         {
