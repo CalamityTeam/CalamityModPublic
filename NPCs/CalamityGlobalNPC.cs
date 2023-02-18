@@ -867,24 +867,24 @@ namespace CalamityMod.NPCs
                     damage = baseHellfireDoTValue / 4;
             }
 
-			// Daybroken
-			if (npc.daybreak)
-			{
-				int projAmt = 0;
-				for (int k = 0; k < Main.maxProjectiles; k++)
-				{
-					if (Main.projectile[k].active && Main.projectile[k].type == ProjectileID.Daybreak && Main.projectile[k].ai[0] == 1f && Main.projectile[k].ai[1] == npc.whoAmI)
-						projAmt++;
-				}
+            // Daybroken
+            if (npc.daybreak)
+            {
+                int projAmt = 0;
+                for (int k = 0; k < Main.maxProjectiles; k++)
+                {
+                    if (Main.projectile[k].active && Main.projectile[k].type == ProjectileID.Daybreak && Main.projectile[k].ai[0] == 1f && Main.projectile[k].ai[1] == npc.whoAmI)
+                        projAmt++;
+                }
 
-				if (projAmt == 0)
-					projAmt = 1;
+                if (projAmt == 0)
+                    projAmt = 1;
 
                 int baseDaybreakDoTValue = (int)(projAmt * 2 * 100 * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseDaybreakDoTValue;
                 if (damage < baseDaybreakDoTValue / 4)
                     damage = baseDaybreakDoTValue / 4;
-			}
+            }
 
             // Shadowflame
             if (npc.shadowFlame)
@@ -5809,6 +5809,7 @@ namespace CalamityMod.NPCs
             }
             else
             {
+                // VHex and Miracle Blight visuals do not appear if Odd Mushroom is in use for sanity reasons
                 if (npc.Calamity().vulnerabilityHex > 0)
                 {
                     float compactness = npc.width * 0.6f;
@@ -5824,6 +5825,24 @@ namespace CalamityMod.NPCs
                 }
                 else
                     VulnerabilityHexFireDrawer = null;
+
+                if (npc.Calamity().miracleBlight > 0)
+                {
+                    // this is horrible but I can't figure out a better way to do it
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+                    MiscShaderData msd = GameShaders.Misc["CalamityMod:MiracleBlight"];
+                    msd.UseImage1("Images/Misc/Perlin"); // provided by vanilla Terraria
+                    msd.UseOpacity(0.25f);
+                    DrawData dd = new()
+                    {
+                        texture = TextureAssets.Npc[npc.type].Value,
+                        position = npc.position - Main.screenPosition,
+                        sourceRect = npc.frame,
+                    };
+                    msd.Apply(dd);
+                }
             }
 
             // Draw a pillar of light and fade the background as an animation when skipping things in the DD2 event.
@@ -5855,7 +5874,7 @@ namespace CalamityMod.NPCs
             {
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-                var midnightShader = Terraria.Graphics.Shaders.GameShaders.Armor.GetShaderFromItemId(ItemID.MidnightRainbowDye);
+                var midnightShader = GameShaders.Armor.GetShaderFromItemId(ItemID.MidnightRainbowDye);
                 midnightShader.Apply();
             }
             return true;
