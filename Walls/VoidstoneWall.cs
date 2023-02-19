@@ -11,6 +11,7 @@ namespace CalamityMod.Walls
     public class VoidstoneWall : ModWall
     {
         internal static Texture2D GlowTexture;
+
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
@@ -25,6 +26,7 @@ namespace CalamityMod.Walls
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 180, 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
+
         public static void DrawWallGlow(int wallType, int i, int j, SpriteBatch spriteBatch)
         {
             if (GlowTexture is null)
@@ -36,7 +38,7 @@ namespace CalamityMod.Walls
 
             Rectangle frame = new Rectangle(tile.WallFrameX + xOff, tile.WallFrameY, xLength, 32);
             Color drawcolor;
-            drawcolor = WorldGen.paintColor((int)tile.WallColor) * (255f / 255f);
+            drawcolor = WorldGen.paintColor(tile.WallColor) * (255f / 255f);
             drawcolor.A = 255;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
 
@@ -49,10 +51,9 @@ namespace CalamityMod.Walls
             drawcolor *= brightness;
 
             if (Main.drawToScreen)
-            {
                 zero = Vector2.Zero;
-            }
-            Vector2 pos = new Vector2((i * 16 - (int)Main.screenPosition.X), (j * 16 - (int)Main.screenPosition.Y)) + zero;
+
+            Vector2 pos = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
             Main.spriteBatch.Draw(TextureAssets.Wall[wallType].Value, pos + new Vector2(-8 + xOff, -8), frame, Lighting.GetColor(i, j, Color.White), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             for (int k = 0; k < 3; k++)
             {
@@ -60,6 +61,7 @@ namespace CalamityMod.Walls
                 Main.spriteBatch.Draw(GlowTexture, pos + offset + new Vector2(-8 + xOff, -8), frame, drawcolor * 0.4f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
         }
+
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             DrawWallGlow(Type, i, j, spriteBatch);

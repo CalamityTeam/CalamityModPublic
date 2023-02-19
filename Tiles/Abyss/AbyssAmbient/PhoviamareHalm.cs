@@ -40,21 +40,20 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             offsetY = -30;
             height = 48;
         }
+
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            {
-                float brightness = 0.7f;
-                float declareThisHereToPreventRunningTheSameCalculationMultipleTimes = Main.GameUpdateCount * 0.01f;
-                brightness *= (float)MathF.Sin(-j / 8f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes + i);
-                brightness *= (float)MathF.Sin(-i / 8f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes + j);
-                brightness += 0.7f;
-                r = 191f / 350f;
-                g = 85f / 350f;
-                b = 28f / 350f;
-                r *= brightness;
-                g *= brightness;
-                b *= brightness;
-            }
+            float brightness = 0.7f;
+            float declareThisHereToPreventRunningTheSameCalculationMultipleTimes = Main.GameUpdateCount * 0.01f;
+            brightness *= (float)MathF.Sin(-j / 8f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes + i);
+            brightness *= (float)MathF.Sin(-i / 8f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes + j);
+            brightness += 0.7f;
+            r = 191f / 350f;
+            g = 85f / 350f;
+            b = 28f / 350f;
+            r *= brightness;
+            g *= brightness;
+            b *= brightness;
         }
     }
 }
