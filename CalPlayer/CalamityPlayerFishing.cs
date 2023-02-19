@@ -271,7 +271,7 @@ namespace CalamityMod.CalPlayer
 
                             biomeCrateList.AddWithCondition<int>(ModContent.ItemType<AstralCrate>(), ZoneAstral);
                             biomeCrateList.AddWithCondition<int>(ModContent.ItemType<SunkenCrate>(), ZoneSunkenSea);
-                            biomeCrateList.AddWithCondition<int>(ModContent.ItemType<AbyssalCrate>(), canSulphurFish);
+                            biomeCrateList.AddWithCondition<int>(ModContent.ItemType<SulphurousCrate>(), canSulphurFish);
                             biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.CorruptFishingCrateHard : ItemID.CorruptFishingCrate, Player.ZoneCorrupt);
                             biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.CrimsonFishingCrateHard : ItemID.CrimsonFishingCrate, Player.ZoneCrimson);
                             biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.HallowedFishingCrateHard : ItemID.HallowedFishingCrate, Player.ZoneHallow);
@@ -319,7 +319,7 @@ namespace CalamityMod.CalPlayer
 						}
 						if (canSulphurFish)
 						{
-							itemDrop = ModContent.ItemType<AbyssalCrate>();
+							itemDrop = ModContent.ItemType<SulphurousCrate>();
 						}
 					}
 					return;

@@ -15,17 +15,18 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
 
-using CrateTile = CalamityMod.Tiles.Abyss.AbyssalCrateTile;
+using CrateTile = CalamityMod.Tiles.Abyss.SulphurousCrateTile;
 
 namespace CalamityMod.Items.Fishing.SulphurCatches
 {
-    public class AbyssalCrate : ModItem
+    [LegacyName("AbyssalCrate")]
+    public class SulphurousCrate : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 5;
             ItemID.Sets.IsFishingCrate[Type] = true;
-            DisplayName.SetDefault("Abyssal Crate");
+            DisplayName.SetDefault("Sulphurous Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
