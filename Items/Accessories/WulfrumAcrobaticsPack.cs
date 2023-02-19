@@ -28,11 +28,11 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Wulfrum Acrobatics Pack");
-            Tooltip.SetDefault("This mess of cogs and wires in a box retools the winch mechanism of hooks to transform them into a wulfrum slingshot\n" +
-                "The wulfrum slingshot trades the ability to reel you back in for advanced rope physics, letting you swing around the hook as you please\n" +
-                "Additionally, the pack automatically attempts to grapple a nearby wall if it detects danger from fall damage\n" +
-                "This safety feature won't activate if the down key is being held\n" +
-                "8% increased movement speed");
+            Tooltip.SetDefault("Transforms equipped hooks into a wulfrum slingshot\n" +
+            "The slingshot allows for advanced rope-swinging physics\n" +
+            "Automatically grapples nearby walls if a lethal fall is detected\n" +
+            "This safety feature won't activate if DOWN is held\n" +
+            "8% increased movement speed");
         }
 
         public override void SetDefaults()

@@ -19,7 +19,7 @@ namespace CalamityMod.World
             string mapKey = VernalKey;
 
             int placementPositionX = WorldGen.genRand.Next(WorldGen.tLeft, WorldGen.tRight);
-            int placementPositionY = WorldGen.tTop - 120;
+            int placementPositionY = WorldGen.tTop < Main.rockLayer - 10 ? WorldGen.tBottom + 120 : WorldGen.tTop - 120;
             Point placementPoint = new Point(placementPositionX, placementPositionY);
 
             Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));

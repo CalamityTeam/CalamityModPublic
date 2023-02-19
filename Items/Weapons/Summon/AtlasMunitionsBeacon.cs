@@ -44,14 +44,17 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Atlas Munitions Beacon");
-            Tooltip.SetDefault("Drops down a crate from the sky that opens up to reveal a mounted, stationary cannon\n" +
-                "The cannon will fire at any potential enemies within its range, and enter overdrive mode if said enemy is close to the cannon\n" +
-                "When in overdrive mode the cannon uses three barrels that each collectively fire. The cannon also heats up the more it fires in overdrive mode\n" +
-                "Players may right click to pick up the cannon and use it for themselves, if they are selecting an Atlas Munitions Beacon.\n" +
-                "When players fire the cannon, it automatically enters overdrive mode\n" +
-                "If the held cannon becomes hot due to overdrive mode, you are forced to drop it. Otherwise, right clicking allows you to drop it manually\n" +
-                "If the held cannon is dropped back onto the mount, it is attached again\n" +
-                "It's surprisingly easy to pick up");
+            Tooltip.SetDefault("Drops down a crate from the sky that houses a mounted, stationary cannon\n" +
+            "The cannon will fire at any enemies within its range\n" +
+            "If an enemy is in close proximity, it will enter Overdrive mode\n" +
+            "When in Overdrive mode the cannon uses three barrels that each collectively fire\n" +
+            "The cannon also heats up the more it fires in overdrive mode\n" +
+            "Press RMB while holding this item to pick up the cannon and use it for yourself\n" +
+            "When held, the cannon will always be in Overdrive mode\n" +
+            "If the held cannon overheats due to Overdrive mode, you are forced to drop it\n" +
+            "Pressing RMB allows you to drop it manually\n" +
+            "If the held cannon is dropped near the mount, it will re-attach automatically\n" +
+            "It's surprisingly easy to pick up");
             SacrificeTotal = 1;
         }
 

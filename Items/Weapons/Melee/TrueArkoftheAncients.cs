@@ -26,16 +26,17 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float blastFalloffSpeed = 0.1f; //How much the blast damage falls off as you hit more and more targets
         public static float blastFalloffStrenght = 0.75f; //Value between 0 and 1 that determines how much falloff increases affect the damage : Closer to 0 = damage falls off less intensely, closer to 1 : damage falls off way harder
 
-        const string ParryTooltip = "Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
-                "You can also parry projectiles and temporarily make them deal 160 less damage\n" +
-                "Parrying will empower the next 10 swings of the sword, boosting their damage and letting them throw stronger projectiles\n" +
-                "Using RMB and pressing up while the Ark is empowered will release all the charges in a powerful burst of energy";
+        const string ParryTooltip = "Using RMB will extend the Ark out in front of you." +
+        "Hitting an enemy with it will parry them, granting you brief invulnerability\n" +
+        "You can also parry projectiles to make them deal 160 less damage for a short period\n" +
+        "Parrying empowers the next 10 swings of the sword, letting them throw stronger projectiles\n" +
+        "Using RMB and pressing UP will release all empowered charges in a powerful burst of energy";
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ark of the Ancients");
             Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
-                "A heavenly blade forged to vanquish all evil");
+            "A heavenly blade forged to vanquish all evil");
             SacrificeTotal = 1;
         }
 
