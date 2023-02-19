@@ -364,7 +364,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float defenderCommanderGuardPhase2Duration = (bossRush || biomeEnraged) ? 420f : death ? 480f : revenge ? 510f : expertMode ? 540f : 600f;
             float moveToOtherSideInPhase2GateValue = defenderCommanderGuardPhase2Duration - 120f;
             float timeBeforeMoveToOtherSideInPhase2Reset = moveToOtherSideInPhase2GateValue * 2f;
-            float totalGoLowDurationPhase2 = 180f;
+            float totalGoLowDurationPhase2 = 210f;
             float goLowDurationPhase2 = totalGoLowDurationPhase2 * 0.5f;
 
             // Charge variables
@@ -414,10 +414,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.localAI[3] = -goLowDuration;
 
                 bool canSwapPlacesWithDefender = false;
+                bool defenderCharging = false;
                 if (defenderAlive)
                 {
                     if (Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] == 1f && Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[1] < -120f)
                         canSwapPlacesWithDefender = true;
+
+                    if ((Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] == 0f && Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[3] > 0f) ||
+                        (Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] == 1f && Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[1] >= -60f) ||
+                        Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] == 2f || Main.npc[CalamityGlobalNPC.doughnutBossDefender].ai[0] == 3f)
+                        defenderCharging = true;
                 }
 
                 // Dictates when the commander and defender will swap sides in phase 2
@@ -453,7 +459,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                 // Reduce inertia and boost velocity while far away from target or swapping sides
                 float distanceToStayAwayFromTarget = healerAlive ? 800f : defenderAlive ? 720f : 600f;
-                if (Vector2.Distance(NPC.Center, player.Center) > (distanceToStayAwayFromTarget + 160f))
+                bool speedUp = Vector2.Distance(NPC.Center, player.Center) > (distanceToStayAwayFromTarget + 160f);
+                if (speedUp)
                 {
                     inertia *= 0.5f;
                     velocity *= 2f;
@@ -467,6 +474,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 {
                     inertia *= 0.66f;
                     velocity *= 1.66f;
+                }
+
+                // Slow down while close enough to the player and the defender is charging
+                if (defenderCharging && !speedUp)
+                {
+                    inertia *= 1.5f;
+                    velocity *= 0.75f;
                 }
 
                 Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTarget * calamityGlobalNPC.newAI[0];
@@ -809,8 +823,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         if (NPC.ai[1] % (spearShootDivisor * 3) == 0f)
                         {
                             knockbackVelocity *= 2f;
-                            int baseProjectileAmt = (bossRush || biomeEnraged) ? 8 : expertMode ? 4 : 2;
-                            int spread = (bossRush || biomeEnraged) ? 36 : expertMode ? 20 : 12;
+                            int baseProjectileAmt = (bossRush || biomeEnraged) ? 8 : expertMode ? 6 : 4;
+                            int spread = (bossRush || biomeEnraged) ? 36 : expertMode ? 30 : 24;
                             float rotation = MathHelper.ToRadians(spread);
                             for (int i = 0; i < baseProjectileAmt; i++)
                             {
