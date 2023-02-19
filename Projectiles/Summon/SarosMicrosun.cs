@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.Summon
 
             DoAnimation(); // Does the animation of the minion.
 
-            // Rotates to the left if the projectile's heading to the left and viceversa.
-            Projectile.rotation += MathHelper.ToRadians(1f + (Owner.velocity.X * 0.04f)) * Owner.direction;
+            // Spins as it was thrown really hard and fast.
+            Projectile.rotation += MathHelper.ToRadians(20f);
 
             // If there's a target, go towards the target.
             if (target != null)
