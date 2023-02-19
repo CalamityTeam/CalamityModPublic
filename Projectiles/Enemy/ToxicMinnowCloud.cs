@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 20f, targetHitbox);
 
-        public override bool CanHitPlayer(Player target) => Projectile.Opacity >= 0.9f;
+        public override bool CanHitPlayer(Player target) => Projectile.ai[0] < 560f;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Enemy
             target.AddBuff(BuffID.Poisoned, 240);
         }
 
-        public override bool? CanHitNPC(NPC target) => Projectile.Opacity >= 0.9f;
+        public override bool? CanHitNPC(NPC target) => Projectile.ai[0] < 560f;
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Tiles.Ores;
 using CalamityMod.Dusts;
+using CalamityMod.Tiles.Crags.Lily;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -83,6 +84,16 @@ namespace CalamityMod.Tiles.Crags
                 {
                     NetMessage.SendTileSquare(-1, i, j - 1, 3, TileChangeType.None);
                 }
+            }
+
+            if (WorldGen.genRand.NextBool(100))
+            {
+                ushort[] Lillies = new ushort[] { (ushort)ModContent.TileType<LavaLily1>(),
+                (ushort)ModContent.TileType<LavaLily2>(), (ushort)ModContent.TileType<LavaLily3>(),
+                (ushort)ModContent.TileType<LavaLily4>(), (ushort)ModContent.TileType<LavaLily5>(),
+                (ushort)ModContent.TileType<LavaLily6>() };
+
+                WorldGen.PlaceObject(i, j - 1, WorldGen.genRand.Next(Lillies), true);
             }
 
             //convert this tile back into scorched remains if any liquid is above it

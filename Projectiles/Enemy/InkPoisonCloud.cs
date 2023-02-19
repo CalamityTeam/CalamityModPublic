@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 20f, targetHitbox);
 
-        public override bool CanHitPlayer(Player target) => Projectile.Opacity >= 0.9f;
+        public override bool CanHitPlayer(Player target) => Projectile.ai[0] < 180f;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
