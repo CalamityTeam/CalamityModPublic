@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Tiles.Ores;
 using CalamityMod.Dusts;
+using CalamityMod.Tiles.Crags.Lily;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
