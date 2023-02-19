@@ -50,16 +50,19 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (potentialTarget != null)
                 {
-                    if (DelayBetweenShooting % 35f == 0f) // Shoots once every 35 frames.
+                    if (DelayBetweenShooting == 35f) // Shoots once every 35 frames.
                     {
                         Vector2 velocity = CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, potentialTarget, 20f);
                         int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Cinder>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = Projectile.originalDamage;
+
+                        DelayBetweenShooting = 0f;
                         Projectile.netUpdate = true;
                     }
-                    DelayBetweenShooting++;
-                    DelayBetweenShooting = (DelayBetweenShooting == 36f) ? 0f : DelayBetweenShooting; // The timer cannot go above 35. 
+
+                    if (DelayBetweenShooting < 35f)
+                        DelayBetweenShooting++;
                 }
             }
 
