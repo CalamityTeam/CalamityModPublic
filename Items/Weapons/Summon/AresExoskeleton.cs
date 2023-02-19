@@ -69,9 +69,9 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Ares' Exoskeleton");
             Tooltip.SetDefault("Creates a panel with four slots and four choices above it: Plasma, Tesla, Laser, and Gauss\n" +
-                "Clicking one of the choices and then clicking one of the slots allows you to summon a cannon that stays close to you and attacks nearby enemies\n" +
-                "Clicking on a slot that's already occupied destroys its associated cannon and clears the slot\n" +
-                $"Cannons take {MinionSlotsPerCannon} minion slots each");
+            "Clicking one of the choices and then clicking one of the slots summons a cannon of that type\n" +
+            "Clicking on a slot that's already occupied destroys its associated cannon and clears the slot\n" +
+            $"Cannons take {MinionSlotsPerCannon} minion slots each");
             SacrificeTotal = 1;
         }
 
