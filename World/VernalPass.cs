@@ -1,13 +1,12 @@
-﻿using CalamityMod.Schematics;
-using static CalamityMod.Schematics.SchematicManager;
+﻿using System;
+using System.Collections.Generic;
+using CalamityMod.Schematics;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
-using Microsoft.Xna.Framework;
-using System;
-using System.Linq;
-using System.Collections.Generic;
+using static CalamityMod.Schematics.SchematicManager;
 
 namespace CalamityMod.World
 {
@@ -15,21 +14,22 @@ namespace CalamityMod.World
     {
         public static void PlaceVernalPass(StructureMap structures)
         {
-            int tries = 0;
             string mapKey = VernalKey;
+            var schematic = TileMaps[mapKey];
 
             int placementPositionX = WorldGen.genRand.Next(WorldGen.tLeft, WorldGen.tRight);
             int placementPositionY = WorldGen.tTop < Main.rockLayer - 10 ? WorldGen.tBottom + 120 : WorldGen.tTop - 120;
             Point placementPoint = new Point(placementPositionX, placementPositionY);
 
-            Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+            Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
+            SchematicAnchor anchorType = SchematicAnchor.Center;
 
             bool firstItem = false;
-            SchematicManager.PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), 
-            SchematicAnchor.Center, ref firstItem, new Action<Chest, int, bool>(FillVernalPassChests));
+            PlaceSchematic(mapKey, placementPoint, anchorType, ref firstItem, new Action<Chest, int, bool>(FillVernalPassChests));
 
-            //add it as a protected structure
-            structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 30);
+            // Add the Vernal Pass as a protected structure.
+            Rectangle protectionArea = CalamityUtils.GetSchematicProtectionArea(schematic, placementPoint, anchorType);
+            structures.AddProtectedStructure(protectionArea, 30);
         }
 
         public static void FillVernalPassChests(Chest chest, int Type, bool firstItem)
