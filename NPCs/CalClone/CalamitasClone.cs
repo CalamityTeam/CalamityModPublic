@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.CalClone
                 normalOnly.Add(ModContent.ItemType<AshesofCalamity>(), 1, 25, 30);
 
                 // Vanity
-                normalOnly.Add(ModContent.ItemType<CalamitasMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<CalamitasCloneMask>(), 7);
                 var calVanity = ItemDropRule.Common(ModContent.ItemType<HoodOfCalamity>(), 10);
                 calVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<RobesOfCalamity>()));
                 normalOnly.Add(calVanity);

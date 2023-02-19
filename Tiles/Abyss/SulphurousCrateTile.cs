@@ -1,4 +1,4 @@
-using CalamityMod.Items.Fishing.SulphurCatches;
+﻿using CalamityMod.Items.Fishing.SulphurCatches;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -7,7 +7,8 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Abyss
 {
-    public class AbyssalCrateTile : ModTile
+    [LegacyName("AbyssalCrateTile")]
+    public class SulphurousCrateTile : ModTile
     {
         public override void SetStaticDefaults()
         {
@@ -22,7 +23,7 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Abyssal Crate");
+            name.SetDefault("Sulphurous Crate");
             AddMapEntry(new Color(47, 79, 79), name); //dark slate gray
             DustType = 33;
         }
@@ -47,7 +48,7 @@ namespace CalamityMod.Tiles.Abyss
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<AbyssalCrate>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<SulphurousCrate>());
         }
     }
 }
