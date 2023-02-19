@@ -669,6 +669,9 @@ namespace CalamityMod.CalPlayer
             if (affliction || afflicted)
                 Player.lifeRegen += 1;
 
+            if (trinketOfChi || chiRegen)
+                Player.lifeRegen += 2;
+
             if (absorber)
             {
                 if (Player.StandingStill() && Player.itemAnimation == 0)

@@ -415,6 +415,7 @@ namespace CalamityMod.CalPlayer
         public bool rBrain = false;
         public bool bloodyWormTooth = false;
         public bool afflicted = false;
+        public bool chiRegen = false;
         public bool affliction = false;
         public bool stressPills = false;
         public bool laudanum = false;
@@ -1496,6 +1497,7 @@ namespace CalamityMod.CalPlayer
             draedonsHeart = false;
 
             afflicted = false;
+            chiRegen = false;
             affliction = false;
 
             dodgeScarf = false;
