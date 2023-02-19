@@ -2006,7 +2006,7 @@ namespace CalamityMod.Projectiles
 
                     if (projectile.CountsAsClass<RogueDamageClass>() && stealthStrike)
                     {
-                        int gloveArmorPenAmt = modPlayer.nanotech ? 15 : (modPlayer.electricianGlove ? 10 : 8);
+                        int gloveArmorPenAmt = modPlayer.nanotech ? 15 : 8);
                         if (modPlayer.filthyGlove || modPlayer.bloodyGlove)
                             projectile.ArmorPenetration += gloveArmorPenAmt;
                     }

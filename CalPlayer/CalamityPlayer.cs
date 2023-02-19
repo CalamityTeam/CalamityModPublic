@@ -2626,7 +2626,7 @@ namespace CalamityMod.CalPlayer
                                 Main.dust[dustIndex].noLight = true;
                             }
 
-                            spectralVeilImmunity = 60;
+                            spectralVeilImmunity = 45;
                         }
                     }
                 }

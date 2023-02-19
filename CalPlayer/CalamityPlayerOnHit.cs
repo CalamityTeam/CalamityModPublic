@@ -1202,7 +1202,7 @@ namespace CalamityMod.CalPlayer
                     for (int s = 0; s < 3; s++)
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(10);
+                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(9);
                         int spark = Projectile.NewProjectile(spawnSource, position, velocity, ProjectileType<EGloveSpark>(), damage, 0f, Player.whoAmI);
                         if (spark.WithinBounds(Main.maxProjectiles))
                         {
