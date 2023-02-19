@@ -345,7 +345,7 @@ namespace CalamityMod.CalPlayer
             if (bloodyMary)
             {
                 alcoholPoisonLevel++;
-                lifeRegenLost += 2;
+                lifeRegenLost += 4;
             }
             if (tequila)
             {
@@ -355,7 +355,7 @@ namespace CalamityMod.CalPlayer
             if (tequilaSunrise)
             {
                 alcoholPoisonLevel++;
-                lifeRegenLost += 1;
+                lifeRegenLost += 2;
             }
             if (screwdriver)
             {
@@ -378,12 +378,12 @@ namespace CalamityMod.CalPlayer
             if (starBeamRye)
             {
                 alcoholPoisonLevel++;
-                lifeRegenLost += 1;
+                lifeRegenLost += 2;
             }
             if (moscowMule)
             {
                 alcoholPoisonLevel++;
-                lifeRegenLost += 2;
+                lifeRegenLost += 4;
             }
             if (whiteWine)
             {

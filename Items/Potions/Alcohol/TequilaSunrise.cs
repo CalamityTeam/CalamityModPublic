@@ -7,14 +7,14 @@ namespace CalamityMod.Items.Potions.Alcohol
 {
     public class TequilaSunrise : ModItem
     {
-        internal static readonly int CritBoost = 3;
+        internal static readonly int CritBoost = 8;
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 5;
             DisplayName.SetDefault("Tequila Sunrise");
             Tooltip.SetDefault(@"The greatest daytime drink I've ever had
-Boosts damage by 7%, knockback by 20%, crit chance and damage reduction by 3% and defense by 10 during daytime
-Reduces life regen by 1");
+Boosts knockback by 20%, crit chance by 8% and defense by 10 during daytime
+Reduces life regen by 2");
         }
 
         public override void SetDefaults()

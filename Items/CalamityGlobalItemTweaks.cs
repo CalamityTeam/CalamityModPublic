@@ -85,7 +85,6 @@ namespace CalamityMod.Items
                 // { ItemID.BluePhasesaber, Do(ScaleRatio(1.5f), DamageExact(60)) },
 
                 { ItemID.BlueSolution, Do(Value(Item.buyPrice(silver: 5))) },
-                { ItemID.BoneArrow, Do(DamageExact(7)) },
                 { ItemID.BonePickaxe, Do(PickPower(55), UseTimeExact(6)) },
 
                 // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
@@ -134,26 +133,16 @@ namespace CalamityMod.Items
                 { ItemID.ClingerStaff, Do(DamageExact(118)) },
                 { ItemID.ClockworkAssaultRifle, Do(PointBlank, DamageExact(21)) },
 
-                // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
-                { ItemID.CobaltBreastplate, Do(DefenseDelta(+3)) },
-                // { ItemID.CobaltBreastplate, Do(DefenseDelta(+1)) },
+                // TODO -- DELETE THIS LINE IN 1.4.4 PORT
+                { ItemID.CobaltBreastplate, Do(DefenseDelta(+2)) },
 
                 { ItemID.CobaltChainsaw, Do(TrueMeleeNoSpeed, AxePower(70), UseTimeExact(4), TileBoostExact(-1)) },
                 { ItemID.CobaltDrill, Do(TrueMeleeNoSpeed, PickPower(130), UseTimeExact(5)) },
 
-                // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
-                { ItemID.CobaltHat, Do(DefenseDelta(+2)) },
-                // { ItemID.CobaltHat, Do(DefenseDelta(+1)) },
-
-                // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
-                { ItemID.CobaltHelmet, Do(DefenseDelta(+4)) },
-                // { ItemID.CobaltHelmet, Do(DefenseDelta(+2)) },
-
-                { ItemID.CobaltLeggings, Do(DefenseDelta(+2)) },
-
-                // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
-                { ItemID.CobaltMask, Do(DefenseDelta(+3)) },
-                // { ItemID.CobaltMask, Do(DefenseDelta(+2)) },
+                // TODO -- DELETE THE FOLLOWING THREE LINES IN 1.4.4 PORT
+                { ItemID.CobaltHat, Do(DefenseDelta(+1)) },
+                { ItemID.CobaltHelmet, Do(DefenseDelta(+2)) },
+                { ItemID.CobaltMask, Do(DefenseDelta(+1)) },
 
                 { ItemID.CobaltNaginata, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(90)) },
                 { ItemID.CobaltPickaxe, Do(PickPower(130), UseTimeExact(9)) },
@@ -179,8 +168,6 @@ namespace CalamityMod.Items
                 { ItemID.CrystalDart, Do(DamageExact(20)) },
                 { ItemID.CrystalSerpent, Do(DamageExact(45)) },
                 { ItemID.CrystalStorm, Do(DamageExact(40))},
-                { ItemID.CursedArrow, Do(DamageRatio(1.1f)) },
-                { ItemID.CursedBullet, Do(DamageExact(16)) },
                 { ItemID.CursedDart, Do(DamageExact(25)) },
 
                 // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
@@ -304,18 +291,15 @@ namespace CalamityMod.Items
                 { ItemID.Handgun, Do(PointBlank, UseExact(27), DamageExact(36)) },
                 { ItemID.Harpoon, pointBlank },
                 { ItemID.HelFire, autoReuse },
-                { ItemID.HellfireArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.HellwingBow, Do(PointBlank, DamageExact(16)) },
                 { ItemID.HeroShield, Do(DefenseDelta(+10)) },
                 { ItemID.HighVelocityBullet, Do(DamageExact(15)) },
-                { ItemID.HolyArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.HornetStaff, Do(AutoReuse, UseExact(30)) },
                 { ItemID.IceBlade, Do(UseMeleeSpeed, DamageExact(26), UseTimeExact(33)) },
                 { ItemID.IceBoomerang, Do(DamageExact(28), UseExact(25), ShootSpeedExact(10)) },
                 { ItemID.IceBow, Do(PointBlank, AutoReuse, DamageExact(120), UseExact(35)) },
                 { ItemID.IceRod, Do(UseExact(6), DamageExact(30), ShootSpeedExact(20)) },
                 { ItemID.IceSickle, Do(AutoReuse, UseMeleeSpeed, DamageExact(95), ShootSpeedExact(20f)) },
-                { ItemID.IchorArrow, Do(DamageExact(15)) },
                 { ItemID.ImpStaff, Do(AutoReuse, UseExact(30)) },
 
                 // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
@@ -691,7 +675,6 @@ namespace CalamityMod.Items
                 { ItemID.Valor, Do(DamageExact(32)) },
                 { ItemID.VampireFrogStaff, Do(AutoReuse, UseExact(30)) },
                 { ItemID.VampireKnives, Do(DamageRatio(1.33f)) },
-                { ItemID.VenomArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.VenomStaff, Do(DamageRatio(1.5f)) },
                 { ItemID.VenusMagnum, Do(AutoReuse, PointBlank) },
                 { ItemID.ViciousMushroom, Do(Value(0)) },

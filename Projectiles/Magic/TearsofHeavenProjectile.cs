@@ -20,11 +20,13 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.height = 24;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 2;
             Projectile.alpha = 255;
             Projectile.timeLeft = 240;
             Projectile.light = 0.5f;
             Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
@@ -60,7 +62,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[Projectile.owner] = 6;
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
     }

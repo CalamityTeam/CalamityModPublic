@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 40;
+            Item.damage = 50;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 15;
             Item.width = 16;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item9;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<InfernalBlade>();
-            Item.shootSpeed = 16f;
+            Item.shootSpeed = 28f;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Magic
             float num72 = Item.shootSpeed;
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            float f = Main.rand.NextFloat() * 6.28318548f;
+            float f = Main.rand.NextFloat() * MathHelper.TwoPi;
             float value12 = 20f;
             float value13 = 60f;
             Vector2 vector13 = vector2 + f.ToRotationVector2() * MathHelper.Lerp(value12, value13, Main.rand.NextFloat());
@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 {
                     break;
                 }
-                f = Main.rand.NextFloat() * 6.28318548f;
+                f = Main.rand.NextFloat() * MathHelper.TwoPi;
             }
             Vector2 mouseWorld = Main.MouseWorld;
             Vector2 vector14 = mouseWorld - vector13;

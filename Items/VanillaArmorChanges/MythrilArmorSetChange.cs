@@ -19,10 +19,8 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override string ArmorSetName => "Mythril";
 
         public const int MaxManaBoost = 20;
-        public const int ChestplateDamagePercentageBoost = 5;
-        public const int LeggingsCritChanceBoost = 4;
-        public const int FlareFrameSpawnDelay = 9;
-        public const int FlareDamageSoftcap = 105;
+        public const int FlareFrameSpawnDelay = 12;
+        public const int FlareDamageSoftcap = 50;
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
@@ -35,13 +33,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
             if (player.armor[0].type == ItemID.MythrilHood)
                 player.statManaMax2 += MaxManaBoost;
         }
-
-        public override void ApplyBodyPieceEffect(Player player)
-        {
-            player.GetDamage<GenericDamageClass>() += ChestplateDamagePercentageBoost * 0.01f;
-        }
-
-        public override void ApplyLegPieceEffect(Player player) => player.GetCritChance<GenericDamageClass>() += LeggingsCritChanceBoost;
 
         public override void ApplyArmorSetBonus(Player player)
         {

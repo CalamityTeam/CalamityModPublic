@@ -690,11 +690,11 @@ namespace CalamityMod.Items
 
             // Tin
             if (item.type == ItemID.TinHelmet)
-                AddTooltip("4% increased critical strike chance");
+                AddTooltip("3% increased critical strike chance");
             if (item.type == ItemID.TinChainmail)
                 AddTooltip("+1 life regen");
             if (item.type == ItemID.TinGreaves)
-                AddTooltip("10% increased movement speed");
+                AddTooltip("5% increased movement speed");
 
             // Iron
             if (item.type == ItemID.IronHelmet || item.type == ItemID.AncientIronHelmet || item.type == ItemID.IronChainmail || item.type == ItemID.IronGreaves)
@@ -706,11 +706,11 @@ namespace CalamityMod.Items
 
             // Silver
             if (item.type == ItemID.SilverHelmet)
-                AddTooltip("6% increased critical strike chance");
+                AddTooltip("5% increased critical strike chance");
             if (item.type == ItemID.SilverChainmail)
                 AddTooltip("+2 life regen");
             if (item.type == ItemID.SilverGreaves)
-                AddTooltip("10% increased movement speed");
+                AddTooltip("8% increased movement speed");
 
             // Tungsten
             if (item.type == ItemID.TungstenHelmet)
@@ -718,7 +718,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.TungstenChainmail)
                 AddTooltip("+1 life regen");
             if (item.type == ItemID.TungstenGreaves)
-                AddTooltip("10% increased movement speed");
+                AddTooltip("8% increased movement speed");
 
             // Gold
             if (item.type == ItemID.GoldHelmet || item.type == ItemID.AncientGoldHelmet)
@@ -726,7 +726,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.GoldChainmail)
                 AddTooltip("Reduces damage taken by 5%");
             if (item.type == ItemID.GoldGreaves)
-                AddTooltip("12% increased movement speed");
+                AddTooltip("10% increased movement speed");
 
             // Platinum
             if (item.type == ItemID.PlatinumHelmet)
@@ -734,7 +734,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.PlatinumChainmail)
                 AddTooltip("5% increased critical strike chance");
             if (item.type == ItemID.PlatinumGreaves)
-                AddTooltip("12% increased movement speed");
+                AddTooltip("10% increased movement speed");
 
             // Shadow
             if (item.type == ItemID.ShadowHelmet || item.type == ItemID.AncientShadowHelmet || item.type == ItemID.ShadowScalemail || item.type == ItemID.AncientShadowScalemail || item.type == ItemID.ShadowGreaves || item.type == ItemID.AncientShadowGreaves)
@@ -766,10 +766,6 @@ namespace CalamityMod.Items
             // Mythril
             if (item.type == ItemID.MythrilHood)
                 EditTooltipByNum(0, (line) => line.Text = $"Increases maximum mana by {MythrilArmorSetChange.MaxManaBoost + 60}");
-            if (item.type == ItemID.MythrilChainmail)
-                EditTooltipByNum(0, (line) => line.Text = $"{MythrilArmorSetChange.ChestplateDamagePercentageBoost + 7}% increased damage");
-            if (item.type == ItemID.MythrilGreaves)
-                EditTooltipByNum(0, (line) => line.Text = $"{MythrilArmorSetChange.LeggingsCritChanceBoost + 10}% increased critical strike chance");
 
             // Orichalcum
             if (item.type == ItemID.OrichalcumBreastplate)

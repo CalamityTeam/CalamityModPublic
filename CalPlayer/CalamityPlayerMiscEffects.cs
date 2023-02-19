@@ -2361,7 +2361,7 @@ namespace CalamityMod.CalPlayer
             if (astralInjection)
             {
                 if (Player.statMana < Player.statManaMax2)
-                    Player.statMana += 3;
+                    Player.statMana += 2;
                 if (Player.statMana > Player.statManaMax2)
                     Player.statMana = Player.statManaMax2;
             }
@@ -2472,8 +2472,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.bloodMoon)
                 {
-                    Player.GetDamage<GenericDamageClass>() += 0.15f;
-                    Player.GetCritChance<GenericDamageClass>() += BloodyMary.CritBoost;
+                    Player.GetDamage<GenericDamageClass>() += 0.1f;
                     Player.moveSpeed += 0.1f;
                 }
             }
@@ -2483,9 +2482,7 @@ namespace CalamityMod.CalPlayer
                 if (Main.dayTime)
                 {
                     Player.statDefense += 5;
-                    Player.GetDamage<GenericDamageClass>() += 0.03f;
                     Player.GetCritChance<GenericDamageClass>() += Tequila.CritBoost;
-                    Player.endurance += 0.03f;
                 }
             }
 
@@ -2494,9 +2491,7 @@ namespace CalamityMod.CalPlayer
                 if (Main.dayTime)
                 {
                     Player.statDefense += 10;
-                    Player.GetDamage<GenericDamageClass>() += 0.07f;
                     Player.GetCritChance<GenericDamageClass>() += TequilaSunrise.CritBoost;
-                    Player.endurance += 0.03f;
                 }
             }
 
@@ -2522,7 +2517,7 @@ namespace CalamityMod.CalPlayer
             }
 
             if (whiteWine)
-                Player.GetDamage<MagicDamageClass>() += 0.1f;
+                Player.GetDamage<MagicDamageClass>() += 0.08f;
 
             // Adjustment to the Tipsy debuff
             if (Player.tipsy)

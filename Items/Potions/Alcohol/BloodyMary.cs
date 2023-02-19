@@ -7,15 +7,13 @@ namespace CalamityMod.Items.Potions.Alcohol
 {
     public class BloodyMary : ModItem
     {
-        internal static readonly int CritBoost = 7;
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 5;
             DisplayName.SetDefault("Bloody Mary");
             Tooltip.SetDefault(@"Extra spicy and bloody!
-Boosts damage by 15%, movement speed by 10%, melee speed by 15% and crit chance by 7% during a Blood Moon
-Reduces life regen by 2 and defense by 4%");
+Boosts damage and movement speed by 10% during a Blood Moon
+Reduces life regen by 4 and defense by 4%");
         }
 
         public override void SetDefaults()

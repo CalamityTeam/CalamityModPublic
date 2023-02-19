@@ -13,14 +13,14 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Bolter");
-            Tooltip.SetDefault("Fires three arrows at once\n" +
+            Tooltip.SetDefault("Fires a tight column of three arrows\n" +
                 "Converts wooden arrows into sliding energy bolts");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 39;
+            Item.damage = 48;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 40;
             Item.height = 76;
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     offset -= velocity;
 
                 if (CalamityUtils.CheckWoodenAmmo(type, player))
-                    Projectile.NewProjectile(spawnSource, source + offset, velocity, ModContent.ProjectileType<LunarBolt2>(), damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(spawnSource, source + offset, velocity, ModContent.ProjectileType<LunarBolt2>(), (int)(damage * 1.2), knockback * 1.2f, player.whoAmI);
                 else
                 {
                     int proj = Projectile.NewProjectile(spawnSource, source + offset, velocity, type, damage, knockback, player.whoAmI);
