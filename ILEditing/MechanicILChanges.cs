@@ -268,7 +268,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
 
-            if (!CalamityKeybinds.DashHotkey.HasValidBinding())
+            if (CalamityKeybinds.DashHotkey.GetAssignedKeys().Count == 0)
                 orig(self, out dir, out dashing, dashStartAction);
             else
             {
@@ -989,9 +989,9 @@ namespace CalamityMod.ILEditing
                 if (Main.waterStyle == SulphuricWater.Type && Main.dayTime == true && !Main.raining)
                 {
                     float brightness = MathHelper.Clamp(0.2f - (y / 680), 0.0f, 0.2f);
-                    if (y > 380)
+                    if (y > 580)
                     {
-                        brightness *= 1f - (y - 380) / 300f;
+                        brightness *= 1f - (y - 580) / 100f;
                     }
                     float wave1 = (Main.GameUpdateCount * 0.014f) * -50 + (x + (-y / 2)) * 15;
                     float wave2 = (Main.GameUpdateCount * 0.10f) * -10 + (x + (-y / 2)) * 14;
@@ -1009,9 +1009,9 @@ namespace CalamityMod.ILEditing
                 if (Main.waterStyle == SulphuricWater.Type && Main.dayTime == false && !Main.raining)
                 {
                     float brightness = MathHelper.Clamp(0.17f - (y / 680), 0.0f, 0.17f);
-                    if (y > 380)
+                    if (y > 580)
                     {
-                        brightness *= 1f - (y - 380) / 300f;
+                        brightness *= 1f - (y - 580) / 100f;
                     }
                     float wave1 = (Main.GameUpdateCount * 0.014f) * -50 + (x + (-y / 2)) * 15;
                     float wave2 = (Main.GameUpdateCount * 0.10f) * -10 + (x + (-y / 2)) * 14;
@@ -1029,9 +1029,9 @@ namespace CalamityMod.ILEditing
                 if (Main.waterStyle == SulphuricWater.Type && Main.raining)
                 {
                     float brightness = MathHelper.Clamp(1f - (y / 680), 0.0f, 1f);
-                    if (y > 430)
+                    if (y > 580)
                     {
-                        brightness *= 1f - (y - 430) / 250f;
+                        brightness *= 1f - (y - 580) / 100f;
                     }
                     outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
                     outputColor *= brightness;

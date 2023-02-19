@@ -39,17 +39,17 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float SwirlBoltAmount = 6f; //The amount of cosmic bolts produced during hte swirl attack
         public static float SwirlBoltDamageMultiplier = 0.7f; //This is the damage multiplier for ALL THE BOLTS: Aka, said damage multiplier is divided by the amount of bolts in a swirl and the full damage multiplier is gotten if you hit all the bolts
 
-        const string ComboTooltip = "Performs a combo of swings, alternating between narrow and wide swings and throwing the blade out every 5 swings\n" +
-                "The thrown blade is held in place by constellations and will follow your cursor\n" +
-                "Releasing the mouse while the blade is out will throw the second half towards it, making the scissors snap and explode into stars";
+        const string ComboTooltip = "Using LMB performs a 5-swing combo that ends by throwing the blade\n" +
+        "The thrown blade will follow your cursor\n" +
+        "Releasing LMB while the blade is out will cause an exploding snap";
 
-        const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you.\n" +
-                "Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
-                "You can also parry projectiles and temporarily make them deal 200 less damage\n" +
-                "Parrying will empower the next 10 swings of the sword, letting you use both blades at once";
+        const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you\n" +
+        "Hitting an enemy with it will parry them, granting you brief invulnerability\n" +
+        "You can parry projectiles to make them deal 200 less damage for a short period\n" +
+        "Parrying anything will empower the next 10 swings of the sword";
 
-        const string BlastTooltip = "Using RMB and pressing up while the Ark is empowered will throw the blades in front of you to provoke a Big Rip in spacetime, using up all your charges in the process\n" +
-                "If more than half the charges were used up, you can dash across the rip by keeping the up key pressed down";
+        const string BlastTooltip = "Using RMB while pressing UP with empowered charges will provoke a Big Rip in spacetime and use all charges\n" +
+        "If more than 5 charges were used, you can dash across the rip by holding UP";
 
 
         public override void SetStaticDefaults()

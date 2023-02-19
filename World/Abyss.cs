@@ -158,7 +158,7 @@ namespace CalamityMod.World
                                 if (WorldGen.genRand.NextBool(2))
                                 {
                                     tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
-                                    tile.WallType = (ushort)ModContent.WallType<PlantyMushWall>();
+                                    tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
                                 }
                                 else
                                 {
@@ -176,7 +176,7 @@ namespace CalamityMod.World
                             else
                             {
                                 tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
-                                tile.WallType = (ushort)ModContent.WallType<PlantyMushWall>();
+                                tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
                             }
                         }
                     }
@@ -1001,7 +1001,7 @@ namespace CalamityMod.World
         public static void PlaceSnailFossil(int i, int j)
         {
             //place an island
-            AbyssIsland(i, j + 2, 55, 75, 35, 45, ModContent.TileType<Voidstone>(), false, true, false);
+            AbyssIsland(i, j + 2, 55, 75, 35, 45, ModContent.TileType<Voidstone>(), false, false, false);
 
             //clear decently big circular area where the chest will be
             for (int clearX = i - 2; clearX <= i + 2; clearX++)
