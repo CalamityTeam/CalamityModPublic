@@ -652,9 +652,6 @@ namespace CalamityMod.CalPlayer
                     Player.lifeRegen++;
                 if (Player.statLife < actualMaxLife / 10)
                     Player.lifeRegen += 2;
-
-                if (Player.poisoned || Player.onFire || bFlames)
-                    Player.lifeRegen += 4;
             }
 
             if (tRegen)
