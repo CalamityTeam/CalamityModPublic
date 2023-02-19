@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 1800;
-            Projectile.alpha = 125;
+            Projectile.alpha = 80;
             CooldownSlot = ImmunityCooldownID.Bosses;
         }
 

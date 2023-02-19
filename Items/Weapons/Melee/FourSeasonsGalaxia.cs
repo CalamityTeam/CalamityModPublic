@@ -75,11 +75,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Galaxia");
             Tooltip.SetDefault("FUNCTION_DESC\n" +
-                               "FUNCTION_PASSIVE\n" +
-                               "Upgrading the sword let it break free from its earthly boundaries. You now have access to every single attunement at all times!\n" +
-                               "Use RMB to cycle the sword's attunement forward or backwards depending on the position of your cursor\n" +
-                               "Active Attunement : None\n" +
-                               "Passive Blessing : None\n"); ;
+            "FUNCTION_PASSIVE\n" +
+            "Upgrading the sword let it break free from its earthly boundaries. You now have access to every single attunement at all times!\n" +
+            "Use RMB to cycle the sword's attunement forward or backwards depending on the position of your cursor\n" +
+            "Active Attunement : None\n" +
+            "Passive Blessing : None\n"); ;
             SacrificeTotal = 1;
         }
 
