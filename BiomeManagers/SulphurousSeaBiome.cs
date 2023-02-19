@@ -57,19 +57,25 @@ namespace CalamityMod.BiomeManagers
         {
             Point point = player.Center.ToTileCoordinates();
             bool sulphurPosX = false;
+
             if (Abyss.AtLeftSideOfWorld)
             {
                 if (point.X < 380)
+                {
                     sulphurPosX = true;
+                }
             }
             else
             {
                 if (point.X > Main.maxTilesX - 380)
+                {
                     sulphurPosX = true;
+                }
             }
             
             return (BiomeTileCounterSystem.SulphurTiles >= 300 || (point.Y < (Main.rockLayer - Main.maxTilesY / 13) && sulphurPosX)) && !player.Calamity().ZoneAbyss;
         }
+        
         public override void SpecialVisuals(Player player, bool isActive)
         {
             string biomeName = "CalamityMod:SulphurSea";

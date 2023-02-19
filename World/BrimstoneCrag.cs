@@ -481,7 +481,7 @@ namespace CalamityMod.World
 
         public static bool PlaceCragLily(int x, int y, int tileType)
         {
-            int minDistance = 10;
+            int minDistance = 15;
             int lilyNearby = 0;
 
             for (int i = x - minDistance; i < x + minDistance; i++)
