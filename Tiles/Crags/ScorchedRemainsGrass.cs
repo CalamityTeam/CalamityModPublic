@@ -85,6 +85,16 @@ namespace CalamityMod.Tiles.Crags
                 }
             }
 
+            if (WorldGen.genRand.NextBool(100))
+            {
+                ushort[] Lillies = new ushort[] { (ushort)ModContent.TileType<LavaLily1>(),
+                (ushort)ModContent.TileType<LavaLily2>(), (ushort)ModContent.TileType<LavaLily3>(),
+                (ushort)ModContent.TileType<LavaLily4>(), (ushort)ModContent.TileType<LavaLily5>(),
+                (ushort)ModContent.TileType<LavaLily6>() };
+
+                WorldGen.PlaceObject(i, j - 1, WorldGen.genRand.Next(Lillies), true);
+            }
+
             //convert this tile back into scorched remains if any liquid is above it
             //will change this to only check for lava if necessary
             if (up.LiquidAmount > 0)
