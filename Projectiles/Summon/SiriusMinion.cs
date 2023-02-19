@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = 38;
             Projectile.height = 48;
 
-            Projectile.minionSlots = 8f;
+            Projectile.minionSlots = 6f;
             Projectile.penetrate = -1;
 
             Projectile.netImportant = true;
