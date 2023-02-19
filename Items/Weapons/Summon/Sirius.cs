@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Sirius");
             Tooltip.SetDefault("Summons the brightest star in the night sky to shine upon your foes\n" +
                 "Can only be summoned once\n" +
-                "Uses 8 minion slots");
+                "Uses 6 minion slots");
             SacrificeTotal = 1;
         }
 
