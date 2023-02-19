@@ -19,19 +19,22 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            Item.damage = 25;
+            Item.damage = 16;
+            Item.knockBack = 2f;
             Item.mana = 10;
+
+            Item.shoot = ModContent.ProjectileType<CinderBlossom>();
+
             Item.width = 50;
             Item.height = 56;
             Item.useTime = Item.useAnimation = 30;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.noMelee = true;
-            Item.knockBack = 2f;
-            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            Item.rare = ItemRarityID.Orange;
-            Item.UseSound = SoundID.Item34;
-            Item.shoot = ModContent.ProjectileType<CinderBlossom>();
+
             Item.DamageType = DamageClass.Summon;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item34;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.noMelee = true;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
