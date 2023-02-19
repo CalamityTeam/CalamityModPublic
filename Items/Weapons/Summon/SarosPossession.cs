@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.knockBack = 4f;
             Item.mana = 10;
 
-            Item.shoot = ModContent.ProjectileType<SarosMicrosun>();
+            Item.shoot = ModContent.ProjectileType<SarosAura>();
 
             Item.width = Item.height = 56;
             Item.useTime = Item.useAnimation = 10;

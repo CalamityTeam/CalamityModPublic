@@ -1,9 +1,7 @@
-﻿using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,14 +10,6 @@ namespace CalamityMod.Projectiles.Summon
     public class SarosMicrosun : ModProjectile
     {
         public Player Owner => Main.player[Projectile.owner];
-
-        public CalamityPlayer moddedOwner => Owner.Calamity();
-
-        public ref float GeneralTimer => ref Projectile.ai[0];
-
-        public bool CheckForSpawning = false;
-
-        public static readonly SoundStyle SarosDiskThrow = new SoundStyle("CalamityMod/Sounds/Item/SarosDiskThrow", 3) { Volume = 0.4f, PitchVariance = 1 };
 
         public override void SetStaticDefaults()
         {
@@ -31,54 +21,33 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.minionSlots = 8f;
-            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
 
             Projectile.width = Projectile.height = 62;
 
             Projectile.DamageType = DamageClass.Summon;
             Projectile.netImportant = true;
-            Projectile.friendly = true;
-            Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
+            Projectile.friendly = true;
             Projectile.minion = true;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            NPC potentialTarget = Projectile.Center.MinionHoming(5000f, Owner);
+            // Tries to detect a target on a certain distance.
+            NPC target = Projectile.Center.MinionHoming(5000f, Owner);
 
-            CheckMinionExistince(); // Ensure that the projectile using this AI is the correct projectile and that the owner has the appropriate buffs.
-            SpawnEffect(); // Makes a dust spawn effect where the minion spawns.
             DoAnimation(); // Does the animation of the minion.
 
-            // Attack nearby targets.
-            if (potentialTarget != null && Main.myPlayer == Projectile.owner)
-                AttackTarget(potentialTarget);
-
-            // Stay near the target and spin around.
-            Projectile.Center = Owner.Center - Vector2.UnitY * 60f;
-            // The projectile spins in the direction of the player and spins faster the faster the player is.
+            // Rotates to the left if the projectile's heading to the left and viceversa.
             Projectile.rotation += MathHelper.ToRadians(1f + (Owner.velocity.X * 0.04f)) * Owner.direction;
 
-            // Emit some light.
-            Lighting.AddLight(Projectile.Center, Vector3.One * 1.2f);
-
-            // A timer for the AI.
-            GeneralTimer++;
-        }
-
-        #region Methods
-
-        public void CheckMinionExistince()
-        {
-            Owner.AddBuff(ModContent.BuffType<SarosPossessionBuff>(), 3600);
-            if (Projectile.type == ModContent.ProjectileType<SarosMicrosun>())
+            // If there's a target, go towards the target.
+            if (target != null)
             {
-                if (Owner.dead)
-                    moddedOwner.saros = false;
-                if (moddedOwner.saros)
-                    Projectile.timeLeft = 2;
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, (target.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * 35f, 0.1f);
+                Projectile.netUpdate = true;
             }
         }
 
@@ -88,59 +57,35 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.frame = Projectile.frameCounter / 6 % Main.projFrames[Projectile.type];
         }
 
-        public void SpawnEffect()
+        public override bool PreDraw(ref Color lightColor) // Makes the afterimages of the disk.
         {
-            if (CheckForSpawning == false)
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
+            Vector2 origin = frame.Size() * 0.5f;
+            SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                int dustAmount = 360;
-                for (int d = 0; d < dustAmount; d++)
-                {
-                    float angle = MathHelper.TwoPi / dustAmount * d;
-                    Vector2 velocity = angle.ToRotationVector2() * Main.rand.NextFloat(20f, 30f);
-
-                    Dust spawnDust = Dust.NewDustPerfect(Owner.Center - Vector2.UnitY * 60f, (int)CalamityDusts.ProfanedFire, velocity);
-                    spawnDust.noGravity = true;
-                    spawnDust.color = Color.Lerp(Color.White, Color.Yellow, 0.25f);
-                    spawnDust.scale = velocity.Length() * 0.25f;
-                    spawnDust.velocity *= 0.7f;
-                }
+                Color afterimageDrawColor = Color.DarkOrange with { A = 25 } * Projectile.Opacity * (1f - i / (float)Projectile.oldPos.Length);
+                Vector2 afterimageDrawPosition = Projectile.oldPos[i] + Projectile.Size * 0.5f - Main.screenPosition;
+                Main.EntitySpriteDraw(texture, afterimageDrawPosition, frame, afterimageDrawColor, Projectile.rotation, origin, Projectile.scale, direction, 0);
             }
-            CheckForSpawning = true;
+            return true;
         }
 
-        public void AttackTarget(NPC target)
+        public override void Kill(int timeLeft)
         {
-            if (GeneralTimer % 50f == 49f)
+            int dustAmount = 180;
+            for (int d = 0; d < dustAmount; d++)
             {
-                for (int i = -1; i < 2; i++)
-                {
-                    float angle = (target.Center - Projectile.Center).ToRotation() + (MathHelper.PiOver2 * i) + Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.PiOver4);
-                    Vector2 velocity = angle.ToRotationVector2() * 30f;
+                float angle = MathHelper.TwoPi / dustAmount * d;
+                Vector2 velocity = angle.ToRotationVector2() * Main.rand.NextFloat(20f, 30f);
 
-                    int fire = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SarosSunfire>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    if (Main.projectile.IndexInRange(fire))
-                        Main.projectile[fire].originalDamage = Projectile.originalDamage;
-
-                    Projectile.netUpdate = true;
-                }
-            }
-
-            if (GeneralTimer % 100f == 99f)
-            {
-                float angle = (target.Center - Projectile.Center).ToRotation() + Main.rand.NextFloat(MathHelper.PiOver2, -MathHelper.PiOver2);
-                Vector2 velocity = angle.ToRotationVector2() * 25f;
-                SoundEngine.PlaySound(SarosDiskThrow, Projectile.Center);
-
-                int disk = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SarosDisk>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
-                if (Main.projectile.IndexInRange(disk))
-                    Main.projectile[disk].originalDamage = Projectile.originalDamage * 2;
-
-                Projectile.netUpdate = true;
+                Dust spawnDust = Dust.NewDustPerfect(Projectile.Center, (int)CalamityDusts.ProfanedFire, velocity);
+                spawnDust.noGravity = true;
+                spawnDust.color = Color.Lerp(Color.White, Color.Yellow, 0.25f);
+                spawnDust.scale = velocity.Length() * 0.25f;
+                spawnDust.velocity *= 0.5f;
             }
         }
-
-        public override bool? CanDamage() => false;
-
-        #endregion
     }
 }
