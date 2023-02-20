@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.ownerHitCheck = true;
             Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 20;
+            Projectile.localNPCHitCooldown = 15;
         }
 
         public override void AI()
@@ -127,12 +127,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 return;
             chargeCooldown = 60;
             TryToSuperchargeNPC(target);
+            int extraZaps = 0;
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 if (i != target.whoAmI &&
                     Main.npc[i].CanBeChasedBy(Projectile, false) &&
-                    Main.npc[i].Distance(target.Center) < 240f)
+                    Main.npc[i].Distance(target.Center) < 240f &&
+                    extraZaps < 3)
                 {
+                        
                     if (TryToSuperchargeNPC(Main.npc[i]))
                     {
                         for (float increment = 0f; increment <= 1f; increment += 0.05f)
@@ -143,6 +146,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                             dust.scale = 1.6f;
                             dust.noGravity = true;
                         }
+                        extraZaps++;
                     }
                 }
             }

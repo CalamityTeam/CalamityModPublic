@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.penetrate = 3;
             Projectile.timeLeft = 180;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 20;
+            Projectile.localNPCHitCooldown = 40;
         }
 
         public override void AI()

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.damage = 124;
             Item.knockBack = 4f;
-            Item.useAnimation = Item.useTime = 15;
+            Item.useAnimation = Item.useTime = 30;
             Item.DamageType = DamageClass.Melee;
             Item.useTurn = true;
             Item.autoReuse = true;
@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Item.width = 100;
             Item.height = 102;
-            Item.scale = 1.5f;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item1;
 
@@ -56,18 +55,11 @@ namespace CalamityMod.Items.Weapons.Melee
             return base.UseItem(player);
         }
 
-        public override float UseSpeedMultiplier(Player player)
-        {
-            if (player.altFunctionUse == 2)
-                return 1f;
-            return 1.33f;
-        }
-
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             if (player.altFunctionUse == 2)
             {
-                damage = (int)(damage * 0.43);
+                damage = (int)(damage * 0.3);
                 type = ModContent.ProjectileType<Razorwind>();
             }
 

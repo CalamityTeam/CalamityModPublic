@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.DamageType = DamageClass.Magic;
             Projectile.tileCollide = false;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.idStaticNPCHitCooldown = 6;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 100;
             Projectile.timeLeft = 80;
