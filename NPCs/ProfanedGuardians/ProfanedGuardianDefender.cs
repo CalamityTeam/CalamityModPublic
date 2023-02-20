@@ -277,10 +277,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float timeBeforeMoveToOtherSideInPhase2Reset = moveToOtherSideInPhase2GateValue * 2f;
             float totalGoLowDurationPhase2 = 210f;
             float goLowDurationPhase2 = totalGoLowDurationPhase2 * 0.5f;
+            float roundedGoLowPhase2Check = (float)Math.Round(goLowDurationPhase2 * 0.5);
             bool commanderGoingLowOrHighInPhase2 = (Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (moveToOtherSideInPhase2GateValue - goLowDurationPhase2) &&
-                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (moveToOtherSideInPhase2GateValue + goLowDurationPhase2 * 0.5f)) ||
+                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (moveToOtherSideInPhase2GateValue + roundedGoLowPhase2Check)) ||
                 Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) ||
-                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (-goLowDurationPhase2 * 0.5f);
+                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (-roundedGoLowPhase2Check);
 
             // Spawn rock shield
             bool respawnRocksInPhase2 = NPC.ai[1] == (-commanderGuardPhase2Duration + timeBeforeRocksRespawnInPhase2) && !commanderGoingLowOrHighInPhase2;
