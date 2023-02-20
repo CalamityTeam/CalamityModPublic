@@ -24,7 +24,7 @@ Stealth strikes throw three shorter ranged boomerangs that freeze along with a s
 
         public override void SetDefaults()
         {
-            Item.damage = 100;
+            Item.damage = 90;
             Item.knockBack = 12;
             Item.DamageType = DamageClass.Throwing;
             Item.value = CalamityGlobalItem.Rarity7BuyPrice;

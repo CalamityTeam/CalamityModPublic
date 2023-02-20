@@ -481,7 +481,7 @@ namespace CalamityMod.World
 
         public static bool PlaceCragLily(int x, int y, int tileType)
         {
-            int minDistance = 10;
+            int minDistance = 15;
             int lilyNearby = 0;
 
             for (int i = x - minDistance; i < x + minDistance; i++)
@@ -514,14 +514,6 @@ namespace CalamityMod.World
 
         public static void FillBrimstoneChests(Chest chest, int Type, bool firstItem)
         {
-            /*
-            Potential other item ideas:
-            Charred Idol
-            Obsidian Rose
-            Demon Conch
-            Lava Charm
-            */
-
             int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.ObsidianSkinPotion, ItemID.BattlePotion, ItemID.InfernoPotion, ItemID.PotionOfReturn);
             List<ChestItem> contents = new List<ChestItem>()
             {
@@ -529,6 +521,7 @@ namespace CalamityMod.World
                 new ChestItem(ModContent.ItemType<Items.Materials.DemonicBoneAsh>(), WorldGen.genRand.Next(4, 15)),
                 new ChestItem(ModContent.ItemType<Items.Fishing.BrimstoneCragCatches.CoastalDemonfish>(), WorldGen.genRand.Next(2, 5)),
                 new ChestItem(ItemID.HellfireArrow, WorldGen.genRand.Next(25, 50)),
+                new ChestItem(potionType, WorldGen.genRand.Next(1, 3)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(2, 12)),
             };
 

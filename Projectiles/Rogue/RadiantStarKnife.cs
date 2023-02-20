@@ -29,6 +29,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 4;
             Projectile.timeLeft = 300;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -73,7 +75,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.ai[1] += 1f;
             if (Projectile.ai[1] == 25f)
             {
-                int numProj = Projectile.Calamity().stealthStrike ? 5 : 3;
+                int numProj = Projectile.Calamity().stealthStrike ? 7 : 3;
                 float rotation = MathHelper.ToRadians(50);
                 if (Projectile.owner == Main.myPlayer)
                 {
@@ -86,12 +88,12 @@ namespace CalamityMod.Projectiles.Rogue
                         }
                         speed.Normalize();
                         speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2.5f;
-                        int stabber2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<RadiantStar2>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner,
+                        int stabber2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<RadiantStar2>(), Projectile.damage, Projectile.knockBack, Projectile.owner,
                             Projectile.ai[0] == 1f ? 1f : 0f, 0f);
                         Main.projectile[stabber2].Calamity().stealthStrike = Projectile.Calamity().stealthStrike;
                     }
                     SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
-                    int boomer = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<RadiantExplosion>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
+                    int boomer = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<RadiantExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (Projectile.Calamity().stealthStrike && boomer.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[boomer].Calamity().stealthStrike = true;

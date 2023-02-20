@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shellshooter");
-            Tooltip.SetDefault("Converts wooden arrows into slow, powerful shells");
+            Tooltip.SetDefault("Fires slow but powerful arrows\n" +
+                                "Converts wooden arrows into heavy piercing seashells");
             SacrificeTotal = 1;
         }
 
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.UseSound = SoundID.Item5;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<Shell>();
-            Item.shootSpeed = 1.5f;
+            Item.shootSpeed = 2.5f;
             Item.useAmmo = AmmoID.Arrow;
             Item.Calamity().canFirePointBlankShots = true;
         }

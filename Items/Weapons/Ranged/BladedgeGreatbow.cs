@@ -12,14 +12,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bladedge Railbow");
-            Tooltip.SetDefault("Fires 4 arrows at once\n" +
-                "Fires 2 additional leaves");
+            Tooltip.SetDefault("Fires a spread of 4 arrows and 2 leaves at once");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 28;
+            Item.damage = 35;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 74;
             Item.height = 24;
@@ -53,21 +52,20 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Main.projectile[index].noDropItem = true;
             }
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num117 = 0.314159274f;
-            int num118 = 2;
+            float PiOver10 = MathHelper.Pi * 0.1f;
             Vector2 vector7 = velocity;
             vector7.Normalize();
             vector7 *= 10f;
             bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
-            for (int num119 = 0; num119 < num118; num119++)
+            for (int num119 = 0; num119 < 2; num119++)
             {
-                float num120 = (float)num119 - ((float)num118 - 1f) / 2f;
-                Vector2 value9 = vector7.RotatedBy((double)(num117 * num120), default);
+                float num120 = (float)num119 - 1f / 2f;
+                Vector2 value9 = vector7.RotatedBy((double)(PiOver10 * num120), default);
                 if (!flag11)
                 {
                     value9 -= vector7;
                 }
-                int projectile = Projectile.NewProjectile(source, vector2.X + value9.X, vector2.Y + value9.Y, velocity.X, velocity.Y, ProjectileID.Leaf, damage / 2, 0f, player.whoAmI);
+                int projectile = Projectile.NewProjectile(source, vector2.X + value9.X, vector2.Y + value9.Y, velocity.X, velocity.Y, ProjectileID.Leaf, damage, 0f, player.whoAmI);
                 if (projectile.WithinBounds(Main.maxProjectiles))
                     Main.projectile[projectile].DamageType = DamageClass.Ranged;
             }

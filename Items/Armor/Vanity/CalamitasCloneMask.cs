@@ -5,12 +5,13 @@ using Terraria.ID;
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class CalamitasMask : ModItem
+    [LegacyName("CalamitasMask")]
+    public class CalamitasCloneMask : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Calamitas Mask");
+            DisplayName.SetDefault("Calamitas Clone Mask");
 
             if (Main.netMode != NetmodeID.Server)
                 ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;

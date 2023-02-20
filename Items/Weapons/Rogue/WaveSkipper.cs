@@ -24,12 +24,11 @@ Stealth strikes throw three high speed spears");
         public override void SetDefaults()
         {
             Item.width = 44;
-            Item.damage = 50;
+            Item.damage = 80;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 22;
+            Item.useAnimation = Item.useTime = 22;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 22;
             Item.knockBack = 4f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
@@ -40,8 +39,6 @@ Stealth strikes throw three high speed spears");
             Item.shootSpeed = 12f;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-		public override float StealthDamageMultiplier => 0.3333f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

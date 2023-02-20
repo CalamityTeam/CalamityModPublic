@@ -93,7 +93,7 @@ namespace CalamityMod.Systems
             }
 
             //Vernal pass
-            int vernalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Smooth World"));
+            int vernalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Muds Walls In Jungle"));
             if (vernalIndex != -1)
             {
                 tasks.Insert(vernalIndex + 1, new PassLegacy("Vernal Pass", (progress, config) =>

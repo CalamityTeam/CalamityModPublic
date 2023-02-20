@@ -1,7 +1,5 @@
 ﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,10 +25,13 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.penetrate = 3;
             Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
-            Projectile.timeLeft = 280;
             AIType = ProjectileID.ThrowingKnife;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.coldDamage = true;
+            Projectile.MaxUpdates = 2;
+            Projectile.timeLeft = 60 * Projectile.MaxUpdates; //60 effective, 120 total
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 30 * Projectile.MaxUpdates; //30 effective, 60 total
         }
 
         public override void AI()
@@ -38,14 +39,14 @@ namespace CalamityMod.Projectiles.Rogue
             if (!initStealth && Projectile.Calamity().stealthStrike)
             {
                 Projectile.penetrate = -1;
-                Projectile.usesLocalNPCImmunity = true;
-                Projectile.localNPCHitCooldown = 9;
                 Projectile.tileCollide = false;
+                Projectile.timeLeft = 90 * Projectile.MaxUpdates;
                 initialVelocity = Projectile.velocity;
                 initStealth = true;
             }
 
-            Projectile.rotation += 0.5f;
+            //Projectile.rotation = Projectile.velocity.ToRotation();
+
             if (Main.rand.NextBool(3))
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 67, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
@@ -72,16 +73,9 @@ namespace CalamityMod.Projectiles.Rogue
             if (homeIn)
             {
                 Vector2 moveDirection = Projectile.SafeDirectionTo(center, Vector2.UnitY);
-                Projectile.velocity = (Projectile.velocity * 20f + moveDirection * 14f) / (21f);
+                Projectile.velocity = (Projectile.velocity * 20f + moveDirection * 14f) / 21f;
             }
             Projectile.velocity = initStealth && !homeIn ? initialVelocity : Projectile.velocity;
-        }
-
-        public override bool PreDraw(ref Color lightColor)
-        {
-            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
-            return false;
         }
 
         public override void Kill(int timeLeft)
@@ -93,52 +87,18 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => OnHitEffects();
+        
+        public override void OnHitPvp(Player target, int damage, bool crit) => OnHitEffects();
+
+        public void OnHitEffects()
         {
-            if (initStealth)
-            {
-                if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<KelvinCatalystStar>()] < 15)
+            if (initStealth && Projectile.owner == Main.myPlayer && Projectile.numHits < 1)
+            {            
+                for (int i = 0; i < 8; i++)
                 {
-                    float spread = 45f * 0.0174f;
-                    double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-                    double deltaAngle = spread / 8f;
-                    double offsetAngle;
-                    int i;
-                    for (i = 0; i < 4; i++)
-                    {
-                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
-                            ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage / 8, Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
-
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f),
-                            ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage / 8, Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
-                    }
-                }
-            }
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            if (initStealth)
-            {
-                if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<KelvinCatalystStar>()] < 15)
-                {
-                    float spread = 45f * 0.0174f;
-                    double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-                    double deltaAngle = spread / 8f;
-                    double offsetAngle;
-                    int i;
-                    for (i = 0; i < 4; i++)
-                    {
-                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
-                            ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage / 8, Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
-
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f),
-                            ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage / 8, Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
-                    }
+                    Vector2 velocity = (MathHelper.TwoPi * i / 8f).ToRotationVector2() * 4f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }

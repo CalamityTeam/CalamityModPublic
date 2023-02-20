@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Throws a spiky ball that sticks to everything
 Explodes into cactus spikes after roughly 3 seconds
 Can hurt town NPCs
-Stealth strikes throw five at once");
+Stealth strikes throw four at once");
             SacrificeTotal = 99;
         }
 
@@ -42,19 +42,20 @@ Stealth strikes throw five at once");
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override float StealthDamageMultiplier => 1.4f;
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int spread = 3;
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(velocity.X + Main.rand.Next(-3,4), velocity.Y + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(source, position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage, knockback, player.whoAmI);
                     if (proj.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[proj].originalDamage = damage;
                         Main.projectile[proj].Calamity().stealthStrike = true;
+                    }
                     spread -= Main.rand.Next(1,4);
                 }
                 return false;

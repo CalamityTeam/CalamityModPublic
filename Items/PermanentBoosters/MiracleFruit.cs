@@ -81,7 +81,6 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             CreateRecipe().
                 AddIngredient(ItemID.LifeFruit, 5).
-                AddIngredient(ItemID.TealMushroom).
                 AddIngredient<TrapperBulb>(5).
                 AddIngredient<LifeAlloy>(5).
                 AddIngredient<LivingShard>(10).

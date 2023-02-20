@@ -1,15 +1,10 @@
-﻿using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.DataStructures;
-using Terraria.GameContent.Generation;
-using Terraria.WorldBuilding;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Linq;
-using System.Collections.Generic;
-using CalamityMod.DataStructures;
+using CalamityMod.Schematics;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
 
 namespace CalamityMod
 {
@@ -42,7 +37,7 @@ namespace CalamityMod
         }
 
         public static void GrowVines(int VineX, int VineY, int numVines, ushort vineType, bool finished = false)
-		{
+        {
             for (int Y = VineY; Y <= VineY + numVines && !finished; Y++)
             {
                 Tile tileBelow = Framing.GetTileSafely(VineX, Y + 1);
@@ -54,7 +49,7 @@ namespace CalamityMod
                 else
                 {
                     finished = true;
-				}
+                }
                 
                 if (numVines <= 1)
                 {
@@ -98,6 +93,54 @@ namespace CalamityMod
             }
             Liquid.quickSettle = false;
             Liquid.worldGenTilesIgnoreWater(false);
+        }
+
+        // Code more or less directly copied from SchematicManager.PlaceSchematic
+        public static Rectangle GetSchematicProtectionArea(SchematicMetaTile[,] schematic, Point placementPoint, SchematicAnchor anchorType)
+        {
+            int width = schematic.GetLength(0);
+            int height = schematic.GetLength(1);
+
+            // Calculate the appropriate location to start laying down schematic tiles.
+            int cornerX = placementPoint.X;
+            int cornerY = placementPoint.Y;
+            switch (anchorType)
+            {
+                case SchematicAnchor.TopLeft: // Provided point is top-left corner = No change
+                case SchematicAnchor.Default: // This is also default behavior
+                default:
+                    break;
+                case SchematicAnchor.TopCenter: // Provided point is top center = Top-left corner is 1/2 width to the left
+                    cornerX -= width / 2;
+                    break;
+                case SchematicAnchor.TopRight: // Provided point is top-right corner = Top-left corner is 1 width to the left
+                    cornerX -= width;
+                    break;
+                case SchematicAnchor.CenterLeft: // Provided point is left center: Top-left corner is 1/2 height above
+                    cornerY -= height / 2;
+                    break;
+                case SchematicAnchor.Center: // Provided point is center = Top-left corner is 1/2 width and 1/2 height up-left
+                    cornerX -= width / 2;
+                    cornerY -= height / 2;
+                    break;
+                case SchematicAnchor.CenterRight: // Provided point is right center: Top-left corner is 1 width and 1/2 height up-left
+                    cornerX -= width;
+                    cornerY -= height / 2;
+                    break;
+                case SchematicAnchor.BottomLeft: // Provided point is bottom-left corner = Top-left corner is 1 height above
+                    cornerY -= height;
+                    break;
+                case SchematicAnchor.BottomCenter: // Provided point is bottom center: Top-left corner is 1/2 width and 1 height up-left
+                    cornerX -= width / 2;
+                    cornerY -= height;
+                    break;
+                case SchematicAnchor.BottomRight: // Provided point is bottom-right corner = Top-left corner is 1 width to the left and 1 height above
+                    cornerX -= width;
+                    cornerY -= height;
+                    break;
+            }
+
+            return new Rectangle(cornerX, cornerY, width, height);
         }
     }
 
@@ -195,7 +238,7 @@ namespace CalamityMod
     }
 
     //probably might be useful to have for later, just places clumps of water
-	class WaterTileRunner : TileRunner
+    public class WaterTileRunner : TileRunner
     {
         public WaterTileRunner(Vector2 pos, Vector2 speed, Point16 hRange, Point16 vRange, double strength, int steps, ushort type, bool addTile, bool overRide) : base(pos, speed, hRange, vRange, strength, steps, type, addTile, overRide)
         {
@@ -204,11 +247,11 @@ namespace CalamityMod
         {
             tile.HasTile = false;
             tile.LiquidType = LiquidID.Water;
-			tile.LiquidAmount = 255;
+            tile.LiquidAmount = 255;
         }
     }
 
-    class LavaTileRunner : TileRunner
+    public class LavaTileRunner : TileRunner
     {
         public LavaTileRunner(Vector2 pos, Vector2 speed, Point16 hRange, Point16 vRange, double strength, int steps, ushort type, bool addTile, bool overRide) : base(pos, speed, hRange, vRange, strength, steps, type, addTile, overRide)
         {
@@ -217,7 +260,7 @@ namespace CalamityMod
         {
             tile.HasTile = false;
             tile.LiquidType = LiquidID.Lava;
-			tile.LiquidAmount = 255;
+            tile.LiquidAmount = 255;
         }
     }
 }

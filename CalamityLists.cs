@@ -526,6 +526,7 @@ namespace CalamityMod
                 ProjectileID.ChargedBlasterCannon,
                 ProjectileID.MedusaHead,
 
+                ProjectileType<UrchinMaceProjectile>(),
                 ProjectileType<BrokenBiomeBladeHoldout>(),
                 ProjectileType<AridGrandeur>(),
                 ProjectileType<BitingEmbrace>(),
@@ -1783,6 +1784,7 @@ namespace CalamityMod
                 ProjectileType<DragonRageStaff>(),
                 ProjectileType<YateveoBloomProj>(),
                 ProjectileType<UrchinBall>(),
+                ProjectileType<UrchinMaceProjectile>(),
                 ProjectileType<TyphonsGreedStaff>(),
                 ProjectileType<DevilsSunriseProj>(),
                 ProjectileType<DevilsSunriseCyclone>(),

@@ -78,7 +78,7 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.AddRevBagAccessories();
 
             // Vanity
-            itemLoot.Add(ModContent.ItemType<CalamitasMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<CalamitasCloneMask>(), 7);
             var calamityRobes = ItemDropRule.Common(ModContent.ItemType<RobesOfCalamity>(), 10);
             calamityRobes.OnSuccess(ItemDropRule.Common(ModContent.ItemType<HoodOfCalamity>()));
             itemLoot.Add(calamityRobes);

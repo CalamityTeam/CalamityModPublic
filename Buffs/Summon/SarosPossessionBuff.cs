@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<SarosMicrosun>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<SarosAura>()] > 0)
                 modPlayer.saros = true;
             if (!modPlayer.saros)
             {

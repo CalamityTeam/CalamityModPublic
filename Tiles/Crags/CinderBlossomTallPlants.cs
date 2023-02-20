@@ -39,5 +39,13 @@ namespace CalamityMod.Tiles.Crags
             offsetY = -30;
             height = 48;
         }
+
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) 
+        {
+            if (Main.rand.Next(20) == 0)
+            {
+                Item.NewItem(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16f, ModContent.ItemType<Items.Placeables.CinderBlossomSeeds>());
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,13 +12,14 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Coral Cannon");
-            Tooltip.SetDefault("Has a chance to shoot a big coral that stuns enemies");
+            Tooltip.SetDefault("Has a 20% chance to shoot a big coral that stuns enemies\n" +
+                                "Does not consume ammo");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 20;
+            Item.damage = 24;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 52;
             Item.height = 40;
@@ -45,13 +46,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (Main.rand.NextBool(5))
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BigCoral>(), (int)((double)damage * 2.0), knockback * 2f, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<BigCoral>(), (int)(damage * 1.5f), knockback * 1.5f, player.whoAmI);
+                return false;
             }
-            else
-            {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
-            }
-            return false;
+            return true;
         }
     }
 }

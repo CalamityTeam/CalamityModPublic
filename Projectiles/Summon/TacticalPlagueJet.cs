@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Summon
 
                 if (Projectile.ai[0]++ % TacticalPlagueEngine.BulletShootRate == 24f)
                 {
-                    bool shootRocket = ++Projectile.ai[1] % 20f == 0f;
+                    bool shootRocket = ++Projectile.ai[1] % 2f == 0f;
                     // Rockets never consume ammo.
                     bool dontConsumeAmmo = Main.rand.NextBool() || shootRocket;
                     int projIndex;
@@ -173,7 +173,7 @@ namespace CalamityMod.Projectiles.Summon
                     // Vanilla function tricked into using a fake gun item with the appropriate base damage as the "firing item".
                     player.PickAmmo(FalseGun, out int projID, out float shootSpeed, out int damage, out float kb, out _, dontConsumeAmmo);
 
-                    // One in every 20 shots is a rocket which deals 1.5x total damage and extreme knockback.
+                    // Fires a rocket every other time which deals 1.5x total damage and extreme knockback.
                     if (shootRocket)
                     {
                         int rocketDamage = (int)(damage * 1.5f);

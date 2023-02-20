@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Kylie : RogueWeapon
     {
-        public static float Speed = 12f;
+        public static float Speed = 14f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kylie");
@@ -43,7 +43,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 16;
 
 		public override float StealthDamageMultiplier => 0.3333f;
-        public override float StealthVelocityMultiplier => 0.666f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

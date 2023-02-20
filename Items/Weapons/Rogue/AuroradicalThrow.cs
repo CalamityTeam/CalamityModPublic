@@ -24,12 +24,11 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             Item.width = 34;
             Item.height = 58;
-            Item.damage = 32;
+            Item.damage = 48;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 30;
+            Item.useAnimation = Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 30;
             Item.knockBack = 6f;
             Item.UseSound = SoundID.Item117;
             Item.autoReuse = true;
@@ -39,8 +38,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 10f;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-		public override float StealthDamageMultiplier => 1.2f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

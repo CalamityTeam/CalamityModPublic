@@ -50,16 +50,16 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).
-                AddIngredient(ItemID.BottledWater, 4).
+            CreateRecipe(15).
+                AddIngredient(ItemID.BottledWater, 15).
                 AddIngredient<Stardust>(4).
                 AddIngredient<AureusCell>().
                 AddTile(TileID.AlchemyTable).
 				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
-            CreateRecipe(8).
-                AddIngredient(ItemID.BottledWater, 4).
+            CreateRecipe(15).
+                AddIngredient(ItemID.BottledWater, 15).
                 AddIngredient<BloodOrb>(5).
                 AddIngredient<AureusCell>().
                 AddTile(TileID.AlchemyTable).

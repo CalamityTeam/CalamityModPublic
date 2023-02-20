@@ -18,20 +18,23 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            Item.damage = 30;
+            Item.damage = 22;
+            Item.knockBack = 1f;
             Item.mana = 10;
+
+            Item.shoot = ModContent.ProjectileType<BelladonnaSpirit>();
+
             Item.width = 40;
             Item.height = 42;
             Item.useTime = Item.useAnimation = 35;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.noMelee = true;
-            Item.knockBack = 1f;
-            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            Item.rare = ItemRarityID.Blue;
-            Item.UseSound = SoundID.Item44;
-            Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<BelladonnaSpirit>();
+
             Item.DamageType = DamageClass.Summon;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item44;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.noMelee = true;
+            Item.autoReuse = true;   
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

@@ -54,11 +54,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Screwdriver");
-            Tooltip.SetDefault("Can be used to rapidly and royally screw over any foe, provided they're weak enough\n" +
-                               "Striking an enemy has a chance to give you a wulfrum screw, that you can throw back at them by right clicking\n" +
-                               "Hitting a flung screw with the screwdriver will boost its damage and speed, sending it hurling forwards at high speeds\n" +
-                               "[c/83B87E:\"Who makes flatheads this large?? The hell am I supposed to use it for, the thing could take an eye out!\"]\n" +
-                               "[c/83B87E:\"…Ah.\"]");
+            Tooltip.SetDefault("Can be used to rapidly and royally screw over foes\n" +
+            "Striking an enemy sometimes gives you a wulfrum screw that you can throw with RMB\n" +
+            "Hit a thrown screw with the screwdriver to launch it forward at high speed\n" +
+            "[c/83B87E:\"Who makes flatheads this large?? The hell am I supposed to use it for?!\"]\n" +
+            "[c/83B87E:\"This thing could take an eye out!\"]\n" +
+            "[c/83B87E:\"…Ah.\"]");
             SacrificeTotal = 1;
         }
 
@@ -75,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 14;
             Item.height = 50;
-            Item.damage = 9;
+            Item.damage = 12;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = DefaultTime + WulfrumScrewdriverProj.MaxTime;
             Item.useStyle = ItemUseStyleID.Shoot;

@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,11 +18,11 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 15;
-            Item.DamageType = DamageClass.Magic;
-            Item.mana = 6;
             Item.width = 36;
             Item.height = 34;
+            Item.damage = 45;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 6;
             Item.useTime = 16;
             Item.useAnimation = 16;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -33,10 +32,9 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item43;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<BrimstoneBeam>();
+            Item.shoot = ModContent.ProjectileType<BrimroseBeam>();
             Item.shootSpeed = 6f;
         }
-               
 
         public override void AddRecipes()
         {

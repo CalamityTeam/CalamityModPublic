@@ -25,6 +25,8 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.DamageType = DamageClass.Magic;
             Projectile.penetrate = 4;
             Projectile.timeLeft = 300;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -35,8 +37,7 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.Kill();
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int fireballAmt = Main.rand.Next(2, 4);
-                    for (int j = 0; j < fireballAmt; j++)
+                    for (int j = 0; j < 2; j++)
                     {
                         Vector2 velocity = new Vector2(Main.rand.NextFloat(-100f, 100f), Main.rand.NextFloat(-100f, -50f));
                         while (velocity.X == 0f)
@@ -44,8 +45,8 @@ namespace CalamityMod.Projectiles.Magic
                             velocity.X = (float)Main.rand.Next(-100, 101);
                         }
                         velocity.Normalize();
-                        velocity *= Main.rand.NextFloat(70f, 100f) * 0.1f;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHomer>(), (int)(Projectile.damage * 0.85), 0f, Projectile.owner, 0f, 0f);
+                        velocity *= Main.rand.NextFloat(7f, 10f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHomer>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
                     }
                 }
             }
@@ -112,10 +113,6 @@ namespace CalamityMod.Projectiles.Magic
             SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.immune[Projectile.owner] = 8;
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
     }
 }

@@ -19,7 +19,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public const float ChestCrit = 3f;
         public const float LegsMoveSpeed = 0.05f;
         public const float SetBonusFlatDamage = 2.0f;
-        public const float SetBonusMoveSpeed = 0.1f;
 
         public override void ApplyHeadPieceEffect(Player player) => player.GetDamage<GenericDamageClass>() += HeadDamage;
 
@@ -30,14 +29,13 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             StringBuilder sb = new StringBuilder(256);
-            sb.Append("\nIncreases all damage by 2\n10% increased movement speed");
+            sb.Append("\nIncreases all damage by 2");
             setBonusText += sb.ToString();
         }
 
         public override void ApplyArmorSetBonus(Player player)
         {
             player.GetDamage<GenericDamageClass>().Flat += SetBonusFlatDamage;
-            player.moveSpeed += SetBonusMoveSpeed;
         }
     }
 }

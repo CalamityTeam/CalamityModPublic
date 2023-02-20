@@ -16,9 +16,9 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override string ArmorSetName => "Silver";
 
-        public const float HeadCrit = 6f;
+        public const float HeadCrit = 5f;
         public const int ChestLifeRegen = 2;
-        public const float LegsMoveSpeed = 0.1f;
+        public const float LegsMoveSpeed = 0.08f;
         public const int SetBonusLifeRegen = 1;
 
         public const double SetBonusMinimumDamageToHeal = 20.0;

@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+using CalamityMod.Items.Weapons.Magic;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
@@ -37,11 +39,18 @@ namespace CalamityMod.Projectiles.Magic
                 UpdateAim();
 
                 // Create the star.
-                if (Projectile.localAI[0] == 0f)
+                int attackType = ModContent.ProjectileType<ArtAttackStar>();
+                if (Owner.ownedProjectileCounts[attackType] == 0)
                 {
-                    Vector2 initialStarVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * 15f;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, initialStarVelocity, ModContent.ProjectileType<ArtAttackStar>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    Projectile.localAI[0] = 1f;
+                    if (Projectile.ai[0] >= 0f && Owner.CheckMana(Owner.ActiveItem(), -1, true, false))
+                    {
+                        SoundEngine.PlaySound(ArtAttack.UseSound, Owner.Center);
+                        Vector2 initialStarVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * 15f;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, initialStarVelocity, attackType, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.ai[0] = -24f;
+                    }
+                    else
+                        Projectile.ai[0]++;
                 }
 
                 if (!Owner.channel)

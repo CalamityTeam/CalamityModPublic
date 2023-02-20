@@ -11,13 +11,12 @@ namespace CalamityMod.Projectiles.Summon
     public class BelladonnaSpirit : ModProjectile
     {
         public Player Owner => Main.player[Projectile.owner];
+
         public CalamityPlayer moddedOwner => Owner.Calamity();
-        
-        public float PetalFireTimer
-        {
-            get => Projectile.ai[0];
-            set => Projectile.ai[0] = value;
-        }
+
+        public ref float PetalFireTimer => ref Projectile.ai[0];
+
+        public bool CheckForSpawning = false;
 
         public override void SetStaticDefaults()
         {
@@ -29,31 +28,31 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 28;
-            Projectile.height = 48;
-            Projectile.netImportant = true;
-            Projectile.friendly = true;
             Projectile.minionSlots = 1;
             Projectile.penetrate = -1;
+
+            Projectile.width = 28;
+            Projectile.height = 48;
+
+            Projectile.DamageType = DamageClass.Summon;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
             Projectile.minion = true;
             Projectile.tileCollide = false;
-            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
+            NPC potentialTarget = Projectile.Center.MinionHoming(1200f, Owner);
+            if (potentialTarget is not null)
+                TargetNPC();
+
             CheckMinionExistance(); // Checks if the minion can still exist.
             SpawnEffect(); // Makes a dust effect where the minion spawns.
             DoAnimation(); // Does the animation of the minion.
-            PointInDirection(); // Points in the right directions.
+            PointInDirection(potentialTarget); // Points in the right directions.
             FollowPlayer(); // Vibes around the player.
-            Projectile.MinionAntiClump(); // The minions push eachother to not clump.
-
-            NPC potentialTarget = Projectile.Center.MinionHoming(1200f, Owner);
-            if (potentialTarget is not null)
-            {
-                TargetNPC();
-            }
+            Projectile.MinionAntiClump(); // The minions push eachother to not clump
         }
 
         #region Methods
@@ -64,28 +63,26 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.type == ModContent.ProjectileType<BelladonnaSpirit>())
             {
                 if (Owner.dead)
-                {
                     moddedOwner.belladonaSpirit = false;
-                }
                 if (moddedOwner.belladonaSpirit)
-                {
                     Projectile.timeLeft = 2;
-                }
             }
         }
 
         public void SpawnEffect()
         {
-            if (Projectile.localAI[0] == 0f)
+            if (CheckForSpawning == false)
             {
                 for (int i = 0; i < 45; i++)
                 {
                     float angle = MathHelper.TwoPi / 45f * i;
                     Vector2 velocity = angle.ToRotationVector2() * 4f;
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center + velocity * 2.75f, 39, velocity);
-                    dust.noGravity = true;
+                    Dust spawnDust = Dust.NewDustPerfect(Projectile.Center + velocity * 2.75f, 39, velocity);
+                    spawnDust.noGravity = true;
+                    spawnDust.scale = velocity.Length() * 0.1f;
+                    spawnDust.velocity *= 0.3f;
                 }
-                Projectile.localAI[0] = 1f;
+                CheckForSpawning = true;
             }
         }
 
@@ -95,12 +92,11 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.frame = Projectile.frameCounter / 5 % Main.projFrames[Projectile.type];
         }
 
-        public void PointInDirection()
+        public void PointInDirection(NPC target)
         {
-            NPC potentialTarget = Projectile.Center.MinionHoming(1200f, Owner);
-            if (potentialTarget is not null) // If there's a target look at the target.
+            if (target is not null) // If there's a target look at the target.
             {
-                Projectile.spriteDirection = ((potentialTarget.Center.X - Projectile.Center.X) < 0).ToDirectionInt();
+                Projectile.spriteDirection = ((target.Center.X - Projectile.Center.X) < 0).ToDirectionInt();
             }
             else // If there's not a target, the minion just points where it's going.
             {
@@ -148,7 +144,9 @@ namespace CalamityMod.Projectiles.Summon
             int petalID = ModContent.ProjectileType<BelladonnaPetal>();
             if (PetalFireTimer % 75f == 0f) // Every 75 frames, throws a petal.
             {
-                Vector2 petalShootVelocity = (-Vector2.UnitY * Main.rand.NextFloat(7f, 9f)) + Projectile.velocity;
+                Vector2 petalShootVelocity = (-Vector2.UnitY * Main.rand.NextFloat(7f, 8.5f)) +
+                    Vector2.UnitX * Projectile.velocity.X +
+                    Vector2.UnitY * Projectile.velocity.Y * 0.35f;
                 // Throws the petal upwards with a random force and inherits the minion's speed.
                 int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, petalShootVelocity, petalID, Projectile.damage, Projectile.knockBack, Projectile.owner);
                 if (Main.projectile.IndexInRange(p))

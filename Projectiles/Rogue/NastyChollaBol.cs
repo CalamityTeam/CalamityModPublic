@@ -91,7 +91,8 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int n = 0; n < needleAmt; n++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(0.25f * NastyCholla.BaseDamage);
+                    // Since damage is reset on stick, this needs new damage calculations or stored damage in some way.
+                    int damage = Projectile.Calamity().stealthStrike ? Projectile.originalDamage / 2 : (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(0.5f * NastyCholla.BaseDamage);
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<NastyChollaNeedle>(), damage, 0f, Projectile.owner, 0f, 0f);
                 }
             }

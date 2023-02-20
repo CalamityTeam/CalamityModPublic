@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Dust dust2 = Main.dust[index3];
                 dust2.velocity = dust2.velocity * 3f;
             }
-            int num220 = (Projectile.Calamity().stealthStrike ? Main.rand.Next(10, 16) : Main.rand.Next(5, 11));
+            int num220 = (Projectile.Calamity().stealthStrike ? 12 : 5);
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int num221 = 0; num221 < num220; num221++)
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 value17 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     value17.Normalize();
                     value17 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<DesecratedBubble>(), (int)(Projectile.damage * 0.5), 1f, Projectile.owner, (Projectile.Calamity().stealthStrike ? 1f : 0f), 1f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<DesecratedBubble>(), (int)(Projectile.damage * 0.6), Projectile.knockBack * 0.6f, Projectile.owner, (Projectile.Calamity().stealthStrike ? 1f : 0f), 1f);
                 }
             }
         }

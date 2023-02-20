@@ -345,7 +345,7 @@ namespace CalamityMod.CalPlayer
             if (bloodyMary)
             {
                 alcoholPoisonLevel++;
-                lifeRegenLost += 2;
+                lifeRegenLost += 4;
             }
             if (tequila)
             {
@@ -355,7 +355,7 @@ namespace CalamityMod.CalPlayer
             if (tequilaSunrise)
             {
                 alcoholPoisonLevel++;
-                lifeRegenLost += 1;
+                lifeRegenLost += 2;
             }
             if (screwdriver)
             {
@@ -378,12 +378,12 @@ namespace CalamityMod.CalPlayer
             if (starBeamRye)
             {
                 alcoholPoisonLevel++;
-                lifeRegenLost += 1;
+                lifeRegenLost += 2;
             }
             if (moscowMule)
             {
                 alcoholPoisonLevel++;
-                lifeRegenLost += 2;
+                lifeRegenLost += 4;
             }
             if (whiteWine)
             {
@@ -652,9 +652,6 @@ namespace CalamityMod.CalPlayer
                     Player.lifeRegen++;
                 if (Player.statLife < actualMaxLife / 10)
                     Player.lifeRegen += 2;
-
-                if (Player.poisoned || Player.onFire || bFlames)
-                    Player.lifeRegen += 4;
             }
 
             if (tRegen)
@@ -713,7 +710,7 @@ namespace CalamityMod.CalPlayer
                 Player.lifeRegenTime += 1;
             }
 
-            if (projRefRareLifeRegenCounter > 0)
+            if (evolutionLifeRegenCounter > 0)
             {
                 Player.lifeRegenTime += 2;
                 Player.lifeRegen += 2;

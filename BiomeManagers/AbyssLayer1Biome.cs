@@ -36,7 +36,9 @@ namespace CalamityMod.BiomeManagers
             if (WeakReferenceSupport.InAnySubworld())
                 return false;
 
-            return !player.lavaWet && !player.honeyWet && abyssPosX && playerYTileCoords <= Main.maxTilesY - 200;
+            int abyssStartHeight = (SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90;
+
+            return !player.lavaWet && !player.honeyWet && abyssPosX && playerYTileCoords >= abyssStartHeight && playerYTileCoords <= Main.maxTilesY - 200;
         }
 
         //temporarily use sulphur for now
@@ -70,7 +72,7 @@ namespace CalamityMod.BiomeManagers
             int abyssStartHeight = (SulphurousSea.YStart + (int)Main.worldSurface) / 2 + 90;
 
             return AbyssLayer1Biome.MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && point.Y >= abyssStartHeight &&
-            !player.Calamity().ZoneAbyssLayer2 && !player.Calamity().ZoneAbyssLayer3 && !player.Calamity().ZoneAbyssLayer4;
+            BiomeTileCounterSystem.Layer1Tiles >= 200 && !player.Calamity().ZoneAbyssLayer2 && !player.Calamity().ZoneAbyssLayer3 && !player.Calamity().ZoneAbyssLayer4;
         }
     }
 }

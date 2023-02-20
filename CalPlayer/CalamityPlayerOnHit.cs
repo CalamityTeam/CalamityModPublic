@@ -62,12 +62,17 @@ namespace CalamityMod.CalPlayer
 
             if (flamingItemEnchant)
                 target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
+            
+            target.Calamity().IncreasedColdEffects_EskimoSet = eskimoSet;
+            target.Calamity().IncreasedColdEffects_CryoStone = CryoStone;
+
+            target.Calamity().IncreasedElectricityEffects_Transformer = transformer;
 
             target.Calamity().IncreasedHeatEffects_Fireball = fireball;
             target.Calamity().IncreasedHeatEffects_CinnamonRoll = cinnamonRoll;
             target.Calamity().IncreasedHeatEffects_HellfireTreads = hellfireTreads;
 
-            target.Calamity().IncreasedColdEffects_EskimoSet = eskimoSet;
+            target.Calamity().IncreasedSicknessEffects_ToxicHeart = toxicHeart;
 
             target.Calamity().IncreasedSicknessAndWaterEffects_EvergreenGin = evergreenGin;
 
@@ -201,11 +206,16 @@ namespace CalamityMod.CalPlayer
             if (witheringWeaponEnchant)
                 witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
 
+            cgn.IncreasedColdEffects_EskimoSet = eskimoSet;
+            cgn.IncreasedColdEffects_CryoStone = CryoStone;
+
+            cgn.IncreasedElectricityEffects_Transformer = transformer;
+            
             cgn.IncreasedHeatEffects_Fireball = fireball;
             cgn.IncreasedHeatEffects_CinnamonRoll = cinnamonRoll;
             cgn.IncreasedHeatEffects_HellfireTreads = hellfireTreads;
 
-            cgn.IncreasedColdEffects_EskimoSet = eskimoSet;
+            cgn.IncreasedSicknessEffects_ToxicHeart = toxicHeart;
 
             cgn.IncreasedSicknessAndWaterEffects_EvergreenGin = evergreenGin;
 
@@ -583,9 +593,9 @@ namespace CalamityMod.CalPlayer
 
             if (npcCheck)
             {
-                if (item.CountsAsClass<MeleeDamageClass>() && aBulwarkRare && aBulwarkRareTimer == 0)
+                if (item.CountsAsClass<MeleeDamageClass>() && hideOfDeus && hideOfDeusTimer == 0)
                 {
-                    aBulwarkRareTimer = 10;
+                    hideOfDeusTimer = 10;
                     int bulwarkStarDamage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(320);
                     for (int n = 0; n < 3; n++)
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), bulwarkStarDamage, 5f, Player.whoAmI);
@@ -722,9 +732,9 @@ namespace CalamityMod.CalPlayer
                     if (Player.wingTime > Player.wingTimeMax)
                         Player.wingTime = Player.wingTimeMax;
                 }
-                if (aBulwarkRare && aBulwarkRareTimer == 0)
+                if (hideOfDeus && hideOfDeusTimer == 0)
                 {
-                    aBulwarkRareTimer = 10;
+                    hideOfDeusTimer = 10;
                     int bulwarkStarDamage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(320);
                     for (int n = 0; n < 3; n++)
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), bulwarkStarDamage, 5f, Player.whoAmI);
@@ -1202,7 +1212,7 @@ namespace CalamityMod.CalPlayer
                     for (int s = 0; s < 3; s++)
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(10);
+                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(9);
                         int spark = Projectile.NewProjectile(spawnSource, position, velocity, ProjectileType<EGloveSpark>(), damage, 0f, Player.whoAmI);
                         if (spark.WithinBounds(Main.maxProjectiles))
                         {

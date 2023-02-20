@@ -21,12 +21,11 @@ Stealth strikes can bounce off walls and enemies");
         public override void SetDefaults()
         {
             Item.width = 30;
-            Item.damage = 25;
+            Item.damage = 20;
             Item.noMelee = true;
             Item.consumable = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 21;
-            Item.useTime = 21;
+            Item.useAnimation = Item.useTime = 16;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 3f;
             Item.UseSound = SoundID.Item1;
