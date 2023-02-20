@@ -1258,15 +1258,6 @@ namespace CalamityMod.CalPlayer
                 reaverRegenCooldown++;
             else
                 reaverRegenCooldown = 0;
-            if (roverDrive)
-            {
-                if (roverDriveTimer < CalamityUtils.SecondsToFrames(30f))
-                    roverDriveTimer++;
-                if (roverDriveTimer >= CalamityUtils.SecondsToFrames(30f))
-                    roverDriveTimer = 0;
-            }
-            else
-                roverDriveTimer = 616; // Doesn't reset to zero to prevent exploits
             if (auralisAurora > 0)
                 auralisAurora--;
             if (auralisAuroraCooldown > 0)
@@ -1469,13 +1460,6 @@ namespace CalamityMod.CalPlayer
 
             if (avertorBonus)
                 Player.GetDamage<GenericDamageClass>() += 0.1f;
-
-            if (roverDriveTimer < 616)
-            {
-                Player.statDefense += 15;
-                if (roverDriveTimer > 606)
-                    Player.statDefense -= roverDriveTimer - 606; //so it scales down when the shield dies
-            }
 
             // Fairy Boots bonus
             if (fairyBoots)
@@ -3041,8 +3025,8 @@ namespace CalamityMod.CalPlayer
 
             if (eArtifact)
             {
-                Player.manaCost *= 0.85f;
-                Player.maxMinions += 2;
+                Player.manaCost *= 0.75f;
+                Player.maxMinions++;
             }
 
             if (auricSArtifact && Player.FindBuffIndex(ModContent.BuffType<FieryDraconidBuff>()) != -1)

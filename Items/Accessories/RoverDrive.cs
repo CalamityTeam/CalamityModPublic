@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/RoverDriveActivate") { Volume = 0.85f };
         public static readonly SoundStyle BreakSound = new("CalamityMod/Sounds/Custom/RoverDriveBreak") { Volume = 0.75f };
 
-        public static int ProtectionMatrixDurabilityMax = 50;
+        public static int ProtectionMatrixDurabilityMax = 40;
         public static int ProtectionMatrixRechargeTime = 60 * 10;
         public static int ProtectionMatrixDefenseBoost = 10;
 
@@ -179,7 +179,6 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             RoverDrivePlayer modPlayer = player.GetModPlayer<RoverDrivePlayer>();
-            //modPlayer.roverDrive = true;
 
             modPlayer.RoverDriveOn = true;
             modPlayer.ShieldVisibility = hideVisual ? false : null;

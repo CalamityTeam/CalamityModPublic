@@ -584,10 +584,6 @@ namespace CalamityMod.CalPlayer
         public int icicleCooldown = 0;
         public bool RustyMedallionDroplets = false;
         public bool noStupidNaturalARSpawns = false;
-        public bool roverDrive = false;
-        public int roverDriveTimer = 0;
-        public int roverFrameCounter = 0;
-        public int roverFrame = 0;
         public int voidFrameCounter = 0;
         public int voidFrame = 0;
         public bool rottenDogTooth = false;
@@ -1660,7 +1656,6 @@ namespace CalamityMod.CalPlayer
             corrosiveSpine = false;
             RustyMedallionDroplets = false;
             noStupidNaturalARSpawns = false;
-            roverDrive = false;
             rottenDogTooth = false;
             angelicAlliance = false;
             BloomStoneRegen = false;
@@ -2169,7 +2164,6 @@ namespace CalamityMod.CalPlayer
             sulphurBubbleCooldown = 0;
             ladHearts = 0;
             prismaticLasers = 0;
-            roverDriveTimer = 0;
             angelicActivate = -1;
             resetHeightandWidth = false;
             noLifeRegen = false;
@@ -3294,14 +3288,6 @@ namespace CalamityMod.CalPlayer
                 tailFrameUp = 0;
             }
 
-            int frameAmt = 11;
-            if (roverFrameCounter >= 7)
-            {
-                roverFrameCounter = -1;
-                roverFrame = roverFrame == frameAmt - 1 ? 0 : roverFrame + 1;
-            }
-            roverFrameCounter++;
-
             int frames = 4;
             if (voidFrameCounter >= 6)
             {
@@ -4412,6 +4398,9 @@ namespace CalamityMod.CalPlayer
             {
                 switch (proj.type)
                 {
+                    case ProjectileID.MoonlordArrowTrail:
+                        damage = (int)(damage * 0.5);
+                        break;
                     case ProjectileID.CrystalShard:
                         damage = (int)(damage * 0.6);
                         break;
@@ -6582,8 +6571,8 @@ namespace CalamityMod.CalPlayer
 
             if (eArtifact)
             {
-                stealthGenStandstill += 0.1f;
-                stealthGenMoving += 0.1f;
+                stealthGenStandstill += 0.15f;
+                stealthGenMoving += 0.15f;
             }
 
             //Accessory modifiers can boost these stats

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
             SacrificeTotal = 1;
             DisplayName.SetDefault("Eldritch Soul Artifact");
             Tooltip.SetDefault("Knowledge\n" +
-                "Boosts melee speed by 10%, ranged velocity by 25%, rogue stealth regen by 10%, max minions by 2 and reduces mana cost by 15%\n" +
+                "Boosts melee speed by 10%, ranged velocity by 25%, rogue stealth regen by 15%, max minions by 1 and reduces mana cost by 25%\n" +
                 "Grants immunity to Whispering Death");
         }
 
