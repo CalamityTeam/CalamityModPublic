@@ -122,7 +122,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-            npcLoot.Add(ItemID.ShrimpPoBoy, 50);
 			npcLoot.AddIf(() => NPC.downedPlantBoss, ModContent.ItemType<MantisClaws>(), 5);
 		}
 
