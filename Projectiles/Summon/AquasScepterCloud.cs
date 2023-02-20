@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Summon
 				if (distanceFromTarget < 300) {
 					if (LightningTimer >= 60f) { //Every  60 AI cycles, plays the lightning sound and spawns 2 projectiles: the tesla aura for dealing damage in an aoe, and the cloud flash to simulate the brightness of the main cloud changing.
 						SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Item/LightningAura"));
-						Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<AquasScepterTeslaAura>(), (Projectile.damage*20), 16, Projectile.owner);
+						Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<AquasScepterTeslaAura>(), (Projectile.damage*8), 16, Projectile.owner);
 						Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<AquasScepterCloudFlash>(), 0, 0, Projectile.owner);
 						LightningTimer = 0f;
 					}
