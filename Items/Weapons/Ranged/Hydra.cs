@@ -42,9 +42,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.height = 30;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
-            Item.damage = 50;
+            Item.damage = 44;
             Item.DamageType = DamageClass.Ranged;
-            Item.useAnimation = Item.useTime = 60;
+            Item.useAnimation = Item.useTime = 66;
             Item.useAmmo = AmmoID.Bullet;
             Item.shoot = ModContent.ProjectileType<HydrasBlood>();
             Item.shootSpeed = 10f;
