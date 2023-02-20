@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.Providence
             };
             value.Position.Y += 6f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
-			NPCID.Sets.MPAllowedEnemies[Type] = true;
+            NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -166,8 +166,8 @@ namespace CalamityMod.NPCs.Providence
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A deity of stone and fire. Her flame burns for one reason alone— to cleanse the world of its sinful existence, and to purify those who live upon it.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A deity of stone and fire. Her flame burns for one reason alone— to cleanse the world of life, so that all may suffer no longer.")
             });
         }
 

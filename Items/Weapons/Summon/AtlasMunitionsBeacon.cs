@@ -49,10 +49,10 @@ namespace CalamityMod.Items.Weapons.Summon
             "If an enemy is in close proximity, it will enter Overdrive mode\n" +
             "When in Overdrive mode the cannon uses three barrels that each collectively fire\n" +
             "The cannon also heats up the more it fires in overdrive mode\n" +
-            "Press RMB while holding this item to pick up the cannon and use it for yourself\n" +
+            "Press right click while holding this item to pick up the cannon and use it for yourself\n" +
             "When held, the cannon will always be in Overdrive mode\n" +
             "If the held cannon overheats due to Overdrive mode, you are forced to drop it\n" +
-            "Pressing RMB allows you to drop it manually\n" +
+            "Pressing right click allows you to drop it manually\n" +
             "If the held cannon is dropped near the mount, it will re-attach automatically\n" +
             "It's surprisingly easy to pick up");
             SacrificeTotal = 1;

@@ -404,11 +404,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.localAI[3] = 0f;
 
                 // Go low just before moving to the other side to avoid bullshit hits
-                bool goLow = (NPC.localAI[3] > (moveToOtherSideInPhase1GateValue - goLowDuration) && NPC.localAI[3] <= (moveToOtherSideInPhase1GateValue + goLowDuration * 0.5f)) ||
-                    NPC.localAI[3] > (timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration) || NPC.localAI[3] <= (-goLowDuration * 0.5f);
+                float roundedGoLowCheck = (float)Math.Round(goLowDuration * 0.5);
+                bool goLow = (NPC.localAI[3] > (moveToOtherSideInPhase1GateValue - goLowDuration) && NPC.localAI[3] <= (moveToOtherSideInPhase1GateValue + roundedGoLowCheck)) ||
+                    NPC.localAI[3] > (timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration) || NPC.localAI[3] <= (-roundedGoLowCheck);
 
                 // Swap sides while going low
-                if (NPC.localAI[3] == (moveToOtherSideInPhase1GateValue - goLowDuration * 0.5f) || NPC.localAI[3] == (timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration * 0.5f))
+                if (NPC.localAI[3] == (moveToOtherSideInPhase1GateValue - roundedGoLowCheck) || NPC.localAI[3] == (timeBeforeMoveToOtherSideInPhase1Reset - roundedGoLowCheck))
                     calamityGlobalNPC.newAI[0] *= -1f;
 
                 // Reset the timer to a negative value
@@ -438,11 +439,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     calamityGlobalNPC.newAI[1] = 0f;
 
                 // Go low or high just before moving to the other side in phase 2 to avoid bullshit hits
-                bool goLowPhase2 = calamityGlobalNPC.newAI[1] > (moveToOtherSideInPhase2GateValue - goLowDurationPhase2) && calamityGlobalNPC.newAI[1] <= (moveToOtherSideInPhase2GateValue + goLowDurationPhase2 * 0.5f);
-                bool goHigh = calamityGlobalNPC.newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) || calamityGlobalNPC.newAI[1] <= (-goLowDurationPhase2 * 0.5f);
+                float roundedGoLowPhase2Check = (float)Math.Round(goLowDurationPhase2 * 0.5);
+                bool goLowPhase2 = calamityGlobalNPC.newAI[1] > (moveToOtherSideInPhase2GateValue - goLowDurationPhase2) && calamityGlobalNPC.newAI[1] <= (moveToOtherSideInPhase2GateValue + roundedGoLowPhase2Check);
+                bool goHigh = calamityGlobalNPC.newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) || calamityGlobalNPC.newAI[1] <= (-roundedGoLowPhase2Check);
 
                 // Swap sides while going low or high
-                if (calamityGlobalNPC.newAI[1] == (moveToOtherSideInPhase2GateValue - goLowDurationPhase2 * 0.5f) || calamityGlobalNPC.newAI[1] == (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2 * 0.5f))
+                if (calamityGlobalNPC.newAI[1] == (moveToOtherSideInPhase2GateValue - roundedGoLowPhase2Check) || calamityGlobalNPC.newAI[1] == (timeBeforeMoveToOtherSideInPhase2Reset - roundedGoLowPhase2Check))
                     calamityGlobalNPC.newAI[0] *= -1f;
 
                 // Reset the timer to a negative value
@@ -812,7 +814,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     }
                     else if (NPC.ai[1] % spearShootDivisor == 0f)
                     {
-                        float spearVelocity = velocity;
+                        float spearVelocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                        if (Main.getGoodWorld)
+                            spearVelocity *= 1.25f;
+                        if (boostVelocityToCatchUp)
+                            spearVelocity *= 2f;
+
                         Vector2 velocity2 = Vector2.Normalize(player.Center - shootFrom) * spearVelocity;
                         Vector2 knockbackVelocity = velocity2 * 0.1f;
                         int type = ModContent.ProjectileType<HolySpear>();
@@ -841,7 +848,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         }
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, velocity2, type, damage, 0f, Main.myPlayer, 1f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, velocity2 * 0.85f, type, damage, 0f, Main.myPlayer, 1f, 0f);
 
                         NPC.velocity = -knockbackVelocity;
                     }

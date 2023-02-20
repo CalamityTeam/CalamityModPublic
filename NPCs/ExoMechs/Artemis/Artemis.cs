@@ -497,7 +497,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             float movementDistanceGateValue = 100f;
 
             // Charge variables
-            float chargeVelocity = nerfedAttacks ? 35f : bossRush ? 56f : death ? 49f : revenge ? 45.5f : expertMode ? 42f : 35f;
+            float chargeVelocity = nerfedAttacks ? 60f : bossRush ? 81f : death ? 74f : revenge ? 70.5f : expertMode ? 67f : 60f;
 
             if (Main.getGoodWorld)
                 chargeVelocity *= 1.15f;

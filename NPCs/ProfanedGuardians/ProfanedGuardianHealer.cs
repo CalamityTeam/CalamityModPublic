@@ -219,7 +219,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
 
             bool useCrystalShards = AIState == (float)Phase.CrystalShards;
-            float velocity = useCrystalShards ? ((bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f) : (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f);
+            float velocity = useCrystalShards ? ((bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f) : (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f);
             if (Main.getGoodWorld)
                 velocity *= 1.25f;
 
@@ -260,7 +260,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.velocity = (NPC.velocity * (inertia - 1) + desiredVelocity) / inertia;
                 }
                 else
-                    NPC.velocity *= 0.96f;
+                    NPC.velocity *= 0.9f;
 
                 return;
             }

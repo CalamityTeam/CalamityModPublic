@@ -35,6 +35,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, (TeslaAuraScale * 96.0f), targetHitbox);
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Projectile.damage = (int)(Projectile.damage * 0.6f);
+        }
+
         public override void AI() { 
 			Projectile.scale = TeslaAuraScale;
 			Projectile.alpha += 11;

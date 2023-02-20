@@ -234,6 +234,20 @@ namespace CalamityMod.Projectiles
                 if (projectile.frame > 2)
                     projectile.frame = 0;
 
+                // Accelerate if fired in a spread from Skeletron
+                if (projectile.ai[0] == -2f)
+                {
+                    if (projectile.velocity.Length() < 12f)
+                    {
+                        projectile.velocity *= 1.02f;
+                        if (projectile.velocity.Length() > 12f)
+                        {
+                            projectile.velocity.Normalize();
+                            projectile.velocity *= 12f;
+                        }
+                    }
+                }
+
                 for (int num172 = 0; num172 < 2; num172++)
                 {
                     int num173 = Dust.NewDust(new Vector2(projectile.position.X + 4f, projectile.position.Y + 4f), projectile.width - 8, projectile.height - 8, 6, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 2f);

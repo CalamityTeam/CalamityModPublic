@@ -3045,7 +3045,7 @@ namespace CalamityMod.CalPlayer
                 Player.maxMinions += 2;
             }
 
-            if (gArtifact && Player.FindBuffIndex(ModContent.BuffType<FieryDraconidBuff>()) != -1)
+            if (auricSArtifact && Player.FindBuffIndex(ModContent.BuffType<FieryDraconidBuff>()) != -1)
                 Player.maxMinions += Player.ownedProjectileCounts[ModContent.ProjectileType<FieryDraconid>()];
 
             if (pArtifact)

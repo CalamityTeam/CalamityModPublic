@@ -513,7 +513,7 @@ namespace CalamityMod.CalPlayer
         public bool voidOfExtinction = false;
         public bool eArtifact = false;
         public bool dArtifact = false;
-        public bool gArtifact = false;
+        public bool auricSArtifact = false;
         public bool pArtifact = false;
         public bool giantPearl = false;
         public bool normalityRelocator = false;
@@ -1622,7 +1622,7 @@ namespace CalamityMod.CalPlayer
             voidOfExtinction = false;
             eArtifact = false;
             dArtifact = false;
-            gArtifact = false;
+            auricSArtifact = false;
             pArtifact = false;
             giantPearl = false;
             normalityRelocator = false;
