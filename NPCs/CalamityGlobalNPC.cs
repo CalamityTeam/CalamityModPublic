@@ -2897,7 +2897,7 @@ namespace CalamityMod.NPCs
                     {
                         // Emit light
                         float lifeRatio = Main.npc[(int)npc.ai[3]].life / (float)Main.npc[(int)npc.ai[3]].lifeMax;
-                        float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 4D);
+                        float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 2D);
                         Color lightColor = Color.Lerp(Color.Cyan, Color.Blue, colorTransitionAmt);
                         Lighting.AddLight(npc.Center, lightColor.R / 255f, lightColor.G / 255f, lightColor.B / 255f);
                     }
@@ -2906,7 +2906,7 @@ namespace CalamityMod.NPCs
                 {
                     // Emit light
                     float lifeRatio = npc.life / (float)npc.lifeMax;
-                    float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 4D);
+                    float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 2D);
                     Color lightColor = Color.Lerp(Color.Cyan, Color.Blue, colorTransitionAmt);
                     Lighting.AddLight(npc.Center, lightColor.R / 255f, lightColor.G / 255f, lightColor.B / 255f);
 
@@ -5883,7 +5883,7 @@ namespace CalamityMod.NPCs
                 else
                     GameShaders.Misc["CalamityMod:SupremeShield"].UseImage1("Images/Misc/noise");
 
-                float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 4D);
+                float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 2D);
                 Color forcefieldColor = Color.Lerp(Color.MediumSpringGreen, Color.Black, colorTransitionAmt);
                 Color secondaryForcefieldColor = Color.Lerp(Color.Cyan, Color.Blue, colorTransitionAmt);
 
@@ -5897,7 +5897,7 @@ namespace CalamityMod.NPCs
                 GameShaders.Misc["CalamityMod:SupremeShield"].Apply();
 
                 // Actual Cultist has a bigger shield than the Clones.
-                float shieldScale = npc.type == NPCID.CultistBossClone ? 1.65f : MathHelper.Lerp(1.65f, 3f, lifeRatio);
+                float shieldScale = npc.type == NPCID.CultistBossClone ? 1.65f : MathHelper.Lerp(1.65f, 3f, (float)Math.Pow((double)lifeRatio, 2D));
                 spriteBatch.Draw(forcefieldTexture, npc.Center - Main.screenPosition, null, Color.White * opacity, 0f, forcefieldTexture.Size() * 0.5f, shieldScale, SpriteEffects.None, 0f);
 
                 spriteBatch.ExitShaderRegion();
