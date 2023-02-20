@@ -40,6 +40,9 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
     // (infinitely sharp vague sinewave, periodic, continuous everywhere but differentiable nowhere)
     // https://en.wikipedia.org/wiki/Weierstrass_function
     // float fullErasureThreshold = uOpacity + (0.02 * cos(7 * uTime)) + (0.02 * cos(31 * uTime)) + (0.01 * sin(167 * uTime));
+    //
+    // This function is currently disabled because the cosine and sine functions seem to have way more than the intended variability
+
     float fullErasureThreshold = uOpacity;
     float glowThreshold = fullErasureThreshold - 0.1;
 
