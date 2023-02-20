@@ -64,6 +64,8 @@ namespace CalamityMod.Schematics
         internal const string VernalKey = "Vernal Pass";
         internal const string VernalFilename = "Schematics/VernalPass.csch";
         
+        internal const string MechanicShedKey = "Mechanic Key";
+        internal const string MechanicShedFilename = "Schematics/MechanicShed.csch";
 
         internal const string AstralBeaconKey = "Astral Beacon";
         internal const string AstralBeaconFilename = "Schematics/AstralBeacon.csch";
@@ -120,6 +122,8 @@ namespace CalamityMod.Schematics
                 [SurfaceShrineKey] = CalamitySchematicIO.LoadSchematic(SurfaceShrineFilename),
 
                 [VernalKey] = CalamitySchematicIO.LoadSchematic(VernalFilename),
+
+                [MechanicShedKey] = CalamitySchematicIO.LoadSchematic(MechanicShedFilename),
 
                 // Astral world gen structures
                 [AstralBeaconKey] = CalamitySchematicIO.LoadSchematic(AstralBeaconFilename),

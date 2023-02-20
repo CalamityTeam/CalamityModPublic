@@ -683,8 +683,8 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Phoenix;
             name = "Phoenix's Pride";
-            function_description = "Hold LMB to swing Galaxia around you, accelerating over time\nThe swirling nebula constantly emits homing cosmic bolts";
-            function_description_extra = "Release LMB to hurl Galaxia toward the cursor alongside 6 gigantic cosmic bolts";
+            function_description = "Hold left click to swing Galaxia around you, accelerating over time\nThe swirling nebula constantly emits homing cosmic bolts";
+            function_description_extra = "Release left click to hurl Galaxia toward the cursor alongside 6 gigantic cosmic bolts";
             tooltipColor = new Color(255, 87, 0);
             tooltipColor2 = new Color(255, 143, 0);
 
@@ -762,8 +762,8 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Polaris;
             name = "Polaris' Gaze"; //It carries the mark of the Northern Star
-            function_description = "Hold LMB to channel Galaxia's power into a tight vortex of galactic energies\nThe vortex powers up over time and when hitting enemies";
-            function_description_extra = "Release LMB to fire off the charged star in straight line\nPress LMB again immediately to dash towards the star and release cosmic bolts";
+            function_description = "Hold left click to channel Galaxia's power into a tight vortex of galactic energies\nThe vortex powers up over time and when hitting enemies";
+            function_description_extra = "Release left click to fire off the charged star in straight line\nPress left click again immediately to dash towards the star and release cosmic bolts";
             tooltipColor = new Color(128, 189, 255);
             tooltipColor2 = new Color(255, 128, 140);
 
@@ -801,7 +801,7 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Andromeda;
             name = "Andromeda's Stride";
-            function_description = "Hold LMB to charge a god-erasing lunge, release to unleash the devastating blow\nGalaxia emits cosmic bolts while charging";
+            function_description = "Hold left click to charge a god-erasing lunge, release to unleash the devastating blow\nGalaxia emits cosmic bolts while charging";
             function_description_extra = "Lunging into the ground will cause a shockwave which summons a storm of cosmic energies";
             tooltipColor = new Color(132, 128, 255);
             tooltipColor2 = new Color(194, 166, 255);
