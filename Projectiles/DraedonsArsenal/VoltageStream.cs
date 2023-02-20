@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool? CanHitNPC(NPC target)
         {
-            if (Target == target.whoAmI)
+            if (Projectile.ai[1] == target.whoAmI)
                 return null;
             return (bool?)false;
         }

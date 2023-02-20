@@ -234,7 +234,7 @@ namespace CalamityMod.NPCs.Ravager
                 }
             }
 
-            if (CalamityWorld.getFixedBoi)
+            /*if (CalamityWorld.getFixedBoi)
             {
                 bool finalStand = lifeRatio < 0.1f; //At 10% body health, does the funny final attack
                 NPC.localAI[1]++;
@@ -335,7 +335,7 @@ namespace CalamityMod.NPCs.Ravager
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), position, velocity, laser, damage, 0f, Main.myPlayer, 1f, (float)movement);
                     NPC.localAI[1] = 0f;
                 }
-            }
+            }*/
 
             if (!headActive)
             {
