@@ -14,10 +14,21 @@ float2 uImageSize0;
 float2 uImageSize1;
 float4 uShaderSpecificData;
 
+// Cosine does not work in shaders in Terraria 1.4. It returns incredibly corrupted values and nobody is sure why.
+// This reimplements cosine using trigonometric identities.
+//
+// Discovery of malfunctioning cosine attributed to ScalarVector from SLR:
+// https://discord.com/channels/103110554649894912/445276626352209920/979928448300634175
+float realCos(float value)
+{
+    return sin(value + 1.57079);
+}
+
 //
 // Based on Devourer of Gods' death animation (by Dominic)
 // in turn, that was based on ExampleMod's cool death animation
 //
+
 
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
@@ -39,11 +50,10 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
     // Rapidly flickering sinewave produced by Desmos, loosely based on the Weierstrass function
     // (infinitely sharp vague sinewave, periodic, continuous everywhere but differentiable nowhere)
     // https://en.wikipedia.org/wiki/Weierstrass_function
-    // float fullErasureThreshold = uOpacity + (0.02 * cos(7 * uTime)) + (0.02 * cos(31 * uTime)) + (0.01 * sin(167 * uTime));
-    //
-    // This function is currently disabled because the cosine and sine functions seem to have way more than the intended variability
-
-    float fullErasureThreshold = uOpacity;
+    float flickerOne = 0.05 * realCos(7 * uTime);
+    float flickerTwo = 0.06 * realCos(31 * uTime);
+    float flickerThree = 0.04 * sin(167 * uTime);
+    float fullErasureThreshold = uOpacity + flickerOne + flickerTwo + flickerThree;
     float glowThreshold = fullErasureThreshold - 0.1;
 
     // If the noise over the erasure threshold, completely erase this pixel.
@@ -54,7 +64,7 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
     // Otherwise, if it's over the slightly lower threshold, replace it with a bright color.
     else if (noiseColor.r > glowThreshold)
     {
-        color = float4(125.0 / 255, 1, 0, 1);
+        color = float4(0.4902, 1, 0, 1);
     }
 
     return color;
