@@ -814,7 +814,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     }
                     else if (NPC.ai[1] % spearShootDivisor == 0f)
                     {
-                        float spearVelocity = velocity;
+                        float spearVelocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                        if (Main.getGoodWorld)
+                            spearVelocity *= 1.25f;
+                        if (boostVelocityToCatchUp)
+                            spearVelocity *= 2f;
+
                         Vector2 velocity2 = Vector2.Normalize(player.Center - shootFrom) * spearVelocity;
                         Vector2 knockbackVelocity = velocity2 * 0.1f;
                         int type = ModContent.ProjectileType<HolySpear>();
@@ -843,7 +848,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         }
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, velocity2, type, damage, 0f, Main.myPlayer, 1f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFrom, velocity2 * 0.85f, type, damage, 0f, Main.myPlayer, 1f, 0f);
 
                         NPC.velocity = -knockbackVelocity;
                     }
