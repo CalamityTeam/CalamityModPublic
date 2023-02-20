@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = 600;
             AIType = ProjectileID.BoneJavelin;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }
 
@@ -44,12 +45,12 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (Projectile.Calamity().stealthStrike)
             {
-                if (Projectile.timeLeft % 8 == 0)
+                if (Projectile.timeLeft % 6 == 0)
                 {
                     if (Projectile.owner == Main.myPlayer)
                     {
                         Vector2 velocity = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
-                        int ichor = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.GoldenShowerFriendly : ProjectileID.IchorSplash, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
+                        int ichor = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.GoldenShowerFriendly : ProjectileID.IchorSplash, Projectile.damage, Projectile.knockBack, Projectile.owner);
                         if (ichor.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[ichor].DamageType = RogueDamageClass.Instance;

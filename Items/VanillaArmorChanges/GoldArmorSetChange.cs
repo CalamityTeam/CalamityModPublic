@@ -19,7 +19,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public const float HeadDamage = 0.06f;
         public const float ChestDR = 0.05f;
-        public const float LegsMoveSpeed = 0.12f;
+        public const float LegsMoveSpeed = 0.1f;
         public const float GoldDropChanceFromEnemies = 0.04f;
         public const int GoldFromBosses = 3;
         public const float SetBonusCritPerGoldCoin = 0.2f; // 5 gold coins = +1% crit chance

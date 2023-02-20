@@ -31,6 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = 600;
             AIType = ProjectileID.ThrowingKnife;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 20;
         }
 
@@ -144,20 +145,11 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void Kill(int timeLeft)
-        {
-            if (Main.rand.NextBool(2) && !Projectile.Calamity().stealthStrike)
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<TitaniumShuriken>());
-            }
-        }
-
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (Projectile.owner == Main.myPlayer && Projectile.Calamity().stealthStrike)
+            if (Projectile.owner == Main.myPlayer && Projectile.Calamity().stealthStrike && Projectile.numHits < 3)
             {
-                int projNumber = Main.rand.Next(1,3);
-                for (int index2 = 0; index2 < projNumber; index2++)
+                for (int index2 = 0; index2 < 4; index2++)
                 {
                     float xVector = (float)Main.rand.Next(-35, 36) * 0.02f;
                     float yVector = (float)Main.rand.Next(-35, 36) * 0.02f;
@@ -170,10 +162,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            if (Projectile.owner == Main.myPlayer && Projectile.Calamity().stealthStrike)
+            if (Projectile.owner == Main.myPlayer && Projectile.Calamity().stealthStrike && Projectile.numHits < 3)
             {
-                int projNumber = Main.rand.Next(1,3);
-                for (int index2 = 0; index2 < projNumber; index2++)
+                for (int index2 = 0; index2 < 4; index2++)
                 {
                     float xVector = (float)Main.rand.Next(-35, 36) * 0.02f;
                     float yVector = (float)Main.rand.Next(-35, 36) * 0.02f;

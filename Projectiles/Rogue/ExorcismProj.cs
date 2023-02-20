@@ -109,18 +109,17 @@ namespace CalamityMod.Projectiles.Rogue
             //Crystal smash sound
             SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
             // Light burst
-            int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ExorcismShockwave>(), (int)(Projectile.damage * 0.8f), 0, Projectile.owner, Projectile.ai[0] - 1f, 0);
+            int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ExorcismShockwave>(), Projectile.damage, 0, Projectile.owner, Projectile.ai[0] - 1f, 0);
             Main.projectile[p].rotation = Projectile.rotation;
             // Stars
             if (Projectile.Calamity().stealthStrike)
             {
-                int numStars = Main.rand.Next(4, 7);
-                for (int i = 0; i < numStars; i++)
+                for (int i = 0; i < 9; i++)
                 {
                     Vector2 pos = new Vector2(Projectile.Center.X + (float)Projectile.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
                     float speedX = (Projectile.Center.X - pos.X) / 20f;
                     float speedY = (Projectile.Center.Y - pos.Y) / 20f;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), pos.X, pos.Y, speedX, speedY, ModContent.ProjectileType<ExorcismStar>(), Projectile.damage / 2, 3, Projectile.owner, Main.rand.NextFloat(-3f, 3f), 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), pos.X, pos.Y, speedX, speedY, ModContent.ProjectileType<ExorcismStar>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner, Main.rand.NextFloat(-3f, 3f), 0f);
                 }
             }
         }

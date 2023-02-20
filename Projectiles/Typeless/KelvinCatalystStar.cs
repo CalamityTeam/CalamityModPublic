@@ -101,9 +101,6 @@ namespace CalamityMod.Projectiles.Typeless
                 int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 67, vector7.X * 0.5f, vector7.Y * 0.5f, 100, default, 0.75f);
                 Main.dust[num228].noGravity = true;
             }
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
-            Projectile.Damage();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

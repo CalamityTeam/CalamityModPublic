@@ -17,9 +17,8 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public const float HeadCrit = 4f;
         public const int ChestLifeRegen = 1;
-        public const float LegsMoveSpeed = 0.1f;
+        public const float LegsMoveSpeed = 0.05f;
         public const float SetBonusArmorPen = 5.0f;
-        public const int SetBonusLifeRegen = 1;
 
         public override void ApplyHeadPieceEffect(Player player) => player.GetCritChance<GenericDamageClass>() += HeadCrit;
 
@@ -30,14 +29,13 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             StringBuilder sb = new StringBuilder(256);
-            sb.Append("\nIncreases armor penetration by 5\n+1 life regen");
+            sb.Append("\nIncreases armor penetration by 5");
             setBonusText += sb.ToString();
         }
 
         public override void ApplyArmorSetBonus(Player player)
         {
             player.GetArmorPenetration<GenericDamageClass>() += SetBonusArmorPen;
-            player.lifeRegen += SetBonusLifeRegen;
         }
     }
 }

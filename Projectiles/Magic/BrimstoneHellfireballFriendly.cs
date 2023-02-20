@@ -26,11 +26,9 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 300;
-            Projectile.penetrate = 2;
-            Projectile.extraUpdates = 1;
+            Projectile.penetrate = 1;
+            Projectile.MaxUpdates = 1;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -57,7 +55,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) - MathHelper.ToRadians(90) * Projectile.direction;
 
-            int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 170, default, 1.1f);
+            int num458 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 170, default, 1.1f);
             Main.dust[num458].noGravity = true;
             Main.dust[num458].velocity *= 0.5f;
             Main.dust[num458].velocity += Projectile.velocity * 0.1f;
@@ -65,7 +63,7 @@ namespace CalamityMod.Projectiles.Magic
 
             if (Projectile.localAI[0] == 0f)
             {
-                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
                 Projectile.localAI[0] += 1f;
             }
 
@@ -77,7 +75,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                int fire = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HellfireExplosionFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                int fire = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosionFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
 

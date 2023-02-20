@@ -24,11 +24,13 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
-            Projectile.extraUpdates = 1;
+            Projectile.MaxUpdates = 2;
             Projectile.aiStyle = ProjAIStyleID.StickProjectile;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.BoneJavelin;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10 * Projectile.MaxUpdates; // 10 effective, 20 total
         }
 
         public override void AI()
@@ -61,14 +63,6 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void Kill(int timeLeft)
-        {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<ShardofAntumbra>());
-            }
-        }
-
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Projectile.damage /= 2;
@@ -76,7 +70,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Projectile.damage = 1;
             }
-            target.immune[Projectile.owner] = 2;
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)

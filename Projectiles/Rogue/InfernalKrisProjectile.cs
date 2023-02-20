@@ -165,11 +165,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            if (Main.rand.Next(4) == 0)
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<InfernalKris>());
-            }
-
             if (Projectile.Calamity().stealthStrike)
             {
                 int sparkCount = Main.rand.Next(3, 7);

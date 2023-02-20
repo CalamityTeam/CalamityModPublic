@@ -18,7 +18,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public const float HeadDamage = 0.07f;
         public const int ChestLifeRegen = 1;
-        public const float LegsMoveSpeed = 0.1f;
+        public const float LegsMoveSpeed = 0.08f;
         public const float KnockbackMultiplier = 1.33f;
         public const float MaxKnockbackCritConversion = 10f;
 

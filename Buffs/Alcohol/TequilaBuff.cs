@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tequila");
-            Description.SetDefault("Damage, critical strike chance, damage reduction, defense, and knockback boosted during daytime, life regen reduced");
+            Description.SetDefault("Critical strike chance, defense, and knockback boosted during daytime, life regen reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

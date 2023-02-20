@@ -22,16 +22,15 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 52;
+            Item.height = 48;
             Item.damage = 55; //33
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 12;
+            Item.useAnimation = Item.useTime = 12;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 12;
             Item.knockBack = 5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 48;
             Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Cyan;
             Item.shoot = ModContent.ProjectileType<RadiantStarKnife>();

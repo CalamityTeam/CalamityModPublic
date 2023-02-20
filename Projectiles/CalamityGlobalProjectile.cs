@@ -222,7 +222,7 @@ namespace CalamityMod.Projectiles
                 RequiresManualResurrection = false;
             }
 
-            if (projectile.type == ProjectileID.Skull && projectile.ai[0] == 0f)
+            if (projectile.type == ProjectileID.Skull && (projectile.ai[0] == 0f || projectile.ai[0] == -2f))
             {
                 if (projectile.alpha > 0)
                     projectile.alpha -= 75;
@@ -243,81 +243,84 @@ namespace CalamityMod.Projectiles
                     Main.dust[num173].velocity.Y *= 0.3f;
                 }
 
-                float num180 = (float)Math.Sqrt(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y);
-                float num181 = projectile.localAI[0];
-
-                if (num181 == 0f)
+                if (projectile.ai[0] == 0f)
                 {
-                    projectile.localAI[0] = num180;
-                    num181 = num180;
-                }
+                    float num180 = (float)Math.Sqrt(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y);
+                    float num181 = projectile.localAI[0];
 
-                float num182 = projectile.position.X;
-                float num183 = projectile.position.Y;
-                float num184 = 300f;
-                bool flag4 = false;
-                int num185 = 0;
-
-                if (projectile.ai[1] == 0f)
-                {
-                    for (int num186 = 0; num186 < Main.maxNPCs; num186++)
+                    if (num181 == 0f)
                     {
-                        if (Main.npc[num186].CanBeChasedBy(this) && (projectile.ai[1] == 0f || projectile.ai[1] == (float)(num186 + 1)))
+                        projectile.localAI[0] = num180;
+                        num181 = num180;
+                    }
+
+                    float num182 = projectile.position.X;
+                    float num183 = projectile.position.Y;
+                    float num184 = 300f;
+                    bool flag4 = false;
+                    int num185 = 0;
+
+                    if (projectile.ai[1] == 0f)
+                    {
+                        for (int num186 = 0; num186 < Main.maxNPCs; num186++)
                         {
-                            float num187 = Main.npc[num186].position.X + (float)(Main.npc[num186].width / 2);
-                            float num188 = Main.npc[num186].position.Y + (float)(Main.npc[num186].height / 2);
-                            float num189 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num187) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num188);
-                            if (num189 < num184 && Collision.CanHit(new Vector2(projectile.position.X + (float)(projectile.width / 2), projectile.position.Y + (float)(projectile.height / 2)), 1, 1, Main.npc[num186].position, Main.npc[num186].width, Main.npc[num186].height))
+                            if (Main.npc[num186].CanBeChasedBy(this) && (projectile.ai[1] == 0f || projectile.ai[1] == (float)(num186 + 1)))
                             {
-                                num184 = num189;
-                                num182 = num187;
-                                num183 = num188;
-                                flag4 = true;
-                                num185 = num186;
+                                float num187 = Main.npc[num186].position.X + (float)(Main.npc[num186].width / 2);
+                                float num188 = Main.npc[num186].position.Y + (float)(Main.npc[num186].height / 2);
+                                float num189 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num187) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num188);
+                                if (num189 < num184 && Collision.CanHit(new Vector2(projectile.position.X + (float)(projectile.width / 2), projectile.position.Y + (float)(projectile.height / 2)), 1, 1, Main.npc[num186].position, Main.npc[num186].width, Main.npc[num186].height))
+                                {
+                                    num184 = num189;
+                                    num182 = num187;
+                                    num183 = num188;
+                                    flag4 = true;
+                                    num185 = num186;
+                                }
                             }
                         }
+
+                        if (flag4)
+                            projectile.ai[1] = num185 + 1;
+
+                        flag4 = false;
                     }
+
+                    if (projectile.ai[1] > 0f)
+                    {
+                        int num190 = (int)(projectile.ai[1] - 1f);
+                        if (Main.npc[num190].active && Main.npc[num190].CanBeChasedBy(this, ignoreDontTakeDamage: true) && !Main.npc[num190].dontTakeDamage)
+                        {
+                            float num191 = Main.npc[num190].position.X + (float)(Main.npc[num190].width / 2);
+                            float num192 = Main.npc[num190].position.Y + (float)(Main.npc[num190].height / 2);
+                            if (Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num191) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num192) < 1000f)
+                            {
+                                flag4 = true;
+                                num182 = Main.npc[num190].position.X + (float)(Main.npc[num190].width / 2);
+                                num183 = Main.npc[num190].position.Y + (float)(Main.npc[num190].height / 2);
+                            }
+                        }
+                        else
+                            projectile.ai[1] = 0f;
+                    }
+
+                    if (!projectile.friendly)
+                        flag4 = false;
 
                     if (flag4)
-                        projectile.ai[1] = num185 + 1;
-
-                    flag4 = false;
-                }
-
-                if (projectile.ai[1] > 0f)
-                {
-                    int num190 = (int)(projectile.ai[1] - 1f);
-                    if (Main.npc[num190].active && Main.npc[num190].CanBeChasedBy(this, ignoreDontTakeDamage: true) && !Main.npc[num190].dontTakeDamage)
                     {
-                        float num191 = Main.npc[num190].position.X + (float)(Main.npc[num190].width / 2);
-                        float num192 = Main.npc[num190].position.Y + (float)(Main.npc[num190].height / 2);
-                        if (Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num191) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num192) < 1000f)
-                        {
-                            flag4 = true;
-                            num182 = Main.npc[num190].position.X + (float)(Main.npc[num190].width / 2);
-                            num183 = Main.npc[num190].position.Y + (float)(Main.npc[num190].height / 2);
-                        }
+                        float num193 = num181;
+                        Vector2 vector9 = new(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                        float num194 = num182 - vector9.X;
+                        float num195 = num183 - vector9.Y;
+                        float num196 = (float)Math.Sqrt(num194 * num194 + num195 * num195);
+                        num196 = num193 / num196;
+                        num194 *= num196;
+                        num195 *= num196;
+                        int num197 = 32;
+                        projectile.velocity.X = (projectile.velocity.X * (float)(num197 - 1) + num194) / (float)num197;
+                        projectile.velocity.Y = (projectile.velocity.Y * (float)(num197 - 1) + num195) / (float)num197;
                     }
-                    else
-                        projectile.ai[1] = 0f;
-                }
-
-                if (!projectile.friendly)
-                    flag4 = false;
-
-                if (flag4)
-                {
-                    float num193 = num181;
-                    Vector2 vector9 = new(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    float num194 = num182 - vector9.X;
-                    float num195 = num183 - vector9.Y;
-                    float num196 = (float)Math.Sqrt(num194 * num194 + num195 * num195);
-                    num196 = num193 / num196;
-                    num194 *= num196;
-                    num195 *= num196;
-                    int num197 = 32;
-                    projectile.velocity.X = (projectile.velocity.X * (float)(num197 - 1) + num194) / (float)num197;
-                    projectile.velocity.Y = (projectile.velocity.Y * (float)(num197 - 1) + num195) / (float)num197;
                 }
 
                 projectile.spriteDirection = projectile.direction;

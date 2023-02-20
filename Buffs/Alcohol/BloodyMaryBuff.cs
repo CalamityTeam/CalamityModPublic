@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloody Mary");
-            Description.SetDefault("Damage, critical strike chance, movement speed, and melee speed boosted during a Blood Moon, life regen and defense reduced");
+            Description.SetDefault("Damage and movement speed boosted during a Blood Moon, life regen and defense reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
@@ -19,8 +19,6 @@ namespace CalamityMod.Buffs.Alcohol
         public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().bloodyMary = true;
-            if (Main.bloodMoon)
-                player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;
         }
     }
 }

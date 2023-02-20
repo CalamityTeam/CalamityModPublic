@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (!Projectile.Calamity().stealthStrike || Projectile.owner != Main.myPlayer || Projectile.Calamity().lineColor >= 2)
                 return;
             Projectile.localAI[0]++;
-            if (Projectile.localAI[0] >= 30f)
+            if (Projectile.localAI[0] >= 15f)
             {
                 Vector2 vector2 = new Vector2(20f, 20f);
                 for (int index1 = 0; index1 < 10; ++index1)
@@ -75,12 +75,13 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => OnHitEffects();
+        public override void OnHitPvp(Player target, int damage, bool crit) => OnHitEffects();
+
+        public void OnHitEffects()
         {
-            if (Main.rand.NextBool(2) && !Projectile.Calamity().stealthStrike)
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<PalladiumJavelin>());
-            }
+            if (Projectile.owner == Main.myPlayer && Projectile.Calamity().stealthStrike)
+                Main.player[Projectile.owner].AddBuff(BuffID.RapidHealing, 300);
         }
     }
 }

@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 14;
             Item.height = 50;
-            Item.damage = 9;
+            Item.damage = 12;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = DefaultTime + WulfrumScrewdriverProj.MaxTime;
             Item.useStyle = ItemUseStyleID.Shoot;

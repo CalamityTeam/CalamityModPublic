@@ -16,8 +16,8 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override string ArmorSetName => "Palladium";
 
-        public const int ChestplateDamagePercentageBoost = 4;
-        public const int LeggingsDamagePercentageBoost = 5;
+        public const int ChestplateDamagePercentageBoost = 2;
+        public const int LeggingsDamagePercentageBoost = 3;
 
         public override void ApplyBodyPieceEffect(Player player)
         {

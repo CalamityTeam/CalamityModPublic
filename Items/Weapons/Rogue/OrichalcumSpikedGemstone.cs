@@ -18,18 +18,16 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 14;
-            Item.damage = 37;
+            Item.height = 34;
+            Item.damage = 40;
             Item.noMelee = true;
             Item.consumable = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 13;
+            Item.useAnimation = Item.useTime = 13;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 13;
             Item.knockBack = 2f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 34;
-            Item.shoot = ProjectileID.StarAnise;
             Item.maxStack = 999;
             Item.value = 1200;
             Item.rare = ItemRarityID.LightRed;
@@ -46,9 +44,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 if (gemstone.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[gemstone].Calamity().stealthStrike = true;
-                    Main.projectile[gemstone].usesLocalNPCImmunity = true;
-                    Main.projectile[gemstone].timeLeft = 900;
-                    Main.projectile[gemstone].penetrate = 4;
+                    Main.projectile[gemstone].timeLeft = 600;
                 }
                 return false;
             }

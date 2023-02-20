@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             SacrificeTotal = 5;
             DisplayName.SetDefault("White Wine");
             Tooltip.SetDefault(@"I drank a full barrel of this stuff once in one night, I couldn't remember who I was the next day
-Boosts magic damage by 10%
+Boosts magic damage by 8%
 Reduces defense by 6% and life regen by 1");
         }
 
@@ -29,7 +29,7 @@ Reduces defense by 6% and life regen by 1");
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
-            Item.healMana = 400;
+            Item.healMana = 300;
             Item.buffType = ModContent.BuffType<WhiteWineBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(300f);
             Item.value = Item.buyPrice(0, 4, 0, 0);

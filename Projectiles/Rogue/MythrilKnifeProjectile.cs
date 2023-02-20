@@ -77,22 +77,14 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void Kill(int timeLeft)
-        {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<MythrilKnife>());
-            }
-        }
-
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (!Projectile.Calamity().stealthStrike)
                 return;
 
-            target.AddBuff(BuffID.Poisoned, 300);
-            target.AddBuff(BuffID.Venom, 120);
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 60);
+            target.AddBuff(BuffID.Poisoned, 480);
+            target.AddBuff(BuffID.Venom, 480);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 480);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -100,9 +92,9 @@ namespace CalamityMod.Projectiles.Rogue
             if (!Projectile.Calamity().stealthStrike)
                 return;
 
-            target.AddBuff(BuffID.Poisoned, 300);
-            target.AddBuff(BuffID.Venom, 120);
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 60);
+            target.AddBuff(BuffID.Poisoned, 480);
+            target.AddBuff(BuffID.Venom, 480);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 480);
         }
     }
 }

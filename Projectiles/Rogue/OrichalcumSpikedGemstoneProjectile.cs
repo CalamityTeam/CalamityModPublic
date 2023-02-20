@@ -1,5 +1,4 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -22,10 +21,11 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 12;
             Projectile.friendly = true;
             Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
-            Projectile.penetrate = 5;
-            Projectile.timeLeft = 600;
+            Projectile.penetrate = 4;
+            Projectile.timeLeft = 360;
             AIType = ProjectileID.ThrowingKnife;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }
 
@@ -87,14 +87,6 @@ namespace CalamityMod.Projectiles.Rogue
                 int petal = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPos, pathToTravel, ProjectileID.FlowerPetal, Projectile.damage, 0f, Projectile.owner);
                 if (petal.WithinBounds(Main.maxProjectiles))
                     Main.projectile[petal].DamageType = RogueDamageClass.Instance;
-            }
-        }
-
-        public override void Kill(int timeLeft)
-        {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<OrichalcumSpikedGemstone>());
             }
         }
     }

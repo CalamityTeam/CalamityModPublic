@@ -111,13 +111,21 @@ namespace CalamityMod.NPCs
         public const double VulnerableToDoTDamageMult = 2D;
         public const double VulnerableToDoTDamageMult_Worms_SlimeGod = 1.5;
 
-        // Eskimo Set effect
+        // Eskimo Set and Cryo Stone effects
         public bool IncreasedColdEffects_EskimoSet = false;
+        public bool IncreasedColdEffects_CryoStone = false;
+
+        // Transformer effect
+
+        public bool IncreasedElectricityEffects_Transformer = false;
 
         // Fireball, Cinnamon Roll and Hellfire Treads effects
         public bool IncreasedHeatEffects_Fireball = false;
         public bool IncreasedHeatEffects_CinnamonRoll = false;
         public bool IncreasedHeatEffects_HellfireTreads = false;
+
+        // Toxic Heart effect
+        public bool IncreasedSicknessEffects_ToxicHeart = false;
 
         // Evergreen Gin effect
         public bool IncreasedSicknessAndWaterEffects_EvergreenGin = false;
@@ -361,9 +369,12 @@ namespace CalamityMod.NPCs
             myClone.VulnerableToWater = VulnerableToWater;
 
             myClone.IncreasedColdEffects_EskimoSet = IncreasedColdEffects_EskimoSet;
+            myClone.IncreasedColdEffects_CryoStone = IncreasedColdEffects_CryoStone;
+            myClone.IncreasedElectricityEffects_Transformer = IncreasedElectricityEffects_Transformer;
             myClone.IncreasedHeatEffects_Fireball = IncreasedHeatEffects_Fireball;
             myClone.IncreasedHeatEffects_CinnamonRoll = IncreasedHeatEffects_CinnamonRoll;
             myClone.IncreasedHeatEffects_HellfireTreads = IncreasedHeatEffects_HellfireTreads;
+            myClone.IncreasedSicknessEffects_ToxicHeart = IncreasedSicknessEffects_ToxicHeart;
             myClone.IncreasedSicknessAndWaterEffects_EvergreenGin = IncreasedSicknessAndWaterEffects_EvergreenGin;
 
             myClone.velocityPriorToPhaseSwap = velocityPriorToPhaseSwap;
@@ -800,15 +811,23 @@ namespace CalamityMod.NPCs
                     waterDamageMult *= 0.5;
             }
 
+            if (IncreasedColdEffects_EskimoSet)
+                coldDamageMult += 0.25;
+            if (IncreasedColdEffects_CryoStone)
+                coldDamageMult += 0.5;
+
+            if (IncreasedElectricityEffects_Transformer)
+                electricityDamageMult += 0.5;
+
             if (IncreasedHeatEffects_Fireball)
                 heatDamageMult += 0.25;
             if (IncreasedHeatEffects_CinnamonRoll)
                 heatDamageMult += 0.5;
             if (IncreasedHeatEffects_HellfireTreads)
                 heatDamageMult += 0.5;
-
-            if (IncreasedColdEffects_EskimoSet)
-                coldDamageMult += 0.25;
+            
+            if (IncreasedSicknessEffects_ToxicHeart)
+                sicknessDamageMult += 0.5;
 
             if (IncreasedSicknessAndWaterEffects_EvergreenGin)
             {
@@ -2897,7 +2916,7 @@ namespace CalamityMod.NPCs
                     {
                         // Emit light
                         float lifeRatio = Main.npc[(int)npc.ai[3]].life / (float)Main.npc[(int)npc.ai[3]].lifeMax;
-                        float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 4D);
+                        float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 2D);
                         Color lightColor = Color.Lerp(Color.Cyan, Color.Blue, colorTransitionAmt);
                         Lighting.AddLight(npc.Center, lightColor.R / 255f, lightColor.G / 255f, lightColor.B / 255f);
                     }
@@ -2906,7 +2925,7 @@ namespace CalamityMod.NPCs
                 {
                     // Emit light
                     float lifeRatio = npc.life / (float)npc.lifeMax;
-                    float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 4D);
+                    float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 2D);
                     Color lightColor = Color.Lerp(Color.Cyan, Color.Blue, colorTransitionAmt);
                     Lighting.AddLight(npc.Center, lightColor.R / 255f, lightColor.G / 255f, lightColor.B / 255f);
 
@@ -5883,7 +5902,7 @@ namespace CalamityMod.NPCs
                 else
                     GameShaders.Misc["CalamityMod:SupremeShield"].UseImage1("Images/Misc/noise");
 
-                float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 4D);
+                float colorTransitionAmt = (float)Math.Pow((double)(1f - lifeRatio), 2D);
                 Color forcefieldColor = Color.Lerp(Color.MediumSpringGreen, Color.Black, colorTransitionAmt);
                 Color secondaryForcefieldColor = Color.Lerp(Color.Cyan, Color.Blue, colorTransitionAmt);
 
@@ -5897,7 +5916,7 @@ namespace CalamityMod.NPCs
                 GameShaders.Misc["CalamityMod:SupremeShield"].Apply();
 
                 // Actual Cultist has a bigger shield than the Clones.
-                float shieldScale = npc.type == NPCID.CultistBossClone ? 1.65f : MathHelper.Lerp(1.65f, 3f, lifeRatio);
+                float shieldScale = npc.type == NPCID.CultistBossClone ? 1.65f : MathHelper.Lerp(1.65f, 3f, (float)Math.Pow((double)lifeRatio, 2D));
                 spriteBatch.Draw(forcefieldTexture, npc.Center - Main.screenPosition, null, Color.White * opacity, 0f, forcefieldTexture.Size() * 0.5f, shieldScale, SpriteEffects.None, 0f);
 
                 spriteBatch.ExitShaderRegion();

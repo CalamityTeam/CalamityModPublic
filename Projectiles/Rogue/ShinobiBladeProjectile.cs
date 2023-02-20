@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -24,6 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
+            Projectile.MaxUpdates = 5;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
@@ -39,14 +39,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
-            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
-            Projectile.Kill();
-            return false;
-        }
-
         public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
@@ -54,7 +46,20 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
+        {            
+            NPC firstTarget = Main.npc[(int)Projectile.ai[0]];
+            
+            // 7 hits total
+            if (Projectile.Calamity().stealthStrike && Projectile.ai[1] <= 7f && (Projectile.ai[1] == 0f || firstTarget != null))
+			{
+				Vector2 targetPos = Projectile.ai[1] == 0f ? target.Center : firstTarget.Center;
+				Vector2 offset = Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(80f, 120f);
+                Vector2 eVelocity = Vector2.UnitX.RotatedBy(offset.ToRotation() + MathHelper.Pi) * 4f;
+                int realTarget = Projectile.ai[1] == 0f ? target.whoAmI : firstTarget.whoAmI;
+				Projectile echo = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), targetPos + offset, eVelocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, realTarget, Projectile.ai[1] + 1);
+				echo.Calamity().stealthStrike = true;
+			}
+
             if (target.life <= 0)
                 CalamityGlobalProjectile.SpawnLifeStealProjectile(Projectile, Main.player[Projectile.owner], 10, ModContent.ProjectileType<ShinobiHealOrb>(), 1200f, 0f);
         }

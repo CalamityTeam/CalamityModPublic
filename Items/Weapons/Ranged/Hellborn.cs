@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Hellborn : ModItem
     {
-        public const float ExplosionDamageMultiplier = 5f;
+        public const float ExplosionDamageMultiplier = 3f;
 
         public override void SetStaticDefaults()
         {
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 7;
+            Item.damage = 20;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 66;
             Item.height = 34;
