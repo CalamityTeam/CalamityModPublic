@@ -17,7 +17,7 @@ namespace CalamityMod.World
             string mapKey = MechanicShedKey;
             var schematic = TileMaps[mapKey];
 
-            int placementPositionX = WorldGen.genRand.Next(WorldGen.snowOriginLeft + 100, WorldGen.snowOriginRight - 100);
+            int placementPositionX = WorldGen.genRand.Next(WorldGen.snowOriginLeft + 200, WorldGen.snowOriginRight - 200);
             int placementPositionY = (int)Main.worldSurface - (Main.maxTilesY / 8);
 
             bool foundValidGround = false;
@@ -35,7 +35,7 @@ namespace CalamityMod.World
 				}
             }
 
-            Point placementPoint = new Point(placementPositionX, placementPositionY + 3);
+            Point placementPoint = new Point(placementPositionX, placementPositionY + 6);
 
             Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
             SchematicAnchor anchorType = SchematicAnchor.BottomCenter;

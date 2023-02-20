@@ -349,17 +349,17 @@ namespace CalamityMod.World
                 int sunkenSeaY = 0;
 
                 //copied the desert position code from the sunken sea's generation so the lab always generates within the sunken sea properly
-                for (int y = Main.maxTilesY - 200; y >= (Main.maxTilesY / 2) - 45; y--)
+                for (int y = Main.maxTilesY - 200; y >= Main.worldSurface; y--)
                 {
-                    if (Main.tile[placementPositionX, y].TileType == ModContent.TileType<Navystone>() || 
-                    Main.tile[placementPositionX, y].TileType == ModContent.TileType<EutrophicSand>())
+                    if (Main.tile[placementPositionX, y].WallType == ModContent.WallType<NavystoneWall>() || 
+                    Main.tile[placementPositionX, y].WallType == ModContent.WallType<EutrophicSandWall>())
                     {
-                        sunkenSeaY = y - 90; //offset so it generates nicely
+                        sunkenSeaY = y - 80; //offset so it generates nicely
                         break;
                     }
                 }
 
-                int placementPositionY = (int)(sunkenSeaY) - labHeight;
+                int placementPositionY = sunkenSeaY - labHeight;
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
