@@ -493,7 +493,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             float laserBarrageLocationDistance = turnDistance * 3f;
 
             // Velocity and turn speed values
-            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.1f : 0f) + (bossRush ? 1.3f : death ? 1.25f : revenge ? 1.225f : expertMode ? 1.2f : 1.15f);
+            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.15f : 0f) + (bossRush ? 1.25f : death ? 1.2f : revenge ? 1.175f : expertMode ? 1.15f : 1.1f);
             float baseVelocity = 10f * baseVelocityMult;
 
             // Increase top velocity if target is dead or if Thanatos is uncoiling
@@ -505,7 +505,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             if (Main.getGoodWorld)
                 baseVelocity *= 1.15f;
 
-            float turnDegrees = baseVelocity * 0.1f * (shouldGetBuffedByBerserkPhase ? 1.25f : 1.15f);
+            float turnDegrees = baseVelocity * 0.1f * (shouldGetBuffedByBerserkPhase ? 1.25f : 1.1f);
 
             float turnSpeed = MathHelper.ToRadians(turnDegrees);
             float chargeVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
