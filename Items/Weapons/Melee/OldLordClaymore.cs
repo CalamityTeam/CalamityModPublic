@@ -13,8 +13,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Old Lord Claymore");
             Tooltip.SetDefault("A relic of the ancient underworld\n" +
-            "Holding RMB rapidly absorbs energy into the blade until it is charged\n" +
-            "Pressing LMB while charged causes you to fly in the direction of the cursor\n" +
+            "Holding right click rapidly absorbs energy into the blade until it is charged\n" +
+            "Pressing left click while charged causes you to fly in the direction of the cursor\n" +
             "After flying, the amount of charge the blade has is reduced to zero");
             SacrificeTotal = 1;
         }
