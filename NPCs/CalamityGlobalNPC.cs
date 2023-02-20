@@ -5619,7 +5619,7 @@ namespace CalamityMod.NPCs
                     if (tSad > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TemporalSadness").Value);
                     if (tesla > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TeslaFreeze").Value);
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/GalvanicCorrosion").Value);
                     if (timeSlow > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TimeDistortion").Value);
                     if (wDeath > 0)

@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Electrified, 180);
-            target.AddBuff(ModContent.BuffType<TeslaFreeze>(), 30);
+            target.AddBuff(ModContent.BuffType<GalvanicCorrosion>(), 6);
 
             if (target.knockBackResist <= 0f)
                 return;
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Electrified, 180);
-            target.AddBuff(ModContent.BuffType<TeslaFreeze>(), 30);
+            target.AddBuff(ModContent.BuffType<GalvanicCorrosion>(), 6);
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool? CanHitNPC(NPC target)
         {
-            if (target.catchItem != 0 && target.type != ModContent.NPCType<Radiator>())
+            if (NPCID.Sets.ProjectileNPC[target.type] || target.catchItem != 0 && target.type != ModContent.NPCType<Radiator>())
             {
                 return false;
             }

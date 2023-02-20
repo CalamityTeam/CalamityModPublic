@@ -29,6 +29,8 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             AIType = ProjectileID.DeathSickle;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -38,7 +40,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[Projectile.owner] = 6;
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
             target.AddBuff(BuffID.CursedInferno, 90);
             if (target.life <= (target.lifeMax * 0.15f))
@@ -46,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center.X, target.Center.Y, Projectile.velocity.X * 0f, Projectile.velocity.Y * 0f, ModContent.ProjectileType<SoulScytheExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<SoulScytheExplosion>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
                 }
             }
         }

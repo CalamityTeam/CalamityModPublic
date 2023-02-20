@@ -33,10 +33,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.height = 8;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
-            Projectile.penetrate = 5;
+            Projectile.penetrate = 3;
             Projectile.timeLeft = 180;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 12;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
@@ -112,6 +112,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             Projectile.damage = (int)(Projectile.damage * 0.75);
+        }
+
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (Target == target.whoAmI)
+                return null;
+            return (bool?)false;
         }
     }
 }

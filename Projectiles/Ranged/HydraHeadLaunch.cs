@@ -1,4 +1,5 @@
-﻿using CalamityMod.Sounds;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -36,6 +37,10 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(Projectile.ai[0]);
             Projectile.ai[0] += 12f;
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<GalvanicCorrosion>(), 60);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<GalvanicCorrosion>(), 60);
 
         public override void Kill(int timeLeft)
         {

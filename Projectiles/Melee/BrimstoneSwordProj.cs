@@ -8,14 +8,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ProfanedSwordProj : ModProjectile
+    public class BrimstoneSwordProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/BrimstoneSword";
 
-        private int explosionCount = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Profaned Sword");
+            DisplayName.SetDefault("Brimstone Sword");
         }
 
         public override void SetDefaults()
@@ -23,11 +22,13 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.width = 10;
             Projectile.height = 10;
             Projectile.friendly = true;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 5;
             Projectile.aiStyle = ProjAIStyleID.StickProjectile;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.BoneJavelin;
             Projectile.DamageType = DamageClass.Melee;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -63,20 +64,15 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[Projectile.owner] = 6;
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            if (Main.myPlayer == Projectile.owner)
+            if (Main.myPlayer == Projectile.owner && Projectile.numHits == 0)
             {
-                if (explosionCount < 3)
-                {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneSwordExplosion>(), (int)(Projectile.damage * 0.5), knockback, Projectile.owner);
-                    explosionCount++;
-                }
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneSwordExplosion>(), (int)(Projectile.damage * 0.5), knockback, Projectile.owner);
             }
             if (Projectile.damage > 1)
                 Projectile.damage = (int)(Projectile.damage * 0.6);
-            if (Projectile.damage <= 0)
-                Projectile.damage = 1;
+            else
+                Projectile.Kill();
         }
     }
 }

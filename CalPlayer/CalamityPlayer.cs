@@ -833,7 +833,7 @@ namespace CalamityMod.CalPlayer
         public bool gravityNormalizer = false;
         public bool flaskHoly = false;
         public bool tesla = false;
-        public bool teslaFreeze = false;
+        public bool galvanicCorrosion = false;
         public bool sulphurskin = false;
         public bool baguette = false;
         public bool vodka = false;
@@ -1851,7 +1851,7 @@ namespace CalamityMod.CalPlayer
             gravityNormalizer = false;
             flaskHoly = false;
             tesla = false;
-            teslaFreeze = false;
+            galvanicCorrosion = false;
             sulphurskin = false;
             baguette = false;
             trippy = false;
@@ -2272,7 +2272,7 @@ namespace CalamityMod.CalPlayer
             gravityNormalizer = false;
             flaskHoly = false;
             tesla = false;
-            teslaFreeze = false;
+            galvanicCorrosion = false;
             sulphurskin = false;
             baguette = false;
             flaskBrimstone = false;
