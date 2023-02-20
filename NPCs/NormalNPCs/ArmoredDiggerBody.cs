@@ -189,11 +189,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override Color? GetAlpha(Color drawColor)
         {
-            // Every other body segment is pink while the rest are orange in gfb
-            Color baseColor = NPC.whoAmI % 2 == 0 ? Color.Orange : Color.Pink;
-            Color lightColor = baseColor * drawColor.A;
-            Color newColor = CalamityWorld.getFixedBoi ? lightColor : new Color(255, 255, 255, drawColor.A);
-            return newColor * NPC.Opacity;
+            if (CalamityWorld.getFixedBoi)
+            {
+                Color lightColor = Color.Orange * drawColor.A;
+                return lightColor * NPC.Opacity;
+            }
+            else return null;
         }
     }
 }

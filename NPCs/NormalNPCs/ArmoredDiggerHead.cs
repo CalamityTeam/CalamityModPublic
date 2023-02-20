@@ -474,9 +474,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override Color? GetAlpha(Color drawColor)
         {
-            Color lightColor = Color.Orange * drawColor.A;
-            Color newColor = CalamityWorld.getFixedBoi ? lightColor : new Color(255, 255, 255, drawColor.A);
-            return newColor * NPC.Opacity;
+            if (CalamityWorld.getFixedBoi)
+            {
+                Color lightColor = Color.Orange * drawColor.A;
+                return lightColor * NPC.Opacity;
+            }
+            else return null;
         }
     }
 }
