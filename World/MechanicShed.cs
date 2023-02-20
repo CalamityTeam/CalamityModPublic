@@ -17,7 +17,7 @@ namespace CalamityMod.World
             string mapKey = MechanicShedKey;
             var schematic = TileMaps[mapKey];
 
-            int placementPositionX = WorldGen.genRand.Next(WorldGen.snowOriginLeft + 200, WorldGen.snowOriginRight - 200);
+            int placementPositionX = WorldGen.genRand.Next(WorldGen.snowOriginLeft + 100, WorldGen.snowOriginRight - 100);
             int placementPositionY = (int)Main.worldSurface - (Main.maxTilesY / 8);
 
             bool foundValidGround = false;
