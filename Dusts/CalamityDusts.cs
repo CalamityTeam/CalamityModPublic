@@ -1,4 +1,4 @@
-namespace CalamityMod.Dusts
+﻿namespace CalamityMod.Dusts
 {
     public enum CalamityDusts : int
     {
@@ -16,5 +16,6 @@ namespace CalamityMod.Dusts
         PurpleCosmilite = 173,
         // This is what God Slayer Slugs use, at least. I'm not sure about other Cosmilite stuff, didn't bother to check.
         BlueCosmilite = 180,
+        MiracleBlight = 163,
     }
 }

@@ -29,29 +29,32 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
     float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
 
     // Temporal drift to make the sprite slide through the noise texture
-    float2 drift = float2(5 * sin(8.33 * uTime), 40 * uTime);
+    float2 drift = float2(5 * sin(8.33 * uTime), 220 * uTime);
 
     float2 noiseMapTexCoords = framedCoords * uSourceRect.zw + drift;
-
     float4 noiseColor = tex2D(uImage1, noiseMapTexCoords / uImageSize1);
-    return noiseColor;
 
-    /*
-    float noiseRedErasureThreshold = fadeThreshold + 0.08;
+    // Define thresholds for total pixel erasure and glowing lines.
+    //
+    // Rapidly flickering sinewave produced by Desmos, loosely based on the Weierstrass function
+    // (infinitely sharp vague sinewave, periodic, continuous everywhere but differentiable nowhere)
+    // https://en.wikipedia.org/wiki/Weierstrass_function
+    // float fullErasureThreshold = uOpacity + (0.02 * cos(7 * uTime)) + (0.02 * cos(31 * uTime)) + (0.01 * sin(167 * uTime));
+    float fullErasureThreshold = uOpacity;
+    float glowThreshold = fullErasureThreshold - 0.1;
 
-    // If the noise over the slightly higher threshold, completely erase this pixel.
-    if (perlin.r > noiseRedErasureThreshold)
+    // If the noise over the erasure threshold, completely erase this pixel.
+    if (noiseColor.r > fullErasureThreshold)
     {
         color.rgba = 0;
     }
-    // Otherwise, if the noise is over the original threshold, replace this pixel with glowing energy lines.
-    else if (perlin.r > fadeThreshold)
+    // Otherwise, if it's over the slightly lower threshold, replace it with a bright color.
+    else if (noiseColor.r > glowThreshold)
     {
         color = float4(125.0 / 255, 1, 0, 1);
     }
-    // Otherwise do nothing.
+
     return color;
-    */
 }
 
 technique Technique1

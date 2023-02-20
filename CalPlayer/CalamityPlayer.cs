@@ -6358,6 +6358,17 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
+        #region Anomaly's Nanogun Kill Sound
+        public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
+        {
+            if (Player.whoAmI == Main.myPlayer && Player.ActiveItem().type == ModContent.ItemType<TheAnomalysNanogun>())
+            {
+                if (Main.rand.NextBool(20))
+                    SoundEngine.PlaySound(IjiDeathSound, Player.Center);
+            }
+        }
+        #endregion
+
         #region Nurse Modifications
         public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
         {
@@ -6906,17 +6917,6 @@ namespace CalamityMod.CalPlayer
             Color messageColor = Color.LightGray;
             Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
             CombatText.NewText(location, messageColor, Language.GetTextValue(text));
-        }
-        #endregion
-
-        #region Kill
-        public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
-        {
-            if (Player.whoAmI == Main.myPlayer && Player.ActiveItem().type == ModContent.ItemType<TheAnomalysNanogun>())
-            {
-                if (Main.rand.NextBool(20))
-                    SoundEngine.PlaySound(IjiDeathSound, Player.Center);
-            }
         }
         #endregion
     }

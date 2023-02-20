@@ -5388,6 +5388,28 @@ namespace CalamityMod.NPCs
                 Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
             }
 
+            if (miracleBlight > 0)
+            {
+                void spawnMiracleBlightDust()
+                {
+                    Vector2 dustCorner = npc.position - 2f * Vector2.One;
+                    Vector2 dustVel = npc.velocity + new Vector2(0f, Main.rand.NextFloat(-15f, -12f));
+                    Dust d = Dust.NewDustDirect(dustCorner, npc.width + 4, npc.height + 4, (int)CalamityDusts.MiracleBlight, dustVel.X, dustVel.Y);
+                    d.noGravity = true;
+                }
+                
+                // Miracle Blight spawned dust scales with the NPC's size
+                float blightDustFactor = 0.0005f;
+                float dustToCreate = blightDustFactor * npc.width * npc.height;
+                if (dustToCreate > 5f)
+                    dustToCreate = 5f;
+                for (int i = 0; i < (int)dustToCreate; ++i)
+                    spawnMiracleBlightDust();
+
+                if (dustToCreate < 1f && Main.rand.NextFloat() < dustToCreate)
+                    spawnMiracleBlightDust();
+            }
+
             if (astralInfection > 0)
             {
                 if (Main.rand.Next(5) < 3)
@@ -5833,8 +5855,8 @@ namespace CalamityMod.NPCs
                     Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
                     MiscShaderData msd = GameShaders.Misc["CalamityMod:MiracleBlight"];
-                    msd.UseImage1("Images/Misc/Perlin"); // provided by vanilla Terraria
-                    msd.UseOpacity(0.25f);
+                    msd.SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons"), 1);
+                    msd.UseOpacity(0.48f);
                     DrawData dd = new()
                     {
                         texture = TextureAssets.Npc[npc.type].Value,
