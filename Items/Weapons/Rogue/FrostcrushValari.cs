@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class FrostcrushValari : RogueWeapon
     {
-        public static float Speed = 15f;
+        public static float Speed = 14f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Frostcrush Valari");
@@ -24,7 +24,7 @@ Stealth strikes throw three shorter ranged boomerangs that freeze along with a s
 
         public override void SetDefaults()
         {
-            Item.damage = 90;
+            Item.damage = 89;
             Item.knockBack = 12;
             Item.DamageType = DamageClass.Throwing;
             Item.value = CalamityGlobalItem.Rarity7BuyPrice;
@@ -46,7 +46,7 @@ Stealth strikes throw three shorter ranged boomerangs that freeze along with a s
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 16;
 
-		public override float StealthDamageMultiplier => 0.3667f;
+		public override float StealthDamageMultiplier => 0.35f;
         public override float StealthKnockbackMultiplier => 0.3333f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
