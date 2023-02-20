@@ -92,6 +92,17 @@ namespace CalamityMod.Systems
                 }));
             }
 
+            //mechanic shed
+            int mechanicIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
+            if (mechanicIndex != -1)
+            {
+                tasks.Insert(mechanicIndex + 1, new PassLegacy("Mechanic Shed", (progress, config) =>
+                {
+                    progress.Message = "Placing mechanic shed";
+                    MechanicShed.PlaceMechanicShed(WorldGen.structures);
+                }));
+            }
+
             //Vernal pass
             int vernalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Muds Walls In Jungle"));
             if (vernalIndex != -1)
