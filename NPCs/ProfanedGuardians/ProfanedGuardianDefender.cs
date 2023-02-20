@@ -385,6 +385,19 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 return;
             }
 
+            float moveVelocity = (bossRush || biomeEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
+            if (Main.getGoodWorld)
+                moveVelocity *= 1.25f;
+            if (healerAlive)
+                moveVelocity *= 0.8f;
+
+            float distanceToStayAwayFromTarget = healerAlive ? 800f : 720f;
+            bool speedUp = Vector2.Distance(NPC.Center, player.Center) > (distanceToStayAwayFromTarget + 160f);
+            if (speedUp)
+                moveVelocity *= 2f;
+            if (commanderGoingLowOrHighInPhase2)
+                moveVelocity *= 2f;
+
             if (NPC.ai[0] == 0f)
             {
                 // Face the target
@@ -439,7 +452,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                 // Defend the commander
                 Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center + Vector2.UnitX * (commanderUsingLaser ? 0f : distanceInFrontOfCommander) * Main.npc[CalamityGlobalNPC.doughnutBoss].direction - NPC.Center;
-                Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f);
+                Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * moveVelocity;
                 if (distanceFromDestination.Length() > 40f)
                 {
                     float inertia = commanderUsingLaser ? 10f : 15f;
@@ -449,7 +462,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.velocity = (NPC.velocity * (inertia - 1) + desiredVelocity) / inertia;
                 }
                 else
-                    NPC.velocity *= 0.96f;
+                    NPC.velocity *= 0.9f;
             }
 
             // Phase 2
@@ -533,8 +546,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         NPC.velocity = -velocity * 0.5f;
                     }
 
-                    Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center + Vector2.UnitX * distanceInFrontOfCommander * Main.npc[CalamityGlobalNPC.doughnutBoss].direction - NPC.Center;
-                    Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f);
+                    Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center + (commanderGoingLowOrHighInPhase2 ? Vector2.Zero : (Vector2.UnitX * distanceInFrontOfCommander * Main.npc[CalamityGlobalNPC.doughnutBoss].direction)) - NPC.Center;
+                    Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * moveVelocity;
                     if (distanceFromDestination.Length() > 40f)
                     {
                         float inertia = commanderGoingLowOrHighInPhase2 ? 10f : 15f;
@@ -544,7 +557,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         NPC.velocity = (NPC.velocity * (inertia - 1) + desiredVelocity) / inertia;
                     }
                     else
-                        NPC.velocity *= 0.96f;
+                        NPC.velocity *= 0.9f;
                 }
 
                 // Charge at target
