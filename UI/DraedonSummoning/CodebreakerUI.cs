@@ -138,7 +138,10 @@ namespace CalamityMod.UI.DraedonSummoning
             DialogHistory.Clear();
 
             bool canSummonDraedon = codebreakerTileEntity.ReadyToSummonDraedon && CalamityWorld.AbleToSummonDraedon;
-            bool canTalkToDraedon = codebreakerTileEntity.ReadyToSummonDraedon && DownedBossSystem.downedExoMechs;
+            // canTalkToDraedon is currently permanently set to false due to being deemed unfinished and not fit for release.
+            // If there is a desire to re-enable it, replace the following line with the commented line beneath it.
+            bool canTalkToDraedon = false;
+            // bool canTalkToDraedon = codebreakerTileEntity.ReadyToSummonDraedon && DownedBossSystem.downedExoMechs;
             Vector2 backgroundTopLeft = BackgroundCenter - backgroundTexture.Size() * GeneralScale * 0.5f;
 
             // Draw the cell payment slot icon.
