@@ -23,5 +23,8 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.alpha = 255;
             Projectile.DamageType = DamageClass.Ranged;
         }
+
+        // This needs to happen retroactively due to Deadshot Brooch and other potential items boosting updates
+        public override void AI() => Projectile.localNPCHitCooldown = 10 * Projectile.MaxUpdates;
     }
 }
