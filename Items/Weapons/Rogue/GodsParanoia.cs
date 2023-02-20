@@ -62,7 +62,7 @@ Right click to delete all existing spiky balls");
             }
         }
 
-		public override float StealthDamageMultiplier => 1.345f;
+		public override float StealthDamageMultiplier => 1f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
