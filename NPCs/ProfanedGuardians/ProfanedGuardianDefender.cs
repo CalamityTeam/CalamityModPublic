@@ -23,6 +23,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         private int healTimer = 0;
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
         private const float TimeForShieldDespawn = 120f;
+        public static readonly SoundStyle DashSound = new("CalamityMod/Sounds/Custom/ProfanedGuardians/GuardianDash");
+        public static readonly SoundStyle RockShieldSpawnSound = new("CalamityMod/Sounds/Custom/ProfanedGuardians/GuardianRockShieldActivate");
+        public static readonly SoundStyle ShieldDeathSound = new("CalamityMod/Sounds/Custom/ProfanedGuardians/GuardianShieldDeactivate");
 
         public override void SetStaticDefaults()
         {
@@ -274,10 +277,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float timeBeforeMoveToOtherSideInPhase2Reset = moveToOtherSideInPhase2GateValue * 2f;
             float totalGoLowDurationPhase2 = 210f;
             float goLowDurationPhase2 = totalGoLowDurationPhase2 * 0.5f;
+            float roundedGoLowPhase2Check = (float)Math.Round(goLowDurationPhase2 * 0.5);
             bool commanderGoingLowOrHighInPhase2 = (Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (moveToOtherSideInPhase2GateValue - goLowDurationPhase2) &&
-                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (moveToOtherSideInPhase2GateValue + goLowDurationPhase2 * 0.5f)) ||
+                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (moveToOtherSideInPhase2GateValue + roundedGoLowPhase2Check)) ||
                 Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) ||
-                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (-goLowDurationPhase2 * 0.5f);
+                Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (-roundedGoLowPhase2Check);
 
             // Spawn rock shield
             bool respawnRocksInPhase2 = NPC.ai[1] == (-commanderGuardPhase2Duration + timeBeforeRocksRespawnInPhase2) && !commanderGoingLowOrHighInPhase2;
@@ -336,7 +340,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 {
                     // Star Wrath use sound
                     if (NPC.localAI[1] == 0f)
-                        SoundEngine.PlaySound(SoundID.Item105, NPC.Center);
+                        SoundEngine.PlaySound(ShieldDeathSound, NPC.Center);
 
                     NPC.localAI[1] += 1f;
                 }
@@ -346,7 +350,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             if (justSpawnedRocks)
             {
                 // Meteor Staff use sound and dust circles
-                SoundEngine.PlaySound(SoundID.Item88, NPC.Center);
+                SoundEngine.PlaySound(RockShieldSpawnSound, NPC.Center);
                 int totalDust = maxRocks;
                 for (int j = 0; j < rockRings; j++)
                 {
@@ -557,7 +561,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.velocity = velocity * chargeVelocityMult;
 
                     // Dust ring and sound right as charge begins
-                    SoundEngine.PlaySound(SoundID.Item74, shootFrom);
+                    SoundEngine.PlaySound(DashSound, NPC.Center);
                     int totalDust = 36;
                     for (int k = 0; k < totalDust; k++)
                     {

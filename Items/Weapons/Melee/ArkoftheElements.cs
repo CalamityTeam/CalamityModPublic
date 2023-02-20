@@ -31,15 +31,15 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float blastFalloffStrenght = 0.75f; //Value between 0 and 1 that determines how much falloff increases affect the damage : Closer to 0 = damage falls off less intensely, closer to 1 : damage falls off way harder
 
 
-        const string ComboTooltip = "Using LMB performs a 5-swing combo that ends by throwing the blade\n" +
-        "Releasing LMB while the blade is out will deal extra damage and give 2 charges";
+        const string ComboTooltip = "Using left click performs a 5-swing combo that ends by throwing the blade\n" +
+        "Releasing left click while the blade is out will deal extra damage and give 2 charges";
 
-        const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you\n" +
+        const string ParryTooltip = "Using right click will snip out the scissor blades in front of you\n" +
         "Hitting an enemy with it will parry them, granting you brief invulnerability\n" +
         "You can also parry projectiles to make them deal 200 less damage for a short period\n" +
         "Parrying will empower the next 10 swings of the sword, letting you use both blades at once";
 
-        const string BlastTooltip = "Using RMB while pressing UP with empowered charges will provoke a Big Rip in spacetime and use all charges\n" +
+        const string BlastTooltip = "Using right click while pressing UP with empowered charges will provoke a Big Rip in spacetime and use all charges\n" +
         "If more than 5 charges were used, you can dash across the rip by holding UP";
 
         public override void SetStaticDefaults()

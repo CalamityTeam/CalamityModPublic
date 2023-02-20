@@ -60,14 +60,14 @@ namespace CalamityMod.BiomeManagers
 
             if (Abyss.AtLeftSideOfWorld)
             {
-                if (point.X < 380)
+                if (point.X < 435)
                 {
                     sulphurPosX = true;
                 }
             }
             else
             {
-                if (point.X > Main.maxTilesX - 380)
+                if (point.X > Main.maxTilesX - 435)
                 {
                     sulphurPosX = true;
                 }

@@ -31,7 +31,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         private int healTimer = 0;
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
         private const float TimeForShieldDespawn = 120f;
-        public static readonly SoundStyle HolyRaySound = new("CalamityMod/Sounds/Custom/Providence/ProvidenceHolyRay") { Volume = 1.25f };
+        public static readonly SoundStyle HolyRaySound = new("CalamityMod/Sounds/Custom/ProfanedGuardians/GuardianRay") { Volume = 1.25f };
+        public static readonly SoundStyle DashSound = new("CalamityMod/Sounds/Custom/ProfanedGuardians/GuardianDash");
+        public static readonly SoundStyle ShieldDeathSound = new("CalamityMod/Sounds/Custom/ProfanedGuardians/GuardianShieldDeactivate");
 
         public override void SetStaticDefaults()
         {
@@ -347,7 +349,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 {
                     // Star Wrath use sound
                     if (NPC.localAI[1] == 0f)
-                        SoundEngine.PlaySound(SoundID.Item105, NPC.Center);
+                        SoundEngine.PlaySound(ShieldDeathSound, NPC.Center);
 
                     NPC.localAI[1] += 1f;
                 }
@@ -402,11 +404,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.localAI[3] = 0f;
 
                 // Go low just before moving to the other side to avoid bullshit hits
-                bool goLow = (NPC.localAI[3] > (moveToOtherSideInPhase1GateValue - goLowDuration) && NPC.localAI[3] <= (moveToOtherSideInPhase1GateValue + goLowDuration * 0.5f)) ||
-                    NPC.localAI[3] > (timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration) || NPC.localAI[3] <= (-goLowDuration * 0.5f);
+                float roundedGoLowCheck = (float)Math.Round(goLowDuration * 0.5);
+                bool goLow = (NPC.localAI[3] > (moveToOtherSideInPhase1GateValue - goLowDuration) && NPC.localAI[3] <= (moveToOtherSideInPhase1GateValue + roundedGoLowCheck)) ||
+                    NPC.localAI[3] > (timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration) || NPC.localAI[3] <= (-roundedGoLowCheck);
 
                 // Swap sides while going low
-                if (NPC.localAI[3] == (moveToOtherSideInPhase1GateValue - goLowDuration * 0.5f) || NPC.localAI[3] == (timeBeforeMoveToOtherSideInPhase1Reset - goLowDuration * 0.5f))
+                if (NPC.localAI[3] == (moveToOtherSideInPhase1GateValue - roundedGoLowCheck) || NPC.localAI[3] == (timeBeforeMoveToOtherSideInPhase1Reset - roundedGoLowCheck))
                     calamityGlobalNPC.newAI[0] *= -1f;
 
                 // Reset the timer to a negative value
@@ -436,11 +439,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     calamityGlobalNPC.newAI[1] = 0f;
 
                 // Go low or high just before moving to the other side in phase 2 to avoid bullshit hits
-                bool goLowPhase2 = calamityGlobalNPC.newAI[1] > (moveToOtherSideInPhase2GateValue - goLowDurationPhase2) && calamityGlobalNPC.newAI[1] <= (moveToOtherSideInPhase2GateValue + goLowDurationPhase2 * 0.5f);
-                bool goHigh = calamityGlobalNPC.newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) || calamityGlobalNPC.newAI[1] <= (-goLowDurationPhase2 * 0.5f);
+                float roundedGoLowPhase2Check = (float)Math.Round(goLowDurationPhase2 * 0.5);
+                bool goLowPhase2 = calamityGlobalNPC.newAI[1] > (moveToOtherSideInPhase2GateValue - goLowDurationPhase2) && calamityGlobalNPC.newAI[1] <= (moveToOtherSideInPhase2GateValue + roundedGoLowPhase2Check);
+                bool goHigh = calamityGlobalNPC.newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) || calamityGlobalNPC.newAI[1] <= (-roundedGoLowPhase2Check);
 
                 // Swap sides while going low or high
-                if (calamityGlobalNPC.newAI[1] == (moveToOtherSideInPhase2GateValue - goLowDurationPhase2 * 0.5f) || calamityGlobalNPC.newAI[1] == (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2 * 0.5f))
+                if (calamityGlobalNPC.newAI[1] == (moveToOtherSideInPhase2GateValue - roundedGoLowPhase2Check) || calamityGlobalNPC.newAI[1] == (timeBeforeMoveToOtherSideInPhase2Reset - roundedGoLowPhase2Check))
                     calamityGlobalNPC.newAI[0] *= -1f;
 
                 // Reset the timer to a negative value
@@ -635,7 +639,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.velocity = velocity * chargeVelocityMult;
 
                 // Dust ring and sound right as charge begins
-                SoundEngine.PlaySound(SoundID.Item74, shootFrom);
+                SoundEngine.PlaySound(DashSound, NPC.Center);
                 int totalDust = 36;
                 for (int k = 0; k < totalDust; k++)
                 {
