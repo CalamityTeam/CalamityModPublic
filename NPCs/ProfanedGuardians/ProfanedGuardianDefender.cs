@@ -23,6 +23,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         private int healTimer = 0;
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
         private const float TimeForShieldDespawn = 120f;
+        public static readonly SoundStyle DashSound = new("CalamityMod/Sounds/Custom/ProfanedGuardians/GuardianDash");
+        public static readonly SoundStyle RockShieldSpawnSound = new("CalamityMod/Sounds/Custom/ProfanedGuardians/GuardianRockShieldActivate");
+        public static readonly SoundStyle ShieldDeathSound = new("CalamityMod/Sounds/Custom/ProfanedGuardians/GuardianShieldDeactivate");
 
         public override void SetStaticDefaults()
         {
@@ -336,7 +339,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 {
                     // Star Wrath use sound
                     if (NPC.localAI[1] == 0f)
-                        SoundEngine.PlaySound(SoundID.Item105, NPC.Center);
+                        SoundEngine.PlaySound(ShieldDeathSound, NPC.Center);
 
                     NPC.localAI[1] += 1f;
                 }
@@ -346,7 +349,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             if (justSpawnedRocks)
             {
                 // Meteor Staff use sound and dust circles
-                SoundEngine.PlaySound(SoundID.Item88, NPC.Center);
+                SoundEngine.PlaySound(RockShieldSpawnSound, NPC.Center);
                 int totalDust = maxRocks;
                 for (int j = 0; j < rockRings; j++)
                 {
@@ -557,7 +560,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.velocity = velocity * chargeVelocityMult;
 
                     // Dust ring and sound right as charge begins
-                    SoundEngine.PlaySound(SoundID.Item74, shootFrom);
+                    SoundEngine.PlaySound(DashSound, NPC.Center);
                     int totalDust = 36;
                     for (int k = 0; k < totalDust; k++)
                     {
