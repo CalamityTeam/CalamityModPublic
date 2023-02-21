@@ -92,10 +92,34 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.ai[3] = NPC.ai[0];
             }
 
-            // Stay invincible for 100 frames to avoid being instantly killed and don't deal damage to avoid unfair hits
-            if (NPC.Opacity < 1f)
+            // Force despawn if Defender Guardian isn't active
+            if (CalamityGlobalNPC.doughnutBossDefender < 0 || !Main.npc[CalamityGlobalNPC.doughnutBossDefender].active || CalamityGlobalNPC.doughnutBoss < 0 || !Main.npc[CalamityGlobalNPC.doughnutBoss].active)
+            {
+                NPC.life = 0;
+                NPC.HitEffect();
+                NPC.active = false;
+                NPC.netUpdate = true;
+                return;
+            }
+
+            // Stay invincile while the commander and defender are swapping sides and don't deal damage to avoid unfair hits
+            if (Main.npc[CalamityGlobalNPC.doughnutBossDefender].localAI[3] == 1f)
             {
                 NPC.damage = 0;
+                NPC.dontTakeDamage = true;
+
+                NPC.Opacity -= 0.01f;
+                if (NPC.Opacity < 0f)
+                    NPC.Opacity = 0f;
+
+                NPC.scale = MathHelper.Lerp(0.05f, 1f, NPC.Opacity);
+            }
+
+            // Stay invincible for 100 frames to avoid being instantly killed and don't deal damage to avoid unfair hits
+            else if (NPC.Opacity < 1f)
+            {
+                NPC.damage = 0;
+                NPC.dontTakeDamage = true;
 
                 NPC.Opacity += 0.01f;
                 if (NPC.Opacity > 1f)
@@ -109,17 +133,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.dontTakeDamage = false;
             }
 
-            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.7f, 0.55f, 0f);
-
-            // Force despawn if Defender Guardian isn't active
-            if (CalamityGlobalNPC.doughnutBossDefender < 0 || !Main.npc[CalamityGlobalNPC.doughnutBossDefender].active || CalamityGlobalNPC.doughnutBoss < 0 || !Main.npc[CalamityGlobalNPC.doughnutBoss].active)
-            {
-                NPC.life = 0;
-                NPC.HitEffect();
-                NPC.active = false;
-                NPC.netUpdate = true;
-                return;
-            }
+            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.7f * NPC.Opacity, 0.55f * NPC.Opacity, 0f);
 
             // Set time left just in case something dumb happens with despawning
             if (NPC.timeLeft < 1800)

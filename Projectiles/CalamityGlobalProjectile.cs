@@ -237,10 +237,10 @@ namespace CalamityMod.Projectiles
                 // Accelerate if fired in a spread from Skeletron
                 if (projectile.ai[0] == -2f)
                 {
-                    if (projectile.velocity.Length() < 12f)
+                    if (projectile.velocity.Length() < 15f)
                     {
                         projectile.velocity *= 1.02f;
-                        if (projectile.velocity.Length() > 12f)
+                        if (projectile.velocity.Length() > 15f)
                         {
                             projectile.velocity.Normalize();
                             projectile.velocity *= 12f;

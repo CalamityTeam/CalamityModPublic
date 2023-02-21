@@ -92,6 +92,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             writer.Write(NPC.localAI[0]);
             writer.Write(NPC.localAI[1]);
             writer.Write(NPC.localAI[2]);
+            writer.Write(NPC.localAI[3]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -102,6 +103,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
         }
 
         public override void FindFrame(int frameHeight)
@@ -273,6 +275,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             bool commanderUsingLaser = Main.npc[CalamityGlobalNPC.doughnutBoss].ai[0] == 5f;
 
             // Go low just before moving to the other side to avoid bullshit hits
+            float moveToOtherSideInPhase1GateValue = 900f;
+            float timeBeforeMoveToOtherSideInPhase1Reset = moveToOtherSideInPhase1GateValue * 2f;
+            float totalGoLowDurationPhase1 = 240f;
+            float goLowDurationPhase1 = totalGoLowDurationPhase1 * 0.5f;
+            float roundedGoLowPhase1Check = (float)Math.Round(goLowDurationPhase1 * 0.5);
+            bool commanderGoingLowOrHighInPhase1 = (Main.npc[CalamityGlobalNPC.doughnutBoss].localAI[3] > (moveToOtherSideInPhase1GateValue - goLowDurationPhase1) &&
+                Main.npc[CalamityGlobalNPC.doughnutBoss].localAI[3] <= (moveToOtherSideInPhase1GateValue + roundedGoLowPhase1Check)) ||
+                Main.npc[CalamityGlobalNPC.doughnutBoss].localAI[3] > (timeBeforeMoveToOtherSideInPhase1Reset - goLowDurationPhase1) ||
+                Main.npc[CalamityGlobalNPC.doughnutBoss].localAI[3] <= (-roundedGoLowPhase1Check);
+
             float moveToOtherSideInPhase2GateValue = commanderGuardPhase2Duration - 120f;
             float timeBeforeMoveToOtherSideInPhase2Reset = moveToOtherSideInPhase2GateValue * 2f;
             float totalGoLowDurationPhase2 = 210f;
@@ -282,6 +294,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (moveToOtherSideInPhase2GateValue + roundedGoLowPhase2Check)) ||
                 Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] > (timeBeforeMoveToOtherSideInPhase2Reset - goLowDurationPhase2) ||
                 Main.npc[CalamityGlobalNPC.doughnutBoss].Calamity().newAI[1] <= (-roundedGoLowPhase2Check);
+
+            // Tell rocks to fade out and shrink
+            if (commanderGoingLowOrHighInPhase1 || commanderGoingLowOrHighInPhase2)
+                NPC.localAI[3] = 1f;
+            else
+                NPC.localAI[3] = 0f;
 
             // Spawn rock shield
             bool respawnRocksInPhase2 = NPC.ai[1] == (-commanderGuardPhase2Duration + timeBeforeRocksRespawnInPhase2) && !commanderGoingLowOrHighInPhase2;
@@ -385,18 +403,20 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 return;
             }
 
-            float moveVelocity = (bossRush || biomeEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
+            float moveVelocity = (bossRush || biomeEnraged) ? 24f : death ? 22f : revenge ? 21f : expertMode ? 20f : 18f;
             if (Main.getGoodWorld)
                 moveVelocity *= 1.25f;
             if (healerAlive)
                 moveVelocity *= 0.8f;
 
-            float distanceToStayAwayFromTarget = healerAlive ? 800f : 720f;
+            float distanceToStayAwayFromTarget = 800f;
             bool speedUp = Vector2.Distance(NPC.Center, player.Center) > (distanceToStayAwayFromTarget + 160f);
             if (speedUp)
                 moveVelocity *= 2f;
             if (commanderGoingLowOrHighInPhase2)
                 moveVelocity *= 2f;
+            else if (commanderGoingLowOrHighInPhase1)
+                moveVelocity *= 1.66f;
 
             if (NPC.ai[0] == 0f)
             {
@@ -451,11 +471,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 // Defend the commander
-                Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center + Vector2.UnitX * (commanderUsingLaser ? 0f : distanceInFrontOfCommander) * Main.npc[CalamityGlobalNPC.doughnutBoss].direction - NPC.Center;
+                Vector2 distanceFromDestination = Main.npc[CalamityGlobalNPC.doughnutBoss].Center + Vector2.UnitX * ((commanderUsingLaser || commanderGoingLowOrHighInPhase1) ? 0f : distanceInFrontOfCommander) * Main.npc[CalamityGlobalNPC.doughnutBoss].direction - NPC.Center;
                 Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * moveVelocity;
                 if (distanceFromDestination.Length() > 40f)
                 {
-                    float inertia = commanderUsingLaser ? 10f : 15f;
+                    float inertia = (commanderUsingLaser || commanderGoingLowOrHighInPhase1) ? 10f : 15f;
                     if (Main.getGoodWorld)
                         inertia *= 0.8f;
 
@@ -550,7 +570,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     Vector2 desiredVelocity = distanceFromDestination.SafeNormalize(new Vector2(NPC.direction, 0f)) * moveVelocity;
                     if (distanceFromDestination.Length() > 40f)
                     {
-                        float inertia = commanderGoingLowOrHighInPhase2 ? 10f : 15f;
+                        float inertia = commanderGoingLowOrHighInPhase2 ? 8f : 15f;
                         if (Main.getGoodWorld)
                             inertia *= 0.8f;
 

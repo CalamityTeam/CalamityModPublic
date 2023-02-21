@@ -126,7 +126,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public int laserWallPhase = 0;
 
         // Phase variables
-        private const int idleCounterMax = 240;
+        private const int idleCounterMax = 300;
         private int idleCounter = idleCounterMax;
         private int postTeleportTimer = 0;
         private int teleportTimer = -1;
@@ -761,7 +761,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (!spawnedGuardians3 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
                     {
                         float spawnOffset = 2100f;
-                        float divisor = bossRush ? 80f : 120f;
+                        float divisor = bossRush ? 100f : 150f;
 
                         if (calamityGlobalNPC.newAI[1] % divisor == 0f)
                         {

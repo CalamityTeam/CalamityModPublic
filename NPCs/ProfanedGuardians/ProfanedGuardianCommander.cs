@@ -462,7 +462,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     velocity *= 0.8f;
 
                 // Reduce inertia and boost velocity while far away from target or swapping sides
-                float distanceToStayAwayFromTarget = healerAlive ? 800f : defenderAlive ? 720f : 600f;
+                float distanceToStayAwayFromTarget = defenderAlive ? 800f : 600f;
                 bool speedUp = Vector2.Distance(NPC.Center, player.Center) > (distanceToStayAwayFromTarget + 160f);
                 if (speedUp)
                 {
