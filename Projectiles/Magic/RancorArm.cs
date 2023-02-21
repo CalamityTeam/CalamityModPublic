@@ -58,8 +58,9 @@ namespace CalamityMod.Projectiles.Magic
             // Decide a frame to use and adjust the hitbox based on it.
             if (Projectile.localAI[0] == 0f)
             {
-                // Play a wraith death sound.
-                SoundEngine.PlaySound(SoundID.NPCDeath52, Projectile.Center);
+                // Play a wraith death sound by default, play a generic flame sound when spawned by gfb Orthoceras
+                SoundStyle sound = Time == 0 ? SoundID.NPCDeath52 : SoundID.Item20;
+                SoundEngine.PlaySound(sound, Projectile.Center);
 
                 Projectile.frame = Main.rand.Next(Main.projFrames[Projectile.type]);
 
@@ -134,9 +135,15 @@ namespace CalamityMod.Projectiles.Magic
             behindNPCsAndTiles.Add(index);
         }
 
+        // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            damage = Main.rand.Next(80, 90);
+            if (Projectile.friendly)
+            {
+                if (Main.masterMode) damage = 450;
+                else if (Main.expertMode) damage = 375;
+                else damage = 300;
+            }
         }
 
         public override bool PreDraw(ref Color lightColor)

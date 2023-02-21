@@ -19,6 +19,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         private void ApplyAnyPieceEffect(Player player)
         {
+            // TODO -- CHANGE THIS TO 3% IN THE 1.4.4 PORT
             // Remove the vanilla +2% damage and add the new damage value at the same time
             player.GetDamage<GenericDamageClass>() += ArmorPieceDamage - 0.02f;
 

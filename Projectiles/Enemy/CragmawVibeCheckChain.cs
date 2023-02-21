@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.IO;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Enemy
@@ -60,6 +61,10 @@ namespace CalamityMod.Projectiles.Enemy
                 }
                 if (Projectile.WithinRange(Main.player[toTarget].Center, 16f))
                 {
+                    if (CalamityWorld.getFixedBoi)
+                    {
+                        CombatText.NewText(Main.player[toTarget].getRect(), Color.Red, "Vibe check.", true);
+                    }
                     Projectile.localAI[0] = 1f;
                     ReelingPlayer = true;
                     Projectile.netUpdate = true;

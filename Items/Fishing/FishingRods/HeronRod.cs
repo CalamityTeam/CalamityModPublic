@@ -28,15 +28,15 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.fishingPole = 25;
             Item.shootSpeed = 14.5f;
             Item.shoot = ModContent.ProjectileType<HeronBobber>();
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<AerialiteBar>(), 7).
-                AddIngredient(ItemID.SunplateBlock, 5).
+                AddIngredient(ModContent.ItemType<AerialiteBar>(), 6).
+                AddIngredient(ItemID.SunplateBlock, 3).
                 AddTile(TileID.SkyMill).
                 Register();
         }

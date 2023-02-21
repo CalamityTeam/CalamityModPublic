@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3.5f;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = SoundID.Item66;
             Item.autoReuse = true;
@@ -89,9 +89,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient<Voidstone>(30).
                 AddIngredient<DepthCells>(30).
-                AddIngredient<Lumenyl>(10).
-                AddIngredient<Tenebris>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

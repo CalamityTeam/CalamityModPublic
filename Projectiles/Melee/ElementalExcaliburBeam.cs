@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class ElementalExcaliburBeam : ModProjectile
@@ -240,7 +242,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.ExoDebuffs(2f);
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
 
             if (Projectile.ai[0] == 7f)
             {
@@ -254,7 +256,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.ExoDebuffs(2f);
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
 
             if (Projectile.ai[0] == 7f)
             {

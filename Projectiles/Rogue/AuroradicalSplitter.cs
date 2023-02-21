@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (float i = 0; i < 5; i++)
             {
                 float angle = MathHelper.TwoPi / 5f * i;
-                int star = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, angle.ToRotationVector2() * 5f, ModContent.ProjectileType<AuroradicalStar>(), (int)(Projectile.damage * 0.87), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                int star = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, angle.ToRotationVector2() * 5f, ModContent.ProjectileType<AuroradicalStar>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 Main.projectile[star].Calamity().stealthStrike = Projectile.Calamity().stealthStrike;
             }
             Projectile.position = Projectile.Center;

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -27,6 +28,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = 600;
             AIType = ProjectileID.ThrowingKnife;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -37,13 +40,9 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Projectile.timeLeft % 8 == 0)
                 {
                     Vector2 velocity = new Vector2(Main.rand.NextFloat(-7f, 7f), Main.rand.NextFloat(-7f, 7f));
-                    int slime = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ProjectileID.SlimeGun, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
+                    int slime = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SlimeStream>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, Main.rand.Next(2), 1f);
                     if (slime.WithinBounds(Main.maxProjectiles))
-                    {
                         Main.projectile[slime].DamageType = RogueDamageClass.Instance;
-                        Main.projectile[slime].usesLocalNPCImmunity = true;
-                        Main.projectile[slime].localNPCHitCooldown = 10;
-                    }
                 }
             }
         }
@@ -87,26 +86,14 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void Kill(int timeLeft)
-        {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<GelDart>());
-            }
-        }
-
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Slimed, 120);
-            if (Projectile.Calamity().stealthStrike)
-                target.AddBuff(BuffID.Slow, 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Slimed, 120);
-            if (Projectile.Calamity().stealthStrike)
-                target.AddBuff(BuffID.Slow, 120);
         }
     }
 }

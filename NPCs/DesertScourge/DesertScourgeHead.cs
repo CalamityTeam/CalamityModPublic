@@ -13,7 +13,9 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -94,6 +96,10 @@ namespace CalamityMod.NPCs.DesertScourge
 
             if (Main.getGoodWorld)
                 NPC.scale *= 0.4f;
+
+            if (CalamityWorld.getFixedBoi)
+                NPC.scale *= 4f;
+
 
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -211,6 +217,16 @@ namespace CalamityMod.NPCs.DesertScourge
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
+                // become moist if in an aquatic biome
+                if (CalamityWorld.getFixedBoi && (player.ZoneBeach || player.Calamity().ZoneAbyss || player.Calamity().ZoneSunkenSea || player.Calamity().ZoneSulphur) && NPC.CountNPCS(ModContent.NPCType<AquaticScourgeHead>()) < 1)
+                {
+                    NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AquaticScourgeHead>());
+                    NPC.active = false;
+                }
+            }
+
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
                 if (!TailSpawned && NPC.ai[0] == 0f)
                 {
                     int Previous = NPC.whoAmI;
@@ -253,6 +269,7 @@ namespace CalamityMod.NPCs.DesertScourge
                             SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
                             float velocity = bossRush ? 6f : death ? 5.5f : 5f;
                             int type = ModContent.ProjectileType<SandBlast>();
+                            int type2 = ModContent.ProjectileType<HorsWaterBlast>();
                             int damage = NPC.GetProjectileDamage(type);
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * velocity;
                             int baseProjectileAmt = bossRush ? 6 : death ? 4 : revenge ? 3 : 2;
@@ -263,6 +280,8 @@ namespace CalamityMod.NPCs.DesertScourge
                             {
                                 Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                if (CalamityWorld.getFixedBoi)
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 3f, perturbedSpeed, type2, damage, 0f, Main.myPlayer);
                             }
                         }
 
@@ -508,7 +527,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         num24 = 20f;
                     }
                     NPC.soundDelay = (int)num24;
-                    SoundEngine.PlaySound(SoundID.WormDig, NPC.position);
+                    SoundEngine.PlaySound(SoundID.WormDig, NPC.Center);
                 }
                 num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
                 float num25 = Math.Abs(num20);
@@ -732,7 +751,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<DesertScourgeRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<LoreDesertScourge>(), desc: DropHelper.FirstKillText);
         }
         #endregion
 
@@ -773,6 +792,16 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             if (damage > 0)
                 player.AddBuff(BuffID.Bleeding, 600, true);
+        }
+
+        public override Color? GetAlpha(Color drawColor)
+        {
+            if (CalamityWorld.getFixedBoi)
+            {
+                Color lightColor = Color.MediumBlue * drawColor.A;
+                return lightColor * NPC.Opacity;
+            }
+            else return null;
         }
     }
 }

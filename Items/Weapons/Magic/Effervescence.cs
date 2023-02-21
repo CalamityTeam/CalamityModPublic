@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 49;
+            Item.damage = 64;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 17;
             Item.width = 56;
@@ -54,7 +54,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.BubbleGun).
-                AddIngredient(ItemID.Xenopopper).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddIngredient<SeaPrism>(15).
                 AddTile(TileID.LunarCraftingStation).

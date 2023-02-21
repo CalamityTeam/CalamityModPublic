@@ -114,7 +114,7 @@ namespace CalamityMod.NPCs.Abyss
                 if (NPC.velocity.X > -num263 && NPC.velocity.X < num263 && NPC.velocity.Y > -num263 && NPC.velocity.Y < num263)
                 {
                     NPC.TargetClosest(true);
-                    float num264 = CalamityWorld.death ? 12f : 8f;
+                    float num264 = CalamityWorld.death ? 12f : CalamityWorld.revenge ? 10f : 8f;
                     Vector2 vector31 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
                     float num265 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2) - vector31.X;
                     float num266 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2) - vector31.Y;
@@ -191,7 +191,7 @@ namespace CalamityMod.NPCs.Abyss
             }
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer1 && spawnInfo.Water)
             {
-                return SpawnCondition.CaveJellyfish.Chance * 1.2f;
+                return SpawnCondition.CaveJellyfish.Chance * 2.5f;
             }
             return SpawnCondition.OceanMonster.Chance * 0.1f;
         }

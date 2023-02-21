@@ -1,6 +1,11 @@
-﻿using CalamityMod.Projectiles.Magic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Projectiles.Magic;
 using CalamityMod.Rarities;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 75;
+            Item.damage = 85;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 15;
             Item.width = 16;
@@ -39,5 +44,26 @@ namespace CalamityMod.Items.Weapons.Magic
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine name = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "ItemName");
+            if (name != null && CalamityWorld.getFixedBoi)
+                name.Text = "yermes christal";
+
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+            if (line != null && CalamityWorld.getFixedBoi)
+                line.Text = "...throughs a pice of dnimite";
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (CalamityWorld.getFixedBoi)
+            {
+                Projectile.NewProjectile(source, player.Center, Vector2.Zero, ProjectileID.Dynamite, 250, 0, player.whoAmI);
+                return false;
+            }
+            return true;
+        }
     }
 }

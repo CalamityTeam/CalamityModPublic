@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    class VoidConcentrationAura : ModProjectile
+    public class VoidConcentrationAura : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public int timer = 0;

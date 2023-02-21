@@ -83,9 +83,9 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Main.rand.NextBool(900))
             {
-                SoundEngine.PlaySound(GrowlSound, NPC.position);
+                SoundEngine.PlaySound(GrowlSound, NPC.Center);
             }
-            bool phase2 = (double)NPC.life <= (double)NPC.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
+            bool phase2 = (double)NPC.life <= (double)NPC.lifeMax * (CalamityWorld.death ? 0.9 : CalamityWorld.revenge ? 0.7 : 0.5);
             if (phase2)
             {
                 if (!reset)
@@ -99,10 +99,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     NPC.ai[1] += 1f;
                 }
-                CalamityAI.UnicornAI(NPC, Mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
+                CalamityAI.UnicornAI(NPC, Mod, true, CalamityWorld.death ? 8f : CalamityWorld.revenge ? 6f : 4f, 5f, 0.2f);
                 return;
             }
-            CalamityAI.UnicornAI(NPC, Mod, false, CalamityWorld.death ? 6f : 4f, 6f, CalamityWorld.death ? 0.1f : 0.07f);
+            CalamityAI.UnicornAI(NPC, Mod, false, CalamityWorld.death ? 8f : CalamityWorld.revenge ? 6f : 4f, 6f, CalamityWorld.death ? 0.1f : CalamityWorld.revenge ? 0.085f : 0.07f);
         }
 
         public override void FindFrame(int frameHeight)
@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 !spawnInfo.Player.PillarZone() &&
                 !spawnInfo.Player.ZoneDungeon &&
                 !spawnInfo.Player.InSunkenSea() &&
-                !spawnInfo.PlayerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.012f : 0f;
+                !spawnInfo.PlayerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.03f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -166,6 +166,13 @@ namespace CalamityMod.NPCs.NormalNPCs
                 for (int k = 0; k < 20; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("AngryDog").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("AngryDog2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("AngryDog3").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("AngryDog4").Type, 1f);
                 }
             }
         }

@@ -1,6 +1,10 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using CalamityMod.Tiles.Astral;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,6 +41,22 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.ChecksForMerge[Type] = true;
             TileID.Sets.DoesntGetReplacedWithTileReplacement[Type] = true;
         }
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            Tile tile = Main.tile[i, j];
+            Tile up = Main.tile[i, j - 1];
+            Tile up2 = Main.tile[i, j - 2];
+            if (closer && Main.rand.NextBool(60) && !up.HasTile && !up2.HasTile && j < Main.worldSurface)
+            {
+                //Cyan Cinders below
+                Dust dust;
+                dust = Main.dust[Dust.NewDust(new Vector2(i * 16f, j * 16f), 16, 16, ModContent.DustType<AstralBlue>(), -0.4651165f, 0f, 17, new Color(0, 255, 244), 1.5f)];
+
+                //Orange Cinders below
+                dust = Main.dust[Dust.NewDust(new Vector2(i * 16f, j * 16f), 16, 16, ModContent.DustType<AstralOrange>(), -0.4651165f, 0f, 17, new Color(255, 255, 255), 1.5f)];
+
+            }
+        }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {
@@ -53,25 +73,20 @@ namespace CalamityMod.Tiles.Ores
             num = fail ? 1 : 3;
         }
 
-        public override void RandomUpdate(int i, int j)
-        {
-            if (Main.rand.Next(7) <= 2)
-            {
-                Dust.NewDust(new Vector2(i * 16f, j * 16f), 16, 16, 156, Main.rand.NextFloat(-0.05f, 0.05f), Main.rand.NextFloat(-0.05f, -0.001f));
-            }
-        }
-
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.09f;
-            g = 0.03f;
-            b = 0.07f;
-        }
-
-        public override void FloorVisuals(Player player)
-        {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);
-            base.FloorVisuals(player);
+            float brightness = 0.7f;
+            brightness *= (float)MathF.Sin(-j / 40f + Main.GameUpdateCount * 0.007f);
+            brightness *= (float)MathF.Sin(-i / 40f + Main.GameUpdateCount * 0.005f);
+            brightness *= (float)MathF.Sin(-j / 40f + Main.GameUpdateCount * 0.006f);
+            brightness *= (float)MathF.Sin(-i / 40f + Main.GameUpdateCount * 0.009f);
+            brightness += 0.5f;
+            r = Main.DiscoR / 255f * 0.5f;
+            g = 0.5f;
+            b = (255 - Main.DiscoR) / 255f * 0.5f;
+            r *= brightness;
+            g *= brightness;
+            b *= brightness;
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)

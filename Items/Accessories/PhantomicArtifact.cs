@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Rarities;
 using Terraria;
 using Terraria.DataStructures;
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<HallowedRune>().
                 AddIngredient<RuinousSoul>(5).
-                AddIngredient<BloodOrb>(10).
+                AddIngredient<Onyxplate>(25).
                 AddIngredient<ExodiumCluster>(20).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

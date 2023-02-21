@@ -29,11 +29,11 @@ namespace CalamityMod.Items.Dyes
 
         public override void AddRecipes()
         {
-            CreateRecipe(2).
-                AddIngredient(ItemID.BottledWater, 2).
+            CreateRecipe(3).
+                AddIngredient(ItemID.BottledWater, 3).
+                AddIngredient<Lumenyl>().
                 AddIngredient<RuinousSoul>().
                 AddIngredient<ExodiumCluster>().
-                AddIngredient<Lumenyl>().
                 AddTile(TileID.DyeVat).
                 Register();
         }

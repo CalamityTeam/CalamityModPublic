@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    class VoidConcentrationBlackhole : ModProjectile
+    public class VoidConcentrationBlackhole : ModProjectile
     {
         private int damage = 0;
 

@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -165,6 +166,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
             if (Projectile.owner == Main.myPlayer)
             {
                 int blobCount = Projectile.Calamity().stealthStrike ? 4 : 2;
@@ -179,6 +181,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
             if (Projectile.owner == Main.myPlayer)
             {
                 int blobCount = Projectile.Calamity().stealthStrike ? 4 : 2;

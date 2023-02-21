@@ -11,8 +11,31 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class AstralProbeSummon : ModProjectile
     {
-        private double rotation = 0;
-        private double rotationVariation = 0;
+        public Player Owner => Main.player[Projectile.owner];
+
+        public CalamityPlayer moddedOwner => Owner.Calamity();
+
+        public ref float AITimer => ref Projectile.ai[0];
+
+        public ref float TimerForShooting => ref Projectile.ai[1];
+
+        public int ProbeIndex;
+
+        public bool CheckForSpawning = false;
+
+        public float ProbePositionAngle // Calculates where each minion should be placed.
+        {
+            get
+            {
+                float probeCount = Owner.ownedProjectileCounts[Type];
+                if (probeCount <= 1f)
+                    probeCount = 1f;
+
+                return MathHelper.TwoPi * ProbeIndex / probeCount + AITimer * 0.025f;
+                // "MathHelper.TwoPi / ProbeIndex * probeCount"s the position itself.
+                // "AITimer * [Modifier]"s how fast it spins.
+            }
+        }
 
         public override void SetStaticDefaults()
         {
@@ -23,101 +46,112 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 22;
-            Projectile.height = 22;
-            Projectile.ignoreWater = true;
             Projectile.minionSlots = 1f;
-            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+
+            Projectile.width = 36;
+            Projectile.height = 30;
+
+            Projectile.DamageType = DamageClass.Summon;
+            Projectile.netImportant = true;
+            Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.friendly = true;
-            Projectile.timeLeft *= 5;
-            Projectile.penetrate = -1;
             Projectile.minion = true;
-            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            Player player = Main.player[Projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
-            if (Projectile.localAI[0] == 0f)
-            {
-                rotationVariation = Main.rand.NextDouble() * 0.015;
+            NPC target = Projectile.Center.MinionHoming(2500f, Owner); // Detects a target at a certain distance.
+            
+            Vector2 idleDestination = Owner.Center + ProbePositionAngle.ToRotationVector2() * 150f;
+            Projectile.Center = Vector2.Lerp(Projectile.Center, idleDestination, 0.15f);
+            AITimer++;
+            // Makes the projectile be around the player and evenly spaced-out from eachother.
 
-                int dustAmt = 36;
+            CheckMinionExistince(); // Checks if the minion can still exist.
+            SpawnEffect(); // Makes a dust spawn effect where the minion spawns.
+            LookInCorrectDirection(target); // Looks at the target.
+            ShootTarget(target); // Shoots at the target if there's one
+        }
+
+        #region Methods
+
+        public void CheckMinionExistince()
+        {
+            Owner.AddBuff(ModContent.BuffType<AstralProbeBuff>(), 3600);
+            if (Projectile.type == ModContent.ProjectileType<AstralProbeSummon>())
+            {
+                if (Owner.dead)
+                    moddedOwner.astralProbe = false;
+                if (moddedOwner.astralProbe)
+                    Projectile.timeLeft = 2;
+            }
+        }
+
+        public void SpawnEffect()
+        {
+            if (CheckForSpawning == false)
+            {
+                int dustAmt = 120;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
                 {
-                    Vector2 dustSource = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                    dustSource = dustSource.RotatedBy((double)((float)(dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
-                    Vector2 dustVel = dustSource - Projectile.Center;
-                    int astral = Dust.NewDust(dustSource + dustVel, 0, 0, (Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>()), dustVel.X * 1.75f, dustVel.Y * 1.75f, 100, default, 1.1f);
-                    Main.dust[astral].noGravity = true;
-                    Main.dust[astral].velocity = dustVel;
-                }
-                Projectile.localAI[0] += 1f;
-            }
-            bool correctMinion = Projectile.type == ModContent.ProjectileType<AstralProbeSummon>();
-            player.AddBuff(ModContent.BuffType<AstralProbeBuff>(), 3600);
-            if (correctMinion)
-            {
-                if (player.dead)
-                {
-                    modPlayer.aProbe = false;
-                }
-                if (modPlayer.aProbe)
-                {
-                    Projectile.timeLeft = 2;
-                }
-            }
-            NPC target = Projectile.Center.MinionHoming(1000f, player, true, true);
-            Vector2 vector = player.Center - Projectile.Center;
-            if (target != null)
-            {
-                Projectile.spriteDirection = Projectile.direction = ((target.Center.X - Projectile.Center.X) > 0).ToDirectionInt();
-                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(target.Center) + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi), 0.1f);
-            }
-            else
-            {
-                Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
-                Projectile.rotation = Projectile.rotation.AngleLerp(vector.ToRotation() - (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi * Projectile.direction), 0.1f);
-            }
-            Projectile.Center = player.Center + new Vector2(80, 0).RotatedBy(rotation);
-            rotation += 0.03 + rotationVariation;
-            if (rotation >= 360)
-            {
-                rotation = 0;
-            }
-            Projectile.velocity.X = (vector.X > 0f) ? -0.000001f : 0f;
+                    float angle = MathHelper.TwoPi / dustAmt * dustIndex;
+                    Vector2 velocity = angle.ToRotationVector2() * 10f;
+                    int randomDust = Utils.SelectRandom(Main.rand, new int[]
+                    {
+                        ModContent.DustType<AstralOrange>(),
+                        ModContent.DustType<AstralBlue>()
+                    });
 
-            if (Projectile.ai[1] > 0f)
-            {
-                Projectile.ai[1] += (float)Main.rand.Next(1, 3);
+                    Dust spawnDust = Dust.NewDustPerfect(Projectile.Center, randomDust, velocity);
+                    spawnDust.customData = false;
+                    spawnDust.noGravity = true;
+                    spawnDust.velocity *= 0.3f;
+                    spawnDust.scale = velocity.Length() * 0.1f;
+                }
+                CheckForSpawning = true;
             }
-            if (Projectile.ai[1] > 80f)
-            {
-                Projectile.ai[1] = 0f;
-                Projectile.netUpdate = true;
-            }
-            float speedMult = 6f;
-            int projType = ModContent.ProjectileType<AstralProbeRound>();
-            if (target != null && Projectile.ai[1] == 0f)
-            {
-                SoundEngine.PlaySound(SoundID.Item12 with { Volume = SoundID.Item12.Volume * 0.5f }, Projectile.position);
-                Projectile.ai[1] += 1f;
-                if (Main.myPlayer == Projectile.owner)
-                {
-                    Vector2 velocity = target.Center - Projectile.Center;
-                    velocity.Normalize();
-                    velocity *= speedMult;
-                    int round = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, 0f, Projectile.owner, target.whoAmI, 0f);
-                    if (Main.projectile.IndexInRange(round))
-                        Main.projectile[round].originalDamage = Projectile.originalDamage;
+        }
 
+        public void LookInCorrectDirection(NPC target) // I feel really fucking proud of how organized I made it. ~Memes
+        {
+            Vector2 lookHere = (target is not null) ? target.Center : Main.MouseWorld; // Looks at the mouse if there's no enemy, if there is one, it'll look at the enemy.
+            int direction = (lookHere.X - Projectile.Center.X > 0).ToDirectionInt(); // If the target is at it's right, look at the right, if not, at it's left.
+            float rotation = (lookHere - Projectile.Center).ToRotation(); // Points directly at the target.
+
+            Projectile.spriteDirection = direction;
+            Projectile.rotation = (direction == -1) ? rotation + MathHelper.Pi : rotation;
+            // When the target is at the left, the sprite will flip, but not the rotation, meaning it'll be looking in the opposite direction, so we rotate it 180º degrees if so.
+
+            Projectile.netUpdate = true;
+        }
+
+        public void ShootTarget(NPC target)
+        {
+            if (target != null && Main.myPlayer == Projectile.owner)
+            {
+                if (TimerForShooting == 80f)
+                {
+                    Vector2 velocity = CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, target, 35f);
+                    
+                    int laser = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AstralProbeRound>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    if (Main.projectile.IndexInRange(laser))
+                        Main.projectile[laser].originalDamage = Projectile.originalDamage;
+
+                    SoundEngine.PlaySound(SoundID.Item12 with { Volume = SoundID.Item12.Volume * 0.5f, PitchVariance = 1f }, Projectile.position);
+
+                    TimerForShooting = 0f; 
                     Projectile.netUpdate = true;
                 }
+                
+                if (TimerForShooting < 80f)
+                    TimerForShooting++;
             }
         }
 
         public override bool? CanDamage() => false;
+
+        #endregion
     }
 }

@@ -96,8 +96,6 @@ namespace CalamityMod.Projectiles.Magic
         {
             Projectile.penetrate++;
             target.AddBuff(BuffID.Daybreak, 300);
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(BuffID.Frostburn, 300);
         }
 
         public override bool PreDraw(ref Color lightColor)

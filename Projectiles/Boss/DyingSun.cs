@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -9,7 +10,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
     public class DyingSun : ModProjectile
-    {
+    {        
         public PrimitiveTrail FireDrawer;
         public ref float Time => ref Projectile.ai[0];
         public ref float Radius => ref Projectile.ai[1];
@@ -44,7 +45,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public Color SunColorFunction(float completionRatio)
         {
-            Color sunColor = Main.dayTime ? Color.Yellow : Color.Cyan;
+            Color sunColor = CalamityWorld.getFixedBoi ? (new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) * 0.8f) : (Main.dayTime ? Color.Yellow : Color.Cyan);
             return Color.Lerp(sunColor, Color.White, (float)Math.Sin(MathHelper.Pi * completionRatio) * 0.5f + 0.3f) * Projectile.Opacity;
         }
 

@@ -1,6 +1,10 @@
-﻿using CalamityMod.Items.Materials;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.Rarities;
+using CalamityMod.World;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -42,6 +46,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.rare = ModContent.RarityType<Turquoise>();
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            Player player = Main.LocalPlayer;
+            TooltipLine line3 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (CalamityWorld.getFixedBoi)
+            {
+                line3.Text = "May be viable weapon against DoG...";
+            }
+            else
+            {
+                line3.Text = "Someone thought this was a viable weapon against DoG at one point lol";
+            }
         }
 
         public override void AddRecipes()

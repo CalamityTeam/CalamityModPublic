@@ -12,15 +12,15 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deep Wounder");
-            Tooltip.SetDefault("Throws an abyssal hatchet that inflicts Armor Crunch and Marked for Death to the enemies it hits\n" +
-                "Stealth strikes cause the hatchet to be thrown faster and trail water, inflicting Crush Depth in addition to the other debuffs");
+            Tooltip.SetDefault("Throws an abyssal hatchet that inflicts Armor Crunch and Crush Depth to the enemies it hits\n" +
+                "Stealth strikes cause the hatchet to be thrown faster and trail water, inflicting Marked for Death in addition to the other debuffs");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
             Item.width = 52;
-            Item.damage = 106;
+            Item.damage = 136;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = 23;
@@ -32,13 +32,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.height = 48;
             Item.maxStack = 1;
             Item.rare = ItemRarityID.Lime;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.shoot = ModContent.ProjectileType<DeepWounderProjectile>();
             Item.shootSpeed = 14f;
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override float StealthVelocityMultiplier => 1.5f;
+        public override float StealthVelocityMultiplier => 1.1f;
+        public override float StealthDamageMultiplier => 3f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

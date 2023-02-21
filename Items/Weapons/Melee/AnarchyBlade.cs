@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.width = 94;
+            Item.width = 114;
             Item.damage = BaseDamage;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 19;
@@ -36,8 +36,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 7.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 100;
-            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.height = 122;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
         }
 
@@ -88,9 +88,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.BrokenHeroSword).
+                AddIngredient(ItemID.BreakerBlade).
                 AddIngredient<UnholyCore>(5).
-                AddIngredient<CoreofChaos>(3).
+                AddIngredient<CoreofHavoc>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

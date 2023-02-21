@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 6f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<BrimlashProj>();
             Item.shootSpeed = 10f;
@@ -57,9 +57,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UnholyCore>(4).
-                AddIngredient<EssenceofChaos>(3).
                 AddIngredient<AshesofCalamity>(12).
+                AddIngredient<UnholyCore>(4).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

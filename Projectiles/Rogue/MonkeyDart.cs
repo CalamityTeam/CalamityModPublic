@@ -51,12 +51,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            //Add the venom debuff
-            target.AddBuff(BuffID.Venom, 180);
-        }
-
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
@@ -67,12 +61,6 @@ namespace CalamityMod.Projectiles.Rogue
                 int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 1, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 100, default, 0.9f);
                 Main.dust[d].position = Projectile.Center;
                 dustsplash += 1;
-            }
-
-            //Randomly not consume item if it wasnt a stealth strike
-            if (Main.rand.Next(4) == 0 && Projectile.ai[0] != 1)
-            {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, 27, 27, ModContent.ItemType<MonkeyDarts>());
             }
         }
 

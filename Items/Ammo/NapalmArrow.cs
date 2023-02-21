@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            Item.damage = 12;
+            Item.damage = 11;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 22;
             Item.height = 36;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Ammo
         {
             CreateRecipe(250).
                 AddIngredient(ItemID.WoodenArrow, 250).
-                AddIngredient<EssenceofChaos>().
+                AddIngredient<EssenceofHavoc>().
                 AddIngredient(ItemID.Torch).
                 AddTile(TileID.Anvils).
                 Register();

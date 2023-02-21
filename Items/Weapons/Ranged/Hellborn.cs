@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Hellborn : ModItem
     {
-        public const float ExplosionDamageMultiplier = 5f;
+        public const float ExplosionDamageMultiplier = 3f;
 
         public override void SetStaticDefaults()
         {
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 7;
+            Item.damage = 20;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 66;
             Item.height = 34;
@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             float num52 = 4f;
             Vector2 value3 = (target.rotation - MathHelper.PiOver2).ToRotationVector2();
             Vector2 value4 = value3 * target.velocity.Length();
-            SoundEngine.PlaySound(SoundID.Item14, target.position);
+            SoundEngine.PlaySound(SoundID.Item14, target.Center);
             for (int num53 = 0; num53 < 80; num53++)
             {
                 int num54 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 174, 0f, 0f, 200, default, num50);
@@ -129,12 +129,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 360);
+            target.AddBuff(BuffID.OnFire3, 360);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 360);
+            target.AddBuff(BuffID.OnFire3, 360);
         }
     }
 }

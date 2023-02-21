@@ -23,14 +23,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.damage = 34;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 16;
+            Item.useAnimation = Item.useTime = 8;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 16;
             Item.knockBack = 4.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 34;
-            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<CursedDaggerProj>();
             Item.shootSpeed = 12f;

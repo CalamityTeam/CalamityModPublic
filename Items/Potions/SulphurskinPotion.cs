@@ -39,7 +39,6 @@ namespace CalamityMod.Items.Potions
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<SulphurousSand>(15).
-                AddIngredient<UrchinStinger>(15).
                 AddTile(TileID.Bottles).
                 Register();
 

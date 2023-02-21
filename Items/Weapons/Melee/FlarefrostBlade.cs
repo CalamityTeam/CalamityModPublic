@@ -21,19 +21,20 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.width = 64;
             Item.damage = 95;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 24;
-            Item.useTime = 24;
+            Item.useAnimation = Item.useTime = 36;
             Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 6.25f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 66;
-            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<Flarefrost>();
             Item.shootSpeed = 11f;
         }
+
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) => damage = (int)(damage * 0.6);
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {

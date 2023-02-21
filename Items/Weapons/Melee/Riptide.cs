@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Riptide");
-            Tooltip.SetDefault("Sprays a spiral of aqua streams in random directions\n" +
+            Tooltip.SetDefault("Sprays a spiral of aqua streams\n" +
             "A very agile yoyo");
             ItemID.Sets.Yoyo[Item.type] = true;
             ItemID.Sets.GamepadExtraRange[Item.type] = 15;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.width = 30;
             Item.height = 44;
             Item.DamageType = DamageClass.MeleeNoSpeed;
-            Item.damage = 16;
+            Item.damage = 12;
             Item.knockBack = 1f;
             Item.useTime = 25;
             Item.useAnimation = 25;

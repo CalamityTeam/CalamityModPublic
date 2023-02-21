@@ -54,13 +54,13 @@ namespace CalamityMod.Tiles.AstralDesert
                 }
             }
             // CustomTileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>());
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>());
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false);
             return false;
         }
 
         public override bool HasWalkDust()
         {
-            return Main.rand.Next(3) == 0;
+            return Main.rand.NextBool(3);
         }
 
         public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)

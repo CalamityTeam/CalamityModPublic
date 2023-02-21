@@ -152,9 +152,11 @@ namespace CalamityMod
         /// <param name="projectile">The projectile that should home.</param>
         /// <param name="target">The target.</param>
         /// <param name="inertia">The inertia of the movement change.</param>
-        public static Vector2 SuperhomeTowardsTarget(this Projectile projectile, NPC target, float homingSpeed, float inertia)
+        /// <param name="predictionStrength">The ratio for how much the projectile aims ahead of the target. 1f is normal predictiveness. 0.01f is the lowest possible value, equating to no practical predictiveness.</param>
+        public static Vector2 SuperhomeTowardsTarget(this Projectile projectile, NPC target, float homingSpeed, float inertia, float predictionStrength = 1f)
         {
-            Vector2 idealVelocity = CalculatePredictiveAimToTarget(projectile.Center, target, homingSpeed);
+            if (predictionStrength < 0.01f) { predictionStrength = 0.01f; }
+            Vector2 idealVelocity = CalculatePredictiveAimToTarget(projectile.Center, target, homingSpeed/predictionStrength) * predictionStrength;
             return (projectile.velocity * (inertia - 1f) + idealVelocity) / inertia;
         }
         #endregion
@@ -237,10 +239,10 @@ namespace CalamityMod
         public static void MagnetSphereHitscan(Projectile projectile, float distanceRequired, float homingVelocity, float projectileTimer, int maxTargets, int spawnedProjectile, double damageMult = 1D, bool attackMultiple = false)
         {
             // Only shoot once every N frames.
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > projectileTimer)
+            projectile.localAI[1] += 1f;
+            if (projectile.localAI[1] > projectileTimer)
             {
-                projectile.localAI[0] = 0f;
+                projectile.localAI[1] = 0f;
 
                 // Only search for targets if projectiles could be fired.
                 float maxDistance = distanceRequired;
@@ -278,7 +280,7 @@ namespace CalamityMod
                     int randomTarget = Main.rand.Next(targetArrayIndex);
                     randomTarget = targetArray[randomTarget];
 
-                    projectile.localAI[0] = 0f;
+                    projectile.localAI[1] = 0f;
                     Vector2 spawnPos = projectile.Center + projectile.velocity * 4f;
                     Vector2 velocity = Vector2.Normalize(Main.npc[randomTarget].Center - spawnPos) * homingVelocity;
 
@@ -503,6 +505,37 @@ namespace CalamityMod
                 }
             }
             return false;
+        }
+
+        public static void DrawBackglow(this Projectile projectile, Color backglowColor, float backglowArea, Texture2D? texture = null, Rectangle? frame = null)
+        {
+            texture ??= TextureAssets.Projectile[projectile.type].Value;
+
+            // Use a fallback for the frame.
+            frame ??= texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+
+            Vector2 drawPosition = projectile.Center - Main.screenPosition;
+            Vector2 origin = frame.Value.Size() * 0.5f;
+            Color backAfterimageColor = backglowColor * projectile.Opacity;
+            for (int i = 0; i < 10; i++)
+            {
+                Vector2 drawOffset = (MathHelper.TwoPi * i / 10f).ToRotationVector2() * backglowArea;
+                Main.spriteBatch.Draw(texture, drawPosition + drawOffset, frame, backAfterimageColor, projectile.rotation, origin, projectile.scale, 0, 0f);
+            }
+        }
+
+        public static void DrawProjectileWithBackglow(this Projectile projectile, Color backglowColor, Color lightColor, float backglowArea, Texture2D? texture = null, Rectangle? frame = null)
+        {
+            texture ??= TextureAssets.Projectile[projectile.type].Value;
+
+            // Use a fallback for the frame.
+            frame ??= texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+
+            Vector2 drawPosition = projectile.Center - Main.screenPosition;
+            Vector2 origin = frame.Value.Size() * 0.5f;
+
+            projectile.DrawBackglow(backglowColor, backglowArea, texture, frame);
+            Main.spriteBatch.Draw(texture, drawPosition, frame, projectile.GetAlpha(lightColor), projectile.rotation, origin, projectile.scale, 0, 0f);
         }
 
         public static void ExplodeandDestroyTiles(Projectile projectile, int explosionRadius, bool checkExplosions, List<int> tilesToCheck, List<int> wallsToCheck)

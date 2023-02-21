@@ -55,8 +55,6 @@ namespace CalamityMod.Items.Weapons.Summon
             CreateRecipe().
                 AddIngredient<TundraFlameBlossomsStaff>().
                 AddIngredient<PlagueCellCanister>(15).
-                AddIngredient<CoreofCalamity>(5).
-                AddIngredient<LifeAlloy>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

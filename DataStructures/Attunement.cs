@@ -683,8 +683,8 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Phoenix;
             name = "Phoenix's Pride";
-            function_description = "Hold the attack button to swing Galaxia around you, accelerating over time. The swirling nebula constantly emits homing cosmic bolts";
-            function_description_extra = "Releasing the attack button hurls the sword towards your cursor alongside a burst of 6 gigantic cosmic bolts. The sword then quickly returns to your hand";
+            function_description = "Hold left click to swing Galaxia around you, accelerating over time\nThe swirling nebula constantly emits homing cosmic bolts";
+            function_description_extra = "Release left click to hurl Galaxia toward the cursor alongside 6 gigantic cosmic bolts";
             tooltipColor = new Color(255, 87, 0);
             tooltipColor2 = new Color(255, 143, 0);
 
@@ -723,7 +723,7 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Aries;
             name = "Aries' Wrath";
-            function_description = "Throw Galaxia to your cursor, holding it in place with constellations. Galaxia follows your cursor, rapidly spinning to shred enemies";
+            function_description = "Throw Galaxia to your cursor, holding it in place with constellations\nGalaxia follows your cursor, rapidly spinning to shred enemies";
             function_description_extra = "Striking enemies causes nebulous explosions which spawn homing cosmic bolts";
             tooltipColor = new Color(196, 89, 201);
             tooltipColor2 = new Color(255, 0, 0);
@@ -762,8 +762,8 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Polaris;
             name = "Polaris' Gaze"; //It carries the mark of the Northern Star
-            function_description = "Hold the attack button to channel the Northern Star's power into a tight vortex of galactic energies, bound by concentric rings of stars.\nThe vortex powers up over time and when hitting enemies";
-            function_description_extra = "Release the attack button to fire off the charged star. Attacking again immediately thereafter dashes to the star, emitting a nova of cosmic bolts";
+            function_description = "Hold left click to channel Galaxia's power into a tight vortex of galactic energies\nThe vortex powers up over time and when hitting enemies";
+            function_description_extra = "Release left click to fire off the charged star in straight line\nPress left click again immediately to dash towards the star and release cosmic bolts";
             tooltipColor = new Color(128, 189, 255);
             tooltipColor2 = new Color(255, 128, 140);
 
@@ -800,9 +800,9 @@ namespace CalamityMod.DataStructures
         public AndromedaAttunement()
         {
             id = AttunementID.Andromeda;
-            name = "Andromeda's Stride"; //EHEEHEHEHE GOD ERASING BECAUSE THE ANDROMEDA BOSS WAS SCRAPPED (ALSO KNOWN AS A "GOD" BEING "ERASED") EHEHEHE
-            function_description = "Hold the attack button to charge a god-erasing lunge, release to unleash the devastating blow. Galaxia emits cosmic bolts while charging";
-            function_description_extra = "Striking the earth with the lunge will cause a massive impact which summons an apocalyptic storm of cosmic energies";
+            name = "Andromeda's Stride";
+            function_description = "Hold left click to charge a god-erasing lunge, release to unleash the devastating blow\nGalaxia emits cosmic bolts while charging";
+            function_description_extra = "Lunging into the ground will cause a shockwave which summons a storm of cosmic energies";
             tooltipColor = new Color(132, 128, 255);
             tooltipColor2 = new Color(194, 166, 255);
 

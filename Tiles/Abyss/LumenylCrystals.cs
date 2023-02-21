@@ -38,35 +38,44 @@ namespace CalamityMod.Tiles.Abyss
 
         public override bool CanPlace(int i, int j)
         {
-            if (Main.tile[i, j + 1].Slope == 0 && !Main.tile[i, j + 1].IsHalfBlock)
+            Tile belowTile = Main.tile[i, j + 1];
+            Tile aboveTile = Main.tile[i, j - 1];
+            Tile rightTile = Main.tile[i + 1, j];
+            Tile leftTile = Main.tile[i - 1, j];
+
+            if ((belowTile.Slope == SlopeType.Solid && !belowTile.IsHalfBlock && belowTile.HasTile && belowTile.IsTileSolid()) ||
+            (aboveTile.Slope == SlopeType.Solid && !aboveTile.IsHalfBlock && aboveTile.HasTile && aboveTile.IsTileSolid()) ||
+            (rightTile.Slope == SlopeType.Solid && !rightTile.IsHalfBlock && rightTile.HasTile && rightTile.IsTileSolid()) ||
+            (leftTile.Slope == SlopeType.Solid && !leftTile.IsHalfBlock && leftTile.HasTile && leftTile.IsTileSolid()))
                 return true;
-            if (Main.tile[i, j - 1].Slope == 0 && !Main.tile[i, j - 1].IsHalfBlock)
-                return true;
-            if (Main.tile[i + 1, j].Slope == 0 && !Main.tile[i + 1, j].IsHalfBlock)
-                return true;
-            if (Main.tile[i - 1, j].Slope == 0 && !Main.tile[i - 1, j].IsHalfBlock)
-                return true;
+
             return false;
         }
 
         public override void PlaceInWorld(int i, int j, Item item)
         {
-            if (Main.tile[i, j + 1].HasTile && Main.tileSolid[Main.tile[i, j + 1].TileType] && Main.tile[i, j + 1].Slope == 0 && !Main.tile[i, j + 1].IsHalfBlock)
+            Tile belowTile = Main.tile[i, j + 1];
+            Tile aboveTile = Main.tile[i, j - 1];
+            Tile rightTile = Main.tile[i + 1, j];
+            Tile leftTile = Main.tile[i - 1, j];
+
+            if (belowTile.Slope == SlopeType.Solid && !belowTile.IsHalfBlock && belowTile.HasTile && belowTile.IsTileSolid())
             {
-                Main.tile[i, j].TileFrameY = (short)(0 * 18);
+                Main.tile[i, j].TileFrameY = 0;
             }
-            else if (Main.tile[i, j - 1].HasTile && Main.tileSolid[Main.tile[i, j - 1].TileType] && Main.tile[i, j - 1].Slope == 0 && !Main.tile[i, j - 1].IsHalfBlock)
+            else if (aboveTile.Slope == SlopeType.Solid && !aboveTile.IsHalfBlock && aboveTile.HasTile && aboveTile.IsTileSolid())
             {
-                Main.tile[i, j].TileFrameY = (short)(1 * 18);
+                Main.tile[i, j].TileFrameY = 18;
             }
-            else if (Main.tile[i + 1, j].HasTile && Main.tileSolid[Main.tile[i + 1, j].TileType] && Main.tile[i + 1, j].Slope == 0 && !Main.tile[i + 1, j].IsHalfBlock)
+            else if (rightTile.Slope == SlopeType.Solid && !rightTile.IsHalfBlock && rightTile.HasTile && rightTile.IsTileSolid())
             {
-                Main.tile[i, j].TileFrameY = (short)(2 * 18);
+                Main.tile[i, j].TileFrameY = 36;
             }
-            else if (Main.tile[i - 1, j].HasTile && Main.tileSolid[Main.tile[i - 1, j].TileType] && Main.tile[i - 1, j].Slope == 0 && !Main.tile[i - 1, j].IsHalfBlock)
+            else if (leftTile.Slope == SlopeType.Solid && !leftTile.IsHalfBlock && leftTile.HasTile && leftTile.IsTileSolid())
             {
-                Main.tile[i, j].TileFrameY = (short)(3 * 18);
+                Main.tile[i, j].TileFrameY = 54;
             }
+            
             Main.tile[i, j].TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
         }
     }

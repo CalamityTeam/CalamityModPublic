@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             NPC.damage = 20;
-            NPC.aiStyle = 3;
+            NPC.aiStyle = NPCAIStyleID.Fighter;
             NPC.width = 33;
             NPC.height = 31;
             NPC.defense = 8;
@@ -103,6 +103,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npcLoot.Add(ModContent.ItemType<StormlionMandible>());
             npcLoot.Add(ModContent.ItemType<StormjawStaff>(), 5);
+            npcLoot.Add(ItemID.ThunderSpear, 25);
+            npcLoot.Add(ItemID.ThunderStaff, 25);
         }
     }
 }

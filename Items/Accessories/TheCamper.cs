@@ -40,9 +40,24 @@ namespace CalamityMod.Items.Accessories
             var source = player.GetSource_Accessory(Item);
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.camper = true;
-            player.AddBuff(BuffID.HeartLamp, 60, true);
-            player.AddBuff(BuffID.Campfire, 60, true);
-            player.AddBuff(BuffID.WellFed, 60, true);
+            player.AddBuff(BuffID.HeartLamp, 60);
+            Main.SceneMetrics.HasHeartLantern = true;
+            player.AddBuff(BuffID.Campfire, 60);
+            Main.SceneMetrics.HasCampfire = true;
+
+            // Only hand out the buff if the player is not already fully fed. This prevents the player from being robbed of food.
+            if (!player.HasBuff(BuffID.WellFed3))
+                player.AddBuff(BuffID.WellFed3, 80);
+            else
+            {
+                // Prevent it from flickering
+                for (int l = 0; l < Player.MaxBuffs; l++)
+                {
+                    if (player.buffType[l] == BuffID.WellFed3 && player.buffTime[l] < 80)
+                        player.buffTime[l] = 80;
+                }
+            }
+            
             Lighting.AddLight(player.Center, 0.825f, 0.66f, 0f);
             if (Main.myPlayer == player.whoAmI)
             {
@@ -60,11 +75,7 @@ namespace CalamityMod.Items.Accessories
                             if (npc.active && !npc.friendly && npc.damage > -1 && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= range)
                             {
                                 int campingFireDamage = (int)player.GetBestClassDamage().ApplyTo(Main.rand.Next(20, 41));
-                                Projectile p = Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), campingFireDamage, 0f, player.whoAmI, i);
-                                if (!npc.buffImmune[BuffID.OnFire])
-                                {
-                                    npc.AddBuff(BuffID.OnFire, 120);
-                                }
+                                Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), campingFireDamage, 0f, player.whoAmI, i);
                             }
                         }
                     }

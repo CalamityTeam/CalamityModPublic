@@ -25,6 +25,8 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Magic;
             AIType = ProjectileID.CrystalVileShardHead;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 12;
         }
 
         public override void AI()
@@ -45,13 +47,13 @@ namespace CalamityMod.Projectiles.Magic
                     if (Main.myPlayer == Projectile.owner)
                     {
                         int projType = Projectile.type;
-                        if (Projectile.ai[1] >= (float)(12 + Main.rand.Next(2)))
+                        if (Projectile.ai[1] >= 20f)
                         {
                             projType = ModContent.ProjectileType<AtlantisSpear2>();
                         }
                         int dmg = Projectile.damage;
                         float kBack = Projectile.knockBack;
-                        int number = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X + Projectile.velocity.X + (float)(Projectile.width / 2), Projectile.position.Y + Projectile.velocity.Y + (float)(Projectile.height / 2), Projectile.velocity.X, Projectile.velocity.Y, projType, dmg, kBack, Projectile.owner, 0f, Projectile.ai[1] + 1f);
+                        int number = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity, Projectile.velocity, projType, dmg, kBack, Projectile.owner, 0f, Projectile.ai[1] + 1f);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, number, 0f, 0f, 0f, 0, 0, 0);
                     }
                 }
@@ -80,11 +82,6 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, Projectile.alpha);
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.immune[Projectile.owner] = 6;
-        }
 
         public override void Kill(int timeLeft)
         {

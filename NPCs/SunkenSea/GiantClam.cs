@@ -94,6 +94,8 @@ namespace CalamityMod.NPCs.SunkenSea
             writer.Write(hasBeenHit);
             writer.Write(statChange);
             writer.Write(hide);
+            for (int i = 0; i < 2; i++)
+                writer.Write(NPC.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -106,12 +108,15 @@ namespace CalamityMod.NPCs.SunkenSea
             hasBeenHit = reader.ReadBoolean();
             statChange = reader.ReadBoolean();
             hide = reader.ReadBoolean();
+            for (int i = 0; i < 2; i++)
+                NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
 
         public override void AI()
         {
             NPC.TargetClosest(true);
             Player player = Main.player[NPC.target];
+            CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();
             if (NPC.justHit && hitAmount < 5)
             {
                 ++hitAmount;
@@ -276,6 +281,70 @@ namespace CalamityMod.NPCs.SunkenSea
                     }
                 }
 
+                // Gains Calamitas' bullet hells in the zenith seed
+                if (CalamityWorld.getFixedBoi)
+                {
+                    calamityGlobalNPC.newAI[0] += 1f;
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        calamityGlobalNPC.newAI[0]++;
+                        if (Main.hardMode)
+                        {
+                            int type = ModContent.ProjectileType<PearlBurst>();
+                            int damage = Main.expertMode ? 28 : 35;
+                            float speedPearlFrequency = 180;
+                            float projSpeed = 3f;
+                            if (calamityGlobalNPC.newAI[0] <= 300f)
+                            {
+                                if (calamityGlobalNPC.newAI[0] % speedPearlFrequency == 0f) // Pearls from top
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, projSpeed, type, damage, 0f, Main.myPlayer, 1f);
+                            }
+                            else if (calamityGlobalNPC.newAI[0] <= 600f && calamityGlobalNPC.newAI[0] > 300f)
+                            {
+                                if (calamityGlobalNPC.newAI[0] % speedPearlFrequency == 0f) // Pearls from right
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -projSpeed, 0f, type, damage, 0f, Main.myPlayer, 1f);
+                            }
+                            else if (calamityGlobalNPC.newAI[0] > 600f)
+                            {
+                                if (calamityGlobalNPC.newAI[0] % speedPearlFrequency == 0f) // Pearls from top
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, projSpeed, type, damage, 0f, Main.myPlayer, 1f);
+                            }
+                        }
+
+                        calamityGlobalNPC.newAI[1] += 1f;
+                        float pearlGateValue = 60;
+                        if (calamityGlobalNPC.newAI[1] >= pearlGateValue)
+                        {
+                            calamityGlobalNPC.newAI[1] = 0f;
+                            int type = ModContent.ProjectileType<PearlRain>();
+                            int damage = Main.expertMode ? 28 : 35;
+                            float projSpeed = 4f;
+                            if (calamityGlobalNPC.newAI[0] % (pearlGateValue * 6f) == 0f)
+                            {
+                                float distance = Main.rand.NextBool() ? -1000f : 1000f;
+                                float velocity = distance == -1000f ? projSpeed : -projSpeed;
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, type, damage, 0f, Main.myPlayer, 1f);
+                            }
+                            if (calamityGlobalNPC.newAI[0] < 300f) // Pearls from above
+                            {
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, projSpeed, type, damage, 0f, Main.myPlayer, 1f);
+                            }
+                            else if (calamityGlobalNPC.newAI[0] < 600f) // Pearls from left and right
+                            {
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -(projSpeed - 0.5f), 0f, type, damage, 0f, Main.myPlayer, 1f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), projSpeed - 0.5f, 0f, type, damage, 0f, Main.myPlayer, 1f);
+                            }
+                            else // Pearls from above, left, and right
+                            {
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, projSpeed - 1f, type, damage, 0f, Main.myPlayer, 1f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -(projSpeed - 1f), 0f, type, damage, 0f, Main.myPlayer, 1f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), projSpeed - 1f, 0f, type, damage, 0f, Main.myPlayer, 1f);
+                            }
+                        }
+                    }
+                }
+
                 if (NPC.ai[3] < 180f && Main.hardMode)
                 {
                     NPC.ai[3] += 1f;
@@ -390,6 +459,21 @@ namespace CalamityMod.NPCs.SunkenSea
             return 0f;
         }
 
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (CalamityWorld.getFixedBoi)
+            {
+                if (Main.hardMode)
+                {
+                    typeName = "Supreme Clamitas";
+                }
+                else
+                {
+                    typeName = "Clamitas";
+                }
+            }
+        }
+
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
@@ -466,6 +550,11 @@ namespace CalamityMod.NPCs.SunkenSea
             };
             hardmode.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
+            // Pearls
+            npcLoot.Add(ItemID.WhitePearl, 2);
+            npcLoot.Add(ItemID.BlackPearl, 4);
+            npcLoot.Add(ItemID.PinkPearl, 10);
+
             // Equipment
             npcLoot.Add(ModContent.ItemType<GiantPearl>(), 3);
             npcLoot.Add(ModContent.ItemType<AmidiasPendant>(), 3);
@@ -474,7 +563,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npcLoot.Add(ModContent.ItemType<GiantClamTrophy>(), 10);
 
             // Relic
-            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<GiantClamRelic>(), 4);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<GiantClamRelic>());
         }
     }
 }

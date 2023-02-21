@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 64;
-            Item.damage = 200;
+            Item.damage = 188;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useTime = 3;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.height = 64;
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.shoot = ModContent.ProjectileType<ExecutionersBladeProj>();
-            Item.shootSpeed = 26f;
+            Item.shootSpeed = 24f;
             Item.DamageType = RogueDamageClass.Instance;
             Item.rare = ModContent.RarityType<DarkBlue>();
         }
@@ -48,8 +48,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/ExecutionersBladeGlow").Value);
         }
-
-        public override float StealthDamageMultiplier => 3.61f;
 		public override bool AdditionalStealthCheck() => counter == 0;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

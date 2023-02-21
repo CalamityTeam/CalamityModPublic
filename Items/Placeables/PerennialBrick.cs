@@ -27,17 +27,15 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(10).
+            CreateRecipe(50).
+                AddRecipeGroup("AnyStoneBlock", 50).
                 AddIngredient<PerennialOre>().
-                AddRecipeGroup("AnyStoneBlock").
                 AddTile(TileID.Furnaces).
                 Register();
-
             CreateRecipe().
                 AddIngredient<PerennialBrickWall>(4).
                 AddTile(TileID.WorkBenches).
                 Register();
-
             CreateRecipe().
                 AddIngredient<FloralWall>(4).
                 AddTile(TileID.WorkBenches).

@@ -131,8 +131,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 int disk = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerraDiskProjectile2>(), Projectile.damage / 4, Projectile.knockBack / 4f, Projectile.owner, Projectile.identity, Main.rand.NextFloat(0.02f, 0.1f));
                 Main.projectile[disk].timeLeft *= 2;
-                Main.projectile[disk].idStaticNPCHitCooldown = 8;
-                Main.projectile[disk].usesIDStaticNPCImmunity = true;
                 Main.projectile[disk].aiStyle = -1;
             }
         }
@@ -175,11 +173,10 @@ namespace CalamityMod.Projectiles.Rogue
                         double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 6f;
                         double offsetAngle;
-                        for (int i = 0; i < 3; i++)
+                        for (int i = 0; i < 6; i++)
                         {
-                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), splitProj, Projectile.damage / 2, Projectile.knockBack / 2f, Projectile.owner);
-                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), splitProj, Projectile.damage / 2, Projectile.knockBack / 2f, Projectile.owner);
+                            Vector2 velocity = ((MathHelper.TwoPi * i / 6f) - MathHelper.PiOver2).ToRotationVector2() * 6f;
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<TerraDiskProjectile2>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
                         }
                     }
                 }

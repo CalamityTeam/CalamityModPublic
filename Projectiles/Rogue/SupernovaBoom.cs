@@ -1,3 +1,4 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -84,12 +85,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.ExoDebuffs();
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.ExoDebuffs();
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
     }
 }

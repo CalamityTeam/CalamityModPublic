@@ -3,6 +3,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Projectiles.Rogue
 {
     public class MoltenBlobThrown : ModProjectile
@@ -63,6 +65,16 @@ namespace CalamityMod.Projectiles.Rogue
         public override Color? GetAlpha(Color lightColor)
         {
             return new Color(250, 150, 0, Projectile.alpha);
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
         }
 
         public override void Kill(int timeLeft)

@@ -2,7 +2,6 @@
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Enemy
@@ -37,15 +36,6 @@ namespace CalamityMod.Projectiles.Enemy
                 return;
 
             target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
-        }
-
-        public override bool PreDraw(ref Color lightColor)
-        {
-            lightColor.R = (byte)(200 * Projectile.Opacity);
-            lightColor.G = (byte)(150 * Projectile.Opacity);
-            lightColor.B = (byte)(100 * Projectile.Opacity);
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
-            return false;
         }
 
         public override void Kill(int timeLeft)

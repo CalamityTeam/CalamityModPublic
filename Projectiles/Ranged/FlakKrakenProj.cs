@@ -1,3 +1,4 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -27,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.ignoreWater = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 4;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -40,11 +41,13 @@ namespace CalamityMod.Projectiles.Ranged
                 return;
             }
 
-
             // This code uses player-specific fields (such as the mouse), and does not need to be run for anyone
             // other than its owner.
             if (Main.myPlayer != Projectile.owner)
                 return;
+
+            // This needs to happen retroactively due to Deadshot Brooch and other potential items boosting updates
+            Projectile.localNPCHitCooldown = 10 * Projectile.MaxUpdates;
 
             Projectile.rotation += 0.2f;
             if (Projectile.localAI[0] < 1f)
@@ -128,6 +131,10 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {

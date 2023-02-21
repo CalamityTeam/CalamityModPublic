@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -60,11 +60,6 @@ namespace CalamityMod.Projectiles.Magic
                 if (Projectile.frame >= 8)
                     Projectile.frame = 4;
             }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.Daybreak, 180);
         }
 
         public override bool PreDraw(ref Color lightColor)

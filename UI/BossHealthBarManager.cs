@@ -1,7 +1,7 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumDeus;
-using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CalClone;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
@@ -406,7 +406,7 @@ namespace CalamityMod.UI
             if (npc.type == NPCType<Artemis>())
                 canAddBar = false;
             if (npc.type == NPCType<Apollo>())
-                overridingName = $"{Artemis.NameToDisplay} and {Apollo.NameToDisplay}";
+                overridingName = npc.ModNPC<Apollo>().exoMechdusa ? "Eyes of XB-∞ Hekate" : "XS-01 Artemis and XS-03 Apollo";
 
             if (canAddBar)
                 Bars.Add(new BossHPUI(index, overridingName));

@@ -30,14 +30,14 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 8f;
-            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.autoReuse = true;
             Item.UseSound = SoundID.Item1;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 360);
+            target.AddBuff(BuffID.OnFire3, 360);
             int onHitDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
             player.ApplyDamageToNPC(target, onHitDamage, 0f, 0, false);
             float num50 = 1.7f;
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
             float num52 = 2f;
             Vector2 value3 = (target.rotation - 1.57079637f).ToRotationVector2();
             Vector2 value4 = value3 * target.velocity.Length();
-            SoundEngine.PlaySound(SoundID.Item14, target.position);
+            SoundEngine.PlaySound(SoundID.Item14, target.Center);
             int num3;
             for (int num53 = 0; num53 < 40; num53 = num3 + 1)
             {

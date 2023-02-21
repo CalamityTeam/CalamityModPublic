@@ -68,8 +68,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SoulofFright, 10).
                 AddRecipeGroup("AnyAdamantiteBar", 7).
+                AddIngredient(ItemID.SoulofFright, 10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

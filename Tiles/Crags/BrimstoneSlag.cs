@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.Crags
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithHell(Type);
-            CalamityUtils.SetMerge(Type, ModContent.TileType<CharredOre>());
+            CalamityUtils.SetMerge(Type, ModContent.TileType<InfernalSuevite>());
 
             HitSound = SoundID.Tink;
             MineResist = 3f;

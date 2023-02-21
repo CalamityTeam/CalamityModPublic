@@ -53,7 +53,7 @@ namespace CalamityMod.UI.SulphurousWaterMeter
             CalamityPlayer modPlayer = player.Calamity();
 
             // If not drawing the water meter, save its latest position to config and leave.
-            if (modPlayer.SulphWaterUIOpacity > 0f)
+            if (modPlayer.SulphWaterUIOpacity > 0f && (modPlayer.ZoneSulphur || player.Calamity().ZoneAbyssLayer1))
                 DrawWaterBar(spriteBatch, modPlayer, screenPos);
             else
             {

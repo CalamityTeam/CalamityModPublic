@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Accessories
             numBosses += NPC.downedMechBoss2.ToInt();
             numBosses += DownedBossSystem.downedBrimstoneElemental.ToInt();
             numBosses += NPC.downedMechBoss3.ToInt();
-            numBosses += DownedBossSystem.downedCalamitas.ToInt();
+            numBosses += DownedBossSystem.downedCalamitasClone.ToInt();
             numBosses += NPC.downedPlantBoss.ToInt(); // 20
             numBosses += DownedBossSystem.downedLeviathan.ToInt();
             numBosses += DownedBossSystem.downedAstrumAureus.ToInt();
@@ -89,7 +89,7 @@ namespace CalamityMod.Items.Accessories
             numBosses += DownedBossSystem.downedDoG.ToInt();
             numBosses += DownedBossSystem.downedYharon.ToInt(); // 40
             numBosses += DownedBossSystem.downedExoMechs.ToInt();
-            numBosses += DownedBossSystem.downedSCal.ToInt();
+            numBosses += DownedBossSystem.downedCalamitas.ToInt();
             return numBosses / (float)TotalCountedBosses;
         }
 

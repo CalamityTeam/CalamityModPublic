@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Healing
 {
-    class PhantomicHeart : ModProjectile
+    public class PhantomicHeart : ModProjectile
     {
         private int floatTimer = 0;
 

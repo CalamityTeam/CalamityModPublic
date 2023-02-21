@@ -55,11 +55,12 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             if (NPC.ai[2] > 0f)
                 NPC.realLife = (int)NPC.ai[2];
 
-            // Check if other segments are still alive, if not, die
+            // Check if other segments are still alive. If not, die.
             bool shouldDespawn = true;
+            int wyrmHeadID = ModContent.NPCType<AdultEidolonWyrmHead>();
             for (int i = 0; i < Main.maxNPCs; i++)
             {
-                if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<AdultEidolonWyrmHead>())
+                if (Main.npc[i].active && Main.npc[i].type == wyrmHeadID)
                 {
                     shouldDespawn = false;
                     break;
@@ -104,55 +105,38 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     NPC.Opacity = 0f;
             }
 
-            Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-            float num191 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
-            float num192 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2);
-            num191 = (int)(num191 / 16f) * 16;
-            num192 = (int)(num192 / 16f) * 16;
-            vector18.X = (int)(vector18.X / 16f) * 16;
-            vector18.Y = (int)(vector18.Y / 16f) * 16;
-            num191 -= vector18.X;
-            num192 -= vector18.Y;
-
-            float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
-            if (NPC.ai[1] > 0f && NPC.ai[1] < Main.npc.Length)
+            // Decide segment offset stuff.
+            NPC aheadSegment = Main.npc[(int)NPC.ai[1]];
+            Vector2 directionToNextSegment = aheadSegment.Center - NPC.Center;
+            if (aheadSegment.rotation != NPC.rotation)
             {
-                try
-                {
-                    vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                    num191 = Main.npc[(int)NPC.ai[1]].position.X + (Main.npc[(int)NPC.ai[1]].width / 2) - vector18.X;
-                    num192 = Main.npc[(int)NPC.ai[1]].position.Y + (Main.npc[(int)NPC.ai[1]].height / 2) - vector18.Y;
-                } catch
-                {
-                }
-
-                NPC.rotation = (float)Math.Atan2(num192, num191) + MathHelper.PiOver2;
-                num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
-                int num194 = NPC.width;
-                num193 = (num193 - num194) / num193;
-                num191 *= num193;
-                num192 *= num193;
-                NPC.velocity = Vector2.Zero;
-                NPC.position.X = NPC.position.X + num191;
-                NPC.position.Y = NPC.position.Y + num192;
-
-                if (num191 < 0f)
-                    NPC.spriteDirection = -1;
-                else if (num191 > 0f)
-                    NPC.spriteDirection = 1;
+                directionToNextSegment = directionToNextSegment.RotatedBy(MathHelper.WrapAngle(aheadSegment.rotation - NPC.rotation) * 0.08f);
+                directionToNextSegment = directionToNextSegment.MoveTowards((aheadSegment.rotation - NPC.rotation).ToRotationVector2(), 1f);
             }
+
+            NPC.rotation = directionToNextSegment.ToRotation() + MathHelper.PiOver2;
+            NPC.Center = aheadSegment.Center - directionToNextSegment.SafeNormalize(Vector2.Zero) * NPC.scale * NPC.width;
+            NPC.spriteDirection = (directionToNextSegment.X > 0).ToDirectionInt();
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            SpriteEffects spriteEffects = NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
-            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
-            Vector2 vector = center - screenPos;
-            vector -= new Vector2(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmTailGlow").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmTailGlow").Value.Height) * 0.5f;
-            vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmTailGlow").Value, vector,
-                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), Color.White, NPC.rotation, vector11, 1f, spriteEffects, 0f);
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (NPC.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            Vector2 vector = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
+
+            Vector2 center = NPC.Center - screenPos;
+            center -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+            center += vector * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture, center, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
+
+            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmTailGlow").Value;
+            spriteBatch.Draw(texture, center, NPC.frame, Color.White * NPC.Opacity, NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
+
+            return false;
         }
 
         public override bool CheckActive() => false;
@@ -168,6 +152,14 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 {
                     Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Mod.Find<ModGore>("WyrmAdult4").Type, 1f);
                 }
+            }
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (CalamityWorld.getFixedBoi)
+            {
+                typeName = "Jared";
             }
         }
     }

@@ -64,10 +64,6 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<SeethingDischarge>().
-                AddIngredient<SlitheringEels>().
-                AddIngredient<Biofusillade>().
-                AddIngredient<PrimordialAncient>().
                 AddIngredient<Heresy>().
                 AddIngredient<DarkPlasma>(20).
                 AddIngredient(ItemID.UnicornHorn, 5).

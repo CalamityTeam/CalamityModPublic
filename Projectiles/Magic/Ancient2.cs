@@ -1,4 +1,5 @@
-﻿using CalamityMod.DataStructures;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -81,6 +82,10 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.ai[0] += 1f;
             Projectile.rotation += 0.3f * (float)Projectile.direction;
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
 
         public override bool PreDraw(ref Color lightColor)
         {

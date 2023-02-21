@@ -124,10 +124,16 @@ namespace CalamityMod.NPCs.SlimeGod
 
             if (lifeRatio <= 0.5f && Main.netMode != NetmodeID.MultiplayerClient && expertMode)
             {
-                SoundEngine.PlaySound(SoundID.NPCDeath1, NPC.position);
+                SoundEngine.PlaySound(SoundID.NPCDeath1, NPC.Center);
                 Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X - 30, (int)spawnAt.Y, ModContent.NPCType<SplitCrimulanSlimeGod>());
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X + 30, (int)spawnAt.Y, ModContent.NPCType<SplitCrimulanSlimeGod>());
+                if (CalamityWorld.getFixedBoi && NPC.CountNPCS(ModContent.NPCType<SplitEbonianSlimeGod>()) < 3) //split into 3 slimes if the other large slime hasn't split yet
+                {
+                    NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X, (int)spawnAt.Y - 30, ModContent.NPCType<SplitCrimulanSlimeGod>());
+                }
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;

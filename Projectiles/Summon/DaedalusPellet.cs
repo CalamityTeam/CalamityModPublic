@@ -27,8 +27,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.alpha = 255;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -2;
             Projectile.DamageType = DamageClass.Summon;
         }
 
@@ -51,6 +49,8 @@ namespace CalamityMod.Projectiles.Summon
             }
             Projectile.alpha = Utils.Clamp(Projectile.alpha - 50, 0, 255);
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Frostburn, 180);
 
         public override Color? GetAlpha(Color lightColor)
         {

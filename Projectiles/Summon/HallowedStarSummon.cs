@@ -1,6 +1,6 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -81,11 +81,6 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
-        }
-
         public override Color? GetAlpha(Color lightColor)
         {
             return new Color(200, 45, 250, Projectile.alpha);
@@ -93,6 +88,41 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(ref Color lightColor)
         {
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 offsets = new Vector2(0f, Projectile.gfxOffY) - Main.screenPosition;
+            Color alpha = Projectile.GetAlpha(lightColor);
+            Rectangle spriteRec = new Microsoft.Xna.Framework.Rectangle(0, 0, tex.Width, tex.Height);
+            Vector2 spriteOrigin = spriteRec.Size() / 2f;
+            SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+            Texture2D aura = ModContent.Request<Texture2D>("CalamityMod/Projectiles/StarTrail").Value;
+            Vector2 drawStart = Projectile.Center + Projectile.velocity;
+            Vector2 drawStart2 = Projectile.Center - Projectile.velocity * 0.5f;
+            Vector2 spinPoint = new Vector2(0f, -10f);
+            float time = Main.player[Projectile.owner].miscCounter % 216000f / 60f;
+            Rectangle auraRec = aura.Frame();
+            Color purple = Color.Purple * 0.2f;
+            Color white = Color.White * 0.5f;
+            white.A = 0;
+            purple.A = 0;
+            Vector2 auraOrigin = new Vector2(auraRec.Width / 2f, 10f);
+
+            //Draw the aura
+            Main.EntitySpriteDraw(aura, drawStart + offsets + spinPoint.RotatedBy(MathHelper.TwoPi * time), auraRec, purple, Projectile.velocity.ToRotation() + MathHelper.PiOver2, auraOrigin, 1.5f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(aura, drawStart + offsets + spinPoint.RotatedBy(MathHelper.TwoPi * time + MathHelper.TwoPi / 3f), auraRec, purple, Projectile.velocity.ToRotation() + MathHelper.PiOver2, auraOrigin, 1.1f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(aura, drawStart + offsets + spinPoint.RotatedBy(MathHelper.TwoPi * time + MathHelper.Pi * 4f / 3f), auraRec, purple, Projectile.velocity.ToRotation() + MathHelper.PiOver2, auraOrigin, 1.3f, SpriteEffects.None, 0);
+            for (float d = 0f; d < 1f; d += 0.5f)
+            {
+                float scaleMult = time % 0.5f / 0.5f;
+                scaleMult = (scaleMult + d) % 1f;
+                float colorMult = scaleMult * 2f;
+                if (colorMult > 1f)
+                {
+                    colorMult = 2f - colorMult;
+                }
+                Main.EntitySpriteDraw(aura, drawStart2 + offsets, auraRec, white * colorMult, Projectile.velocity.ToRotation() + MathHelper.PiOver2, auraOrigin, 0.3f + scaleMult * 0.5f, SpriteEffects.None, 0);
+            }
+
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }

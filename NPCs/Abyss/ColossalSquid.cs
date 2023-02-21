@@ -1,27 +1,29 @@
-﻿using CalamityMod.BiomeManagers;
+﻿using System;
+using System.IO;
+using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.Abyss
 {
     public class ColossalSquid : ModNPC
     {
-        private bool hasBeenHit = false;
+        public bool hasBeenHit = false;
+        public bool clone = false;
 
         public override void SetStaticDefaults()
         {
@@ -53,6 +55,7 @@ namespace CalamityMod.NPCs.Abyss
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            NPC.Calamity().canBreakPlayerDefense = true;
             SpawnModBiomes = new int[2] { ModContent.GetInstance<AbyssLayer3Biome>().Type, ModContent.GetInstance<AbyssLayer4Biome>().Type };
         }
 
@@ -68,6 +71,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(hasBeenHit);
+            writer.Write(clone);
             writer.Write(NPC.chaseable);
             writer.Write(NPC.localAI[0]);
             writer.Write(NPC.localAI[1]);
@@ -78,6 +82,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             hasBeenHit = reader.ReadBoolean();
+            clone = reader.ReadBoolean();
             NPC.chaseable = reader.ReadBoolean();
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
@@ -104,7 +109,7 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 if (Main.rand.NextBool(300))
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie34, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Zombie34, NPC.Center);
                 }
                 NPC.noTileCollide = false;
                 if (NPC.ai[0] == 0f)
@@ -181,7 +186,7 @@ namespace CalamityMod.NPCs.Abyss
                         NPC.ai[0] = 0f;
                         NPC.ai[1] = 0f;
                     }
-                    if (num1311 < 160f && Main.player[NPC.target].active && !Main.player[NPC.target].dead)
+                    if (num1311 < 160f && Main.player[NPC.target].active && !Main.player[NPC.target].dead && !clone)
                     {
                         NPC.Center = Main.player[NPC.target].Top;
                         NPC.velocity = Vector2.Zero;
@@ -290,7 +295,7 @@ namespace CalamityMod.NPCs.Abyss
                 else if (NPC.ai[0] == 5f)
                 {
                     Player player7 = Main.player[NPC.target];
-                    if (!player7.active || player7.dead)
+                    if (!player7.active || player7.dead || clone)
                     {
                         NPC.ai[0] = 0f;
                         NPC.ai[1] = 0f;
@@ -343,6 +348,22 @@ namespace CalamityMod.NPCs.Abyss
                     (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(240f)) ||
                     NPC.justHit)
                 {
+                    if (CalamityWorld.getFixedBoi && Main.netMode != NetmodeID.MultiplayerClient && !clone && !hasBeenHit)
+                    {
+                        // spawn some baby colossal squids in gfb
+                        for (int i = 0; i < 3; i++)
+                        {
+                            int squib = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + Main.rand.Next(-20, 20), (int)NPC.Center.Y + Main.rand.Next(-20, 20), ModContent.NPCType<ColossalSquid>());
+                            if (squib.WithinBounds(Main.maxNPCs))
+                            {
+                                Main.npc[squib].ModNPC<ColossalSquid>().clone = true;
+                                Main.npc[squib].ModNPC<ColossalSquid>().hasBeenHit = true;
+                                Main.npc[squib].scale = 0.25f;
+                                Main.npc[squib].lifeMax /= 5;
+                                Main.npc[squib].life /= 5;
+                            }
+                        }
+                    }
                     hasBeenHit = true;
                 }
 
@@ -352,7 +373,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     if (Main.rand.NextBool(300))
                     {
-                        SoundEngine.PlaySound(SoundID.Zombie34, NPC.position);
+                        SoundEngine.PlaySound(SoundID.Zombie34, NPC.Center);
                     }
                     if (NPC.ai[3] > 0f && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
                     {
@@ -397,7 +418,7 @@ namespace CalamityMod.NPCs.Abyss
                     }
                     NPC.localAI[2] = 1f;
                     NPC.localAI[0] += 1f;
-                    if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= 150f)
+                    if (NPC.localAI[0] >= 150f)
                     {
                         NPC.localAI[0] = 0f;
                         NPC.netUpdate = true;
@@ -406,8 +427,14 @@ namespace CalamityMod.NPCs.Abyss
                         {
                             damage = 55;
                         }
-                        SoundEngine.PlaySound(SoundID.Item111, NPC.position);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 60, 0f, 2f, ModContent.ProjectileType<InkBombHostile>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                        if (clone)
+                        {
+                            damage /= 4;
+                        }
+                        SoundEngine.PlaySound(SoundID.Item111, NPC.Center);
+
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 60, 0f, 2f, ModContent.ProjectileType<InkBombHostile>(), damage, 0f, Main.myPlayer);
                     }
                     NPC.rotation = NPC.velocity.X * 0.05f;
                     NPC.velocity *= 0.975f;
@@ -432,7 +459,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     if (Main.rand.NextBool(300))
                     {
-                        SoundEngine.PlaySound(SoundID.Zombie35, NPC.position);
+                        SoundEngine.PlaySound(SoundID.Zombie35, NPC.Center);
                     }
                     NPC.localAI[2] = 0f;
                     NPC.velocity.X = NPC.velocity.X + (float)NPC.direction * 0.02f;
@@ -478,6 +505,28 @@ namespace CalamityMod.NPCs.Abyss
                     {
                         NPC.velocity.Y = NPC.velocity.Y * 0.99f;
                         return;
+                    }
+                }
+            }
+            float pushVelocity = 0.05f;
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                if (Main.npc[i].active)
+                {
+                    if (i != NPC.whoAmI && Main.npc[i].type == NPC.type)
+                    {
+                        if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < 160f)
+                        {
+                            if (NPC.position.X < Main.npc[i].position.X)
+                                NPC.velocity.X -= pushVelocity;
+                            else
+                                NPC.velocity.X += pushVelocity;
+
+                            if (NPC.position.Y < Main.npc[i].position.Y)
+                                NPC.velocity.Y -= pushVelocity;
+                            else
+                                NPC.velocity.Y += pushVelocity;
+                        }
                     }
                 }
             }
@@ -577,11 +626,19 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ColossalSquid").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ColossalSquid2").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ColossalSquid3").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ColossalSquid4").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ColossalSquid").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ColossalSquid2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ColossalSquid3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ColossalSquid4").Type, NPC.scale);
                 }
+            }
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (CalamityWorld.getFixedBoi && clone)
+            {
+                typeName = "Tiny Squid";
             }
         }
     }

@@ -351,6 +351,10 @@ namespace CalamityMod.NPCs.HiveMind
                 if (choice < 5)
                     NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + Main.rand.Next(NPC.width), (int)NPC.position.Y + Main.rand.Next(NPC.height), type);
             }
+
+            //Spawn a Hive Cyst
+            if (CalamityWorld.getFixedBoi && NPC.CountNPCS(ModContent.NPCType<HiveTumor>()) < 3)
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + Main.rand.Next(NPC.width), (int)NPC.position.Y + Main.rand.Next(NPC.height), ModContent.NPCType<HiveTumor>());
         }
 
         private void ReelBack()
@@ -509,6 +513,8 @@ namespace CalamityMod.NPCs.HiveMind
                         int maxBlobs = death ? 15 : revenge ? 7 : expertMode ? 6 : 5;
                         if (Main.getGoodWorld)
                             maxBlobs *= 2;
+                        if (CalamityWorld.getFixedBoi)
+                            maxBlobs = 50;
 
                         for (int i = 0; i < maxBlobs; i++)
                             NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<HiveBlob>(), NPC.whoAmI);
@@ -1047,7 +1053,7 @@ namespace CalamityMod.NPCs.HiveMind
 
             if (phase2)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(15) && NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 2)
+                if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi ? NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 10 : (Main.rand.NextBool(15) && NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 2))
                 {
                     Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
                     NPC.NewNPC(NPC.GetSource_FromThis(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveBlob2>());
@@ -1121,7 +1127,7 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 string key = "Mods.CalamityMod.SkyOreText";
                 Color messageColor = Color.Cyan;
-                CalamityUtils.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, 0.5f, 0.7f, 3, 8);
+                AerialiteOreGen.Generate(true);
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
@@ -1171,7 +1177,7 @@ namespace CalamityMod.NPCs.HiveMind
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<HiveMindRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<KnowledgeHiveMind>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<LoreHiveMind>(), desc: DropHelper.FirstKillText);
         }
     }
 }

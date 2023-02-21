@@ -27,6 +27,8 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.coldDamage = true;
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -40,11 +42,14 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Projectile.ai[0] += 1f;
 
-                // Fire extra waves to the left and right
-                for (int i = 0; i < 2; i++)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(-Spread * (i + 1)), Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 0f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(+Spread * (i + 1)), Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 0f);
+                    // Fire extra waves to the left and right
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(-Spread * (i + 1)), Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(+Spread * (i + 1)), Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 0f);
+                    }
                 }
 
                 Projectile.Kill();
@@ -124,7 +129,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
-            target.AddBuff(BuffID.Frostburn, 180);
+            target.AddBuff(BuffID.Frostburn2, 180);
         }
     }
 }

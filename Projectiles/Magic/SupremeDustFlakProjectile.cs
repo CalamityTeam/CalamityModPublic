@@ -1,3 +1,4 @@
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -18,9 +19,9 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.penetrate = 2;
-            Projectile.extraUpdates = 3;
-            Projectile.timeLeft = 100;
+            Projectile.penetrate = 1;
+            Projectile.MaxUpdates = 4;
+            Projectile.timeLeft = 25 * Projectile.MaxUpdates; // 25 effective, 100 total
         }
 
         public override void AI()
@@ -89,9 +90,8 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.rotation += 0.3f * (float)Projectile.direction;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.immune[Projectile.owner] = 6;
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
     }
 }

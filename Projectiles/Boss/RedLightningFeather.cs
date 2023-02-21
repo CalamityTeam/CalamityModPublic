@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Boss
 
         private void EmitDust()
         {
-            SoundEngine.PlaySound(SoundID.Item109, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item109, Projectile.Center);
             for (int num193 = 0; num193 < 6; num193++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 60, 0f, 0f, 100, default, 1.5f);

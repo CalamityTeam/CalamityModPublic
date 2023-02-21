@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1f;
-            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.UseSound = SoundID.Item10;
             Item.autoReuse = true;
@@ -59,9 +59,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.PiranhaGun).
-                AddIngredient<CoreofCalamity>(2).
-                AddIngredient<LifeAlloy>().
-                AddIngredient<Tenebris>(5).
+                AddIngredient<LifeAlloy>(3).
                 AddIngredient(ItemID.SharkFin, 2).
                 AddTile(TileID.MythrilAnvil).
                 Register();

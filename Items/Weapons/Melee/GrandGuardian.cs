@@ -101,8 +101,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<MajesticGuard>().
-                AddIngredient<LifeAlloy>(10).
-                AddIngredient(ItemID.FragmentSolar, 10).
+                AddIngredient<BurntSienna>().
+                AddIngredient(ItemID.FragmentNebula, 6).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

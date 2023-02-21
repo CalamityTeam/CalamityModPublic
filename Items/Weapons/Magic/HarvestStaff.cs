@@ -41,8 +41,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddRecipeGroup("Wood", 20).
                 AddIngredient(ItemID.Pumpkin, 20).
-                AddIngredient(ItemID.FallenStar, 5).
+                AddIngredient(ItemID.PumpkinSeed, 5).
                 AddTile(TileID.Anvils).
                 Register();
         }

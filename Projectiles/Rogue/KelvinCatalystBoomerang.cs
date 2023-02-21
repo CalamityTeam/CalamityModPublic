@@ -28,9 +28,11 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
-            Projectile.extraUpdates = 1;
+            Projectile.MaxUpdates = 2;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.coldDamage = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20 * Projectile.MaxUpdates; //20 effective, 40 total
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -67,9 +69,9 @@ namespace CalamityMod.Projectiles.Rogue
                     break;
                 case 2:
                     // Will target the targetted NPC that minions use btw
-                    Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
+                    Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 1, 40f, 12f, 6f, new Vector2(0f, -60f), 40f, 12f, true, true);
                     Projectile.localAI[0] += 1f;
-                    if (Projectile.localAI[0] >= 120)
+                    if (Projectile.localAI[0] >= 180)
                     {
                         ResetStats(false);
                     }
@@ -129,7 +131,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = 8;
-                SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item7, Projectile.Center);
             }
 
             int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 1f);
@@ -160,35 +162,28 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 240);
+            target.AddBuff(BuffID.Frostburn2, 240);
             OnHitEffects();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 240);
+            target.AddBuff(BuffID.Frostburn2, 240);
             OnHitEffects();
         }
 
         private void OnHitEffects()
         {
-            int projType = ModContent.ProjectileType<KelvinCatalystStar>();
-            if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].ownedProjectileCounts[projType] < 25)
-            {
-                float spread = 45f * 0.0174f;
-                double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-                double deltaAngle = spread / 8f;
-                double offsetAngle;
-                for (int i = 0; i < 4; i++)
+            int maxSpawns = Projectile.Calamity().stealthStrike ? 3 : 1;
+            if (Projectile.owner == Main.myPlayer && Projectile.numHits < maxSpawns)
+            {            
+                for (int i = 0; i < 5; i++)
                 {
-                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f), projType, Projectile.damage / 6, Projectile.knockBack * 0.5f, Projectile.owner);
-
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f), projType, Projectile.damage / 6, Projectile.knockBack * 0.5f, Projectile.owner);
+                    Vector2 velocity = (MathHelper.TwoPi * i / 5f).ToRotationVector2() * 4f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
                 }
+                SoundEngine.PlaySound(SoundID.Item30, Projectile.Center);
             }
-            SoundEngine.PlaySound(SoundID.Item30, Projectile.position);
         }
 
         public override bool PreDraw(ref Color lightColor)

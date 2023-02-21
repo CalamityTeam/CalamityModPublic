@@ -61,10 +61,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(333).
+            CreateRecipe(100).
                 AddIngredient<PurifiedGel>(2).
-                AddIngredient(ItemID.Gel, 6).
-                AddIngredient(ItemID.HellstoneBar, 1).
+                AddIngredient<BlightedGel>(2).
                 AddTile<StaticRefiner>().
                 Register();
         }

@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Linq;
+using CalamityMod.Systems;
 using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
@@ -17,20 +19,15 @@ using CalamityMod.FluidSimulation;
 using CalamityMod.ILEditing;
 using CalamityMod.Items;
 using CalamityMod.Items.Dyes.HairDye;
-using CalamityMod.Items.PermanentBoosters;
-using CalamityMod.Items.Pets;
 using CalamityMod.Items.VanillaArmorChanges;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Localization;
 using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
-using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Bumblebirb;
-using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CalClone;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
@@ -52,7 +49,6 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
-using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
@@ -78,6 +74,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
+using Terraria.DataStructures;
 
 [assembly: InternalsVisibleTo("CalTestHelpers")]
 [assembly: InternalsVisibleTo("InfernumMode")]
@@ -100,6 +97,9 @@ namespace CalamityMod
         public static Asset<Texture2D> manaOriginal;
         public static Asset<Texture2D> carpetOriginal;
         public static Texture2D AstralSky;
+        public static Texture2D SulphurSeaSky;
+        public static Texture2D SulphurSeaSkyFront;
+        public static Texture2D SulphurSeaSurface;
 
         // DR data structure
         public static SortedDictionary<int, float> DRValues;
@@ -149,6 +149,9 @@ namespace CalamityMod
         internal Mod thorium = null;
         internal Mod varia = null;
         internal Mod wikithis = null;
+
+        //hell background
+        //private List<HellBGLoad> loadCache;
 
         #region Load
         public override void Load()
@@ -245,11 +248,37 @@ namespace CalamityMod
             BalancingChangesManager.Load();
             BaseIdleHoldoutProjectile.LoadAll();
             PlayerDashManager.Load();
+
+            /*
+            //keep this disabled for now, hell bg system isnt used and there is a better way to load it
+            //hell background loading
+            HellBGManager.Load();
+
+            //load stuff for hell background
+            loadCache = new List<HellBGLoad>();
+
+            foreach (Type type in Code.GetTypes())
+            {
+                if (!type.IsAbstract && type.GetInterfaces().Contains(typeof(HellBGLoad)))
+                {
+                    var instance = Activator.CreateInstance(type);
+                    loadCache.Add(instance as HellBGLoad);
+                }
+            }
+
+            for (int k = 0; k < loadCache.Count; k++)
+            {
+                loadCache[k].Load();
+            }
+            */
         }
 
         private void LoadClient()
         {
             AstralSky = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSky", AssetRequestMode.ImmediateLoad).Value;
+            SulphurSeaSky = ModContent.Request<Texture2D>("CalamityMod/Skies/SulphurSeaSky", AssetRequestMode.ImmediateLoad).Value;
+            SulphurSeaSkyFront = ModContent.Request<Texture2D>("CalamityMod/Skies/SulphurSeaSkyFront", AssetRequestMode.ImmediateLoad).Value;
+            SulphurSeaSurface = ModContent.Request<Texture2D>("CalamityMod/Skies/SulphurSeaSurface", AssetRequestMode.ImmediateLoad).Value;
 
             // TODO -- Sky shaders should probably be loaded in a ModSystem
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
@@ -273,9 +302,6 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:SupremeCalamitas"] = new Filter(new SCalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:SupremeCalamitas"] = new SCalSky();
 
-            Filters.Scene["CalamityMod:AdultEidolonWyrm"] = new Filter(new AEWScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0.25f).UseOpacity(0.35f), EffectPriority.VeryHigh);
-            SkyManager.Instance["CalamityMod:AdultEidolonWyrm"] = new AEWSky();
-
             Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:Signus"] = new SignusSky();
 
@@ -288,7 +314,15 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:MonolithAccursed"] = new Filter(new MonolithScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:MonolithAccursed"] = new MonolithSky();
 
+            //Normal intensity is 4f
+            Texture2D DistortionTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/BlobbyNoise", AssetRequestMode.ImmediateLoad).Value;
+            Filters.Scene["CalamityMod:DrunkCrabulon"] = new Filter(new DrunkCrabScreenShaderData("FilterHeatDistortion").UseImage(DistortionTexture, 0, null).UseIntensity(20f), EffectPriority.VeryHigh);
+
+            Filters.Scene["CalamityMod:BrimstoneCrag"] = new Filter(new MonolithScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryHigh);
+            SkyManager.Instance["CalamityMod:BrimstoneCrag"] = new BrimstoneCragSky();
+
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
+            SkyManager.Instance["CalamityMod:SulphurSea"] = new SulphurSeaSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 
@@ -311,6 +345,7 @@ namespace CalamityMod
             // Centralizing head texture registration like this seems absurdly stiff
             Apollo.LoadHeadIcons();
             Artemis.LoadHeadIcons();
+            Cryogen.LoadHeadIcons();
             DevourerofGodsHead.LoadHeadIcons();
             DevourerofGodsBody.LoadHeadIcons();
             DevourerofGodsTail.LoadHeadIcons();
@@ -432,6 +467,21 @@ namespace CalamityMod
             rainOriginal = null;
             manaOriginal = null;
             carpetOriginal = null;
+
+            /*
+            //unload hell background stuff
+            HellBGManager.Unload();
+
+            if (loadCache != null)
+            {
+                foreach (var loadable in loadCache)
+                {
+                    loadable.Unload();
+                }
+            }
+
+            loadCache = null;
+            */
 
             ILChanges.Unload();
             Instance = null;
@@ -767,6 +817,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ProfanedGuardianCommander>(), velocityScaleMin },
                 { ModContent.NPCType<ProfanedGuardianDefender>(), velocityScaleMin },
                 { ModContent.NPCType<ProfanedGuardianHealer>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedRocks>(), velocityScaleMin },
                 { ModContent.NPCType<Bumblefuck>(), velocityScaleMin },
                 { ModContent.NPCType<Bumblefuck2>(), velocityScaleMin },
                 { ModContent.NPCType<CeaselessVoid>(), velocityScaleMin },

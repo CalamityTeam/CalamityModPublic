@@ -28,6 +28,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = 60;
             AIType = ProjectileID.WoodenBoomerang;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 6;
         }
 
         public override void AI()

@@ -20,18 +20,16 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.width = 92;
-            Item.damage = 123;
+            Item.height = 100;
+            Item.damage = 96;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 36;
+            Item.useAnimation = Item.useTime = 36;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 36;
             Item.useTurn = true;
             Item.knockBack = 5;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 100;
-            Item.scale = 1.5f;
-            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<DarkBeam>();
             Item.shootSpeed = 25f;
@@ -64,9 +62,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<CryonicBar>(12).
-                AddIngredient(ItemID.FallenStar, 5).
-                AddIngredient(ItemID.SoulofNight).
                 AddIngredient(ItemID.SoulofLight).
+                AddIngredient(ItemID.SoulofNight).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

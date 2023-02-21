@@ -38,6 +38,10 @@ namespace CalamityMod.Projectiles.Rogue
             if (Main.rand.NextBool(5))
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 85, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+                if (Projectile.Calamity().stealthStrike) //stealth strike attack
+                {
+                    Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 116, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+                }
             }
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 0.785f;
             Projectile.velocity.X *= 1.015f;
@@ -74,11 +78,11 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (Projectile.owner == Main.myPlayer)
             {
-                int cloudNumber = Main.rand.Next(2, 6);
+                int cloudNumber = Main.rand.Next(3, 5);
                 for (int cloudIndex = 0; cloudIndex < cloudNumber; cloudIndex++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)(Projectile.damage * 0.25), 1f, Projectile.owner, 0f, Projectile.Calamity().stealthStrike ? 1f : 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)(Projectile.damage * 0.3), 1f, Projectile.owner, 0f, Projectile.Calamity().stealthStrike ? 1f : 0f);
                 }
             }
         }

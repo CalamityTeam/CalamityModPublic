@@ -60,9 +60,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe(100).
+                AddIngredient(ItemID.CrimtaneBar).
                 AddIngredient<BloodSample>().
                 AddIngredient(ItemID.Vertebrae).
-                AddIngredient(ItemID.CrimtaneBar).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

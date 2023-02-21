@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 146;
-            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;
@@ -46,8 +46,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.Katana).
-                AddIngredient<LifeAlloy>(20).
-                AddIngredient<CoreofCalamity>(10).
+                AddIngredient<LifeAlloy>(5).
+                AddIngredient<CoreofCalamity>(2).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

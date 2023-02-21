@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
+using CalamityMod.NPCs;
+using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,6 +53,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, 0.45f * Projectile.Opacity, 0.35f * Projectile.Opacity, 0f);
+
+            // Day mode by default but syncs with the boss
+            if (CalamityGlobalNPC.holyBoss != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.holyBoss].active)
+                    Projectile.maxPenetrate = (int)Main.npc[CalamityGlobalNPC.holyBoss].localAI[1];
+            }
+            else
+                Projectile.maxPenetrate = (int)Providence.BossMode.Day;
+
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.localAI[0] = 1f;
@@ -59,14 +72,14 @@ namespace CalamityMod.Projectiles.Boss
                     velocity = Projectile.velocity;
             }
 
-            float timeGateValue = (!Main.dayTime || BossRushEvent.BossRushActive) ? 420f : 540f;
-            if (Projectile.ai[0] == 0f)
+            float timeGateValue = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 420f : (Projectile.ai[0] == -1f ? 360f : 540f);
+            if (Projectile.ai[0] <= 0f)
             {
                 Projectile.ai[1] += 1f;
 
-                float slowGateValue = (!Main.dayTime || BossRushEvent.BossRushActive) ? 60f : 90f;
+                float slowGateValue = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 60f : (Projectile.ai[0] == -1f ? 30f : 90f);
                 float fastGateValue = 30f;
-                float minVelocity = (!Main.dayTime || BossRushEvent.BossRushActive) ? 4f : 3f;
+                float minVelocity = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 4f : (Projectile.ai[0] == -1f ? 4.5f : 3f);
                 float maxVelocity = minVelocity * 4f;
                 float extremeVelocity = maxVelocity * 2f;
                 float deceleration = 0.95f;
@@ -95,8 +108,8 @@ namespace CalamityMod.Projectiles.Boss
             }
             else
             {
-                float frequency = (!Main.dayTime || BossRushEvent.BossRushActive) ? 0.2f : 0.1f;
-                float amplitude = (!Main.dayTime || BossRushEvent.BossRushActive) ? 4f : 2f;
+                float frequency = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 0.2f : 0.1f;
+                float amplitude = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 4f : 2f;
 
                 Projectile.ai[1] += frequency;
 
@@ -121,16 +134,49 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D value = ModContent.Request<Texture2D>(Texture).Value;
-            int green = Projectile.ai[0] != 0f ? 255 : 125;
-            int blue = Projectile.ai[0] != 0f ? 0 : 125;
-            Color baseColor = new Color(255, green, blue, 255);
+            bool aimedSpear = Projectile.ai[0] > 0f;
 
-            if (!Main.dayTime || BossRushEvent.BossRushActive)
+            int red = 255;
+            int green = 255;
+            int blue = 0;
+            switch (Projectile.maxPenetrate)
             {
-                int red = Projectile.ai[0] != 0f ? 100 : 175;
-                green = Projectile.ai[0] != 0f ? 255 : 175;
-                baseColor = new Color(red, green, 255, 255);
+                case (int)Providence.BossMode.Red:
+                    red = 255;
+                    green = aimedSpear ? 0 : 125;
+                    blue = aimedSpear ? 0 : 255;
+                    break;
+                case (int)Providence.BossMode.Orange:
+                    red = 255;
+                    green = 125;
+                    blue = aimedSpear ? 0 : 175;
+                    break;
+                case (int)Providence.BossMode.Yellow: //Same as day
+                case (int)Providence.BossMode.Day:
+                    red = 255;
+                    green = aimedSpear ? 255 : 125;
+                    blue = aimedSpear ? 0 : 125;
+                    break;
+                case (int)Providence.BossMode.Green:
+                    red = 0;
+                    green = 255;
+                    blue = aimedSpear ? 0 : 175;
+                    break;
+                case (int)Providence.BossMode.Blue: //Same as night
+                case (int)Providence.BossMode.Night:
+                    red = aimedSpear ? 100 : 175;
+                    green = aimedSpear ? 255 : 175;
+                    blue = 255;
+                    break;
+                case (int)Providence.BossMode.Violet:
+                    red = aimedSpear ? 125 : 255;
+                    green = aimedSpear ? 0 : 255;
+                    blue = 125;
+                    break;
+                default:
+                    break;
             }
+            Color baseColor = new Color(red, green, blue, 255);
 
             Color color33 = baseColor * 0.5f;
             color33.A = 0;
@@ -171,13 +217,17 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            if (damage <= 0)
+            //In GFB, "real damage" is replaced with negative healing
+            if (Projectile.maxPenetrate >= (int)Providence.BossMode.Red)
+                damage = 0;
+
+            //If the player is dodging, don't apply debuffs
+            if (damage <= 0 && Projectile.maxPenetrate < (int)Providence.BossMode.Red || target.creativeGodMode)
                 return;
 
-            int buffType = (Main.dayTime && !BossRushEvent.BossRushActive) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
-            target.AddBuff(buffType, 180);
+            ProvUtils.ApplyHitEffects(target, Projectile.maxPenetrate, 180, 20);
         }
     }
 }

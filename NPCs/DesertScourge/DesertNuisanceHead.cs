@@ -1,11 +1,12 @@
-﻿using CalamityMod.Events;
+﻿using System;
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
@@ -61,6 +62,9 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToWater = true;
+
+            if (CalamityWorld.getFixedBoi)
+                NPC.scale *= 2;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -275,7 +279,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         num24 = 20f;
                     }
                     NPC.soundDelay = (int)num24;
-                    SoundEngine.PlaySound(SoundID.WormDig, NPC.position);
+                    SoundEngine.PlaySound(SoundID.WormDig, NPC.Center);
                 }
                 num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
                 float num25 = Math.Abs(num20);
@@ -446,6 +450,16 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             if (damage > 0)
                 player.AddBuff(BuffID.Bleeding, 180, true);
+        }
+
+        public override Color? GetAlpha(Color drawColor)
+        {
+            if (CalamityWorld.getFixedBoi)
+            {
+                Color lightColor = Color.Orange * drawColor.A;
+                return lightColor * NPC.Opacity;
+            }
+            else return null;
         }
     }
 }

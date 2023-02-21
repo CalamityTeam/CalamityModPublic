@@ -46,9 +46,9 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Shiverthorn, 5).
-                AddRecipeGroup("AnySnowBlock", 50).
                 AddRecipeGroup("AnyIceBlock", 50).
+                AddIngredient(ItemID.BorealWood, 10).
+                AddIngredient(ItemID.Shiverthorn, 5).
                 AddTile(TileID.Anvils).
                 Register();
         }

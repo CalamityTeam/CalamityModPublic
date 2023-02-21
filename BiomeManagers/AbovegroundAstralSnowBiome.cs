@@ -12,7 +12,7 @@ namespace CalamityMod.BiomeManagers
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
         public override string MapBackground => "CalamityMod/Backgrounds/MapBackgrounds/AstralBG";
 
-        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("Astral") ?? MusicID.Space;
+        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("AstralInfection") ?? MusicID.Space;
 
         public override void SetStaticDefaults()
         {
@@ -21,7 +21,7 @@ namespace CalamityMod.BiomeManagers
 
         public override bool IsBiomeActive(Player player)
         {
-            return !player.ZoneDungeon && BiomeTileCounterSystem.AstralTiles > 950 && !player.ZoneDesert && player.ZoneSnow;
+            return !player.ZoneDungeon && BiomeTileCounterSystem.AstralTiles > 950 && player.ZoneSnow;
         }
 
         public override void SpecialVisuals(Player player, bool isActive)

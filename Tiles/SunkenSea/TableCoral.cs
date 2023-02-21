@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -9,6 +9,8 @@ namespace CalamityMod.Tiles.SunkenSea
 {
     public class TableCoral : ModTile
     {
+        int subsheetHeight = 34;
+        int subsheetWidth = 108;
         public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
@@ -24,7 +26,7 @@ namespace CalamityMod.Tiles.SunkenSea
             DustType = 253;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Table Coral");
-            AddMapEntry(new Color(0, 0, 80));
+            AddMapEntry(new Color(54, 69, 72));
             MineResist = 3f;
 
             base.SetStaticDefaults();
@@ -33,6 +35,13 @@ namespace CalamityMod.Tiles.SunkenSea
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
+        }
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        {
+            int xPos = i % 1;
+            int yPos = j % 3;
+            frameXOffset = xPos * subsheetWidth;
+            frameYOffset = yPos * subsheetHeight;
         }
     }
 }

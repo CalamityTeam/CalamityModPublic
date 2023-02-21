@@ -29,17 +29,15 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(10).
+            CreateRecipe(50).
+                AddRecipeGroup("AnyStoneBlock", 50).
                 AddIngredient<UelibloomOre>().
-                AddRecipeGroup("AnyStoneBlock").
-                AddTile(TileID.AdamantiteForge).
+                AddTile(TileID.LunarCraftingStation).
                 Register();
-
             CreateRecipe().
                 AddIngredient<UelibloomBrickWall>(4).
                 AddTile<BotanicPlanter>().
                 Register();
-
             CreateRecipe().
                 AddIngredient<BotanicPlatform>(2).
                 AddTile<BotanicPlanter>().

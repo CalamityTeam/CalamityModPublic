@@ -22,7 +22,7 @@ Stealth strikes leak tar as they fly");
         public override void SetDefaults()
         {
             Item.width = 32;
-            Item.damage = 55;
+            Item.damage = 50;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = 28;
@@ -32,14 +32,14 @@ Stealth strikes leak tar as they fly");
             Item.UseSound = SoundID.Item106;
             Item.autoReuse = true;
             Item.height = 42;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<TotalityFlask>();
             Item.shootSpeed = 12f;
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-		public override float StealthDamageMultiplier => 1.15f;
+		public override float StealthDamageMultiplier => 1.3f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -56,10 +56,7 @@ Stealth strikes leak tar as they fly");
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.MolotovCocktail, 50).
-                AddIngredient<ConsecratedWater>().
-                AddIngredient<DesecratedWater>().
-                AddIngredient<SpentFuelContainer>().
+				AddIngredient(ItemID.MolotovCocktail, 50).
                 AddIngredient<SolarVeil>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();

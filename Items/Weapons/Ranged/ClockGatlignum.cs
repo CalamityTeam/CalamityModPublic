@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3.75f;
-            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.UseSound = SoundID.Item31;
             Item.autoReuse = true;
@@ -64,11 +64,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.ClockworkAssaultRifle).
                 AddIngredient(ItemID.Gatligator).
                 AddIngredient(ItemID.VenusMagnum).
-                AddIngredient(ItemID.ClockworkAssaultRifle).
                 AddIngredient<LifeAlloy>(3).
-                AddIngredient(ItemID.Ectoplasm, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

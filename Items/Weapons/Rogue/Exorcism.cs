@@ -24,9 +24,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.damage = 55;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 20;
+            Item.useAnimation = Item.useTime = 20;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 20;
             Item.knockBack = 1f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
@@ -39,8 +38,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-		public override float StealthDamageMultiplier => 1.15f;
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
@@ -51,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             else
             {
-                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 1f, damage);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 1f, damage);
             }
             return false;
         }
@@ -61,9 +58,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe().
                 AddIngredient(ItemID.HolyWater, 10).
                 AddIngredient(ItemID.HallowedBar, 12).
+                AddIngredient(ItemID.SoulofFright, 6).
                 AddIngredient(ItemID.SoulofMight, 6).
                 AddIngredient(ItemID.SoulofSight, 6).
-                AddIngredient(ItemID.SoulofFright, 6).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

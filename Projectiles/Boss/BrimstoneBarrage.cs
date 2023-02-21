@@ -1,6 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
-using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CalClone;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Boss
             if (damage <= 0 || Projectile.Opacity != 1f)
                 return;
 
-            if (Projectile.ai[0] == 0f || Main.getGoodWorld)
+            if (Projectile.ai[0] == 0f || CalamityWorld.getFixedBoi)
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
             else
                 target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);

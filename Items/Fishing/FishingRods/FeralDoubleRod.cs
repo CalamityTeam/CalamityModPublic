@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.fishingPole = 40;
             Item.shootSpeed = 16f;
             Item.shoot = ModContent.ProjectileType<FeralDoubleBobber>();
-            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
         }
 
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PerennialBar>(10).
+                AddIngredient<PerennialBar>(6).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

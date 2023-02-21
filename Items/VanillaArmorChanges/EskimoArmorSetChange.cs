@@ -26,15 +26,20 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-			// Not sure why it doesn't say Set bonus automatically
+            // Not sure why it doesn't say Set bonus automatically
             setBonusText = "Set bonus: Multiplies all cold-based debuff damage by 1.25\n" +
                 "Cold enemies will deal reduced contact damage to the player\n" +
-                "Provides immunity to the Frostburn and Glacial State debuffs";
+                "Provides immunity to the Chilled, Frozen, Frostburn and Glacial State debuffs";
         }
 
         public override void ApplyArmorSetBonus(Player player)
         {
             player.Calamity().eskimoSet = true;
+
+            // TODO -- DELETE THE FOLLOWING 2 LINES IN THE 1.4.4 PORT
+            player.buffImmune[BuffID.Chilled] = true;
+            player.buffImmune[BuffID.Frozen] = true;
+
             player.buffImmune[BuffID.Frostburn] = true;
             player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
         }

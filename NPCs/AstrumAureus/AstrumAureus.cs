@@ -35,9 +35,12 @@ namespace CalamityMod.NPCs.AstrumAureus
     public class AstrumAureus : ModNPC
     {
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/AureusHit", 4);
-        public static readonly SoundStyle StompSound = new("CalamityMod/Sounds/Custom/LegStomp");
+        public static readonly SoundStyle StompSound = new("CalamityMod/Sounds/Custom/AstrumAureus/LegStomp");
+        public static readonly SoundStyle JumpSound = new("CalamityMod/Sounds/Custom/AstrumAureus/AureusJump");
 
         private bool stomping = false;
+        public int slimeProjCounter = 0;
+        public int slimePhase = 0;
 
         public override void SetStaticDefaults()
         {
@@ -82,6 +85,8 @@ namespace CalamityMod.NPCs.AstrumAureus
 
             if (Main.getGoodWorld)
                 NPC.scale *= 0.8f;
+            if (CalamityWorld.getFixedBoi)
+                NPC.scale *= 1.5f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -90,7 +95,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A multi-legged mechanical beast, its very existence speaks of the extent of control the astral virus has. Not even machinery can stand against it.")
+				new FlavorTextBestiaryInfoElement("A multi-legged mechanical beast, its very existence speaks of the extent of control the astral virus has over the non-sapient. Not even machinery can stand against it.")
             });
         }
 
@@ -98,6 +103,8 @@ namespace CalamityMod.NPCs.AstrumAureus
         {
             writer.Write(stomping);
             writer.Write(NPC.alpha);
+            writer.Write(slimePhase);
+            writer.Write(slimeProjCounter);
             writer.Write(NPC.localAI[2]);
             writer.Write(NPC.localAI[3]);
             for (int i = 0; i < 4; i++)
@@ -108,6 +115,8 @@ namespace CalamityMod.NPCs.AstrumAureus
         {
             stomping = reader.ReadBoolean();
             NPC.alpha = reader.ReadInt32();
+            slimePhase = reader.ReadInt32();
+            slimeProjCounter = reader.ReadInt32();
             NPC.localAI[2] = reader.ReadSingle();
             NPC.localAI[3] = reader.ReadSingle();
             for (int i = 0; i < 4; i++)
@@ -213,13 +222,16 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
+            bool slimePhaseHP = lifeRatio <= 0.1f || (lifeRatio > 0.6f && lifeRatio <= 0.7f);
+
             Texture2D NPCTexture = TextureAssets.Npc[NPC.type].Value;
             Texture2D GlowMaskTexture = TextureAssets.Npc[NPC.type].Value;
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            if (NPC.ai[0] == 0f)
+            if (NPC.ai[0] == 0f || (slimePhaseHP && CalamityWorld.getFixedBoi))
             {
                 NPCTexture = TextureAssets.Npc[NPC.type].Value;
                 GlowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumAureus/AstrumAureusGlow").Value;
@@ -272,6 +284,10 @@ namespace CalamityMod.NPCs.AstrumAureus
             float rotation = NPC.rotation;
             float offsetY = NPC.gfxOffY;
             Color color36 = Color.White;
+            if (CalamityWorld.getFixedBoi && slimePhaseHP)
+            {
+                color36 = slimePhase == 0 ? Color.Yellow : Color.Violet;
+            }
             float amount9 = 0.5f;
             int num153 = 7;
             if (NPC.ai[0] == 3f || NPC.ai[0] == 4f)
@@ -295,12 +311,17 @@ namespace CalamityMod.NPCs.AstrumAureus
             Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
             vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-            spriteBatch.Draw(NPCTexture, vector43, frame, NPC.GetAlpha(drawColor), rotation, vector11, scale, spriteEffects, 0f);
+            Color toUse = CalamityWorld.getFixedBoi && slimePhaseHP ? color36 : drawColor;
+            spriteBatch.Draw(NPCTexture, vector43, frame, NPC.GetAlpha(toUse), rotation, vector11, scale, spriteEffects, 0f);
 
-            if (NPC.ai[0] != 1) //draw only if not recharging
+            if (NPC.ai[0] != 1 || (slimePhaseHP && CalamityWorld.getFixedBoi)) //draw only if not recharging
             {
                 Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Color.Gold);
                 Color color40 = Color.Lerp(Color.White, color, 0.5f);
+                if (CalamityWorld.getFixedBoi && slimePhaseHP)
+                {
+                    color40 = slimePhase == 0 ? Color.Violet : Color.Yellow;
+                }
 
                 if (CalamityConfig.Instance.Afterimages)
                 {
@@ -366,7 +387,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<AstrumAureusRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<LoreAstrumAureus>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()

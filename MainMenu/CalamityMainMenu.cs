@@ -45,7 +45,7 @@ namespace CalamityMod.MainMenu
         public override Asset<Texture2D> SunTexture => ModContent.Request<Texture2D>("CalamityMod/Backgrounds/BlankPixel");
         public override Asset<Texture2D> MoonTexture => ModContent.Request<Texture2D>("CalamityMod/Backgrounds/BlankPixel");
 
-        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("Calamity") ?? MusicID.Title;
+        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("CalamityTitle") ?? MusicID.Title;
 
         public override ModSurfaceBackgroundStyle MenuBackgroundStyle => ModContent.GetInstance<NullSurfaceBackground>();
 

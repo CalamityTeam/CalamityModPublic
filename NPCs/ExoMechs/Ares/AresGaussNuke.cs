@@ -66,7 +66,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public const float gaussNukeReloadDuration = 360f;
 
         // Telegraph sound.
-        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresGaussNukeArmCharge") { Volume = 1.1f};
+        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresGaussNukeArmCharge") { Volume = 1.1f };
+
+        public static readonly SoundStyle NukeExplosionSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresGaussNukeExplosion") { Volume = 1.45f };
 
         public override void SetStaticDefaults()
         {
@@ -129,9 +131,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             if (CalamityGlobalNPC.draedonExoMechPrime < 0 || !Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
             {
                 NPC.life = 0;
-                NPC.HitEffect(0, 10.0);
+                NPC.HitEffect();
                 NPC.checkDead();
                 NPC.active = false;
+                NPC.netUpdate = true;
                 return;
             }
 
@@ -197,6 +200,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             if (NPC.life > Main.npc[(int)NPC.ai[1]].life)
                 NPC.life = Main.npc[(int)NPC.ai[1]].life;
 
+            AresBody aresBody = Main.npc[(int)NPC.ai[2]].ModNPC<AresBody>();
             CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)NPC.ai[2]].Calamity();
 
             // Passive phase check
@@ -207,7 +211,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             // Adjust opacity
             bool invisiblePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
-            NPC.dontTakeDamage = invisiblePhase;
+            NPC.dontTakeDamage = invisiblePhase || Main.npc[(int)NPC.ai[2]].dontTakeDamage;
             if (!invisiblePhase)
             {
                 NPC.Opacity += 0.2f;
@@ -367,6 +371,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             SmokeDrawer.Update();
 
             EnergyDrawer.ParticleSpawnRate = 9999999;
+
             // Attacking phases
             switch ((int)AIState)
             {
@@ -423,7 +428,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(gaussNukeVelocity) * offset, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
 
                                 // Recoil
-                                NPC.velocity -= gaussNukeVelocity;
+                                NPC.velocity -= gaussNukeVelocity * 2f;
                             }
                         }
 
@@ -474,10 +479,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             // Smooth movement towards the location Ares Gauss Nuke is meant to be at
             CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
 
-            //Update the telegraph sound if it's being done.
-            if (TelegraphSoundSlot != null && SoundEngine.TryGetActiveSound(TelegraphSoundSlot, out var telSound) && telSound.IsPlaying)
+            // Update the telegraph sound if it's being played. Immediately stop it if Ares just begun transitioning to his laserbeam attack, since that automatically resets all impending cannon shots.
+            if (SoundEngine.TryGetActiveSound(TelegraphSoundSlot, out var telSound) && telSound.IsPlaying)
             {
                 telSound.Position = NPC.Center;
+                if (aresBody.AIState == (int)AresBody.Phase.Deathrays && calamityGlobalNPC_Body.newAI[2] <= 10f)
+                    telSound.Stop();
             }
         }
 
@@ -637,6 +644,19 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public override void DrawBehind(int index)
         {
             Main.instance.DrawCacheNPCProjectiles.Add(index);
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            int index = CalamityGlobalNPC.draedonExoMechPrime;
+
+            if (index < 0 || index >= Main.maxNPCs || Main.npc[index] is null)
+                return;
+
+            if (Main.npc[index].ModNPC<AresBody>().exoMechdusa)
+            {
+                typeName = "XB-∞ Hekate Gauss Nuke";
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)

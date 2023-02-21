@@ -1,8 +1,9 @@
 ﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.CalPlayer;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,135 +12,128 @@ namespace CalamityMod.Projectiles.Summon
     public class SarosAura : ModProjectile
     {
         public Player Owner => Main.player[Projectile.owner];
-        public ref float AllocatedSlots => ref Projectile.ai[0];
-        public ref float GeneralTimer => ref Projectile.ai[1];
 
-        public const float TargetCheckDistance = 1600f;
-        public const int RadiantOrbAppearRateLowerBound = 7;
-        public const int RadiantOrbDamageUpperBound = 10000;
+        public CalamityPlayer moddedOwner => Owner.Calamity();
+
+        public ref float GeneralTimer => ref Projectile.ai[0];
+
+        public bool CheckForSpawning = false;
+
+        public static readonly SoundStyle SarosDiskThrow = new SoundStyle("CalamityMod/Sounds/Item/SarosDiskThrow", 3) { Volume = 0.4f, PitchVariance = 1 };
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Saros Aura");
-            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Type] = 8;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = Projectile.height = 66;
+            Projectile.minionSlots = 8f;
+            Projectile.penetrate = -1;
+
+            Projectile.width = Projectile.height = 132;
+
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 1f;
-            Projectile.timeLeft = 90000;
-            Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.minion = true;
-            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            // Emit some light.
-            Lighting.AddLight(Projectile.Center, Vector3.One * 1.2f);
+            NPC potentialTarget = Projectile.Center.MinionHoming(5000f, Owner);
 
-            // Ensure that the projectile using this AI is the correct projectile and that the owner has the appropriate buffs.
-            VerifyIdentityOfCaller();
+            CheckMinionExistince(); // Ensure that the projectile using this AI is the correct projectile and that the owner has the appropriate buffs.
+            SpawnEffect(); // Makes a dust spawn effect where the minion spawns.
 
-            // Store the allocated slots in the minionSlots field so that the amount of slots the projectile is holding
-            // is always correct.
-            Projectile.minionSlots = Projectile.ai[0];
+            // Attack nearby targets.
+            if (potentialTarget != null && Main.myPlayer == Projectile.owner)
+                AttackTarget(potentialTarget);
 
             // Stay near the target and spin around.
             Projectile.Center = Owner.Center - Vector2.UnitY * 16f;
-            Projectile.rotation += MathHelper.ToRadians(AllocatedSlots * 0.85f + 3f);
+            // The projectile spins right at a constant speed.
+            Projectile.rotation += MathHelper.ToRadians(1.5f);
 
-            float damageMultiplier = (float)Math.Log(AllocatedSlots, 3D) + 1f;
+            // Emit some light.
+            Lighting.AddLight(Projectile.Center, Vector3.One * 1.2f);
 
-            // Softcap the multiplier after it has exceeded 3x the base value.
-            float softcappedDamageMultiplier = damageMultiplier;
-            if (softcappedDamageMultiplier > 3f)
-                softcappedDamageMultiplier = ((damageMultiplier - 3f) * 0.1f) + 3f;
-
-            int radiantOrbDamage = (int)(Projectile.damage * softcappedDamageMultiplier);
-            int radiantOrbOriginalDamage = (int)(Projectile.originalDamage * softcappedDamageMultiplier);
-            int radiantOrbAppearRate = (int)(130 * Math.Pow(0.9, AllocatedSlots));
-
-            // Hard-cap the orb appear rate and damage.
-            // The latter is basically impossible to reach now due to rebalancing, but it shall remain for the time being.
-            if (radiantOrbAppearRate < RadiantOrbAppearRateLowerBound)
-                radiantOrbAppearRate = RadiantOrbAppearRateLowerBound;
-
-            if (radiantOrbDamage > RadiantOrbDamageUpperBound)
-                radiantOrbDamage = RadiantOrbDamageUpperBound;
-
-            // Attack nearby targets.
+            // A timer for the AI.
             GeneralTimer++;
-            NPC potentialTarget = Projectile.Center.MinionHoming(TargetCheckDistance, Owner);
-            if (potentialTarget != null && Main.myPlayer == Projectile.owner)
-                AttackTarget(potentialTarget, radiantOrbAppearRate, radiantOrbDamage, radiantOrbOriginalDamage);
         }
 
-        public void VerifyIdentityOfCaller()
+        #region Methods
+
+        public void CheckMinionExistince()
         {
             Owner.AddBuff(ModContent.BuffType<SarosPossessionBuff>(), 3600);
-            bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<SarosAura>();
-            if (isCorrectProjectile)
+            if (Projectile.type == ModContent.ProjectileType<SarosAura>())
             {
                 if (Owner.dead)
-                    Owner.Calamity().radiantResolution = false;
-
-                if (Owner.Calamity().radiantResolution)
+                    moddedOwner.saros = false;
+                if (moddedOwner.saros)
                     Projectile.timeLeft = 2;
             }
         }
 
-        public void AttackTarget(NPC target, int radiantOrbAppearRate, int radiantOrbDamage, int radiantOrbOriginalDamage)
+        public void SpawnEffect()
         {
-            if (GeneralTimer % 35f == 34f)
+            if (CheckForSpawning == false)
             {
-                for (int i = 0; i < 2; i++)
+                int dustAmount = 360;
+                for (int d = 0; d < dustAmount; d++)
                 {
-                    float angle = MathHelper.Lerp(-MathHelper.ToRadians(20f), MathHelper.ToRadians(20f), i / 2f);
-                    Vector2 fireVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 15f;
-                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<SarosSunfire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
-                    if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = radiantOrbOriginalDamage / 2;
+                    float angle = MathHelper.TwoPi / dustAmount * d;
+                    Vector2 velocity = angle.ToRotationVector2() * Main.rand.NextFloat(20f, 30f);
+
+                    Dust spawnDust = Dust.NewDustPerfect(Owner.Center - Vector2.UnitY * 60f, (int)CalamityDusts.ProfanedFire, velocity);
+                    spawnDust.noGravity = true;
+                    spawnDust.color = Color.Lerp(Color.White, Color.Yellow, 0.25f);
+                    spawnDust.scale = velocity.Length() * 0.25f;
+                    spawnDust.velocity *= 0.7f;
+                }
+            }
+            CheckForSpawning = true;
+        }
+
+        public void AttackTarget(NPC target)
+        {
+            if (GeneralTimer % 50f == 49f)
+            {
+                for (int i = -1; i < 2; i++)
+                {
+                    float angle = (target.Center - Projectile.Center).ToRotation() + (MathHelper.PiOver2 * i) + Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.PiOver4);
+                    Vector2 velocity = angle.ToRotationVector2() * 30f;
+
+                    int fire = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SarosSunfire>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    if (Main.projectile.IndexInRange(fire))
+                        Main.projectile[fire].originalDamage = Projectile.originalDamage;
+
+                    Projectile.netUpdate = true;
                 }
             }
 
-            if (GeneralTimer % radiantOrbAppearRate == radiantOrbAppearRate - 1)
+            if (GeneralTimer % 100f == 99f)
             {
-                Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(100f, 360f);
-                Vector2 bootlegRadianceOrbVelocity = Projectile.SafeDirectionTo(target.Center) * 2f;
-                int p2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, bootlegRadianceOrbVelocity, ModContent.ProjectileType<SarosMicrosun>(), radiantOrbDamage, Projectile.knockBack * 4f, Projectile.owner);
-                if (Main.projectile.IndexInRange(p2))
-                    Main.projectile[p2].originalDamage = radiantOrbOriginalDamage;
-                for (int i = 0; i < 3; i++)
-                {
-                    float angle = MathHelper.Lerp(-MathHelper.ToRadians(30f), MathHelper.ToRadians(30f), i / 3f);
-                    Vector2 fireVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 19f;
-                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<SarosSunfire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
-                    if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = radiantOrbOriginalDamage / 2;
-                }
+                float angle = (target.Center - Projectile.Center).ToRotation() + Main.rand.NextFloat(MathHelper.PiOver2, -MathHelper.PiOver2);
+                Vector2 velocity = angle.ToRotationVector2() * 25f;
+                SoundEngine.PlaySound(SarosDiskThrow, Projectile.Center);
+
+                int disk = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SarosMicrosun>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
+                if (Main.projectile.IndexInRange(disk))
+                    Main.projectile[disk].originalDamage = Projectile.originalDamage * 2;
+
+                Projectile.netUpdate = true;
             }
         }
 
         public override bool? CanDamage() => false;
 
-        public override void PostDraw(Color lightColor)
-        {
-            Texture2D currentTexture = ModContent.Request<Texture2D>(Texture).Value;
-            Main.EntitySpriteDraw(currentTexture,
-                Projectile.Center - Main.screenPosition,
-                null,
-                lightColor,
-                Projectile.rotation + MathHelper.PiOver2,
-                currentTexture.Size() / 2f,
-                1f,
-                SpriteEffects.None,
-                0);
-        }
+        #endregion
     }
 }

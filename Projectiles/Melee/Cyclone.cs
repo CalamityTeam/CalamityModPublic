@@ -10,8 +10,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Cyclone : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/TornadoProj";
-
         public int dustvortex = 0;
         public override void SetStaticDefaults()
         {
@@ -22,8 +20,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            Projectile.width = 40;
-            Projectile.height = 40;
+            Projectile.width = 56;
+            Projectile.height = 56;
             Projectile.alpha = 255;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;

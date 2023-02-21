@@ -35,7 +35,6 @@ namespace CalamityMod.Items.Armor.Daedalus
         {
             CreateRecipe().
                 AddIngredient<CryonicBar>(10).
-                AddIngredient(ItemID.CrystalShard, 4).
                 AddIngredient<EssenceofEleum>(2).
                 AddTile(TileID.MythrilAnvil).
                 Register();

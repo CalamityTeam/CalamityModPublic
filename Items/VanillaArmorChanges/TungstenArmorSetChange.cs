@@ -18,10 +18,9 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public const float HeadDamage = 0.07f;
         public const int ChestLifeRegen = 1;
-        public const float LegsMoveSpeed = 0.1f;
+        public const float LegsMoveSpeed = 0.08f;
         public const float KnockbackMultiplier = 1.33f;
         public const float MaxKnockbackCritConversion = 10f;
-        public const int SetBonusMiningSpeedPercent = 25;
 
         public override void ApplyHeadPieceEffect(Player player) => player.GetDamage<GenericDamageClass>() += HeadDamage;
 
@@ -44,7 +43,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
             sb.Append("% critical strike chance from ");
             sb.Append(kb.ToString("n2"));
             sb.Append(" knockback");
-            sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }
 
@@ -56,8 +54,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
             // Give the player crit chance equal to the (now boosted) knockback of their held weapon.
             float kbToUse = player.GetWeaponKnockback(player.ActiveItem());
             player.GetCritChance<GenericDamageClass>() += MathHelper.Clamp(kbToUse, 0f, MaxKnockbackCritConversion);
-
-            player.pickSpeed -= SetBonusMiningSpeedPercent * 0.01f;
         }
     }
 }

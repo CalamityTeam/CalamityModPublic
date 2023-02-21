@@ -32,7 +32,11 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<UelibloomBrick>(), 20).AddIngredient(ItemID.JungleSpores, 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<UelibloomBrick>(20).
+                AddIngredient(ItemID.JungleSpores, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

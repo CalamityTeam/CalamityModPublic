@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.knockBack = 1f;
-            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.UseSound = SoundID.Item76;
             Item.shoot = ModContent.ProjectileType<PlantSummon>();
@@ -83,16 +83,14 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient<EyeOfNight>().
-                AddIngredient<DeepseaStaff>().
-                AddIngredient(ItemID.OpticStaff).
+                AddIngredient(ItemID.Smolstar). //Blade Staff
                 AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
 
             CreateRecipe().
                 AddIngredient<FleshOfInfidelity>().
-                AddIngredient<DeepseaStaff>().
-                AddIngredient(ItemID.OpticStaff).
+                AddIngredient(ItemID.Smolstar).
                 AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();

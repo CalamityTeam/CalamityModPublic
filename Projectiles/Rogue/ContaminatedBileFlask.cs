@@ -25,20 +25,22 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.alpha = 0;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
+
         public override void AI()
         {
             if (Projectile.ai[0]++ > 45f)
             {
                 if (Projectile.velocity.Y < 10f)
-                {
                     Projectile.velocity.Y += 0.15f;
-                }
             }
+
             Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.Length());
         }
+
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item107, Projectile.Bottom);
+
             Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BileExplosion>(), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner);
             if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
             {

@@ -4,14 +4,15 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.GameContent.Bestiary;
-using Terraria.ModLoader;
-using Terraria.Audio;
 using ReLogic.Content;
-using CalamityMod.Sounds;
+using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -32,7 +33,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.damage = 50;
             NPC.width = 66;
             NPC.height = 64;
-            NPC.aiStyle = 41;
+            NPC.aiStyle = NPCAIStyleID.Herpling;
             NPC.defense = 14;
             NPC.DR_NERD(0.15f);
             NPC.lifeMax = 300;

@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Potions
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Hay, 10).
+                AddIngredient(ItemID.Hay, 20).
                 AddTile(TileID.Furnaces).
                 Register();
         }

@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             Texture2D sprite = ModContent.Request<Texture2D>(Texture).Value;
 
-            Effect tileEffect = Filters.Scene["WulfrumScaffoldSelection"].GetShader().Shader;
+            Effect tileEffect = Filters.Scene["CalamityMod:WulfrumScaffoldSelection"].GetShader().Shader;
 
             tileEffect.Parameters["mainOpacity"].SetValue(1f);
             tileEffect.Parameters["tileEdgeBlendStrenght"].SetValue(2f);

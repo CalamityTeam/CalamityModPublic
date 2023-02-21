@@ -20,12 +20,12 @@ namespace CalamityMod.Items.Mounts
             MountData.heightBoost = 35;
             MountData.fallDamage = 0f;
             MountData.runSpeed = 5.6f;
-            MountData.dashSpeed = 16.8f;
-            MountData.flightTimeMax = 500;
+            MountData.dashSpeed = 17.6f;
+            MountData.flightTimeMax = 9999;
             MountData.fatigueMax = 0;
             MountData.jumpHeight = 12;
             MountData.acceleration = 0.4f;
-            MountData.jumpSpeed = 8.01f;
+            MountData.jumpSpeed = 9.21f;
             MountData.swimSpeed = 4f;
             MountData.blockExtraJumps = false;
             MountData.totalFrames = 15;
@@ -143,7 +143,7 @@ namespace CalamityMod.Items.Mounts
                 if (player.mount.PlayerOffset == 28)
                 {
                     if (!player.flapSound)
-                        SoundEngine.PlaySound(SoundID.Item32, player.position);
+                        SoundEngine.PlaySound(SoundID.Item32, player.Center);
                     player.flapSound = true;
                 }
                 else

@@ -12,6 +12,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class HydraulicVoltCrasherProjectile : ModProjectile
     {
+        public Player Owner => Main.player[Projectile.owner];
         private int chargeCooldown = 0;
 
         public override void SetStaticDefaults()
@@ -30,7 +31,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.hide = true;
             Projectile.ownerHitCheck = true;
             Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
-            Projectile.scale = 1.75f;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
         }
 
         public override void AI()
@@ -54,13 +56,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 SoundEngine.PlaySound(SoundID.Item22, Projectile.position);
                 Projectile.soundDelay = 30;
             }
-            Player player = Main.player[Projectile.owner];
-            Vector2 center = player.RotatedRelativePoint(player.MountedCenter);
+            Vector2 center = Owner.RotatedRelativePoint(Owner.MountedCenter);
 
-            if (Main.myPlayer == player.whoAmI)
+            if (Main.myPlayer == Owner.whoAmI)
             {
                 // Get the projectile owner's held item. If it's not a modded item, stop now to prevent weird errors.
-                Item heldItem = player.ActiveItem();
+                Item heldItem = Owner.ActiveItem();
                 if (heldItem.type < ItemID.Count)
                 {
                     Projectile.Kill();
@@ -68,17 +69,17 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
 
                 // Update the damage of the holdout projectile constantly so that it decreases as charge decreases, even while in use.
-                Projectile.damage = player.GetWeaponDamage(heldItem);
+                Projectile.damage = Owner.GetWeaponDamage(heldItem);
 
                 // Check if the player's held item still has sufficient charge. If so, and they're still using it, take a tiny bit of charge from it.
                 CalamityGlobalItem modItem = heldItem.Calamity();
-                if (player.channel && modItem.Charge >= HydraulicVoltCrasher.HoldoutChargeUse)
+                if (Owner.channel && modItem.Charge >= HydraulicVoltCrasher.HoldoutChargeUse)
                 {
                     modItem.Charge -= HydraulicVoltCrasher.HoldoutChargeUse;
 
-                    float speed = player.inventory[player.selectedItem].shootSpeed * Projectile.scale;
+                    float speed = Owner.inventory[Owner.selectedItem].shootSpeed * Projectile.scale;
                     Vector2 toPointTo = Main.MouseWorld;
-                    if (player.gravDir == -1f)
+                    if (Owner.gravDir == -1f)
                     {
                         toPointTo.Y = Main.screenHeight - toPointTo.Y;
                     }
@@ -94,14 +95,14 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     Projectile.Kill();
                 }
             }
-            player.ChangeDir((Projectile.velocity.X > 0).ToDirectionInt());
-            player.heldProj = Projectile.whoAmI;
+            Owner.ChangeDir((Projectile.velocity.X > 0).ToDirectionInt());
+            Owner.heldProj = Projectile.whoAmI;
 
-            player.itemAnimation = 2;
-            player.itemTime = 2; // Note: player.SetDummyItemTime(frame) exists in 1.4 which accomplishes this task
+            Owner.itemAnimation = 2;
+            Owner.itemTime = 2; // Note: Owner.SetDummyItemTime(frame) exists in 1.4 which accomplishes this task
 
-            player.itemRotation = (Projectile.velocity * player.direction).ToRotation();
-            Projectile.direction = Projectile.spriteDirection = player.direction;
+            Owner.itemRotation = (Projectile.velocity * Owner.direction).ToRotation();
+            Projectile.direction = Projectile.spriteDirection = Owner.direction;
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.direction == -1).ToInt() * MathHelper.Pi;
 
             if (Main.rand.NextBool(5))
@@ -112,7 +113,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 spawnPosition += Projectile.Center;
                 Dust dust = Dust.NewDustPerfect(spawnPosition, 226);
                 dust.velocity = Projectile.velocity.SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(2f, 3.6f);
-                dust.velocity += player.velocity * 0.4f;
+                dust.velocity += Owner.velocity * 0.4f;
             }
             Projectile.position = center - Projectile.Size * 0.5f;
             Projectile.position -= Projectile.velocity.ToRotation().ToRotationVector2() * 8f;
@@ -126,12 +127,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 return;
             chargeCooldown = 60;
             TryToSuperchargeNPC(target);
+            int extraZaps = 0;
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 if (i != target.whoAmI &&
                     Main.npc[i].CanBeChasedBy(Projectile, false) &&
-                    Main.npc[i].Distance(target.Center) < 240f)
+                    Main.npc[i].Distance(target.Center) < 240f &&
+                    extraZaps < 3)
                 {
+                        
                     if (TryToSuperchargeNPC(Main.npc[i]))
                     {
                         for (float increment = 0f; increment <= 1f; increment += 0.05f)
@@ -142,6 +146,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                             dust.scale = 1.6f;
                             dust.noGravity = true;
                         }
+                        extraZaps++;
                     }
                 }
             }
@@ -149,11 +154,17 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public bool TryToSuperchargeNPC(NPC npc)
         {
+            int attackType = ModContent.ProjectileType<VoltageStream>();
+
+            // No more than 3 enemies with streams
+            if (Owner.ownedProjectileCounts[attackType] > 3)
+                return false;
+            
             // Prevent supercharging an enemy twice.
             for (int i = 0; i < Main.projectile.Length; i++)
             {
                 if (Main.projectile[i].active &&
-                    Main.projectile[i].type == ModContent.ProjectileType<VoltageStream>() &&
+                    Main.projectile[i].type == attackType &&
                     Main.projectile[i].ai[1] == i)
                 {
                     return false;
@@ -161,8 +172,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), npc.Center,
                                            Vector2.Zero,
-                                           ModContent.ProjectileType<VoltageStream>(),
-                                           (int)(Projectile.damage * 0.8),
+                                           attackType,
+                                           Projectile.damage,
                                            0f,
                                            Projectile.owner,
                                            0f,

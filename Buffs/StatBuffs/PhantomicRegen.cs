@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    class PhantomicRegen : ModBuff
+    public class PhantomicRegen : ModBuff
     {
         public override void SetStaticDefaults()
         {

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -54,7 +55,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A burning spirit, with no regard or acknowledgment for its surroundings. Anyone who intrudes upon the Profaned Goddess’ holy grounds will be turned to ash.")
+				new FlavorTextBestiaryInfoElement("A burning spirit, with no regard or acknowledgment for its surroundings. Anyone who intrudes upon the Profaned Goddess' holy grounds will be turned to ash.")
             });
         }
 
@@ -121,7 +122,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     NPC.TargetClosest(true);
                     NPC.velocity.X = NPC.velocity.X + (float)NPC.direction * 0.2f;
                     NPC.velocity.Y = NPC.velocity.Y + (float)NPC.directionY * 0.2f;
-                    float velocityMax = CalamityWorld.death ? 16f : 12f;
+                    float velocityMax = CalamityWorld.death ? 16f : CalamityWorld.revenge ? 14f : 12f;
                     if (NPC.velocity.X > velocityMax)
                     {
                         NPC.velocity.X = velocityMax;
@@ -138,8 +139,12 @@ namespace CalamityMod.NPCs.NormalNPCs
                     {
                         NPC.velocity.Y = -velocityMax;
                     }
+
+                    if (NPC.justHit)
+                        NPC.localAI[0] = 0f;
+
                     NPC.localAI[0] += 1f;
-                    if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= (CalamityWorld.death ? 60f : 90f))
+                    if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= (CalamityWorld.death ? 50f : CalamityWorld.revenge ? 70f : 90f))
                     {
                         NPC.localAI[0] = 0f;
                         if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
@@ -265,7 +270,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<UnholyEssence>(), 1, 2, 4);
-            npcLoot.Add(ModContent.ItemType<EnergyStaff>(), 15);
+            npcLoot.Add(ModContent.ItemType<SanctifiedSpark>(), 15);
+            npcLoot.Add(ModContent.ItemType<BlasphemousDonut>(), 20);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -279,6 +285,12 @@ namespace CalamityMod.NPCs.NormalNPCs
                 for (int k = 0; k < 25; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
+                }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ImpiousImmolator").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ImpiousImmolator2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ImpiousImmolator3").Type, 1f);
                 }
             }
         }

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class MirrorBlade : ModItem
     {
-        private int baseDamage = 180;
+        private int baseDamage = 100;
 
         public override void SetStaticDefaults()
         {
@@ -22,7 +22,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.width = 52;
+            Item.width = 72;
+            Item.height = 72;
             Item.damage = baseDamage;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 12;
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 7f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 62;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.rare = ModContent.RarityType<Turquoise>();
             Item.shootSpeed = 9f;
@@ -52,9 +52,9 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 conDamage = baseDamage;
             }
-            if (conDamage > 750)
+            if (conDamage > 400)
             {
-                conDamage = 750;
+                conDamage = 400;
             }
             Item.damage = conDamage;
         }

@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 10;
             NPC.DR_NERD(0.1f);
             NPC.lifeMax = 30;
-            NPC.aiStyle = 3;
+            NPC.aiStyle = NPCAIStyleID.Fighter;
             AIType = NPCID.Crab;
             NPC.value = Item.buyPrice(0, 0, 1, 0);
             NPC.HitSound = SoundID.NPCHit1;
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 num78 = 2.5f - num79;
             }
-            num78 *= (CalamityWorld.death ? 1.2f : 0.8f);
+            num78 *= (CalamityWorld.death ? 1.2f : CalamityWorld.revenge ? 1f : 0.8f);
             if (NPC.velocity.X < -num78 || NPC.velocity.X > num78)
             {
                 if (NPC.velocity.Y == 0f)
@@ -120,7 +120,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.OceanMonster.Chance * 0.2f;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => NPC.downedPlantBoss, ModContent.ItemType<MantisClaws>(), 5);
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddIf(() => NPC.downedPlantBoss, ModContent.ItemType<MantisClaws>(), 5);
+		}
 
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -133,6 +136,12 @@ namespace CalamityMod.NPCs.NormalNPCs
                 for (int k = 0; k < 15; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("MantisShrimp").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("MantisShrimp2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("MantisShrimp3").Type, 1f);
                 }
             }
         }

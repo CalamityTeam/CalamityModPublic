@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 61;
+            Item.damage = 92;
             Item.knockBack = 5f;
             Item.useTime = Item.useAnimation = 30;
             Item.mana = 20;
@@ -31,23 +31,11 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.UseSound = SoundID.Item20;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            int projCount = 0;
-            for (int x = 0; x < Main.maxProjectiles; x++)
-            {
-                Projectile proj = Main.projectile[x];
-                if (proj.active && proj.owner == player.whoAmI && proj.type == Item.shoot && proj.ai[0] <= 0f)
-                {
-                    projCount++;
-                }
-            }
-            return projCount <= 0;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {

@@ -12,14 +12,14 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tundra Flame Blossoms Staff");
-            Tooltip.SetDefault("Summons three unusual flowers over your head\n" +
-            "Each flower consumes one minion slot");
+            Tooltip.SetDefault("Summons three flarefrost orchids over your head\n" +
+                "Each flower consumes one minion slot");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 45;
+            Item.damage = 40;
             Item.mana = 10;
             Item.width = 52;
             Item.height = 60;
@@ -31,7 +31,6 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item46;
             Item.shoot = ModContent.ProjectileType<TundraFlameBlossom>();
-            Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
         }
 
@@ -44,7 +43,6 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 Projectile blossom = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 0f);
                 blossom.ai[1] = (int)(MathHelper.TwoPi / 3f * i * 32f);
-                blossom.rotation = blossom.ai[1] / 32f;
                 blossom.originalDamage = Item.damage;
             }
             return false;
@@ -54,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Summon
             CreateRecipe().
                 AddIngredient<CinderBlossomStaff>().
                 AddIngredient<FrostBlossomStaff>().
-                AddIngredient(ItemID.SoulofLight, 5).
+                AddRecipeGroup("AnyMythrilBar", 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

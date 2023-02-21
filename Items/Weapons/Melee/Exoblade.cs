@@ -54,8 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exoblade");
-            Tooltip.SetDefault("Ancient blade of Yharim's weapons and armors expert, Draedon\n" +
-                               "Left clicks release multiple energy beams that home in on enemies and slice them on hit\n" +
+            Tooltip.SetDefault("Left clicks release multiple energy beams that home in on enemies and slice them on hit\n" +
                                "Right clicks make you dash in the direction of the cursor with the blade\n" +
                                "Enemy hits from the blade during the dash result in massive damage and a rebound\n" +
                                "Left clicks briefly after a rebound are far stronger and create explosions on enemy hits");
@@ -79,7 +78,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.shoot = ProjectileType<ExobladeProj>();
             Item.shootSpeed = 9f;
-            Item.rare = ModContent.RarityType<Violet>();
+            Item.rare = RarityType<Violet>();
         }
 
         public override bool CanShoot(Player player)
@@ -141,9 +140,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<Terratomere>().
+                AddIngredient<EntropicClaymore>().
                 AddIngredient<AnarchyBlade>().
                 AddIngredient<FlarefrostBlade>().
-                AddIngredient<StellarStriker>().
                 AddIngredient<MiracleMatter>().
                 AddTile(TileType<DraedonsForge>()).
                 Register();

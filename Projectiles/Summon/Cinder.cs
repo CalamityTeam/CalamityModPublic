@@ -1,17 +1,17 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class Cinder : ModProjectile
     {
+        public Player Owner => Main.player[Projectile.owner];
+        
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public const float FallAcceleration = 0.185f;
-        public const float FallSpeedMax = 16;
-        public const float FallDelay = 300;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cinder");
@@ -20,76 +20,59 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 6;
-            Projectile.height = 12;
-            Projectile.friendly = true;
+            Projectile.idStaticNPCHitCooldown = 10;
             Projectile.penetrate = 3;
             Projectile.timeLeft = 300;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 10;
-            Projectile.minion = true;
+
+            Projectile.width = 12;
+            Projectile.height = 12;
+
             Projectile.DamageType = DamageClass.Summon;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.minion = true;
         }
 
         public override void AI()
         {
-            if (Projectile.velocity.X != Projectile.velocity.X)
-            {
-                Projectile.velocity.X *= -0.1f;
-            }
-            if (Projectile.velocity.X != Projectile.velocity.X)
-            {
-                Projectile.velocity.X *= -0.5f;
-            }
-            if (Projectile.velocity.Y != Projectile.velocity.Y && Projectile.velocity.Y > 1f)
-            {
-                Projectile.velocity.Y *= -0.5f;
-            }
-            Projectile.ai[0]++;
-            if (Projectile.ai[0] > 5f)
-            {
-                Projectile.ai[0] = 5f;
-                if (Projectile.velocity.Y == 0f && Projectile.velocity.X != 0f)
-                {
-                    Projectile.velocity.X *= 0.97f;
-                    if (Math.Abs(Projectile.velocity.X) < 0.01)
-                    {
-                        Projectile.velocity.X = 0f;
-                        Projectile.netUpdate = true;
-                    }
-                }
-            }
+            SpawnDust();
+            Lighting.AddLight(Projectile.Center, Color.Orange.ToVector3());
+        }
 
-            if (Projectile.ai[0] >= FallDelay && Projectile.velocity.Y < FallSpeedMax)
-            {
-                Projectile.velocity.Y += FallAcceleration;
-            }
-
-            Projectile.rotation += Projectile.velocity.X * 0.1f;
-            int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 1f);
-            Main.dust[idx].position += new Vector2(2f);
-            Main.dust[idx].scale += Main.rand.NextFloat(0.5f);
-            Main.dust[idx].noGravity = true;
-            Main.dust[idx].velocity.Y -= 2f;
-            if (Main.rand.NextBool(2))
-            {
-                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 1f);
-                Main.dust[idx].position += new Vector2(2f);
-                Main.dust[idx].scale += 0.3f + Main.rand.NextFloat(0.5f);
-                Main.dust[idx].noGravity = true;
-                Main.dust[idx].velocity.Y -= 2f;
-            }
-            if (Projectile.velocity.Y < 0.25f && Projectile.velocity.Y > 0.15f)
-            {
-                Projectile.velocity.X *= 0.8f;
-            }
-            Projectile.rotation = -Projectile.velocity.X * 0.05f;
-            if (Projectile.velocity.Y > 16f)
-            {
-                Projectile.velocity.Y = 16f;
-            }
+        public void SpawnDust()
+        {
+            int bootlegTexture = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, 0f, 0f, 100, default, 1f);
+            Main.dust[bootlegTexture].position += new Vector2(2f);
+            Main.dust[bootlegTexture].scale += 0.3f + Main.rand.NextFloat(0.5f);
+            Main.dust[bootlegTexture].noGravity = true;
+            Main.dust[bootlegTexture].velocity.Y -= 2f;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            int flowerPetalCount = Main.rand.Next(3, 5 + 1);
+            float thetaDelta = Projectile.velocity.ToRotation();
+            float weaveDistanceMin = 2f;
+            float weaveDistanceOutwardMax = 3f;
+            float weaveDistanceInner = 0.5f;
+            for (float theta = 0f; theta < MathHelper.TwoPi; theta += 0.05f)
+            {
+                Vector2 velocity = theta.ToRotationVector2() *
+                    (weaveDistanceMin +
+                    // The 0.5 in here is to prevent the petal from looping back into itself. With a 0.5 addition, it is perfect, coming back to (0,0)
+                    // instead of weaving backwards.
+                    (float)(Math.Sin(thetaDelta + theta * flowerPetalCount) + 0.5f + weaveDistanceInner) *
+                    weaveDistanceOutwardMax);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.Torch, velocity);
+                dust.noGravity = true;
+                dust.scale = 1.35f;
+            }
+            // Makes an orange flower made out of dust when it hits a target.
+
+            target.AddBuff(BuffID.OnFire, 180);
+        }
     }
 }

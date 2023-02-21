@@ -23,6 +23,12 @@ namespace CalamityMod.Sounds
 
         public static readonly SoundStyle ELRFireSound = new("CalamityMod/Sounds/Item/ELRFire"); //What does ELR stand for
 
+        public static readonly SoundStyle ExoLaserShootSound = new("CalamityMod/Sounds/Custom/ExoMechs/ExoLaserShoot");
+
+        public static readonly SoundStyle ExoPlasmaExplosionSound = new("CalamityMod/Sounds/Custom/ExoMechs/ExoPlasmaExplosion", 2);
+
+        public static readonly SoundStyle ExoPlasmaShootSound = new("CalamityMod/Sounds/Custom/ExoMechs/ExoPlasmaShoot");
+
         public static readonly SoundStyle LargeWeaponFireSound = new("CalamityMod/Sounds/Item/LargeWeaponFire");
 
         public static readonly SoundStyle GaussWeaponFire = new("CalamityMod/Sounds/Item/GaussWeaponFire");

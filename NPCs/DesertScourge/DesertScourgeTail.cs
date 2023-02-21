@@ -179,5 +179,15 @@ namespace CalamityMod.NPCs.DesertScourge
             if (damage > 0)
                 player.AddBuff(BuffID.Bleeding, 180, true);
         }
+
+        public override Color? GetAlpha(Color drawColor)
+        {
+            if (CalamityWorld.getFixedBoi)
+            {
+                Color lightColor = Color.MediumBlue * drawColor.A;
+                return lightColor * NPC.Opacity;
+            }
+            else return null;
+        }
     }
 }

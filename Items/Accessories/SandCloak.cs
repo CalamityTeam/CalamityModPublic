@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Sand Cloak");
-            Tooltip.SetDefault("+2 defense and 5% increased movement speed\n" +
+            Tooltip.SetDefault("5% increased movement speed\n" +
                 "TOOLTIP LINE HERE\n" +
                 "This effect has a 30 second cooldown before it can be used again");
         }
@@ -24,6 +24,7 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.accessory = true;
+            Item.defense = 2;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -37,7 +38,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statDefense += 2;
             player.moveSpeed += 0.05f;
             player.Calamity().sandCloak = true;
         }

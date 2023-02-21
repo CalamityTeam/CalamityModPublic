@@ -1,4 +1,5 @@
 ﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Projectiles.Typeless;
@@ -72,6 +73,7 @@ namespace CalamityMod.CalPlayer.Dashes
 
             int holyExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(60);
             Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosion>(), holyExplosionDamage, 15f, Main.myPlayer, 0f, 0f);
+            npc.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
     }
 }

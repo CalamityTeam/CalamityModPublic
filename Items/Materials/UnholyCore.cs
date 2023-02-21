@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CharredOre>(4).
+                AddIngredient<InfernalSuevite>(4).
                 AddIngredient(ItemID.Hellstone, 4).
                 AddTile(TileID.Hellforge).
                 Register();

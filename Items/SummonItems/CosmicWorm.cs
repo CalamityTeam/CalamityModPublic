@@ -48,7 +48,7 @@ namespace CalamityMod.Items.SummonItems
             Color messageColor = Color.Cyan;
             CalamityUtils.DisplayLocalizedText(key, messageColor);
 
-            SoundEngine.PlaySound(DevourerofGodsHead.SpawnSound, player.position);
+            SoundEngine.PlaySound(DevourerofGodsHead.SpawnSound, player.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DevourerofGodsHead>());
             else
@@ -66,13 +66,11 @@ namespace CalamityMod.Items.SummonItems
                 AddTile(TileID.LunarCraftingStation).
                 Register();
 
+            // sequence breaking recipe
             CreateRecipe().
-                AddRecipeGroup("IronBar", 30).
-                AddIngredient(ItemID.LunarBar, 10).
-                AddIngredient<GalacticaSingularity>(20).
-                AddIngredient(ItemID.SoulofLight, 20).
-                AddIngredient(ItemID.SoulofNight, 20).
-                AddIngredient<Phantoplasm>(30).
+                AddIngredient(ItemID.LunarBar, 40).
+                AddIngredient<GalacticaSingularity>(10).
+                AddIngredient<Phantoplasm>(40).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

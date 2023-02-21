@@ -2,7 +2,10 @@
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -26,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.width = 112;
             Item.height = 112;
             Item.DamageType = DamageClass.Magic;
-            Item.damage = 2727;
+            Item.damage = 1800;
             Item.knockBack = 9.5f;
             Item.mana = 26;
             Item.useAnimation = 40;
@@ -44,15 +47,13 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 15f;
         }
 
-        // TODO -- Fancy visual flare doesn't work with resprited Helium Flash, adjust dust positions
-        /*
         // Creates dust at the tip of the staff when used.
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 dir = velocity;
             double angle = Math.Atan2(velocity.Y, velocity.X) + MathHelper.PiOver4;
             dir = dir.SafeNormalize(Vector2.Zero);
-            dir *= 64f * 1.4142f; // distance to gleaming point on staff
+            dir *= 80f * (float)Math.Sqrt(2); // distance to gleaming point on staff
             Vector2 dustPos = position + dir;
 
             int dustType = 162;
@@ -93,7 +94,7 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             return true;
         }
-        */
+        
 
         public override void AddRecipes()
         {

@@ -21,7 +21,7 @@ namespace CalamityMod.Systems
             flags[3] = downedSlimeGod;
             flags[4] = downedCryogen;
             flags[5] = downedBrimstoneElemental;
-            flags[6] = downedCalamitas;
+            flags[6] = downedCalamitasClone;
             flags[7] = downedLeviathan;
 
             BitsByte flags2 = new BitsByte();
@@ -36,7 +36,7 @@ namespace CalamityMod.Systems
 
             // Don't write meaningful values for the now-unused vanilla boss booleans
             BitsByte flags3 = new BitsByte();
-            flags3[0] = downedSCal;
+            flags3[0] = downedCalamitas;
             flags3[1] = downedDragonfolly;
             flags3[2] = downedCrabulon;
             flags3[3] = downedBetsy;
@@ -125,6 +125,12 @@ namespace CalamityMod.Systems
             flags11[6] = downedArtemisAndApollo;
             flags11[7] = TalkedToDraedon;
 
+            BitsByte flags12 = new BitsByte();
+            flags12[0] = downedCragmawMire;
+            flags12[1] = downedMauler;
+            flags12[2] = downedNuclearTerror;
+            flags12[3] = downedBossRush;
+
             writer.Write(flags);
             writer.Write(flags2);
             writer.Write(flags3);
@@ -136,6 +142,7 @@ namespace CalamityMod.Systems
             writer.Write(flags9);
             writer.Write(flags10);
             writer.Write(flags11);
+            writer.Write(flags12);
 
             RecipeUnlockHandler.SendData(writer);
 
@@ -152,6 +159,7 @@ namespace CalamityMod.Systems
             writer.WriteVector2(JungleLabCenter);
             writer.WriteVector2(HellLabCenter);
             writer.WriteVector2(IceLabCenter);
+            writer.WriteVector2(CavernLabCenter);
         }
         #endregion
 
@@ -165,7 +173,7 @@ namespace CalamityMod.Systems
             downedSlimeGod = flags[3];
             downedCryogen = flags[4];
             downedBrimstoneElemental = flags[5];
-            downedCalamitas = flags[6];
+            downedCalamitasClone = flags[6];
             downedLeviathan = flags[7];
 
             BitsByte flags2 = reader.ReadByte();
@@ -180,7 +188,7 @@ namespace CalamityMod.Systems
 
             // Explicitly discard the now-unused vanilla boss booleans
             BitsByte flags3 = reader.ReadByte();
-            downedSCal = flags3[0];
+            downedCalamitas = flags3[0];
             downedDragonfolly = flags3[1];
             downedCrabulon = flags3[2];
             downedBetsy = flags3[3];
@@ -269,6 +277,12 @@ namespace CalamityMod.Systems
             downedArtemisAndApollo = flags11[6];
             TalkedToDraedon = flags11[7];
 
+            BitsByte flags12 = reader.ReadByte();
+            downedCragmawMire = flags12[0];
+            downedMauler = flags12[1];
+            downedNuclearTerror = flags12[2];
+            downedBossRush = flags12[3];
+
             RecipeUnlockHandler.ReceiveData(reader);
 
             Abyss.AbyssChasmBottom = reader.ReadInt32();
@@ -284,6 +298,7 @@ namespace CalamityMod.Systems
             JungleLabCenter = reader.ReadVector2();
             HellLabCenter = reader.ReadVector2();
             IceLabCenter = reader.ReadVector2();
+            CavernLabCenter = reader.ReadVector2();
         }
         #endregion
     }

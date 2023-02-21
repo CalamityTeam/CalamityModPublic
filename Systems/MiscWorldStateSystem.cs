@@ -26,6 +26,7 @@ namespace CalamityMod
             CalamityGlobalNPC.voidBoss = -1;
             CalamityGlobalNPC.energyFlame = -1;
             CalamityGlobalNPC.hiveMind = -1;
+            CalamityGlobalNPC.astrumAureus = -1;
             CalamityGlobalNPC.scavenger = -1;
 
             for (int i = 0; i < CalamityGlobalNPC.bobbitWormBottom.Length; i++)
@@ -141,6 +142,7 @@ namespace CalamityMod
             tag["JungleLabCenter"] = JungleLabCenter;
             tag["HellLabCenter"] = HellLabCenter;
             tag["IceLabCenter"] = IceLabCenter;
+            tag["CavernLabCenter"] = CavernLabCenter;
         }
 
         public override void LoadWorldData(TagCompound tag)
@@ -188,6 +190,7 @@ namespace CalamityMod
             JungleLabCenter = tag.Get<Vector2>("JungleLabCenter");
             HellLabCenter = tag.Get<Vector2>("HellLabCenter");
             IceLabCenter = tag.Get<Vector2>("IceLabCenter");
+            CavernLabCenter = tag.Get<Vector2>("CavernLabCenter");
         }
         #endregion Saving/Loading
     }

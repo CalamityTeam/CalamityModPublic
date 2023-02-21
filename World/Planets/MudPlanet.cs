@@ -109,7 +109,7 @@ namespace CalamityMod.World.Planets
                 {
                     int testX = origin.X + _random.Next(-radius, radius);
                     int testY = origin.Y + _random.Next(-radius, radius);
-                    if (WorldGen.EmptyTileCheck(testX - 1, testX + 1, testY - 1, testY + 1) && _tiles[testX, testY].WallType  == WallID.HiveUnsafe)
+                    if (WorldGen.EmptyTileCheck(testX - 1, testX + 1, testY - 1, testY + 1) && _tiles[testX, testY].WallType == WallID.HiveUnsafe)
                     {
                         for (int floorX = testX - 1; floorX <= testX + 1; floorX++)
                         {
@@ -119,7 +119,7 @@ namespace CalamityMod.World.Planets
                         }
                         //Place chest
                         int chestID = WorldGen.PlaceChest(testX, testY + 1, 21, false, 29);
-                        FillHoneyChest(chestID);
+                        GiantHive.FillHoneyChest(chestID, WorldGen.genRand);
                         placedChest = true;
                     }
                 }
@@ -237,7 +237,7 @@ namespace CalamityMod.World.Planets
             }
 
             //Potion loot
-            if (_random.Next(2) == 0)
+            if (_random.NextBool())
             {
                 chest.item[index].SetDefaults(_random.Next(PotionLoot));
                 chest.item[index++].stack = _random.Next(1, 4);
@@ -249,7 +249,7 @@ namespace CalamityMod.World.Planets
             }
 
             //Weaponry
-            if (_random.Next(2) == 0)
+            if (_random.NextBool())
             {
                 chest.item[index].SetDefaults(_random.Next(new int[] { ItemID.Shuriken, ItemID.ThrowingKnife }));
                 chest.item[index++].stack = _random.Next(50, 100);
@@ -261,7 +261,7 @@ namespace CalamityMod.World.Planets
             }
 
             //Recall potion
-            if (_random.Next(2) == 0)
+            if (_random.NextBool())
             {
                 chest.item[index].SetDefaults(ItemID.RecallPotion);
                 chest.item[index++].stack = _random.Next(1, 4);
@@ -269,91 +269,6 @@ namespace CalamityMod.World.Planets
             else //glowsticks
             {
                 chest.item[index].SetDefaults(ItemID.Glowstick);
-                chest.item[index++].stack = _random.Next(18, 36);
-            }
-
-        }
-
-        //---------------------
-        //HONEY CHEST STUFF
-        //---------------------
-
-        private int[] FocusLootHoney = new int[]
-        {
-            ItemID.NaturesGift,
-            ItemID.Bezoar,
-            ItemID.SharpeningStation
-        };
-
-        private int[] PotionLootHoney = new int[]
-        {
-            ItemID.LifeforcePotion,
-            ItemID.RegenerationPotion,
-            ItemID.ManaRegenerationPotion,
-            ItemID.HeartreachPotion,
-            ModContent.ItemType<PhotosynthesisPotion>(),
-            ModContent.ItemType<CadancePotion>()
-        };
-
-        private int[] BarLootHoney = new int[]
-        {
-            WorldGen.silverBar == TileID.Silver ? ItemID.SilverBar : ItemID.TungstenBar,
-            WorldGen.goldBar == TileID.Gold ? ItemID.GoldBar : ItemID.PlatinumBar
-        };
-
-        private void FillHoneyChest(int id)
-        {
-            Chest chest = Main.chest[id];
-            int index = 0;
-
-            //Focus loot
-            chest.item[index++].SetDefaults(_random.Next(FocusLootHoney));
-
-            //Bars
-            if (_random.Next(3) <= 1)
-            {
-                chest.item[index].SetDefaults(_random.Next(BarLootHoney));
-                chest.item[index].SetDefaults(_random.Next(7, 15));
-            }
-            else
-            {
-                chest.item[index].SetDefaults(ItemID.GoldCoin);
-                chest.item[index++].stack = _random.Next(3, 5); // 3 or 4 gold coins
-            }
-
-            //Potion loot
-            if (_random.Next(2) == 0)
-            {
-                chest.item[index].SetDefaults(_random.Next(PotionLootHoney));
-                chest.item[index++].stack = _random.Next(1, 4);
-            }
-            else //Healing potion
-            {
-                chest.item[index].SetDefaults(ItemID.BottledHoney);
-                chest.item[index++].stack = _random.Next(3, 7);
-            }
-
-            //Weaponry
-            if (_random.Next(2) == 0)
-            {
-                chest.item[index].SetDefaults(ItemID.Stinger);
-                chest.item[index++].stack = _random.Next(4, 6);
-            }
-            else
-            {
-                chest.item[index].SetDefaults(ItemID.JungleSpores);
-                chest.item[index++].stack = _random.Next(3, 5);
-            }
-
-            //Recall potion
-            if (_random.Next(2) == 0)
-            {
-                chest.item[index].SetDefaults(ItemID.RecallPotion);
-                chest.item[index++].stack = _random.Next(1, 4);
-            }
-            else //glowsticks
-            {
-                chest.item[index].SetDefaults(ItemID.YellowTorch);
                 chest.item[index++].stack = _random.Next(18, 36);
             }
 

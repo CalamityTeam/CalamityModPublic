@@ -1,10 +1,18 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Terraria;
 using Terraria.ModLoader;
+using ReLogic.Content;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Waters
 {
     public class SulphuricWater : ModWaterStyle
     {
+        public static int Type;
+        public override void SetStaticDefaults()
+        {
+            Type = Slot;
+        }
         public override int ChooseWaterfallStyle()
         {
             return ModContent.Find<ModWaterfallStyle>("CalamityMod/SulphuricWaterflow").Slot;
@@ -19,6 +27,16 @@ namespace CalamityMod.Waters
         {
             return 708;
         }
+
+        public override Asset<Texture2D> GetRainTexture() 
+		{
+			return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaReplacements/RainSulphSea");
+		}
+		
+		public override byte GetRainVariant() 
+		{
+			return (byte)Main.rand.Next(3);
+		}
 
         public override Color BiomeHairColor()
         {

@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -68,19 +69,22 @@ namespace CalamityMod.Projectiles.Boss
                 Color color = Main.hslToRgb(hue[i] % 1f, 1f, 0.5f) * colorChangeAmt * colorChangeAmt2;
 
                 bool underworld = Projectile.ai[0] == 2f;
-                if (Main.dayTime)
+                if (!CalamityWorld.getFixedBoi)
                 {
-                    color.R = 255;
-                    if (underworld)
-                        color.B = 0;
-                }
-                else
-                {
-                    color.B = 255;
-                    if (underworld)
-                        color.G = 0;
+                    if (Main.dayTime)
+                    {
+                        color.R = 255;
+                        if (underworld)
+                            color.B = 0;
+                    }
                     else
-                        color.R = 0;
+                    {
+                        color.B = 255;
+                        if (underworld)
+                            color.G = 0;
+                        else
+                            color.R = 0;
+                    }
                 }
 
                 color.A /= 4;

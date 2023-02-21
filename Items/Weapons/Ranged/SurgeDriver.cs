@@ -86,6 +86,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             // Snipe blast. Done via a held projectile.
             else
                 Projectile.NewProjectile(source, gunTip, shootVelocity, ModContent.ProjectileType<SurgeDriverHoldout>(), 0, knockback, player.whoAmI);
+
             return false;
         }
     }

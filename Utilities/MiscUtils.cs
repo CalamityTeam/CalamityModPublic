@@ -8,6 +8,7 @@ using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Crags;
+using CalamityMod.NPCs.DraedonLabThings;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PlagueEnemies;
@@ -379,8 +380,11 @@ namespace CalamityMod
             int item = -1;
             switch (style)
             {
+                case 0:
+                    item = ModContent.ItemType<RepairUnitBanner>();
+                    break;
                 case 1:
-                    item = ModContent.ItemType<FlounderBanner>();
+                    item = ModContent.ItemType<SulflounderBanner>();
                     break;
                 case 2:
                     item = ModContent.ItemType<GnasherBanner>();
@@ -389,7 +393,10 @@ namespace CalamityMod
                     item = ModContent.ItemType<TrasherBanner>();
                     break;
                 case 4:
-                    item = ModContent.ItemType<CatfishBanner>();
+                    item = ModContent.ItemType<ToxicatfishBanner>();
+                    break;
+                case 6:
+                    item = ModContent.ItemType<AndroombaBanner>();
                     break;
                 case 7:
                     item = ModContent.ItemType<AquaticUrchinBanner>();
@@ -735,8 +742,11 @@ namespace CalamityMod
             int npc = -1;
             switch (style)
             {
+                case 0:
+                    npc = ModContent.NPCType<RepairUnitCritter>();
+                    break;
                 case 1:
-                    npc = ModContent.NPCType<Flounder>();
+                    npc = ModContent.NPCType<Sulflounder>();
                     break;
                 case 2:
                     npc = ModContent.NPCType<Gnasher>();
@@ -745,7 +755,10 @@ namespace CalamityMod
                     npc = ModContent.NPCType<Trasher>();
                     break;
                 case 4:
-                    npc = ModContent.NPCType<Catfish>();
+                    npc = ModContent.NPCType<Toxicatfish>();
+                    break;
+                case 6:
+                    npc = ModContent.NPCType<Androomba>();
                     break;
                 case 7:
                     npc = ModContent.NPCType<AquaticUrchin>();

@@ -1,7 +1,6 @@
 ﻿using Terraria.ModLoader;
 
 namespace CalamityMod
-
 {
     public class CalamityKeybinds : ModSystem
     {
@@ -18,6 +17,7 @@ namespace CalamityMod
         public static ModKeybind AngelicAllianceHotKey { get; private set; }
         public static ModKeybind GodSlayerDashHotKey { get; private set; }
         public static ModKeybind ExoChairSlowdownHotkey { get; private set; }
+        public static ModKeybind DashHotkey { get; private set; }
 
         public override void Load()
         {
@@ -35,6 +35,7 @@ namespace CalamityMod
             AngelicAllianceHotKey = KeybindLoader.RegisterKeybind(Mod, "Angelic Alliance Blessing", "G");
             GodSlayerDashHotKey = KeybindLoader.RegisterKeybind(Mod, "God Slayer Dash", "H");
             ExoChairSlowdownHotkey = KeybindLoader.RegisterKeybind(Mod, "Exo Chair Slow Down", "RightShift");
+            DashHotkey = KeybindLoader.RegisterKeybind(Mod, "Dash Double Tap Override", "F");
         }
 
         public override void Unload()
@@ -52,6 +53,7 @@ namespace CalamityMod
             AngelicAllianceHotKey = null;
             GodSlayerDashHotKey = null;
             ExoChairSlowdownHotkey = null;
+            DashHotkey = null;
         }
     }
 }

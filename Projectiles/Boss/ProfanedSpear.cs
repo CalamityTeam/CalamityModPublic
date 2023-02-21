@@ -1,10 +1,10 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class ProfanedSpear : ModProjectile
@@ -24,54 +24,33 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.hostile = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            Projectile.alpha = 255;
-            Projectile.timeLeft = 300;
-        }
-
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(Projectile.localAI[0]);
-        }
-
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            Projectile.localAI[0] = reader.ReadSingle();
+            Projectile.timeLeft = 600;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
         {
-            if (Projectile.timeLeft < 210)
+            Lighting.AddLight(Projectile.Center, 0.45f, 0.35f, 0f);
+
+            if (Projectile.timeLeft < 510)
                 Projectile.tileCollide = true;
 
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.PiOver4;
 
-            if (Projectile.alpha > 0)
-                Projectile.alpha -= 17;
-
-            Projectile.ai[1] += 1f;
-            if (Projectile.ai[1] <= 20f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] <= 20f)
                 Projectile.velocity *= 0.95f;
-            else if (Projectile.ai[1] > 20f && Projectile.ai[1] <= 39f)
-                Projectile.velocity *= 1.1f;
-            else if (Projectile.ai[1] == 40f)
-                Projectile.ai[1] = 0f;
+            else
+                Projectile.velocity *= 1.06f;
 
-            Projectile.localAI[0] += 1f;
-            if (Projectile.localAI[0] == 30f)
+            if (Projectile.ai[0] > 40f)
+                Projectile.ai[0] = 0f;
+
+            float maxVelocity = 20f;
+            if (Projectile.velocity.Length() > maxVelocity)
             {
-                Projectile.localAI[0] = 0f;
-                for (int l = 0; l < 12; l++)
-                {
-                    Vector2 vector3 = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
-                    vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy((double)(Projectile.rotation - 1.57079637f), default);
-                    int num9 = Dust.NewDust(Projectile.Center, 0, 0, 244, 0f, 0f, 160, default, 1f);
-                    Main.dust[num9].scale = 1.1f;
-                    Main.dust[num9].noGravity = true;
-                    Main.dust[num9].position = Projectile.Center + vector3;
-                    Main.dust[num9].velocity = Projectile.velocity * 0.1f;
-                    Main.dust[num9].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
-                }
+                Projectile.velocity.Normalize();
+                Projectile.velocity *= maxVelocity;
             }
         }
 

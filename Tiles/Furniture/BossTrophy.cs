@@ -53,7 +53,7 @@ namespace CalamityMod.Tiles.Furniture
                     item = ModContent.ItemType<ProvidenceTrophy>();
                     break;
                 case 7:
-                    item = ModContent.ItemType<CalamitasTrophy>();
+                    item = ModContent.ItemType<CalamitasCloneTrophy>();
                     break;
                 case 8:
                     item = ModContent.ItemType<HiveMindTrophy>();

@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    class PhantomicEmpowerment : ModBuff
+    public class PhantomicEmpowerment : ModBuff
     {
         public override void SetStaticDefaults()
         {

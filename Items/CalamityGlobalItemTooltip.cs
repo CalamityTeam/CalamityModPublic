@@ -174,11 +174,11 @@ namespace CalamityMod.Items
             if (item.type == ModContent.ItemType<Earth>())
             {
                 List<Color> earthColors = new List<Color>()
-                            {
-                                new Color(255, 99, 146),
-                                new Color(255, 228, 94),
-                                new Color(127, 200, 248)
-                            };
+                {
+                    new Color(255, 99, 146),
+                    new Color(255, 228, 94),
+                    new Color(127, 200, 248)
+                };
                 if (nameLine != null)
                 {
                     int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % earthColors.Count);
@@ -253,9 +253,18 @@ namespace CalamityMod.Items
             // Numerous random tooltip edits which don't fit into another category
             #region Various Tooltip Edits
 
-            // Destroy this disgusting meme tooltip.
+            // Master Mode items also drop in Revengeance
+            // Only affects vanilla and Calamity items
+            if (item.master && (item.type < ItemID.Count || item.ModItem?.Mod is CalamityMod))
+                EditTooltipByName("Master", (line) => line.Text += " or Revengeance");
+
+            // Add a tooltip about Slimed's effects
+            if (item.type == ItemID.SlimeGun)
+                EditTooltipByNum(0, (line) => line.Text += "\nSlimed enemies take more damage from fire-based debuffs");
+            // Replace the meme tooltip with a useful one.
             if (item.type == ItemID.GelBalloon)
-                EditTooltipByNum(0, (line) => line.Text = "");
+                EditTooltipByNum(0, (line) => line.Text = "Throws a mixture of slime and sparkling crystals"
+                + "\nSlimed enemies take more damage from fire-based debuffs");
 
             // Flesh Knuckles giving extra max life.
             if (item.type == ItemID.FleshKnuckles || item.type == ItemID.HeroShield || item.type == ItemID.BerserkerGlove)
@@ -296,13 +305,13 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ArcheryPotion)
                 EditTooltipByNum(0, (line) => line.Text = "20% increased arrow speed and 5% increased arrow damage");
 
+            // Buffed Ironskin Potion tooltip
+            if (item.type == ItemID.IronskinPotion)
+                EditTooltipByNum(0, (line) => line.Text = "Increase defense by " + CalamityUtils.GetScalingDefense(-1));
+
             // Nerfed Swiftness Potion tooltip
             if (item.type == ItemID.SwiftnessPotion)
                 EditTooltipByNum(0, (line) => line.Text = "15% increased movement speed");
-
-            // Nerfed Endurance Potion tooltip
-            if (item.type == ItemID.EndurancePotion)
-                EditTooltipByNum(0, (line) => line.Text = "Reduces damage taken by 5%");
 
             // Hand Warmer has a side bonus with Snow armor
             if (item.type == ItemID.HandWarmer)
@@ -314,6 +323,13 @@ namespace CalamityMod.Items
             // Golden Fishing Rod inherently contains High Test Fishing Line
             if (item.type == ItemID.GoldenFishingRod)
                 EditTooltipByName("NeedsBait", (line) => line.Text += "\nIts fishing line will never break");
+
+            // Information about graveyards
+            // There are no item sets for tombstones wtf
+            if (item.type == ItemID.Tombstone || item.type == ItemID.GraveMarker || item.type == ItemID.CrossGraveMarker || item.type == ItemID.Headstone || item.type == ItemID.Gravestone || item.type == ItemID.Obelisk
+                || item.type == ItemID.RichGravestone1 || item.type == ItemID.RichGravestone2 || item.type == ItemID.RichGravestone3 || item.type == ItemID.RichGravestone4 || item.type == ItemID.RichGravestone5)
+                EditTooltipByName("Material", (line) => line.Text += "\n20 of any tombstone turns the surrounding area into a graveyard"
+                + "\nGraveyards have various new item sales and recipes");
 
             // Eternity Crystal notifies the player that they can accelerate the invasion
             if (item.type == ItemID.DD2ElderCrystal)
@@ -440,7 +456,7 @@ namespace CalamityMod.Items
 
             // Hallowed (and True Excalibur)
             if (item.type == ItemID.Excalibur || item.type == ItemID.Gungnir || item.type == ItemID.TrueExcalibur)
-                EditTooltipByName("Knockback", (line) => line.Text += "\nInflicts Holy Flames\nDeals double damage to enemies above 75% life");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nDeals double damage to enemies above 75% life");
             #endregion
 
             // Other melee weapon tooltips
@@ -456,11 +472,8 @@ namespace CalamityMod.Items
             if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
                 EditTooltipByName("Knockback", (line) => line.Text += "\nIgnores 50% of enemy defense");
 
-            if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge || item.type == ItemID.BallOHurt || item.type == ItemID.CorruptYoyo)
+            if (item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge)
                 EditTooltipByName("Knockback", (line) => line.Text += "\nInflicts Shadowflame on hit");
-
-            if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball || item.type == ItemID.CrimsonYoyo || item.type == ItemID.CrimsonRod)
-                EditTooltipByName("Knockback", (line) => line.Text += "\nInflicts Burning Blood on hit");
 
             if (item.type == ItemID.DeathSickle)
                 EditTooltipByNum(0, (line) => line.Text += "\nInflicts Whispering Death on hit");
@@ -656,9 +669,9 @@ namespace CalamityMod.Items
             if (item.type == ItemID.MagmaStone || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
                 EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
 
-            // Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
+            // Yoyo Glove/Bag apply a 0.5x damage multiplier on the second yoyo
             if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
-                EditTooltipByNum(0, (line) => line.Text += "\nYoyos will do 33% less damage");
+                EditTooltipByNum(0, (line) => line.Text += "\nSecondary yoyos will do 50% less damage");
 
             // Falcon Blade +20% move speed while holding
             if (item.type == ItemID.FalconBlade)
@@ -677,11 +690,11 @@ namespace CalamityMod.Items
 
             // Tin
             if (item.type == ItemID.TinHelmet)
-                AddTooltip("4% increased critical strike chance");
+                AddTooltip("3% increased critical strike chance");
             if (item.type == ItemID.TinChainmail)
                 AddTooltip("+1 life regen");
             if (item.type == ItemID.TinGreaves)
-                AddTooltip("10% increased movement speed");
+                AddTooltip("5% increased movement speed");
 
             // Iron
             if (item.type == ItemID.IronHelmet || item.type == ItemID.AncientIronHelmet || item.type == ItemID.IronChainmail || item.type == ItemID.IronGreaves)
@@ -693,11 +706,11 @@ namespace CalamityMod.Items
 
             // Silver
             if (item.type == ItemID.SilverHelmet)
-                AddTooltip("6% increased critical strike chance");
+                AddTooltip("5% increased critical strike chance");
             if (item.type == ItemID.SilverChainmail)
                 AddTooltip("+2 life regen");
             if (item.type == ItemID.SilverGreaves)
-                AddTooltip("10% increased movement speed");
+                AddTooltip("8% increased movement speed");
 
             // Tungsten
             if (item.type == ItemID.TungstenHelmet)
@@ -705,7 +718,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.TungstenChainmail)
                 AddTooltip("+1 life regen");
             if (item.type == ItemID.TungstenGreaves)
-                AddTooltip("10% increased movement speed");
+                AddTooltip("8% increased movement speed");
 
             // Gold
             if (item.type == ItemID.GoldHelmet || item.type == ItemID.AncientGoldHelmet)
@@ -713,7 +726,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.GoldChainmail)
                 AddTooltip("Reduces damage taken by 5%");
             if (item.type == ItemID.GoldGreaves)
-                AddTooltip("12% increased movement speed");
+                AddTooltip("10% increased movement speed");
 
             // Platinum
             if (item.type == ItemID.PlatinumHelmet)
@@ -721,7 +734,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.PlatinumChainmail)
                 AddTooltip("5% increased critical strike chance");
             if (item.type == ItemID.PlatinumGreaves)
-                AddTooltip("12% increased movement speed");
+                AddTooltip("10% increased movement speed");
 
             // Shadow
             if (item.type == ItemID.ShadowHelmet || item.type == ItemID.AncientShadowHelmet || item.type == ItemID.ShadowScalemail || item.type == ItemID.AncientShadowScalemail || item.type == ItemID.ShadowGreaves || item.type == ItemID.AncientShadowGreaves)
@@ -753,10 +766,6 @@ namespace CalamityMod.Items
             // Mythril
             if (item.type == ItemID.MythrilHood)
                 EditTooltipByNum(0, (line) => line.Text = $"Increases maximum mana by {MythrilArmorSetChange.MaxManaBoost + 60}");
-            if (item.type == ItemID.MythrilChainmail)
-                EditTooltipByNum(0, (line) => line.Text = $"{MythrilArmorSetChange.ChestplateDamagePercentageBoost + 7}% increased damage");
-            if (item.type == ItemID.MythrilGreaves)
-                EditTooltipByNum(0, (line) => line.Text = $"{MythrilArmorSetChange.LeggingsCritChanceBoost + 10}% increased critical strike chance");
 
             // Orichalcum
             if (item.type == ItemID.OrichalcumBreastplate)
@@ -835,6 +844,9 @@ namespace CalamityMod.Items
 
             // Add mentions of what Calamity ores vanilla pickaxes can mine
             #region Pickaxe New Ore Tooltips
+            if (item.type == ItemID.GoldPickaxe || item.type == ItemID.PlatinumPickaxe)
+                EditTooltipByNum(0, (line) => line.Text = "Can mine Demonite, Crimtane, Meteorite, Sea Prisms and Sea Prism Crystals");
+
             if (item.type == ItemID.Picksaw)
                 EditTooltipByNum(0, (line) => line.Text += "\nCan mine Scoria Ore located in the Abyss");
 
@@ -857,9 +869,9 @@ namespace CalamityMod.Items
                 EditTooltipByName("Defense", (line) => line.Text += $"\n{GladiatorArmorSetChange.LeggingRogueVelocityBoostPercent}% increased rogue velocity");
 
             // Forbidden (UNLESS you are wearing the Circlet, which is Summon/Rogue and does not get this line)
-            if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants
+            if ((item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants)
                 && !Main.LocalPlayer.Calamity().forbiddenCirclet)
-                EditTooltipByName("SetBonus", (line) => line.Text += "\nThe minion damage nerf is reduced while wielding magic weapons");
+                EditTooltipByName("SetBonus", (line) => line.Text += "\nMinions no longer deal less damage while wielding magic weapons");
             #endregion
 
             // Provide the full stats of every vanilla set of wings
@@ -945,8 +957,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.SteampunkWings)
                 AddWingStats(7.5f, 1f, 1, 180, "+8 defense, 10% increased movement speed,\n" + "4% increased damage, and 2% increased critical strike chance");
 
+            // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
             if (item.type == ItemID.LeafWings)
                 AddWingStats(6.25f, 1f, 1, 100, "+5 defense, 5% increased damage reduction,\n" + "and permanent Dryad's Blessing while wearing the Tiki Armor");
+            // AddWingStats(7.5f, 1f, 1, 160, "+5 defense, 5% increased damage reduction,\n" + "and permanent Dryad's Blessing while wearing the Tiki Armor");
 
             if (item.type == ItemID.BatWings)
                 AddWingStats(7.5f, 1f, 1, 160, "At night or during an eclipse, you will gain the following boosts:\n" +
@@ -999,7 +1013,7 @@ namespace CalamityMod.Items
                 AddWingStats2(6f, 2.5f, 2, 150, null, "Equipable");
 
             if (item.type == ItemID.RainbowWings)
-                AddWingStats(7f, 2.5f, 2, 150);
+                AddWingStats(7f, 2.5f, 2, 100);
 
             if (item.type == ItemID.LongRainbowTrailWings)
                 AddWingStats(8f, 2.75f, 4, 180);

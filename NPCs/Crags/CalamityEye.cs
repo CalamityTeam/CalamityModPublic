@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Crags
         public override void SetDefaults()
         {
             NPC.lavaImmune = true;
-            NPC.aiStyle = 2;
+            NPC.aiStyle = NPCAIStyleID.DemonEye;
             NPC.damage = 40;
             NPC.width = 30;
             NPC.height = 30;
@@ -57,49 +57,6 @@ namespace CalamityMod.NPCs.Crags
 
         public override void AI()
         {
-            if (NPC.life < NPC.lifeMax * 0.5)
-            {
-                if (NPC.direction == -1 && NPC.velocity.X > -6f)
-                {
-                    NPC.velocity.X -= 0.1f;
-                    if (NPC.velocity.X > 6f)
-                        NPC.velocity.X -= 0.1f;
-                    else if (NPC.velocity.X > 0f)
-                        NPC.velocity.X += 0.05f;
-                    if (NPC.velocity.X < -6f)
-                        NPC.velocity.X = -6f;
-                }
-                else if (NPC.direction == 1 && NPC.velocity.X < 6f)
-                {
-                    NPC.velocity.X += 0.1f;
-                    if (NPC.velocity.X < -6f)
-                        NPC.velocity.X += 0.1f;
-                    else if (NPC.velocity.X < 0f)
-                        NPC.velocity.X -= 0.05f;
-                    if (NPC.velocity.X > 6f)
-                        NPC.velocity.X = 6f;
-                }
-                if (NPC.directionY == -1 && NPC.velocity.Y > -4f)
-                {
-                    NPC.velocity.Y -= 0.1f;
-                    if (NPC.velocity.Y > 4f)
-                        NPC.velocity.Y -= 0.1f;
-                    else if (NPC.velocity.Y > 0f)
-                        NPC.velocity.Y += 0.05f;
-                    if (NPC.velocity.Y < -4f)
-                        NPC.velocity.Y = -4f;
-                }
-                else if (NPC.directionY == 1 && NPC.velocity.Y < 4f)
-                {
-                    NPC.velocity.Y += 0.1f;
-                    if (NPC.velocity.Y < -4f)
-                        NPC.velocity.Y += 0.1f;
-                    else if (NPC.velocity.Y < 0f)
-                        NPC.velocity.Y -= 0.05f;
-                    if (NPC.velocity.Y > 4f)
-                        NPC.velocity.Y = 4f;
-                }
-            }
             if (Main.rand.NextBool(40))
             {
                 int index = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y + NPC.height * 0.25f), NPC.width, (int)(NPC.height * 0.5), DustID.Blood, NPC.velocity.X, 2f, 0, new Color(), 1f);
@@ -120,6 +77,11 @@ namespace CalamityMod.NPCs.Crags
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("CalamityEye").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("CalamityEye2").Type, 1f);
+                }
             }
         }
 
@@ -139,7 +101,7 @@ namespace CalamityMod.NPCs.Crags
             npcLoot.Add(ItemID.Lens, 2);
             LeadingConditionRule hardmode = npcLoot.DefineConditionalDropSet(DropHelper.Hardmode());
             LeadingConditionRule postProv = npcLoot.DefineConditionalDropSet(DropHelper.PostProv());
-            hardmode.Add(ModContent.ItemType<EssenceofChaos>(), 3);
+            hardmode.Add(ModContent.ItemType<EssenceofHavoc>(), 3);
             postProv.Add(ModContent.ItemType<Bloodstone>(), 4);
         }
     }

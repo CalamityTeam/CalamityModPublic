@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
 using ReLogic.Content;
@@ -10,6 +11,7 @@ namespace CalamityMod.Tiles.Plates
 {
     public class Navyplate : ModTile
     {
+        public static readonly SoundStyle MinePlatingSound = new("CalamityMod/Sounds/Custom/PlatingMine", 3);
         internal static Texture2D GlowTexture;
         internal static Texture2D PulseTexture;
         internal static Color[] PulseColors;
@@ -28,7 +30,7 @@ namespace CalamityMod.Tiles.Plates
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            HitSound = SoundID.Tink;
+            HitSound = MinePlatingSound;
             MineResist = 1f;
             ItemDrop = ModContent.ItemType<Items.Placeables.Plates.Navyplate>();
             AddMapEntry(new Color(85, 151, 196));
@@ -58,7 +60,7 @@ namespace CalamityMod.Tiles.Plates
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
 
             // Glowmask 'pulse' effect
-            int factor = (int)Main.time % PulseTexture.Width;
+            int factor = (int)Main.GameUpdateCount % PulseTexture.Width;
             float brightness = PulseColors[factor].R / 255f;
             int drawBrightness = (int)(40 * brightness) + 10;
             Color drawColour = GetDrawColour(i, j, new Color(drawBrightness, drawBrightness, drawBrightness, drawBrightness));

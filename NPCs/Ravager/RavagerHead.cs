@@ -55,6 +55,8 @@ namespace CalamityMod.NPCs.Ravager
         {
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;
@@ -81,7 +83,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.ai[1] += 1f;
             if (NPC.ai[1] >= (death ? 420f : 480f))
             {
-                SoundEngine.PlaySound(MissileSound, NPC.position);
+                SoundEngine.PlaySound(MissileSound, NPC.Center);
 
                 // Get a target
                 if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
@@ -117,7 +119,7 @@ namespace CalamityMod.NPCs.Ravager
                     num285++;
                 }
             }
-            else if (Main.netMode != NetmodeID.MultiplayerClient)
+            else if (Main.netMode != NetmodeID.MultiplayerClient && !CalamityWorld.getFixedBoi) //GFB does something else
             {
                 NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<RavagerHead2>(), NPC.whoAmI);
             }

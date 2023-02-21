@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/RoverDriveActivate") { Volume = 0.85f };
         public static readonly SoundStyle BreakSound = new("CalamityMod/Sounds/Custom/RoverDriveBreak") { Volume = 0.75f };
 
-        public static int ProtectionMatrixDurabilityMax = 50;
+        public static int ProtectionMatrixDurabilityMax = 40;
         public static int ProtectionMatrixRechargeTime = 60 * 10;
         public static int ProtectionMatrixDefenseBoost = 10;
 
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Accessories
                     float shieldStrentgh = forcedVisibility ? 1f : (float)Math.Pow(Main.LocalPlayer.GetModPlayer<RoverDrivePlayer>().ProtectionMatrixDurability / (float)ProtectionMatrixDurabilityMax, 0.5f);
                     float noiseScale = MathHelper.Lerp(0.4f, 0.8f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.3f) * 0.5f + 0.5f);
 
-                    Effect shieldEffect = Filters.Scene["RoverDriveShield"].GetShader().Shader;
+                    Effect shieldEffect = Filters.Scene["CalamityMod:RoverDriveShield"].GetShader().Shader;
                     shieldEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.24f);
                     shieldEffect.Parameters["blowUpPower"].SetValue(2.5f);
                     shieldEffect.Parameters["blowUpSize"].SetValue(0.5f);
@@ -179,7 +179,6 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             RoverDrivePlayer modPlayer = player.GetModPlayer<RoverDrivePlayer>();
-            //modPlayer.roverDrive = true;
 
             modPlayer.RoverDriveOn = true;
             modPlayer.ShieldVisibility = hideVisual ? false : null;

@@ -20,7 +20,7 @@ Right click to fire a burst of bullets");
 
         public override void SetDefaults()
         {
-            Item.damage = 33; // was 25
+            Item.damage = 33;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 70;
             Item.height = 18;
@@ -30,7 +30,7 @@ Right click to fire a burst of bullets");
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2f;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = SoundID.Item31;
             Item.autoReuse = true;

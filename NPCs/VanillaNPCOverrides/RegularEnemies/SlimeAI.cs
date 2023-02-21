@@ -1,6 +1,7 @@
 ﻿using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -186,14 +187,21 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
                                 spikeShootVelocity *= Main.rand.NextVector2Square(0.75f, 1.25f);
                                 spikeShootVelocity.Normalize();
                                 spikeShootVelocity *= Main.rand.NextFloat(3.5f, 4.5f) * projectileShootSpeedFactor;
-                                Projectile.NewProjectile(source, npc.Center, spikeShootVelocity, projectileShootType, 9, 0f, Main.myPlayer, 0f, 0f);
+                                int proj = Projectile.NewProjectile(source, npc.Center, spikeShootVelocity, projectileShootType, 9, 0f, Main.myPlayer, 0f, 0f);
+                                if (CalamityWorld.death)
+                                    Main.projectile[proj].extraUpdates += 1;
                                 projectileShootCountdown = 30f;
                             }
                         }
                         else
                         {
-                            Vector2 velocity = npc.SafeDirectionTo(Main.player[npc.target].Center - Vector2.UnitY * Main.rand.NextFloat(200f)) * projectileShootSpeedFactor * 6f;
-                            Projectile.NewProjectile(source, npc.Center, velocity, projectileShootType, 9, 0f, Main.myPlayer, 0f, 0f);
+                            Vector2 velocity = npc.SafeDirectionTo(Main.player[npc.target].Center - Vector2.UnitY * Main.rand.NextFloat(200f)) * projectileShootSpeedFactor * (CalamityWorld.death ? 4f : 6f);
+                            int proj = Projectile.NewProjectile(source, npc.Center, velocity, projectileShootType, 9, 0f, Main.myPlayer, 0f, 0f);
+                            if (CalamityWorld.death)
+                            {
+                                Main.projectile[proj].extraUpdates += 1;
+                                Main.projectile[proj].timeLeft = 1200;
+                            }
                             projectileShootCountdown = 50f;
                         }
                     }
@@ -238,9 +246,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
                     npc.velocity.X = 0f;
 
                 // Slimes jump more quickly overall when the slime rain event is ongoing.
-                jumpDelay += Main.slimeRain ? 4f : 3f;
+                jumpDelay += (Main.slimeRain ? 4f : 3f) * (CalamityWorld.death ? 2f : 1f);
 
-                if (npc.type == NPCID.HoppinJack)
+                if (npc.type == NPCID.HoppinJack || npc.type == NPCID.GoldenSlime)
                     jumpDelay += 10f;
 
                 if (isLavaSlime)

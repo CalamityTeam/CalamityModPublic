@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 8f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<DepthOrb>();
             Item.shootSpeed = 9f;
@@ -68,10 +68,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<DepthCrusher>().
-                AddIngredient(ItemID.BrokenHeroSword).
-                AddIngredient<DepthCells>(15).
-                AddIngredient<Lumenyl>(10).
-                AddIngredient<Tenebris>(5).
+                AddIngredient<Voidstone>(20).
+                AddIngredient<DepthCells>(20).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

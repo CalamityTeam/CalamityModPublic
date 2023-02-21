@@ -41,8 +41,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = -1;
             Projectile.minion = true;
             Projectile.tileCollide = true;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
             Projectile.DamageType = DamageClass.Summon;
         }
 

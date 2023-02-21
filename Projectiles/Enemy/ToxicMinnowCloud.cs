@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.Projectiles.Enemy
 {
@@ -10,32 +11,25 @@ namespace CalamityMod.Projectiles.Enemy
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxic Cloud");
-            Main.projFrames[Projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 10;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 52;
-            Projectile.height = 48;
+            Projectile.width = 45;
+            Projectile.height = 45;
             Projectile.hostile = true;
             Projectile.friendly = true;
-            Projectile.alpha = 255;
             Projectile.penetrate = 7;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 600;
+            Projectile.alpha = 120;
         }
 
         public override void AI()
         {
-            Projectile.frameCounter++;
-            if (Projectile.frameCounter > 9)
-            {
-                Projectile.frame++;
-                Projectile.frameCounter = 0;
-            }
-            if (Projectile.frame > 3)
-                Projectile.frame = 0;
+            Lighting.AddLight(Projectile.Center, 0.1f * Projectile.Opacity, 1f * Projectile.Opacity, 0f);
 
             if (Main.rand.NextBool(2))
                 Projectile.velocity *= 0.95f;
@@ -47,44 +41,62 @@ namespace CalamityMod.Projectiles.Enemy
                 Projectile.velocity *= 0.8f;
 
             Projectile.ai[0] += 1f;
-            if (Projectile.ai[0] >= 560f)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                if (Projectile.alpha < 255)
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+            }
+            if (Projectile.ai[0] < 560f)
+            {
+                if (Projectile.frame >= 4)
                 {
-                    Projectile.alpha += 5;
-                    if (Projectile.alpha > 255)
-                        Projectile.alpha = 255;
+                    Projectile.frame = 0;
                 }
-                else if (Projectile.owner == Main.myPlayer)
-                    Projectile.Kill();
             }
-            else if (Projectile.alpha > 80)
+            if (Projectile.ai[0] > 560f)
             {
-                Projectile.alpha -= 30;
-                if (Projectile.alpha < 80)
-                    Projectile.alpha = 80;
+                Projectile.damage = 0;
             }
+            else if (Projectile.frame >= Main.projFrames[Projectile.type])
+            {
+                Projectile.Kill();
+            }
+
+            Projectile.velocity *= 0.98f;
+
+            if (Math.Abs(Projectile.velocity.X) > 0f)
+            {
+                Projectile.spriteDirection = -Projectile.direction;
+            }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            lightColor.G = (byte)(255 * Projectile.Opacity);
+            lightColor.B = (byte)(255 * Projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
+            return false;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 20f, targetHitbox);
 
-        public override bool CanHitPlayer(Player target) => Projectile.alpha == 80;
+        public override bool CanHitPlayer(Player target) => Projectile.ai[0] < 560f;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (damage <= 0)
                 return;
-
-            if (Projectile.alpha == 80)
-                target.AddBuff(BuffID.Poisoned, 240);
+            
+            target.AddBuff(BuffID.Poisoned, 240);
         }
 
-        public override bool? CanHitNPC(NPC target) => Projectile.alpha == 80;
+        public override bool? CanHitNPC(NPC target) => Projectile.ai[0] < 560f;
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (Projectile.alpha == 80)
-                target.AddBuff(BuffID.Poisoned, 240);
+            target.AddBuff(BuffID.Poisoned, 240);
         }
     }
 }

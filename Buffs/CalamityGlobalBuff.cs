@@ -16,9 +16,9 @@ namespace CalamityMod.Buffs
             {
                 player.arrowDamage *= 0.875f;
             }
-            else if (type == BuffID.Endurance)
+            else if (type == BuffID.Ironskin)
             {
-                player.endurance -= 0.05f;
+                player.statDefense += CalamityUtils.GetScalingDefense(-1) - 8;
             }
             else if (type == BuffID.MagicPower)
             {
@@ -103,8 +103,8 @@ namespace CalamityMod.Buffs
             // Vanilla buffs
             switch (type)
             {
-                case BuffID.Endurance:
-                    tip = "5% reduced damage";
+                case BuffID.Ironskin:
+                    tip = "Increase defense by " + CalamityUtils.GetScalingDefense(-1);
                     break;
 
                 case BuffID.MagicPower:
@@ -121,6 +121,10 @@ namespace CalamityMod.Buffs
 
                 case BuffID.SugarRush:
                     tip = "10% increased movement speed and 20% increased mining speed";
+                    break;
+
+                case BuffID.LeafCrystal:
+                    tip = "Emits powerful life pulses at nearby enemies";
                     break;
 
                 case BuffID.NebulaUpDmg1:
@@ -183,10 +187,6 @@ namespace CalamityMod.Buffs
 
                 case BuffID.Warmth:
                     tip += ". Grants immunity to Chilled, Frozen and Glacial State";
-                    break;
-
-                case BuffID.Daybreak:
-                    tip = "Incinerated by solar rays";
                     break;
 
                 case BuffID.WellFed:

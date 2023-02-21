@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vesuvius");
-            Tooltip.SetDefault("Asteroids give the Molten buff on enemy hits\n" +
-                "Calls down a swarm of molten asteroids\n" +
+            Tooltip.SetDefault("Calls down a swarm of molten asteroids\n" +
                 "Right click to fire a spread of molten asteroids from the staff");
             Item.staff[Item.type] = true;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;

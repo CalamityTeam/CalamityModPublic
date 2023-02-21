@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void SetDefaults()
         {
-            NPC.aiStyle = 1;
+            NPC.aiStyle = NPCAIStyleID.Slime;
             NPC.damage = 55;
             NPC.width = 40;
             NPC.height = 30;
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
                     }
                     if (Main.netMode != NetmodeID.MultiplayerClient && spikeTimer == 0f)
                     {
-                        SoundEngine.PlaySound(SoundID.Item42, NPC.position);
+                        SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                         for (int n = 0; n < 5; n++)
                         {
                             Vector2 vector4 = new Vector2((float)(n - 2), -4f);
@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
                     }
                     if (Main.netMode != NetmodeID.MultiplayerClient && spikeTimer == 0f)
                     {
-                        SoundEngine.PlaySound(SoundID.Item42, NPC.position);
+                        SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                         num15 = Main.player[NPC.target].position.Y - vector3.Y - (float)Main.rand.Next(0, 200);
                         num16 = (float)Math.Sqrt((double)(num14 * num14 + num15 * num15));
                         num16 = 6.5f / num16;

@@ -18,10 +18,13 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,6 +33,16 @@ namespace CalamityMod.NPCs.BrimstoneElemental
     [AutoloadBossHead]
     public class BrimstoneElemental : ModNPC
     {
+        public enum Elemental
+        {
+            Brimstone = 0,
+            Sand = 1,
+            Rare = 2,
+            Cloud = 3,
+            Water = 4
+        }
+        public int currentMode = (int)Elemental.Brimstone;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Elemental");
@@ -42,7 +55,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             };
             value.Position.Y -= 24f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
-			NPCID.Sets.MPAllowedEnemies[Type] = true;
+            NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -76,13 +89,14 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A fallen goddess, past her prime of faithful worshippers. She feels an intense hatred for any being with enough self awareness to pity her.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Roused from her deep slumber in relatively recent years, her awakening acted as the catalyst for Azafure’s downfall. Little is known of her nature, other than what may be assumed of any other elemental.")
             });
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+            writer.Write(currentMode);
             writer.Write(NPC.chaseable);
             writer.Write(NPC.localAI[0]);
             writer.Write(NPC.localAI[1]);
@@ -94,6 +108,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             NPC.chaseable = reader.ReadBoolean();
+            currentMode = reader.ReadInt32();
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[3] = reader.ReadSingle();
@@ -114,8 +129,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (damage > 0)
-                player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
         }
 
         public override void FindFrame(int frameHeight) // 9 total frames
@@ -190,7 +204,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 normalOnly.Add(ModContent.ItemType<Hellborn>(), 10);
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
+                normalOnly.Add(ModContent.ItemType<EssenceofHavoc>(), 1, 4, 8);
 
                 // Equipment
                 int[] accs = new int[]
@@ -215,7 +229,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<BrimstoneElementalRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<LoreAzafure>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<LoreBrimstoneElemental>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()
@@ -276,6 +291,63 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("BrimstoneGore4").Type, 1f);
                 }
             }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            if (NPC.IsABestiaryIconDummy)
+                return true;
+
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (NPC.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            Vector2 origin = new Vector2((float)(texture.Width / 2), (float)(texture.Height / Main.npcFrameCount[NPC.type] / 2));
+            Vector2 npcOffset = NPC.Center - screenPos;
+            npcOffset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+            npcOffset += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+
+            // Give brimmy an outline based on current elemental mode
+            if (CalamityWorld.getFixedBoi)
+            {
+                Color baseColor = Color.Red;
+                switch (currentMode)
+                {
+                    case 0:
+                        baseColor = Color.Red;
+                        break;
+                    case 1:
+                        baseColor = Color.Tan;
+                        break;
+                    case 2:
+                        baseColor = Color.Lime;
+                        break;
+                    case 3:
+                        baseColor = Color.Gray;
+                        break;
+                    case 4:
+                        baseColor = Color.Blue;
+                        break;
+                }
+                CalamityUtils.EnterShaderRegion(spriteBatch);
+                Color outlineColor = Color.Lerp(baseColor, Color.White, 0.4f);
+                outlineColor *= NPC.Opacity;
+                Vector3 outlineHSL = Main.rgbToHsl(outlineColor);
+                float outlineThickness = MathHelper.Clamp(2f, 0f, 3f);
+
+                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(1f);
+                GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1 - outlineHSL.X, outlineHSL.Y, outlineHSL.Z));
+                GameShaders.Misc["CalamityMod:BasicTint"].Apply();
+
+                for (float i = 0; i < 1; i += 0.125f)
+                {
+                    spriteBatch.Draw(texture, npcOffset + (i * MathHelper.TwoPi).ToRotationVector2() * outlineThickness, NPC.frame, outlineColor, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
+                }
+                CalamityUtils.ExitShaderRegion(spriteBatch);
+            }
+            spriteBatch.Draw(texture, npcOffset, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
+
+            return false;
         }
     }
 }

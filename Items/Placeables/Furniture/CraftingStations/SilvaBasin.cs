@@ -34,7 +34,11 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilvaCrystal>(), 10).AddRecipeGroup("AnyGoldBar", 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<SilvaCrystal>(10).
+                AddRecipeGroup("AnyGoldBar", 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

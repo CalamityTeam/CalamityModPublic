@@ -81,8 +81,8 @@ namespace CalamityMod.NPCs.Astral
 
             if (NPC.ai[0] == 0f)
             {
-                float acceleration = CalamityWorld.death ? 0.07f : 0.045f;
-                float maxSpeed = CalamityWorld.death ? 10.5f : 6.8f;
+                float acceleration = CalamityWorld.death ? 0.075f : CalamityWorld.revenge ? 0.06f : 0.045f;
+                float maxSpeed = CalamityWorld.death ? 10.8f : CalamityWorld.revenge ? 8.8f : 6.8f;
                 if (NPC.Center.X > target.Center.X)
                 {
                     NPC.velocity.X -= acceleration;
@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.Astral
                 //if need to jump
                 if (NPC.velocity.Y == 0f && (HoleBelow() || (NPC.collideX && NPC.position.X == NPC.oldPosition.X)))
                 {
-                    NPC.velocity.Y = CalamityWorld.death ? -7f : -5f;
+                    NPC.velocity.Y = CalamityWorld.death ? -8f : CalamityWorld.revenge ? -6.5f : -5f;
                 }
 
                 //check if we can shoot at target.
@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs.Astral
                 if (vector.Length() < 480f && Collision.CanHit(NPC.position, NPC.width, NPC.height, target.position, target.width, target.height))
                 {
                     NPC.ai[1] += 1f;
-                    if (NPC.ai[1] >= (CalamityWorld.death ? 60f : 120f))
+                    if (NPC.ai[1] >= (CalamityWorld.death ? 60f : CalamityWorld.revenge ? 90f : 120f))
                     {
                         //fire projectile
                         NPC.ai[0] = 1f;
@@ -135,7 +135,7 @@ namespace CalamityMod.NPCs.Astral
                 NPC.velocity.X *= 0.95f;
                 if (NPC.ai[2] == 20f) //Don't do >= 20f or it'll cause a wave of scythes
                 {
-                    SoundEngine.PlaySound(SoundID.Item71, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
                     Vector2 vector = Main.player[NPC.target].Center - NPC.Center;
                     vector.Normalize();
                     int damage = DownedBossSystem.downedAstrumAureus ? 55 : 45;

@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.OldDuke
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Despite appearing old and decrepit, it clings to life. It does not seem native to the polluted sea, yet it has taken its place as its apex predator.")
+                new FlavorTextBestiaryInfoElement("One of the first descendants of the Dragons, its reign as the apex sea monster has been long forgotten. However, its power is still immense due to its heritage.")
             });
         }
 
@@ -123,6 +123,14 @@ namespace CalamityMod.NPCs.OldDuke
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
             NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (CalamityWorld.getFixedBoi)
+            {
+                typeName = "The Boomer Duke";
+            }
         }
 
         public override void FindFrame(int frameHeight)
@@ -452,7 +460,7 @@ namespace CalamityMod.NPCs.OldDuke
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<OldDukeRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<KnowledgeOldDuke>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<LoreOldDuke>(), desc: DropHelper.FirstKillText);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

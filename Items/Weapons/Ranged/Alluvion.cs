@@ -96,10 +96,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe(1).
                 AddIngredient<Monsoon>().
-                AddIngredient<SeaPrism>(20).
-                AddIngredient<DepthCells>(10).
                 AddIngredient<Lumenyl>(20).
-                AddIngredient<Tenebris>(5).
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<EndothermicEnergy>(20).
                 AddTile<CosmicAnvil>().

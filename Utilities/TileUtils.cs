@@ -335,6 +335,7 @@ namespace CalamityMod
             TileType<AstralSnow>(),
             TileType<Navystone>(),
             TileType<EutrophicSand>(),
+            TileType<SulphurousShale>(),
             TileType<AbyssGravel>(),
             TileType<Voidstone>(),
         });
@@ -366,8 +367,8 @@ namespace CalamityMod
             TileType<AerialiteOre>(),
             TileType<CryonicOre>(),
             TileType<PerennialOre>(),
-            TileType<CharredOre>(),
-            TileType<ChaoticOre>(),
+            TileType<InfernalSuevite>(),
+            TileType<ScoriaOre>(),
             TileType<AstralOre>(),
             TileType<UelibloomOre>(),
             TileType<AuricOre>(),
@@ -426,7 +427,7 @@ namespace CalamityMod
         });
 
         /// <summary>
-        /// Makes the specified tile merge with all tiles which generate in hell. Does not include Charred Ore.
+        /// Makes the specified tile merge with all tiles which generate in hell. Does not include Infernal Suevite.
         /// </summary>
         /// <param name="type">The tile whose merging properties will be set.</param>
         public static void MergeWithHell(int type) => MergeWithSet(type, new int[] {
@@ -435,6 +436,9 @@ namespace CalamityMod
             TileID.ObsidianBrick,
             TileID.HellstoneBrick,
             TileType<BrimstoneSlag>(),
+            TileType<BrimstoneSlab>(),
+            TileType<ScorchedRemains>(),
+            TileType<ScorchedRemainsGrass>(),
         });
 
         /// <summary>
@@ -445,12 +449,14 @@ namespace CalamityMod
             // Sulphurous Sea
             TileType<SulphurousSand>(),
             TileType<SulphurousSandstone>(),
+            TileType<SulphurousShale>(),
             // Abyss
             TileType<AbyssGravel>(),
+            TileType<PyreMantle>(),
+            TileType<PyreMantleMolten>(),
             TileType<Voidstone>(),
             TileType<PlantyMush>(),
-            TileType<Tenebris>(),
-            TileType<ChaoticOre>(),
+            TileType<ScoriaOre>(),
         });
 
         /// <summary>
@@ -594,10 +600,11 @@ namespace CalamityMod
                     case TileID.Ebonstone:
                     case TileID.Crimstone:
                     case TileID.Pearlstone:
-                    case TileID.DesertFossil:
-                    case TileID.Obsidian:
                     case TileID.Hellstone:
                         pickReq = 65;
+                        break;
+                    case TileID.Obsidian:
+                        pickReq = 55;
                         break;
                     case TileID.Meteorite:
                         pickReq = 50;
@@ -628,11 +635,8 @@ namespace CalamityMod
                 }
             }
 
-            if (Main.tileDungeon[tile.TileType])
-            {
-                if (i < Main.maxTilesX * 0.35 || i > Main.maxTilesX * 0.65)
-                    pickReq = 65;
-            }
+            if (Main.tileDungeon[tile.TileType] && j > Main.worldSurface)
+                pickReq = 100;
 
             return pickReq;
         }

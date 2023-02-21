@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
-            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbyssLayer3Biome>().Type };
+            SpawnModBiomes = new int[2] { ModContent.GetInstance<AbyssLayer3Biome>().Type, ModContent.GetInstance<AbyssLayer4Biome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -167,8 +167,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             Vector2 value53 = NPC.Center + new Vector2((float)(NPC.direction * 20), 6f);
             Vector2 vector251 = Main.player[NPC.target].Center - value53;
             bool flag104 = Collision.CanHit(NPC.Center, 1, 1, Main.player[NPC.target].Center, 1, 1);
+
+            if (NPC.justHit)
+                NPC.localAI[0] = -90f;
+
             NPC.localAI[0] += 1f;
-            if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= Main.rand.Next(90, 601))
+            if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= 150f)
             {
                 NPC.localAI[0] = -90f;
                 NPC.netUpdate = true;
@@ -190,8 +194,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     }
                     else
                     {
-                        Vector2 vec = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center);
-                        vec = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center + Main.player[NPC.target].velocity * 20f);
+                        Vector2 vec = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center + Main.player[NPC.target].velocity * 20f);
                         if (vec.HasNaNs())
                         {
                             vec = new Vector2((float)NPC.direction, 0f);
@@ -316,7 +319,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer3 && spawnInfo.Water)
             {
-                return 0.05f;
+                return 0.25f;
+            }
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water)
+            {
+                return 0.5f;
             }
             return 0f;
         }

@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
-            SpawnModBiomes = new int[1] { ModContent.GetInstance<SulphurousSeaBiome>().Type };
+            SpawnModBiomes = new int[2] { ModContent.GetInstance<SulphurousSeaBiome>().Type, ModContent.GetInstance<AbyssLayer1Biome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("A relative of its brethren in the far ocean, this one’s spines have been hardened by the sulphuric waters. They drip with the venom they inhabit, so it’s better to not be struck by them.")
+                new FlavorTextBestiaryInfoElement("A relative of its brethren in the far ocean, this one's spines have been hardened by the sulphuric waters. They drip with the venom they inhabit, so it's better to not be struck by them.")
             });
         }
 
@@ -137,16 +137,17 @@ namespace CalamityMod.NPCs.SulphurousSea
             {
                 return 0f;
             }
-            if (spawnInfo.Player.Calamity().ZoneSulphur && spawnInfo.Water && NPC.CountNPCS(ModContent.NPCType<AquaticUrchin>()) < 12)
+            if ((spawnInfo.Player.Calamity().ZoneSulphur || spawnInfo.Player.Calamity().ZoneAbyssLayer1) && 
+            spawnInfo.Water && NPC.CountNPCS(ModContent.NPCType<AquaticUrchin>()) < 12)
             {
-                return 1.1f;
+                return 2.2f;
             }
             return 0f;
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<UrchinStinger>(), 1, 15, 25);
+            npcLoot.Add(ModContent.ItemType<UrchinStinger>(), 1, 30, 50);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -52,7 +52,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(Polterghast.SpawnSound, player.position);
+            SoundEngine.PlaySound(Polterghast.SpawnSound, player.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Polterghast>());
             else

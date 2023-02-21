@@ -13,6 +13,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -105,6 +106,8 @@ namespace CalamityMod.NPCs.Ravager
         {
             writer.Write(NPC.dontTakeDamage);
             writer.Write(velocityY);
+            writer.Write(NPC.localAI[0]);
+            writer.Write(NPC.localAI[1]);
             for (int i = 0; i < 4; i++)
                 writer.Write(NPC.Calamity().newAI[i]);
         }
@@ -113,6 +116,8 @@ namespace CalamityMod.NPCs.Ravager
         {
             NPC.dontTakeDamage = reader.ReadBoolean();
             velocityY = reader.ReadSingle();
+            NPC.localAI[0] = reader.ReadSingle();
+            NPC.localAI[1] = reader.ReadSingle();
             for (int i = 0; i < 4; i++)
                 NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
@@ -228,6 +233,109 @@ namespace CalamityMod.NPCs.Ravager
                         Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<WeakPetrification>(), 2);
                 }
             }
+
+            /*if (CalamityWorld.getFixedBoi)
+            {
+                bool finalStand = lifeRatio < 0.1f; //At 10% body health, does the funny final attack
+                NPC.localAI[1]++;
+                
+                Vector2 Pos = player.Center; //Spawn projectiles based on player's center. Having it be based on the boss turned out weird. (Except for final)
+                int type = ModContent.ProjectileType<RavagerBlaster>();
+                int damage = NPC.GetProjectileDamage(type);
+                if (finalStand) //Circle
+                {
+                    Vector2 circleOffset = Pos + (Vector2.UnitY * 640f).RotatedBy(MathHelper.ToRadians(NPC.localAI[1] * 3f));
+                    if (NPC.localAI[1] % 5 == 0)
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), circleOffset, Pos, type, damage, 0f, Main.myPlayer, 0f, 0.8f);
+                }
+                else if (NPC.localAI[1] >= 8000f) //Random bullshit
+                {
+                    float randOffsetX = Main.rand.NextFloat(240f, 800f) * (Main.rand.NextBool() ? -1 : 1);
+                    float randOffsetY = Main.rand.NextFloat(240f, 640f) * (Main.rand.NextBool() ? -1 : 1);
+                    if (NPC.localAI[1] > 8300f) //5 seconds
+                        NPC.localAI[1] = 0f;
+                    else if (NPC.localAI[1] % 20 == 0) //15 blasts from random directions
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - randOffsetX, Pos.Y - randOffsetY, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                }
+                else if (NPC.localAI[1] >= 6000f) //Plus
+                {
+                    float plusOffset = 640f;
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - plusOffset, Pos.Y, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 4f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + plusOffset, Pos.Y, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 4f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X, Pos.Y - plusOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 4f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X, Pos.Y + plusOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 4f);
+                    NPC.localAI[1] = 0f;
+                }
+                else if (NPC.localAI[1] >= 4000f) //Cross
+                {
+                    float crossOffset = 400f;
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - crossOffset, Pos.Y - crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 2f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - crossOffset, Pos.Y + crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 2f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + crossOffset, Pos.Y - crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 2f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + crossOffset, Pos.Y + crossOffset, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 2f);
+                    NPC.localAI[1] = 0f;
+                }
+                else if (NPC.localAI[1] >= 2000f) //Hash grid
+                {
+                    float gridOffset1 = 480f;
+                    float gridOffset2 = 560f;
+                    //Top left, aimed right
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - gridOffset2, Pos.Y - gridOffset1, Pos.X, Pos.Y - gridOffset1, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                    //Top left, aimed down
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - gridOffset1, Pos.Y - gridOffset2, Pos.X - gridOffset1, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                    //Bottom right, aimed left
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + gridOffset2, Pos.Y + gridOffset1, Pos.X, Pos.Y + gridOffset1, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                    //Bottom right, aimed up
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X + gridOffset1, Pos.Y + gridOffset2, Pos.X + gridOffset1, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                    NPC.localAI[1] = 0f;
+                }
+                else if (NPC.localAI[1] >= 1000f) //Horizontal line
+                {
+                    float lineOffset = 800f * (Main.rand.NextBool() ? -1 : 1);
+                    if (NPC.localAI[1] > 1180f) //3 seconds
+                        NPC.localAI[1] = 0f;
+                    else if (NPC.localAI[1] % 60 == 0) //3 blasts from the side
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Pos.X - lineOffset, Pos.Y, Pos.X, Pos.Y, type, damage, 0f, Main.myPlayer, 0f, 4f);
+                }
+                else if (NPC.localAI[1] >= 300f) //Choose an attack after 5 seconds
+                {
+                    NPC.localAI[1] = 1000f * Main.rand.Next(1, 6 + (immunePhase ? 0 : 4)); //doubled chance for everything except attack 1
+                }
+                else if (NPC.localAI[1] >= 60f && Main.rand.NextBool(2000)) //About 10% chance to reset the timer and instead summon a blue pillar
+                {
+                    int laser = ModContent.ProjectileType<RavagerBlast>();
+                    float blueOffset1 = 2400f;
+                    float blueOffset2 = 800f;
+
+                    //default = aim up or down, move to the right
+                    Vector2 position = new Vector2(Pos.X - blueOffset2, Pos.Y - (blueOffset1 * (Main.rand.NextBool() ? -1 : 1)));
+                    Vector2 destination = new Vector2(Pos.X - blueOffset2, Pos.Y);
+                    int movement = Main.rand.Next(-4, 0);
+                    switch(movement)
+                    {
+                        case -2: //aim up or down, sweep to the left
+                            position.X = Pos.X + blueOffset2;
+                            destination = new Vector2(Pos.X + blueOffset2, Pos.Y);
+                            break;
+                        case -3: //aim left or right, sweep down
+                            position.X = Pos.X - (blueOffset1 * (Main.rand.NextBool() ? -1 : 1));
+                            position.Y = Pos.Y - blueOffset2;
+                            destination = new Vector2(Pos.X, Pos.Y - blueOffset2);
+                            break;
+                        case -4: //aim left or right, sweep up
+                            position.X = Pos.X - (blueOffset1 * (Main.rand.NextBool() ? -1 : 1));
+                            position.Y = Pos.Y + blueOffset2;
+                            destination = new Vector2(Pos.X, Pos.Y + blueOffset2);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    Vector2 velocity = (destination - position).SafeNormalize(Vector2.Zero);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), position, velocity, laser, damage, 0f, Main.myPlayer, 1f, (float)movement);
+                    NPC.localAI[1] = 0f;
+                }
+            }*/
 
             if (!headActive)
             {
@@ -392,7 +500,7 @@ namespace CalamityMod.NPCs.Ravager
 
                         if (velocityY != 16)
                         {
-                            SoundEngine.PlaySound(JumpSound, NPC.position);
+                            SoundEngine.PlaySound(JumpSound, NPC.Center);
                         }
                         velocityY = -16f;
 
@@ -456,7 +564,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 if (NPC.velocity.Y == 0f && (NPC.ai[1] == 31f || NPC.ai[0] == 1f))
                 {
-                    SoundEngine.PlaySound(StompSound, NPC.position);
+                    SoundEngine.PlaySound(StompSound, NPC.Center);
 
                     NPC.ai[0] = 0f;
                     NPC.ai[1] = 0f;
@@ -482,7 +590,7 @@ namespace CalamityMod.NPCs.Ravager
 
                             if (!anyrockpillars || !anyflamepillars)
                             {
-                                SoundEngine.PlaySound(PillarSound, NPC.position);
+                                SoundEngine.PlaySound(PillarSound, NPC.Center);
                             }
                             if (!anyrockpillars || Main.getGoodWorld)
                             {
@@ -532,7 +640,7 @@ namespace CalamityMod.NPCs.Ravager
                     {
                         if (calamityGlobalNPC.newAI[3] == 0)
                         {
-                            SoundEngine.PlaySound(JumpSound, NPC.position);
+                            SoundEngine.PlaySound(JumpSound, NPC.Center);
                         }
                         NPC.noTileCollide = true;
 
@@ -910,7 +1018,7 @@ namespace CalamityMod.NPCs.Ravager
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<RavagerRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedRavager, ModContent.ItemType<KnowledgeRavager>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedRavager, ModContent.ItemType<LoreRavager>(), desc: DropHelper.FirstKillText);
         }
     }
 }

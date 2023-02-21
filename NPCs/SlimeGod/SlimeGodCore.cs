@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("This creature could easily be confused for a giant amoeba. It seems to be developing past the limitations of an usual slime, thanks to all the compacted biomass it contains.")
+				new FlavorTextBestiaryInfoElement("This God is rather evasive and relies on tricky and strategic retreats due to its relatively minor strength among the Gods. It prefers to be protected rather than be in combat fighting.")
             });
         }
 
@@ -188,11 +188,14 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
 
                 // Emit dust
-                for (int k = 0; k < 5; k++)
+                if (!CalamityWorld.getFixedBoi) // you must see his glory.
                 {
-                    Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;
-                    color.A = 150;
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 1f);
+                    for (int k = 0; k < 5; k++)
+                    {
+                        Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;
+                        color.A = 150;
+                        Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 1f);
+                    }
                 }
 
                 // Slow down
@@ -208,7 +211,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 if (NPC.Opacity <= 0f)
                 {
                     NPC.Opacity = 0f;
-                    SoundEngine.PlaySound(PossessionSound, NPC.position);
+                    SoundEngine.PlaySound(PossessionSound, NPC.Center);
                     NPC.position.X = NPC.position.X + (NPC.width / 2);
                     NPC.position.Y = NPC.position.Y + (NPC.height / 2);
                     NPC.width = 40;
@@ -316,7 +319,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
                 if (buffedSlime == 0)
                 {
-                    SoundEngine.PlaySound(PossessionSound, NPC.position);
+                    SoundEngine.PlaySound(PossessionSound, NPC.Center);
 
                     if (purpleSlimeAlive && redSlimeAlive)
                         buffedSlime = Main.rand.Next(2) + 1;
@@ -354,7 +357,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.TargetClosest();
                     calamityGlobalNPC.newAI[2] = 0f;
                     NPC.velocity = Vector2.UnitY * -12f;
-                    SoundEngine.PlaySound(ExitSound, NPC.position);
+                    SoundEngine.PlaySound(ExitSound, NPC.Center);
                     for (int i = 0; i < 20; i++)
                     {
                         Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;
@@ -534,6 +537,7 @@ namespace CalamityMod.NPCs.SlimeGod
             Color color24 = NPC.GetAlpha(drawColor);
             Color color25 = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
             Texture2D texture2D3 = TextureAssets.Npc[NPC.type].Value;
+            Texture2D pog = ModContent.Request<Texture2D>("CalamityMod/NPCs/SlimeGod/SlimeGodEyes").Value;
             int num156 = TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type];
             int y3 = num156 * (int)NPC.frameCounter;
             Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
@@ -544,27 +548,32 @@ namespace CalamityMod.NPCs.SlimeGod
             float num160 = 0f;
             int num161 = num159;
             spriteBatch.Draw(texture2D3, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, color24, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0);
-            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityConfig.Instance.Afterimages)
+            if (CalamityWorld.getFixedBoi)
             {
-                Color color26 = NPC.GetAlpha(color25);
-                {
-                    goto IL_6899;
-                }
-                IL_6881:
-                num161 += num158;
-                continue;
-                IL_6899:
-                float num164 = (float)(num157 - num161);
-                if (num158 < 0)
-                {
-                    num164 = (float)(num159 - num161);
-                }
-                color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[NPC.type] * 1.5f);
-                Vector2 value4 = NPC.oldPos[num161];
-                float num165 = NPC.rotation;
-                Main.spriteBatch.Draw(texture2D3, value4 + NPC.Size / 2f - screenPos + new Vector2(0, NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + NPC.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, NPC.scale, spriteEffects, 0f);
-                goto IL_6881;
+                spriteBatch.Draw(pog, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, color24, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0);
             }
+            if (!CalamityWorld.getFixedBoi)
+                while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityConfig.Instance.Afterimages)
+                {
+                    Color color26 = NPC.GetAlpha(color25);
+                    {
+                        goto IL_6899;
+                    }
+                    IL_6881:
+                    num161 += num158;
+                    continue;
+                    IL_6899:
+                    float num164 = (float)(num157 - num161);
+                    if (num158 < 0)
+                    {
+                        num164 = (float)(num159 - num161);
+                    }
+                    color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[NPC.type] * 1.5f);
+                    Vector2 value4 = NPC.oldPos[num161];
+                    float num165 = NPC.rotation;
+                    Main.spriteBatch.Draw(texture2D3, value4 + NPC.Size / 2f - screenPos + new Vector2(0, NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + NPC.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, NPC.scale, spriteEffects, 0f);
+                    goto IL_6881;
+                }
             return false;
         }
 
@@ -624,7 +633,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<SlimeGodRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSlimeGod, ModContent.ItemType<LoreSlimeGod>(), desc: DropHelper.FirstKillText);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -641,7 +650,8 @@ namespace CalamityMod.NPCs.SlimeGod
         {
             if (damage > 0)
             {
-                player.AddBuff(BuffID.Slow, 180, true);
+                int debufftype = CalamityWorld.getFixedBoi ? BuffID.VortexDebuff : BuffID.Slow;
+                player.AddBuff(debufftype, 180, true);
                 player.AddBuff(BuffID.Weak, 180, true);
                 player.AddBuff(BuffID.Darkness, 180, true);
 			}

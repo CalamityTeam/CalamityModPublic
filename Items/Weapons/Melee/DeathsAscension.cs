@@ -21,10 +21,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.damage = 1350;
+            Item.damage = 1200;
             Item.knockBack = 9f;
-            Item.useTime = 30;
-            Item.useAnimation = 30;
+            Item.useTime = Item.useAnimation = 18;
             Item.DamageType = DamageClass.Melee;
             Item.noMelee = true;
             Item.channel = true;
@@ -57,9 +56,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2f)
             {
-                Item.damage = 290;
-                Item.shootSpeed = 18f;
-                Item.useTime = Item.useAnimation = 16;
                 Item.useStyle = ItemUseStyleID.Swing;
                 Item.UseSound = SoundID.Item71;
                 Item.useTurn = true;
@@ -70,9 +66,6 @@ namespace CalamityMod.Items.Weapons.Melee
             }
             else
             {
-                Item.damage = 1350;
-                Item.shootSpeed = 24f;
-                Item.useTime = Item.useAnimation = 30;
                 Item.useStyle = ItemUseStyleID.Shoot;
                 Item.UseSound = null;
                 Item.useTurn = false;
@@ -93,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     float SpeedX = velocity.X + Main.rand.NextFloat(-spreadfactor, spreadfactor + 1);
                     float SpeedY = velocity.Y + Main.rand.NextFloat(-spreadfactor, spreadfactor + 1);
-                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.15f), knockback, player.whoAmI, 0f, 0f);
                 }
             }
             else

@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (Projectile.owner == Main.myPlayer)
             {
-                for (int s = 0; s < Main.rand.Next(2,5); s++)
+                for (int s = 0; s < 2; s++)
                 {
                     Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     while (velocity.X == 0f && velocity.Y == 0f)

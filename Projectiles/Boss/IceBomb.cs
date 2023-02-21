@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.NPCs.Cryogen;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -64,14 +65,17 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
+        public override Color? GetAlpha(Color lightColor) => new Color(1f, 1f, 1f, 1f) * Projectile.Opacity;
+
+        public override bool PreDraw(ref Color lightColor)
         {
-            return new Color(255, 255, 255, Projectile.alpha);
+            Projectile.DrawProjectileWithBackglow(Cryogen.BackglowColor, lightColor, 4f);
+            return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
 
             if (Projectile.owner == Main.myPlayer)
             {

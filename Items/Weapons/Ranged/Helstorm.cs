@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useAnimation = 7;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 2.5f;
-            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
@@ -75,12 +75,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 360);
+            target.AddBuff(BuffID.OnFire3, 360);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 360);
+            target.AddBuff(BuffID.OnFire3, 360);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Terra Disk");
             Tooltip.SetDefault(@"Throws a disk that has a chance to generate several disks if enemies are near it
-A max of three disks can be active at a time
 Stealth strikes travel slower and are rapidly orbited by the smaller disks");
             SacrificeTotal = 1;
         }
@@ -28,8 +27,7 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
             Item.height = 46;
             Item.damage = BaseDamage;
             Item.knockBack = 4f;
-            Item.useAnimation = 16;
-            Item.useTime = 16;
+            Item.useAnimation = Item.useTime = 30;
             Item.autoReuse = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;
@@ -44,27 +42,7 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
             Item.shoot = ModContent.ProjectileType<TerraDiskProjectile>();
             Item.shootSpeed = Speed;
         }
-
-        public override bool CanUseItem(Player player)
-        {
-            //Stealth strikes ignore the proj cap
-            int terraDiskCount = 0;
-            for (int p = 0; p < Main.maxProjectiles; p++)
-            {
-                Projectile proj = Main.projectile[p];
-                if (!proj.active || proj.owner != player.whoAmI)
-                    continue;
-                if (proj.type == Item.shoot && !proj.Calamity().stealthStrike)
-                {
-                    terraDiskCount++;
-                }
-                if (terraDiskCount >= 3)
-                    break;
-            }
-            return terraDiskCount < 3;
-        }
-
-		public override float StealthDamageMultiplier => 0.9f;
+        
         public override float StealthVelocityMultiplier => 0.75f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -80,9 +58,8 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<FishboneBoomerang>().
                 AddIngredient<Equanimity>().
-                AddIngredient(ItemID.ThornChakram).
+                AddIngredient<Brimblade>().
                 AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -42,16 +42,17 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (ReturningToOwner)
             {
-                Projectile.timeLeft = 2;
-                Projectile.velocity = Projectile.SafeDirectionTo(Owner.Center) * 24f;
+                Projectile.timeLeft = 15;
+                Projectile.velocity = Projectile.SafeDirectionTo(Owner.Center) * 28f;
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.Pi + MathHelper.PiOver4;
+                Projectile.damage = 0;
 
                 // Heal the player and disappear when touching them.
                 if (Projectile.Hitbox.Intersects(Owner.Hitbox))
                 {
                     if (!Owner.moonLeech && AbleToHealOwner)
                     {
-                        int healAmount = Projectile.Calamity().stealthStrike ? 50 : 4;
+                        int healAmount = Projectile.Calamity().stealthStrike ? 35 : 3;
 
                         Owner.HealEffect(healAmount);
                         Owner.statLife += healAmount;
@@ -76,10 +77,14 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
 
-            if (StickingToAnything && Projectile.timeLeft > 90)
-                Projectile.timeLeft = 90;
-
-            Projectile.StickyProjAI(50);
+            if (StickingToAnything)
+            {
+                if (Projectile.timeLeft > 90 && !Projectile.Calamity().stealthStrike)
+                    Projectile.timeLeft = 90;
+                else if (Projectile.timeLeft > 120 && Projectile.Calamity().stealthStrike)
+                    Projectile.timeLeft = 120;
+            }
+                Projectile.StickyProjAI(50);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

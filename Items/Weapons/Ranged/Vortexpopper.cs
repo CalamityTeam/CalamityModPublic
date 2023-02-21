@@ -110,7 +110,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.Xenopopper).
-                AddIngredient(ItemID.FragmentVortex, 20).
+                AddIngredient(ItemID.FragmentVortex, 12).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

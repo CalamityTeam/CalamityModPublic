@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             SacrificeTotal = 1;
             DisplayName.SetDefault("Corrosive Spine");
             Tooltip.SetDefault("5% increased movement speed\n" +
-                               "All rogue weapons inflict poisoned and spawn clouds on enemy hits\n" +
+                               "All rogue weapons inflict poison and spawn irradiated clouds on enemy hits\n" +
                                "You release a ton of clouds everywhere on hit");
         }
 
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Accessories
                             ModContent.ProjectileType<Corrocloud3>()
                         });
                         float speed = Main.rand.NextFloat(3f, 11f);
-                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(100);
+                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(80);
                         Projectile.NewProjectile(source, player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
                             type, damage, 0f, player.whoAmI);
                     }

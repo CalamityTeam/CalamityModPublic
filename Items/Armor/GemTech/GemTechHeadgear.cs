@@ -65,9 +65,7 @@ namespace CalamityMod.Items.Armor.GemTech
             Item.width = 40;
             Item.height = 32;
             Item.defense = 14;
-
-            // Exact worth of the armor piece's constituents.
-            Item.value = Item.sellPrice(platinum: 6, gold: 14, silver: 88);
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.rare = ModContent.RarityType<Violet>();
             Item.Calamity().donorItem = true;
         }
@@ -142,7 +140,7 @@ namespace CalamityMod.Items.Armor.GemTech
                         tooltips.Insert(setBonusIndex, greenGemTooltip);
 
                         setBonusIndex++;
-                        TooltipLine blueGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus5", "[i:" + ItemID.Sapphire + "]" + $"The blue gem grants {SummonMinionCountBoost} extra maximum minions, increased minion damage, and reduces the penalty for summoner items while holding a non-summoner weapon");
+                        TooltipLine blueGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus5", "[i:" + ItemID.Sapphire + "]" + $"The blue gem grants {SummonMinionCountBoost} extra maximum minions, increased minion damage, and negates the minion damage penalty while wielding non-summoner weapons");
                         blueGemTooltip.OverrideColor = new Color(37, 119, 206);
                         tooltips.Insert(setBonusIndex, blueGemTooltip);
 
@@ -173,7 +171,7 @@ namespace CalamityMod.Items.Armor.GemTech
             CreateRecipe().
                 AddIngredient<ExoPrism>(10).
                 AddIngredient<GalacticaSingularity>(3).
-                AddIngredient<CoreofCalamity>(3).
+                AddIngredient<CoreofCalamity>(2).
                 AddTile<DraedonsForge>().
                 Register();
         }

@@ -17,18 +17,17 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetDefaults()
         {
-            Item.width = 18;
+            Item.width = 14;
             Item.damage = 50;
             Item.noMelee = true;
             Item.consumable = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 12;
+            Item.useAnimation = Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 12;
             Item.knockBack = 2.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 40;
+            Item.height = 38;
             Item.maxStack = 999;
             Item.value = 900;
             Item.rare = ItemRarityID.LightRed;
@@ -55,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).
+            CreateRecipe(150).
                 AddIngredient(ItemID.CobaltBar).
                 AddTile(TileID.Anvils).
                 Register();

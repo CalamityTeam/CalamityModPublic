@@ -213,7 +213,7 @@ namespace CalamityMod.Systems
                         "[c/"+mainColor+":    When Adrenaline is maxed, press] " + adrenKey + " [c/"+mainColor+":for a large damage boost] \n" +
                         "[c/"+mainColor+":Enables the ][c/FF8B54:Rage][c/"+mainColor+": mechanic. You gain Rage when in proximity of enemies or by using certain items] \n" +
                         "[c/"+mainColor+":    When Rage is maxed, press] " + rageKey + " [c/"+mainColor+":for a temporary damage boost] \n" +
-                        "[c/"+mainColor+":Most foes have higher stats and deal more damage] \n" +
+                        "[c/"+mainColor+":Most foes have higher stats and more aggressive AIs] \n" +
                         "[c/"+mainColor+":Bosses have new AI mechanics, new phases, and will drop Master Mode loot. Enemies spawn more frequently] \n" +
                         "[c/F7342A:This mode is more difficult than Expert. Be sure to prepare for the challenge]");
 
@@ -255,7 +255,7 @@ namespace CalamityMod.Systems
             }
         }
         
-        public override string ExpandedDescription =>"[c/B834E0:All foes will pose a much larger threat with aggressive AI and increased damage] \n" +
+        public override string ExpandedDescription =>"[c/B834E0:All foes will pose a much larger threat with highly aggressive AIs and increased damage] \n" +
                         "[c/B834E0:Bosses have substantially harder AI changes. Enemies are even more numerous and can easily overwhelm you] \n" +
                         "[c/B834E0:Debuffs are especially lethal and the Abyss is significantly more dangerous] \n" +
                         "[c/E945FF:Vigilance and tenacity are crucial to survival]";

@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("The brute force of the Profaned Goddess’ creations and devotees. Their jaws are filled to the brim with razor-sharp crystals and scorching holy flames.")
+                new FlavorTextBestiaryInfoElement("The brute force of the Profaned Goddess' creations and devotees. Their jaws are filled to the brim with razor-sharp crystals and scorching holy flames.")
             });
         }
 
@@ -83,9 +83,13 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     num321 = 12;
                 }
+                if (CalamityWorld.revenge)
+                {
+                    num321 /= 2;
+                }
                 if (CalamityWorld.death)
                 {
-                    num321 /= 4;
+                    num321 /= 2;
                 }
                 if (NPC.ai[2] < (float)num321)
                 {
@@ -124,6 +128,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         else
                             NPC.velocity.Y = 12f;
                     }
+                    if (!CalamityWorld.getFixedBoi)
                     SoundEngine.PlaySound(JumpSound, NPC.Center);
                 }
                 NPC.netUpdate = true;

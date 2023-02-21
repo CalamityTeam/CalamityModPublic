@@ -54,12 +54,12 @@ namespace CalamityMod.World
                 while (y < Main.worldSurface)
                 {
                     if (Main.tile[x, y].HasTile &&
-                        (Main.tile[x, y].TileType == ModContent.TileType<AstralSand>() || Main.tile[x, y].TileType == ModContent.TileType<AstralSandstone>() ||
-                        Main.tile[x, y].TileType == ModContent.TileType<HardenedAstralSand>() || Main.tile[x, y].TileType == ModContent.TileType<AstralIce>() ||
-                        Main.tile[x, y].TileType == ModContent.TileType<AstralDirt>() || Main.tile[x, y].TileType == ModContent.TileType<AstralStone>() ||
-                        Main.tile[x, y].TileType == ModContent.TileType<AstralGrass>() || Main.tile[x, y].TileType == ModContent.TileType<NovaeSlag>() ||
-                        Main.tile[x, y].TileType == ModContent.TileType<CelestialRemains>() || Main.tile[x, y].TileType == ModContent.TileType<AstralSnow>() ||
-                        Main.tile[x, y].TileType == ModContent.TileType<AstralClay>() || Main.tile[x, y].TileType == ModContent.TileType<AstralStone>()))
+                    (Main.tile[x, y].TileType == ModContent.TileType<AstralSand>() || Main.tile[x, y].TileType == ModContent.TileType<AstralSandstone>() ||
+                    Main.tile[x, y].TileType == ModContent.TileType<HardenedAstralSand>() || Main.tile[x, y].TileType == ModContent.TileType<AstralIce>() ||
+                    Main.tile[x, y].TileType == ModContent.TileType<AstralDirt>() || Main.tile[x, y].TileType == ModContent.TileType<AstralStone>() ||
+                    Main.tile[x, y].TileType == ModContent.TileType<AstralGrass>() || Main.tile[x, y].TileType == ModContent.TileType<NovaeSlag>() ||
+                    Main.tile[x, y].TileType == ModContent.TileType<CelestialRemains>() || Main.tile[x, y].TileType == ModContent.TileType<AstralSnow>() ||
+                    Main.tile[x, y].TileType == ModContent.TileType<AstralClay>() || Main.tile[x, y].TileType == ModContent.TileType<AstralStone>()))
                     {
                         astralTileCount++;
                         if (astralTileCount > astralTilesAllowed)
@@ -124,16 +124,18 @@ namespace CalamityMod.World
             {
                 float worldEdgeMargin = (float)Main.maxTilesX * 0.08f;
                 int xLimit = Main.maxTilesX / 2;
-                int x = Abyss.AtLeftSideOfWorld ? rand.Next(400, xLimit) : rand.Next(xLimit, Main.maxTilesX - 400);
-                while ((float)x > (float)Main.spawnTileX - worldEdgeMargin && (float)x < (float)Main.spawnTileX + worldEdgeMargin)
-                {
-                    x = Abyss.AtLeftSideOfWorld ? rand.Next(400, xLimit) : rand.Next(xLimit, Main.maxTilesX - 400);
-                }
+
+                int realX = Abyss.AtLeftSideOfWorld ? rand.Next(SulphurousSea.BiomeWidth + 300, xLimit - 400) : rand.Next(xLimit + 400, Main.maxTilesX - SulphurousSea.BiomeWidth - 300);
+
+                //clamp so it doesnt crash hopefully
+                int x = Utils.Clamp(realX, SulphurousSea.BiomeWidth + 300, Main.maxTilesX - SulphurousSea.BiomeWidth - 300);
+                
                 //world surface = 920 large 740 medium 560 small
                 int y = (int)(Main.worldSurface * 0.5); //Large = 522, Medium = 444, Small = 336
                 while (y < Main.maxTilesY)
                 {
-                    if (Main.tile[x, y].HasTile && Main.tileSolid[(int)Main.tile[x, y].TileType])
+                    //check to place the astral meteor on valid tiles, place automatically on ebonstone walls, and avoid platforms
+                    if (((Main.tile[x, y].HasTile && Main.tileSolid[(int)Main.tile[x, y].TileType]) || Main.tile[x, y].WallType == 3) && !TileID.Sets.Platforms[Main.tile[x, y].TileType])
                     {
                         int suitableTiles = 0;
                         int checkRadius = 15;
@@ -145,20 +147,31 @@ namespace CalamityMod.World
                                 {
                                     suitableTiles++;
 
-                                    // Avoid floating islands: Clouds and Sunplate both harshly punish attempted meteor spawns
+                                    //Avoid floating islands: Clouds and Sunplate both harshly punish attempted meteor spawns
                                     if (Main.tile[l, m].TileType == TileID.Cloud || Main.tile[l, m].TileType == TileID.Sunplate)
                                     {
                                         suitableTiles -= 100;
                                     }
-                                    // Avoid Sulphurous Sea beach: Cannot be converted by astral
+                                    //Avoid the hallowed so it doesnt get demolished by the astral biome
+                                    else if (Main.tile[l, m].TileType == TileID.HallowedGrass || Main.tile[l, m].TileType == TileID.Pearlstone)
+                                    {
+                                        suitableTiles -= 100;
+                                    }
+                                    //Avoid living trees, doesnt land on them too often but its better to prevent it
+                                    else if (Main.tile[l, m].TileType == TileID.LivingWood || Main.tile[l, m].TileType == TileID.LeafBlock)
+                                    {
+                                        suitableTiles -= 100;
+                                    }
+                                    //Avoid Sulphurous Sea beach: Cannot be converted by astral
                                     else if (Main.tile[l, m].TileType == ModContent.TileType<SulphurousSand>() || Main.tile[l, m].TileType == ModContent.TileType<SulphurousSandstone>())
                                     {
                                         suitableTiles -= 100;
                                     }
-
-                                    // Prevent the Astral biome from overriding or interfering with an AA biome
+                                    //Prevent the Astral biome from overriding or interfering with an AA biome
                                     else if (ancientsAwakened is not null && aaTilesToAvoid.Contains(Main.tile[l, m].TileType))
+                                    {
                                         suitableTiles -= 100;
+                                    }
                                 }
 
                                 // Liquid aversion makes meteors less likely to fall in lakes
@@ -201,6 +214,8 @@ namespace CalamityMod.World
 
         public static bool GenerateAstralMeteor(int i, int j)
         {
+            WorldGen.gen = true;
+
             UnifiedRandom rand = WorldGen.genRand;
             if (i < 50 || i > Main.maxTilesX - 50)
             {
@@ -379,6 +394,8 @@ namespace CalamityMod.World
                 }
             }
 
+            WorldGen.gen = false;
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendTileSquare(-1, i, j, 40, TileChangeType.None);
@@ -394,70 +411,34 @@ namespace CalamityMod.World
                     if (j < 181)
                         j = 181;
 
-                    int checkWidth = 180;
-                    float averageHeight = 0f;
-                    float lowestHeight = 0f;
+                    int xOffset = WorldGen.dungeonX < Main.maxTilesX / 2 ? WorldGen.genRand.Next(-80, -40) : WorldGen.genRand.Next(40, 80);
 
-                    int xAreaToSpawn = i;
-
-                    Dictionary<int, float> xAreaHeightMap = new Dictionary<int, float>();
-
-                    // Gauge the bumpiness of various potential locations.
-                    // The least bumpy one will be selected as the place to spawn the monolith.
-                    for (int tries = 0; tries < 30; tries++)
+                    bool altarPlaced = false;
+                    while (!altarPlaced)
                     {
-                        int x = i + Main.rand.Next(-60, 61);
+                        WorldGen.gen = true;
 
-                        // Don't attempt to add duplicate keys.
-                        if (xAreaHeightMap.ContainsKey(x))
-                            continue;
+                        int x = i + xOffset;
+                        int y = j - 100;
 
-                        float averageRelativeHeight = 0f;
-                        for (int dx = -30; dx <= 30; dx++)
+                        while (!WorldGen.SolidTile(x, y) && y <= Main.worldSurface)
                         {
-                            WorldUtils.Find(new Point(x + dx, j - 180), Searches.Chain(new Searches.Down(360), new Conditions.IsSolid()), out Point result);
-                            averageRelativeHeight += Math.Abs(result.Y - j);
+                            y += 5;
                         }
-                        averageRelativeHeight /= 60f;
-                        xAreaHeightMap.Add(x, averageRelativeHeight);
-                    }
 
-                    i = xAreaHeightMap.OrderBy(x => x.Value).First().Key;
-
-                    for (int x = i - checkWidth / 2; x < i + checkWidth / 2; x++)
-                    {
-                        int y = j - 200;
-                        Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
-                        while (!Main.tileSolid[tileAtPosition.TileType] ||
-                            !tileAtPosition.HasTile ||
-                            TileID.Sets.Platforms[tileAtPosition.TileType])
+                        if (Main.tile[x, y].HasTile || Main.tile[x, y].WallType > 0)
                         {
-                            y++;
-                            if (y > j - 10)
-                                break;
-                            tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
+                            bool place = true;
+                            SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(x, y - 5), SchematicAnchor.Center, ref place);
+
+                            WorldGen.gen = false;
+
+                            altarPlaced = true;
                         }
-                        lowestHeight = (int)MathHelper.Max(lowestHeight, y);
-                        averageHeight += y;
                     }
-                    lowestHeight -= 35f;
-                    averageHeight /= checkWidth;
-                    float height = lowestHeight;
-
-                    // If there's a sudden change between the average and lowest height (which is indicative of holes/chasms), go with the average.
-                    if (Math.Abs(lowestHeight - averageHeight) > 50f)
-                        height = averageHeight;
-
-                    // WorldGen.gen prevents NewItem from working, and thus prevents a bunch of dumb items from being spawned immediately and deleting the WoF/Aureus loot in the process.
-                    WorldGen.gen = true;
-                    // Add the average height of a tree to the Y position to offset trees usually messing with the calculation.
-                    // Then also add 10 blocks because these things seem to always like to appear standing on the floor.
-                    int finalVerticalOffset = 18;
-                    bool _ = true;
-                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i, (int)height + finalVerticalOffset), SchematicAnchor.Center, ref _);
-                    WorldGen.gen = false;
                 }
             }
+
             return true;
         }
 
@@ -1236,7 +1217,7 @@ namespace CalamityMod.World
             if (collapse) //Collapse ensures the ellipse is shrunk down a lot in terms of distance.
             {
                 float distY = center.Y - point.Y;
-                point.Y -= distY * 8f;
+                point.Y -= distY * 3f;
             }
             float distance1 = Vector2.Distance(point, focus1);
             float distance2 = Vector2.Distance(point, focus2);

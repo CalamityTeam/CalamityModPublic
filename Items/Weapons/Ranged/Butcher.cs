@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.Shotgun).
                 AddIngredient(ItemID.IllegalGunParts).
                 AddRecipeGroup("AnyCobaltBar", 5).
-                AddIngredient<EssenceofChaos>(4).
+                AddIngredient<EssenceofHavoc>(4).
                 AddTile(TileID.Anvils).
                 Register();
         }

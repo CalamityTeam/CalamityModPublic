@@ -27,6 +27,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
@@ -50,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 waterVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                     waterVelocity.Normalize();
                     waterVelocity *= 3;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), spriteCenter, waterVelocity, ModContent.ProjectileType<DeepWounderWater>(), 20, 1, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), spriteCenter, waterVelocity, ModContent.ProjectileType<DeepWounderWater>(), (int)(Projectile.damage * 0.1f), 1, Projectile.owner, 0, 0);
                 }
             }
         }
@@ -58,20 +60,20 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
             if (Projectile.Calamity().stealthStrike)
             {
-                target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
+                target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
             }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 150);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 150);
             if (Projectile.Calamity().stealthStrike)
             {
-                target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
+                target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 150);
             }
         }
 

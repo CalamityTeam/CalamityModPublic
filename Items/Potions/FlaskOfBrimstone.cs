@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Potions
         {
             SacrificeTotal = 20;
             DisplayName.SetDefault("Flask of Brimstone");
-            Tooltip.SetDefault("Melee, Whip, and Rogue attacks inflict Brimstone Flames on enemies");
+            Tooltip.SetDefault("Melee, Whip, and Rogue attacks inflict Brimstone Flames");
         }
 
         public override void SetDefaults()
@@ -29,23 +29,15 @@ namespace CalamityMod.Items.Potions
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
-            Item.buffType = ModContent.BuffType<AbyssalWeapon>();
+            Item.buffType = ModContent.BuffType<WeaponImbueBrimstone>();
             Item.buffTime = CalamityUtils.SecondsToFrames(1200f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(3).
-                AddIngredient(ItemID.BottledWater, 3).
-                AddIngredient<BrimstoneFish>().
-                AddIngredient<AshesofCalamity>(3).
-                AddTile(TileID.ImbuingStation).
-                Register();
-
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
-                AddIngredient<BloodOrb>(20).
                 AddIngredient<AshesofCalamity>().
                 AddTile(TileID.ImbuingStation).
                 Register();

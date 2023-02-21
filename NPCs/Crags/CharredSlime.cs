@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override void SetDefaults()
         {
-            NPC.aiStyle = 1;
+            NPC.aiStyle = NPCAIStyleID.Slime;
             AIType = NPCID.LavaSlime;
             NPC.damage = 40;
             NPC.width = 40;
@@ -92,8 +92,8 @@ namespace CalamityMod.NPCs.Crags
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<CharredOre>(), 1, 10, 26);
-            npcLoot.Add(ModContent.ItemType<EssenceofChaos>(), 3);
+            npcLoot.Add(ModContent.ItemType<InfernalSuevite>(), 1, 10, 26);
+            npcLoot.Add(ModContent.ItemType<EssenceofHavoc>(), 3);
             LeadingConditionRule postProv = npcLoot.DefineConditionalDropSet(DropHelper.PostProv());
             postProv.Add(ModContent.ItemType<Bloodstone>(), 4);
         }

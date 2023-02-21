@@ -19,18 +19,14 @@ namespace CalamityMod.Buffs.Summon
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (player.ownedProjectileCounts[ModContent.ProjectileType<SarosAura>()] > 0)
-            {
-                modPlayer.radiantResolution = true;
-            }
-            if (!modPlayer.radiantResolution)
+                modPlayer.saros = true;
+            if (!modPlayer.saros)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;
             }
             else
-            {
                 player.buffTime[buffIndex] = 18000;
-            }
         }
     }
 }

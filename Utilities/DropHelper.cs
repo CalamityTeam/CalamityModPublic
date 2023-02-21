@@ -113,13 +113,14 @@ namespace CalamityMod
 
         #region Bestiary Text
         public static string FirstKillText = "Drops only on the first kill";
-        public static string BloodMoonText = "Drops during the Blood Moon";
         public static string MechBossText = "Drops on the first kill of the final Mechanical Boss";
-        public static string SentinelText = "Drops on the first kill of the final Sentinel of the Devourer";
+        public static string CynosureText = "Drops once you have defeated both Draedon and Calamitas";
+
         public static string ProvidenceHallowText = "Drops if Providence was summoned in the Hallow\nor if Providence is only attacked during nighttime";
         public static string ProvidenceUnderworldText = "Drops if Providence was summoned in the Underworld\nor if Providence is only attacked during nighttime";
         public static string ProvidenceNightText = "Drops if Providence is only attacked during nighttime";
         public static string ProvidenceChallengeText = $"Drops if Providence was defeated only with the [i:{ModContent.ItemType<ProfanedSoulArtifact>()}] Profaned Soul Artifact\nThis is an Expert Mode drop rate";
+
         #endregion
 
         #region Block Drops
@@ -538,46 +539,6 @@ namespace CalamityMod
             return p.Calamity().tarraSet;
         });
 
-        private static bool CanDropBloodOrbs(DropAttemptInfo info)
-        {
-            // Blood Orbs do not drop unless it's a Blood Moon.
-            if (!Main.bloodMoon)
-                return false;
-
-            // If the drop info has a player, then check whether the player is "on the surface".
-            bool onSurface = false;
-            Player p = info.player;
-            if (p != null && p.active)
-                onSurface = p.ZoneOverworldHeight || p.ZoneSkyHeight;
-
-            // Also check whether the NPC is considered "on the surface".
-            NPC npc = info.npc;
-            if (npc.Center.Y <= Main.worldSurface)
-                onSurface = true;
-
-            // Blood Orbs do not drop unless either the NPC killed or the player that killed the NPC are on the surface.
-            if (!onSurface)
-                return false;
-
-            // Blood Orbs do not drop from the following:
-            // 1 - NPCs spawned from statues
-            // 2 - NPCs with no contact damage, unless they are bosses.
-            // 3 - NPCs that are not targeting a player.
-            return !npc.SpawnedFromStatue && (npc.damage > 5 || npc.boss) && npc.HasPlayerTarget;
-        }
-
-        public static IItemDropRuleCondition BloodOrbBaseCondition = If(CanDropBloodOrbs);
-        public static IItemDropRuleCondition BloodOrbBloodflareCondition = If((info) =>
-        {
-            bool bloodOrbsAvailable = CanDropBloodOrbs(info);
-            if (!bloodOrbsAvailable)
-                return false;
-
-            // To receive the extra orbs from Bloodflare Armor, you must be wearing Bloodflare Armor.
-            Player p = info.player;
-            return p != null && p.active && p.Calamity().bloodflareSet;
-        });
-
         internal const float TrasherEatDistance = 96f;
         public static IItemDropRuleCondition AnglerFedToTrasherCondition = If((info) =>
         {
@@ -627,9 +588,9 @@ namespace CalamityMod
         public static IItemDropRuleCondition PostSP(bool ui = true) => If(() => NPC.downedMechBoss3, ui, "Drops after defeating Skeletron Prime");
         public static IItemDropRuleCondition Post1Mech(bool ui = true) => If(() => NPC.downedMechBossAny, ui, "Drops after defeating a Mechanical Boss");
         public static IItemDropRuleCondition Post3Mechs(bool ui = true) => If(() => NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3, ui, "Drops after defeating all three Mechanical Bosses");
-        public static IItemDropRuleCondition PostCal(bool ui = true) => If(() => DownedBossSystem.downedCalamitas, ui, "Drops after defeating Calamitas");
+        public static IItemDropRuleCondition PostCal(bool ui = true) => If(() => DownedBossSystem.downedCalamitasClone, ui, "Drops after defeating Calamitas Clone");
         public static IItemDropRuleCondition PostPlant(bool ui = true) => If(() => NPC.downedPlantBoss, ui, "Drops after defeating Plantera");
-        public static IItemDropRuleCondition PostCalPlant(bool ui = true) => If(() => DownedBossSystem.downedCalamitas || NPC.downedPlantBoss, ui, "Drops after defeating Calamitas or Plantera");
+        public static IItemDropRuleCondition PostCalPlant(bool ui = true) => If(() => DownedBossSystem.downedCalamitasClone || NPC.downedPlantBoss, ui, "Drops after defeating Calamitas or Plantera");
         public static IItemDropRuleCondition PostLevi(bool ui = true) => If(() => DownedBossSystem.downedLeviathan, ui, "Drops after defeating the Leviathan and Anahita");
         public static IItemDropRuleCondition PostAureus(bool ui = true) => If(() => DownedBossSystem.downedAstrumAureus, ui, "Drops after defeating Astrum Aureus");
         public static IItemDropRuleCondition PostGolem(bool ui = true) => If(() => NPC.downedGolemBoss, ui, "Drops after defeating Golem");
@@ -651,7 +612,7 @@ namespace CalamityMod
         public static IItemDropRuleCondition PostDoG(bool ui = true) => If(() => DownedBossSystem.downedDoG, ui, "Drops after defeating the Devourer of Gods");
         public static IItemDropRuleCondition PostYharon(bool ui = true) => If(() => DownedBossSystem.downedYharon, ui, "Drops after defeating Yharon");
         public static IItemDropRuleCondition PostExos(bool ui = true) => If(() => DownedBossSystem.downedExoMechs, ui, "Drops after defeating the Exo Mechs");
-        public static IItemDropRuleCondition PostSCal(bool ui = true) => If(() => DownedBossSystem.downedSCal, ui, "Drops after defeating Supreme Calamitas");
+        public static IItemDropRuleCondition PostSCal(bool ui = true) => If(() => DownedBossSystem.downedCalamitas, ui, "Drops after defeating Calamitas");
         public static IItemDropRuleCondition PostAEW(bool ui = true) => If(() => DownedBossSystem.downedAdultEidolonWyrm, ui, "Drops after defeating the Adult Eidolon Wyrm");
         public static IItemDropRuleCondition PostClam(bool ui = true) => If(() => DownedBossSystem.downedCLAM, ui, "Drops after defeating the Giant Clam");
         public static IItemDropRuleCondition PostClamHM(bool ui = true) => If(() => DownedBossSystem.downedCLAMHardMode, ui, "Drops after defeating the Giant Clam in Hardmode");

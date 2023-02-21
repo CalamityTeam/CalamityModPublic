@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.Astral
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Within their shells, the virus brews a potent chemical. When the seer approaches a foe, it spits this chemical out of its mandibles, hoping to melt the intruder’s flesh.")
+				new FlavorTextBestiaryInfoElement("Within their shells, the virus brews a potent chemical. When the seer approaches a foe, it spits this chemical out of its mandibles, hoping to melt the intruder's flesh.")
             });
         }
 
@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override void AI()
         {
-            CalamityGlobalNPC.DoFlyingAI(NPC, (CalamityWorld.death ? 8.7f : 5.8f), (CalamityWorld.death ? 0.045f : 0.03f), 350f);
+            CalamityGlobalNPC.DoFlyingAI(NPC, (CalamityWorld.death ? 9.8f : CalamityWorld.revenge ? 7.8f : 5.8f), (CalamityWorld.death ? 0.05f : CalamityWorld.revenge ? 0.04f : 0.03f), 350f);
         }
 
         public override void HitEffect(int hitDirection, double damage)

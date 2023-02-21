@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
         public static float MaxWindup = 110;
         public ref float Windup => ref Projectile.ai[0];
         public float WindupProgress => MathHelper.Clamp(Windup, 0, MaxWindup) / MaxWindup;
-        public static float whirlpoolDamageMultiplier = 1.6f;
+        public static float whirlpoolDamageMultiplier = 2f;
 
         public override void SetStaticDefaults()
         {

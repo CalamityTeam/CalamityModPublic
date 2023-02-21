@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Tools
             Item.height = 44;
             Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Tools
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.Frostburn2, 300);
         }
     }
 }

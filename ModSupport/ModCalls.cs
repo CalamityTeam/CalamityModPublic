@@ -9,6 +9,7 @@ using CalamityMod.Particles;
 using CalamityMod.Particles.Metaballs;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
+using CalamityMod.UI.DraedonSummoning;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
@@ -110,18 +111,23 @@ namespace CalamityMod
                 case "aquatic scourge":
                     return DownedBossSystem.downedAquaticScourge;
 
+                case "cragmaw":
+                case "cragmawmire":
+                case "cragmaw mire":
+                case "mire":
+                    return DownedBossSystem.downedCragmawMire;
+
                 case "brimstoneelemental":
                 case "brimstone elemental":
                     return DownedBossSystem.downedBrimstoneElemental;
 
-                case "calamitas":
                 case "clone":
                 case "calamitasclone":
                 case "calamitas clone":
                 case "clonelamitas":
                 case "calamitasdoppelganger":
                 case "calamitas doppelganger":
-                    return DownedBossSystem.downedCalamitas;
+                    return DownedBossSystem.downedCalamitasClone;
 
                 case "gss":
                 case "greatsandshark":
@@ -195,6 +201,13 @@ namespace CalamityMod
                 case "necroghast":
                 case "necroplasm":
                     return DownedBossSystem.downedPolterghast;
+
+                case "mauler":
+                    return DownedBossSystem.downedMauler;
+
+                case "nuclear terror":
+                case "nuclearterror":
+                    return DownedBossSystem.downedNuclearTerror;
 
                 // Old Duke is also Acid Rain tier 3, so he gets those names too
                 case "oldduke":
@@ -273,10 +286,14 @@ namespace CalamityMod
                 case "ares":
                     return DownedBossSystem.downedExoMechs;
 
+                case "calamitas":
                 case "scal":
                 case "supremecalamitas":
                 case "supreme calamitas":
-                    return DownedBossSystem.downedSCal;
+                case "supremewitchcalamitas":
+                case "supreme witch calamitas":
+                case "supreme witch, calamitas":
+                    return DownedBossSystem.downedCalamitas;
 
                 case "adulteidolonwyrm":
                 case "adult eidolon wyrm":
@@ -285,6 +302,11 @@ namespace CalamityMod
                 case "adulteidolon":
                 case "adult eidolon":
                     return DownedBossSystem.downedAdultEidolonWyrm;
+
+                case "bossrush":
+                case "boss rush":
+                case "terminus":
+                    return DownedBossSystem.downedBossRush;
             }
         }
         #endregion
@@ -1944,6 +1966,12 @@ namespace CalamityMod
                     if (args.Length != 3 || args[2] is not bool isPersistent)
                         return new ArgumentException("ERROR: Must specify a bool that determines whether the buff is persistent after death for the Amalgam to properly reset.");
                     return SetPersistentBuffList(buffType4, isPersistent);
+
+                case "CreateCodebreakerDialogOption":
+                    if (args.Length != 4 || args[1] is not string inquiry || args[2] is not string response || args[3] is not Func<bool> condition)
+                        throw new ArgumentException("ERROR: Must specify a string that determines the inquiry, a string that determines the response, and a Func<bool> that determines the condition.");
+                    DraedonDialogRegistry.DialogOptions.Add(new(inquiry, response, condition));
+                    return null;
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");

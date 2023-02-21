@@ -42,7 +42,14 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddRecipeGroup("HardmodeAnvil").AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddIngredient(ItemID.LunarBar, 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 12).AddIngredient(ModContent.ItemType<ExodiumCluster>(), 20).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddRecipeGroup("HardmodeAnvil").
+                AddIngredient<CosmiliteBar>(10).
+                AddIngredient(ItemID.LunarBar, 10).
+                AddIngredient<GalacticaSingularity>(12).
+                AddIngredient<ExodiumCluster>(20).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

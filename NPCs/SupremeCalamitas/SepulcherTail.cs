@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.GameContent;
 using Terraria.ModLoader;
@@ -144,6 +145,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     NPC.spriteDirection = 1;
                 }
             }
+
+            if (CalamityWorld.getFixedBoi && !NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()))
+            {
+                CalamityGlobalNPC global = NPC.Calamity();
+                global.DR = 0.5f;
+                global.unbreakableDR = false;
+                NPC.chaseable = true;
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -163,23 +172,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             return false;
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
-            {
-                if (projectile.penetrate == -1 && !projectile.minion)
-                {
-                    projectile.penetrate = 1;
-                }
-                else if (projectile.penetrate >= 1)
-                {
-                    projectile.penetrate = 1;
-                }
-            }
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
+            // hit sound in gfb
+            if (NPC.soundDelay == 0 && NPC.Calamity().unbreakableDR == false)
+            {
+                NPC.soundDelay = Main.rand.Next(5, 8);
+                SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt, NPC.Center);
+            }
             if (NPC.life <= 0)
             {
                 if (Main.netMode != NetmodeID.Server)

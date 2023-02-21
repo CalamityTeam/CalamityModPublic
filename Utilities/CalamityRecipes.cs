@@ -539,9 +539,17 @@ namespace CalamityMod
                 Register();
 
             // Earlier Rocket Is for early rocket weapons
-            Recipe.Create(ItemID.RocketI, 20).
-                AddIngredient(ItemID.EmptyBullet, 20).
-                AddIngredient(ItemID.ExplosivePowder, 1).
+            Recipe.Create(ItemID.RocketI, 100).
+                AddRecipeGroup("IronBar").
+                AddIngredient(ItemID.EmptyBullet, 100).
+                AddIngredient(ItemID.ExplosivePowder, 4).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+            // and Rocket IIs (requires slightly more explosive powder)
+            Recipe.Create(ItemID.RocketII, 100).
+                AddRecipeGroup("IronBar").
+                AddIngredient(ItemID.EmptyBullet, 100).
+                AddIngredient(ItemID.ExplosivePowder, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
 
@@ -573,7 +581,6 @@ namespace CalamityMod
                 AddIngredient(ItemID.Feather, 2).
                 AddIngredient<BloodOrb>().
                 AddIngredient(ItemID.GoldCoin, 15).
-                AddRecipeGroup(AnyGoldBar, 8).
                 AddTile(TileID.Anvils).
                 Register();
 
@@ -771,36 +778,40 @@ namespace CalamityMod
                 r.requiredTile[idx] = newTileID;
             };
 
-            var edits = new Dictionary<Func<Recipe, bool>, Action<Recipe>>(32)
+            var edits = new Dictionary<Func<Recipe, bool>, Action<Recipe>>(128)
             {
                 { Vanilla(ItemID.EnchantedBoomerang), Disable }, // Calamity adds its own recipe
-                { Vanilla(ItemID.JestersArrow), JesterArrowRecipeEdit },
-                { Vanilla(ItemID.NightsEdge), AddIngredient(ModContent.ItemType<PurifiedGel>(), 5) },
+
+                // Make various things cheaper (sorted by progression)
                 { Vanilla(ItemID.Leather), ChangeIngredientStack(ItemID.RottenChunk, 2) },
-                { VanillaEach(ItemID.Flamarang, ItemID.PhoenixBlaster), SwapIngredients(0, 1) },
-                { Vanilla(ItemID.BundleofBalloons), AddIngredient(ModContent.ItemType<AerialiteBar>(), 3) },
-                { Vanilla(ItemID.TrueNightsEdge), TrueNightsEdgeRecipeEdit },
-                { Vanilla(ItemID.TrueExcalibur), ChangeIngredientStack(ItemID.ChlorophyteBar, 12) },
-                { Vanilla(ItemID.TerraBlade), AddIngredient(ModContent.ItemType<LivingShard>(), 12) },
-                { Vanilla(ItemID.Zenith), AddIngredient(ModContent.ItemType<AuricBar>(), 5) },
-                { Vanilla(ItemID.FireGauntlet), AddIngredient(ModContent.ItemType<ScoriaBar>(), 5) },
-                { Vanilla(ItemID.SpiritFlame), AddGroup(AnyAdamantiteBar, 2) },
-                { VanillaEach(ItemID.BeetleHelmet, ItemID.BeetleScaleMail, ItemID.BeetleShell, ItemID.BeetleLeggings), SwapIngredients(0, 1) },
-                { Vanilla(ItemID.GoblinBattleStandard), ChangeIngredientStack(ItemID.TatteredCloth, 5) },
+                { Vanilla(ItemID.JestersArrow), JesterArrowRecipeEdit },
                 { Vanilla(ItemID.WormFood), WormFoodRecipeEdit },
                 { Vanilla(ItemID.BloodySpine), BloodySpineRecipeEdit },
-                { VanillaEach(ItemID.PumpkinMoonMedallion, ItemID.NaughtyPresent), Disable }, // Calamity adds its own recipes
+                { Vanilla(ItemID.GoblinBattleStandard), ChangeIngredientStack(ItemID.TatteredCloth, 5) },
                 { VanillaEach(
                     ItemID.BluePhasesaber, ItemID.GreenPhasesaber, ItemID.OrangePhasesaber, ItemID.PurplePhasesaber,
                     ItemID.RedPhasesaber, ItemID.WhitePhasesaber, ItemID.YellowPhasesaber),
-                    ChangeIngredientStack(ItemID.CrystalShard, 20)
+                    ChangeIngredientStack(ItemID.CrystalShard, 20) // TODO -- PORT: 1.4.4 reduces Phasesaber crystals to 25, remove this
                 },
-                { Vanilla(ItemID.OpticStaff), RemoveIngredient(ItemID.HallowedBar) },
-                { Vanilla(ItemID.ShroomiteBar), ChangeIngredientStack(ItemID.GlowingMushroom, 5) },
                 { Vanilla(ItemID.ChlorophyteBar), ChangeIngredientStack(ItemID.ChlorophyteOre, 4) },
+
+                // TODO -- DELETE THIS LINE IN 1.4.4 PORT
                 { Vanilla(ItemID.AnkhCharm), AddIngredient(ItemID.PocketMirror) },
-                { Vanilla(ItemID.CelestialEmblem), ReplaceIngredient(ItemID.AvengerEmblem, ItemID.SorcererEmblem) },
-                { Vanilla(ItemID.MechanicalGlove), ReplaceIngredient(ItemID.AvengerEmblem, ItemID.WarriorEmblem) },
+
+                { Vanilla(ItemID.ShroomiteBar), ChangeIngredientStack(ItemID.GlowingMushroom, 5) },
+                { Vanilla(ItemID.TrueNightsEdge), TrueNightsEdgeRecipeEdit },
+                { Vanilla(ItemID.TrueExcalibur), ChangeIngredientStack(ItemID.ChlorophyteBar, 12) },
+
+                // Tier lock various items to a higher tier (sorted by progression)
+                { Vanilla(ItemID.BundleofBalloons), AddIngredient(ModContent.ItemType<AerialiteBar>(), 3) },
+                { Vanilla(ItemID.NightsEdge), AddIngredient(ModContent.ItemType<PurifiedGel>(), 5) },
+                { Vanilla(ItemID.SpiritFlame), AddGroup(AnyAdamantiteBar, 2) },
+                { Vanilla(ItemID.TerraBlade), AddIngredient(ModContent.ItemType<LivingShard>(), 12) },
+                { Vanilla(ItemID.FireGauntlet), AddIngredient(ModContent.ItemType<ScoriaBar>(), 5) },
+                { Vanilla(ItemID.Zenith), AddIngredient(ModContent.ItemType<AuricBar>(), 5) },
+
+                // Tier unlock various items to a lower tier (sorted by progression)
+                // Move a bunch of mythril anvil locked stuff in early HM to regular anvils to fit progression changes
                 { VanillaEach(
                     ItemID.MechanicalEye, ItemID.MechanicalWorm, ItemID.MechanicalSkull,
                     ItemID.DaoofPow, ItemID.Chik, ItemID.MeteorStaff, ItemID.CoolWhip,
@@ -808,8 +819,22 @@ namespace CalamityMod
                     ItemID.CursedArrow, ItemID.CursedBullet, ItemID.IchorArrow, ItemID.IchorBullet),
                     ReplaceTile(TileID.MythrilAnvil, TileID.Anvils)
                 },
+                { Vanilla(ItemID.OpticStaff), RemoveIngredient(ItemID.HallowedBar) },
 
-                // All PHM ore armors are 10/16/14
+                // Swap hellstone recipe ordering (they have bars first and it's wrong and irritating)
+                { VanillaEach(ItemID.Flamarang, ItemID.PhoenixBlaster), SwapIngredients(0, 1) },
+
+                // Swap Beetle Armor recipe ordering (they have beetle husks first and it's wrong and irritating)
+                { VanillaEach(ItemID.BeetleHelmet, ItemID.BeetleScaleMail, ItemID.BeetleShell, ItemID.BeetleLeggings), SwapIngredients(0, 1) },
+
+                // Pumpkin & Frost Moon non linearity
+                { Vanilla(ItemID.PumpkinMoonMedallion), RemoveIngredient(ItemID.HallowedBar) },
+                { Vanilla(ItemID.NaughtyPresent), RemoveIngredient(ItemID.SoulofFright) },
+
+                // Add 20 Souls of Flight to vanilla Luminite wings
+                { VanillaEach(ItemID.WingsSolar, ItemID.WingsVortex, ItemID.WingsNebula, ItemID.WingsStardust), AddIngredient(ItemID.SoulofFlight, 20) },
+
+                // Standardize the costs of all PHM ore armors to 10/16/14 head/chest/legs
                 { Vanilla(ItemID.CopperHelmet), ChangeIngredientStack(ItemID.CopperBar, 10) },
                 { Vanilla(ItemID.CopperChainmail), ChangeIngredientStack(ItemID.CopperBar, 16) },
                 { Vanilla(ItemID.CopperGreaves), ChangeIngredientStack(ItemID.CopperBar, 14) },
@@ -835,57 +860,57 @@ namespace CalamityMod
                 { Vanilla(ItemID.PlatinumChainmail), ChangeIngredientStack(ItemID.PlatinumBar, 16) },
                 { Vanilla(ItemID.PlatinumGreaves), ChangeIngredientStack(ItemID.PlatinumBar, 14) },
 
-                // HM ores:
-                // 12 BARS : Melee Helm, Ranged Helm, Magic Helm, Pickaxe, Drill, Waraxe, Chainsaw, Sword, Spear, Repeater
-                // 24 BARS : Breastplate
-                // 18 BARS : Leggings
+                // Standardize the costs of all HM ore items to the following:
+                // 10 BARS : Melee Helm, Ranged Helm, Magic Helm, Pickaxe, Drill, Waraxe, Chainsaw, Sword, Spear, Repeater
+                // 20 BARS : Breastplate
+                // 15 BARS : Leggings
                 { VanillaEach(
                     ItemID.CobaltHelmet, ItemID.CobaltMask, ItemID.CobaltHat, ItemID.CobaltPickaxe, ItemID.CobaltDrill, ItemID.CobaltWaraxe, ItemID.CobaltChainsaw,
                     ItemID.CobaltSword, ItemID.CobaltNaginata, ItemID.CobaltRepeater),
-                    ChangeIngredientStack(ItemID.CobaltBar, 12)
+                    ChangeIngredientStack(ItemID.CobaltBar, 10)
                 },
-                { Vanilla(ItemID.CobaltBreastplate), ChangeIngredientStack(ItemID.CobaltBar, 24) },
-                { Vanilla(ItemID.CobaltLeggings), ChangeIngredientStack(ItemID.CobaltBar, 18) },
+                { Vanilla(ItemID.CobaltBreastplate), ChangeIngredientStack(ItemID.CobaltBar, 20) },
+                { Vanilla(ItemID.CobaltLeggings), ChangeIngredientStack(ItemID.CobaltBar, 15) },
 
                 { VanillaEach(
                     ItemID.PalladiumHelmet, ItemID.PalladiumMask, ItemID.PalladiumHeadgear, ItemID.PalladiumPickaxe, ItemID.PalladiumDrill, ItemID.PalladiumWaraxe, ItemID.PalladiumChainsaw,
                     ItemID.PalladiumSword, ItemID.PalladiumPike, ItemID.PalladiumRepeater),
-                    ChangeIngredientStack(ItemID.PalladiumBar, 12)
+                    ChangeIngredientStack(ItemID.PalladiumBar, 10)
                 },
-                { Vanilla(ItemID.PalladiumBreastplate), ChangeIngredientStack(ItemID.PalladiumBar, 24) },
-                { Vanilla(ItemID.PalladiumLeggings), ChangeIngredientStack(ItemID.PalladiumBar, 18) },
+                { Vanilla(ItemID.PalladiumBreastplate), ChangeIngredientStack(ItemID.PalladiumBar, 20) },
+                { Vanilla(ItemID.PalladiumLeggings), ChangeIngredientStack(ItemID.PalladiumBar, 15) },
 
                 { VanillaEach(
                     ItemID.MythrilHelmet, ItemID.MythrilHat, ItemID.MythrilHood, ItemID.MythrilPickaxe, ItemID.MythrilDrill, ItemID.MythrilWaraxe, ItemID.MythrilChainsaw,
                     ItemID.MythrilSword, ItemID.MythrilHalberd, ItemID.MythrilRepeater),
-                    ChangeIngredientStack(ItemID.MythrilBar, 12)
+                    ChangeIngredientStack(ItemID.MythrilBar, 10)
                 },
-                { Vanilla(ItemID.MythrilChainmail), ChangeIngredientStack(ItemID.MythrilBar, 24) },
-                { Vanilla(ItemID.MythrilGreaves), ChangeIngredientStack(ItemID.MythrilBar, 18) },
+                { Vanilla(ItemID.MythrilChainmail), ChangeIngredientStack(ItemID.MythrilBar, 20) },
+                { Vanilla(ItemID.MythrilGreaves), ChangeIngredientStack(ItemID.MythrilBar, 15) },
 
                 { VanillaEach(
                     ItemID.OrichalcumHelmet, ItemID.OrichalcumMask, ItemID.OrichalcumHeadgear, ItemID.OrichalcumPickaxe, ItemID.OrichalcumDrill, ItemID.OrichalcumWaraxe, ItemID.OrichalcumChainsaw,
                     ItemID.OrichalcumSword, ItemID.OrichalcumHalberd, ItemID.OrichalcumRepeater),
-                    ChangeIngredientStack(ItemID.OrichalcumBar, 12)
+                    ChangeIngredientStack(ItemID.OrichalcumBar, 10)
                 },
-                { Vanilla(ItemID.OrichalcumBreastplate), ChangeIngredientStack(ItemID.OrichalcumBar, 24) },
-                { Vanilla(ItemID.OrichalcumLeggings), ChangeIngredientStack(ItemID.OrichalcumBar, 18) },
+                { Vanilla(ItemID.OrichalcumBreastplate), ChangeIngredientStack(ItemID.OrichalcumBar, 20) },
+                { Vanilla(ItemID.OrichalcumLeggings), ChangeIngredientStack(ItemID.OrichalcumBar, 15) },
 
                 { VanillaEach(
                     ItemID.AdamantiteHelmet, ItemID.AdamantiteMask, ItemID.AdamantiteHeadgear, ItemID.AdamantitePickaxe, ItemID.AdamantiteDrill, ItemID.AdamantiteWaraxe, ItemID.AdamantiteChainsaw,
                     ItemID.AdamantiteSword, ItemID.AdamantiteGlaive, ItemID.AdamantiteRepeater),
-                    ChangeIngredientStack(ItemID.AdamantiteBar, 12)
+                    ChangeIngredientStack(ItemID.AdamantiteBar, 10)
                 },
-                { Vanilla(ItemID.AdamantiteBreastplate), ChangeIngredientStack(ItemID.AdamantiteBar, 24) },
-                { Vanilla(ItemID.AdamantiteLeggings), ChangeIngredientStack(ItemID.AdamantiteBar, 18) },
+                { Vanilla(ItemID.AdamantiteBreastplate), ChangeIngredientStack(ItemID.AdamantiteBar, 20) },
+                { Vanilla(ItemID.AdamantiteLeggings), ChangeIngredientStack(ItemID.AdamantiteBar, 15) },
 
                 { VanillaEach(
                     ItemID.TitaniumHelmet, ItemID.TitaniumMask, ItemID.TitaniumHeadgear, ItemID.TitaniumPickaxe, ItemID.TitaniumDrill, ItemID.TitaniumWaraxe, ItemID.TitaniumChainsaw,
                     ItemID.TitaniumSword, ItemID.TitaniumTrident, ItemID.TitaniumRepeater),
-                    ChangeIngredientStack(ItemID.TitaniumBar, 12)
+                    ChangeIngredientStack(ItemID.TitaniumBar, 10)
                 },
-                { Vanilla(ItemID.TitaniumBreastplate), ChangeIngredientStack(ItemID.TitaniumBar, 24) },
-                { Vanilla(ItemID.TitaniumLeggings), ChangeIngredientStack(ItemID.TitaniumBar, 18) },
+                { Vanilla(ItemID.TitaniumBreastplate), ChangeIngredientStack(ItemID.TitaniumBar, 20) },
+                { Vanilla(ItemID.TitaniumLeggings), ChangeIngredientStack(ItemID.TitaniumBar, 15) },
             };
 
             // Apply all recipe changes.
@@ -1111,12 +1136,42 @@ namespace CalamityMod
 
             r = Recipe.Create(ItemID.Bacon);
             r.AddIngredient(ModContent.ItemType<PiggyItem>());
-            r.AddTile(TileID.CookingPots);
+            r.AddTile(TileID.Hellforge);
             r.Register();
 
             r = Recipe.Create(ItemID.BowlofSoup);
             r.AddIngredient(ItemID.Mushroom);
             r.AddIngredient(ModContent.ItemType<SeaMinnowItem>());
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
+            r = Recipe.Create(ItemID.ApplePie);
+            r.AddIngredient(ItemID.Apple, 3);
+            r.AddTile(TileID.Hellforge);
+            r.Register();
+
+            r = Recipe.Create(ItemID.BananaSplit);
+            r.AddIngredient(ItemID.Banana);
+            r.AddIngredient(ItemID.IceBlock);
+            r.AddIngredient(ItemID.MilkCarton);
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
+            r = Recipe.Create(ItemID.BBQRibs);
+            r.AddIngredient(ItemID.FleshBlock, 6);
+            r.AddIngredient(ItemID.Bone, 6);
+            r.AddTile(TileID.Hellforge);
+            r.Register();
+
+            r = Recipe.Create(ItemID.MilkCarton);
+            r.AddIngredient(ItemID.BottledWater);
+            r.AddIngredient(ItemID.Bone, 2);
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
+            r = Recipe.Create(ItemID.Nachos);
+            r.AddIngredient(ItemID.PotatoChips);
+            r.AddIngredient(ItemID.MilkCarton);
             r.AddTile(TileID.CookingPots);
             r.Register();
         }
@@ -1149,10 +1204,10 @@ namespace CalamityMod
 
             // Ice Mirror
             r = Recipe.Create(ItemID.IceMirror);
+            r.AddRecipeGroup("AnySilverBar", 5);
             r.AddRecipeGroup("AnyIceBlock", 20);
             r.AddIngredient(ItemID.Glass, 10);
             r.AddIngredient(ItemID.FallenStar, 10);
-            r.AddRecipeGroup("AnySilverBar", 5);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1194,6 +1249,28 @@ namespace CalamityMod
             r.AddRecipeGroup("IronBar", 3);
             r.AddTile(TileID.Anvils);
             r.Register();
+
+            // Bast Statue
+            r = Recipe.Create(ItemID.CatBast);
+            r.AddRecipeGroup("IronBar", 7);
+            r.AddRecipeGroup("AnyGoldBar", 3);
+            r.AddIngredient(ItemID.Ruby);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
+            // Encumbering Stone
+            r = Recipe.Create(ItemID.EncumberingStone);
+            r.AddIngredient(ItemID.StoneBlock, 100);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
+            // Desert Minecart
+            r = Recipe.Create(ItemID.DesertMinecart);
+            r.AddIngredient(ItemID.SandstoneBrick, 20);
+            r.AddRecipeGroup("AnyGoldBar", 6);
+            r.AddRecipeGroup("IronBar", 3);
+            r.AddTile(TileID.Anvils);
+            r.Register();
         }
         #endregion
 
@@ -1228,24 +1305,8 @@ namespace CalamityMod
             r = Recipe.Create(ItemID.TempleKey);
             r.AddIngredient(ItemID.JungleSpores, 15);
             r.AddIngredient(ItemID.RichMahogany, 15);
-            r.AddIngredient(ItemID.SoulofNight, 15);
             r.AddIngredient(ItemID.SoulofLight, 15);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            // Pumpkin Moon Medallion
-            r = Recipe.Create(ItemID.PumpkinMoonMedallion);
-            r.AddIngredient(ItemID.Pumpkin, 30);
-            r.AddIngredient(ItemID.Ectoplasm, 5);
-            r.AddRecipeGroup(AnyGoldBar, 5);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            // Naughty Present
-            r = Recipe.Create(ItemID.NaughtyPresent);
-            r.AddIngredient(ItemID.Silk, 20);
-            r.AddIngredient(ItemID.Ectoplasm, 5);
-            r.AddRecipeGroup(AnySilverBar, 5);
+            r.AddIngredient(ItemID.SoulofNight, 15);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
@@ -1365,9 +1426,9 @@ namespace CalamityMod
         {
             // Cloud in a Bottle
             Recipe r = Recipe.Create(ItemID.CloudinaBottle);
-            r.AddIngredient(ItemID.Feather, 2);
             r.AddIngredient(ItemID.Bottle);
             r.AddIngredient(ItemID.Cloud, 25);
+            r.AddIngredient(ItemID.Feather, 2);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1386,18 +1447,18 @@ namespace CalamityMod
 
             // Blizzard in a Bottle
             r = Recipe.Create(ItemID.BlizzardinaBottle);
-            r.AddIngredient(ItemID.Feather, 3);
             r.AddIngredient(ItemID.Bottle);
             r.AddRecipeGroup(AnySnowBlock, 50);
+            r.AddIngredient(ItemID.Feather, 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Sandstorm in a Bottle
             r = Recipe.Create(ItemID.SandstorminaBottle);
-            r.AddIngredient(ModContent.ItemType<DesertFeather>(), 10);
-            r.AddIngredient(ItemID.Feather, 3);
             r.AddIngredient(ItemID.Bottle);
             r.AddIngredient(ItemID.SandBlock, 70);
+            r.AddIngredient(ModContent.ItemType<DesertFeather>(), 10);
+            r.AddIngredient(ItemID.Feather, 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1583,79 +1644,6 @@ namespace CalamityMod
             r.AddTile(TileID.Loom);
             r.Register();
 
-            // Alternative Turtle, Shroomite, and Spectre Armor set recipes
-            r = Recipe.Create(ItemID.TurtleHelmet);
-            r.AddIngredient(ItemID.ChlorophyteMask);
-            r.AddIngredient(ItemID.TurtleShell);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            r = Recipe.Create(ItemID.TurtleScaleMail);
-            r.AddIngredient(ItemID.ChlorophytePlateMail);
-            r.AddIngredient(ItemID.TurtleShell);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            r = Recipe.Create(ItemID.TurtleLeggings);
-            r.AddIngredient(ItemID.ChlorophyteGreaves);
-            r.AddIngredient(ItemID.TurtleShell);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            r = Recipe.Create(ItemID.ShroomiteHelmet);
-            r.AddIngredient(ItemID.ChlorophyteHelmet);
-            r.AddIngredient(ItemID.GlowingMushroom, 60);
-            r.AddTile(TileID.Autohammer);
-            r.Register();
-
-            r = Recipe.Create(ItemID.ShroomiteHeadgear);
-            r.AddIngredient(ItemID.ChlorophyteHelmet);
-            r.AddIngredient(ItemID.GlowingMushroom, 60);
-            r.AddTile(TileID.Autohammer);
-            r.Register();
-
-            r = Recipe.Create(ItemID.ShroomiteMask);
-            r.AddIngredient(ItemID.ChlorophyteHelmet);
-            r.AddIngredient(ItemID.GlowingMushroom, 60);
-            r.AddTile(TileID.Autohammer);
-            r.Register();
-
-            r = Recipe.Create(ItemID.ShroomiteBreastplate);
-            r.AddIngredient(ItemID.ChlorophytePlateMail);
-            r.AddIngredient(ItemID.GlowingMushroom, 120);
-            r.AddTile(TileID.Autohammer);
-            r.Register();
-
-            r = Recipe.Create(ItemID.ShroomiteLeggings);
-            r.AddIngredient(ItemID.ChlorophyteGreaves);
-            r.AddIngredient(ItemID.GlowingMushroom, 80);
-            r.AddTile(TileID.Autohammer);
-            r.Register();
-
-            r = Recipe.Create(ItemID.SpectreHood);
-            r.AddIngredient(ItemID.ChlorophyteHeadgear);
-            r.AddIngredient(ItemID.Ectoplasm, 6);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            r = Recipe.Create(ItemID.SpectreMask);
-            r.AddIngredient(ItemID.ChlorophyteHeadgear);
-            r.AddIngredient(ItemID.Ectoplasm, 6);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            r = Recipe.Create(ItemID.SpectreRobe);
-            r.AddIngredient(ItemID.ChlorophytePlateMail);
-            r.AddIngredient(ItemID.Ectoplasm, 12);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
-            r = Recipe.Create(ItemID.SpectrePants);
-            r.AddIngredient(ItemID.ChlorophyteGreaves);
-            r.AddIngredient(ItemID.Ectoplasm, 9);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
         }
         #endregion
 
@@ -1738,7 +1726,7 @@ namespace CalamityMod
             r.AddTile(TileID.Anvils);
             r.Register();
 
-            // Pocket Mirror (petrification, added to Ankh charm+ in Calamity)
+            // Pocket Mirror (petrification)
             r = Recipe.Create(ItemID.PocketMirror);
             r.AddIngredient(ItemID.Glass, 10);
             r.AddRecipeGroup(AnyGoldBar, 4);
@@ -1811,15 +1799,6 @@ namespace CalamityMod
             r.AddTile(TileID.CrystalBall);
             r.Register();
 
-            // Terra Blade w/ True Bloody Edge
-            r = Recipe.Create(ItemID.TerraBlade);
-            r.AddIngredient(ModContent.ItemType<TrueBloodyEdge>());
-            r.AddIngredient(ItemID.TrueExcalibur);
-            r.AddIngredient(ItemID.BrokenHeroSword);
-            r.AddIngredient(ModContent.ItemType<LivingShard>(), 12);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-
             // Turtle Shell with Giant Tortoise Shell
             r = Recipe.Create(ItemID.TurtleShell);
             r.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
@@ -1836,6 +1815,24 @@ namespace CalamityMod
             r.AddRecipeGroup(AnyCobaltBar, 12);
             r.AddIngredient(ItemID.SoulofLight, 4);
             r.AddTile(TileID.Anvils);
+            r.Register();
+
+            // Mechanical Glove directly from correct class emblem for cheaper (compromise)
+            r = Recipe.Create(ItemID.MechanicalGlove);
+            r.AddIngredient(ItemID.PowerGlove);
+            r.AddIngredient(ItemID.WarriorEmblem);
+            r.AddIngredient(ItemID.SoulofFright);
+            r.AddIngredient(ItemID.SoulofMight);
+            r.AddIngredient(ItemID.SoulofSight);
+            r.Register();
+
+            // Celestial Emblem directly from correct class emblem for cheaper (compromise)
+            r = Recipe.Create(ItemID.CelestialEmblem);
+            r.AddIngredient(ItemID.CelestialMagnet);
+            r.AddIngredient(ItemID.SorcererEmblem);
+            r.AddIngredient(ItemID.SoulofFright);
+            r.AddIngredient(ItemID.SoulofMight);
+            r.AddIngredient(ItemID.SoulofSight);
             r.Register();
         }
         #endregion

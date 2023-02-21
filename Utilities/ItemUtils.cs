@@ -41,56 +41,49 @@ namespace CalamityMod
                 default:
                     return 0;
 
+                // Ironskin Potion
+                // This makes sense to be here but also not
+                case -1:
+                    if (DownedBossSystem.downedDoG)
+                        return 20;
+                    else if (NPC.downedMoonlord)
+                        return 16;
+                    else if (Main.hardMode)
+                        return 12;
+                    return 8;
+                
                 case PrefixID.Hard:
-                    if (DownedBossSystem.downedYharon)
+                    if (DownedBossSystem.downedDoG)
                         return 4;
-                    else if (DownedBossSystem.downedPolterghast || DownedBossSystem.downedDoG)
+                    else if (NPC.downedMoonlord)
                         return 3;
-                    else if (Main.hardMode || NPC.downedGolemBoss || NPC.downedMoonlord || DownedBossSystem.downedProvidence)
+                    else if (Main.hardMode)
                         return 2;
                     return 1;
 
                 case PrefixID.Guarding:
-                    if (DownedBossSystem.downedYharon)
-                        return 7;
-                    else if (DownedBossSystem.downedDoG)
+                    if (DownedBossSystem.downedDoG)
                         return 6;
-                    else if (DownedBossSystem.downedProvidence || DownedBossSystem.downedPolterghast)
-                        return 5;
-                    else if (NPC.downedGolemBoss || NPC.downedMoonlord)
+                    else if (NPC.downedMoonlord)
                         return 4;
                     else if (Main.hardMode)
                         return 3;
                     return 2;
 
                 case PrefixID.Armored:
-                    if (DownedBossSystem.downedYharon)
-                        return 10;
-                    else if (DownedBossSystem.downedDoG)
-                        return 9;
-                    else if (DownedBossSystem.downedPolterghast)
+                    if (DownedBossSystem.downedDoG)
                         return 8;
-                    else if (DownedBossSystem.downedProvidence)
-                        return 7;
                     else if (NPC.downedMoonlord)
                         return 6;
-                    else if (Main.hardMode || NPC.downedGolemBoss)
+                    else if (Main.hardMode)
                         return 5;
                     return 3;
 
                 case PrefixID.Warding:
-                    if (DownedBossSystem.downedYharon)
-                        return 12;
-                    else if (DownedBossSystem.downedDoG)
-                        return 11;
-                    else if (DownedBossSystem.downedPolterghast)
+                    if (DownedBossSystem.downedDoG)
                         return 10;
-                    else if (DownedBossSystem.downedProvidence)
-                        return 9;
                     else if (NPC.downedMoonlord)
                         return 8;
-                    else if (NPC.downedGolemBoss)
-                        return 7;
                     else if (Main.hardMode)
                         return 6;
                     return 4;

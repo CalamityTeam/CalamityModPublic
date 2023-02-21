@@ -3,6 +3,7 @@ using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Cooldowns;
 using CalamityMod.Events;
+using CalamityMod.NPCs;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -167,12 +168,26 @@ namespace CalamityMod.CalPlayer
                 if (Vector2.Distance(Player.Center.ToTileCoordinates().ToVector2(), closestSafeZone.ToVector2()) < SulphuricWaterSafeZoneSystem.NearbySafeTiles[closestSafeZone] * 17f)
                     nearSafeZone = true;
             }
-            if (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone)
+            
+            float ASPoisonLevel = 0f;
+            if (CalamityGlobalNPC.aquaticScourge >= 0 && CalamityWorld.getFixedBoi)
+            {
+                NPC AS = Main.npc[CalamityGlobalNPC.aquaticScourge];
+                //if the player is 50 blocks or more away from the head
+                if (AS.life < AS.lifeMax) //Only poison when damaged
+                    ASPoisonLevel = Utils.GetLerpValue(800f, 1600f, Vector2.Distance(Player.Center, AS.Center), true);
+            }
+
+            bool ASPoisoning = ASPoisonLevel > 0f;
+            if (ASPoisoning || ((ZoneSulphur || Player.Calamity().ZoneAbyssLayer1) && !Player.creativeGodMode && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone))
             {
                 float increment = 1f / SulphSeaWaterSafetyTime;
-                if (sulphurskin)
+                //No way to mitigate AS Poisoning
+                if (ASPoisoning)
+                    increment *= 4f + (8f * ASPoisonLevel);
+                if (sulphurskin && !ASPoisoning)
                     increment *= 0.5f;
-                if (sulfurSet)
+                if (sulfurSet && !ASPoisoning)
                     increment *= 0.5f;
 
                 SulphWaterPoisoningLevel = MathHelper.Clamp(SulphWaterPoisoningLevel + increment, 0f, 1f);
@@ -256,6 +271,15 @@ namespace CalamityMod.CalPlayer
                 lifeRegenLost += 36;
             }
 
+            if (miracleBlight)
+            {
+                if (Player.lifeRegen > 0)
+                    Player.lifeRegen = 0;
+
+                Player.lifeRegenTime = 0;
+                lifeRegenLost += 40;
+            }
+
             if (cDepth)
             {
                 if (Player.statDefense > 0)
@@ -321,7 +345,7 @@ namespace CalamityMod.CalPlayer
             if (bloodyMary)
             {
                 alcoholPoisonLevel++;
-                lifeRegenLost += 2;
+                lifeRegenLost += 4;
             }
             if (tequila)
             {
@@ -331,7 +355,7 @@ namespace CalamityMod.CalPlayer
             if (tequilaSunrise)
             {
                 alcoholPoisonLevel++;
-                lifeRegenLost += 1;
+                lifeRegenLost += 2;
             }
             if (screwdriver)
             {
@@ -354,12 +378,12 @@ namespace CalamityMod.CalPlayer
             if (starBeamRye)
             {
                 alcoholPoisonLevel++;
-                lifeRegenLost += 1;
+                lifeRegenLost += 2;
             }
             if (moscowMule)
             {
                 alcoholPoisonLevel++;
-                lifeRegenLost += 2;
+                lifeRegenLost += 4;
             }
             if (whiteWine)
             {
@@ -376,10 +400,7 @@ namespace CalamityMod.CalPlayer
                 alcoholPoisonLevel++;
             }
 
-            if (cirrusDress)
-                alcoholPoisonLevel = 0;
-
-            if (alcoholPoisonLevel > 3)
+            if (alcoholPoisonLevel > (cirrusDress ? 5 : 3))
             {
                 Player.nebulaLevelLife = 0;
 
@@ -472,6 +493,18 @@ namespace CalamityMod.CalPlayer
 
                     if (Player.statLife < (int)(Player.statLifeMax2 * 0.75) && !noLifeRegen)
                         Player.statLife += 1;
+                }
+            }
+
+            // Permafrost's Concoction increases life regen while afflicted with a fire debuff
+            if (permafrostsConcoction)
+            {
+                if (Player.onFire || Player.onFire2 || Player.onFire3 || Player.burned || shadowflame || weakBrimstoneFlames || bFlames || cragsLava || gsInferno || hFlames || banishingFire || dragonFire)
+                {
+                    if (Player.lifeRegenTime < 1800)
+                        Player.lifeRegenTime = 1800;
+
+                    Player.lifeRegen += 6;
                 }
             }
 
@@ -608,11 +641,8 @@ namespace CalamityMod.CalPlayer
             if (aChicken)
                 Player.lifeRegen += 1;
 
-            if (cadence)
-                Player.lifeRegen += 5;
-
             if (mushy)
-                Player.lifeRegen += 1;
+                Player.lifeRegen += 2;
 
             if (permafrostsConcoction)
             {
@@ -622,9 +652,6 @@ namespace CalamityMod.CalPlayer
                     Player.lifeRegen++;
                 if (Player.statLife < actualMaxLife / 10)
                     Player.lifeRegen += 2;
-
-                if (Player.poisoned || Player.onFire || bFlames)
-                    Player.lifeRegen += 4;
             }
 
             if (tRegen)
@@ -638,6 +665,9 @@ namespace CalamityMod.CalPlayer
 
             if (affliction || afflicted)
                 Player.lifeRegen += 1;
+
+            if (trinketOfChi || chiRegen)
+                Player.lifeRegen += 2;
 
             if (absorber)
             {
@@ -680,7 +710,7 @@ namespace CalamityMod.CalPlayer
                 Player.lifeRegenTime += 1;
             }
 
-            if (projRefRareLifeRegenCounter > 0)
+            if (evolutionLifeRegenCounter > 0)
             {
                 Player.lifeRegenTime += 2;
                 Player.lifeRegen += 2;
@@ -689,7 +719,7 @@ namespace CalamityMod.CalPlayer
             if (darkSunRing)
             {
                 if (Main.eclipse || Main.dayTime)
-                    Player.lifeRegen += 3;
+                    Player.lifeRegen += Main.eclipse ? 2 : 4;
             }
 
             if (phantomicHeartRegen <= 720 && phantomicHeartRegen >= 600)
@@ -729,7 +759,7 @@ namespace CalamityMod.CalPlayer
 
             if (regenator)
             {
-                Player.lifeRegenTime += 6;
+                Player.lifeRegenTime += 3;
                 Player.lifeRegen += 12;
             }
             if (handWarmer && eskimoSet)
@@ -890,13 +920,16 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // The Camper regen boost activates while moving so it can stack with Shiny Stone like effects
-            if (camper && Player.statLife < actualMaxLife && !Player.StandingStill())
+            // The Camper counteracts the regen loss while moving horizontally
+            if (camper && (Player.velocity.X != 0 && Player.grappling[0] <= 0))
             {
-                float camperRegenMult = areThereAnyDamnBosses ? 1.25f : 2f;
-                int camperRegenCount = areThereAnyDamnBosses ? 1 : 4;
-                Player.lifeRegen = (int)(Player.lifeRegen * camperRegenMult);
-                Player.lifeRegenCount += camperRegenCount;
+                // Vanilla base regen rate which gets boosted when resting
+                // The first 6 boosts increment every 300 frames, up to 6 at 1800
+                // Then, the last 3 boosts increment every 600 frames, up to 9 at 3600 which is the cap
+                int baseRegenRate = Math.Clamp(Player.lifeRegenTime / 300, 0, 6) + Math.Clamp((Player.lifeRegenTime - 1800) / 600, 0, 3);
+                // Normally 1.25 while resting and 0.5 while not
+                Player.lifeRegen += (int)(baseRegenRate * 0.75f);
+
                 if (Main.rand.Next(30000) < Player.lifeRegenTime || Main.rand.NextBool(2))
                 {
                     int regen = Dust.NewDust(Player.position, Player.width, Player.height, 12, 0f, 0f, 200, Color.OrangeRed, 1f);
@@ -948,17 +981,6 @@ namespace CalamityMod.CalPlayer
                         Player.lifeRegen = defLifeRegen;
                     }
                 }
-            }
-
-            if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushRegenCurse)
-            {
-                if (Player.lifeRegen > 0)
-                    Player.lifeRegen = 0;
-
-                Player.lifeRegenTime = 0;
-
-                if (Player.lifeRegenCount > 0)
-                    Player.lifeRegenCount = 0;
             }
         }
         #endregion

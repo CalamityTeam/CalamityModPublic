@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             get => Projectile.ai[0];
             set => Projectile.ai[0] = value;
         }
-        public const int Lifetime = 360;
+        public const int Lifetime = 240;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pulse Energy");

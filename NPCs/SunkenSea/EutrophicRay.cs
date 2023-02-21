@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.SunkenSea
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("A stingray that spends much of its time docile on the rocky floors of the sunken sea’s pools. It stores its energy, and when endangered, can release it in short bursts of speed.")
+                new FlavorTextBestiaryInfoElement("A stingray that spends much of its time docile on the rocky floors of the sunken sea's pools. It stores its energy, and when endangered, can release it in short bursts of speed.")
             });
         }
 

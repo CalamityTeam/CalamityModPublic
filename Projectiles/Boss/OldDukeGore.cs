@@ -24,29 +24,27 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.hostile = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 420;
             Projectile.alpha = 255;
             CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
         {
+            Lighting.AddLight((int)((Projectile.position.X + (Projectile.width / 2)) / 16f), (int)((Projectile.position.Y + (Projectile.height / 2)) / 16f), 0.5f, 0.4f, 0f);
+
             Projectile.alpha -= 50;
             if (Projectile.alpha < 0)
                 Projectile.alpha = 0;
 
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] >= 15f)
-            {
                 Projectile.velocity.Y += 0.1f;
-            }
 
-            if (Projectile.velocity.Y > 16f)
-            {
-                Projectile.velocity.Y = 16f;
-            }
+            if (Projectile.velocity.Y > 12f)
+                Projectile.velocity.Y = 12f;
 
-            Projectile.tileCollide = Projectile.timeLeft < 240;
+            Projectile.tileCollide = Projectile.timeLeft < 300;
 
             Projectile.rotation += Projectile.velocity.X * 0.1f;
 
@@ -61,7 +59,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.NPCDeath12, Projectile.position);
+            SoundEngine.PlaySound(SoundID.NPCDeath12, Projectile.Center);
 
             int num226 = 8;
             for (int num227 = 0; num227 < num226; num227++)

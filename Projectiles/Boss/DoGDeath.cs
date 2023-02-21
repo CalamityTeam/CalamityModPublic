@@ -19,9 +19,10 @@ namespace CalamityMod.Projectiles.Boss
         }
 
         public Vector2 OldVelocity;
-        public const float TelegraphTotalTime = 150f;
+        public const float TelegraphTotalTime = 210f;
         public const float TelegraphFadeTime = 30f;
         public const float TelegraphWidth = 4200f;
+        public const float FadeTime = 100f;
 
         public override void SetStaticDefaults()
         {
@@ -37,10 +38,10 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.hostile = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.alpha = 255;
+            Projectile.Opacity = 0f;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 3;
-            Projectile.timeLeft = 780;
+            Projectile.timeLeft = 940;
             CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
@@ -63,17 +64,22 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.localAI[0] = 1f;
                 Projectile.netUpdate = true;
             }
+
             // Fade in after telegraphs have faded.
             if (TelegraphDelay > TelegraphTotalTime)
             {
-                if (Projectile.alpha > 0)
+                if (Projectile.timeLeft < FadeTime)
                 {
-                    Projectile.alpha -= 12;
+                    Projectile.Opacity = Projectile.timeLeft / FadeTime;
                 }
-                if (Projectile.alpha < 0)
+                else
                 {
-                    Projectile.alpha = 0;
+                    if (Projectile.Opacity < 1f)
+                        Projectile.Opacity += 0.05f;
+                    if (Projectile.Opacity > 1f)
+                        Projectile.Opacity = 1f;
                 }
+
                 // If an old velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
                 if (OldVelocity != Vector2.Zero)
                 {
@@ -81,8 +87,10 @@ namespace CalamityMod.Projectiles.Boss
                     OldVelocity = Vector2.Zero;
                     Projectile.netUpdate = true;
                 }
+
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
+
             // Otherwise, be sure to save the velocity the projectile started with. It will be set again when the telegraph is over.
             else if (OldVelocity == Vector2.Zero)
             {
@@ -91,24 +99,22 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.netUpdate = true;
                 Projectile.rotation = OldVelocity.ToRotation() + MathHelper.PiOver2;
             }
+
             TelegraphDelay++;
         }
 
-        public override bool CanHitPlayer(Player target) => TelegraphDelay > TelegraphTotalTime;
+        public override bool CanHitPlayer(Player target) => TelegraphDelay > TelegraphTotalTime && Projectile.Opacity == 1f;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (damage <= 0)
                 return;
 
-            if (TelegraphDelay > TelegraphTotalTime)
+            if (TelegraphDelay > TelegraphTotalTime && Projectile.Opacity == 1f)
                 target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, 255, 255, Projectile.alpha);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 0) * Projectile.Opacity;
 
         public override bool PreDraw(ref Color lightColor)
         {

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
 {
@@ -173,7 +174,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
                 else if (fadeThroughWallsFlag == 0f)
                     fadeThroughWallsTimer++;
 
-                if (fadeThroughWallsTimer >= FadeThroughWallsDelay)
+                if (fadeThroughWallsTimer >= (CalamityWorld.death ? FadeThroughWallsDelay / 2 : FadeThroughWallsDelay))
                 {
                     fadeThroughWallsFlag = 1f;
                     fadeThroughWallsTimer = 0f;
@@ -190,6 +191,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
                     npc.alpha = 200;
                     npc.noTileCollide = true;
                 }
+
                 npc.rotation = npc.velocity.Y * 0.1f * npc.direction;
                 npc.TargetClosest(true);
 
@@ -202,7 +204,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
                 // Emit light for some reason.
                 Lighting.AddLight((int)npc.Center.X / 16, (int)npc.Center.Y / 16, 0.3f, 0.2f, 0.1f);
 
-                DemonEyeBatMovement(npc, 8f, 3.5f, 0.12f, 0.12f, 0.25f, 0.06f, 0.07f, 0.2f);
+                DemonEyeBatMovement(npc, CalamityWorld.death ? 10f : 8f, CalamityWorld.death ? 5f : 3.5f, 0.12f, 0.12f, 0.25f, 0.06f, 0.07f, 0.2f);
                 if (Main.rand.NextBool(40))
                 {
                     Vector2 dustSpawnTopLeft = new Vector2(npc.position.X, npc.position.Y + npc.height * 0.25f);
@@ -215,14 +217,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
             {
                 // Move faster when close to dying.
                 if (npc.life < npc.lifeMax * 0.5)
-                    DemonEyeBatMovement(npc, 8f, 6f, 0.12f, 0.12f, 0.07f, 0.12f, 0.12f, 0.07f);
+                    DemonEyeBatMovement(npc, CalamityWorld.death ? 10f : 8f, CalamityWorld.death ? 8f : 6f, 0.12f, 0.12f, 0.07f, 0.12f, 0.12f, 0.07f);
                 else
-                    DemonEyeBatMovement(npc, 6f, 2.5f, 0.12f, 0.12f, 0.07f, 0.06f, 0.07f, 0.05f);
+                    DemonEyeBatMovement(npc, CalamityWorld.death ? 8f : 6f, CalamityWorld.death ? 4f : 2.5f, 0.12f, 0.12f, 0.07f, 0.06f, 0.07f, 0.05f);
             }
             else
             {
-                float maxSpeedX = 6f;
-                float maxSpeedY = 2.5f;
+                float maxSpeedX = CalamityWorld.death ? 6f : 5f;
+                float maxSpeedY = CalamityWorld.death ? 2.5f : 2f;
                 maxSpeedX *= 1f + (1f - npc.scale);
                 maxSpeedY *= 1f + (1f - npc.scale);
                 DemonEyeBatMovement(npc, maxSpeedX, maxSpeedY, 0.08f, 0.08f, 0.03f, 0.02f, 0.03f, 0.015f);
@@ -249,9 +251,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
                 if (npc.velocity.Y > 0f)
                     npc.velocity.Y *= 0.95f;
 
-                npc.velocity.Y -= 0.7f;
-                if (npc.velocity.Y < -6f)
-                    npc.velocity.Y = -6f;
+                npc.velocity.Y -= 0.6f;
+                if (npc.velocity.Y < -5f)
+                    npc.velocity.Y = -5f;
 
                 npc.TargetClosest(true);
             }

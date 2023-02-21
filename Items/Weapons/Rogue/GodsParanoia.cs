@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God's Paranoia");
-            Tooltip.SetDefault(@"Shoots a speedy homing spiky ball. Stacks up to 10.
+            Tooltip.SetDefault(@"Hurls up to 10 speedy homing spiky balls
 Attaches to enemies and summons a localized storm of god slayer kunai
 Stealth strikes home in faster and summon kunai at a faster rate
 Right click to delete all existing spiky balls");
-            SacrificeTotal = 10;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -32,17 +32,16 @@ Right click to delete all existing spiky balls");
             Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.width = 1;
-            Item.height = 1;
+            Item.width = 20;
+            Item.height = 18;
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = knockBack;
-            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice / 10; // Stacks up to 10
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.rare = ModContent.RarityType<DarkBlue>();
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.maxStack = 10;
 
             Item.shootSpeed = 5f;
             Item.shoot = ModContent.ProjectileType<GodsParanoiaProj>();
@@ -54,19 +53,16 @@ Right click to delete all existing spiky balls");
             if (player.altFunctionUse == 2)
             {
                 Item.shoot = ProjectileID.None;
-                Item.shootSpeed = 0f;
                 return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] > 0;
             }
             else
             {
                 Item.shoot = ModContent.ProjectileType<GodsParanoiaProj>();
-                Item.shootSpeed = 5f;
-                int UseMax = Item.stack;
-                return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] < UseMax;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] < 10;
             }
         }
 
-		public override float StealthDamageMultiplier => 1.345f;
+		public override float StealthDamageMultiplier => 1f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -92,8 +88,7 @@ Right click to delete all existing spiky balls");
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SpikyBall, 200).
-                AddIngredient<CosmiliteBar>().
+                AddIngredient<CosmiliteBar>(12).
                 AddTile<CosmicAnvil>().
                 Register();
         }

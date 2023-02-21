@@ -254,15 +254,15 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                     if (NPC.Calamity().newAI[0] == 0f)
                         NPC.ai[3] += 1f;
 
-                    double numSegmentsAbleToFire = bossRush ? 35D : death ? 30D : revenge ? 28D : expertMode ? 25D : 20D;
+                    double numSegmentsAbleToFire = bossRush ? 42D : death ? 36D : revenge ? 34D : expertMode ? 30D : 24D;
                     if (shouldGetBuffedByBerserkPhase)
-                        numSegmentsAbleToFire *= 1.5;
+                        numSegmentsAbleToFire *= 1.25;
 
                     float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
 
                     if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
                     {
-                        float divisor = lastMechAlive ? 45f : shouldGetBuffedByBerserkPhase ? 60f : 90f;
+                        float divisor = lastMechAlive ? 45f : shouldGetBuffedByBerserkPhase ? 60f : 75f;
                         if ((NPC.ai[3] % divisor == 0f && NPC.ai[0] % segmentDivisor == 0f) || NPC.Calamity().newAI[0] > 0f)
                         {
                             // Body is vulnerable while firing lasers
@@ -301,7 +301,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                                             }
                                         }
 
-                                        SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound with { Volume = 0.1f * CommonCalamitySounds.LaserCannonSound.Volume}, NPC.Center);
+                                        SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound with { Volume = 0.1f * CommonCalamitySounds.ExoLaserShootSound.Volume}, NPC.Center);
 
                                         for (int i = 0; i < numProjectiles; i++)
                                         {
@@ -371,7 +371,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
                                         int type = ModContent.ProjectileType<ThanatosLaser>();
                                         int damage = NPC.GetProjectileDamage(type);
-                                        SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
+                                        SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound, NPC.Center);
                                         for (int i = 0; i < numProjectiles; i++)
                                         {
                                             // Fire normal lasers if head is in passive state
@@ -610,20 +610,27 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public override bool CheckActive() => false;
 
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (Main.npc[(int)NPC.ai[2]].ModNPC<ThanatosHead>().exoMechdusa)
+            {
+                typeName = "Spine of XB-∞ Hekate";
+            }
+        }
+
         public override void HitEffect(int hitDirection, double damage)
         {
             if (NPC.soundDelay == 0)
             {
-
                 if (vulnerable)
                 {
                     NPC.soundDelay = 8;
-                    SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
+                    SoundEngine.PlaySound(ThanatosHead.ThanatosHitSoundOpen, NPC.Center);
                 }
                 else
                 {
                     NPC.soundDelay = 3;
-                    SoundEngine.PlaySound(CommonCalamitySounds.ExoHitSound, NPC.Center);
+                    SoundEngine.PlaySound(ThanatosHead.ThanatosHitSoundClosed, NPC.Center);
                 }
             }
 

@@ -13,10 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astreal Defeat");
-            Tooltip.SetDefault("Ethereal bow of the tyrant king's mother\n" +
-                "The mother strongly discouraged acts of violence throughout her life\n" +
-                "Though she kept this bow close, to protect her family in times of great disaster\n" +
-                "All arrows are converted to Astreal Arrows that emit flames as they travel");
+            Tooltip.SetDefault("All arrows are converted to Astreal Arrows that emit flames as they travel");
             SacrificeTotal = 1;
         }
 
@@ -62,11 +59,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient(ItemID.SpiritFlame).
                 AddIngredient(ItemID.ShadowFlameBow).
-                AddIngredient<ContinentalGreatbow>().
-                AddIngredient<BladedgeGreatbow>().
-                AddIngredient<DarkechoGreatbow>().
-                AddIngredient<GalacticaSingularity>(5).
                 AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient<AshesofCalamity>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

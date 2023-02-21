@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
@@ -54,6 +55,8 @@ namespace CalamityMod.Projectiles.Summon
 
             MechwormBody.SegmentAI(Projectile, 16, ref playerMinionSlots);
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 90);
 
         public override bool PreDraw(ref Color lightColor)
         {

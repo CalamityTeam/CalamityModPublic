@@ -68,6 +68,20 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void AI()
         {
+            Point point = NPC.Center.ToTileCoordinates();
+            Tile tileSafely = Framing.GetTileSafely(point);
+            bool createDust = tileSafely.HasUnactuatedTile && NPC.Distance(Main.player[NPC.target].Center) < 800f;
+            if (createDust)
+            {
+                if (Main.rand.NextBool())
+                {
+                    Dust dust = Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 204, 0f, 0f, 150, default(Color), 0.3f);
+                    dust.fadeIn = 0.75f;
+                    dust.velocity *= 0.1f;
+                    dust.noLight = true;
+                }
+            }
+
             Lighting.AddLight(NPC.Center, (255 - NPC.alpha) * 0f / 255f, (255 - NPC.alpha) * 0.30f / 255f, (255 - NPC.alpha) * 0.30f / 255f);
             if (NPC.ai[2] > 0f)
             {

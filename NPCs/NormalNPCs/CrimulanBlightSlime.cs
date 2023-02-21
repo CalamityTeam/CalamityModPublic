@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            NPC.aiStyle = 1;
+            NPC.aiStyle = NPCAIStyleID.Slime;
             AIType = NPCID.DungeonSlime;
             NPC.damage = 30;
             NPC.width = 60;

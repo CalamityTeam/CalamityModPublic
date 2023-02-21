@@ -177,7 +177,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             NPC.buffImmune[ModContent.BuffType<KamiFlu>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<TimeDistortion>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<GalvanicCorrosion>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
             NPC.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
@@ -624,7 +624,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (flag103)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCHit8, NPC.position);
+                    SoundEngine.PlaySound(SoundID.NPCHit8, NPC.Center);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -704,7 +704,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (flag103)
                 {
-                    SoundEngine.PlaySound(SoundID.Item88,NPC.position);
+                    SoundEngine.PlaySound(SoundID.Item88,NPC.Center);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -768,7 +768,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (NPC.ai[1] % num650 == (num650 - 1) && vectorCenter.Y < player.position.Y)
                 {
-                    SoundEngine.PlaySound(SoundID.Item42, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -796,6 +796,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                             case 4:
                                 type = ModContent.ProjectileType<HiveBombGoliath>();
                                 break;
+                        }
+
+                        if (CalamityWorld.getFixedBoi)
+                        {
+                            type = ModContent.ProjectileType<HiveBombGoliath>();
                         }
 
                         int damage = NPC.GetProjectileDamage(type);
@@ -873,6 +878,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 float speed = revenge ? 6f : 5f;
                                 speed += 2f * enrageScale;
 
+                                bool gaussMode = false;
+
                                 int type = ModContent.ProjectileType<HiveBombGoliath>();
                                 int damage = NPC.GetProjectileDamage(type);
 
@@ -880,14 +887,33 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 baseVelocity.Normalize();
                                 baseVelocity *= speed;
 
+                                if (Main.rand.NextBool(10) && CalamityWorld.getFixedBoi)
+                                {
+                                    type = ModContent.ProjectileType<AresGaussNukeProjectile>();
+                                    baseVelocity *= 0.75f;
+                                    gaussMode = true;
+                                }
+                                else if (Main.rand.NextBool(2) && CalamityWorld.getFixedBoi)
+                                {
+                                    type = ModContent.ProjectileType<PeanutRocket>();
+                                    baseVelocity *= 0.4f;
+                                }
+
                                 int missiles = bossRush ? 16 : MissileProjectiles;
                                 int spread = bossRush ? 18 : 24;
-                                for (int i = 0; i < missiles; i++)
+                                if (!gaussMode)
                                 {
-                                    Vector2 spawn = vectorCenter; // Normal = 96, Boss Rush = 144
-                                    spawn.X += i * (int)(spread * 1.125) - (missiles * (spread / 2)); // Normal = -96 to 93, Boss Rush = -144 to 156
-                                    Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / missiles)));
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), spawn, velocity, type, damage, 0f, Main.myPlayer, nukeBarrageChallengeAmt, player.position.Y);
+                                    for (int i = 0; i < missiles; i++)
+                                    {
+                                        Vector2 spawn = vectorCenter; // Normal = 96, Boss Rush = 144
+                                        spawn.X += i * (int)(spread * 1.125) - (missiles * (spread / 2)); // Normal = -96 to 93, Boss Rush = -144 to 156
+                                        Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / missiles)));
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), spawn, velocity, type, damage, 0f, Main.myPlayer, nukeBarrageChallengeAmt, player.position.Y);
+                                    }
+                                }
+                                else
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, baseVelocity, type, damage, 0f, Main.myPlayer);
                                 }
                             }
                         }
@@ -1284,7 +1310,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<PlaguebringerGoliathRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPlaguebringer, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPlaguebringer, ModContent.ItemType<LorePlaguebringerGoliath>(), desc: DropHelper.FirstKillText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -1296,7 +1322,15 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (damage > 0)
+            {
+                if (CalamityWorld.getFixedBoi) // it is the plague, you get very sick.
+                {
+                    player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 480, true);
+                    player.AddBuff(BuffID.Poisoned, 480, true);
+                    player.AddBuff(BuffID.Venom, 480, true);
+                }
                 player.AddBuff(ModContent.BuffType<Plague>(), 480, true);
+            }
         }
     }
 }

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2.75f;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.Calamity().donorItem = true;
             Item.UseSound = ShootSound;
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            SoundEngine.PlaySound(SoundID.Item103 with { Volume = SoundID.Item103.Volume }, player.position);
+            SoundEngine.PlaySound(SoundID.Item103 with { Volume = SoundID.Item103.Volume }, player.Center);
             Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<HadalUrnHoldout>(), damage, knockback, player.whoAmI, 12);
             return false;
         }

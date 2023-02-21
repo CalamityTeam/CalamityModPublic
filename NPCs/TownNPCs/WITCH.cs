@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.lavaImmune = true;
             NPC.width = 18;
             NPC.height = 40;
-            NPC.aiStyle = 7;
+            NPC.aiStyle = NPCAIStyleID.Passive;
             NPC.damage = 10;
 
             // You should not be able to kill SCal under any typical circumstances.
@@ -70,11 +70,11 @@ namespace CalamityMod.NPCs.TownNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,                
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A most surprising sight to see this powerful foe live along friendly faces. Will history repeat itself or has she finally managed to free herself from the Tyrant’s grasp?")
+				new FlavorTextBestiaryInfoElement("A most surprising sight to see this powerful foe live along friendly faces. Will history repeat itself or has she finally managed to free herself from the Tyrant's grasp?")
             });
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => DownedBossSystem.downedSCal && !NPC.AnyNPCs(NPCType<SCalBoss>());
+        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => DownedBossSystem.downedCalamitas && !NPC.AnyNPCs(NPCType<SCalBoss>());
 
 		public override List<string> SetNPCNameList() => new List<string>() { "Calamitas" };
 
@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (NPC.homeless)
             {
                 textSelector.Add("I'm considering moving back to that old cave of mine.");
-                textSelector.Add("I certainly can't return to the Tyrant's old dwellings now, have you got any places to stay?");
+                textSelector.Add("I certainly can't return to Yharim's old dwellings now, have you got any places to stay?");
             }
             else
             {
@@ -129,11 +129,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 {
                     textSelector.Add("I cannot understand the Sea King. He does not seem to want me dead. That amount of compassion" +
                         " I just can't understand.", 1.45);
-                }
-                if (NPC.AnyNPCs(NPCType<DILF>()))
-                {
-                    textSelector.Add("That frosty old man... even if you ignore our brands of magic and our old alliances, I doubt I'd ever" +
-                        " get along with him.", 1.45);
                 }
 
                 int fab = NPC.FindFirstNPC(NPCType<FAP>());

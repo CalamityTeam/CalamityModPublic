@@ -1,13 +1,13 @@
-﻿using CalamityMod.Events;
+﻿using System;
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria;
-using Terraria.GameContent.Events;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.Audio;
 using ReLogic.Utilities;
+using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent.Events;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -159,7 +159,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D texture = CalamityWorld.getFixedBoi ? ModContent.Request<Texture2D>("CalamityMod/Items/SummonItems/Terminus_GFB").Value : ModContent.Request<Texture2D>(Texture).Value;
             Vector2 baseDrawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
             Color baseColor = Color.Lerp(Projectile.GetAlpha(lightColor), Color.White, Utils.GetLerpValue(40f, 120f, Time, true));

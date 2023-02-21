@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blazing Star");
-            Tooltip.SetDefault("Stacks up to 3\n" +
-                               "Stealth strikes release all stars at once with infinite piercing");
-            SacrificeTotal = 3;
+            Tooltip.SetDefault("Tosses up to 3 red hot returning glaives\n" +
+                               "Stealth strikes throw three glaives with infinite piercing");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -31,10 +31,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 4f;
-            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
-            Item.maxStack = 3;
 
             Item.shootSpeed = Speed;
             Item.shoot = ModContent.ProjectileType<BlazingStarProj>();
@@ -49,36 +48,32 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                if (Item.stack != 1)
+                for (int i = 0; i < 3; i++)
                 {
-                    for (int i = 0; i < Item.stack; i++)
+                    Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-MathHelper.ToRadians(8f), MathHelper.ToRadians(8f), i / 2f));
+                    Projectile proj = Projectile.NewProjectileDirect(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
+                    if (proj.whoAmI.WithinBounds(Main.maxProjectiles))
+                        proj.Calamity().stealthStrike = true;
+
+                    Projectile projectile = Projectile.NewProjectileDirect(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
+                    if (projectile.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
-                        Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-MathHelper.ToRadians(8f), MathHelper.ToRadians(8f), i / (float)(Item.stack - 1)));
-                        Projectile proj = Projectile.NewProjectileDirect(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
-                        if (proj.whoAmI.WithinBounds(Main.maxProjectiles))
-                            proj.Calamity().stealthStrike = true;
-
-                        Projectile projectile = Projectile.NewProjectileDirect(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
-                        if (projectile.whoAmI.WithinBounds(Main.maxProjectiles))
-                        {
-                            projectile.penetrate = -1;
-                            projectile.Calamity().stealthStrike = true;
-                        }
-
+                        projectile.penetrate = -1;
+                        projectile.Calamity().stealthStrike = true;
                     }
-                    return false;
                 }
+                return false;
             }
             return true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] < Item.stack;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] < 3;
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient<Glaive>().
-                AddIngredient(ItemID.HellstoneBar, 3).
-                AddIngredient<EssenceofChaos>(4).
+                AddIngredient(ItemID.HellstoneBar, 5).
+                AddIngredient<EssenceofHavoc>(10).
                 AddTile(TileID.Anvils).
                 Register();
         }

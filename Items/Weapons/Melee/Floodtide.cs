@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 6f;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
@@ -66,12 +66,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<SeaRemains>(5).
-                AddIngredient(ItemID.SharkFin, 2).
-                AddRecipeGroup("AnyAdamantiteBar", 5).
+                AddIngredient<SeaRemains>(12).
                 AddIngredient<DepthCells>(10).
-                AddIngredient<Lumenyl>(10).
-                AddIngredient<Tenebris>(5).
+                AddIngredient(ItemID.SharkFin, 2).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

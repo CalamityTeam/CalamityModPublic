@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -79,7 +80,6 @@ namespace CalamityMod.Items
         #endregion
 
         // Miscellaneous stuff
-        public int timesUsed = 0;
         public bool donorItem = false;
         public bool devItem = false;
         public bool canFirePointBlankShots = false;
@@ -120,7 +120,6 @@ namespace CalamityMod.Items
             myClone.DischargeEnchantExhaustion = DischargeEnchantExhaustion;
 
             // Miscellaneous
-            myClone.timesUsed = timesUsed;
             myClone.donorItem = donorItem;
             myClone.devItem = devItem;
             myClone.canFirePointBlankShots = canFirePointBlankShots;
@@ -235,13 +234,26 @@ namespace CalamityMod.Items
                 SoundEngine.PlaySound(SoundID.DD2_DarkMageSummonSkeleton, Main.MouseWorld);
             }
 
-            bool belowHalfMana = player.statMana < player.statManaMax2 * 0.5f;
-            if (Main.myPlayer == player.whoAmI && player.Calamity().manaMonsterEnchant && Main.rand.NextBool(12) && player.ownedProjectileCounts[ModContent.ProjectileType<ManaMonster>()] <= 0 && belowHalfMana)
+            // Traitorous enchantment implementation
+            // Previously, this enchant was a 1/12 chance to fire a projectile for 165,000 base damage (yes, 165,000) when below half mana
+            // This was so unbelievably overpowered that with RNG it was possible to kill Exo Mechs in 20 seconds
+            // 
+            // Traitorous has been reworked to be a guaranteed effect below 25% mana, which removes all your remaining mana
+            bool belowManaThreshold = player.statMana < player.statManaMax2 * 0.25f;
+            bool traitorousAlreadyInPlay = player.ownedProjectileCounts[ModContent.ProjectileType<ManaMonster>()] > 0;
+            if (Main.myPlayer == player.whoAmI && player.Calamity().manaMonsterEnchant && !traitorousAlreadyInPlay && belowManaThreshold)
             {
-                // TODO -- 165,000 base damage? seriously? there's no way that can be right
-                int monsterDamage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(165000);
+                // Calculate how much damage to deal based on how much mana was consumed
+                int remainingMana = player.statMana;
+                int damagePerManaConsumed = 80; // TODO -- may not be balanced, but eating 150 mana to do 12,000 base damage seems okay
+                int monsterDamage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(remainingMana * damagePerManaConsumed);
+
+                // Spawn the Mana Monster
                 Vector2 shootVelocity = player.SafeDirectionTo(Main.MouseWorld, -Vector2.UnitY).RotatedByRandom(0.07f) * Main.rand.NextFloat(4f, 5f);
                 Projectile.NewProjectile(source, player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), monsterDamage, 0f, player.whoAmI);
+
+                // Set the player's mana to zero.
+                player.statMana = 0;
             }
 
             if (modPlayer.luxorsGift && !item.channel)
@@ -318,7 +330,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.bloodflareMage && modPlayer.canFireBloodflareMageProjectile)
             {
-                if (item.CountsAsClass<MagicDamageClass>())
+                if (item.CountsAsClass<MagicDamageClass>() && !item.channel)
                 {
                     modPlayer.canFireBloodflareMageProjectile = false;
                     if (player.whoAmI == Main.myPlayer)
@@ -331,7 +343,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.bloodflareRanged && modPlayer.canFireBloodflareRangedProjectile)
             {
-                if (item.CountsAsClass<RangedDamageClass>())
+                if (item.CountsAsClass<RangedDamageClass>() && !item.channel)
                 {
                     modPlayer.canFireBloodflareRangedProjectile = false;
                     if (player.whoAmI == Main.myPlayer)
@@ -343,7 +355,7 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (modPlayer.tarraMage)
+            if (modPlayer.tarraMage && !item.channel)
             {
                 if (modPlayer.tarraCrits >= 5 && player.whoAmI == Main.myPlayer)
                 {
@@ -369,7 +381,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.ataxiaBolt && modPlayer.canFireAtaxiaRangedProjectile)
             {
-                if (item.CountsAsClass<RangedDamageClass>())
+                if (item.CountsAsClass<RangedDamageClass>() && !item.channel)
                 {
                     modPlayer.canFireAtaxiaRangedProjectile = false;
                     if (player.whoAmI == Main.myPlayer)
@@ -381,7 +393,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.godSlayerRanged && modPlayer.canFireGodSlayerRangedProjectile)
             {
-                if (item.CountsAsClass<RangedDamageClass>())
+                if (item.CountsAsClass<RangedDamageClass>() && !item.channel)
                 {
                     modPlayer.canFireGodSlayerRangedProjectile = false;
                     if (player.whoAmI == Main.myPlayer)
@@ -394,7 +406,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.ataxiaVolley && modPlayer.canFireAtaxiaRogueProjectile)
             {
-                if (item.CountsAsClass<ThrowingDamageClass>())
+                if (item.CountsAsClass<ThrowingDamageClass>() && !item.channel)
                 {
                     modPlayer.canFireAtaxiaRogueProjectile = false;
                     int flareID = ModContent.ProjectileType<HydrothermicFlareRogue>();
@@ -421,7 +433,7 @@ namespace CalamityMod.Items
             {
                 if ((item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<MagicDamageClass>() ||
                     item.CountsAsClass<ThrowingDamageClass>() || item.CountsAsClass<SummonDamageClass>()) &&
-                    Main.rand.NextBool(10))
+                    Main.rand.NextBool(10) && !item.channel)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -433,7 +445,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.dynamoStemCells)
             {
-                if (item.CountsAsClass<RangedDamageClass>() && Main.rand.NextBool(20))
+                if (item.CountsAsClass<RangedDamageClass>() && Main.rand.NextBool(20) && !item.channel)
                 {
                     double damageMult = item.useTime / 30D;
                     if (damageMult < 0.35)
@@ -451,7 +463,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.prismaticRegalia)
             {
-                if (item.CountsAsClass<MagicDamageClass>() && Main.rand.NextBool(20))
+                if (item.CountsAsClass<MagicDamageClass>() && Main.rand.NextBool(20) && !item.channel)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -470,7 +482,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.harpyWingBoost && modPlayer.harpyRing)
             {
-                if (Main.rand.NextBool(5))
+                if (Main.rand.NextBool(5) && !item.channel)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -519,7 +531,6 @@ namespace CalamityMod.Items
         #region Saving And Loading
         public override void SaveData(Item item, TagCompound tag)
         {
-            tag.Add("timesUsed", timesUsed);
             tag.Add("charge", Charge);
             tag.Add("enchantmentID", AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
             tag.Add("DischargeEnchantExhaustion", DischargeEnchantExhaustion);
@@ -529,7 +540,6 @@ namespace CalamityMod.Items
         public override void LoadData(Item item, TagCompound tag)
         {
             canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
-            timesUsed = tag.GetInt("timesUsed");
 
             // Changed charge from int to float. If an old charge int is present, load that instead.
             if (tag.ContainsKey("Charge"))
@@ -554,7 +564,6 @@ namespace CalamityMod.Items
             // rip, no other flags. what a byte.
 
             writer.Write(flags);
-            writer.Write(timesUsed);
             writer.Write(Charge);
             writer.Write(AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
             writer.Write(DischargeEnchantExhaustion);
@@ -565,7 +574,6 @@ namespace CalamityMod.Items
             BitsByte flags = reader.ReadByte();
             canFirePointBlankShots = flags[0];
 
-            timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
 
             Enchantment? savedEnchantment = EnchantmentManager.FindByID(reader.ReadInt32());
@@ -618,6 +626,10 @@ namespace CalamityMod.Items
             // Give 2 minutes of Honey buff when drinking Bottled Honey.
             if (item.type == ItemID.BottledHoney)
                 player.AddBuff(BuffID.Honey, 7200);
+
+            // Give 1 minute of Mushy buff when consuming Mushrooms with Fungal Symbiote equipped.
+            if (item.type == ItemID.Mushroom && player.Calamity().fungalSymbiote)
+                player.AddBuff(ModContent.BuffType<Mushy>(), 3600);
 
             // Moon Lord instantly spawns when Celestial Sigil is used.
             if (item.type == ItemID.CelestialSigil)
@@ -819,22 +831,6 @@ namespace CalamityMod.Items
             {
                 return player.ownedProjectileCounts[item.shoot] <= 0;
             }
-            if (item.type == ItemID.InvisibilityPotion && player.FindBuffIndex(ModContent.BuffType<ShadowBuff>()) > -1)
-            {
-                return false;
-            }
-            if ((item.type == ItemID.RegenerationPotion || item.type == ItemID.LifeforcePotion) && player.FindBuffIndex(ModContent.BuffType<CadancesGrace>()) > -1)
-            {
-                return false;
-            }
-            if (item.type == ItemID.WrathPotion && player.FindBuffIndex(ModContent.BuffType<HolyWrathBuff>()) > -1)
-            {
-                return false;
-            }
-            if (item.type == ItemID.RagePotion && player.FindBuffIndex(ModContent.BuffType<ProfanedRageBuff>()) > -1)
-            {
-                return false;
-            }
             if ((item.type == ItemID.SuperAbsorbantSponge || item.type == ItemID.EmptyBucket) && modPlayer.ZoneAbyss)
             {
                 return false;
@@ -862,7 +858,7 @@ namespace CalamityMod.Items
                     bool templeCheck = Main.tile[x, y].WallType != WallID.LihzahrdBrickUnsafe || y <= Main.worldSurface || NPC.downedPlantBoss;
                     if (templeCheck && !Collision.SolidCollision(teleportLocation, player.width, player.height))
                     {
-                        int duration = CalamityPlayer.chaosStateDuration;
+                        int duration = CalamityPlayer.areThereAnyDamnBosses ? CalamityPlayer.chaosStateDuration : 360;
                         player.AddBuff(BuffID.ChaosState, duration, true);
                     }
                 }
@@ -878,10 +874,6 @@ namespace CalamityMod.Items
         #region Modify Weapon Damage
         public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage)
         {
-            // Nerf yoyo glove and bag because it's bad and stupid and dumb and bad.
-            if (player.yoyoGlove && ItemID.Sets.Yoyo[item.type])
-                damage *= 0.66f;
-
             if (item.type < ItemID.Count)
                 return;
 
@@ -1122,6 +1114,7 @@ namespace CalamityMod.Items
                 player.buffImmune[BuffID.OnFire] = true;
             }
 
+            // TODO -- DELETE THIS LINE IN 1.4.4 PORT
             // Ankh Charm+ grants immunity to Petrification.
             if (item.type == ItemID.AnkhCharm || item.type == ItemID.AnkhShield)
                 player.buffImmune[BuffID.Stoned] = true;
@@ -1419,6 +1412,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.FleshKnuckles || item.type == ItemID.BerserkerGlove || item.type == ItemID.HeroShield)
                 modPlayer.fleshKnuckles = true;
 
+            // Empress Wings nerf
+            if (item.wingSlot == 44)
+                player.wingTimeMax = 100;
+
             if (item.type == ItemID.WormScarf)
                 player.endurance -= 0.07f;
 
@@ -1436,19 +1433,15 @@ namespace CalamityMod.Items
             {
                 /* Prehardmode = 1
                  * Hardmode = 2
-                 * Post-Golem = 2
-                 * Post-Moon Lord = 2
-                 * Post-Provi = 2
-                 * Post-Polter = 3
-                 * Post-DoG = 3
-                 * Post-Yharon = 4
+                 * Post-Moon Lord = 3
+                 * Post-DoG = 4
                  */
 
-                if (DownedBossSystem.downedYharon)
+                if (DownedBossSystem.downedDoG)
                     player.statDefense += 3;
-                else if (DownedBossSystem.downedPolterghast || DownedBossSystem.downedDoG)
+                else if (NPC.downedMoonlord)
                     player.statDefense += 2;
-                else if (Main.hardMode || NPC.downedGolemBoss || NPC.downedMoonlord || DownedBossSystem.downedProvidence)
+                else if (Main.hardMode)
                     player.statDefense += 1;
 
                 player.endurance += 0.0025f;
@@ -1457,21 +1450,13 @@ namespace CalamityMod.Items
             {
                 /* Prehardmode = 2
                  * Hardmode = 3
-                 * Post-Golem = 4
                  * Post-Moon Lord = 4
-                 * Post-Provi = 5
-                 * Post-Polter = 5
                  * Post-DoG = 6
-                 * Post-Yharon = 7
                  */
 
-                if (DownedBossSystem.downedYharon)
-                    player.statDefense += 5;
-                else if (DownedBossSystem.downedDoG)
+                if (DownedBossSystem.downedDoG)
                     player.statDefense += 4;
-                else if (DownedBossSystem.downedProvidence || DownedBossSystem.downedPolterghast)
-                    player.statDefense += 3;
-                else if (NPC.downedGolemBoss || NPC.downedMoonlord)
+                else if (NPC.downedMoonlord)
                     player.statDefense += 2;
                 else if (Main.hardMode)
                     player.statDefense += 1;
@@ -1482,25 +1467,15 @@ namespace CalamityMod.Items
             {
                 /* Prehardmode = 3
                  * Hardmode = 5
-                 * Post-Golem = 5
                  * Post-Moon Lord = 6
-                 * Post-Provi = 7
-                 * Post-Polter = 8
-                 * Post-DoG = 9
-                 * Post-Yharon = 10
+                 * Post-DoG = 8
                  */
 
-                if (DownedBossSystem.downedYharon)
-                    player.statDefense += 7;
-                else if (DownedBossSystem.downedDoG)
-                    player.statDefense += 6;
-                else if (DownedBossSystem.downedPolterghast)
+                if (DownedBossSystem.downedDoG)
                     player.statDefense += 5;
-                else if (DownedBossSystem.downedProvidence)
-                    player.statDefense += 4;
                 else if (NPC.downedMoonlord)
                     player.statDefense += 3;
-                else if (Main.hardMode || NPC.downedGolemBoss)
+                else if (Main.hardMode)
                     player.statDefense += 2;
 
                 player.endurance += 0.0075f;
@@ -1509,26 +1484,14 @@ namespace CalamityMod.Items
             {
                 /* Prehardmode = 4
                  * Hardmode = 6
-                 * Post-Golem = 7
                  * Post-Moon Lord = 8
-                 * Post-Provi = 9
-                 * Post-Polter = 10
-                 * Post-DoG = 11
-                 * Post-Yharon = 12
+                 * Post-DoG = 10
                  */
 
-                if (DownedBossSystem.downedYharon)
-                    player.statDefense += 8;
-                else if (DownedBossSystem.downedDoG)
-                    player.statDefense += 7;
-                else if (DownedBossSystem.downedPolterghast)
+                if (DownedBossSystem.downedDoG)
                     player.statDefense += 6;
-                else if (DownedBossSystem.downedProvidence)
-                    player.statDefense += 5;
                 else if (NPC.downedMoonlord)
                     player.statDefense += 4;
-                else if (NPC.downedGolemBoss)
-                    player.statDefense += 3;
                 else if (Main.hardMode)
                     player.statDefense += 2;
 
@@ -1545,13 +1508,10 @@ namespace CalamityMod.Items
 
             float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +
-                (modPlayer.draconicSurge ? 0.1f : 0f) +
                 (modPlayer.reaverSpeed ? 0.1f : 0f) +
                 moveSpeedBoost;
 
-            float flightAccMult = 1f +
-                (modPlayer.draconicSurge ? 0.1f : 0f) +
-                moveSpeedBoost;
+            float flightAccMult = 1f + moveSpeedBoost;
 
             flightSpeedMult = MathHelper.Clamp(flightSpeedMult, 0.5f, 1.5f);
             speed *= flightSpeedMult;

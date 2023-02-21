@@ -4,6 +4,8 @@ using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Schematics;
 using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.Abyss.AbyssAmbient;
+using CalamityMod.Tiles.Abyss.Stalactite;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using System;
@@ -40,7 +42,7 @@ namespace CalamityMod.World
 
         public const int TotalSandTilesBeforeWaterMax = 45;
 
-        public const float OpenSeaWidthPercentage = 0.53f;
+        public const float OpenSeaWidthPercentage = 0.795f;
 
         public const float IslandWidthPercentage = 0.36f;
 
@@ -206,9 +208,8 @@ namespace CalamityMod.World
             ClearAloneTiles();
             var scrapPilePositions = PlaceScrapPiles();
             GenerateColumnsInCaverns();
-            GenerateSteamGeysersInCaverns();
             GenerateHardenedSandstone();
-            PlaceStalactites();
+            PlaceAmbience();
             GenerateChests(scrapPilePositions);
         }
         #endregion
@@ -308,11 +309,12 @@ namespace CalamityMod.World
                 float depthFactor = (float)Math.Pow(Math.Sin((1f - i / (float)width) * MathHelper.PiOver2), descentSmoothness);
 
                 // Determine the top and botton of the water strip.
-                int top = YStart;
-                int bottom = top + (int)(maxDepth * depthFactor);
+                int top = YStart - 20;
+                int bottom = top + (int)(maxDepth * depthFactor * 2);
                 for (int y = top; y < bottom; y++)
                 {
                     if (y >= top + DepthForWater)
+                        Main.tile[x, y + WorldGen.genRand.Next(22, 25)].WallType = (ushort)ModContent.WallType<SulphurousSandWall>();
                         Main.tile[x, y].LiquidAmount = byte.MaxValue;
                     Main.tile[x, y].Get<TileWallWireStateData>().HasTile = false;
                 }
@@ -363,7 +365,13 @@ namespace CalamityMod.World
             int depth = BlockDepth;
             int shallowWaterCaveCount = TotalCavesInShallowWater;
             int minCaveWidth = MinCaveWidth;
+
+            // Large worlds typically have this property evaluate to 14.841, which is then ceiling'd to 15.
+            // XL worlds will have a value larger than 15... which will break the lower loops and go out of bounds.
             int maxCaveWidth = MaxCaveWidth;
+            if (maxCaveWidth > 15)
+                maxCaveWidth = 15;
+
             ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
 
             for (int i = 2; i < shallowWaterCaveCount; i++)
@@ -690,7 +698,9 @@ namespace CalamityMod.World
                     else if (tileAtPosition.HasTile && ValidBeachCovertTiles.Contains(tileAtPosition.TileType) && WorldGen.genRand.NextFloat() >= ditherChance)
                         Main.tile[x, y].TileType = sandID;
 
-                    if (tileAtPosition.WallType > WallID.None)
+                    //do not replace dungeon walls ever
+                    int[] DungeonWalls = { 7, 94, 95, 8, 98, 99, 9, 96, 97 };
+                    if (tileAtPosition.WallType > WallID.None && !DungeonWalls.Contains(tileAtPosition.WallType))
                         Main.tile[x, y].WallType = wallID;
                 }
             }
@@ -739,9 +749,9 @@ namespace CalamityMod.World
 
                     // Check to see if the tile has any cardinal neighbors. If it doesn't, destroy it.
                     if (!CalamityUtils.ParanoidTileRetrieval(x - 1, y).HasTile &&
-                        !CalamityUtils.ParanoidTileRetrieval(x + 1, y).HasTile &&
-                        !CalamityUtils.ParanoidTileRetrieval(x, y - 1).HasTile &&
-                        !CalamityUtils.ParanoidTileRetrieval(x, y + 1).HasTile)
+                    !CalamityUtils.ParanoidTileRetrieval(x + 1, y).HasTile &&
+                    !CalamityUtils.ParanoidTileRetrieval(x, y - 1).HasTile &&
+                    !CalamityUtils.ParanoidTileRetrieval(x, y + 1).HasTile)
                     {
                         WorldUtils.Gen(new(x, y), new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
                         {
@@ -830,6 +840,7 @@ namespace CalamityMod.World
             return pastPlacementPositions;
         }
 
+        //GenerateColumnsInCaverns(int width, int depth, int maxHeight, int minHeight, int columnCount)
         public static void GenerateColumnsInCaverns()
         {
             int columnCount = ColumnCount;
@@ -858,7 +869,7 @@ namespace CalamityMod.World
 
                 // Try again if there is no tile above or the ceiling is not level.
                 if (!WorldUtils.Find(new(x, y), searchCondition, out Point top) ||
-                    !WorldUtils.Find(new(x + 1, y), searchCondition, out Point topRight) || top.Y != topRight.Y)
+                !WorldUtils.Find(new(x + 1, y), searchCondition, out Point topRight) || top.Y != topRight.Y)
                 {
                     tryAgain = true;
                 }
@@ -873,50 +884,10 @@ namespace CalamityMod.World
                     continue;
                 }
 
-                GenerateColumn(x, top.Y, y);
-            }
-        }
-
-        public static void GenerateSteamGeysersInCaverns()
-        {
-            int geyserCount = GeyserCount;
-            int width = BiomeWidth;
-            int depth = BlockDepth;
-            ushort geyserID = (ushort)ModContent.TileType<SteamGeyser>();
-
-            for (int g = 0; g < geyserCount; g++)
-            {
-                int x = GetActualX(WorldGen.genRand.Next(20, width - 32));
-                int y = WorldGen.genRand.Next(YStart + depth / 2, YStart + depth - 42);
-
-                bool tryAgain = false;
-
-                // Try again if inside a tile.
-                for (int dx = 0; dx < 2; dx++)
+                if (WorldGen.genRand.NextBool(2))
                 {
-                    for (int dy = 0; dy < 2; dy++)
-                    {
-                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x + dx, y - dy);
-                        if (tile.HasTile)
-                            tryAgain = true;
-                    }
+                    GenerateColumn(x, top.Y, y);
                 }
-
-                // Try again if there is no ground.
-                for (int dx = 0; dx < 2; dx++)
-                {
-                    Tile tile = CalamityUtils.ParanoidTileRetrieval(x + dx, y + 1);
-                    if (!WorldGen.SolidTile(tile))
-                        tryAgain = true;
-                }
-
-                if (tryAgain)
-                {
-                    g--;
-                    continue;
-                }
-
-                WorldGen.PlacePot(x, y, geyserID);
             }
         }
 
@@ -974,7 +945,7 @@ namespace CalamityMod.World
                             if (WorldGen.InWorld(x + dx, y + dy))
                             {
                                 if (CalamityUtils.ParanoidTileRetrieval(x + dx, y + dy).TileType != sandstoneID &&
-                                    SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x + dx, y + dy).TileType))
+                                SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x + dx, y + dy).TileType))
                                 {
                                     Main.tile[x + dx, y + dy].WallType = sandstoneWallID;
                                     Main.tile[x + dx, y + dy].TileType = sandstoneID;
@@ -986,43 +957,78 @@ namespace CalamityMod.World
             }
         }
 
-        public static void PlaceStalactites()
-        {
-            static int heightFromType(int type)
-            {
-                if (type <= 2)
-                    return 2;
-                else if (type <= 4)
-                    return 3;
-                else
-                    return 4;
-            };
-            
-            for (int i = 1; i < BiomeWidth; i++)
+        public static void PlaceAmbience()
+        {   
+            for (int i = 0; i < BiomeWidth; i++)
             {
                 int x = GetActualX(i);
-                for (int y = YStart; y <= YStart + BlockDepth; y++)
+                for (int y = YStart - 140; y < Main.rockLayer; y++)
                 {
-                    if (y - YStart > BlockDepth * 0.25f)
-                    {
-                        if (WorldGen.SolidTile(x, y - 1) && WorldGen.genRand.NextBool(10))
-                        {
-                            int dy = 1;
-                            while (!CalamityUtils.ParanoidTileRetrieval(x, y + dy).HasTile)
-                            {
-                                dy++;
-                                if (dy > StalactitePairMaxDistance)
-                                    break;
-                            }
-                            if (dy <= StalactitePairMaxDistance && dy >= StalactitePairMinDistance)
-                            {
-                                int type = WorldGen.genRand.Next(6);
-                                type++;
-                                int height = heightFromType(type);
+                    Tile tile = Main.tile[x, y];
+                    Tile tileUp = Main.tile[x, y - 1];
+                    Tile tileDown = Main.tile[x, y + 1];
 
-                                PlaceStalactite(x, y, height, CalamityMod.Instance.Find<ModTile>($"SulphurousStalactite{type}").Type);
-                                if (WorldGen.SolidTile(x, y + dy + 1))
-                                    PlaceStalacmite(x, y + dy, height, CalamityMod.Instance.Find<ModTile>($"SulphurousStalacmite{type}").Type);
+                    if (tile.TileType == ModContent.TileType<SulphurousSand>() || tile.TileType == ModContent.TileType<SulphurousSandstone>() || 
+                    tile.TileType == ModContent.TileType<HardenedSulphurousSandstone>() || tile.TileType == ModContent.TileType<SulphurousShale>())
+                    {
+                        //stalagmites, fossiles, and ribs
+                        if (tileUp.LiquidType == LiquidID.Water && tileUp.LiquidAmount > 0 && !tileUp.HasTile)
+                        {
+                            if (WorldGen.genRand.NextBool(25))
+                            {
+                                ushort[] Crates = new ushort[] { (ushort)ModContent.TileType<PirateCrate4>(),
+                                (ushort)ModContent.TileType<PirateCrate5>(), (ushort)ModContent.TileType<PirateCrate6>() };
+
+                                WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Crates));
+                            }
+
+                            if (WorldGen.genRand.NextBool(18))
+                            {
+                                ushort[] Vents = new ushort[] { (ushort)ModContent.TileType<SteamGeyser1>(),
+                                (ushort)ModContent.TileType<SteamGeyser2>(), (ushort)ModContent.TileType<SteamGeyser3>() };
+
+                                WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Vents));
+                            }
+
+                            if (WorldGen.genRand.NextBool(12))
+                            {
+                                ushort[] Stalagmites = new ushort[] { (ushort)ModContent.TileType<SulphurousStalacmite1>(),
+                                (ushort)ModContent.TileType<SulphurousStalacmite2>(), (ushort)ModContent.TileType<SulphurousStalacmite3>(),
+                                (ushort)ModContent.TileType<SulphurousStalacmite4>(), (ushort)ModContent.TileType<SulphurousStalacmite5>(),
+                                (ushort)ModContent.TileType<SulphurousStalacmite6>() };
+
+                                WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Stalagmites));
+                            }
+
+                            if (WorldGen.genRand.NextBool(15))
+                            {
+                                ushort[] SulphuricFossils = new ushort[] { (ushort)ModContent.TileType<SulphuricFossil1>(),
+                                (ushort)ModContent.TileType<SulphuricFossil2>(), (ushort)ModContent.TileType<SulphuricFossil3>() };
+
+                                WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(SulphuricFossils));
+                            }
+
+                            if (WorldGen.genRand.NextBool(18))
+                            {
+                                ushort[] Ribs = new ushort[] { (ushort)ModContent.TileType<SulphurousRib1>(),
+                                (ushort)ModContent.TileType<SulphurousRib2>(), (ushort)ModContent.TileType<SulphurousRib3>(), 
+                                (ushort)ModContent.TileType<SulphurousRib4>(), (ushort)ModContent.TileType<SulphurousRib5>() };
+
+                                WorldGen.PlaceObject(x, y - 1, WorldGen.genRand.Next(Ribs));
+                            }
+                        }
+
+                        //stalactites
+                        if (tileDown.LiquidType == LiquidID.Water && tileDown.LiquidAmount > 0 && !tileDown.HasTile)
+                        {
+                            if (WorldGen.genRand.NextBool(12))
+                            {
+                                ushort[] Stalactites = new ushort[] { (ushort)ModContent.TileType<SulphurousStalactite1>(),
+                                (ushort)ModContent.TileType<SulphurousStalactite2>(), (ushort)ModContent.TileType<SulphurousStalactite3>(),
+                                (ushort)ModContent.TileType<SulphurousStalactite4>(), (ushort)ModContent.TileType<SulphurousStalactite5>(),
+                                (ushort)ModContent.TileType<SulphurousStalactite6>() };
+
+                                WorldGen.PlaceObject(x, y + 1, WorldGen.genRand.Next(Stalactites));
                             }
                         }
                     }
@@ -1369,7 +1375,7 @@ namespace CalamityMod.World
             if (Abyss.AtLeftSideOfWorld)
                 return x;
 
-            return Main.maxTilesX - x;
+            return (Main.maxTilesX - 1) - x;
         }
 
         public static float CalculateDitherChance(int width, int top, int bottom, int x, int y)

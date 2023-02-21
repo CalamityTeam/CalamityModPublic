@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.DraedonMisc;
+using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
@@ -74,7 +76,16 @@ namespace CalamityMod
 
             // This check is done twice because the draw order matters. We want to draw the background icon before any text.
             if (item.stack > 0)
-                slotBackgroundTex = Request<Texture2D>("CalamityMod/UI/DraedonsArsenal/PowerCellSlot_Filled").Value;
+            {
+                if (item.type == ModContent.ItemType<BloodSample>())
+                {
+                    slotBackgroundTex = Request<Texture2D>("CalamityMod/UI/DraedonsArsenal/PowerCellSlot_Blood").Value;
+                }
+                else
+                {
+                    slotBackgroundTex = Request<Texture2D>("CalamityMod/UI/DraedonsArsenal/PowerCellSlot_Filled").Value;
+                }
+            }
 
             spriteBatch.Draw(slotBackgroundTex, drawPosition, null, Color.White, 0f, slotBackgroundTex.Size() * 0.5f, iconScale, SpriteEffects.None, 0f);
             if (item.stack > 0)

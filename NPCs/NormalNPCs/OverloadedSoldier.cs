@@ -179,7 +179,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) < 400f)
             {
-                num65 += (CalamityWorld.death ? 6f : 4f) - ((Main.player[NPC.target].Center - NPC.Center).Length() * 0.01f);
+                num65 += (CalamityWorld.death ? 8f : CalamityWorld.revenge ? 6f : 4f) - ((Main.player[NPC.target].Center - NPC.Center).Length() * 0.01f);
              }
             if (NPC.velocity.X < -num65 || NPC.velocity.X > num65)
             {

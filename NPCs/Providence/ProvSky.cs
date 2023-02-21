@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
@@ -45,7 +47,7 @@ namespace CalamityMod.NPCs.Providence
                 if (Main.npc[ProvIndex].Calamity().newAI[3] < spawnAnimationTimer)
                     intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[ProvIndex].Calamity().newAI[3] / spawnAnimationTimer);
 
-                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
+                return (Main.player[Main.myPlayer].HasBuff(ModContent.BuffType<HolyInferno>()) ? 0.75f : (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar);
             }
             return 0f;
         }
@@ -80,7 +82,7 @@ namespace CalamityMod.NPCs.Providence
             if (maxDepth >= 0 && minDepth < 0)
             {
                 float intensity = GetIntensity();
-                Color color = Main.dayTime ? new Color(255, 200, 100) : new Color(100, 150, 255);
+                Color color = CalamityWorld.getFixedBoi ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB) : Main.dayTime ? new Color(255, 200, 100) : new Color(100, 150, 255);
                 spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), color * intensity);
             }
         }

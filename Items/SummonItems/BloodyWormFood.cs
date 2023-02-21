@@ -43,7 +43,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.position);
+            SoundEngine.PlaySound(SoundID.Roar, player.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<PerforatorHive>());
             else
@@ -55,9 +55,9 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Vertebrae, 13).
-                AddIngredient<BloodSample>(7).
                 AddIngredient(ItemID.CrimtaneBar, 3).
+                AddIngredient<BloodSample>(7).
+                AddIngredient(ItemID.Vertebrae, 13).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

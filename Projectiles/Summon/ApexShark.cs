@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -245,6 +246,9 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            if (Main.rand.NextBool(3))
+                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 90);
+
             SoundEngine.PlaySound(SoundID.Item70 with { Volume = SoundID.Item70.Volume * 0.5f}, Projectile.Center);
             Projectile.velocity = new Vector2(0f, 5f).RotatedBy(Projectile.velocity.ToRotation() + 1.5f);
             int sand = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandExplosion>(), (int)(Projectile.damage * 0.7f), (int)(Projectile.knockBack * 0.7f), Projectile.owner, 0f, 0f);

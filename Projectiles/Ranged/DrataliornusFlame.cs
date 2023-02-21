@@ -214,7 +214,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<Dragonfire>(), 240);
 
             if (Projectile.ai[0] != 0f && Projectile.owner == Main.myPlayer) //if empowered
             {
@@ -240,8 +240,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.immune[Projectile.owner] = 0;
 
-            target.AddBuff(BuffID.Daybreak, 240);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<Dragonfire>(), 240);
 
             if (Projectile.ai[0] != 0f && Projectile.owner == Main.myPlayer) //if empowered
             {

@@ -206,8 +206,13 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool? CanDamage() => Projectile.Opacity >= 1f ? null : false;
 
-        // Ensure damage is not absolutely obscene when hitting players.
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = 95;
+        // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
+            if (Main.masterMode) damage = 540;
+            else if (Main.expertMode) damage = 450;
+            else damage = 360;
+        }
 
         public float FlameTrailWidthFunction(float completionRatio) => MathHelper.SmoothStep(21f, 8f, completionRatio);
 

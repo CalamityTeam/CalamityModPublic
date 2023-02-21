@@ -56,5 +56,25 @@ namespace CalamityMod.Items.Accessories
                 }
             }
         }
+
+        public override void UpdateVanity(Player player)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.sandBoobWaifuVanity = true;
+            if (player.whoAmI == Main.myPlayer)
+            {
+                if (player.FindBuffIndex(ModContent.BuffType<SandyHealingWaifu>()) == -1)
+                {
+                    player.AddBuff(ModContent.BuffType<SandyHealingWaifu>(), 3600, true);
+                }
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalHealer>()] < 1)
+                {
+                    var source = player.GetSource_Accessory(Item);
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(45);
+                    Projectile sandy = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<SandElementalHealer>(), damage, 2f, Main.myPlayer, 0f, 0f);
+                    sandy.originalDamage = damage;
+                }
+            }
+        }
     }
 }

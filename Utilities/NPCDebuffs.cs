@@ -8,11 +8,12 @@ using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.BrimstoneElemental;
-using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CalClone;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
@@ -150,6 +151,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ProfanedGuardianCommander>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
                 { ModContent.NPCType<ProfanedGuardianDefender>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
                 { ModContent.NPCType<ProfanedGuardianHealer>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
+                { ModContent.NPCType<ProfanedRocks>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
 
                 { ModContent.NPCType<Providence>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
                 { ModContent.NPCType<ProvSpawnOffense>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
@@ -185,6 +187,15 @@ namespace CalamityMod
 
                 { ModContent.NPCType<Yharon>(), new Tuple<bool, int[]>(false, new int[] { BuffID.OnFire }) },
 
+                { ModContent.NPCType<ThanatosHead>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<ThanatosBody1>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<ThanatosBody2>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<ThanatosTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+
+                // 20FEB2023: Ozzatron: made Ares immune to Miracle Blight, because otherwise he vanishes when affected by it
+                // The "correct" way to fix this involves a colossal amount of work and will be handled at a later date
+                { ModContent.NPCType<AresBody>(), new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<MiracleBlight>() }) },
+
                 { ModContent.NPCType<SupremeCalamitas>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<SupremeCatastrophe>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<SupremeCataclysm>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
@@ -194,11 +205,6 @@ namespace CalamityMod
                 { ModContent.NPCType<SepulcherBody>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
                 { ModContent.NPCType<SepulcherBodyEnergyBall>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
                 { ModContent.NPCType<SepulcherTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-
-                { ModContent.NPCType<ThanatosHead>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<ThanatosBody1>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<ThanatosBody2>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<ThanatosTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
 
                 { ModContent.NPCType<AdultEidolonWyrmHead>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
                 { ModContent.NPCType<AdultEidolonWyrmBody>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
@@ -223,8 +229,8 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticUrchin>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<AnthozoanCrab>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<BelchingCoral>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<Catfish>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<Flounder>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
+                { ModContent.NPCType<Toxicatfish>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
+                { ModContent.NPCType<Sulflounder>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<Gnasher>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<Mauler>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<MicrobialCluster>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },

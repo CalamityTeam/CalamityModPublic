@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
         {
             NPC.npcSlots = 2f;
             NPC.damage = 80;
-            NPC.aiStyle = 39;
+            NPC.aiStyle = NPCAIStyleID.GiantTortoise;
             NPC.width = 46;
             NPC.height = 32;
             NPC.defense = 32;
@@ -65,6 +65,12 @@ namespace CalamityMod.NPCs.PlagueEnemies
                 for (int k = 0; k < 20; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
+                }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Plagueshell").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Plagueshell2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Plagueshell3").Type, 1f);
                 }
             }
         }

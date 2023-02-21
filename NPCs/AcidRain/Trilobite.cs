@@ -1,18 +1,20 @@
-﻿using CalamityMod.BiomeManagers;
+﻿using System;
+using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
-using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.AcidRain
 {
     public class Trilobite : ModNPC
@@ -168,6 +170,12 @@ namespace CalamityMod.NPCs.AcidRain
                     projDamage = (int)Math.Round(projDamage * 0.8);
 
                 Vector2 spikeVelocity = -NPC.velocity.RotatedByRandom(0.18f);
+                if (CalamityWorld.getFixedBoi) // more true to the original concept art.
+                {
+                    spikeVelocity = -projectile.velocity;
+                    spikeVelocity.Normalize();
+                    spikeVelocity *= DownedBossSystem.downedPolterghast ? 8 : 5;
+                }
                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Unit() * NPC.Size * 0.7f, spikeVelocity, ModContent.ProjectileType<TrilobiteSpike>(), projDamage, 3f);
                 SpikeShootCountdown = Main.rand.Next(50, 65);
                 NPC.netUpdate = true;

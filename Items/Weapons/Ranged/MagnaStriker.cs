@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 35;
+            Item.damage = 50;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 72;
             Item.height = 38;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2.25f;
-            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.UseSound = OpalStriker.FireSound;
             Item.autoReuse = true;
@@ -46,16 +46,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int randomProj = Main.rand.Next(2);
-            if (randomProj == 0)
+            if (Main.rand.NextBool())
             {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<OpalStrike>(), (int)(damage * 0.75), knockback, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<MagnaStrike>(), damage, knockback, player.whoAmI);
+                return false;
             }
-            else
-            {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<MagnaStrike>(), damage, knockback, player.whoAmI, 0f, 0f);
-            }
-            return false;
+            return true;
         }
 
         public override void AddRecipes()

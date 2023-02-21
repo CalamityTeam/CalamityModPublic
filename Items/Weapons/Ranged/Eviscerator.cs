@@ -56,9 +56,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.CrimtaneBar, 4).
                 AddIngredient<BloodSample>(8).
                 AddIngredient(ItemID.Vertebrae, 4).
-                AddIngredient(ItemID.CrimtaneBar, 4).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

@@ -102,7 +102,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.alpha = HeadSegment.alpha;
 
             AttackTimer += BossRushEvent.BossRushActive ? 1.5f : 1f;
-            if (AttackTimer >= 900f)
+            float attackgate = !HeadSegment.Calamity().unbreakableDR && CalamityWorld.getFixedBoi ? 450f : 900f;
+            if (AttackTimer >= attackgate)
             {
                 AttackTimer = 0f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -129,21 +130,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.velocity = Vector2.Zero;
                 NPC.Center = AheadSegment.Center - offsetToAheadSegment.SafeNormalize(Vector2.UnitY) * 34f;
                 NPC.spriteDirection = (offsetToAheadSegment.X > 0f).ToDirectionInt();
-            }
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
-            {
-                if (projectile.penetrate == -1 && !projectile.minion)
-                {
-                    projectile.penetrate = 1;
-                }
-                else if (projectile.penetrate >= 1)
-                {
-                    projectile.penetrate = 1;
-                }
             }
         }
 

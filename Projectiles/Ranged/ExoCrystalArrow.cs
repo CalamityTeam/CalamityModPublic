@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,7 +9,6 @@ using CalamityMod.Particles;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Items.Weapons.Ranged;
-using Terraria.DataStructures;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -56,6 +56,10 @@ namespace CalamityMod.Projectiles.Ranged
 
             // Determine rotation.
             Projectile.rotation = Projectile.velocity.ToRotation();
+
+            // Emit light.
+            DelegateMethods.v3_1 = Color.Lerp(Color.Lime, Color.White, 0.55f).ToVector3() * 0.65f;
+            Utils.PlotTileLine(Projectile.Center - Projectile.velocity * 0.5f, Projectile.Center + Projectile.velocity * 0.5f, 16f, DelegateMethods.CastLightOpen);
 
             Time++;
         }
@@ -125,10 +129,13 @@ namespace CalamityMod.Projectiles.Ranged
             int lightning = Projectile.NewProjectile(Projectile.GetSource_FromThis(), lightningSpawnPosition, lightningShootVelocity, ModContent.ProjectileType<ExoLightningBolt>(), lightningDamage, 0f, Projectile.owner);
             if (Main.projectile.IndexInRange(lightning))
             {
-                Main.projectile[lightning].CritChance = Projectile.CritChance;
                 Main.projectile[lightning].ai[0] = lightningShootVelocity.ToRotation();
                 Main.projectile[lightning].ai[1] = Main.rand.Next(100);
             }
+
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
     }
 }

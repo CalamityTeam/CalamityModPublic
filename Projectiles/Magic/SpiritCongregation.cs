@@ -135,12 +135,16 @@ namespace CalamityMod.Projectiles.Magic
 
             // Set the hover offset to a zero vector after enough time has passed and the projectile is powerful/tame enough.
             bool tame = CurrentPower > 0.97f;
-            Projectile.hostile = !tame && Time > 75f;
             if (tame)
             {
                 if (HoverOffset != Vector2.Zero)
                     HoverOffset = Vector2.Zero;
             }
+
+            // Previously, Gruesome Eminence stopped being able to hurt you when fully charged.
+            // This has been changed so that its threat is everpresent.
+            Projectile.hostile = Time > 75f;
+            // Projectile.hostile = !tame && Time > 75f;
 
             // Explode into a burst of spirit dust and gas clouds when a bigger face appears.
             if (!WasStrongBefore && CurrentPower > LargeMouthPowerLowerBound)
@@ -286,10 +290,17 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        // Prevent obsence damage when hitting players.
+        // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
+        // Damage scales up over time as it grows
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            damage = 92;
+            float damageFactor = 0.25f + 0.75f * CurrentPower;
+            int fullPowerDamage;
+            if (Main.masterMode) fullPowerDamage = 540;
+            else if (Main.expertMode) fullPowerDamage = 450;
+            else fullPowerDamage = 360;
+
+            damage = (int)(damageFactor * fullPowerDamage);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

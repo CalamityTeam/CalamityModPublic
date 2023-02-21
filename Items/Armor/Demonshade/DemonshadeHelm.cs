@@ -49,7 +49,6 @@ namespace CalamityMod.Items.Armor.Demonshade
         {
             var hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
             player.setBonus = "100% increased minion damage and +10 max minions\n" +
-                "All attacks inflict the demon flame debuff\n" +
                 "Shadowbeams and demon scythes will fire down when you are hit\n" +
                 "A friendly red devil follows you around\n" +
                 "Press " + hotkey + " to enrage nearby enemies with a dark magic spell for 10 seconds\n" +

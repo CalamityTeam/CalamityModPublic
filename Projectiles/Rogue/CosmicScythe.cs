@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -57,8 +57,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int buffType = Projectile.ai[0] == 1f ? BuffID.ShadowFlame : ModContent.BuffType<GodSlayerInferno>();
-            target.AddBuff(buffType, 60, false);
             Projectile.Kill();
         }
 

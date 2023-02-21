@@ -90,6 +90,13 @@ namespace CalamityMod.NPCs.AstrumDeus
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
             SpawnModBiomes = new int[1] { ModContent.GetInstance<AbovegroundAstralBiome>().Type };
+
+            if (CalamityWorld.getFixedBoi)
+            {
+                if (CalamityWorld.death) // killing 10 worms with half of the og's health is ridiculous
+                NPC.lifeMax /= 3;
+                NPC.value /= 5;
+            }
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -98,7 +105,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("The fragments of the star god’s corpse still hold some of their former power, and even after succumbing to a dark infection, then being torn apart by an upstart worm, they willfully seek to return to the stars.")
+                new FlavorTextBestiaryInfoElement("Revered as a God of the stars, it has been infected by the starborne illness. However, it has now been broken free from the infection's control and roams the stars once more, consuming dying stars and birthing them anew.")
             });
         }
 
@@ -210,29 +217,32 @@ namespace CalamityMod.NPCs.AstrumDeus
         {
             if (NPC.life <= 0)
             {
-                NPC.position.X = NPC.position.X + (NPC.width / 2);
-                NPC.position.Y = NPC.position.Y + (NPC.height / 2);
-                NPC.width = 50;
-                NPC.height = 50;
-                NPC.position.X = NPC.position.X - (NPC.width / 2);
-                NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-                for (int num621 = 0; num621 < 5; num621++)
+                if (CalamityWorld.getFixedBoi && Main.rand.NextBool(5)) // I value people's computers
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+                    NPC.position.X = NPC.position.X + (NPC.width / 2);
+                    NPC.position.Y = NPC.position.Y + (NPC.height / 2);
+                    NPC.width = 50;
+                    NPC.height = 50;
+                    NPC.position.X = NPC.position.X - (NPC.width / 2);
+                    NPC.position.Y = NPC.position.Y - (NPC.height / 2);
+                    for (int num621 = 0; num621 < 5; num621++)
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                        Main.dust[num622].velocity *= 3f;
+                        if (Main.rand.NextBool(2))
+                        {
+                            Main.dust[num622].scale = 0.5f;
+                            Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        }
                     }
-                }
-                for (int num623 = 0; num623 < 10; num623++)
-                {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    for (int num623 = 0; num623 < 10; num623++)
+                    {
+                        int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 3f);
+                        Main.dust[num624].noGravity = true;
+                        Main.dust[num624].velocity *= 5f;
+                        num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 2f);
+                        Main.dust[num624].velocity *= 2f;
+                    }
                 }
             }
         }
@@ -322,7 +332,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 normalOnly.Add(ModContent.ItemType<Stardust>(), 1, 50, 80);
             }
 
-			npcLoot.DefineConditionalDropSet(() => true).Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 5, 15), hideLootReport: true); // Healing Potions don't show up in the Bestiary
+			npcLoot.DefineConditionalDropSet(() => true).Add(DropHelper.PerPlayer(ItemID.SuperHealingPotion, 1, 5, 15), hideLootReport: true); // Healing Potions don't show up in the Bestiary
             lastWorm.Add(ModContent.ItemType<AstrumDeusTrophy>(), 10);
 
             // Relic
@@ -333,11 +343,12 @@ namespace CalamityMod.NPCs.AstrumDeus
             lastWorm.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentVortex, 1, 16, 24, 20, 32));
             lastWorm.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentNebula, 1, 16, 24, 20, 32));
             lastWorm.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentStardust, 1, 16, 24, 20, 32));
+            lastWorm.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<MeldBlob>(), 1, 16, 24, 20, 32));
 
             // Lore
             bool firstDeusKill(DropAttemptInfo info) => !DownedBossSystem.downedAstrumDeus && !ShouldNotDropThings(info.npc);
-            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstrumDeus>(), desc: DropHelper.FirstKillText);
-            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstralInfection>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<LoreAstrumDeus>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<LoreAstralInfection>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

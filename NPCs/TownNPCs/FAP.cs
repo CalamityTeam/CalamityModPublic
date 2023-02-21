@@ -3,9 +3,11 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
@@ -57,7 +59,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.lavaImmune = true;
             NPC.width = 18;
             NPC.height = 40;
-            NPC.aiStyle = 7;
+            NPC.aiStyle = NPCAIStyleID.Passive;
             NPC.damage = 10;
             NPC.defense = 15;
             NPC.lifeMax = 20000;
@@ -74,16 +76,14 @@ namespace CalamityMod.NPCs.TownNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,                
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("No one knows where she came from, but no one minds her either. She’s a good person to share a drink with, given you don’t make her mad.")
+				new FlavorTextBestiaryInfoElement("No one knows where she came from, but no one minds her either. She's a good person to share a drink with, given you don't make her mad.")
             });
         }
 
         public override void AI()
         {
             if (!CalamityWorld.spawnedCirrus)
-            {
                 CalamityWorld.spawnedCirrus = true;
-            }
         }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
@@ -93,9 +93,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 Player player = Main.player[k];
                 bool hasVodka = player.InventoryHas(ModContent.ItemType<FabsolsVodka>())/* || player.PortableStorageHas(ModContent.ItemType<FabsolsVodka>())*/;
                 if (player.active && hasVodka)
-                {
                     return Main.hardMode || CalamityWorld.spawnedCirrus;
-                }
             }
             return CalamityWorld.spawnedCirrus;
         }
@@ -104,6 +102,12 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override string GetChat()
         {
+            if (CalamityWorld.getFixedBoi)
+            {
+                Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, false, -1);
+                SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, Main.player[Main.myPlayer].Center);
+            }
+
             if (CalamityUtils.AnyBossNPCS())
                 return "Why are you talking to me right now? Shouldn't you be bumbling around and dying for my amusement?";
 
@@ -137,6 +141,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 else
                 {
                     Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, false, -1);
+                    SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, Main.player[Main.myPlayer].Center);
                     return "Sorry, I have no moral compass at the moment.";
                 }
             }
@@ -303,18 +308,25 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original alcohol value
         {
-            shop.item[nextSlot].SetDefaults(ItemID.HeartreachPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-            nextSlot++;
+            int wife = NPC.FindFirstNPC(NPCID.Stylist);
+            bool wifeIsAround = wife != -1;
+            bool beLessDrunk = wifeIsAround && NPC.downedMoonlord;
 
-            shop.item[nextSlot].SetDefaults(ItemID.LifeforcePotion);
-            int goldCost = NPC.downedMoonlord ? 8 : 4;
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, goldCost, 0, 0);
-            nextSlot++;
+            if (CalamityConfig.Instance.PotionSelling)
+            {
+                shop.item[nextSlot].SetDefaults(ItemID.HeartreachPotion);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+                nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ItemID.LovePotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-            nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemID.LifeforcePotion);
+                int goldCost = NPC.downedMoonlord ? 8 : 4;
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, goldCost, 0, 0);
+                nextSlot++;
+
+                shop.item[nextSlot].SetDefaults(ItemID.LovePotion);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                nextSlot++;
+            }
 
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<GrapeBeer>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 30, 0);
@@ -418,6 +430,25 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
 
+            if (beLessDrunk)
+            {
+                shop.item[nextSlot].SetDefaults(ItemID.BloodyMoscato);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                nextSlot++;
+
+                shop.item[nextSlot].SetDefaults(ItemID.BananaDaiquiri);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 75, 0);
+                nextSlot++;
+
+                shop.item[nextSlot].SetDefaults(ItemID.PeachSangria);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
+                nextSlot++;
+
+                shop.item[nextSlot].SetDefaults(ItemID.PinaColada);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                nextSlot++;
+            }
+
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<WeightlessCandle>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 50, 0, 0);
             nextSlot++;
@@ -438,6 +469,30 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
             nextSlot++;
 
+            bool happyAsFuck = Main.LocalPlayer.currentShoppingSettings.PriceAdjustment <= 0.8999999761581421;
+            if (happyAsFuck)
+            {
+                /*if (wifeIsAround)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemID.MilkCarton);
+                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                    nextSlot++;
+                }*/
+
+                if (Main.LocalPlayer.ZoneHallow)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemID.UnicornHorn);
+                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 50, 0);
+                    nextSlot++;
+
+                    if (wifeIsAround)
+                    {
+                        shop.item[nextSlot].SetDefaults(ItemID.Milkshake);
+                        shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 5, 0, 0);
+                        nextSlot++;
+                    }
+                }
+            }
         }
 
         // Make this Town NPC teleport to the Queen statue when triggered.

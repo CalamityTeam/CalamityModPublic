@@ -132,6 +132,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.value = Item.buyPrice(0, 1, 0, 0);
             NPC.aiStyle = -1;
             NPC.DeathSound = DeathSound;
+            NPC.rarity = 1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AtlasBanner>();
             if (DownedBossSystem.downedAstrumAureus)
@@ -141,9 +142,14 @@ namespace CalamityMod.NPCs.Astral
                 NPC.knockBackResist = 0.04f;
                 NPC.lifeMax = 1600;
             }
+            if (CalamityWorld.revenge)
+            {
+                target_walkAcceleration = 0.16f;
+                target_walkMaxSpeed = 2.4f;
+            }
             if (CalamityWorld.death)
             {
-                target_walkAcceleration = 0.18f;
+                target_walkAcceleration = 0.2f;
                 target_walkMaxSpeed = 3.2f;
             }
             NPC.Calamity().VulnerableToHeat = true;
@@ -273,7 +279,7 @@ namespace CalamityMod.NPCs.Astral
 
                         swingYeet = false;
 
-                        if (Main.rand.NextBool(1000)) //Launch the player very fast very rarely
+                        if (Main.rand.NextBool(1000) || CalamityWorld.getFixedBoi) //Launch the player very fast very rarely
                         {
                             horMult = 12f;
                             verMult = 2.3f;

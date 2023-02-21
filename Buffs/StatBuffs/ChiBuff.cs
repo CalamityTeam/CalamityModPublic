@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chi");
-            Description.SetDefault("Your next attack is boosted and you are more resilient");
+            Description.SetDefault("You are more resilient");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;

@@ -1,15 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.IO;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using System;
-using ReLogic.Utilities;
-using Terraria;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class SuperDummyNPC : ModNPC
     {
+        public int deathCounter = 0;
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -30,7 +30,33 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.value = 0f;
             NPC.knockBackResist = 0f;
             NPC.netAlways = true;
-            NPC.aiStyle = 0;
+            NPC.aiStyle = NPCAIStyleID.FaceClosestPlayer;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(deathCounter);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            deathCounter = reader.ReadInt32();
+        }
+
+        public override bool PreAI()
+        {
+            if (CalamityWorld.getFixedBoi)
+            {
+                deathCounter++;
+                // If you don't attack the Dummy for a minute in gfb, it becomes sentient
+                if (deathCounter >= 6000)
+                {
+                    NPC.damage = NPC.lifeMax;
+                    CalamityGlobalAI.BuffedMimicAI(NPC, Mod);
+                    return false;
+                }
+            }
+            return true;
         }
 
         public override void UpdateLifeRegen(ref int damage)
@@ -47,6 +73,11 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             // Dummy AI, no way
             NPC.ai[0] = hitDirection * -NPC.direction;
+            // Reset hit timer if it isn't enraged
+            if (deathCounter > 0 && deathCounter < 6000)
+            {
+                deathCounter = 0;
+            }
         }
 
         public override void FindFrame(int frameHeight)
@@ -63,9 +94,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
 
             // Hit from behind
-            if (NPC.ai[0] == -1)
+            if (NPC.ai[0] == -1 || deathCounter > 6000)
             {
-                if (NPC.justHit && NPC.frame.Y > frameHeight * 2)
+                if ((NPC.justHit || deathCounter > 6000) && NPC.frame.Y > frameHeight * 2)
                 {
                     NPC.frame.Y = frameHeight;
                 }    

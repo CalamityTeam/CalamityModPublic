@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = 360;
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 15;
+            Projectile.localNPCHitCooldown = 30;
 
             Projectile.DamageType = RogueDamageClass.Instance;
         }
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.tileCollide = true;
             //Decide the range of the boomerang depending on stealth
             if (Projectile.Calamity().stealthStrike)
-                ReboundTime = 27f;
+                ReboundTime = 36f;
             else
                 ReboundTime = 55f;
 

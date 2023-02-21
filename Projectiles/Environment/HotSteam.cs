@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Environment
 {
     public class HotSteam : ModProjectile, IAdditiveDrawer
     {
-        public const int Lifetime = 180;
+        public const int Lifetime = 90;
 
         public override string Texture => "CalamityMod/Projectiles/Summon/SmallAresArms/MinionPlasmaGas";
 
@@ -37,8 +37,8 @@ namespace CalamityMod.Projectiles.Environment
         public override void AI()
         {
             Projectile.localAI[0] = 0f;
-            Projectile.scale = Utils.Remap(Projectile.timeLeft, Lifetime, 0.4f, 0.02f, 1.4f);
-            Projectile.Opacity = Utils.Remap(Projectile.timeLeft, 160f, 50f, 1.15f, 0.01f);
+            Projectile.scale = Utils.Remap((Projectile.timeLeft+Lifetime), 180, 0.4f, 0.02f, 1.4f);
+            Projectile.Opacity = Utils.Remap((Projectile.timeLeft+Lifetime), 160f, 50f, 1.15f, 0.01f);
             Projectile.velocity.Y *= 0.97f;
         }
 
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Environment
             Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
             Vector2 origin = texture.Size() * 0.5f;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            float opacity = Projectile.Opacity * 0.3f;
+            float opacity = Projectile.Opacity * 0.45f;
             Color drawColor = new Color(159, 207, 181) * opacity;
             Vector2 scale = Projectile.Size / texture.Size() * Projectile.scale * 1.35f;
             spriteBatch.Draw(texture, drawPosition, null, drawColor, Projectile.rotation, origin, scale, 0, 0f);

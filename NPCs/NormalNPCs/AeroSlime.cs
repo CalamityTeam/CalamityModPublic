@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.World;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
@@ -18,7 +19,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            NPC.aiStyle = 14;
+            NPC.aiStyle = NPCAIStyleID.Bat;
             NPC.damage = 18;
             NPC.width = 40;
             NPC.height = 30;
@@ -42,7 +43,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("Slimes take on the qualities of their environments and after feasting on aerialite ore, this slime has grown wings.")
@@ -51,12 +52,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.PlayerSafe || (!DownedBossSystem.downedHiveMind && !DownedBossSystem.downedPerforator) || spawnInfo.Player.Calamity().ZoneAbyss ||
-                spawnInfo.Player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.PlayerSafe || (!DownedBossSystem.downedHiveMind && !DownedBossSystem.downedPerforator))
             {
                 return 0f;
             }
-            return SpawnCondition.Cavern.Chance * 0.05f;
+            
+            return SpawnCondition.Sky.Chance * 0.2f;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -75,5 +76,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<AerialiteOre>(), 1, 10, 26);
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (CalamityWorld.getFixedBoi)
+            {
+                typeName = "YuH";
+            }
+        }
     }
 }

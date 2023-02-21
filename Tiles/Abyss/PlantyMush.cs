@@ -1,4 +1,5 @@
-﻿using CalamityMod.Walls;
+﻿using CalamityMod.Tiles.Abyss.AbyssAmbient;
+using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -7,6 +8,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Abyss
 {
+    // Transforms any and all Tenebris in old worlds into planty mush.
+    [LegacyName("Tenebris")]
     public class PlantyMush : ModTile
     {
         public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/PlantyMushMine", 3);
@@ -23,9 +26,16 @@ namespace CalamityMod.Tiles.Abyss
             ItemDrop = ModContent.ItemType<Items.Placeables.PlantyMush>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Planty Mush");
-            AddMapEntry(new Color(0, 120, 0), name);
+            AddMapEntry(new Color(84, 102, 39), name);
             MineResist = 1f;
             HitSound = MineSound;
+        }
+        
+        int animationFrameWidth = 288;
+
+        public override bool CanExplode(int i, int j)
+        {
+            return false;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -44,9 +54,121 @@ namespace CalamityMod.Tiles.Abyss
                 }
             }
         }
+        
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        {
+            int uniqueAnimationFrameX = 0;
+            int xPos = i % 4;
+            int yPos = j % 4;
+            switch (xPos)
+            {
+                case 0:
+                    switch (yPos)
+                    {
+                        case 0:
+                            uniqueAnimationFrameX = 0;
+                            break;
+                        case 1:
+                            uniqueAnimationFrameX = 0;
+                            break;
+                        case 2:
+                            uniqueAnimationFrameX = 1;
+                            break;
+                        case 3:
+                            uniqueAnimationFrameX = 1;
+                            break;
+                        default:
+                            uniqueAnimationFrameX = 0;
+                            break;
+                    }
+                    break;
+                case 1:
+                    switch (yPos)
+                    {
+                        case 0:
+                            uniqueAnimationFrameX = 1;
+                            break;
+                        case 1:
+                            uniqueAnimationFrameX = 0;
+                            break;
+                        case 2:
+                            uniqueAnimationFrameX = 1;
+                            break;
+                        case 3:
+                            uniqueAnimationFrameX = 1;
+                            break;
+                        default:
+                            uniqueAnimationFrameX = 0;
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (yPos)
+                    {
+                        case 0:
+                            uniqueAnimationFrameX = 1;
+                            break;
+                        case 1:
+                            uniqueAnimationFrameX = 0;
+                            break;
+                        case 2:
+                            uniqueAnimationFrameX = 0;
+                            break;
+                        case 3:
+                            uniqueAnimationFrameX = 1;
+                            break;
+                        default:
+                            uniqueAnimationFrameX = 0;
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch (yPos)
+                    {
+                        case 0:
+                            uniqueAnimationFrameX = 0;
+                            break;
+                        case 1:
+                            uniqueAnimationFrameX = 1;
+                            break;
+                        case 2:
+                            uniqueAnimationFrameX = 0;
+                            break;
+                        case 3:
+                            uniqueAnimationFrameX = 1;
+                            break;
+                        default:
+                            uniqueAnimationFrameX = 0;
+                            break;
+                    }
+                    break;
+            }
+            frameXOffset = uniqueAnimationFrameX * animationFrameWidth;
+        }
 
         public override void RandomUpdate(int i, int j)
         {
+            Tile tile = Main.tile[i, j];
+            Tile up = Main.tile[i, j - 1];
+            Tile up2 = Main.tile[i, j - 2];
+
+            //place kelp
+            if (WorldGen.genRand.Next(5) == 0 && !up.HasTile && !up2.HasTile && up.LiquidAmount > 0 && up2.LiquidAmount > 0 && !tile.LeftSlope && !tile.RightSlope && !tile.IsHalfBlock)
+            {
+                up.TileType = (ushort)ModContent.TileType<AbyssKelp>();
+                up.HasTile = true;
+                up.TileFrameY = 0;
+
+                //7 different frames, choose a random one
+                up.TileFrameX = (short)(WorldGen.genRand.Next(7) * 18);
+                WorldGen.SquareTileFrame(i, j - 1, true);
+
+                if (Main.netMode == NetmodeID.Server) 
+                {
+                    NetMessage.SendTileSquare(-1, i, j - 1, 3, TileChangeType.None);
+                }
+            }
+
             int num8 = WorldGen.genRand.Next((int)Main.rockLayer, (int)(Main.rockLayer + (double)Main.maxTilesY * 0.143));
             if (Main.tile[i, j + 1] != null)
             {

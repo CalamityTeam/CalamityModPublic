@@ -1,10 +1,11 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -98,7 +99,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             Projectile.Damage();
-            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             for (int num621 = 0; num621 < 8; num621++)
             {
                 int num622 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 89, 0f, 0f, 100, default, 2f);
@@ -161,14 +162,42 @@ namespace CalamityMod.Projectiles.Boss
                     gore.velocity.Y -= 1f;
                 }
             }
+
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
+            {
+                Vector2 valueBoom = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                float spreadBoom = 15f * 0.0174f;
+                double startAngleBoom = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spreadBoom / 2;
+                double deltaAngleBoom = spreadBoom / 8f;
+                double offsetAngleBoom;
+                int iBoom;
+                int damageBoom = Projectile.damage / 2;
+                for (iBoom = 0; iBoom < 5; iBoom++)
+                {
+                    if (Main.rand.NextBool(5) && iBoom > 0)
+                    {
+                        int projectileType = ModContent.ProjectileType<SandPoisonCloud>();
+                        offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
+                        float velocity = 0.5f;
+                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * velocity), (float)(Math.Cos(offsetAngleBoom) * velocity), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * velocity), (float)(-Math.Cos(offsetAngleBoom) * velocity), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                    }
+                }
+            }
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (damage <= 0)
                 return;
-
-            target.AddBuff(ModContent.BuffType<Plague>(), 240);
+            
+            if (CalamityWorld.getFixedBoi) // it is the plague, you get very sick.
+            {
+                target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240, true);
+                target.AddBuff(BuffID.Poisoned, 240, true);
+                target.AddBuff(BuffID.Venom, 240, true);
+            }
+            target.AddBuff(ModContent.BuffType<Plague>(), 240, true);
         }
     }
 }

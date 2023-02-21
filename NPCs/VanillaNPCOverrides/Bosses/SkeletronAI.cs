@@ -135,16 +135,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     SoundEngine.PlaySound(SoundID.Item66, npc.position);
 
-                    Vector2 vector10 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-
                     // Fire magic bolt after teleport
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num151 = 2f + (distance * 0.005f);
-                        if (num151 > 5f)
-                            num151 = 5f;
+                        if (num151 > 6f)
+                            num151 = 6f;
 
-                        int type = ProjectileID.Shadowflames;
+                        int type = ProjectileID.Skull;
                         int damage = npc.GetProjectileDamage(type);
                         int numProj = death ? 5 : 3;
 
@@ -156,8 +154,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num743 *= num745;
                         num744 *= num745;
                         Vector2 center = npc.Center;
-                        center.X += num743 * 3f;
-                        center.Y += num744 * 3f;
+                        center.X += num743 * 5f;
+                        center.Y += num744 * 5f;
 
                         float rotation = MathHelper.ToRadians(60);
                         float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
@@ -168,9 +166,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         for (int i = 0; i < numProj; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * i;
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), center.X, center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 1f);
-                            Main.projectile[proj].timeLeft = 600;
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), center.X, center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, -2f, 0f);
+                            Main.projectile[proj].timeLeft = 300;
                         }
+
                         npc.netUpdate = true;
                     }
 

@@ -36,7 +36,7 @@ Stealth strikes erupt into thorns on enemy hits");
             Item.maxStack = 999;
             Item.value = Item.sellPrice(copper: 30);
             Item.shoot = ModContent.ProjectileType<TarragonThrowingDartProjectile>();
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 15f;
             Item.DamageType = RogueDamageClass.Instance;
             Item.rare = ModContent.RarityType<Turquoise>();
         }

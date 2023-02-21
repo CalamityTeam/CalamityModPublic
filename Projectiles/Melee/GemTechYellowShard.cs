@@ -26,8 +26,6 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = 1;
             Projectile.MaxUpdates = 2;
             Projectile.timeLeft = 45;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
             Projectile.ignoreWater = true;
         }
 

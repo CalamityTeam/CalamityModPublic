@@ -65,7 +65,6 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Projectile.ai[1] = (float)(num40 - num41 * num39);
                 flag15 = true;
-                int arg_1EF4_0 = (int)Projectile.ai[0] / (num40 - num41 * num39);
             }
             bool flag16 = player.channel && !player.noItems && !player.CCed;
             if (Projectile.localAI[0] > 0f)
@@ -104,9 +103,10 @@ namespace CalamityMod.Projectiles.Magic
                     }
                 }
                 Projectile.localAI[1] += 1f;
+                Projectile.soundDelay = num40 - num41 * num39;
                 SoundEngine.PlaySound(SoundID.Item117, Projectile.position);
             }
-            if (Projectile.soundDelay <= 0 && flag16)
+            else if (Projectile.soundDelay <= 0 && flag16)
             {
                 if (player.statMana < manaCost)
                 {

@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 15;
+            Projectile.localNPCHitCooldown = 60;
             Projectile.coldDamage = true;
 
             Projectile.DamageType = RogueDamageClass.Instance;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.tileCollide = true;
             //Decide the range of the boomerang depending on stealth
             if (Projectile.Calamity().stealthStrike)
-                ReboundTime = 27f;
+                ReboundTime = 36f;
             else
                 ReboundTime = 55f;
 
@@ -131,35 +131,38 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void OnHitEffects()
         {
-            //Start homing at player if you hit an enemy
-            Projectile.ai[0] = 1;
+            // Start homing at player if you hit an enemy, UNLESS its a stealth strike
+            if (!Projectile.Calamity().stealthStrike)
 
-            int icicleAmt = Main.rand.Next(2, 4);
-            if (Projectile.owner == Main.myPlayer)
-            {
-                for (int i = 0; i < icicleAmt; i++)
+                Projectile.ai[0] = 1;
+
+                int icicleAmt = Main.rand.Next(2, 4);
+                if (Projectile.owner == Main.myPlayer)
                 {
+                    for (int i = 0; i < icicleAmt; i++)
+                    {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>(), Projectile.damage / 3, 0f, Projectile.owner);
+                    }
                 }
-            }
         }
 
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             OnHitEffects();
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+            target.AddBuff(BuffID.Frostburn2, 120);
+            if (Projectile.Calamity().stealthStrike)
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 45);
+
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             OnHitEffects();
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+            target.AddBuff(BuffID.Frostburn2, 120);
+            if (Projectile.Calamity().stealthStrike)
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 45);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

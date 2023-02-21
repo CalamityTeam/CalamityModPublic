@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SCal,
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Calamitas’ necromancy is outmatched by no one, but no one can truly bring the departed back from the dead.")
+                new FlavorTextBestiaryInfoElement("Calamitas' necromancy is outmatched by no one, but no one can truly bring the departed back from the dead.")
             });
         }
 
@@ -127,6 +127,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Disappear if Supreme Calamitas is not present.
             if (CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;
@@ -229,13 +231,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     DartBurstCounter = 0f;
                     SoundEngine.PlaySound(SupremeCalamitas.BrimstoneShotSound, NPC.Center);
 
-                    int type = ModContent.ProjectileType<BrimstoneBarrage>();
+                    int type = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<BrimstoneHellblast2>() : ModContent.ProjectileType<BrimstoneBarrage>();
                     int damage = NPC.GetProjectileDamage(type);
 					if (bossRush)
 						damage /= 2;
                     int totalProjectiles = bossRush ? 20 : death ? 16 : revenge ? 14 : expertMode ? 12 : 8;
                     float radians = MathHelper.TwoPi / totalProjectiles;
-                    float velocity = 7f;
+                    float velocity = CalamityWorld.getFixedBoi ? 5f : 7f;
                     Vector2 spinningPoint = new Vector2(0f, -velocity);
                     for (int k = 0; k < totalProjectiles; k++)
                     {

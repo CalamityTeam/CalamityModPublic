@@ -27,12 +27,11 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(10).
-                AddRecipeGroup("AnyStoneBlock").
+            CreateRecipe(50).
+                AddRecipeGroup("AnyStoneBlock", 50).
                 AddIngredient<ScoriaOre>().
                 AddTile(TileID.Furnaces).
                 Register();
-
             CreateRecipe().
                 AddIngredient<ScoriaBrickWall>(4).
                 AddTile(TileID.WorkBenches).

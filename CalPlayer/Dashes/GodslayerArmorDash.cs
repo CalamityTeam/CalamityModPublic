@@ -71,7 +71,7 @@ namespace CalamityMod.CalPlayer.Dashes
 
         public override void OnHitEffects(Player player, NPC npc, IEntitySource source, ref DashHitContext hitContext)
         {
-            SoundEngine.PlaySound(SoundID.Item67, player.position);
+            SoundEngine.PlaySound(SoundID.Item67, player.Center);
 
             for (int j = 0; j < 30; j++)
             {

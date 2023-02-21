@@ -126,13 +126,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                     NPC.velocity.X = 0f;
                 return;
             }
-            float num65 = CalamityWorld.death ? 3f : 1f;
-            float num66 = CalamityWorld.death ? 0.28f : 0.08f;
-            if (!CalamityWorld.death)
-            {
-                num65 += (1f - (float)NPC.life / (float)NPC.lifeMax) * 2f;
-                num66 += (1f - (float)NPC.life / (float)NPC.lifeMax) * 0.2f;
-            }
+            float num65 = CalamityWorld.death ? 3f : CalamityWorld.revenge ? 2f : 1f;
+            float num66 = CalamityWorld.death ? 0.28f : CalamityWorld.revenge ? 0.18f : 0.08f;
+            num65 += (1f - (float)NPC.life / (float)NPC.lifeMax) * 2f;
+            num66 += (1f - (float)NPC.life / (float)NPC.lifeMax) * 0.2f;
             if (NPC.velocity.X < -num65 || NPC.velocity.X > num65)
             {
                 if (NPC.velocity.Y == 0f)

@@ -48,11 +48,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 180);
+            target.AddBuff(BuffID.Frostburn2, 180);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
-
-            if (Main.rand.NextBool(3))
-                target.AddBuff(BuffID.Confused, Main.rand.Next(60, 240));
         }
 
         public override Color? GetAlpha(Color lightColor)

@@ -1,7 +1,4 @@
-﻿using CalamityMod.Items.Placeables.MusicBoxes;
-using CalamityMod.Tiles.MusicBoxes;
-using Terraria;
-using Terraria.Audio;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod
@@ -19,7 +16,7 @@ namespace CalamityMod
         {
             if (!Main.dedServ)
             {
-                AddMusicBox("Sounds/Music/DraedonAmbience", ModContent.ItemType<DraedonsAmbienceMusicBox>(), ModContent.TileType<DraedonsAmbienceMusicBoxTile>());
+                AddMusicBox("Sounds/Music/DraedonsAmbience", ModContent.ItemType<Items.Placeables.MusicBoxes.DraedonsAmbienceMusicBox>(), ModContent.TileType<Tiles.MusicBoxes.DraedonsAmbienceMusicBox>());
             }
         }
     }

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 7.5f;
             Item.UseSound = SoundID.Item1;
             Item.height = 38;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<MangroveChakramProjectile>();
             Item.shootSpeed = 16f;

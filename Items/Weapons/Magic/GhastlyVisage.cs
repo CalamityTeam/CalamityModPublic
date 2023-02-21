@@ -39,6 +39,8 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.rare = ModContent.RarityType<PureGreen>();
         }
 
+        public override void OnConsumeMana(Player player, int manaConsumed) => player.statMana += manaConsumed;
+
         // This weapon uses a holdout projectile.
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 

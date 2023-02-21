@@ -62,10 +62,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public const float deathrayDuration = 60f;
 
         // This stores the sound slot of the telegraph sound it makes, so it may be properly updated in terms of position.
+        public SlotId TelegraphSoundSlot;
+
+        // This stores the sound slot of the deathray sound it makes, so it may be properly updated in terms of position.
         public SlotId DeathraySoundSlot;
 
         // Telegraph sound.
-        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresLaserArmCharge") { Volume = 1.1f};
+        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresLaserArmCharge") { Volume = 1.1f };
+
+        public static readonly SoundStyle LaserbeamShootSound = new("CalamityMod/Sounds/Custom/ExoMechs/AresLaserArmShoot") { Volume = 1.1f };
 
         public override void SetStaticDefaults()
         {
@@ -128,9 +133,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             if (CalamityGlobalNPC.draedonExoMechPrime < 0 || !Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
             {
                 NPC.life = 0;
-                NPC.HitEffect(0, 10.0);
+                NPC.HitEffect();
                 NPC.checkDead();
                 NPC.active = false;
+                NPC.netUpdate = true;
                 return;
             }
 
@@ -196,6 +202,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             if (NPC.life > Main.npc[(int)NPC.ai[1]].life)
                 NPC.life = Main.npc[(int)NPC.ai[1]].life;
 
+            AresBody aresBody = Main.npc[(int)NPC.ai[2]].ModNPC<AresBody>();
             CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)NPC.ai[2]].Calamity();
 
             // Passive phase check
@@ -206,7 +213,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             // Adjust opacity
             bool invisiblePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
-            NPC.dontTakeDamage = invisiblePhase;
+            NPC.dontTakeDamage = invisiblePhase || Main.npc[(int)NPC.ai[2]].dontTakeDamage;
             if (!invisiblePhase)
             {
                 NPC.Opacity += 0.2f;
@@ -379,6 +386,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             SmokeDrawer.Update();
 
             EnergyDrawer.ParticleSpawnRate = 9999999;
+
             // Attacking phases
             switch ((int)AIState)
             {
@@ -405,7 +413,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     {
                         // Play a charge up sound so that the player knows when it's about to fire the deathray
                         if (calamityGlobalNPC.newAI[2] == 1 && !fireNormalLasers)
-                            DeathraySoundSlot = SoundEngine.PlaySound(TelSound, NPC.Center);
+                            TelegraphSoundSlot = SoundEngine.PlaySound(TelSound, NPC.Center);
 
                         // Smooth movement towards the location Ares Laser Cannon is meant to be at
                         CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
@@ -441,11 +449,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
                             if (calamityGlobalNPC.newAI[2] % divisor == 0f && canFire)
                             {
+                                SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound, NPC.Center);
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     int type = ModContent.ProjectileType<ThanatosLaser>();
                                     int damage = NPC.GetProjectileDamage(type);
-                                    SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
                                     Vector2 laserVelocity = Vector2.Normalize(player.Center - NPC.Center);
                                     Vector2 offset = laserVelocity * 70f + Vector2.UnitY * 16f;
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, player.Center, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
@@ -472,6 +480,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                             // Fire deathray
                             if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration)
                             {
+                                // Play the deathray sound.
+                                DeathraySoundSlot = SoundEngine.PlaySound(LaserbeamShootSound, NPC.Center);
+
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     int type = ModContent.ProjectileType<AresLaserBeamStart>();
@@ -479,7 +490,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                     float offset = 84f;
                                     float offset2 = 16f;
                                     Vector2 source = horizontalLaserSweep ? new Vector2(NPC.Center.X - offset2 * NPC.direction, NPC.Center.Y + offset) : new Vector2(NPC.Center.X + offset * NPC.direction, NPC.Center.Y + offset2);
-                                    SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, source);
                                     Vector2 laserVelocity = Vector2.Normalize(lookAt - source);
                                     if (laserVelocity.HasNaNs())
                                         laserVelocity = -Vector2.UnitY;
@@ -513,10 +523,16 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             EnergyDrawer.Update();
 
-            //Update the deathray sound if it's being done.
-            if (DeathraySoundSlot != null && SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
-            {
+            // Update the deathray and telegraph sound if they're being played.
+            if (SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
                 deathraySound.Position = NPC.Center;
+            
+            // Immediately stop the telegraph sound if Ares just begun transitioning to his laserbeam attack, since that automatically resets all impending cannon shots.
+            if (SoundEngine.TryGetActiveSound(TelegraphSoundSlot, out var telSound) && telSound.IsPlaying)
+            {
+                telSound.Position = NPC.Center;
+                if (aresBody.AIState == (int)AresBody.Phase.Deathrays && calamityGlobalNPC_Body.newAI[2] <= 10f)
+                    telSound.Stop();
             }
         }
 
@@ -677,6 +693,19 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public override void DrawBehind(int index)
         {
             Main.instance.DrawCacheNPCProjectiles.Add(index);
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            int index = CalamityGlobalNPC.draedonExoMechPrime;
+
+            if (index < 0 || index >= Main.maxNPCs || Main.npc[index] is null)
+                return;
+
+            if (Main.npc[index].ModNPC<AresBody>().exoMechdusa)
+            {
+                typeName = "XB-∞ Hekate Laser Cannon";
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)

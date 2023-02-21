@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
 
-            Vector2 laserEndCenter = centerOnLaser + Projectile.velocity * endFrameArea.Height - Main.screenPosition;
+            Vector2 laserEndCenter = centerOnLaser + Projectile.velocity * endFrameArea.Height * Projectile.scale - Main.screenPosition;
             Main.EntitySpriteDraw(LaserEndTexture,
                              laserEndCenter,
                              endFrameArea,

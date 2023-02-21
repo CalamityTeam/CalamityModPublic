@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddRecipeGroup("AnyGoldCrown").
                 AddIngredient<UnholyCore>(5).
-                AddIngredient<EssenceofChaos>(10).
+                AddIngredient<EssenceofHavoc>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

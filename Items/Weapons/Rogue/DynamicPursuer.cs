@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CalamityGlobalItem modItem = Item.Calamity();
 
-            Item.damage = 3100;
+            Item.damage = 2550;
             Item.DamageType = RogueDamageClass.Instance;
 
             Item.width = 30;
@@ -49,14 +49,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.autoReuse = true;
 
             Item.shoot = ModContent.ProjectileType<DynamicPursuerProjectile>();
-            Item.shootSpeed = 25f;
+            Item.shootSpeed = 28f;
 
             modItem.UsesCharge = true;
-            modItem.MaxCharge = 320f; // Tesla Cannon = 250f
+            modItem.MaxCharge = 300f; // Tesla Cannon = 250f
             modItem.ChargePerUse = 0.5f; // Tesla Cannon = 0.9f
         }
 
-		public override float StealthDamageMultiplier => 0.15f;
+		public override float StealthDamageMultiplier => 0.3f;
         public override float StealthVelocityMultiplier => 1.2f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

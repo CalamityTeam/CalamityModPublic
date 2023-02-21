@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,12 +19,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 10;
+            Item.damage = 14;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 56;
             Item.height = 28;
-            Item.useTime = 20;
-            Item.useAnimation = 20;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1.5f;
@@ -62,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     float SpeedX = velocity.X + (float)Main.rand.Next(-50, 51) * 0.05f;
                     float SpeedY = velocity.Y + (float)Main.rand.Next(-50, 51) * 0.05f;
-                    int flare = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 1.4), knockback, player.whoAmI);
+                    int flare = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
                     if (flare.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[flare].penetrate = 1;
@@ -95,9 +94,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.FlareGun).
-                AddIngredient(ItemID.Boomstick).
-                AddRecipeGroup("AnyGoldBar", 10).
-                AddIngredient<PearlShard>(10).
+                AddIngredient(ItemID.HellstoneBar, 10).
                 AddTile(TileID.Anvils).
                 Register();
         }

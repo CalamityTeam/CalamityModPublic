@@ -178,7 +178,7 @@ namespace CalamityMod.Projectiles.Ranged
             Color sightsColor = Color.Lerp(Color.LightBlue, Color.Crimson, ChargePercent);
 
             //Setup the spread gradient effect.
-            Effect spreadEffect = Filters.Scene["SpreadTelegraph"].GetShader().Shader;
+            Effect spreadEffect = Filters.Scene["CalamityMod:SpreadTelegraph"].GetShader().Shader;
             spreadEffect.Parameters["centerOpacity"].SetValue(0.9f);
             spreadEffect.Parameters["mainOpacity"].SetValue(ChargePercent);
             spreadEffect.Parameters["halfSpreadAngle"].SetValue(halfAngle);
@@ -193,7 +193,7 @@ namespace CalamityMod.Projectiles.Ranged
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), sightsSize, 0, 0);
 
             //Setup the laser sights effect.
-            Effect laserScopeEffect = Filters.Scene["PixelatedSightLine"].GetShader().Shader;
+            Effect laserScopeEffect = Filters.Scene["CalamityMod:PixelatedSightLine"].GetShader().Shader;
             laserScopeEffect.Parameters["sampleTexture2"].SetValue(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/CertifiedCrustyNoise").Value);
             laserScopeEffect.Parameters["noiseOffset"].SetValue(Main.GameUpdateCount * -0.003f);
 

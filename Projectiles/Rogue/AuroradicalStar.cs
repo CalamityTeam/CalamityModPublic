@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.tileCollide = false;
             Projectile.alpha = 100;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 485;
+            Projectile.timeLeft = 360;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             //Home in
-            float maxDistance = 500f;
+            float maxDistance = 800f;
             int targetIndex = -1;
             int i;
             for (i = 0; i < Main.maxNPCs; i++)
@@ -88,29 +88,21 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (targetIndex != -1)
             {
-                Vector2 targetVec = Main.npc[i].Center - Projectile.Center;
-                if (targetVec.Length() < 60f)
-                {
-                    Projectile.Kill();
-                    return;
-                }
-                if (Projectile.ai[0] >= 120f)
+                Vector2 targetVec = Main.npc[targetIndex].Center - Projectile.Center;
+                if (Projectile.ai[0] >= 30f)
                 {
                     Projectile.ai[1] += 1f;
-                    if (Projectile.ai[1] < 120f)
+                    if (Projectile.ai[1] < 90f)
                     {
-                        float speedMult = 25f;
+                        float speedMult = 16f;
                         targetVec.Normalize();
                         targetVec *= speedMult;
                         Projectile.velocity = (Projectile.velocity * 15f + targetVec) / 16f;
                         Projectile.velocity.Normalize();
                         Projectile.velocity *= speedMult;
                     }
-                    else if (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y) < 18f)
-                    {
-                        Projectile.velocity.X *= 1.01f;
-                        Projectile.velocity.Y *= 1.01f;
-                    }
+                    else // Chase after the target more straightforwardly
+                        Projectile.velocity = (Main.npc[targetIndex].Center - Projectile.Center) / 12f;
                 }
             }
         }
@@ -135,8 +127,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Vector2 pos = new Vector2(targetPos.X + width * 0.5f + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
                 Vector2 velocity = (targetPos - pos) / 40f;
-                int dmg = Projectile.damage / 2;
-                int comet = Projectile.NewProjectile(Projectile.GetSource_FromThis(), pos, velocity, ModContent.ProjectileType<CometQuasherMeteor>(), dmg, Projectile.knockBack, Projectile.owner);
+                int comet = Projectile.NewProjectile(Projectile.GetSource_FromThis(), pos, velocity, ModContent.ProjectileType<CometQuasherMeteor>(), (int)(Projectile.damage * 1.25), Projectile.knockBack, Projectile.owner);
                 if (comet.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[comet].DamageType = RogueDamageClass.Instance;
@@ -154,10 +145,6 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
-            Projectile.ExpandHitboxBy(96);
-            Projectile.localNPCHitCooldown = 10;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.Damage();
             for (int d = 0; d < 2; d++)
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 50, default, 1f);

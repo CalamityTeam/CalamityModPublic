@@ -54,7 +54,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.knockBackResist = 0f;
             NPC.scale *= Main.expertMode ? 1.35f : 1.2f;
             NPC.scale *= 1.25f;
-
             NPC.alpha = 255;
             NPC.chaseable = false;
             NPC.behindTiles = true;
@@ -173,7 +172,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
             }
 
-            if (Main.player[NPC.target].dead || !NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()) || CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
+            if (CalamityWorld.getFixedBoi && !NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()))
+            {
+                CalamityGlobalNPC global = NPC.Calamity();
+                global.DR = 0.4f;
+                global.unbreakableDR = false;
+                NPC.chaseable = true;
+                NPC.DeathSound = DeathSound;
+            }
+
+            if (Main.player[NPC.target].dead || (!NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()) && !CalamityWorld.getFixedBoi) || CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
                 NPC.TargetClosest(false);
                 SoundEngine.PlaySound(DeathSound, Main.player[NPC.target].Center);
@@ -337,21 +345,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             return false;
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
-            {
-                if (projectile.penetrate == -1 && !projectile.minion)
-                {
-                    projectile.penetrate = 1;
-                }
-                else if (projectile.penetrate >= 1)
-                {
-                    projectile.penetrate = 1;
-                }
-            }
-        }
-
         public override bool CheckActive()
         {
             return false;
@@ -359,6 +352,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void HitEffect(int hitDirection, double damage)
         {
+            // hit sound in gfb
+            if (NPC.soundDelay == 0 && NPC.Calamity().unbreakableDR == false)
+            {
+                NPC.soundDelay = Main.rand.Next(5, 8);
+                SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt, NPC.Center);
+            }
             if (NPC.life <= 0)
             {
                 if (Main.netMode != NetmodeID.Server)

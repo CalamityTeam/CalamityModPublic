@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.width = Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.timeLeft = 120;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 1;
             Projectile.DamageType = DamageClass.Magic;
         }
 
@@ -75,11 +75,6 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
             SoundEngine.PlaySound(SoundID.Item105, Projectile.position);
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.immune[Projectile.owner] = 7;
         }
     }
 }

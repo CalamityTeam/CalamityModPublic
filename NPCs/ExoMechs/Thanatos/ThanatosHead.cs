@@ -25,8 +25,13 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         public static int normalIconIndex;
         public static int vulnerableIconIndex;
 
-        public static readonly SoundStyle VentSound = new("CalamityMod/Sounds/Custom/ThanatosVent");
-        public static readonly SoundStyle LaserSound = new("CalamityMod/Sounds/Custom/THanosLaser");
+        public static readonly SoundStyle VentSound = new("CalamityMod/Sounds/Custom/ExoMechs/ThanatosVent");
+
+        public static readonly SoundStyle LaserSound = new("CalamityMod/Sounds/Custom/ExoMechs/THanosLaser");
+
+        public static readonly SoundStyle ThanatosHitSoundOpen = new("CalamityMod/Sounds/NPCHit/ThanatosHitOpen", 2) { Volume = 0.5f };
+
+        public static readonly SoundStyle ThanatosHitSoundClosed = new("CalamityMod/Sounds/NPCHit/ThanatosHitClosed", 3) { Volume = 0.4f };
 
         public SlotId LaserSoundSlot;
 
@@ -78,6 +83,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         // Whether the head is venting heat or not, it is vulnerable to damage during venting
         private bool vulnerable = false;
+
+        // Mark Thanatos as a component of the Exo Mechdusa
+        public bool exoMechdusa = false;
 
         // Max time in vent phase
         public const float ventDuration = 180f;
@@ -168,8 +176,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 //We'll probably want a custom background for Exos like ML has.
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Under every armored plate on this machine lies an advanced weapon. This sacrifices the machine’s durability, but it makes it a very effective mass murderer.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Under every armored plate on this machine lies an advanced weapon. This sacrifices the machine's durability, but it makes it a very effective mass murderer.")
             });
         }
 
@@ -195,6 +203,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             writer.Write(noContactDamageTimer);
             writer.Write(chargeVelocityScalar);
             writer.Write(vulnerable);
+            writer.Write(exoMechdusa);
             writer.Write(NPC.localAI[0]);
             writer.Write(NPC.localAI[1]);
             writer.Write(NPC.localAI[2]);
@@ -210,6 +219,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             noContactDamageTimer = reader.ReadInt32();
             chargeVelocityScalar = reader.ReadSingle();
             vulnerable = reader.ReadBoolean();
+            exoMechdusa = reader.ReadBoolean();
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
@@ -219,7 +229,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         }
 
         public float GetSlowdownAreaEdgeRadius(bool lastMechAlive) =>
-            (BossRushEvent.BossRushActive ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) * (lastMechAlive ? 0.6f : 1f) * (Main.getGoodWorld ? 0.5f : 1f);
+            (BossRushEvent.BossRushActive ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) * (lastMechAlive ? 0.6f : 1f) * (CalamityWorld.getFixedBoi && !exoMechdusa ? 2 : Main.getGoodWorld ? 0.5f : 1f);
 
         public int CheckForOtherMechs(ref Player target, out bool exoPrimeAlive, out bool exoTwinsAlive)
         {
@@ -402,8 +412,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
             // Phase gate values
             float velocityAdjustTime = 20f;
-            float speedUpTime = lastMechAlive ? 180f : shouldGetBuffedByBerserkPhase ? 240f : 360f;
-            float slowDownTime = lastMechAlive ? 30f : shouldGetBuffedByBerserkPhase ? 40f : 60f;
+            float speedUpTime = lastMechAlive ? 180f : shouldGetBuffedByBerserkPhase ? 220f : 300f;
+            float slowDownTime = lastMechAlive ? 30f : shouldGetBuffedByBerserkPhase ? 40f : 50f;
             float chargePhaseGateValue = speedUpTime + slowDownTime;
             float laserBarrageDuration = lastMechAlive ? 270f : shouldGetBuffedByBerserkPhase ? 300f : 360f;
 
@@ -483,7 +493,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             float laserBarrageLocationDistance = turnDistance * 3f;
 
             // Velocity and turn speed values
-            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (bossRush ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.15f : 0f) + (bossRush ? 1.25f : death ? 1.2f : revenge ? 1.175f : expertMode ? 1.15f : 1.1f);
             float baseVelocity = 10f * baseVelocityMult;
 
             // Increase top velocity if target is dead or if Thanatos is uncoiling
@@ -495,7 +505,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             if (Main.getGoodWorld)
                 baseVelocity *= 1.15f;
 
-            float turnDegrees = baseVelocity * 0.1f * (shouldGetBuffedByBerserkPhase ? 1.25f : 1f);
+            float turnDegrees = baseVelocity * 0.1f * (shouldGetBuffedByBerserkPhase ? 1.25f : 1.1f);
 
             float turnSpeed = MathHelper.ToRadians(turnDegrees);
             float chargeVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
@@ -513,7 +523,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             float deathrayVelocityScalarIncrement = 1f / deathrayDuration;
 
             // Scalar to use during laser barrage, passive and immune phases
-            float laserBarrageVelocityScalarIncrement = lastMechAlive ? 0.025f : shouldGetBuffedByBerserkPhase ? 0.02f : 0.015f;
+            float laserBarrageVelocityScalarIncrement = lastMechAlive ? 0.025f : shouldGetBuffedByBerserkPhase ? 0.0225f : 0.02f;
             float laserBarrageVelocityScalarDecrement = 1f / velocityAdjustTime;
 
             // Passive and Immune phases
@@ -522,7 +532,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 case (int)SecondaryPhase.Nothing:
 
                     // Spawn the other mechs if Thanatos is first
-                    if (otherExoMechsAlive == 0)
+                    if (otherExoMechsAlive == 0 && !exoMechdusa)
                     {
                         if (spawnOtherExoMechs)
                         {
@@ -574,7 +584,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                         // Go passive and immune if one of the other mechs is berserk
                         // This is only called if two exo mechs are alive in ideal scenarios
                         // This is not called if Thanatos and another one or two mechs are berserk
-                        if (otherMechIsBerserk && !berserk)
+                        if (otherMechIsBerserk && !berserk && !exoMechdusa)
                         {
                             // Reset everything
                             SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
@@ -603,7 +613,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                     AIState = (float)Phase.UndergroundLaserBarrage;
 
                     // Enter passive and invincible phase if one of the other exo mechs is berserk
-                    if (otherMechIsBerserk)
+                    if (otherMechIsBerserk && !exoMechdusa)
                     {
                         // Reset everything
                         SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
@@ -905,9 +915,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
                         if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
                         {
+                            if (CalamityWorld.getFixedBoi && !exoMechdusa)
+                            {
+                                AIState = (float)Phase.Deathray;
+                            }
+                            else
+                            {
+                                AIState = (float)Phase.Charge;
+                            }
                             NPC.localAI[0] = 0f;
                             NPC.localAI[2] = 0f;
-                            AIState = (float)Phase.Charge;
                             calamityGlobalNPC.newAI[2] = 0f;
                             calamityGlobalNPC.newAI[3] = 0f;
                             chargeVelocityScalar = 0f;
@@ -987,6 +1004,24 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             if (SoundEngine.TryGetActiveSound(LaserSoundSlot, out var laserSound) && laserSound.IsPlaying)
             {
                 laserSound.Position = NPC.Center;
+            }
+
+            if (exoMechdusa)
+            {
+                if (CalamityGlobalNPC.draedonExoMechPrime != -1)
+                {
+                    if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].ModNPC<AresBody>().exoMechdusa)
+                    {
+                        NPC.rotation = 0;
+                        NPC aresin = Main.npc[CalamityGlobalNPC.draedonExoMechPrime];
+                        if (NPC.Calamity().newAI[0] != (float)Phase.Deathray)
+                        {
+                            Vector2 pos = new Vector2(aresin.Center.X - 80, aresin.Center.Y - 89);
+                            NPC.position = pos;
+                            NPC.Calamity().newAI[2]++;
+                        }
+                    }
+                }
             }
         }
 
@@ -1216,20 +1251,27 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => AresBody.DefineExoMechLoot(NPC, npcLoot, (int)AresBody.MechType.Thanatos);
 
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (exoMechdusa)
+            {
+                typeName = "Spine of XB-∞ Hekate";
+            }
+        }
+
         public override void HitEffect(int hitDirection, double damage)
         {
             if (NPC.soundDelay == 0)
             {
-
                 if (vulnerable)
                 {
                     NPC.soundDelay = 8;
-                    SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
+                    SoundEngine.PlaySound(ThanatosHitSoundOpen, NPC.Center);
                 }
                 else
                 {
                     NPC.soundDelay = 3;
-                    SoundEngine.PlaySound(CommonCalamitySounds.ExoHitSound, NPC.Center);
+                    SoundEngine.PlaySound(ThanatosHitSoundClosed, NPC.Center);
                 }
             }
 

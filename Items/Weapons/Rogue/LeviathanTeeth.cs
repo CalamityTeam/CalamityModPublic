@@ -13,32 +13,29 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Leviathan Teeth");
             Tooltip.SetDefault("Rapidly throws a variety of poisonous fangs that stick to enemies\n" +
-                "Stealth strikes cause 3 very fast teeth to be thrown, ignoring gravity and inflicting extreme knockback");
+                "Stealth strikes cause 6 very fast teeth to be thrown, ignoring gravity and inflicting extreme knockback");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
             Item.width = 36;
-            Item.damage = 50;
+            Item.height = 38;
+            Item.damage = 66;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 10;
+            Item.useAnimation = Item.useTime = 15;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 10;
             Item.knockBack = 1f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 38;
             Item.maxStack = 1;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<LeviathanTooth>();
             Item.shootSpeed = 12f;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-		public override float StealthDamageMultiplier => 1.3f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -46,12 +43,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             int teethCount;
             if (player.Calamity().StealthStrikeAvailable())
             {
-                teethCount = 3;
+                teethCount = 6;
                 stealthStrike = true;
             }
             else
             {
-                teethCount = Main.rand.Next(1, 4);
+                teethCount = Main.rand.Next(1, 3);
             }
 
             float spreadAngle = MathHelper.ToRadians(10);

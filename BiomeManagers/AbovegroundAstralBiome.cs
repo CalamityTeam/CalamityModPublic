@@ -9,12 +9,13 @@ namespace CalamityMod.BiomeManagers
     {
         public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/AstralWater");
         public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("CalamityMod/AstralSurfaceBGStyle");
+        public override ModUndergroundBackgroundStyle UndergroundBackgroundStyle => ModContent.Find<ModUndergroundBackgroundStyle>("CalamityMod/AstralUndergroundBGStyle");
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
         public override string BestiaryIcon => "CalamityMod/BiomeManagers/AbovegroundAstralBiomeIcon";
         public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/AstralBG";
         public override string MapBackground => "CalamityMod/Backgrounds/MapBackgrounds/AstralBG";
 
-        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("Astral") ?? MusicID.Space;
+        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("AstralInfection") ?? MusicID.Space;
 
         public override void SetStaticDefaults()
         {
@@ -30,6 +31,5 @@ namespace CalamityMod.BiomeManagers
         {
             player.ManageSpecialBiomeVisuals("CalamityMod:Astral", isActive);
         }
-
     }
 }

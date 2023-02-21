@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Tools
             Item.width = 46;
             Item.height = 46;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.value = Item.buyPrice(0, 12, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
@@ -38,9 +38,8 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PurifiedGel>(15).
-                AddIngredient(ItemID.Gel, 30).
-                AddIngredient(ItemID.HellstoneBar, 5).
+                AddIngredient<PurifiedGel>(12).
+                AddIngredient<BlightedGel>(12).
                 AddTile<StaticRefiner>().
                 Register();
         }

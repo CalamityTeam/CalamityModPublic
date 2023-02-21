@@ -66,20 +66,23 @@ namespace CalamityMod.Items.Fishing
             itemLoot.AddIf(() => WorldGen.crimson , ItemID.CrimsonSeeds, 20, seedMin, seedMax);
             itemLoot.AddIf(() => Main.hardMode , ItemID.HallowedSeeds, 20, seedMin, seedMax);
 
+            // Add Thorium Marine Kelp if Thorium is loaded.
             Mod thorium = CalamityMod.Instance.thorium;
-            if (thorium is not null)
-            {
-                var marineKelp = thorium.Find<ModItem>("MarineKelp");
-                var marineKelpSeeds = thorium.Find<ModItem>("MarineKelpSeeds");
-                if (marineKelp is not null && marineKelpSeeds is not null)
-                {
-                    itemLoot.Add(marineKelp.Type, 4, herbMin, herbMax);
-                    itemLoot.Add(marineKelpSeeds.Type, 10, seedMin, seedMax);
-                }
-                else
-                    CalamityMod.Instance.Logger.Warn("Could not find either Marine Kelp or Marine Kelp Seeds from Thorium. These items will not be added to Stuffed Fish.");
-            }
+            if (thorium is null)
+                return;
 
+            var marineKelp = thorium.Find<ModItem>("MarineKelp");
+            var marineKelpSeeds = thorium.Find<ModItem>("MarineKelpSeeds");
+            if (marineKelp is not null && marineKelpSeeds is not null)
+            {
+                itemLoot.Add(marineKelp.Type, 4, herbMin, herbMax);
+                itemLoot.Add(marineKelpSeeds.Type, 10, seedMin, seedMax);
+            }
+            else
+                CalamityMod.Instance.Logger.Warn("Could not find either Marine Kelp or Marine Kelp Seeds from Thorium. These items will not be added to Stuffed Fish.");
+
+            // Ozzatron 30DEC2022: It is unlikely SoA will ever be ported to 1.4 and beyond. Commenting this out indefinitely.
+            /*
             Mod soa = CalamityMod.Instance.soa;
             if (soa is not null)
             {
@@ -101,6 +104,7 @@ namespace CalamityMod.Items.Fishing
                     CalamityMod.Instance.Logger.Debug("One of the items in this file got renamed internally. Please report this in the #bugs-read-pins channel of the official Calamity discord server.");
                 }
             }
+            */
         }
     }
 }

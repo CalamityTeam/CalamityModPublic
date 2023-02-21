@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shaderain Staff");
-            Tooltip.SetDefault("Fires a shade storm cloud that inflicts shadowflame");
+            Tooltip.SetDefault("Fires a shade storm cloud");
             SacrificeTotal = 1;
         }
 
@@ -69,9 +69,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.RottenChunk, 2).
                 AddIngredient(ItemID.DemoniteBar, 3).
                 AddIngredient<RottenMatter>(12).
+                AddIngredient(ItemID.RottenChunk, 2).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

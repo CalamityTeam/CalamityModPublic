@@ -62,12 +62,17 @@ namespace CalamityMod.CalPlayer
 
             if (flamingItemEnchant)
                 target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
+            
+            target.Calamity().IncreasedColdEffects_EskimoSet = eskimoSet;
+            target.Calamity().IncreasedColdEffects_CryoStone = CryoStone;
+
+            target.Calamity().IncreasedElectricityEffects_Transformer = transformer;
 
             target.Calamity().IncreasedHeatEffects_Fireball = fireball;
             target.Calamity().IncreasedHeatEffects_CinnamonRoll = cinnamonRoll;
             target.Calamity().IncreasedHeatEffects_HellfireTreads = hellfireTreads;
 
-            target.Calamity().IncreasedColdEffects_EskimoSet = eskimoSet;
+            target.Calamity().IncreasedSicknessEffects_ToxicHeart = toxicHeart;
 
             target.Calamity().IncreasedSicknessAndWaterEffects_EvergreenGin = evergreenGin;
 
@@ -122,11 +127,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<WhisperingDeath>(), 120);
                     break;
 
-                case ItemID.Excalibur:
-                case ItemID.TrueExcalibur:
-                    target.AddBuff(BuffType<HolyFlames>(), 120);
-                    break;
-
                 case ItemID.FieryGreatsword:
                 case ItemID.MoltenPickaxe:
                 case ItemID.MoltenHamaxe:
@@ -141,7 +141,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.Poisoned, 240);
                     break;
 
-                case ItemID.LightsBane:
                 case ItemID.NightsEdge:
                     target.AddBuff(BuffID.ShadowFlame, 120);
                     break;
@@ -149,10 +148,6 @@ namespace CalamityMod.CalPlayer
                 case ItemID.TrueNightsEdge:
                     target.AddBuff(BuffID.CursedInferno, 60);
                     target.AddBuff(BuffID.ShadowFlame, 120);
-                    break;
-
-                case ItemID.BloodButcherer:
-                    target.AddBuff(BuffType<BurningBlood>(), 60);
                     break;
 
                 case ItemID.IceSickle:
@@ -211,11 +206,16 @@ namespace CalamityMod.CalPlayer
             if (witheringWeaponEnchant)
                 witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
 
+            cgn.IncreasedColdEffects_EskimoSet = eskimoSet;
+            cgn.IncreasedColdEffects_CryoStone = CryoStone;
+
+            cgn.IncreasedElectricityEffects_Transformer = transformer;
+            
             cgn.IncreasedHeatEffects_Fireball = fireball;
             cgn.IncreasedHeatEffects_CinnamonRoll = cinnamonRoll;
             cgn.IncreasedHeatEffects_HellfireTreads = hellfireTreads;
 
-            cgn.IncreasedColdEffects_EskimoSet = eskimoSet;
+            cgn.IncreasedSicknessEffects_ToxicHeart = toxicHeart;
 
             cgn.IncreasedSicknessAndWaterEffects_EvergreenGin = evergreenGin;
 
@@ -254,21 +254,8 @@ namespace CalamityMod.CalPlayer
                     Player.HealEffect(2);
                     break;
 
-                case ProjectileID.TheRottedFork:
-                case ProjectileID.TheMeatball:
-                case ProjectileID.CrimsonYoyo:
-                case ProjectileID.BloodCloudRaining:
-                case ProjectileID.BloodRain:
-                    target.AddBuff(BuffType<BurningBlood>(), 60);
-                    break;
-
-                case ProjectileID.BallOHurt:
-                case ProjectileID.CorruptYoyo:
-                    target.AddBuff(BuffID.ShadowFlame, 60);
-                    break;
-
                 case ProjectileID.ObsidianSwordfish:
-                    target.AddBuff(BuffID.OnFire, 180);
+                    target.AddBuff(BuffID.OnFire3, 180);
                     break;
 
                 case ProjectileID.Flamelash:
@@ -298,12 +285,7 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<WhisperingDeath>(), 60);
                     break;
 
-                case ProjectileID.LightBeam:
-                case ProjectileID.Gungnir:
-                case ProjectileID.PaladinsHammerFriendly:
-                    target.AddBuff(BuffType<HolyFlames>(), 120);
-                    break;
-
+                // TODO -- REMOVE IN 1.4.4 LABOR OF LOVE PORT
                 case ProjectileID.DarkLance:
                     target.AddBuff(BuffID.ShadowFlame, 120);
                     break;
@@ -349,7 +331,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.Frostburn, 120);
                     break;
 
-                case ProjectileID.SnowBallFriendly:
                 case ProjectileID.IceBolt:
                 case ProjectileID.FrostDaggerfish:
                 case ProjectileID.FrostburnArrow:
@@ -437,11 +418,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<WhisperingDeath>(), 120);
                     break;
 
-                case ItemID.Excalibur:
-                case ItemID.TrueExcalibur:
-                    target.AddBuff(BuffType<HolyFlames>(), 120);
-                    break;
-
                 case ItemID.FieryGreatsword:
                 case ItemID.MoltenPickaxe:
                 case ItemID.MoltenHamaxe:
@@ -456,7 +432,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.Poisoned, 240);
                     break;
 
-                case ItemID.LightsBane:
                 case ItemID.NightsEdge:
                     target.AddBuff(BuffType<Shadowflame>(), 120);
                     break;
@@ -464,10 +439,6 @@ namespace CalamityMod.CalPlayer
                 case ItemID.TrueNightsEdge:
                     target.AddBuff(BuffID.CursedInferno, 60);
                     target.AddBuff(BuffType<Shadowflame>(), 120);
-                    break;
-
-                case ItemID.BloodButcherer:
-                    target.AddBuff(BuffType<BurningBlood>(), 60);
                     break;
 
                 case ItemID.IceSickle:
@@ -508,12 +479,8 @@ namespace CalamityMod.CalPlayer
                     Player.HealEffect(2);
                     break;
 
-                case ProjectileID.TheRottedFork:
-                    target.AddBuff(BuffType<BurningBlood>(), 60);
-                    break;
-
                 case ProjectileID.ObsidianSwordfish:
-                    target.AddBuff(BuffID.OnFire, 180);
+                    target.AddBuff(BuffID.OnFire3, 180);
                     break;
 
                 case ProjectileID.Flamelash:
@@ -543,12 +510,7 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<WhisperingDeath>(), 60);
                     break;
 
-                case ProjectileID.LightBeam:
-                case ProjectileID.Gungnir:
-                case ProjectileID.PaladinsHammerFriendly:
-                    target.AddBuff(BuffType<HolyFlames>(), 120);
-                    break;
-
+                // TODO -- REMOVE IN 1.4.4 LABOR OF LOVE PORT
                 case ProjectileID.DarkLance:
                     target.AddBuff(BuffType<Shadowflame>(), 120);
                     break;
@@ -594,7 +556,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.Frostburn, 120);
                     break;
 
-                case ProjectileID.SnowBallFriendly:
                 case ProjectileID.IceBoomerang:
                 case ProjectileID.IceBolt:
                 case ProjectileID.FrostDaggerfish:
@@ -632,21 +593,12 @@ namespace CalamityMod.CalPlayer
 
             if (npcCheck)
             {
-                if (item.CountsAsClass<MeleeDamageClass>() && aBulwarkRare && aBulwarkRareTimer == 0)
+                if (item.CountsAsClass<MeleeDamageClass>() && hideOfDeus && hideOfDeusTimer == 0)
                 {
-                    aBulwarkRareTimer = 10;
+                    hideOfDeusTimer = 10;
                     int bulwarkStarDamage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(320);
                     for (int n = 0; n < 3; n++)
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), bulwarkStarDamage, 5f, Player.whoAmI);
-                }
-                if (unstableGraniteCore && crit && Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 5)
-                {
-                    for (int s = 0; s < 3; s++)
-                    {
-                        Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int graniteSparkDamage = (int)Player.GetBestClassDamage().ApplyTo(15);
-                        Projectile.NewProjectile(source, position, velocity, ProjectileType<UnstableSpark>(), graniteSparkDamage, 0f, Player.whoAmI);
-                    }
                 }
                 if (astralStarRain && crit && astralStarRainCooldown <= 0)
                 {
@@ -656,7 +608,8 @@ namespace CalamityMod.CalPlayer
                         int projectileType = Utils.SelectRandom(Main.rand, new int[]
                         {
                             ProjectileType<AstralStar>(),
-                            ProjectileID.HallowStar,
+                            ProjectileID.BeeCloakStar,
+                            ProjectileID.StarCloakStar,
                             ProjectileType<FallenStarProj>()
                         });
                         int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(120);
@@ -669,7 +622,6 @@ namespace CalamityMod.CalPlayer
 
             if (item.CountsAsClass<MeleeDamageClass>())
             {
-                titanBoost = 600;
                 if (npcCheck)
                 {
                     if (ataxiaGeyser && Player.ownedProjectileCounts[ProjectileType<ChaoticGeyser>()] < 3)
@@ -726,17 +678,6 @@ namespace CalamityMod.CalPlayer
 
             if (npcCheck)
             {
-                if (unstableGraniteCore && crit && Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 5 && proj.type != ProjectileType<UnstableSpark>())
-                {
-                    for (int s = 0; s < 3; s++)
-                    {
-                        Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int graniteSparkDamage = (int)Player.GetBestClassDamage().ApplyTo(15);
-                        Projectile.NewProjectile(source, position, velocity, ProjectileType<UnstableSpark>(), graniteSparkDamage, 0f, Player.whoAmI);
-                        Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()]++;
-                    }
-                }
-
                 if (astralStarRain && crit && astralStarRainCooldown <= 0)
                 {
                     astralStarRainCooldown = 60;
@@ -745,7 +686,8 @@ namespace CalamityMod.CalPlayer
                         int projectileType = Utils.SelectRandom(Main.rand, new int[]
                         {
                             ProjectileType<AstralStar>(),
-                            ProjectileID.HallowStar,
+                            ProjectileID.BeeCloakStar,
+                            ProjectileID.StarCloakStar,
                             ProjectileType<FallenStarProj>()
                         });
                         int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(120);
@@ -776,7 +718,6 @@ namespace CalamityMod.CalPlayer
 
             if (proj.IsTrueMelee())
             {
-                titanBoost = 600;
                 if (soaring)
                 {
                     double useTimeMultiplier = 0.85 + (heldItem.useTime * heldItem.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
@@ -791,9 +732,9 @@ namespace CalamityMod.CalPlayer
                     if (Player.wingTime > Player.wingTimeMax)
                         Player.wingTime = Player.wingTimeMax;
                 }
-                if (aBulwarkRare && aBulwarkRareTimer == 0)
+                if (hideOfDeus && hideOfDeusTimer == 0)
                 {
-                    aBulwarkRareTimer = 10;
+                    hideOfDeusTimer = 10;
                     int bulwarkStarDamage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(320);
                     for (int n = 0; n < 3; n++)
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), bulwarkStarDamage, 5f, Player.whoAmI);
@@ -890,7 +831,7 @@ namespace CalamityMod.CalPlayer
             if (silvaMage && silvaMageCooldown <= 0 && (proj.penetrate == 1 || proj.timeLeft <= 5))
             {
                 silvaMageCooldown = 300;
-                SoundEngine.PlaySound(SoundID.Zombie103 , proj.position); //So scuffed, just because zombie sounds werent ported normally
+                SoundEngine.PlaySound(SoundID.Zombie103 , proj.Center); //So scuffed, just because zombie sounds werent ported normally
                 // Silva Mage Blasts: 800 + 60%, softcap on the whole combined thing starts at 1400
                 int silvaBurstDamage = CalamityUtils.DamageSoftCap(800.0 + 0.6 * proj.damage, 1400);
                 Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SilvaBurst>(), silvaBurstDamage, 8f, Player.whoAmI);
@@ -1070,13 +1011,14 @@ namespace CalamityMod.CalPlayer
                         break;
                     }
                 }
-                int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(300);
+                int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(180);
                 int projectileIndex = Projectile.NewProjectile(spawnSource, projTileX * 16 + 8, projTileY * 16 - 24, 0f, 0f, ProjectileType<InfernadoFriendly>(), damage, 15f, Main.myPlayer, 16f, 16f);
                 if (projectileIndex.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[projectileIndex].DamageType = DamageClass.Generic;
                     Main.projectile[projectileIndex].netUpdate = true;
-                    Main.projectile[projectileIndex].localNPCHitCooldown = 10;
+                    Main.projectile[projectileIndex].usesIDStaticNPCImmunity = true;
+                    Main.projectile[projectileIndex].idStaticNPCHitCooldown = 30;
                 }
             }
 
@@ -1226,7 +1168,7 @@ namespace CalamityMod.CalPlayer
 
                         if (type != -1)
                         {
-                            int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(30);
+                            int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(24);
                             float speed = Main.rand.NextFloat(5f, 11f);
                             int cloud = Projectile.NewProjectile(spawnSource, position, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed, type, damage, proj.knockBack, Player.whoAmI);
                             if (cloud.WithinBounds(Main.maxProjectiles))
@@ -1270,8 +1212,8 @@ namespace CalamityMod.CalPlayer
                     for (int s = 0; s < 3; s++)
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(10);
-                        int spark = Projectile.NewProjectile(spawnSource, position, velocity, ProjectileType<Spark>(), damage, 0f, Player.whoAmI);
+                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(9);
+                        int spark = Projectile.NewProjectile(spawnSource, position, velocity, ProjectileType<EGloveSpark>(), damage, 0f, Player.whoAmI);
                         if (spark.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[spark].DamageType = DamageClass.Generic;
@@ -1288,16 +1230,13 @@ namespace CalamityMod.CalPlayer
         #region Debuffs
         public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool proj)
         {
-            if (melee) //prevents Deep Sea Dumbell from snagging true melee debuff memes
+            if (melee) // Prevents Deep Sea Dumbell from snagging true melee debuff memes
             {
                 if (eGauntlet)
                 {
-                    int duration = 300;
-                    target.AddBuff(BuffID.OnFire, duration, false);
-                    target.AddBuff(BuffID.Frostburn, duration, false);
-                    target.AddBuff(BuffType<HolyFlames>(), duration, false);
+                    CalamityUtils.Inflict246DebuffsNPC(target, BuffID.OnFire3);
                 }
-                if (cryogenSoul || frostFlare)
+                if (cryogenSoul)
                 {
                     CalamityUtils.Inflict246DebuffsNPC(target, BuffID.Frostburn);
                 }
@@ -1312,13 +1251,17 @@ namespace CalamityMod.CalPlayer
             }
 			if (melee || rogue || whip)
 			{
-				if (armorCrumbling)
+				if (flaskCrumbling)
 				{
                     CalamityUtils.Inflict246DebuffsNPC(target, BuffType<ArmorCrunch>());
                 }
-				if (aWeapon)
+				if (flaskBrimstone)
 				{
-					CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>());
+					CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>(), 4f);
+				}
+                if (flaskHoly)
+				{
+					target.AddBuff(BuffType<HolyFlames>(), 180, false);
 				}
 			}
             if (rogue)
@@ -1397,6 +1340,10 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<Irradiated>(), 180);
                 }
             }
+            if (voidOfExtinction)
+                CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>());
+            if (frostFlare)
+                CalamityUtils.Inflict246DebuffsNPC(target, BuffID.Frostburn2);
             if (omegaBlueChestplate)
                 target.AddBuff(BuffType<CrushDepth>(), 180);
             if (sulfurSet)
@@ -1405,17 +1352,9 @@ namespace CalamityMod.CalPlayer
             {
                 CalamityUtils.Inflict246DebuffsNPC(target, BuffType<CrushDepth>());
             }
-            if (dsSetBonus)
-            {
-                CalamityUtils.Inflict246DebuffsNPC(target, BuffType<DemonFlames>());
-            }
             if (alchFlask)
             {
                 CalamityUtils.Inflict246DebuffsNPC(target, BuffType<Plague>());
-            }
-            if (holyWrath)
-            {
-                target.AddBuff(BuffType<HolyFlames>(), 180, false);
             }
             if (vexation)
             {
@@ -1423,7 +1362,6 @@ namespace CalamityMod.CalPlayer
                     Player.armor[0].type == ItemType<ReaverHeadMobility>()) && Player.armor[1].type == ItemType<ReaverScaleMail>() &&
                     Player.armor[2].type == ItemType<ReaverCuisses>())
                 {
-                    target.AddBuff(BuffID.CursedInferno, 90, false);
                     target.AddBuff(BuffID.Venom, 120, false);
                 }
             }
@@ -1434,36 +1372,30 @@ namespace CalamityMod.CalPlayer
             if (melee)
             {
                 if (eGauntlet)
-                {
-                    int duration = 300;
-                    target.AddBuff(BuffID.OnFire, duration, false);
-                    target.AddBuff(BuffID.Frostburn, duration, false);
-                    target.AddBuff(BuffType<HolyFlames>(), duration, false);
-                }
-                if (cryogenSoul || frostFlare)
-                {
+                    CalamityUtils.Inflict246DebuffsPvp(target, BuffID.OnFire3);
+
+                if (cryogenSoul)
                     CalamityUtils.Inflict246DebuffsPvp(target, BuffID.Frostburn);
-                }
+
                 if (yInsignia)
-                {
                     CalamityUtils.Inflict246DebuffsPvp(target, BuffType<HolyFlames>());
-                }
+
                 if (ataxiaFire)
-                {
                     CalamityUtils.Inflict246DebuffsPvp(target, BuffID.OnFire, 4f);
-                }
             }
+
 			if (melee || rogue || whip)
 			{
-				if (armorCrumbling)
-				{
+				if (flaskCrumbling)
                     CalamityUtils.Inflict246DebuffsPvp(target, BuffType<ArmorCrunch>());
-                }
-				if (aWeapon)
-				{
-					CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>());
-				}
+
+				if (flaskBrimstone)
+					CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>(), 4f);
+                
+                if (flaskHoly)
+					target.AddBuff(BuffType<HolyFlames>(), 180, false);
 			}
+
             if (rogue)
             {
                 switch (Player.meleeEnchant)
@@ -1487,44 +1419,34 @@ namespace CalamityMod.CalPlayer
                         target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
                         break;
                 }
+
                 if (titanHeartMask)
-                {
                     target.AddBuff(BuffType<AstralInfectionDebuff>(), 120);
-                }
+
                 if (corrosiveSpine)
-                {
-                    target.AddBuff(BuffID.Poisoned, 240);
-                }
+                    target.AddBuff(BuffID.Venom, 240);
             }
+
             if (summon)
             {
                 if (pArtifact && !profanedCrystal)
-                {
                     target.AddBuff(BuffType<HolyFlames>(), 300);
-                }
+
                 if (profanedCrystalBuffs)
-                {
                     target.AddBuff(Main.dayTime ? BuffType<HolyFlames>() : BuffType<Nightwither>(), 600);
-                }
 
                 if (holyMinions)
-                {
                     target.AddBuff(BuffType<HolyFlames>(), 180);
-                }
 
                 if (shadowMinions)
-                {
                     target.AddBuff(BuffID.ShadowFlame, 180);
-                }
 
                 if (voltaicJelly)
                 {
-                    //100% chance for Star Tainted Generator or Nucleogenesis
-                    //20% chance for Voltaic Jelly
+                    // 100% chance for Star Tainted Generator or Nucleogenesis
+                    // 20% chance for Voltaic Jelly
                     if (Main.rand.NextBool(starTaintedGenerator ? 1 : 5))
-                    {
                         target.AddBuff(BuffID.Electrified, 60);
-                    }
                 }
 
                 if (starTaintedGenerator)
@@ -1533,29 +1455,31 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<Irradiated>(), 180);
                 }
             }
+
+            if (voidOfExtinction)
+                CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>());
+
+            if (frostFlare)
+                CalamityUtils.Inflict246DebuffsPvp(target, BuffID.Frostburn2);
+
             if (omegaBlueChestplate)
                 target.AddBuff(BuffType<CrushDepth>(), 180);
+
             if (sulfurSet)
                 target.AddBuff(BuffID.Poisoned, 120);
+
             if (alchFlask)
-            {
                 CalamityUtils.Inflict246DebuffsPvp(target, BuffType<Plague>());
-            }
+
             if (abyssalAmulet)
-            {
                 CalamityUtils.Inflict246DebuffsPvp(target, BuffType<CrushDepth>());
-            }
-            if (holyWrath)
-            {
-                target.AddBuff(BuffType<HolyFlames>(), 180, false);
-            }
+
             if (vexation)
             {
                 if ((Player.armor[0].type == ItemType<ReaverHeadTank>() || Player.armor[0].type == ItemType<ReaverHeadExplore>() ||
                     Player.armor[0].type == ItemType<ReaverHeadMobility>()) && Player.armor[1].type == ItemType<ReaverScaleMail>() &&
                     Player.armor[2].type == ItemType<ReaverCuisses>())
                 {
-                    target.AddBuff(BuffID.CursedInferno, 90, false);
                     target.AddBuff(BuffID.Venom, 120, false);
                 }
             }
@@ -1604,10 +1528,16 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+            if (gladiatorSword && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter && !target.dontCountMe && target.aiStyle != 9 && target.Calamity().gladiatorOnKill)
+            {
+                target.Calamity().gladiatorOnKill = false;
+                Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center.X, target.Center.Y, target.velocity.X / 2, target.velocity.Y / 2, ModContent.ProjectileType<GladiatorHealOrb>(), 0, 0f);
+            }
+
             if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && !Player.moonLeech)
             {
                 // Increases the degree to which Spectre Healing set contributes to the lifesteal cap
-                if (Player.ghostHeal)
+                if (Player.ghostHeal && proj.CountsAsClass<MagicDamageClass>())
                 {
                     float cooldownMult = 0.2f;
                     cooldownMult -= proj.numHits * 0.05f;
@@ -1628,17 +1558,23 @@ namespace CalamityMod.CalPlayer
                     Main.player[Main.myPlayer].lifeSteal -= cooldown;
                 }
 
-                if (vampiricTalisman && proj.CountsAsClass<ThrowingDamageClass>() && crit)
+                if (vampiricTalisman && proj.CountsAsClass<RogueDamageClass>() && crit)
                 {
                     float heal = MathHelper.Clamp(damage * 0.011f, 0f, 5f);
                     if ((int)heal > 0)
+					{
                         CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileID.VampireHeal, 1200f, 3f);
+						float cooldown = heal * 2f;
+						Main.player[Main.myPlayer].lifeSteal -= cooldown;
+					}
                 }
 
                 if (bloodyGlove && proj.CountsAsClass<RogueDamageClass>() && modProj.stealthStrike)
                 {
+                    float cooldown = 20;
                     Player.statLife += 2;
                     Player.HealEffect(2);
+                    Main.player[Main.myPlayer].lifeSteal -= cooldown;
                 }
 
                 if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
@@ -1836,6 +1772,12 @@ namespace CalamityMod.CalPlayer
                     Player.statLife += healAmount;
                     Player.HealEffect(healAmount);
                 }
+            }
+
+            if (gladiatorSword && !target.SpawnedFromStatue && target.life <= 0 && !target.CountsAsACritter && !target.dontCountMe && target.aiStyle != 9 && target.Calamity().gladiatorOnKill)
+            {
+                target.Calamity().gladiatorOnKill = false;
+                Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center.X, target.Center.Y, target.velocity.X / 2, target.velocity.Y / 2, ModContent.ProjectileType<GladiatorHealOrb>(), 0, 0f);
             }
 
             if (reaverDefense)

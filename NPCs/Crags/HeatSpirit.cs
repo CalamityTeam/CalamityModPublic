@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override void SetDefaults()
         {
-            NPC.aiStyle = 86;
+            NPC.aiStyle = NPCAIStyleID.AncientVision;
             NPC.damage = 33;
             NPC.width = 40;
             NPC.height = 40;
@@ -117,7 +117,7 @@ namespace CalamityMod.NPCs.Crags
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             LeadingConditionRule hardmode = npcLoot.DefineConditionalDropSet(DropHelper.Hardmode());
-            hardmode.Add(ModContent.ItemType<EssenceofChaos>(), 3);
+            hardmode.Add(ModContent.ItemType<EssenceofHavoc>(), 3);
         }
     }
 }

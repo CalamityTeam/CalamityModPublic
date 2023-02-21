@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Mounts
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gaze of Crysthamyr");
-            Tooltip.SetDefault("Summons a shadow dragon");
+            Tooltip.SetDefault("Summons a shadow dragon\n" +
+                "Hold W to ascend faster");
             SacrificeTotal = 1;
 
         }
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.Mounts
         {
             CreateRecipe().
                 AddIngredient(ItemID.DD2PetDragon).
-                AddIngredient(ItemID.SoulofNight, 100).
+                AddIngredient(ItemID.SoulofNight, 10).
                 AddIngredient<DarksunFragment>(10).
                 AddIngredient<ExodiumCluster>(25).
                 AddTile<CosmicAnvil>().

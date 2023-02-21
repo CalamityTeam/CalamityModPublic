@@ -29,10 +29,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 180;
-            Projectile.penetrate = 4;
+            Projectile.penetrate = 2;
             Projectile.extraUpdates = 1;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.tileCollide = false;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 45;
         }
 
         public override void AI()
@@ -88,7 +90,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (Main.myPlayer != Projectile.owner)
                 return;
             // Explode if the projectile is a stealth strike projectile.
-            int totalEnergyParticlesToSpawn = 4;
+            int totalEnergyParticlesToSpawn = 3;
             if (Projectile.Calamity().stealthStrike)
             {
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);

@@ -52,6 +52,10 @@ namespace CalamityMod.NPCs.Astral
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
             SpawnModBiomes = new int[1] { ModContent.GetInstance<UndergroundAstralBiome>().Type };
+            if (CalamityWorld.getFixedBoi)
+            {
+                NPC.scale = 3f;
+            }
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -66,7 +70,7 @@ namespace CalamityMod.NPCs.Astral
         public override void AI()
         {
             NPC.ai[0]++;
-            if (NPC.ai[0] > (CalamityWorld.death ? 120f : 180f))
+            if (NPC.ai[0] > (CalamityWorld.death ? 60f : CalamityWorld.revenge ? 120f : 180f))
             {
                 if (Main.rand.NextBool(100) && NPC.CountNPCS(ModContent.NPCType<Hiveling>()) < 10)
                 {

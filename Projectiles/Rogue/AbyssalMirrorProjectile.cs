@@ -1,6 +1,8 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Rogue
 {
     public class AbyssalMirrorProjectile : ModProjectile
@@ -29,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             if (Projectile.timeLeft < 25)
-            { Projectile.alpha += 10; }
+                Projectile.alpha += 10;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -37,6 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (!target.friendly)
             {
                 target.AddBuff(ModContent.BuffType<Eutrophication>(), 120);
+                target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
             }
         }
     }

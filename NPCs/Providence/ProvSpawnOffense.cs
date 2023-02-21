@@ -15,12 +15,13 @@ namespace CalamityMod.NPCs.Providence
     public class ProvSpawnOffense : ModNPC
     {
         private bool start = true;
+        public override string Texture => "CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianCommander";
 
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
             DisplayName.SetDefault("Providence Offense");
-            Main.npcFrameCount[NPC.type] = 6;
+            Main.npcFrameCount[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
@@ -30,8 +31,8 @@ namespace CalamityMod.NPCs.Providence
             NPC.npcSlots = 1f;
             NPC.aiStyle = -1;
             NPC.GetNPCDamage();
-            NPC.width = 100;
-            NPC.height = 80;
+            NPC.width = 228;
+            NPC.height = 186;
             NPC.defense = 40;
             NPC.DR_NERD(0.3f);
             NPC.lifeMax = 31875;
@@ -55,7 +56,11 @@ namespace CalamityMod.NPCs.Providence
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += 0.15f;
+            if (CalamityGlobalNPC.holyBoss < 0 || !Main.npc[CalamityGlobalNPC.holyBoss].active)
+                NPC.frameCounter += 0.2f;
+            else
+                NPC.frameCounter += 0.12f + Main.npc[CalamityGlobalNPC.holyBoss].velocity.Length() / 120f;
+
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
             NPC.frame.Y = frame * frameHeight;
@@ -70,10 +75,15 @@ namespace CalamityMod.NPCs.Providence
 
             if (CalamityGlobalNPC.holyBoss < 0 || !Main.npc[CalamityGlobalNPC.holyBoss].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;
             }
+
+            // Rotation
+            NPC.rotation = Main.npc[CalamityGlobalNPC.holyBoss].velocity.X * 0.005f;
 
             NPC parent = Main.npc[CalamityGlobalNPC.holyBoss];
             if (start)

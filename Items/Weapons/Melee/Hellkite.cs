@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 84;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
         }
 
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.OnFire3, 300);
             int onHitDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
             player.ApplyDamageToNPC(target, onHitDamage, 0f, 0, false);
             float num50 = 1.7f;
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
             float num52 = 2f;
             Vector2 value3 = (target.rotation - 1.57079637f).ToRotationVector2();
             Vector2 value4 = value3 * target.velocity.Length();
-            SoundEngine.PlaySound(SoundID.Item14, target.position);
+            SoundEngine.PlaySound(SoundID.Item14, target.Center);
             int num3;
             for (int num53 = 0; num53 < 40; num53 = num3 + 1)
             {
@@ -86,8 +86,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 300);
-            SoundEngine.PlaySound(SoundID.Item14, target.position);
+            target.AddBuff(BuffID.OnFire3, 300);
+            SoundEngine.PlaySound(SoundID.Item14, target.Center);
         }
 
         public override void AddRecipes()

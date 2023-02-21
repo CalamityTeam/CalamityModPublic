@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Dyes
 
         public override void AddRecipes()
         {
-            CreateRecipe().
-                AddIngredient(ItemID.BottledWater).
+            CreateRecipe(3).
+                AddIngredient(ItemID.BottledWater, 3).
                 AddIngredient<AuricOre>(5).
                 AddTile(TileID.DyeVat).
                 Register();

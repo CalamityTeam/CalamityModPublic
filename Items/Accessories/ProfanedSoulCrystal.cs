@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            bool scal = DownedBossSystem.downedSCal;
+            bool scal = DownedBossSystem.downedCalamitas;
             bool draedon = DownedBossSystem.downedExoMechs;
             if (!scal || !draedon)
             {
@@ -163,7 +163,7 @@ namespace CalamityMod.Items.Accessories
 
         internal static void DetermineTransformationEligibility(Player player)
         {
-            if (DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs && (player.maxMinions - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce && player.HasBuff<ProfanedCrystalBuff>())
+            if (DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs && (player.maxMinions - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce && player.HasBuff<ProfanedCrystalBuff>())
             {
                 player.Calamity().profanedCrystalBuffs = true;
             }
@@ -355,27 +355,14 @@ namespace CalamityMod.Items.Accessories
             return false;
         }
 
-        public static void MakeRecipesCheaper(Recipe recipe, int type, ref int numRequired)
-        {
-            int shadowSpec = ModContent.ItemType<ShadowspecBar>();
-            int geode = ModContent.ItemType<DivineGeode>();
-            int essence = ModContent.ItemType<UnholyEssence>();
-            bool biomePower = Main.LocalPlayer.ZoneHallow || Main.LocalPlayer.ZoneUnderworldHeight;
-            numRequired = biomePower && (type == (shadowSpec | geode | essence)) ? numRequired / 2 : numRequired; //cuts the above mats consumed by half if in the biomes instead of arbitrary biome locking
-        }
-
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient<ProfanedSoulArtifact>().
-                AddIngredient(ItemID.ObsidianRose).
-                AddIngredient<CoreofSunlight>(5).
-                AddIngredient<UelibloomBar>(25).
                 AddIngredient<DivineGeode>(50).
                 AddIngredient<UnholyEssence>(100).
                 AddIngredient<ShadowspecBar>(5).
                 AddTile<ProfanedCrucible>().
-                AddConsumeItemCallback(MakeRecipesCheaper).
                 Register();
         }
     }

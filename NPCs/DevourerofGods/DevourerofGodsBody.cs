@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -49,8 +50,13 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.height = 56;
             NPC.defense = 70;
             CalamityGlobalNPC global = NPC.Calamity();
-            global.DR = 0.925f;
-            global.unbreakableDR = true;
+            if (!CalamityWorld.getFixedBoi)
+            {
+                global.DR = 0.925f;
+                global.unbreakableDR = true;
+                NPC.chaseable = false;
+                NPC.canGhostHeal = false;
+            }
             NPC.LifeMaxNERB(888750, 1066500, 1500000); // Phase 1 is 371250, Phase 2 is 517500
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
@@ -61,8 +67,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.behindTiles = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.chaseable = false;
-            NPC.canGhostHeal = false;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
@@ -223,7 +227,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 if (!AnyTeleportRifts())
                                 {
                                     NPC.TargetClosest();
-                                    SoundEngine.PlaySound(SoundID.Item12, player.position);
+                                    SoundEngine.PlaySound(SoundID.Item12, player.Center);
                                     float maxProjectileVelocity = bossRush ? 8f : death ? 7.5f : revenge ? 7.25f : expertMode ? 7f : 6.5f;
                                     float minProjectileVelocity = maxProjectileVelocity * 0.25f;
                                     float projectileVelocity = MathHelper.Clamp(Vector2.Distance(player.Center, NPC.Center) * 0.01f, minProjectileVelocity, maxProjectileVelocity);
@@ -248,7 +252,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                             if (NPC.localAI[0] >= laserBarrageGateValue * (Main.getGoodWorld ? 0.1f : 0.2f) && NPC.ai[0] % (expertMode ? 10f : 20f) == 0f)
                             {
                                 NPC.TargetClosest();
-                                SoundEngine.PlaySound(SoundID.Item12, player.position);
+                                SoundEngine.PlaySound(SoundID.Item12, player.Center);
                                 NPC.localAI[0] = 0f;
                                 float maxProjectileVelocity = bossRush ? 7.5f : death ? 7f : revenge ? 6.75f : expertMode ? 6.5f : 6f;
                                 float minProjectileVelocity = maxProjectileVelocity * 0.25f;
@@ -308,42 +312,18 @@ namespace CalamityMod.NPCs.DevourerofGods
                     NPC.Opacity = Main.npc[(int)NPC.ai[2]].Opacity;
             }
 
-            Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-            float num191 = player.position.X + (player.width / 2);
-            float num192 = player.position.Y + (player.height / 2);
-            num191 = (int)(num191 / 16f) * 16;
-            num192 = (int)(num192 / 16f) * 16;
-            vector18.X = (int)(vector18.X / 16f) * 16;
-            vector18.Y = (int)(vector18.Y / 16f) * 16;
-            num191 -= vector18.X;
-            num192 -= vector18.Y;
-            float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
-            if (NPC.ai[1] > 0f && NPC.ai[1] < Main.npc.Length)
+            NPC aheadSegment = Main.npc[(int)NPC.ai[1]];
+            Vector2 directionToNextSegment = aheadSegment.Center - NPC.Center;
+            if (aheadSegment.rotation != NPC.rotation)
             {
-                try
-                {
-                    vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                    num191 = Main.npc[(int)NPC.ai[1]].position.X + (Main.npc[(int)NPC.ai[1]].width / 2) - vector18.X;
-                    num192 = Main.npc[(int)NPC.ai[1]].position.Y + (Main.npc[(int)NPC.ai[1]].height / 2) - vector18.Y;
-                } catch
-                {
-                }
-
-                NPC.rotation = (float)Math.Atan2(num192, num191) + MathHelper.PiOver2;
-                num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
-                int num194 = NPC.width;
-                num193 = (num193 - num194) / num193;
-                num191 *= num193;
-                num192 *= num193;
-                NPC.velocity = Vector2.Zero;
-                NPC.position.X = NPC.position.X + num191;
-                NPC.position.Y = NPC.position.Y + num192;
-
-                if (num191 < 0f)
-                    NPC.spriteDirection = -1;
-                else if (num191 > 0f)
-                    NPC.spriteDirection = 1;
+                directionToNextSegment = directionToNextSegment.RotatedBy(MathHelper.WrapAngle(aheadSegment.rotation - NPC.rotation) * 0.08f);
+                directionToNextSegment = directionToNextSegment.MoveTowards((aheadSegment.rotation - NPC.rotation).ToRotationVector2(), 1f);
             }
+
+            // Decide segment offset stuff.
+            NPC.rotation = directionToNextSegment.ToRotation() + MathHelper.PiOver2;
+            NPC.Center = aheadSegment.Center - directionToNextSegment.SafeNormalize(Vector2.Zero) * NPC.scale * NPC.width;
+            NPC.spriteDirection = (directionToNextSegment.X > 0).ToDirectionInt();
         }
 
         private bool AnyTeleportRifts()
@@ -447,6 +427,15 @@ namespace CalamityMod.NPCs.DevourerofGods
                 return false;
             }
             return true;
+        }
+
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            // viable???, done here since it's conditional
+            if (CalamityWorld.getFixedBoi && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
+            {
+                damage *= 40;
+            }
         }
 
         public override bool CheckDead()

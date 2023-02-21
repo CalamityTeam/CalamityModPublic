@@ -22,7 +22,7 @@ namespace CalamityMod.Skies
 
         public static bool DetermineDrawEligibility()
         {
-            bool useEffect = (BossRushEvent.BossRushActive && BossRushEvent.StartTimer > 100) || ShouldDrawRegularly;
+            bool useEffect = ((BossRushEvent.BossRushActive && BossRushEvent.StartTimer > 100) || ShouldDrawRegularly) && !Main.gameMenu;
 
             if (SkyManager.Instance["CalamityMod:BossRush"] != null && useEffect != SkyManager.Instance["CalamityMod:BossRush"].IsActive())
             {

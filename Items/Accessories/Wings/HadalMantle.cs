@@ -76,9 +76,8 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<ScoriaBar>(5).
-                AddIngredient<CoreofChaos>().
                 AddIngredient(ItemID.SoulofFlight, 20).
+                AddIngredient<ScoriaBar>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

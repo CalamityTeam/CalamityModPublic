@@ -1,10 +1,11 @@
-﻿using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
-using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -22,7 +23,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             NPC.npcSlots = 0.5f;
-            NPC.aiStyle = 91;
+            NPC.aiStyle = NPCAIStyleID.GraniteElemental;
             NPC.damage = 20;
             NPC.width = NPC.height = 30;
             NPC.defense = 10;
@@ -95,8 +96,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
+            int debuffType = CalamityWorld.getFixedBoi ? ModContent.BuffType<GodSlayerInferno>() : BuffID.Confused;
             if (damage > 0)
-                player.AddBuff(BuffID.Confused, 180, true);
+                player.AddBuff(debuffType, 180, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

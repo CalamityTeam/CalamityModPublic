@@ -1,5 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
-using CalamityMod.Items.Armor;
+using CalamityMod.Items.Armor.Victide;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +32,11 @@ namespace CalamityMod.Items.Accessories
             {
                 player.statDefense += 5;
             }
-            if (player.Calamity().victideSet)
+            // Accessory update comes before set bonus for some reason, so this has to be done
+            if ((player.armor[0].type == ModContent.ItemType<VictideHeadMagic>() || player.armor[0].type == ModContent.ItemType<VictideHeadSummon>() ||
+                player.armor[0].type == ModContent.ItemType<VictideHeadMelee>() || player.armor[0].type == ModContent.ItemType<VictideHeadRanged>() ||
+                player.armor[0].type == ModContent.ItemType<VictideHeadRogue>()) &&
+                player.armor[1].type == ModContent.ItemType<VictideBreastplate>() && player.armor[2].type == ModContent.ItemType<VictideGreaves>())
             {
                 player.moveSpeed += 0.1f;
                 player.lifeRegen += 2;

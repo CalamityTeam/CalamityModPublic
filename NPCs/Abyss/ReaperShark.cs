@@ -1,19 +1,20 @@
-﻿using CalamityMod.BiomeManagers;
+﻿using System;
+using System.IO;
+using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
-using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.Abyss
 {
@@ -57,7 +58,7 @@ namespace CalamityMod.NPCs.Abyss
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
-            SpawnModBiomes = new int[2] { ModContent.GetInstance<AbyssLayer3Biome>().Type, ModContent.GetInstance<AbyssLayer4Biome>().Type };
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbyssLayer4Biome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -100,11 +101,11 @@ namespace CalamityMod.NPCs.Abyss
                 NPC.soundDelay = 360;
                 if (hasBeenHit)
                 {
-                    SoundEngine.PlaySound(EnragedRoarSound, NPC.position);
+                    SoundEngine.PlaySound(EnragedRoarSound, NPC.Center);
                 }
                 else
                 {
-                    SoundEngine.PlaySound(SearchRoarSound, NPC.position);
+                    SoundEngine.PlaySound(SearchRoarSound, NPC.Center);
                 }
             }
             if (phase3 || phase1)
@@ -495,7 +496,7 @@ namespace CalamityMod.NPCs.Abyss
                             Main.dust[num21].noLight = true;
                             Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
                         }
-                        SoundEngine.PlaySound(EnragedRoarSound, NPC.position);
+                        SoundEngine.PlaySound(EnragedRoarSound, NPC.Center);
                     }
                     NPC.ai[2] += 1f;
                     if (NPC.ai[2] >= (float)num16)
@@ -605,6 +606,12 @@ namespace CalamityMod.NPCs.Abyss
                         NPC.netUpdate = true;
                         return;
                     }
+                    if (CalamityWorld.getFixedBoi && Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] % 5 == 0)
+                    {
+                        Vector2 direction = vector - player.Center;
+                        direction.Normalize();
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, direction * 10f, ProjectileID.DemonSickle, NPC.damage / 2, 0f, Main.myPlayer);
+                    }
                 }
             }
             if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > 6400f)
@@ -648,11 +655,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.Calamity().ZoneAbyssLayer3 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<ReaperShark>()) &&
-                !NPC.AnyNPCs(ModContent.NPCType<ColossalSquid>()) && !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHead>()))
-            {
-                return SpawnCondition.CaveJellyfish.Chance * 0.6f;
-            }
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<ReaperShark>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 1.2f;

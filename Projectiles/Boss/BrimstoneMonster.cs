@@ -149,7 +149,8 @@ namespace CalamityMod.Projectiles.Boss
                 // If the other projectile is indeed the same owned by the same player and they're too close, nudge them away.
                 bool sameProjType = otherProj.type == Projectile.type;
                 float taxicabDist = Vector2.Distance(Projectile.Center, otherProj.Center);
-                if (sameProjType && taxicabDist < 320f)
+                float distancegate = CalamityWorld.getFixedBoi ? 360f : 320f;
+                if (sameProjType && taxicabDist < distancegate)
                 {
                     if (Projectile.position.X < otherProj.position.X)
                         Projectile.velocity.X -= pushForce;

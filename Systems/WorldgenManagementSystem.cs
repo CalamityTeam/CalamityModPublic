@@ -29,34 +29,25 @@ namespace CalamityMod.Systems
         #region ModifyWorldGenTasks
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
+            //Evil Floating Island
             int islandIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Floating Island Houses"));
             if (islandIndex != -1)
             {
-                tasks.Insert(islandIndex + 2, new PassLegacy("EvilIsland", (progress, config) =>
+                tasks.Insert(islandIndex + 2, new PassLegacy("Evil Island", (progress, config) =>
                 {
-                    progress.Message = "Corrupting a floating island";
+                    progress.Message = WorldGen.crimson ? "Adding a putrid floating island" : "Adding a grotesque floating island";
                     WorldEvilIsland.PlaceEvilIsland();
                 }));
             }
 
+            //Calamity's biome chests in the dungeon
             int DungeonChestIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Dungeon"));
             if (DungeonChestIndex != -1)
             {
                 tasks.Insert(DungeonChestIndex + 1, new PassLegacy("CalamityDungeonBiomeChests", MiscWorldgenRoutines.GenerateBiomeChests));
             }
 
-            int WaterFromSandIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Remove Water From Sand"));
-            if (WaterFromSandIndex != -1)
-            {
-                tasks.Insert(WaterFromSandIndex + 1, new PassLegacy("SunkenSea", (progress, config) =>
-                {
-                    progress.Message = "Partially flooding an overblown desert";
-                    int sunkenSeaX = WorldGen.UndergroundDesertLocation.Left;
-                    int sunkenSeaY = WorldGen.UndergroundDesertLocation.Center.Y;
-                    SunkenSea.Place(new Point(sunkenSeaX, sunkenSeaY));
-                }));
-            }
-
+            //Larger Jungle Temple
             int JungleTempleIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Temple"));
             tasks[JungleTempleIndex] = new PassLegacy("Jungle Temple", (progress, config) =>
             {
@@ -64,16 +55,18 @@ namespace CalamityMod.Systems
                 CustomTemple.NewJungleTemple();
             });
 
+            //Improved Golem arena
             int JungleTempleIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Temple"));
             tasks[JungleTempleIndex2] = new PassLegacy("Temple", (progress, config) =>
             {
-                progress.Message = "Building a bigger jungle temple";
+                progress.Message = "Building a better jungle temple";
                 Main.tileSolid[162] = false;
                 Main.tileSolid[226] = true;
                 CustomTemple.NewJungleTemplePart2();
                 Main.tileSolid[232] = false;
             });
 
+            //Better Lihzahrd altar (consistency?)
             int LihzahrdAltarIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Lihzahrd Altars"));
             tasks[LihzahrdAltarIndex] = new PassLegacy("Lihzahrd Altars", (progress, config) =>
             {
@@ -81,73 +74,148 @@ namespace CalamityMod.Systems
                 CustomTemple.NewJungleTempleLihzahrdAltar();
             });
 
-            // TODO -- Most of the below worldgen should be spaced out at better points of generation instead of all crammed at the end
+            //Giant beehive
+            int giantHiveIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Hives"));
+            if (giantHiveIndex != -1)
+            {
+                tasks.Insert(giantHiveIndex + 1, new PassLegacy("Giant Hive", (progress, config) =>
+                {
+                    progress.Message = "Building a giant beehive";
+                    int attempts = 0;
+                    while (attempts < 1000)
+                    {
+                        attempts++;
+                        Point origin = WorldGen.RandomWorldPoint((int)Main.worldSurface + 25, 20, Main.maxTilesY - (int)Main.worldSurface - 125, 20);
+                        if (GiantHive.CanPlaceGiantHive(origin, WorldGen.structures))
+                            break;
+                    }
+                }));
+            }
 
+            //mechanic shed
+            int mechanicIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
+            if (mechanicIndex != -1)
+            {
+                tasks.Insert(mechanicIndex + 1, new PassLegacy("Mechanic Shed", (progress, config) =>
+                {
+                    progress.Message = "Placing mechanic shed";
+                    MechanicShed.PlaceMechanicShed(WorldGen.structures);
+                }));
+            }
+
+            //Vernal pass
+            int vernalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Muds Walls In Jungle"));
+            if (vernalIndex != -1)
+            {
+                tasks.Insert(vernalIndex + 1, new PassLegacy("Vernal Pass", (progress, config) =>
+                {
+                    progress.Message = "Blessing a flourishing jungle grove";
+                    VernalPass.PlaceVernalPass(WorldGen.structures);
+                }));
+            }
+
+            //Sunken sea
+            int SunkenSeaIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Settle Liquids Again"));
+            if (SunkenSeaIndex != -1)
+            {
+                tasks.Insert(SunkenSeaIndex + 1, new PassLegacy("Sunken Sea", (progress, config) =>
+                {
+                    progress.Message = "Partially flooding an overblown desert";
+
+                    int sunkenSeaX = WorldGen.UndergroundDesertLocation.Left;
+                    int sunkenSeaY = Main.maxTilesY - 400;
+
+                    SunkenSea.Place(new Point(sunkenSeaX, sunkenSeaY));
+                }));
+            }
+
+            //All further tasks occur after vanilla worldgen is completed
             int FinalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
             if (FinalIndex != -1)
             {
+                //Reallocate gems so rarity corresponds to depth
                 int currentFinalIndex = FinalIndex;
-                tasks.Insert(++currentFinalIndex, new PassLegacy("GemDepthAdjustment", (progress, config) =>
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Gem Depth Adjustment", (progress, config) =>
                 {
-                    progress.Message = "Reallocating gem deposits to match cavern depth";
+                    progress.Message = "Sensibly shuffling gem depth";
                     MiscWorldgenRoutines.SmartGemGen();
                 }));
 
+                //Forsaken Archive structure in the Dungeon
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Forsaken Archive", (progress, config) =>
+                {
+                    progress.Message = "Entombing occult literature";
+                    DungeonArchive.PlaceArchive();
+                }));
+
+                //Planetoids
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Planetoids", Planetoid.GenerateAllBasePlanetoids));
 
-                //Not touching this yet because the Crags will be reworked in the future
-                #region BrimstoneCrag
-                tasks.Insert(++currentFinalIndex, new PassLegacy("BrimstoneCrag", (progress, config) =>
-                {
-                    progress.Message = "Uncovering the ruins of a fallen empire";
-
-                    int x = Main.maxTilesX;
-
-                    int xUnderworldGen = WorldGen.genRand.Next((int)((double)x * 0.1), (int)((double)x * 0.15));
-                    int yUnderworldGen = Main.maxTilesY - 100;
-
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen, yUnderworldGen, 180, 201, 120, 136);
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen - 50, yUnderworldGen - 30, 100, 111, 60, 71);
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen + 50, yUnderworldGen - 30, 100, 111, 60, 71);
-
-                    MiscWorldgenRoutines.ChasmGenerator(xUnderworldGen - 110, yUnderworldGen - 10, WorldGen.genRand.Next(150) + 150);
-                    MiscWorldgenRoutines.ChasmGenerator(xUnderworldGen + 110, yUnderworldGen - 10, WorldGen.genRand.Next(150) + 150);
-
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen - 150, yUnderworldGen - 30, 60, 66, 35, 41);
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen + 150, yUnderworldGen - 30, 60, 66, 35, 41);
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen - 180, yUnderworldGen - 20, 60, 66, 35, 41);
-                    MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen + 180, yUnderworldGen - 20, 60, 66, 35, 41);
-
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen, yUnderworldGen + 30, 1323);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen - 22, yUnderworldGen + 15, 1322);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen + 22, yUnderworldGen + 15, 535);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen - 50, yUnderworldGen - 30, 112);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen + 50, yUnderworldGen - 30, 906);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen - 150, yUnderworldGen - 30, 218);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen + 150, yUnderworldGen - 30, 3019);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen - 180, yUnderworldGen - 20, 274);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen + 180, yUnderworldGen - 20, 220);
-                }));
-                #endregion
-
+                //Sulphurous Sea (Step 1)
                 int SulphurIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
                 if (SulphurIndex != -1)
                 {
-                    tasks.Insert(SulphurIndex + 1, new PassLegacy("SulphurSea", (progress, config) =>
+                    tasks.Insert(SulphurIndex + 1, new PassLegacy("Sulphur Sea", (progress, config) =>
                     {
                         progress.Message = "Polluting one of the oceans";
                         SulphurousSea.PlaceSulphurSea();
                     }));
                 }
 
-                tasks.Insert(++currentFinalIndex, new PassLegacy("SpecialShrines", (progress, config) =>
+                //Brimstone Crags
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Brimstone Crag", (progress, config) =>
                 {
-                    progress.Message = "Placing hidden shrines";
-                    UndergroundShrines.PlaceShrines();
+                    progress.Message = "Incinerating Azafure";
+                    BrimstoneCrag.GenAllCragsStuff();
                 }));
 
+                //Biome shrines
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Special Shrines", (progress, config) =>
+                {
+                    progress.Message = "Hiding forbidden shrines";
 
-                tasks.Insert(++currentFinalIndex, new PassLegacy("DraedonStructures", (progress, config) =>
+                    //Cuts down on worldgen time to process the right one.
+                    //TODO -- Possible Both Evils compat whenever
+                    if (WorldGen.crimson)
+                    {
+                        progress.Message = "Slaying a vengeful god";
+                        UndergroundShrines.PlaceCrimsonShrine(WorldGen.structures);
+                    }
+                    else
+                    {
+                        progress.Message = "Rotting a god's grave";
+                        UndergroundShrines.PlaceCorruptionShrine(WorldGen.structures);
+                    }                    
+
+                    progress.Message = "Burrowing an artifact from Osiris";
+                    UndergroundShrines.PlaceDesertShrine(WorldGen.structures);
+
+                    progress.Message = "Crystallizing a deep blue geode";
+                    UndergroundShrines.PlaceGraniteShrine(WorldGen.structures);
+
+                    progress.Message = "Hiding a beast tamer's igloo";
+                    UndergroundShrines.PlaceIceShrine(WorldGen.structures);
+
+                    progress.Message = "Recovering a piece of the Parthenon";
+                    UndergroundShrines.PlaceMarbleShrine(WorldGen.structures);
+
+                    progress.Message = "Planting a mushroom rich of hyphae";
+                    UndergroundShrines.PlaceMushroomShrine(WorldGen.structures);
+
+                    progress.Message = "Assembling a shinobi hideout";
+                    UndergroundShrines.PlaceSurfaceShrine(WorldGen.structures);
+                }));
+
+                //aerialite
+                //this MUST generate after the evil island, otherwise the ores keep getting painted from the evil island gen
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Aerialite", (progress, config) =>
+                {
+                    progress.Message = "Hiding wyvern's gold in plain sight";
+                    AerialiteOreGen.Generate(false);
+                }));
+
+                //Draedon Labs
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Draedon Structures", (progress, config) =>
                 {
                     progress.Message = "Rust and Dust";
                     List<Point> workshopPositions = new List<Point>();
@@ -160,23 +228,33 @@ namespace CalamityMod.Systems
                     // Tries to scale up reasonably for XL worlds
                     int labCount = Main.maxTilesX / 1500;
 
+                    progress.Message = "Forging with the fires of hell";
                     DraedonStructures.PlaceHellLab(out Point hellPlacementPosition, workshopPositions, WorldGen.structures);
                     workshopPositions.Add(hellPlacementPosition);
 
+                    progress.Message = "Studying marine biology";
                     DraedonStructures.PlaceSunkenSeaLab(out Point sunkenSeaPlacementPosition, workshopPositions, WorldGen.structures);
                     workshopPositions.Add(sunkenSeaPlacementPosition);
 
+                    progress.Message = "Prototyping quantum supercooling";
                     DraedonStructures.PlaceIceLab(out Point icePlacementPosition, workshopPositions, WorldGen.structures);
                     workshopPositions.Add(icePlacementPosition);
 
+                    progress.Message = "Developing abhorrent bioweaponry";
                     DraedonStructures.PlacePlagueLab(out Point plaguePlacementPosition, workshopPositions, WorldGen.structures);
                     workshopPositions.Add(plaguePlacementPosition);
 
+                    progress.Message = "Strip mining for minerals";
+                    DraedonStructures.PlaceCavernLab(out Point cavernPlacementPosition, workshopPositions, WorldGen.structures);
+                    workshopPositions.Add(cavernPlacementPosition);
+
+                    progress.Message = "Abandoned engineering projects";
                     for (int i = 0; i < workshopCount; i++)
                     {
                         DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions, WorldGen.structures);
                         workshopPositions.Add(placementPosition);
                     }
+                    progress.Message = "Other minor research projects";
                     for (int i = 0; i < labCount; i++)
                     {
                         DraedonStructures.PlaceResearchFacility(out Point placementPosition, workshopPositions, WorldGen.structures);
@@ -184,27 +262,30 @@ namespace CalamityMod.Systems
                     }
                 }));
 
+                //Abyss
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Abyss", (progress, config) =>
                 {
-                    progress.Message = "Discovering the new Challenger Deep";
+                    progress.Message = "Disposing of Silva's remains";
                     Abyss.PlaceAbyss();
                 }));
 
-                tasks.Insert(++currentFinalIndex, new PassLegacy("SulphurSea2", (progress, config) =>
+                //Sulphurous Sea (Part 2, after Abyss)
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Sulphur Sea 2", (progress, config) =>
                 {
-                    progress.Message = "Further polluting one of the oceans";
+                    progress.Message = "Irradiating one of the oceans";
                     SulphurousSea.SulphurSeaGenerationAfterAbyss();
                 }));
 
+                //Roxcalibur
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Roxcalibur", (progress, config) =>
                 {
-                    progress.Message = "I Wanna Rock";
+                    progress.Message = "I wanna rock";
                     MiscWorldgenRoutines.PlaceRoxShrine();
                 }));
             }
         }
 
-        // An Astral Meteor always falls at the beginning of Hardmode.
+        //An Astral Meteor always falls at the beginning of Hardmode.
         public override void ModifyHardmodeTasks(List<GenPass> tasks)
         {
             int announceIndex = tasks.FindIndex(match => match.Name == "Hardmode Announcement");
@@ -290,7 +371,6 @@ namespace CalamityMod.Systems
                             }
                         }
                     }
-
                 }
             }
 

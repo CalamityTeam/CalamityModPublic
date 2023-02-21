@@ -17,10 +17,10 @@ namespace CalamityMod.Projectiles.Healing
             Projectile.width = 20;
             Projectile.height = 20;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 300;
+            Projectile.MaxUpdates = 5;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()

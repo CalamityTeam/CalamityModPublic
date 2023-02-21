@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.fishingPole = 45;
             Item.shootSpeed = 17f;
             Item.shoot = ModContent.ProjectileType<RiftReelerBobber>();
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
         }
         
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
         {
             CreateRecipe().
                 AddIngredient(ItemID.HotlineFishingHook).
-                AddIngredient<ScoriaBar>(8).
+                AddIngredient<ScoriaBar>(6).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

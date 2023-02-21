@@ -1,5 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Summon.Umbrella;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -17,9 +17,14 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Temporal Umbrella");
             Tooltip.SetDefault("Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow\n" +
-                "Summons a magic hat to hover above your head\n" +
-                "The hat will release a variety of objects to assault your foes\n" +
-                "Requires 5 minion slots to use and there can only be one hat");
+                "Summons a variety of tools to assist you in battle:\n" +
+                " - A vermilion arrow to pierce your adversaries\n" +
+                " - A marmalade hammer to bonk enemies in style\n" +
+                " - A jade axe to cleave monsters and occasionally fell a tree\n" +
+                " - A cyan umbrella to beat down your foes with grace\n" +
+                " - A lavender rifle to snipe those who stand in your way\n" +
+                "Best of all, you get to wear a top hat\n" +
+                "Requires 5 minion slots to use and there can only be one set of tools");
             SacrificeTotal = 1;
         }
 
@@ -43,11 +48,11 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.Calamity().devItem = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.maxMinions >= 5;
+        public override bool CanUseItem(Player player) => player.maxMinions >= 5;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            CalamityUtils.KillShootProjectiles(true, type, player);
+            CalamityUtils.KillShootProjectileMany(player, type, ModContent.ProjectileType<MagicArrow>(), ModContent.ProjectileType<MagicHammer>(), ModContent.ProjectileType<MagicAxe>(), ModContent.ProjectileType<MagicUmbrella>(), ModContent.ProjectileType<MagicRifle>());
             int p = Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
             if (Main.projectile.IndexInRange(p))
                 Main.projectile[p].originalDamage = Item.damage;
@@ -57,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<SpikecragStaff>().
+                AddIngredient<ViridVanguard>().
                 AddIngredient<SarosPossession>().
                 AddIngredient(ItemID.Umbrella).
                 AddIngredient(ItemID.TopHat).

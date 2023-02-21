@@ -75,6 +75,9 @@ namespace CalamityMod.NPCs.Leviathan
 
             if (Main.getGoodWorld)
                 NPC.scale *= 0.8f;
+
+            if (CalamityWorld.getFixedBoi)
+                NPC.scale *= 4f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -326,8 +329,9 @@ namespace CalamityMod.NPCs.Leviathan
             }
 
             // Play sound
+            float extrapitch = CalamityWorld.getFixedBoi ? -0.5f : 0;
             if (Main.rand.NextBool(300))
-                SoundEngine.PlaySound(SoundID.Zombie35, NPC.position);
+                SoundEngine.PlaySound(SoundID.Zombie35 with { Pitch = SoundID.Zombie35.Pitch + extrapitch}, NPC.Center);
 
             // Time left
             if (NPC.timeLeft < 1800)
@@ -499,7 +503,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                 if (Collision.CanHit(vector119, 1, 1, player.position, player.width, player.height) && flag103)
                 {
-                    SoundEngine.PlaySound(SoundID.Item85, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Item85, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int spawn = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, NPCID.DetonatingBubble);
@@ -574,7 +578,8 @@ namespace CalamityMod.NPCs.Leviathan
             {
                 NPC.rotation = NPC.velocity.X * 0.02f;
 
-                Vector2 targetVector = player.Center + new Vector2(0f, -350f) * NPC.scale;
+                float basey = CalamityWorld.getFixedBoi ? -100 : -350;
+                Vector2 targetVector = player.Center + new Vector2(0f, basey) * NPC.scale;
                 float velocity = death ? 13.5f : 12f;
                 velocity += 6f * enrageScale;
 
@@ -612,19 +617,19 @@ namespace CalamityMod.NPCs.Leviathan
                     switch ((int)NPC.localAI[3])
                     {
                         case 0:
-                            SoundEngine.PlaySound(SoundID.Item21, player.position);
+                            SoundEngine.PlaySound(SoundID.Item21, player.Center);
                             break;
                         case 1:
                             totalProjectiles = 3;
                             type = ModContent.ProjectileType<FrostMist>();
-                            SoundEngine.PlaySound(SoundID.Item30, player.position);
+                            SoundEngine.PlaySound(SoundID.Item30, player.Center);
                             break;
                         case 2:
                             totalProjectiles = 6;
                             type = ModContent.ProjectileType<SirenSong>();
                             float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
                             Main.musicPitch = soundPitch;
-                            SoundEngine.PlaySound(SoundID.Item26, player.position);
+                            SoundEngine.PlaySound(SoundID.Item26, player.Center);
                             break;
                     }
                     NPC.localAI[3] += 1f;

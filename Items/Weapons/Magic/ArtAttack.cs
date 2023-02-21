@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class ArtAttack : ModItem
     {
-        public const int MaxDamageBoostTime = 270;
-        public const float MaxDamageBoostFactor = 2.3f;
+        public const int MaxDamageBoostTime = 300;
+        public const float MaxDamageBoostFactor = 25f;
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/ArtAttackCast");
         public override void SetStaticDefaults()
         {
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 470;
+            Item.damage = 80;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 10;
             Item.width = 70;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.knockBack = 2f;
             Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
-            Item.UseSound = UseSound;
+            Item.UseSound = null;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
             Item.shoot = ModContent.ProjectileType<ArtAttackHoldout>();

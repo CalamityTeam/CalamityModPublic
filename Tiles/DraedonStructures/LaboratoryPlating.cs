@@ -1,5 +1,6 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -7,6 +8,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 {
     public class LaboratoryPlating : ModTile
     {
+        public static readonly SoundStyle MinePlatingSound = new("CalamityMod/Sounds/Custom/PlatingMine", 3);
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -14,7 +16,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            HitSound = SoundID.Tink;
+            HitSound = MinePlatingSound;
             DustType = 30;
             MinPick = 30;
             ItemDrop = ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPlating> ();

@@ -108,6 +108,68 @@ namespace CalamityMod.Items.Accessories
             }
         }
 
+        public override void UpdateVanity(Player player)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.allWaifusVanity = true;
+            // modPlayer.elementalHeart = true;
+
+            int brimmy = ProjectileType<BrimstoneElementalMinion>();
+            int siren = ProjectileType<WaterElementalMinion>();
+            int healer = ProjectileType<SandElementalHealer>();
+            int sandy = ProjectileType<SandElementalMinion>();
+            int cloudy = ProjectileType<CloudElementalMinion>();
+
+            var source = player.GetSource_Accessory(Item);
+            Vector2 velocity = new Vector2(0f, -1f);
+            int elementalDmg = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(90);
+            float kBack = 2f + player.GetKnockback<SummonDamageClass>().Additive;
+
+            if (player.ownedProjectileCounts[brimmy] > 1 || player.ownedProjectileCounts[siren] > 1 ||
+                player.ownedProjectileCounts[healer] > 1 || player.ownedProjectileCounts[sandy] > 1 ||
+                player.ownedProjectileCounts[cloudy] > 1)
+            {
+                player.ClearBuff(BuffType<HotE>());
+            }
+            if (player != null && player.whoAmI == Main.myPlayer && !player.dead)
+            {
+                if (player.FindBuffIndex(BuffType<HotE>()) == -1)
+                {
+                    player.AddBuff(BuffType<HotE>(), 3600, true);
+                }
+                if (player.ownedProjectileCounts[brimmy] < 1)
+                {
+                    int p = Projectile.NewProjectile(source, player.Center, velocity, brimmy, elementalDmg, kBack, player.whoAmI);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = 90;
+                }
+                if (player.ownedProjectileCounts[siren] < 1)
+                {
+                    int p = Projectile.NewProjectile(source, player.Center, velocity, siren, elementalDmg, kBack, player.whoAmI);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = 90;
+                }
+                if (player.ownedProjectileCounts[healer] < 1)
+                {
+                    int p = Projectile.NewProjectile(source, player.Center, velocity, healer, elementalDmg, kBack, player.whoAmI);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = 90;
+                }
+                if (player.ownedProjectileCounts[sandy] < 1)
+                {
+                    int p = Projectile.NewProjectile(source, player.Center, velocity, sandy, elementalDmg, kBack, player.whoAmI);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = 90;
+                }
+                if (player.ownedProjectileCounts[cloudy] < 1)
+                {
+                    int p = Projectile.NewProjectile(source, player.Center, velocity, cloudy, elementalDmg, kBack, player.whoAmI);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = 90;
+                }
+            }
+        }
+
         public override void AddRecipes()
         {
             CreateRecipe().

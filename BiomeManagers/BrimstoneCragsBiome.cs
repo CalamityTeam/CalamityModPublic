@@ -7,7 +7,7 @@ namespace CalamityMod.BiomeManagers
 {
     public class BrimstoneCragsBiome : ModBiome
     {
-        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("Crag") ?? MusicID.Eerie;
+        public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("BrimstoneCrags") ?? MusicID.Eerie;
 
         public override SceneEffectPriority Priority => SceneEffectPriority.Environment;
         public override string BestiaryIcon => "CalamityMod/BiomeManagers/BrimstoneCragsIcon";
@@ -20,7 +20,7 @@ namespace CalamityMod.BiomeManagers
 
         public override bool IsBiomeActive(Player player)
         {
-            return BiomeTileCounterSystem.BrimstoneCragTiles > 100;
+            return BiomeTileCounterSystem.BrimstoneCragTiles > 100 && player.ZoneUnderworldHeight;
         }
     }
 }

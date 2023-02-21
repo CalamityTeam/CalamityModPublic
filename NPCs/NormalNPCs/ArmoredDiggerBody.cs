@@ -1,4 +1,6 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -46,7 +48,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            if (NPC.ai[3] > 0f)
+            if (NPC.ai[3] > 0f && Main.npc[(int)NPC.ai[3]].type == ModContent.NPCType<ArmoredDiggerHead>())
             {
                 NPC.realLife = (int)NPC.ai[3];
             }
@@ -65,9 +67,33 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (flag)
             {
-                NPC.life = 0;
-                NPC.HitEffect(0, 10.0);
-                NPC.checkDead();
+                if (!CalamityWorld.getFixedBoi)
+                {
+                    NPC.life = 0;
+                    NPC.HitEffect(0, 10.0);
+                    NPC.checkDead();
+                }
+                else
+                {
+                    // find a new npc to attatch to in gfb, it's not a bug, it's a feature:tm:
+                    for (int i = 0; i < Main.maxNPCs; i++)
+                    {
+                        NPC host = Main.npc[i];
+                        if (host.active && !host.friendly && !host.dontTakeDamage && host.type != ModContent.NPCType<ArmoredDiggerHead>() && host.type != ModContent.NPCType<ArmoredDiggerBody>() && host.type != ModContent.NPCType<ArmoredDiggerTail>())
+                        {
+                            NPC.ai[1] = host.whoAmI;
+                            NPC.ai[3] = host.whoAmI;
+                            break;
+                        }
+                    }
+                    // if it goes through the loop withuot finding an npc to attatch to (aka, ai[1] never changes and the head is still dead) kill as normal
+                    if (Main.npc[(int)NPC.ai[1]].life <= 0)
+                    {
+                        NPC.life = 0;
+                        NPC.HitEffect(0, 10.0);
+                        NPC.checkDead();
+                    }
+                }
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -88,7 +114,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         num6 *= num8;
                         num7 *= num8;
                         int num9 = 30;
-                        int num10 = ProjectileID.SaucerScrap;
+                        int num10 = CalamityWorld.getFixedBoi ? ModContent.ProjectileType<ProvidenceCrystalShard>() : ProjectileID.SaucerScrap; 
                         vector.X += num6 * 5f;
                         vector.Y += num7 * 5f;
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y, num6, num7, num10, num9, 0f, Main.myPlayer, 0f, 0f);
@@ -140,12 +166,35 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 6, hitDirection, -1f, 0, default, 1f);
                 }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ArmoredDiggerBody").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ArmoredDiggerBody2").Type, 1f);
+                }
             }
         }
 
         public override bool CheckActive()
         {
             return false;
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (CalamityWorld.getFixedBoi)
+            {
+                typeName = "Mechanized Serpent";
+            }
+        }
+
+        public override Color? GetAlpha(Color drawColor)
+        {
+            if (CalamityWorld.getFixedBoi)
+            {
+                Color lightColor = Color.Orange * drawColor.A;
+                return lightColor * NPC.Opacity;
+            }
+            else return null;
         }
     }
 }

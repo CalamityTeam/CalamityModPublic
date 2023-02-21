@@ -75,11 +75,12 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Galaxia");
             Tooltip.SetDefault("FUNCTION_DESC\n" +
-                               "FUNCTION_PASSIVE\n" +
-                               "Upgrading the sword let it break free from its earthly boundaries. You now have access to every single attunement at all times!\n" +
-                               "Use RMB to cycle the sword's attunement forward or backwards depending on the position of your cursor\n" +
-                               "Active Attunement : None\n" +
-                               "Passive Blessing : None\n"); ;
+            "FUNCTION_PASSIVE\n" +
+            "Freed from earthly shackles and coursing with cosmic power\n" +
+            "Has access to all of the attunements at all times\n" +
+            "Use right click to cycle the sword's attunement depending on the cursor's position\n" +
+            "Active Attunement : None\n" +
+            "Passive Blessing : None\n");
             SacrificeTotal = 1;
         }
 
@@ -299,12 +300,12 @@ namespace CalamityMod.Items.Weapons.Melee
             Rectangle animFrame = new Rectangle(0, 128 * currentFrame, 126, 126);
 
             spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, null, null, null, null, Main.UIScaleMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, null, null, null, null, Main.Transform);
 
             spriteBatch.Draw(outlineTexture, Item.Center - Main.screenPosition, animFrame, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
 
             spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.Transform);
 
 
             spriteBatch.Draw(itemTexture, Item.Center - Main.screenPosition, animFrame, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);

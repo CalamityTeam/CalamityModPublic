@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -102,6 +103,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.Opacity = MathHelper.Clamp(projectile.Opacity + 0.075f, 0f, 1f);
         }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 180);
+
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
@@ -122,7 +125,13 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = 70;
+        // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
+            if (Main.masterMode) damage = 320;
+            else if (Main.expertMode) damage = 260;
+            else damage = 200;
+        }
 
         public override bool? CanDamage() => Projectile.Opacity >= 1f;
     }

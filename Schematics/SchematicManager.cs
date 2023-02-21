@@ -34,8 +34,62 @@ namespace CalamityMod.Schematics
         internal const string IceLabKey = "Ice Laboratory";
         internal const string IceLabFilename = "Schematics/DraedonsLab_Ice.csch";
 
+        internal const string CavernLabKey = "Cavern Laboratory";
+        internal const string CavernLabFilename = "Schematics/DraedonsLab_Cavern.csch";
+
+        internal const string CorruptionShrineKey = "Corruption Shrine";
+        internal const string CorruptionShrineFilename = "Schematics/Shrine_Corruption.csch";
+
+        internal const string CrimsonShrineKey = "Crimson Shrine";
+        internal const string CrimsonShrineFilename = "Schematics/Shrine_Crimson.csch";
+
+        internal const string DesertShrineKey = "Desert Shrine";
+        internal const string DesertShrineFilename = "Schematics/Shrine_Desert.csch";
+
+        internal const string GraniteShrineKey = "Granite Shrine";
+        internal const string GraniteShrineFilename = "Schematics/Shrine_Granite.csch";
+
+        internal const string IceShrineKey = "Ice Shrine";
+        internal const string IceShrineFilename = "Schematics/Shrine_Ice.csch";
+
+        internal const string MarbleShrineKey = "Marble Shrine";
+        internal const string MarbleShrineFilename = "Schematics/Shrine_Marble.csch";
+
+        internal const string MushroomShrineKey = "Mushroom Shrine";
+        internal const string MushroomShrineFilename = "Schematics/Shrine_Mushroom.csch";
+
+        internal const string SurfaceShrineKey = "Surface Shrine";
+        internal const string SurfaceShrineFilename = "Schematics/Shrine_Surface.csch";
+
+        internal const string VernalKey = "Vernal Pass";
+        internal const string VernalFilename = "Schematics/VernalPass.csch";
+        
+        internal const string MechanicShedKey = "Mechanic Key";
+        internal const string MechanicShedFilename = "Schematics/MechanicShed.csch";
+
         internal const string AstralBeaconKey = "Astral Beacon";
         internal const string AstralBeaconFilename = "Schematics/AstralBeacon.csch";
+
+        internal const string CragBridgeKey = "Crags Bridge";
+        internal const string CragBridgeFilename = "Schematics/CragBridge.csch";
+
+        internal const string BlueArchiveKey = "Archive Blue";
+        internal const string BlueArchiveFilename = "Schematics/DungeonArchiveBlue.csch";
+
+        internal const string GreenArchiveKey = "Archive Green";
+        internal const string GreenArchiveFilename = "Schematics/DungeonArchiveGreen.csch";
+
+        internal const string PinkArchiveKey = "Archive Pink";
+        internal const string PinkArchiveFilename = "Schematics/DungeonArchivePink.csch";
+
+        internal const string CragRuinKey1 = "Crag Ruin 1";
+        internal const string CragRuinKey1Filename = "Schematics/CragRuin1.csch";
+        internal const string CragRuinKey2 = "Crag Ruin 21";
+        internal const string CragRuinKey2Filename = "Schematics/CragRuin2.csch";
+        internal const string CragRuinKey3 = "Crag Ruin 3";
+        internal const string CragRuinKey3Filename = "Schematics/CragRuin3.csch";
+        internal const string CragRuinKey4 = "Crag Ruin 4";
+        internal const string CragRuinKey4Filename = "Schematics/CragRuin4.csch";
         
         internal static Dictionary<string, SchematicMetaTile[,]> TileMaps;
         internal static Dictionary<string, PilePlacementFunction> PilePlacementMaps;
@@ -55,9 +109,38 @@ namespace CalamityMod.Schematics
                 [PlagueLabKey] = CalamitySchematicIO.LoadSchematic(PlagueLabFilename),
                 [HellLabKey] = CalamitySchematicIO.LoadSchematic(HellLabFilename),
                 [IceLabKey] = CalamitySchematicIO.LoadSchematic(IceLabFilename),
+                [CavernLabKey] = CalamitySchematicIO.LoadSchematic(CavernLabFilename),
+
+                // Shrine world gen structures
+                [CorruptionShrineKey] = CalamitySchematicIO.LoadSchematic(CorruptionShrineFilename),
+                [CrimsonShrineKey] = CalamitySchematicIO.LoadSchematic(CrimsonShrineFilename),
+                [DesertShrineKey] = CalamitySchematicIO.LoadSchematic(DesertShrineFilename),
+                [GraniteShrineKey] = CalamitySchematicIO.LoadSchematic(GraniteShrineFilename),
+                [IceShrineKey] = CalamitySchematicIO.LoadSchematic(IceShrineFilename),
+                [MarbleShrineKey] = CalamitySchematicIO.LoadSchematic(MarbleShrineFilename),
+                [MushroomShrineKey] = CalamitySchematicIO.LoadSchematic(MushroomShrineFilename),
+                [SurfaceShrineKey] = CalamitySchematicIO.LoadSchematic(SurfaceShrineFilename),
+
+                [VernalKey] = CalamitySchematicIO.LoadSchematic(VernalFilename),
+
+                [MechanicShedKey] = CalamitySchematicIO.LoadSchematic(MechanicShedFilename),
 
                 // Astral world gen structures
                 [AstralBeaconKey] = CalamitySchematicIO.LoadSchematic(AstralBeaconFilename),
+
+                //crag bridge
+                [CragBridgeKey] = CalamitySchematicIO.LoadSchematic(CragBridgeFilename),
+
+                //dungeon archives
+                [BlueArchiveKey] = CalamitySchematicIO.LoadSchematic(BlueArchiveFilename),
+                [GreenArchiveKey] = CalamitySchematicIO.LoadSchematic(GreenArchiveFilename),
+                [PinkArchiveKey] = CalamitySchematicIO.LoadSchematic(PinkArchiveFilename),
+
+                //crags ruins
+                [CragRuinKey1] = CalamitySchematicIO.LoadSchematic(CragRuinKey1Filename),
+                [CragRuinKey2] = CalamitySchematicIO.LoadSchematic(CragRuinKey2Filename),
+                [CragRuinKey3] = CalamitySchematicIO.LoadSchematic(CragRuinKey3Filename),
+                [CragRuinKey4] = CalamitySchematicIO.LoadSchematic(CragRuinKey4Filename),
 
                 // Sulphurous Sea scrap world gen structures
                 ["Sulphurous Scrap 1"] = CalamitySchematicIO.LoadSchematic("Schematics/SulphurousScrap1.csch").ShaveOffEdge(),
@@ -171,7 +254,7 @@ namespace CalamityMod.Schematics
                 {
                     Tile t = Main.tile[x + cornerX, y + cornerY];
                     if (t.TileType == TileID.Trees || t.TileType == TileID.PineTree || t.TileType == TileID.Cactus)
-                        WorldGen.KillTile(x + cornerX, y + cornerY);
+                        WorldGen.KillTile(x + cornerX, y + cornerY, noItem: true);
                 }
 
             for (int x = 0; x < width; ++x)
@@ -184,7 +267,7 @@ namespace CalamityMod.Schematics
             for (int x = 0; x < width; ++x)
                 for (int y = 0; y < height; ++y)
                     if (originalTiles[x, y].TileType != TileID.Containers)
-                        WorldGen.KillTile(x + cornerX, y + cornerY);
+                        WorldGen.KillTile(x + cornerX, y + cornerY, noItem: true);
 
             // Lay down the schematic. If the schematic calls for it, bring back tiles that are stored in the old tiles array.
             for (int x = 0; x < width; ++x)

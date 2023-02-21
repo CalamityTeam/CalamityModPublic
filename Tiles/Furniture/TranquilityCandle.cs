@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles.Furniture
             Player player = Main.LocalPlayer;
             if (player is null)
                 return;
-            if (!player.dead && player.active)
+            if (!player.dead && player.active && Main.tile[i, j].TileFrameX < 18)
                 player.AddBuff(ModContent.BuffType<TranquilityCandleBuff>(), 20);
         }
 
@@ -71,7 +71,7 @@ namespace CalamityMod.Tiles.Furniture
 
         public override bool RightClick(int i, int j)
         {
-            CalamityUtils.RightClickBreak(i, j);
+            CalamityUtils.LightHitWire(Type, i, j, 1, 1);
             return true;
         }
     }

@@ -1,4 +1,5 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,6 +18,9 @@ namespace CalamityMod.Tiles.Ores
 
             TileID.Sets.Ore[Type] = true;
             TileID.Sets.OreMergesWithMud[Type] = true;
+
+            Main.tileShine[Type] = 2000;
+            Main.tileShine2[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.HallowedOre>();
@@ -38,12 +42,17 @@ namespace CalamityMod.Tiles.Ores
         {
             num = fail ? 1 : 3;
         }
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            TileFraming.CustomMergeFrame(i, j, Type, TileID.Pearlstone, false, false, false);
+            return false;
+        }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.07f;
-            g = 0.07f;
-            b = 0.04f;
+            r = 224f / 600f;
+            g = 219f / 600f;
+            b = 124f / 600f;
         }
     }
 }

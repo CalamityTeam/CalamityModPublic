@@ -43,7 +43,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.position);
+            SoundEngine.PlaySound(SoundID.Roar, player.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<HiveMind>());
             else
@@ -55,9 +55,9 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.RottenChunk, 13).
-                AddIngredient<RottenMatter>(7).
                 AddIngredient(ItemID.DemoniteBar, 3).
+                AddIngredient<RottenMatter>(7).
+                AddIngredient(ItemID.RottenChunk, 13).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

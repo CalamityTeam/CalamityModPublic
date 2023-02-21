@@ -11,13 +11,13 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lazhar");
-            Tooltip.SetDefault("Fires a bouncing laser that explodes on enemy hits");
+            Tooltip.SetDefault("Fires a highly volatile concentrated solar beam");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 100;
+            Item.damage = 80;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 4;
             Item.width = 42;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item12;
             Item.autoReuse = true;
             Item.shootSpeed = 15f;
-            Item.shoot = ModContent.ProjectileType<SolarBeam2>();
+            Item.shoot = ModContent.ProjectileType<LazharSolarBeam>();
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
@@ -45,11 +45,10 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
+            CreateRecipe().
                 AddIngredient(ItemID.SpaceGun).
                 AddIngredient(ItemID.HeatRay).
-                AddIngredient(ItemID.FragmentSolar, 10).
-                AddIngredient(ItemID.ChlorophyteBar, 6).
+                AddIngredient(ItemID.FragmentSolar, 6).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

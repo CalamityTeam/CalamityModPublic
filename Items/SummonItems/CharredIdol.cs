@@ -46,7 +46,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.position);
+            SoundEngine.PlaySound(SoundID.Roar, player.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<BrimstoneElemental>());
             else
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.SummonItems
         {
             CreateRecipe().
                 AddIngredient(ItemID.SoulofNight, 5).
-                AddIngredient<EssenceofChaos>(7).
+                AddIngredient<EssenceofHavoc>(7).
                 AddIngredient<UnholyCore>(2).
                 AddTile(TileID.Hellforge).
                 Register();

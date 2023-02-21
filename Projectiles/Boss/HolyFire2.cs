@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
-using CalamityMod.Events;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -35,6 +34,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, 0.3f, 0.225f, 0f);
+
+            // Day mode by default but syncs with the boss
+            if (CalamityGlobalNPC.holyBoss != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.holyBoss].active)
+                    Projectile.maxPenetrate = (int)Main.npc[CalamityGlobalNPC.holyBoss].localAI[1];
+            }
+            else
+                Projectile.maxPenetrate = (int)Providence.BossMode.Day;
+
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 6)
             {
@@ -42,18 +52,16 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.frameCounter = 0;
             }
             if (Projectile.frame > 3)
-            {
                 Projectile.frame = 0;
-            }
+
             if (Math.Abs(Projectile.velocity.X) < 7f)
-            {
                 Projectile.velocity.X *= 1.05f;
-            }
+
             int num103 = Player.FindClosest(Projectile.Center, 1, 1);
+
             if (Projectile.ai[1] == 0f)
-            {
                 Projectile.damage = Projectile.GetProjectileDamage(ModContent.NPCType<Providence>());
-            }
+
             Projectile.ai[1] += 1f;
             if (Projectile.ai[1] < 180f && Projectile.ai[1] > 60f)
             {
@@ -61,23 +69,26 @@ namespace CalamityMod.Projectiles.Boss
                 Vector2 vector11 = Main.player[num103].Center - Projectile.Center;
                 vector11.Normalize();
                 vector11 *= scaleFactor2;
-                float inertia = (!Main.dayTime || BossRushEvent.BossRushActive) ? 20f : 25f;
+                float inertia = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 20f : 25f;
                 Projectile.velocity = (Projectile.velocity * (inertia - 1f) + vector11) / inertia;
                 Projectile.velocity.Normalize();
                 Projectile.velocity *= scaleFactor2;
             }
+
+            Projectile.rotation = Projectile.velocity.X * 0.025f;
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return (Main.dayTime && !BossRushEvent.BossRushActive) ? new Color(250, 150, 0, Projectile.alpha) : new Color(100, 200, 250, Projectile.alpha);
+            return ProvUtils.GetProjectileColor(Projectile.maxPenetrate, Projectile.alpha);
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = (Main.dayTime && !BossRushEvent.BossRushActive) ? ModContent.Request<Texture2D>(Texture).Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HolyFire2Night").Value;
+            Texture2D texture = (Projectile.maxPenetrate == (int)Providence.BossMode.Day) ? ModContent.Request<Texture2D>(Texture).Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HolyFire2Night").Value;
             int num214 = texture.Height / Main.projFrames[Projectile.type];
             int y6 = num214 * Projectile.frame;
+            Projectile.DrawBackglow(ProvUtils.GetProjectileColor(Projectile.maxPenetrate, Projectile.alpha, true), 4f, texture);
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
@@ -87,14 +98,15 @@ namespace CalamityMod.Projectiles.Boss
             SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             Projectile.position.X = Projectile.position.X + (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y + (Projectile.height / 2);
-            Projectile.width = 150;
-            Projectile.height = 150;
+            Projectile.width = 40;
+            Projectile.height = 40;
             Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
-            int dustType = (Main.dayTime && !BossRushEvent.BossRushActive) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+            int dustType = ProvUtils.GetDustID(Projectile.maxPenetrate);
             for (int num621 = 0; num621 < 5; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                Main.dust[num622].noGravity = true;
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[num622].scale = 0.5f;
@@ -106,16 +118,21 @@ namespace CalamityMod.Projectiles.Boss
                 int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                Main.dust[num624].noGravity = true;
             }
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            if (damage <= 0)
+            //In GFB, "real damage" is replaced with negative healing
+            if (Projectile.maxPenetrate >= (int)Providence.BossMode.Red)
+                damage = 0;
+
+            //If the player is dodging, don't apply debuffs
+            if (damage <= 0 && Projectile.maxPenetrate < (int)Providence.BossMode.Red || target.creativeGodMode)
                 return;
 
-            int buffType = (Main.dayTime && !BossRushEvent.BossRushActive) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
-            target.AddBuff(buffType, 120);
+            ProvUtils.ApplyHitEffects(target, Projectile.maxPenetrate, 120, 10);
         }
     }
 }

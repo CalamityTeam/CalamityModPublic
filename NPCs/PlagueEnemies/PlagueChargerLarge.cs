@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.defense = 25;
             NPC.scale *= 0.75f;
             NPC.lifeMax = 300;
-            NPC.aiStyle = 5;
+            NPC.aiStyle = NPCAIStyleID.Flying;
             AIType = NPCID.Bee;
             NPC.knockBackResist = 0f;
             AnimationType = NPCID.Bee;
@@ -146,6 +146,12 @@ namespace CalamityMod.NPCs.PlagueEnemies
                 for (int k = 0; k < 10; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
+                }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("PlagueCharger").Type, 0.75f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("PlagueCharger2").Type, 0.75f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("PlagueCharger3").Type, 0.75f);
                 }
             }
         }

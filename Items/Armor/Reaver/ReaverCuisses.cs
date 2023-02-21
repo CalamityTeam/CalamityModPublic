@@ -35,8 +35,7 @@ namespace CalamityMod.Items.Armor.Reaver
         {
             CreateRecipe().
                 AddIngredient<PerennialBar>(10).
-                AddIngredient(ItemID.JungleSpores, 8).
-                AddIngredient<EssenceofSunlight>(2).
+                AddIngredient<LivingShard>(2).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

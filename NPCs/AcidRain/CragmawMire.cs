@@ -20,6 +20,7 @@ using Terraria.WorldBuilding;
 
 namespace CalamityMod.NPCs.AcidRain
 {
+    [AutoloadBossHead]
     public class CragmawMire : ModNPC
     {
         public enum CragmawAttackState
@@ -497,6 +498,13 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
+        public override void OnKill()
+        {
+            // Mark Cragmaw Mire as dead
+            DownedBossSystem.downedCragmawMire = true;
+            CalamityNetcode.SyncWorld();
+        }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (damage > 0)
@@ -514,7 +522,7 @@ namespace CalamityMod.NPCs.AcidRain
             postPolter.AddFail(ModContent.ItemType<SpentFuelContainer>(), hideLootReport: DownedBossSystem.downedPolterghast);
 
             npcLoot.Add(ModContent.ItemType<CragmawMireTrophy>(), 10);
-            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CragmawMireRelic>(), 4);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CragmawMireRelic>());
         }
     }
 }

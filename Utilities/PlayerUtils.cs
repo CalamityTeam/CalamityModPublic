@@ -26,6 +26,50 @@ namespace CalamityMod
         public static float CalcDamage<T>(this Player player, float baseDamage) where T : DamageClass => player.GetTotalDamage<T>().ApplyTo(baseDamage);
         public static int CalcIntDamage<T>(this Player player, float baseDamage) where T : DamageClass => (int)player.CalcDamage<T>(baseDamage);
 
+        // Naively determines the player's chosen (aka "best") class by whichever has the highest damage boost.
+        public static DamageClass GetBestClass(this Player player)
+        {
+            // Check the five Calamity classes to see what the strongest one is, and use that for the typical damage stat.
+            float bestDamage = 1f;
+            DamageClass bestClass = DamageClass.Generic;
+
+            float melee = player.GetTotalDamage<MeleeDamageClass>().Additive;
+            if (melee > bestDamage)
+            {
+                bestDamage = melee;
+                bestClass = DamageClass.Melee;
+            }
+            float ranged = player.GetTotalDamage<RangedDamageClass>().Additive;
+            if (ranged > bestDamage)
+            {
+                bestDamage = ranged;
+                bestClass = DamageClass.Ranged;
+            }
+            float magic = player.GetTotalDamage<MagicDamageClass>().Additive;
+            if (magic > bestDamage)
+            {
+                bestDamage = magic;
+                bestClass = DamageClass.Magic;
+            }
+
+            // Summoner intentionally has a reduction. As the only class with no crit, it tends to have higher raw damage than other classes.
+            float summon = player.GetTotalDamage<SummonDamageClass>().Additive * BalancingConstants.SummonAllClassScalingFactor;
+            if (summon > bestDamage)
+            {
+                bestDamage = summon;
+                bestClass = DamageClass.Summon;
+            }
+            // We intentionally don't check whip class, because it inherits 100% from Summon
+
+            float rogue = player.GetTotalDamage<RogueDamageClass>().Additive;
+            if (rogue > bestDamage)
+            {
+                bestClass = RogueDamageClass.Instance;
+            }
+
+            return bestClass;
+        }
+
         public static StatModifier GetBestClassDamage(this Player player)
         {
             StatModifier ret = StatModifier.Default;
@@ -122,6 +166,8 @@ namespace CalamityMod
             if (mp.bendyPet)
                 light += 1;
             if (mp.sparks)
+                light += 1;
+            if (mp.thiefsDime)
                 light += 1;
             if (mp.fathomSwarmerVisage)
                 light += 1;
@@ -501,20 +547,6 @@ namespace CalamityMod
             {
                 target.AddBuff(buff, SecondsToFrames(timeBase), false);
             }
-        }
-
-        /// <summary>
-        /// Inflict typical exo weapon debuffs in pvp.
-        /// </summary>
-        /// <param name="target">The Player attacked.</param>
-        /// <param name="multiplier">Debuff time multiplier if needed.</param>
-        /// <returns>Inflicts debuffs if the target isn't immune.</returns>
-        public static void ExoDebuffs(this Player target, float multiplier = 1f)
-        {
-            target.AddBuff(BuffType<ExoFreeze>(), (int)(30 * multiplier));
-            target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
-            target.AddBuff(BuffID.Frostburn, (int)(150 * multiplier));
-            target.AddBuff(BuffID.OnFire, (int)(180 * multiplier));
         }
         #endregion
 

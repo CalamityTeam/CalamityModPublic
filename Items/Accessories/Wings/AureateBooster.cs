@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 player.rocketDelay2--;
                 if (player.rocketDelay2 <= 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Item13, player.position);
+                    SoundEngine.PlaySound(SoundID.Item13, player.Center);
                     player.rocketDelay2 = 60;
                 }
                 int num66 = 2;
@@ -100,9 +100,8 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PerennialBar>(5).
-                AddIngredient<EssenceofSunlight>().
                 AddIngredient(ItemID.SoulofFlight, 20).
+                AddIngredient<PerennialBar>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

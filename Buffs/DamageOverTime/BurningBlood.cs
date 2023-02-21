@@ -19,7 +19,6 @@ namespace CalamityMod.Buffs.DamageOverTime
         public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().bBlood = true;
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.025f;
         }
 
         public override void Update(NPC npc, ref int buffIndex)

@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Armor.Statigel
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PurifiedGel>(6).
-                AddIngredient(ItemID.HellstoneBar, 11).
+                AddIngredient<PurifiedGel>(7).
+                AddIngredient<BlightedGel>(7).
                 AddTile<StaticRefiner>().
                 Register();
         }

@@ -1,4 +1,7 @@
-﻿using CalamityMod.Rarities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Rarities;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -40,9 +43,21 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+
+            if (line != null && CalamityWorld.getFixedBoi)
+                line.Text = "No, it sucks";
+        }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            SoundEngine.PlaySound(SoundID.Item38, player.position);
+            SoundEngine.PlaySound(SoundID.Item38, player.Center);
+            
+            // Really jammed in GFB
+            if (CalamityWorld.getFixedBoi)
+                return Main.rand.NextBool(5);
 
             int bulletAmt = Main.rand.Next(25, 36);
             for (int index = 0; index < bulletAmt; ++index)

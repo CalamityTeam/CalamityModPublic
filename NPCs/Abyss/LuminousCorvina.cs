@@ -36,8 +36,8 @@ namespace CalamityMod.NPCs.Abyss
         {
             NPC.noGravity = true;
             NPC.damage = 10;
-            NPC.width = 74;
-            NPC.height = 56;
+            NPC.width = 68;
+            NPC.height = 58;
             NPC.defense = 12;
             NPC.lifeMax = 800;
             NPC.aiStyle = -1;
@@ -103,12 +103,12 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     ++screamTimer;
 
-                    int screamLimit = CalamityWorld.death ? 120 : 180;
+                    int screamLimit = CalamityWorld.death ? 60 : CalamityWorld.revenge ? 120 : 180;
                     if (screamTimer >= screamLimit)
                     {
                         if (screamTimer == screamLimit)
                         {
-                            SoundEngine.PlaySound(ScreamSound, NPC.position);
+                            SoundEngine.PlaySound(ScreamSound, NPC.Center);
                             if (Main.netMode != NetmodeID.Server)
                             {
                                 if (!Main.player[NPC.target].dead && Main.player[NPC.target].active)
@@ -253,7 +253,7 @@ namespace CalamityMod.NPCs.Abyss
                     NPC.frameCounter = 0.0;
                     NPC.frame.Y = NPC.frame.Y + frameHeight;
                 }
-                if (screamTimer <= (CalamityWorld.death ? 120 : 180))
+                if (screamTimer <= (CalamityWorld.death ? 60 : CalamityWorld.revenge ? 120 : 180))
                 {
                     if (NPC.frame.Y > frameHeight * 5)
                     {
@@ -276,19 +276,15 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (NPC.spriteDirection == 1)
+            if (!NPC.IsABestiaryIconDummy)
             {
-                spriteEffects = SpriteEffects.FlipHorizontally;
+                Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/LuminousCorvinaGlow").Value;
+
+                var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+                Main.EntitySpriteDraw(tex, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY + 4), 
+                NPC.frame, Color.White * 0.5f, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, effects, 0);
             }
-            Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
-            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
-            Vector2 vector = center - screenPos;
-            vector -= new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/LuminousCorvinaGlow").Value.Width, (float)(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/LuminousCorvinaGlow").Value.Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
-            Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/LuminousCorvinaGlow").Value, vector,
-                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -325,6 +321,12 @@ namespace CalamityMod.NPCs.Abyss
                 for (int k = 0; k < 25; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 139, hitDirection, -1f, 0, default, 1f);
+                }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LuminousCorvina").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LuminousCorvina2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LuminousCorvina3").Type, 1f);
                 }
             }
         }

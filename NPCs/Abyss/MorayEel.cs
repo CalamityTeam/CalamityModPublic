@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.Abyss
             }
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer1 && spawnInfo.Water)
             {
-                return SpawnCondition.CaveJellyfish.Chance * 1.2f;
+                return SpawnCondition.CaveJellyfish.Chance * 2.2f;
             }
             return SpawnCondition.OceanMonster.Chance * 0.1f;
         }
@@ -128,6 +128,12 @@ namespace CalamityMod.NPCs.Abyss
                 for (int k = 0; k < 25; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("MorayEel").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("MorayEel2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("MorayEel3").Type, 1f);
                 }
             }
         }

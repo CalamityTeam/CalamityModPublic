@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -131,15 +132,23 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (damage > 0)
+            {
+                if (CalamityWorld.getFixedBoi) // it is the plague, you get very sick.
+                {
+                    player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 300, true);
+                    player.AddBuff(BuffID.Poisoned, 300, true);
+                    player.AddBuff(BuffID.Venom, 300, true);
+                }
                 player.AddBuff(ModContent.BuffType<Plague>(), 300, true);
+            }
         }
 
         public override bool CheckDead()
         {
-            SoundEngine.PlaySound(SoundID.Item14, NPC.position);
+            SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
             NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
             NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
-            NPC.width = NPC.height = 216;
+            NPC.width = NPC.height = CalamityWorld.getFixedBoi ? 300 : 216;
             NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
             NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
             for (int num621 = 0; num621 < 15; num621++)

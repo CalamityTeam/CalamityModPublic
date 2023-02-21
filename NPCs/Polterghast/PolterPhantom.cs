@@ -94,6 +94,8 @@ namespace CalamityMod.NPCs.Polterghast
 
             if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;
@@ -379,7 +381,7 @@ namespace CalamityMod.NPCs.Polterghast
                         // Emit dust
                         if (!reachedChargingPoint)
                         {
-                            SoundEngine.PlaySound(SoundID.Item125, NPC.position);
+                            SoundEngine.PlaySound(SoundID.Item125, NPC.Center);
                             for (int i = 0; i < 30; i++)
                             {
                                 int dust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 3f);

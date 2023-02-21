@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Armor
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Cirrus' Dress");
-            Tooltip.SetDefault("Here, this should help you drink as much alcohol as you want!\n" +
+            Tooltip.SetDefault("Here, this should help you drink a lot more than usual!\n" +
                 "5% increased magic damage and critical strike chance\n" +
                 "You feel thick...");
 

@@ -81,9 +81,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.EmpressBlade).
-                AddIngredient<IgneousExaltation>().
-                AddIngredient<UelibloomBar>(8).
+                AddIngredient<UelibloomBar>(15).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

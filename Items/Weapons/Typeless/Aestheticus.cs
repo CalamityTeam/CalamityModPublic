@@ -65,12 +65,8 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.HellstoneBar, 10).
-                AddIngredient(ItemID.MeteoriteBar, 10).
                 AddIngredient<AerialiteBar>(5).
                 AddIngredient<SeaPrism>(10).
-                AddIngredient(ItemID.Glass, 20).
-                AddIngredient(ItemID.Gel, 15).
                 AddIngredient(ItemID.FallenStar, 5).
                 AddTile(TileID.Anvils).
                 Register();

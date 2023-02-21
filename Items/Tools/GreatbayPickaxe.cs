@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Tools
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Greatbay Pickaxe");
-            Tooltip.SetDefault("Can mine Demonite, Crimtane and Meteorite");
+            Tooltip.SetDefault("Can mine Demonite, Crimtane, Meteorite, Sea Prisms and Sea Prism Crystals");
         }
 
         public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Tools
             Item.height = 44;
             Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;

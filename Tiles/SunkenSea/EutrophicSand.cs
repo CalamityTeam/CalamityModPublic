@@ -15,6 +15,9 @@ namespace CalamityMod.Tiles.SunkenSea
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithDesert(Type);
 
+            Main.tileShine[Type] = 2000;
+            Main.tileShine2[Type] = true;
+
             TileID.Sets.ChecksForMerge[Type] = true;
             TileID.Sets.CanBeDugByShovel[Type] = true;
 
@@ -22,18 +25,8 @@ namespace CalamityMod.Tiles.SunkenSea
             ItemDrop = ModContent.ItemType<Items.Placeables.EutrophicSand>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Sand");
-            AddMapEntry(new Color(100, 100, 150), name);
+            AddMapEntry(new Color(92, 145, 167), name);
             MineResist = 2f;
-        }
-
-        public override bool CanKillTile(int i, int j, ref bool blockDamaged)
-        {
-            return DownedBossSystem.downedDesertScourge;
-        }
-
-        public override bool CanExplode(int i, int j)
-        {
-            return DownedBossSystem.downedDesertScourge;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -43,8 +36,10 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, TileID.Sandstone);
+            TileFraming.CustomMergeFrame(i, j, Type, TileID.Sandstone, true, false, false);
             return false;
+
+            //return TileFraming.BrimstoneFraming(i, j, resetFrame);
         }
     }
 }

@@ -18,6 +18,7 @@ using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.UI.Rippers;
 using CalamityMod.UI.DraedonsArsenal;
 using CalamityMod.UI.SulphurousWaterMeter;
+using CalamityMod.Items.Tools.ClimateChange;
 
 namespace CalamityMod
 {
@@ -56,6 +57,12 @@ namespace CalamityMod
         [DefaultValue(500)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.ParticleLimit")]
         public int ParticleLimit { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.BossesStopWeather")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(false)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossesStopWeather")]
+        public bool BossesStopWeather { get; set; }
 
         [Label("$Mods.CalamityMod.Config.EntryTitle.Screenshake")]
         [BackgroundColor(192, 54, 64, 192)]
@@ -205,6 +212,12 @@ namespace CalamityMod
         #region General Gameplay Changes
         [Header("$Mods.CalamityMod.Config.SectionTitle.Gameplay")]
 
+        [Label("$Mods.CalamityMod.Config.EntryTitle.FasterFallHotkey")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterFallHotkey")]
+        public bool FasterFallHotkey { get; set; }
+
         [Label("$Mods.CalamityMod.Config.EntryTitle.RemoveReforgeRNG")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
@@ -222,6 +235,12 @@ namespace CalamityMod
         [DefaultValue(true)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossZen")]
         public bool BossZen { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.PotionSelling")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.PotionSelling")]
+        public bool PotionSelling { get; set; }
 
         [Label("$Mods.CalamityMod.Config.EntryTitle.TownNPCsSpawnAtNight")]
         [BackgroundColor(192, 54, 64, 192)]
@@ -275,13 +294,6 @@ namespace CalamityMod
         [DefaultValue(true)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterJumpSpeed")]
         public bool FasterJumpSpeed { get; set; }
-
-
-        [Label("$Mods.CalamityMod.Config.EntryTitle.FasterFallHotkey")]
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(true)]
-        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterFallHotkey")]
-        public bool FasterFallHotkey { get; set; }
 
         [Label("$Mods.CalamityMod.Config.EntryTitle.FasterTilePlacement")]
         [BackgroundColor(192, 54, 64, 192)]
@@ -361,28 +373,6 @@ namespace CalamityMod
         public float AdrenalineMeterPosY { get; set; }
         #endregion
 
-        #region Boss Rush Curses
-        [Header("$Mods.CalamityMod.Config.SectionTitle.BossRushCurses")]
-
-        [Label("$Mods.CalamityMod.Config.EntryTitle.BossRushRegenCurse")]
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(false)]
-        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossRushRegenCurse")]
-        public bool BossRushRegenCurse { get; set; }
-
-        [Label("$Mods.CalamityMod.Config.EntryTitle.BossRushDashCurse")]
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(false)]
-        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossRushDashCurse")]
-        public bool BossRushDashCurse { get; set; }
-
-        [Label("$Mods.CalamityMod.Config.EntryTitle.BossRushIFrameCurse")]
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(false)]
-        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossRushIFrameCurse")]
-        public bool BossRushIFrameCurse { get; set; }
-        #endregion
-
         #region Dynamic Localization (Item Icon Injection)
         
         // Because it is impossible to know the item IDs of Calamity items until runtime,
@@ -395,8 +385,9 @@ namespace CalamityMod
             var configLabelItemEmbeds = new KeyValuePair<string, int>[]
             {
                 new("Afterimages", ItemID.SteampunkGoggles),
-                new("Screenshake", ModContent.ItemType<WavePounder>()),
                 new("ParticleLimit", ItemID.FragmentStardust),
+                new("BossesStopWeather", ModContent.ItemType<TorrentialTear>()),
+                new("Screenshake", ModContent.ItemType<WavePounder>()),
                 new("StealthInvisibility", ModContent.ItemType<StealthHairDye>()),
                 new("ShopNewAlert", ItemID.GoldChest),
                 new("WikiStatusMessage", ItemID.Book),
@@ -422,9 +413,11 @@ namespace CalamityMod
                 new("SpeedrunTimerPosX", ItemID.LaserRuler),
                 new("SpeedrunTimerPosY", ItemID.LaserRuler),
 
+                new("FasterFallHotkey", ModContent.ItemType<BallAndChain>()),
                 new("RemoveReforgeRNG", ItemID.TinHammer),
                 new("EarlyHardmodeProgressionRework", ItemID.Pwnhammer),
                 new("BossZen", ModContent.ItemType<ZenPotion>()),
+                new("PotionSelling", ItemID.SpelunkerPotion),
                 new("TownNPCsSpawnAtNight", ItemID.ClothierVoodooDoll),
                 new("TownNPCSpawnRateMultiplier", ItemID.GuideVoodooDoll),
                 new("BossHealthBoost", ItemID.LifeCrystal),
@@ -432,7 +425,6 @@ namespace CalamityMod
                 new("FasterBaseSpeed", ItemID.HermesBoots),
                 new("HigherJumpHeight", ItemID.ShinyRedBalloon),
                 new("FasterJumpSpeed", ItemID.FrogLeg),
-                new("FasterFallHotkey", ModContent.ItemType<BallAndChain>()),
                 new("FasterTilePlacement", ItemID.ArchitectGizmoPack),
 
                 new("NerfExpertDebuffs", ItemID.AnkhCharm),

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Walls;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,9 +27,19 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ProfanedRockWall>(), 4).AddTile(TileID.WorkBenches).Register();
-            CreateRecipe(20).AddIngredient(ModContent.ItemType<UnholyEssence>()).AddRecipeGroup("AnyStoneBlock", 20).AddTile(TileID.LunarCraftingStation).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ProfanedPlatform>(), 2).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(50).
+                AddRecipeGroup("AnyStoneBlock", 50).
+                AddIngredient<UnholyEssence>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+            CreateRecipe().
+                AddIngredient<ProfanedRockWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
+            CreateRecipe().
+                AddIngredient<ProfanedPlatform>(2).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

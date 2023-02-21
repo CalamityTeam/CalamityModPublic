@@ -52,7 +52,6 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void SetDefaults()
         {
-            NPC.npcSlots = 16f;
             NPC.GetNPCDamage();
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.width = 90;
@@ -108,6 +107,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             writer.Write(NPC.localAI[1]);
             writer.Write(NPC.localAI[2]);
             writer.Write(NPC.localAI[3]);
+            writer.Write(NPC.npcSlots);
             for (int i = 0; i < 4; i++)
                 writer.Write(NPC.Calamity().newAI[i]);
         }
@@ -118,6 +118,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
             NPC.localAI[3] = reader.ReadSingle();
+            NPC.npcSlots = reader.ReadSingle();
             for (int i = 0; i < 4; i++)
                 NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
@@ -141,7 +142,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             Color color = NPC.GetAlpha(drawColor);
 
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.getFixedBoi)
             {
                 if (NPC.Calamity().newAI[3] > 300f)
                     color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((NPC.Calamity().newAI[3] - 300f) / 180f, 0f, 1f));
@@ -254,8 +255,8 @@ namespace CalamityMod.NPCs.AquaticScourge
 
             // Lore
             bool firstASKill() => !DownedBossSystem.downedAquaticScourge;
-            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeAquaticScourge>(), desc: DropHelper.FirstKillText);
-            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeSulphurSea>(), desc: DropHelper.FirstKillText);            
+            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<LoreAquaticScourge>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<LoreSulphurSea>(), desc: DropHelper.FirstKillText);            
         }
 
         public override void OnKill()
@@ -268,7 +269,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (!DownedBossSystem.downedAquaticScourge)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    SoundEngine.PlaySound(Mauler.RoarSound, Main.player[Main.myPlayer].position);
+                    SoundEngine.PlaySound(Mauler.RoarSound, Main.player[Main.myPlayer].Center);
 
                 string sulfSeaBoostKey = "Mods.CalamityMod.WetWormBossText";
                 Color sulfSeaBoostColor = AcidRainEvent.TextColor;

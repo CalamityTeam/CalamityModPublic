@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = false;
             Item.knockBack = 4f;
-            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.Frostburn2, 300);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
 
             if (crit)
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.Frostburn2, 300);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
 
             if (crit)

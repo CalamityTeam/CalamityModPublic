@@ -74,12 +74,12 @@ namespace CalamityMod.Projectiles.Rogue
                 target.buffImmune[BuffID.Oiled] = false;
             }
             target.AddBuff(BuffID.Oiled, 600);
-            target.AddBuff(BuffID.OnFire, 240);
+            target.AddBuff(BuffID.OnFire3, 300);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 240);
+            target.AddBuff(BuffID.OnFire3, 300);
         }
 
         public override void Kill(int timeLeft)

@@ -13,8 +13,10 @@ using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Chat;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -385,19 +387,6 @@ namespace CalamityMod
             }
         }
 
-        /// Inflict typical exo weapon debuffs. Duration multiplier optional.
-        /// </summary>
-        /// <param name="target">The NPC attacked.</param>
-        /// <param name="multiplier">Debuff time multiplier if needed.</param>
-        /// <returns>Inflicts debuffs if they can.</returns>
-        public static void ExoDebuffs(this NPC target, float multiplier = 1f)
-        {
-            target.AddBuff(BuffType<ExoFreeze>(), (int)(30 * multiplier));
-            target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
-            target.AddBuff(BuffID.Frostburn, (int)(150 * multiplier));
-            target.AddBuff(BuffID.OnFire, (int)(180 * multiplier));
-        }
-
         public static T ModNPC<T>(this NPC npc) where T : ModNPC => npc.ModNPC as T;
 
         /// <summary>
@@ -431,6 +420,19 @@ namespace CalamityMod
             }
             else
                 return null;
+        }
+
+        public static void DrawBackglow(this NPC npc, Color backglowColor, float backglowArea, SpriteEffects spriteEffects, Rectangle frame, Vector2 screenPos, Texture2D overrideTexture = null)
+        {
+            Texture2D texture = overrideTexture is null ? TextureAssets.Npc[npc.type].Value : overrideTexture;
+            Vector2 drawPosition = npc.Center - screenPos;
+            Vector2 origin = frame.Size() * 0.5f;
+            Color backAfterimageColor = backglowColor * npc.Opacity;
+            for (int i = 0; i < 10; i++)
+            {
+                Vector2 drawOffset = (MathHelper.TwoPi * i / 10f).ToRotationVector2() * backglowArea;
+                Main.spriteBatch.Draw(texture, drawPosition + drawOffset, frame, backAfterimageColor, npc.rotation, origin, npc.scale, spriteEffects, 0f);
+            }
         }
 
         /// <summary>

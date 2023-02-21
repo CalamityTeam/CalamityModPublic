@@ -56,8 +56,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.SuperStarCannon).
-                AddIngredient(ItemID.ElectrosphereLauncher).
+                AddIngredient<AquashardShotgun>().
                 AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient(ItemID.FragmentStardust, 6).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Other;
 using CalamityMod.Projectiles.Melee;
@@ -172,8 +173,8 @@ namespace CalamityMod.UI.CalamitasEnchants
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Oblatory",
                     item =>
                     {
-                        item.damage = (int)(item.damage * 1.5);
-                        item.mana = (int)Math.Ceiling(item.mana * 0.6);
+                        item.damage = (int)(item.damage * 1.25);
+                        item.mana = (int)Math.Ceiling(item.mana * 0.7);
                     },
                     player => player.Calamity().lifeManaEnchant = true,
                     item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<MagicDamageClass>() && item.mana > 0 && item.type != ModContent.ItemType<Eternity>()),
@@ -183,21 +184,21 @@ namespace CalamityMod.UI.CalamitasEnchants
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Resentful",
                     null,
                     player => player.Calamity().farProximityRewardEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.IsTrueMelee()),
+                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.IsTrueMelee() && item.type != ModContent.ItemType<FinalDawn>()),
 
                 new Enchantment("Bloodthirsty", "Makes the damage of projectiles vary based on how far the hit target is from you. The closer, the more damage, and vice versa.",
                     500,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Bloodthirsty",
                     null,
                     player => player.Calamity().closeProximityRewardEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.IsTrueMelee()),
+                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.IsTrueMelee() && item.type != ModContent.ItemType<FinalDawn>()),
 
                 new Enchantment("Ephemeral", "Causes the damage output of this item to discharge from exhaustive use.\nIts damage returns naturally when not being used. It starts off with more damage than it normally would have.",
                     600,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Ephemeral",
                     null,
                     player => player.Calamity().dischargingItemEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>() && !item.CountsAsClass<ThrowingDamageClass>() &&
+                    item => item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>() && !item.CountsAsClass<RogueDamageClass>() &&
                     !item.channel && item.type != ModContent.ItemType<HeavenlyGale>()),
 
                 new Enchantment("Hellbound", "Causes minions to be created with a 40 second timer.\nOnce it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.",
@@ -245,7 +246,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                     },
                     item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<MeleeDamageClass>() && !item.noUseGraphic && item.shoot > ProjectileID.None),
 
-                new Enchantment("Traitorous", "Causes this item to sometimes release a monster that hurts both you and enemies when you have less than 50% mana.",
+                new Enchantment("Traitorous", "Using this item below 25% mana instantly consumes your remaining mana, unleashing a monster that harms both you and enemies.",
                     900,
                     "CalamityMod/UI/CalamitasEnchantments/CurseIcon_Traitorous",
                     null,

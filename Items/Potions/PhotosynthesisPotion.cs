@@ -37,7 +37,6 @@ namespace CalamityMod.Items.Potions
         {
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
-                AddIngredient<BeetleJuice>().
                 AddIngredient<TrapperBulb>().
                 AddIngredient<EssenceofSunlight>().
                 AddTile(TileID.AlchemyTable).

@@ -82,16 +82,22 @@ namespace CalamityMod.NPCs.DevourerofGods
                     float intensity = GetIntensity();
                     float lifeRatio = Main.npc[DoGIndex].life / (float)Main.npc[DoGIndex].lifeMax;
                     double blackScreenLife_GateValue = (lifeRatio < 0.6f && Main.npc[DoGIndex].localAI[2] <= 2f) ? 0.15 : 0.75;
-                    if (Main.npc[DoGIndex].life < Main.npc[DoGIndex].lifeMax * blackScreenLife_GateValue || CalamityWorld.death || BossRushEvent.BossRushActive)
+
+                    float timeToReachNextColor = DevourerofGodsHead.SkyColorTransitionTime;
+                    float phaseTimer = Main.npc[DoGIndex].Calamity().newAI[2];
+                    float colorChangeProgress = phaseTimer / timeToReachNextColor;
+                    if (colorChangeProgress > 1f)
+                        colorChangeProgress = 1f;
+
+                    bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+                    Color regularSkyColor = (Main.npc[DoGIndex].ai[3] == 0f ? Color.Lerp(Color.Fuchsia, Color.Cyan, colorChangeProgress) : Color.Lerp(Color.Cyan, Color.Fuchsia, colorChangeProgress)) * intensity;
+                    if (Main.npc[DoGIndex].life < Main.npc[DoGIndex].lifeMax * blackScreenLife_GateValue || death || Main.npc[DoGIndex].localAI[3] > 0f)
                     {
-                        spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2),
-                            Color.Black * (intensity + 0.5f));
+                        float blackSkyTransitionProgress = death ? 1f : Main.npc[DoGIndex].localAI[3] / timeToReachNextColor;
+                        spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2), Color.Lerp(regularSkyColor, Color.Black * (intensity + 0.5f), blackSkyTransitionProgress));
                     }
                     else
-                    {
-                        spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2),
-                            (Main.npc[DoGIndex].ai[3] == 0f ? Color.Cyan : Color.Fuchsia) * intensity);
-                    }
+                        spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2), regularSkyColor);
                 }
             }
         }

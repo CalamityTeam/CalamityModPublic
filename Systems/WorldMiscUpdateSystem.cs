@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using System;
+using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AdultEidolonWyrm;
@@ -8,8 +9,8 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.SunkenSea;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Events;
@@ -67,7 +68,7 @@ namespace CalamityMod.Systems
                 AcidRainEvent.HasStartedAcidicDownpour = false;
             }
 
-            // Lumenyl crystal, tenebris spread and sea prism crystal spawn rates
+            // Lumenyl crystal and sea prism crystal spawn rates
             HandleTileGrowth();
 
             // Update Boss Rush.
@@ -85,7 +86,7 @@ namespace CalamityMod.Systems
             // Very, very, very rarely display a Lorde joke text if the system clock is set to April Fools Day.
             if (Main.rand.NextBool(100000000) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
             {
-                string key = "Mods.CalamityMod.AprilFools";
+                string key = CalamityWorld.getFixedBoi ? "Mods.CalamityMod.AprilFoolsGFB" : "Mods.CalamityMod.AprilFools";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
@@ -150,7 +151,7 @@ namespace CalamityMod.Systems
                 if (y2 < 10)
                     y2 = 10;
 
-                if (WorldGen.InWorld(x, y, 1) && Main.tile[x, y] != null)
+                if (WorldGen.InWorld(x, y, 1) && Main.tile[x, y].HasTile)
                 {
                     if (Main.tile[x, y].HasUnactuatedTile)
                     {
@@ -229,12 +230,11 @@ namespace CalamityMod.Systems
                             }
                         }
 
-                        int tileType = Main.tile[x, y].TileType;
-                        bool tenebris = tileType == ModContent.TileType<Tenebris>() && DownedBossSystem.downedCalamitas;
-
-                        if (CalamityGlobalTile.GrowthTiles.Contains(tileType) || tenebris)
+                        Tile growthTile = Main.tile[x, y];
+                        int tileType = growthTile.TileType;
+                        if (CalamityGlobalTile.GrowthTiles.Contains(tileType) && growthTile.Slope == SlopeType.Solid && !growthTile.IsHalfBlock)
                         {
-                            int growthChance = tenebris ? 4 : 2;
+                            int growthChance = 2;
                             if (tileType == ModContent.TileType<Navystone>())
                                 growthChance *= 5;
 
@@ -261,9 +261,9 @@ namespace CalamityMod.Systems
                                 if (Main.tile[x, y] != null)
                                 {
                                     Tile tile = Main.tile[x, y];
-                                    bool growTile = tenebris ? (tile.HasTile && tile.TileType == ModContent.TileType<PlantyMush>()) : (!tile.HasTile && tile.LiquidAmount >= 128);
+                                    bool growTile = !tile.HasTile && tile.LiquidAmount >= 128;
                                     bool isSunkenSeaTile = tileType == ModContent.TileType<Navystone>() || tileType == ModContent.TileType<EutrophicSand>() || tileType == ModContent.TileType<SeaPrism>();
-                                    bool meetsAdditionalGrowConditions = tile.Slope == 0 && !tile.IsHalfBlock && tile.LiquidType != LiquidID.Lava;
+                                    bool meetsAdditionalGrowConditions = tile.Slope == SlopeType.Solid && !tile.IsHalfBlock && tile.LiquidType != LiquidID.Lava;
 
                                     if (growTile && meetsAdditionalGrowConditions)
                                     {
@@ -276,31 +276,28 @@ namespace CalamityMod.Systems
                                         if (tileType2 == ModContent.TileType<SeaPrismCrystals>() && !isSunkenSeaTile)
                                             canPlaceBasedOnAttached = false;
 
-                                        if (canPlaceBasedOnAttached && (CanPlaceBasedOnProximity(x, y, tileType2) || tenebris))
+                                        if (canPlaceBasedOnAttached && CanPlaceBasedOnProximity(x, y, tileType2))
                                         {
-                                            tile.TileType = tenebris ? (ushort)tileType : (ushort)tileType2;
+                                            tile.TileType = (ushort)tileType2;
 
-                                            if (!tenebris)
+                                            tile.HasTile = true;
+                                            if (Main.tile[x, y + 1].HasTile && Main.tileSolid[Main.tile[x, y + 1].TileType] && Main.tile[x, y + 1].Slope == 0 && !Main.tile[x, y + 1].IsHalfBlock)
                                             {
-                                                tile.HasTile = true;
-                                                if (Main.tile[x, y + 1].HasTile && Main.tileSolid[Main.tile[x, y + 1].TileType] && Main.tile[x, y + 1].Slope == 0 && !Main.tile[x, y + 1].IsHalfBlock)
-                                                {
-                                                    tile.TileFrameY = 0;
-                                                }
-                                                else if (Main.tile[x, y - 1].HasTile && Main.tileSolid[Main.tile[x, y - 1].TileType] && Main.tile[x, y - 1].Slope == 0 && !Main.tile[x, y - 1].IsHalfBlock)
-                                                {
-                                                    tile.TileFrameY = 18;
-                                                }
-                                                else if (Main.tile[x + 1, y].HasTile && Main.tileSolid[Main.tile[x + 1, y].TileType] && Main.tile[x + 1, y].Slope == 0 && !Main.tile[x + 1, y].IsHalfBlock)
-                                                {
-                                                    tile.TileFrameY = 36;
-                                                }
-                                                else if (Main.tile[x - 1, y].HasTile && Main.tileSolid[Main.tile[x - 1, y].TileType] && Main.tile[x - 1, y].Slope == 0 && !Main.tile[x - 1, y].IsHalfBlock)
-                                                {
-                                                    tile.TileFrameY = 54;
-                                                }
-                                                tile.TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
+                                                tile.TileFrameY = 0;
                                             }
+                                            else if (Main.tile[x, y - 1].HasTile && Main.tileSolid[Main.tile[x, y - 1].TileType] && Main.tile[x, y - 1].Slope == 0 && !Main.tile[x, y - 1].IsHalfBlock)
+                                            {
+                                                tile.TileFrameY = 18;
+                                            }
+                                            else if (Main.tile[x + 1, y].HasTile && Main.tileSolid[Main.tile[x + 1, y].TileType] && Main.tile[x + 1, y].Slope == 0 && !Main.tile[x + 1, y].IsHalfBlock)
+                                            {
+                                                tile.TileFrameY = 36;
+                                            }
+                                            else if (Main.tile[x - 1, y].HasTile && Main.tileSolid[Main.tile[x - 1, y].TileType] && Main.tile[x - 1, y].Slope == 0 && !Main.tile[x - 1, y].IsHalfBlock)
+                                            {
+                                                tile.TileFrameY = 54;
+                                            }
+                                            tile.TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
 
                                             WorldGen.SquareTileFrame(x, y);
 
@@ -319,10 +316,10 @@ namespace CalamityMod.Systems
 
         public static bool CanPlaceBasedOnProximity(int x, int y, int tileType)
         {
-            if (tileType == ModContent.TileType<LumenylCrystals>() && !DownedBossSystem.downedCalamitas)
+            if (tileType == ModContent.TileType<LumenylCrystals>() && !DownedBossSystem.downedCalamitasClone)
                 return false;
 
-            int minDistanceFromOtherTiles = 6;
+            int minDistanceFromOtherTiles = 10;
             int sameTilesNearby = 0;
             for (int i = x - minDistanceFromOtherTiles; i < x + minDistanceFromOtherTiles; i++)
             {
@@ -344,7 +341,8 @@ namespace CalamityMod.Systems
         #region Handle Armored Digger Random Spawns
         public static void TrySpawnArmoredDigger(Player player, CalamityPlayer modPlayer)
         {
-            if (player.ZoneRockLayerHeight && !player.ZoneUnderworldHeight && !player.ZoneDungeon && !player.ZoneJungle && !modPlayer.ZoneSunkenSea && !modPlayer.ZoneAbyss && !CalamityPlayer.areThereAnyDamnBosses)
+            bool gfbCondition = CalamityWorld.getFixedBoi && (player.ZoneHallow || player.ZoneUnderworldHeight) && NPC.downedMoonlord;
+            if ((gfbCondition || (player.ZoneRockLayerHeight && !player.ZoneUnderworldHeight && !player.ZoneJungle)) && !player.ZoneDungeon && !modPlayer.ZoneSunkenSea && !modPlayer.ZoneAbyss && !CalamityPlayer.areThereAnyDamnBosses)
             {
                 if (NPC.downedPlantBoss && player.townNPCs < 3f)
                 {
@@ -419,7 +417,7 @@ namespace CalamityMod.Systems
         #region Handle Adult Eidolon Wyrm Spawns
         public static void TrySpawnAEoW(Player player, CalamityPlayer modPlayer)
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient || !modPlayer.ZoneAbyss || !player.chaosState || player.dead)
+            if (Main.netMode == NetmodeID.MultiplayerClient || !(modPlayer.ZoneAbyss || CalamityWorld.getFixedBoi) || !player.chaosState || player.dead)
                 return;
 
             bool adultWyrmAlive = CalamityGlobalNPC.adultEidolonWyrmHead != -1 && Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active;

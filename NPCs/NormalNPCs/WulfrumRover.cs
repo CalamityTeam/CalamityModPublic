@@ -197,7 +197,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 float scale = 0.15f + 0.03f * (0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f + NPC.whoAmI * 0.2f));
                 float noiseScale = 0.6f;
 
-                Effect shieldEffect = Terraria.Graphics.Effects.Filters.Scene["RoverDriveShield"].GetShader().Shader;
+                Effect shieldEffect = Terraria.Graphics.Effects.Filters.Scene["CalamityMod:RoverDriveShield"].GetShader().Shader;
                 shieldEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.24f);
                 shieldEffect.Parameters["blowUpPower"].SetValue(2.5f);
                 shieldEffect.Parameters["blowUpSize"].SetValue(0.5f);

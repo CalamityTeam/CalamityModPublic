@@ -21,6 +21,7 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -34,6 +35,7 @@ namespace CalamityMod.NPCs.Signus
         private int spawnX = 750;
         private int spawnY = 120;
         private int lifeToAlpha = 0;
+        private int stealthTimer = 0;
 
         public override void SetStaticDefaults()
         {
@@ -50,7 +52,7 @@ namespace CalamityMod.NPCs.Signus
             value.Position.X += 6f;
             value.Position.Y += 10f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
-			NPCID.Sets.MPAllowedEnemies[Type] = true;
+            NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -92,6 +94,7 @@ namespace CalamityMod.NPCs.Signus
             writer.Write(spawnX);
             writer.Write(spawnY);
             writer.Write(lifeToAlpha);
+            writer.Write(stealthTimer);
             for (int i = 0; i < 4; i++)
                 writer.Write(NPC.Calamity().newAI[i]);
         }
@@ -101,6 +104,7 @@ namespace CalamityMod.NPCs.Signus
             spawnX = reader.ReadInt32();
             spawnY = reader.ReadInt32();
             lifeToAlpha = reader.ReadInt32();
+            stealthTimer = reader.ReadInt32();
             for (int i = 0; i < 4; i++)
                 NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
@@ -192,6 +196,30 @@ namespace CalamityMod.NPCs.Signus
                         Main.dust[num1012].velocity *= 0.2f;
                         Main.dust[num1012].fadeIn = 1f;
                     }
+                }
+            }
+
+            // Zenith seed stealth strike stuff
+            int stealthSoundGate = 300;
+            int maxStealth = 360;
+
+            if (CalamityWorld.getFixedBoi)
+            {
+                if (stealthTimer < maxStealth)
+                {
+                    stealthTimer++;
+                }
+                if (stealthTimer == stealthSoundGate)
+                {
+                    SoundEngine.PlaySound(CalPlayer.CalamityPlayer.RogueStealthSound, NPC.Center);
+                }
+                if (stealthTimer >= stealthSoundGate && stealthTimer < maxStealth)
+                {
+                    NPC.alpha = 0;
+                    NPC.knockBackResist = 0f;
+                    NPC.rotation = NPC.rotation.AngleLerp(0f, 0.2f);
+                    NPC.velocity *= 0.3f;
+                    return;
                 }
             }
 
@@ -343,7 +371,7 @@ namespace CalamityMod.NPCs.Signus
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
                     {
-                        SoundEngine.PlaySound(SoundID.Item122, NPC.position);
+                        SoundEngine.PlaySound(SoundID.Item122, NPC.Center);
 
                         int num660 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X + 750f), (int)player.position.Y, ModContent.NPCType<CosmicMine>());
                         if (Main.netMode == NetmodeID.Server)
@@ -352,6 +380,20 @@ namespace CalamityMod.NPCs.Signus
                         int num661 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X - 750f), (int)player.position.Y, ModContent.NPCType<CosmicMine>());
                         if (Main.netMode == NetmodeID.Server)
                             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
+
+                        if (stealthTimer >= maxStealth)
+                        {
+                            int num662 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X + 950f), (int)player.position.Y, ModContent.NPCType<CosmicMine>());
+                            if (Main.netMode == NetmodeID.Server)
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num662, 0f, 0f, 0f, 0, 0, 0);
+
+                            int num663 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X - 950f), (int)player.position.Y, ModContent.NPCType<CosmicMine>());
+                            if (Main.netMode == NetmodeID.Server)
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num663, 0f, 0f, 0f, 0, 0, 0);
+
+                            SoundEngine.PlaySound(RaidersTalisman.StealthHitSound, NPC.Center);
+                            stealthTimer = 0;
+                        }
 
                         for (int num621 = 0; num621 < 5; num621++)
                         {
@@ -436,6 +478,17 @@ namespace CalamityMod.NPCs.Signus
                             int type = ModContent.ProjectileType<SignusScythe>();
                             int damage = NPC.GetProjectileDamage(type);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, NPC.target + 1);
+                            if (stealthTimer >= maxStealth)
+                            {
+                                damage *= 2;
+                                SoundEngine.PlaySound(RaidersTalisman.StealthHitSound, NPC.Center);
+                                for (int i = 0; i < 4; i++)
+                                {
+                                    Vector2 offset = new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6));
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, num1071 + offset.X, num1072 + offset.Y, type, damage, 0f, Main.myPlayer, 0f, NPC.target + 1);
+                                }
+                                stealthTimer = 0;
+                            }
                         }
                     }
                 }
@@ -500,20 +553,46 @@ namespace CalamityMod.NPCs.Signus
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int totalLamps = Main.getGoodWorld ? 10 : 5;
+                    int totalLamps = Main.getGoodWorld && !CalamityWorld.getFixedBoi ? 10 : 5;
                     if (NPC.CountNPCS(ModContent.NPCType<CosmicLantern>()) < totalLamps)
                     {
+                        bool buffed = false;
+                        if (stealthTimer >= maxStealth)
+                        {
+                            SoundEngine.PlaySound(RaidersTalisman.StealthHitSound, NPC.Center);
+                            buffed = true;
+                        }
                         for (int x = 0; x < totalLamps; x++)
                         {
-                            int num660 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X + spawnX), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>());
+                            int type = ModContent.NPCType<CosmicLantern>();
+                            if (Main.rand.NextBool(10) && CalamityWorld.getFixedBoi)
+                            {
+                                type = ModContent.NPCType<CosmicMine>();
+                            }
+                            int num660 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X + spawnX), (int)(player.position.Y + spawnY), type);
                             if (Main.netMode == NetmodeID.Server)
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
 
-                            int num661 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X - spawnX), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>());
+                            int num661 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X - spawnX), (int)(player.position.Y + spawnY), type);
                             if (Main.netMode == NetmodeID.Server)
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
 
+                            if (buffed)
+                            {
+                                int num662 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X + spawnX + spawnX / 2), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>());
+                                if (Main.netMode == NetmodeID.Server)
+                                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num662, 0f, 0f, 0f, 0, 0, 0);
+
+                                int num663 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X - spawnX - spawnX / 2), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>());
+                                if (Main.netMode == NetmodeID.Server)
+                                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num663, 0f, 0f, 0f, 0, 0, 0);
+                            }
+
                             spawnY -= 60;
+                        }
+                        if (buffed)
+                        {
+                            stealthTimer = 0;
                         }
                         spawnY = 120;
                     }
@@ -594,13 +673,26 @@ namespace CalamityMod.NPCs.Signus
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NPC.ai[2] += 1f;
-                        if (phase2 && NPC.ai[2] % 3f == 0f)
+                        bool buffed = false;
+                        if (stealthTimer >= maxStealth && NPC.ai[1] == 0)
                         {
-                            SoundEngine.PlaySound(SoundID.Item73, NPC.position);
+                            SoundEngine.PlaySound(RaidersTalisman.StealthHitSound, NPC.Center);
+                            buffed = true;
+                        }
+                        NPC.ai[2] += 1f;
+                        if ((phase2 || buffed) && NPC.ai[2] % 3f == 0f)
+                        {
+                            SoundEngine.PlaySound(SoundID.Item73, NPC.Center);
                             int type = ModContent.ProjectileType<EssenceDust>();
                             int damage = NPC.GetProjectileDamage(type);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+                            Vector2 velocity = CalamityWorld.getFixedBoi ? new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)) : Vector2.Zero;
+                            if (Main.getGoodWorld)
+                            {
+                                velocity.Normalize();
+                                velocity *= 1.05f;
+                            }
+                            int ai = buffed ? 69 : 0;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter, velocity, type, damage, 0f, Main.myPlayer, ai);
                         }
                     }
 
@@ -611,6 +703,10 @@ namespace CalamityMod.NPCs.Signus
                         calamityGlobalNPC.newAI[0] = 3f;
                         NPC.ai[1] = 30f;
                         NPC.ai[2] = 0f;
+                        if (stealthTimer >= maxStealth)
+                        {
+                            stealthTimer = 0;
+                        }
                         NPC.velocity /= 2f;
                         NPC.netUpdate = true;
                     }
@@ -626,6 +722,10 @@ namespace CalamityMod.NPCs.Signus
                 }
                 else if (calamityGlobalNPC.newAI[0] == 3f) // Slow down after charging and reset
                 {
+                    if (stealthTimer >= maxStealth)
+                    {
+                        stealthTimer = 0;
+                    }
                     NPC.ai[1] -= 1f;
                     if (NPC.ai[1] <= 0f)
                     {
@@ -717,6 +817,11 @@ namespace CalamityMod.NPCs.Signus
             float scale = NPC.scale;
             float rotation = NPC.rotation;
             float offsetY = NPC.gfxOffY;
+            float transparency = 1;
+            if (stealthTimer >= 300)
+            {
+                transparency = (100 - (stealthTimer - 300)) * 0.01f;
+            }
 
             if (CalamityConfig.Instance.Afterimages)
             {
@@ -729,16 +834,20 @@ namespace CalamityMod.NPCs.Signus
                     Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     vector41 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
                     vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-                    spriteBatch.Draw(NPCTexture, vector41, new Rectangle?(frame), color38, rotation, vector11, scale, spriteEffects, 0f);
+                    spriteBatch.Draw(NPCTexture, vector41, new Rectangle?(frame), color38 * transparency, rotation, vector11, scale, spriteEffects, 0f);
                 }
             }
 
             Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
             vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-            spriteBatch.Draw(NPCTexture, vector43, new Rectangle?(frame), NPC.GetAlpha(drawColor), rotation, vector11, scale, spriteEffects, 0f);
+            spriteBatch.Draw(NPCTexture, vector43, new Rectangle?(frame), NPC.GetAlpha(drawColor) * transparency, rotation, vector11, scale, spriteEffects, 0f);
 
             Color color40 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
+            if (CalamityWorld.getFixedBoi)
+            {
+                color40 = Color.MediumBlue;
+            }
 
             if (CalamityConfig.Instance.Afterimages)
             {
@@ -753,6 +862,24 @@ namespace CalamityMod.NPCs.Signus
                     vector44 += vector11 * scale + new Vector2(0f, 4f + offsetY);
                     spriteBatch.Draw(glowMaskTexture, vector44, new Rectangle?(frame), color41, rotation, vector11, scale, spriteEffects, 0f);
                 }
+            }
+
+            if (CalamityWorld.getFixedBoi) // make Sig's eyes more visible in the zenith seed due to the color change
+            {
+                CalamityUtils.EnterShaderRegion(spriteBatch);
+                Color outlineColor = Color.Lerp(Color.Blue, Color.White, 0.4f);
+                Vector3 outlineHSL = Main.rgbToHsl(outlineColor); //BasicTint uses the opposite hue i guess? or smth is fucked with the way shaders get their colors. anyways, we invert it
+                float outlineThickness = MathHelper.Clamp(0.5f, 0f, 1f);
+
+                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(1f);
+                GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1 - outlineHSL.X, outlineHSL.Y, outlineHSL.Z));
+                GameShaders.Misc["CalamityMod:BasicTint"].Apply();
+
+                for (float i = 0; i < 1; i += 0.125f)
+                {
+                    spriteBatch.Draw(glowMaskTexture, vector43 + (i * MathHelper.TwoPi).ToRotationVector2() * outlineThickness, new Rectangle?(frame), outlineColor, rotation, vector11, scale, spriteEffects, 0f);
+                }
+                CalamityUtils.ExitShaderRegion(spriteBatch);
             }
 
             spriteBatch.Draw(glowMaskTexture, vector43, new Rectangle?(frame), color40, rotation, vector11, scale, spriteEffects, 0f);
@@ -798,10 +925,10 @@ namespace CalamityMod.NPCs.Signus
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<SignusMask>(), 7);
-				var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
-				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
-				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
-				normalOnly.Add(godSlayerVanity);
+                var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+                godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+                godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+                normalOnly.Add(godSlayerVanity);
                 normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
             }
 
@@ -811,7 +938,7 @@ namespace CalamityMod.NPCs.Signus
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<SignusRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), desc: DropHelper.SentinelText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSignus, ModContent.ItemType<LoreSignus>(), desc: DropHelper.FirstKillText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

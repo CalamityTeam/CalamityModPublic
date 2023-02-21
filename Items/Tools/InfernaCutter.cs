@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Tools
             Item.height = 66;
             Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Tools
             CreateRecipe().
                 AddIngredient<AxeofPurity>().
                 AddIngredient(ItemID.SoulofFright, 8).
-                AddIngredient<EssenceofChaos>(3).
+                AddIngredient<EssenceofHavoc>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
@@ -144,8 +144,7 @@ namespace CalamityMod.Items.Tools
                 if (boom.WithinBounds(Main.maxProjectiles))
                     Main.projectile[boom].DamageType = DamageClass.Melee;
             }
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 150);
+            target.AddBuff(BuffID.OnFire3, 300);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.position);
+            SoundEngine.PlaySound(SoundID.Roar, player.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DesertScourgeHead>());
             else
@@ -70,8 +70,7 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SandBlock, 25).
-                AddIngredient(ItemID.Cactus, 15).
+                AddIngredient(ItemID.SandBlock, 40).
                 AddIngredient(ItemID.AntlionMandible, 4).
                 AddIngredient<StormlionMandible>(2).
                 AddTile(TileID.DemonAltar).

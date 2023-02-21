@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using System.Collections.Generic;
 using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -61,6 +62,9 @@ namespace CalamityMod.Projectiles.Magic
             // Rotate.
             Projectile.rotation += Projectile.velocity.X * 0.04f;
 
+            // Emit light.
+            Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.9f);
+
             // Re-determine the hitbox size.
             Projectile.Opacity = Utils.GetLerpValue(0f, 20f, Time, true);
             Projectile.scale = Utils.Remap(Time, 0f, Projectile.MaxUpdates * 15f, 0.01f, 1.5f) * Utils.GetLerpValue(0f, Projectile.MaxUpdates * 16f, Projectile.timeLeft, true);
@@ -69,12 +73,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.ExoDebuffs();
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.ExoDebuffs();
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
         // Draw these vortices behind other projectiles to ensure that they do not obstruct SCal's projectiles.

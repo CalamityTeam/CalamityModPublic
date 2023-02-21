@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2.5f;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
@@ -77,9 +77,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient(ItemID.Megashark).
                 AddIngredient<Archerfish>().
+                AddIngredient<Voidstone>(10).
                 AddIngredient<DepthCells>(10).
-                AddIngredient<Lumenyl>(10).
-                AddIngredient<Tenebris>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

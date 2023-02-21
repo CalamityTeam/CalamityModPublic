@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.knockBack = 5f;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
             Item.autoReuse = true;
@@ -40,9 +40,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient<Voidstone>(30).
                 AddIngredient<DepthCells>(30).
-                AddIngredient<Lumenyl>(10).
-                AddIngredient<Tenebris>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

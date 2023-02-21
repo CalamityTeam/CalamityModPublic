@@ -46,7 +46,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(UseSound, player.position);
+            SoundEngine.PlaySound(UseSound, player.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<PlaguebringerGoliath>());
             else
@@ -60,7 +60,6 @@ namespace CalamityMod.Items.SummonItems
             CreateRecipe().
                 AddIngredient<PlagueCellCanister>(20).
                 AddRecipeGroup("IronBar", 8).
-                AddIngredient(ItemID.Stinger, 5).
                 AddIngredient(ItemID.Obsidian, 3).
                 AddTile(TileID.MythrilAnvil).
                 Register();

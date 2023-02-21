@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Dusts;
 using CalamityMod.NPCs;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -88,7 +89,12 @@ namespace CalamityMod.Projectiles.Boss
                 return;
 
             if (Projectile.Opacity == 1f)
-                target.AddBuff(BuffID.VortexDebuff, 60);
+            {
+                int debufftype = CalamityWorld.getFixedBoi ? BuffID.Obstructed : BuffID.VortexDebuff;
+                int duration = CalamityWorld.getFixedBoi ? 30 : 60;
+                if (damage > 0)
+                    target.AddBuff(debufftype, duration, true);
+            }
         }
 
         public override void Kill(int timeLeft)

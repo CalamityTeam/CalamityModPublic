@@ -23,7 +23,7 @@ Reduces defense by 6% and life regen by 1
         public override void SetDefaults()
         {
             Item.width = 28;
-            Item.height = 18;
+            Item.height = 40;
             Item.useTurn = true;
             Item.maxStack = 30;
             Item.rare = ItemRarityID.Lime;

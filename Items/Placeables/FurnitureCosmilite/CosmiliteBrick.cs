@@ -28,9 +28,19 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 
         public override void AddRecipes()
         {
-            CreateRecipe(20).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 1).AddRecipeGroup("AnyStoneBlock", 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmiliteBrickWall>(), 4).AddTile(TileID.WorkBenches).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmilitePlatform>(), 2).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe(200).
+                AddRecipeGroup("AnyStoneBlock", 200).
+                AddIngredient<CosmiliteBar>().
+                AddTile<CosmicAnvil>().
+                Register();
+            CreateRecipe().
+                AddIngredient<CosmiliteBrickWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
+            CreateRecipe().
+                AddIngredient<CosmilitePlatform>(2).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

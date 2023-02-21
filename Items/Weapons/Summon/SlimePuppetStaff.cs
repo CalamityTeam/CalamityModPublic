@@ -57,9 +57,8 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PurifiedGel>(22).
-                AddIngredient(ItemID.Gel, 25).
-                AddIngredient(ItemID.HellstoneBar, 6).
+                AddIngredient<PurifiedGel>(18).
+                AddIngredient<BlightedGel>(18).
                 AddTile<StaticRefiner>().
                 Register();
         }

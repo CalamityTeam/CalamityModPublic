@@ -1,24 +1,26 @@
-﻿using CalamityMod.BiomeManagers;
+﻿using System;
+using System.IO;
+using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.NPCs.AdultEidolonWyrm;
+using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.Sounds;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
-using Terraria.Audio;
-using CalamityMod.NPCs.AdultEidolonWyrm;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Abyss
 {
@@ -71,7 +73,7 @@ namespace CalamityMod.NPCs.Abyss
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
-            SpawnModBiomes = new int[2] { ModContent.GetInstance<AbyssLayer3Biome>().Type, ModContent.GetInstance<AbyssLayer4Biome>().Type };
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbyssLayer4Biome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -100,11 +102,13 @@ namespace CalamityMod.NPCs.Abyss
         public override void AI()
         {
             bool adultWyrmAlive = false;
+            SoundStyle roar = CalamityWorld.getFixedBoi ? Sunskater.DeathSound with { Pitch = Sunskater.DeathSound.Pitch - 0.5f } : CommonCalamitySounds.WyrmScreamSound;
             if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
                     adultWyrmAlive = true;
             }
+
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
             {
                 NPC.TargetClosest(true);
@@ -124,14 +128,14 @@ namespace CalamityMod.NPCs.Abyss
                 if (NPC.soundDelay <= 0)
                 {
                     NPC.soundDelay = 420;
-                    SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, NPC.position);
+                    SoundEngine.PlaySound(roar, NPC.Center);
                 }
             }
             else
             {
                 if (Main.rand.NextBool(900))
                 {
-                    SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, NPC.position);
+                    SoundEngine.PlaySound(roar, NPC.Center);
                 }
             }
             if (NPC.ai[2] > 0f)
@@ -169,66 +173,6 @@ namespace CalamityMod.NPCs.Abyss
                         Previous = lol;
                     }
                     TailSpawned = true;
-                }
-                if (detectsPlayer)
-                {
-                    NPC.localAI[0] += 1f;
-                    if (NPC.localAI[0] >= 300f)
-                    {
-                        NPC.localAI[0] = 0f;
-                        NPC.TargetClosest(true);
-                        NPC.netUpdate = true;
-                        int damage = adultWyrmAlive ? (Main.expertMode ? 150 : 200) : (Main.expertMode ? 60 : 80);
-                        float xPos = Main.rand.NextBool(2) ? NPC.position.X + 200f : NPC.position.X - 200f;
-                        Vector2 vector2 = new Vector2(xPos, NPC.position.Y + Main.rand.Next(-200, 201));
-                        int randomAmt = adultWyrmAlive ? 2 : 3;
-                        int random = Main.rand.Next(randomAmt);
-                        if (random == 0)
-                        {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector2, Vector2.Zero, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
-                        }
-                        else if (random == 1)
-                        {
-                            Vector2 vec = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.UnitX * NPC.direction);
-                            Vector2 vector4 = vec * (adultWyrmAlive ? 6f : 4f);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector2, vector4, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
-                        }
-                        else
-                        {
-                            if (Math.Abs(Main.player[NPC.target].velocity.X) > 0.1f || Math.Abs(Main.player[NPC.target].velocity.Y) > 0.1f)
-                            {
-                                SoundEngine.PlaySound(SoundID.Item117, Main.player[NPC.target].position);
-                                for (int num621 = 0; num621 < 20; num621++)
-                                {
-                                    int num622 = Dust.NewDust(new Vector2(Main.player[NPC.target].position.X, Main.player[NPC.target].position.Y),
-                                        Main.player[NPC.target].width, Main.player[NPC.target].height, 185, 0f, 0f, 100, default, 2f);
-                                    Main.dust[num622].velocity *= 0.6f;
-                                    if (Main.rand.NextBool(2))
-                                    {
-                                        Main.dust[num622].scale = 0.5f;
-                                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                                    }
-                                }
-                                for (int num623 = 0; num623 < 30; num623++)
-                                {
-                                    int num624 = Dust.NewDust(new Vector2(Main.player[NPC.target].position.X, Main.player[NPC.target].position.Y),
-                                        Main.player[NPC.target].width, Main.player[NPC.target].height, 185, 0f, 0f, 100, default, 3f);
-                                    Main.dust[num624].noGravity = true;
-                                    num624 = Dust.NewDust(new Vector2(Main.player[NPC.target].position.X, Main.player[NPC.target].position.Y),
-                                        Main.player[NPC.target].width, Main.player[NPC.target].height, 185, 0f, 0f, 100, default, 2f);
-                                    Main.dust[num624].velocity *= 0.2f;
-                                }
-                                if (Math.Abs(Main.player[NPC.target].velocity.X) > 0.1f)
-                                {
-                                    Main.player[NPC.target].velocity.X = -Main.player[NPC.target].velocity.X * 1.5f;
-                                }
-                                if (Math.Abs(Main.player[NPC.target].velocity.Y) > 0.1f)
-                                {
-                                    Main.player[NPC.target].velocity.Y = -Main.player[NPC.target].velocity.Y * 1.5f;
-                                }
-                            }
-                        }
-                    }
                 }
             }
             if (NPC.velocity.X < 0f)
@@ -484,19 +428,14 @@ namespace CalamityMod.NPCs.Abyss
             Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
             Vector2 vector = center - screenPos;
             vector -= new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/EidolonWyrmHeadGlow").Value.Width, (float)(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/EidolonWyrmHeadGlow").Value.Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
-            Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
+            vector += vector11 * 1f + new Vector2(0f, NPC.gfxOffY);
+            Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Color.White);
             Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/EidolonWyrmHeadGlow").Value, vector,
                 new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.Calamity().ZoneAbyssLayer3 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHead>()) &&
-                !NPC.AnyNPCs(ModContent.NPCType<ReaperShark>()) && !NPC.AnyNPCs(ModContent.NPCType<ColossalSquid>()))
-            {
-                return SpawnCondition.CaveJellyfish.Chance * 0.3f;
-            }
             if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHead>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.6f;

@@ -55,5 +55,25 @@ namespace CalamityMod.Items.Accessories
                 }
             }
         }
+
+        public override void UpdateVanity(Player player)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.cloudWaifuVanity = true;
+            if (player.whoAmI == Main.myPlayer)
+            {
+                if (player.FindBuffIndex(ModContent.BuffType<CloudyWaifu>()) == -1)
+                {
+                    player.AddBuff(ModContent.BuffType<CloudyWaifu>(), 3600, true);
+                }
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] < 1)
+                {
+                    var source = player.GetSource_Accessory(Item);
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(45);
+                    var p = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<CloudElementalMinion>(), damage, 2f, Main.myPlayer, 0f, 0f);
+                    p.originalDamage = 45;
+                }
+            }
+        }
     }
 }

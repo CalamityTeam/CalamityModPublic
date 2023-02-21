@@ -2,12 +2,14 @@
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.Abyss.AbyssAmbient;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.DraedonSummoner;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Tiles.SunkenSea;
+using CalamityMod.Tiles.Crags;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -15,8 +17,10 @@ using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.Tiles
 {
@@ -44,7 +48,14 @@ namespace CalamityMod.Tiles
             TileID.HallowedPlants2,
             TileID.CrimsonPlants,
             (ushort)ModContent.TileType<AstralShortPlants>(),
-            (ushort)ModContent.TileType<AstralTallPlants>()
+            (ushort)ModContent.TileType<AstralTallPlants>(),
+            (ushort)ModContent.TileType<LavaPistil>(),
+            (ushort)ModContent.TileType<CinderBlossomTallPlants>(),
+            (ushort)ModContent.TileType<SulphurTentacleCorals>(),
+            (ushort)ModContent.TileType<AbyssKelp>(),
+            (ushort)ModContent.TileType<TenebrisRemnant>(),
+            (ushort)ModContent.TileType<PhoviamareHalm>(),
+
         };
 
         public static List<int> GrowthTiles = new List<int>()
@@ -69,18 +80,18 @@ namespace CalamityMod.Tiles
         {
             // Custom plant framing
             for (int k = 0; k < PlantTypes.Length; k++)
+            {
                 if (type == PlantTypes[k])
                 {
                     TileFraming.PlantFrame(i, j);
                     return false;
                 }
+            }
 
             // Custom vine framing
             if (type == TileID.Vines || type == TileID.CrimsonVines || type == TileID.HallowedVines || type == ModContent.TileType<AstralVines>())
-            {
                 TileFraming.VineFrame(i, j);
-                return false;
-            }
+
             return base.TileFrame(i, j, type, ref resetFrame, ref noBreak);
         }
 
@@ -137,13 +148,129 @@ namespace CalamityMod.Tiles
         {
             Tile tile = Main.tile[i, j];
 
-            // Helper function to shatter crystals attached to neighboring solid tiles.
-            static void CheckShatterCrystal(int xPos, int yPos)
+            // Fruit from trees upon tree destruction
+            if (!effectOnly && !fail && Main.netMode != NetmodeID.MultiplayerClient && TileID.Sets.IsShakeable[type])
             {
-                if (xPos < 0 || xPos >= Main.maxTilesX || yPos < 0 || yPos >= Main.maxTilesY)
+                GetTreeBottom(i, j, out int treeX, out int treeY);
+                TreeTypes treeType = WorldGen.GetTreeType(Main.tile[treeX, treeY].TileType);
+                if (treeType != TreeTypes.None)
+                {
+                    treeY--;
+                    while (treeY > 10 && Main.tile[treeX, treeY].HasTile && TileID.Sets.IsShakeable[Main.tile[treeX, treeY].TileType])
+                        treeY--;
+
+                    treeY++;
+
+                    if (WorldGen.IsTileALeafyTreeTop(treeX, treeY) && !Collision.SolidTiles(treeX - 2, treeX + 2, treeY - 2, treeY + 2))
+                    {
+                        int randomAmt = WorldGen.genRand.Next(1, 3);
+                        for (int z = 0; z < randomAmt; z++)
+                        {
+                            int treeDropItemType = 0;
+                            switch (treeType)
+                            {
+                                case TreeTypes.Forest:
+
+                                    switch (WorldGen.genRand.Next(5))
+                                    {
+                                        case 0:
+                                            treeDropItemType = ItemID.Apple;
+                                            break;
+                                        case 1:
+                                            treeDropItemType = ItemID.Apricot;
+                                            break;
+                                        case 2:
+                                            treeDropItemType = ItemID.Peach;
+                                            break;
+                                        case 3:
+                                            treeDropItemType = ItemID.Grapefruit;
+                                            break;
+                                        default:
+                                            treeDropItemType = ItemID.Lemon;
+                                            break;
+                                    }
+
+                                    break;
+
+                                case TreeTypes.Snow:
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Cherry : ItemID.Plum;
+                                    break;
+
+                                case TreeTypes.Jungle:
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Mango : ItemID.Pineapple;
+                                    break;
+
+                                case TreeTypes.Palm:
+
+                                    if (WorldGen.IsPalmOasisTree(treeX))
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
+
+                                    break;
+
+                                case TreeTypes.PalmCorrupt:
+
+                                    if (WorldGen.genRand.NextBool())
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BlackCurrant : ItemID.Elderberry;
+                                    else if (WorldGen.IsPalmOasisTree(treeX))
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
+                                    else
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BlackCurrant : ItemID.Elderberry;
+
+                                    break;
+
+                                case TreeTypes.Corrupt:
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BlackCurrant : ItemID.Elderberry;
+                                    break;
+
+                                case TreeTypes.PalmHallowed:
+
+                                    if (WorldGen.genRand.NextBool())
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Dragonfruit : ItemID.Starfruit;
+                                    else if (WorldGen.IsPalmOasisTree(treeX))
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
+                                    else
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Dragonfruit : ItemID.Starfruit;
+
+                                    break;
+
+                                case TreeTypes.Hallowed:
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Dragonfruit : ItemID.Starfruit;
+                                    break;
+
+                                case TreeTypes.PalmCrimson:
+
+                                    if (WorldGen.genRand.NextBool())
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BloodOrange : ItemID.Rambutan;
+                                    else if (WorldGen.IsPalmOasisTree(treeX))
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Banana : ItemID.Coconut;
+                                    else
+                                        treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BloodOrange : ItemID.Rambutan;
+
+                                    break;
+
+                                case TreeTypes.Crimson:
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BloodOrange : ItemID.Rambutan;
+                                    break;
+
+                                default:
+                                    break;
+                            }
+
+                            if (treeDropItemType != 0)
+                                Item.NewItem(new EntitySource_TileBreak(treeX, treeY), treeX * 16, treeY * 16, 16, 16, treeDropItemType);
+                        }
+                    }
+                }
+            }
+
+            // Helper function to shatter crystals attached to neighboring solid tiles.
+            void CheckShatterCrystal(int xPos, int yPos, bool dontShatter)
+            {
+                if (xPos < 0 || xPos >= Main.maxTilesX || yPos < 0 || yPos >= Main.maxTilesY || dontShatter)
                     return;
+
                 Tile t = Main.tile[xPos, yPos];
-                if (t.HasTile && (t.TileType == ModContent.TileType<LumenylCrystals>() || (t.TileType == ModContent.TileType<SeaPrismCrystals>() && DownedBossSystem.downedDesertScourge)))
+                if (t.HasTile && (t.TileType == ModContent.TileType<LumenylCrystals>() || t.TileType == ModContent.TileType<SeaPrismCrystals>()))
                 {
                     WorldGen.KillTile(xPos, yPos, false, false, false);
                     if (!Main.tile[xPos, yPos].HasTile && Main.netMode != NetmodeID.SinglePlayer)
@@ -151,13 +278,14 @@ namespace CalamityMod.Tiles
                 }
             }
 
-            // CONSIDER -- Lumenyl Crystals and Sea Prism Crystals aren't solid. They shouldn't need to be checked here.
+            // Check if crystals should be shattered, do not shatter crystals next to other crystals if a crystal is shattered.
             if (Main.tileSolid[tile.TileType] && tile.TileType != ModContent.TileType<LumenylCrystals>() && tile.TileType != ModContent.TileType<SeaPrismCrystals>())
             {
-                CheckShatterCrystal(i + 1, j);
-                CheckShatterCrystal(i - 1, j);
-                CheckShatterCrystal(i, j + 1);
-                CheckShatterCrystal(i, j - 1);
+                bool dontShatter = fail || effectOnly;
+                CheckShatterCrystal(i + 1, j, dontShatter);
+                CheckShatterCrystal(i - 1, j, dontShatter);
+                CheckShatterCrystal(i, j + 1, dontShatter);
+                CheckShatterCrystal(i, j - 1, dontShatter);
             }
 
             // Cumbling Dungeon Bricks have a 100% chance to crumble. This causes an effect similar to the Vein Miner mod.
@@ -232,6 +360,7 @@ namespace CalamityMod.Tiles
                 if (player.breath > player.breathMax)
                     player.breath = player.breathMax;
             }
+
 			// Mining set gives a chance for additional ore. This can be abused for infinite ore but it has a cooldown to prevent too much abuse
             if (player.Calamity().miningSet && player.Calamity().miningSetCooldown <= 0 && !fail)
             {
@@ -266,7 +395,7 @@ namespace CalamityMod.Tiles
                             Item.NewItem(new EntitySource_TileBreak(i, j), pos, ItemID.SoulofNight);
                         }
                     }
-                    if (WorldGen.altarCount % 3 == 0 && WorldGen.altarCount > 1)
+                    if (WorldGen.altarCount % 12 == 0 && WorldGen.altarCount > 1)
                         Item.NewItem(new EntitySource_TileBreak(i, j), pos, ModContent.ItemType<EvilSmasher>());
                 }
             }
@@ -305,6 +434,46 @@ namespace CalamityMod.Tiles
                 return false;
 
             return base.CanKillTile(i, j, type, ref blockDamaged);
+        }
+
+        // "Private" my ass, fuck off
+        public static void GetTreeBottom(int i, int j, out int x, out int y)
+        {
+            x = i;
+            y = j;
+            Tile tileSafely = Framing.GetTileSafely(x, y);
+            if (tileSafely.TileType == TileID.PalmTree)
+            {
+                while (y < Main.maxTilesY - 50 && (!tileSafely.HasTile || tileSafely.TileType == TileID.PalmTree))
+                {
+                    y++;
+                    tileSafely = Framing.GetTileSafely(x, y);
+                }
+
+                return;
+            }
+
+            int num = tileSafely.TileFrameX / 22;
+            int num2 = tileSafely.TileFrameY / 22;
+            if (num == 3 && num2 <= 2)
+                x++;
+            else if (num == 4 && num2 >= 3 && num2 <= 5)
+                x--;
+            else if (num == 1 && num2 >= 6 && num2 <= 8)
+                x--;
+            else if (num == 2 && num2 >= 6 && num2 <= 8)
+                x++;
+            else if (num == 2 && num2 >= 9)
+                x++;
+            else if (num == 3 && num2 >= 9)
+                x--;
+
+            tileSafely = Framing.GetTileSafely(x, y);
+            while (y < Main.maxTilesY - 50 && (!tileSafely.HasTile || TileID.Sets.IsATreeTrunk[tileSafely.TileType] || tileSafely.TileType == TileID.MushroomTrees))
+            {
+                y++;
+                tileSafely = Framing.GetTileSafely(x, y);
+            }
         }
     }
 }

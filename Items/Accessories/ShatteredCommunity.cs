@@ -44,6 +44,9 @@ namespace CalamityMod.Items.Accessories
             SacrificeTotal = 1;
             DisplayName.SetDefault("Shattered Community");
             Tooltip.SetDefault("Ruined by unknowable hatred, it still contains (most of) the power of The Community...\n" +
+                "Increases damage by 10% and critical strike chance by 5%\n" +
+                "Increases max health by 10%, damage reduction by 5%, defense by 10 and life regen by 2\n" +
+                "Increases movement speed by 10% and flight time by 20%\n" +
                 "You generate rage over time and rage does not fade away out of combat\n" +
                 "Taking damage gives rage, this effect is not hindered by your defensive stats\n" +
                 "While Rage Mode is active, taking damage gives only half as much rage\n" +
@@ -109,18 +112,18 @@ namespace CalamityMod.Items.Accessories
             // Stat tooltips are added dynamically.
             StringBuilder sb = new StringBuilder(256);
 
-            // Line 1: If not on Rev+, note that the accessory enables Rage.
-            TooltipLine rageOverTimeLine = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+            // Line 5: If not on Rev+, note that the accessory enables Rage.
+            TooltipLine rageOverTimeLine = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
             if (rageOverTimeLine != null && !CalamityWorld.revenge)
                 rageOverTimeLine.Text = "Adds the Rage meter\n" + rageOverTimeLine.Text;
 
-            // Line 6: Current level
+            // Line 9: Current level
             sb.Append("Current level: ");
             sb.Append(level);
             sb.Append(" (+");
             sb.Append(level);
             sb.Append("% Rage Mode damage)");
-            tooltips.Add(new TooltipLine(Mod, "Tooltip6", sb.ToString()));
+            tooltips.Add(new TooltipLine(Mod, "Tooltip8", sb.ToString()));
             sb.Clear();
 
             if (level < MaxLevel)
@@ -130,18 +133,18 @@ namespace CalamityMod.Items.Accessories
                 double ratio = (double)progressToNextLevel / totalToNextLevel;
                 string percent = (100D * ratio).ToString("0.00");
 
-                // Line 7: Progress to next level
+                // Line 10: Progress to next level
                 sb.Append("Progress to next level: ");
                 sb.Append(percent);
                 sb.Append('%');
-                tooltips.Add(new TooltipLine(Mod, "Tooltip7", sb.ToString()));
+                tooltips.Add(new TooltipLine(Mod, "Tooltip9", sb.ToString()));
                 sb.Clear();
             }
 
-            // Line 8: Total damage dealt
+            // Line 11: Total damage dealt
             sb.Append("Total Rage Mode damage: ");
             sb.Append(totalRageDamage);
-            tooltips.Add(new TooltipLine(Mod, "Tooltip8", sb.ToString()));
+            tooltips.Add(new TooltipLine(Mod, "Tooltip10", sb.ToString()));
         }
 
         public override void SaveData(TagCompound tag)

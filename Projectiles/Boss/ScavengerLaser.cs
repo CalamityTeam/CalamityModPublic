@@ -184,7 +184,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Zombie103, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Zombie103, Projectile.Center);
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 64;
             Projectile.position.X = Projectile.position.X - (Projectile.width / 2);

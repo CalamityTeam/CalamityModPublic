@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 12;
-            Item.damage = 40;
+            Item.damage = 80;
             Item.noMelee = true;
             Item.consumable = true;
             Item.noUseGraphic = true;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 1.75f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 30;
+            Item.height = 40;
             Item.maxStack = 999;
             Item.value = 1100;
             Item.rare = ItemRarityID.LightRed;
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).
+            CreateRecipe(150).
                 AddIngredient(ItemID.MythrilBar).
                 AddTile(TileID.MythrilAnvil).
                 Register();

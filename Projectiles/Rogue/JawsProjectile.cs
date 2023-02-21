@@ -64,7 +64,6 @@ namespace CalamityMod.Projectiles.Rogue
             Player player = Main.player[Projectile.owner];
             target.AddBuff(BuffID.Venom, 120);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
             if (Projectile.Calamity().stealthStrike)
             {
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
@@ -78,7 +77,6 @@ namespace CalamityMod.Projectiles.Rogue
             Player player = Main.player[Projectile.owner];
             target.AddBuff(BuffID.Venom, 120);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
             if (Projectile.Calamity().stealthStrike)
             {
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);

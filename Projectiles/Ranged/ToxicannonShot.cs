@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.tileCollide = true;
             Projectile.ignoreWater = false;
         }
+
         public override void AI()
         {
             if (Projectile.ai[0]++ <= 30f)
@@ -48,6 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 240);
         }
+
         public override void Kill(int timeLeft)
         {
             Projectile.ExpandHitboxBy(180);

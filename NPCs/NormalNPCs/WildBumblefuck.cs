@@ -1,7 +1,11 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.Sounds;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
@@ -73,10 +77,29 @@ namespace CalamityMod.NPCs.NormalNPCs
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<EffulgentFeather>(), 1, 5, 7);
+        public override void OnKill()
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
+            {
+                SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, NPC.Center - Vector2.UnitY * 300f);
+                for (int i = 0; i < 5; i++)
+                {
+                    Vector2 fireFrom = new Vector2(NPC.Center.X + (40 * i) - 120, NPC.Center.Y - 900f);
+                    Vector2 ai0 = NPC.Center - fireFrom;
+                    float ai = Main.rand.Next(100);
+                    Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), NPC.damage, 0f, Main.myPlayer, ai0.ToRotation(), ai);
+                }
+            }
+        }
 
         public override void FindFrame(int frameHeight)
         {
             NPC.frameCounter += NPC.ai[0] == 2.1f ? 1.5 : 1D;
+            if (CalamityWorld.getFixedBoi)
+            {
+                NPC.frameCounter += 2D;
+            }
             if (NPC.frameCounter > 4D) //iban said the time between frames was 5 so using that as a base
             {
                 NPC.frameCounter = 0D;

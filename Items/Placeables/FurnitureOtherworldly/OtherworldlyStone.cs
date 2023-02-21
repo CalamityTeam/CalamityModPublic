@@ -30,9 +30,22 @@ namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 
         public override void AddRecipes()
         {
-            CreateRecipe(150).AddRecipeGroup("AnyStoneBlock", 150).AddIngredient(ModContent.ItemType<DarkPlasma>()).AddIngredient(ModContent.ItemType<ArmoredShell>()).AddIngredient(ModContent.ItemType<TwistingNether>()).AddIngredient(ItemID.Silk, 15).AddTile(TileID.LunarCraftingStation).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<OtherworldlyStoneWall>(), 4).AddTile(TileID.WorkBenches).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<OtherworldlyPlatform>(), 2).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(200).
+                AddRecipeGroup("AnyStoneBlock", 200).
+                AddIngredient<DarkPlasma>().
+                AddIngredient<ArmoredShell>().
+                AddIngredient<TwistingNether>().
+                AddIngredient(ItemID.Silk, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+            CreateRecipe().
+                AddIngredient<OtherworldlyStoneWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
+            CreateRecipe().
+                AddIngredient<OtherworldlyPlatform>(2).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             CreateRecipe().
                 AddIngredient<LunicEye>().
-                AddIngredient(ItemID.FragmentNebula, 10).
+                AddIngredient(ItemID.FragmentNebula, 12).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

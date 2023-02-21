@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.Perforator
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCrimson,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Though birthed by the crimson, it is unknown whether they fully serve that creator. The worms of the hive frequently carve huge tunnels in the crimson’s flesh.")
+				new FlavorTextBestiaryInfoElement("Though birthed by the crimson, it is unknown whether they fully serve that creator. The worms of the hive frequently carve huge tunnels in the crimson's flesh.")
             });
         }
 
@@ -191,6 +191,33 @@ namespace CalamityMod.NPCs.Perforator
             else if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;
 
+            //GFB seed shenanigans: Behavior during the suck
+            if (NPC.localAI[1] >= 6f)
+            {
+                //Leak projectiles everywhere and start healing
+                int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
+                int damage = NPC.GetProjectileDamage(type);
+                int spread = Main.rand.Next(-45, 46);
+                Vector2 baseVelocity = Vector2.UnitY * Main.rand.NextFloat(-12.5f, -5f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, baseVelocity.RotatedBy(MathHelper.ToRadians(spread)), type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+
+                //Heals 10 times per second for 0.1% of its health each = 1% per second
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int healAmt = (int)(NPC.lifeMax / 1000);
+                    if (healAmt > NPC.lifeMax - NPC.life)
+                        healAmt = NPC.lifeMax - NPC.life;
+
+                    if (healAmt > 0)
+                    {
+                        NPC.life += healAmt;
+                        NPC.HealEffect(healAmt, true);
+                        NPC.netUpdate = true;
+                    }
+                }
+                NPC.localAI[1] = 0f;
+            }
+
             bool largeWormAlive = NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadLarge>());
             bool mediumWormAlive = NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadMedium>());
             bool smallWormAlive = NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadSmall>());
@@ -247,7 +274,7 @@ namespace CalamityMod.NPCs.Perforator
 
                         NPC.TargetClosest();
 
-                        SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.position);
+                        SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.Center);
 
                         for (int num621 = 0; num621 < 16; num621++)
                         {
@@ -300,7 +327,7 @@ namespace CalamityMod.NPCs.Perforator
                         {
                             NPC.ai[2] = 0f;
 
-                            SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.position);
+                            SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.Center);
 
                             for (int num621 = 0; num621 < 32; num621++)
                             {
@@ -361,7 +388,7 @@ namespace CalamityMod.NPCs.Perforator
                 if (NPC.localAI[0] >= (revenge ? 200f : 250f) + wormsAlive * 150f && NPC.position.Y + NPC.height < player.position.Y && Vector2.Distance(player.Center, NPC.Center) > 80f)
                 {
                     NPC.localAI[0] = 0f;
-                    SoundEngine.PlaySound(SoundID.NPCHit20, NPC.position);
+                    SoundEngine.PlaySound(SoundID.NPCHit20, NPC.Center);
 
                     for (int num621 = 0; num621 < 8; num621++)
                     {
@@ -494,7 +521,7 @@ namespace CalamityMod.NPCs.Perforator
             {
                 string key = "Mods.CalamityMod.SkyOreText";
                 Color messageColor = Color.Cyan;
-                CalamityUtils.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, 0.5f, 0.7f, 3, 8);
+                AerialiteOreGen.Generate(true);
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
@@ -546,7 +573,7 @@ namespace CalamityMod.NPCs.Perforator
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<PerforatorsRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPerforator, ModContent.ItemType<KnowledgePerforators>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPerforator, ModContent.ItemType<LorePerforators>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

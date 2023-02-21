@@ -24,9 +24,11 @@ namespace CalamityMod.NPCs.TownNPCs
         public static List<string> PossibleNames = new List<string>()
         {
             // Patron names
-            "Xplizzy", // <@!98826096237109248> Whitegiraffe#6342
-            "Freakish", // <@!750363283520749598> Freakish#0001
-            "Calder", // <@!601897959176798228> Paltham#8859
+            "Xplizzy", // <@!98826096237109248> (Whitegiraffe#6342)
+            "Freakish", // <@!750363283520749598> (Freakish#0001)
+            "Calder", // <@!601897959176798228> (Paltham#8859)
+            "Hunter Jinx", // <@!757401399783850134> (Jinx_enthusiast#1580)
+            "Goose", // <@!591421917706321962> (DullElili#8016)
 
             // Original names
             "Laura", "Mie", "Bonnie",
@@ -54,10 +56,10 @@ namespace CalamityMod.NPCs.TownNPCs
                 .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Like)
                 .SetNPCAffection(NPCID.Dryad, AffectionLevel.Dislike)
             ;
-			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
-				Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
-			};
-			NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifiers);
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
+                Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifiers);
         }
 
         public override void SetDefaults()
@@ -67,7 +69,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.lavaImmune = false;
             NPC.width = 18;
             NPC.height = 44;
-            NPC.aiStyle = 7;
+            NPC.aiStyle = NPCAIStyleID.Passive;
             NPC.damage = 10;
             NPC.defense = 15;
             NPC.lifeMax = 250; //Im not special :(
@@ -84,7 +86,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,                   
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("A kleptomaniac who is a bit of a coward when it comes to face-to-face fights. She’s rather good at getting herself both into and out of dicey situations.")
+                new FlavorTextBestiaryInfoElement("A kleptomaniac who is a bit of a coward when it comes to face-to-face fights. She's rather good at getting herself both into and out of dicey situations.")
             });
         }
 
@@ -169,8 +171,8 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             if (NPC.downedMoonlord)
             {
-                PossibleDialogs.Add("If you find anything cool, make sure to drop by and show it to me, I promise I’ll keep my hands off it.");
-                PossibleDialogs.Add("So many new things to steal, I can’t think of where to start!");
+                PossibleDialogs.Add("If you find anything cool, make sure to drop by and show it to me, I promise I'll keep my hands off it.");
+                PossibleDialogs.Add("So many new things to steal, I can't think of where to start!");
                 PossibleDialogs.Add("If I end up angering some deities or whatever, would you mind taking the blame for me?");
             }
             if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<Valediction>()))
@@ -278,7 +280,7 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Glaive>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Kylie>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
@@ -288,15 +290,18 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemID.TigerClimbingGear);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.InvisibilityPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.NightOwlPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-            nextSlot++;
+            if (CalamityConfig.Instance.PotionSelling)
+            {
+                shop.item[nextSlot].SetDefaults(ItemID.InvisibilityPotion);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemID.NightOwlPotion);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+                nextSlot++;
+            }
             if (Main.hardMode)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<SlickCane>());
@@ -306,7 +311,6 @@ namespace CalamityMod.NPCs.TownNPCs
             if (NPC.downedPirates)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<ThiefsDime>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
                 nextSlot++;
             }
             if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
@@ -315,7 +319,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
                 nextSlot++;
             }
-            if (DownedBossSystem.downedCalamitas)
+            if (DownedBossSystem.downedCalamitasClone)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
                 nextSlot++;

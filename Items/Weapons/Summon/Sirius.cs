@@ -12,60 +12,40 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class Sirius : ModItem
     {
-        int siriusSlots;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sirius");
             Tooltip.SetDefault("Summons the brightest star in the night sky to shine upon your foes\n" +
-                               "Consumes all of the remaining minion slots on use\n" +
-                               "Must be used from the hotbar\n" +
-                               "Increased power based on the number of minion slots used");
+                "Can only be summoned once\n" +
+                "Uses 6 minion slots");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.width = 62;
-            Item.height = 62;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.noMelee = true;
-            Item.UseSound = SoundID.Item44;
+            Item.width = Item.height = 62;
+
+            Item.damage = 600;
+            Item.useTime = Item.useAnimation = 10;
+            Item.mana = 10;
+            Item.knockBack = 10f;
+            
+            Item.shoot = ModContent.ProjectileType<SiriusMinion>();
 
             Item.DamageType = DamageClass.Summon;
-            Item.mana = 10;
-            Item.damage = 175;
-            Item.knockBack = 3f;
-            Item.useTime = Item.useAnimation = 10;
-            Item.shoot = ModContent.ProjectileType<SiriusMinion>();
-            Item.shootSpeed = 10f;
-
-            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item44;
             Item.rare = ModContent.RarityType<PureGreen>();
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.noMelee = true;
         }
 
-        public override void HoldItem(Player player)
-        {
-            double minionCount = 0;
-            for (int j = 0; j < Main.projectile.Length; j++)
-            {
-                Projectile proj = Main.projectile[j];
-                if (proj.active && proj.owner == player.whoAmI && proj.minion && proj.type != Item.shoot)
-                {
-                    minionCount += proj.minionSlots;
-                }
-            }
-            siriusSlots = (int)(player.maxMinions - minionCount);
-        }
-
-        public override bool CanUseItem(Player player)
-        {
-            return siriusSlots >= 1;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityUtils.KillShootProjectiles(true, type, player);
-            int p = Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI, siriusSlots, 30f);
+            int p = Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
             if (Main.projectile.IndexInRange(p))
                 Main.projectile[p].originalDamage = Item.damage;
             return false;

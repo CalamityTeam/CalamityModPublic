@@ -21,19 +21,18 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 45;
+            Item.damage = 88;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 152;
             Item.height = 58;
             Item.useTime = 10;
             Item.useAnimation = 10;
-            Item.reuseDelay = 5;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.knockBack = 0f;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = CommonCalamitySounds.LaserCannonSound;
             Item.shoot = ModContent.ProjectileType<FlakKrakenGun>();
@@ -42,19 +41,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<FlakKrakenGun>(), damage, knockback, player.whoAmI, 0f, 0f);
-            return false;
-        }
-
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient<FlakToxicannon>().
+                AddIngredient<Voidstone>(20).
                 AddIngredient<DepthCells>(20).
-                AddIngredient<Lumenyl>(10).
-                AddIngredient<Tenebris>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

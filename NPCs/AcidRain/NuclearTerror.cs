@@ -19,6 +19,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
+    [AutoloadBossHead]
     public class NuclearTerror : ModNPC
     {
         public enum SpecialAttackState
@@ -30,8 +31,10 @@ namespace CalamityMod.NPCs.AcidRain
 
         public int AttackIndex = 0;
         public int DelayTime = 0;
+        public int DeathrayTime = 0;
         public bool Dying = false;
         public bool Walking = false;
+        public bool hasDoneDeathray = false;
         public float JumpTimer = 0f;
         public Vector2 ShootPosition;
         public Player Target => Main.player[NPC.target];
@@ -73,6 +76,11 @@ namespace CalamityMod.NPCs.AcidRain
         public const float TeleportTime = 60f;
         public const float TeleportFadeinTime = 10f;
         public const float TeleportCooldown = 60f;
+
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/NuclearTerrorSpawn");
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/NuclearTerrorHit");
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/NuclearTerrorDeath");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nuclear Terror");
@@ -107,8 +115,8 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.lavaImmune = false;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
-            NPC.HitSound = SoundID.NPCHit56;
-            NPC.DeathSound = SoundID.NPCDeath60;
+            NPC.HitSound = HitSound;
+            NPC.DeathSound = null; //Does the sound while on the death animation instead
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -130,9 +138,11 @@ namespace CalamityMod.NPCs.AcidRain
             writer.Write(NPC.dontTakeDamage);
             writer.Write(Dying);
             writer.Write(Walking);
+            writer.Write(hasDoneDeathray);
             writer.Write(AttackIndex);
             writer.Write(DelayTime);
             writer.Write(JumpTimer);
+            writer.Write(DeathrayTime);
             writer.WriteVector2(ShootPosition);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -140,8 +150,10 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.dontTakeDamage = reader.ReadBoolean();
             Dying = reader.ReadBoolean();
             Walking = reader.ReadBoolean();
+            hasDoneDeathray = reader.ReadBoolean();
             AttackIndex = reader.ReadInt32();
             DelayTime = reader.ReadInt32();
+            DeathrayTime = reader.ReadInt32();
             JumpTimer = reader.ReadSingle();
             ShootPosition = reader.ReadVector2();
         }
@@ -175,10 +187,20 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.damage = Dying ? 0 : NPC.defDamage;
             TeleportCheck();
 
+            // Play the spawn sound
+            if (AttackTime == 0f)
+                SoundEngine.PlaySound(SpawnSound, NPC.Center);
             AttackTime++;
             float wrappedAttackTime = AttackTime % AttackCycleTime;
 
             Walking = false;
+
+            if (CalamityWorld.getFixedBoi && !hasDoneDeathray && NPC.life <= NPC.lifeMax * 0.1f)
+            {
+                DeathrayTime++;
+                MasterSpark();
+                return;
+            }
 
             // Teleport if spam-collisions are done, they are pretty good indicators of being stuck.
             if (NPC.collideX)
@@ -438,6 +460,48 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
+        // Legendary Mode deathray attack
+        public void MasterSpark()
+        {
+            NPC.dontTakeDamage = true;
+            NPC.velocity.X *= 0.5f;
+            NPC.alpha = 0;
+            if (DeathrayTime < 240f)
+            {
+                int num5 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 200, default, 1.5f);
+                Main.dust[num5].noGravity = true;
+                Main.dust[num5].velocity *= 0.75f;
+                Main.dust[num5].fadeIn = 1.3f;
+                Vector2 vector = new Vector2((float)Main.rand.Next(-200, 201), (float)Main.rand.Next(-200, 201));
+                vector.Normalize();
+                vector *= (float)Main.rand.Next(100, 200) * 0.04f;
+                Main.dust[num5].velocity = vector;
+                vector.Normalize();
+                vector *= 34f;
+                Main.dust[num5].position = NPC.Center - vector;
+            }
+            else if (DeathrayTime == 240f)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
+                    int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<GammaRayBurst>(), 250, 0f, Main.myPlayer, NPC.whoAmI);
+                    if (p.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[p].rotation = NPC.spriteDirection * -MathHelper.PiOver2;
+                    }
+                }
+                float screenShakePower = 20 * Utils.GetLerpValue(1300f, 0f, NPC.Distance(Main.LocalPlayer.Center), true);
+                if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < screenShakePower)
+                    Main.LocalPlayer.Calamity().GeneralScreenShakePower = screenShakePower;
+            }
+            else if (DeathrayTime >= 630f)
+            {
+                NPC.dontTakeDamage = false;
+                hasDoneDeathray = true;
+            }
+        }
+
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
@@ -459,6 +523,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
             if (Dying)
             {
+                SoundEngine.PlaySound(DeathSound, NPC.Center);
                 if (NPC.frame.Y < frameHeight * 8)
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -512,6 +577,13 @@ namespace CalamityMod.NPCs.AcidRain
             return Dying;
         }
 
+        public override void OnKill()
+        {
+            // Mark Nuclear Terror as dead
+            DownedBossSystem.downedNuclearTerror = true;
+            CalamityNetcode.SyncWorld();
+        }
+
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 10; k++)
@@ -529,7 +601,7 @@ namespace CalamityMod.NPCs.AcidRain
             npcLoot.Add(ModContent.ItemType<GammaHeart>(), 3);
             npcLoot.Add(ModContent.ItemType<PhosphorescentGauntlet>(), 3);
             npcLoot.Add(ModContent.ItemType<NuclearTerrorTrophy>(), 10);
-            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<NuclearTerrorRelic>(), 4);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<NuclearTerrorRelic>());
         }
     }
 }

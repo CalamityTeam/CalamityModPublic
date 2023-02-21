@@ -1,3 +1,5 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
@@ -93,6 +95,18 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             CalamityUtils.HomeInOnNPC(Projectile, true, 150f, 12f, 20f);
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (Projectile.DamageType == RogueDamageClass.Instance)
+                target.AddBuff(BuffID.Electrified, 120);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            if (Projectile.DamageType == RogueDamageClass.Instance)
+                target.AddBuff(BuffID.Electrified, 120);
         }
     }
 }

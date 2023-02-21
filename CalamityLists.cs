@@ -3,8 +3,6 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Accessories.Wings;
-using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
@@ -14,7 +12,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
-using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -22,14 +19,13 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
-using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Bumblebirb;
-using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CalClone;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Crags;
@@ -117,6 +113,8 @@ namespace CalamityMod
         public static List<int> livingFireBlockList;
         public static List<int> amalgamBuffList;
         public static List<int> persistentBuffList;
+        public static List<int> MushroomWeaponIDs;
+        public static List<int> MushroomProjectileIDs;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -462,7 +460,6 @@ namespace CalamityMod
                 "Shiny",
                 "Whale",
                 "The Infinity",
-                "Toasty",
                 "MrCreamen",
                 "TemperedAether",
                 "LucasTwocas",
@@ -529,6 +526,7 @@ namespace CalamityMod
                 ProjectileID.ChargedBlasterCannon,
                 ProjectileID.MedusaHead,
 
+                ProjectileType<UrchinMaceProjectile>(),
                 ProjectileType<BrokenBiomeBladeHoldout>(),
                 ProjectileType<AridGrandeur>(),
                 ProjectileType<BitingEmbrace>(),
@@ -588,6 +586,7 @@ namespace CalamityMod
                 ProjectileType<ApotheosisWorm>(),
                 ProjectileType<SpiritCongregation>(),
                 ProjectileType<RancorLaserbeam>(),
+                ProjectileType<GrandStaffoftheNebulaMage_Held>(),
 
                 ProjectileType<FlakKrakenProj>(),
                 ProjectileType<InfernadoFriendly>(),
@@ -976,7 +975,8 @@ namespace CalamityMod
                 BuffType<Eutrophication>(),
                 BuffType<Dragonfire>(),
                 BuffType<Nightwither>(),
-                BuffType<VulnerabilityHex>()
+                BuffType<VulnerabilityHex>(),
+                BuffType<MiracleBlight>()
             };
 
             alcoholList = new List<int>()
@@ -1366,19 +1366,16 @@ namespace CalamityMod
                 ItemType<OldDukeTrophy>(),
                 ItemType<LeviathanTrophy>(),
                 ItemType<AquaticScourgeTrophy>(),
-                ItemType<KnowledgeAquaticScourge>(),
-                ItemType<KnowledgeLeviathanAnahita>(),
-                ItemType<KnowledgeSulphurSea>(),
-                ItemType<KnowledgeOcean>(),
-                ItemType<KnowledgeOldDuke>(),
+                ItemType<LoreAquaticScourge>(),
+                ItemType<LoreLeviathanAnahita>(),
+                ItemType<LoreSulphurSea>(),
+                ItemType<LoreAbyss>(),
+                ItemType<LoreOldDuke>(),
                 ItemType<PearlShard>(),
                 ItemType<AeroStone>(),
                 ItemType<TheCommunity>(),
                 ItemType<DukesDecapitator>(),
                 ItemType<SulphurousSand>(),
-                ItemType<MagnumRounds>(),
-                ItemType<GrenadeRounds>(),
-                ItemType<ExplosiveShells>(),
                 ItemID.HotlineFishingHook,
                 ItemID.BottomlessBucket,
                 ItemID.SuperAbsorbantSponge,
@@ -1426,30 +1423,23 @@ namespace CalamityMod
 
             amalgamBuffList = new List<int>()
             {
-                BuffType<AbyssalWeapon>(),
                 BuffType<AnechoicCoatingBuff>(),
-                BuffType<ArmorCrumbling>(),
                 BuffType<AstralInjectionBuff>(),
                 BuffType<BaguetteBuff>(),
                 BuffType<BloodfinBoost>(),
                 BuffType<BoundingBuff>(),
-                BuffType<CadancesGrace>(),
                 BuffType<CalciumBuff>(),
                 BuffType<CeaselessHunger>(),
-                BuffType<DraconicSurgeBuff>(),
                 BuffType<GravityNormalizerBuff>(),
-                BuffType<HolyWrathBuff>(),
                 BuffType<Omniscience>(),
-                BuffType<PenumbraBuff>(),
                 BuffType<PhotosynthesisBuff>(),
-                BuffType<ProfanedRageBuff>(),
                 BuffType<ShadowBuff>(),
                 BuffType<Soaring>(),
                 BuffType<SulphurskinBuff>(),
                 BuffType<TeslaBuff>(),
-                BuffType<TitanScale>(),
-                BuffType<TriumphBuff>(),
-                BuffType<YharimPower>(),
+                BuffType<WeaponImbueBrimstone>(),
+                BuffType<WeaponImbueCrumbling>(),
+                BuffType<WeaponImbueHolyFlames>(),
                 BuffType<Zen>(),
                 BuffType<Zerg>(),
                 BuffType<BloodyMaryBuff>(),
@@ -1530,8 +1520,9 @@ namespace CalamityMod
 
             persistentBuffList = new List<int>()
             {
-                BuffType<AbyssalWeapon>(),
-                BuffType<ArmorCrumbling>(),
+                BuffType<WeaponImbueBrimstone>(),
+                BuffType<WeaponImbueCrumbling>(),
+                BuffType<WeaponImbueHolyFlames>(),
                 BuffID.WeaponImbueVenom,
                 BuffID.WeaponImbueCursedFlames,
                 BuffID.WeaponImbueFire,
@@ -1540,6 +1531,34 @@ namespace CalamityMod
                 BuffID.WeaponImbueNanites,
                 BuffID.WeaponImbueConfetti,
                 BuffID.WeaponImbuePoison
+            };
+
+            MushroomWeaponIDs = new List<int>()
+            {
+                ItemType<Mycoroot>(),
+                ItemType<InfestedClawmerang>(),
+                ItemType<PuffShroom>(),
+                ItemType<HyphaeRod>(),
+                ItemType<Fungicide>(),
+                ItemType<MycelialClaws>(),
+                ItemType<Shroomer>(),
+                ItemID.Hammush,
+                ItemID.MushroomSpear,
+                ItemID.Shroomerang
+            };
+
+            MushroomProjectileIDs = new List<int>()
+            {
+                ProjectileType<MycorootProj>(),
+                ProjectileType<ShroomerangSpore>(),
+                ProjectileType<InfestedClawmerangProj>(),
+                ProjectileType<PuffCloud>(),
+                ProjectileType<FungiOrb2>(),
+                ProjectileType<FungiOrb>(),
+                ProjectileType<Shroom>(),
+                ProjectileID.TruffleSpore,
+                ProjectileID.MushroomSpear,
+                ProjectileID.Shroomerang
             };
 
             zombieList = new List<int>()
@@ -1731,6 +1750,7 @@ namespace CalamityMod
                 NPCType<AstrumDeusHead>(),
                 NPCType<AstrumDeusBody>(),
                 NPCType<AstrumDeusTail>(),
+                NPCType<ProfanedRocks>(),
                 NPCType<DarkEnergy>(),
                 NPCType<StormWeaverHead>(),
                 NPCType<StormWeaverBody>(),
@@ -1764,6 +1784,7 @@ namespace CalamityMod
                 ProjectileType<DragonRageStaff>(),
                 ProjectileType<YateveoBloomProj>(),
                 ProjectileType<UrchinBall>(),
+                ProjectileType<UrchinMaceProjectile>(),
                 ProjectileType<TyphonsGreedStaff>(),
                 ProjectileType<DevilsSunriseProj>(),
                 ProjectileType<DevilsSunriseCyclone>(),
@@ -1800,7 +1821,7 @@ namespace CalamityMod
                 ProjectileType<DarkSparkBeam>(),
                 ProjectileType<EidolicWailSoundwave>(),
                 ProjectileType<RancorLaserbeam>(),
-                ProjectileType<SparklingBeam>(),
+                ProjectileType<SparklingLaser>(),
                 ProjectileType<YharimsCrystalBeam>(),
                 ProjectileType<PrismaticBeam>(),
             };
@@ -2214,14 +2235,14 @@ namespace CalamityMod
 
                 { NPCID.Deerclops, 315000 }, // 30 seconds
 
-                { NPCID.SkeletronHead, 160000 }, // 30 seconds
+                { NPCID.SkeletronHead, 150000 }, // 30 seconds
                 { NPCID.SkeletronHand, 60000 },
 
                 { NPCID.WallofFlesh, 450000 }, // 30 seconds
                 { NPCID.WallofFleshEye, 450000 },
 
                 // Tier 2
-                { NPCID.QueenSlimeBoss, 100000 }, // 30 seconds
+                { NPCID.QueenSlimeBoss, 150000 }, // 30 seconds
                 { NPCID.QueenSlimeMinionBlue, 6000 },
                 { NPCID.QueenSlimeMinionPink, 6000 },
                 { NPCID.QueenSlimeMinionPurple, 5000 },
@@ -2234,7 +2255,7 @@ namespace CalamityMod
                 { NPCID.TheDestroyerTail, 250000 },
                 { NPCID.Probe, 10000 },
 
-                { NPCID.SkeletronPrime, 150000 }, // 30 seconds
+                { NPCID.SkeletronPrime, 160000 }, // 30 seconds
                 { NPCID.PrimeVice, 54000 },
                 { NPCID.PrimeCannon, 45000 },
                 { NPCID.PrimeSaw, 45000 },
@@ -2250,7 +2271,7 @@ namespace CalamityMod
                 { NPCID.GolemFistLeft, 25000 },
                 { NPCID.GolemFistRight, 25000 },
 
-                { NPCID.HallowBoss, 180000 }, // 30 seconds
+                { NPCID.HallowBoss, 200000 }, // 30 seconds
 
                 { NPCID.DukeFishron, 290000 }, // 30 seconds
 
@@ -2344,10 +2365,9 @@ namespace CalamityMod
                 { NPCType<ThanatosHead>(), 41 },
                 { NPCType<Artemis>(), 41 },
                 { NPCType<Apollo>(), 41 },
-                { NPCType<AdultEidolonWyrmHead>(), 42 },
-                { NPCID.QueenSlimeBoss, 43 },
-                { NPCID.HallowBoss, 44 },
-                { NPCID.Deerclops, 45 }
+                { NPCID.QueenSlimeBoss, 42 },
+                { NPCID.HallowBoss, 43 },
+                { NPCID.Deerclops, 44 }
             };
 
             bossMinionList = new List<int>()
@@ -2444,6 +2464,7 @@ namespace CalamityMod
                 NPCType<ProvSpawnOffense>(),
                 NPCType<ProvSpawnDefense>(),
                 NPCType<ProvSpawnHealer>(),
+                NPCType<ProfanedRocks>(),
                 NPCType<DarkEnergy>(),
                 NPCType<CosmicLantern>(),
                 NPCType<PolterPhantom>(),
@@ -2553,6 +2574,8 @@ namespace CalamityMod
             livingFireBlockList = null;
 			amalgamBuffList = null;
 			persistentBuffList = null;
+            MushroomWeaponIDs = null;
+            MushroomProjectileIDs = null;
 
             zombieList = null;
             demonEyeList = null;

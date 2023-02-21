@@ -130,7 +130,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.TacticalShotgun).
-                AddIngredient(ItemID.FragmentVortex, 7).
+                AddIngredient(ItemID.FragmentVortex, 12).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

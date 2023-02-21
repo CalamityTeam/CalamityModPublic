@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.DemonScythe).
-                AddIngredient<CoreofChaos>(12).
+                AddIngredient<CoreofHavoc>(12).
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<NightmareFuel>(20).
                 AddTile(TileID.Bookcases).

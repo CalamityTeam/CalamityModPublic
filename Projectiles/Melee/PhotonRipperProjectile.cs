@@ -58,8 +58,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             // Recalculate damage every frame for balance reasons, as this is a long-lasting holdout.
             // This is important because you could start using it while benefitting from Auric Tesla standstill bonus, for example.
-            float baseDamage = Owner.ActiveItem()?.damage ?? 0f;
-            Projectile.damage = (int)Owner.GetTotalDamage<MeleeDamageClass>().ApplyTo(baseDamage);
+            Projectile.damage = Owner.ActiveItem() is null ? 0 : Owner.GetWeaponDamage(Owner.ActiveItem());
             DetermineDamage();
 
             PlayChainsawSounds();
@@ -221,8 +220,14 @@ namespace CalamityMod.Projectiles.Melee
             // If the distance to the mouse is less than the base reach, reach only to mouse.
             // This way the player can more directly control the crystals if they want.
             // This comes with a small constant offset to cancel out other factors.
-            if (distanceFromMouse < shootReach && distanceFromMouse > 40f)
-                shootReach = distanceFromMouse + 32f;
+            // If the mouse is very close to the player, set the shoot reach to its minimum.
+            if (distanceFromMouse < shootReach)
+            {
+                if (distanceFromMouse > 40f)
+                    shootReach = distanceFromMouse + 32f;
+                else
+                    shootReach = 72f;
+			}
 
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, Projectile.velocity, ModContent.ProjectileType<PrismTooth>(), (int)ToothDamage, 0f, Projectile.owner, shootReach, Projectile.whoAmI);
         }

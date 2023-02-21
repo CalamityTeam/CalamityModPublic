@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -8,6 +9,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -67,6 +69,20 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
+            Point point = NPC.Center.ToTileCoordinates();
+            Tile tileSafely = Framing.GetTileSafely(point);
+            bool createDust = tileSafely.HasUnactuatedTile && NPC.Distance(Main.player[NPC.target].Center) < 800f;
+            if (createDust)
+            {
+                if (Main.rand.NextBool())
+                {
+                    Dust dust = Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 204, 0f, 0f, 150, default(Color), 0.3f);
+                    dust.fadeIn = 0.75f;
+                    dust.velocity *= 0.1f;
+                    dust.noLight = true;
+                }
+            }
+
             bool death = CalamityWorld.death;
             if (NPC.ai[3] > 0f)
             {
@@ -174,7 +190,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 NPC.localAI[1] = 0f;
             }
             float num17 = death ? 13.5f : 10f;
-            if (Main.player[NPC.target].dead || (double)Main.player[NPC.target].position.Y < Main.rockLayer * 16.0)
+            if (Main.player[NPC.target].dead || (!CalamityWorld.getFixedBoi && (double)Main.player[NPC.target].position.Y < Main.rockLayer * 16.0))
             {
                 flag2 = false;
                 NPC.velocity.Y = NPC.velocity.Y + 1f;
@@ -263,7 +279,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         num24 = 20f;
                     }
                     NPC.soundDelay = (int)num24;
-                    SoundEngine.PlaySound(SoundID.WormDig, NPC.position);
+                    SoundEngine.PlaySound(SoundID.WormDig, NPC.Center);
                 }
                 num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
                 float num25 = Math.Abs(num20);
@@ -421,6 +437,11 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 6, hitDirection, -1f, 0, default, 1f);
                 }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ArmoredDiggerHead").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ArmoredDiggerHead2").Type, 1f);
+                }
             }
         }
 
@@ -439,6 +460,26 @@ namespace CalamityMod.NPCs.NormalNPCs
             npcLoot.Add(ModContent.ItemType<DemonicBoneAsh>(), 1, 2, 4);
             npcLoot.Add(ModContent.ItemType<MysteriousCircuitry>(), 1, 4, 8);
             npcLoot.Add(ModContent.ItemType<DubiousPlating>(), 1, 4, 8);
+            npcLoot.AddIf(() => CalamityWorld.getFixedBoi, ModContent.ItemType<UnholyEssence>(), 1, 3, 6);
+            npcLoot.AddIf(() => CalamityWorld.getFixedBoi, ModContent.ItemType<SanctifiedSpark>(), 10);
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (CalamityWorld.getFixedBoi)
+            {
+                typeName = "Mechanized Serpent";
+            }
+        }
+
+        public override Color? GetAlpha(Color drawColor)
+        {
+            if (CalamityWorld.getFixedBoi)
+            {
+                Color lightColor = Color.Orange * drawColor.A;
+                return lightColor * NPC.Opacity;
+            }
+            else return null;
         }
     }
 }

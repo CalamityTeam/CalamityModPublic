@@ -23,9 +23,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float beamDamageMultiplier = 0.8f; //Damage multiplier for the charged shots (remember it applies ontop of the charge damage multiplied
 
 
-        const string ParryTooltip = "Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
-                "You can also parry projectiles and temporarily make them deal 100 less damage\n" +
-                "Parrying will empower the next 10 swings of the sword, boosting their damage and letting them throw projectiles out";
+        const string ParryTooltip = "Using RMB will extend the Ark out in front of you\n" +
+        "Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
+        "You can also parry projectiles and temporarily make them deal 100 less damage\n" +
+        "Parrying will empower the next 10 swings of the sword, boosting their damage and letting them throw projectiles out";
 
         public override void SetStaticDefaults()
         {
@@ -149,14 +150,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Starfury).
                 AddIngredient(ItemID.EnchantedSword).
                 AddIngredient<PurifiedGel>(5).
                 AddRecipeGroup("AnyCopperBar", 10).
                 AddTile(TileID.Anvils).
                 Register();
             CreateRecipe().
-                AddIngredient(ItemID.Starfury).
                 AddIngredient(ItemID.Terragrim).
                 AddIngredient<PurifiedGel>(5).
                 AddRecipeGroup("AnyCopperBar", 10).

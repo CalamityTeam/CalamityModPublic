@@ -167,7 +167,9 @@ namespace CalamityMod.NPCs.StormWeaver
             bool revenge = CalamityWorld.revenge || bossRush;
             bool expertMode = Main.expertMode || bossRush;
 
-            if (!Main.raining && !bossRush)
+            if (CalamityConfig.Instance.BossesStopWeather)
+                CalamityMod.StopRain();
+            else if (!Main.raining && !bossRush)
                 CalamityUtils.StartRain();
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -240,6 +242,19 @@ namespace CalamityMod.NPCs.StormWeaver
                 {
                     int Previous = NPC.whoAmI;
                     int totalLength = death ? 60 : revenge ? 50 : expertMode ? 40 : 30;
+                    int npcCounts = 0;
+                    if (CalamityWorld.getFixedBoi) // use up every remaining npc but 20 for safety in the zenith seed
+                    {
+                        for (int i = 0; i < Main.maxNPCs; i++)
+                        {
+                            if (!Main.npc[i].active)
+                            {
+                                npcCounts++;
+                            }
+                        }
+                        totalLength = npcCounts - 20;
+                    }
+
                     for (int num36 = 0; num36 < totalLength; num36++)
                     {
                         int lol;
@@ -425,7 +440,22 @@ namespace CalamityMod.NPCs.StormWeaver
 
                         // Dictates whether Storm Weaver will use frost or tornadoes
                         if (phase4)
+                        {
+                            // Lightning strike
+                            if (!Main.DisableIntenseVisualEffects)
+                            {
+                                if (Main.netMode != NetmodeID.Server)
+                                {
+                                    if (lightningSpeed == 0f)
+                                    {
+                                        lightningDecay = Main.rand.NextFloat() * 0.05f + 0.008f;
+                                        lightningSpeed = Main.rand.NextFloat() * 0.05f + 0.05f;
+                                    }
+                                }
+                            }
+
                             calamityGlobalNPC.newAI[3] += 1f;
+                        }
 
                         // Play a sound on the player getting frost waves rained on them, as a telegraph
                         SoundEngine.PlaySound(SoundID.Item120, Main.player[NPC.target].Center);
@@ -760,6 +790,10 @@ namespace CalamityMod.NPCs.StormWeaver
                         lightning -= lightningDecay;
                 }
 
+                // Thunder sound
+                if (lightning == 1f)
+                    SoundEngine.PlaySound(SoundID.Thunder, NPC.Center);
+
                 // Start a storm when in third phase. Don't do this during Boss Rush
                 if (Main.netMode == NetmodeID.MultiplayerClient || (Main.netMode == NetmodeID.SinglePlayer && Main.gameMenu) || calamityGlobalNPC.newAI[1] > 0f || bossRush)
                     return;
@@ -978,7 +1012,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<StormWeaverRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), desc: DropHelper.SentinelText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedStormWeaver, ModContent.ItemType<LoreStormWeaver>(), desc: DropHelper.FirstKillText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

@@ -4,8 +4,10 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
+using Terraria.DataStructures;
 
 namespace CalamityMod.World
 {
@@ -202,6 +204,7 @@ namespace CalamityMod.World
             Vector2 totalScale = new Vector2(totalWidth, totalHeight);
             Vector2 individualScale = new Vector2(clusters.Width, clusters.Height);
 
+            //I was a bit worried about editing anything in this loop too drastically, so i just changed all instances of placing navystone to eutrophic sand
             for (int i = -20; i < totalWidth + 20; i++)
             {
                 for (int j = -20; j < totalHeight + 20; j++)
@@ -241,14 +244,13 @@ namespace CalamityMod.World
                     float num10 = num3 + num5;
                     Tile tile = Main.tile[num6, num7];
                     bool flag = num8 >= 0.8f;
-                    if (num10 > 3.5f) //Adjust num10 for all cases if you want different tile frequencies; higher is less frequent, lower is more frequent
+                    if (num10 > 4.5f) //Adjust num10 for all cases if you want different tile frequencies; higher is less frequent, lower is more frequent
                     {
                         tile.ClearEverything();
-                        tile.WallType = (ushort)ModContent.WallType<NavystoneWall>();
                         tile.LiquidAmount = 192;
-                        if (num4 % 15 == 2)
+                        if (num4 % 5 == 2)
                         {
-                            tile.ResetToType((ushort)ModContent.TileType<Navystone>());
+                            tile.ResetToType((ushort)ModContent.TileType<EutrophicSand>());
                             tile.Get<TileWallWireStateData>().HasTile = true;
                             tile.LiquidAmount = 0;
                         }
@@ -260,7 +262,7 @@ namespace CalamityMod.World
                         tile.LiquidAmount = 192;
                         if (!flag || tile.HasTile)
                         {
-                            tile.ResetToType((ushort)ModContent.TileType<Navystone>());
+                            tile.ResetToType((ushort)ModContent.TileType<EutrophicSand>());
                             tile.Get<TileWallWireStateData>().HasTile = true;
                             Tile.SmoothSlope(num6, num7, true);
                             tile.LiquidAmount = 0;
@@ -300,11 +302,71 @@ namespace CalamityMod.World
                     }
                 }
             }
+
+            //final cleanup loop
+            for (int i = -20; i < totalWidth + 20; i++)
+            {
+                for (int j = -20; j < totalHeight + 20; j++)
+                {
+                    int x = i + start.X;
+                    int y = j + start.Y;
+
+                    Tile tile = Main.tile[x, y];
+                    Tile tileUp = Main.tile[x, y - 1];
+                    Tile tileDown = Main.tile[x, y + 1];
+                    Tile tileDown2 = Main.tile[x, y + 2];
+                    Tile tileLeft = Main.tile[x - 1, y];
+                    Tile tileRight = Main.tile[x + 1, y];
+
+                    //lava BEGONE
+                    if (tile.WallType == ModContent.WallType<NavystoneWall>() || tile.WallType == ModContent.WallType<EutrophicSandWall>())
+                    {
+                        if (tile.LiquidType == LiquidID.Lava && tile.LiquidAmount > 0)
+                        {
+                            tile.LiquidType = LiquidID.Water;
+                            tile.LiquidAmount = 255;
+                        }
+
+                        //also get rid of any annoying leftover obsidian
+                        if (tile.TileType == TileID.Obsidian)
+                        {
+                            WorldGen.KillTile(x, y);
+                        }
+                    }
+
+                    //place extra caves throughout the biome for variance
+                    if (WorldGen.genRand.Next(1000) == 0 && tile != null && tile.HasTile && 
+                    (tile.TileType == ModContent.TileType<Navystone>() || tile.TileType == ModContent.TileType<EutrophicSand>()))
+                    {
+                        TileRunner runner = new TileRunner(new Vector2(x, y), new Vector2(0, 5), new Point16(-35, 35), 
+                        new Point16(-35, 35), 15f, WorldGen.genRand.Next(25, 50), 0, false, true);
+                        runner.Start();
+                    }
+
+                    //kill any random floating tiles
+                    if (tile.TileType == ModContent.TileType<Navystone>() || tile.TileType == ModContent.TileType<EutrophicSand>())
+                    {
+                        //kill any individual floating tiles
+                        if (!tileUp.HasTile && !tileDown.HasTile && !tileLeft.HasTile && !tileRight.HasTile)
+                        {
+                            WorldGen.KillTile(x, y);
+                        }
+                    }
+
+                    //kill any random clumps of navystone without eutrophic sand around them
+                    if (tile.TileType == ModContent.TileType<Navystone>() && tileUp.TileType != ModContent.TileType<EutrophicSand>() && 
+                    tileDown.TileType != ModContent.TileType<EutrophicSand>() && tileLeft.TileType != ModContent.TileType<EutrophicSand>() &&
+                    tileRight.TileType != ModContent.TileType<EutrophicSand>())
+                    {
+                        WorldGen.KillTile(x, y);
+                    }
+                }
+            }
         }
 
         // Adds tile variation to generated tile clusters and generates open areas with sea prism ore called "Tits"
         // Generates sea prism crystals on prism ore and occasionally on navystone
-        private static void AddTileVariance(ClusterGroup clusters, Point start, Vector2 terrainApplicationScaleVector, float overallBiomeScale)
+        private static void AddGeodes(ClusterGroup clusters, Point start, Vector2 terrainApplicationScaleVector, float overallBiomeScale)
         {
             int totalClusterZoneWidth = (int)(terrainApplicationScaleVector.X * clusters.Width);
             int totalClusterZoneHeight = (int)(terrainApplicationScaleVector.Y * clusters.Height);
@@ -451,6 +513,7 @@ namespace CalamityMod.World
                             new Actions.SetFrames(true)
                         }));
                     }
+
                     int num3 = i + start.X;
                     int num4 = j + start.Y;
                     Tile tile = Main.tile[num3, num4];
@@ -462,14 +525,21 @@ namespace CalamityMod.World
                     }
                 }
             }
+        }
+
+        private static void AddTileVariance(ClusterGroup clusters, Point start, Vector2 terrainApplicationScaleVector, float overallBiomeScale)
+        {
+            int totalClusterZoneWidth = (int)(terrainApplicationScaleVector.X * clusters.Width);
+            int totalClusterZoneHeight = (int)(terrainApplicationScaleVector.Y * clusters.Height);
             for (int k = -20; k < totalClusterZoneWidth + 20; k++)
             {
                 for (int l = -20; l < totalClusterZoneHeight + 20; l++)
                 {
                     int num5 = k + start.X;
                     int num6 = l + start.Y;
-                    Tile tile2 = Main.tile[num5, num6];
-                    if (tile2.HasTile && (tile2.TileType == ModContent.TileType<SeaPrism>() || tile2.TileType == ModContent.TileType<Navystone>()))
+                    Tile tile = Main.tile[num5, num6];
+                    if (tile.HasTile && (tile.TileType == ModContent.TileType<SeaPrism>() || 
+                    tile.TileType == ModContent.TileType<Navystone>() || tile.TileType == ModContent.TileType<EutrophicSand>()))
                     {
                         bool flag = true;
                         for (int m = -1; m >= -3; m--)
@@ -507,11 +577,12 @@ namespace CalamityMod.World
                                 break;
                             }
                         }
-                        if (tile2.TileType == ModContent.TileType<SeaPrism>() || (tile2.TileType == ModContent.TileType<Navystone>() && WorldGen.genRand.Next(8) == 0))
+                        if (tile.TileType == ModContent.TileType<SeaPrism>() || ((tile.TileType == ModContent.TileType<Navystone>() ||
+                        tile.TileType == ModContent.TileType<EutrophicSand>()) && WorldGen.genRand.Next(8) == 0))
                         {
                             if (flag3 ^ flag4)
                             {
-                                if (tile2.Slope == 0 && !tile2.IsHalfBlock)
+                                if (tile.Slope == 0 && !tile.IsHalfBlock)
                                 {
                                     Tile tile3 = Main.tile[num5 + (flag3 ? -1 : 1), num6];
                                     tile3.TileType = (ushort)ModContent.TileType<SeaPrismCrystals>();
@@ -529,7 +600,7 @@ namespace CalamityMod.World
                             }
                             if (flag ^ flag2)
                             {
-                                if (tile2.Slope == 0 && !tile2.IsHalfBlock)
+                                if (tile.Slope == 0 && !tile.IsHalfBlock)
                                 {
                                     Tile tile3 = Main.tile[num5, num6 + (flag ? -1 : 1)];
                                     tile3.TileType = (ushort)ModContent.TileType<SeaPrismCrystals>();
@@ -547,92 +618,142 @@ namespace CalamityMod.World
                             }
                         }
                     }
-                    if (!tile2.HasTile)
+                    if (tile.TileType == ModContent.TileType<Navystone>() || tile.TileType == ModContent.TileType<EutrophicSand>())
                     {
-                        if (tile2.WallType == ModContent.WallType<NavystoneWall>() || tile2.WallType == ModContent.WallType<EutrophicSandWall>())
+                        if (WorldGen.genRand.Next(7) == 0)
                         {
-                            if (WorldGen.genRand.Next(5) == 0)
-                            {
-                                PlaceTit(num5, num6, (ushort)ModContent.TileType<SunkenSeaStalactite>());
-                            }
-                            if (WorldGen.genRand.Next(8) == 0)
-                            {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<BrainCoral>(), true, false, -1, 0);
-                            }
-                            if (WorldGen.genRand.Next(6) == 0)
-                            {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<SmallBrainCoral>(), true, false, -1, 0);
-                            }
-                            if (WorldGen.genRand.Next(10) == 0)
-                            {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<FanCoral>(), true, false, -1, 0);
-                            }
-                            if (WorldGen.genRand.Next(6) == 0)
-                            {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<SeaAnemone>(), true, false, -1, 0);
-                            }
-                            if (WorldGen.genRand.Next(8) == 0)
-                            {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<TubeCoral>(), true, false, -1, 0);
-                            }
-                            if (WorldGen.genRand.Next(6) == 0)
-                            {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<SmallTubeCoral>(), true, false, -1, 0);
-                            }
+                            WorldGen.PlaceTile(num5, num6 - 1, (ushort)ModContent.TileType<BrainCoral>(), true, false, -1, 0);
+                        }
+                        if (WorldGen.genRand.Next(10) == 0)
+                        {
+                            WorldGen.PlaceTile(num5, num6 - 1, (ushort)ModContent.TileType<SmallBrainCoral>(), true, false, -1, 0);
+                        }
+                        if (WorldGen.genRand.Next(10) == 0)
+                        {
+                            WorldGen.PlaceTile(num5, num6 - 1, (ushort)ModContent.TileType<FanCoral>(), true, false, -1, 0);
+                        }
+                        if (WorldGen.genRand.Next(6) == 0)
+                        {
+                            WorldGen.PlaceTile(num5, num6 - 1, (ushort)ModContent.TileType<TubeCoral>(), true, false, -1, 0);
+                        }
+                        if (WorldGen.genRand.Next(5) == 0)
+                        {
+                            WorldGen.PlaceTile(num5, num6 - 1, (ushort)ModContent.TileType<SmallTubeCoral>(), true, false, -1, 0);
+                        }
+                        if (WorldGen.genRand.Next(6) == 0)
+                        {
+                            WorldGen.PlaceTile(num5, num6 - 1, (ushort)ModContent.TileType<SeaAnemone>(), true, false, -1, 0);
+                        }
+
+                        //stalactites
+                        if (WorldGen.genRand.Next(5) == 0)
+                        {
+                            ushort[] Stalactites = new ushort[] { (ushort)ModContent.TileType<SunkenStalactite1>(),
+                            (ushort)ModContent.TileType<SunkenStalactite2>(), (ushort)ModContent.TileType<SunkenStalactite3>() };
+
+                            WorldGen.PlaceObject(num5, num6 + 2, WorldGen.genRand.Next(Stalactites));
+                        }
+                        if (WorldGen.genRand.Next(5) == 0)
+                        {
+                            WorldGen.PlaceTile(num5, num6 + 1, (ushort)ModContent.TileType<SunkenStalactitesSmall>(), true, false, -1, 0);
+                        }
+
+                        //stalagmites
+                        if (WorldGen.genRand.Next(5) == 0)
+                        {
+                            ushort[] Stalagmites = new ushort[] { (ushort)ModContent.TileType<SunkenStalagmite1>(),
+                            (ushort)ModContent.TileType<SunkenStalagmite2>(), (ushort)ModContent.TileType<SunkenStalagmite3>() };
+
+                            WorldGen.PlaceObject(num5, num6 - 2, WorldGen.genRand.Next(Stalagmites));
+                        }
+                        if (WorldGen.genRand.Next(5) == 0)
+                        {
+                            WorldGen.PlaceTile(num5, num6 - 1, (ushort)ModContent.TileType<SunkenStalagmitesSmall>(), true, false, -1, 0);
+                        }
+                    }
+                    if (!tile.HasTile)
+                    {
+                        if (tile.TileType == ModContent.TileType<Navystone>() || tile.WallType == ModContent.WallType<EutrophicSandWall>())
+                        {
                             if (WorldGen.genRand.Next(4) == 0)
                             {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<TableCoral>(), true, false, -1, 0);
+                                WorldGen.PlaceTile(num5, num6 + 1, (ushort)ModContent.TileType<TableCoral>(), true, false, -1, 0);
                             }
                         }
                     }
                 }
             }
         }
+    
+        //added this to 100% make sure the sunken sea places where it is supposed to be
+        static bool foundValidPosition = false;
 
         public static bool Place(Point origin)
         {
-            // 1 on Small, 1.52 on Medium, 2 on Large
-            float scale = Main.maxTilesX / 4200f;
-            // Clamp scale to prevent problems on extra large worlds
-            scale = MathHelper.Clamp(scale, 1f, 2f);
-
-            // 80 on Small, 121.6 on Medium, 160 on Large
-            int sunkenSeaAreaX = (int)(80f * scale);
-            // 84-102 on Small, 127.68-155.04 on Medium, 168-204 on Large
-            float baseVerticalSize = 60f * scale;
-            float verticalScaleFactor = 1.4f + WorldGen.genRand.NextFloat(0.3f);
-            int sunkenSeaAreaY = (int)(verticalScaleFactor * baseVerticalSize);
-
-            // What the fuck is this and why is it used everywhere
-            // As far as I can tell, this just scales up the entire Sunken Sea to be 4x wider and 2x taller than what is listed above
-            Vector2 arbitrary42GodVector = new Vector2(4f, 2f);
-
-            // Place the majority of the terrain as clusters
-            ClusterGroup clusterGroup = new ClusterGroup();
-            clusterGroup.Generate(sunkenSeaAreaX, sunkenSeaAreaY);
-            PlaceClusters(clusterGroup, origin, arbitrary42GodVector);
-
-            // "Now place the rest of the Sunken Sea" except it's called Tile Variance
-            AddTileVariance(clusterGroup, origin, arbitrary42GodVector, scale);
-
-            // Re-frame everything in some arbitrary radius
-            int totalWidth = (int)(arbitrary42GodVector.X * clusterGroup.Width);
-            int totalHeight = (int)(arbitrary42GodVector.Y * clusterGroup.Height);
-            int frameExcessRadius = 40;
-            for (int i = -frameExcessRadius; i < totalWidth + frameExcessRadius; i++)
-                for (int j = -frameExcessRadius; j < totalHeight + frameExcessRadius; j++)
+            for (int y = origin.Y; y >= (int)Main.worldSurface; y--)
+            {
+                //check for the desert biomes walls
+                if (Main.tile[origin.X, y].WallType == WallID.Sandstone || Main.tile[origin.X, y].WallType == WallID.HardenedSand)
                 {
-                    if (i + origin.X > 0 && i + origin.X < Main.maxTilesX - 1 && j + origin.Y > 0 && j + origin.Y < Main.maxTilesY - 1)
+                    origin.Y = y + 50; //offset so it doesnt generate weird
+                    foundValidPosition = true;
+                    break;
+                }
+            }
+
+            while (foundValidPosition)
+            {
+                // 1 on Small, 1.52 on Medium, 2 on Large
+                float scale = Main.maxTilesX / 4200f;
+                // Clamp scale to prevent problems on extra large worlds
+                scale = MathHelper.Clamp(scale, 1f, 2f);
+
+                // 80 on Small, 121.6 on Medium, 160 on Large
+                int sunkenSeaAreaX = (int)(80f * scale);
+                // 84-102 on Small, 127.68-155.04 on Medium, 168-204 on Large
+                float baseVerticalSize = 60f * scale;
+                float verticalScaleFactor = 1.4f + WorldGen.genRand.NextFloat(0.3f);
+                int sunkenSeaAreaY = (int)(verticalScaleFactor * baseVerticalSize);
+
+                // What the fuck is this and why is it used everywhere
+                // As far as I can tell, this just scales up the entire Sunken Sea to be 4x wider and 2x taller than what is listed above
+                Vector2 arbitrary42GodVector = new Vector2(4f, 2f);
+
+                // Place the majority of the terrain as clusters
+                ClusterGroup clusterGroup = new ClusterGroup();
+                clusterGroup.Generate(sunkenSeaAreaX, sunkenSeaAreaY);
+                PlaceClusters(clusterGroup, origin, arbitrary42GodVector);
+
+                // Place Geodes
+                AddGeodes(clusterGroup, origin, arbitrary42GodVector, scale);
+
+                // Re-frame everything in some arbitrary radius
+                int totalWidth = (int)(arbitrary42GodVector.X * clusterGroup.Width);
+                int totalHeight = (int)(arbitrary42GodVector.Y * clusterGroup.Height);
+                int frameExcessRadius = 40;
+                for (int i = -frameExcessRadius; i < totalWidth + frameExcessRadius; i++)
+                {
+                    for (int j = -frameExcessRadius; j < totalHeight + frameExcessRadius; j++)
                     {
-                        WorldGen.SquareWallFrame(i + origin.X, j + origin.Y, true);
-                        WorldUtils.TileFrame(i + origin.X, j + origin.Y, true);
+                        if (i + origin.X > 0 && i + origin.X < Main.maxTilesX - 1 && j + origin.Y > 0 && j + origin.Y < Main.maxTilesY - 1)
+                        {
+                            WorldGen.SquareWallFrame(i + origin.X, j + origin.Y, true);
+                            WorldUtils.TileFrame(i + origin.X, j + origin.Y, true);
+                            Tile.SmoothSlope(i + origin.X, j + origin.Y, true);
+                        }
                     }
                 }
 
-            // Sunken Sea generation always succeeds
-            return true;
+                // Add Tile Variance (sand, crystals, etc.)
+                AddTileVariance(clusterGroup, origin, arbitrary42GodVector, scale);
+
+                return true;
+            }
+
+            return false;
         }
 
+        /*
         public static void PlaceTit(int x, int y, ushort type = 165)
         {
             if (WorldGen.SolidTile(x, y - 1) && !Main.tile[x, y].HasTile && !Main.tile[x, y + 1].HasTile)
@@ -691,5 +812,6 @@ namespace CalamityMod.World
                 }
             }
         }
+        */
     }
 }

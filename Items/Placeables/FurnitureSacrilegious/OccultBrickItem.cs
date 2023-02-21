@@ -32,18 +32,16 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 
         public override void AddRecipes()
         {
-            CreateRecipe(200).
-				AddRecipeGroup("AnyStoneBlock", 200).
-				AddIngredient(ModContent.ItemType<AshesofAnnihilation>()).
-				AddTile(ModContent.TileType<SCalAltar>()).
+            CreateRecipe(400).
+				AddRecipeGroup("AnyStoneBlock", 400).
+				AddIngredient<AshesofAnnihilation>().
+				AddTile<SCalAltar>().
 				Register();
-
-            CreateRecipe(1).
-				AddIngredient(ModContent.ItemType<OccultPlatformItem>(), 2).
+            CreateRecipe().
+				AddIngredient<OccultPlatformItem>(2).
 				Register();
-
-            CreateRecipe(1).
-				AddIngredient(ModContent.ItemType<OccultBrickWallItem>(), 4).
+            CreateRecipe().
+				AddIngredient<OccultBrickWallItem>(4).
 				AddTile(TileID.WorkBenches).
 				Register();
         }

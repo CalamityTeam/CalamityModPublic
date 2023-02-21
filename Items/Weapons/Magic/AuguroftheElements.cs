@@ -67,11 +67,12 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<EldritchTome>().
                 AddIngredient<TomeofFates>().
                 AddIngredient(ItemID.ShadowFlameHexDoll).
-                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient<EldritchTome>().
                 AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient<LifeAlloy>(5).
+                AddIngredient<GalacticaSingularity>(5).
                 AddTile(TileID.Bookcases).
                 Register();
         }

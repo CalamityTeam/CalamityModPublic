@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Accessories
             SacrificeTotal = 1;
             DisplayName.SetDefault("Void of Extinction");
             Tooltip.SetDefault("Drops brimstone fireballs from the sky occasionally\n" +
-                "10% increase to all damage\n" +
-                "Melee attacks inflict Hellfire\n" +
+                "12% increase to all damage\n" +
+                "All attacks inflict Brimstone Flames\n" +
                 "Brimstone fire rains down after getting hit\n" +
                 "Reduces damage from touching lava\n" +
                 "Grants immunity to Burning, On Fire!, Brimstone Flames and Searing Lava");
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.accessory = true;
-            Item.defense = 8;
+            Item.defense = 12;
         }
 
         public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().voidOfCalamity;
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<Gehenna>().
                 AddIngredient<Abaddon>().
                 AddIngredient<VoidofCalamity>().
-                AddIngredient<CoreofChaos>().
+                AddIngredient<CoreofHavoc>().
                 AddIngredient<ScoriaBar>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
@@ -60,11 +60,10 @@ namespace CalamityMod.Items.Accessories
             modPlayer.voidOfExtinction = true;
             modPlayer.abaddon = true;
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-            player.magmaStone = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.fireWalk = true;
             player.lavaRose = true;
-            player.GetDamage<GenericDamageClass>() += 0.1f;
+            player.GetDamage<GenericDamageClass>() += 0.12f;
             if (player.immune)
             {
                 if (player.miscCounter % 10 == 0)
@@ -105,7 +104,7 @@ namespace CalamityMod.Items.Accessories
                             spawn.X += i * 30 - (FireProjectiles * 15);
                             Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-                            int damage = (int)player.GetBestClassDamage().ApplyTo(70);
+                            int damage = (int)player.GetBestClassDamage().ApplyTo(100);
                             Projectile.NewProjectile(source, spawn, velocity, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), damage, 5f, Main.myPlayer, 0f, 0f);
                         }
                     }

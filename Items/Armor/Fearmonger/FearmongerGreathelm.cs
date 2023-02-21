@@ -49,12 +49,12 @@ namespace CalamityMod.Items.Armor.Fearmonger
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = @"20% increased minion damage and +2 max minions
-            The minion damage nerf while wielding weaponry is reduced
-            Immunity to all forms of frost and flame
-            All minion attacks grant colossal life regeneration
-            15% increased damage reduction during the Pumpkin and Frost Moons
-            This extra damage reduction ignores the soft cap";
+            player.setBonus = "20% increased minion damage and +2 max minions\n" +
+            "Minions no longer deal less damage while wielding non-summoner weapons\n" +
+            "Immunity to all forms of frost and flame\n" +
+            "All minion attacks grant colossal life regeneration\n" +
+            "15% increased damage reduction during the Pumpkin and Frost Moons\n" +
+            "This extra damage reduction ignores the soft cap";
 
             // This bool encompasses cross-class nerf immunity, colossal life regen on minion attack, and the holiday moon DR
             // TODO -- Fearmonger life regen from minion attacks needs some sort of cool visual effect

@@ -265,13 +265,6 @@ namespace CalamityMod.Events
                 }
             }
 
-            // Stop the rain if the Old Duke is present for visibility during the fight.
-            if (Main.raining && NPC.AnyNPCs(ModContent.NPCType<OldDuke>()))
-            {
-                Main.raining = false;
-                CalamityNetcode.SyncWorld();
-            }
-
             // If the rain stops for whatever reason, end the invasion.
             // This is primarily done for compatibility, so that if another mod wants to manipulate the weather,
             // they can without having to deal with endless rain.

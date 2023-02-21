@@ -1,4 +1,4 @@
-﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
@@ -23,24 +23,21 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 30;
-            Item.damage = 50;
+            Item.height = 38;
+            Item.damage = 72;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 26;
+            Item.useAnimation = Item.useTime = 26;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 26;
             Item.knockBack = 6.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 38;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<BallisticPoisonBombProj>();
             Item.shootSpeed = 12f;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-		public override float StealthDamageMultiplier => 0.3333f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -64,9 +61,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CreateRecipe().
                 AddIngredient<SeafoamBomb>().
-                AddIngredient<DepthCells>(10).
-                AddIngredient<SulphurousSand>(20).
-                AddIngredient<Tenebris>(10).
+                AddIngredient<SulphurousSand>(10).
+                AddIngredient<Voidstone>(10).
+                AddIngredient<DepthCells>(20).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

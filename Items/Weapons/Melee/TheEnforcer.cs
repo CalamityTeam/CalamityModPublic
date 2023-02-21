@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             var source = player.GetSource_ItemUse(Item);
-            SoundEngine.PlaySound(SoundID.Item73, player.position);
+            SoundEngine.PlaySound(SoundID.Item73, player.Center);
             int i = Main.myPlayer;
             float num72 = 3f;
             player.itemTime = Item.useTime;
@@ -96,7 +96,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             var source = player.GetSource_ItemUse(Item);
-            SoundEngine.PlaySound(SoundID.Item73, player.position);
+            SoundEngine.PlaySound(SoundID.Item73, player.Center);
             int i = Main.myPlayer;
             float num72 = 3f;
             player.itemTime = Item.useTime;

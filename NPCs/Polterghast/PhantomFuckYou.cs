@@ -39,6 +39,10 @@ namespace CalamityMod.NPCs.Polterghast
             NPC.HitSound = SoundID.NPCHit36;
             NPC.DeathSound = SoundID.NPCDeath39;
             NPC.Calamity().VulnerableToSickness = false;
+            if (CalamityWorld.getFixedBoi)
+            {
+                NPC.dontTakeDamage = true;
+            }
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -68,6 +72,8 @@ namespace CalamityMod.NPCs.Polterghast
 
             if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return false;

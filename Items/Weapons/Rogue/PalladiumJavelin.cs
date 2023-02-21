@@ -11,25 +11,23 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Palladium Javelin");
-            Tooltip.SetDefault("Stealth strikes split into more javelins");
+            Tooltip.SetDefault("Stealth strikes split into more javelins and boost life regeneration on hits");
             SacrificeTotal = 99;
         }
 
         public override void SetDefaults()
         {
-            Item.width = 44;
-            Item.damage = 68;
+            Item.width = 54;
+            Item.damage = 88;
             Item.noMelee = true;
             Item.consumable = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 19;
+            Item.useAnimation = Item.useTime = 26;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 19;
             Item.knockBack = 5.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 44;
-            Item.shoot = ProjectileID.StarAnise;
+            Item.height = 54;
             Item.maxStack = 999;
             Item.value = 1200;
             Item.rare = ItemRarityID.LightRed;
@@ -38,23 +36,18 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-		public override float StealthDamageMultiplier => 1.425f;
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int javelin = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (javelin.WithinBounds(Main.maxProjectiles))
-            {
                 Main.projectile[javelin].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
-                if (!player.Calamity().StealthStrikeAvailable())
-                    Main.projectile[javelin].usesLocalNPCImmunity = false;
-            }
+            
             return false;
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).
+            CreateRecipe(150).
                 AddIngredient(ItemID.PalladiumBar).
                 AddTile(TileID.Anvils).
                 Register();

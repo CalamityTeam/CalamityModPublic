@@ -20,13 +20,13 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = 10;
+            Projectile.penetrate = 5;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 180;
             Projectile.DamageType = RogueDamageClass.Instance;
-            Projectile.extraUpdates = 2;
+            Projectile.MaxUpdates = 3;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 10 * Projectile.MaxUpdates; // 10 effective, 30 total
         }
 
         public override void AI()

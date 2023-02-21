@@ -141,6 +141,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 NPC.velocity.Y = NPC.velocity.Y - num2;
             }
+
+            if (NPC.justHit)
+                NPC.localAI[0] = 0f;
+            
             NPC.localAI[0] += 1f;
             if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= 150f)
             {
@@ -255,7 +259,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 !spawnInfo.Player.PillarZone() &&
                 !spawnInfo.Player.ZoneDungeon &&
                 !spawnInfo.Player.InSunkenSea() &&
-                Main.hardMode && !spawnInfo.PlayerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.007f : 0f;
+                Main.hardMode && !spawnInfo.PlayerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.02f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -278,6 +282,12 @@ namespace CalamityMod.NPCs.NormalNPCs
                 for (int k = 0; k < 15; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 92, hitDirection, -1f, 0, default, 1f);
+                }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("IceClasper").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("IceClasper2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("IceClasper3").Type, 1f);
                 }
             }
         }

@@ -1,5 +1,4 @@
-﻿using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 5f;
-            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item20;
             Item.autoReuse = true;
@@ -39,11 +38,10 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Tradewinds>().
+                AddIngredient(ItemID.SpellTome).
                 AddRecipeGroup("AnyAdamantiteBar", 5).
                 AddIngredient(ItemID.AncientBattleArmorMaterial).
                 AddIngredient(ItemID.FossilOre, 25).
-                AddIngredient<DesertFeather>(5).
                 AddTile(TileID.Bookcases).
                 Register();
         }

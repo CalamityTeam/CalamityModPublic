@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -41,11 +41,6 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
             }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
         }
     }
 }

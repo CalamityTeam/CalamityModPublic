@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<FirestormCannon>().
-                AddIngredient(ItemID.FragmentVortex, 20).
+                AddIngredient(ItemID.FragmentSolar, 6).
                 AddIngredient(ItemID.Ectoplasm, 10).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

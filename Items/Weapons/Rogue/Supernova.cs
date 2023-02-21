@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -58,12 +59,10 @@ Stealth strikes release energy as they fly");
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient<SealedSingularity>().
+                AddIngredient<StarofDestruction>().
                 AddIngredient<TotalityBreakers>().
                 AddIngredient<BallisticPoisonBomb>().
-                AddIngredient<ShockGrenade>(200).
-                AddIngredient<Penumbra>().
-                AddIngredient<StarofDestruction>().
-                AddIngredient<SealedSingularity>().
                 AddIngredient<MiracleMatter>().
                 AddTile<DraedonsForge>().
                 Register();

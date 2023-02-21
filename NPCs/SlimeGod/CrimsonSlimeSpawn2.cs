@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Events;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -24,7 +25,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetDefaults()
         {
-            NPC.aiStyle = 1;
+            NPC.aiStyle = NPCAIStyleID.Slime;
             NPC.GetNPCDamage();
             NPC.width = 40;
             NPC.height = 30;
@@ -56,7 +57,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Embedded in these slime’s bodies are shards of crimulan stone, which drip with a toxin meant to impair your vision.")
+				new FlavorTextBestiaryInfoElement("Embedded in these slime's bodies are shards of crimulan stone, which drip with a toxin meant to impair your vision.")
             });
         }
 
@@ -96,6 +97,10 @@ namespace CalamityMod.NPCs.SlimeGod
 
             int type = ModContent.ProjectileType<CrimsonSpike>();
             int damage = NPC.GetProjectileDamage(type);
+            if (CalamityWorld.getFixedBoi)
+            {
+                type = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
+            }
             if (!NPC.wet)
             {
                 Vector2 vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
@@ -111,7 +116,8 @@ namespace CalamityMod.NPCs.SlimeGod
                     }
                     if (Main.netMode != NetmodeID.MultiplayerClient && spikeTimer == 0f)
                     {
-                        for (int n = 0; n < 5; n++)
+                        int projcount = CalamityWorld.getFixedBoi ? 12 : 5;
+                        for (int n = 0; n < projcount; n++)
                         {
                             Vector2 vector4 = new Vector2((float)(n - 2), -4f);
                             vector4.X *= 1f + (float)Main.rand.Next(-50, 51) * 0.005f;

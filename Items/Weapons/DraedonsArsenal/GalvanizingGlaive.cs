@@ -31,13 +31,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             Item.width = 56;
             Item.height = 52;
-            Item.damage = 100;
+            Item.damage = 130;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 21;
-            Item.useTime = 21;
+            Item.useAnimation = Item.useTime = 21;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 9f;
             Item.UseSound = SoundID.Item1;

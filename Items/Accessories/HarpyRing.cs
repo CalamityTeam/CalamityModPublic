@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<AerialiteBar>(2).
+                AddIngredient(ItemID.SunplateBlock, 2).
                 AddIngredient(ItemID.Feather, 5).
-                AddIngredient(ItemID.FallenStar).
                 AddTile(TileID.SkyMill).
                 Register();
         }

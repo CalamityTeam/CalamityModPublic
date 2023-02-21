@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Armor.SnowRuffian
             Item.height = 18;
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
-            Item.defense = 2; //4
+            Item.defense = 4; //9
         }
 
         public override void UpdateEquip(Player player)
@@ -48,9 +48,7 @@ namespace CalamityMod.Items.Armor.SnowRuffian
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup("AnySnowBlock", 30).
-                AddRecipeGroup("AnyIceBlock", 15).
-                AddIngredient(ItemID.BorealWood, 45).
+                AddRecipeGroup("AnySnowBlock", 60).
                 AddIngredient(ItemID.FlinxFur, 2).
                 AddTile(TileID.Anvils).
                 Register();

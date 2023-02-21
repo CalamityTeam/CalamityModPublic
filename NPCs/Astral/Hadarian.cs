@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override void AI()
         {
-            CalamityGlobalNPC.DoVultureAI(NPC, (CalamityWorld.death ? 0.225f : 0.15f), (CalamityWorld.death ? 5.25f : 3.5f), 32, 50, 150, 150);
+            CalamityGlobalNPC.DoVultureAI(NPC, (CalamityWorld.death ? 0.25f : CalamityWorld.revenge ? 0.2f : 0.15f), (CalamityWorld.death ? 5.5f : CalamityWorld.revenge ? 4.5f : 3.5f), 32, 50, 150, 150);
 
             //usually done in framing but I put it here because it makes more sense to.
             NPC.rotation = NPC.velocity.X * 0.1f;

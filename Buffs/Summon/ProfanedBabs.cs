@@ -34,7 +34,7 @@ namespace CalamityMod.Buffs.Summon
             Player player = Main.player[Main.myPlayer];
             bool offense = player.Calamity().gOffense;
             bool defense = player.Calamity().gDefense;
-            if (player.Calamity().profanedCrystal && (!player.Calamity().profanedCrystalBuffs && (!DownedBossSystem.downedSCal || !DownedBossSystem.downedExoMechs)))
+            if (player.Calamity().profanedCrystal && (!player.Calamity().profanedCrystalBuffs && (!DownedBossSystem.downedCalamitas || !DownedBossSystem.downedExoMechs)))
             {
                 tip = "The Profaned Babs will accompany you!";
             }

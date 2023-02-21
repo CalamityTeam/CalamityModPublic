@@ -87,6 +87,20 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
+            Point point = NPC.Center.ToTileCoordinates();
+            Tile tileSafely = Framing.GetTileSafely(point);
+            bool createDust = tileSafely.HasUnactuatedTile && NPC.Distance(Main.player[NPC.target].Center) < 800f;
+            if (createDust)
+            {
+                if (Main.rand.NextBool())
+                {
+                    Dust dust = Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 204, 0f, 0f, 150, default(Color), 0.3f);
+                    dust.fadeIn = 0.75f;
+                    dust.velocity *= 0.1f;
+                    dust.noLight = true;
+                }
+            }
+
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
                 NPC.TargetClosest(true);
 
@@ -335,6 +349,8 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
+                if (Main.netMode != NetmodeID.Server)
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("OarfishHead").Type, 1f);
             }
         }
 

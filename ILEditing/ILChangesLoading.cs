@@ -59,6 +59,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.NPC.ApplyTileCollision += AllowTriggeredFallthrough;
             IL.Terraria.Player.Hurt += RemoveRNGFromDodges;
             IL.Terraria.Player.DashMovement += FixAllDashMechanics;
+            On.Terraria.Player.DoCommonDashHandle += ApplyDashKeybind;
             IL.Terraria.Player.GiveImmuneTimeForCollisionAttack += MakeShieldSlamIFramesConsistent;
             IL.Terraria.Player.Update_NPCCollision += NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor += OpenDoor_LabDoorOverride;
@@ -68,6 +69,7 @@ namespace CalamityMod.ILEditing
             // TODO -- This should be unnecessary. There is now a TML hook for platform collision for ModNPCs.
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
             IL.Terraria.Wiring.HitWireSingle += AddTwinklersToStatue;
+            On.Terraria.Player.UpdateItemDye += FindCalamityItemDyeShader;
 
             // Mana Burn
             IL.Terraria.Player.QuickHeal += ConditionallyReplaceManaSickness;
@@ -128,6 +130,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime_StartNight += BloodMoonsRequire200MaxLife;
             IL.Terraria.WorldGen.AttemptFossilShattering += PreventFossilShattering;
             On.Terraria.Player.GetPickaxeDamage += RemoveHellforgePickaxeRequirement;
+            On.Terraria.Player.GetAnglerReward += ImproveAnglerRewards;
 
             // Fix vanilla bugs exposed by Calamity mechanics
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
@@ -177,12 +180,16 @@ namespace CalamityMod.ILEditing
             On.Terraria.NPC.ApplyTileCollision -= AllowTriggeredFallthrough;
             IL.Terraria.Player.Hurt -= RemoveRNGFromDodges;
             IL.Terraria.Player.DashMovement -= FixAllDashMechanics;
+            On.Terraria.Player.DoCommonDashHandle -= ApplyDashKeybind;
             IL.Terraria.Player.GiveImmuneTimeForCollisionAttack -= MakeShieldSlamIFramesConsistent;
             IL.Terraria.Player.Update_NPCCollision -= NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor -= OpenDoor_LabDoorOverride;
             On.Terraria.WorldGen.CloseDoor -= CloseDoor_LabDoorOverride;
             On.Terraria.Item.AffixName -= IncorporateEnchantmentInAffix;
             On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float -= IncorporateMinionExplodingCountdown;
+            On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
+            IL.Terraria.Wiring.HitWireSingle -= AddTwinklersToStatue;
+            On.Terraria.Player.UpdateItemDye -= FindCalamityItemDyeShader;
 
             // Mana Burn
             IL.Terraria.Player.QuickHeal -= ConditionallyReplaceManaSickness;
@@ -242,6 +249,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime_StartNight -= BloodMoonsRequire200MaxLife;
             IL.Terraria.WorldGen.AttemptFossilShattering -= PreventFossilShattering;
             On.Terraria.Player.GetPickaxeDamage -= RemoveHellforgePickaxeRequirement;
+            On.Terraria.Player.GetAnglerReward -= ImproveAnglerRewards;
 
             // Fix vanilla bugs exposed by Calamity mechanics
             IL.Terraria.NPC.NPCLoot -= FixSplittingWormBannerDrops;

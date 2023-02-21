@@ -49,7 +49,6 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
@@ -58,10 +57,12 @@ using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Chat;
 using Terraria.DataStructures;
+using Terraria.GameContent.Events;
 using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -189,8 +190,7 @@ namespace CalamityMod.CalPlayer
         #region Timer and Counter
         public int gaelSwipes = 0;
         public int gaelRageAttackCooldown = 0;
-        public int bossRushImmunityFrameCurseTimer = 0;
-        public int aBulwarkRareMeleeBoostTimer = 0;
+        public int hideOfDeusMeleeBoostTimer = 0;
         public int nebulaManaNerfCounter = 0;
         public int alcoholPoisonLevel = 0;
         public int modStealthTimer;
@@ -221,12 +221,13 @@ namespace CalamityMod.CalPlayer
         public int auralisAuroraCounter = 0;
         public int auralisAuroraCooldown = 0;
         public int auralisAurora = 0;
-        public int fungalSymbioteTimer = 0;
-        public int aBulwarkRareTimer = 0;
+        public int hideOfDeusTimer = 0;
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
         public int RustyMedallionCooldown = 0;
         public float SulphWaterPoisoningLevel;
+        public NPC unstableSelectedTarget;
+        public int zapActivity = 0;
 
         private const int DashDisableCooldown = 12;
 
@@ -251,6 +252,7 @@ namespace CalamityMod.CalPlayer
         public static readonly SoundStyle AdrenalineFilledSound = new("CalamityMod/Sounds/Custom/AbilitySounds/FullAdrenaline");
         public static readonly SoundStyle AdrenalineActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/AdrenalineActivate");
         public static readonly SoundStyle AdrenalineHurtSound = new("CalamityMod/Sounds/Custom/AdrenalineMajorLoss");
+        public static readonly SoundStyle NanomachinesActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/NanomachinesActivate");
 
         public static readonly SoundStyle RogueStealthSound = new("CalamityMod/Sounds/Custom/RogueStealth");
         public static readonly SoundStyle DefenseDamageSound = new("CalamityMod/Sounds/Custom/DefenseDamage");
@@ -324,6 +326,7 @@ namespace CalamityMod.CalPlayer
         public bool bendyPet = false;
         public bool littleLightPet = false;
         public bool pineapplePet = false;
+        public bool eidolonSnailPet = false;
         #endregion
 
         #region Rage
@@ -412,6 +415,7 @@ namespace CalamityMod.CalPlayer
         public bool rBrain = false;
         public bool bloodyWormTooth = false;
         public bool afflicted = false;
+        public bool chiRegen = false;
         public bool affliction = false;
         public bool stressPills = false;
         public bool laudanum = false;
@@ -423,12 +427,10 @@ namespace CalamityMod.CalPlayer
         public bool evasionScarf = false;
         public bool badgeOfBravery = false;
         public bool warbannerOfTheSun = false;
-        public float warBannerBonus = 0f;
         public bool cryogenSoul = false;
         public bool yInsignia = false;
         public bool eGauntlet = false;
         public bool eTalisman = false;
-        public bool statisBeltOfCurses = false;
         public int statisTimer = 0;
         public bool nucleogenesis = false;
         public bool nuclearRod = false;
@@ -441,8 +443,8 @@ namespace CalamityMod.CalPlayer
         public bool aquaticHeartWaterBuff = false;
         public bool aquaticHeartIce = false;
         public bool aSpark = false;
-        public bool aSparkRare = false;
-        public bool aBulwarkRare = false;
+        public bool transformer = false;
+        public bool hideOfDeus = false;
         public bool dAmulet = false;
         public bool fCarapace = false;
         public bool gShell = false;
@@ -469,13 +471,14 @@ namespace CalamityMod.CalPlayer
         public bool frostFlare = false;
         public bool beeResist = false;
         public bool uberBees = false;
-        public bool projRefRare = false;
-        public int projRefRareLifeRegenCounter = 0;
+        public bool evolution = false;
+        public int evolutionLifeRegenCounter = 0;
         public bool nanotech = false;
         public bool deadshotBrooch = false;
         public bool shadowMinions = false;
         public bool holyMinions = false;
         public bool alchFlask = false;
+        public bool toxicHeart = false;
         public bool abaddon = false;
         public bool aeroStone = false;
         public bool community = false;
@@ -510,7 +513,7 @@ namespace CalamityMod.CalPlayer
         public bool voidOfExtinction = false;
         public bool eArtifact = false;
         public bool dArtifact = false;
-        public bool gArtifact = false;
+        public bool auricSArtifact = false;
         public bool pArtifact = false;
         public bool giantPearl = false;
         public bool normalityRelocator = false;
@@ -530,11 +533,17 @@ namespace CalamityMod.CalPlayer
         public float jellyDmg;
         public bool oldDukeScales = false;
         public bool sandWaifu = false;
+        public bool sandWaifuVanity = false;
         public bool sandBoobWaifu = false;
+        public bool sandBoobWaifuVanity = false;
         public bool cloudWaifu = false;
+        public bool cloudWaifuVanity = false;
         public bool brimstoneWaifu = false;
+        public bool brimstoneWaifuVanity = false;
         public bool sirenWaifu = false;
+        public bool sirenWaifuVanity = false;
         public bool fungalClump = false;
+        public bool fungalClumpVanity = false;
         public bool howlsHeart = false;
         public bool howlsHeartVanity = false;
         public bool darkGodSheath = false;
@@ -563,6 +572,7 @@ namespace CalamityMod.CalPlayer
         public bool camper = false;
         public bool corrosiveSpine = false;
         public bool miniOldDuke = false;
+        public bool miniOldDukeVanity = false;
         public bool starbusterCore = false;
         public bool starTaintedGenerator = false;
         public bool hallowedRune = false;
@@ -574,10 +584,6 @@ namespace CalamityMod.CalPlayer
         public int icicleCooldown = 0;
         public bool RustyMedallionDroplets = false;
         public bool noStupidNaturalARSpawns = false;
-        public bool roverDrive = false;
-        public int roverDriveTimer = 0;
-        public int roverFrameCounter = 0;
-        public int roverFrame = 0;
         public int voidFrameCounter = 0;
         public int voidFrame = 0;
         public bool rottenDogTooth = false;
@@ -586,7 +592,9 @@ namespace CalamityMod.CalPlayer
         public bool BloomStoneRegen = false;
         public bool ChaosStone = false;
         public bool CryoStone = false;
+        public bool CryoStoneVanity = false;
         public bool voidField = false;
+        public bool copyrightInfringementShield = false;
         #endregion
 
         #region Armor Set
@@ -748,6 +756,7 @@ namespace CalamityMod.CalPlayer
         public bool shadowflame = false;
         public bool wDeath = false;
         public bool dragonFire = false;
+        public bool miracleBlight = false;
         public bool aCrunch = false;
         public bool irradiated = false;
         public bool bFlames = false;
@@ -795,15 +804,11 @@ namespace CalamityMod.CalPlayer
         public bool graxDefense = false;
         public bool encased = false;
         public bool tFury = false;
-        public bool cadence = false;
         public bool omniscience = false;
         public bool zerg = false;
         public bool zen = false;
         public bool isNearbyBoss = false;
-        public bool yPower = false;
-        public bool aWeapon = false;
-        public bool tScale = false;
-        public int titanBoost = 0;
+        public bool flaskBrimstone = false;
         public bool fabsolVodka = false;
         public bool mushy = false;
         public bool molten = false;
@@ -813,22 +818,18 @@ namespace CalamityMod.CalPlayer
         public bool anechoicCoating = false;
         public bool enraged = false;
         public bool permafrostsConcoction = false;
-        public bool armorCrumbling = false;
+        public bool flaskCrumbling = false;
         public bool ceaselessHunger = false;
         public bool calcium = false;
         public bool soaring = false;
         public bool bounding = false;
-        public bool triumph = false;
-        public bool penumbra = false;
         public bool shadow = false;
         public bool photosynthesis = false;
         public bool astralInjection = false;
         public bool gravityNormalizer = false;
-        public bool holyWrath = false;
-        public bool profanedRage = false;
-        public bool draconicSurge = false;
+        public bool flaskHoly = false;
         public bool tesla = false;
-        public bool teslaFreeze = false;
+        public bool galvanicCorrosion = false;
         public bool sulphurskin = false;
         public bool baguette = false;
         public bool vodka = false;
@@ -874,7 +875,6 @@ namespace CalamityMod.CalPlayer
         #region Minion
         public bool wDroid = false;
         public bool resButterfly = false;
-        public bool glSword = false;
         public bool mWorm = false;
         public bool iClasper = false;
         public bool magicHat = false;
@@ -886,8 +886,8 @@ namespace CalamityMod.CalPlayer
         public bool cSlime = false;
         public bool cSlime2 = false;
         public bool aSlime = false;
-        public bool bStar = false;
-        public bool aStar = false;
+        public bool brittleStar = false;
+        public bool aquaticStar = false;
         public bool SP = false;
         public bool dCreeper = false;
         public bool bClot = false;
@@ -900,7 +900,7 @@ namespace CalamityMod.CalPlayer
         public bool pGuy = false;
         public bool sandnado = false;
         public bool plantera = false;
-        public bool aProbe = false;
+        public bool astralProbe = false;
         public bool gDefense = false;
         public bool gOffense = false;
         public bool gHealer = false;
@@ -908,8 +908,8 @@ namespace CalamityMod.CalPlayer
         public int healCounter = 300;
         public bool shellfish = false;
         public bool hCrab = false;
-        public bool tDime = false;
         public bool allWaifus = false;
+        public bool allWaifusVanity = false;
         public bool sCrystal = false;
         public bool sWaifu = false;
         public bool dWaifu = false;
@@ -932,7 +932,7 @@ namespace CalamityMod.CalPlayer
         public bool powerfulRaven = false;
         public bool dragonFamily = false;
         public bool providenceStabber = false;
-        public bool radiantResolution = false;
+        public bool saros = false;
         public bool plaguebringerMK2 = false;
         public bool igneousExaltation = false;
         public bool coldDivinity = false;
@@ -1090,6 +1090,8 @@ namespace CalamityMod.CalPlayer
 
         public FluidField ProfanedMoonlightAuroraDrawer;
 
+        public ArmorShaderData CalamityFireDyeShader = null;
+
         public Vector2 FireDrawerPosition;
 
         public int monolithAccursedShader = 0;
@@ -1097,6 +1099,8 @@ namespace CalamityMod.CalPlayer
 
         #region Draedon Summoning
         public bool AbleToSelectExoMech = false;
+        public bool HasTalkedAtCodebreaker = false;
+        public List<ulong> SeenDraedonDialogs = new();
         #endregion Draedon Summoning
 
         #region Mouse Controls Syncing
@@ -1229,6 +1233,7 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("newBanditInventory", newBanditInventory);
             boost.AddWithCondition("newCalamitasInventory", newCalamitasInventory);
             boost.AddWithCondition("GivenBrimstoneLocus", GivenBrimstoneLocus);
+            boost.AddWithCondition("HasTalkedAtCodebreaker", HasTalkedAtCodebreaker);
 
             // Calculate the new total time of all sessions at the instant of this player save.
             TimeSpan newSessionTotal = previousSessionTotal.Add(CalamityMod.SpeedrunTimer.Elapsed);
@@ -1265,6 +1270,7 @@ namespace CalamityMod.CalPlayer
             tag["lastSplitType"] = lastSplitType;
             tag["lastSplitTicks"] = lastSplit.Ticks;
             tag["cooldowns"] = cooldownsTag;
+            tag["SeenDraedonDialogs"] = SeenDraedonDialogs;
         }
 
         public override void LoadData(TagCompound tag)
@@ -1317,6 +1323,7 @@ namespace CalamityMod.CalPlayer
             newBanditInventory = boost.Contains("newBanditInventory");
             newCalamitasInventory = boost.Contains("newCalamitasInventory");
             GivenBrimstoneLocus = boost.Contains("GivenBrimstoneLocus");
+            HasTalkedAtCodebreaker = boost.Contains("HasTalkedAtCodebreaker");
 
             // Load rage if it's there, which it will be for any players saved with 1.5.
             // Older players have "stress" instead, which will be ignored. This is intentional.
@@ -1359,6 +1366,7 @@ namespace CalamityMod.CalPlayer
             lastSplitType = tag.GetInt("lastSplitType");
             ticks = tag.GetLong("lastSplitTicks");
             lastSplit = new TimeSpan(ticks);
+            SeenDraedonDialogs = tag.GetList<ulong>("SeenDraedonDialogs").ToList();
 
             // Clear the player's cooldowns in preparation for loading.
             cooldowns.Clear();
@@ -1402,8 +1410,6 @@ namespace CalamityMod.CalPlayer
                 percentMaxLifeIncrease += 100;
             if (affliction || afflicted)
                 percentMaxLifeIncrease += 10;
-            if (cadence)
-                percentMaxLifeIncrease += 25;
 
             if (community)
             {
@@ -1423,8 +1429,6 @@ namespace CalamityMod.CalPlayer
             // Max health reductions
             if (crimEffigy)
                 Player.statLifeMax2 = (int)(Player.statLifeMax2 * 0.9);
-            if (regenator)
-                Player.statLifeMax2 = (int)(Player.statLifeMax2 * 0.5);
 
             ResetRogueStealth();
 
@@ -1469,6 +1473,7 @@ namespace CalamityMod.CalPlayer
             bendyPet = false;
             littleLightPet = false;
             pineapplePet = false;
+            eidolonSnailPet = false;
 
             onyxExcavator = false;
             rimehound = false;
@@ -1476,6 +1481,7 @@ namespace CalamityMod.CalPlayer
             crysthamyr = false;
             ExoChair = false;
             miniOldDuke = false;
+            miniOldDukeVanity = false;
 
             abyssalDivingSuitPlates = false;
 
@@ -1485,6 +1491,7 @@ namespace CalamityMod.CalPlayer
             draedonsHeart = false;
 
             afflicted = false;
+            chiRegen = false;
             affliction = false;
 
             dodgeScarf = false;
@@ -1559,8 +1566,8 @@ namespace CalamityMod.CalPlayer
             badgeOfBravery = false;
             warbannerOfTheSun = false;
             aSpark = false;
-            aSparkRare = false;
-            aBulwarkRare = false;
+            transformer = false;
+            hideOfDeus = false;
             dAmulet = false;
             fCarapace = false;
             gShell = false;
@@ -1574,20 +1581,20 @@ namespace CalamityMod.CalPlayer
             frostFlare = false;
             beeResist = false;
             uberBees = false;
-            projRefRare = false;
+            evolution = false;
             nanotech = false;
             deadshotBrooch = false;
             cryogenSoul = false;
             yInsignia = false;
             eGauntlet = false;
             eTalisman = false;
-            statisBeltOfCurses = false;
             nucleogenesis = false;
             nuclearRod = false;
             heartOfDarkness = false;
             shadowMinions = false;
             holyMinions = false;
             alchFlask = false;
+            toxicHeart = false;
             abaddon = false;
             aeroStone = false;
             community = false;
@@ -1611,7 +1618,7 @@ namespace CalamityMod.CalPlayer
             voidOfExtinction = false;
             eArtifact = false;
             dArtifact = false;
-            gArtifact = false;
+            auricSArtifact = false;
             pArtifact = false;
             giantPearl = false;
             normalityRelocator = false;
@@ -1649,13 +1656,14 @@ namespace CalamityMod.CalPlayer
             corrosiveSpine = false;
             RustyMedallionDroplets = false;
             noStupidNaturalARSpawns = false;
-            roverDrive = false;
             rottenDogTooth = false;
             angelicAlliance = false;
             BloomStoneRegen = false;
             ChaosStone = false;
             CryoStone = false;
+            CryoStoneVanity = false;
             voidField = false;
+            copyrightInfringementShield = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -1779,6 +1787,7 @@ namespace CalamityMod.CalPlayer
             shadowflame = false;
             wDeath = false;
             dragonFire = false;
+            miracleBlight = false;
             aCrunch = false;
             irradiated = false;
             bFlames = false;
@@ -1821,35 +1830,28 @@ namespace CalamityMod.CalPlayer
             graxDefense = false;
             encased = false;
             tFury = false;
-            cadence = false;
             omniscience = false;
             zerg = false;
             zen = false;
             isNearbyBoss = false;
             permafrostsConcoction = false;
-            armorCrumbling = false;
+            flaskCrumbling = false;
             ceaselessHunger = false;
             calcium = false;
             soaring = false;
             bounding = false;
-            triumph = false;
-            penumbra = false;
             shadow = false;
             photosynthesis = false;
             astralInjection = false;
             gravityNormalizer = false;
-            holyWrath = false;
-            profanedRage = false;
-            draconicSurge = false;
+            flaskHoly = false;
             tesla = false;
-            teslaFreeze = false;
+            galvanicCorrosion = false;
             sulphurskin = false;
             baguette = false;
             trippy = false;
             amidiasBlessing = false;
-            yPower = false;
-            aWeapon = false;
-            tScale = false;
+            flaskBrimstone = false;
             fabsolVodka = false;
             shine = false;
             anechoicCoating = false;
@@ -1896,7 +1898,6 @@ namespace CalamityMod.CalPlayer
 
             wDroid = false;
             resButterfly = false;
-            glSword = false;
             mWorm = false;
             iClasper = false;
             magicHat = false;
@@ -1908,8 +1909,8 @@ namespace CalamityMod.CalPlayer
             cSlime = false;
             cSlime2 = false;
             aSlime = false;
-            bStar = false;
-            aStar = false;
+            brittleStar = false;
+            aquaticStar = false;
             SP = false;
             dCreeper = false;
             bClot = false;
@@ -1940,19 +1941,26 @@ namespace CalamityMod.CalPlayer
             sGod = false;
             sandnado = false;
             plantera = false;
-            aProbe = false;
+            astralProbe = false;
             victideSnail = false;
             cSpirit = false;
             rOrb = false;
             dCrystal = false;
             youngDuke = false;
             sandWaifu = false;
+            sandWaifuVanity = false;
             sandBoobWaifu = false;
+            sandBoobWaifuVanity = false;
             cloudWaifu = false;
+            cloudWaifuVanity = false;
             brimstoneWaifu = false;
+            brimstoneWaifuVanity = false;
             sirenWaifu = false;
+            sirenWaifuVanity = false;
             allWaifus = false;
+            allWaifusVanity = false;
             fungalClump = false;
+            fungalClumpVanity = false;
             howlsHeart = false;
             howlsHeartVanity = false;
             redDevil = false;
@@ -1962,7 +1970,6 @@ namespace CalamityMod.CalPlayer
             daedalusCrystal = false;
             shellfish = false;
             hCrab = false;
-            tDime = false;
             endoHydra = false;
             powerfulRaven = false;
             dragonFamily = false;
@@ -1973,7 +1980,7 @@ namespace CalamityMod.CalPlayer
             voidAura = false;
             voidAuraDamage = false;
             voidConcentrationAura = false;
-            radiantResolution = false;
+            saros = false;
             virili = false;
             frostBlossom = false;
             cinderBlossom = false;
@@ -2121,8 +2128,7 @@ namespace CalamityMod.CalPlayer
             auralisAuroraCounter = 0;
             auralisAuroraCooldown = 0;
             auralisAurora = 0;
-            fungalSymbioteTimer = 0;
-            aBulwarkRareTimer = 0;
+            hideOfDeusTimer = 0;
             RustyMedallionCooldown = 0;
             SulphWaterPoisoningLevel = 0f;
             spiritOriginConvertedCrit = 0;
@@ -2137,8 +2143,7 @@ namespace CalamityMod.CalPlayer
             bloodflareMageCooldown = 0;
             tarraRangedCooldown = 0;
             tarraMageHealCooldown = 0;
-            bossRushImmunityFrameCurseTimer = 0;
-            aBulwarkRareMeleeBoostTimer = 0;
+            hideOfDeusMeleeBoostTimer = 0;
             acidRoundMultiplier = 1D;
             externalAbyssLight = 0;
             externalColdImmunity = externalHeatImmunity = false;
@@ -2159,7 +2164,6 @@ namespace CalamityMod.CalPlayer
             sulphurBubbleCooldown = 0;
             ladHearts = 0;
             prismaticLasers = 0;
-            roverDriveTimer = 0;
             angelicActivate = -1;
             resetHeightandWidth = false;
             noLifeRegen = false;
@@ -2167,6 +2171,7 @@ namespace CalamityMod.CalPlayer
             shadowflame = false;
             wDeath = false;
             dragonFire = false;
+            miracleBlight = false;
             aCrunch = false;
             irradiated = false;
             bFlames = false;
@@ -2244,35 +2249,27 @@ namespace CalamityMod.CalPlayer
             graxDefense = false;
             encased = false;
             tFury = false;
-            cadence = false;
             omniscience = false;
             zerg = false;
             zen = false;
             isNearbyBoss = false;
             permafrostsConcoction = false;
-            armorCrumbling = false;
+            flaskCrumbling = false;
             ceaselessHunger = false;
             calcium = false;
             soaring = false;
             bounding = false;
-            triumph = false;
-            penumbra = false;
             shadow = false;
             nanomachinesLockoutTimer = 0;
             photosynthesis = false;
             astralInjection = false;
             gravityNormalizer = false;
-            holyWrath = false;
-            profanedRage = false;
+            flaskHoly = false;
             tesla = false;
-            teslaFreeze = false;
+            galvanicCorrosion = false;
             sulphurskin = false;
             baguette = false;
-            draconicSurge = false;
-            yPower = false;
-            aWeapon = false;
-            tScale = false;
-            titanBoost = 0;
+            flaskBrimstone = false;
             fabsolVodka = false;
             shine = false;
             anechoicCoating = false;
@@ -2531,7 +2528,7 @@ namespace CalamityMod.CalPlayer
                             Player.Teleport(teleportLocation, 4, 0);
                             NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)Player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
-                            int duration = chaosStateDuration_NR;
+                            int duration = areThereAnyDamnBosses ? chaosStateDuration_NR : 360;
                             Player.AddBuff(BuffID.ChaosState, duration, true);
                             // Add a cooldown here so it can have the custom NR icon
                             Player.AddCooldown(ChaosState.ID, duration, true, "normalityrelocator");
@@ -2577,7 +2574,7 @@ namespace CalamityMod.CalPlayer
                 rogueStealth -= rogueStealthMax * 0.1f;
                 int veil = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, Player.whoAmI);
                 Main.projectile[veil].Center = Player.Center;
-                SoundEngine.PlaySound(SoundID.Item45, Player.position);
+                SoundEngine.PlaySound(SoundID.Item45, Player.Center);
             }
             if (CalamityKeybinds.SpectralVeilHotKey.JustPressed && spectralVeil && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0)
@@ -2620,7 +2617,7 @@ namespace CalamityMod.CalPlayer
                                 Main.dust[dustIndex].noLight = true;
                             }
 
-                            spectralVeilImmunity = 60;
+                            spectralVeilImmunity = 45;
                         }
                     }
                 }
@@ -2829,7 +2826,7 @@ namespace CalamityMod.CalPlayer
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
                         Player.TeleportationPotion();
-                        SoundEngine.PlaySound(SoundID.Item6, Player.position);
+                        SoundEngine.PlaySound(SoundID.Item6, Player.Center);
                     }
                     else if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
                     {
@@ -2934,9 +2931,11 @@ namespace CalamityMod.CalPlayer
                 {
                     Player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
 
+                    SoundStyle ActivationSound = draedonsHeart ? NanomachinesActivationSound : AdrenalineActivationSound;
+
                     // Play Adrenaline Activation sound
                     if (Player.whoAmI == Main.myPlayer)
-                        SoundEngine.PlaySound(AdrenalineActivationSound);
+                        SoundEngine.PlaySound(ActivationSound);
 
                     // TODO -- Adrenaline should provide bright green vibrating afterimages on the player for the duration.
                     int dustPerSegment = 96;
@@ -3008,7 +3007,7 @@ namespace CalamityMod.CalPlayer
                     int offset = Player.height;
                     if (Player.gravDir == -1f)
                         offset = 0;
-                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.position);
+                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.Center);
                     Player.velocity.Y = -Player.jumpSpeed * Player.gravDir;
                     Player.jump = (int)(Player.jumpHeight * 1.25);
                     for (int d = 0; d < 30; ++d)
@@ -3030,7 +3029,7 @@ namespace CalamityMod.CalPlayer
                     int offset = Player.height;
                     if (Player.gravDir == -1f)
                         offset = 0;
-                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.position);
+                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.Center);
                     Player.velocity.Y = -Player.jumpSpeed * Player.gravDir;
                     Player.jump = (int)(Player.jumpHeight * 1.5);
                     for (int d = 0; d < 30; ++d)
@@ -3189,12 +3188,11 @@ namespace CalamityMod.CalPlayer
             // TODO -- why is boss health bar code in Player.UpdateEquips and not a ModSystem
             CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
+            // If the config is enabled, vastly increase the player's base tile and wall placement speeds
+            // This stacks with the Brick Layer and Portable Cement Mixer
             if (CalamityConfig.Instance.FasterTilePlacement)
             {
-                // Increase tile placement speed to speed up early game a bit and make building more fun
                 Player.tileSpeed += 0.5f;
-
-                // Increase wall placement speed to speed up early game a bit and make building more fun
                 Player.wallSpeed += 0.5f;
             }
 
@@ -3273,6 +3271,9 @@ namespace CalamityMod.CalPlayer
         #region PreUpdate
         public override void PreUpdate()
         {
+            // Reset the Calamity shader.
+            CalamityFireDyeShader = null;
+
             if (HasCustomDash && UsedDash.IsOmnidirectional)
                 Player.maxFallSpeed = 50f;
 
@@ -3286,14 +3287,6 @@ namespace CalamityMod.CalPlayer
                 }
                 tailFrameUp = 0;
             }
-
-            int frameAmt = 11;
-            if (roverFrameCounter >= 7)
-            {
-                roverFrameCounter = -1;
-                roverFrame = roverFrame == frameAmt - 1 ? 0 : roverFrame + 1;
-            }
-            roverFrameCounter++;
 
             int frames = 4;
             if (voidFrameCounter >= 6)
@@ -3411,6 +3404,18 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+            // Add a cooldown display for the vanilla lifesteal cooldown, which is active when negative
+            if (Player.whoAmI == Main.myPlayer && Player.lifeSteal < 0f)
+            {
+                float duration = Player.lifeSteal;
+                float baseCooldown = Main.expertMode ? 0.5f : 0.6f;
+                float lifeStealNerf = BossRushEvent.BossRushActive ? 0.3f : CalamityWorld.death ? 0.25f : CalamityWorld.revenge ? 0.2f : Main.expertMode ? 0.15f : 0.1f;
+                duration /= baseCooldown - lifeStealNerf;
+                duration *= -1f;
+                if (!Player.HasCooldown(LifeSteal.ID) || (cooldowns[LifeSteal.ID].duration < (int)duration))
+                    Player.AddCooldown(LifeSteal.ID, (int)duration);
+            }
+
             ForceVariousEffects();
         }
         #endregion
@@ -3434,7 +3439,7 @@ namespace CalamityMod.CalPlayer
         public override bool CanSellItem(NPC vendor, Item[] shopInventory, Item item)
         {
             if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
-                return DownedBossSystem.downedSCal; //no easy moneycoins for post doggo/yhar
+                return DownedBossSystem.downedCalamitas; //no easy moneycoins for post doggo/yhar
             return base.CanSellItem(vendor, shopInventory, item);
         }
 
@@ -3575,7 +3580,7 @@ namespace CalamityMod.CalPlayer
         private void GodSlayerDodge()
         {
             Player.GiveIFrames(Player.longInvince ? 100 : 60, true);
-            SoundEngine.PlaySound(SoundID.Item67, Player.position);
+            SoundEngine.PlaySound(SoundID.Item67, Player.Center);
 
             for (int j = 0; j < 30; j++)
             {
@@ -3775,7 +3780,7 @@ namespace CalamityMod.CalPlayer
 
             if (nCore && !Player.HasCooldown(Cooldowns.NebulousCore.ID))
             {
-                SoundEngine.PlaySound(SoundID.Item67, Player.position);
+                SoundEngine.PlaySound(SoundID.Item67, Player.Center);
 
                 for (int j = 0; j < 50; j++)
                 {
@@ -3812,36 +3817,11 @@ namespace CalamityMod.CalPlayer
             {
                 if (silvaCountdown == silvaReviveDuration && !hasSilvaEffect)
                 {
-                    SoundEngine.PlaySound(SilvaHeadSummon.ActivationSound, Player.position);
+                    SoundEngine.PlaySound(SilvaHeadSummon.ActivationSound, Player.Center);
 
                     Player.AddBuff(ModContent.BuffType<SilvaRevival>(), silvaReviveDuration);
 
-                    if (draconicSurge && !Player.HasCooldown(DraconicElixir.ID))
-                    {
-                        Player.statLife += Player.statLifeMax2 / 2;
-                        Player.HealEffect(Player.statLifeMax2 / 2);
-
-                        if (Player.statLife > Player.statLifeMax2)
-                            Player.statLife = Player.statLifeMax2;
-
-                        if (Player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
-                        {
-                            Player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
-                            Player.AddCooldown(DraconicElixir.ID, CalamityUtils.SecondsToFrames(60));
-
-                            // Additional potion sickness time
-                            int additionalTime = 0;
-                            for (int i = 0; i < Player.MaxBuffs; i++)
-                            {
-                                if (Player.buffType[i] == BuffID.PotionSickness)
-                                    additionalTime = Player.buffTime[i];
-                            }
-
-                            float potionSicknessTime = 30f + (float)Math.Ceiling(additionalTime / 60D);
-                            Player.AddBuff(BuffID.PotionSickness, CalamityUtils.SecondsToFrames(potionSicknessTime));
-                        }
-                    }
-                    else if (silvaWings)
+                    if (silvaWings)
                     {
                         Player.statLife += Player.statLifeMax2 / 2;
                         Player.HealEffect(Player.statLifeMax2 / 2);
@@ -3866,7 +3846,7 @@ namespace CalamityMod.CalPlayer
 
                 Player.statLife = Player.statLifeMax2 * 3 / 10;
 
-                SoundEngine.PlaySound(SoundID.Item92, Player.position);
+                SoundEngine.PlaySound(SoundID.Item92, Player.Center);
 
                 for (int i = 0; i < 60; i++)
                 {
@@ -3911,6 +3891,10 @@ namespace CalamityMod.CalPlayer
                 if (dragonFire)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s ashes scatter in the wind.");
+                }
+                if (miracleBlight)
+                {
+                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + (Main.rand.NextBool() ? " was blown away by miraculous technological advancements." : " disintegrated from the overpowering exotic resonance."));
                 }
                 if (hInferno)
                 {
@@ -4046,7 +4030,10 @@ namespace CalamityMod.CalPlayer
         public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
         {
             if (flamethrowerBoost && item.CountsAsClass<RangedDamageClass>() && (item.useAmmo == AmmoID.Gel || CalamityLists.flamethrowerList.Contains(item.type)))
-                damage += (hoverboardBoost ? 0.35f : 0.25f);
+                damage += hoverboardBoost ? 0.35f : 0.25f;
+
+            if (fungalSymbiote && CalamityLists.MushroomWeaponIDs.Contains(item.type))
+                damage += 0.1f;
 
             if (item.CountsAsClass<RangedDamageClass>())
                 acidRoundMultiplier = item.useTime / 20D;
@@ -4078,9 +4065,6 @@ namespace CalamityMod.CalPlayer
 
             if (moscowMule)
                 knockback += item.knockBack * 0.5f;
-
-            if (yPower)
-                knockback += item.knockBack * 0.25f;
 
             if (titanHeartMask && rogue)
                 knockback += item.knockBack * 0.05f;
@@ -4141,7 +4125,7 @@ namespace CalamityMod.CalPlayer
             if (item.CountsAsClass<MeleeDamageClass>())
             {
                 var source = Player.GetSource_ItemUse(item);
-                if (fungalSymbiote && Player.whoAmI == Main.myPlayer && fungalSymbioteTimer == 0)
+                if (fungalSymbiote && CalamityLists.MushroomWeaponIDs.Contains(item.type) && Player.whoAmI == Main.myPlayer)
                 {
                     if (Player.itemAnimation == (int)(Player.itemAnimationMax * 0.1) ||
                         Player.itemAnimation == (int)(Player.itemAnimationMax * 0.3) ||
@@ -4149,7 +4133,6 @@ namespace CalamityMod.CalPlayer
                         Player.itemAnimation == (int)(Player.itemAnimationMax * 0.7) ||
                         Player.itemAnimation == (int)(Player.itemAnimationMax * 0.9))
                     {
-                        fungalSymbioteTimer = 3;
                         float yVel = 0f;
                         float xVel = 0f;
                         float yOffset = 0f;
@@ -4205,18 +4188,24 @@ namespace CalamityMod.CalPlayer
                         xVel *= 1.5f;
                         xOffset *= (float)Player.direction;
                         yOffset *= Player.gravDir;
-                        int damage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(item.damage * 0.15f);
-                        Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + xOffset, (float)(hitbox.Y + hitbox.Height / 2) + yOffset, (float)Player.direction * xVel, yVel * Player.gravDir, ProjectileID.Mushroom, damage, 0f, Player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + xOffset, (float)(hitbox.Y + hitbox.Height / 2) + yOffset, (float)Player.direction * xVel, yVel * Player.gravDir, ProjectileID.Mushroom, 0, 0f, Player.whoAmI);
                     }
                 }
-                if (aWeapon)
+                if (flaskHoly)
+                {
+                    if (Main.rand.NextBool(3))
+                    {
+                        Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, (int)CalamityDusts.ProfanedFire, Player.velocity.X * 0.2f + Player.direction * 3f, Player.velocity.Y * 0.2f, 100, default, 1f);
+                    }
+                }
+                if (flaskBrimstone)
                 {
                     if (Main.rand.NextBool(3))
                     {
                         Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, ModContent.DustType<BrimstoneFlame>(), Player.velocity.X * 0.2f + Player.direction * 3f, Player.velocity.Y * 0.2f, 100, default, 1f);
                     }
                 }
-                if (armorCrumbling)
+                if (flaskCrumbling)
                 {
                     if (Main.rand.NextBool(3))
                     {
@@ -4356,7 +4345,7 @@ namespace CalamityMod.CalPlayer
                 int knockbackAdd = (int)(damage * 0.15 * (1f - target.knockBackResist));
                 damage += knockbackAdd;
             }
-            if (proj.type == ModContent.ProjectileType<AcidRoundProj>())
+            if (proj.type == ModContent.ProjectileType<BubonicRoundProj>())
             {
                 int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
@@ -4386,12 +4375,13 @@ namespace CalamityMod.CalPlayer
             // Fearmonger armor reduces the summoner cross-class nerf
             // Forbidden armor reduces said nerf when holding the respective helmet's preferred weapon type
             // Profaned Soul Crystal encourages use of other weapons, nerfing the damage would not make sense.
+            // Having the Old One's Army event active also disables this during the duration of the event
 
-            bool forbidden = Player.head == ArmorIDs.Head.AncientBattleArmor && Player.body == ArmorIDs.Body.AncientBattleArmor && Player.legs == ArmorIDs.Legs.AncientBattleArmor;
-            bool reducedNerf = fearmongerSet || (forbidden && heldItem.CountsAsClass<MagicDamageClass>()) || (GemTechSet && GemTechState.IsBlueGemActive);
+            bool forbidden = Player.armor[0].type == ItemID.AncientBattleArmorHat && Player.armor[1].type == ItemID.AncientBattleArmorShirt && Player.armor[2].type == ItemID.AncientBattleArmorPants;
+            bool penaltyNegation = fearmongerSet || (forbidden && heldItem.CountsAsClass<MagicDamageClass>()) || (GemTechSet && GemTechState.IsBlueGemActive);
 
-            double summonNerfMult = reducedNerf ? 0.75 : 0.5;
-            if (isSummon && heldItem.type > ItemID.None && !profanedCrystalBuffs)
+            double summonNerfMult = 0.75;
+            if (isSummon && heldItem.type > ItemID.None && !profanedCrystalBuffs && !penaltyNegation && !DD2Event.Ongoing)
             {
                 bool classCheck = !heldItem.CountsAsClass<SummonDamageClass>() && 
                     (heldItem.CountsAsClass<MeleeDamageClass>() || heldItem.CountsAsClass<RangedDamageClass>() || heldItem.CountsAsClass<MagicDamageClass>() || 
@@ -4408,6 +4398,9 @@ namespace CalamityMod.CalPlayer
             {
                 switch (proj.type)
                 {
+                    case ProjectileID.MoonlordArrowTrail:
+                        damage = (int)(damage * 0.5);
+                        break;
                     case ProjectileID.CrystalShard:
                         damage = (int)(damage * 0.6);
                         break;
@@ -4548,10 +4541,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (triumph)
-                contactDamageReduction += 0.15 * (1D - (npc.life / (double)npc.lifeMax));
-
-            if (aSparkRare)
+            if (transformer)
             {
                 if (npc.type == NPCID.BlueJellyfish || npc.type == NPCID.PinkJellyfish || npc.type == NPCID.GreenJellyfish ||
                     npc.type == NPCID.FungoFish || npc.type == NPCID.BloodJelly || npc.type == NPCID.AngryNimbus || npc.type == NPCID.GigaZapper ||
@@ -4593,7 +4583,7 @@ namespace CalamityMod.CalPlayer
             }
 
             if (trinketOfChiBuff)
-                contactDamageReduction += 0.15;
+                contactDamageReduction += 0.1;
 
             // Fearmonger set provides 15% multiplicative DR that ignores caps during the Holiday Moons.
             // To prevent abuse, this effect does not work if there are any bosses alive.
@@ -4670,7 +4660,7 @@ namespace CalamityMod.CalPlayer
             {
                 bool reduceChaosBallDamage = npc.type == NPCID.ChaosBall && !NPC.AnyNPCs(NPCID.GoblinSummoner);
 
-                if (reduceChaosBallDamage || npc.type == NPCID.BurningSphere || npc.type == NPCID.WaterSphere)
+                if (reduceChaosBallDamage || npc.type == NPCID.ChaosBallTim || npc.type == NPCID.BurningSphere || npc.type == NPCID.WaterSphere)
                 {
                     damage = (int)(damage * 0.6);
 
@@ -4679,11 +4669,11 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (aBulwarkRare)
+            if (hideOfDeus)
             {
-                aBulwarkRareMeleeBoostTimer += 3 * damage;
-                if (aBulwarkRareMeleeBoostTimer > 900)
-                    aBulwarkRareMeleeBoostTimer = 900;
+                hideOfDeusMeleeBoostTimer += 3 * damage;
+                if (hideOfDeusMeleeBoostTimer > 900)
+                    hideOfDeusMeleeBoostTimer = 900;
             }
         }
         #endregion
@@ -4697,7 +4687,7 @@ namespace CalamityMod.CalPlayer
                 if (!disableAllDodges && !Player.HasCooldown(GlobalDodge.ID))
                 {
                     // The Evolution
-                    if (projRefRare)
+                    if (evolution)
                     {
                         proj.hostile = false;
                         proj.friendly = true;
@@ -4707,7 +4697,7 @@ namespace CalamityMod.CalPlayer
                         Player.GiveIFrames(20, false);
 
                         damage = 0;
-                        projRefRareLifeRegenCounter = 300;
+                        evolutionLifeRegenCounter = 300;
                         projTypeJustHitBy = proj.type;
 
                         Player.AddCooldown(GlobalDodge.ID, BalancingConstants.EvolutionReflectCooldown);
@@ -4729,6 +4719,7 @@ namespace CalamityMod.CalPlayer
                 damage -= 100;
                 if (damage < 1)
                     damage = 1;
+
                 auralisAuroraCounter = 0;
                 auralisAuroraCooldown = CalamityUtils.SecondsToFrames(30f);
             }
@@ -4840,25 +4831,25 @@ namespace CalamityMod.CalPlayer
             // The amount of damage that will be dealt is yet to be determined.
             //
 
-            if (projRefRare)
+            if (evolution)
             {
                 if (proj.type == projTypeJustHitBy)
                     projectileDamageReduction += 0.15;
             }
 
-            if (aSparkRare)
+            if (transformer)
             {
                 if (proj.type == ProjectileID.MartianTurretBolt || proj.type == ProjectileID.GigaZapperSpear || proj.type == ProjectileID.CultistBossLightningOrbArc || proj.type == ProjectileID.VortexLightning || proj.type == ModContent.ProjectileType<DestroyerElectricLaser>() ||
                     proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
                     projectileDamageReduction += 0.5;
             }
+
             if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
             {
                 // Daedalus Reflect counts as a reflect but doesn't actually stop you from taking damage
-                if (daedalusReflect && !disableAllDodges && !projRefRare && !Player.HasCooldown(GlobalDodge.ID))
+                if (daedalusReflect && !disableAllDodges && !evolution && !Player.HasCooldown(GlobalDodge.ID))
                     projectileDamageReduction += 0.5;
             }
-
 
             if (beeResist)
             {
@@ -4867,7 +4858,7 @@ namespace CalamityMod.CalPlayer
             }
 
             if (trinketOfChiBuff)
-                projectileDamageReduction += 0.15;
+                projectileDamageReduction += 0.1;
 
             // Fearmonger set provides 15% multiplicative DR that ignores caps during the Holiday Moons.
             // To prevent abuse, this effect does not work if there are any bosses alive.
@@ -4903,6 +4894,24 @@ namespace CalamityMod.CalPlayer
 
             if (Player.mount.Active && (Player.mount.Type == ModContent.MountType<RimehoundMount>() || Player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(Player.velocity.X) > Player.mount.RunSpeed / 2f)
                 projectileDamageReduction += 0.1;
+
+            // Damage reduction from Shield of the High Ruler if facing the projectile that just hit.
+            // If the projectile is in the exact center of the player on the X axis YOU GET NOTHING, GOOD DAY, SIR!
+            if (copyrightInfringementShield)
+            {
+                bool projectileRight = (Player.Center.X - proj.Center.X) < 0f;
+                bool projectileLeft = (Player.Center.X - proj.Center.X) > 0f;
+                if (Player.direction == 1)
+                {
+                    if (projectileRight)
+                        projectileDamageReduction += 0.15;
+                }
+                else
+                {
+                    if (projectileLeft)
+                        projectileDamageReduction += 0.15;
+                }
+            }
 
             if (vHex)
                 projectileDamageReduction -= 0.1;
@@ -4966,7 +4975,8 @@ namespace CalamityMod.CalPlayer
                 if (proj.type == ProjectileID.TorchGod)
                 {
                     int fireDebuffTypes = CalamityWorld.death ? 9 : CalamityWorld.revenge ? 7 : Main.expertMode ? 5 : 3;
-                    switch (Main.rand.Next(fireDebuffTypes))
+                    int choice = CalamityWorld.getFixedBoi ? 9 : Main.rand.Next(fireDebuffTypes);
+                    switch (choice)
                     {
                         case 0:
                             Player.AddBuff(BuffID.OnFire, 600);
@@ -5002,6 +5012,10 @@ namespace CalamityMod.CalPlayer
 
                         case 8:
                             Player.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
+                            break;
+
+                        case 9:
+                            Player.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
                             break;
                     }
                 }
@@ -5084,7 +5098,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
             {
                 // The Transformer can reflect bullets
-                if (aSparkRare)
+                if (transformer)
                 {
                     if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
                     {
@@ -5100,7 +5114,7 @@ namespace CalamityMod.CalPlayer
                 // Reflects count as dodges. They share the timer and can be disabled by global dodge disabling effects.
                 if (!disableAllDodges && !Player.HasCooldown(GlobalDodge.ID))
                 {
-                    if (daedalusReflect && !projRefRare)
+                    if (daedalusReflect && !evolution)
                     {
                         proj.hostile = false;
                         proj.friendly = true;
@@ -5167,7 +5181,7 @@ namespace CalamityMod.CalPlayer
                     num79 *= num80;
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                    int p = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.065), knockBack * 0.5f, Player.whoAmI);
+                    int p = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.075), knockBack * 0.5f, Player.whoAmI);
 
                     if (p.WithinBounds(Main.maxProjectiles))
                         Main.projectile[p].DamageType = DamageClass.Generic; //in case melee/rogue variants bug out
@@ -5180,8 +5194,8 @@ namespace CalamityMod.CalPlayer
 
                     if (StealthStrikeAvailable())
                     {
-                        int knifeCount = 15;
-                        int knifeDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(35);
+                        int knifeCount = 16;
+                        int knifeDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(60);
                         float angleStep = MathHelper.TwoPi / knifeCount;
                         float speed = 15f;
 
@@ -5359,7 +5373,7 @@ namespace CalamityMod.CalPlayer
         #region Limitations
         private void ForceVariousEffects()
         {
-            if (blockAllDashes || (CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive))
+            if (blockAllDashes)
                 DisableDashes();
             if (weakPetrification)
                 WeakPetrification();
@@ -5395,7 +5409,7 @@ namespace CalamityMod.CalPlayer
             if (totalMoonlightDyes > 0)
             {
                 // Initialize the aurora drawer.
-                int size = 425;
+                int size = 340;
                 FluidFieldManager.AdjustSizeRelativeToGraphicsQuality(ref size);
 
                 float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size * 0.4f;
@@ -5403,7 +5417,7 @@ namespace CalamityMod.CalPlayer
                     ProfanedMoonlightAuroraDrawer = FluidFieldManager.CreateField(size, scale, 0.1f, 50f, 0.992f);
 
                 int sourceArea = (int)Math.Ceiling(6f / ProfanedMoonlightAuroraDrawer.Scale) + 1;
-                ProfanedMoonlightAuroraDrawer.ShouldUpdate = Player.miscCounter % 4 == 0;
+                ProfanedMoonlightAuroraDrawer.ShouldUpdate = Player.miscCounter % 2 == 0;
                 ProfanedMoonlightAuroraDrawer.UpdateAction = () =>
                 {
                     // Aurora Count does not scale to save on resources if you have a lot of dyes
@@ -5485,12 +5499,9 @@ namespace CalamityMod.CalPlayer
                 return false;
             }
 
-            // If Armageddon is active or the Boss Rush Immunity Curse is triggered, instantly kill the player.
-            if (CalamityWorld.armageddon || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
-            {
-                if (areThereAnyDamnBosses || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
-                    KillPlayer();
-            }
+            // If Armageddon is active, instantly kill the player.
+            if (CalamityWorld.armageddon && areThereAnyDamnBosses)
+                KillPlayer();
             #endregion
 
             //Todo - At some point it'd be nice to have a "TransformationPlayer" that has all the transformation sfx and visuals so their priorities can be more easily managed.
@@ -5500,43 +5511,43 @@ namespace CalamityMod.CalPlayer
                 if (Player.GetModPlayer<RoverDrivePlayer>().ProtectionMatrixDurability > 0)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(RoverDrive.ShieldHurtSound, Player.position);
+                    SoundEngine.PlaySound(RoverDrive.ShieldHurtSound, Player.Center);
                     hurtSoundTimer = 20;
                 }
                 else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(Providence.HurtSound, Player.position);
+                    SoundEngine.PlaySound(Providence.HurtSound, Player.Center);
                     hurtSoundTimer = 20;
                 }
                 else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.position); //metal hit noise
+                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.Center); //metal hit noise
                     hurtSoundTimer = 10;
                 }
                 else if ((aquaticHeartPower || aquaticHeartForce) && !aquaticHeartHide)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(SoundID.FemaleHit, Player.position); //female hit noise
+                    SoundEngine.PlaySound(SoundID.FemaleHit, Player.Center); //female hit noise
                     hurtSoundTimer = 10;
                 }
                 else if (titanHeartSet)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(NPCs.Astral.Atlas.HurtSound, Player.position);
+                    SoundEngine.PlaySound(NPCs.Astral.Atlas.HurtSound, Player.Center);
                     hurtSoundTimer = 10;
                 }
                 else if (Player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.position);
+                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.Center);
                     hurtSoundTimer = 10;
                 }
                 else if (Player.GetModPlayer<WulfrumArmorPlayer>().wulfrumSet && (Player.name.ToLower() == "wagstaff" || Player.name.ToLower() == "john wulfrum"))
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(SoundID.DSTMaleHurt, Player.position);
+                    SoundEngine.PlaySound(SoundID.DSTMaleHurt, Player.Center);
                     hurtSoundTimer = 10;
                 }
             }
@@ -5693,10 +5704,13 @@ namespace CalamityMod.CalPlayer
 
                 hellbornBoost = 0;
 
+                if (trinketOfChi)
+                    chiBuffTimer = 0;
+
                 if (amidiasBlessing && damage > 50)
                 {
                     Player.ClearBuff(ModContent.BuffType<AmidiasBlessing>());
-                    SoundEngine.PlaySound(SoundID.Item96, Player.position);
+                    SoundEngine.PlaySound(SoundID.Item96, Player.Center);
                 }
 
                 if ((gShell || flameLickedShell) && !Player.panic)
@@ -5713,7 +5727,7 @@ namespace CalamityMod.CalPlayer
 
                     if (abyssalDivingSuitPlateHits >= 3)
                     {
-                        SoundEngine.PlaySound(SoundID.NPCDeath14, Player.position);
+                        SoundEngine.PlaySound(SoundID.NPCDeath14, Player.Center);
                         if (plateCDExists)
                             cooldowns.Remove(DivingPlatesBreaking.ID);
                         Player.AddCooldown(DivingPlatesBroken.ID, 10830);
@@ -5781,7 +5795,7 @@ namespace CalamityMod.CalPlayer
 
                 if ((fBarrier || (aquaticHeart && NPC.downedBoss3)) && !areThereAnyDamnBosses)
                 {
-                    SoundEngine.PlaySound(SoundID.Item27, Player.position);
+                    SoundEngine.PlaySound(SoundID.Item27, Player.Center);
                     for (int m = 0; m < Main.maxNPCs; m++)
                     {
                         NPC npc = Main.npc[m];
@@ -5834,8 +5848,9 @@ namespace CalamityMod.CalPlayer
                             npc.AddBuff(BuffID.Confused, (int)duration, false);
                             if (amalgam)
                             {
-                                npc.AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)duration);
-                                npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), (int)duration);
+                                npc.AddBuff(BuffID.Venom, (int)duration);
+                                npc.AddBuff(ModContent.BuffType<Plague>(), (int)duration);
+                                npc.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), (int)duration);
                                 npc.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), (int)duration);
                                 npc.AddBuff(ModContent.BuffType<Irradiated>(), (int)duration);
                             }
@@ -5967,9 +5982,6 @@ namespace CalamityMod.CalPlayer
                 else
                     Player.immuneTime += iFramesToAdd;
 
-                if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushIFrameCurse)
-                    bossRushImmunityFrameCurseTimer = 180 + Player.immuneTime;
-
                 if (aeroSet && damage > 25)
                 {
                     var source = new ProjectileSource_AerospecSetFeathers(Player);
@@ -5979,10 +5991,10 @@ namespace CalamityMod.CalPlayer
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), featherDamage, 1f, Player.whoAmI);
                     }
                 }
-                if (aBulwarkRare)
+                if (hideOfDeus)
                 {
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<HideofAstrumDeus>()));
-                    SoundEngine.PlaySound(SoundID.Item74, Player.position);
+                    SoundEngine.PlaySound(SoundID.Item74, Player.Center);
                     int blazeDamage = (int)Player.GetBestClassDamage().ApplyTo(25);
                     int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(320);
                     Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), blazeDamage, 5f, Player.whoAmI, 0f, 1f);
@@ -5997,7 +6009,7 @@ namespace CalamityMod.CalPlayer
                     for (int n = 0; n < 3; n++)
                     {
                         int deificStarDamage = (int)Player.GetBestClassDamage().ApplyTo(130);
-                        Projectile star = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, deificStarDamage, 4f, Player.whoAmI);
+                        Projectile star = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.StarVeilStar, deificStarDamage, 4f, Player.whoAmI);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
                             star.DamageType = DamageClass.Generic;
@@ -6011,7 +6023,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<FungalCarapace>()));
                     if (damage > 0)
                     {
-                        SoundEngine.PlaySound(SoundID.NPCHit45, Player.position);
+                        SoundEngine.PlaySound(SoundID.NPCHit45, Player.Center);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -6037,7 +6049,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<HideofAstrumDeus>()));
                     if (damage > 0)
                     {
-                        SoundEngine.PlaySound(SoundID.Item93, Player.position);
+                        SoundEngine.PlaySound(SoundID.Item93, Player.Center);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -6045,7 +6057,7 @@ namespace CalamityMod.CalPlayer
                         
                         // Start with base damage, then apply the best damage class you can
                         int sDamage = 6;
-                        if (aSparkRare)
+                        if (transformer)
                             sDamage += 42;
                         sDamage = (int)Player.GetBestClassDamage().ApplyTo(sDamage);
                         if (Player.whoAmI == Main.myPlayer)
@@ -6078,7 +6090,7 @@ namespace CalamityMod.CalPlayer
                         rogueStealth += 0.5f;
                         for (int i = 0; i < 3; i++)
                         {
-                            SoundEngine.PlaySound(SoundID.Item61, Player.position);
+                            SoundEngine.PlaySound(SoundID.Item61, Player.Center);
                             int ink = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-0f, -4f), ModContent.ProjectileType<InkBombProjectile>(), 0, 0, Player.whoAmI);
                             if (ink.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[ink].DamageType = DamageClass.Generic;
@@ -6108,7 +6120,7 @@ namespace CalamityMod.CalPlayer
                     var fuckYouBitch = Player.GetSource_Misc("21");
                     if (damage > 0)
                     {
-                        SoundEngine.PlaySound(SoundID.Item74, Player.position);
+                        SoundEngine.PlaySound(SoundID.Item74, Player.Center);
                         int eDamage = (int)Player.GetBestClassDamage().ApplyTo(100);
                         if (Player.whoAmI == Main.myPlayer)
                             Projectile.NewProjectile(fuckYouBitch, Player.Center, Vector2.Zero, ModContent.ProjectileType<DeepseaBlaze>(), eDamage, 1f, Player.whoAmI, 0f, 0f);
@@ -6119,7 +6131,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Misc("22");
                     if (damage > 0)
                     {
-                        SoundEngine.PlaySound(SoundID.Item27, Player.position);
+                        SoundEngine.PlaySound(SoundID.Item27, Player.Center);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -6157,7 +6169,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Misc("24");
                     if (damage > 80)
                     {
-                        SoundEngine.PlaySound(SoundID.Item73, Player.position);
+                        SoundEngine.PlaySound(SoundID.Item73, Player.Center);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -6266,7 +6278,7 @@ namespace CalamityMod.CalPlayer
                     Player.KillMeForGood();
                 }
             }
-            SoundEngine.PlaySound(SoundID.PlayerKilled, Player.position);
+            SoundEngine.PlaySound(SoundID.PlayerKilled, Player.Center);
             Player.headVelocity.Y = (float)Main.rand.Next(-40, -10) * 0.1f;
             Player.bodyVelocity.Y = (float)Main.rand.Next(-40, -10) * 0.1f;
             Player.legVelocity.Y = (float)Main.rand.Next(-40, -10) * 0.1f;
@@ -6298,7 +6310,7 @@ namespace CalamityMod.CalPlayer
             PlayerDeathReason damageSource = PlayerDeathReason.ByOther(Player.Male ? 14 : 15);
             if (abyssDeath)
             {
-                SoundEngine.PlaySound(DrownSound, Player.position);
+                SoundEngine.PlaySound(DrownSound, Player.Center);
 
                 if (Main.rand.NextBool(2))
                 {
@@ -6312,10 +6324,6 @@ namespace CalamityMod.CalPlayer
             else if (CalamityWorld.armageddon && areThereAnyDamnBosses)
             {
                 damageSource = PlayerDeathReason.ByCustomReason(Player.name + " failed the challenge at hand.");
-            }
-            else if (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was destroyed by a mysterious force.");
             }
             NetworkText deathText = damageSource.GetDeathText(Player.name);
             if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
@@ -6346,6 +6354,17 @@ namespace CalamityMod.CalPlayer
                 catch
                 {
                 }
+            }
+        }
+        #endregion
+
+        #region Anomaly's Nanogun Kill Sound
+        public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
+        {
+            if (Player.whoAmI == Main.myPlayer && Player.ActiveItem().type == ModContent.ItemType<TheAnomalysNanogun>())
+            {
+                if (Main.rand.NextBool(20))
+                    SoundEngine.PlaySound(IjiDeathSound, Player.Center);
             }
         }
         #endregion
@@ -6395,7 +6414,7 @@ namespace CalamityMod.CalPlayer
                     price += Item.buyPrice(0, 1, 20, 0);
                 else if (NPC.downedGolemBoss)
                     price += Item.buyPrice(0, 0, 90, 0);
-                else if (NPC.downedPlantBoss || DownedBossSystem.downedCalamitas)
+                else if (NPC.downedPlantBoss || DownedBossSystem.downedCalamitasClone)
                     price += Item.buyPrice(0, 0, 60, 0);
                 else if (NPC.downedMechBossAny)
                     price += Item.buyPrice(0, 0, 40, 0);
@@ -6449,7 +6468,7 @@ namespace CalamityMod.CalPlayer
             if (playRogueStealthSound && rogueStealth >= rogueStealthMax && Player.whoAmI == Main.myPlayer)
             {
                 playRogueStealthSound = false;
-                SoundEngine.PlaySound(RogueStealthSound, Player.position);
+                SoundEngine.PlaySound(RogueStealthSound, Player.Center);
             }
 
             // If the player isn't at full stealth, reset the sound so it'll play again when they hit full stealth.
@@ -6555,12 +6574,6 @@ namespace CalamityMod.CalPlayer
             if (Player.itemAnimation > 0 || finalDawnProjCount > 0)
                 return 0f;
 
-            if (penumbra)
-            {
-                stealthGenStandstill += 0.15f;
-                stealthGenMoving += 0.1f;
-            }
-
             if (shadow)
             {
                 stealthGenStandstill += 0.08f;
@@ -6569,8 +6582,8 @@ namespace CalamityMod.CalPlayer
 
             if (eArtifact)
             {
-                stealthGenStandstill += 0.1f;
-                stealthGenMoving += 0.1f;
+                stealthGenStandstill += 0.15f;
+                stealthGenMoving += 0.15f;
             }
 
             //Accessory modifiers can boost these stats
@@ -6773,7 +6786,10 @@ namespace CalamityMod.CalPlayer
                 CalamityMod.SpeedrunTimer.Restart();
 
             if (CalamityConfig.Instance.WikiStatusMessage)
-                Main.NewText($"[i:{ItemID.Book}]" + " [c/EE4939:Be sure to check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] " + $"[i:{ItemID.Book}]");
+            {
+                Main.NewText($"[i:{ItemID.Book}]" + " [c/EE4939:Note: The Fandom wiki is no longer supported by Calamity.] " + $"[i:{ItemID.Book}]");
+                Main.NewText($"[i:{ItemID.Book}]" + " [c/EE4939:Check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] " + $"[i:{ItemID.Book}]");
+            }
         }
 
         /// <summary>
@@ -6784,6 +6800,7 @@ namespace CalamityMod.CalPlayer
         public float GetAbyssAggro(float range)
         {
             range *= fishAlert ? 3f : 1f;
+            range *= eidolonSnailPet ? 0.85f : 1f;
             range *= anechoicCoating ? 0.5f : 1f;
             range *= anechoicPlating ? 0.5f : 1f;
             range *= abyssalMirror ? 0.65f : 1f;
@@ -6891,7 +6908,7 @@ namespace CalamityMod.CalPlayer
             // Play a sound from taking defense damage.
             if (hurtSoundTimer == 0 && Main.myPlayer == Player.whoAmI)
             {
-                SoundEngine.PlaySound(DefenseDamageSound with { Volume = DefenseDamageSound.Volume * 0.75f}, Player.position);
+                SoundEngine.PlaySound(DefenseDamageSound with { Volume = DefenseDamageSound.Volume * 0.75f}, Player.Center);
                 hurtSoundTimer = 30;
             }
 
@@ -6900,17 +6917,6 @@ namespace CalamityMod.CalPlayer
             Color messageColor = Color.LightGray;
             Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
             CombatText.NewText(location, messageColor, Language.GetTextValue(text));
-        }
-        #endregion
-
-        #region Kill
-        public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
-        {
-            if (Player.whoAmI == Main.myPlayer && Player.ActiveItem().type == ModContent.ItemType<TheAnomalysNanogun>())
-            {
-                if (Main.rand.NextBool(20))
-                    SoundEngine.PlaySound(IjiDeathSound, Player.Center);
-            }
         }
         #endregion
     }

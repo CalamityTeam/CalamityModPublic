@@ -208,7 +208,7 @@ namespace CalamityMod.Projectiles.Typeless
             bool canBreakTileCheck = TileLoader.CanKillTile(x, y, tile.TileType, ref true_) && TileLoader.CanKillTile(x, y, tile.TileType, ref false_);
             bool shouldBreakTile = tile.ShouldBeMined();
 
-            if (!Owner.noBuilding && shouldBreakTile && pickaxeRequirement < pickPower && canBreakTileCheck)
+            if (!Owner.noBuilding && shouldBreakTile && pickaxeRequirement <= pickPower && canBreakTileCheck)
             {
                 WorldGen.KillTile(x, y, false, false, false);
                 if (!Main.tile[x, y].HasTile && Main.netMode != NetmodeID.SinglePlayer)

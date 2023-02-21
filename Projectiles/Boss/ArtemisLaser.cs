@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public Vector2 Destination;
         public Vector2 Velocity;
-        public const float TelegraphTotalTime = 30f;
-        public const float TelegraphFadeTime = 15f;
+        public const float TelegraphTotalTime = 20f;
+        public const float TelegraphFadeTime = 10f;
         public const float TelegraphWidth = 4200f;
 
         public override void SetStaticDefaults()
@@ -115,7 +115,8 @@ namespace CalamityMod.Projectiles.Boss
                 // Accelerate to max velocity.
                 if (Projectile.velocity.Length() < LaserVelocity)
                 {
-                    Projectile.velocity *= 1.0125f;
+                    float acceleration = 1f + LaserVelocity * 0.0016667f;
+                    Projectile.velocity *= acceleration;
                     if (Projectile.velocity.Length() > LaserVelocity)
                     {
                         Projectile.velocity.Normalize();
@@ -225,9 +226,9 @@ namespace CalamityMod.Projectiles.Boss
 
             float yScale = 2f;
             if (TelegraphDelay < TelegraphFadeTime)
-                yScale = MathHelper.Lerp(0f, 2f, TelegraphDelay / 15f);
+                yScale = MathHelper.Lerp(0f, 2f, TelegraphDelay / 10f);
             if (TelegraphDelay > TelegraphTotalTime - TelegraphFadeTime)
-                yScale = MathHelper.Lerp(2f, 0f, (TelegraphDelay - (TelegraphTotalTime - TelegraphFadeTime)) / 15f);
+                yScale = MathHelper.Lerp(2f, 0f, (TelegraphDelay - (TelegraphTotalTime - TelegraphFadeTime)) / 10f);
 
             Vector2 scaleInner = new Vector2(TelegraphWidth / laserTelegraph.Width, yScale);
             Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);

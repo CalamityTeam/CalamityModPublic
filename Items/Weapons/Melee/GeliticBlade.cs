@@ -57,9 +57,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PurifiedGel>(30).
-                AddIngredient(ItemID.Gel, 35).
-                AddIngredient(ItemID.HellstoneBar, 10).
+                AddIngredient<PurifiedGel>(18).
+                AddIngredient<BlightedGel>(18).
                 AddTile<StaticRefiner>().
                 Register();
         }

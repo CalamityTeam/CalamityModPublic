@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Metadata;
@@ -16,6 +17,7 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileBlockLight[Type] = true;
             Main.tileLavaDeath[Type] = true;
             Main.tileNoFail[Type] = true;
+            Main.tileNoSunLight[Type] = false;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sulphurous Vines");
             AddMapEntry(new Color(0, 50, 0), name);
@@ -32,6 +34,19 @@ namespace CalamityMod.Tiles.Abyss
         {
             num = fail ? 1 : 3;
         }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+		{
+			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
+
+			if (!tileAbove.HasTile)
+            {
+                WorldGen.KillTile(i, j);
+				return true;
+			}
+
+			return true;
+		}
 
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
@@ -53,6 +68,17 @@ namespace CalamityMod.Tiles.Abyss
                         }
                     }
                 }
+            }
+        }
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            if (closer && Main.rand.NextBool(200) && j > Main.worldSurface)
+            {
+                Dust dust;
+                dust = Main.dust[Dust.NewDust(new Vector2(i * 16f, j * 16f), 274, 279, 304, 0.23255825f, 10f, 0, new Color(22, 255, 0), 1.5116279f)];
+                dust.noGravity = true;
+                dust.noLight = true;
+                dust.fadeIn = 2.5813954f;
             }
         }
 
@@ -110,9 +136,16 @@ namespace CalamityMod.Tiles.Abyss
         }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
+            float brightness = 0.7f;
+            brightness *= (float)MathF.Sin(-j / 40f + Main.GameUpdateCount * 0.01f + i);
+            //brightness *= (float)MathF.Sin(-i / 50f + Main.GameUpdateCount * 0.01f);
+            brightness += 0.5f;
             r = 173f / 255f;
             g = 1f;
             b = 200f / 255f;
+            r *= brightness;
+            g *= brightness;
+            b *= brightness;
         }
     }
 }

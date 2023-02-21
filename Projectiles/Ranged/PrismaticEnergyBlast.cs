@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.BaseProjectiles;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -80,7 +81,10 @@ namespace CalamityMod.Projectiles.Ranged
         {
             LaserLength = Projectile.Distance(target.Center);
             CreateExplosion(target.Center);
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
 
         public override void Kill(int timeLeft)
         {

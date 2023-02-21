@@ -40,16 +40,16 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.rare = ItemRarityID.Orange;
         }
 
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Bombs;
-		}
+        public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+        {
+            itemGroup = ContentSamples.CreativeHelper.ItemGroup.Bombs;
+        }
 
+        // 1 dynamite at Sky Mill = cheap, available early game as an alt option to sticky dynamite, just requires floating islands
         public override void AddRecipes()
         {
-            CreateRecipe(10).
-                AddIngredient(ItemID.Dynamite, 10).
-                AddIngredient<AerialiteBar>().
+            CreateRecipe().
+                AddIngredient(ItemID.Dynamite).
                 AddTile(TileID.SkyMill).
                 Register();
         }

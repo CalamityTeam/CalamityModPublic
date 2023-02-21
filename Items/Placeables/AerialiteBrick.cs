@@ -27,9 +27,9 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(10).
+            CreateRecipe(25).
+                AddRecipeGroup("AnyStoneBlock", 25).
                 AddIngredient<AerialiteOre>().
-                AddRecipeGroup("AnyStoneBlock").
                 AddTile(TileID.Furnaces).
                 Register();
 

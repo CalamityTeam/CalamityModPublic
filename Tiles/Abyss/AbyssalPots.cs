@@ -19,6 +19,7 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileSpelunker[Type] = true;
             Main.tileCut[Type] = true;
 
+            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();

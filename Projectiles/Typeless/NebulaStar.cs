@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.BaseProjectiles;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -26,6 +27,8 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
+
             if (Projectile.owner == Main.myPlayer && !FadingOut)
             {
                 Vector2 velocity = CalamityUtils.RandomVelocity(100f, 1f, 1f, 0.3f);

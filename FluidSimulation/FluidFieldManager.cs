@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace CalamityMod.FluidSimulation
 {
-    public static class FluidFieldManager
+    public class FluidFieldManager : ModSystem
     {
         internal static List<FluidField> Fields = new();
 
@@ -43,6 +44,16 @@ namespace CalamityMod.FluidSimulation
             foreach (FluidField field in Fields)
                 field.Update();
             Main.GameViewMatrix.Zoom = old;
+        }
+
+        public override void OnModUnload()
+        {
+            Main.QueueMainThreadAction(() =>
+            {
+                // The dispose method automatically pops fields from the list.
+                while (Fields.Count > 0)
+                    Fields[0].Dispose();
+            });
         }
     }
 }

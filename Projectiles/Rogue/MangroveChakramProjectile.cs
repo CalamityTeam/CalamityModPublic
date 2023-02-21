@@ -31,8 +31,10 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, 0f, 0.25f, 0f);
+
             if (Main.rand.NextBool(5))
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 44, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+
             if (Projectile.Calamity().stealthStrike)
             {
                 // Die early.
@@ -60,12 +62,12 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[Projectile.owner] = 6;
-            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.Venom, 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.Venom, 120);
         }
     }
 }

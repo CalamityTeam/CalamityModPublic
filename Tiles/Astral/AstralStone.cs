@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles.Astral
 
             HitSound = SoundID.Tink;
 
-            AddMapEntry(new Color(45, 36, 63));
+            AddMapEntry(new Color(93, 78, 107));
 
             TileID.Sets.Stone[Type] = true;
             TileID.Sets.Conversion.Stone[Type] = true;
@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles.Astral
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>());
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false);
             return false;
         }
 

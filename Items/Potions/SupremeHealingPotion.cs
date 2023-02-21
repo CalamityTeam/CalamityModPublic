@@ -32,10 +32,10 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe().
-                AddIngredient(ItemID.SuperHealingPotion).
-                AddIngredient<UnholyEssence>().
-                AddTile(TileID.LunarCraftingStation).
+            CreateRecipe(4).
+                AddIngredient(ItemID.SuperHealingPotion, 4).
+                AddIngredient<Bloodstone>(3).
+                AddTile(TileID.Bottles).
                 Register();
         }
     }

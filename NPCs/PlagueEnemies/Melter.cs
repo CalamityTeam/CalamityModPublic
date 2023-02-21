@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
         public override void SetDefaults()
         {
             NPC.npcSlots = 0.5f;
-            NPC.aiStyle = 14;
+            NPC.aiStyle = NPCAIStyleID.Bat;
             AIType = NPCID.GiantFlyingFox;
             AnimationType = NPCID.GiantFlyingFox;
             NPC.damage = 55;
@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Its face is warped and softened by the corrosive effects of the plague nanobots, and it seeks to share that uncomfortable fate with others under both its own will, and the plague’s.")
+				new FlavorTextBestiaryInfoElement("Its face is warped and softened by the corrosive effects of the plague nanobots, and it seeks to share that uncomfortable fate with others under both its own will, and the plague's.")
             });
         }
 
@@ -80,6 +80,12 @@ namespace CalamityMod.NPCs.PlagueEnemies
                 for (int k = 0; k < 20; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
+                }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Melter").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Melter2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Melter3").Type, 1f);
                 }
             }
         }

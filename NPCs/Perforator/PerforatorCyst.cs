@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.Perforator
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCrimson,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A pulsing patch of anarchistic eyes and teeth. It is the culmination of the crimson’s flesh and should be avoided at all costs.")
+				new FlavorTextBestiaryInfoElement("A pulsing patch of anarchistic eyes and teeth. It is the culmination of the crimson's flesh and should be avoided at all costs.")
             });
         }
 

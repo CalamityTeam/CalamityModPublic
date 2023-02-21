@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 20;
-            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
         }
 
@@ -46,6 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             //does no damage. Explosion is visual
             Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), 0, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+            target.AddBuff(BuffID.OnFire3, 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
@@ -53,7 +54,8 @@ namespace CalamityMod.Items.Weapons.Melee
             var source = player.GetSource_ItemUse(Item);
 
             //does no damage. Explosion is visual
-            int boom = Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), 0, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), 0, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+            target.AddBuff(BuffID.OnFire3, 300);
         }
     }
 }

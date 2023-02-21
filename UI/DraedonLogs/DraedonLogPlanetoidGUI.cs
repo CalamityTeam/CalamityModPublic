@@ -11,17 +11,11 @@ namespace CalamityMod.UI.DraedonLogs
             switch (Page)
             {
                 case 0:
-                    return "Hung low in orbit, masses of ground and various parts of the world provide a secluded and distant point for research. Undeniably optimal for the science of astronomy and otherwise. " +
-                           "In my labs here I grow many things, testing their limits against the cold and vacuum of the stratosphere. Though not many survive, the existence of certain creatures here, confirm the " +
-                           "capabilities of life simply given more time.";
+                    return "High above even the sky islands upheaved long ago lies a fascinating geological phenomenon. Though, unlike the islands, their airborne nature appears to have formed more naturally. I speculate that they formed long ago when the world was in its infancy judging by soil samples I have taken while testing high atmosphere plant growth. Perhaps these “planetoids”, as many refer to them as, formed via meteor strikes tossing matter high into the atmosphere. This would simultaneously explain many geological oddities I have found on the world’s surface.";
                 case 1:
-                    return "I do not care much for the interstellar, or the cosmos. Though I have traversed it, there is still plenty in my own world to manage and discover at this time. Even if I once inhabited a " +
-                           "different planet, the Lord's wishes that I provide him machinery were the only condition that I needed to leave it and settle elsewhere. Once I have discovered and dissected every part of " +
-                           "this place, perhaps then, I could look up towards the macroscopic.";
+                    return "Travel between worlds is a fascination of mine. The planets within reasonable distance to this provide no use to me in terms of materials or study opportunities they could provide. And so, I wish to go further beyond this mere cluster of planets some day. It will likely take many more decades of technological progress, however, as travel between worlds would take years even at the maximum speed physical matter can currently go. Perhaps I will find a way to shatter this limit once this world holds my interest no longer.";
                 default:
-                    return "The bloated cosmic worm, though I understand why the Lord decides to employ it given he can control it, is a disgusting existence. However the idea of creating an armor suited to it in every " +
-                           "way, was an offer I could not refuse. Forged from the cosmic steel of my own creation, it resists nearly any attack, yet allows the creature the same flexibility it would have without it, as well " +
-                           "as augmenting its dimensional abilities. I remain pleased with the result.";
+                    return "A request from Yharim has been delivered. An inquiry to create a suit of armor for the serpent that has joined his forces recently, the “Devourer of Gods” as the serpent calls himself. He is a bothersome yet fascinating being. And so, I have taken the opportunity so that I may learn more of his home dimension. Using materials from his place of origin, I have forged armor of immense size and durability yet extreme flexibility. It is certainly one of the most unique materials I have worked with and has advanced my knowledge greatly. Though, I have learned more than I expected to about the cosmic beast from this. Perhaps more than he wished for me to.";
             }
         }
         public override Texture2D GetTextureByPage()
@@ -31,7 +25,7 @@ namespace CalamityMod.UI.DraedonLogs
                 case 0:
                     return ModContent.Request<Texture2D>("CalamityMod/UI/DraedonLogs/DraedonsLogPlanetoid").Value;
                 case 1:
-                    return null; // The Draedon's backstory page does not have an image, and probably shouldn't.
+                    return null;
                 default:
                     return ModContent.Request<Texture2D>("CalamityMod/UI/DraedonLogs/DraedonsLogDoGArmor").Value;
             }

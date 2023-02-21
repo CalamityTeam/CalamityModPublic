@@ -57,7 +57,7 @@ namespace CalamityMod.Items.SummonItems
         {
             if (player.ZoneDungeon)
             {
-                SoundEngine.PlaySound(CVSound, player.position);
+                SoundEngine.PlaySound(CVSound, player.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
                 else
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.SummonItems
             }
             else if (player.ZoneUnderworldHeight)
             {
-                SoundEngine.PlaySound(SignutSound, player.position);
+                SoundEngine.PlaySound(SignutSound, player.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Signus>());
                 else
@@ -73,7 +73,7 @@ namespace CalamityMod.Items.SummonItems
             }
             else if (player.ZoneSkyHeight)
             {
-                SoundEngine.PlaySound(StormSound, player.position);
+                SoundEngine.PlaySound(StormSound, player.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<StormWeaverHead>());
                 else
@@ -104,9 +104,9 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.LunarBar, 3).
                 AddIngredient<UnholyEssence>(40).
                 AddIngredient(ItemID.FragmentSolar, 5).
-                AddIngredient(ItemID.LunarBar, 3).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

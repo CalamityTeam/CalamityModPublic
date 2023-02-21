@@ -1,10 +1,15 @@
-﻿using CalamityMod.Events;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.Cryogen;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -22,8 +27,8 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            Item.width = 28;
-            Item.height = 18;
+            Item.width = 26;
+            Item.height = 48;
             Item.rare = ItemRarityID.Pink;
             Item.useAnimation = 10;
             Item.useTime = 10;
@@ -42,7 +47,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.position);
+            SoundEngine.PlaySound(SoundID.Roar, player.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Cryogen>());
             else
@@ -51,12 +56,46 @@ namespace CalamityMod.Items.SummonItems
             return true;
         }
 
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/SummonItems/CryoKey").Value;
+            Color overlay = CalamityWorld.getFixedBoi ? Color.Red : Color.White;
+            spriteBatch.Draw(texture, position, null, overlay, 0f, origin, scale, 0, 0);
+            return false;
+        }
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/SummonItems/CryoKey").Value;
+            Color overlay = CalamityWorld.getFixedBoi ? Color.Red : lightColor;
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, null, overlay, 0f, Vector2.Zero, 1f, 0, 0);
+            return false;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            Player player = Main.LocalPlayer;
+            TooltipLine name = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "ItemName");
+            TooltipLine line0 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+
+            if (CalamityWorld.getFixedBoi)
+            {
+                name.Text = "Pyro Key";
+                line0.Text = "Summons Cryogen when used in the tundra...?";
+            }
+            else
+            {
+                name.Text = "Cryo Key";
+                line0.Text = "Summons Cryogen when used in the tundra";
+            }
+        }
+
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddRecipeGroup("AnyIceBlock", 50).
-                AddIngredient(ItemID.SoulofNight, 5).
                 AddIngredient(ItemID.SoulofLight, 5).
+                AddIngredient(ItemID.SoulofNight, 5).
                 AddIngredient<EssenceofEleum>(8).
                 AddTile(TileID.Anvils).
                 Register();

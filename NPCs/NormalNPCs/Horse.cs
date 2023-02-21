@@ -1,17 +1,18 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using System;
+using System.IO;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
-using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -63,7 +64,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("It is civilization’s goal to wrest nature under its control. This is the result of one such conquest, an artificial elemental, run by clockwork gears.")
+				new FlavorTextBestiaryInfoElement("It is civilization's goal to wrest nature under its control. This is the result of one such conquest, an artificial elemental, run by clockwork gears.")
             });
         }
 
@@ -119,7 +120,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (NPC.life <= 0)
             {
-                SoundEngine.PlaySound(SoundID.Item14, NPC.position);
+                SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
                 NPC.width = 160;
@@ -201,6 +202,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 if (NPC.ai[0] == 0f)
                 {
+                    if (CalamityWorld.getFixedBoi)
+                    {
+                        SoundEngine.PlaySound(SoundID.ScaryScream, Main.player[NPC.target].Center);
+                    }
                     NPC.ai[0] = 1f;
                     NPC.dontTakeDamage = false;
                 }

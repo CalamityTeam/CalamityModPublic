@@ -3,6 +3,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+
 namespace CalamityMod.Projectiles.Ranged
 {
     public class ClamorRifleProj : ModProjectile
@@ -42,6 +45,10 @@ namespace CalamityMod.Projectiles.Ranged
             CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 150f, 12f, 25f);
         }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<Eutrophication>(), 180);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Eutrophication>(), 180);
+
         public override void Kill(int timeLeft)
         {
             int bulletAmt = 2;
@@ -50,7 +57,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int b = 0; b < bulletAmt; b++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<ClamorRifleProjSplit>(), (int)(Projectile.damage * 0.45), 0f, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<ClamorRifleProjSplit>(), (int)(Projectile.damage * 0.4), 0f, Projectile.owner, 0f, 0f);
                 }
             }
             SoundEngine.PlaySound(SoundID.Item118, Projectile.Center);

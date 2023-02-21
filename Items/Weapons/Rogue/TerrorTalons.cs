@@ -22,24 +22,23 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 40;
-            Item.damage = 47;
+            Item.damage = 52;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 7;
-            Item.useAnimation = 7;
+            Item.useAnimation = Item.useTime = 7;
             Item.knockBack = 3f;
             Item.UseSound = SoundID.Item39;
             Item.autoReuse = true;
             Item.height = 24;
-            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
             Item.rare = ItemRarityID.LightPurple;
             Item.shoot = ModContent.ProjectileType<TalonSmallProj>();
             Item.shootSpeed = 10.5f;
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-		public override float StealthDamageMultiplier => 4.875f;
+		public override float StealthDamageMultiplier => 9f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -61,9 +60,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.FeralClaws).
                 AddIngredient(ItemID.ChlorophyteBar, 5).
-                AddIngredient(ItemID.SoulofFright, 10).
+                AddIngredient(ItemID.Leather, 10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

@@ -12,8 +12,8 @@ namespace CalamityMod.Items.DraedonMisc
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Draedon's Log - The Jungle and Plague");
-            Tooltip.SetDefault("Click to view its contents");
+            DisplayName.SetDefault("Plague Nanomachine Log");
+            Tooltip.SetDefault("[Nanomachine Experimentation Results] - 'The Plague'\nClick to view its contents");
         }
 
         public override void SetDefaults()

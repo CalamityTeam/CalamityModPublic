@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Rogue
         public const int MaximumBranchingIterations = 3;
         public const float LightningTurnRandomnessFactor = 1.7f;
         public ref float InitialVelocityAngle => ref Projectile.ai[0];
-        // Technically not a ratio, and more of a seed, but it is used in a 0-2pi squash
+        // Technically not a ratio, and more of a seed, but its used in a 0-2pi squash
         // later in the code to get an arbitrary unit vector (which is then checked).
         public ref float BaseTurnAngleRatio => ref Projectile.ai[1];
         public ref float AccumulatedXMovementSpeeds => ref Projectile.localAI[0];
@@ -29,21 +29,24 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Electricity");
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 100;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 50;
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 10000;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
         public override void SetDefaults()
         {
-            Projectile.width = 14;
-            Projectile.height = 14;
+            Projectile.width = 30;
+            Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.alpha = 255;
             Projectile.penetrate = 2;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.extraUpdates = 20;
-            Projectile.timeLeft = 45 * Projectile.extraUpdates;
+            Projectile.extraUpdates = 10;
+            Projectile.timeLeft = 60 * Projectile.extraUpdates;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 3600; //Adjusted to take note of the extra updates
 
             // Readjust the velocity magnitude the moment this projectile is created
             // to make velocity setting outside the scope of this projectile less irritating
@@ -57,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             Projectile.frameCounter++;
-
+            float adjustedTimeLife = Projectile.timeLeft / Projectile.MaxUpdates;
             Projectile.scale = (float)Math.Sin(MathHelper.Pi * Projectile.timeLeft / (45f * (Projectile.MaxUpdates - 1))) * 4f;
             if (Projectile.scale > 1f)
                 Projectile.scale = 1f;
@@ -102,7 +105,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                     turnTries++;
                 }
-                while (turnTries < 100);
+                while (turnTries < 20);
 
                 if (Projectile.velocity != Vector2.Zero)
                 {
@@ -111,16 +114,6 @@ namespace CalamityMod.Projectiles.Rogue
                     Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
                 }
             }
-        }
-
-        public override void Kill(int timeLeft)
-        {
-            Projectile.ExpandHitboxBy(60);
-            Projectile.maxPenetrate = -1;
-            Projectile.penetrate = -1;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
-            Projectile.Damage();
         }
 
         internal float WidthFunction(float completionRatio)

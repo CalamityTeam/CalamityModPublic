@@ -77,6 +77,8 @@ namespace CalamityMod.NPCs.Leviathan
         {
             if (CalamityGlobalNPC.leviathan < 0 || !Main.npc[CalamityGlobalNPC.leviathan].active)
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;
@@ -252,6 +254,22 @@ namespace CalamityMod.NPCs.Leviathan
             int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
             if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+
+            // Explode into bubbles on gfb
+            if (CalamityWorld.getFixedBoi)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    for (int i = 0; i < Main.rand.Next(1, 5); i++)
+                    {
+                        int spawn = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.DetonatingBubble);
+                        Main.npc[spawn].target = NPC.target;
+                        Main.npc[spawn].velocity = new Vector2(Main.rand.Next(-6, 7), Main.rand.Next(-6, 7));
+                        Main.npc[spawn].netUpdate = true;
+                        Main.npc[spawn].ai[3] = Main.rand.Next(80, 121) / 100f;
+                    }
+                }
+            }
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

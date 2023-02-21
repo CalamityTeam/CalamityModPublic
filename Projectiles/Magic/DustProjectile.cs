@@ -1,4 +1,5 @@
-﻿using CalamityMod.DataStructures;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -24,9 +25,11 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.penetrate = -1;
-            Projectile.extraUpdates = 3;
-            Projectile.timeLeft = 90;
+            Projectile.penetrate = 4;
+            Projectile.MaxUpdates = 4;
+            Projectile.timeLeft = 30 * Projectile.MaxUpdates; // 30 effectively, 120 total
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10 * Projectile.MaxUpdates; // 10 effective, 40 total
         }
 
         public override void AI()
@@ -60,11 +63,15 @@ namespace CalamityMod.Projectiles.Magic
             }
             Projectile.ai[0] += 1f;
             Projectile.rotation += 0.3f * (float)Projectile.direction;
-            if (Projectile.timeLeft < 30)
-                Projectile.Opacity = MathHelper.Lerp(0f, 1f, (float)Projectile.timeLeft / 30f);
+            if (Projectile.timeLeft < 5)
+                Projectile.Opacity = MathHelper.Lerp(0f, 1f, (float)Projectile.timeLeft / 5f);
         }
 
-        public override bool? CanDamage() => Projectile.timeLeft > 30;
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+
+        public override bool? CanDamage() => Projectile.timeLeft > 5;
 
         public override bool PreDraw(ref Color lightColor)
         {

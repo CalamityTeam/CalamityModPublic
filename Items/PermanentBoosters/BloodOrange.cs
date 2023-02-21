@@ -18,8 +18,7 @@ namespace CalamityMod.Items.PermanentBoosters
             DisplayName.SetDefault("Blood Orange");
             Tooltip.SetDefault("It has a distinctly sweet flavor and a strong aroma\n" +
                                "Permanently increases maximum life by 25\n" +
-                               "Can only be used if the max amount of life fruit has been consumed\n" +
-                               "");
+                               "Can only be used if the max amount of life fruit has been consumed");
             SacrificeTotal = 1;
 			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 18; // Life Fruit
@@ -81,11 +80,10 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             CreateRecipe().
                 AddIngredient(ItemID.LifeFruit, 5).
-                AddIngredient(ItemID.OrangeBloodroot).
                 AddIngredient<BloodOrb>(10).
+                AddIngredient(ItemID.SoulofFright, 5).
                 AddIngredient(ItemID.SoulofMight, 5).
                 AddIngredient(ItemID.SoulofSight, 5).
-                AddIngredient(ItemID.SoulofFright, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

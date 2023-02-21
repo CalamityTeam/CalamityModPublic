@@ -89,7 +89,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
             if (playSound)
             {
                 SoundEngine.PlaySound(SoundID.Item74, Projectile.position);

@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 player.rocketDelay2--;
                 if (player.rocketDelay2 <= 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Item13, player.position);
+                    SoundEngine.PlaySound(SoundID.Item13, player.Center);
                     player.rocketDelay2 = 60;
                 }
                 int dustAmt = 2;
@@ -113,11 +113,11 @@ namespace CalamityMod.Items.Accessories.Wings
             CreateRecipe().
                 AddIngredient(ItemID.FrogLeg).
                 AddIngredient(ItemID.BundleofBalloons).
-                AddIngredient(ItemID.LuckyHorseshoe).
+                //TODO -- Use HorseshoeBundle for 1.4.4.
                 AddIngredient(ItemID.Jetpack).
+                AddIngredient(ItemID.SoulofFright).
                 AddIngredient(ItemID.SoulofMight).
                 AddIngredient(ItemID.SoulofSight).
-                AddIngredient(ItemID.SoulofFright).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

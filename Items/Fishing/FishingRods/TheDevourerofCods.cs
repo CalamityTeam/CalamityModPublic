@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.fishingPole = 75;
             Item.shootSpeed = 20f;
             Item.shoot = ModContent.ProjectileType<DevourerofCodsBobber>();
-            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CosmiliteBar>(10).
+                AddIngredient<CosmiliteBar>(6).
                 AddTile<CosmicAnvil>().
                 Register();
         }

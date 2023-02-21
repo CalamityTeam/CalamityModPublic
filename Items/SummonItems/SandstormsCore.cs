@@ -1,8 +1,12 @@
-﻿using CalamityMod.NPCs.GreatSandShark;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.GreatSandShark;
+using CalamityMod.World;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -35,12 +39,12 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark>());
+            return player.ZoneDesert && !(CalamityWorld.getFixedBoi && !player.Calamity().ZoneAstral) && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark>());
         }
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.position);
+            SoundEngine.PlaySound(SoundID.Roar, player.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<GreatSandShark>());
             else
@@ -49,12 +53,26 @@ namespace CalamityMod.Items.SummonItems
             return true;
         }
 
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            Player player = Main.LocalPlayer;
+            TooltipLine line0 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+
+            if (CalamityWorld.getFixedBoi)
+            {
+                line0.Text = "Summons the Great Sand Shark when used in the astral desert";
+            }
+            else
+            {
+                line0.Text = "Summons the Great Sand Shark when used in the desert";
+            }
+        }
+
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Ectoplasm, 10).
-                AddIngredient(ItemID.HallowedBar, 5).
                 AddIngredient(ItemID.AncientBattleArmorMaterial, 3).
+                AddIngredient<CoreofSunlight>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

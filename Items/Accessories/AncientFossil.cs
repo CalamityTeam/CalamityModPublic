@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Ancient Fossil");
-            Tooltip.SetDefault("Increases pick speed by 15% while underground");
+            Tooltip.SetDefault("Increases mining speed by 15%");
         }
 
         public override void SetDefaults()
@@ -24,10 +24,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight)
-            {
-                player.pickSpeed -= 0.15f;
-            }
+            player.pickSpeed -= 0.15f;
         }
 
         public override void AddRecipes()

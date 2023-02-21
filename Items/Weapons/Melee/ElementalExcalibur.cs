@@ -177,14 +177,8 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<GreatswordofBlah>().
                 AddIngredient(ItemID.TrueExcalibur).
-                AddIngredient(ItemID.LargeDiamond).
-                AddIngredient(ItemID.LightShard, 3).
-                AddIngredient(ItemID.DarkShard, 3).
-                AddIngredient<LivingShard>(10).
-                AddIngredient<GalacticaSingularity>(10).
-                AddIngredient(ItemID.SoulofLight, 20).
-                AddIngredient(ItemID.SoulofNight, 20).
                 AddIngredient<ShadowspecBar>(5).
+                AddIngredient<AscendantSpiritEssence>(5).
                 AddTile<DraedonsForge>().
                 Register();
         }

@@ -17,9 +17,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Glaive");
-            Tooltip.SetDefault(@"Stacks up to 3
+            Tooltip.SetDefault(@"Tosses up to 3 sharp returning glaives
 Stealth strikes are super fast and pierce infinitely");
-            SacrificeTotal = 3;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -28,16 +28,15 @@ Stealth strikes are super fast and pierce infinitely");
             Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.width = 1;
-            Item.height = 1;
+            Item.width = 34;
+            Item.height = 32;
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = Knockback;
-            Item.value = CalamityGlobalItem.Rarity3BuyPrice / 3; // Stacks up to 3
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item1;
-            Item.maxStack = 3;
 
             Item.shootSpeed = Speed;
             Item.shoot = ModContent.ProjectileType<GlaiveProj>();
@@ -62,10 +61,6 @@ Stealth strikes are super fast and pierce infinitely");
             return false;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return player.ownedProjectileCounts[Item.shoot] < Item.stack;
-        }
-
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] < 3;
     }
 }

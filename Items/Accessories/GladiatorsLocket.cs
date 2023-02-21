@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Gladiator's Locket");
-            Tooltip.SetDefault("Summons two spirit swords to protect you");
+            Tooltip.SetDefault("Enemies drop a healing orb on kill\n" +
+                "Gain an increase to your damage and movement speed the lower your health is, up to 20%");
         }
 
         public override void SetDefaults()
@@ -37,25 +38,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.gladiatorSword = true;
-            if (player.whoAmI == Main.myPlayer)
-            {
-                if (player.FindBuffIndex(ModContent.BuffType<GladiatorSwords>()) == -1)
-                    player.AddBuff(ModContent.BuffType<GladiatorSwords>(), 3600, true);
-
-                int baseDamage = 30;
-                int swordDmg = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
-                var source = player.GetSource_Accessory(Item);
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<GladiatorSword>()] < 1)
-                {
-                    var sword = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<GladiatorSword>(), swordDmg, 2f, Main.myPlayer);
-                    sword.originalDamage = baseDamage;
-
-                    sword = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<GladiatorSword2>(), swordDmg, 2f, Main.myPlayer);
-                    sword.originalDamage = baseDamage;
-                }
-            }
+            float damageIncrease = 0.2f;
+            float moveSpeedIncrease = 0.2f;
+            player.Calamity().gladiatorSword = true;
+            player.GetDamage<GenericDamageClass>() += damageIncrease - (damageIncrease * player.statLife / player.statLifeMax2);
+            player.moveSpeed += moveSpeedIncrease - (moveSpeedIncrease * player.statLife / player.statLifeMax2);
         }
     }
 }

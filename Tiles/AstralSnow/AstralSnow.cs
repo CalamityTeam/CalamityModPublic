@@ -40,7 +40,7 @@ namespace CalamityMod.Tiles.AstralSnow
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             // CustomTileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>());
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false);
             return false;
         }
     }

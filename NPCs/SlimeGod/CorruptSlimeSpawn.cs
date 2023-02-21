@@ -1,4 +1,6 @@
 ﻿using CalamityMod.Events;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Bestiary;
@@ -18,7 +20,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetDefaults()
         {
-            NPC.aiStyle = 14;
+            NPC.aiStyle = NPCAIStyleID.Bat;
             NPC.GetNPCDamage();
             NPC.width = 40;
             NPC.height = 30;
@@ -68,6 +70,15 @@ namespace CalamityMod.NPCs.SlimeGod
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, dustColor, 1f);
+            }
+        }
+        public override void OnKill()
+        {
+            if (CalamityWorld.getFixedBoi && Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                int type = ModContent.ProjectileType<ShadeNimbusHostile>();
+                int damage = NPC.GetProjectileDamage(type);
+                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
             }
         }
 

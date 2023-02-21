@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             Item.damage = 12;
             Item.mana = 10;
-            Item.width = 10;
-            Item.height = 32;
+            Item.width = 32;
+            Item.height = 54;
             Item.useTime = Item.useAnimation = 35;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.shoot = ModContent.ProjectileType<PolypLauncherSentry>();
             Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
+            Item.sentry = true;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

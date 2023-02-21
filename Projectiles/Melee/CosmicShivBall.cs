@@ -32,8 +32,6 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 220;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 8;
         }
         public override void AI()
         {
@@ -90,9 +88,6 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 toTarget = Vector2.Normalize(target.Center - toSpawn) * 35f;
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), toSpawn, toTarget, ModContent.ProjectileType<GalaxyStar>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
             }
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 60);
-            target.AddBuff(BuffID.Frostburn, 60);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 60);
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 60);
         }
         // pretty much entirely from the Oracle circular damage code

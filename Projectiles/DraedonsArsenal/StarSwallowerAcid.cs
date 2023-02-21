@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -60,11 +59,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 Main.dust[idx].scale = 2f;
             }
             return true;
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
         public override bool PreDraw(ref Color lightColor)

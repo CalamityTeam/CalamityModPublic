@@ -45,6 +45,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             // Despawn
             if (!NPC.AnyNPCs(NPCID.KingSlime))
             {
+                NPC.life = 0;
+                NPC.HitEffect();
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;
@@ -138,7 +140,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         }
                     }
 
-                    SoundEngine.PlaySound(SoundID.Item8, NPC.position);
+                    SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                     int damage = NPC.GetProjectileDamage(type);
                     if (CalamityWorld.death || BossRushEvent.BossRushActive)
                     {

@@ -1,6 +1,7 @@
 ﻿using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Microsoft.Xna.Framework;
@@ -12,13 +13,13 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eye of Night");
-            Tooltip.SetDefault("Summons a diseased eyeball that fires cells which attach to enemies and inflict cursed flames");
+            Tooltip.SetDefault("Summons a diseased eyeball that fires cells which attach to enemies");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 24;
+            Item.damage = 28;
             Item.mana = 10;
             Item.width = Item.height = 36;
             Item.useTime = Item.useAnimation = 30;
@@ -49,10 +50,11 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<BelladonnaSpiritStaff>().
-                AddIngredient<StaffOfNecrosteocytes>().
                 AddIngredient<VileFeeder>().
+                AddIngredient<StaffOfNecrosteocytes>().
+                AddIngredient<BelladonnaSpiritStaff>().
                 AddIngredient(ItemID.ImpStaff).
+                AddIngredient<PurifiedGel>(10).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

@@ -15,12 +15,14 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
@@ -50,12 +52,40 @@ namespace CalamityMod.NPCs.Polterghast
         }
 
         private int despawnTimer = 600;
+        private int soundTimer = 0;
         private bool reachedChargingPoint = false;
+        private bool threeAM = false;
+        private int nameStage = 1;
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/PolterghastHit");
         public static readonly SoundStyle P2Sound = new("CalamityMod/Sounds/Custom/PolterghastP2Transition");
         public static readonly SoundStyle P3Sound = new("CalamityMod/Sounds/Custom/PolterghastP3Transition");
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/PolterghastSpawn");
         public static readonly SoundStyle PhantomSound = new("CalamityMod/Sounds/Custom/PolterghastPhantomSpawn");
+
+        public List<SoundStyle> creepySounds = new List<SoundStyle>
+        {
+            NPCs.DevourerofGods.DevourerofGodsHead.AttackSound,
+            NPCs.Providence.Providence.HolyRaySound,
+            NPCs.ExoMechs.Ares.AresBody.EnragedSound,
+            NPCs.ExoMechs.Ares.AresBody.LaserStartSound,
+            NPCs.ExoMechs.Thanatos.ThanatosHead.VentSound,
+            NPCs.SupremeCalamitas.SupremeCalamitas.SepulcherSummonSound,
+            NPCs.SupremeCalamitas.SupremeCalamitas.SpawnSound,
+            NPCs.Ravager.RavagerBody.LimbLossSound,
+            NPCs.HiveMind.HiveMind.RoarSound,
+            NPCs.Yharon.Yharon.RoarSound,
+            NPCs.DesertScourge.DesertScourgeHead.RoarSound,
+            NPCs.OldDuke.OldDuke.RoarSound,
+            NPCs.Abyss.ReaperShark.SearchRoarSound,
+            NPCs.Abyss.ReaperShark.EnragedRoarSound,
+            NPCs.Abyss.LuminousCorvina.ScreamSound,
+            NPCs.Abyss.DevilFish.MaskBreakSound,
+            NPCs.AdultEidolonWyrm.AdultEidolonWyrmHead.RoarSound,
+            NPCs.GreatSandShark.GreatSandShark.RoarSound,
+            NPCs.AcidRain.Mauler.RoarSound,
+            NPCs.AstrumDeus.AstrumDeusHead.DeathSound,
+            NPCs.AstrumAureus.AstrumAureus.HitSound
+        };
 
         public override void SetStaticDefaults()
         {
@@ -63,7 +93,7 @@ namespace CalamityMod.NPCs.Polterghast
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-			NPCID.Sets.MPAllowedEnemies[Type] = true;
+            NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -96,9 +126,19 @@ namespace CalamityMod.NPCs.Polterghast
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Screaming and crying, a cacophony of spirits in anguish tear through the narrow hallways of the dungeon, searching for more—alive or dead—to add to their numbers.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Screaming and crying, a cacophony of spirits in anguish tear through the narrow hallways of the dungeon, searching for more—alive or dead—to add to their numbers.")
             });
+        }
+
+        public override void ModifyTypeName(ref string typeName)
+        {
+            typeName = nameStage switch
+            {
+                2 => "Necroghast",
+                3 => "Necroplasm",
+                _ => "Polterghast",
+            };
         }
 
         public override void BossHeadSlot(ref int index)
@@ -126,6 +166,7 @@ namespace CalamityMod.NPCs.Polterghast
         {
             writer.Write(despawnTimer);
             writer.Write(reachedChargingPoint);
+            writer.Write(threeAM);
             CalamityGlobalNPC cgn = NPC.Calamity();
             writer.Write(cgn.newAI[0]);
             writer.Write(cgn.newAI[1]);
@@ -137,6 +178,7 @@ namespace CalamityMod.NPCs.Polterghast
         {
             despawnTimer = reader.ReadInt32();
             reachedChargingPoint = reader.ReadBoolean();
+            threeAM = reader.ReadBoolean();
             CalamityGlobalNPC cgn = NPC.Calamity();
             cgn.newAI[0] = reader.ReadSingle();
             cgn.newAI[1] = reader.ReadSingle();
@@ -187,13 +229,27 @@ namespace CalamityMod.NPCs.Polterghast
                 chargePhaseGateValue *= 0.5f;
 
             bool chargePhase = calamityGlobalNPC.newAI[0] >= chargePhaseGateValue;
-            int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1;
+            int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1; 
+            if (CalamityWorld.getFixedBoi)
+            {
+                chargeAmt = phase4 ? int.MaxValue : getPissed ? 6 : phase3 ? 4 : phase2 ? 3 : 2;
+            }
             float chargeVelocity = getPissed ? 28f : phase3 ? 24f : phase2 ? 22f : 20f;
             float chargeAcceleration = getPissed ? 0.7f : phase3 ? 0.6f : phase2 ? 0.55f : 0.5f;
             float chargeDistance = 480f;
             bool charging = NPC.ai[2] >= chargePhaseGateValue - 180f;
             bool reset = NPC.ai[2] >= chargePhaseGateValue + 120f;
             float speedUpDistance = 480f - 360f * (1f - lifeRatio);
+
+            if ((Main.time >= 27000 && Main.time < 30600 && Main.dayTime == false && CalamityWorld.getFixedBoi) || threeAM)
+            {
+                threeAM = true;
+                chargeVelocity *= 2;
+                chargeAcceleration *= 2;
+                chargeDistance *= 3;
+                if (!phase4)
+                chargeAmt *= 2;
+            }
 
             // Only get a new target while not charging
             if (!chargePhase)
@@ -239,8 +295,22 @@ namespace CalamityMod.NPCs.Polterghast
                 }
             }
 
+            // Play a random creepy sound every once in a while in the zenith seed
+            if (CalamityWorld.getFixedBoi)
+            {
+                soundTimer++;
+                int gate = threeAM ? 60 : phase4 ? 300 : phase3 ? 420 : phase2 ? 540 : 600;
+                if (soundTimer % gate == 0)
+                {
+                    SoundStyle[] creepyArray = creepySounds.ToArray();
+                    SoundStyle selectedSound = creepyArray[Main.rand.Next(0, creepyArray.Length - 1)];
+                    SoundEngine.PlaySound(selectedSound with { Pitch = selectedSound.Pitch - 0.8f, Volume = selectedSound.Volume - 0.2f}, NPC.Center);
+                }
+            }
+
             // Stop rain
-            CalamityMod.StopRain();
+            if (CalamityConfig.Instance.BossesStopWeather)
+                CalamityMod.StopRain();
 
             // Set time left
             if (NPC.timeLeft < 1800)
@@ -254,6 +324,16 @@ namespace CalamityMod.NPCs.Polterghast
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+
+                if (CalamityWorld.getFixedBoi)
+                {
+                    for (int I = 0; I < 3; I++)
+                    {
+                        int spawn = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(vector.X + (Math.Sin(I * 120) * 500)), (int)(vector.Y + (Math.Cos(I * 120) * 500)), ModContent.NPCType<PhantomFuckYou>(), NPC.whoAmI, 0, 0, 0, -1);
+                        NPC npc2 = Main.npc[spawn];
+                        npc2.ai[0] = I * 120;
+                    }
+                }
             }
 
             if (!player.ZoneDungeon && !bossRush && player.position.Y < Main.worldSurface * 16.0)
@@ -581,7 +661,7 @@ namespace CalamityMod.NPCs.Polterghast
                         // Emit dust
                         if (!reachedChargingPoint)
                         {
-                            SoundEngine.PlaySound(SoundID.Item125, NPC.position);
+                            SoundEngine.PlaySound(SoundID.Item125, NPC.Center);
                             for (int i = 0; i < 30; i++)
                             {
                                 int dust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 3f);
@@ -631,6 +711,7 @@ namespace CalamityMod.NPCs.Polterghast
                     NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, NPC.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
 
+            // Phase 1: "Polterghast"
             if (!phase2 && !phase3)
             {
                 NPC.damage = NPC.defDamage;
@@ -718,6 +799,8 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                 }
             }
+
+            // Phase 2: "Necroghast"
             else if (!phase3)
             {
                 if (NPC.ai[0] == 0f)
@@ -763,7 +846,8 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                 }
 
-                NPC.GivenName = "Necroghast";
+                // Actually changes name to Necroghast
+                nameStage = 2;
 
                 NPC.damage = (int)(NPC.defDamage * 1.2f);
                 NPC.defense = (int)(NPC.defDefense * 0.8f);
@@ -852,6 +936,8 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                 }
             }
+
+            // Phase 3: "Necroplasm"
             else
             {
                 NPC.HitSound = SoundID.NPCHit36;
@@ -871,7 +957,7 @@ namespace CalamityMod.NPCs.Polterghast
                     {
                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterPhantom>());
 
-                        if (expertMode)
+                        if (expertMode && !CalamityWorld.getFixedBoi)
                         {
                             for (int I = 0; I < 3; I++)
                             {
@@ -914,7 +1000,8 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                 }
 
-                NPC.GivenName = "Necroplasm";
+                // Actually changes name to Necroplasm
+                nameStage = 3;
 
                 NPC.damage = (int)(NPC.defDamage * 1.4f);
                 NPC.defense = (int)(NPC.defDefense * 0.5f);
@@ -981,6 +1068,11 @@ namespace CalamityMod.NPCs.Polterghast
                             Main.npc[num762].netUpdate = true;
                         }
                     }
+
+                    if (CalamityWorld.getFixedBoi)
+                    {
+                        NPC.GivenName = "Polterplasm";
+                    }
                 }
             }
         }
@@ -1000,14 +1092,14 @@ namespace CalamityMod.NPCs.Polterghast
             if (!DownedBossSystem.downedPolterghast)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    SoundEngine.PlaySound(ReaperShark.SearchRoarSound, Main.player[Main.myPlayer].position);
+                    SoundEngine.PlaySound(ReaperShark.SearchRoarSound, Main.player[Main.myPlayer].Center);
 
                 string key = "Mods.CalamityMod.GhostBossText";
                 Color messageColor = Color.RoyalBlue;
                 string sulfSeaBoostMessage = "Mods.CalamityMod.GhostBossText4";
                 Color sulfSeaBoostColor = AcidRainEvent.TextColor;
 
-                if (Main.rand.NextBool(20) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
+                if ((Main.rand.NextBool(20) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || CalamityWorld.getFixedBoi)
                 {
                     sulfSeaBoostMessage = "Mods.CalamityMod.AprilFools2"; // Goddamn boomer duke moments
                 }
@@ -1059,11 +1151,51 @@ namespace CalamityMod.NPCs.Polterghast
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<PolterghastRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<KnowledgePolterghast>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<LorePolterghast>(), desc: DropHelper.FirstKillText);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (threeAM)
+            {
+                int bloodBase = 120 - NPC.life / NPC.lifeMax;
+                float roughBloodCount = (float)Math.Sqrt(0.8f * bloodBase);
+                int exactBloodCount = (int)roughBloodCount;
+                // Chance for the final blood particle
+                if (Main.rand.NextFloat() < roughBloodCount - exactBloodCount)
+                    ++exactBloodCount;
+
+                // Velocity of the spurting blood also slightly increases with stacks.
+                float velStackMult = 1f + (float)Math.Log(bloodBase);
+
+                // Code copied from Shred which was copied from Violence.
+                for (int i = 0; i < exactBloodCount; ++i)
+                {
+                    int bloodLifetime = Main.rand.Next(22, 36);
+                    float bloodScale = Main.rand.NextFloat(0.6f, 0.8f);
+                    Color bloodColor = Color.Lerp(Color.Red, Color.DarkRed, Main.rand.NextFloat());
+                    bloodColor = Color.Lerp(bloodColor, new Color(51, 22, 94), Main.rand.NextFloat(0.65f));
+
+                    if (Main.rand.NextBool(20))
+                        bloodScale *= 2f;
+
+                    float randomSpeedMultiplier = Main.rand.NextFloat(1.25f, 2.25f);
+                    Vector2 bloodVelocity = Main.rand.NextVector2Unit() * velStackMult * randomSpeedMultiplier;
+                    bloodVelocity.Y -= 5f;
+                    BloodParticle blood = new BloodParticle(NPC.Center, bloodVelocity, bloodLifetime, bloodScale, bloodColor);
+                    GeneralParticleHandler.SpawnParticle(blood);
+                }
+                for (int i = 0; i < exactBloodCount / 3; ++i)
+                {
+                    float bloodScale = Main.rand.NextFloat(0.2f, 0.33f);
+                    Color bloodColor = Color.Lerp(Color.Red, Color.DarkRed, Main.rand.NextFloat(0.5f, 1f));
+                    Vector2 bloodVelocity = Main.rand.NextVector2Unit() * velStackMult * Main.rand.NextFloat(1f, 2f);
+                    bloodVelocity.Y -= 2.3f;
+                    BloodParticle2 blood = new BloodParticle2(NPC.Center, bloodVelocity, 20, bloodScale, bloodColor);
+                    GeneralParticleHandler.SpawnParticle(blood);
+                }
+            }
+
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
@@ -1100,6 +1232,12 @@ namespace CalamityMod.NPCs.Polterghast
 
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
             Color lightRed = new Color(255, 100, 100, 255);
+
+            if (threeAM)
+            {
+                color37 = Color.Red;
+                lightRed = Color.DarkRed;
+            }
 
             float chargePhaseGateValue = 480f;
             if (Main.getGoodWorld)
