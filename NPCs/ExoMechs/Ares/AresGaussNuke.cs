@@ -648,7 +648,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public override void ModifyTypeName(ref string typeName)
         {
-            if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].ModNPC<AresBody>().exoMechdusa)
+            int index = CalamityGlobalNPC.draedonExoMechPrime;
+
+            if (index < 0 || index >= Main.maxNPCs || Main.npc[index] is null)
+                return;
+
+            if (Main.npc[index].ModNPC<AresBody>().exoMechdusa)
             {
                 typeName = "XB-∞ Hekate Gauss Nuke";
             }
