@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.width = 64;
-            Item.damage = 150;
+            Item.damage = 120;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 28;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -36,11 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 16f;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, (int)(damage * 0.75), knockback, player.whoAmI, 0f, 0f);
-            return false;
-        }
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) => damage = (int)(damage * 0.75);
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {

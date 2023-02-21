@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("A fallen goddess, past her prime of faithful worshippers. She feels an intense hatred for any being with enough self awareness to pity her.")
+                new FlavorTextBestiaryInfoElement("Roused from her deep slumber in relatively recent years, her awakening acted as the catalyst for Azafure’s downfall. Little is known of her nature, other than what may be assumed of any other elemental.")
             });
         }
 

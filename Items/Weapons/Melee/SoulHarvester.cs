@@ -22,11 +22,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.width = 62;
-            Item.damage = 98;
+            Item.damage = 85;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 20;
+            Item.useAnimation = Item.useTime = 24;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 20;
             Item.useTurn = true;
             Item.knockBack = 7.5f;
             Item.UseSound = SoundID.Item71;

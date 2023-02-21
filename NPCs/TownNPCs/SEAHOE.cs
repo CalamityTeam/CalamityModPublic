@@ -222,7 +222,7 @@ namespace CalamityMod.NPCs.TownNPCs
                         displayThisText = "The Rune of Kos holds a significant portion of Providence's brand of magic, easily distinguishable from all others. Activating it in certain places would have some... risky consequences.";
                         break;
                     case 1f:
-                        displayThisText = "I do wonder what has happened to Braelor and Statis. I have heard or seen very little of either. In my days, both were great heros to those who worshiped the Gods. Have they been killed, captured, or are they simply in hiding?";
+                        displayThisText = "I do wonder what has happened to Braelor and Statis. I have heard or seen very little of either. In my days, both were great heroes to those who worshiped the Gods. Have they been killed, captured, or are they simply in hiding?";
                         break;
                 }
             }

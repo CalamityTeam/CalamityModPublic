@@ -513,7 +513,7 @@ namespace CalamityMod.CalPlayer
         public bool voidOfExtinction = false;
         public bool eArtifact = false;
         public bool dArtifact = false;
-        public bool gArtifact = false;
+        public bool auricSArtifact = false;
         public bool pArtifact = false;
         public bool giantPearl = false;
         public bool normalityRelocator = false;
@@ -584,10 +584,6 @@ namespace CalamityMod.CalPlayer
         public int icicleCooldown = 0;
         public bool RustyMedallionDroplets = false;
         public bool noStupidNaturalARSpawns = false;
-        public bool roverDrive = false;
-        public int roverDriveTimer = 0;
-        public int roverFrameCounter = 0;
-        public int roverFrame = 0;
         public int voidFrameCounter = 0;
         public int voidFrame = 0;
         public bool rottenDogTooth = false;
@@ -833,7 +829,7 @@ namespace CalamityMod.CalPlayer
         public bool gravityNormalizer = false;
         public bool flaskHoly = false;
         public bool tesla = false;
-        public bool teslaFreeze = false;
+        public bool galvanicCorrosion = false;
         public bool sulphurskin = false;
         public bool baguette = false;
         public bool vodka = false;
@@ -1622,7 +1618,7 @@ namespace CalamityMod.CalPlayer
             voidOfExtinction = false;
             eArtifact = false;
             dArtifact = false;
-            gArtifact = false;
+            auricSArtifact = false;
             pArtifact = false;
             giantPearl = false;
             normalityRelocator = false;
@@ -1660,7 +1656,6 @@ namespace CalamityMod.CalPlayer
             corrosiveSpine = false;
             RustyMedallionDroplets = false;
             noStupidNaturalARSpawns = false;
-            roverDrive = false;
             rottenDogTooth = false;
             angelicAlliance = false;
             BloomStoneRegen = false;
@@ -1851,7 +1846,7 @@ namespace CalamityMod.CalPlayer
             gravityNormalizer = false;
             flaskHoly = false;
             tesla = false;
-            teslaFreeze = false;
+            galvanicCorrosion = false;
             sulphurskin = false;
             baguette = false;
             trippy = false;
@@ -2169,7 +2164,6 @@ namespace CalamityMod.CalPlayer
             sulphurBubbleCooldown = 0;
             ladHearts = 0;
             prismaticLasers = 0;
-            roverDriveTimer = 0;
             angelicActivate = -1;
             resetHeightandWidth = false;
             noLifeRegen = false;
@@ -2272,7 +2266,7 @@ namespace CalamityMod.CalPlayer
             gravityNormalizer = false;
             flaskHoly = false;
             tesla = false;
-            teslaFreeze = false;
+            galvanicCorrosion = false;
             sulphurskin = false;
             baguette = false;
             flaskBrimstone = false;
@@ -3293,14 +3287,6 @@ namespace CalamityMod.CalPlayer
                 }
                 tailFrameUp = 0;
             }
-
-            int frameAmt = 11;
-            if (roverFrameCounter >= 7)
-            {
-                roverFrameCounter = -1;
-                roverFrame = roverFrame == frameAmt - 1 ? 0 : roverFrame + 1;
-            }
-            roverFrameCounter++;
 
             int frames = 4;
             if (voidFrameCounter >= 6)
@@ -4412,6 +4398,9 @@ namespace CalamityMod.CalPlayer
             {
                 switch (proj.type)
                 {
+                    case ProjectileID.MoonlordArrowTrail:
+                        damage = (int)(damage * 0.5);
+                        break;
                     case ProjectileID.CrystalShard:
                         damage = (int)(damage * 0.6);
                         break;
@@ -6369,6 +6358,17 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
+        #region Anomaly's Nanogun Kill Sound
+        public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
+        {
+            if (Player.whoAmI == Main.myPlayer && Player.ActiveItem().type == ModContent.ItemType<TheAnomalysNanogun>())
+            {
+                if (Main.rand.NextBool(20))
+                    SoundEngine.PlaySound(IjiDeathSound, Player.Center);
+            }
+        }
+        #endregion
+
         #region Nurse Modifications
         public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
         {
@@ -6582,8 +6582,8 @@ namespace CalamityMod.CalPlayer
 
             if (eArtifact)
             {
-                stealthGenStandstill += 0.1f;
-                stealthGenMoving += 0.1f;
+                stealthGenStandstill += 0.15f;
+                stealthGenMoving += 0.15f;
             }
 
             //Accessory modifiers can boost these stats
@@ -6917,17 +6917,6 @@ namespace CalamityMod.CalPlayer
             Color messageColor = Color.LightGray;
             Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
             CombatText.NewText(location, messageColor, Language.GetTextValue(text));
-        }
-        #endregion
-
-        #region Kill
-        public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
-        {
-            if (Player.whoAmI == Main.myPlayer && Player.ActiveItem().type == ModContent.ItemType<TheAnomalysNanogun>())
-            {
-                if (Main.rand.NextBool(20))
-                    SoundEngine.PlaySound(IjiDeathSound, Player.Center);
-            }
         }
         #endregion
     }

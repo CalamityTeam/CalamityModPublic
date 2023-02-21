@@ -26,18 +26,17 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.damage = 100;
+            Item.damage = 70;
             Item.DamageType = DamageClass.Melee;
             Item.width = Item.height = 52;
             Item.scale = 1.5f;
-            Item.useTime = 23;
-            Item.useAnimation = 23;
+            Item.useAnimation = Item.useTime = 28;
             Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 7.5f;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
-            Item.shoot = ModContent.ProjectileType<ProfanedSwordProj>();
+            Item.shoot = ModContent.ProjectileType<BrimstoneSwordProj>();
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.shootSpeed = 20f;
@@ -63,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                type = ModContent.ProjectileType<ProfanedSwordProj>();
+                type = ModContent.ProjectileType<BrimstoneSwordProj>();
             }
             else
             {

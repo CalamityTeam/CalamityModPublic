@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            Item.damage = 75;
+            Item.damage = 55;
             Item.knockBack = 5f;
             Item.useTime = 15;
             Item.useAnimation = 15;
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Tools
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int powderDamage = (int)(0.85f * damage);
-            int idx = Projectile.NewProjectile(source, position, velocity, type, powderDamage, knockback, player.whoAmI, 0f, 0f);
+            int idx = Projectile.NewProjectile(source, position, velocity, type, powderDamage, knockback, player.whoAmI);
             Main.projectile[idx].DamageType = DamageClass.Melee;
             return false;
         }

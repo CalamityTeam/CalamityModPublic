@@ -164,6 +164,15 @@ namespace CalamityMod.Effects
         internal static Effect SwingSprite;
         #endregion
 
+        //
+        // All below shaders created by Ozzatron
+        //
+        #region Ozz's Shaders
+
+        // Used on players and NPCs when they have the Miracle Blight debuff.
+        internal static Effect MiracleBlight;
+        #endregion
+
         // Shorthand to register a loaded shader in Terraria's graphics engine
         // All shaders registered this way are accessible under GameShaders.Misc
         // They will use the prefix described above
@@ -326,8 +335,6 @@ namespace CalamityMod.Effects
             FluidShaders = LoadShader("FluidShaders");
             #endregion
 
-            // to do: add miracle blight shader
-
             #region Loading Iban's Shaders
 
             SpreadTelegraph = LoadShader("SpreadTelegraph");
@@ -351,6 +358,12 @@ namespace CalamityMod.Effects
 
             SwingSprite = LoadShader("SwingSprite");
             RegisterScreenShader(SwingSprite, "SwingPass", "SwingSprite");
+            #endregion
+
+            #region Loading Ozz's Shaders
+
+            MiracleBlight = LoadShader("MiracleBlight");
+            RegisterMiscShader(MiracleBlight, "BlightPass", "MiracleBlight");
             #endregion
         }
     }

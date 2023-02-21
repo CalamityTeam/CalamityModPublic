@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.damage = 200;
+            Item.damage = 150;
             Item.knockBack = 13;
             Item.DamageType = DamageClass.Melee;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -42,8 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.width = 100;
             Item.height = 100;
             Item.autoReuse = true;
-            Item.useAnimation = 45;
-            Item.useTime = 45;
+            Item.useAnimation = Item.useTime = 72;
 
             Item.shoot = ModContent.ProjectileType<Rox1>();
             Item.shootSpeed = 10f;
@@ -237,11 +236,9 @@ namespace CalamityMod.Items.Weapons.Melee
             }
             else
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 2; i++)
                 {
-                    //Else shoot the spread of rock shards
-                    int rotation = Main.rand.Next(-10, 11);
-                    Vector2 pertubedspeed = new Vector2(velocity.X / 2, -10f * player.gravDir).RotatedBy(MathHelper.ToRadians(rotation));
+                    Vector2 pertubedspeed = new Vector2(velocity.X / 2, -10f * player.gravDir).RotatedByRandom(MathHelper.ToRadians(10f));
                     Projectile.NewProjectile(source, position.X, position.Y, pertubedspeed.X, pertubedspeed.Y, ModContent.ProjectileType<Rox1>(), (int)(damage * 0.5), 1f, player.whoAmI, Main.rand.Next(3));
                 }
                 RoxCanAlt = 0;

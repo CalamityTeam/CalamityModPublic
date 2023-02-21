@@ -11,8 +11,6 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Armor.Wulfrum;
 
 namespace CalamityMod.CalPlayer
 {
@@ -394,6 +392,18 @@ namespace CalamityMod.CalPlayer
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
                     drawInfo.DustCache.Add(dust);
+                }
+            }
+            if (calamityPlayer.miracleBlight)
+            {
+                // Violent dust fountain
+                for (int i = 0; i < 2; ++i)
+                {
+                    Vector2 dustCorner = Player.position - 2f * Vector2.One;
+                    Vector2 dustVel = Player.velocity + new Vector2(0f, Main.rand.NextFloat(-15f, -12f));
+                    int d =  Dust.NewDust(dustCorner, Player.width + 4, Player.height + 4, (int)CalamityDusts.MiracleBlight, dustVel.X, dustVel.Y);
+                    Main.dust[d].noGravity = true;
+                    drawInfo.DustCache.Add(d);
                 }
             }
             if (calamityPlayer.pFlames)

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Forsaken Saber");
-            Tooltip.SetDefault("Shoots three sand blades that alter their velocity as they travel");
+            Tooltip.SetDefault("Shoots two sand blades that alter their velocity as they travel");
             SacrificeTotal = 1;
         }
 
@@ -21,9 +21,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.width = 46;
             Item.damage = 65;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 18;
+            Item.useAnimation = Item.useTime = 18;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 18;
             Item.useTurn = true;
             Item.knockBack = 6;
             Item.UseSound = SoundID.Item1;
@@ -37,12 +36,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            for (int projectiles = 0; projectiles < 3; projectiles++)
-            {
-                float SpeedX = velocity.X + Main.rand.Next(-40, 41) * 0.05f;
-                float SpeedY = velocity.Y + Main.rand.Next(-40, 41) * 0.05f;
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.8), knockback, player.whoAmI);
-            }
+            // One randomly spread
+            Vector2 spreadVelocity = velocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.8f, 1.2f);
+            Projectile.NewProjectile(source, position, spreadVelocity, type, damage / 2, knockback * 0.5f, player.whoAmI);
+
+            // One at the cursor
+            Projectile.NewProjectile(source, position, velocity, type, damage / 2, knockback * 0.5f, player.whoAmI);
             return false;
         }
 

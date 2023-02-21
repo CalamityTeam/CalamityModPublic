@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class ArtAttack : ModItem
     {
-        public const int MaxDamageBoostTime = 240;
-        public const float MaxDamageBoostFactor = 20f;
+        public const int MaxDamageBoostTime = 300;
+        public const float MaxDamageBoostFactor = 25f;
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/ArtAttackCast");
         public override void SetStaticDefaults()
         {

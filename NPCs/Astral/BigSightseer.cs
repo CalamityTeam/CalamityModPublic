@@ -195,6 +195,7 @@ namespace CalamityMod.NPCs.Astral
             this.HideFromBestiary();
             DisplayName.SetDefault("Seeker Spit");
             Main.npcFrameCount[NPC.type] = 1;
+            NPCID.Sets.ProjectileNPC[Type] = true;
         }
 
         public override void SetDefaults()

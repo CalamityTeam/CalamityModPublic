@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatDebuffs
 {
-    public class TeslaFreeze : ModBuff
+    public class GalvanicCorrosion : ModBuff
     {
         public override void SetStaticDefaults()
         {
@@ -29,7 +29,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().teslaFreeze = true;
+            player.Calamity().galvanicCorrosion = true;
         }
     }
 }

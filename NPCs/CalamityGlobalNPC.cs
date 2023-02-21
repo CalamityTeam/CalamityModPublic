@@ -867,24 +867,24 @@ namespace CalamityMod.NPCs
                     damage = baseHellfireDoTValue / 4;
             }
 
-			// Daybroken
-			if (npc.daybreak)
-			{
-				int projAmt = 0;
-				for (int k = 0; k < Main.maxProjectiles; k++)
-				{
-					if (Main.projectile[k].active && Main.projectile[k].type == ProjectileID.Daybreak && Main.projectile[k].ai[0] == 1f && Main.projectile[k].ai[1] == npc.whoAmI)
-						projAmt++;
-				}
+            // Daybroken
+            if (npc.daybreak)
+            {
+                int projAmt = 0;
+                for (int k = 0; k < Main.maxProjectiles; k++)
+                {
+                    if (Main.projectile[k].active && Main.projectile[k].type == ProjectileID.Daybreak && Main.projectile[k].ai[0] == 1f && Main.projectile[k].ai[1] == npc.whoAmI)
+                        projAmt++;
+                }
 
-				if (projAmt == 0)
-					projAmt = 1;
+                if (projAmt == 0)
+                    projAmt = 1;
 
                 int baseDaybreakDoTValue = (int)(projAmt * 2 * 100 * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseDaybreakDoTValue;
                 if (damage < baseDaybreakDoTValue / 4)
                     damage = baseDaybreakDoTValue / 4;
-			}
+            }
 
             // Shadowflame
             if (npc.shadowFlame)
@@ -5388,6 +5388,28 @@ namespace CalamityMod.NPCs
                 Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
             }
 
+            if (miracleBlight > 0)
+            {
+                void spawnMiracleBlightDust()
+                {
+                    Vector2 dustCorner = npc.position - 2f * Vector2.One;
+                    Vector2 dustVel = npc.velocity + new Vector2(0f, Main.rand.NextFloat(-15f, -12f));
+                    Dust d = Dust.NewDustDirect(dustCorner, npc.width + 4, npc.height + 4, (int)CalamityDusts.MiracleBlight, dustVel.X, dustVel.Y);
+                    d.noGravity = true;
+                }
+                
+                // Miracle Blight spawned dust scales with the NPC's size
+                float blightDustFactor = 0.0005f;
+                float dustToCreate = blightDustFactor * npc.width * npc.height;
+                if (dustToCreate > 5f)
+                    dustToCreate = 5f;
+                for (int i = 0; i < (int)dustToCreate; ++i)
+                    spawnMiracleBlightDust();
+
+                if (dustToCreate < 1f && Main.rand.NextFloat() < dustToCreate)
+                    spawnMiracleBlightDust();
+            }
+
             if (astralInfection > 0)
             {
                 if (Main.rand.Next(5) < 3)
@@ -5619,7 +5641,7 @@ namespace CalamityMod.NPCs
                     if (tSad > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TemporalSadness").Value);
                     if (tesla > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TeslaFreeze").Value);
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/GalvanicCorrosion").Value);
                     if (timeSlow > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TimeDistortion").Value);
                     if (wDeath > 0)
@@ -5809,6 +5831,7 @@ namespace CalamityMod.NPCs
             }
             else
             {
+                // VHex and Miracle Blight visuals do not appear if Odd Mushroom is in use for sanity reasons
                 if (npc.Calamity().vulnerabilityHex > 0)
                 {
                     float compactness = npc.width * 0.6f;
@@ -5824,6 +5847,24 @@ namespace CalamityMod.NPCs
                 }
                 else
                     VulnerabilityHexFireDrawer = null;
+
+                if (npc.Calamity().miracleBlight > 0)
+                {
+                    // this is horrible but I can't figure out a better way to do it
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+                    MiscShaderData msd = GameShaders.Misc["CalamityMod:MiracleBlight"];
+                    msd.SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons"), 1);
+                    msd.UseOpacity(0.48f);
+                    DrawData dd = new()
+                    {
+                        texture = TextureAssets.Npc[npc.type].Value,
+                        position = npc.position - Main.screenPosition,
+                        sourceRect = npc.frame,
+                    };
+                    msd.Apply(dd);
+                }
             }
 
             // Draw a pillar of light and fade the background as an animation when skipping things in the DD2 event.
@@ -5855,7 +5896,7 @@ namespace CalamityMod.NPCs
             {
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-                var midnightShader = Terraria.Graphics.Shaders.GameShaders.Armor.GetShaderFromItemId(ItemID.MidnightRainbowDye);
+                var midnightShader = GameShaders.Armor.GetShaderFromItemId(ItemID.MidnightRainbowDye);
                 midnightShader.Apply();
             }
             return true;

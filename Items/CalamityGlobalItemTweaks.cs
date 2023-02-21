@@ -379,7 +379,6 @@ namespace CalamityMod.Items
                 { ItemID.MonkStaffT1, Do(TrueMeleeNoSpeed, DamageExact(83)) }, // Sleepy Octopod
                 { ItemID.MonkStaffT2, Do(AutoReuse, TrueMelee, DamageRatio(2f)) }, // Ghastly Glaive
                 { ItemID.MonkStaffT3, Do(DamageExact(225)) }, // Sky Dragon's Fury
-                { ItemID.MoonlordArrow, Do(DamageExact(12)) }, // Luminite Arrow
 
                 // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT
                 { ItemID.MoonlordTurretStaff, Do(UseExact(15), DamageRatio(1.5f)) },
