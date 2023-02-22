@@ -538,7 +538,7 @@ namespace CalamityMod.CalPlayer
 
                     var yeetVec = Vector2.Normalize(Player.Center - touchedTile.ToWorldCoordinates());
                     Player.velocity += yeetVec * auricRejectionKB;
-                    Player.Hurt(PlayerDeathReason.ByCustomReason(Player.name + " was not worthy"), auricRejectionDamage, 0);
+                    Player.Hurt(PlayerDeathReason.ByCustomReason(Player.name + " was not worthy."), auricRejectionDamage, 0);
                     Player.AddBuff(BuffID.Electrified, 300);
                     SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/ExoMechs/TeslaShoot1"));
                 }
