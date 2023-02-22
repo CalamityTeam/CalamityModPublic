@@ -129,6 +129,26 @@ namespace CalamityMod
         public const string CalamityWikiURLOld = "calamitymod.wiki.gg";
         public const string CalamityWikiURL = "https://calamitymod.wiki.gg/wiki/{}";
 
+        /// <summary>
+        /// 1.0 = King Slime<br />
+        /// 2.0 = Eye of Cthulhu<br />
+        /// 3.0 = Eater of Worlds / Brain of Cthulhu<br />
+        /// 4.0 = Queen Bee<br />
+        /// 5.0 = Skeletron<br />
+        /// 6.0 = Deerclops<br />
+        /// 7.0 = Wall of Flesh<br />
+        /// 8.0 = Queen Slime<br />
+        /// 9.0 = The Twins<br />
+        /// 10.0 = The Destroyer<br />
+        /// 11.0 = Skeletron Prime<br />
+        /// 12.0 = Plantera<br />
+        /// 13.0 = Golem<br />
+        /// 14.0 = Betsy<br />
+        /// 15.0 = Empress of Light<br />
+        /// 16.0 = Duke Fishron<br />
+        /// 17.0 = Lunatic Cultist<br />
+        /// 18.0 = Moon Lord
+        /// </summary>
         private static readonly Dictionary<string, float> BossDifficulty = new Dictionary<string, float>
         {
             { "DesertScourge", 1.6f },
@@ -160,7 +180,7 @@ namespace CalamityMod
             { "OldDuke", 20.5f },
             { "DevourerOfGods", 21f },
             { "Yharon", 22f },
-            { "ExoMechs", 22.5f },
+            { "ExoMechs", 22.99f },
             { "Calamitas", 23f },
             { "AdultEidolonWyrm", 23.5f },
             // { "Yharim", 24f },
@@ -173,7 +193,7 @@ namespace CalamityMod
             { "Acid Rain Initial", 2.67f },
             { "Acid Rain Aquatic Scourge", 9.51f },
             { "Acid Rain Polterghast", 20.49f },
-            { "Boss Rush", 23.75f }
+            { "Boss Rush", 25.99f }
         };
 
         public static void Setup()
@@ -350,26 +370,6 @@ namespace CalamityMod
             return false;
         }
 
-        /// <summary>
-        /// 1.0 = King Slime<br />
-        /// 2.0 = Eye of Cthulhu<br />
-        /// 3.0 = Eater of Worlds / Brain of Cthulhu<br />
-        /// 4.0 = Queen Bee<br />
-        /// 5.0 = Skeletron<br />
-        /// 6.0 = Deerclops<br />
-        /// 7.0 = Wall of Flesh<br />
-        /// 8.0 = Queen Slime<br />
-        /// 9.0 = The Twins<br />
-        /// 10.0 = The Destroyer<br />
-        /// 11.0 = Skeletron Prime<br />
-        /// 12.0 = Plantera<br />
-        /// 13.0 = Golem<br />
-        /// 14.0 = Betsy<br />
-        /// 15.0 = Empress of Light<br />
-        /// 16.0 = Duke Fishron<br />
-        /// 17.0 = Lunatic Cultist<br />
-        /// 18.0 = Moon Lord
-        /// </summary>
         private static void BossChecklistSupport()
         {
             CalamityMod calamity = GetInstance<CalamityMod>();
@@ -397,7 +397,7 @@ namespace CalamityMod
                 int summon = ItemType<DesertMedallion>();
                 List<int> collection = new List<int>() { ItemType<DesertScourgeTrophy>(), ItemType<DesertScourgeMask>(), ItemType<LoreDesertScourge>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}] in the Desert Biome";
-                string despawn = CalamityUtils.ColorMessage("The scourge of the desert delved back into the sand.", new Color(0xEE, 0xE8, 0xAA));
+                string despawn = CalamityUtils.ColorMessage("The scourge of the desert delves back into the sand.", new Color(0xEE, 0xE8, 0xAA));
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/DesertScourge/DesertScourge_BossChecklist").Value;
                     Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
@@ -423,7 +423,7 @@ namespace CalamityMod
                 int summon = ItemType<DecapoditaSprout>();
                 List<int> collection = new List<int>() { ItemType<CrabulonTrophy>(), ItemType<CrabulonMask>(), ItemType<LoreCrabulon>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}] in the Mushroom Biome";
-                string despawn = CalamityUtils.ColorMessage("The mycleium crab has lost interest.", new Color(0x64, 0x95, 0xED));
+                string despawn = CalamityUtils.ColorMessage("The monstrous myclelial crab shuffles away…", new Color(0x64, 0x95, 0xED));
                 AddBoss(bossChecklist, calamity, "Crabulon", order, type, DownedCrabulon, summon, collection, instructions, despawn, () => true);
             }
 
@@ -434,7 +434,7 @@ namespace CalamityMod
                 int summon = ItemType<Teratoma>();
                 List<int> collection = new List<int>() { ItemType<HiveMindTrophy>(), ItemType<HiveMindMask>(), ItemType<LoreHiveMind>(), ItemType<RottingEyeball>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Kill a Tumor in the Corruption or use a [i:{summon}] in the Corruption";
-                string despawn = CalamityUtils.ColorMessage("The corrupted colony began searching for a new breeding ground.", new Color(0x94, 0x00, 0xD3));
+                string despawn = CalamityUtils.ColorMessage("The Hive Mind flits away to brood elsewhere.", new Color(0x94, 0x00, 0xD3));
                 string bossHeadTex = "CalamityMod/NPCs/HiveMind/HiveMindP2_Head_Boss";
                 AddBoss(bossChecklist, calamity, "The Hive Mind", order, type, DownedHiveMind, summon, collection, instructions, despawn, () => true, null, bossHeadTex);
             }
@@ -446,7 +446,7 @@ namespace CalamityMod
                 int summon = ItemType<BloodyWormFood>();
                 List<int> collection = new List<int>() { ItemType<PerforatorTrophy>(), ItemType<PerforatorMask>(), ItemType<LorePerforators>(), ItemType<BloodyVein>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Kill a Cyst in the Crimson or use a [i:{summon}] in the Crimson";
-                string despawn = CalamityUtils.ColorMessage("The parasitic hive began searching for a new host.", new Color(0xDC, 0x14, 0x3C));
+                string despawn = CalamityUtils.ColorMessage("The Perforators search for more hosts to gorge themselves on.", new Color(0xDC, 0x14, 0x3C));
                 AddBoss(bossChecklist, calamity, "The Perforators", order, type, DownedPerfs, summon, collection, instructions, despawn, () => true);
             }
 
@@ -457,7 +457,7 @@ namespace CalamityMod
                 int summon = ItemType<OverloadedSludge>();
                 List<int> collection = new List<int>() { ItemType<SlimeGodTrophy>(), ItemType<SlimeGodMask>(), ItemType<SlimeGodMask2>(), ItemType<LoreSlimeGod>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use an [i:{summon}]";
-                string despawn = CalamityUtils.ColorMessage("The gelatinous monstrosity achieved vengeance for its brethren.", new Color(0xBA, 0x55, 0x33));
+                string despawn = CalamityUtils.ColorMessage("The grimy, gelatinous God hops away, its vengeance achieved.", new Color(0xBA, 0x55, 0x33));
                 AddBoss(bossChecklist, calamity, "Slime God", order, bosses, DownedSlimeGod, summon, collection, instructions, despawn, () => true);
             }
 
@@ -468,7 +468,7 @@ namespace CalamityMod
                 int summon = ItemType<CryoKey>();
                 List<int> collection = new List<int>() { ItemType<CryogenTrophy>(), ItemType<CryogenMask>(), ItemType<LoreArchmage>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}] in the Snow Biome";
-                string despawn = CalamityUtils.ColorMessage("Cryogen drifts away, carried on a freezing wind.", new Color(0x00, 0xFF, 0xFF));
+                string despawn = CalamityUtils.ColorMessage("Cryogen disappears amidst the biting winds of the blizzard.", new Color(0x00, 0xFF, 0xFF));
                 string bossLogTex = "CalamityMod/NPCs/Cryogen/Cryogen_Phase1_Head_Boss";
                 AddBoss(bossChecklist, calamity, "Cryogen", order, type, DownedCryogen, summon, collection, instructions, despawn, () => true, null, bossLogTex);
             }
@@ -480,7 +480,7 @@ namespace CalamityMod
                 int summon = ItemType<Seafood>();
                 List<int> collection = new List<int>() { ItemType<AquaticScourgeTrophy>(), ItemType<AquaticScourgeMask>(), ItemType<LoreAquaticScourge>(), ItemType<LoreSulphurSea>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea";
-                string despawn = CalamityUtils.ColorMessage("The Aquatic Scourge swam back into the open ocean.", new Color(0xF0, 0xE6, 0x8C));
+                string despawn = CalamityUtils.ColorMessage("The poisoned scourge swims back to the tranquil, open ocean.", new Color(0xF0, 0xE6, 0x8C));
                 string bossLogTex = "CalamityMod/NPCs/AquaticScourge/AquaticScourgeHead_Head_Boss";
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AquaticScourge/AquaticScourge_BossChecklist").Value;
@@ -507,7 +507,7 @@ namespace CalamityMod
                 int summon = ItemType<CharredIdol>();
                 List<int> collection = new List<int>() { ItemType<BrimstoneElementalTrophy>(), ItemType<BrimstoneWaifuMask>(), ItemType<LoreAzafure>(), ItemType<LoreBrimstoneElemental>(), ItemType<CharredRelic>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}] in the Brimstone Crag";
-                string despawn = CalamityUtils.ColorMessage("Brimstone Elemental withdraws to the ruins of her shrine.", new Color(0xDC, 0x14, 0x3C));
+                string despawn = CalamityUtils.ColorMessage("The elemental ever maintains her somber vigil over Azafure…", new Color(0xDC, 0x14, 0x3C));
                 AddBoss(bossChecklist, calamity, "Brimstone Elemental", order, type, DownedBrimstoneElemental, summon, collection, instructions, despawn, () => true);
             }
 
@@ -518,7 +518,7 @@ namespace CalamityMod
                 int summon = ItemType<EyeofDesolation>();
                 List<int> collection = new List<int>() { ItemType<CalamitasCloneTrophy>(), ItemType<CataclysmTrophy>(), ItemType<CatastropheTrophy>(), ItemType<CalamitasCloneMask>(), ItemType<HoodOfCalamity>(), ItemType<RobesOfCalamity>(), ItemType<LoreCalamitasClone>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use an [i:{summon}] at Night";
-                string despawn = CalamityUtils.ColorMessage("If you wanted a fight, you should've came more prepared.", new Color(0xFF, 0xA5, 0x00));
+                string despawn = CalamityUtils.ColorMessage("The clone spits a bit of blood in disappointment and vanishes.", new Color(0xFF, 0xA5, 0x00));
                 AddBoss(bossChecklist, calamity, "The Calamitas Clone", order, type, DownedCalClone, summon, collection, instructions, despawn, () => true);
             }
 
@@ -529,17 +529,17 @@ namespace CalamityMod
                 int summon = ItemType<SandstormsCore>();
                 List<int> collection = new List<int>() { ItemID.MusicBoxSandstorm };
                 string instructions = $"Kill 10 sand sharks after defeating Plantera or use a [i:{summon}] in the Desert Biome";
-                string despawn = CalamityUtils.ColorMessage("The apex predator of the sands disappears into the dunes...", new Color(0xDA, 0xA5, 0x20));
+                string despawn = CalamityUtils.ColorMessage("The apex predator of the sands disappears between the dunes.", new Color(0xDA, 0xA5, 0x20));
                 AddMiniBoss(bossChecklist, calamity, "Great Sand Shark", order, type, DownedGSS, summon, collection, instructions, despawn, () => true);
             }
 
-            // Siren and Leviathan
+            // Anahita and Leviathan
             {
                 BossDifficulty.TryGetValue("Leviathan", out float order);
                 List<int> bosses = new List<int>() { NPCType<Leviathan>(), NPCType<Anahita>() };
                 List<int> collection = new List<int>() { ItemType<LeviathanTrophy>(), ItemType<AnahitaTrophy>(), ItemType<LeviathanMask>(), ItemType<AnahitaMask>(), ItemType<LoreAbyss>(), ItemType<LoreLeviathanAnahita>(), ItemType<ThankYouPainting>() };
                 string instructions = "By killing an unknown entity in the Ocean Biome";
-                string despawn = CalamityUtils.ColorMessage("The aquatic entities sink back beneath the ocean depths.", new Color(0x7F, 0xFF, 0xD4));
+                string despawn = CalamityUtils.ColorMessage("The aquatic outcasts return to their lonesome company.", new Color(0x7F, 0xFF, 0xD4));
 
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/AnahitaLevi_BossChecklist").Value;
@@ -556,7 +556,7 @@ namespace CalamityMod
                 int summon = ItemType<AstralChunk>();
                 List<int> collection = new List<int>() { ItemType<AstrumAureusTrophy>(), ItemType<AstrumAureusMask>(), ItemType<LoreAstrumAureus>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use an [i:{summon}] at Night in the Astral Biome";
-                string despawn = CalamityUtils.ColorMessage("Astrum Aureus' program has been executed. Initiate recall.", new Color(0xFF, 0xD7, 0x00));
+                string despawn = CalamityUtils.ColorMessage("Aureus has neutralized all threats. Resume prior reconnaissance.", new Color(0xFF, 0xD7, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/AstrumAureus/AstrumAureus_Head_Boss";
                 AddBoss(bossChecklist, calamity, "Astrum Aureus", order, type, DownedAureus, summon, collection, instructions, despawn, () => true, null, bossLogTex);
             }
@@ -568,7 +568,7 @@ namespace CalamityMod
                 int summon = ItemType<Abombination>();
                 List<int> collection = new List<int>() { ItemType<PlaguebringerGoliathTrophy>(), ItemType<PlaguebringerGoliathMask>(), ItemType<LorePlaguebringerGoliath>(), ItemType<PlagueCaller>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use an [i:{summon}] in the Jungle Biome";
-                string despawn = CalamityUtils.ColorMessage("HOSTILE SPECIMENS TERMINATED. INITIATE RECALL TO HOME BASE.", new Color(0x00, 0xFF, 0x00));
+                string despawn = CalamityUtils.ColorMessage("SPECIMENS EUTHANIZED. EXITING COMBAT PROTOCOL.", new Color(0x00, 0xFF, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliath_Head_Boss";
 
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
@@ -586,7 +586,7 @@ namespace CalamityMod
                 int summon = ItemType<DeathWhistle>();
                 List<int> collection = new List<int>() { ItemType<RavagerTrophy>(), ItemType<RavagerMask>(), ItemType<LoreRavager>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}]";
-                string despawn = CalamityUtils.ColorMessage("The automaton of misshapen victims went looking for the true perpetrator.", new Color(0xB2, 0x22, 0x22));
+                string despawn = CalamityUtils.ColorMessage("The Ravager resumes its aimless, horrific rampage.", new Color(0xB2, 0x22, 0x22));
                 string bossLogTex = "CalamityMod/NPCs/Ravager/RavagerBody_Head_Boss";
 
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
@@ -626,7 +626,7 @@ namespace CalamityMod
                 int summon = ItemType<ProfanedShard>();
                 List<int> collection = new List<int>() { ItemType<ProfanedGuardianTrophy>(), ItemType<ProfanedGuardianMask>(), ItemType<LoreProfanedGuardians>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}] in the Hallow or Underworld Biomes";
-                string despawn = CalamityUtils.ColorMessage("The guardians must protect their goddess at all costs.", new Color(0xFF, 0xA5, 0x00));
+                string despawn = CalamityUtils.ColorMessage("The Guardians are recalled to their Goddess' side.", new Color(0xFF, 0xA5, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianCommander_Head_Boss";
 
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
@@ -645,7 +645,7 @@ namespace CalamityMod
                 int summon = ItemType<ExoticPheromones>();
                 List<int> collection = new List<int>() { ItemType<DragonfollyTrophy>(), ItemType<BumblefuckMask>(), ItemType<LoreDragonfolly>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use [i:{summon}] in the Jungle Biome";
-                string despawn = CalamityUtils.ColorMessage("The failed experiment returns to its reproductive routine.", new Color(0xFF, 0xD7, 0x00));
+                string despawn = CalamityUtils.ColorMessage("The folly returns to its secluded roost.", new Color(0xFF, 0xD7, 0x00));
                 AddBoss(bossChecklist, calamity, "Dragonfolly", order, type, DownedBirb, summon, collection, instructions, despawn, () => true);
             }
 
@@ -656,7 +656,7 @@ namespace CalamityMod
                 int summon = ItemType<ProfanedCore>();
                 List<int> collection = new List<int>() { ItemType<ProvidenceTrophy>(), ItemType<ProvidenceMask>(), ItemType<LoreProvidence>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use [i:{summon}] in the Hallow or Underworld Biomes";
-                string despawn = CalamityUtils.ColorMessage("The Profaned Goddess vanishes in a burning blaze.", new Color(0xFF, 0xA5, 0x00));
+                string despawn = CalamityUtils.ColorMessage("The Profaned Goddess veils herself in purifying flame, leaving only ashes behind…", new Color(0xFF, 0xA5, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/Providence/Providence_Head_Boss";
 
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
@@ -674,7 +674,7 @@ namespace CalamityMod
                 int summon = ItemType<RuneofKos>();
                 List<int> collection = new List<int>() { ItemType<CeaselessVoidTrophy>(), ItemType<CeaselessVoidMask>(), ItemType<AncientGodSlayerHelm>(), ItemType<AncientGodSlayerChestplate>(), ItemType<AncientGodSlayerLeggings>(), ItemType<LoreCeaselessVoid>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}] in the Dungeon";
-                string despawn = CalamityUtils.ColorMessage("The rift in time and space has moved away from your reach.", new Color(0x4B, 0x00, 0x82));
+                string despawn = CalamityUtils.ColorMessage("The ancient spatial rift slips away to places unknown.", new Color(0x4B, 0x00, 0x82));
                 AddBoss(bossChecklist, calamity, "Ceaseless Void", order, bosses, DownedCeaselessVoid, summon, collection, instructions, despawn, () => true);
             }
 
@@ -685,7 +685,7 @@ namespace CalamityMod
                 int summon = ItemType<RuneofKos>();
                 List<int> collection = new List<int>() { ItemType<WeaverTrophy>(), ItemType<StormWeaverMask>(), ItemType<AncientGodSlayerHelm>(), ItemType<AncientGodSlayerChestplate>(), ItemType<AncientGodSlayerLeggings>(), ItemType<LoreStormWeaver>(), ItemType<LittleLight>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}] in Space";
-                string despawn = CalamityUtils.ColorMessage("Storm Weaver hid itself once again within the stormfront.", new Color(0xEE, 0x82, 0xEE));
+                string despawn = CalamityUtils.ColorMessage("Storm Weaver hides itself within the fierce anvilhead clouds.", new Color(0xEE, 0x82, 0xEE));
                 string bossLogTex = "CalamityMod/NPCs/StormWeaver/StormWeaverHead_Head_Boss";
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaver_BossChecklist").Value;
@@ -702,7 +702,7 @@ namespace CalamityMod
                 int summon = ItemType<RuneofKos>();
                 List<int> collection = new List<int>() { ItemType<SignusTrophy>(), ItemType<SignusMask>(), ItemType<AncientGodSlayerHelm>(), ItemType<AncientGodSlayerChestplate>(), ItemType<AncientGodSlayerLeggings>(), ItemType<LoreSignus>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}] in the Underworld";
-                string despawn = CalamityUtils.ColorMessage("The Devourer's assassin has finished its easy task.", new Color(0xBA, 0x55, 0xD3));
+                string despawn = CalamityUtils.ColorMessage("Signus inexplicably ceases to be where he once was.", new Color(0xBA, 0x55, 0xD3));
                 AddBoss(bossChecklist, calamity, "Signus", order, type, DownedSignus, summon, collection, instructions, despawn, () => true);
             }
 
@@ -713,7 +713,7 @@ namespace CalamityMod
                 int summon = ItemType<NecroplasmicBeacon>();
                 List<int> collection = new List<int>() { ItemType<PolterghastTrophy>(), ItemType<PolterghastMask>(), ItemType<LorePolterghast>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Kill 30 phantom spirits or use a [i:{summon}] in the Dungeon";
-                string despawn = CalamityUtils.ColorMessage("The volatile spirits disperse throughout the depths of the dungeon.", new Color(0xB0, 0xE0, 0xE6));
+                string despawn = CalamityUtils.ColorMessage("The volatile phantasm disperses in an echoing wail.", new Color(0xB0, 0xE0, 0xE6));
                 AddBoss(bossChecklist, calamity, "Polterghast", order, bosses, DownedPolterghast, summon, collection, instructions, despawn, () => true);
             }
 
@@ -723,7 +723,7 @@ namespace CalamityMod
                 int type = NPCType<Mauler>();
                 int summon = ItemType<CausticTear>();
                 string instructions = $"Spawns during Acid Rain after Polterghast has been defeated.\nStart Acid Rain with a [i:{summon}]";
-                string despawn = CalamityUtils.ColorMessage("The ravenous shark has mauled everybody's corpses.", new Color(0xF0, 0xE6, 0x8C));
+                string despawn = CalamityUtils.ColorMessage("The brutish shark looks elsewhere to turn its aggression.", new Color(0xF0, 0xE6, 0x8C));
                 AddMiniBoss(bossChecklist, calamity, "Mauler", order, type, DownedMauler, null, null, instructions, despawn, () => true);
             }
 
@@ -733,7 +733,7 @@ namespace CalamityMod
                 int type = NPCType<NuclearTerror>();
                 int summon = ItemType<CausticTear>();
                 string instructions = $"Spawns during Acid Rain after Polterghast has been defeated.\nStart Acid Rain with a [i:{summon}]";
-                string despawn = CalamityUtils.ColorMessage("The radioactive monstrosity has further enforced its name.", new Color(0xF0, 0xE6, 0x8C));
+                string despawn = CalamityUtils.ColorMessage("The radioactive aberration fades away in a sickly light.", new Color(0xF0, 0xE6, 0x8C));
                 AddMiniBoss(bossChecklist, calamity, "Nuclear Terror", order, type, DownedNuclearTerror, null, null, instructions, despawn, () => true);
             }
 
@@ -744,7 +744,7 @@ namespace CalamityMod
                 int summon = ItemType<BloodwormItem>();
                 List<int> collection = new List<int>() { ItemType<OldDukeTrophy>(), ItemType<OldDukeMask>(), ItemType<LoreOldDuke>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Defeat the Acid Rain event post-Polterghast or fish using a [i:{summon}] in the Sulphurous Sea";
-                string despawn = CalamityUtils.ColorMessage("The old duke disappears amidst the acidic downpour.", new Color(0xF0, 0xE6, 0x8C));
+                string despawn = CalamityUtils.ColorMessage("The old duke retreats further into the acidic downpour.", new Color(0xF0, 0xE6, 0x8C));
                 AddBoss(bossChecklist, calamity, "Old Duke", order, bosses, DownedBoomerDuke, summon, collection, instructions, despawn, () => true);
             }
 
@@ -755,7 +755,7 @@ namespace CalamityMod
                 int summon = ItemType<CosmicWorm>();
                 List<int> collection = new List<int>() { ItemType<DevourerofGodsTrophy>(), ItemType<DevourerofGodsMask>(), ItemType<LoreDevourerofGods>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}]";
-                string despawn = CalamityUtils.ColorMessage("The Devourer of Gods has slain everyone and feasted on their essence.", new Color(0x00, 0xFF, 0xFF));
+                string despawn = CalamityUtils.ColorMessage("The Devourer of Gods haughtily returns to the depths of the Distortion.", new Color(0x00, 0xFF, 0xFF));
                 string bossHeadTex = "CalamityMod/NPCs/DevourerofGods/DevourerofGodsHead_Head_Boss";
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGods_BossChecklist").Value;
@@ -772,7 +772,7 @@ namespace CalamityMod
                 int summon = ItemType<YharonEgg>();
                 List<int> collection = new List<int>() { ItemType<YharonTrophy>(), ItemType<YharonMask>(), ItemType<LoreYharon>(), ItemType<ForgottenDragonEgg>(), ItemType<McNuggets>(), ItemType<FoxDrive>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}]";
-                string despawn = CalamityUtils.ColorMessage("Yharon found you too weak to stay near your gravestone.", new Color(0xFF, 0xA5, 0x00));
+                string despawn = CalamityUtils.ColorMessage("Yharon soars out of sight, his task fulfilled.", new Color(0xFF, 0xA5, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/Yharon/Yharon_Head_Boss";
                 AddBoss(bossChecklist, calamity, "Yharon", order, type, DownedYharon, summon, collection, instructions, despawn, () => true, null, bossLogTex);
             }
@@ -786,7 +786,7 @@ namespace CalamityMod
                 List<int> bosses = new List<int>() { NPCType<Apollo>(), NPCType<AresBody>(), NPCType<Artemis>(), NPCType<ThanatosHead>() };
                 List<int> collection = new List<int>() { ItemType<AresTrophy>(), ItemType<ThanatosTrophy>(), ItemType<ArtemisTrophy>(), ItemType<ApolloTrophy>(), ItemType<DraedonMask>(), ItemType<AresMask>(), ItemType<ThanatosMask>(), ItemType<ArtemisMask>(), ItemType<ApolloMask>(), ItemType<LoreExoMechs>(), ItemType<LoreCynosure>(), ItemType<ThankYouPainting>() };
                 string instructions = "By using a high-tech computer";
-                string despawn = CalamityUtils.ColorMessage("An imperfection after all... what a shame.", new Color(0x7F, 0xFF, 0xD4));
+                string despawn = CalamityUtils.ColorMessage("An imperfection after all… what a shame.", new Color(0x7F, 0xFF, 0xD4));
 
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = Request<Texture2D>("CalamityMod/NPCs/ExoMechs/ExoMechs_BossChecklist").Value;
