@@ -600,8 +600,8 @@ namespace CalamityMod.UI.DraedonSummoning
                         var netMessage = CalamityMod.Instance.GetPacket();
                         netMessage.Write((byte)CalamityModMessageType.CodebreakerSummonStuff);
                         netMessage.Write(CalamityWorld.DraedonSummonCountdown);
-                        netMessage.Write(CalamityWorld.DraedonMechdusa);
                         netMessage.WriteVector2(CalamityWorld.DraedonSummonPosition);
+                        netMessage.Write(CalamityWorld.DraedonMechdusa);
                         netMessage.Send();
                     }
                 }

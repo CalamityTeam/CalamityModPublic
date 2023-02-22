@@ -216,6 +216,7 @@ namespace CalamityMod
                     case CalamityModMessageType.CodebreakerSummonStuff:
                         CalamityWorld.DraedonSummonCountdown = reader.ReadInt32();
                         CalamityWorld.DraedonSummonPosition = reader.ReadVector2();
+                        CalamityWorld.DraedonMechdusa = reader.ReadBoolean();
                         break;
                     case CalamityModMessageType.ExoMechSelection:
                         CalamityWorld.DraedonMechToSummon = (ExoMech)reader.ReadInt32();
