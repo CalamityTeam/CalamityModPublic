@@ -39,9 +39,9 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<HallowedRune>().
-                AddIngredient<RuinousSoul>(5).
-                AddIngredient<Onyxplate>(25).
                 AddIngredient<ExodiumCluster>(20).
+                AddIngredient<Onyxplate>(25).
+                AddIngredient<RuinousSoul>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

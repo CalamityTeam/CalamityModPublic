@@ -4420,7 +4420,7 @@ namespace CalamityMod.NPCs
                             for (int i = 0; i < numBeamPortals; i++)
                             {
                                 float ai1 = i * degrees;
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), player.Center.X + (float)(Math.Sin(i * degrees) * beamPortalDistance), player.Center.Y + (float)(Math.Cos(i * degrees) * beamPortalDistance), 0f, 0f, type, damage, 0f, player.whoAmI, ai1, 0f);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), player.Center.X + (float)(Math.Sin(i * degrees) * beamPortalDistance), player.Center.Y + (float)(Math.Cos(i * degrees) * beamPortalDistance), 0f, 0f, type, damage, 0f, Main.myPlayer, ai1, 0f);
                             }
                         }
 

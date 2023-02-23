@@ -100,6 +100,7 @@ namespace CalamityMod
                 ModContent.ItemType<Baguette>(),
                 ItemID.BBQRibs,
                 ItemID.BlackCurrant,
+                ModContent.ItemType<BlasphemousDonut>(),
                 ItemID.BloodOrange,
                 ItemID.BloodyMoscato,
                 ItemID.BowlofSoup,
