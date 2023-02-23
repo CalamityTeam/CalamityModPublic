@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -418,6 +419,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             npcLoot.AddIf(() => NPC.downedGolemBoss, ItemID.MartianConduitPlating, 1, 10, 30);
             npcLoot.Add(ModContent.ItemType<EssenceofSunlight>(), 3);
             npcLoot.Add(ModContent.ItemType<TheTransformer>(), 10);
+            var postML = npcLoot.DefineConditionalDropSet(() => NPC.downedMoonlord);
+            postML.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<ExodiumCluster>(), 1, 8, 12, 11, 16));
         }
     }
 }
