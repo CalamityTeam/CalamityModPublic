@@ -771,7 +771,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (boostVelocityToCatchUp)
                     velocity *= 2f;
 
-                float distanceToStayAwayFromTargetForSpears = 400f;
+                float distanceToStayAwayFromTargetForSpears = 640f;
                 Vector2 destination = player.Center + Vector2.UnitX * distanceToStayAwayFromTargetForSpears * -NPC.direction;
                 Vector2 targetVector = destination - NPC.Center;
                 Vector2 desiredVelocity = targetVector.SafeNormalize(new Vector2(NPC.direction, 0f)) * velocity;
@@ -841,7 +841,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         {
                             knockbackVelocity *= 2f;
                             int baseProjectileAmt = (bossRush || biomeEnraged) ? 8 : expertMode ? 6 : 4;
-                            int spread = (bossRush || biomeEnraged) ? 36 : expertMode ? 30 : 24;
+                            int spread = (bossRush || biomeEnraged) ? 60 : expertMode ? 50 : 40;
                             float rotation = MathHelper.ToRadians(spread);
                             for (int i = 0; i < baseProjectileAmt; i++)
                             {
