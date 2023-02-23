@@ -130,6 +130,7 @@ namespace CalamityMod
         public const string CalamityWikiURL = "https://calamitymod.wiki.gg/wiki/{}";
 
         /// <summary>
+        /// <b>Vanilla main bosses:</b><br />
         /// 1.0 = King Slime<br />
         /// 2.0 = Eye of Cthulhu<br />
         /// 3.0 = Eater of Worlds / Brain of Cthulhu<br />
@@ -156,12 +157,12 @@ namespace CalamityMod
             { "Crabulon", 2.7f },
             { "HiveMind", 3.98f },
             { "Perforators", 3.99f },
-            { "SlimeGod", 6.5f },
+            { "SlimeGod", 6.7f }, // Thorium Granite Energy Storm is 6.4f, Buried Champion is 6.5f, and Star Scouter is 6.9f
             { "Cryogen", 8.5f },
             { "AquaticScourge", 9.5f },
             { "CragmawMire", 9.52f },
             { "BrimstoneElemental", 10.5f },
-            { "CalamitasClone", 11.7f },
+            { "CalamitasClone", 11.7f }, // Thorium Lich is 11.6f
             { "GreatSandShark", 12.09f },
             { "Leviathan", 12.8f },
             { "AstrumAureus", 12.81f },
@@ -170,10 +171,10 @@ namespace CalamityMod
             { "AstrumDeus", 17.5f },
             { "ProfanedGuardians", 18.5f },
             { "Dragonfolly", 18.6f },
-            { "Providence", 19.01f }, // Thorium's Ragnarok will most likely be 19f
-            { "CeaselessVoid", 19.5f },
-            { "StormWeaver", 19.51f },
-            { "Signus", 19.52f },
+            { "Providence", 19f }, // Thorium Primordials (Ragnarok) is 19.5f
+            { "CeaselessVoid", 19.6f },
+            { "StormWeaver", 19.61f },
+            { "Signus", 19.62f },
             { "Polterghast", 20f },
             { "Mauler", 20.491f },
             { "NuclearTerror", 20.492f },
