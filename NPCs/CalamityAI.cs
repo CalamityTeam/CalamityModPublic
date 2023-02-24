@@ -2735,7 +2735,7 @@ namespace CalamityMod.NPCs
                                 for (int i = 0; i < maxProjectiles; i++)
                                 {
                                     Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(maxProjectiles - 1)));
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, walkingProjectileVelocity * 2f);
                                 }
 
                                 if (phase3)
@@ -2773,7 +2773,7 @@ namespace CalamityMod.NPCs
                                     if (i != lasersToNotFire[0] && i != lasersToNotFire[1] && i != lasersToNotFire[2] && i != lasersToNotFire[3] && i != lasersToNotFire[4] && i != lasersToNotFire[5])
                                     {
                                         Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(maxProjectiles - 1)));
-                                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, walkingProjectileVelocity * 2f);
                                     }
                                 }
                             }
@@ -3109,7 +3109,7 @@ namespace CalamityMod.NPCs
                                 if (i != lasersToNotFire[0] && i != lasersToNotFire[1] && i != lasersToNotFire[2] && i != lasersToNotFire[3])
                                 {
                                     Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(maxProjectiles - 1)));
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, laserVelocity * 2f);
                                 }
                             }
                         }
@@ -4074,9 +4074,11 @@ namespace CalamityMod.NPCs
                     float shootProjectile = 400 / shootTime;
                     float timer = npc.ai[0] + 15f;
                     float divisor = timer + shootProjectile;
+                    bool shootGodRays = phase2 || deathModeEnragePhase_BodyAndTail;
                     if (!flyAtTarget || deathModeEnragePhase_BodyAndTail)
                     {
-                        if (npc.localAI[0] % divisor == 0f && npc.ai[0] % 2f == 0f)
+                        float laserDivisor = (phase2 && !deathModeEnragePhase_BodyAndTail) ? 4f : 2f;
+                        if (npc.localAI[0] % divisor == 0f && npc.ai[0] % laserDivisor == 0f)
                         {
                             npc.TargetClosest();
 
@@ -4090,6 +4092,7 @@ namespace CalamityMod.NPCs
                                     vector15 *= Main.rand.Next(90, 121) * 0.01f;
                                     velocity = vector15;
                                 }
+
                                 int type = ModContent.ProjectileType<DeusMine>();
                                 int damage = npc.GetProjectileDamage(type);
                                 float split = (splittingMines && npc.ai[0] % 3f == 0f) ? 1f : 0f;
@@ -4098,7 +4101,7 @@ namespace CalamityMod.NPCs
 
                             if (Vector2.Distance(player.Center, npc.Center) > 80f)
                             {
-                                SoundEngine.PlaySound((phase2 || deathModeEnragePhase_BodyAndTail) ? SoundID.Item91 : SoundID.Item12, npc.Center);
+                                SoundEngine.PlaySound(shootGodRays ? SoundID.Item91 : SoundID.Item12, npc.Center);
                                 float num941 = (death ? 16f : revenge ? 14f : 13f) + enrageScale * 4f;
                                 Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
                                 float num942 = player.position.X + player.width * 0.5f - vector104.X;
@@ -4111,9 +4114,9 @@ namespace CalamityMod.NPCs
                                 vector104.Y += num943 * 5f;
                                 Vector2 shootDirection = new Vector2(num942, num943).SafeNormalize(Vector2.UnitY);
                                 Vector2 laserVelocity = shootDirection * num941;
-                                int type = (phase2 || deathModeEnragePhase_BodyAndTail) ? ModContent.ProjectileType<AstralGodRay>() : ModContent.ProjectileType<AstralShot2>();
+                                int type = shootGodRays ? ModContent.ProjectileType<AstralGodRay>() : ModContent.ProjectileType<AstralShot2>();
                                 int damage = npc.GetProjectileDamage(type);
-                                if (phase2 || deathModeEnragePhase_BodyAndTail)
+                                if (shootGodRays)
                                 {
                                     // Waving beams need to start offset so they cross each other neatly.
                                     float waveSideOffset = Main.rand.NextFloat(9f, 14f);

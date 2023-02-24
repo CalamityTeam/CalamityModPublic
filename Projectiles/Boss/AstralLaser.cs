@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class AstralLaser : ModProjectile
@@ -25,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 720;
+            Projectile.timeLeft = 1200;
             Projectile.extraUpdates = 1;
         }
 
@@ -39,6 +40,20 @@ namespace CalamityMod.Projectiles.Boss
             }
             if (Projectile.frame > 2)
                 Projectile.frame = 0;
+
+            // Speed up after some time
+            if (Projectile.timeLeft < 600 && Main.expertMode)
+            {
+                if (Projectile.velocity.Length() < Projectile.ai[1])
+                {
+                    Projectile.velocity *= 1.005f;
+                    if (Projectile.velocity.Length() > Projectile.ai[1])
+                    {
+                        Projectile.velocity.Normalize();
+                        Projectile.velocity *= Projectile.ai[1];
+                    }
+                }
+            }
 
             if (Projectile.velocity.X < 0f)
             {
