@@ -360,17 +360,6 @@ namespace CalamityMod
 
         #endregion
 
-        // REMOVE THIS IN CALAMITY 1.4, it's a 1.4 World.cs function.
-        // Due to its temporary state, this method will not receive an XML documentation comment.
-        public static Rectangle ClampToWorld(Rectangle tileRectangle)
-        {
-            int num = Math.Max(0, Math.Min(tileRectangle.Left, Main.maxTilesX));
-            int num2 = Math.Max(0, Math.Min(tileRectangle.Top, Main.maxTilesY));
-            int num3 = Math.Max(0, Math.Min(tileRectangle.Right, Main.maxTilesX));
-            int num4 = Math.Max(0, Math.Min(tileRectangle.Bottom, Main.maxTilesY));
-            return new Rectangle(num, num2, num3 - num, num4 - num2);
-        }
-
         // REMOVE THIS IN CALAMITY 1.4, it's a 1.4 Utils.cs function.
         // Due to its temporary state, this method will not receive an XML documentation comment.
         public static Vector2 MoveTowards(this Vector2 currentPosition, Vector2 targetPosition, float maxAmountAllowedToMove)
