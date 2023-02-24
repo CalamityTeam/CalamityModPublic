@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using CalamityMod.UI.CalamitasEnchants;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -270,7 +271,7 @@ namespace CalamityMod
         /// This allows the user's actual keybind choices to be shown to them in tooltips.
         /// </summary>
         /// <param name="mhk">The ModKeybind to convert to a string.</param>
-        /// <returns></returns>
+        /// <returns>The tooltip as a string that can be placed in a tooltip.</returns>
         public static string TooltipHotkeyString(this ModKeybind mhk)
         {
             if (Main.dedServ || mhk is null)
@@ -288,6 +289,51 @@ namespace CalamityMod
                 for (int i = 1; i < keys.Count; ++i)
                     sb.Append(" / ").Append(keys[i]);
                 return sb.ToString();
+            }
+        }
+
+        // Original code lifted from Iban's extended armor tooltips.
+        /// <summary>
+        /// Performs standard edits to a list of tooltip lines to add more if the Left SHIFT key is held down.<br />
+        /// Optionally, hides the normal tooltip to replace it entirely.
+        /// </summary>
+        /// <param name="tooltips">The tooltip list provided to a <b>ModifyTooltips</b> TML hook.</param>
+        /// <param name="holdShiftTooltips">An array of tooltip lines to add. Instantiate these yourself with C# elaborate new syntax.</param>
+        /// <param name="hideNormalTooltip">Set to true to replace the normal tooltip when holding SHIFT. Otherwise both tooltips will show at once.</param>
+        public static void HoldShiftTooltip(List<TooltipLine> tooltips, TooltipLine[] holdShiftTooltips, bool hideNormalTooltip = false)
+        {
+            // Only perform any changes while holding SHIFT.
+            if (!Main.keyState.IsKeyDown(Keys.LeftShift))
+                return;
+
+            // Get the first index, last index and total count of standard vanilla tooltip lines.
+            // The first index and count are used to delete all vanilla tooltips when holding SHIFT, if requested.
+            // The last index is used to insert the "Hold SHIFT" tooltips in the right position.
+            int firstTooltipIndex = -1;
+            int lastTooltipIndex = -1;
+            int standardTooltipCount = 0;
+            for (int i = 0; i < tooltips.Count; i++)
+            {
+                if (tooltips[i].Name.StartsWith("Tooltip"))
+                {
+                    if (firstTooltipIndex == -1)
+                        firstTooltipIndex = i;
+                    lastTooltipIndex = i;
+                    standardTooltipCount++;
+                }
+            }
+
+            if (firstTooltipIndex != -1)
+            {
+                // If asked to, remove all standard tooltip lines. This moves the last tooltip index.
+                if (hideNormalTooltip)
+                {
+                    tooltips.RemoveRange(firstTooltipIndex, standardTooltipCount);
+                    lastTooltipIndex -= standardTooltipCount;
+                }
+
+                // Append every "Hold SHIFT" tooltip at the end of standard tooltips.
+                tooltips.InsertRange(lastTooltipIndex + 1, holdShiftTooltips);
             }
         }
 
