@@ -330,6 +330,7 @@ namespace CalamityMod.Items
                     evilBossTwo.Add(ModContent.ItemType<AerialiteOre>(), 5, 16, 28); // 20% 16-28 Aerialite Ore
                     evilBossTwo.Add(ModContent.ItemType<AerialiteBar>(), fifteenPercent, 4, 7); // 15% 4-7 Aerialite Bar
                     loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofSunlight>(), 5, 2, 4); // 20% 2-4 Essence of Sunlight
+                    loot.AddIf(() => NPC.downedMoonlord, ModContent.ItemType<ExodiumCluster>(), 5, 16, 28); // 20% 16-28 Exodium Clusters
                     break;
 
                 case ItemID.FrozenCrate:
@@ -342,7 +343,7 @@ namespace CalamityMod.Items
 
                 case ItemID.LavaCrate:
                 case ItemID.LavaCrateHard:
-                    loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofHavoc>(), 5, 2, 4); // 20% 2-4 Essence of Chaos
+                    loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofHavoc>(), 5, 2, 4); // 20% 2-4 Essence of Havoc
                     break;
 
                 // Calamity does not touch Oasis Crates yet

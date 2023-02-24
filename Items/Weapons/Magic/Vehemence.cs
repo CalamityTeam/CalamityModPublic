@@ -17,8 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vehemence");
-            Tooltip.SetDefault("Casts intense bolts of hellish power that explode into skulls\n" +
-                "Direct hits inflict Demon Flames for an extended period of time");
+            Tooltip.SetDefault("Casts intense bolts of hellish power that explode into skulls");
             Item.staff[Item.type] = true;
             SacrificeTotal = 1;
         }

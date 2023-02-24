@@ -204,43 +204,69 @@ namespace CalamityMod.CalPlayer
         public bool HandleHorizontalDash(out DashDirection direction)
         {
             direction = DashDirection.Directionless;
-            bool justDashed = false;
+            bool dashWasExecuted = false;
 
             // If the manual hotkey is bound, standard Terraria dashes cannot be triggered by double tapping.
-            bool manualHotkeyBound = CalamityKeybinds.DashHotkey.GetAssignedKeys().Count > 0;
-            bool pressedManualHotkey = CalamityKeybinds.DashHotkey.JustPressed;
+            var manualDashHotkeys = CalamityKeybinds.DashHotkey.GetAssignedKeys();
+            bool manualHotkeyBound = (manualDashHotkeys?.Count ?? 0) > 0;
+            bool pressedManualHotkey = manualHotkeyBound && CalamityKeybinds.DashHotkey.JustPressed;
 
-            bool vanillaRightDashInput = Player.controlRight && Player.releaseRight && !manualHotkeyBound;
-            bool manualRightDashInput = pressedManualHotkey && Player.direction == 1;
-            bool executeRightDash = vanillaRightDashInput || manualRightDashInput;
+            int dashDirectionToUse = 0;
 
-            bool vanillaLeftDashInput = Player.controlLeft && Player.releaseLeft && !manualHotkeyBound;
-            bool manualLeftDashInput = pressedManualHotkey && Player.direction == -1;
-            bool executeLeftDash = vanillaLeftDashInput || manualLeftDashInput;
+            // The manual hotkey is bound. Dashing is controlled solely by this hotkey. Vanilla inputs will not function.
+            if (pressedManualHotkey)
+            {
+                // If you are holding D but not A, then always dash right.
+                if (Player.controlRight && !Player.controlLeft)
+                    dashDirectionToUse = 1;
+                // If you are holding A but not D, then always dash left.
+                else if (Player.controlLeft && !Player.controlRight)
+                    dashDirectionToUse = -1;
 
-            if (executeRightDash)
+                // If you are holding neither A nor D, or holding both, then dash in the direction the player is moving.
+                // If the player is not moving at all, then dash the direction the player is facing.
+                else
+                {
+                    if (MathF.Abs(Player.velocity.X) <= 0.01f)
+                        dashDirectionToUse = Player.direction;
+                    else
+                        dashDirectionToUse = Player.velocity.X > 0f ? 1 : -1;
+                }
+            }
+
+            // The manual hotkey is not bound. Dashing is controlled via vanilla inputs.
+            else if (!manualHotkeyBound)
+            {
+                // Check whether or not a horizontal dash was declared via vanilla methods this frame.
+                bool vanillaLeftDashInput = !manualHotkeyBound && Player.controlLeft && Player.releaseLeft;
+                bool vanillaRightDashInput = !manualHotkeyBound && Player.controlRight && Player.releaseRight;
+                dashDirectionToUse = vanillaRightDashInput ? 1 : vanillaLeftDashInput ? -1 : 0;
+            }
+
+
+            if (dashDirectionToUse == 1)
             {
                 if (dashTimeMod > 0 || pressedManualHotkey)
                 {
                     direction = DashDirection.Right;
-                    justDashed = true;
+                    dashWasExecuted = true;
                     dashTimeMod = 0;
                 }
                 else
                     dashTimeMod = 15;
             }
-            else if (executeLeftDash)
+            else if (dashDirectionToUse == -1)
             {
                 if (dashTimeMod < 0 || pressedManualHotkey)
                 {
                     direction = DashDirection.Left;
-                    justDashed = true;
+                    dashWasExecuted = true;
                     dashTimeMod = 0;
                 }
                 else
                     dashTimeMod = -15;
             }
-            return justDashed;
+            return dashWasExecuted;
         }
 
         public bool HandleOmnidirectionalDash(out DashDirection direction)
