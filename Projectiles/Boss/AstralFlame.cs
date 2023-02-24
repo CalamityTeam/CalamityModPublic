@@ -94,8 +94,8 @@ namespace CalamityMod.Projectiles.Boss
                     Projectile.velocity.Normalize();
                     Projectile.velocity *= scaleFactor2;
                 }
-                else if (Projectile.velocity.Length() < 12f)
-                    Projectile.velocity *= 1.01f;
+                else if (Projectile.velocity.Length() < (death ? 15f : 12f))
+                    Projectile.velocity *= death ? 1.015f : 1.01f;
 
                 Projectile.ai[1] += 1f;
             }
