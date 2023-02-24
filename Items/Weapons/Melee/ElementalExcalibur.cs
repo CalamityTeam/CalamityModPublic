@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
@@ -144,10 +143,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
-            target.AddBuff(BuffID.Frostburn, 300);
-            target.AddBuff(BuffID.OnFire, 360);
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
 
             if (!target.canGhostHeal || player.moonLeech)
                 return;
@@ -159,10 +155,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
-            target.AddBuff(BuffID.Frostburn, 300);
-            target.AddBuff(BuffID.OnFire, 360);
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
 
             if (player.moonLeech)
                 return;

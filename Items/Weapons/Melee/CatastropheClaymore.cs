@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Catastrophe Claymore");
-            Tooltip.SetDefault("Fires sparkles which inflicts Frostbite, Hellfire, or Ichor");
+            Tooltip.SetDefault("Fires sparkles which inflict Frostbite, Hellfire, or Ichor");
             SacrificeTotal = 1;
         }
 
