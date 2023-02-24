@@ -24,8 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.width = Item.height = 120;
             Item.damage = 616;
             Item.knockBack = 8.5f;
-            Item.useAnimation = 16; //Has to be different than UseTime to prevent clockwork
-            Item.useTime = 17;
+            Item.useAnimation = Item.useTime = 18;
             Item.DamageType = RogueDamageClass.Instance;
             Item.autoReuse = true;
             Item.shootSpeed = 18f;

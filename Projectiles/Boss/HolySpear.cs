@@ -72,14 +72,16 @@ namespace CalamityMod.Projectiles.Boss
                     velocity = Projectile.velocity;
             }
 
-            float timeGateValue = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 420f : (Projectile.ai[0] == -1f ? 360f : 540f);
+            bool commanderSpear = Projectile.ai[0] == -1f;
+            bool enragedCommanderSpear = Projectile.ai[0] == -2f;
+            float timeGateValue = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 420f : ((commanderSpear || enragedCommanderSpear) ? 360f : 540f);
             if (Projectile.ai[0] <= 0f)
             {
                 Projectile.ai[1] += 1f;
 
-                float slowGateValue = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 60f : (Projectile.ai[0] == -1f ? 30f : 90f);
+                float slowGateValue = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 60f : ((commanderSpear || enragedCommanderSpear) ? 30f : 90f);
                 float fastGateValue = 30f;
-                float minVelocity = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 4f : (Projectile.ai[0] == -1f ? 4.5f : 3f);
+                float minVelocity = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? 4f : (enragedCommanderSpear ? 6f : commanderSpear ? 4.5f : 3f);
                 float maxVelocity = minVelocity * 4f;
                 float extremeVelocity = maxVelocity * 2f;
                 float deceleration = 0.95f;

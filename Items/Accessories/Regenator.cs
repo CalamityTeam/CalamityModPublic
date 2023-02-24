@@ -34,10 +34,12 @@ namespace CalamityMod.Items.Accessories
             //No lifesteal, no regen, no healing pots
             if (player.statLife >= (int)(player.statLifeMax2 * 0.5f))
             {
-                player.statLife = (int)(player.statLifeMax2 * 0.5f);
-                player.lifeRegenCount = 0;
+                player.statLife = (int)(player.statLifeMax2 * 0.5f);    
                 player.moonLeech = true;
                 modPlayer.healingPotBonus = 0;
+
+                if (player.lifeRegenCount > 0)
+                    player.lifeRegenCount = 0;
             }
         }
     }

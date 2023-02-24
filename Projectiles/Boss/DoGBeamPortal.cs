@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-            Player player = Main.player[Projectile.owner];
+            Player player = Main.player[Main.npc[CalamityGlobalNPC.voidBoss].target];
 
             if (start)
             {

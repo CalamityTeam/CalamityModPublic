@@ -261,7 +261,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         NPC.Calamity().newAI[2] += 1f;
 
                     if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f) &&
-                        NPC.Calamity().newAI[2] >= 300f && Vector2.Distance(NPC.Center, player.Center) > 300f &&
+                        NPC.Calamity().newAI[2] >= 300f && Vector2.Distance(NPC.Center, player.Center) > 320f &&
                         Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                     {
                         if (NPC.Calamity().newAI[2] % 30f == 0f)
