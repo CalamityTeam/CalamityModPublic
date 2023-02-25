@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Accessories
                 "Ranged attacks that strike a bullseye always critically strike and deal massive damage\n" +
                 "When a bullseye is struck, it vanishes and a new one appears elsewhere\n" +
                 "Explosions or large projectiles cannot strike bullseyes\n" +
-                "Shots ricocheted off of tossed coins will target bullseyes, but deal less damage\n" +
+                "Shots ricocheted off of tossed coins will target bullseyes, but use a lower crit multiplier\n" +
                 "Converts all ranged critical strike chance boosts into extra critical strike damage\n" +
                 "All ranged weapons will deal even more critical strike damage the slower they are\n" +
                 "Summons a heroic spirit from another world if accessory visibility is enabled\n" +
