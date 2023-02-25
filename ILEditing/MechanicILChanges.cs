@@ -1309,5 +1309,29 @@ namespace CalamityMod.ILEditing
                 self.Calamity().CalamityFireDyeShader = GameShaders.Armor.GetShaderFromItemId(dyeItem.type);
         }
         #endregion Find Calamity Item Dye Shader
+
+        #region Scopes Require Visibility to Zoom
+        private static void ScopesRequireVisibilityToZoom(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+
+            // Search for the only place in the function where Player.scope is set to true.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchStfld<Player>("scope")))
+            {
+                LogFailure("Scopes Require Visibility to Zoom", "Could not locate where player is set to have a scope equipped.");
+                return;
+            }
+
+            // Pop the useless 1 off the stack.
+            cursor.Emit(OpCodes.Pop);
+
+            // Load argument 2 (hideVisual bool) onto the stack.
+            cursor.Emit(OpCodes.Ldarg_2);
+
+            cursor.EmitDelegate<Func<bool, bool>>((x) => !x);
+
+            // The next (untouched) instruction stores this value into Player.scope.
+        }
+        #endregion
     }
 }

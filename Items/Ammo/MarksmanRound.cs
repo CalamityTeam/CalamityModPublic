@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Ammo
         {
             SacrificeTotal = 99;
             DisplayName.SetDefault("Marksman Round");
-            Tooltip.SetDefault("A carefully crafted round which can be ricocheted off of midair coins\nAny gun firing this bullet can perform Ricoshots with coins tossed using Midas Prime");
+            Tooltip.SetDefault("A carefully crafted round which can be ricocheted off of midair coins\n" +
+                "This allows other guns to utilize the coins tossed by Crackshot Colt and Midas Prime");
         }
 
         public override void SetDefaults()
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Ammo
             Item.knockBack = 2.25f;
             Item.value = Item.sellPrice(copper: 10);
             Item.rare = ItemRarityID.LightRed;
-            Item.shoot = ModContent.ProjectileType<MidasBlast>();
+            Item.shoot = ModContent.ProjectileType<MarksmanShot>();
             Item.shootSpeed = 1f;
             Item.ammo = AmmoID.Bullet;
         }

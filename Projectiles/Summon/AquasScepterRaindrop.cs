@@ -19,10 +19,10 @@ namespace CalamityMod.Projectiles.Summon
 			Projectile.ignoreWater = true;
 			Projectile.friendly = true; 
 			Projectile.DamageType = DamageClass.Summon; 
-			Projectile.penetrate = 1; 
+			Projectile.penetrate = 2; 
 			Projectile.timeLeft = 120;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 8;
 		}
 
 		public override bool? CanCutTiles() {
@@ -31,6 +31,10 @@ namespace CalamityMod.Projectiles.Summon
 		public override bool MinionContactDamage() {
 			return true;
 		}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Projectile.damage = (int)(Projectile.damage * 0.6f);
+        }
         public override void AI()
         {
             if (Projectile.timeLeft <= 8)

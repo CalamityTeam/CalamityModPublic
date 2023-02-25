@@ -4585,29 +4585,29 @@ namespace CalamityMod.NPCs
             //
             // DAAWNLIGHT SPIRIT ORIGIN AIM IMPLEMENTATION
             //
-            int bullseyeType = ProjectileType<SpiritOriginBullseye>();
-            Projectile bullseye = null;
-            for (int i = 0; i < Main.maxProjectiles; i++)
+            if (modPlayer.spiritOrigin && projectile.CountsAsClass<RangedDamageClass>())
             {
-                if (Main.projectile[i].type != bullseyeType || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
-                    continue;
-
-                // Only choose a bullseye if it is attached to the NPC that is being hit.
-                if (npc.whoAmI == (int)Main.projectile[i].ai[0])
+                int bullseyeType = ProjectileType<SpiritOriginBullseye>();
+                Projectile bullseye = null;
+                for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    bullseye = Main.projectile[i];
-                    break;
-                }
-            }
+                    if (Main.projectile[i].type != bullseyeType || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
+                        continue;
 
-            // Don't allow large hitbox projectiles or explosions to "snipe" enemies.
-            // Hitbox criteria were changed to allow long one dimensional projectiles so that Condemnation would work.
-            bool hitBullseye = false;
-            bool acceptableVelocity = projectile.velocity != Vector2.Zero;
-            bool acceptableHitbox = (projectile.width < 36) || (projectile.height < 36);
-            if (bullseye != null && projectile.CountsAsClass<RangedDamageClass>() && acceptableVelocity && acceptableHitbox)
-            {
-                if (bullseye != null)
+                    // Only choose a bullseye if it is attached to the NPC that is being hit.
+                    if (npc.whoAmI == (int)Main.projectile[i].ai[0])
+                    {
+                        bullseye = Main.projectile[i];
+                        break;
+                    }
+                }
+
+                // Don't allow large hitbox projectiles or explosions to "snipe" enemies.
+                // Hitbox criteria were changed to allow long one dimensional projectiles so that Condemnation would work.
+                bool hitBullseye = false;
+                bool acceptableVelocity = projectile.velocity != Vector2.Zero;
+                bool acceptableHitbox = (projectile.width < 36) || (projectile.height < 36);
+                if (bullseye != null && acceptableVelocity && acceptableHitbox)
                 {
                     // Bullseyes are visually different on bosses and thus have larger hitboxes.
                     float bullseyeRadius = npc.IsABoss() ? DaawnlightSpiritOrigin.BossBullseyeRadius : DaawnlightSpiritOrigin.RegularEnemyBullseyeRadius;
@@ -4646,12 +4646,12 @@ namespace CalamityMod.NPCs
 
                 // TODO -- Use the 1.4 spawn context system for this.
                 // This suffers from the same issues as current crit logic in vanilla, but I have no idea how to do this better without said system.
-                if (modPlayer.spiritOrigin && crit)
+                if (crit)
                 {
                     // Crits have their damage doubled after ModifyHitNPC, in the StrikeNPC function.
                     // Here, damage is divded by 2 to compensate for that.
                     // This means that the bonus provided by Daawnlight Spirit Origin can be computed as a complete replacement to regular crits.
-                    float mult = DaawnlightSpiritOrigin.GetDamageMultiplier(player, modPlayer, hitBullseye) / 2f;
+                    float mult = DaawnlightSpiritOrigin.GetDamageMultiplier(player, modPlayer, hitBullseye, cgp.forcedCrit) / 2f;
                     damage = (int)(damage * mult);
                 }
             }

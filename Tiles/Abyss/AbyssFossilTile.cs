@@ -14,10 +14,11 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
-
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(29, 37, 58));
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Abyss Shell Fossil");
+            AddMapEntry(new Color(29, 37, 58), name);
             DustType = 33;
         }
 

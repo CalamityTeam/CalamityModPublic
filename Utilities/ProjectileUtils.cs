@@ -1,12 +1,13 @@
-﻿using CalamityMod.Projectiles.Magic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee.Yoyos;
+using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
