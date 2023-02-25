@@ -811,7 +811,6 @@ namespace CalamityMod.CalPlayer
         public bool flaskBrimstone = false;
         public bool fabsolVodka = false;
         public bool mushy = false;
-        public bool molten = false;
         public bool shellBoost = false;
         public bool cFreeze = false;
         public bool shine = false;
@@ -1856,7 +1855,6 @@ namespace CalamityMod.CalPlayer
             shine = false;
             anechoicCoating = false;
             mushy = false;
-            molten = false;
             shellBoost = false;
             cFreeze = false;
             tRegen = false;
@@ -2274,7 +2272,6 @@ namespace CalamityMod.CalPlayer
             shine = false;
             anechoicCoating = false;
             mushy = false;
-            molten = false;
             enraged = false;
             shellBoost = false;
             cFreeze = false;
