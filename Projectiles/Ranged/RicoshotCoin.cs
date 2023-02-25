@@ -27,6 +27,11 @@ namespace CalamityMod.Projectiles.Ranged
         // This is intentionally higher than the intra-coin distance to make it easier to land successful ricoshots.
         public static readonly float RicoshotSearchDistance = 2000f;
 
+        // Superprediction ratio for ricoshot targeting of DSO bullseyes and NPCs.
+        // Valid range is 0.0 to 1.0.
+        // Because ricoshots have slight frame delays for dramatic effect, setting this too high will make them miss hilariously.
+        public static readonly float SuperpredictionRatio = 0.1f;
+
         // The first copper coin struck adds +50% damage. Copper coins beyond the first add +15% damage.
         // Maximum: 4 copper coins = +95%
         internal static float CopperBonus = 0.5f;

@@ -175,8 +175,14 @@ namespace CalamityMod
                     foundAnyBullseye = true;
                     closestBullseyeDistance = bullseyeDistance;
                     ret.type = RicoshotTargetType.Bullseye;
-                    ret.pos = proj.Center;
                     ret.entityID = proj.whoAmI;
+
+                    NPC bullseyesOwner = Main.npc[(int)proj.ai[0]];
+                    float currentSpeed = theShot.velocity.Length();
+                    Vector2 superpredictiveVelocity = CalculatePredictiveAimToTarget(startPos, bullseyesOwner, currentSpeed);
+                    Vector2 superpredictiveDirection = superpredictiveVelocity.SafeNormalize(Vector2.Zero);
+                    Vector2 superprediction = startPos + superpredictiveDirection * bullseyeDistance;
+                    ret.pos = Vector2.Lerp(proj.Center, superprediction, RicoshotCoin.SuperpredictionRatio);
                 }
             }
 
@@ -190,8 +196,13 @@ namespace CalamityMod
             if (targetNPC != null)
             {
                 ret.type = RicoshotTargetType.NPC;
-                ret.pos = targetNPC.Center;
                 ret.entityID = targetNPC.whoAmI;
+
+                float currentSpeed = theShot.velocity.Length();
+                Vector2 superpredictiveVelocity = CalculatePredictiveAimToTarget(startPos, targetNPC, currentSpeed);
+                Vector2 superpredictiveDirection = superpredictiveVelocity.SafeNormalize(Vector2.Zero);
+                Vector2 superprediction = startPos + superpredictiveDirection * targetNPC.Distance(startPos);
+                ret.pos = Vector2.Lerp(targetNPC.Center, superprediction, RicoshotCoin.SuperpredictionRatio);
                 return ret;
             }
 
