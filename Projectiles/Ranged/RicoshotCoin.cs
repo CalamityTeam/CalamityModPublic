@@ -32,20 +32,31 @@ namespace CalamityMod.Projectiles.Ranged
         // Because ricoshots have slight frame delays for dramatic effect, setting this too high will make them miss hilariously.
         public static readonly float SuperpredictionRatio = 0.1f;
 
-        // The first copper coin struck adds +50% damage. Copper coins beyond the first add +15% damage.
-        // Maximum: 4 copper coins = +95%
-        internal static float CopperBonus = 0.5f;
-        internal static float CopperMulticoinBonus = 0.15f;
+        // The first copper coin struck adds +70% damage. Copper coins beyond the first add +20% damage.
+        // Maximum: 4 copper coins = +130%
+        //
+        // The copper numbers are intentionally significantly lower because Crackshot Colt is pre-boss.
+        // That, and the mechanic will always be available because they're dirt cheap. Killing a single enemy lets you perform dozens more ricoshots.
+        internal static float CopperBonus = 0.7f;
+        internal static float CopperMulticoinBonus = 0.2f;
 
-        // The first silver coin struck adds +100% damage. Silver coins beyond the first add +25% damage.
-        // Maximum: 4 silver coins = +175%
-        internal static float SilverBonus = 1f;
-        internal static float SilverMulticoinBonus = 0.25f;
+        // The first silver coin struck adds +150% damage. Silver coins beyond the first add +50% damage.
+        // Maximum: 4 silver coins = +300%
+        //
+        // Midas Prime uses coins from the piggy bank, so you will almost always be using gold.
+        // Silver is not much worse than gold, because if you're broke and can't use gold you shouldn't be significantly penalized.
+        // However, spending multiple silver on a multi-ricoshot is not too expensive, so the multicoin bonus is much lower.
+        internal static float SilverBonus = 1.5f;
+        internal static float SilverMulticoinBonus = 0.5f;
 
-        // The first gold coin struck adds +150% damage. Gold coins beyond the first add +50% damage.
-        // Maximum: 4 gold coins = +300%
-        internal static float GoldBonus = 1.5f;
-        internal static float GoldMulticoinBonus = 0.5f;
+        // The first gold coin struck adds +200% damage. Gold coins beyond the first add +85% damage.
+        // Maximum: 4 gold coins = +455%
+        //
+        // The intended usage of Midas Prime is with a single gold coin that you (ideally) pick up afterwards, especially when fighting normal enemies.
+        // Gold multicoins are intentionally stronger than copper or silver ones because multi-ricoshots delete the extra gold coins, and that gets pricey FAST.
+        // However, they can't be too strong, or the late-game burst damage abusability gets too ridiculous.
+        internal static float GoldBonus = 2f;
+        internal static float GoldMulticoinBonus = 0.85f;
 
         // Lifetime of a coin. Defined in terms of updates because Terraria's engine is trash.
         internal static readonly int UpdateCount = 4;
