@@ -83,6 +83,7 @@ namespace CalamityMod.Items
         public bool donorItem = false;
         public bool devItem = false;
         public bool canFirePointBlankShots = false;
+        public float grabRangeMultiplier = 1f;
 
         public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
 
@@ -123,6 +124,7 @@ namespace CalamityMod.Items
             myClone.donorItem = donorItem;
             myClone.devItem = devItem;
             myClone.canFirePointBlankShots = canFirePointBlankShots;
+            myClone.grabRangeMultiplier = grabRangeMultiplier;
 
             return myClone;
         }
@@ -1524,11 +1526,13 @@ namespace CalamityMod.Items
         #region GrabChanges
         public override void GrabRange(Item item, Player player, ref int grabRange)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            int itemGrabRangeBoost = 0 +
-                (modPlayer.reaverExplore ? 20 : 0);
+            // First, apply the grab range multiplier.
+            if (grabRangeMultiplier > 1f)
+                grabRange = (int)(grabRangeMultiplier * grabRange);
 
-            grabRange += itemGrabRangeBoost;
+            // Then, if wearing the appropriate Reaver armor, add 20 flat item grab range.
+            if (player.Calamity().reaverExplore)
+                grabRange += 20;
         }
         #endregion
 

@@ -1,45 +1,35 @@
 ﻿using System;
-using System.IO;
-using CalamityMod.Items.Materials;
+using System.Collections.Generic;
+using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using static CalamityMod.CalamityUtils;
-using CalamityMod.Projectiles.Ranged;
-using System.Collections.Generic;
-using static Microsoft.Xna.Framework.Input.Keys;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class MidasPrime : ModItem
     {
-        public static float MaxDownwardsAngle4Coin = MathHelper.PiOver4;
+        internal static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/CrackshotColtShot") { PitchVariance = 0.1f };
 
-        public static int ShotCoin = 0;
-        public static float SilverRicochetDamageMult = 1.5f;
-        public static float GoldRicochetDamageMult = 1.75f;
-        public static int RipeningTime = 100;
+        // Internal storage used to keep track between UseItem and Shoot hooks whether a gold coin was queued up
+        private bool nextShotGoldCoin = false;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Midas Prime");
-            Tooltip.SetDefault("Struck enemies drop extra coins\n" +
-                                "Right click to throw a coin in the air. Hitting the coin with a bullet redirects the shot into the nearest enemy\n" +
-                               "If you have multiple coins up in the air, bullets will first redirect towards other coins up to a maximum of 4\n" +
-                               "Coin ricochets will increase the damage of the bullet, provided the coins have been in the air for long enough\n" +
-                               "Coin throws consume gold and silver coins");
+            Tooltip.SetDefault("Right click to coss a Gold Coin or Silver Coin in the air\n" +
+                "Striking a coin with a bullet causes it to ricochet into the nearest enemy\n" +
+                "Up to 4 coins can be tossed simultaneously, and shots will ricochet off multiple coins if possible\n" +
+                "Ricocheted bullets always critically strike and do bonus damage based on the coins used");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 52;
+            Item.damage = 81;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 23;
             Item.height = 8;
@@ -50,155 +40,126 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 2.25f;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
-            Item.UseSound = CrackshotColt.ShootSound;
+            Item.UseSound = ShootSound;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<MidasBlast>();
+            Item.shoot = ModContent.ProjectileType<MarksmanShot>();
             Item.useAmmo = AmmoID.Bullet;
             Item.shootSpeed = 14f;
             Item.Calamity().canFirePointBlankShots = true;
         }
 
+        // This item has a right click.
         public override bool AltFunctionUse(Player player) => true;
+
+        // This item enables the automatic syncing of player mouse coordinates while held.
         public override void HoldItem(Player player) => player.Calamity().mouseWorldListener = true;
-        
-        public override bool CanConsumeAmmo(Item ammo, Player player) => player.altFunctionUse == 2 ? false : true;
+
+        // This item never uses ammo when right clicking.
+        public override bool CanConsumeAmmo(Item ammo, Player player) => player.altFunctionUse != 2;
 
         public override bool CanUseItem(Player player)
         {
+            // Two things are checked for right click:
+            // 1) The player has at least 1 silver coin to toss
+            // 2) The player doesn't have 4 ricoshot coins (of any type) in the air already
             if (player.altFunctionUse == 2)
             {
-                //Using player.CanBuyItem() breaks if the player has too many platinum coins
-                long coinCount = Utils.CoinsCount(out bool overflow, player.inventory);
-                return overflow || coinCount >= 100;
+                // player.CanBuyItem() breaks if the player has more than 2,147 platinum coins and was never fixed
+                // This alternative method works no matter how much money the player has
+                long cashAvailable = Utils.CoinsCount(out bool overflow, player.inventory);
+                if (cashAvailable < 100 && !overflow)
+                    return false;
+
+                return player.GetActiveRicoshotCoinCount() < 4;
             }
             return true;
         }
 
         public override bool? UseItem(Player player)
         {
+            // Remove either 1 gold (if possible) or 1 silver (otherwise) when using right click
             if (player.altFunctionUse == 2)
             {
-                long coinCount = Utils.CoinsCount(out bool overflow, player.inventory);
+                long cashAvailable = Utils.CoinsCount(out bool overflow, player.inventory);
 
-                if (overflow || coinCount > 10000)
+                // If the player has at least 1 gold in their inventory, spend it and use a gold coin
+                if (overflow || cashAvailable > 10000)
                 {
                     player.BuyItem(10000);
-                    ShotCoin = 1;
+                    nextShotGoldCoin = true;
                 }
 
+                // Otherwise, spend 1 silver and use a silver coin
                 else
                 {
                     player.BuyItem(100);
-                    ShotCoin = 0;
+                    nextShotGoldCoin = false;
                 }
-
-                //Clear prev coins
-                int ownedCoins = 0;
-                int oldestCoinIndex = -1;
-                int oldestCoinTime = 10000;
-                for (int i = 0; i < Main.maxProjectiles; i++)
-                {
-                    Projectile proj = Main.projectile[i];
-
-                    if (proj.active && proj.owner == player.whoAmI && proj.type == ModContent.ProjectileType<MidasCoin>())
-                    {
-                        ownedCoins++;
-                        if (proj.timeLeft < oldestCoinTime)
-                        {
-                            oldestCoinIndex = proj.whoAmI;
-                            oldestCoinTime = proj.timeLeft;
-                        }
-                    }
-                }
-
-                if (ownedCoins >= 4)
-                    Main.projectile[oldestCoinIndex].Kill();
-
             }
 
             return base.UseItem(player);
         }
 
+        // This hook is a convenient location to change the use sound.
         public override void UseAnimation(Player player)
         {
-            Item.UseSound = CrackshotColt.ShootSound; 
+            Item.UseSound = ShootSound; 
             if (player.altFunctionUse == 2)
-                Item.UseSound = CrackshotColt.BlingSound;
+                Item.UseSound = RicoshotCoin.BlingSound;
         }
 
+        // Coins can be tossed much faster than bullets can be fired.
         public override float UseSpeedMultiplier(Player player)
         {
             if (player.altFunctionUse == 2)
-                return 5f;
+                return 3f;
             return 1f;
         }
 
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            position -= Vector2.UnitY * 13f;
+            // Move all fired projectiles 15 pixels upwards so they don't come out of the player's groin
+            position -= Vector2.UnitY * 15f;
 
-            //Override every projectile
-            type = ModContent.ProjectileType<MidasBlast>();
+            // No matter what type of ammo is used, left click will fire a Marksman Round
+            type = ModContent.ProjectileType<MarksmanShot>();
 
+            // Right clicks toss coins instead
             if (player.altFunctionUse == 2)
             {
                 damage = 0;
-                type = ModContent.ProjectileType<MidasCoin>();
-
-                //Ok the velocity is flipped because the in world coordinates have 0 at the top, so to do the typical trigo stuff we flip it, you get me.
-                float shootAngle = (player.Calamity().mouseWorld - player.MountedCenter).ToRotation() * -1;
-
-                if (shootAngle > -MathHelper.Pi + MaxDownwardsAngle4Coin && shootAngle < -MathHelper.PiOver2)
-                    shootAngle = -MathHelper.Pi + MaxDownwardsAngle4Coin;
-
-                else if (shootAngle < -MaxDownwardsAngle4Coin && shootAngle >= -MathHelper.PiOver2)
-                    shootAngle = -MaxDownwardsAngle4Coin;
-
-                velocity = (shootAngle * -1).ToRotationVector2() * 1.3f - Vector2.UnitY * 1.12f + player.velocity / 4f;
+                type = ModContent.ProjectileType<RicoshotCoin>();
+                velocity = player.GetCoinTossVelocity();
             }
         }
 
+        // This shoot override is only needed to set ai[0] to be either 1f or 2f for silver and gold coins.
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, ShotCoin);
+                float coinAIVariable = nextShotGoldCoin ? 2f : 1f;
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, coinAIVariable);
                 return false;
             }
 
+            // Otherwise use default behavior (which is just to return true).
             return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
 
-
+        #region Hidden ULTRAKILL Reference Tooltip
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            if (Main.keyState.IsKeyDown(LeftShift))
-            {
-                int tooltipIndex = -1;
-                int tooltipCount = 0;
-
-                for (int i = 0; i < tooltips.Count; i++)
-                {
-                    if (tooltips[i].Name.StartsWith("Tooltip"))
-                    {
-                        if (tooltipIndex == -1)
-                            tooltipIndex = i;
-
-                        tooltipCount++;
-                    }
-                }
-
-                if (tooltipIndex != -1)
-                {
-                    tooltips.RemoveRange(tooltipIndex, tooltipCount);
-
-                    TooltipLine bloodIsFuel = new TooltipLine(Mod, "CalamityMod:HiddenTooltip", "MANKIND IS DEAD.\nBLOOD IS FUEL.\nHELL IS FULL.");
-                    bloodIsFuel.OverrideColor = Color.Red;
-                    tooltips.Insert(tooltipIndex, bloodIsFuel);
-                }
-            }
+            TooltipLine ultrakillIntro = new TooltipLine(Mod,
+                "CalamityMod:UltrakillIntroReference",
+                "MANKIND IS DEAD.\nBLOOD IS FUEL.\nHELL IS FULL.")
+            { OverrideColor = Color.Red };
+            CalamityUtils.HoldShiftTooltip(tooltips, new TooltipLine[] { ultrakillIntro });
         }
+        #endregion
 
+        // Make the gun have visible recoil when fired for extra cool factor.
+        #region Firing Animation
         public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             player.direction = Math.Sign((player.Calamity().mouseWorld - player.Center).X);
@@ -207,7 +168,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             Vector2 itemPosition = player.MountedCenter + itemRotation.ToRotationVector2() * 7f;
             Vector2 itemSize = new Vector2(50, 24);
             Vector2 itemOrigin = new Vector2(-17, 3);
+
             CalamityUtils.CleanHoldStyle(player, itemRotation, itemPosition, itemSize, itemOrigin);
+
             base.UseStyle(player, heldItemFrame);
         }
 
@@ -222,35 +185,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, rotation);
         }
+        #endregion
     }
-
-    public class MidasPrimeItem : GlobalItem
-    {
-        public override bool InstancePerEntity => true;
-        public bool magnetMode = false;
-
-        public override void GrabRange(Item item, Player player, ref int grabRange)
-        {
-            if (player.HeldItem.type == ModContent.ItemType<MidasPrime>() && magnetMode && item.timeSinceItemSpawned > 60)
-                grabRange *= 8;
-        }
-
-        public override bool GrabStyle(Item item, Player player)
-        {
-            if (player.HeldItem.type == ModContent.ItemType<MidasPrime>() && magnetMode && item.timeSinceItemSpawned > 60)
-            {
-                //This is just Player.PullItemPickup() but not private
-
-                Vector2 towardsPlayer = player.Center - item.Center;
-                float movementSpeed = towardsPlayer.Length();
-                movementSpeed = 12 / movementSpeed;
-                towardsPlayer *= movementSpeed;
-                item.velocity = (item.velocity * 4f + towardsPlayer) / 5f;
-                return true;
-            }
-
-            return false;
-        }
-    }
-
 }

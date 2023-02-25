@@ -24,6 +24,9 @@ namespace CalamityMod.Items.Accessories
         internal const float RegularEnemyBullseyeRadius = 8f;
         internal const float BossBullseyeRadius = 18f;
 
+        // Special search radius for coin ricoshots that only applies to DSO targets.
+        public static readonly float RicoshotSearchDistance = 2800f;
+
         internal static float GetDamageMultiplier(Player p, CalamityPlayer mp, bool hitBullseye)
         {
             float baseCritMult = 2f; // In vanilla Terraria, crits do +100% damage.

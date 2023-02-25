@@ -1,35 +1,32 @@
 ﻿using System;
 using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class CrackshotColt : ModItem
     {
-        public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/CrackshotColtShot") { PitchVariance = 0.1f };
-
-        public static readonly SoundStyle BlingSound = new("CalamityMod/Sounds/Custom/Ultrabling") { PitchVariance = 0.5f };
-        public static readonly SoundStyle BlingHitSound = new("CalamityMod/Sounds/Custom/UltrablingHit") { PitchVariance = 0.5f };
-
-        public static float MaxDownwardsAngle4Coin = MathHelper.PiOver4;
-        public static float RicochetDamageMult = 2.5f;
+        // Crackshot Colt uses the same sound as Midas Prime, just quieter.
+        private static SoundStyle ShootSound => MidasPrime.ShootSound with { Volume = 0.6f };
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crackshot Colt");
-            Tooltip.SetDefault("Right click to throw a coin in the air. Hitting the coin with a bullet redirects the shot into the nearest enemy\n" +
-                               "Coin throws consume copper coins");
+            Tooltip.SetDefault("Right click to toss a Copper Coin in the air\n" +
+                "Striking a coin with a bullet causes it to ricochet into the nearest enemy\n" +
+                "Up to 4 coins can be tossed simultaneously, and shots will ricochet off multiple coins if possible\n" +
+                "Ricocheted bullets always critically strike and do bonus damage based on the coins used");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 13;
+            Item.damage = 18;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 23;
             Item.height = 8;
@@ -40,73 +37,90 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 2.25f;
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
-            Item.UseSound = ShootSound with { Volume = 0.6f};
+            Item.UseSound = ShootSound;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<CrackshotBlast>();
+            Item.shoot = ModContent.ProjectileType<MarksmanShot>();
             Item.useAmmo = AmmoID.Bullet;
             Item.shootSpeed = 14f;
             Item.Calamity().canFirePointBlankShots = true;
         }
 
+        // This item has a right click.
         public override bool AltFunctionUse(Player player) => true;
+
+        // This item enables the automatic syncing of player mouse coordinates while held.
         public override void HoldItem(Player player) => player.Calamity().mouseWorldListener = true;
+
+        // This item never uses ammo when right clicking.
         public override bool CanConsumeAmmo(Item ammo, Player player) => player.altFunctionUse != 2;
 
         public override bool CanUseItem(Player player)
         {
+            // Two things are checked for right click:
+            // 1) The player has at least 1 copper coin to toss
+            // 2) The player doesn't have 4 ricoshot coins (of any type) in the air already
             if (player.altFunctionUse == 2)
-                return player.CanBuyItem(1); //Breaks if the player has > 999 plat. Ask tml people to fix that?
+            {
+                // player.CanBuyItem() breaks if the player has more than 2,147 platinum coins and was never fixed
+                // This alternative method works no matter how much money the player has
+                long cashAvailable = Utils.CoinsCount(out bool overflow, player.inventory);
+                if (cashAvailable < 1 && !overflow)
+                    return false;
+
+                return player.GetActiveRicoshotCoinCount() < 4;
+            }
             return true;
         }
 
         public override bool? UseItem(Player player)
         {
+            // Remove 1 copper from the player's inventory when using right click
             if (player.altFunctionUse == 2)
-            {
                 player.BuyItem(1);
-            }
 
             return base.UseItem(player);
         }
 
+        // This hook is a convenient location to change the use sound.
         public override void UseAnimation(Player player)
         {
-            Item.UseSound = ShootSound with { Volume = 0.6f};
+            Item.UseSound = ShootSound;
             if (player.altFunctionUse == 2)
-                Item.UseSound = BlingSound;
+                Item.UseSound = RicoshotCoin.BlingSound;
         }
 
+        // Coins can be tossed much faster than bullets can be fired.
         public override float UseSpeedMultiplier(Player player)
         {
             if (player.altFunctionUse == 2)
-                return 1.3f;
+                return 3f;
             return 1f;
         }
 
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
+            // Move all fired projectiles 12 pixels upwards so they don't come out of the player's groin
+            position -= Vector2.UnitY * 12f;
 
-            //Override every projectile
-            type = ModContent.ProjectileType<CrackshotBlast>();
+            // No matter what type of ammo is used, left click will fire a Marksman Round
+            type = ModContent.ProjectileType<MarksmanShot>();
 
+            // Right clicks toss coins instead
             if (player.altFunctionUse == 2)
             {
                 damage = 0;
-                type = ModContent.ProjectileType<CrackshotCoin>() ;
-
-                //Ok the velocity is flipped because the in world coordinates have 0 at the top, so to do the typical trigo stuff we flip it, you get me.
-                float shootAngle = (player.Calamity().mouseWorld - player.MountedCenter).ToRotation() * -1;
-
-                if (shootAngle > -MathHelper.Pi + MaxDownwardsAngle4Coin && shootAngle < -MathHelper.PiOver2)
-                    shootAngle = -MathHelper.Pi + MaxDownwardsAngle4Coin;
-
-                else if (shootAngle < -MaxDownwardsAngle4Coin && shootAngle >= -MathHelper.PiOver2)
-                    shootAngle = -MaxDownwardsAngle4Coin;
-
-                velocity = (shootAngle * -1).ToRotationVector2() * 1.3f - Vector2.UnitY * 1.12f + player.velocity / 4f;
+                type = ModContent.ProjectileType<RicoshotCoin>();
+                velocity = player.GetCoinTossVelocity();
             }
         }
 
+        // 
+        // Crackshot Colt has no Shoot override because it can only toss copper coins.
+        // Copper coins have ai[0] = 0f, so no override is needed.
+        //
+
+        // Make the gun have visible recoil when fired for extra cool factor.
+        #region Firing Animation
         public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             player.direction = Math.Sign((player.Calamity().mouseWorld - player.Center).X);
@@ -132,13 +146,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, rotation);
         }
+        #endregion
 
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddRecipeGroup("AnyGoldBar", 8).
                 AddIngredient(ModContent.ItemType<DesertFeather>()).
-                AddRecipeGroup("AnyGoldBar", 3).
-                AddIngredient(ItemID.CopperCoin, 5).
+                AddIngredient(ModContent.ItemType<BloodOrb>()).
+                AddIngredient(ItemID.CopperCoin, 4).
                 AddTile(TileID.Anvils).
                 Register();
         }
