@@ -4651,7 +4651,7 @@ namespace CalamityMod.NPCs
                     // Crits have their damage doubled after ModifyHitNPC, in the StrikeNPC function.
                     // Here, damage is divded by 2 to compensate for that.
                     // This means that the bonus provided by Daawnlight Spirit Origin can be computed as a complete replacement to regular crits.
-                    float mult = DaawnlightSpiritOrigin.GetDamageMultiplier(player, modPlayer, hitBullseye) / 2f;
+                    float mult = DaawnlightSpiritOrigin.GetDamageMultiplier(player, modPlayer, hitBullseye, cgp.forcedCrit) / 2f;
                     damage = (int)(damage * mult);
                 }
             }

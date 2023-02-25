@@ -13,8 +13,11 @@ namespace CalamityMod.Items.Accessories
         // "Despite the seemingly insane numbers here, I think this item might actually be underpowered"
         // hindsight: the item was not underpowered. Ozzatron 05NOV2021
         //
-        // Regular crits are intentionally weak; bullseyes should be doing all the work
-        private const float BullseyeCritRatio = 3.5f; // Bullseye crits deal x3.5 damage instead of x2.
+        // Regular crits are intentionally weak, especially because they rarely happen (your crit chance gets murdered).
+        // Bullseyes should be doing all the work.
+        private const float OriginBullseyeCritRatio = 3.5f; // Bullseye crits deal x3.5 damage instead of x2.
+        private const float RicoshotBullseyeCritRatio = 2.4f; // If you use Ricoshot mechanics to "force" a bullseye, you get less of a reward.
+
         private const float StoredCritConversionRatio = 0.01f; // Add +1% more damage to crits for every 1% critical chance the player would have had.
         private const float MinUseTimeForSlowBonus = 11f;
         private const float MaxSlowBonusUseTime = 72f;
@@ -27,11 +30,17 @@ namespace CalamityMod.Items.Accessories
         // Special search radius for coin ricoshots that only applies to DSO targets.
         public static readonly float RicoshotSearchDistance = 2800f;
 
-        internal static float GetDamageMultiplier(Player p, CalamityPlayer mp, bool hitBullseye)
+        internal static float GetDamageMultiplier(Player p, CalamityPlayer mp, bool hitBullseye, bool wasForcedCrit)
         {
             float baseCritMult = 2f; // In vanilla Terraria, crits do +100% damage.
+
+            // If a bullseye was struck, replace a "regular crit" with a "bullseye crit".
             if (hitBullseye)
-                baseCritMult = BullseyeCritRatio; // Replace a "regular crit" with a "bullseye crit".
+            {
+                // Bullseye crits are weaker if the projectile was already a forced crit.
+                // This currently only occurs due to ULTRAKILL-style ricoshots.
+                baseCritMult = wasForcedCrit ? RicoshotBullseyeCritRatio : OriginBullseyeCritRatio;
+            }
 
             // Factor in the critical strike chance the player isn't getting to use.
             float convertedCritBonus = StoredCritConversionRatio * mp.spiritOriginConvertedCrit;
@@ -49,6 +58,7 @@ namespace CalamityMod.Items.Accessories
                 "Ranged attacks that strike a bullseye always critically strike and deal massive damage\n" +
                 "When a bullseye is struck, it vanishes and a new one appears elsewhere\n" +
                 "Explosions or large projectiles cannot strike bullseyes\n" +
+                "Shots ricocheted off of tossed coins will target bullseyes, but deal less damage\n" +
                 "Converts all ranged critical strike chance boosts into extra critical strike damage\n" +
                 "All ranged weapons will deal even more critical strike damage the slower they are\n" +
                 "Summons a heroic spirit from another world if accessory visibility is enabled\n" +
