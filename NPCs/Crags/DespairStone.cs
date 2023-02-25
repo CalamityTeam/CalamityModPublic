@@ -65,8 +65,8 @@ namespace CalamityMod.NPCs.Crags
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A condensed, volatile stone of brimstone slag. It is said that the souls of many, fighting to get out from within, are what cause it to tear across the ground.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A condensed, volatile stone of brimstone slag. It is said that the souls of many, fighting to get out from within, are what cause it to tear across the ground.")
             });
         }
 
@@ -121,7 +121,10 @@ namespace CalamityMod.NPCs.Crags
                 }
             }
             if (SoundEngine.TryGetActiveSound(ChainsawSoundSlot, out var chainsawSound) && chainsawSound.IsPlaying)
+            {
                 chainsawSound.Position = NPC.Center;
+                chainsawSound.Update();
+            }
             if (NPC.velocity.X == 0f) //go up if against wall
             {
                 if (NPC.velocity.Y > -speedCap) //Accelerate to top speed
@@ -191,6 +194,7 @@ namespace CalamityMod.NPCs.Crags
                 }
             }
         }
+
         public override bool PreKill()
         {
             if (SoundEngine.TryGetActiveSound(ChainsawSoundSlot, out var chainsawSound) && chainsawSound.IsPlaying)

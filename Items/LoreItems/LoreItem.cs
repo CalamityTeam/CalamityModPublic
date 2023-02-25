@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -42,38 +41,12 @@ namespace CalamityMod.Items.LoreItems
         }
 
         // All lore items use the same code for holding SHIFT to extend tooltips.
-        // Original code lifted from Iban's extended armor tooltips.
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            // Only perform any changes while holding SHIFT.
-            if (Main.keyState.IsKeyDown(Keys.LeftShift))
-            {
-                // Count up all standard vanilla tooltip lines while holding SHIFT, so they may be removed.
-                int tooltipIndex = -1;
-                int tooltipCount = 0;
-                for (int i = 0; i < tooltips.Count; i++)
-                {
-                    if (tooltips[i].Name.StartsWith("Tooltip"))
-                    {
-                        if (tooltipIndex == -1)
-                            tooltipIndex = i;
-
-                        tooltipCount++;
-                    }
-                }
-
-                if (tooltipIndex != -1)
-                {
-                    // Remove all standard tooltips.
-                    tooltips.RemoveRange(tooltipIndex, tooltipCount);
-
-                    // Replace them with the full lore.
-                    TooltipLine fullLore = new(Mod, "CalamityMod:Lore", Lore);
-                    if (LoreColor.HasValue)
-                        fullLore.OverrideColor = LoreColor.Value;
-                    tooltips.Insert(tooltipIndex, fullLore);
-                }
-            }
+            TooltipLine fullLore = new(Mod, "CalamityMod:Lore", Lore);
+            if (LoreColor.HasValue)
+                fullLore.OverrideColor = LoreColor.Value;
+            CalamityUtils.HoldShiftTooltip(tooltips, new TooltipLine[] { fullLore }, true);
         }
     }
 }

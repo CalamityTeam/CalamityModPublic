@@ -57,6 +57,7 @@ namespace CalamityMod.ILEditing
 
             // Mechanics / features
             On.Terraria.NPC.ApplyTileCollision += AllowTriggeredFallthrough;
+            IL.Terraria.Player.ApplyEquipFunctional += ScopesRequireVisibilityToZoom;
             IL.Terraria.Player.Hurt += RemoveRNGFromDodges;
             IL.Terraria.Player.DashMovement += FixAllDashMechanics;
             On.Terraria.Player.DoCommonDashHandle += ApplyDashKeybind;
@@ -178,6 +179,7 @@ namespace CalamityMod.ILEditing
 
             // Mechanics / features
             On.Terraria.NPC.ApplyTileCollision -= AllowTriggeredFallthrough;
+            IL.Terraria.Player.ApplyEquipFunctional -= ScopesRequireVisibilityToZoom;
             IL.Terraria.Player.Hurt -= RemoveRNGFromDodges;
             IL.Terraria.Player.DashMovement -= FixAllDashMechanics;
             On.Terraria.Player.DoCommonDashHandle -= ApplyDashKeybind;

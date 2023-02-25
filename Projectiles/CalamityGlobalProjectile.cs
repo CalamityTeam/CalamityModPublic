@@ -57,8 +57,15 @@ namespace CalamityMod.Projectiles
         // They then take the remainder (e.g. the remaining 16%) and roll against that for a final +100% (like normal crits).
         // For example if you have 716% critical strike chance, you are guaranteed +700% damage and then have a 16% chance for +800% damage instead.
         // These are currently only enabled for Soma Prime, but any bullet fired from that gun can supercrit.
-        //Set this to -1 if you want the projectile to supercrit forever, and to any positive value to make it supercrit only x times
+        // Set this to -1 if you want the projectile to supercrit forever, and to any positive value to make it supercrit only x times
         public int supercritHits  = 0;
+
+        // Without adjusting underlying crit calculations, set this to true to force a projectile as a crit.
+        // TODO -- In the TML 1.4.4 port, there is a much better way to set NPC strike events to be forced crits.
+        public bool forcedCrit = false;
+
+        // The total bonus damage (as a ratio of the projectile's own damage) applied to this projectile as a result of a ricoshot combo.
+        public float totalRicoshotDamageBonus = 0f;
 
         // If true, this projectile can apply the infinitely-stacking Shred debuff iconic to Soma Prime.
         public bool appliesSomaShred = false;
@@ -2014,7 +2021,7 @@ namespace CalamityMod.Projectiles
                 {
                     if (modPlayer.deadshotBrooch && projectile.CountsAsClass<RangedDamageClass>() && player.heldProj != projectile.whoAmI)
                     {
-                        if (projectile.type != ProjectileType<MidasCoin>())
+                        if (projectile.type != ProjectileType<RicoshotCoin>())
                             projectile.extraUpdates += 1;
                     }
 
@@ -2441,6 +2448,10 @@ namespace CalamityMod.Projectiles
                 float calamityVelocityDamageMultiplier = 100f * (1f - (1f / (1f + baseVelocityDamageMultiplier)));
                 damageScale = calamityVelocityDamageMultiplier;
             }
+
+            // If applicable, use ricoshot bonus damage.
+            if (totalRicoshotDamageBonus > 0f)
+                damageScale += totalRicoshotDamageBonus;
         }
         #endregion
 
@@ -2449,6 +2460,10 @@ namespace CalamityMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
+
+            // If this projectile is forced to crit, simply set the crit bool.
+            if (forcedCrit)
+                crit = true;
 
             if (modPlayer.rottenDogTooth && projectile.Calamity().stealthStrike)
                 target.AddBuff(BuffType<ArmorCrunch>(), RottenDogtooth.ArmorCrunchDebuffTime);

@@ -291,6 +291,7 @@ namespace CalamityMod.Systems
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
             DraedonSummonCountdown = reader.ReadInt32();
+            DraedonMechdusa = reader.ReadBoolean();
             DraedonMechToSummon = (ExoMech)reader.ReadInt32();
             DraedonSummonPosition = reader.ReadVector2();
             SunkenSeaLabCenter = reader.ReadVector2();

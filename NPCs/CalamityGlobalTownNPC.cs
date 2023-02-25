@@ -128,7 +128,10 @@ namespace CalamityMod.NPCs
             "Robin", // <@!654737510030639112> (Altzeus#8687)
             "Curly", // <@!673092101780668416> (Curly~Brace#4830)
         };
-        private static readonly string[] MerchantNames = null;
+        private static readonly string[] MerchantNames =
+        {
+            "Morshu", // <@!194931581826236416> (Uberransy#6969)
+        };
         private static readonly string[] NurseNames =
         {
             "Farsni",
@@ -184,6 +187,7 @@ namespace CalamityMod.NPCs
         private static readonly string[] TravelingMerchantNames =
         {
             "Stan Pines",
+            "Slap Battles", // <@!923504188615450654> (Conquestor#9009)
         };
         private static readonly string[] TruffleNames =
         {

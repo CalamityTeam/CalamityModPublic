@@ -1,63 +1,69 @@
-﻿using System.Collections.Generic;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
+﻿using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
 using Terraria.Audio;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Systems
 {
     public class ORDERSystem : ModSystem
     {
-        public static float DefaultOrderTime = 70f;
-        public static float DefaultResetTime = 200f;
+        private static readonly SoundStyle ORDERTrack = new("CalamityMod/Sounds/Custom/ORDER", SoundType.Music);
+        private static SlotId orderSoundSlot;
 
-        public static float OrderTime = 0f;
-        public static float ResetTimer = 0f;
-        public static SlotId OrderSoundSlot;
-        public static readonly SoundStyle ORDERTrack = new("CalamityMod/Sounds/Custom/ORDER");
+        internal static float DefaultOrderTime = 100f;
+        internal static float DefaultResetTime = 240f;
 
-        public static bool OrderPlaying = false;
+        internal static float remainingPlaytime = 0f;
+        internal static float timeUntilReset = 0f;
 
-        public override void PreUpdateProjectiles()
+        private static bool currentlyPlaying = false;
+
+        public override void UpdateUI(GameTime gameTime)
         {
-            if (OrderTime > 0)
-                OrderTime--;
+            // Decrement timers
+            if (remainingPlaytime > 0)
+                --remainingPlaytime;
+            if (timeUntilReset > 0)
+                --timeUntilReset;
 
-            if (ResetTimer > 0)
-                ResetTimer--;
-
-            if (ResetTimer == 0 && OrderPlaying)
+            if (currentlyPlaying)
             {
-                OrderPlaying = false;
-                if (SoundEngine.TryGetActiveSound(OrderSoundSlot, out var orderResult))
-                    orderResult.Stop();
-                OrderSoundSlot = SlotId.Invalid;
-            }
-
-            else if (OrderPlaying)
-            {
-                if (SoundEngine.TryGetActiveSound(OrderSoundSlot, out var orderResult))
+                // If the reset timer has run out, stop the active sound instance entirely.
+                // The next Ricoshot will start the song from the beginning.
+                if (timeUntilReset <= 0f)
                 {
-                    orderResult.Volume = OrderTime / DefaultOrderTime;
-                    if (!orderResult.IsPlaying)
-                        OrderPlaying = false;
+                    currentlyPlaying = false;
+                    if (SoundEngine.TryGetActiveSound(orderSoundSlot, out var activeSound))
+                        activeSound.Stop();
+                    orderSoundSlot = SlotId.Invalid;
                 }
 
+                // Otherwise, set the volume of the active sound instance appropriately.
                 else
-                    OrderPlaying = false;
+                {
+                    bool foundOrder = SoundEngine.TryGetActiveSound(orderSoundSlot, out var activeSound);
+                    if (!foundOrder)
+                    {
+                        currentlyPlaying = false;
+                        return;
+                    }
 
+                    float newVolume = MathHelper.Clamp(remainingPlaytime / DefaultOrderTime, 0f, 1f);
+                    activeSound.Volume = newVolume;
+                    activeSound.Update();
+                }
             }
         }
 
-        public static void ORDER()
+        // DIE!
+        public static void JUDGMENT()
         {
-            if (!OrderPlaying)
-                OrderSoundSlot = SoundEngine.PlaySound(ORDERTrack);
+            if (!currentlyPlaying)
+                orderSoundSlot = SoundEngine.PlaySound(ORDERTrack);
 
-            OrderPlaying = true;
-            OrderTime = DefaultOrderTime;
-            ResetTimer = DefaultResetTime;
+            currentlyPlaying = true;
+            remainingPlaytime = DefaultOrderTime;
+            timeUntilReset = DefaultResetTime;
         }
     }
 }
