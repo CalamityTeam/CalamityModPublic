@@ -192,7 +192,7 @@ namespace CalamityMod.World
         #region Desert Shrine
         public static void FillDesertShrineChest(Chest chest)
         {
-            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.SpelunkerPotion, ItemID.MiningPotion, ItemID.BuilderPotion);
+            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.ShinePotion, ItemID.MiningPotion, ItemID.BuilderPotion);
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ModContent.ItemType<LuxorsGift>(), 1),
@@ -465,7 +465,7 @@ namespace CalamityMod.World
         #region Mushroom Shrine
         public static void FillMushroomShrineChest(Chest chest)
         {
-            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.SpelunkerPotion, ItemID.MiningPotion, ItemID.BuilderPotion);
+            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.ShinePotion, ItemID.MiningPotion, ItemID.BuilderPotion);
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ModContent.ItemType<FungalSymbiote>(), 1),
@@ -537,7 +537,7 @@ namespace CalamityMod.World
         #region Surface Shrine
         public static void FillSurfaceShrineChest(Chest chest)
         {
-            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.TeleportationPotion, ItemID.CalmingPotion, ItemID.SwiftnessPotion);
+            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.RecallPotion, ItemID.CalmingPotion, ItemID.SwiftnessPotion);
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ModContent.ItemType<TrinketofChi>(), 1),
