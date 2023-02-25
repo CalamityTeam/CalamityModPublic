@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
-            TileID.Sets.IsATreeTrunk[Type] = true;
+            TileID.Sets.PreventsTileRemovalIfOnTopOfIt[Type] = true;
             TileObjectData.newTile.Width = 5;
             TileObjectData.newTile.Height = 5;
             TileObjectData.newTile.Origin = new Point16(2, 4);
