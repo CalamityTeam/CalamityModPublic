@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Tools
 
                 float breakProgress = 1 - timeBeforeBlast / (float)breakTime;
 
-                int smokeLikelyhood = (int)Math.Floor(1 + timeBeforeBlast / (float)breakTime * 4);
+                int smokeLikelyhood = 1 + (int)Math.Floor(timeBeforeBlast / (float)breakTime * 4);
                 if (Main.rand.NextBool(smokeLikelyhood))
                 {
                     Vector2 smokePos = player.GetBackHandPosition(player.compositeBackArm.stretch, player.compositeBackArm.rotation).Floor();

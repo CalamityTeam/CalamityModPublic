@@ -35,20 +35,15 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item20;
             Item.autoReuse = true;
-            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shoot = ModContent.ProjectileType<ClockworkBowHoldout>();
             Item.shootSpeed = 15f;
             Item.useAmmo = AmmoID.Arrow;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe().
-                AddIngredient(ItemID.LunarBar, 5).
-                AddIngredient(ItemID.Cog, 50).
-                AddTile(TileID.LunarCraftingStation).
-                Register();
-        }
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ClockworkBowHoldout>()] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+        
+        // Spawning the holdout cannot consume ammo
+        public override bool CanConsumeAmmo(Item ammo, Player player) => player.ownedProjectileCounts[Item.shoot] > 0;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -57,6 +52,15 @@ namespace CalamityMod.Items.Weapons.Ranged
             // Charge-up. Done via a holdout projectile.
             Projectile.NewProjectile(source, position, shootDirection, ModContent.ProjectileType<ClockworkBowHoldout>(), damage, knockback, player.whoAmI);
             return false;
+        }
+        
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient(ItemID.Cog, 50).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

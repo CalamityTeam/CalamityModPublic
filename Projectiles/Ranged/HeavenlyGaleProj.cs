@@ -99,12 +99,16 @@ namespace CalamityMod.Projectiles.Ranged
                     // Update the tip position for one frame.
                     tipPosition = armPosition + arrowDirection * Projectile.width * 0.45f;
 
-                    if (Main.myPlayer == Projectile.owner)
+                    if (Main.myPlayer == Projectile.owner && Owner.HasAmmo(Owner.ActiveItem()))
                     {
-                        int arrowDamage = (int)(Projectile.damage * damageFactor);
+                        Item heldItem = Owner.ActiveItem();
+                        Owner.PickAmmo(heldItem, out int projectileType, out float shootSpeed, out int damage, out float knockback, out _);
+                        damage = (int)(damage * damageFactor);
+                        projectileType = ModContent.ProjectileType<ExoCrystalArrow>();
+
                         bool createLightning = ChargeTimer / HeavenlyGale.MaxChargeTime >= HeavenlyGale.ChargeLightningCreationThreshold;
-                        Vector2 arrowVelocity = arrowDirection * 20f;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, arrowVelocity, ModContent.ProjectileType<ExoCrystalArrow>(), arrowDamage, Projectile.knockBack, Projectile.owner, createLightning.ToInt());
+                        Vector2 arrowVelocity = arrowDirection * shootSpeed;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, arrowVelocity, projectileType, damage, knockback, Projectile.owner, createLightning.ToInt());
                     }
                 }
 

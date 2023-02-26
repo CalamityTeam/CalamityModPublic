@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public const int ShootDelay = 32;
 
-        public const int ArrowsPerBurst = 9;
+        public const int ArrowsPerBurst = 10;
 
         public const int ArrowShootRate = 4;
 
@@ -45,12 +45,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 334;
+            Item.damage = 300;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 138;
             Item.height = 138;
-            Item.useTime = 42;
-            Item.useAnimation = 42;
+            Item.useAnimation = Item.useTime = ArrowShootTime; // 40
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 4f;
@@ -66,7 +65,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo spawnSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
+        // Shoot via the projectile only
+        public override bool CanShoot(Player player) => false;
 
         public override void AddRecipes()
         {

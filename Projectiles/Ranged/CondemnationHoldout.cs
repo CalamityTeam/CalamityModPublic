@@ -10,10 +10,14 @@ namespace CalamityMod.Projectiles.Ranged
     public class CondemnationHoldout : ModProjectile
     {
         private Player Owner => Main.player[Projectile.owner];
-        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem()) && !Owner.noItems && !Owner.CCed;
+
         private ref float CurrentChargingFrames => ref Projectile.ai[0];
         private ref float ArrowsLoaded => ref Projectile.ai[1];
         private ref float FramesToLoadNextArrow => ref Projectile.localAI[0];
+
+        private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
+        private float storedVelocity = 1f;
+        public const float velocityMultiplier = 1.5f;
 
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Condemnation";
         public override void SetStaticDefaults() => DisplayName.SetDefault("Condemnation");
@@ -58,28 +62,39 @@ namespace CalamityMod.Projectiles.Ranged
                     FramesToLoadNextArrow = Owner.ActiveItem().useAnimation;
                 }
 
-                // Actually make progress towards loading more arrows.
-                ++CurrentChargingFrames;
-
                 // If no arrows are loaded, spawn a bit of dust to indicate it's not ready yet.
-                // Spawn the same dust if the max number of arrows have been loaded.
-                if (ArrowsLoaded <= 0f || ArrowsLoaded >= Condemnation.MaxLoadedArrows)
+                // Spawn the same dust if the max number of arrows have been loaded or the player ran out of ammos to load.
+                if (ArrowsLoaded <= 0f || ArrowsLoaded >= Condemnation.MaxLoadedArrows || !Owner.HasAmmo(Owner.ActiveItem()))
                     SpawnCannotLoadArrowsDust(tipPosition);
 
-                // If it is time to load an arrow, produce a pulse of dust and add an arrow.
-                // Also accelerate charging, because it's fucking awesome.
-                if (CurrentChargingFrames >= FramesToLoadNextArrow && ArrowsLoaded < Condemnation.MaxLoadedArrows)
+                if (Owner.HasAmmo(Owner.ActiveItem()))
                 {
-                    SpawnArrowLoadedDust(tipPosition);
-                    CurrentChargingFrames = 0f;
-                    ++ArrowsLoaded;
-                    --FramesToLoadNextArrow;
+                    // Actually make progress towards loading more arrows.
+                    ++CurrentChargingFrames;
 
-                    // Play a sound for additional notification that an arrow has been loaded.
-                    var loadSound = SoundEngine.PlaySound(SoundID.Item108 with { Volume = SoundID.Item108.Volume * 0.3f });
+                    // If it is time to load an arrow, produce a pulse of dust and add an arrow.
+                    // Also accelerate charging, because it's fucking awesome.
+                    // Take the ammo here as well
+                    if (CurrentChargingFrames >= FramesToLoadNextArrow && ArrowsLoaded < Condemnation.MaxLoadedArrows)
+                    {
+                        // Save the stats here for later
+                        Item heldItem = Owner.ActiveItem();
+                        Owner.PickAmmo(heldItem, out _, out float shootSpeed, out int damage, out float knockback, out _);
+                        Projectile.damage = damage;
+                        Projectile.knockBack = knockback;
+                        storedVelocity = shootSpeed * velocityMultiplier;
 
-                    if (ArrowsLoaded >= Condemnation.MaxLoadedArrows)
-                        SoundEngine.PlaySound(SoundID.MaxMana);
+                        SpawnArrowLoadedDust(tipPosition);
+                        CurrentChargingFrames = 0f;
+                        ++ArrowsLoaded;
+                        --FramesToLoadNextArrow;
+
+                        // Play a sound for additional notification that an arrow has been loaded.
+                        var loadSound = SoundEngine.PlaySound(SoundID.Item108 with { Volume = SoundID.Item108.Volume * 0.3f });
+
+                        if (ArrowsLoaded >= Condemnation.MaxLoadedArrows)
+                            SoundEngine.PlaySound(SoundID.MaxMana);
+                    }
                 }
             }
 
@@ -144,17 +159,8 @@ namespace CalamityMod.Projectiles.Ranged
             if (Main.myPlayer != Projectile.owner)
                 return;
 
-            Item heldItem = Owner.ActiveItem();
-            // calculate damage at the instant this arrow is fired
-            Owner.PickAmmo(heldItem, out int projectileType, out float shootSpeed, out int arrowDamage, out float knockback, out _);
-            shootSpeed *= 1.5f;
-
-            projectileType = ModContent.ProjectileType<CondemnationArrow>();
-
-            knockback = Owner.GetWeaponKnockback(heldItem, knockback);
-            Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * shootSpeed;
-
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, projectileType, arrowDamage, knockback, Projectile.owner, 0f, 0f);
+            Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * storedVelocity;
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<CondemnationArrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         }
 
         private void UpdateProjectileHeldVariables(Vector2 armPosition)
