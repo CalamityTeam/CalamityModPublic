@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.width = 164;
             Item.height = 58;
-            Item.useTime = Item.useAnimation = 56;
+            Item.useTime = Item.useAnimation = 28;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.channel = true;
@@ -63,7 +63,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] <= 0;
 
-        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2f ? 5f : 1f;
+        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2f ? 2.5f : 1f;
+
+        // Spawning the holdout cannot consume ammo
+        public override bool CanConsumeAmmo(Item ammo, Player player) => player.altFunctionUse == 2f || player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] > 0;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

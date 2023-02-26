@@ -17,7 +17,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starmada");
-            Tooltip.SetDefault("Fires a barrage of stars and plasma blasts");
+            Tooltip.SetDefault("Fires a barrage of stars and plasma blasts\n" +
+                            "66% chance to not consume ammo");
             SacrificeTotal = 1;
         }
 
@@ -46,6 +47,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+
+        // Spawning the holdout cannot consume ammo
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool(3) && player.ownedProjectileCounts[Item.shoot] > 0;
 
         public override Vector2? HoldoutOffset()
         {

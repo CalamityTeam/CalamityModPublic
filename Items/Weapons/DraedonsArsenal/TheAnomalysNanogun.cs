@@ -52,8 +52,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             modItem.UsesCharge = true;
             modItem.MaxCharge = 250f;
-            modItem.ChargePerUse = 0.2f;
-            modItem.ChargePerAltUse = 0.125f;
+            modItem.ChargePerUse = 0.8f;
+            modItem.ChargePerAltUse = 0.375f;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 4);

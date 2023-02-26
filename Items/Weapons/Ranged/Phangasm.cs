@@ -16,7 +16,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phangasm");
-            Tooltip.SetDefault("Fires a spread of 5 arrows and emits phantom arrows on enemy hits");
+            Tooltip.SetDefault("Fires a spread of 5 arrows and emits phantom arrows on enemy hits\n" +
+                            "66% chance to not consume ammo");
             SacrificeTotal = 1;
         }
 
@@ -44,6 +45,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+
+        // Spawning the holdout cannot consume ammo
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool(3) && player.ownedProjectileCounts[Item.shoot] > 0;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

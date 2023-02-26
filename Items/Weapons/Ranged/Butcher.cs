@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Butcher");
-            Tooltip.SetDefault("Fires faster and more accurately the longer you hold the trigger");
+            Tooltip.SetDefault("Fires bullets faster and more accurately the longer you hold the trigger\n" +
+                            "25% chance to not consume ammo");
             SacrificeTotal = 1;
         }
 
@@ -42,12 +43,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
+        // Spawning the holdout cannot consume ammo
+        public override bool CanConsumeAmmo(Item ammo, Player player) => !Main.rand.NextBool(4) && player.ownedProjectileCounts[Item.shoot] > 0;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ButcherGun>(), damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
-
+        
         public override void AddRecipes()
         {
             CreateRecipe().

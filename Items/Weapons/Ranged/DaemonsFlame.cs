@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daemon's Flame");
-            Tooltip.SetDefault("Shoots daemon flame fireballs as well as 4 regular arrows");
+            Tooltip.SetDefault("Shoots daemon flame fireballs as well as 4 regular arrows\n" +
+                            "66% chance to not consume ammo");
             SacrificeTotal = 1;
         }
 
@@ -43,6 +44,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+
+        // Spawning the holdout cannot consume ammo
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool(3) && player.ownedProjectileCounts[Item.shoot] > 0;
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
