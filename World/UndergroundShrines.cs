@@ -112,8 +112,8 @@ namespace CalamityMod.World
                     structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     break;
                 }
-
-            } while (tries <= 20000);
+                //FUCK YOU
+            } while (tries <= 50000);
         }
         #endregion
 
@@ -184,8 +184,8 @@ namespace CalamityMod.World
                     structures.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 4);
                     break;
                 }
-
-            } while (tries <= 20000);
+                //FUCK YOU TOO
+            } while (tries <= 50000);
         }
         #endregion
         
@@ -541,10 +541,10 @@ namespace CalamityMod.World
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ModContent.ItemType<TrinketofChi>(), 1),
-                new ChestItem(ItemID.PinkGel, WorldGen.genRand.Next(24, 28 + 1)),
-                new ChestItem(ItemID.Torch, WorldGen.genRand.Next(100, 110 + 1)),
-                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
-                new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(ItemID.PinkGel, WorldGen.genRand.Next(5, 10 + 1)),
+                new ChestItem(ItemID.Torch, WorldGen.genRand.Next(50, 60 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(2, 3 + 1)),
+                new ChestItem(ItemID.LesserHealingPotion, WorldGen.genRand.Next(5, 10 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
             };
 

@@ -11,7 +11,7 @@ namespace CalamityMod.World.Planets
     {
         public override bool Place(Point origin, StructureMap structures)
         {
-            int radius = _random.Next(19, 21);
+            int radius = _random.Next(16, 21);
 
             if (!CheckIfPlaceable(origin, radius, structures))
                 return false;
