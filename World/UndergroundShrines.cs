@@ -541,10 +541,10 @@ namespace CalamityMod.World
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ModContent.ItemType<TrinketofChi>(), 1),
-                new ChestItem(ItemID.PinkGel, WorldGen.genRand.Next(5, 10 + 1)),
+                new ChestItem(ItemID.PinkGel, WorldGen.genRand.Next(12, 15 + 1)),
                 new ChestItem(ItemID.Torch, WorldGen.genRand.Next(50, 60 + 1)),
-                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(2, 3 + 1)),
-                new ChestItem(ItemID.LesserHealingPotion, WorldGen.genRand.Next(5, 10 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(4, 6 + 1)),
+                new ChestItem(ItemID.LesserHealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),
             };
 
