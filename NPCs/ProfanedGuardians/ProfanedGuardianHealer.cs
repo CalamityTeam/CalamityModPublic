@@ -514,26 +514,31 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float maxIntensity = 45f;
             float increaseIntensityGateValue = useLaserGateValue - maxIntensity;
             float decreaseIntensityGateValue = stopLaserGateValue - maxIntensity;
-            bool usingLaser = Main.npc[CalamityGlobalNPC.doughnutBoss].ai[0] == 5f;
-            bool increaseIntensity = Main.npc[CalamityGlobalNPC.doughnutBoss].ai[1] > increaseIntensityGateValue;
-            bool decreaseIntensity = Main.npc[CalamityGlobalNPC.doughnutBoss].ai[1] > decreaseIntensityGateValue;
-            if (usingLaser)
+            if (!NPC.IsABestiaryIconDummy)
             {
-                float burnIntensity = decreaseIntensity ? Utils.GetLerpValue(0f, maxIntensity, maxIntensity - (Main.npc[CalamityGlobalNPC.doughnutBoss].ai[1] - decreaseIntensityGateValue), true) : Utils.GetLerpValue(0f, maxIntensity, Main.npc[CalamityGlobalNPC.doughnutBoss].ai[1], true);
-                int totalGuardiansToDraw = (int)MathHelper.Lerp(1f, 30f, burnIntensity);
-                for (int i = 0; i < totalGuardiansToDraw; i++)
+                bool usingLaser = Main.npc[CalamityGlobalNPC.doughnutBoss].ai[0] == 5f;
+                if (usingLaser)
                 {
-                    float offsetAngle = MathHelper.TwoPi * i * 2f / totalGuardiansToDraw;
-                    float drawOffsetFactor = (float)Math.Sin(offsetAngle * 6f + Main.GlobalTimeWrappedHourly * MathHelper.Pi);
-                    drawOffsetFactor *= (float)Math.Pow(burnIntensity, 3f) * 50f;
+                    bool increaseIntensity = Main.npc[CalamityGlobalNPC.doughnutBoss].ai[1] > increaseIntensityGateValue;
+                    bool decreaseIntensity = Main.npc[CalamityGlobalNPC.doughnutBoss].ai[1] > decreaseIntensityGateValue;
+                    float burnIntensity = decreaseIntensity ? Utils.GetLerpValue(0f, maxIntensity, maxIntensity - (Main.npc[CalamityGlobalNPC.doughnutBoss].ai[1] - decreaseIntensityGateValue), true) : Utils.GetLerpValue(0f, maxIntensity, Main.npc[CalamityGlobalNPC.doughnutBoss].ai[1], true);
+                    int totalGuardiansToDraw = (int)MathHelper.Lerp(1f, 30f, burnIntensity);
+                    for (int i = 0; i < totalGuardiansToDraw; i++)
+                    {
+                        float offsetAngle = MathHelper.TwoPi * i * 2f / totalGuardiansToDraw;
+                        float drawOffsetFactor = (float)Math.Sin(offsetAngle * 6f + Main.GlobalTimeWrappedHourly * MathHelper.Pi);
+                        drawOffsetFactor *= (float)Math.Pow(burnIntensity, 3f) * 50f;
 
-                    Vector2 drawOffset = offsetAngle.ToRotationVector2() * drawOffsetFactor;
-                    Color baseColor = Color.White * (MathHelper.Lerp(0.4f, 0.8f, burnIntensity) / totalGuardiansToDraw * 1.5f);
-                    baseColor.A = 0;
+                        Vector2 drawOffset = offsetAngle.ToRotationVector2() * drawOffsetFactor;
+                        Color baseColor = Color.White * (MathHelper.Lerp(0.4f, 0.8f, burnIntensity) / totalGuardiansToDraw * 1.5f);
+                        baseColor.A = 0;
 
-                    baseColor = Color.Lerp(Color.White, baseColor, burnIntensity);
-                    drawGuardianInstance(drawOffset, totalGuardiansToDraw == 1 ? null : baseColor);
+                        baseColor = Color.Lerp(Color.White, baseColor, burnIntensity);
+                        drawGuardianInstance(drawOffset, totalGuardiansToDraw == 1 ? null : baseColor);
+                    }
                 }
+                else
+                    drawGuardianInstance(Vector2.Zero, null);
             }
             else
                 drawGuardianInstance(Vector2.Zero, null);

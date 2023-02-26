@@ -1975,7 +1975,7 @@ namespace CalamityMod.NPCs.Providence
         {
             void drawProvidenceInstance(Vector2 drawOffset, Color? colorOverride)
             {
-                //This night bool is used for any off-color activity
+                // This night bool is used for any off-color activity
                 bool offColor = currentMode != (int)BossMode.Day;
 
                 string baseTextureString = "CalamityMod/NPCs/Providence/";
@@ -2047,10 +2047,10 @@ namespace CalamityMod.NPCs.Providence
                 if (NPC.spriteDirection == 1)
                     spriteEffects = SpriteEffects.FlipHorizontally;
 
-                //Draw the main boss texture + its afterimages
+                // Draw the main boss texture + its afterimages
                 Vector2 RotationCenter = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
                 Color BaseColor = Color.White;
-                float Brightness = 0.5f; //Ranges from 0 (full vibrance) to 1 (pure white)
+                float Brightness = 0.5f; // Ranges from 0 (full vibrance) to 1 (pure white)
                 int maxAfterimages = 5;
 
                 if (CalamityConfig.Instance.Afterimages)
@@ -2076,8 +2076,8 @@ namespace CalamityMod.NPCs.Providence
                 BasePosition += RotationCenter * NPC.scale + new Vector2(0f, NPC.gfxOffY) + drawOffset;
                 spriteBatch.Draw(texture, BasePosition, NPC.frame, colorOverride ?? NPC.GetAlpha(drawColor), NPC.rotation, RotationCenter, NPC.scale, spriteEffects, 0f);
 
-                //Draw the glowmask textures + their afterimages
-                //These are the colors at their strongest point. It'll shift towards white by the brightness value used earlier.
+                // Draw the glowmask textures + their afterimages
+                // These are the colors at their strongest point. It'll shift towards white by the brightness value used earlier.
                 Color WingColor = Color.Yellow; //Default to day
                 Color CrystalColor = Color.Violet;
                 switch (currentMode)
@@ -2090,13 +2090,13 @@ namespace CalamityMod.NPCs.Providence
                         WingColor = Color.Orange;
                         CrystalColor = Color.HotPink;
                         break;
-                    case (int)BossMode.Yellow: //Same as day
+                    case (int)BossMode.Yellow: // Same as day
                         break;
                     case (int)BossMode.Green:
                         WingColor = Color.Green;
                         CrystalColor = Color.Gold;
                         break;
-                    case (int)BossMode.Blue: //Same as night
+                    case (int)BossMode.Blue: // Same as night
                     case (int)BossMode.Night:
                         WingColor = Color.Cyan;
                         CrystalColor = Color.BlueViolet;
@@ -2163,6 +2163,9 @@ namespace CalamityMod.NPCs.Providence
                 baseColor = Color.Lerp(Color.White, baseColor, burnIntensity);
                 drawProvidenceInstance(drawOffset, totalProvidencesToDraw == 1 ? null : (Color?)baseColor);
             }
+
+            if (NPC.IsABestiaryIconDummy)
+                return false;
 
             // Draw orange star while attacker is alive
             if (NPC.localAI[0] > 0f && NPC.localAI[0] < TimeForStarDespawn)

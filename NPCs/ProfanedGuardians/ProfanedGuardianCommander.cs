@@ -1073,6 +1073,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             else
                 drawGuardianInstance(Vector2.Zero, null);
 
+            if (NPC.IsABestiaryIconDummy)
+                return false;
+
             bool defenderAlive = false;
             bool healerAlive = false;
             if (CalamityGlobalNPC.doughnutBossDefender != -1)
