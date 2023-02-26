@@ -8,8 +8,8 @@ namespace CalamityMod.Items.LoreItems
         public override string Lore =>
 @"The tombs of the Dragons stir. My eyes lift to see ancient dust dancing from high ledges.
 These grand wings… how long has it been since I was a hero worthy of their name?
-It feels like centuries have passed, and all I've done is blink.
-Look upon my works, as they are. Ruined. None would dare seek me out, tread my path.
+It feels like centuries have passed, yet all I've done is blink.
+Look upon my works, as they are… Ruined. None would dare seek me out; tread my path.
 Naught awaits them in this cruel world.";
 
         public override void SetStaticDefaults()
