@@ -562,6 +562,14 @@ namespace CalamityMod.World
             do
             {
                 int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
+
+                // Ensure that the shrine doesn't generate too close to the center of the world
+                do
+                {
+                    placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f));
+                }
+                while (placementPositionX > (int)(Main.maxTilesX * 0.4f) && placementPositionX < (int)(Main.maxTilesX * 0.6f));
+
                 int numTilesBelowSurface = WorldGen.genRand.Next(25, 50);
                 
                 //use Main.worldSurface and not WorldGen.WorldSurface, i believe that is why it was genning on the surface so much
