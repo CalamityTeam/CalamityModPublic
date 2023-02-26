@@ -377,7 +377,7 @@ namespace CalamityMod.World
                 else
                     tries++;
             }
-            while (tries <= 1000);
+            while (tries <= 2000);
         }
         #endregion
 
