@@ -2075,9 +2075,9 @@ namespace CalamityMod.CalPlayer
                 Asset<Texture2D> cometShard = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaCometShard");
                 Asset<Texture2D> etherealCore = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaEtherealCore");
                 Asset<Texture2D> phantomHeart = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaPhantomHeart");
-                Asset<Texture2D> manaOriginal = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaOriginal");
+                Asset<Texture2D> manaOriginal = CalamityMod.manaOriginal;
                 Asset<Texture2D> carpetAuric = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaReplacements/AuricCarpet");
-                Asset<Texture2D> carpetOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaReplacements/Carpet");
+                Asset<Texture2D> carpetOriginal = CalamityMod.carpetOriginal;
 
                 int totalManaBoost =
                     (pHeart ? 1 : 0) +
