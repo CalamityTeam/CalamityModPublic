@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,8 +40,8 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             CreateRecipe(10).
                 AddIngredient(ItemID.BottledWater, 10).
-                AddIngredient<AstralSand>().
-                AddIngredient<AstralMonolith>().
+                AddIngredient<Stardust>(2).
+                AddIngredient<AstralGrassSeeds>().
                 Register();
         }
     }

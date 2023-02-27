@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Small Spine");
             Tooltip.SetDefault("Plants Giant Spine saplings on Brimstone Slag");
         }
