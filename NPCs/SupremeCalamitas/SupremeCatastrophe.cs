@@ -239,10 +239,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     float radians = MathHelper.TwoPi / totalProjectiles;
                     float velocity = CalamityWorld.getFixedBoi ? 5f : 7f;
                     Vector2 spinningPoint = new Vector2(0f, -velocity);
-                    for (int k = 0; k < totalProjectiles; k++)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity2, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                        for (int k = 0; k < totalProjectiles; k++)
+                        {
+                            Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity2, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                        }
                     }
 
                     for (int i = 0; i < 6; i++)
