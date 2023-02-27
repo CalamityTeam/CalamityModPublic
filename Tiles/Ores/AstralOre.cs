@@ -75,15 +75,16 @@ namespace CalamityMod.Tiles.Ores
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            float brightness = 0.7f;
-            brightness *= (float)MathF.Sin(-j / 40f + Main.GameUpdateCount * 0.007f);
-            brightness *= (float)MathF.Sin(-i / 40f + Main.GameUpdateCount * 0.005f);
-            brightness *= (float)MathF.Sin(-j / 40f + Main.GameUpdateCount * 0.006f);
-            brightness *= (float)MathF.Sin(-i / 40f + Main.GameUpdateCount * 0.009f);
+            float brightness = 0.9f;
             brightness += 0.5f;
-            r = Main.DiscoR / 255f * 0.5f;
-            g = 0.5f;
-            b = (255 - Main.DiscoR) / 255f * 0.5f;
+            brightness = MathHelper.Clamp(brightness, 0.5f, 0.9f);
+            Color orange = new Color(237, 93, 83);
+            Color cyan = new Color(66, 189, 181);
+            Color value = Color.Lerp(orange, cyan, (MathF.Sin(-j / 30f + Main.GameUpdateCount * 0.017f + i / 40f) + 1f) / 2f);
+            Color value1 = Color.Lerp(orange, cyan, (MathF.Sin((j - 100) / 40f + Main.GameUpdateCount * 0.014f + -i / 20f) + 1f) / 2f);
+            r = (value.R + value1.R) / 600f;
+            g = (value.G + value1.G) / 600f;
+            b = (value.B + value1.B) / 600f;
             r *= brightness;
             g *= brightness;
             b *= brightness;

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Systems;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -28,7 +29,17 @@ namespace CalamityMod.BiomeManagers
 
         public override void SpecialVisuals(Player player, bool isActive)
         {
-            player.ManageSpecialBiomeVisuals("CalamityMod:Astral", isActive);
+            if (SkyManager.Instance["CalamityMod:AstralDesert"] != null && isActive != SkyManager.Instance["CalamityMod:AstralDesert"].IsActive())
+            {
+                if (isActive)
+                {
+                    SkyManager.Instance.Activate("CalamityMod:AstralDesert");
+                }
+                else
+                {
+                    SkyManager.Instance.Deactivate("CalamityMod:AstralDesert");
+                }
+            }
         }
     }
 }
