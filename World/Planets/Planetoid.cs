@@ -18,7 +18,7 @@ namespace CalamityMod.World.Planets
             var config2 = WorldGenConfiguration.FromEmbeddedPath("Terraria.GameContent.WorldBuilding.Configuration.json");
 
             int GrassPlanetoidCount = Main.maxTilesX / 1100;
-            int LCPlanetoidCount = Main.maxTilesX / 800;
+            int LCPlanetoidCount = Main.maxTilesX / 700;
             int MudPlanetoidCount = Main.maxTilesX / 1100;
 
             const int MainPlanetoidAttempts = 3000;
