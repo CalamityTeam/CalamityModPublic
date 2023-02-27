@@ -21,9 +21,7 @@ namespace CalamityMod.World.Planets
         private ushort[] oreTypes = new ushort[]
         {
             WorldGen.copperBar == TileID.Copper ? (Main.getGoodWorld ? TileID.Palladium : TileID.Tin) : (Main.getGoodWorld ? TileID.Cobalt : TileID.Copper),
-            WorldGen.ironBar == TileID.Iron ? (Main.getGoodWorld ? TileID.Palladium : TileID.Lead) : (Main.getGoodWorld ? TileID.Cobalt : TileID.Iron),
-            WorldGen.silverBar == TileID.Silver ? (Main.getGoodWorld ? TileID.Orichalcum : TileID.Tungsten) : (Main.getGoodWorld ? TileID.Mythril : TileID.Silver),
-            WorldGen.goldBar == TileID.Gold ? (Main.getGoodWorld ? TileID.Titanium : TileID.Platinum) : (Main.getGoodWorld ? TileID.Adamantite : TileID.Gold)
+            WorldGen.ironBar == TileID.Iron ? (Main.getGoodWorld ? TileID.Palladium : TileID.Lead) : (Main.getGoodWorld ? TileID.Cobalt : TileID.Iron)
         };
 
         public override bool Place(Point origin, StructureMap structures)

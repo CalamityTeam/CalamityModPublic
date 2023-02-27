@@ -17,9 +17,9 @@ namespace CalamityMod.World.Planets
             progress.Message = "Enriching low Terraria orbit";
             var config2 = WorldGenConfiguration.FromEmbeddedPath("Terraria.GameContent.WorldBuilding.Configuration.json");
 
-            int GrassPlanetoidCount = Main.maxTilesX / 1100;
-            int LCPlanetoidCount = Main.maxTilesX / 800;
-            int MudPlanetoidCount = Main.maxTilesX / 1100;
+            int GrassPlanetoidCount = Main.maxTilesX / 750;
+            int LCPlanetoidCount = Main.maxTilesX / 1500;
+            int MudPlanetoidCount = Main.maxTilesX / 1000;
 
             const int MainPlanetoidAttempts = 3000;
             int i = 0;
@@ -120,6 +120,7 @@ namespace CalamityMod.World.Planets
             }
             return true;
         }
+
         public bool CheckIfPlaceable(Point origin, int radius, StructureMap structures)
         {
             //Fluff is used to create padding between the planets. this is the minimum distance between planets (they can't be within "fluff" blocks)

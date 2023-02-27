@@ -104,8 +104,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             while (num335 < 15 && num336 > Main.UnderworldLayer)
             {
                 num336++;
-                int num;
-                for (int num337 = num332; num337 <= num333; num337 = num + 1)
+                for (int num337 = num332; num337 <= num333; num337++)
                 {
                     try
                     {
@@ -114,8 +113,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
                     catch
                     { num335 += 15; }
-
-                    num = num337;
                 }
             }
             num336 += 4;
@@ -139,8 +136,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             while (num335 < 15 && num336 < Main.maxTilesY - 10)
             {
                 num336--;
-                int num;
-                for (int num338 = num332; num338 <= num333; num338 = num + 1)
+                for (int num338 = num332; num338 <= num333; num338++)
                 {
                     try
                     {
@@ -149,8 +145,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
                     catch
                     { num335 += 15; }
-
-                    num = num338;
                 }
             }
             num336 -= 4;

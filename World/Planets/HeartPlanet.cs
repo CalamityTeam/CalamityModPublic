@@ -43,7 +43,7 @@ namespace CalamityMod.World.Planets
             }));
 
             //Place gems
-            ushort gemType = _random.Next(new ushort[] { TileID.Amethyst, TileID.Emerald, TileID.Topaz, TileID.Ruby, TileID.Sapphire, TileID.Diamond });
+            ushort gemType = _random.Next(new ushort[] { TileID.Amethyst, TileID.Topaz });
             //Using Tile Runner as it has a wider spread
             WorldGen.TileRunner(origin.X, origin.Y, _random.NextFloat(6f, 9f), _random.Next(8, 18), gemType);
 
