@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Boss
             bool expertMode = Main.expertMode || bossRush;
 
             // Light
-            Lighting.AddLight(Projectile.Center, 0f, 0.6f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.2f, 1f, 0f);
 
             // Get a target and calculate distance from it
             int target = Player.FindClosest(Projectile.Center, 1, 1);
