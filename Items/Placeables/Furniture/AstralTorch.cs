@@ -1,11 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Dusts;
+using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
-    public class GloomTorch : ModItem
+    public class AstralTorch : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,7 +18,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         public override void SetDefaults()
         {
             Item.width = 14;
-            Item.height = 18;
+            Item.height = 16;
             Item.maxStack = 99;
             Item.holdStyle = 1;
             Item.noWet = true;
@@ -26,7 +28,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<Tiles.Crags.GloomTorch>();
+            Item.createTile = ModContent.TileType<Tiles.Astral.AstralTorch>();
             Item.flame = true;
             Item.value = 500;
         }
@@ -40,32 +42,31 @@ namespace CalamityMod.Items.Placeables.Furniture
         public override void HoldItem(Player player)
         {
             bool killTorch = Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) || Item.wet;
+            if (!killTorch && Main.rand.NextBool(player.itemAnimation > 0 ? 10 : 20))
+            {
+                Dust.NewDust(new Vector2(player.itemLocation.X + 16f * player.direction, player.itemLocation.Y - 14f * player.gravDir), 4, 4, ModContent.DustType<AstralOrange>());
+            }
             Vector2 position = player.RotatedRelativePoint(new Vector2(player.itemLocation.X + 12f * player.direction + player.velocity.X, player.itemLocation.Y - 14f + player.velocity.Y), true);
-                
+            
             if (!killTorch)
-                Lighting.AddLight(position, 0.9f, 1.2f, 0.3f);
+                Lighting.AddLight(position, 1.6f, 0.6f, 0.3f);
         }
 
         public override void PostUpdate()
         {
             if (!Item.wet)
-                Lighting.AddLight((int)((Item.position.X + Item.width / 2) / 16f), (int)((Item.position.Y + Item.height / 2) / 16f), 0.5f, 0.75f, 1.2f);
+                Lighting.AddLight((int)((Item.position.X + Item.width / 2) / 16f), (int)((Item.position.Y + Item.height / 2) / 16f), 1.6f, 0.6f, 0.3f);
         }
 
 		// This function doesn't even work....
-        public override void AutoLightSelect(ref bool dryTorch, ref bool wetTorch, ref bool glowstick)
-        {
-            dryTorch = true;
-            wetTorch = false;
-            glowstick = false;
-        }
+        public override void AutoLightSelect(ref bool dryTorch, ref bool wetTorch, ref bool glowstick) => dryTorch = true;
 
         public override void AddRecipes()
         {
             CreateRecipe(3).
-            AddIngredient(ItemID.Torch, 3).
-            AddIngredient(ModContent.ItemType<Items.Placeables.ScorchedBone>()).
-            Register();
+                AddIngredient(ItemID.Torch, 3).
+                AddIngredient(ModContent.ItemType<Stardust>()).
+                Register();
         }
     }
 }
