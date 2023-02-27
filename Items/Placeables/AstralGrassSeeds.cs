@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Placeables
 	{
         public override void SetStaticDefaults()
 		{
+			SacrificeTotal = 25;
 			DisplayName.SetDefault("Astral Grass Seeds");
 			Tooltip.SetDefault("Places grass on astral dirt");
 		}
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.Placeables
 			Item.consumable = true;
             Item.width = 16;
 			Item.height = 16;
-			Item.useTime = 15;
+			Item.useTime = 10;
 			Item.useAnimation = 15;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.maxStack = 999;

@@ -4,6 +4,8 @@ namespace CalamityMod.Items.Placeables.Walls
 {
     public class GreenTiledWallUnsafe : ModItem
     {
+        public override string Texture => $"Terraria/Images/Item_{ItemID.GreenTiledWall}";
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 400;

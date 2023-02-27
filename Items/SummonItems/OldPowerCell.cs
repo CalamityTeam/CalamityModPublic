@@ -9,6 +9,8 @@ namespace CalamityMod.Items.SummonItems
 {
     public class OldPowerCell : ModItem
     {
+        public override string Texture => $"Terraria/Images/Item_{ItemID.LihzahrdPowerCell}";
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;

@@ -228,6 +228,7 @@ namespace CalamityMod.Items
                 // { ItemID.EnchantedBoomerang, Do(DamageExact(26), UseExact(28)) },
 
                 { ItemID.EnchantedSword, Do(UseMeleeSpeed, ScaleRatio(1.5f), DamageExact(42), UseAnimationExact(20), ShootSpeedExact(15f)) },
+                { ItemID.EncumberingStone, Do(Worthless) },
                 { ItemID.EoCShield, Do(DefenseDelta(+1)) },
                 { ItemID.FairyQueenRangedItem, pointBlank },
                 { ItemID.Excalibur, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(125), UseAnimationExact(45)) },
@@ -247,7 +248,7 @@ namespace CalamityMod.Items
 
                 { ItemID.Flamelash, Do(DamageRatio(1.25f)) },
                 { ItemID.Flamethrower, Do(DamageExact(47), ShootSpeedDelta(+3f)) },
-                { ItemID.FlareGun, pointBlank },
+                { ItemID.FlareGun,  Do(PointBlank, Value(Item.buyPrice(silver: 50))) },
                 { ItemID.FleshGrinder, Do(HammerPower(70), UseTimeExact(13), TileBoostExact(+0)) },
                 { ItemID.FlintlockPistol, pointBlank },
                 { ItemID.FlinxStaff, Do(AutoReuse, UseExact(35)) },

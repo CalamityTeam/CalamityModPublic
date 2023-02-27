@@ -1,15 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Dusts;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
-using Terraria.DataStructures;
-using Terraria.Enums;
 
-namespace CalamityMod.Tiles.Crags
+namespace CalamityMod.Tiles.Astral
 {
-    public class GloomTorch : ModTile
+    public class AstralTorch : ModTile
     {
         public override void SetStaticDefaults()
         {
@@ -18,15 +17,15 @@ namespace CalamityMod.Tiles.Crags
             name.SetDefault("Torch");
             AddMapEntry(new Color(253, 221, 3), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Furniture.AstralTorch>();
+            AdjTiles = new int[] { TileID.Torches };
             TileID.Sets.Torch[Type] = true;
             TileID.Sets.FramesOnKillWall[Type] = true;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Furniture.GloomTorch>();
-            AdjTiles = new int[] { TileID.Torches };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(190, 255, 60), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(255, 95, 48), 1f);
             return false;
         }
 
@@ -40,7 +39,7 @@ namespace CalamityMod.Tiles.Crags
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.Furniture.GloomTorch>();
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.Furniture.AstralTorch>();
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -49,9 +48,9 @@ namespace CalamityMod.Tiles.Crags
 
             if (tile.TileFrameX < 66)
             {
-                r = 0.5f;
-                g = 0.75f;
-                b = 1.2f;
+                r = 1.6f;
+                g = 0.6f;
+                b = 0.3f;
             }
         }
 
@@ -70,13 +69,13 @@ namespace CalamityMod.Tiles.Crags
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/Crags/GloomTorchFlame").Value, i, j, 2);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/Astral/AstralTorchFlame").Value, i, j, 2);
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             if (Main.tile[i, j].TileFrameX < 66)
-                CalamityUtils.DrawFlameSparks(Main.rand.NextBool() ? 61 : 64, 5, i, j);
+                CalamityUtils.DrawFlameSparks(ModContent.DustType<AstralOrange>(), 5, i, j);
         }
 
         public override bool RightClick(int i, int j)
@@ -88,7 +87,7 @@ namespace CalamityMod.Tiles.Crags
 		public override float GetTorchLuck(Player player)
 		{
 			// Note: Total Torch luck never goes below zero
-			return player.Calamity().ZoneCalamity ? 1f : -1f;
+			return player.Calamity().ZoneAstral ? 1f : -1f;
 		}
     }
 }

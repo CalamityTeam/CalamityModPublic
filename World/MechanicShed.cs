@@ -35,7 +35,7 @@ namespace CalamityMod.World
 				}
             }
 
-            Point placementPoint = new Point(placementPositionX, placementPositionY + 6);
+            Point placementPoint = new Point(placementPositionX, placementPositionY + 5);
 
             Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
             SchematicAnchor anchorType = SchematicAnchor.BottomCenter;
