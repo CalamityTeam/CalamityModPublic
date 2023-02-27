@@ -15,7 +15,8 @@ namespace CalamityMod.Tiles.Crags.Lily
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileSolid[Type] = false;
-			TileObjectData.newTile.Width = 5;
+            Main.tileAxe[Type] = true;
+            TileObjectData.newTile.Width = 5;
 			TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.Origin = new Point16(3, 2);
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
