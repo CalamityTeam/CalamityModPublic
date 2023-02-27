@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -25,11 +25,24 @@ namespace CalamityMod.Tiles.Crags.Lily
 			TileObjectData.newTile.CoordinatePadding = 2;
 			TileObjectData.newTile.DrawYOffset = 3;
 			TileObjectData.addTile(Type);
+            MineResist = 3f;
             AddMapEntry(new Color(153, 100, 176));
-            DustType = -1; //idk what dust to put here
-		}
+            DustType = DustID.PurpleMoss;
+            HitSound = SoundID.Grass;
+        }
 
-		internal static void DrawLilyTop(int i, int j, Texture2D tex, Rectangle? source, Vector2? offset = null, Vector2? origin = null, bool Glow = false)
+        public override bool CreateDust(int i, int j, ref int type)
+        {
+            type = WorldGen.genRand.NextBool(2) ? DustID.PurpleMoss : DustID.YellowStarfish;
+            return true;
+        }
+
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 10;
+        }
+
+        internal static void DrawLilyTop(int i, int j, Texture2D tex, Rectangle? source, Vector2? offset = null, Vector2? origin = null, bool Glow = false)
         {
             Tile tile = Main.tile[i, j];
             Vector2 drawPos = new Vector2(i, j).ToWorldCoordinates() - Main.screenPosition + (offset ?? new Vector2(0, -2));
