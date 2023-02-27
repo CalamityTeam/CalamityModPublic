@@ -1,4 +1,5 @@
-﻿using CalamityMod.Dusts;
+﻿using System;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -43,9 +44,19 @@ namespace CalamityMod.Tiles.Astral
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = Main.DiscoR / 255f * 0.5f;
-            g = 0.5f;
-            b = (255 - Main.DiscoR) / 255f * 0.5f;
+            float brightness = 0.9f;
+            brightness += 0.2f;
+            brightness = MathHelper.Clamp(brightness, 0.5f, 0.9f);
+            Color orange = new Color(237, 93, 83);
+            Color cyan = new Color(66, 189, 181);
+            Color value = Color.Lerp(orange, cyan, (MathF.Sin(j / 30f + Main.GameUpdateCount * 0.017f + -i / 40f) + 1f) / 2f);
+            Color value1 = Color.Lerp(orange, cyan, (MathF.Sin((-j - 100) / 40f + Main.GameUpdateCount * 0.014f + i / 20f) + 1f) / 2f);
+            r = (value.R + value1.R) / 600f;
+            g = (value.G + value1.G) / 600f;
+            b = (value.B + value1.B) / 600f;
+            r *= brightness;
+            g *= brightness;
+            b *= brightness;
         }
     }
 }

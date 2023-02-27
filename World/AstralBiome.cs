@@ -569,7 +569,7 @@ namespace CalamityMod.World
                                     WorldGen.SquareWallFrame(x, y, true);
                                     NetMessage.SendTileSquare(-1, x, y, 1);
                                     break;
-                                case WallID.LivingWood:
+                                case WallID.LivingWoodUnsafe:
                                     Main.tile[x, y].WallType = (ushort)ModContent.WallType<AstralMonolithWall>();
                                     WorldGen.SquareWallFrame(x, y, true);
                                     NetMessage.SendTileSquare(-1, x, y, 1);
