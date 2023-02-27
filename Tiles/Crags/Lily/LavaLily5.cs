@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles.Crags.Lily
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            type = WorldGen.genRand.NextBool(2) ? DustID.PurpleMoss : DustID.YellowStarfish;
+            type = WorldGen.genRand.NextBool(2) ? DustID.PurpleMoss : DustID.YellowStarDust;
             return true;
         }
 
