@@ -141,7 +141,6 @@ namespace CalamityMod.CalPlayer
                         fishList.AddWithCondition<int>(ItemID.Prismite, Player.ZoneHallow);
                         fishList.AddWithCondition<int>(ItemID.Damselfish, Player.ZoneSkyHeight);
                         fishList.AddWithCondition<int>(ModContent.ItemType<AldebaranAlewife>(), ZoneAstral);
-                        fishList.AddWithCondition<int>(ModContent.ItemType<CoralskinFoolfish>(), ZoneSunkenSea);
                         fishList.AddWithCondition<int>(ModContent.ItemType<SunkenSailfish>(), ZoneSunkenSea);
                         fishList.AddWithCondition<int>(ModContent.ItemType<Shadowfish>(), !Main.dayTime && !Player.ZoneSkyHeight);
                     }
@@ -495,12 +494,7 @@ namespace CalamityMod.CalPlayer
                     }
 					else if (attempt.uncommon || attempt.rare || attempt.veryrare)
                     {
-						int uncommonCatch = Utils.SelectRandom(Main.rand, new int[]
-						{
-							ModContent.ItemType<SunkenSailfish>(),
-							ModContent.ItemType<CoralskinFoolfish>()
-						});
-                        itemDrop = uncommonCatch;
+                        itemDrop = ModContent.ItemType<SunkenSailfish>();
                     }
 					else
                     {
@@ -659,7 +653,6 @@ namespace CalamityMod.CalPlayer
 					ModContent.ItemType<Shadowfish>(),
 					ModContent.ItemType<BrimstoneFish>(),
 					ModContent.ItemType<AldebaranAlewife>(),
-					ModContent.ItemType<CoralskinFoolfish>(),
 					ModContent.ItemType<SunkenSailfish>(),
 				};
 

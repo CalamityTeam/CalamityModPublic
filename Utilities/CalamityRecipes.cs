@@ -1126,11 +1126,6 @@ namespace CalamityMod
             r.Register();
 
             r = Recipe.Create(ItemID.SeafoodDinner);
-            r.AddIngredient(ModContent.ItemType<CoralskinFoolfish>(), 2);
-            r.AddTile(TileID.CookingPots);
-            r.Register();
-
-            r = Recipe.Create(ItemID.SeafoodDinner);
             r.AddIngredient(ModContent.ItemType<SunkenSailfish>(), 2);
             r.AddTile(TileID.CookingPots);
             r.Register();
