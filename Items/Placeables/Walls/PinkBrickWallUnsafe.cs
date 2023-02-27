@@ -4,6 +4,8 @@ namespace CalamityMod.Items.Placeables.Walls
 {
     public class PinkBrickWallUnsafe : ModItem
     {
+        public override string Texture => $"Terraria/Images/Item_{ItemID.PinkBrickWall}";
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 400;
