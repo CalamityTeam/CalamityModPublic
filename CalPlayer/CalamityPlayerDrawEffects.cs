@@ -119,8 +119,8 @@ namespace CalamityMod.CalPlayer
             Asset<Texture2D> mFruit = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartMiracleFruit");
             Asset<Texture2D> eBerry = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartElderberry");
             Asset<Texture2D> dFruit = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartDragonfruit");
-            Asset<Texture2D> heartOriginal = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartOriginal"); // Life crystal
-            Asset<Texture2D> heartOriginal2 = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartOriginal2"); // Life fruit
+            Asset<Texture2D> heartOriginal = CalamityMod.heartOriginal; // Life crystal
+            Asset<Texture2D> heartOriginal2 = CalamityMod.heartOriginal2; // Life fruit
 
             int totalFruit =
                 (calamityPlayer.mFruit ? 1 : 0) +

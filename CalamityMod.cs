@@ -93,7 +93,6 @@ namespace CalamityMod
         // Textures
         public static Asset<Texture2D> heartOriginal;
         public static Asset<Texture2D> heartOriginal2;
-        public static Asset<Texture2D> rainOriginal;
         public static Asset<Texture2D> manaOriginal;
         public static Asset<Texture2D> carpetOriginal;
 
@@ -181,7 +180,6 @@ namespace CalamityMod
             // Save vanilla textures.
             heartOriginal = TextureAssets.Heart;
             heartOriginal2 = TextureAssets.Heart2;
-            rainOriginal = TextureAssets.Rain;
             manaOriginal = TextureAssets.Mana;
             carpetOriginal = TextureAssets.FlyingCarpet;
 
@@ -488,7 +486,6 @@ namespace CalamityMod
             {
                 TextureAssets.Heart = heartOriginal;
                 TextureAssets.Heart2 = heartOriginal2;
-                TextureAssets.Rain = rainOriginal;
                 TextureAssets.Mana = manaOriginal;
                 TextureAssets.FlyingCarpet = carpetOriginal;
                 GeneralParticleHandler.Unload();
@@ -505,7 +502,6 @@ namespace CalamityMod
 
             heartOriginal = null;
             heartOriginal2 = null;
-            rainOriginal = null;
             manaOriginal = null;
             carpetOriginal = null;
 
