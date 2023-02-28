@@ -6018,48 +6018,61 @@ namespace CalamityMod.NPCs
                 }
                 else if (CalamityLists.DestroyerIDs.Contains(npc.type))
                 {
-                    if (drawColor != Color.Black)
+                    Texture2D npcTexture = TextureAssets.Npc[npc.type].Value;
+                    int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
+
+                    Vector2 halfSize = npc.frame.Size() / 2;
+                    SpriteEffects spriteEffects = SpriteEffects.None;
+                    if (npc.spriteDirection == 1)
+                        spriteEffects = SpriteEffects.FlipHorizontally;
+
+                    if (npc.type == NPCID.TheDestroyerBody)
                     {
-                        Texture2D npcTexture = TextureAssets.Npc[npc.type].Value;
-                        int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
-
-                        Vector2 halfSize = npc.frame.Size() / 2;
-                        SpriteEffects spriteEffects = SpriteEffects.None;
-                        if (npc.spriteDirection == 1)
-                            spriteEffects = SpriteEffects.FlipHorizontally;
-
-                        if (npc.type == NPCID.TheDestroyerBody)
-                        {
-                            if (npc.ai[2] == 0f)
-                                npc.frame.Y = 0;
-                            else
-                                npc.frame.Y = frameHeight;
-                        }
-
-                        // Draw segments
-                        spriteBatch.Draw(npcTexture, npc.Center - screenPos + new Vector2(0, npc.gfxOffY),
-                            npc.frame, npc.GetAlpha(drawColor), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
-
-                        // Draw lights
                         if (npc.ai[2] == 0f)
-                        {
-                            float destroyerLifeRatio = 1f;
-                            if (npc.realLife >= 0)
-                                destroyerLifeRatio = Main.npc[npc.realLife].life / (float)Main.npc[npc.realLife].lifeMax;
+                            npc.frame.Y = 0;
+                        else
+                            npc.frame.Y = frameHeight;
+                    }
 
-                            if ((newAI[3] >= 900f && destroyerLifeRatio < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f))
-                            {
-                                for (int i = 0; i < 3; i++)
-                                {
-                                    spriteBatch.Draw(TextureAssets.Dest[npc.type - NPCID.TheDestroyer].Value, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame,
-                                        new Color(50, 50, 255, 0) * (1f - npc.alpha / 255f), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
-                                }
-                            }
-                            else
+                    Color segmentDrawColor = npc.GetAlpha(drawColor);
+
+                    // Check if Destroyer is behind tiles and if so, how much of the segment is behind tiles and adjust color accordingly
+                    int x = (int)((npc.position.X - 8f) / 16f);
+                    int x2 = (int)((npc.position.X + npc.width + 8f) / 16f);
+                    int y = (int)((npc.position.Y - 8f) / 16f);
+                    int y2 = (int)((npc.position.Y + npc.height + 8f) / 16f);
+                    for (int l = x; l <= x2; l++)
+                    {
+                        for (int m = y; m <= y2; m++)
+                        {
+                            if (Lighting.Brightness(l, m) == 0f)
+                                segmentDrawColor = Color.Black;
+                        }
+                    }
+
+                    // Draw segments
+                    spriteBatch.Draw(npcTexture, npc.Center - screenPos + new Vector2(0, npc.gfxOffY),
+                        npc.frame, segmentDrawColor, npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
+
+                    // Draw lights
+                    if (npc.ai[2] == 0f && segmentDrawColor != Color.Black)
+                    {
+                        float destroyerLifeRatio = 1f;
+                        if (npc.realLife >= 0)
+                            destroyerLifeRatio = Main.npc[npc.realLife].life / (float)Main.npc[npc.realLife].lifeMax;
+
+                        if ((newAI[3] >= 900f && destroyerLifeRatio < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f))
+                        {
+                            for (int i = 0; i < 3; i++)
                             {
                                 spriteBatch.Draw(TextureAssets.Dest[npc.type - NPCID.TheDestroyer].Value, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame,
-                                    new Color(255, 255, 255, 0) * (1f - npc.alpha / 255f), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
+                                    new Color(50, 50, 255, 0) * (1f - npc.alpha / 255f), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
                             }
+                        }
+                        else
+                        {
+                            spriteBatch.Draw(TextureAssets.Dest[npc.type - NPCID.TheDestroyer].Value, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame,
+                                new Color(255, 255, 255, 0) * (1f - npc.alpha / 255f), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
                         }
                     }
                 }
