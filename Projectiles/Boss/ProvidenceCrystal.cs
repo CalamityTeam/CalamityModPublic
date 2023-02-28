@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Boss
                         {
                             float x4 = dayAI ? Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X : Main.rgbToHsl(new Color(Main.DiscoR, 200, 255)).X;
                             float randomSpread = dayAI ? 0f : Main.rand.Next(-150, 151) * 0.01f * (1f - lifeRatio);
-                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speedX + speedAdjustment * i + randomSpread, speedY, ModContent.ProjectileType<ProvidenceCrystalShard>(), Projectile.damage, Projectile.knockBack, Projectile.owner, x4, Projectile.whoAmI);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speedX + speedAdjustment * i + randomSpread, speedY, ModContent.ProjectileType<ProvidenceCrystalShard>(), Projectile.damage, Projectile.knockBack, Main.myPlayer, x4, Projectile.whoAmI);
                         }
                     }
 
