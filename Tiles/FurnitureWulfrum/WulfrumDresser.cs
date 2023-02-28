@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
             this.SetUpDresser();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Wulfrum Dresser");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(100, 153, 100), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
             ContainerName.SetDefault("Wulfrum Dresser");

@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
         public override void SetStaticDefaults()
         {
             this.SetUpLamp();
-            AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
+            AddMapEntry(new Color(100, 153, 100), Language.GetText("MapObject.FloorLamp"));
 
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Lamps };

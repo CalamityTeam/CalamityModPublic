@@ -111,10 +111,5 @@ namespace CalamityMod.NPCs.SlimeGod
             if (damage > 0)
                 player.AddBuff(BuffID.Darkness, 90, true);
         }
-
-        public override Color? GetAlpha(Color drawColor)
-        {
-            return new Color(255, 255, 255, drawColor.A) * NPC.Opacity;
-        }
     }
 }

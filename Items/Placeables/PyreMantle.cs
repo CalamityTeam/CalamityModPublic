@@ -25,13 +25,5 @@ namespace CalamityMod.Items.Placeables
             Item.consumable = true;
             Item.createTile = ModContent.TileType<Tiles.Abyss.PyreMantle>();
         }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe().
-            AddIngredient(ItemID.LavaBucket).
-            AddTile(TileID.WorkBenches).
-            Register();
-        }
     }
 }

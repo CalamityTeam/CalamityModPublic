@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.Crabulon
             NPC.rotation = NPC.velocity.X * 0.1f;
         }
 
-        public override Color? GetAlpha(Color drawColor) => CalamityWorld.getFixedBoi ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, NPC.alpha) : new Color(255, 255, 255, NPC.alpha);
+        public override Color? GetAlpha(Color drawColor) => CalamityWorld.getFixedBoi ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, drawColor.A) * NPC.Opacity : null;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

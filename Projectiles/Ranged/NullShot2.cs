@@ -1,3 +1,4 @@
+using CalamityMod.NPCs.NormalNPCs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -62,7 +63,7 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     target.scale *= 0.1f;
                 }
-                else if (nullBuff == 2)
+                else if (nullBuff == 2 && target.type != ModContent.NPCType<SuperDummyNPC>())
                 {
                     target.damage += 20;
                 }

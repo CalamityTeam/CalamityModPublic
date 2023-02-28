@@ -158,10 +158,7 @@ namespace CalamityMod.NPCs.Signus
             }
         }
 
-        public override Color? GetAlpha(Color drawColor)
-        {
-            return new Color(200, Main.DiscoG, 255, 0);
-        }
+        public override Color? GetAlpha(Color drawColor) => new Color(200, Main.DiscoG, 255, 0);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

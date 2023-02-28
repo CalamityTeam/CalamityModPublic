@@ -28,9 +28,10 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe().
+            CreateRecipe(25).
                 AddIngredient(ItemID.LavaBucket).
-                AddTile(TileID.WorkBenches).
+                AddIngredient<PyreMantle>(25).
+                AddTile(TileID.Furnaces).
                 Register();
         }
     }

@@ -767,7 +767,7 @@ namespace CalamityMod.NPCs.Crabulon
             }
         }
 
-        public override Color? GetAlpha(Color drawColor) => CalamityWorld.getFixedBoi ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, NPC.alpha) : null;
+        public override Color? GetAlpha(Color drawColor) => CalamityWorld.getFixedBoi ? new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, drawColor.A) * NPC.Opacity : null;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

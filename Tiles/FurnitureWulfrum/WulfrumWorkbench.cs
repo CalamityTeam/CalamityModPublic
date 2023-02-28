@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Work Bench");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(100, 153, 100), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.WorkBenches };
         }

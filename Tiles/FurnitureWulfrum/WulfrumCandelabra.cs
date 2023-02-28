@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
             this.SetUpCandelabra();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Candelabra");
-            AddMapEntry(new Color(253, 221, 3), name);
+            AddMapEntry(new Color(100, 153, 100), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Candelabras };
         }

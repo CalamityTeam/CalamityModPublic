@@ -64,10 +64,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.lifeRegen += 2000000;
         }
 
-        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
-        {
-            return false;
-        }
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot) => CalamityWorld.getFixedBoi;
+
+        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 
         public override void HitEffect(int hitDirection, double damage)
         {

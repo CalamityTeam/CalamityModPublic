@@ -105,13 +105,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => NPC.ai[1] == 0f;
 
-        public override Color? GetAlpha(Color drawColor)
-        {
-            if (NPC.ai[1] == 1f)
-                return Color.Transparent;
-
-            return new Color(200, 200, 200, NPC.alpha);
-        }
+        public override Color? GetAlpha(Color drawColor) => NPC.ai[1] == 1f ? Color.Transparent : new Color(200, 200, 200, drawColor.A) * NPC.Opacity;
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {

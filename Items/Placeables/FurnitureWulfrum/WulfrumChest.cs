@@ -1,6 +1,5 @@
 ﻿// There is no Wulfrum Chest placed sprite...
 /*
-using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,6 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureWulfrum
         {
             CreateRecipe().
                 AddIngredient<WulfrumMetalScrap>(10).
+                AddRecipeGroup("IronBar", 2).
                 AddTile<WulfrumLabstation>().
                 Register();
         }

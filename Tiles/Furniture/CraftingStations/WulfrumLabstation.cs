@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Wulfrum Labstation");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(100, 153, 100), name);
         }
 
         public override bool CreateDust(int i, int j, ref int type)

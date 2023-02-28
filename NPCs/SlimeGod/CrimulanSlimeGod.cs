@@ -675,7 +675,7 @@ namespace CalamityMod.NPCs.SlimeGod
         public override Color? GetAlpha(Color drawColor)
         {
             Color lightColor = new Color(Main.DiscoR, 100, 150, NPC.alpha);
-            Color newColor = NPC.localAI[1] == 1f ? lightColor : new Color(255, 255, 255, drawColor.A);
+            Color newColor = NPC.localAI[1] == 1f ? lightColor : drawColor;
             return newColor * NPC.Opacity;
         }
 

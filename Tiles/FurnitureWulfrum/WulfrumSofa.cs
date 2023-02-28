@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
         public override void SetStaticDefaults()
         {
             this.SetUpSofa();
-            AddMapEntry(new Color(71, 95, 114), Language.GetText("Bench"));
+            AddMapEntry(new Color(100, 153, 100), Language.GetText("Bench"));
         }
 
         public override bool CanExplode(int i, int j) => false;

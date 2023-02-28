@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
             this.SetUpBookcase();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Bookcase");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(100, 153, 100), name);
             AnimationFrameHeight = 54;
             AdjTiles = new int[] { TileID.Bookcases };
         }
