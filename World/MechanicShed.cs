@@ -49,7 +49,7 @@ namespace CalamityMod.World
 
         public static void FillMechanicChest(Chest chest, int Type, bool place)
         {
-            int gizmoGoobabGadgets = Utils.SelectRandom(WorldGen.genRand, ItemID.Stopwatch, ItemID.LifeformAnalyzer, ItemID.DPSMeter);
+            int gizmoGoobabGadgets = Utils.SelectRandom(WorldGen.genRand, ItemID.BrickLayer, ItemID.ExtendoGrip, ItemID.PaintSprayer, ItemID.PortableCementMixer);
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ItemID.Toolbox, 1),

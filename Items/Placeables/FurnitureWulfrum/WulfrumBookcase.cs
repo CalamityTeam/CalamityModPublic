@@ -28,7 +28,8 @@ namespace CalamityMod.Items.Placeables.FurnitureWulfrum
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<WulfrumMetalScrap>(10).
+                AddIngredient<WulfrumPlating>(20).
+                AddIngredient(ItemID.Book, 10).
                 AddTile<WulfrumLabstation>().
                 Register();
         }

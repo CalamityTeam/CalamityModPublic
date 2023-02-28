@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.FurnitureWulfrum;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
@@ -8,6 +8,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
+            DisplayName.SetDefault("Wulfrum Labstation");
             Tooltip.SetDefault("Used for special crafting");
         }
 
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<WulfrumMetalScrap>(15).
+                AddIngredient<WulfrumPlating>(20).
                 AddTile(TileID.Anvils).
                 Register();
         }

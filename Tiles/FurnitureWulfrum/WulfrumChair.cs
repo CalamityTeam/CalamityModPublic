@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
 
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 
-            AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Chair"));
+            AddMapEntry(new Color(100, 153, 100), Language.GetText("MapObject.Chair"));
             TileID.Sets.CanBeSatOnForNPCs[Type] = true;
             TileID.Sets.CanBeSatOnForPlayers[Type] = true;
             TileID.Sets.HasOutlines[Type] = true;

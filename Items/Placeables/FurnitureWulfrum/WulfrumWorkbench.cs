@@ -1,5 +1,4 @@
-﻿using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureWulfrum
@@ -13,6 +12,7 @@ namespace CalamityMod.Items.Placeables.FurnitureWulfrum
 
         public override void SetDefaults()
         {
+            Item.SetNameOverride("Wulfrum Work Bench");
             Item.width = 32;
             Item.height = 18;
             Item.maxStack = 999;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.FurnitureWulfrum
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<WulfrumMetalScrap>(10).
+                AddIngredient<WulfrumPlating>(10).
                 AddTile<WulfrumLabstation>().
                 Register();
         }

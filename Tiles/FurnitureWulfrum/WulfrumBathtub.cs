@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
             this.SetUpBathtub();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Bathtub");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(100, 153, 100), name);
             AnimationFrameHeight = 54;
         }
 

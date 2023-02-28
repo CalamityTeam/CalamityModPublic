@@ -1,7 +1,5 @@
-﻿using CalamityMod.Items.Placeables.Ores;
-using CalamityMod.Items.Placeables.Walls;
+﻿using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -31,13 +29,12 @@ namespace CalamityMod.Items.Placeables.FurnitureWulfrum
         public override void AddRecipes()
         {
             CreateRecipe(25).
-                AddIngredient<WulfrumMetalScrap>().
                 AddRecipeGroup("AnyStoneBlock", 25).
-                AddTile(TileID.Anvils).
+                AddIngredient<WulfrumMetalScrap>().
+                AddTile(TileID.HeavyWorkBench).
                 Register();
-
             //CreateRecipe().
-                //AddIngredient<AstralBrickWall>(4).
+                //AddIngredient<WulfrumPlatingWall>(4).
                 //AddTile(TileID.WorkBenches).
                 //Register();
         }

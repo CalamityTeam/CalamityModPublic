@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
         public override void SetStaticDefaults()
         {
             this.SetUpTable();
-            AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Table"));
+            AddMapEntry(new Color(100, 153, 100), Language.GetText("MapObject.Table"));
             AdjTiles = new int[] { TileID.Tables };
         }
 

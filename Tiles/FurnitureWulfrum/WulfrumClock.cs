@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
             this.SetUpClock();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Grandfather Clock");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(100, 153, 100), name);
             AdjTiles = new int[] { TileID.GrandfatherClocks };
         }
 

@@ -40,7 +40,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Wulfrum Toilet");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(100, 153, 100), name);
             TileID.Sets.CanBeSatOnForNPCs[Type] = true;
             TileID.Sets.CanBeSatOnForPlayers[Type] = true;
             TileID.Sets.HasOutlines[Type] = true;

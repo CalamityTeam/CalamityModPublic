@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
             this.SetUpCandle();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Candle");
-            AddMapEntry(new Color(253, 221, 3), name);
+            AddMapEntry(new Color(100, 153, 100), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Candles };
             ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureWulfrum.WulfrumCandle>();
