@@ -5,11 +5,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing
 {
-    public class Xerocodile : ModItem
+    [LegacyName("Xerocodile")]
+    public class Gorecodile : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Xerocodile");
+            DisplayName.SetDefault("Gorecodile");
             Tooltip.SetDefault("Right click to extract blood orbs");
             SacrificeTotal = 10;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;

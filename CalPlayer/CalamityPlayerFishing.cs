@@ -446,7 +446,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (attempt.uncommon && Main.rand.NextBool(7))
                     {
-                        itemDrop = ModContent.ItemType<Xerocodile>();
+                        itemDrop = ModContent.ItemType<Gorecodile>();
                     }
                 }
 
