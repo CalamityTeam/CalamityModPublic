@@ -407,9 +407,6 @@ namespace CalamityMod
                 case 9:
                     item = ModContent.ItemType<MantisShrimpBanner>();
                     break;
-                case 10:
-                    item = ModContent.ItemType<AquaticAberrationBanner>();
-                    break;
                 case 12:
                     item = ModContent.ItemType<SeaUrchinBanner>();
                     break;
@@ -768,9 +765,6 @@ namespace CalamityMod
                     break;
                 case 9:
                     npc = ModContent.NPCType<MantisShrimp>();
-                    break;
-                case 10:
-                    npc = ModContent.NPCType<AquaticAberration>();
                     break;
                 case 12:
                     npc = ModContent.NPCType<SeaUrchin>();
