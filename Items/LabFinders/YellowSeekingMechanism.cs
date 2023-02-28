@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LabFinders
 {
+    [LegacyName("PurpleSeekingMechanism")]
     public class YellowSeekingMechanism : ModItem
     {
         public override void SetStaticDefaults()
