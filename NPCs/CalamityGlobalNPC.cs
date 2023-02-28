@@ -5538,6 +5538,10 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            // Vanilla debuff coloring effects + Hunter Potion. This allows GetAlpha (often used in PreDraw) to get vanilla debuff colors
+            drawColor = npc.GetNPCColorTintedByBuffs(drawColor);
+
+            // Calamity debuff coloring effects
             if (gState > 0 || eFreeze > 0)
                 drawColor = Color.Cyan;
 
