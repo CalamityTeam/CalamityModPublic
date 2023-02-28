@@ -24,6 +24,9 @@ namespace CalamityMod.Tiles.Crags
             AdjTiles = new int[] { TileID.Torches };
         }
 
+        // This is required for torches to break underwater
+        public override bool CanPlace(int i, int j) => Main.tile[i, j].LiquidAmount <= 0;
+
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(190, 255, 60), 1f);
