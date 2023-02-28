@@ -78,10 +78,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override Color? GetAlpha(Color drawColor)
-        {
-            return new Color(200, 200, 200, 0);
-        }
+        public override Color? GetAlpha(Color drawColor) => new Color(200, 200, 200, 0);
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<Phantoplasm>());
     }

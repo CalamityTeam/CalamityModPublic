@@ -158,11 +158,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override Color? GetAlpha(Color drawColor)
-        {
-            return new Color(255, 255, 255, drawColor.A) * NPC.Opacity;
-        }
-
         public override bool CheckActive()
         {
             return false;

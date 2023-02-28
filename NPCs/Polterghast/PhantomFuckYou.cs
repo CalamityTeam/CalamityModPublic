@@ -132,10 +132,7 @@ namespace CalamityMod.NPCs.Polterghast
             return false;
         }
 
-        public override Color? GetAlpha(Color drawColor)
-        {
-            return new Color(200, 200, 200, 0);
-        }
+        public override Color? GetAlpha(Color drawColor) => new Color(200, 200, 200, 0);
 
         public override bool CheckActive()
         {

@@ -2721,12 +2721,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
         }
 
-        public override Color? GetAlpha(Color drawColor)
-        {
-            if (willCharge)
-                return drawColor * NPC.Opacity * 0.45f;
-            return null;
-        }
+        public override Color? GetAlpha(Color drawColor) => willCharge ? drawColor * NPC.Opacity * 0.45f : null;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

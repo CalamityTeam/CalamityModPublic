@@ -414,10 +414,7 @@ namespace CalamityMod.NPCs.Polterghast
             }
         }
 
-        public override Color? GetAlpha(Color drawColor)
-        {
-            return new Color(200, 150, 255) * NPC.Opacity;
-        }
+        public override Color? GetAlpha(Color drawColor) => new Color(200, 150, 255) * NPC.Opacity;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
