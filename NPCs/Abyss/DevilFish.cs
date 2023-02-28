@@ -1,6 +1,7 @@
 ﻿using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.World;
@@ -313,6 +314,7 @@ namespace CalamityMod.NPCs.Abyss
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 1, 2, 2, 3));
             postClone.Add(ModContent.ItemType<Lumenyl>(), 2);
             npcLoot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<ScoriaOre>(), 1, 3, 9);
+            npcLoot.Add(ModContent.ItemType<PyreMantle>(), 1, 10, 20);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => DefineDevilFishLoot(npcLoot);
