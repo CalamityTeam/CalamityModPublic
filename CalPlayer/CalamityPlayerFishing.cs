@@ -117,7 +117,6 @@ namespace CalamityMod.CalPlayer
                         fishList.AddWithCondition<int>(ItemID.Obsidifish, !ZoneCalamity);
                         fishList.AddWithCondition<int>(ModContent.ItemType<CoastalDemonfish>(), ZoneCalamity);
                         fishList.AddWithCondition<int>(ModContent.ItemType<Shadowfish>(), ZoneCalamity);
-                        fishList.AddWithCondition<int>(ModContent.ItemType<BrimstoneFish>(), ZoneCalamity);
                     }
                     else if (water)
                     {
@@ -572,7 +571,6 @@ namespace CalamityMod.CalPlayer
 						List<int> uncommonCatches = new List<int>()
 						{
 							ModContent.ItemType<CoastalDemonfish>(),
-							ModContent.ItemType<BrimstoneFish>(),
 							ModContent.ItemType<Shadowfish>()
 						};
                         uncommonCatches.AddWithCondition<int>(ModContent.ItemType<Havocfish>(), Main.hardMode);
@@ -651,7 +649,6 @@ namespace CalamityMod.CalPlayer
 					ItemID.Damselfish,
 					ModContent.ItemType<CoastalDemonfish>(),
 					ModContent.ItemType<Shadowfish>(),
-					ModContent.ItemType<BrimstoneFish>(),
 					ModContent.ItemType<AldebaranAlewife>(),
 					ModContent.ItemType<SunkenSailfish>(),
 				};

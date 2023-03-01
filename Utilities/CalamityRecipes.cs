@@ -1111,11 +1111,6 @@ namespace CalamityMod
             r.Register();
 
             r = Recipe.Create(ItemID.SeafoodDinner);
-            r.AddIngredient(ModContent.ItemType<BrimstoneFish>(), 2);
-            r.AddTile(TileID.CookingPots);
-            r.Register();
-
-            r = Recipe.Create(ItemID.SeafoodDinner);
             r.AddIngredient(ModContent.ItemType<CoastalDemonfish>(), 2);
             r.AddTile(TileID.CookingPots);
             r.Register();
