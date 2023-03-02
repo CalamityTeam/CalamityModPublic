@@ -418,7 +418,7 @@ namespace CalamityMod.Items
                 { ItemID.NebulaPickaxe, Do(PickPower(225), UseTimeExact(6), TileBoostExact(+4)) },
                 { ItemID.NettleBurst, Do(ManaExact(10), DamageExact(43)) },
                 { ItemID.NightmarePickaxe, Do(PickPower(66), UseTimeExact(9)) },
-                { ItemID.NightsEdge, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(98)) },
+                { ItemID.NightsEdge, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(76)) },
                 { ItemID.NorthPole, Do(AutoReuse, UseMeleeSpeed, AttackSpeedExact(0.33f)) },
                 { ItemID.ObsidianShield, Do(DefenseDelta(+5)) },
                 { ItemID.ObsidianSkull, Do(DefenseDelta(+1)) },

@@ -53,7 +53,7 @@ namespace CalamityMod.Skies
                     for (int k = -1; k <= 1; k++)
                     {
                         var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
-                        spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, new Color(116, 96, 164, 255) * opacity, 0f, new Vector2(0f, 0f), scale, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, new Color(116, 96, 164, 255) * opacity, 0f, new Vector2(0f, (float)AstralBiomeHeight), scale, SpriteEffects.None, 0f);
                     }
                 }
                 if (maxDepth >= 8f && minDepth < 8f)
@@ -68,7 +68,7 @@ namespace CalamityMod.Skies
                     for (int k = -1; k <= 1; k++)
                     {
                         var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
-                        spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, new Color(116, 96, 164, 255) * opacity, 0f, new Vector2(0f, 0f), scale, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, new Color(116, 96, 164, 255) * opacity, 0f, new Vector2(0f, (float)AstralBiomeHeight), scale, SpriteEffects.None, 0f);
                     }
                 }
                 if (maxDepth >= 7f && minDepth < 7f)
@@ -83,7 +83,7 @@ namespace CalamityMod.Skies
                     for (int k = -1; k <= 1; k++)
                     {
                         var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
-                        spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, new Color(116, 96, 164, 255) * opacity, 0f, new Vector2(0f, 0f), scale, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, new Color(116, 96, 164, 255) * opacity, 0f, new Vector2(0f, (float)AstralBiomeHeight), scale, SpriteEffects.None, 0f);
                     }
                 }
                 if (maxDepth >= 6f && minDepth < 6f)
@@ -98,14 +98,14 @@ namespace CalamityMod.Skies
                     for (int k = -1; k <= 1; k++)
                     {
                         var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
-                        spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, new Color(116, 96, 164, 255) * opacity, 0f, new Vector2(0f, 0f), scale, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, new Color(116, 96, 164, 255) * opacity, 0f, new Vector2(0f, (float)AstralBiomeHeight), scale, SpriteEffects.None, 0f);
                     }
 
                     Texture2D textureglow = CalamityMod.AstralSurfaceCloseGlow;
                     for (int k = -1; k <= 1; k++)
                     {
                         var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
-                        spriteBatch.Draw(textureglow, pos - texture.Size() / 2f * scale, null, Color.White * 0.7f * opacity, 0f, new Vector2(0f, 0f), scale, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(textureglow, pos - texture.Size() / 2f * scale, null, Color.White * 0.7f * opacity, 0f, new Vector2(0f, (float)AstralBiomeHeight), scale, SpriteEffects.None, 0f);
                     }
                 }
                 if (maxDepth >= 5f && minDepth < 5f)
@@ -120,14 +120,14 @@ namespace CalamityMod.Skies
                     for (int k = -1; k <= 1; k++)
                     {
                         var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
-                        spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, new Color(116, 96, 164, 255) * opacity, 0f, new Vector2(0f, 0f), scale, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(texture, pos - texture.Size() / 2f * scale, null, new Color(116, 96, 164, 255) * opacity, 0f, new Vector2(0f, (float)AstralBiomeHeight), scale, SpriteEffects.None, 0f);
                     }
 
                     Texture2D textureglow = CalamityMod.AstralSurfaceFrontGlow;
                     for (int k = -1; k <= 1; k++)
                     {
                         var pos = new Vector2(Main.screenWidth / 2f - x + texture.Width * k * scale, Main.screenHeight / 2f - y);
-                        spriteBatch.Draw(textureglow, pos - texture.Size() / 2f * scale, null, Color.White * 0.9f * opacity, 0f, new Vector2(0f, 0f), scale, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(textureglow, pos - texture.Size() / 2f * scale, null, Color.White * 0.9f * opacity, 0f, new Vector2(0f, (float)AstralBiomeHeight), scale, SpriteEffects.None, 0f);
                     }
                 }
         }

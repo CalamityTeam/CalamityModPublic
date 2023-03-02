@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Caustic Edge");
-            Tooltip.SetDefault("Inflicts poison and venom on enemy hits");
+            Tooltip.SetDefault("Inflicts poison on enemy hits");
             SacrificeTotal = 1;
         }
 
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 46;
             Item.height = 46;
-            Item.damage = 70;
+            Item.damage = 60;
             Item.scale = 1.4f;
             Item.DamageType = DamageClass.Melee;
             Item.useTurn = true;

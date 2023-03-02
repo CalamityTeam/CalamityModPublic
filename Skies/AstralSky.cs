@@ -40,6 +40,19 @@ namespace CalamityMod.Skies
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
+            //small worlds, default draw height
+            int AstralBiomeHeight = (World.AstralBiome.YStart + (int)Main.worldSurface) / 2;
+
+            //medium worlds
+            if (Main.maxTilesX >= 6400 && Main.maxTilesX < 8400)
+            {
+                AstralBiomeHeight = (World.AstralBiome.YStart + (int)Main.worldSurface) / 4;
+            }
+            //large worlds (and anything bigger)
+            if (Main.maxTilesX >= 8400)
+            {
+                AstralBiomeHeight = (World.AstralBiome.YStart + (int)Main.worldSurface) / 140;
+            }
             if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f)
             {
                 spriteBatch.Draw(CalamityMod.AstralSky, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * opacity);
