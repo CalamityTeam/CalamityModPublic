@@ -24,6 +24,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override float InitialSpeed => 3f;
