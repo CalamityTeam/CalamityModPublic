@@ -1173,6 +1173,94 @@ namespace CalamityMod
             }
             #endregion
         }
+        internal static void SlopedGlowmask(int i, int j, int type, Texture2D texture, Vector2 position, Rectangle sourceRectangle, Color drawColor, Vector2 positionOffset,  bool overrideTileFrame = false)
+        {
+            Tile tile = Main.tile[i, j];
+            int TileFrameX = tile.TileFrameX;
+            int TileFrameY = tile.TileFrameY;
+            if (overrideTileFrame)
+            {
+                TileFrameX = 0;
+                TileFrameY = 0;
+            }
+            int width = 16;
+            int height = 16;
+            if (sourceRectangle != null)
+            {
+                TileFrameX = sourceRectangle.X;
+                TileFrameY = sourceRectangle.Y;
+            }
+            Vector2 location = new Vector2(i * 16, j * 16);
+            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+            if (Main.drawToScreen)
+            {
+                zero = Vector2.Zero;
+            }
+            Vector2 offsets = -Main.screenPosition + zero + positionOffset;
+            Vector2 drawCoordinates = location + offsets;
+            if ((tile.Slope == 0 && !tile.IsHalfBlock) || (Main.tileSolid[tile.TileType] && Main.tileSolidTop[tile.TileType])) //second one should be for platforms
+            {
+                Main.spriteBatch.Draw(texture, drawCoordinates, new Rectangle(TileFrameX, TileFrameY, width, height), drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            }
+            else if (tile.IsHalfBlock)
+            {
+                Main.spriteBatch.Draw(texture, new Vector2(drawCoordinates.X, drawCoordinates.Y + 8), new Rectangle(TileFrameX, TileFrameY, width, 8), drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            }
+            else
+            {
+                byte b = (byte)tile.Slope;
+                Rectangle TileFrame;
+                Vector2 drawPos;
+                if (b == 1 || b == 2)
+                {
+                    int length;
+                    int height2;
+                    for (int a = 0; a < 8; ++a)
+                    {
+                        if (b == 2)
+                        {
+                            length = 16 - a * 2 - 2;
+                            height2 = 14 - a * 2;
+                        }
+                        else
+                        {
+                            length = a * 2;
+                            height2 = 14 - length;
+                        }
+                        TileFrame = new Rectangle(TileFrameX + length, TileFrameY, 2, height2);
+                        drawPos = new Vector2(i * 16 + length, j * 16 + a * 2) + offsets;
+                        Main.spriteBatch.Draw(texture, drawPos, TileFrame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                    }
+                    TileFrame = new Rectangle(TileFrameX, TileFrameY + 14, 16, 2);
+                    drawPos = new Vector2(i * 16, j * 16 + 14) + offsets;
+                    Main.spriteBatch.Draw(texture, drawPos, TileFrame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                }
+                else
+                {
+                    int length;
+                    int height2;
+                    for (int a = 0; a < 8; ++a)
+                    {
+                        if (b == 3)
+                        {
+                            length = a * 2;
+                            height2 = 16 - length;
+                        }
+                        else
+                        {
+                            length = 16 - a * 2 - 2;
+                            height2 = 16 - a * 2;
+                        }
+                        TileFrame = new Rectangle(TileFrameX + length, TileFrameY + 16 - height2, 2, height2);
+                        drawPos = new Vector2(i * 16 + length, j * 16) + offsets;
+                        Main.spriteBatch.Draw(texture, drawPos, TileFrame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                    }
+                    drawPos = new Vector2(i * 16, j * 16) + offsets;
+                    TileFrame = new Rectangle(TileFrameX, TileFrameY, 16, 2);
+                    Main.spriteBatch.Draw(texture, drawPos, TileFrame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                }
+            }
+        }
         #endregion
 
         #region Generic Custom Framing Code
