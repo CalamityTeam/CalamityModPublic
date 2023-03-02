@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 300;
             Projectile.penetrate = 1;
-            Projectile.MaxUpdates = 1;
+            Projectile.MaxUpdates = 2;
             Projectile.DamageType = DamageClass.Magic;
         }
 

@@ -133,17 +133,12 @@ namespace CalamityMod.Projectiles.Magic
                     ecto = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 206, 0f, 0f, 100, default, 0.5f);
                     Main.dust[ecto].velocity *= 2f;
                 }
-                float spread = 45f * 0.0174f;
-                double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-                double deltaAngle = spread / 8f;
-                double offsetAngle;
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    for (int i = 0; i < 4; i++)
+                    for (int i = 0; i < 8; i++)
                     {
-                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GraniteEnergy>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GraniteEnergy>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Vector2 velocity = ((MathHelper.TwoPi * i / 8f) - (MathHelper.Pi / 8f)).ToRotationVector2() * 3f;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<GraniteEnergy>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
             }

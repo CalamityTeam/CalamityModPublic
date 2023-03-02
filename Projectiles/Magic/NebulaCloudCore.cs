@@ -30,8 +30,9 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.penetrate = 4;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.MaxUpdates = 3;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 8;
+            Projectile.localNPCHitCooldown = 8 * Projectile.MaxUpdates; // 8 effective, 16 total
         }
 
         public override void AI()

@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.extraUpdates = 100;
             Projectile.timeLeft = 240;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
@@ -47,10 +47,10 @@ namespace CalamityMod.Projectiles.Magic
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
 
             var source = Projectile.GetSource_FromThis();
-            for (int x = 0; x < 3; x++)
+            for (int x = 0; x < 5; x++)
             {
-                if (Projectile.owner == Main.myPlayer)
-                    CalamityUtils.ProjectileBarrage(source, Projectile.Center, target.Center, true, -500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<SoulPiercerBolt>(), (int)(Projectile.damage * 0.5), 0f, Projectile.owner, false, 0f);
+                if (Projectile.owner == Main.myPlayer && Projectile.numHits == 0)
+                    CalamityUtils.ProjectileBarrage(source, Projectile.Center, target.Center, true, -500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<SoulPiercerBolt>(), Projectile.damage, 0f, Projectile.owner, false, 0f);
             }
         }
 

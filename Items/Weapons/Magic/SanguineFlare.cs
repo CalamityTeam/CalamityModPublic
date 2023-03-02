@@ -36,19 +36,17 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item20;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<SanguineFlareProj>();
-            Item.shootSpeed = 14f;
+            Item.shootSpeed = 21f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int orbAmt = Main.rand.Next(6, 9);
-            for (int index = 0; index < orbAmt; ++index)
+            for (int i = 0; i < 7; i++)
             {
-                float SpeedX = velocity.X + (float)Main.rand.Next(-20, 21) * 0.05f;
-                float SpeedY = velocity.Y + (float)Main.rand.Next(-20, 21) * 0.05f;
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
+                Vector2 spreadVelocity = velocity.RotatedByRandom(MathHelper.ToRadians(5f)) * Main.rand.NextFloat(0.8f, 1.2f);
+                Projectile.NewProjectile(source, position, spreadVelocity, type, damage, knockback, Main.myPlayer);
             }
-            return false;
+            return true; // Fires one directly with no randomness, totaling 8 projectiles
         }
 
         public override void AddRecipes()

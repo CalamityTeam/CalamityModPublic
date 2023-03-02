@@ -24,6 +24,8 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 180;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -83,11 +85,6 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.immune[Projectile.owner] = 5;
         }
     }
 }

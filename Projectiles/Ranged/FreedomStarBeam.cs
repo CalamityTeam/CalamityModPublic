@@ -19,6 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
         private const int TimeToShrink = 60;
         private const float MaxBeamScale = 3f;
         private const int DustType = 226;
+        private const int PierceLimit = 50;
 
         private const float MaxBeamLength = 1200f;
         private const float BeamTileCollisionWidth = 1f;
@@ -52,7 +53,7 @@ namespace CalamityMod.Projectiles.Ranged
             // The beam itself still stops on tiles, but its invisible "source" projectile ignores them.
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 15;
             Projectile.timeLeft = Lifetime;
         }
 
@@ -92,20 +93,27 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.rotation = rotation - (float)Math.PI / 2f;
             Projectile.velocity = rotation.ToRotationVector2();
 
+            // Preventing DoG abuse
+            bool pierceCapped = Projectile.numHits >= PierceLimit;
+
             // Figure out the scale.
-            if (Projectile.timeLeft > Lifetime - TimeToReachMaxSize)
+            if (Projectile.timeLeft > Lifetime - TimeToReachMaxSize && !pierceCapped)
                 Projectile.localAI[0]++;
-            else if (Projectile.timeLeft < TimeToShrink)
+            else if (Projectile.timeLeft < TimeToShrink || pierceCapped)
                 Projectile.localAI[0] -= TimeToReachMaxSize / TimeToShrink;
 
             // Set initial damage.
-            if (Projectile.localAI[1] == 0f)
+            if (Projectile.localAI[1] == 0f && !pierceCapped)
                 Projectile.localAI[1] = Projectile.damage;
 
             // Reduce the "power" and thus scale of the projectile over its lifetime.
             float power = MathHelper.Clamp(Projectile.localAI[0] / TimeToReachMaxSize, 0.1f, 1f);
             Projectile.scale = MaxBeamScale * power;
             Projectile.damage = (int)MathHelper.Lerp(Projectile.localAI[1], Projectile.localAI[1] * 3f, power);
+
+            // If pierce capped and power is getting low, kill it
+            if (power <= 0.1f && pierceCapped)
+                Projectile.Kill();
 
             // Perform a laser scan to calculate the correct length of the beam.
             float[] laserScanResults = new float[NumSamplePoints];
@@ -186,6 +194,10 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.projectile[proj].DamageType = DamageClass.Ranged;
                 Main.projectile[proj].scale = Projectile.scale * 0.7f;
                 Main.projectile[proj].netUpdate = true;
+
+                // Starts decaying damage once pierce capped
+                if (Projectile.numHits >= PierceLimit)
+                    Projectile.localAI[1] *= 0.8f;
             }
         }
 

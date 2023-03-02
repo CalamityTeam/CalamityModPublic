@@ -22,8 +22,10 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 6;
-            Projectile.extraUpdates = 2;
+            Projectile.MaxUpdates = 3;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6 * Projectile.MaxUpdates; // 6 effective, 18 total
         }
 
         public override void AI()
@@ -62,7 +64,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[Projectile.owner] = 8;
             target.AddBuff(BuffID.Ichor, 600);
             target.AddBuff(BuffID.CursedInferno, 300);
         }

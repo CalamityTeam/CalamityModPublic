@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Plasma Rifle");
             Tooltip.SetDefault("Fires a plasma blast that explodes\n" +
-                "Right click to fire plasma bolts");
+                "Right click to rapidly fire plasma bolts");
             SacrificeTotal = 1;
 
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 160;
+            Item.damage = 150;
             Item.mana = 40;
             Item.DamageType = DamageClass.Magic;
             Item.width = 72;
@@ -74,12 +74,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
-            {
-                damage = (int)(damage * 1.15);
-                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<PlasmaBolt>(), damage, knockback, player.whoAmI);
-            }
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<PlasmaBolt>(), damage * 2, knockback, player.whoAmI);
             else
-                Projectile.NewProjectile(source, position, velocity, type, (int)(damage * 0.88), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             return false;
         }
 

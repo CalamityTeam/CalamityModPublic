@@ -62,7 +62,7 @@ namespace CalamityMod.Items
                 { ItemID.Bananarang, Do(DamageExact(98), UseExact(14)) },
                 { ItemID.BatBat, autoReuse },
                 { ItemID.BatScepter, Do(DamageExact(56)) },
-                { ItemID.BeamSword, Do(AutoReuse, UseMeleeSpeed, DamageExact(360), UseAnimationExact(60), ShootSpeedExact(23f)) },
+                { ItemID.BeamSword, Do(AutoReuse, UseMeleeSpeed, DamageExact(200), UseAnimationExact(60), ShootSpeedExact(23f)) },
                 { ItemID.BeeGun, Do(DamageExact(11)) },
 
                 // TODO -- REPLACE WITH COMMENTED LINE IN 1.4.4 PORT

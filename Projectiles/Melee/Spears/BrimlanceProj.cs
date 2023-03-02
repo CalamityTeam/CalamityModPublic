@@ -27,6 +27,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Projectile.penetrate = -1;
             Projectile.ownerHitCheck = true;
             Projectile.hide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 12;
         }
 
         public override float InitialSpeed => 3f;
@@ -43,11 +45,12 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[Projectile.owner] = 7;
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)(Projectile.damage * 0.65), knockback, Main.myPlayer);
-                for (int i = 0; i < 3; i++)
+                if (Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<BrimlanceHellfireExplosion>()] < 3)
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)(Projectile.damage * 0.65), knockback, Main.myPlayer);
+
+                for (int i = 0; i < 2; i++)
                 {
                     Vector2 fireVelocity = new Vector2(0f, Main.rand.NextFloat(7f, 10f)).RotatedByRandom(MathHelper.TwoPi);
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, fireVelocity, ModContent.ProjectileType<BrimlanceStandingFire>(), (int)(Projectile.damage * 0.4), 0f, Projectile.owner, 0f, 0f);

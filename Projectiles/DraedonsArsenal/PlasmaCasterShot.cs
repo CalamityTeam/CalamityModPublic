@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.penetrate = 1;
-            Projectile.extraUpdates = 6;
+            Projectile.MaxUpdates = 7;
             Projectile.timeLeft = 600;
         }
 
@@ -95,10 +95,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void Kill(int timeLeft)
         {
-            int height = 90;
-            Projectile.position = Projectile.Center;
-            Projectile.width = Projectile.height = height;
-            Projectile.Center = Projectile.position;
+            Projectile.ExpandHitboxBy(240);
             Projectile.maxPenetrate = -1;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;

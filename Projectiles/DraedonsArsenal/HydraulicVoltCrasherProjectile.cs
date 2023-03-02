@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.ownerHitCheck = true;
             Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 15;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()

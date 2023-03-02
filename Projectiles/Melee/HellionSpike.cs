@@ -24,6 +24,8 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = 3;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.SporeCloud;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
 
         public override void AI()
@@ -54,8 +56,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            // TODO -- Make this use proper i-frame variables.
-            target.immune[Projectile.owner] = 8;
             OnHitEffects(target.Center, crit);
             target.AddBuff(BuffID.Venom, 180);
         }

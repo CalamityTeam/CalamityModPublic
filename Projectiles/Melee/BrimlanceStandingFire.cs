@@ -23,8 +23,10 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 12;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 5;
             Projectile.timeLeft = 240;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
@@ -95,11 +97,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            // TODO -- Change this to use proper i-frame variables.
-            target.immune[Projectile.owner] = 7;
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
     }
 }

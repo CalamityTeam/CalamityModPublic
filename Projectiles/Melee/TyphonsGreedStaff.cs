@@ -27,6 +27,8 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.hide = true;
             Projectile.ignoreWater = true;
             Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
         }
 
         public override void AI()
@@ -167,10 +169,6 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
-            target.immune[Projectile.owner] = 6;
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
     }
 }

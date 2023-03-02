@@ -185,7 +185,7 @@ namespace CalamityMod.Projectiles.Ranged
                         if (float.IsNaN(actualVelocity.X) || float.IsNaN(actualVelocity.Y))
                             actualVelocity = -Vector2.UnitY;
 
-                        int projectileDamage = (int)(currentDamage * 1.5f);
+                        int projectileDamage = (int)(currentDamage * 1.25f);
                         int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, actualVelocity, ModContent.ProjectileType<FreedomStarBeam>(), projectileDamage, Projectile.knockBack, Projectile.owner, 0f, Projectile.whoAmI);
                         Projectile.ai[1] = proj;
                         Projectile.netUpdate = true;
@@ -220,7 +220,7 @@ namespace CalamityMod.Projectiles.Ranged
                                 actualVelocity = -Vector2.UnitY;
 
                             float orbPower = 0.7f + chargeAmt * 0.3f;
-                            int projectileDamage = (orbPower < 1f) ? currentDamage : ((int)(currentDamage * 1.5f));
+                            int projectileDamage = (orbPower < 1f) ? currentDamage : ((int)(currentDamage * 2.5f));
                             int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, actualVelocity, projectileType, projectileDamage, Projectile.knockBack, Projectile.owner, 0f, orbPower);
                             Main.projectile[proj].DamageType = DamageClass.Ranged;
                             Main.projectile[proj].extraUpdates += 2;

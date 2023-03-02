@@ -19,12 +19,13 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.height = 4;
             Projectile.extraUpdates = 100;
             Projectile.friendly = true;
+            Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 180;
             Projectile.penetrate = -1;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()

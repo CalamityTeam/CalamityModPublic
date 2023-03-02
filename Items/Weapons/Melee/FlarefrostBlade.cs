@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.width = 64;
-            Item.damage = 95;
+            Item.damage = 104;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 36;
             Item.useTurn = true;
@@ -55,14 +55,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 180);
-            target.AddBuff(BuffID.Frostburn, 180);
+            target.AddBuff(BuffID.OnFire3, 180);
+            target.AddBuff(BuffID.Frostburn2, 180);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 180);
-            target.AddBuff(BuffID.Frostburn, 180);
+            target.AddBuff(BuffID.OnFire3, 180);
+            target.AddBuff(BuffID.Frostburn2, 180);
         }
 
         public override void AddRecipes()

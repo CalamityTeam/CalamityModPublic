@@ -29,6 +29,8 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.timeLeft = 300;
             Projectile.DamageType = DamageClass.Melee;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
         }
 
         public override void AI()
@@ -77,25 +79,16 @@ namespace CalamityMod.Projectiles.Melee
                 num3 = num795;
             }
 
-            float spread = 90f * 0.0174f;
-            double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-            double deltaAngle = spread / 8f;
-            double offsetAngle;
-            int i;
             if (Projectile.owner == Main.myPlayer)
             {
-                for (i = 0; i < 2; i++)
+                for (int i = 0; i < 3; i++)
                 {
-                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Brimlash2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Brimlash2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Vector2 velocity = ((MathHelper.TwoPi * i / 3f) + Projectile.velocity.ToRotation()).ToRotationVector2() * 4f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Brimlash2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
     }
 }

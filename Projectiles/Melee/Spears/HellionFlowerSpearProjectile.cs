@@ -27,6 +27,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
 
         public override float InitialSpeed => 3f;
@@ -39,7 +41,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[Projectile.owner] = 8;
             OnHitEffects(target.Center, crit);
             target.AddBuff(BuffID.Venom, 300);
         }

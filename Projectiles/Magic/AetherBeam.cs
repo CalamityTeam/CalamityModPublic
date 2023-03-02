@@ -10,7 +10,10 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 
-        private bool split = true;
+        public const int DoubleDamageTime = 90;
+        public ref float BeamLength => ref Projectile.localAI[0];
+
+        public bool mainBeam => Projectile.ai[0] == 0f;
 
         public override void SetStaticDefaults()
         {
@@ -25,32 +28,20 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.DamageType = DamageClass.Magic;
             Projectile.alpha = 255;
             Projectile.penetrate = 1;
-            Projectile.extraUpdates = 5;
-            Projectile.timeLeft = 300;
+            Projectile.MaxUpdates = 6;
+            Projectile.timeLeft = 30 * Projectile.MaxUpdates; // 30 effective, 180 total
         }
 
         public override void AI()
         {
-            if (Projectile.ai[1] == 1f)
-            {
-                split = false;
-                Projectile.tileCollide = false;
-                Projectile.ai[1] = 0f;
-            }
-
-            Projectile.damage += Projectile.originalDamage / 200;
-            Projectile.alpha = Utils.Clamp(Projectile.alpha - 25, 0, 255);
-
-            Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 1f, 0f, 0.7f);
-
-            if (Projectile.ai[1] == 0f)
-                Projectile.localAI[0] = MathHelper.Clamp(Projectile.localAI[0] + 2f, 0f, 100f);
+            if (mainBeam)
+                Projectile.damage += Projectile.originalDamage / DoubleDamageTime;
             else
-            {
-                Projectile.localAI[0] -= 2f;
-                if (Projectile.localAI[0] <= 0f)
-                    Projectile.Kill();
-            }
+                Projectile.tileCollide = false;
+
+            Projectile.alpha = Utils.Clamp(Projectile.alpha - 25, 0, 255);
+            BeamLength = MathHelper.Clamp(BeamLength + 2f, 0f, 100f);
+            Lighting.AddLight(Projectile.Center, 1f, 0f, 0.7f);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(250, 50, 200, 0);
@@ -59,30 +50,18 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (split)
+            // Splitty
+            if (Projectile.owner == Main.myPlayer && mainBeam)
             {
-                float random = Main.rand.Next(30, 90);
-                float spread = random * 0.0174f;
-                double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-                double deltaAngle = spread / 8f;
-                double offsetAngle;
-                int i;
-                if (Projectile.owner == Main.myPlayer)
+                for (int i = 0; i < 8; i++)
                 {
-                    for (i = 0; i < 4; i++)
-                    {
-                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
-                    }
+                    Vector2 velocity = ((MathHelper.TwoPi * i / 8f) - (MathHelper.Pi / 8f)).ToRotationVector2() * 4f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 1f);
                 }
             }
             return true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.ShadowFlame, 600);
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.ShadowFlame, 600);
     }
 }

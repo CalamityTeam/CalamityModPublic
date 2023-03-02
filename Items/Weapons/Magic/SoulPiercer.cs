@@ -15,14 +15,14 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Piercer");
-            Tooltip.SetDefault("Casts a powerful ray that summons extra rays on enemy hits");
+            Tooltip.SetDefault("Casts a powerful ray that summons extra rays on its first hit");
             Item.staff[Item.type] = true;
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 115;
+            Item.damage = 270;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 19;
             Item.width = 64;

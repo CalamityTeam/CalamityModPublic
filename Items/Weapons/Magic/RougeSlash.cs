@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 61;
+            Item.damage = 132;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 30;
             Item.width = 28;
@@ -39,8 +39,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<RougeSlashLarge>(), damage, knockback, player.whoAmI);
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.8f, velocity.Y * 0.8f, ModContent.ProjectileType<RougeSlashMedium>(), damage, knockback, player.whoAmI);
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.6f, velocity.Y * 0.6f, ModContent.ProjectileType<RougeSlashSmall>(), damage / 2, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity * 0.8f, ModContent.ProjectileType<RougeSlashMedium>(), damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity * 0.6f, ModContent.ProjectileType<RougeSlashSmall>(), damage / 2, knockback, player.whoAmI);
             return false;
         }
     }

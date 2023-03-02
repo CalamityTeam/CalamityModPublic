@@ -66,11 +66,5 @@ namespace CalamityMod.Projectiles.Melee
                 num462++;
             }
         }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            // TODO -- Change this to use proper i-frame variables.
-            target.immune[Projectile.owner] = 6;
-        }
     }
 }

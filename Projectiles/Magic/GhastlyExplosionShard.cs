@@ -18,12 +18,13 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.height = 8;
             Projectile.friendly = true;
             Projectile.alpha = 255;
-            Projectile.timeLeft = 80;
+            Projectile.timeLeft = 120;
             Projectile.penetrate = 1;
+            Projectile.MaxUpdates = 3;
             Projectile.DamageType = DamageClass.Magic;
         }
 
-        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 50 && target.CanBeChasedBy(Projectile);
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 90 && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
@@ -31,7 +32,7 @@ namespace CalamityMod.Projectiles.Magic
 
             Projectile.ai[1] += 1f;
             float num333 = (120f - Projectile.ai[1]) / 120f;
-            if (Projectile.ai[1] > 80f)
+            if (Projectile.ai[1] > 120f)
                 Projectile.Kill();
 
             Projectile.velocity.Y += 0.2f;
@@ -66,7 +67,7 @@ namespace CalamityMod.Projectiles.Magic
                 num3 = num336;
             }
 
-            if (Projectile.timeLeft < 50)
+            if (Projectile.timeLeft < 90)
                 CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 12f, 20f);
         }
 

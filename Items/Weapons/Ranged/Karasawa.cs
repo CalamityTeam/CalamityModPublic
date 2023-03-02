@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.width = 94;
             Item.height = 44;
             Item.DamageType = DamageClass.Ranged;
-            Item.damage = 900;
+            Item.damage = 2400;
             Item.knockBack = 12f;
             Item.useTime = 52;
             Item.useAnimation = 52;
@@ -54,13 +54,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-
             if (velocity.Length() > 5f)
             {
                 velocity.Normalize();
                 velocity *= 5f;
             }
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<KarasawaShot>(), damage, knockback, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position, velocity, Item.shoot, damage, knockback, player.whoAmI);
 
             // Consume 5 ammo per shot
             CalamityGlobalItem.ConsumeAdditionalAmmo(player, Item, 5);

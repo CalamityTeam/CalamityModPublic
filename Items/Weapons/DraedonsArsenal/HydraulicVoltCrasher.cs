@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             CalamityGlobalItem modItem = Item.Calamity();
 
-            Item.damage = 65;
+            Item.damage = 75;
             Item.knockBack = 12f;
             Item.useTime = 4;
             Item.useAnimation = 16;

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 100;
+            Item.damage = 510;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 30;
             Item.width = 120;
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.rare = ModContent.RarityType<PureGreen>();
             Item.Calamity().donorItem = true;
             Item.shoot = ModContent.ProjectileType<GrandStaffoftheNebulaMage_Held>();
-            Item.shootSpeed = 9f;
+            Item.shootSpeed = 3f;
         }
 
         public override void OnConsumeMana(Player player, int manaConsumed) => player.statMana += manaConsumed;
