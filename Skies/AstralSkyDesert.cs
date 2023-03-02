@@ -40,8 +40,6 @@ namespace CalamityMod.Skies
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
-            if (!Main.LocalPlayer.ZoneDesert && Main.LocalPlayer.ZoneSnow)
-                return;
             //Background from here starting from the back layer to the front layer
             if (maxDepth >= 9f && minDepth < 9f)
             {
