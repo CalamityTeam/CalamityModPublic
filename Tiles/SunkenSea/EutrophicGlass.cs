@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.SunkenSea
             Main.tileLighted[Type] = true;
             Main.tileShine2[Type] = false;
             TileID.Sets.ChecksForMerge[Type] = true;
-            TileID.Sets.WallsMergeWith[Type] = true;
+            //TileID.Sets.WallsMergeWith[Type] = true; Uncomment this when it gets pushed to 1.4 stable (or when we start porting to 1.4.4 which should also have it)
             DustType = 108;
             ItemDrop = ModContent.ItemType<Items.Placeables.EutrophicGlass>();
             ModTranslation name = CreateMapEntryName();
