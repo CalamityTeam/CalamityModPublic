@@ -133,6 +133,7 @@ namespace CalamityMod
             tag["downed"] = downed;
             tag["abyssChasmBottom"] = Abyss.AbyssChasmBottom;
             tag["SulphSeaYStart"] = SulphurousSea.YStart;
+            tag["AstralYStart"] = AstralBiome.YStart;
             tag["acidRainPoints"] = AcidRainEvent.AccumulatedKillPoints;
             tag["Reforges"] = Reforges;
             tag["MoneyStolenByBandit"] = MoneyStolenByBandit;
@@ -181,6 +182,7 @@ namespace CalamityMod
 
             Abyss.AbyssChasmBottom = tag.GetInt("abyssChasmBottom");
             SulphurousSea.YStart = tag.GetInt("SulphSeaYStart");
+            AstralBiome.YStart = tag.GetInt("AstralYStart");
             AcidRainEvent.AccumulatedKillPoints = tag.GetInt("acidRainPoints");
             Reforges = tag.GetInt("Reforges");
             MoneyStolenByBandit = tag.GetInt("MoneyStolenByBandit");
