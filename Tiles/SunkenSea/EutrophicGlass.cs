@@ -21,6 +21,7 @@ namespace CalamityMod.Tiles.SunkenSea
             Main.tileLighted[Type] = true;
             Main.tileShine2[Type] = false;
             TileID.Sets.ChecksForMerge[Type] = true;
+            TileID.Sets.WallsMergeWith[Type] = true;
             DustType = 108;
             ItemDrop = ModContent.ItemType<Items.Placeables.EutrophicGlass>();
             ModTranslation name = CreateMapEntryName();
@@ -34,15 +35,6 @@ namespace CalamityMod.Tiles.SunkenSea
         {
             num = fail ? 1 : 3;
         }
-        
-        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
-        {
-            int xPos = i % 10;
-            int yPos = j % 10;
-            frameXOffset = xPos * sheetWidth;
-            frameYOffset = yPos * sheetHeight;
-        }
-
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             float transparency = 0.60f;

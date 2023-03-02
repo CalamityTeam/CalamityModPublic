@@ -1256,8 +1256,11 @@ namespace CalamityMod
                         Main.spriteBatch.Draw(texture, drawPos, TileFrame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                     }
                     drawPos = new Vector2(i * 16, j * 16) + offsets;
-                    TileFrame = new Rectangle(TileFrameX, TileFrameY, 16, 2);
-                    Main.spriteBatch.Draw(texture, drawPos, TileFrame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                    if (tile.TileType != ModContent.TileType<EutrophicGlass>())
+                    {
+                        TileFrame = new Rectangle(TileFrameX, TileFrameY, 16, 2);
+                        Main.spriteBatch.Draw(texture, drawPos, TileFrame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                    }
                 }
             }
         }
