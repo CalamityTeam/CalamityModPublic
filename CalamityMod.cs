@@ -359,6 +359,7 @@ namespace CalamityMod
             SkyManager.Instance["CalamityMod:BrimstoneCrag"] = new BrimstoneCragSky();
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
+            SkyManager.Instance["CalamityMod:AstralSurface"] = new AstralSkySurface();
             SkyManager.Instance["CalamityMod:AstralDesert"] = new AstralSkyDesert();
             SkyManager.Instance["CalamityMod:AstralSnow"] = new AstralSkySnow();
             SkyManager.Instance["CalamityMod:SulphurSea"] = new SulphurSeaSky();
