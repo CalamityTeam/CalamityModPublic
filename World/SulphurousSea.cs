@@ -1062,8 +1062,11 @@ namespace CalamityMod.World
                     Tile down = CalamityUtils.ParanoidTileRetrieval(chestPoint.X, chestPoint.Y + digDepth);
                     Tile downRight = CalamityUtils.ParanoidTileRetrieval(chestPoint.X + 1, chestPoint.Y + digDepth);
 
-                    // Stop if far down enough and either the tile to the left or right is open water.
-                    if (((!down.HasTile && down.LiquidAmount >= 127) || (!downRight.HasTile && downRight.LiquidAmount >= 127)) && digDepth >= minDepth)
+                    // Continue digging straight down as long as you're going through standard solid tiles.
+                    // As soon as either tile you find is not a standard solid tile, stop immediately.
+                    bool downSolidAndValid = down.HasTile && down.IsTileSolid();
+                    bool downRightSolidAndValid = downRight.HasTile && downRight.IsTileSolid();
+                    if (digDepth >= minDepth && (!downSolidAndValid || !downRightSolidAndValid))
                         break;
 
                     digDepth++;
