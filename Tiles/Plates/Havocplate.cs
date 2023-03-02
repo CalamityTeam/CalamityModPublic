@@ -71,14 +71,7 @@ namespace CalamityMod.Tiles.Plates
             //Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
 
             Tile trackTile = Main.tile[i, j];
-            if (!trackTile.IsHalfBlock && trackTile.Slope == 0)
-            {
-                Main.spriteBatch.Draw(GlowTexture, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
-            }
-            else if (trackTile.IsHalfBlock)
-            {
-                Main.spriteBatch.Draw(GlowTexture, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
-            }
+            TileFraming.SlopedGlowmask(i, j, 0, GlowTexture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
         }
 
         private Color GetDrawColour(int i, int j, Color colour)

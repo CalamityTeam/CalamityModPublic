@@ -55,9 +55,20 @@ namespace CalamityMod.Tiles.SunkenSea
             Color color = Lighting.GetColor(i, j) * transparency;
             Vector2 offScreenRange = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
             Vector2 drawPos = new Vector2(i * 16, j * 16) - Main.screenPosition + offScreenRange;
-            TileFraming.SlopedGlowmask(i, j, tile.TileType, tex, drawPos, frame, color, default);
+            TileFraming.SlopedGlowmask(i, j, tile.TileType, tex, drawPos, frame, GetDrawColour(i, j, color), default);
         }
-
+        private Color GetDrawColour(int i, int j, Color colour)
+        {
+            int colType = Main.tile[i, j].TileColor;
+            Color paintCol = WorldGen.paintColor(colType);
+            if (colType >= 0 && colType <= 30)
+            {
+                colour.R = (byte)(paintCol.R / 255f * colour.R);
+                colour.G = (byte)(paintCol.G / 255f * colour.G);
+                colour.B = (byte)(paintCol.B / 255f * colour.B);
+            }
+            return colour;
+        }
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             TileFraming.CompactFraming(i, j, resetFrame);
