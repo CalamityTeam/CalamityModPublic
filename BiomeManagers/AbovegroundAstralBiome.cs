@@ -9,7 +9,7 @@ namespace CalamityMod.BiomeManagers
     public class AbovegroundAstralBiome : ModBiome
     {
         public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/AstralWater");
-        public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("CalamityMod/AstralSurfaceBGStyle");
+        public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("CalamityMod/AstralSurfaceFogBGStyle");
         public override ModUndergroundBackgroundStyle UndergroundBackgroundStyle => ModContent.Find<ModUndergroundBackgroundStyle>("CalamityMod/AstralUndergroundBGStyle");
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
         public override string BestiaryIcon => "CalamityMod/BiomeManagers/AbovegroundAstralBiomeIcon";
@@ -20,28 +20,18 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Astral Surface");
+            DisplayName.SetDefault("Astral Surface Fog");
         }
 
         public override bool IsBiomeActive(Player player)
         {
-            return !player.ZoneDungeon && BiomeTileCounterSystem.AstralTiles > 950 && !player.ZoneDesert && !player.ZoneSnow;
+            return !player.ZoneDungeon && BiomeTileCounterSystem.AstralTiles > 950;
         }
 
         public override void SpecialVisuals(Player player, bool isActive)
         {
             player.ManageSpecialBiomeVisuals("CalamityMod:Astral", isActive);
-            if (SkyManager.Instance["CalamityMod:AstralSurface"] != null && isActive != SkyManager.Instance["CalamityMod:AstralSurface"].IsActive())
-            {
-                if (isActive)
-                {
-                    SkyManager.Instance.Activate("CalamityMod:AstralSurface");
-                }
-                else
-                {
-                    SkyManager.Instance.Deactivate("CalamityMod:AstralSurface");
-                }
-            }
+
         }
     }
 }
