@@ -20,6 +20,8 @@ namespace CalamityMod.World
 {
     public class AstralBiome
     {
+        public static int YStart { get; set; } = (int)Main.worldSurface;
+        
         public static readonly SoundStyle MeteorSound = new("CalamityMod/Sounds/Custom/AstralStarFall");
         public static bool CanAstralMeteorSpawn()
         {
@@ -404,6 +406,8 @@ namespace CalamityMod.World
                     if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                         SoundEngine.PlaySound(MeteorSound, Main.player[Main.myPlayer].position);
 
+                    // Immediately prior to mass-converting blocks to Astral, write down the Y position of this event.
+                    YStart = j;
                     DoAstralConversion(new Point(i, j));
 
                     // Upward checks go up 180 tiles. If for whatever reason the placement Y position
