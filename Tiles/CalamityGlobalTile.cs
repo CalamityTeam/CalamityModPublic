@@ -405,6 +405,8 @@ namespace CalamityMod.Tiles
             return true;
         }
 
+        // TODO: Make this a data set or smth?
+        // Plausible name: PreventsAnchorTileChanges  ///  Tile prevents its "anchors" from being hammered, killed, actuated, or edited in any way which may cause it to unintentionally break.
         public static bool ShouldNotBreakDueToAboveTile(int x, int y)
         {
             int[] invincibleTiles = new int[]
@@ -412,7 +414,8 @@ namespace CalamityMod.Tiles
                 ModContent.TileType<DraedonLabTurret>(),
                 ModContent.TileType<AstralBeacon>(),
                 ModContent.TileType<CodebreakerTile>(),
-                ModContent.TileType<SCalAltar>()
+                ModContent.TileType<SCalAltar>(),
+                ModContent.TileType<GiantPlanteraBulb>()
             };
 
             Tile checkTile = CalamityUtils.ParanoidTileRetrieval(x, y);

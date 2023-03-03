@@ -1,23 +1,43 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using System;
 
 namespace CalamityMod.Tiles
 {
     public class GiantPlanteraBulb : ModTile
     {
+        public static Asset<Texture2D> Glow { get; private set; }
+
+        public override void Load()
+        {
+            if (!Main.dedServ)
+            {
+                Glow = ModContent.Request<Texture2D>($"{Texture}Glow");
+            }
+        }
+
         public override void SetStaticDefaults()
         {
+            // Tile can provide light
             Main.tileLighted[Type] = true;
+
             Main.tileFrameImportant[Type] = true;
-            TileID.Sets.IsATreeTrunk[Type] = true;
+
+            // Various data sets to protect this tile from premature death
+            TileID.Sets.PreventsTileRemovalIfOnTopOfIt[Type] = true;
+            TileID.Sets.PreventsTileReplaceIfOnTopOfIt[Type] = true;
+            TileID.Sets.PreventsSandfall[Type] = true;
+            // CalamityGlobalTile.PreventsAnchorTileChanges.Add(Type);
+
+            // Object data
             TileObjectData.newTile.Width = 5;
             TileObjectData.newTile.Height = 5;
             TileObjectData.newTile.Origin = new Point16(2, 4);
@@ -27,16 +47,31 @@ namespace CalamityMod.Tiles
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.WaterDeath = false;
-            TileObjectData.newTile.LavaDeath = true;
+            TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
+
+            // Adds two map entries for the bulb, first is for Pre-Hardmode, and the latter is for Hardmode.
+            AddMapEntry(new Color(107, 125, 33));
+            AddMapEntry(new Color(243, 82, 171));
+
             AnimationFrameHeight = 90;
             MineResist = 3f;
-            AddMapEntry(Main.hardMode ? new Color(243, 82, 171) : new Color(107, 125, 33));
+
             DustType = DustID.PlanteraBulb;
             HitSound = SoundID.Grass;
+        }
 
-            base.SetStaticDefaults();
+        public override void Unload()
+        {
+            // Textures are auto disposed by tModLoader, all we need to do is get rid of the asset wrapper reference
+            Glow = null;
+        }
+
+        // Use the second map entry in Hardmode
+        public override ushort GetMapOption(int i, int j)
+        {
+            return (ushort)(Main.hardMode ? 1 : 0);
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -52,12 +87,12 @@ namespace CalamityMod.Tiles
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {
-			return Main.hardMode;
+            return Main.hardMode;
         }
 
         public override bool CanExplode(int i, int j)
         {
-			return Main.hardMode;
+            return Main.hardMode;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
@@ -76,95 +111,103 @@ namespace CalamityMod.Tiles
                 }
             }
 
-            // Spawn Plantera if the bulb was broken within a distance of 50 tiles or less
-            if (distanceFromPlayer / 16f < 50f)
+            // Spawn Plantera if the bulb was broken within a distance of 50 tiles or less, otherwise leave
+            if (distanceFromPlayer / 16f >= 50f)
             {
-                float projectileVelocity = 6f;
-                int projType = ProjectileID.SporeCloud;
-                int npcType = NPCID.Spore;
-                Vector2 spawn = new Vector2((i + 2) * 16 + 8, (j + 4) * 16 + 8);
-                Vector2 dustSpawn = new Vector2((i + 2) * 16, (j + 4) * 16);
-                SoundEngine.PlaySound(SoundID.Item74, spawn);
-                Vector2 destination = new Vector2((i + 2) * 16 + 8, j * 16 + 8) - spawn;
-                destination.Normalize();
-                destination *= projectileVelocity;
-                int numProj = 30;
-                int numNPCs = 10;
-                float rotation = MathHelper.ToRadians(100);
-
-                for (int projIndex = 0; projIndex < numProj; projIndex++)
-                {
-                    Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, projIndex / (float)(numProj - 1))) * (Main.rand.NextFloat() + 0.25f);
-
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                        Projectile.NewProjectile(new EntitySource_TileBreak(i, j), spawn, perturbedSpeed, projType, 0, 0f, Player.FindClosest(new Vector2(i * 16, j * 16), 16, 16));
-
-                    perturbedSpeed *= 2f;
-                    Dust dust = Dust.NewDustDirect(dustSpawn, 16, 16, DustID.JungleSpore, perturbedSpeed.X, perturbedSpeed.Y, 250);
-                    dust.fadeIn = 0.7f;
-                    Dust.NewDustDirect(dustSpawn, 16, 16, (!WorldGen.genRand.NextBool(3) && Main.hardMode) ? DustID.Plantera_Pink : DustID.Plantera_Green, perturbedSpeed.X, perturbedSpeed.Y);
-                }
-
-                for (int npcIndex = 0; npcIndex < numNPCs; npcIndex++)
-                {
-                    Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, npcIndex / (float)(numNPCs - 1))) * (Main.rand.NextFloat() + 0.5f) * 0.5f;
-
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        int spore = NPC.NewNPC(new EntitySource_TileBreak(i, j), (int)spawn.X, (int)spawn.Y, npcType, 0, -1f);
-                        Main.npc[spore].velocity.X = perturbedSpeed.X;
-                        Main.npc[spore].velocity.Y = perturbedSpeed.Y;
-                        Main.npc[spore].netUpdate = true;
-                    }
-
-                    perturbedSpeed *= 2f;
-                    Dust dust = Dust.NewDustDirect(dustSpawn, 16, 16, DustID.JungleSpore, perturbedSpeed.X, perturbedSpeed.Y, 250);
-                    dust.fadeIn = 0.7f;
-                    Dust.NewDustDirect(dustSpawn, 16, 16, DustID.Plantera_Pink, perturbedSpeed.X, perturbedSpeed.Y);
-                }
-
-                NPC.SpawnOnPlayer(player, NPCID.Plantera);
+                return;
             }
+
+            float projectileVelocity = 6f;
+            int projType = ProjectileID.SporeCloud;
+            int npcType = NPCID.Spore;
+            Vector2 spawn = new Vector2((i + 2) * 16 + 8, (j + 4) * 16 + 8);
+            Vector2 dustSpawn = new Vector2((i + 2) * 16, (j + 4) * 16);
+            SoundEngine.PlaySound(SoundID.Item74, spawn);
+            Vector2 destination = new Vector2((i + 2) * 16 + 8, j * 16 + 8) - spawn;
+            destination.Normalize();
+            destination *= projectileVelocity;
+            int numProj = 30;
+            int numNPCs = 10;
+            float rotation = MathHelper.ToRadians(100);
+
+            // TODO: Projs might be buggy in multiplayer?
+            for (int projIndex = 0; projIndex < numProj; projIndex++)
+            {
+                Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, projIndex / (float)(numProj - 1))) * (Main.rand.NextFloat() + 0.25f);
+
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    Projectile.NewProjectile(new EntitySource_TileBreak(i, j), spawn, perturbedSpeed, projType, 0, 0f, Player.FindClosest(new Vector2(i * 16, j * 16), 16, 16));
+
+                perturbedSpeed *= 2f;
+                Dust dust = Dust.NewDustDirect(dustSpawn, 16, 16, DustID.JungleSpore, perturbedSpeed.X, perturbedSpeed.Y, 250);
+                dust.fadeIn = 0.7f;
+                Dust.NewDustDirect(dustSpawn, 16, 16, (!WorldGen.genRand.NextBool(3) && Main.hardMode) ? DustID.Plantera_Pink : DustID.Plantera_Green, perturbedSpeed.X, perturbedSpeed.Y);
+            }
+
+            for (int npcIndex = 0; npcIndex < numNPCs; npcIndex++)
+            {
+                Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, npcIndex / (float)(numNPCs - 1))) * (Main.rand.NextFloat() + 0.5f) * 0.5f;
+
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int spore = NPC.NewNPC(new EntitySource_TileBreak(i, j), (int)spawn.X, (int)spawn.Y, npcType, 0, -1f);
+                    Main.npc[spore].velocity.X = perturbedSpeed.X;
+                    Main.npc[spore].velocity.Y = perturbedSpeed.Y;
+                    Main.npc[spore].netUpdate = true;
+                }
+
+                perturbedSpeed *= 2f;
+                Dust dust = Dust.NewDustDirect(dustSpawn, 16, 16, DustID.JungleSpore, perturbedSpeed.X, perturbedSpeed.Y, 250);
+                dust.fadeIn = 0.7f;
+                Dust.NewDustDirect(dustSpawn, 16, 16, DustID.Plantera_Pink, perturbedSpeed.X, perturbedSpeed.Y);
+            }
+
+            // Automatically handles multiplayer
+            NPC.SpawnOnPlayer(player, NPCID.Plantera);
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
-		{
-            if (Main.hardMode)
-            {
-                frameCounter++;
-                if (frameCounter > 25)
-                {
-                    frameCounter = 0;
-                    frame++;
-                    if (frame > 6)
-                    {
-                        frame = 1;
-                    }
-                }
-            }
-            else
+        {
+            // Set frame to 0 and leave if the world is not in hardmode.
+            if (!Main.hardMode)
             {
                 frame = 0;
+                return;
             }
-		}
+
+            // Otherwise do typical frame logic
+            frameCounter++;
+            if (frameCounter > 25)
+            {
+                frameCounter = 0;
+                frame++;
+                if (frame > 6)
+                {
+                    frame = 1;
+                }
+            }
+        }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             if (Main.hardMode)
             {
-                r = 243f / 500f;
-                g = 82f / 500f;
-                b = 171f / 500f;
+                r = 243f / 500f; // ~123
+                g = 82f / 500f; // ~41
+                b = 171f / 500f; // ~87
             }
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Tile tile = Framing.GetTileSafely(i, j);
-			Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/GiantPlanteraBulbGlow").Value;
-			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+            var tile = Main.tile[i, j];
 
-			spriteBatch.Draw(tex, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.Yellow);
+            spriteBatch.Draw(
+                Glow.Value, 
+                new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + CalamityUtils.TileDrawOffset, 
+                new Rectangle(tile.TileFrameX, tile.TileFrameY + AnimationFrameHeight * Main.tileFrame[Type], 16, 16), 
+                Color.Yellow
+            );
         }
     }
 }

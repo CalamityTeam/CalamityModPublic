@@ -5,6 +5,7 @@ using ReLogic.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Terraria;
 using Terraria.DataStructures;
@@ -191,6 +192,8 @@ namespace CalamityMod
             }
         }
         #endregion
+
+        public static Vector2 TileDrawOffset => Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
         /// <summary>
         /// Draws a treasure bag in the world in the exact same way as how Terraria 1.4's bags are drawn.
