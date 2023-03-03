@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Armor.Tarragon
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Tarragon Helm");
-            Tooltip.SetDefault("Helm of the disciple of ancients\n" +
-                "Temporary immunity to lava\n" +
+            Tooltip.SetDefault("Temporary immunity to lava\n" +
                 "Can move freely through liquids\n" +
                 "5% increased damage reduction\n" +
                 "10% increased melee damage and critical strike chance");
