@@ -122,22 +122,22 @@ namespace CalamityMod.Projectiles.Summon
 
         public void MoveToTarget(NPC target)
         {
-            Vector2 vectorToTarget = target.Center - Projectile.Center;
-            float targetDist = vectorToTarget.Length();
-            vectorToTarget.SafeNormalize(Vector2.UnitY);
+            Vector2 vecToTarget = target.Center - Projectile.Center;
+            float targetDist = vecToTarget.Length();
+            vecToTarget.Normalize();
             //If farther than 200 pixels, move toward it
             if (targetDist > 200f)
             {
                 float speedMult = (targetDist > 400f) ? 12f : (targetDist > 250) ? 6f : 3f;
-                vectorToTarget *= speedMult;
-                Projectile.velocity = (Projectile.velocity * 40f + vectorToTarget) / 41f;
+                vecToTarget *= speedMult;
+                Projectile.velocity = (Projectile.velocity * 40f + vecToTarget) / 41f;
             }
             //Otherwise, back it up slowly
             else
             {
                 float speedMult = -3f;
-                vectorToTarget *= speedMult;
-                Projectile.velocity = (Projectile.velocity * 40f + vectorToTarget) / 41f;
+                vecToTarget *= speedMult;
+                Projectile.velocity = (Projectile.velocity * 40f + vecToTarget) / 41f;
             }
         }
 
