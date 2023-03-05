@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.DamageType = DamageClass.Magic;
             Projectile.MaxUpdates = 3;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 8 * Projectile.MaxUpdates; // 8 effective, 16 total
+            Projectile.localNPCHitCooldown = 8 * Projectile.MaxUpdates; // 8 effective, 24 total
         }
 
         public override void AI()
