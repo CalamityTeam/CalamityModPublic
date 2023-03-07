@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -43,21 +44,37 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            NPC potentialTarget = Projectile.Center.MinionHoming(1200f, Owner);
+            // Detects a target at a given distance
+            NPC potentialTarget = Projectile.Center.MinionHoming(BelladonnaSpiritStaff.EnemyDistanceDetection, Owner);
+
+            // Checks if the minion can still exist.
+            CanMinionExist();
+
+            // Makes a dust effect where the minion spawns.
+            OnSpawn();
+
+            // Does the animation of the minion.
+            DoAnimation(potentialTarget);
+
+            // Points in the right directions.
+            PointInDirection(potentialTarget);
+
+            // Vibes around the player.
+            FollowPlayer();
+
+            // The minions push eachother to not clump.
+            Projectile.MinionAntiClump();
+
+            // If there's a target, it'll shoot at it.
             if (potentialTarget is not null)
                 TargetNPC();
 
-            CheckMinionExistance(); // Checks if the minion can still exist.
-            SpawnEffect(); // Makes a dust effect where the minion spawns.
-            DoAnimation(); // Does the animation of the minion.
-            PointInDirection(potentialTarget); // Points in the right directions.
-            FollowPlayer(); // Vibes around the player.
-            Projectile.MinionAntiClump(); // The minions push eachother to not clump
+            Projectile.netUpdate = true;
         }
 
         #region Methods
 
-        public void CheckMinionExistance()
+        public void CanMinionExist()
         {
             Owner.AddBuff(ModContent.BuffType<BelladonnaSpiritBuff>(), 1);
             if (Projectile.type == ModContent.ProjectileType<BelladonnaSpirit>())
@@ -69,15 +86,16 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public void SpawnEffect()
+        public void OnSpawn()
         {
             if (CheckForSpawning == false)
             {
-                for (int i = 0; i < 45; i++)
+                int dustAmount = 45;
+                for (int dustIndex = 0; dustIndex < dustAmount; dustIndex++)
                 {
-                    float angle = MathHelper.TwoPi / 45f * i;
-                    Vector2 velocity = angle.ToRotationVector2() * 4f;
-                    Dust spawnDust = Dust.NewDustPerfect(Projectile.Center + velocity * 2.75f, 39, velocity);
+                    float angle = MathHelper.TwoPi / 45f * dustIndex;
+                    Vector2 velocity = angle.ToRotationVector2() * Main.rand.NextFloat(3f, 4.5f);
+                    Dust spawnDust = Dust.NewDustPerfect(Projectile.Center, 39, velocity);
                     spawnDust.noGravity = true;
                     spawnDust.scale = velocity.Length() * 0.1f;
                     spawnDust.velocity *= 0.3f;
@@ -86,75 +104,83 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public void DoAnimation()
+        public void DoAnimation(NPC target)
         {
+            int speedModifier = (target is not null) ? 2 : 1;
+
             Projectile.frameCounter++;
-            Projectile.frame = Projectile.frameCounter / 5 % Main.projFrames[Projectile.type];
+            Projectile.frame = Projectile.frameCounter / (Main.projFrames[Projectile.type] * speedModifier) % Main.projFrames[Projectile.type];
         }
 
         public void PointInDirection(NPC target)
         {
-            if (target is not null) // If there's a target look at the target.
-            {
+            // If there's a target look at the target.
+            if (target is not null) 
                 Projectile.spriteDirection = ((target.Center.X - Projectile.Center.X) < 0).ToDirectionInt();
-            }
-            else // If there's not a target, the minion just points where it's going.
-            {
+
+            // If there's not a target, the minion just points where it's going.
+            else
                 if (Math.Abs(Projectile.velocity.X) > 0.01f)
                     Projectile.spriteDirection = -Math.Sign(Projectile.velocity.X);
-            }
         }
 
         public void FollowPlayer()
         {
-            if (Projectile.WithinRange(Owner.Center, 1200f) && !Projectile.WithinRange(Owner.Center, 300f)) // If the minion starts to get far, force the minion to go to you.
-            {
+            // If the minion starts to get far, force the minion to go to you.
+            if (Projectile.WithinRange(Owner.Center, BelladonnaSpiritStaff.EnemyDistanceDetection) && !Projectile.WithinRange(Owner.Center, 300f)) 
                 Projectile.velocity = (Owner.Center - Projectile.Center) / 30f;
-                Projectile.netUpdate= true;
-            }            
-            else if (!Projectile.WithinRange(Owner.Center, 160f)) // The minion will change directions to you if it's going away from you, meaning it'll just hover around you.
-            {
+
+            // The minion will change directions to you if it's going away from you, meaning it'll just hover around you.
+            else if (!Projectile.WithinRange(Owner.Center, 160f)) 
                 Projectile.velocity = (Projectile.velocity * 37f + Projectile.SafeDirectionTo(Owner.Center) * 17f) / 40f;
-                Projectile.netUpdate = true;
-            }
 
             // Teleport to the owner if sufficiently far away.
-            if (!Projectile.WithinRange(Owner.Center, 1200f))
+            if (!Projectile.WithinRange(Owner.Center, BelladonnaSpiritStaff.EnemyDistanceDetection))
             {
                 Projectile.position = Owner.Center;
                 Projectile.velocity *= 0.3f;
-                Projectile.netUpdate = true;
             }
         }
 
         public void TargetNPC()
         {
-            PetalFireTimer++;
-            Projectile.velocity.Y -= MathHelper.Lerp(0, 0.005f, PetalFireTimer % 75f); 
             // The minion will slowly go up until it throws the petal.
             // This essentially makes the minion stay above you and trigger the "Turn back to player", it'll do this continuously, giving the effect of bouncing.
-            PetalFireTimer = (PetalFireTimer == 76f) ? 1f : PetalFireTimer; // The timer cannot go above 75f.
+            // Yes, it's very wacky. You can make it better if you wish.
+            Projectile.velocity.Y -= MathHelper.Lerp(0, 0.005f, PetalFireTimer % BelladonnaSpiritStaff.FireRate);
+            
             if (Main.myPlayer == Projectile.owner)
                 FirePetals();
-            Projectile.netUpdate = true;
+
+            if (PetalFireTimer < BelladonnaSpiritStaff.FireRate)
+                PetalFireTimer++;
         }
 
         public void FirePetals()
         {
-            int petalID = ModContent.ProjectileType<BelladonnaPetal>();
-            if (PetalFireTimer % 75f == 0f) // Every 75 frames, throws a petal.
+            if (PetalFireTimer == BelladonnaSpiritStaff.FireRate) // Every 75 frames, throws a petal.
             {
+                // Throws the petal upwards with a random force and inherits the minion's speed.
                 Vector2 petalShootVelocity = (-Vector2.UnitY * Main.rand.NextFloat(7f, 8.5f)) +
                     Vector2.UnitX * Projectile.velocity.X +
                     Vector2.UnitY * Projectile.velocity.Y * 0.35f;
-                // Throws the petal upwards with a random force and inherits the minion's speed.
-                int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, petalShootVelocity, petalID, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                if (Main.projectile.IndexInRange(p))
+                
+                int petal = Projectile.NewProjectile(Projectile.GetSource_FromThis(),
+                    Projectile.Center,
+                    petalShootVelocity,
+                    ModContent.ProjectileType<BelladonnaPetal>(), 
+                    Projectile.damage, 
+                    Projectile.knockBack, 
+                    Projectile.owner);
+
+                if (Main.projectile.IndexInRange(petal))
                 {
-                    Main.projectile[p].originalDamage = Projectile.originalDamage;
-                    Main.projectile[p].rotation = Main.rand.NextFloat(0, MathHelper.TwoPi);
+                    Main.projectile[petal].originalDamage = Projectile.originalDamage;
+                    Main.projectile[petal].rotation = Main.rand.NextFloat(0, MathHelper.TwoPi);
                 }
-                Projectile.netUpdate = true;
+
+                // Resets the timer.
+                PetalFireTimer = 0f;
             }
         }
 
