@@ -150,6 +150,7 @@ namespace CalamityMod.NPCs
             "Tyler Van Hook",
             "Cap'n Deek", // "Alex N" on Patreon
             "Captain Billy Bones", // <@!699589229507772416> (DjackV#2882)
+            "Captain J. Crackers", // <@!233232602994049024> (Qyuuno#3031)
         };
         private static readonly string[] PrincessNames =
         {
