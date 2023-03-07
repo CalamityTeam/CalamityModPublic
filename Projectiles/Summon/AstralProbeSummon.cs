@@ -73,6 +73,8 @@ namespace CalamityMod.Projectiles.Summon
             SpawnEffect(); // Makes a dust spawn effect where the minion spawns.
             LookInCorrectDirection(target); // Looks at the target.
             ShootTarget(target); // Shoots at the target if there's one
+
+            Projectile.netUpdate = true;
         }
 
         #region Methods
