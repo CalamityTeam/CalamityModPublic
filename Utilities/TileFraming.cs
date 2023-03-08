@@ -73,6 +73,7 @@ namespace CalamityMod
             VineToGrass = new Dictionary<ushort, ushort>
             {
                 [TileID.Vines] = TileID.Grass,
+                [TileID.Vines] = TileID.LeafBlock,
                 [TileID.CrimsonVines] = TileID.CrimsonGrass,
                 [TileID.HallowedVines] = TileID.HallowedGrass,
                 [(ushort)ModContent.TileType<AstralVines>()] = (ushort)ModContent.TileType<AstralGrass>()
@@ -312,7 +313,7 @@ namespace CalamityMod
                 {
                     tileMustDie = true;
                 }
-                else
+                else if (myType != TileID.Vines)
                 {
                     for (int i = 0; i < vines.Length; ++i)
                     {

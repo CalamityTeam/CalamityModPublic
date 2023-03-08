@@ -33,9 +33,9 @@ namespace CalamityMod.Tiles.SunkenSea
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             var tile = Main.tile[i, j];
-            float brightness = 0.7f;
+            float brightness = 0.6f;
             if (tile.LiquidAmount > 50 && tile.LiquidType == 0)
-                brightness = 1.0f;
+                brightness = 0.75f;
 
             r = 0.6f;
             g = 0.9f;
