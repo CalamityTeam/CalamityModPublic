@@ -56,6 +56,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             Main.npcFrameCount[NPC.type] = 17;
             Main.npcCatchable[NPC.type] = true;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
+            NPCID.Sets.CantTakeLunchMoney[Type] = true;
             NPCID.Sets.NormalGoldCritterBestiaryPriority.Add(Type);
         }
 

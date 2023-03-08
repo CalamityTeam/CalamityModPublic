@@ -13,6 +13,7 @@ namespace CalamityMod.NPCs.HiveMind
         {
             DisplayName.SetDefault("Hive Tumor");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.CantTakeLunchMoney[Type] = true;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
