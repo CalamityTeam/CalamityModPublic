@@ -9,6 +9,20 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class BelladonnaSpiritStaff : ModItem
     {
+        #region Other stats for easy modification
+
+        public const float EnemyDistanceDetection = 1200f; // In pixels.
+
+        public const float FireRate = 75f;  // In frames. 60 frames = 1 second.
+
+        public const float PetalTimeBeforeTargetting = 60f;  // In frames. 60 frames = 1 second.
+
+        public const float PetalVelocity = 20f;
+
+        public const float PetalGravityStrenght = 0.2f;
+
+        #endregion
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Belladonna Spirit Staff");
@@ -38,9 +52,9 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 0f);
-            if (Main.projectile.IndexInRange(p))
-                Main.projectile[p].originalDamage = Item.damage;
+            int belladonna = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+            if (Main.projectile.IndexInRange(belladonna))
+                Main.projectile[belladonna].originalDamage = Item.damage;
             return false;
         }
         public override void AddRecipes()

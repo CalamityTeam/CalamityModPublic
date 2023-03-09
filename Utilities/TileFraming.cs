@@ -73,6 +73,7 @@ namespace CalamityMod
             VineToGrass = new Dictionary<ushort, ushort>
             {
                 [TileID.Vines] = TileID.Grass,
+                [TileID.Vines] = TileID.LeafBlock,
                 [TileID.CrimsonVines] = TileID.CrimsonGrass,
                 [TileID.HallowedVines] = TileID.HallowedGrass,
                 [(ushort)ModContent.TileType<AstralVines>()] = (ushort)ModContent.TileType<AstralGrass>()
@@ -312,7 +313,7 @@ namespace CalamityMod
                 {
                     tileMustDie = true;
                 }
-                else
+                else if (myType != TileID.Vines)
                 {
                     for (int i = 0; i < vines.Length; ++i)
                     {
@@ -1173,7 +1174,7 @@ namespace CalamityMod
             }
             #endregion
         }
-        internal static void SlopedGlowmask(int i, int j, int type, Texture2D texture, Vector2 position, Rectangle sourceRectangle, Color drawColor, Vector2 positionOffset,  bool overrideTileFrame = false)
+        internal static void SlopedGlowmask(int i, int j, int type, Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color drawColor, Vector2 positionOffset,  bool overrideTileFrame = false)
         {
             Tile tile = Main.tile[i, j];
             int TileFrameX = tile.TileFrameX;
@@ -1187,8 +1188,8 @@ namespace CalamityMod
             int height = 16;
             if (sourceRectangle != null)
             {
-                TileFrameX = sourceRectangle.X;
-                TileFrameY = sourceRectangle.Y;
+                TileFrameX = ((Rectangle)sourceRectangle).X;
+                TileFrameY = ((Rectangle)sourceRectangle).Y;
             }
             Vector2 location = new Vector2(i * 16, j * 16);
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
@@ -1256,10 +1257,14 @@ namespace CalamityMod
                         Main.spriteBatch.Draw(texture, drawPos, TileFrame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                     }
                     drawPos = new Vector2(i * 16, j * 16) + offsets;
-                    TileFrame = new Rectangle(TileFrameX, TileFrameY, 16, 2);
-                    Main.spriteBatch.Draw(texture, drawPos, TileFrame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                    if (tile.TileType != ModContent.TileType<EutrophicGlass>())
+                    {
+                        TileFrame = new Rectangle(TileFrameX, TileFrameY, 16, 2);
+                        Main.spriteBatch.Draw(texture, drawPos, TileFrame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                    }
                 }
             }
+            //Contribuited by Vortex
         }
         #endregion
 

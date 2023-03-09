@@ -49,6 +49,12 @@ namespace CalamityMod.Tiles.DraedonSummoner
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
+
+            // Various data sets to protect this tile from unintentional death
+            TileID.Sets.PreventsTileRemovalIfOnTopOfIt[Type] = true;
+            //TileID.Sets.PreventsTileReplaceIfOnTopOfIt[Type] = true; Since this is a furniture item this may be unnecessary?
+            TileID.Sets.PreventsSandfall[Type] = true;
+
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.Width = Width;
             TileObjectData.newTile.Height = Height;

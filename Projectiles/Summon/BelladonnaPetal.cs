@@ -1,8 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using CalamityMod.Items.Weapons.Summon;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,12 +10,15 @@ namespace CalamityMod.Projectiles.Summon
     public class BelladonnaPetal : ModProjectile
     {
         public Player Owner => Main.player[Projectile.owner];
-        
-        public ref float AITimer => ref Projectile.ai[0]; // The timer for the AI to do it's actions.
 
-        public ref float CheckForFiring => ref Projectile.ai[1]; // Check for when it's about to fire, so we can put one-time effects and sounds.
+        // The timer for the AI to do it's actions.
+        public ref float AITimer => ref Projectile.ai[0];
 
-        public NPC targetFound; // A variable where the potential target will be written on.
+        // Check for when it's about to fire, so we can put one-time effects and sounds.
+        public ref float CheckForFiring => ref Projectile.ai[1];
+
+        // A variable where the potential target will be written on.
+        public NPC targetFound;
         
         public override void SetStaticDefaults()
         {
@@ -28,114 +30,129 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 14;
-            Projectile.height = 24;
-            Projectile.friendly = true;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
-            Projectile.ignoreWater = true;
-            Projectile.tileCollide = false;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 130;
+
+            Projectile.width = Projectile.height = 14;
+
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
-        {   
-            if (Owner.HasMinionAttackTargetNPC) // If the Owner has selected for a target manually, go for that one.
-            {
-                NPC manualTarget = Main.npc[Owner.MinionAttackTargetNPC];
-                Behaviour(manualTarget);
-            }
-            else // If not, go for the closest one.
-            {
-                NPC potentialTarget = Projectile.Center.MinionHoming(1200f, Owner);
-                Behaviour(potentialTarget);
-            }
-            
-            AITimer++;
-            AITimer = (AITimer > 60f) ? 60f : AITimer; // AITimer can reach only a maximun of 60.
-            Lighting.AddLight(Projectile.Center, 0.5f, 1f, 0.3f); // Gives it a jungl-y green color.
+        {
+            // Detects a target at a given distance.
+            NPC potentialTarget = Projectile.Center.MinionHoming(BelladonnaSpiritStaff.EnemyDistanceDetection, Owner);
+
+            // It's behaviour depending on the target.
+            Behaviour(potentialTarget);
+
+            if (AITimer < BelladonnaSpiritStaff.PetalTimeBeforeTargetting)
+                AITimer++;
+
+            // Gives it a jungl-y green color.
+            Lighting.AddLight(Projectile.Center, 0.5f, 1f, 0.3f);
+
+            Projectile.netUpdate = true;
         }
 
         #region Methods
 
         public void Behaviour(NPC target)
         {
-            if (target != null && AITimer >= 60f) // If the target is found, and 1 second has passed, do effects and go to the target.
+            // If the target is found, and 1 second has passed, go to the target.
+            if (target != null && AITimer >= BelladonnaSpiritStaff.PetalTimeBeforeTargetting)
             {
-                Projectile.alpha = 0;
-                for (int i = 0; i < 5; i++)
+                // A trail made of dust.
+                for (int dustIndex = 0; dustIndex < 5; dustIndex++)
                 {
-                    Dust gotTarget = Dust.NewDustPerfect(Projectile.Center, DustID.Grass);
-                    gotTarget.velocity = Main.rand.NextVector2Circular(2f, 2f);
-                    gotTarget.noGravity = true;
+                    float velModifier = 0.25f;
+                    Dust.NewDust(Projectile.Center,
+                        Projectile.width,
+                        Projectile.height,
+                        DustID.Grass,
+                        -Projectile.velocity.X * velModifier,
+                        -Projectile.velocity.Y * velModifier,
+                        0, default, 0.5f);
                 }
-                if (CheckForFiring == 0f) // Check for it so it doesn't update the velocity indefinetly, meaning it would be homing.
+
+                // Check for it so it doesn't update the velocity indefinetly, meaning it would be homing.
+                if (CheckForFiring == 0f) 
                 {
-                    Projectile.velocity = CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, targetFound, 20f);
+                    Projectile.velocity = CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, targetFound, BelladonnaSpiritStaff.PetalVelocity);
+
+                    // The projectile will look towards where it's going.
                     Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+
                     SoundEngine.PlaySound(SoundID.Grass, Projectile.Center);
                     CheckForFiring = 1f;
                     Projectile.netUpdate= true;
                 }
+
+                // In case the shot was about to fade out, un-fade.
+                Projectile.alpha = 0;
             }
-            else if (target != null && AITimer < 60f) // If there's target, but 1 second hasn't passed, rotate to point at the target, while still having gravity.
+
+            // If there's target, but 1 second hasn't passed, rotate to point at the target, while still having gravity.
+            else if (target != null && AITimer < BelladonnaSpiritStaff.PetalTimeBeforeTargetting)
             {
-                Projectile.velocity.Y += 0.2f;
-                Projectile.rotation = MathHelper.Lerp(Projectile.rotation, (target.Center - Projectile.Center).ToRotation() + MathHelper.PiOver2, AITimer / 60f);
-                // (AITimer / 60f) because 60 is maximum time of the timer.
-                targetFound = target;
+                
+                // "(AITimer / It's maxuimum value)" so it's a fraction between 0 and 1.
+                Projectile.rotation = MathHelper.Lerp(Projectile.rotation,
+                    (target.Center - Projectile.Center).ToRotation() + MathHelper.PiOver2,
+                    AITimer / BelladonnaSpiritStaff.PetalTimeBeforeTargetting);
+
+                // Gravity.
+                Projectile.velocity.Y += BelladonnaSpiritStaff.PetalGravityStrenght;
+
                 // Puts the potentialTarget on this variable that won't update constantly so the projectile doesn't become incredibly homing.
+                targetFound = target;
+                
                 Projectile.netUpdate = true;
             }
-            else // If there's no target when shot (For example when the enemy has been killed), just fall.
+
+            // If there's no target when shot (For example when the enemy has been killed), just fall.
+            else
             {
-                AITimer = 0f; // Restart the timer, just so if a target appears again it looks smoother.
+                // Restart the timer, just so if a target appears again it looks smoother.
+                AITimer = 0f;
+
+                // Starts to fade out.
                 Projectile.alpha += 2;
-                Projectile.velocity.Y += 0.2f;
-                Projectile.rotation += 0.05f; // Continues spinning until it dies.
+
+                // Keeps falling.
+                Projectile.velocity.Y += BelladonnaSpiritStaff.PetalGravityStrenght;
+
+                // Continues spinning until it dies.
+                Projectile.rotation += 0.05f;
+
                 Projectile.netUpdate = true;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            for (int i = 0; i < 5; i++)
-            {
-                Dust projDeath = Dust.NewDustPerfect(Projectile.Center, DustID.Grass);
-                projDeath.velocity = Main.rand.NextVector2Circular(2f, 2f);
-                projDeath.noGravity = true;
-            }
+            for (int dustIndex = 0; dustIndex < 5; dustIndex++)
+                Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Grass);
         }
 
-        public override bool? CanDamage() // If the projectile is going to the target, do damage, if not, don't.
+        // If the projectile is going to the target, do damage, if not, don't.
+        public override bool? CanDamage()
         {
-            if (targetFound != null && AITimer >= 60f)
-            {
+            if (targetFound != null && AITimer >= BelladonnaSpiritStaff.PetalTimeBeforeTargetting)
                 return null;
-            }
-
             return false;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override bool PreDraw(ref Color lightColor) // Code taken from ExampleMod to make the trail.
+        public override bool PreDraw(ref Color lightColor)
         {
-            Main.instance.LoadProjectile(Projectile.type);
-            Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
-
             if (CheckForFiring == 1f)
-            {
-                Vector2 drawOrigin = new Vector2(texture.Width * 0.5f, Projectile.height * 0.5f);
-                for (int k = 0; k < Projectile.oldPos.Length; k++)
-                {
-                    Vector2 drawPos = (Projectile.oldPos[k] - Main.screenPosition) + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-                    Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-                    Main.EntitySpriteDraw(texture, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0);
-                }
-            }
+                CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return true;
         }
 

@@ -27,6 +27,11 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileLavaDeath[Type] = true;
             Main.tileWaterDeath[Type] = false;
 
+            // Various data sets to protect this tile from unintentional death
+            TileID.Sets.PreventsTileRemovalIfOnTopOfIt[Type] = true;
+            TileID.Sets.PreventsTileReplaceIfOnTopOfIt[Type] = true;
+            TileID.Sets.PreventsSandfall[Type] = true;
+
             // No need to set width, height, origin, etc. here, Style3x2 is exactly what we want.
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.LavaDeath = false;

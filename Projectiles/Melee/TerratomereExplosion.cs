@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.ignoreWater = false;
             Projectile.tileCollide = false;
-            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 150;
             Projectile.MaxUpdates = 3;

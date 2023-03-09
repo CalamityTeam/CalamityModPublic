@@ -424,7 +424,7 @@ namespace CalamityMod
                 int summon = ItemType<DecapoditaSprout>();
                 List<int> collection = new List<int>() { ItemType<CrabulonTrophy>(), ItemType<CrabulonMask>(), ItemType<LoreCrabulon>(), ItemType<ThankYouPainting>() };
                 string instructions = $"Use a [i:{summon}] in the Mushroom Biome";
-                string despawn = CalamityUtils.ColorMessage("The monstrous myclelial crab shuffles away…", new Color(0x64, 0x95, 0xED));
+                string despawn = CalamityUtils.ColorMessage("The monstrous mycelial crab shuffles away…", new Color(0x64, 0x95, 0xED));
                 AddBoss(bossChecklist, calamity, "Crabulon", order, type, DownedCrabulon, summon, collection, instructions, despawn, () => true);
             }
 

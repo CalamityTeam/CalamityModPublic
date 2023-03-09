@@ -21,6 +21,7 @@ namespace CalamityMod.Tiles.SunkenSea
             Main.tileLighted[Type] = true;
             Main.tileShine2[Type] = false;
             TileID.Sets.ChecksForMerge[Type] = true;
+            //TileID.Sets.WallsMergeWith[Type] = true; Uncomment this when it gets pushed to 1.4 stable (or when we start porting to 1.4.4 which should also have it)
             DustType = 108;
             ItemDrop = ModContent.ItemType<Items.Placeables.EutrophicGlass>();
             ModTranslation name = CreateMapEntryName();
@@ -34,15 +35,6 @@ namespace CalamityMod.Tiles.SunkenSea
         {
             num = fail ? 1 : 3;
         }
-        
-        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
-        {
-            int xPos = i % 10;
-            int yPos = j % 10;
-            frameXOffset = xPos * sheetWidth;
-            frameYOffset = yPos * sheetHeight;
-        }
-
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             float transparency = 0.60f;
@@ -63,9 +55,20 @@ namespace CalamityMod.Tiles.SunkenSea
             Color color = Lighting.GetColor(i, j) * transparency;
             Vector2 offScreenRange = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
             Vector2 drawPos = new Vector2(i * 16, j * 16) - Main.screenPosition + offScreenRange;
-            TileFraming.SlopedGlowmask(i, j, tile.TileType, tex, drawPos, frame, color, default);
+            TileFraming.SlopedGlowmask(i, j, tile.TileType, tex, drawPos, frame, GetDrawColour(i, j, color), default);
         }
-
+        private Color GetDrawColour(int i, int j, Color colour)
+        {
+            int colType = Main.tile[i, j].TileColor;
+            Color paintCol = WorldGen.paintColor(colType);
+            if (colType >= 0 && colType <= 30)
+            {
+                colour.R = (byte)(paintCol.R / 255f * colour.R);
+                colour.G = (byte)(paintCol.G / 255f * colour.G);
+                colour.B = (byte)(paintCol.B / 255f * colour.B);
+            }
+            return colour;
+        }
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             TileFraming.CompactFraming(i, j, resetFrame);

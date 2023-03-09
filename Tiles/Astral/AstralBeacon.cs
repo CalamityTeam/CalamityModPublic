@@ -28,6 +28,12 @@ namespace CalamityMod.Tiles.Astral
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileSpelunker[Type] = true;
+
+            // Various data sets to protect this tile from unintentional death
+            TileID.Sets.PreventsTileRemovalIfOnTopOfIt[Type] = true;
+            TileID.Sets.PreventsTileReplaceIfOnTopOfIt[Type] = true;
+            TileID.Sets.PreventsSandfall[Type] = true;
+
             TileObjectData.newTile.CopyFrom(TileObjectData.Style5x4);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();

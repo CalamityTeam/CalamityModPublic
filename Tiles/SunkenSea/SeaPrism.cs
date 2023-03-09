@@ -51,7 +51,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/SunkenSea/SeaPrism_Blend");
+            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/SunkenSea/NavystoneMerge");
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)

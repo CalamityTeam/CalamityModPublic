@@ -26,6 +26,12 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
+
+            // Various data sets to protect this tile from unintentional death
+            TileID.Sets.PreventsTileRemovalIfOnTopOfIt[Type] = true;
+            //TileID.Sets.PreventsTileReplaceIfOnTopOfIt[Type] = true; Since this is a furniture item this may be unnecessary?
+            TileID.Sets.PreventsSandfall[Type] = true;
+
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.Width = 4;
             TileObjectData.newTile.Height = 3;

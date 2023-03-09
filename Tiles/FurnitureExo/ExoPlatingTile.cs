@@ -56,17 +56,23 @@ namespace CalamityMod.Tiles.FurnitureExo
             int xPos = tile.TileFrameX;
             int frameOffset = j % 2 * AnimationFrameHeight;
             int yPos = tile.TileFrameY + frameOffset;
+            Color drawColour = GetDrawColour(i, j, Color.White);
             Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffset;
 
-            if (!tile.IsHalfBlock && tile.Slope == 0)
+            TileFraming.SlopedGlowmask(i, j, 0, GlowTexture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+        }
+        private Color GetDrawColour(int i, int j, Color colour)
+        {
+            int colType = Main.tile[i, j].TileColor;
+            Color paintCol = WorldGen.paintColor(colType);
+            if (colType >= 13 && colType <= 24)
             {
-                spriteBatch.Draw(GlowTexture, drawPosition, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                colour.R = (byte)(paintCol.R / 255f * colour.R);
+                colour.G = (byte)(paintCol.G / 255f * colour.G);
+                colour.B = (byte)(paintCol.B / 255f * colour.B);
             }
-            else if (tile.IsHalfBlock)
-            {
-                spriteBatch.Draw(GlowTexture, drawPosition + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            }
+            return colour;
         }
     }
 }
