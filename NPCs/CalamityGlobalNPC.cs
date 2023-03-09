@@ -5098,14 +5098,18 @@ namespace CalamityMod.NPCs
             }
 
             // Increase fairy spawn rates while wearing Fairy Boots
-            if (spawnInfo.Player.Calamity().fairyBoots && NPC.CountNPCS(NPCID.FairyCritterBlue) + NPC.CountNPCS(NPCID.FairyCritterGreen) + NPC.CountNPCS(NPCID.FairyCritterPink) <= 4)
+            if (spawnInfo.Player.Calamity().fairyBoots)
             {
-                if (!NPC.AnyNPCs(NPCID.FairyCritterBlue))
-                    pool[NPCID.FairyCritterBlue] = SpawnCondition.Overworld.Chance * 5f;
-                if (!NPC.AnyNPCs(NPCID.FairyCritterGreen))
-                    pool[NPCID.FairyCritterGreen] = SpawnCondition.Overworld.Chance * 5f;
-                if (!NPC.AnyNPCs(NPCID.FairyCritterPink))
-                    pool[NPCID.FairyCritterPink] = SpawnCondition.Overworld.Chance * 5f;
+                int maxFairies = 5;
+                if ((NPC.CountNPCS(NPCID.FairyCritterBlue) + NPC.CountNPCS(NPCID.FairyCritterGreen) + NPC.CountNPCS(NPCID.FairyCritterPink)) < maxFairies)
+                {
+                    if (!NPC.AnyNPCs(NPCID.FairyCritterBlue))
+                        pool[NPCID.FairyCritterBlue] = SpawnCondition.Overworld.Chance * 5f;
+                    if (!NPC.AnyNPCs(NPCID.FairyCritterGreen))
+                        pool[NPCID.FairyCritterGreen] = SpawnCondition.Overworld.Chance * 5f;
+                    if (!NPC.AnyNPCs(NPCID.FairyCritterPink))
+                        pool[NPCID.FairyCritterPink] = SpawnCondition.Overworld.Chance * 5f;
+                }
             }
 
             if (calamityBiomeZone)
