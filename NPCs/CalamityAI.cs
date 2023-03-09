@@ -1961,11 +1961,18 @@ namespace CalamityMod.NPCs
             if (npc.rotation > num842 - num843 && npc.rotation < num842 + num843)
                 npc.rotation = num842;
 
-            if (!player.active || player.dead)
+            bool calCloneActive = false;
+            if (CalamityGlobalNPC.calamitas != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.calamitas].active)
+                    calCloneActive = true;
+            }
+
+            if (!player.active || player.dead || !calCloneActive)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
-                if (!player.active || player.dead)
+                if (!player.active || player.dead || !calCloneActive)
                 {
                     if (npc.velocity.Y > 3f)
                         npc.velocity.Y = 3f;
@@ -2263,11 +2270,18 @@ namespace CalamityMod.NPCs
             if (npc.rotation > num842 - num843 && npc.rotation < num842 + num843)
                 npc.rotation = num842;
 
-            if (!player.active || player.dead)
+            bool calCloneActive = false;
+            if (CalamityGlobalNPC.calamitas != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.calamitas].active)
+                    calCloneActive = true;
+            }
+
+            if (!player.active || player.dead || !calCloneActive)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
-                if (!player.active || player.dead)
+                if (!player.active || player.dead || !calCloneActive)
                 {
                     if (npc.velocity.Y > 3f)
                         npc.velocity.Y = 3f;
