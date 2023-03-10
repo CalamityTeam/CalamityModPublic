@@ -60,9 +60,8 @@ namespace CalamityMod.Items.Armor.Mollusk
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Shellfish>()] < 2)
                 {
-                    var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(140);
-                    Projectile clam = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<Shellfish>(), damage, 0f, player.whoAmI);
-                    clam.originalDamage = damage;
+                    Projectile clam = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<Shellfish>(), 140, 0f, player.whoAmI);
+                    clam.originalDamage = 140;
                 }
             }
             player.Calamity().wearingRogueArmor = true;
