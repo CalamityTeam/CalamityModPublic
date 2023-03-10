@@ -132,7 +132,8 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.localAI[1] += 1f;
             if (Projectile.localAI[1] == 60f && Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandTornado>(), Projectile.damage, 2f, Projectile.owner, 0f, 0f);
+                var p = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandTornado>(), Projectile.damage, 2f, Projectile.owner, 0f, 0f);
+                p.originalDamage = Projectile.originalDamage;
             }
             if (Projectile.localAI[1] >= 120f)
             {

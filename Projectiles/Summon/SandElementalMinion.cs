@@ -257,18 +257,6 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
         }
-        public override bool? CanDamage()
-        {
-            Player player = Main.player[Projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.sandWaifuVanity || modPlayer.allWaifusVanity)
-            {
-                return false;
-            }
-            else
-            {
-                return null;
-            }
-        }
+        public override bool? CanDamage() => false;
     }
 }
