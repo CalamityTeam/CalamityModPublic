@@ -872,7 +872,7 @@ namespace CalamityMod.CalPlayer
                     {
                         if (Player.ownedProjectileCounts[ProjectileType<PhantomicDagger>()] < 3 && Main.rand.NextBool(10))
                         {
-                            int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(75);
+                            int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(100);
                             Projectile.NewProjectile(source, proj.position, proj.velocity, ProjectileType<PhantomicDagger>(), damage, 1f, Player.whoAmI);
                         }
                     }
@@ -959,7 +959,7 @@ namespace CalamityMod.CalPlayer
                         hallowedRuneCooldown = 180;
                         Vector2 spawnPosition = position - new Vector2(0f, 920f).RotatedByRandom(0.3f);
                         float speed = Main.rand.NextFloat(17f, 23f);
-                        int hallowedDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(30);
+                        int hallowedDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(50);
                         Projectile.NewProjectile(source, spawnPosition, Vector2.Normalize(position - spawnPosition) * speed, ProjectileType<HallowedStarSummon>(), hallowedDamage, 3f, proj.owner);
                     }
                 }
