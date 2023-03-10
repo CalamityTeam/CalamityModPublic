@@ -114,11 +114,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (target.type == ModContent.NPCType<StormWeaverHead>() || target.type == ModContent.NPCType<StormWeaverBody>() || target.type == ModContent.NPCType<StormWeaverTail>())
-            {
-                damage /= 5;
-            }
-
             float dist1 = Vector2.Distance(Projectile.Center, target.Hitbox.TopLeft());
             float dist2 = Vector2.Distance(Projectile.Center, target.Hitbox.TopRight());
             float dist3 = Vector2.Distance(Projectile.Center, target.Hitbox.BottomLeft());
