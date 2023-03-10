@@ -1184,8 +1184,8 @@ namespace CalamityMod.CalPlayer
                 jetPackDash--;
             if (theBeeCooldown > 0)
                 theBeeCooldown--;
-            if (jellyDmg > 0f)
-                jellyDmg -= 1f;
+            if (summonProjCooldown > 0f)
+                summonProjCooldown -= 1f;
             if (ataxiaDmg > 0f)
                 ataxiaDmg -= 1.5f;
             if (ataxiaDmg < 0f)

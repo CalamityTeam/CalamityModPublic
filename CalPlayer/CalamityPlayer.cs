@@ -530,7 +530,7 @@ namespace CalamityMod.CalPlayer
         public bool blazingCore = false;
         public bool voltaicJelly = false;
         public bool jellyChargedBattery = false;
-        public float jellyDmg;
+        public float summonProjCooldown;
         public bool oldDukeScales = false;
         public bool sandWaifu = false;
         public bool sandWaifuVanity = false;

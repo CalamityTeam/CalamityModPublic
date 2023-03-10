@@ -865,7 +865,7 @@ namespace CalamityMod.CalPlayer
                             Vector2 target = proj.Center;
                             target.Y += Main.rand.Next(-50, 50);
                             target.X += Main.rand.Next(-50, 50);
-                            Projectile.NewProjectile(source, target, Vector2.Zero, ProjectileType<PhantomicHeart>(), 0, 0f, Player.whoAmI, 0f);
+                            Projectile.NewProjectile(source, target, Vector2.Zero, ProjectileType<PhantomicHeart>(), 0, 0f, Player.whoAmI);
                         }
                     }
                     else if (buffType == empowerBuff)
@@ -873,15 +873,13 @@ namespace CalamityMod.CalPlayer
                         if (Player.ownedProjectileCounts[ProjectileType<PhantomicDagger>()] < 3 && Main.rand.NextBool(10))
                         {
                             int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(75);
-                            int dagger = Projectile.NewProjectile(source, proj.position, proj.velocity, ProjectileType<PhantomicDagger>(), damage, 1f, Player.whoAmI, 0f);
-                            if (dagger.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[dagger].DamageType = DamageClass.Summon;
+                            Projectile.NewProjectile(source, proj.position, proj.velocity, ProjectileType<PhantomicDagger>(), damage, 1f, Player.whoAmI);
                         }
                     }
                     else
                     {
                         if (Player.ownedProjectileCounts[ProjectileType<Projectiles.Summon.PhantomicShield>()] == 0 && phantomicBulwarkCooldown == 0)
-                            Projectile.NewProjectile(source, Player.position, Vector2.Zero, ProjectileType<Projectiles.Summon.PhantomicShield>(), 0, 0f, Player.whoAmI, 0f);
+                            Projectile.NewProjectile(source, Player.position, Vector2.Zero, ProjectileType<Projectiles.Summon.PhantomicShield>(), 0, 0f, Player.whoAmI);
                     }
                 }
                 else if (hallowedRune)
@@ -926,37 +924,31 @@ namespace CalamityMod.CalPlayer
 
             if (summonExceptionList.TrueForAll(x => proj.type != x))
             {
-                if (jellyDmg <= 0)
+                if (summonProjCooldown <= 0)
                 {
                     if (nucleogenesis)
                     {
                         int apparatusDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(60);
-                        int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<ApparatusExplosion>(), apparatusDamage, 4f, proj.owner);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].DamageType = DamageClass.Summon;
-                        jellyDmg = 100f;
+                        Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<ApparatusExplosion>(), apparatusDamage, 4f, proj.owner);
+                        summonProjCooldown = 100f;
                     }
                     else if (starbusterCore)
                     {
                         int starburstDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(40);
-                        int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SummonAstralExplosion>(), starburstDamage, 3.5f, proj.owner);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].DamageType = DamageClass.Summon;
-                        jellyDmg = 60f;
+                        Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SummonAstralExplosion>(), starburstDamage, 3.5f, proj.owner);
+                        summonProjCooldown = 60f;
                     }
                     else if (nuclearRod)
                     {
                         int nuclearDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(20);
-                        int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<IrradiatedAura>(), nuclearDamage, 0f, proj.owner);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].DamageType = DamageClass.Summon;
-                        jellyDmg = 60f;
+                        Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<IrradiatedAura>(), nuclearDamage, 0f, proj.owner);
+                        summonProjCooldown = 60f;
                     }
                     else if (jellyChargedBattery)
                     {
                         int batteryDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(15);
                         CalamityUtils.SpawnOrb(proj, batteryDamage, ProjectileType<EnergyOrb>(), 800f, 15f);
-                        jellyDmg = 60f;
+                        summonProjCooldown = 60f;
                     }
                 }
 
@@ -968,9 +960,7 @@ namespace CalamityMod.CalPlayer
                         Vector2 spawnPosition = position - new Vector2(0f, 920f).RotatedByRandom(0.3f);
                         float speed = Main.rand.NextFloat(17f, 23f);
                         int hallowedDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(30);
-                        int projectile = Projectile.NewProjectile(source, spawnPosition, Vector2.Normalize(position - spawnPosition) * speed, ProjectileType<HallowedStarSummon>(), hallowedDamage, 3f, proj.owner);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].DamageType = DamageClass.Summon;
+                        Projectile.NewProjectile(source, spawnPosition, Vector2.Normalize(position - spawnPosition) * speed, ProjectileType<HallowedStarSummon>(), hallowedDamage, 3f, proj.owner);
                     }
                 }
             }
