@@ -12,6 +12,10 @@ namespace CalamityMod.Tiles.Ores
     public class PerennialOre : ModTile
     {
         internal static Texture2D GlowTexture;
+
+        public byte[,] tileAdjacency;
+        public byte[,] secondTileAdjacency;
+        public byte[,] thirdTileAdjacency;
         public override void SetStaticDefaults()
         {
             if (!Main.dedServ)
@@ -37,8 +41,12 @@ namespace CalamityMod.Tiles.Ores
             MinPick = 200;
             HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
+
+            TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, TileID.Stone, out secondTileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, TileID.Mud, out thirdTileAdjacency);
         }
-        int animationFrameWidth = 288;
+        int animationFrameWidth = 234;
 
         public override bool CanExplode(int i, int j)
         {
@@ -63,85 +71,14 @@ namespace CalamityMod.Tiles.Ores
                 //Top row (always y = 0 on tile sheets)
                 new Vector2(0, 0),
                 new Vector2(36, 0),
-                new Vector2(72, 0),
-                new Vector2(252, 0),
 
                 //Second row (always y = 18 on tile sheets)
                 new Vector2(18, 18),
                 new Vector2(54, 18),
-                new Vector2(252, 18),
 
                 //Third row (always y = 36 on tile sheets)
                 new Vector2(36, 36),
-                new Vector2(252, 36),
 
-                //Forth row (always y = 54 on tile sheets)
-                new Vector2(250, 54),
-
-                //Nothing on fifth row (always y = 72 on tile sheets)
-
-                //Sixth row (always y = 90 on tile sheets)
-                new Vector2(72, 90),
-                new Vector2(90, 90),
-                new Vector2(144, 90),
-                new Vector2(180, 90),
-                new Vector2(198, 90),
-                new Vector2(216, 90),
-
-                //Seventh row (always y = 108 on tile sheets)
-                new Vector2(72, 108),
-                new Vector2(144, 108),
-                new Vector2(180, 108),
-
-                //Eighth row (always y = 126 on tile sheets)
-                new Vector2(0, 126),
-                new Vector2(18, 126),
-                new Vector2(36, 126),
-                new Vector2(54, 126),
-                new Vector2(144, 126),
-                new Vector2(162, 126),
-                new Vector2(180, 126),
-                new Vector2(198, 126),
-                new Vector2(216, 126),
-
-                //Ninth row (always y = 144 on tile sheets)
-                new Vector2(0, 144),
-                new Vector2(18, 144),
-                new Vector2(36, 144),
-                new Vector2(54, 144),
-                new Vector2(72, 144),
-                new Vector2(90, 144),
-                new Vector2(198, 144),
-                new Vector2(216, 144),
-                //Tenth row (always y = 162 on tile sheets)
-                new Vector2(0, 162),
-                new Vector2(18, 162),
-                new Vector2(36, 162),
-                new Vector2(54, 162),
-                new Vector2(72, 162),
-                new Vector2(144, 162),
-                new Vector2(162, 162),
-                new Vector2(180, 162),
-                //Eleventh row (always y = 180 on tile sheets)
-                new Vector2(0, 180),
-                new Vector2(18, 180),
-                new Vector2(36, 180),
-                new Vector2(54, 180),
-                new Vector2(144, 180),
-                new Vector2(180, 180),
-                new Vector2(198, 180),
-                new Vector2(216, 180),
-                //Twelfth row (always y = 198 on tile sheets)
-                new Vector2(18, 198),
-                new Vector2(72, 198),
-                new Vector2(108, 198),
-                new Vector2(144, 198),
-                //Thirteenth row (always y = 216 on tile sheets)
-                new Vector2(18, 216),
-                new Vector2(72, 216),
-                //Nothing on fourteenth row (always y = 249 on tile sheets)
-
-                //Nothing on fifteenth row (always y = 252 on tile sheets)
             };
             foreach (var positionFlower in positionsFlower)
             {
@@ -343,13 +280,24 @@ namespace CalamityMod.Tiles.Ores
                     }
                     break;
             }
-            xOffset *= 288;
+            xOffset *= 234;
             xPos += xOffset;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j, new Color(175, 175, 175, 175));
             Tile trackTile = Main.tile[i, j];
             TileFraming.SlopedGlowmask(i, j, 0, GlowTexture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+
+            TileFraming.DrawUniversalMergeFrames(i, j, thirdTileAdjacency, "CalamityMod/Tiles/Merges/MudMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/StoneMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/DirtMerge");
+        }
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            TileFraming.GetAdjacencyData(i, j, TileID.Dirt, out tileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, TileID.Stone, out secondTileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, TileID.Mud, out thirdTileAdjacency[i, j]);
+            return true;
         }
         private Color GetDrawColour(int i, int j, Color colour)
         {

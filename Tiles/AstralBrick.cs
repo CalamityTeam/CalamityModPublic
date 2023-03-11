@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.Tiles.Astral;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -12,6 +13,8 @@ namespace CalamityMod.Tiles
         private const short subsheetWidth = 324;
         private const short subsheetHeight = 90;
 
+        public byte[,] tileAdjacency;
+        public byte[,] secondTileAdjacency;
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -19,6 +22,9 @@ namespace CalamityMod.Tiles
             HitSound = SoundID.Tink;
             ItemDrop = ModContent.ItemType<Items.Placeables.AstralBrick>();
             AddMapEntry(new Color(128, 128, 158));
+
+            TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<AstralDirt>(), out secondTileAdjacency);
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -29,6 +35,8 @@ namespace CalamityMod.Tiles
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
+            TileFraming.GetAdjacencyData(i, j, TileID.Dirt, out tileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, ModContent.TileType<AstralDirt>(), out secondTileAdjacency[i, j]);
             return TileFraming.BetterGemsparkFraming(i, j, resetFrame);
         }
 
@@ -58,6 +66,9 @@ namespace CalamityMod.Tiles
             double num6 = Main.time * 0.08;
 
             TileFraming.SlopedGlowmask(i, j, 0, glowmask, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+
+            TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/AstralDirtMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/DirtMerge");
         }
 
         private Color GetDrawColour(int i, int j, Color colour)

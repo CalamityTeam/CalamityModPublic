@@ -1,8 +1,9 @@
-using CalamityMod.Tiles.Ores;
+﻿using CalamityMod.Tiles.Ores;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Tiles.Crags
 {
@@ -10,7 +11,7 @@ namespace CalamityMod.Tiles.Crags
     {
         private const short subsheetWidth = 450;
         private const short subsheetHeight = 198;
-
+        public byte[,] TileAdjacency;
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -25,6 +26,7 @@ namespace CalamityMod.Tiles.Crags
             MinPick = 100;
             ItemDrop = ModContent.ItemType<Items.Placeables.BrimstoneSlag>();
             AddMapEntry(new Color(53, 33, 56));
+            TileFraming.SetUpUniversalMerge(Type, TileID.Ash, out TileAdjacency);
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -45,8 +47,13 @@ namespace CalamityMod.Tiles.Crags
             frameYOffset = j % 2 * subsheetHeight;
         }
 
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            TileFraming.DrawUniversalMergeFrames(i, j, TileAdjacency, "CalamityMod/Tiles/Merges/AshMerge");
+        }
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
+            TileFraming.GetAdjacencyData(i, j, TileID.Ash, out TileAdjacency[i, j]);
             return TileFraming.BrimstoneFraming(i, j, resetFrame);
         }
 
@@ -94,7 +101,7 @@ namespace CalamityMod.Tiles.Crags
                     Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X) + (float)num10, (float)(j * 16 - (int)Main.screenPosition.Y + index4 * 2)) + zero, drawRectangle, drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                 }
             }
-        }*/
+        }
 
         private Color GetDrawColour(int i, int j, Color colour)
         {
@@ -107,6 +114,6 @@ namespace CalamityMod.Tiles.Crags
                 colour.B = (byte)(paintCol.B / 255f * colour.B);
             }
             return colour;
-        }
+        }*/
     }
 }

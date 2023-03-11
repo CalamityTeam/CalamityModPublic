@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +10,9 @@ namespace CalamityMod.Tiles.Astral
     [LegacyName("AstralSilt")]
     public class NovaeSlag : ModTile
     {
+        public byte[,] tileAdjacency;
+        public byte[,] secondTileAdjacency;
+        public byte[,] thirdTileAdjacency;
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -28,6 +32,10 @@ namespace CalamityMod.Tiles.Astral
             TileID.Sets.ChecksForMerge[Type] = true;
             TileID.Sets.CanBeClearedDuringOreRunner[Type] = true;
             TileID.Sets.CanBeDugByShovel[Type] = true;
+
+            TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, TileID.Stone, out secondTileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<AstralDirt>(), out thirdTileAdjacency);
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -37,10 +45,19 @@ namespace CalamityMod.Tiles.Astral
             return false;
         }
 
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            TileFraming.DrawUniversalMergeFrames(i, j, thirdTileAdjacency, "CalamityMod/Tiles/Merges/AstralDirtMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/StoneMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/DirtMerge");
+        }
+
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false);
-            return false;
+            TileFraming.GetAdjacencyData(i, j, TileID.Dirt, out tileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, TileID.Stone, out secondTileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, ModContent.TileType<AstralDirt>(), out thirdTileAdjacency[i, j]);
+            return true;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

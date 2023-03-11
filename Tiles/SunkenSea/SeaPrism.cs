@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.SunkenSea
         public byte[,] tileAdjacency;
 
         private const short subsheetWidth = 450;
-        private const short subsheetHeight = 270;
+        private const short subsheetHeight = 198;
 
         public override void SetStaticDefaults()
         {
@@ -51,7 +51,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/SunkenSea/NavystoneMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/NavystoneMerge");
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)

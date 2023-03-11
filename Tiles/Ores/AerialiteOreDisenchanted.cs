@@ -9,12 +9,15 @@ namespace CalamityMod.Tiles.Ores
 {
     public class AerialiteOreDisenchanted : ModTile
     {
+        public byte[,] tileAdjacency;
+        public byte[,] secondTileAdjacency;
+        public byte[,] thirdTileAdjacency;
+        public byte[,] fourthTileAdjacency;
         public override void SetStaticDefaults()
         {
             Main.tileOreFinderPriority[Type] = 445;
             Main.tileBlockLight[Type] = true;
             Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
             Main.tileLighted[Type] = true;
             //Main.tileNoSunLight[Type] = false;
 
@@ -40,13 +43,18 @@ namespace CalamityMod.Tiles.Ores
             MinPick = 110;
             HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
+
+            TileFraming.SetUpUniversalMerge(Type, TileID.Cloud, out tileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, TileID.RainCloud, out secondTileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, TileID.SnowCloud, out thirdTileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out fourthTileAdjacency);
         }
         public override void PostSetDefaults()
         {
         Main.tileNoSunLight[Type] = false;
         }
 
-        int animationFrameWidth = 288;
+        int animationFrameWidth = 234;
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
@@ -54,8 +62,11 @@ namespace CalamityMod.Tiles.Ores
         }
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, TileID.Cloud, false, false, false);
-            return false;
+            TileFraming.GetAdjacencyData(i, j, TileID.Cloud, out tileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, TileID.RainCloud, out secondTileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, TileID.SnowCloud, out thirdTileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, TileID.Dirt, out fourthTileAdjacency[i, j]);
+            return true;
         }
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
@@ -146,6 +157,13 @@ namespace CalamityMod.Tiles.Ores
                     break;
             }
             frameXOffset = uniqueAnimationFrameX * animationFrameWidth;
+        }
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/CloudMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/RainCloudMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, thirdTileAdjacency, "CalamityMod/Tiles/Merges/SnowCloudMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, fourthTileAdjacency, "CalamityMod/Tiles/Merges/DirtMerge");
         }
 
         private Color GetDrawColour(int i, int j, Color colour)

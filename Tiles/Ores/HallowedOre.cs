@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -8,6 +9,7 @@ namespace CalamityMod.Tiles.Ores
 {
     public class HallowedOre : ModTile
     {
+        public byte[,] tileAdjacency;
         public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
@@ -31,6 +33,8 @@ namespace CalamityMod.Tiles.Ores
             MinPick = 180;
             HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
+
+            TileFraming.SetUpUniversalMerge(Type, TileID.Pearlstone, out tileAdjacency);
         }
 
         public override bool CanExplode(int i, int j)
@@ -42,10 +46,14 @@ namespace CalamityMod.Tiles.Ores
         {
             num = fail ? 1 : 3;
         }
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/PearlstoneMerge");
+        }
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, TileID.Pearlstone, false, false, false);
-            return false;
+            TileFraming.GetAdjacencyData(i, j, TileID.Pearlstone, out tileAdjacency[i, j]);
+            return true;
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
