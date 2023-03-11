@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,6 +15,16 @@ namespace CalamityMod.Buffs.StatBuffs
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
             BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
+        }
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            if (!modPlayer.profanedCrystal)
+            {
+                player.DelBuff(buffIndex);
+                buffIndex--;
+            }
         }
 
         public override void ModifyBuffTip(ref string tip, ref int rare)

@@ -1173,7 +1173,7 @@ namespace CalamityMod.NPCs
                         {
                             chat = Main.rand.NextBool(2) ? "They look so cute and yet, I can feel their immense power just by being near them. What are you?" : "I hate to break it to you, but you don't have hair to cut or style, hun.";
                         }
-                        else if (Main.LocalPlayer.Calamity().gDefense && Main.LocalPlayer.Calamity().gOffense)
+                        else if (Main.LocalPlayer.Calamity().donutBabs)
                         {
                             chat = "Aww, they're so cute, do they have names?";
                         }

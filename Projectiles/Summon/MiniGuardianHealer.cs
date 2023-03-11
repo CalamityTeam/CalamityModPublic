@@ -44,16 +44,14 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.dead)
-            {
-                modPlayer.gHealer = false;
-            }
-            if (modPlayer.gHealer)
+            
+            if (modPlayer.donutBabs)
             {
                 Projectile.timeLeft = 2;
             }
-            if (!modPlayer.pArtifact || player.dead)
+            if (!modPlayer.pArtifact || player.dead || !player.active)
             {
+                modPlayer.donutBabs = false;
                 Projectile.active = false;
                 return;
             }

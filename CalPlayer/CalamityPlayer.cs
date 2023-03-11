@@ -900,9 +900,7 @@ namespace CalamityMod.CalPlayer
         public bool sandnado = false;
         public bool plantera = false;
         public bool astralProbe = false;
-        public bool gDefense = false;
-        public bool gOffense = false;
-        public bool gHealer = false;
+        public bool donutBabs = false;
         public bool cEnergy = false;
         public int healCounter = 300;
         public bool shellfish = false;
@@ -1924,9 +1922,7 @@ namespace CalamityMod.CalPlayer
             cLamp = false;
             pGuy = false;
             cEnergy = false;
-            gDefense = false;
-            gOffense = false;
-            gHealer = false;
+            donutBabs = false;
             sWaifu = false;
             dWaifu = false;
             cWaifu = false;
@@ -6691,7 +6687,7 @@ namespace CalamityMod.CalPlayer
                         if (attack || (Main.projectile[i].type == ModContent.ProjectileType<MiniGuardianDefense>() && Main.projectile[i].owner == Player.whoAmI))
                         {
                             int numSpears = attack ? 12 : 6;
-                            int dam = Main.projectile[i].damage;
+                            int dam = Main.projectile[i].originalDamage;
                             if (!attack)
                                 dam = (int)(dam * 0.5f);
                             float angleVariance = MathHelper.TwoPi / (float)numSpears;

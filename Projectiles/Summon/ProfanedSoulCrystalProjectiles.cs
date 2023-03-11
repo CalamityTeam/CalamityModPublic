@@ -223,7 +223,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, 5, 1, 0);
+            Lighting.AddLight(Projectile.Center, 0.5f, 0.1f, 0f);
             if (Projectile.timeLeft == 600)
             {
                 damage = Projectile.damage;
@@ -406,7 +406,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Projectile.velocity *= 1.06f;
             Projectile.rotation = Projectile.velocity.ToRotation() + 1.57079637f;
-            Lighting.AddLight(Projectile.Center, 5, 1, 0);
+            Lighting.AddLight(Projectile.Center, 1f, 0.2f, 0f);
         }
 
         public override bool PreAI()
