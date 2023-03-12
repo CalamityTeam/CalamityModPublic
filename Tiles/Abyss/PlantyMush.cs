@@ -45,12 +45,15 @@ namespace CalamityMod.Tiles.Abyss
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (!closer && j < Main.maxTilesY - 205)
+            if (!closer)
             {
-                if (Main.tile[i, j].LiquidAmount <= 0)
+                if ((Main.tile[i, j].LiquidAmount == 0 || Main.tile[i, j].LiquidType == LiquidID.Water) && j < Main.maxTilesY - 205)
                 {
-                    Main.tile[i, j].LiquidAmount = 255;
                     Main.tile[i, j].Get<LiquidData>().LiquidType = LiquidID.Water;
+                    Main.tile[i, j].LiquidAmount = byte.MaxValue;
+                    WorldGen.SquareTileFrame(i, j);
+                    if (Main.netMode == NetmodeID.MultiplayerClient)
+                        NetMessage.sendWater(i, j);
                 }
             }
         }
