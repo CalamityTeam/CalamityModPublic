@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 int num35 = -1;
                 float num36 = num30;
-                for (int num37 = 0; num37 < 200; num37++)
+                for (int num37 = 0; num37 < Main.maxNPCs; num37++)
                 {
                     if (Main.npc[num37].active && Main.npc[num37].CanBeChasedBy(Projectile, false))
                     {

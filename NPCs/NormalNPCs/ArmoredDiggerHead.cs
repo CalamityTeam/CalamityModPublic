@@ -201,7 +201,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
                 if ((double)NPC.position.Y > (double)((Main.maxTilesY - 200) * 16))
                 {
-                    for (int a = 0; a < 200; a++)
+                    for (int a = 0; a < Main.maxNPCs; a++)
                     {
                         if (Main.npc[a].type == ModContent.NPCType<ArmoredDiggerHead>() || Main.npc[a].type == ModContent.NPCType<ArmoredDiggerBody>() ||
                             Main.npc[a].type == ModContent.NPCType<ArmoredDiggerTail>())

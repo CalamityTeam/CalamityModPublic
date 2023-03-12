@@ -383,7 +383,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 }
                 if ((double)NPC.position.Y > Main.rockLayer * 16.0)
                 {
-                    for (int a = 0; a < 200; a++)
+                    for (int a = 0; a < Main.maxNPCs; a++)
                     {
                         if (Main.npc[a].type == ModContent.NPCType<DesertScourgeHead>() || Main.npc[a].type == ModContent.NPCType<DesertScourgeBody>() ||
                             Main.npc[a].type == ModContent.NPCType<DesertScourgeTail>())

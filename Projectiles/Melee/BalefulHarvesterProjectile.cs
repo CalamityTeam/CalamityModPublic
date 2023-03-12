@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     float num559 = 1000f;
                     int num3;
-                    for (int num560 = 0; num560 < 200; num560 = num3 + 1)
+                    for (int num560 = 0; num560 < Main.maxNPCs; num560 = num3 + 1)
                     {
                         if (Main.npc[num560].CanBeChasedBy(Projectile, false))
                         {

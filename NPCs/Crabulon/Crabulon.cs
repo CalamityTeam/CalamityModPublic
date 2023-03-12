@@ -638,7 +638,7 @@ namespace CalamityMod.NPCs.Crabulon
                             Main.npc[num664].SetDefaults(num663);
                             Main.npc[num664].velocity.X = Main.rand.Next(-50, 51) * (Main.getGoodWorld ? 0.2f : 0.1f);
                             Main.npc[num664].velocity.Y = Main.rand.Next(-50, -31) * (Main.getGoodWorld ? 0.2f : 0.1f);
-                            if (Main.netMode == NetmodeID.Server && num664 < 200)
+                            if (Main.netMode == NetmodeID.Server && num664 < Main.maxNPCs)
                             {
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
                             }

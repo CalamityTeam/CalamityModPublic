@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee
             float targetY = Projectile.Center.Y;
             bool foundTarget = false;
             float maxRange = MaxHomingRange;
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
                 if (Main.npc[i].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
                 {

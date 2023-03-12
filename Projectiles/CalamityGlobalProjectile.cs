@@ -505,7 +505,7 @@ namespace CalamityMod.Projectiles
                 if (projectile.localAI[0] == 0f && projectile.ai[0] < 0f && projectile.owner == Main.myPlayer)
                 {
                     projectile.localAI[0] = 5f;
-                    for (int num1034 = 0; num1034 < 200; num1034++)
+                    for (int num1034 = 0; num1034 < Main.maxNPCs; num1034++)
                     {
                         NPC nPC13 = Main.npc[num1034];
                         if (nPC13.CanBeChasedBy(this))

@@ -5051,7 +5051,6 @@ namespace CalamityMod.NPCs
                     pool.Add(NPCType<NanodroidDysfunctional>(), 0.05f);
                 }
 
-
                 int typeToSpawn = pool.Get();
                 if (typeToSpawn != NPCID.None)
                 {

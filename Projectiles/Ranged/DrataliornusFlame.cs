@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Ranged
                     int possibleTarget = -1;
                     float closestDistance = 700f;
 
-                    for (int i = 0; i < 200; i++)
+                    for (int i = 0; i < Main.maxNPCs; i++)
                     {
                         NPC npc = Main.npc[i];
 

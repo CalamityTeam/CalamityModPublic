@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Typeless
                 float num472 = Projectile.Center.X;
                 float num473 = Projectile.Center.Y;
                 float num474 = 600f;
-                for (int num475 = 0; num475 < 200; num475++)
+                for (int num475 = 0; num475 < Main.maxNPCs; num475++)
                 {
                     NPC npc = Main.npc[num475];
                     if (npc.CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)

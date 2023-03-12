@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 int num158 = -1;
                 float num159 = 60f;
-                for (int num160 = 0; num160 < 200; num160++)
+                for (int num160 = 0; num160 < Main.maxNPCs; num160++)
                 {
                     NPC nPC = Main.npc[num160];
                     if (nPC.CanBeChasedBy(Projectile, false))

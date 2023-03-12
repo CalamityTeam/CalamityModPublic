@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Rogue
             bool bossFound = false;
             int target = -1;
             float minDist = HomingStartRange;
-            for (int i = 0; i < 200; ++i)
+            for (int i = 0; i < Main.maxNPCs; ++i)
             {
                 NPC npc = Main.npc[i];
                 if (!npc.active || npc.type == NPCID.TargetDummy)

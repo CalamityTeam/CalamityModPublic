@@ -118,7 +118,7 @@ namespace CalamityMod.NPCs.Astral
             if (NPC.life <= 0)
             {
                 int type = ModContent.NPCType<Hiveling>();
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].type == type)
                     {

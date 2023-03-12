@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             float longestReach = MaxProjReach;
             NPC target = null;
-            for (int i = 0; i < 200; ++i)
+            for (int i = 0; i < Main.maxNPCs; ++i)
             {
                 NPC npc = Main.npc[i];
                 if (!excludedTargets.Contains(npc) && npc.CanBeChasedBy() && !npc.friendly && !npc.townNPC)

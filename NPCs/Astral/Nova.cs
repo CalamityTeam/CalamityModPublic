@@ -211,7 +211,7 @@ namespace CalamityMod.NPCs.Astral
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.maxPlayers; i++)
                 {
                     if (Main.player[i].getRect().Intersects(myRect))
                     {

@@ -792,7 +792,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             Main.npc[num32].velocity.Y = Main.rand.Next(-30, 1) * 0.1f;
             Main.npc[num32].ai[0] = -500 * Main.rand.Next(3);
             Main.npc[num32].ai[1] = 0f;
-            if (Main.netMode == NetmodeID.Server && num32 < 200)
+            if (Main.netMode == NetmodeID.Server && num32 < Main.maxNPCs)
                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num32);
 
             return false;

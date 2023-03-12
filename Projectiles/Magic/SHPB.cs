@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Magic
             float num473 = Projectile.Center.Y;
             float num474 = 250f;
             bool flag17 = false;
-            for (int num475 = 0; num475 < 200; num475++)
+            for (int num475 = 0; num475 < Main.maxNPCs; num475++)
             {
                 if (Main.npc[num475].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1))
                 {

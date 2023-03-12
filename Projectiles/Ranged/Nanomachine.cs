@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Ranged
             int num143 = 0;
             if (Projectile.ai[1] == 0f)
             {
-                for (int num144 = 0; num144 < 200; num144++)
+                for (int num144 = 0; num144 < Main.maxNPCs; num144++)
                 {
                     if (Main.npc[num144].CanBeChasedBy(Projectile, false) && (Projectile.ai[1] == 0f || Projectile.ai[1] == (float)(num144 + 1)))
                     {
