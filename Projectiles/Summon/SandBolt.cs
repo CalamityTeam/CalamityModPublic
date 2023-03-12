@@ -35,7 +35,8 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandMark>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                var p = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandMark>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                p.originalDamage = Projectile.originalDamage;
             }
         }
     }

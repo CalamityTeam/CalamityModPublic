@@ -18,26 +18,20 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (!modPlayer.gHealer || modPlayer.profanedCrystalBuffs)
+            if (!modPlayer.donutBabs || modPlayer.profanedCrystalBuffs)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;
             }
             else
-            {
                 player.buffTime[buffIndex] = 18000;
-            }
         }
 
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {
             Player player = Main.player[Main.myPlayer];
-            bool offense = player.Calamity().gOffense;
-            bool defense = player.Calamity().gDefense;
-            if (player.Calamity().profanedCrystal && (!player.Calamity().profanedCrystalBuffs && (!DownedBossSystem.downedCalamitas || !DownedBossSystem.downedExoMechs)))
-            {
+            if (player.Calamity().profanedCrystal && !player.Calamity().profanedCrystalBuffs)
                 tip = "The Profaned Babs will accompany you!";
-            }
         }
     }
 }

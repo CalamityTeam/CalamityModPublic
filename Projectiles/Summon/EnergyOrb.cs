@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 200;
-            Projectile.minion = true;
             Projectile.DamageType = DamageClass.Summon;
         }
 

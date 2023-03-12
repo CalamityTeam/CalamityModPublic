@@ -144,9 +144,9 @@ namespace CalamityMod
         /// 11.0 = Skeletron Prime<br />
         /// 12.0 = Plantera<br />
         /// 13.0 = Golem<br />
-        /// 14.0 = Betsy<br />
+        /// 14.0 = Duke Fishron<br />
         /// 15.0 = Empress of Light<br />
-        /// 16.0 = Duke Fishron<br />
+        /// 16.0 = Betsy<br />
         /// 17.0 = Lunatic Cultist<br />
         /// 18.0 = Moon Lord
         /// </summary>

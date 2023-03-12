@@ -997,43 +997,34 @@ namespace CalamityMod.CalPlayer
                 Player.GetCritChance<GenericDamageClass>() += critUp;
             }
 
-            bool canProvideBuffs = profanedCrystalBuffs || (!profanedCrystal && pArtifact) || (profanedCrystal && DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs);
-            bool attack = Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] > 0;
+            bool profanedSoulBuffs = profanedCrystalBuffs || (!profanedCrystal && pArtifact) || (profanedCrystal && DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs);
+
+            // Offense bonus. You always get the max minions, even during the effect of the burnout debuff
+            if (profanedSoulBuffs)
+                Player.maxMinions++;
 
             // Guardian bonuses if not burnt out
-            if (canProvideBuffs && !Player.HasCooldown(Cooldowns.ProfanedSoulArtifact.ID))
+            if (profanedSoulBuffs && !Player.HasCooldown(Cooldowns.ProfanedSoulArtifact.ID))
             {
-                bool healer = Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] > 0;
-                bool defend = Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] > 0;
-                if (healer)
-                {
-                    if (healCounter > 0)
-                        healCounter--;
+                // Defender bonus
+                Player.moveSpeed += 0.1f;    
+                Player.endurance += 0.05f;
 
-                    if (healCounter <= 0)
+                // Healer bonus
+                if (healCounter > 0)
+                    healCounter--;
+
+                if (healCounter <= 0)
+                {
+                    bool enrage = Player.statLife < (int)(Player.statLifeMax2 * 0.5);
+
+                    healCounter = (!enrage && profanedCrystalBuffs) ? 360 : 300;
+
+                    if (Player.whoAmI == Main.myPlayer)
                     {
-                        bool enrage = Player.statLife < (int)(Player.statLifeMax2 * 0.5);
-
-                        healCounter = (!enrage && profanedCrystalBuffs) ? 360 : 300;
-
-                        if (Player.whoAmI == Main.myPlayer)
-                        {
-                            int healAmount = 5 +
-                                (defend ? 5 : 0) +
-                                (attack ? 5 : 0);
-
-                            Player.statLife += healAmount;
-                            Player.HealEffect(healAmount);
-                        }
+                        Player.statLife += 15;
+                        Player.HealEffect(15);
                     }
-                }
-
-                if (defend)
-                {
-                    Player.moveSpeed += 0.05f +
-                        (attack ? 0.05f : 0f);
-                    Player.endurance += 0.025f +
-                        (attack ? 0.025f : 0f);
                 }
             }
 
@@ -1067,9 +1058,6 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (zapActivity > 600) { zapActivity = 0; }
             }
-            // You always get the max minions, even during the effect of the burnout debuff
-            if (attack && canProvideBuffs)
-                Player.maxMinions++;
 
             if (nucleogenesis)
             {
@@ -1184,8 +1172,8 @@ namespace CalamityMod.CalPlayer
                 jetPackDash--;
             if (theBeeCooldown > 0)
                 theBeeCooldown--;
-            if (jellyDmg > 0f)
-                jellyDmg -= 1f;
+            if (summonProjCooldown > 0f)
+                summonProjCooldown -= 1f;
             if (ataxiaDmg > 0f)
                 ataxiaDmg -= 1.5f;
             if (ataxiaDmg < 0f)
@@ -2595,7 +2583,7 @@ namespace CalamityMod.CalPlayer
             if (shatteredCommunity)
                 flightTimeMult += 0.2f;
 
-            if (profanedCrystalBuffs && gOffense && gDefense)
+            if (profanedCrystalBuffs)
             {
                 bool offenseBuffs = (Main.dayTime && !Player.wet) || Player.lavaWet;
                 if (offenseBuffs)
@@ -3034,35 +3022,33 @@ namespace CalamityMod.CalPlayer
                 if (Player.whoAmI == Main.myPlayer)
                 {
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.ProfanedSoulArtifact>()));
-                    if (Player.FindBuffIndex(ModContent.BuffType<ProfanedBabs>()) == -1 && !profanedCrystalBuffs)
+                    if (Player.FindBuffIndex(ModContent.BuffType<ProfanedBabs>()) == -1)
                         Player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
 
+                    donutBabs = true;
+
                     int guardianAmt = 1;
+                    float babCheck = profanedCrystal ? 1f : 0f;
+                    int babDamage = profanedCrystal ? 346 : 52;
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
-                        Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
-
-                    gDefense = true;
+                        Projectile.NewProjectile(source, Player.Center, Vector2.UnitY * -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer);
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < guardianAmt)
                     {
-                        int guardian = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, 0f, 0f);
-                        if (Main.projectile.IndexInRange(guardian))
-                            Main.projectile[guardian].originalDamage = 1;
+                        var babD = Projectile.NewProjectileDirect(source, Player.Center, Vector2.UnitY * -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, babCheck);
+                        babD.originalDamage = babDamage;
                     }
-
-                    gOffense = true;
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < guardianAmt)
                     {
-                        int guardian = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, 0f, 0f);
-                        if (Main.projectile.IndexInRange(guardian))
-                            Main.projectile[guardian].originalDamage = 1;
+                        var babO = Projectile.NewProjectileDirect(source, Player.Center, Vector2.UnitY * -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, babCheck);
+                        babO.originalDamage = babDamage;
                     }
                 }
             }
 
-            if (profanedCrystalBuffs && gOffense && gDefense)
+            if (profanedCrystalBuffs)
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {

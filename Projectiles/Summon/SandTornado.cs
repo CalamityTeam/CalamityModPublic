@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.minion = true;
-            Projectile.penetrate = NPC.downedMoonlord ? -1 : 3;
+            Projectile.penetrate = 3;
             Projectile.timeLeft = 1200;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 20;
