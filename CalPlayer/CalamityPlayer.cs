@@ -2499,6 +2499,10 @@ namespace CalamityMod.CalPlayer
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
+            // Why does this otherwise work when you're dead lmao
+            if (Player.dead)
+                return;
+            
             if (CalamityKeybinds.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == Player.whoAmI)
             {
                 if (!Player.CCed && !Player.chaosState)

@@ -2590,6 +2590,10 @@ namespace CalamityMod.CalPlayer
                     flightTimeMult += 0.1;
             }
 
+            // Reaver Tank set nuke flight time
+            if (reaverDefense)
+                flightTimeMult -= 0.2f;
+
             // Increase wing time
             if (Player.wingTimeMax > 0)
                 Player.wingTimeMax = (int)(Player.wingTimeMax * flightTimeMult);
