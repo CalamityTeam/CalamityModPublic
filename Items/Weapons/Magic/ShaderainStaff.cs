@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
         // Stats for the shaderain.
         public const int RainAmount = 3;
-        public const float LesserRainDMGMultiplier = 0.75f; // The lowest speed modifier the rain can get.
-        public const float HigherRainDMGMultiplier = 1.25f; // The highest speed modifier the rain can get.
+        public const float LesserRainVELMultiplier = 0.75f; // The lowest speed modifier the rain can get.
+        public const float HigherRainVELMultiplier = 1.25f; // The highest speed modifier the rain can get.
         public const float GravityStrenght = 0.15f;
 
         // Stats for the shade clouds.
