@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Magic
             {
                 Projectile.NewProjectile(source,
                 player.Center,
-                velocity * Main.rand.NextFloat(LesserRainDMGMultiplier, HigherRainDMGMultiplier),
+                velocity * Main.rand.NextFloat(LesserRainVELMultiplier, HigherRainVELMultiplier),
                 type,
                 damage,
                 knockback,
