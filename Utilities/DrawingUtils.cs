@@ -195,6 +195,18 @@ namespace CalamityMod
 
         public static Vector2 TileDrawOffset => Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
+        public static void DrawInventoryCustomScale(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale, float wantedScale = 1f, Vector2 drawOffset = default)
+        {
+            //Main.NewText(position);
+            //Main.NewText(origin);
+            //Main.NewText(scale);
+            wantedScale *= Main.inventoryScale;
+            float scaleDifference = wantedScale - scale;
+            position -= frame.Size() / 2f * scaleDifference;
+            position += drawOffset * wantedScale;
+            spriteBatch.Draw(texture, position, frame, drawColor, 0f, origin, wantedScale, SpriteEffects.None, 0);
+        }
+
         /// <summary>
         /// Draws a treasure bag in the world in the exact same way as how Terraria 1.4's bags are drawn.
         /// </summary>
@@ -368,6 +380,33 @@ namespace CalamityMod
         {
             Vector2 origin = new Vector2(glowmaskTexture.Width / 2f, glowmaskTexture.Height / 2f - 2f);
             spriteBatch.Draw(glowmaskTexture, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle GetFrame(int itemID, int whoAmI, Texture2D texture = null)
+        {
+            texture ??= TextureAssets.Item[itemID].Value;
+            return Main.itemAnimations[itemID] == null 
+                ? texture.Frame() 
+                : Main.itemAnimations[itemID].GetFrame(texture, Main.itemFrameCounter[whoAmI]);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle GetFrame(this Item item, int whoAmI, Texture2D texture = null)
+        {
+            return GetFrame(item.type, whoAmI, texture);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle GetFrame(int itemID, Texture2D texture = null)
+        {
+            texture ??= TextureAssets.Item[itemID].Value;
+            return Main.itemAnimations[itemID] == null 
+                ? texture.Frame() 
+                : Main.itemAnimations[itemID].GetFrame(texture);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle GetFrame(this Item item, Texture2D texture = null)
+        {
+            return GetFrame(item.type, texture);
         }
 
         public static Rectangle GetCurrentFrame(this Item item, ref int frame, ref int frameCounter, int frameDelay, int frameAmt, bool frameCounterUp = true)

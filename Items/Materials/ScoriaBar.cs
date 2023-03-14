@@ -3,6 +3,8 @@ using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,42 +13,47 @@ namespace CalamityMod.Items.Materials
     [LegacyName("CruptixBar")]
     public class ScoriaBar : ModItem
     {
-        public int frameCounter = 0;
-        public int frame = 0;
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
+
             DisplayName.SetDefault("Scoria Bar");
             Tooltip.SetDefault("The smoke feels warm");
-			ItemID.Sets.SortingPriorityMaterials[Type] = 95; // Stardust Fragment
+
+            ItemID.Sets.SortingPriorityMaterials[Type] = 95; // Stardust Fragment
+
+            Main.RegisterItemAnimation(
+                Type,
+                new DrawAnimationVertical(6, 6) /* 6 ticks per frame, has 6 frames total */
+            );
         }
 
         public override void SetDefaults()
         {
-            Item.createTile = ModContent.TileType<ChaoticBarPlaced>();
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTurn = true;
-            Item.useAnimation = 15;
-            Item.useTime = 10;
-            Item.autoReuse = true;
-            Item.consumable = true;
-            Item.width = 40;
-            Item.height = 52;
-            Item.maxStack = 999;
+            Item.DefaultToPlaceableTile(ModContent.TileType<ShadowspecBarTile>());
             Item.value = Item.sellPrice(gold: 1, silver: 20);
             Item.rare = ItemRarityID.Yellow;
         }
-        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Materials/ScoriaBar_Animated").Value;
-            spriteBatch.Draw(texture, position, Item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
+            CalamityUtils.DrawInventoryCustomScale(
+                spriteBatch,
+                TextureAssets.Item[Type].Value,
+                position,
+                frame,
+                drawColor,
+                itemColor,
+                origin,
+                scale,
+                wantedScale: 1f,
+                drawOffset: new(5f, -12f)
+            );
             return false;
         }
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Materials/ScoriaBar_Animated").Value;
-            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             return false;
         }
 
