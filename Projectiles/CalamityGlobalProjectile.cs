@@ -174,8 +174,17 @@ namespace CalamityMod.Projectiles
                 pointBlankShotDuration--;
 
             // Reduce secondary yoyo damage if the player has Yoyo Glove
-            if (Main.player[projectile.owner].yoyoGlove && projectile.aiStyle == 99 && projectile.ai[0] == 1f)
-                projectile.damage = (int)(projectile.originalDamage * 0.5f);
+            // Brief behavior documentation of yoyo AI: ai[0, 1] are the x, y co-ords and localAI[0] is the airtime in frames
+            // All secondary yoyos are spawned with ai[0] of 1 which tells then tell its AI to do secondary yoyo AI
+            if (Main.player[projectile.owner].yoyoGlove && projectile.aiStyle == 99)
+            {
+                if (projectile.ai[0] == 1f && projectile.localAI[0] == 0f)
+                    projectile.damage = (int)(projectile.originalDamage * 0.5f);
+                // Reset damage if the yoyo count returns to 1
+                // This is possible due to the horrendous yoyo spawning system for limited lifespan yoyos
+                else if (Main.player[projectile.owner].ownedProjectileCounts[projectile.type] == 1 && projectile.localAI[0] > 0f)
+                    projectile.damage = projectile.originalDamage;
+            }
 
             // Chlorophyte Crystal AI rework.
             if (projectile.type == ProjectileID.CrystalLeaf)

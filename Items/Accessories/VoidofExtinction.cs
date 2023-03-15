@@ -23,8 +23,7 @@ namespace CalamityMod.Items.Accessories
                 "12% increase to all damage\n" +
                 "All attacks inflict Brimstone Flames\n" +
                 "Brimstone fire rains down after getting hit\n" +
-                "Reduces damage from touching lava\n" +
-                "Grants immunity to Burning, On Fire!, Brimstone Flames and Searing Lava");
+                "Grants immunity to lava, Burning, On Fire!, Brimstone Flames and Searing Lava");
         }
 
         public override void SetDefaults()
@@ -62,7 +61,7 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.fireWalk = true;
-            player.lavaRose = true;
+            player.lavaImmune = true;
             player.GetDamage<GenericDamageClass>() += 0.12f;
             if (player.immune)
             {

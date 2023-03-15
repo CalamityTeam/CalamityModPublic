@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 2.7\n" +
                 "Great vertical speed\n" +
                 "Flight time: 240\n" +
-                "Temporary immunity to lava and 10% increased movement speed");
+                "Grants immunity to lava and 10% increased movement speed");
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(240, 9.5f, 2.7f);
         }
 
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             CalamityPlayer modPlayer = player.Calamity();
             player.moveSpeed += 0.1f;
-            player.lavaMax += 240;
+            player.lavaImmune = true;
             player.noFallDmg = true;
             modPlayer.elysianFire = true;
             if (hideVisual)

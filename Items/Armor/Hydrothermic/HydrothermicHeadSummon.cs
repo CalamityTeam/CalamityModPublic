@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
             SacrificeTotal = 1;
             DisplayName.SetDefault("Hydrothermic Helmet");
             Tooltip.SetDefault("5% increased minion damage and increased minion knockback\n" +
-                "Temporary immunity to lava and immunity to fire damage");
+                "Grants immunity to lava and On Fire! debuff");
         }
 
         public override void SetDefaults()
@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
         {
             player.GetDamage<SummonDamageClass>() += 0.05f;
             player.GetKnockback<SummonDamageClass>() += 1.5f;
-            player.lavaMax += 240;
+            player.lavaImmune = true;
             player.buffImmune[BuffID.OnFire] = true;
         }
 

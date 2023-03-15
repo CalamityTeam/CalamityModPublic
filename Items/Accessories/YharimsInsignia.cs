@@ -16,8 +16,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("10% increased damage when under 50% life\n" +
                 "10% increased melee speed\n" +
                 "10% increased melee and true melee damage\n" +
-                "Melee attacks and melee projectiles inflict holy fire\n" +
-                "Temporary immunity to lava\n" +
+                "All melee attacks inflict Holy Flames\n" +
                 "Increased melee knockback");
         }
 

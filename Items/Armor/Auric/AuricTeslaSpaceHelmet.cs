@@ -58,7 +58,6 @@ namespace CalamityMod.Items.Armor.Auric
             modPlayer.auricSet = true;
             modPlayer.WearingPostMLSummonerSet = true;
             player.thorns += 3f;
-            player.lavaMax += 240;
             player.ignoreWater = true;
             player.crimsonRegen = true;
             player.GetDamage<SummonDamageClass>() += 0.75f;

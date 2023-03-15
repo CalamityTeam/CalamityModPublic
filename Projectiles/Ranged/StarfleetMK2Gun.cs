@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (canFire)
                 {
-                    int type = ModContent.ProjectileType<FallenStarProj>();
+                    int type = ProjectileID.StarCannonStar;
                     float shootSpeed = 16f;
                     int damage = player.GetWeaponDamage(player.ActiveItem());
                     float knockBack = player.ActiveItem().knockBack;
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Ranged
                             ModContent.ProjectileType<PlasmaBlast>(),
                             ModContent.ProjectileType<AstralStar>(),
                             ModContent.ProjectileType<GalacticaComet>(),
-                            ModContent.ProjectileType<FallenStarProj>(),
+                            ProjectileID.StarCannonStar,
                             ProjectileID.Starfury
                         });
                         int star = Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, speed, type, damage, knockBack, Projectile.owner);

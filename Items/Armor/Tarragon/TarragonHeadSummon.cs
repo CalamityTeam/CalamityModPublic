@@ -15,9 +15,7 @@ namespace CalamityMod.Items.Armor.Tarragon
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Tarragon Horned Helm");
-            Tooltip.SetDefault("Temporary immunity to lava\n" +
-                "Can move freely through liquids\n" +
-                "5% increased damage reduction and minion damage");
+            Tooltip.SetDefault("5% increased minion damage and damage reduction");
         }
 
         public override void SetDefaults()
@@ -59,8 +57,6 @@ namespace CalamityMod.Items.Armor.Tarragon
         {
             player.endurance += 0.05f;
             player.GetDamage<SummonDamageClass>() += 0.05f;
-            player.lavaMax += 240;
-            player.ignoreWater = true;
         }
 
         public override void AddRecipes()

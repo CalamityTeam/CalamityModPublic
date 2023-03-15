@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
             DisplayName.SetDefault("Hydrothermic Hood");
             Tooltip.SetDefault("12% increased rogue damage and 10% increased rogue critical strike chance\n" +
                 "50% chance to not consume rogue items and 5% increased movement speed\n" +
-                "Temporary immunity to lava and immunity to fire damage");
+                "Grants immunity to lava and On Fire! debuff");
         }
 
         public override void SetDefaults()
@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
             player.GetDamage<ThrowingDamageClass>() += 0.12f;
             player.GetCritChance<ThrowingDamageClass>() += 10;
             player.moveSpeed += 0.05f;
-            player.lavaMax += 240;
+            player.lavaImmune = true;
             player.buffImmune[BuffID.OnFire] = true;
         }
 
