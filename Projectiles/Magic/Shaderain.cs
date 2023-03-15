@@ -17,8 +17,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetDefaults()
         {
             Projectile.timeLeft = 600;
-
-            Projectile.alpha = 0;
+            
             Projectile.width = 20;
             Projectile.height = 20;
 
