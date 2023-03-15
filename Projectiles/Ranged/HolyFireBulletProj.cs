@@ -72,9 +72,9 @@ namespace CalamityMod.Projectiles.Ranged
                 float scale = 0.85f + Main.rand.NextFloat() * 1.15f;
                 int boom = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), blastDamage, Projectile.knockBack, Projectile.owner, 0f, scale);
 
-                // Only declare the explosion as ranged class if the bullet itself is ranged class.
-                if (boom.WithinBounds(Main.maxProjectiles) && Projectile.CountsAsClass<RangedDamageClass>())
-                    Main.projectile[boom].DamageType = DamageClass.Ranged;
+                // Explosions match the bullet's damage type (e.g. ranged or summon)
+                if (boom.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[boom].DamageType = Projectile.DamageType;
             }
 
             // Spawn four shrapnel dust. This deals no damage.
