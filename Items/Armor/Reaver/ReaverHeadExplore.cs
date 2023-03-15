@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Armor.Reaver
             SacrificeTotal = 1;
             DisplayName.SetDefault("Reaver Headgear");
             Tooltip.SetDefault("40% increased pick speed and block/wall placement speed\n" +
-                "Temporary immunity to lava and can move freely through liquids");
+                "Grants immunity to lava and can move freely through liquids");
         }
 
         public override void SetDefaults()
@@ -74,10 +74,10 @@ namespace CalamityMod.Items.Armor.Reaver
         public override void UpdateEquip(Player player)
         {
             player.ignoreWater = true;
+            player.lavaImmune = true;
             player.pickSpeed -= 0.4f;
             player.tileSpeed += 0.4f;
             player.wallSpeed += 0.4f;
-            player.lavaMax += 420;
         }
 
         public override void AddRecipes()

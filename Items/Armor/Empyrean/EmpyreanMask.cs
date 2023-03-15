@@ -25,8 +25,7 @@ namespace CalamityMod.Items.Armor.Empyrean
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Empyrean Mask");
-            Tooltip.SetDefault("11% increased rogue damage and critical strike chance, 5% increased movement speed\n" +
-                "Temporary immunity to lava");
+            Tooltip.SetDefault("11% increased rogue damage and critical strike chance, 5% increased movement speed");
 
             if (Main.netMode == NetmodeID.Server)
                 return;
@@ -87,7 +86,6 @@ namespace CalamityMod.Items.Armor.Empyrean
             player.GetDamage<ThrowingDamageClass>() += 0.11f;
             player.GetCritChance<ThrowingDamageClass>() += 11;
             player.moveSpeed += 0.05f;
-            player.lavaMax += 240;
         }
 
         public override void AddRecipes()

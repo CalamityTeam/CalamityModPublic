@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
@@ -65,6 +65,7 @@ namespace CalamityMod.World
                         {
                             if (Main.tile[x, y].TileType == ModContent.TileType<Tiles.Ores.AerialiteOreDisenchanted>())
                             {
+                                WorldGen.SquareTileFrame(x, y, true);
                                 Main.tile[x, y].TileType = (ushort)ModContent.TileType<Tiles.Ores.AerialiteOre>();
                             }
                         }

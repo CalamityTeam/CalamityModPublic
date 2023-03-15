@@ -27,8 +27,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "50% increased running acceleration\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
-                "Immunity to the On Fire! debuff\n" +
-                "Temporary immunity to lava\n" +
+                "Immunity to lava and On Fire! debuff\n" +
                 "Being hit for over 200 damage will make you immune for an extended period of time");
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(250, 12f, 3f);
         }
@@ -66,7 +65,7 @@ namespace CalamityMod.Items.Accessories.Wings
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;
-            player.lavaMax += 240;
+            player.lavaImmune = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.noFallDmg = true;
             modPlayer.IBoots = !hideVisual;

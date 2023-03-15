@@ -56,7 +56,6 @@ namespace CalamityMod.Items.Armor.Auric
             modPlayer.rogueStealthMax += 1.3f;
             modPlayer.wearingRogueArmor = true;
             player.thorns += 3f;
-            player.lavaMax += 240;
             player.ignoreWater = true;
             player.crimsonRegen = true;
 

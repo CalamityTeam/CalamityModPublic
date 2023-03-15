@@ -15,9 +15,7 @@ namespace CalamityMod.Items.Armor.Tarragon
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Tarragon Visage");
-            Tooltip.SetDefault("Temporary immunity to lava\n" +
-                "Can move freely through liquids\n" +
-                "10% increased ranged damage and critical strike chance\n" +
+            Tooltip.SetDefault("10% increased ranged damage and critical strike chance\n" +
                 "5% increased damage reduction");
         }
 
@@ -57,8 +55,6 @@ namespace CalamityMod.Items.Armor.Tarragon
             player.GetDamage<RangedDamageClass>() += 0.1f;
             player.GetCritChance<RangedDamageClass>() += 10;
             player.endurance += 0.05f;
-            player.lavaMax += 240;
-            player.ignoreWater = true;
         }
 
         public override void AddRecipes()

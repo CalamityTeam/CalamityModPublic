@@ -610,7 +610,7 @@ namespace CalamityMod.CalPlayer
                             ProjectileType<AstralStar>(),
                             ProjectileID.BeeCloakStar,
                             ProjectileID.StarCloakStar,
-                            ProjectileType<FallenStarProj>()
+                            ProjectileID.StarCannonStar
                         });
                         int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(120);
                         Projectile star = CalamityUtils.ProjectileRain(source, position, 400f, 100f, 500f, 800f, 12f, projectileType, astralStarDamage, 5f, Player.whoAmI);
@@ -688,7 +688,7 @@ namespace CalamityMod.CalPlayer
                             ProjectileType<AstralStar>(),
                             ProjectileID.BeeCloakStar,
                             ProjectileID.StarCloakStar,
-                            ProjectileType<FallenStarProj>()
+                            ProjectileID.StarCannonStar
                         });
                         int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(120);
                         Projectile star = CalamityUtils.ProjectileRain(source, position, 400f, 100f, 500f, 800f, 25f, projectileType, astralStarDamage, 5f, Player.whoAmI);
