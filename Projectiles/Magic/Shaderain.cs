@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class Shaderain : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Boss/ShaderainHostile";
+        public override string Texture => "CalamityMod/Projectiles/Magic/AuraRain";
 
         public override void SetStaticDefaults()
         {
@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             Projectile.timeLeft = 600;
 
-            Projectile.alpha = 128;
+            Projectile.alpha = 0;
             Projectile.width = 20;
             Projectile.height = 20;
 
