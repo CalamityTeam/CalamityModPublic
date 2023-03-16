@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Materials
             Tooltip.SetDefault("A vile, black metal, so horrendous and powerful as to defy explanation");
 
             ItemID.Sets.SortingPriorityMaterials[Type] = 124;
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
 
             Main.RegisterItemAnimation(
                 Type,
@@ -50,11 +51,6 @@ namespace CalamityMod.Items.Materials
                 wantedScale: 1f,
                 drawOffset: new(0f, -6f)
             );
-            return false;
-        }
-
-        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
-        {
             return false;
         }
 

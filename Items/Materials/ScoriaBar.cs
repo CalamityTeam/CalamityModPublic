@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Materials
             Tooltip.SetDefault("The smoke feels warm");
 
             ItemID.Sets.SortingPriorityMaterials[Type] = 95; // Stardust Fragment
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
 
             Main.RegisterItemAnimation(
                 Type,
@@ -49,11 +50,6 @@ namespace CalamityMod.Items.Materials
                 wantedScale: 1f,
                 drawOffset: new(5f, -12f)
             );
-            return false;
-        }
-
-        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
-        {
             return false;
         }
 

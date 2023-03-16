@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Materials
             Tooltip.SetDefault("Boundless power emanates from the metal");
 
 			ItemID.Sets.SortingPriorityMaterials[Type] = 120;
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
 
             Main.RegisterItemAnimation(
