@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Accessories
                 origin,
                 scale,
                 wantedScale: 1f,
-                drawOffset: new(-1f, 0f)
+                drawOffset: new(0f, 0f)
             );
             return false;
         }

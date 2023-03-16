@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Accessories
                 itemColor,
                 origin,
                 scale,
-                wantedScale: 0.9f,
+                wantedScale: 0.8f,
                 drawOffset: new(0f, 0f)
             );
             return false;
