@@ -195,12 +195,29 @@ namespace CalamityMod
 
         public static Vector2 TileDrawOffset => Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
+        // TODO: Add helper for drawing an inventory item to fill more of the slot than normal
+        /// <summary>
+        /// Helper for drawing a simple item with a customized scale in the inventory.
+        /// <para>Various notes and tips:</para>
+        /// <list type="bullet">Only apply this effect to items which get screwed over by effects like a flame animation
+        /// <item>For consistency, try to keep the physical object inside the slot.</item>
+        /// <item>Sprited effects like thunder, fire, ect can be fine when allowed outside to bleed outside a slot. <para>However these bleeds should only happen for a few frames, like Auric Tesla and Dyanmo Stem Cells.</para></item>
+        /// <item>Exceptions to these rules are the various Tracers, The Community, and Quiver of Nihility.<para>Do not treat their upscales as them as a norm.</para></item>
+        /// </list>
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="texture"></param>
+        /// <param name="position"></param>
+        /// <param name="frame"></param>
+        /// <param name="drawColor"></param>
+        /// <param name="itemColor"></param>
+        /// <param name="origin"></param>
+        /// <param name="scale"></param>
+        /// <param name="wantedScale"></param>
+        /// <param name="drawOffset"></param>
         public static void DrawInventoryCustomScale(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale, float wantedScale = 1f, Vector2 drawOffset = default)
         {
-            //Main.NewText(position);
-            //Main.NewText(origin);
-            //Main.NewText(scale);
-            wantedScale *= Main.inventoryScale;
+            wantedScale = Math.Max(scale, wantedScale * Main.inventoryScale);
             float scaleDifference = wantedScale - scale;
             position -= frame.Size() / 2f * scaleDifference;
             position += drawOffset * wantedScale;
