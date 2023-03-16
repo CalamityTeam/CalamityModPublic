@@ -420,7 +420,7 @@ namespace CalamityMod.Projectiles.Melee
 
 
 
-        public float SlashWidthFunction(float completionRatio) => SquishAtProgress(RealProgressionAtTrailCompletion(completionRatio)) * Projectile.scale * 36.5f;
+        public float SlashWidthFunction(float completionRatio) => SquishAtProgress(RealProgressionAtTrailCompletion(completionRatio)) * Projectile.scale * 60.5f;
 
         public Color SlashColorFunction(float completionRatio) => Color.Lime * Utils.GetLerpValue(0.9f, 0.4f, completionRatio, true) * Projectile.Opacity;
 
@@ -442,7 +442,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 float progress = MathHelper.Lerp(Progression, TrailEndProgression, i / 40f);
 
-                result.Add(DirectionAtProgressScuffed(progress) * (BladeLength - 50f) * Projectile.scale);
+                result.Add(DirectionAtProgressScuffed(progress) * (BladeLength - 20f) * Projectile.scale);
             }
 
             return result;
