@@ -2,6 +2,7 @@
 using CalamityMod.Rarities;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -172,6 +174,24 @@ namespace CalamityMod.Items.Accessories
         {
             level = reader.ReadInt32();
             totalRageDamage = reader.ReadInt64();
+        }
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            CalamityUtils.DrawInventoryCustomScale(
+                spriteBatch,
+                texture: TextureAssets.Item[Type].Value,
+                position,
+                frame,
+                drawColor,
+                itemColor,
+                origin,
+                scale,
+                wantedScale: 0.5f,
+                drawOffset: new(0f, 2f)
+            );
+            //return false;
+            return true; // For some reason, putting this item in an accessory slot hides it UNLESS this returns true.
         }
     }
 
