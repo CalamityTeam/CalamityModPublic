@@ -74,10 +74,10 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
-            Vector2 projectileHalfLenght = (Projectile.Size / 2f) * Projectile.rotation.ToRotationVector2();
+            Vector2 projectileHalfLength = (Projectile.Size / 2f) * Projectile.rotation.ToRotationVector2();
             float collisionPoint = 0;
             //If you hit the enemy during the coyote time with the blade of the whip, guarantee a crit & get some bonus damage
-            if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), Projectile.Center - projectileHalfLenght, Projectile.Center + projectileHalfLenght, 32, ref collisionPoint))
+            if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), Projectile.Center - projectileHalfLength, Projectile.Center + projectileHalfLength, 32, ref collisionPoint))
             {
                 if (SnapCoyoteTime > 0f)
                 {

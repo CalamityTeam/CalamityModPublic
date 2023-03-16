@@ -76,22 +76,22 @@ namespace CalamityMod.Projectiles.Melee
         {
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
-            float bladeLenght = 0f;
+            float bladeLength = 0f;
             Vector2 displace = Vector2.Zero;
             switch (SwingMode)
             {
                 case 0:
                 case 1:
-                    bladeLenght = 150 * Projectile.scale;
+                    bladeLength = 150 * Projectile.scale;
                     break;
                 case 2:
-                    bladeLenght = 225f; //In awe e
-                    bladeLenght *= Projectile.scale;
+                    bladeLength = 225f; //In awe e
+                    bladeLength *= Projectile.scale;
                     displace = direction * ThrustDisplaceRatio() * 60f;
                     break;
 
             }
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + displace, Owner.Center + displace + (rotation.ToRotationVector2() * bladeLenght), 26, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + displace, Owner.Center + displace + (rotation.ToRotationVector2() * bladeLength), 26, ref collisionPoint);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

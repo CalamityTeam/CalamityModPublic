@@ -918,7 +918,7 @@ namespace CalamityMod.NPCs.ExoMechs
                     effect.Parameters["halfSpreadAngle"].SetValue(MathHelper.PiOver4);
                     effect.Parameters["edgeColor"].SetValue(Color.DarkCyan.ToVector3());
                     effect.Parameters["centerColor"].SetValue(Color.Cyan.ToVector3());
-                    effect.Parameters["edgeBlendLenght"].SetValue(0.07f);
+                    effect.Parameters["edgeBlendLength"].SetValue(0.07f);
                     effect.Parameters["edgeBlendStrength"].SetValue(8f);
 
                     Main.spriteBatch.End();

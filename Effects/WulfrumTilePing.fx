@@ -8,7 +8,7 @@ float pingProgress; //How far along the ping progressed
 float pingTravelTime; //Percent of the ping's duration during which the ping expands to reach its full radius.
 float pingFadePoint; //Percent of the ping's duration at which to start fading away.
 float edgeBlendStrength; //How starkly should the ping's edge fade off.
-float edgeBlendOutLenght; //Small lenght at the edge of the wave to blend away smoothly.
+float edgeBlendOutLength; //Small length at the edge of the wave to blend away smoothly.
 float tileEdgeBlendStrenght; //How hard the border of a tile should get blended away.
 
 float4 baseTintColor; //Color of the tile's overlay
@@ -175,7 +175,7 @@ float4 main(float2 uv : TEXCOORD) : COLOR
         return float4(0, 0, 0, 0);
     
     float waveEdgeDistanceFromCenter = max(currentPingRadius - pingWaveThickness, 0);
-    float edgeBlendFactor = pow(min(max((distanceFromPingOrigin - (waveEdgeDistanceFromCenter)), 0) / (pingWaveThickness - edgeBlendOutLenght), 1), edgeBlendStrength);
+    float edgeBlendFactor = pow(min(max((distanceFromPingOrigin - (waveEdgeDistanceFromCenter)), 0) / (pingWaveThickness - edgeBlendOutLength), 1), edgeBlendStrength);
     
     float3 ColorTotal = lerp(baseTintColor.rgb, waveColor.rgb, edgeBlendFactor);
     float OpacityTotal = lerp(baseTintColor.a, waveColor.a, edgeBlendFactor);
@@ -193,8 +193,8 @@ float4 main(float2 uv : TEXCOORD) : COLOR
     }
     
     //Fade away the border
-    if (realPingRadius - distanceFromPingOrigin < edgeBlendOutLenght)
-        OpacityTotal *= (realPingRadius - distanceFromPingOrigin) / edgeBlendOutLenght;
+    if (realPingRadius - distanceFromPingOrigin < edgeBlendOutLength)
+        OpacityTotal *= (realPingRadius - distanceFromPingOrigin) / edgeBlendOutLength;
     
     //General fade out at the end.
     OpacityTotal *= 1 - max(pingProgress - pingFadePoint, 0) / (1 - pingFadePoint);

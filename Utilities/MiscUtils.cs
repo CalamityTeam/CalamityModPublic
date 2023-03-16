@@ -322,11 +322,11 @@ namespace CalamityMod
 
         public static bool IntoMorseCode(string originalText, float completion)
         {
-            int spaceLenght = 13;
-            int betweenLetterLenght = 7;
-            int betweenBlipLenght = 4;
-            int shortLenght = 3;
-            int longLenght = 8;
+            int spaceLength = 13;
+            int betweenLetterLength = 7;
+            int betweenBlipLength = 4;
+            int shortLength = 3;
+            int longLength = 8;
 
             char[] TextKeys = { ' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
                 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
@@ -358,18 +358,18 @@ namespace CalamityMod
             for (int i = 0; i < morseText.Length; i++)
             {
                 if (morseText[i] == " ".ToCharArray()[0])
-                    morseState.AddRange(Enumerable.Repeat(false, spaceLenght));
+                    morseState.AddRange(Enumerable.Repeat(false, spaceLength));
 
                 if (morseText[i] == "|".ToCharArray()[0])
-                    morseState.AddRange(Enumerable.Repeat(false, betweenLetterLenght));
+                    morseState.AddRange(Enumerable.Repeat(false, betweenLetterLength));
 
                 if (morseText[i] == ".".ToCharArray()[0])
-                    morseState.AddRange(Enumerable.Repeat(true, shortLenght));
+                    morseState.AddRange(Enumerable.Repeat(true, shortLength));
 
                 if (morseText[i] == "-".ToCharArray()[0])
-                    morseState.AddRange(Enumerable.Repeat(true, longLenght));
+                    morseState.AddRange(Enumerable.Repeat(true, longLength));
 
-                morseState.AddRange(Enumerable.Repeat(false, betweenBlipLenght));
+                morseState.AddRange(Enumerable.Repeat(false, betweenBlipLength));
             }
 
             return morseState[(int)((morseState.Count - 1) * completion)];

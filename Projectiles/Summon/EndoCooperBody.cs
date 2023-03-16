@@ -231,23 +231,23 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 Vector2 center2 = Projectile.Center;
                 Vector2 playerpos = player.Center - center2 + new Vector2(0f, -60f);
-                float lenghttoplayer = playerpos.Length();
-                if (lenghttoplayer > 200f && speedtoplayer < 8f)
+                float LengthToPlayer = playerpos.Length();
+                if (LengthToPlayer > 200f && speedtoplayer < 8f)
                 {
                     speedtoplayer = 10f;
                 }
-                if (lenghttoplayer < idledistance && gotoplayer && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
+                if (LengthToPlayer < idledistance && gotoplayer && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                 {
                     Projectile.ai[0] = 0f;
                     Projectile.netUpdate = true;
                 }
-                if (lenghttoplayer > 2700f)
+                if (LengthToPlayer > 2700f)
                 {
                     Projectile.position.X = Main.player[Projectile.owner].Center.X - (float)(Projectile.width / 2);
                     Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (float)(Projectile.height / 2);
                     Projectile.netUpdate = true;
                 }
-                if (lenghttoplayer > 70f)
+                if (LengthToPlayer > 70f)
                 {
                     playerpos.Normalize();
                     playerpos *= speedtoplayer;

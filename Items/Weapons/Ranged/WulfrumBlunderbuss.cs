@@ -106,8 +106,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            float aimLenght = (Main.MouseWorld - player.MountedCenter).Length();
-            float damageMult = MathHelper.Lerp(1f, MaxDamageFalloff, Math.Clamp(aimLenght - MaxSpreadDistance, 0, MinSpreadDistance - MaxSpreadDistance) / (MinSpreadDistance - MaxSpreadDistance));
+            float aimLength = (Main.MouseWorld - player.MountedCenter).Length();
+            float damageMult = MathHelper.Lerp(1f, MaxDamageFalloff, Math.Clamp(aimLength - MaxSpreadDistance, 0, MinSpreadDistance - MaxSpreadDistance) / (MinSpreadDistance - MaxSpreadDistance));
             damage = (int)(damage * damageMult);
         }
 
@@ -116,8 +116,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (player.Calamity().GeneralScreenShakePower < 3f)
                 player.Calamity().GeneralScreenShakePower = 3f;
 
-            float aimLenght = (Main.MouseWorld - player.MountedCenter).Length();
-            float spreadDistance = Math.Clamp(aimLenght - MaxSpreadDistance, 0, MinSpreadDistance - MaxSpreadDistance) / (MinSpreadDistance - MaxSpreadDistance);
+            float aimLength = (Main.MouseWorld - player.MountedCenter).Length();
+            float spreadDistance = Math.Clamp(aimLength - MaxSpreadDistance, 0, MinSpreadDistance - MaxSpreadDistance) / (MinSpreadDistance - MaxSpreadDistance);
             float spread = MathHelper.Lerp(MaxSpread, MinSpread, spreadDistance);
 
             Vector2 nuzzleDir = velocity.SafeNormalize(Vector2.Zero);

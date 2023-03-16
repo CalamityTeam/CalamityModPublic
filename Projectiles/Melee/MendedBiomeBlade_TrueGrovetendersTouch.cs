@@ -72,10 +72,10 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 previousPosition = chainPositions[i - 1];
                 if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), position, previousPosition, 6, ref collisionPoint))
                     return true;
-                if (i == numPoints - 1) //Extra lenght collision for the blade itself
+                if (i == numPoints - 1) //Extra length collision for the blade itself
                 {
-                    Vector2 projectileHalfLenght = 85 * Projectile.rotation.ToRotationVector2();
-                    return (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center - projectileHalfLenght, Projectile.Center + projectileHalfLenght, 32, ref collisionPoint));
+                    Vector2 projectileHalfLength = 85 * Projectile.rotation.ToRotationVector2();
+                    return (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center - projectileHalfLength, Projectile.Center + projectileHalfLength, 32, ref collisionPoint));
                 }
 
             }
@@ -85,10 +85,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Vector2 projectileHalfLenght = 85f * Projectile.rotation.ToRotationVector2();
+            Vector2 projectileHalfLength = 85f * Projectile.rotation.ToRotationVector2();
             float collisionPoint = 0;
             //If you hit the enemy during the coyote time with the blade of the whip, guarantee a crit & get some bonus damage
-            if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), Projectile.Center - projectileHalfLenght, Projectile.Center + projectileHalfLenght, 32, ref collisionPoint))
+            if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), Projectile.Center - projectileHalfLength, Projectile.Center + projectileHalfLength, 32, ref collisionPoint))
             {
                 if (SnapCoyoteTime > 0f)
                 {

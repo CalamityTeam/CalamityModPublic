@@ -342,8 +342,8 @@ namespace CalamityMod
                     endPoint = segments[i + 1].startingX;
                 }
 
-                float segmentLenght = endPoint - startPoint;
-                float segmentProgress = (progress - segment.startingX) / segmentLenght; //How far along the specific segment
+                float segmentLength = endPoint - startPoint;
+                float segmentProgress = (progress - segment.startingX) / segmentLength; //How far along the specific segment
                 ratio = segment.startingHeight;
 
                 //Failsafe because somehow it can fail? what

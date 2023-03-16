@@ -50,8 +50,8 @@ namespace CalamityMod.Particles
             float currentDisplace = MathHelper.Lerp(StartDistanceFromPlayer, FinalDistanceFromPlayer, (float)Math.Pow(LifetimeCompletion, 2));
             float earlierDisplace = MathHelper.Lerp(StartDistanceFromPlayer, FinalDistanceFromPlayer, (float)Math.Pow(Math.Clamp(LifetimeCompletion - 0.2f, 0f, 1f), 2));
 
-            float lenght = (currentDisplace - earlierDisplace) / tex.Height;
-            Vector2 scale = new Vector2(Scale, lenght);
+            float Length = (currentDisplace - earlierDisplace) / tex.Height;
+            Vector2 scale = new Vector2(Scale, Length);
 
             Vector2 origin = new Vector2(tex.Width / 2f, tex.Height);
 

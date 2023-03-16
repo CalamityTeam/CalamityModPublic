@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public float Combo = 0f;
         public float Charge = 0f;
 
-        public const float ComboLenght = 4f; //How many regular swings before the long throw happens
+        public const float ComboLength = 4f; //How many regular swings before the long throw happens
         public static float snapDamageMultiplier = 1.2f; //Extra damage from making the scissors snap
         public static float chargeDamageMultiplier = 1.2f; //Extra damage from charge
 
@@ -146,12 +146,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (Charge > 0)
                 damage = (int)(chargeDamageMultiplier * damage);
-            float scissorState = Combo == ComboLenght ? 2 : Combo % 2;
+            float scissorState = Combo == ComboLength ? 2 : Combo % 2;
 
             Projectile.NewProjectile(source, player.Center, velocity, ProjectileType<ArkoftheElementsSwungBlade>(), damage, knockback, player.whoAmI, scissorState, Charge);
 
             Combo += 1;
-            if (Combo > ComboLenght)
+            if (Combo > ComboLength)
                 Combo = 0;
 
 

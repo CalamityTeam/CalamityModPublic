@@ -30,10 +30,10 @@ namespace CalamityMod.UI.ModeIndicator
         public static bool ClickingMouse => Main.mouseLeft && Main.mouseLeftRelease;
         public static Vector2 DrawCenter => new Vector2(Main.screenWidth - 400f - WidthForTier(MostAlternateDifficulties) * 0.5f, 82f) + FrameSize * 0.5f;
 
-        private static int GlowFadeAnimLenght = 40;
+        private static int GlowFadeAnimLength = 40;
         public static int GlowFadeTime = 0;
         //Lock icon
-        internal const int LockAnimLenght = 30;
+        internal const int LockAnimLength = 30;
         private static int lockClickTime = 0;
         private static bool previousLockStatus = false;
         //Expand and shrink on hover
@@ -45,7 +45,7 @@ namespace CalamityMod.UI.ModeIndicator
         public static float MainIconScale => 1f + iconHoverScaleBoost;
         //Menu state
         private static bool menuOpen = false;
-        internal static int MenuAnimLenght => MostAlternateDifficulties > 1 ? 60 : 40;
+        internal static int MenuAnimLength => MostAlternateDifficulties > 1 ? 60 : 40;
         private static int menuOpenTransitionTime = 0;
         private static DifficultyMode previouslyHoveredMode = null;
         public static float WidthForTier(int alts) => (alts - 1) * 40f;
@@ -99,7 +99,7 @@ namespace CalamityMod.UI.ModeIndicator
             {
                 if (!_hasCheckedItOutYet)
                 {
-                    GlowFadeTime = GlowFadeAnimLenght;
+                    GlowFadeTime = GlowFadeAnimLength;
                     _hasCheckedItOutYet = true;
                 }
 
@@ -116,7 +116,7 @@ namespace CalamityMod.UI.ModeIndicator
                     if (ClickingMouse && menuOpenTransitionTime == 0 && !locked)
                     {
                         SoundEngine.PlaySound(menuOpen ? SoundID.MenuClose : SoundID.MenuOpen);
-                        menuOpenTransitionTime = MenuAnimLenght;
+                        menuOpenTransitionTime = MenuAnimLength;
                         menuOpen = !menuOpen;
                     }
                 }
@@ -130,7 +130,7 @@ namespace CalamityMod.UI.ModeIndicator
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.UIScaleMatrix);
 
                 Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/UI/ModeIndicator/BloomFlare").Value;
-                float opacity = !_hasCheckedItOutYet ? 1f : 1f * GlowFadeTime / (float)GlowFadeAnimLenght;
+                float opacity = !_hasCheckedItOutYet ? 1f : 1f * GlowFadeTime / (float)GlowFadeAnimLength;
                 float scale = 0.4f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.05f;
                 float rot = Main.GlobalTimeWrappedHourly * 0.5f;
 
@@ -244,7 +244,7 @@ namespace CalamityMod.UI.ModeIndicator
 
             //Shakes the lock if it automatically changed, because a boss was summoned
             if (locked != previousLockStatus && lockClickTime == 0)
-                lockClickTime = LockAnimLenght;
+                lockClickTime = LockAnimLength;
 
             previousLockStatus = locked;
 
@@ -252,7 +252,7 @@ namespace CalamityMod.UI.ModeIndicator
             if (locked && menuOpen)
             {
                 menuOpen = false;
-                menuOpenTransitionTime = MenuAnimLenght - menuOpenTransitionTime;
+                menuOpenTransitionTime = MenuAnimLength - menuOpenTransitionTime;
             }
 
             //Click handling
@@ -260,7 +260,7 @@ namespace CalamityMod.UI.ModeIndicator
             {
                 if (MouseScreenArea.Intersects(MainClickArea))
                 {
-                    lockClickTime = LockAnimLenght;
+                    lockClickTime = LockAnimLength;
                     SoundEngine.PlaySound(SoundID.MenuTick);
                 }
             }
@@ -270,15 +270,15 @@ namespace CalamityMod.UI.ModeIndicator
         private static CurveSegment lockGrow = new CurveSegment(SineOutEasing, 0f, 1f, 0.4f);
         private static CurveSegment lockShrink = new CurveSegment(SineInEasing, 0.6f, 1.4f, -0.4f);
         private static CurveSegment lockBump = new CurveSegment(SineBumpEasing, 0.9f, 1f, -0.2f);
-        internal static float LockShakeScale => PiecewiseAnimation(lockClickTime / (float)LockAnimLenght, new CurveSegment[] { lockGrow, lockShrink, lockBump });
+        internal static float LockShakeScale => PiecewiseAnimation(lockClickTime / (float)LockAnimLength, new CurveSegment[] { lockGrow, lockShrink, lockBump });
 
         private static CurveSegment barExpand = new CurveSegment(SineInOutEasing, 0f, 0f, 1f);
         internal static float BarExpansionProgress
         {
             get
             {
-                float animLenght = MostAlternateDifficulties == 1 ? (float)MenuAnimLenght : MenuAnimLenght * 2 / 3f;
-                float progress = (menuOpenTransitionTime / animLenght);
+                float animLength = MostAlternateDifficulties == 1 ? (float)MenuAnimLength : MenuAnimLength * 2 / 3f;
+                float progress = (menuOpenTransitionTime / animLength);
                 if (menuOpen)
                     progress = 1 - progress;
 
@@ -294,7 +294,7 @@ namespace CalamityMod.UI.ModeIndicator
         {
             get
             {
-                float progress = Math.Max(menuOpenTransitionTime - MenuAnimLenght * 2 / 3f, 0f) / (MenuAnimLenght / 3f);
+                float progress = Math.Max(menuOpenTransitionTime - MenuAnimLength * 2 / 3f, 0f) / (MenuAnimLength / 3f);
                 if (menuOpen)
                     progress = 1 - progress;
 
@@ -305,9 +305,9 @@ namespace CalamityMod.UI.ModeIndicator
         public static void ManageHexIcons(SpriteBatch spriteBatch, out string text)
         {
             int tiers = DifficultyTiers.Count();
-            float barLenght = 60 * tiers * BarExpansionProgress;
-            float progress = menuOpen ? 1 - menuOpenTransitionTime / (float)MenuAnimLenght : menuOpenTransitionTime / (float)MenuAnimLenght;
-            Vector2 basePosition = DrawCenter + (barLenght / (float)(tiers + 1f)) * Vector2.UnitY;
+            float barLength = 60 * tiers * BarExpansionProgress;
+            float progress = menuOpen ? 1 - menuOpenTransitionTime / (float)MenuAnimLength : menuOpenTransitionTime / (float)MenuAnimLength;
+            Vector2 basePosition = DrawCenter + (barLength / (float)(tiers + 1f)) * Vector2.UnitY;
 
             Texture2D outlineTexture = ModContent.Request<Texture2D>("CalamityMod/UI/ModeIndicator/ModeIndicatorOutline").Value;
 
@@ -323,7 +323,7 @@ namespace CalamityMod.UI.ModeIndicator
                     Texture2D hexIcon = mode.Texture.Value;
 
                     //Get position
-                    Vector2 iconPosition = basePosition + (barLenght / (float)(tiers + 1f)) * Vector2.UnitY * i;
+                    Vector2 iconPosition = basePosition + (barLength / (float)(tiers + 1f)) * Vector2.UnitY * i;
                     if (modesAtTier > 1)
                         iconPosition += Vector2.UnitX * MathHelper.Lerp(WidthForTier(modesAtTier) * -0.5f, WidthForTier(modesAtTier) * 0.5f, j / (float)(modesAtTier - 1)) * BarWidthExpansionProgress;
 
@@ -365,7 +365,7 @@ namespace CalamityMod.UI.ModeIndicator
         public static void DrawLock(SpriteBatch spriteBatch)
         {
             Texture2D lockTexture = ModContent.Request<Texture2D>("CalamityMod/UI/ModeIndicator/ModeIndicatorLock").Value;
-            float rotationShift = lockClickTime == 0 ? 0f : (float)Math.Sin((1 - lockClickTime / (float)LockAnimLenght) * MathHelper.TwoPi * 2f) * 0.5f * (lockClickTime / (float)LockAnimLenght);
+            float rotationShift = lockClickTime == 0 ? 0f : (float)Math.Sin((1 - lockClickTime / (float)LockAnimLength) * MathHelper.TwoPi * 2f) * 0.5f * (lockClickTime / (float)LockAnimLength);
             spriteBatch.Draw(lockTexture, DrawCenter + Vector2.UnitY * 12 * MainIconScale, null, Color.White, 0f + rotationShift, lockTexture.Size() * 0.5f, LockShakeScale * MainIconScale, SpriteEffects.None, 0f);
         }
         #endregion
@@ -450,7 +450,7 @@ namespace CalamityMod.UI.ModeIndicator
             CalamityNetcode.SyncCalamityWorldDifficulties(Main.myPlayer);
 
             menuOpen = false;
-            menuOpenTransitionTime = MenuAnimLenght;
+            menuOpenTransitionTime = MenuAnimLength;
         }
 
         #endregion

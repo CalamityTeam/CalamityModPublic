@@ -45,9 +45,9 @@ namespace CalamityMod.Projectiles.Melee
                 return false;
 
             float collisionPoint = 0f;
-            float bladeLenght = 70 * Projectile.scale;
+            float bladeLength = 70 * Projectile.scale;
             float bladeWidth = 30 * Projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + (Projectile.rotation.ToRotationVector2() * bladeLenght), bladeWidth, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + (Projectile.rotation.ToRotationVector2() * bladeLength), bladeWidth, ref collisionPoint);
         }
 
         public override void AI()

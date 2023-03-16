@@ -60,10 +60,10 @@ namespace CalamityMod.Projectiles.Melee
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
-            float bladeLenght = 145 * Projectile.scale;
+            float bladeLength = 145 * Projectile.scale;
             float bladeWidth = 86 * Projectile.scale;
 
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center, Owner.Center + (direction * bladeLenght), bladeWidth, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center, Owner.Center + (direction * bladeLength), bladeWidth, ref collisionPoint);
         }
 
         public override void AI()
@@ -102,18 +102,18 @@ namespace CalamityMod.Projectiles.Melee
 
             #region sparkles and particles
 
-            float bladeLenght = 120 * Projectile.scale;
+            float bladeLength = 120 * Projectile.scale;
             for (int i = 0; i < 3; i++)
             {
                 if (Rings[i] == null)
                 {
-                    Rings[i] = new ConstellationRingVFX(Owner.Center + (direction * (25 + bladeLenght * 0.33f * i)), Color.DarkOrchid, direction.ToRotation(), Projectile.scale * 0.25f * i, new Vector2(0.5f, 1f), spinSpeed: 7, starAmount: 3 + i, important: true);
+                    Rings[i] = new ConstellationRingVFX(Owner.Center + (direction * (25 + bladeLength * 0.33f * i)), Color.DarkOrchid, direction.ToRotation(), Projectile.scale * 0.25f * i, new Vector2(0.5f, 1f), spinSpeed: 7, starAmount: 3 + i, important: true);
                     GeneralParticleHandler.SpawnParticle(Rings[i]);
                 }
                 else
                 {
                     Rings[i].Time = 0;
-                    Rings[i].Position = Owner.Center + Vector2.Lerp(Vector2.Zero, ((0.9f + 0.1f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 10f - i * 0.5f)) * direction * (25 + bladeLenght * 0.33f * (i + 1))), Bounce(MathHelper.Clamp(Shred - 30 * i, 0, maxShred)));
+                    Rings[i].Position = Owner.Center + Vector2.Lerp(Vector2.Zero, ((0.9f + 0.1f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 10f - i * 0.5f)) * direction * (25 + bladeLength * 0.33f * (i + 1))), Bounce(MathHelper.Clamp(Shred - 30 * i, 0, maxShred)));
                     Rings[i].Rotation = direction.ToRotation();
                     Rings[i].Scale = Projectile.scale * 0.25f * (i + 1);
                     (Rings[i] as ConstellationRingVFX).Opacity = 0.5f + 0.5f * ShredRatio;

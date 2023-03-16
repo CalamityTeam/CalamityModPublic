@@ -184,7 +184,7 @@ namespace CalamityMod.Projectiles.Ranged
             spreadEffect.Parameters["halfSpreadAngle"].SetValue(halfAngle);
             spreadEffect.Parameters["edgeColor"].SetValue(sightsColor.ToVector3());
             spreadEffect.Parameters["centerColor"].SetValue(sightsColor.ToVector3());
-            spreadEffect.Parameters["edgeBlendLenght"].SetValue(0.07f);
+            spreadEffect.Parameters["edgeBlendLength"].SetValue(0.07f);
             spreadEffect.Parameters["edgeBlendStrength"].SetValue(8f);
 
             Main.spriteBatch.End();

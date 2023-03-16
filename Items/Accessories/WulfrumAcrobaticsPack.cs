@@ -120,9 +120,9 @@ namespace CalamityMod.Items.Accessories
         /// </summary>
         public int Grapple = 0;
         /// <summary>
-        /// The lenght of the current rope. Determined when the grapple lands.
+        /// The length of the current rope. Determined when the grapple lands.
         /// </summary>
-        public float SwingLenght = 0f;
+        public float SwingLength = 0f;
         /// <summary>
         /// Used when we need to store the hook between instructions.
         /// </summary>
@@ -145,7 +145,7 @@ namespace CalamityMod.Items.Accessories
                 if (!PlayerOnGround)
                     return false;
 
-                if ((Player.Center - Main.projectile[Grapple].Center).Length() > SwingLenght)
+                if ((Player.Center - Main.projectile[Grapple].Center).Length() > SwingLength)
                     return false;
 
                 return true;
@@ -223,7 +223,7 @@ namespace CalamityMod.Items.Accessories
 
             if (Grappled)
             {
-                if ((Main.projectile[Grapple].Center - Player.Center).Length() > SwingLenght + 80f)
+                if ((Main.projectile[Grapple].Center - Player.Center).Length() > SwingLength + 80f)
                 {
                     SoundEngine.PlaySound(WulfrumAcrobaticsPack.ReleaseSound, Main.projectile[Grapple].Center);
                     Main.projectile[Grapple].Kill();
@@ -235,7 +235,7 @@ namespace CalamityMod.Items.Accessories
 
         public void SimulateMovement(Projectile grapple)
         {
-            Segments = VerletSimulatedSegment.SimpleSimulation(Segments, SwingLenght / SimulationResolution, 50, 0.3f * Player.gravDir);
+            Segments = VerletSimulatedSegment.SimpleSimulation(Segments, SwingLength / SimulationResolution, 50, 0.3f * Player.gravDir);
 
             Vector2 CurrentPosition;
 

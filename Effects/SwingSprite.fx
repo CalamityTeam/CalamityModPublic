@@ -1,6 +1,6 @@
 float rotation; // The rotation of the sword sprite.
 //float2 spriteDimensions; //The size of the sprite (necessary as the shader only gives us a map between 0 and 1).
-float pommelToOriginPercent; //I have no idea for a better variable name. This is the perccentage of the full lenght between the rotation origin and the sword's tip that is an empty gap between it and the bottom left of the sword.
+float pommelToOriginPercent; //I have no idea for a better variable name. This is the perccentage of the full length between the rotation origin and the sword's tip that is an empty gap between it and the bottom left of the sword.
 float4 color;
 
 texture sampleTexture;

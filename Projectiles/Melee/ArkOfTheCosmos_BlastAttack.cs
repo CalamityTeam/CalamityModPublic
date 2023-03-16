@@ -89,8 +89,8 @@ namespace CalamityMod.Projectiles.Melee
 
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
-            float bladeLenght = ThrustDisplaceRatio() * 242f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + (Projectile.velocity * bladeLenght), 30, ref collisionPoint);
+            float bladeLength = ThrustDisplaceRatio() * 242f;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + (Projectile.velocity * bladeLength), 30, ref collisionPoint);
         }
 
         public override bool ShouldUpdatePosition() => false;
@@ -319,13 +319,13 @@ namespace CalamityMod.Projectiles.Melee
                         rot = Projectile.rotation + MathHelper.PiOver2 + StitchRotations[i];
                         origin = new Vector2(lineTex.Width / 2f, lineTex.Height / 2f);
 
-                        float stitchLenght = (float)Math.Sin(i / (float)(maxStitches - 1) * MathHelper.Pi) * 0.5f + 0.5f;
+                        float stitchLength = (float)Math.Sin(i / (float)(maxStitches - 1) * MathHelper.Pi) * 0.5f + 0.5f;
                         float stitchScale = (1f + (float)Math.Sin(MathHelper.Clamp(StitchLifetimes[i] / 7f, 0f, 1f) * MathHelper.Pi) * 0.3f) * 0.85f;
                         if (CurrentStitches == maxStitches)
                         {
                             stitchScale *= 1 - ((StitchTimer - (MaxTime - SnapTime - HoldTime * 0.5f) * 0.3f) / (MaxTime - SnapTime - HoldTime * 0.5f) * 0.7f) * 0.8f;
                         }
-                        scale = new Vector2(0.2f, stitchLenght) * stitchScale;
+                        scale = new Vector2(0.2f, stitchLength) * stitchScale;
 
                         Color stitchColor = Color.Lerp(Color.White, Color.CornflowerBlue * 0.7f, (float)Math.Sin(MathHelper.Clamp(StitchLifetimes[i] / 7f, 0f, 1f) * MathHelper.PiOver2));
 
