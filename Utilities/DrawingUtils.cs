@@ -195,6 +195,35 @@ namespace CalamityMod
 
         public static Vector2 TileDrawOffset => Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
+        // TODO: Add helper for drawing an inventory item to fill more of the slot than normal
+        /// <summary>
+        /// Helper for drawing a simple item with a customized scale in the inventory.
+        /// <para>Various notes and tips:</para>
+        /// <list type="bullet">Only apply this effect to items which get screwed over by effects like a flame animation
+        /// <item>For consistency, try to keep the physical object inside the slot.</item>
+        /// <item>Sprited effects like thunder, fire, ect can be fine when allowed outside to bleed outside a slot. <para>However these bleeds should only happen for a few frames, like Auric Tesla and Dyanmo Stem Cells.</para></item>
+        /// <item>Exceptions to these rules are the various Tracers, The Community, and Quiver of Nihility.<para>Do not treat their upscales as them as a norm.</para></item>
+        /// </list>
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="texture"></param>
+        /// <param name="position"></param>
+        /// <param name="frame"></param>
+        /// <param name="drawColor"></param>
+        /// <param name="itemColor"></param>
+        /// <param name="origin"></param>
+        /// <param name="scale"></param>
+        /// <param name="wantedScale"></param>
+        /// <param name="drawOffset"></param>
+        public static void DrawInventoryCustomScale(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale, float wantedScale = 1f, Vector2 drawOffset = default)
+        {
+            wantedScale = Math.Max(scale, wantedScale * Main.inventoryScale);
+            float scaleDifference = wantedScale - scale;
+            position -= frame.Size() / 2f * scaleDifference;
+            position += drawOffset * wantedScale;
+            spriteBatch.Draw(texture, position, frame, drawColor, 0f, origin, wantedScale, SpriteEffects.None, 0);
+        }
+
         /// <summary>
         /// Draws a treasure bag in the world in the exact same way as how Terraria 1.4's bags are drawn.
         /// </summary>
@@ -368,6 +397,33 @@ namespace CalamityMod
         {
             Vector2 origin = new Vector2(glowmaskTexture.Width / 2f, glowmaskTexture.Height / 2f - 2f);
             spriteBatch.Draw(glowmaskTexture, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle GetFrame(int itemID, int whoAmI, Texture2D texture = null)
+        {
+            texture ??= TextureAssets.Item[itemID].Value;
+            return Main.itemAnimations[itemID] == null 
+                ? texture.Frame() 
+                : Main.itemAnimations[itemID].GetFrame(texture, Main.itemFrameCounter[whoAmI]);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle GetFrame(this Item item, int whoAmI, Texture2D texture = null)
+        {
+            return GetFrame(item.type, whoAmI, texture);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle GetFrame(int itemID, Texture2D texture = null)
+        {
+            texture ??= TextureAssets.Item[itemID].Value;
+            return Main.itemAnimations[itemID] == null 
+                ? texture.Frame() 
+                : Main.itemAnimations[itemID].GetFrame(texture);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle GetFrame(this Item item, Texture2D texture = null)
+        {
+            return GetFrame(item.type, texture);
         }
 
         public static Rectangle GetCurrentFrame(this Item item, ref int frame, ref int frameCounter, int frameDelay, int frameAmt, bool frameCounterUp = true)

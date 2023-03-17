@@ -10,23 +10,16 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brick Fragment");
-            Main.projFrames[Projectile.type] = 2;
         }
         public override void SetDefaults()
         {
             Projectile.friendly = true;
-            Projectile.width = 13;
-            Projectile.height = 13;
+            Projectile.width = 16;
+            Projectile.height = 16;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
         public override void AI()
         {
-            //Choose the sprite of the projectile
-            if (Projectile.ai[0] != 1)
-            {
-                Projectile.frame = Main.rand.Next(2);
-                Projectile.ai[0] += 1;
-            }
             //Rotation and gravity
             Projectile.rotation += 0.6f * Projectile.direction;
             Projectile.velocity.Y = Projectile.velocity.Y + 0.27f;

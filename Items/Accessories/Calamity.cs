@@ -1,6 +1,9 @@
 ﻿using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -49,5 +52,22 @@ namespace CalamityMod.Items.Accessories
         }
 
         public override void UpdateEquip(Player player) => player.Calamity().blazingCursorVisuals = true;
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            CalamityUtils.DrawInventoryCustomScale(
+                spriteBatch,
+                texture: TextureAssets.Item[Type].Value,
+                position,
+                frame,
+                drawColor,
+                itemColor,
+                origin,
+                scale,
+                wantedScale: 0.5f,
+                drawOffset: new(0f, -4f)
+            );
+            return false;
+        }
     }
 }

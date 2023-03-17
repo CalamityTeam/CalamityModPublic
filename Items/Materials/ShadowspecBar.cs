@@ -4,6 +4,8 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,51 +13,55 @@ namespace CalamityMod.Items.Materials
 {
     public class ShadowspecBar : ModItem
     {
-        public int frameCounter = 0;
-        public int frame = 0;
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
+
             DisplayName.SetDefault("Shadowspec Bar");
             Tooltip.SetDefault("A vile, black metal, so horrendous and powerful as to defy explanation");
-			ItemID.Sets.SortingPriorityMaterials[Type] = 124;
+
+            ItemID.Sets.SortingPriorityMaterials[Type] = 124;
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+
+            Main.RegisterItemAnimation(
+                Type,
+                new DrawAnimationVertical(8, 8) /* 8 ticks per frame, has 8 frames total */
+            );
         }
 
         public override void SetDefaults()
         {
-            Item.createTile = ModContent.TileType<ShadowspecBarTile>();
-            Item.width = 38;
-            Item.height = 40;
-            Item.maxStack = 999;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTurn = true;
-            Item.useAnimation = 15;
-            Item.useTime = 10;
-            Item.autoReuse = true;
-            Item.consumable = true;
-
+            Item.DefaultToPlaceableTile(ModContent.TileType<ShadowspecBarTile>());
             Item.value = Item.sellPrice(platinum: 1, gold: 92);
             Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
-        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
-        {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Materials/ShadowspecBar_Animated").Value;
-            spriteBatch.Draw(texture, position, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 8), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
-            return false;
-        }
 
-        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Materials/ShadowspecBar_Animated").Value;
-            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 8), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            CalamityUtils.DrawInventoryCustomScale(
+                spriteBatch,
+                TextureAssets.Item[Type].Value,
+                position,
+                frame,
+                drawColor,
+                itemColor,
+                origin,
+                scale,
+                wantedScale: 1f,
+                drawOffset: new(0f, -6f)
+            );
             return false;
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AuricBar>()).AddIngredient(ModContent.ItemType<ExoPrism>()).AddIngredient(ModContent.ItemType<AshesofAnnihilation>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe()
+                .AddIngredient<AuricBar>()
+                .AddIngredient<ExoPrism>()
+                .AddIngredient<AshesofAnnihilation>()
+                .AddTile<DraedonsForge>()
+                .Register();
         }
     }
 }

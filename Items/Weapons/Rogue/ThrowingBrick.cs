@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.damage = 17;
             Item.shootSpeed = 12f;
             Item.shoot = ModContent.ProjectileType<Brick>();
-            Item.width = 26;
+            Item.width = 28;
             Item.height = 20;
             Item.useTime = Item.useAnimation = 35;
             Item.useStyle = ItemUseStyleID.Swing;
