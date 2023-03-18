@@ -5560,6 +5560,10 @@ namespace CalamityMod.NPCs
 
         public override Color? GetAlpha(NPC npc, Color drawColor)
         {
+            // Don't make this affect the bestiary, that's goofy
+            if (npc.IsABestiaryIconDummy)
+                return null;
+
             if (Main.LocalPlayer.Calamity().trippy)
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
 

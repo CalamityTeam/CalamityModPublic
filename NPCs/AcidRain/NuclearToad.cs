@@ -40,6 +40,10 @@ namespace CalamityMod.NPCs.AcidRain
         {
             DisplayName.SetDefault("Nuclear Toad");
             Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            value.Position.Y += 8;
+            value.PortraitPositionYOverride = 28f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

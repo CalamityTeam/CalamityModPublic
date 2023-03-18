@@ -25,6 +25,8 @@ namespace CalamityMod.NPCs.SulphurousSea
             {
                 SpriteDirection = 1
             };
+            value.Position.Y += 8;
+            value.PortraitPositionYOverride = 28f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
