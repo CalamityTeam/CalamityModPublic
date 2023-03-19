@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.width = 100;
             Item.height = 100;
             Item.autoReuse = true;
-            Item.useAnimation = Item.useTime = 72;
+            Item.useAnimation = Item.useTime = 64;
 
             Item.shoot = ModContent.ProjectileType<Rox1>();
             Item.shootSpeed = 10f;

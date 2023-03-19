@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Clockwork Bow");
-            Tooltip.SetDefault("Hold to load up to six homing precision bolts");
+            Tooltip.SetDefault("Hold to load up to six homing precision bolts\n" +
+                            "Loads slightly faster when continuously used");
             SacrificeTotal = 1;
         }
 

@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Other
             NPC.width = NPC.height = 60;
             NPC.damage = 0;
             NPC.defense = 0;
-            NPC.lifeMax = 24660;
+            NPC.lifeMax = 25000;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.value = 0f;
@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Other
             NPC.Calamity().VulnerableToWater = true;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = 24660;
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = 25000;
 
         public override void AI()
         {

@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.Astral
                 NPC.damage = 80;
                 NPC.defense = 18;
                 NPC.knockBackResist = 0.65f;
-                NPC.lifeMax = 490;
+                NPC.lifeMax = 500;
             }
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;

@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.height = 90;
             NPC.defense = 50;
             NPC.DR_NERD(0.05f);
-            NPC.lifeMax = 88500;
+            NPC.lifeMax = 90000;
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.value = Item.buyPrice(0, 25, 0, 0);
@@ -427,6 +427,11 @@ namespace CalamityMod.NPCs.AcidRain
             spriteBatch.Draw(texture, drawPosition, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, direction, 0f);
             spriteBatch.Draw(glowmask, drawPosition, NPC.frame, NPC.GetAlpha(Color.White), NPC.rotation, origin, NPC.scale, direction, 0f);
             return false;
+        }
+
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
         }
 
         public override void FindFrame(int frameHeight)

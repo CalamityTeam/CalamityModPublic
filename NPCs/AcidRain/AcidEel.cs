@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.height = 20;
 
             NPC.damage = 20;
-            NPC.lifeMax = 42;
+            NPC.lifeMax = 45;
             NPC.defense = 4;
             NPC.knockBackResist = 0.9f;
 
@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.AcidRain
             else if (DownedBossSystem.downedAquaticScourge)
             {
                 NPC.damage = 50;
-                NPC.lifeMax = 176;
+                NPC.lifeMax = 180;
             }
 
             NPC.value = Item.buyPrice(0, 0, 3, 32);

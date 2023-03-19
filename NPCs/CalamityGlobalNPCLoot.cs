@@ -480,21 +480,21 @@ namespace CalamityMod.NPCs
                 // Bouncing Eyeball @ 10% Normal, 16.66% Expert+
                 case NPCID.EyeballFlyingFish:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<BouncingEyeball>(), 10, 6));
-                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 3, 6);
+                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 10, 12);
                     break;
 
                 case NPCID.ZombieMerman:
-                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 3, 6);
+                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 10, 12);
                     break;
 
                 case NPCID.GoblinShark:
                 case NPCID.BloodEelHead:
-                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 15, 30);
+                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 40, 48);
                     break;
 
                 // Dreadnautilus drops the Blood Moon lore
                 case NPCID.BloodNautilus:
-                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 20, 40);
+                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 100, 120);
                     npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDreadnautilus, ModContent.ItemType<LoreBloodMoon>(), desc: DropHelper.FirstKillText);
                     break;
                 #endregion
