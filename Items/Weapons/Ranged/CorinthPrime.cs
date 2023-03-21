@@ -25,7 +25,7 @@ Otherwise, the grenade emits an extremely weak explosion");
 
         public override void SetDefaults()
         {
-            Item.damage = 100;
+            Item.damage = 128;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 106;
             Item.height = 42;

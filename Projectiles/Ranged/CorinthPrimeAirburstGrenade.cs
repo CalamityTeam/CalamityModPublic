@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     for (int i = 0; i < 7; i++)
                     {
-                        Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CorinthPrimeAirburst>(), (int)(Projectile.damage * 0.3), Projectile.knockBack, Projectile.owner);
+                        Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CorinthPrimeAirburst>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
                         if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
                             explosion.ai[1] = Main.rand.NextFloat(256f, 696f) + i * 45f; // Randomize the maximum radius.
