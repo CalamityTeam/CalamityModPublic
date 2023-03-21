@@ -21,6 +21,10 @@ namespace CalamityMod.NPCs.TownNPCs
             DisplayName.SetDefault("Androomba Pal");
             Main.npcFrameCount[NPC.type] = 9;
             Main.npcCatchable[NPC.type] = true;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            value.Position.Y += 16;
+            value.PortraitPositionYOverride = 36f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

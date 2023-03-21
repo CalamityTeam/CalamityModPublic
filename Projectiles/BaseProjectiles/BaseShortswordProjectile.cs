@@ -122,8 +122,8 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
-            float bladeLenght = 12f * Projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter + OffsetFromPlayer, Owner.MountedCenter + OffsetFromPlayer + (Projectile.velocity * bladeLenght), 24, ref collisionPoint);
+            float bladeLength = 12f * Projectile.scale;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter + OffsetFromPlayer, Owner.MountedCenter + OffsetFromPlayer + (Projectile.velocity * bladeLength), 24, ref collisionPoint);
         }
     }
 }

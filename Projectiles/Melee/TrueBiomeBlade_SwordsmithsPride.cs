@@ -65,9 +65,9 @@ namespace CalamityMod.Projectiles.Melee
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
-            float bladeLenght = 140 * Projectile.scale;
+            float bladeLength = 140 * Projectile.scale;
             float bladeWidth = 25 * Projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + (direction * bladeLenght), bladeWidth, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + (direction * bladeLength), bladeWidth, ref collisionPoint);
         }
 
 

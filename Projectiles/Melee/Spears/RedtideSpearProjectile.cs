@@ -186,9 +186,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
-            float bladeLenght = 85 * Projectile.scale;
+            float bladeLength = 85 * Projectile.scale;
             float bladeWidth = 20 * Projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + AppropriateRotation.ToRotationVector2() * bladeLenght * -0.5f, Projectile.Center + ThrustRotation.ToRotationVector2() * bladeLenght * 0.5f, bladeWidth, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + AppropriateRotation.ToRotationVector2() * bladeLength * -0.5f, Projectile.Center + ThrustRotation.ToRotationVector2() * bladeLength * 0.5f, bladeWidth, ref collisionPoint);
         }
 
         public override void AI()

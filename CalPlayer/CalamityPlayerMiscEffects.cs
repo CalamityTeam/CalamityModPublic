@@ -2393,7 +2393,6 @@ namespace CalamityMod.CalPlayer
                 Player.magmaStone = true;
                 Player.GetDamage<MeleeDamageClass>() += 0.15f;
                 Player.GetCritChance<MeleeDamageClass>() += 5;
-                Player.lavaMax += 240;
             }
 
             if (bloodPactBoost)
@@ -2589,6 +2588,10 @@ namespace CalamityMod.CalPlayer
                 if (offenseBuffs)
                     flightTimeMult += 0.1;
             }
+
+            // Reaver Tank set nuke flight time
+            if (reaverDefense)
+                flightTimeMult -= 0.2f;
 
             // Increase wing time
             if (Player.wingTimeMax > 0)
@@ -2822,7 +2825,6 @@ namespace CalamityMod.CalPlayer
             if (yInsignia)
             {
                 Player.GetDamage<MeleeDamageClass>() += 0.1f;
-                Player.lavaMax += 240;
                 if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
                     Player.GetDamage<GenericDamageClass>() += 0.1f;
             }
@@ -3054,8 +3056,6 @@ namespace CalamityMod.CalPlayer
                 {
                     Player.scope = false; //this is so it doesn't mess with the balance of ranged transform attacks over the others
                     Player.lavaImmune = true;
-                    Player.lavaMax += 420;
-                    Player.lavaRose = true;
                     Player.fireWalk = true;
                     Player.buffImmune[ModContent.BuffType<HolyFlames>()] = Main.dayTime;
                     Player.buffImmune[ModContent.BuffType<Nightwither>()] = !Main.dayTime;

@@ -1,8 +1,7 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +10,14 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class SandnadoMinion : ModProjectile
     {
+        public Player Owner => Main.player[Projectile.owner];
+
+        public CalamityPlayer ModdedOwner => Owner.Calamity();
+
+        public ref float TimerForShooting => ref Projectile.ai[0];
+
+        public bool CheckForSpawning = false;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sandnado");
@@ -21,15 +28,15 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 28;
-            Projectile.height = 40;
+            Projectile.minionSlots = 1f;
+            Projectile.penetrate = -1;
+
+            Projectile.width = 40;
+            Projectile.height = 43;
+
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 1f;
-            Projectile.timeLeft = 18000;
-            Projectile.penetrate = -1;
-            Projectile.timeLeft *= 5;
             Projectile.minion = true;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Summon;
@@ -37,236 +44,127 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Player player = Main.player[Projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
-            if (Projectile.localAI[1] == 0f)
+            NPC potentialTarget = Projectile.Center.MinionHoming(2000f, Owner); // Detects a nearby target at a given distance.
+
+            if (potentialTarget is not null)
             {
-                int dustAmt = 36;
-                for (int d = 0; d < dustAmt; d++)
-                {
-                    Vector2 source = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                    source = source.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
-                    Vector2 dustVel = source - Projectile.Center;
-                    int sand = Dust.NewDust(source + dustVel, 0, 0, 85, dustVel.X * 1.5f, dustVel.Y * 1.5f, 100, default, 1.4f);
-                    Main.dust[sand].noGravity = true;
-                    Main.dust[sand].noLight = true;
-                    Main.dust[sand].velocity = dustVel;
-                }
-                Projectile.localAI[1] += 1f;
+                MoveToTarget(potentialTarget);
+                ShootTarget(potentialTarget);
+                // If there's a target, the minion will go towards the target and will shoot at it.
             }
-            bool correctMinion = Projectile.type == ModContent.ProjectileType<SandnadoMinion>();
-            player.AddBuff(ModContent.BuffType<Sandnado>(), 3600);
-            if (correctMinion)
+            else
+                Idle();
+
+            CanMinionExist(); // Checks if the minion can still exist.
+            OnSpawn(); // Does something when spawning, like a dust effect.
+            DoAnimation(); // Does the animation of the minion.
+            Projectile.MinionAntiClump(); // Prevents the minions from going on top of eachother.
+
+            Projectile.netUpdate = true;
+        }
+
+        #region Methods
+
+        public void CanMinionExist()
+        {
+            Owner.AddBuff(ModContent.BuffType<Sandnado>(), 3600);
+            if (Projectile.type == ModContent.ProjectileType<SandnadoMinion>())
             {
-                if (player.dead)
-                {
-                    modPlayer.sandnado = false;
-                }
-                if (modPlayer.sandnado)
-                {
+                if (Owner.dead)
+                    ModdedOwner.sandnado = false;
+                if (ModdedOwner.sandnado)
                     Projectile.timeLeft = 2;
-                }
-            }
-            Projectile.MinionAntiClump(0.1f);
-            if (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
-            {
-                Projectile.alpha += 20;
-                if (Projectile.alpha > 150)
-                {
-                    Projectile.alpha = 150;
-                }
-            }
-            else
-            {
-                Projectile.alpha -= 50;
-                if (Projectile.alpha < 60)
-                {
-                    Projectile.alpha = 60;
-                }
-            }
-            Vector2 targetPos = Projectile.position;
-            float range = 1800f;
-            bool foundTarget = false;
-            if (player.HasMinionAttackTargetNPC)
-            {
-                NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(Projectile, false))
-                {
-                    float npcDist = Vector2.Distance(npc.Center, Projectile.Center);
-                    if ((!foundTarget && npcDist < range) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
-                    {
-                        range = npcDist;
-                        targetPos = npc.Center;
-                        foundTarget = true;
-                        int num11 = npc.whoAmI;
-                    }
-                }
-            }
-            if (!foundTarget)
-            {
-                for (int k = 0; k < Main.maxNPCs; k++)
-                {
-                    NPC npc = Main.npc[k];
-                    if (npc.CanBeChasedBy(Projectile, false))
-                    {
-                        float npcDist = Vector2.Distance(npc.Center, Projectile.Center);
-                        if ((!foundTarget && npcDist < range) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
-                        {
-                            range = npcDist;
-                            targetPos = npc.Center;
-                            foundTarget = true;
-                        }
-                    }
-                }
-            }
-            float sepAnxietyDist = 1200f;
-            if (foundTarget)
-            {
-                sepAnxietyDist = 3000f;
-            }
-            if (Vector2.Distance(player.Center, Projectile.Center) > sepAnxietyDist)
-            {
-                Projectile.ai[0] = 1f;
-                Projectile.netUpdate = true;
-            }
-            if (foundTarget && Projectile.ai[0] == 0f)
-            {
-                Vector2 targetDir = targetPos - Projectile.Center;
-                float targetDist = targetDir.Length();
-                targetDir.Normalize();
-                if (targetDist > 400f)
-                {
-                    float speedMult = 6f;
-                    targetDir *= speedMult;
-                    Projectile.velocity = (Projectile.velocity * 20f + targetDir) / 21f;
-                }
-                else
-                {
-                    Projectile.velocity *= 0.96f;
-                }
-                if (targetDist > 200f)
-                {
-                    float speedMult = 12f;
-                    targetDir *= speedMult;
-                    Projectile.velocity = (Projectile.velocity * 40f + targetDir) / 41f;
-                }
-                if (Projectile.velocity.Y > -1f)
-                {
-                    Projectile.velocity.Y -= 0.1f;
-                }
-            }
-            else
-            {
-                if (!Collision.CanHitLine(Projectile.Center, 1, 1, player.Center, 1, 1))
-                {
-                    Projectile.ai[0] = 1f;
-                }
-                float returnSpeed = 12f;
-                Vector2 playerVec = player.Center - Projectile.Center + new Vector2(0f, -20f);
-                float playerDist = playerVec.Length();
-                if (playerDist > 200f && returnSpeed < 12f)
-                {
-                    returnSpeed = 12f;
-                }
-                if (playerDist < 100f && Projectile.ai[0] == 1f && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
-                {
-                    Projectile.ai[0] = 0f;
-                    Projectile.netUpdate = true;
-                }
-                if (playerDist > 2000f)
-                {
-                    Projectile.position = player.position;
-                    Projectile.netUpdate = true;
-                }
-                if (Math.Abs(playerVec.X) > 40f || Math.Abs(playerVec.Y) > 10f)
-                {
-                    playerVec.Normalize();
-                    playerVec *= returnSpeed;
-                    playerVec *= new Vector2(1.25f, 0.65f);
-                    Projectile.velocity = (Projectile.velocity * 20f + playerVec) / 21f;
-                }
-                else
-                {
-                    if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
-                    {
-                        Projectile.velocity.X = -0.15f;
-                        Projectile.velocity.Y = -0.05f;
-                    }
-                    Projectile.velocity *= 1.01f;
-                }
-            }
-            Projectile.rotation = Projectile.velocity.X * 0.05f;
-            Projectile.frameCounter++;
-            int two = 2;
-            if (Projectile.frameCounter >= 6 * two)
-            {
-                Projectile.frameCounter = 0;
-            }
-            Projectile.frame = Projectile.frameCounter / two;
-            if (Main.rand.NextBool(5))
-            {
-                int sand = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 85, 0f, 0f, 100, default, 2f);
-                Main.dust[sand].velocity *= 0.3f;
-                Main.dust[sand].noGravity = true;
-                Main.dust[sand].noLight = true;
-            }
-            if (Projectile.velocity.X > 0f)
-            {
-                Projectile.spriteDirection = Projectile.direction = -1;
-            }
-            else if (Projectile.velocity.X < 0f)
-            {
-                Projectile.spriteDirection = Projectile.direction = 1;
-            }
-            if (Projectile.ai[1] > 0f)
-            {
-                Projectile.ai[1] += 1f;
-                if (Main.rand.Next(3) != 0)
-                {
-                    Projectile.ai[1] += 1f;
-                }
-            }
-            if (Projectile.ai[1] > 75f)
-            {
-                Projectile.ai[1] = 0f;
-                Projectile.netUpdate = true;
-            }
-            if (Projectile.ai[0] == 0f)
-            {
-                float speed = 14f;
-                int projType = ModContent.ProjectileType<MiniSandShark>();
-                if (foundTarget)
-                {
-                    if (!Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
-                    {
-                        if (Projectile.ai[1] == 0f)
-                        {
-                            Projectile.ai[1] += 1f;
-                            if (Main.myPlayer == Projectile.owner)
-                            {
-                                Vector2 velocity = targetPos - Projectile.Center;
-                                velocity.Normalize();
-                                velocity *= speed;
-                                int shark = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                                Main.projectile[shark].originalDamage = Projectile.originalDamage;
-                                Main.projectile[shark].netUpdate = true;
-                                Projectile.netUpdate = true;
-                            }
-                        }
-                    }
-                }
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
+        public void OnSpawn()
         {
-            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
-            int frame = frameHeight * Projectile.frame;
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frame, texture.Width, frameHeight)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture.Width / 2f, (float)frameHeight / 2f), Projectile.scale, SpriteEffects.None, 0);
-            return false;
+            if (CheckForSpawning == false)
+            {
+                int dustAmount = 75;
+                for (int dustIndex = 0; dustIndex < dustAmount; dustIndex++)
+                {
+                    float angle = MathHelper.TwoPi / dustAmount * dustIndex;
+                    Vector2 velocity = angle.ToRotationVector2() * Main.rand.NextFloat(5f, 6.5f);
+                    Dust spawnDust = Dust.NewDustPerfect(Projectile.Center, 85, velocity);
+                }
+                CheckForSpawning = true;
+            }
+        }
+
+        public void DoAnimation()
+        {
+            Projectile.frameCounter++;
+            Projectile.frame = Projectile.frameCounter / 8 % Main.projFrames[Projectile.type];
+        }
+
+        public void Idle()
+        {
+            if (Projectile.WithinRange(Owner.Center, 1200f) && !Projectile.WithinRange(Owner.Center, 300f)) // If the minion starts to get far, force the minion to go to you.
+            {
+                Projectile.velocity = (Owner.Center - Projectile.Center) / 30f;
+                Projectile.netUpdate = true;
+            }
+            else if (!Projectile.WithinRange(Owner.Center, 160f)) // The minion will change directions to you if it's going away from you, meaning it'll just hover around you.
+            {
+                Projectile.velocity = (Projectile.velocity * 37f + Projectile.SafeDirectionTo(Owner.Center) * 17f) / 40f;
+                Projectile.netUpdate = true;
+            }
+
+            // Teleport to the owner if sufficiently far away.
+            if (!Projectile.WithinRange(Owner.Center, 1200f))
+            {
+                Projectile.position = Owner.Center;
+                Projectile.velocity *= 0.3f;
+                Projectile.netUpdate = true;
+            }
+        }
+
+        public void MoveToTarget(NPC target)
+        {
+            Vector2 vecToTarget = target.Center - Projectile.Center;
+            float targetDist = vecToTarget.Length();
+            vecToTarget.Normalize();
+            //If farther than 200 pixels, move toward it
+            if (targetDist > 200f)
+            {
+                float speedMult = (targetDist > 400f) ? 12f : (targetDist > 250) ? 6f : 3f;
+                vecToTarget *= speedMult;
+                Projectile.velocity = (Projectile.velocity * 40f + vecToTarget) / 41f;
+            }
+            //Otherwise, back it up slowly
+            else
+            {
+                float speedMult = -3f;
+                vecToTarget *= speedMult;
+                Projectile.velocity = (Projectile.velocity * 40f + vecToTarget) / 41f;
+            }
+        }
+
+        public void ShootTarget(NPC target)
+        {
+            if (TimerForShooting == SandSharknadoStaff.FireSpeed && Main.myPlayer == Projectile.owner)
+            {
+                int sandSharkProj = Projectile.NewProjectile(Projectile.GetSource_FromThis(),
+                    Projectile.Center,
+                    CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, target, SandSharknadoStaff.ProjVel),
+                    ModContent.ProjectileType<MiniSandShark>(),
+                    Projectile.damage,
+                    Projectile.knockBack,
+                    Projectile.owner);
+
+                if (Main.projectile.IndexInRange(sandSharkProj))
+                    Main.projectile[sandSharkProj].originalDamage = Projectile.originalDamage;
+                
+                TimerForShooting = 0f;
+            }
+            
+            if (TimerForShooting < SandSharknadoStaff.FireSpeed)
+                TimerForShooting++;
         }
 
         public override bool? CanDamage() => false;
+
+        #endregion
     }
 }

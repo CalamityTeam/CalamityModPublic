@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.height = 44;
 
             NPC.damage = 110;
-            NPC.lifeMax = 5060;
+            NPC.lifeMax = 5000;
             NPC.DR_NERD(0.15f);
             NPC.defense = 25;
 

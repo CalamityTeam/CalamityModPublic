@@ -1,6 +1,7 @@
 ﻿
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +10,7 @@ namespace CalamityMod.Tiles.Astral
 {
     public class AstralClay : ModTile
     {
+        public byte[,] tileAdjacency;
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -26,12 +28,19 @@ namespace CalamityMod.Tiles.Astral
             TileID.Sets.ChecksForMerge[Type] = true;
             TileID.Sets.CanBeClearedDuringOreRunner[Type] = true;
             TileID.Sets.CanBeDugByShovel[Type] = true;
+
+
+            TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<AstralDirt>(), out tileAdjacency);
+        }
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/AstralDirtMerge");
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false);
-            return false;
+            TileFraming.GetAdjacencyData(i, j, ModContent.TileType<AstralDirt>(), out tileAdjacency[i, j]);
+            return true;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

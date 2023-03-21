@@ -19,7 +19,7 @@ namespace CalamityMod.Particles
         public float BaseScale;
         public float Opacity;
         public float LineDirection;
-        public float LineLenght = 0f;
+        public float LineLength = 0f;
         private Vector2 PrevOffset = Vector2.Zero;
         private Vector2 BasePosition;
         public bool Telegraph; //Denotes if the line is used as an enemy telegraph. In that case, it'll be marked as important
@@ -63,7 +63,7 @@ namespace CalamityMod.Particles
 
             RelativeOffset = offsetPosition() * LineDirection.ToRotationVector2() * BasePosition.Length();
 
-            LineLenght = (BasePosition - RelativeOffset).Length();
+            LineLength = (BasePosition - RelativeOffset).Length();
 
             RelativeOffset = RelativeOffset.RotatedBy(MathHelper.PiOver4 / 16f);
             //LineDirection -= MathHelper.PiOver4 / 16f;

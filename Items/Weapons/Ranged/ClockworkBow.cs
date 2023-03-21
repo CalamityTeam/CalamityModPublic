@@ -13,8 +13,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Clockwork Bow");
-            Tooltip.SetDefault("Hold left click to load up to six precision bolts\n" +
-                "The more precision bolts are loaded, the harder they hit");
+            Tooltip.SetDefault("Hold to load up to six homing precision bolts\n" +
+                            "Loads slightly faster when continuously used");
             SacrificeTotal = 1;
         }
 
@@ -24,8 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.width = 48;
             Item.height = 96;
-            Item.useTime = 60;
-            Item.useAnimation = 30;
+            Item.useTime = Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.channel = true;

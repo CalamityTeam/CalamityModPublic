@@ -10,6 +10,14 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class SandSharknadoStaff : ModItem
     {
+        #region Other stats for easy modifcation
+
+        public const float ProjVel = 30f;
+
+        public const float FireSpeed = 120f; // In frames. 60 frames = 2 seconds.
+
+        #endregion
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sand Sharknado Staff");
@@ -20,32 +28,31 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetDefaults()
         {
             Item.damage = 47;
+            Item.knockBack = 2f;
             Item.mana = 10;
+
+            Item.shoot = ModContent.ProjectileType<SandnadoMinion>();
+
             Item.width = 48;
             Item.height = 56;
             Item.useTime = Item.useAnimation = 20;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.noMelee = true;
-            Item.knockBack = 2f;
-            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            Item.rare = ItemRarityID.Lime;
-            Item.UseSound = SoundID.Item44;
-            Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<SandnadoMinion>();
-            Item.shootSpeed = 10f;
+
             Item.DamageType = DamageClass.Summon;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item44;
+            Item.rare = ItemRarityID.Lime;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.noMelee = true;
+            Item.autoReuse = true;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
-                position = Main.MouseWorld;
-                velocity.X = 0;
-                velocity.Y = 0;
-                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 1f);
-                if (Main.projectile.IndexInRange(p))
-                    Main.projectile[p].originalDamage = Item.damage;
+                int sandnado = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(sandnado))
+                    Main.projectile[sandnado].originalDamage = Item.damage;
             }
             return false;
         }

@@ -3,11 +3,13 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -27,8 +29,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "50% increased running acceleration\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
-                "Immunity to the On Fire! debuff\n" +
-                "Temporary immunity to lava\n" +
+                "Immunity to lava and On Fire! debuff\n" +
                 "Being hit for over 200 damage will make you immune for an extended period of time");
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(250, 12f, 3f);
         }
@@ -66,7 +67,7 @@ namespace CalamityMod.Items.Accessories.Wings
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;
-            player.lavaMax += 240;
+            player.lavaImmune = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.noFallDmg = true;
             modPlayer.IBoots = !hideVisual;
@@ -91,6 +92,23 @@ namespace CalamityMod.Items.Accessories.Wings
                 AddIngredient<AuricBar>(5).
                 AddTile<CosmicAnvil>().
                 Register();
+        }
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            CalamityUtils.DrawInventoryCustomScale(
+                spriteBatch,
+                texture: TextureAssets.Item[Type].Value,
+                position,
+                frame,
+                drawColor,
+                itemColor,
+                origin,
+                scale,
+                wantedScale: 0.8f,
+                drawOffset: new(1f, 0f)
+            );
+            return false;
         }
     }
 }

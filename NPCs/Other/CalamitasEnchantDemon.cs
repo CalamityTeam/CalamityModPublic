@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Other
             NPC.defense = 0;
 
             // This is meant to be created after SCal is defeated and should be at least a little challenging.
-            NPC.lifeMax = 101010;
+            NPC.lifeMax = 100000;
             NPC.HitSound = SoundID.NPCHit47;
             NPC.DeathSound = SoundID.NPCDeath18;
             NPC.noGravity = true;
@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.Other
             NPC.Calamity().VulnerableToWater = true;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = 101010;
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = 100000;
 
         public override void AI()
         {

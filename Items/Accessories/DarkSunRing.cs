@@ -6,6 +6,13 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ModLoader;
+using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using Terraria.GameContent;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -51,6 +58,23 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<DarksunFragment>(20).
                 AddTile<CosmicAnvil>().
                 Register();
+        }
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            CalamityUtils.DrawInventoryCustomScale(
+                spriteBatch,
+                texture: TextureAssets.Item[Type].Value,
+                position,
+                frame,
+                drawColor,
+                itemColor,
+                origin,
+                scale,
+                wantedScale: 0.8f,
+                drawOffset: new(0f, 0f)
+            );
+            return false;
         }
     }
 }

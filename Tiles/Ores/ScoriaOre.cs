@@ -12,6 +12,8 @@ namespace CalamityMod.Tiles.Ores
     [LegacyName("ChaoticOre")]
     public class ScoriaOre : ModTile
     {
+        public byte[,] TileAdjacency;
+        public byte[,] secondTileAdjacency;
         public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
@@ -32,6 +34,9 @@ namespace CalamityMod.Tiles.Ores
             MineResist = 4f;
             MinPick = 210;
             HitSound = SoundID.Tink;
+
+            TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<AbyssGravel>(), out TileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<PyreMantle>(), out secondTileAdjacency);
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
@@ -99,9 +104,11 @@ namespace CalamityMod.Tiles.Ores
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AbyssGravel>(), false, false, false, false, resetFrame);
-            return false;
+            TileFraming.GetAdjacencyData(i, j, ModContent.TileType<AbyssGravel>(), out TileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, ModContent.TileType<PyreMantle>(), out secondTileAdjacency[i, j]);
+            return true;
         }
+
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
@@ -114,8 +121,11 @@ namespace CalamityMod.Tiles.Ores
             Tile trackTile = Main.tile[i, j];
             double num6 = Main.time * 0.08;
             TileFraming.SlopedGlowmask(i, j, 0, glowmask, drawOffset, null, GetDrawColour(i, j, drawColour), default);
-        }
 
+            TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/PyreMantleMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, TileAdjacency, "CalamityMod/Tiles/Merges/AbyssGravelMerge");
+        }
+        
         private Color GetDrawColour(int i, int j, Color colour)
         {
             int colType = Main.tile[i, j].TileColor;

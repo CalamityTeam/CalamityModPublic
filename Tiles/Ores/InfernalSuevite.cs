@@ -1,17 +1,20 @@
-using CalamityMod.Tiles.Crags;
+﻿using CalamityMod.Tiles.Crags;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Tiles.Ores
 {
     [LegacyName("CharredOre")]
     public class InfernalSuevite : ModTile
     {
-        private int sheetWidth = 288;
-        private int sheetHeight = 270;
+        private int sheetWidth = 234;
+        private int sheetHeight = 90;
 
+        public byte[,] tileAdjacency;
+        public byte[,] secondTileAdjacency;
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -33,6 +36,9 @@ namespace CalamityMod.Tiles.Ores
             HitSound = SoundID.Tink;
             DustType = 235;
             Main.tileSpelunker[Type] = true;
+
+            TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<BrimstoneSlag>(), out tileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, TileID.Ash, out secondTileAdjacency);
         }
 
         public override bool CanExplode(int i, int j)
@@ -57,11 +63,16 @@ namespace CalamityMod.Tiles.Ores
             g = 0.00f;
             b = 0.00f;
         }
-
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/AshMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/BrimstoneSlagMerge");
+        }
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<BrimstoneSlag>(), false, false, false, false, resetFrame);
-            return false;
+            TileFraming.GetAdjacencyData(i, j, ModContent.TileType<BrimstoneSlag>(), out tileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, TileID.Ash, out secondTileAdjacency[i, j]);
+            return true;
         }
     }
 }

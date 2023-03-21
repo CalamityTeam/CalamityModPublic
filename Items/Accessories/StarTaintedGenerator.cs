@@ -3,6 +3,9 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -45,6 +48,23 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<LifeAlloy>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
+        }
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            CalamityUtils.DrawInventoryCustomScale(
+                spriteBatch,
+                texture: TextureAssets.Item[Type].Value,
+                position,
+                frame,
+                drawColor,
+                itemColor,
+                origin,
+                scale,
+                wantedScale: 0.8f,
+                drawOffset: new(0f, 0f)
+            );
+            return false;
         }
     }
 }

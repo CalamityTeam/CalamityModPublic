@@ -14,6 +14,9 @@ namespace CalamityMod.Tiles.Abyss
     {
         public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/VoidstoneMine", 3) { Volume = 0.4f };
         internal static Texture2D GlowTexture;
+        public byte[,] tileAdjacency;
+        public byte[,] secondTileAdjacency;
+        public byte[,] thirdTileAdjacency;
         public override void SetStaticDefaults()
         {
             if (!Main.dedServ)
@@ -32,9 +35,13 @@ namespace CalamityMod.Tiles.Abyss
             MinPick = 180;
             ItemDrop = ModContent.ItemType<Items.Placeables.Voidstone>();
             AddMapEntry(new Color(15, 15, 15));
+
+            TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, TileID.Stone, out secondTileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<PyreMantle>(), out thirdTileAdjacency);
         }
 
-        int animationFrameWidth = 288;
+        int animationFrameWidth = 234;
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -255,7 +262,7 @@ namespace CalamityMod.Tiles.Abyss
                     }
                     break;
             }
-            xOffset *= 288;
+            xOffset *= 234;
             xPos += xOffset;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
@@ -270,12 +277,17 @@ namespace CalamityMod.Tiles.Abyss
             drawColour *= brightness;
 
             TileFraming.SlopedGlowmask(i, j, 0, GlowTexture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+            TileFraming.DrawUniversalMergeFrames(i, j, thirdTileAdjacency, "CalamityMod/Tiles/Merges/PyreMantleMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/StoneMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/DirtMerge");
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<PyreMantle>(), false, false, false, false, resetFrame);
-            return false;
+            TileFraming.GetAdjacencyData(i, j, TileID.Dirt, out tileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, TileID.Stone, out secondTileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, ModContent.TileType<PyreMantle>(), out thirdTileAdjacency[i, j]);
+            return true;
         }
 
         private Color GetDrawColour(int i, int j, Color colour)

@@ -113,9 +113,9 @@ namespace CalamityMod.Projectiles.Typeless
 
             else
             {
-                float lenghtToOwner = BetweenOwner.Length();
+                float LengthToOwner = BetweenOwner.Length();
 
-                if (lenghtToOwner > Owner.GetModPlayer<WulfrumPackPlayer>().SwingLenght + 60f)
+                if (LengthToOwner > Owner.GetModPlayer<WulfrumPackPlayer>().SwingLength + 60f)
                 {
                     State = HookState.Retracting;
                 }
@@ -196,7 +196,7 @@ namespace CalamityMod.Projectiles.Typeless
                 //Owner.velocity = Vector2.Zero;
             }
 
-            mp.SwingLenght = (Owner.Center - Projectile.Center).Length();
+            mp.SwingLength = (Owner.Center - Projectile.Center).Length();
             mp.OldPosition = Owner.Center - Owner.velocity;
             mp.SetSegments(Projectile.Center);
             mp.Grapple = Projectile.whoAmI;

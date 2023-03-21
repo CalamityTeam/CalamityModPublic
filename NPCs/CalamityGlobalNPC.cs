@@ -1159,7 +1159,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.CultistBoss:
-                    npc.lifeMax = 44500;
+                    npc.lifeMax = 80000;
                     break;
 
                 case NPCID.CultistDragonBody1:
@@ -1168,7 +1168,7 @@ namespace CalamityMod.NPCs
                 case NPCID.CultistDragonBody4:
                 case NPCID.CultistDragonHead:
                 case NPCID.CultistDragonTail:
-                    npc.lifeMax = 41600;
+                    npc.lifeMax = 40000;
                     break;
 
                 case NPCID.DukeFishron:
@@ -1189,7 +1189,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.HallowBoss:
-                    npc.lifeMax = 105000;
+                    npc.lifeMax = 100000;
                     break;
 
                 case NPCID.Plantera:
@@ -1214,11 +1214,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.Deerclops:
-                    npc.lifeMax = 10500;
+                    npc.lifeMax = 10000;
                     break;
 
                 case NPCID.BrainofCthulhu:
-                    npc.lifeMax = 1400;
+                    npc.lifeMax = 1500;
                     break;
 
                 case NPCID.EaterofWorldsBody:
@@ -1228,7 +1228,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.EyeofCthulhu:
-                    npc.lifeMax = 3050;
+                    npc.lifeMax = 3000;
                     break;
             }
         }
@@ -5560,6 +5560,10 @@ namespace CalamityMod.NPCs
 
         public override Color? GetAlpha(NPC npc, Color drawColor)
         {
+            // Don't make this affect the bestiary, that's goofy
+            if (npc.IsABestiaryIconDummy)
+                return null;
+
             if (Main.LocalPlayer.Calamity().trippy)
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
 

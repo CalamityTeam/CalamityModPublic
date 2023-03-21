@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
             Tooltip.SetDefault("12% increased melee damage and 10% increased melee critical strike chance\n" +
                 "18% increased melee speed\n" +
                 "Melee attacks and melee projectiles inflict on fire\n" +
-                "Temporary immunity to lava and immunity to fire damage");
+                "Grants immunity to lava and On Fire! debuff");
         }
 
         public override void SetDefaults()
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
             player.GetAttackSpeed<MeleeDamageClass>() += 0.18f;
             player.GetDamage<MeleeDamageClass>() += 0.12f;
             player.GetCritChance<MeleeDamageClass>() += 10;
-            player.lavaMax += 240;
+            player.lavaImmune = true;
             player.buffImmune[BuffID.OnFire] = true;
         }
 

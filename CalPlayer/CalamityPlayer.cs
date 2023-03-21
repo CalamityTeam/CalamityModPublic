@@ -2499,6 +2499,10 @@ namespace CalamityMod.CalPlayer
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
+            // Why does this otherwise work when you're dead lmao
+            if (Player.dead)
+                return;
+            
             if (CalamityKeybinds.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == Player.whoAmI)
             {
                 if (!Player.CCed && !Player.chaosState)
@@ -4542,11 +4546,9 @@ namespace CalamityMod.CalPlayer
                     contactDamageReduction += 0.5;
             }
 
+            // Can't have any cooldowns here because dodges grrrrr....
             if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID))
-            {
-                Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, coreOfTheBloodGod ? "bloodgod" : "default");
                 contactDamageReduction += 0.5;
-            }
 
             if (tarragonCloak && tarraMelee && !Player.HasCooldown(Cooldowns.TarragonCloak.ID))
                 contactDamageReduction += 0.5;
@@ -4946,6 +4948,13 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region On Hit
+        public override void OnHitByNPC(NPC npc, int damage, bool crit)
+        {
+            // ModifyHit (Flesh Totem effect happens here) -> Hurt (includes dodges) -> OnHit
+            // As such, to avoid cooldowns proccing from dodge hits, do it here
+            if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID) && damage > 0)
+                Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, coreOfTheBloodGod ? "bloodgod" : "default");            
+        }
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
         {
             if (sulfurSet && !proj.friendly && damage > 0)

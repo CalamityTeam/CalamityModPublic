@@ -52,12 +52,12 @@ namespace CalamityMod.Projectiles.Melee
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
-            float bladeHalfLenght = 25f * Projectile.scale / 2f;
+            float bladeHalfLength = 25f * Projectile.scale / 2f;
             float bladeWidth = 14f * Projectile.scale;
 
             Vector2 direction = (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2();
 
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center - direction * bladeHalfLenght, Projectile.Center + direction * bladeHalfLenght, bladeWidth, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center - direction * bladeHalfLength, Projectile.Center + direction * bladeHalfLength, bladeWidth, ref collisionPoint);
         }
 
         public override void Kill(int timeLeft)

@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Magic
             effect.Parameters["halfSpreadAngle"].SetValue(Spread / 2f);
             effect.Parameters["edgeColor"].SetValue(Color.Lerp(Color.DeepSkyBlue, Color.Coral, blinkage ).ToVector3());
             effect.Parameters["centerColor"].SetValue(Color.Lerp(Color.DodgerBlue, Color.Coral, blinkage).ToVector3());
-            effect.Parameters["edgeBlendLenght"].SetValue(0.07f);
+            effect.Parameters["edgeBlendLength"].SetValue(0.07f);
             effect.Parameters["edgeBlendStrength"].SetValue(8f);
 
             Main.spriteBatch.End();

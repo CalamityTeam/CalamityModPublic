@@ -48,8 +48,8 @@ namespace CalamityMod.Projectiles.Melee
         {
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
-            float bladeLenght = 142f * Projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (Projectile.velocity * bladeLenght), 44, ref collisionPoint);
+            float bladeLength = 142f * Projectile.scale;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (Projectile.velocity * bladeLength), 44, ref collisionPoint);
         }
 
         public void GeneralParryEffects()
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Melee
                 return;
 
             float collisionPoint = 0f;
-            float bladeLenght = 142f * Projectile.scale;
+            float bladeLength = 142f * Projectile.scale;
 
             for (int k = 0; k < Main.maxProjectiles; k++)
             {
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (proj.active && proj.hostile && proj.damage > 1 && //Only parry harmful projectiles
                    proj.velocity.Length() * (proj.extraUpdates + 1) > 1f && //Only parry projectiles that move semi-quickly
                    proj.Size.Length() < 300 && //Only parry projectiles that aren't too large
-                   Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (Projectile.velocity * bladeLenght), 24, ref collisionPoint))
+                   Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (Projectile.velocity * bladeLength), 24, ref collisionPoint))
                 {
                     if (AlreadyParried == 0)
                     {

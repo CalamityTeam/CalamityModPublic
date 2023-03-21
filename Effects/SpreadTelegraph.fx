@@ -1,7 +1,7 @@
 float3 edgeColor;
 float3 centerColor;
 
-float edgeBlendLenght;
+float edgeBlendLength;
 float edgeBlendStrength;
 
 float mainOpacity;
@@ -27,7 +27,7 @@ float distanceFromLine(float2 origin, float angle, float2 plot)
 //Gets the distance of a plot from a line with a specified origin and angle, but crops the line so it only expands towards the angle
 float distanceFromLineCropped(float2 origin, float angle, float2 plot, float plotAngle)
 {
-    //If the angle between the line's angle and the plot's angle is less than 90° (aka , not BEHIND the half-line), return the distance from the line
+    //If the angle between the line's angle and the plot's angle is less than 90ï¿½ (aka , not BEHIND the half-line), return the distance from the line
     if (abs(angle - plotAngle) < 1.5707)
         return distanceFromLine(origin, angle, plot);
     
@@ -68,12 +68,12 @@ float4 main(float2 uv : TEXCOORD) : COLOR
         opacity = centerOpacity * pow(1 - distanceFromCenter, 2);
     }
     
-    //If we are further from the line than the edge's blending lenght, just don't even do the blending.
-    if (distanceFromLine > edgeBlendLenght)
+    //If we are further from the line than the edge's blending length, just don't even do the blending.
+    if (distanceFromLine > edgeBlendLength)
         return float4(colour * opacity * mainOpacity, opacity * mainOpacity);
     
     //The higher this value is, the more we blend with the edge's opacity & color.
-    float edgeBlendFactor = pow(1 - distanceFromLine / edgeBlendLenght, edgeBlendStrength);
+    float edgeBlendFactor = pow(1 - distanceFromLine / edgeBlendLength, edgeBlendStrength);
     
     colour = lerp(colour, edgeColor, edgeBlendFactor);
     opacity = lerp(opacity, 1 * pow(1 - distanceFromCenter, 3), edgeBlendFactor) * mainOpacity;

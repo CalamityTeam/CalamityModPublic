@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.defense = 80;
             CalamityGlobalNPC global = NPC.Calamity();
             global.DR = 0.5f;
-            NPC.LifeMaxNERB(64400, 77280, 72000);
+            NPC.LifeMaxNERB(65000, 78000, 72000);
             NPC.value = Item.buyPrice(2, 0, 0, 0);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);

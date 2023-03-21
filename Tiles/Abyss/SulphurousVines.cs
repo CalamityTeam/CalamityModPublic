@@ -90,7 +90,7 @@ namespace CalamityMod.Tiles.Abyss
             if (!below.HasTile && below.LiquidType == LiquidID.Water && below.LiquidAmount >= 128)
             {
                 bool growVine = false;
-                for (int vineOriginYPos = j; vineOriginYPos > j - MaxVineHeight; j--)
+                for (int vineOriginYPos = j; vineOriginYPos > j - MaxVineHeight; vineOriginYPos--)
                 {
                     Tile consideredVineOrigin = Main.tile[i, vineOriginYPos];
                     // Vines won't grow if they are coming out of a bottom-sloped block (which they shouldn't be able to anyway)
@@ -100,7 +100,7 @@ namespace CalamityMod.Tiles.Abyss
                         break;
                     }
                     // Vines can continue to grow unimpeded out of any solid block that isn't bottom-sloped.
-                    if (Main.tile[i, vineOriginYPos].HasTile && !Main.tile[i, vineOriginYPos].BottomSlope)
+                    if (Main.tile[i, vineOriginYPos].HasTile && !Main.tile[i, vineOriginYPos].BottomSlope && Main.tileSolid[Main.tile[i, vineOriginYPos].TileType])
                     {
                         growVine = true;
                         break;

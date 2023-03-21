@@ -3,6 +3,9 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -35,6 +38,23 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.heartOfDarkness = true;
+        }
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            CalamityUtils.DrawInventoryCustomScale(
+                spriteBatch,
+                texture: TextureAssets.Item[Type].Value,
+                position,
+                frame,
+                drawColor,
+                itemColor,
+                origin,
+                scale,
+                wantedScale: 0.8f,
+                drawOffset: new(-2f, -2f)
+            );
+            return false;
         }
     }
 }

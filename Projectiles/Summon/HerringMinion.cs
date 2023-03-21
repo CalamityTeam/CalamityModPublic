@@ -1,7 +1,4 @@
-﻿using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
-using Microsoft.Xna.Framework;
-using System;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,74 +9,69 @@ namespace CalamityMod.Projectiles.Summon
     {
         public Player Owner => Main.player[Projectile.owner];
 
-        public CalamityPlayer moddedOwner => Owner.Calamity();
-        
-        public int dustEffect = 3;
+        public ref float MinionOrigin => ref Projectile.ai[0];
+
+        public ref float HerringPosition => ref Projectile.ai[1];
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Herring");
             Main.projFrames[Projectile.type] = 8;
-            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 60;
-            Projectile.height = 24;
+            Projectile.penetrate = -1;
+
+            Projectile.width = 42;
+            Projectile.height = 14;
+
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 0.5f;
-            Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.minion = true;
-            Projectile.DamageType = DamageClass.Summon;
-            Projectile.usesIDStaticNPCImmunity= true;
-            Projectile.idStaticNPCHitCooldown = 8;
         }
 
         public override void AI()
         {
-            CheckMinionExistance(); // Checks if the minion can still exist.
-            SpawnEffect(); // Does a dust effectw where it spawns.
+            NPC target = Projectile.Center.MinionHoming(1200f, Owner); // Detects a target.
+            Projectile minionAI = Main.projectile[(int)MinionOrigin]; // Gets the invisible minion.
+
+            if (target is not null)
+                TargetPosition(minionAI); // The minions position themselves near the invisible minion to seem like they're ramming all together.
+            else
+                FollowOrigin(minionAI); // Vibes around their respective invisible minion.
+            
+            CheckMinionExistance(); // Checks if the decorative herring can still exist, if the invisible minion despawns, so do these ones.
             DoAnimation(); // Does the animation of the minion.
-            PointInRightDirection(); // Points at where it's going.
+            PointInRightDirection(minionAI, target); // Points in the correct direction.
+            Projectile.MinionAntiClump(); // Prevents the minion from cluttering on one spot.
 
-            Projectile.rotation = Projectile.velocity.X * 0.05f; // Does a little movement effect with it's rotation when it's moving.
-
-            Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 24f, 15f, 4f, new Vector2(0f, -60f), 12f, 12f, true, true, 1);
+            Projectile.netUpdate = true;
         }
+
+        #region Methods
 
         public void CheckMinionExistance()
         {
-            Owner.AddBuff(ModContent.BuffType<Herring>(), 1);
-            if (Projectile.type == ModContent.ProjectileType<HerringMinion>())
-            {
-                if (Owner.dead)
-                    moddedOwner.herring = false;
-                if (moddedOwner.herring)
-                    Projectile.timeLeft = 2;
-            }
-        }
+            Projectile minionAI = Main.projectile[(int)MinionOrigin];
 
-        public void SpawnEffect()
-        {
-            if (dustEffect > 0)
+            if (MinionOrigin < 0 || MinionOrigin >= Main.projectile.Length)
             {
-                int num226 = 36;
-                for (int num227 = 0; num227 < num226; num227++)
-                {
-                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2(Projectile.width / 2f, Projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((num227 - (num226 / 2 - 1)) * 6.28318548f / num226), default) + Projectile.Center;
-                    Vector2 vector7 = vector6 - Projectile.Center;
-                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, DustID.Water, vector7.X * 1.75f, vector7.Y * 1.75f, 100, default, 1.1f);
-                    Main.dust[num228].noGravity = true;
-                    Main.dust[num228].velocity = vector7;
-                }
-                dustEffect--;
+                Projectile.Kill();
+                return;
             }
+
+            if (!minionAI.active || minionAI.type != ModContent.ProjectileType<HerringAI>())
+            {
+                Projectile.Kill();
+                return;
+            }
+
+            Projectile.timeLeft = 2;
         }
 
         public void DoAnimation()
@@ -88,12 +80,49 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.frame = Projectile.frameCounter / 8 % Main.projFrames[Projectile.type];
         }
 
-        public void PointInRightDirection()
+        public void PointInRightDirection(Projectile origin, NPC target)
         {
-            if (Math.Abs(Projectile.velocity.X) > 0.1f)
-                Projectile.spriteDirection = Math.Sign(Projectile.velocity.X);
+            if (target is not null)
+            {
+                Projectile.rotation = origin.rotation;
+                Projectile.spriteDirection = origin.spriteDirection;
+                // Because when there's a target, the herrings act like the invisible minion, we call it's direction and rotation so that it has a proper look.
+            }
+            else
+            {
+                Projectile.rotation = (Projectile.spriteDirection == -1) ? Projectile.velocity.ToRotation() + MathHelper.Pi : Projectile.velocity.ToRotation();
+                Projectile.spriteDirection = (Projectile.velocity.X > 0).ToDirectionInt();
+                // If there isn't a target, just look at where it's going.
+            }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity) => false;
+        public void FollowOrigin(Projectile origin)
+        {
+            if (Projectile.WithinRange(origin.Center, 1200f) && !Projectile.WithinRange(origin.Center, 300f)) // If the minion starts to get far, force the minion to go to you.
+                Projectile.velocity = (origin.Center - Projectile.Center) / 30f;
+            else if (!Projectile.WithinRange(origin.Center, 160f)) // The minion will change directions to you if it's going away from you, meaning it'll just hover around you.
+                Projectile.velocity = (Projectile.velocity * 37f + Projectile.SafeDirectionTo(origin.Center) * 17f) / 40f;
+
+            // Teleport to the owner if sufficiently far away.
+            if (!Projectile.WithinRange(origin.Center, 1200f))
+            {
+                Projectile.position = origin.Center;
+                Projectile.velocity *= 0.3f;
+            }
+        }
+
+        public void TargetPosition(Projectile origin)
+        {
+            Projectile.Center = Vector2.Lerp(Projectile.Center, origin.Center + HerringPosition.ToRotationVector2() * 20f, 0.2f);
+            Projectile.velocity = Vector2.Zero;
+            // We set the herrings to their respective offset from the invisible minion's position, and because it's following it's position, we don't give the herring velocity.
+
+            int trailDust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Water, -Projectile.velocity.X, -Projectile.velocity.Y);
+            Main.dust[trailDust].noGravity = true;
+            Main.dust[trailDust].customData = false;
+            // When ramming, tries to give the herrings a trail of water, as if they were going fast.
+        }
+
+        #endregion
     }
 }

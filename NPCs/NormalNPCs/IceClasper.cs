@@ -18,6 +18,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             DisplayName.SetDefault("Ice Clasper");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            value.Rotation = MathHelper.ToRadians(45);
+            value.Position.Y += 12;
+            value.PortraitPositionYOverride = 12f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

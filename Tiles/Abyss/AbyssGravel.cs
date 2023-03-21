@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Tiles.Abyss.AbyssAmbient;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -9,7 +10,10 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class AbyssGravel : ModTile
     {
-        int animationFrameWidth = 288;
+        int animationFrameWidth = 234;
+
+        public byte[,] tileAdjacency;
+        public byte[,] secondTileAdjacency;
 
         public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/AbyssGravelMine", 3);
         
@@ -17,7 +21,6 @@ namespace CalamityMod.Tiles.Abyss
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileMergeDirt[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithAbyss(Type);
@@ -28,6 +31,9 @@ namespace CalamityMod.Tiles.Abyss
             MinPick = 65;
             HitSound = MineSound;
             DustType = 33;
+
+            TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, TileID.Stone, out secondTileAdjacency);
         }
 
         public override bool CanExplode(int i, int j)
@@ -154,11 +160,17 @@ namespace CalamityMod.Tiles.Abyss
             }
             frameXOffset = uniqueAnimationFrameX * animationFrameWidth;
         }
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/StoneMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/DirtMerge");
+        }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, TileID.Dirt, false, false, false);
-            return false;
+            TileFraming.GetAdjacencyData(i, j, TileID.Dirt, out tileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, TileID.Stone, out secondTileAdjacency[i, j]);
+            return true;
         }
     }
 }

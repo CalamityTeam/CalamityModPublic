@@ -43,7 +43,7 @@ float mod(float a, float n)
     (
     float2 origin, float angle, float2 plot, float plotAngle)
 {
-    //If the angle between the line's angle and the plot's angle is less than 90° (aka , not BEHIND the half-line), return the distance from the line
+    //If the angle between the line's angle and the plot's angle is less than 90ï¿½ (aka , not BEHIND the half-line), return the distance from the line
     if (abs(mod(angle - plotAngle + 3.1415926, 6.2831853) - 3.1415926) < 1.5707)
             return distanceFromLine(origin, angle, plot);
     
@@ -75,7 +75,7 @@ float4 main(float2 uv : TEXCOORD) : COLOR
     //Grabs the distance of the point from the edge line.
     float distanceFromLine = distanceFromLineCropped(float2(0, 0), laserAngle, mappedUv, angle);
     
-    //If we are further from the line than the bloom's blending lenght, just don't.
+    //If we are further from the line than the bloom's blending length, just don't.
     if (distanceFromLine > bloomSize + halfLaserWidth)
         return float4(0, 0, 0, 0);
     

@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     ModContent.ProjectileType<AstralStar>(),
                     ProjectileID.StarCloakStar,
-                    ModContent.ProjectileType<FallenStarProj>()
+                    ProjectileID.StarCannonStar
                 });
                 Projectile star = CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, 500f, 800f, 25f, projType, (int)(Projectile.damage * 0.75), Projectile.knockBack * 0.75f, Projectile.owner);
                 if (star.whoAmI.WithinBounds(Main.maxProjectiles))

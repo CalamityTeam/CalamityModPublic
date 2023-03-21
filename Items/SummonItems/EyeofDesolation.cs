@@ -28,7 +28,7 @@ namespace CalamityMod.Items.SummonItems
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Eye of Desolation");
-            Tooltip.SetDefault("Tonight is going to be a horrific night...\n" +
+            Tooltip.SetDefault("This is going to be a horrific night...\n" +
                 "Summons the Calamitas Clone when used during nighttime\n" +
                 "Enrages during the day\n" +
                 "Not consumable");

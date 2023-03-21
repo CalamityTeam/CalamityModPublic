@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
             SacrificeTotal = 1;
             DisplayName.SetDefault("Hydrothermic Mask");
             Tooltip.SetDefault("12% increased magic damage, +100 max mana, and 10% increased magic critical strike chance\n" +
-                "Temporary immunity to lava, and immunity to fire damage");
+                "Grants immunity to lava and On Fire! debuff");
         }
 
         public override void SetDefaults()
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
             player.statManaMax2 += 100;
             player.GetDamage<MagicDamageClass>() += 0.12f;
             player.GetCritChance<MagicDamageClass>() += 10;
-            player.lavaMax += 240;
+            player.lavaImmune = true;
             player.buffImmune[BuffID.OnFire] = true;
         }
 

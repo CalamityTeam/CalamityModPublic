@@ -9,6 +9,8 @@ namespace CalamityMod.Tiles.SunkenSea
     public class EutrophicSand : ModTile
     {
         public byte[,] tileAdjacency;
+        public byte[,] secondTileAdjacency;
+        public byte[,] thirdTileAdjacency;
 
         public override void SetStaticDefaults()
         {
@@ -32,6 +34,8 @@ namespace CalamityMod.Tiles.SunkenSea
             MineResist = 2f;
 
             TileFraming.SetUpUniversalMerge(Type, TileID.Sandstone, out tileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, TileID.Sand, out secondTileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, TileID.HardenedSand, out thirdTileAdjacency);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -41,12 +45,16 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/SunkenSea/SandstoneMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/SandstoneMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/SandMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, thirdTileAdjacency, "CalamityMod/Tiles/Merges/HardenedSandMerge");
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             TileFraming.GetAdjacencyData(i, j, TileID.Sandstone, out tileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, TileID.Sand, out secondTileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, TileID.HardenedSand, out thirdTileAdjacency[i, j]);
             return TileFraming.BrimstoneFraming(i, j, resetFrame);
         }
     }

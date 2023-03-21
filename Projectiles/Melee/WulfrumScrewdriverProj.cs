@@ -63,8 +63,8 @@ namespace CalamityMod.Projectiles.Melee
         {
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
-            float bladeLenght = 78f * Projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter + OffsetFromPlayer, Owner.MountedCenter + OffsetFromPlayer + (Projectile.velocity * bladeLenght), 24, ref collisionPoint);
+            float bladeLength = 78f * Projectile.scale;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter + OffsetFromPlayer, Owner.MountedCenter + OffsetFromPlayer + (Projectile.velocity * bladeLength), 24, ref collisionPoint);
         }
 
         public override void AI()
@@ -96,8 +96,8 @@ namespace CalamityMod.Projectiles.Melee
                 if (proj.ModProjectile != null && proj.owner == Projectile.owner && proj.ModProjectile is WulfrumScrew screw && screw.BazingaTime == 0)
                 {
                     float collisionPoint = 0f;
-                    float bladeLenght = 86f * Projectile.scale;
-                    if (Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + OffsetFromPlayer, Owner.Center + OffsetFromPlayer + (Projectile.velocity * bladeLenght), 34, ref collisionPoint))
+                    float bladeLength = 86f * Projectile.scale;
+                    if (Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + OffsetFromPlayer, Owner.Center + OffsetFromPlayer + (Projectile.velocity * bladeLength), 34, ref collisionPoint))
                     {
                         Vector2 thudVelocity = TrueDirection.ToRotationVector2() * 6f;
                         NPC potentialAimAssist = FindTarget();

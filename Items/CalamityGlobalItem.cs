@@ -145,10 +145,6 @@ namespace CalamityMod.Items
             if (item.type == ItemID.EoCShield)
                 CannotBeEnchanted = true;
 
-            // Star Cannon no longer makes noise.
-            if (item.type == ItemID.StarCannon)
-                item.UseSound = null;
-
             // Fix Bones being attracted to the player when you have open ammo slots.
             if (item.type == ItemID.Bone)
                 item.notAmmo = true;
@@ -499,17 +495,6 @@ namespace CalamityMod.Items
                         }
                     }
                 }
-            }
-            if (item.type == ItemID.StarCannon)
-            {
-                Vector2 muzzleOffset = velocity.SafeNormalize(Vector2.Zero) * 5f;
-                if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
-                {
-                    position += muzzleOffset;
-                }
-                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<FallenStarProj>(), damage, knockBack, player.whoAmI);
-                SoundEngine.PlaySound(SoundID.Item11 with { PitchVariance = 0.05f }, position);
-                return false;
             }
             if (item.type == ItemID.PearlwoodBow)
             {

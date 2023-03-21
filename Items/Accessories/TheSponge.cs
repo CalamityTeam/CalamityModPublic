@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -65,12 +66,43 @@ namespace CalamityMod.Items.Accessories
             }
         }
 
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            return Texture != "CalamityMod/Items/Accessories/TheSponge";
+        }
+
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             if (Texture == "CalamityMod/Items/Accessories/TheSponge")
             {
+                float wantedScale = 0.85f;
+                Vector2 drawOffset = new(-2f, -1f);
+
+                CalamityUtils.DrawInventoryCustomScale(
+                    spriteBatch,
+                    texture: TextureAssets.Item[Type].Value,
+                    position,
+                    frame,
+                    drawColor,
+                    itemColor,
+                    origin,
+                    scale,
+                    wantedScale,
+                    drawOffset
+                );
                 Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Items/Accessories/TheSpongeShield").Value;
-                spriteBatch.Draw(tex, position, Main.itemAnimations[Item.type].GetFrame(tex), Color.Cyan * 0.4f, 0f, origin, scale, SpriteEffects.None, 0);
+                CalamityUtils.DrawInventoryCustomScale(
+                    spriteBatch,
+                    texture: tex,
+                    position,
+                    Main.itemAnimations[Item.type].GetFrame(tex),
+                    Color.Cyan * 0.4f,
+                    itemColor,
+                    origin,
+                    scale,
+                    wantedScale,
+                    drawOffset
+                );
             }
         }
 

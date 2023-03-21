@@ -25,6 +25,8 @@ namespace CalamityMod.NPCs.SulphurousSea
             {
                 SpriteDirection = 1
             };
+            value.Position.Y += 8;
+            value.PortraitPositionYOverride = 28f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
@@ -35,7 +37,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.width = 56;
             NPC.height = 42;
             NPC.defense = 22;
-            NPC.lifeMax = 920;
+            NPC.lifeMax = 900;
             NPC.aiStyle = AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 1, 0);
             NPC.HitSound = SoundID.NPCHit38;

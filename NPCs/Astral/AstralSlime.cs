@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.Astral
             {
                 NPC.damage = 65;
                 NPC.defense = 18;
-                NPC.lifeMax = 310;
+                NPC.lifeMax = 300;
             }
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;

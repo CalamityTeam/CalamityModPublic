@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.GetNPCDamage();
             NPC.width = 254;
             NPC.height = 138;
-            NPC.LifeMaxNERB(2415000, 2898000);
+            NPC.LifeMaxNERB(2500000, 3000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;

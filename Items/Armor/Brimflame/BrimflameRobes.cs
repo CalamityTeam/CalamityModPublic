@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Armor.Brimflame
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Brimflame Robes");
-            Tooltip.SetDefault("5% increased magic damage and critical strike chance\n" +
-                "Reduces damage from touching lava");
+            Tooltip.SetDefault("5% increased magic damage and critical strike chance");
 
             if (Main.netMode == NetmodeID.Server)
                 return;
@@ -37,13 +36,11 @@ namespace CalamityMod.Items.Armor.Brimflame
         {
             player.GetDamage<MagicDamageClass>() += 0.05f;
             player.GetCritChance<MagicDamageClass>() += 5;
-            player.lavaRose = true;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.ObsidianRose).
                 AddIngredient<AshesofCalamity>(8).
                 AddIngredient<UnholyCore>(4).
                 AddTile(TileID.MythrilAnvil).

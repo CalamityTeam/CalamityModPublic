@@ -1,64 +1,64 @@
-﻿using Terraria;
+﻿using CalamityMod.Items.Weapons.Magic;
+using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class ShadeNimbusCloud : ModProjectile
     {
+        public bool StartFading = false;
+        
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nimbus");
+            DisplayName.SetDefault("Shaderain Nimbus");
             Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 28;
-            Projectile.height = 28;
+            Projectile.timeLeft = 300;
+            
+            Projectile.width = Projectile.height = 28;
+
             Projectile.netImportant = true;
-            Projectile.penetrate = -1;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
-            float num410 = Projectile.ai[0];
-            float num411 = Projectile.ai[1];
-            if (num410 != 0f && num411 != 0f)
-            {
-                bool flag12 = false;
-                bool flag13 = false;
-                if ((Projectile.velocity.X < 0f && Projectile.Center.X < num410) || (Projectile.velocity.X > 0f && Projectile.Center.X > num410))
-                {
-                    flag12 = true;
-                }
-                if ((Projectile.velocity.Y < 0f && Projectile.Center.Y < num411) || (Projectile.velocity.Y > 0f && Projectile.Center.Y > num411))
-                {
-                    flag13 = true;
-                }
-                if (flag12 && flag13)
-                {
-                    Projectile.Kill();
-                }
-            }
-            Projectile.rotation += Projectile.velocity.X * 0.02f;
+            // Makes the projectile deaccelerate.
+            Projectile.velocity *= ShaderainStaff.DeaccelerationStrenght;
+            
+            // Does the animation of the projectile, the number in the middle determines the speed of the animatino.
             Projectile.frameCounter++;
-            if (Projectile.frameCounter > 4)
-            {
-                Projectile.frameCounter = 0;
-                Projectile.frame++;
-                if (Projectile.frame > 3)
-                {
-                    Projectile.frame = 0;
-                    return;
-                }
-            }
+            Projectile.frame = Projectile.frameCounter / 8 % Main.projFrames[Projectile.type];
+
+            // If the projectile is about to die or it collides with a tile, start fading.
+            // Depending on how strong the fade-out speed is, it'll adapt by the amount of time left for it do die.
+            // Just be careful to not make it too slow and it starts fading immeadiately.
+            if (Collision.SolidCollision(Projectile.Center, Projectile.width, Projectile.height) || Projectile.timeLeft < (255 / ShaderainStaff.FadeoutSpeed))
+                StartFading = true;
+
+            // The projectile will fade away.
+            if (StartFading)
+                Projectile.alpha += ShaderainStaff.FadeoutSpeed;
+
+            Projectile.netUpdate = true;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (Projectile.owner == Main.myPlayer)
+            // Makes a dust effect.
+            for (int dustIndex = 0; dustIndex < 40; dustIndex++)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShadeNimbus>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                // I choose .position (Which is the top left) instead of .Center because Dust.NewDust was made to spawn given .position.
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 14, 0, 0, 0, default, 0.5f);
             }
+
+            // TODO: Make the projectile inflict the future counterpart of Burning Blood.
         }
     }
 }

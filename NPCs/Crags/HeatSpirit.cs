@@ -20,9 +20,10 @@ namespace CalamityMod.NPCs.Crags
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 SpriteDirection = -1,
-                PortraitPositionYOverride = -16f
+                PortraitPositionYOverride = -32f
             };
             value.Position.X += 8f;
+            value.Position.Y -= 8f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 

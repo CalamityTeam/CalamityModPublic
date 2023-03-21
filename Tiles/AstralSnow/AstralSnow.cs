@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Tiles.Astral;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.Metadata;
 using Terraria.ID;
@@ -9,6 +10,8 @@ namespace CalamityMod.Tiles.AstralSnow
 {
     public class AstralSnow : ModTile
     {
+        public byte[,] tileAdjacency;
+        public byte[,] secondTileAdjacency;
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -30,18 +33,26 @@ namespace CalamityMod.Tiles.AstralSnow
             TileID.Sets.Snow[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
             TileID.Sets.CanBeClearedDuringOreRunner[Type] = true;
+
+            TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<AstralDirt>(), out tileAdjacency);
+            TileFraming.SetUpUniversalMerge(Type, TileID.SnowBlock, out secondTileAdjacency);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
         }
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            TileFraming.DrawUniversalMergeFrames(i, j, tileAdjacency, "CalamityMod/Tiles/Merges/AstralDirtMerge");
+            TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/SnowMerge");
+        }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            // CustomTileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false);
-            return false;
+            TileFraming.GetAdjacencyData(i, j, ModContent.TileType<AstralDirt>(), out tileAdjacency[i, j]);
+            TileFraming.GetAdjacencyData(i, j, TileID.SnowBlock, out secondTileAdjacency[i, j]);
+            return true;
         }
     }
 }

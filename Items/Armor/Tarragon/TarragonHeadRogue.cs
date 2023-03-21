@@ -15,10 +15,8 @@ namespace CalamityMod.Items.Armor.Tarragon
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Tarragon Helmet");
-            Tooltip.SetDefault("Temporary immunity to lava\n" +
-                "Can move freely through liquids, 5% increased movement speed\n" +
-                "10% increased rogue damage and critical strike chance\n" +
-                "5% increased damage reduction");
+            Tooltip.SetDefault("10% increased rogue damage and critical strike chance\n" +
+                "5% increased damage reduction and movement speed");
         }
 
         public override void SetDefaults()
@@ -63,8 +61,6 @@ namespace CalamityMod.Items.Armor.Tarragon
             player.GetCritChance<ThrowingDamageClass>() += 10;
             player.moveSpeed += 0.05f;
             player.endurance += 0.05f;
-            player.lavaMax += 240;
-            player.ignoreWater = true;
         }
 
         public override void AddRecipes()

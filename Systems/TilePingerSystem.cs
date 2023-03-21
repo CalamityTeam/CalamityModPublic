@@ -269,7 +269,7 @@ namespace CalamityMod.Systems
             tileEffect.Parameters["pingTravelTime"].SetValue(MaxPingTravelTime / (float)MaxPingLife);
             tileEffect.Parameters["pingFadePoint"].SetValue(0.9f);
             tileEffect.Parameters["edgeBlendStrength"].SetValue(1f);
-            tileEffect.Parameters["edgeBlendOutLenght"].SetValue(6f);
+            tileEffect.Parameters["edgeBlendOutLength"].SetValue(6f);
             tileEffect.Parameters["tileEdgeBlendStrenght"].SetValue(2f);
 
             tileEffect.Parameters["waveColor"].SetValue(Color.GreenYellow.ToVector4());

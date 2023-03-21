@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<HerringMinion>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<HerringAI>()] > 0)
             {
                 modPlayer.herring = true;
             }

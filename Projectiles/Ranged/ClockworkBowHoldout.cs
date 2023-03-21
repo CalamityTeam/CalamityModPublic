@@ -196,8 +196,6 @@ namespace CalamityMod.Projectiles.Ranged
             Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
 
-
-
         public override bool PreDraw(ref Color lightColor)
         {
             float loops = LoadedBolts + 1;

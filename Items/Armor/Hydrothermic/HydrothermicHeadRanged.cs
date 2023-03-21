@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Armor.Hydrothermic
             SacrificeTotal = 1;
             DisplayName.SetDefault("Hydrothermic Headgear");
             Tooltip.SetDefault("12% increased ranged damage and 10% increased ranged critical strike chance\n" +
-                "Reduces ammo usage by 25%, temporary immunity to lava, and immunity to fire damage");
+                "Reduces ammo usage by 25%\n" +
+                "Grants immunity to lava and On Fire! debuff");
         }
 
         public override void SetDefaults()
@@ -55,7 +56,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
             player.ammoCost75 = true;
             player.GetDamage<RangedDamageClass>() += 0.12f;
             player.GetCritChance<RangedDamageClass>() += 10;
-            player.lavaMax += 240;
+            player.lavaImmune = true;
             player.buffImmune[BuffID.OnFire] = true;
         }
 

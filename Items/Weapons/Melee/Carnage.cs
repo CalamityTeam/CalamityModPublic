@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Carnage");
-            Tooltip.SetDefault("Enemies explode into homing blood on death");
+            Tooltip.SetDefault("Slain enemies erupt into homing blood");
             SacrificeTotal = 1;
         }
 
@@ -36,57 +36,62 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
+            // Spawn occasional blood dust
             if (Main.rand.NextBool(3))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 5);
-            }
+                Dust.NewDust(hitbox.TopLeft(), hitbox.Width, hitbox.Height, DustID.Blood);
         }
 
+        // Carnage's on-hits only occur on valid enemies. Specifically won't trigger on statues.
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            OnHitEffects(player, target.life <= 0, target.Center, target.width, target.height, knockback);
+            if (target.life > 0 || !target.IsAnEnemy(allowStatues: false))
+                return;
+            OnHitEffects(player, target, knockback);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            OnHitEffects(player, target.statLife <= 0, target.Center, target.width, target.height, Item.knockBack);
+            if (target.statLife > 0)
+                return;
+            OnHitEffects(player, target, Item.knockBack);
         }
 
-        private void OnHitEffects(Player player, bool health, Vector2 targetPos, int targetWidth, int targetHeight, float kBack)
+        private void OnHitEffects(Player player, Entity target, float kb)
         {
-            if (health)
+            var source = player.GetSource_ItemUse(Item);
+
+            // Play sound
+            SoundEngine.PlaySound(SoundID.Item74, target.Center);
+
+            // Dust loop 1
+            for (int i = 0; i < 15; i++)
             {
-                var source = player.GetSource_ItemUse(Item);
-                SoundEngine.PlaySound(SoundID.Item74, targetPos);
-                targetPos.X += (float)(targetWidth / 2);
-                targetPos.Y += (float)(targetHeight / 2);
-                targetPos.X -= (float)(targetWidth / 2);
-                targetPos.Y -= (float)(targetHeight / 2);
-                for (int i = 0; i < 15; i++)
+                int idx = Dust.NewDust(target.position, target.width, target.height, DustID.Blood, 0f, 0f, 100, default, 2f);
+                Main.dust[idx].velocity *= 3f;
+                if (Main.rand.NextBool(2))
                 {
-                    int idx = Dust.NewDust(targetPos, targetWidth, targetHeight, 5, 0f, 0f, 100, default, 2f);
-                    Main.dust[idx].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[idx].scale = 0.5f;
-                        Main.dust[idx].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                    }
+                    Main.dust[idx].scale = 0.5f;
+                    Main.dust[idx].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
-                for (int i = 0; i < 25; i++)
-                {
-                    int idx = Dust.NewDust(targetPos, targetWidth, targetHeight, 5, 0f, 0f, 100, default, 3f);
-                    Main.dust[idx].noGravity = true;
-                    Main.dust[idx].velocity *= 5f;
-                    idx = Dust.NewDust(targetPos, targetWidth, targetHeight, 5, 0f, 0f, 100, default, 2f);
-                    Main.dust[idx].velocity *= 2f;
-                }
-                int bloodAmt = Main.rand.Next(4, 6);
-                int bloodDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
-                for (int i = 0; i < bloodAmt; i++)
-                {
-                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(source, targetPos, velocity, ModContent.ProjectileType<Blood>(), bloodDamage, kBack, player.whoAmI, 0f, 0f);
-                }
+            }
+
+            // Dust loop 2
+            for (int i = 0; i < 25; i++)
+            {
+                int idx = Dust.NewDust(target.position, target.width, target.height, DustID.Blood, 0f, 0f, 100, default, 3f);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].velocity *= 5f;
+                idx = Dust.NewDust(target.position, target.width, target.height, DustID.Blood, 0f, 0f, 100, default, 2f);
+                Main.dust[idx].velocity *= 2f;
+            }
+
+            // 6-8 blood projectiles spawned on kill
+            int bloodAmt = Main.rand.Next(6, 9);
+            int bloodDamage = player.CalcIntDamage<MeleeDamageClass>(0.3f * Item.damage);
+            for (int i = 0; i < bloodAmt; i++)
+            {
+                Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                Projectile.NewProjectile(source, target.Center, velocity, ModContent.ProjectileType<Blood>(), bloodDamage, kb, player.whoAmI, 0f, 0f);
             }
         }
     }
