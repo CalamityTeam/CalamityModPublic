@@ -610,7 +610,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
 
                 // Freeze the target briefly, to allow the player to more easily perform a powerful slash.
-                target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
             }
 
             if (State == SwingState.Swinging && PerformingPowerfulSlash && Owner.ownedProjectileCounts[ModContent.ProjectileType<Exoboom>()] < 1)
