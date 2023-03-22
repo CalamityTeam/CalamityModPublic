@@ -2688,15 +2688,7 @@ namespace CalamityMod.CalPlayer
                     Player.velocity.Y = 15f;
             }
 
-            if (eFreeze)
-            {
-                Player.velocity.X *= 0.5f;
-                Player.velocity.Y += 0.1f;
-                if (Player.velocity.Y > 15f)
-                    Player.velocity.Y = 15f;
-            }
-
-            if (eFreeze || eutrophication)
+            if (eutrophication)
                 Player.velocity = Vector2.Zero;
 
             if (vaporfied || galvanicCorrosion)

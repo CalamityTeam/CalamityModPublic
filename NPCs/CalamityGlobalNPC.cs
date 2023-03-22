@@ -209,7 +209,6 @@ namespace CalamityMod.NPCs
         public int gState = 0;
         public int tesla = 0;
         public int tSad = 0;
-        public int eFreeze = 0;
         public int eutrophication = 0;
         public int webbed = 0;
         public int slowed = 0;
@@ -417,7 +416,6 @@ namespace CalamityMod.NPCs
             myClone.gState = gState;
             myClone.tesla = tesla;
             myClone.tSad = tSad;
-            myClone.eFreeze = eFreeze;
             myClone.eutrophication = eutrophication;
             myClone.webbed = webbed;
             myClone.slowed = slowed;
@@ -705,7 +703,7 @@ namespace CalamityMod.NPCs
                     ApplyDPSDebuff(20, 4, ref npc.lifeRegen, ref damage);
             }
 
-            // Exo Freeze, Glacial State and Temporal Sadness don't work on normal/expert Queen Bee.
+            // Glacial State and Temporal Sadness don't work on normal/expert Queen Bee.
             if (debuffResistanceTimer <= 0 || (debuffResistanceTimer > slowingDebuffResistanceMin))
             {
                 if (npc.type != NPCID.QueenBee || CalamityWorld.revenge || BossRushEvent.BossRushActive)
@@ -726,19 +724,7 @@ namespace CalamityMod.NPCs
                         }
                     }
 
-                    if (eFreeze > 0)
-                    {
-                        if (!CalamityPlayer.areThereAnyDamnBosses)
-                        {
-                            npc.velocity.X *= baseXVelocityMult;
-                            npc.velocity.Y += baseYVelocityIncrease;
-                            if (npc.velocity.Y > 15f)
-                                npc.velocity.Y = 15f;
-                        }
-                        else
-                            npc.velocity *= baseXVelocityMult;
-                    }
-                    else if (gState > 0)
+                    if (gState > 0)
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
@@ -4244,8 +4230,6 @@ namespace CalamityMod.NPCs
                 gState--;
             if (tSad > 0)
                 tSad--;
-            if (eFreeze > 0)
-                eFreeze--;
             if (eutrophication > 0)
                 eutrophication--;
             if (webbed > 0)
@@ -4329,7 +4313,7 @@ namespace CalamityMod.NPCs
 
             if (debuffResistanceTimer <= 0 || (debuffResistanceTimer > slowingDebuffResistanceMin))
             {
-                if (eFreeze <= 0 && gState <= 0 && tSad <= 0)
+                if (gState <= 0 && tSad <= 0)
                 {
                     if (eutrophication > 0)
                     {
@@ -5545,7 +5529,7 @@ namespace CalamityMod.NPCs
             drawColor = npc.GetNPCColorTintedByBuffs(drawColor);
 
             // Calamity debuff coloring effects
-            if (gState > 0 || eFreeze > 0)
+            if (gState > 0)
                 drawColor = Color.Cyan;
 
             if (marked > 0 || sulphurPoison > 0 || vaporfied > 0)
@@ -5635,8 +5619,6 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Enraged").Value);
                     if (eutrophication > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Eutrophication").Value);
-                    if (eFreeze > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/ExoFreeze").Value);
                     if (gState > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/GlacialState").Value);
                     if (irradiated > 0)

@@ -778,7 +778,6 @@ namespace CalamityMod.CalPlayer
         public bool clamity = false;
         public bool sulphurPoison = false;
         public bool nightwither = false;
-        public bool eFreeze = false;
         public bool eutrophication = false;
         public bool iCantBreathe = false; //Frozen Lungs debuff
         public bool cragsLava = false;
@@ -1808,7 +1807,6 @@ namespace CalamityMod.CalPlayer
             snowmanNoseless = false;
             sulphurPoison = false;
             nightwither = false;
-            eFreeze = false;
             eutrophication = false;
             iCantBreathe = false;
             cragsLava = false;
@@ -2189,7 +2187,6 @@ namespace CalamityMod.CalPlayer
             abyssalDivingSuitPlateHits = 0;
             sulphurPoison = false;
             nightwither = false;
-            eFreeze = false;
             eutrophication = false;
             iCantBreathe = false;
             cragsLava = false;

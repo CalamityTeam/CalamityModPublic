@@ -212,7 +212,6 @@ namespace CalamityMod.NPCs
 
             // Adjust slowing debuff immunity
             bool immuneToSlowingDebuffs = doSpiral || getFuckedAI;
-            npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<KamiFlu>()] = immuneToSlowingDebuffs;
@@ -4783,7 +4782,6 @@ namespace CalamityMod.NPCs
 
             // Adjust slowing debuff immunity
             bool immuneToSlowingDebuffs = npc.ai[0] == 3f || npc.ai[0] == 3.1f || npc.ai[0] == 3.2f;
-            npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<KamiFlu>()] = immuneToSlowingDebuffs;
