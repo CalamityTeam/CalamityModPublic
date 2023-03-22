@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
         public bool LMBUse => Owner.altFunctionUse != 2 && !RMBChannel && Owner.itemAnimation > 0;
         public ref float ChargePower => ref Projectile.localAI[1];
 
-        public const int MaxChargeTime = 60;
+        public const int MaxChargeTime = 90;
         public override string Texture => "CalamityMod/Items/Weapons/Melee/OldLordClaymore";
         public override int AssociatedItemID => ModContent.ItemType<OldLordClaymore>();
         public override int IntendedProjectileType => ModContent.ProjectileType<OldLordClaymoreProj>();
@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (Main.myPlayer == Projectile.owner)
                 {
-                    Owner.velocity = Vector2.Lerp(Owner.velocity, Owner.SafeDirectionTo(Main.MouseWorld) * 23f, 0.125f);
+                    Owner.velocity = Vector2.Lerp(Owner.velocity, Owner.SafeDirectionTo(Main.MouseWorld) * 16f, 0.125f);
                     NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.myPlayer);
                 }
 
@@ -182,7 +182,7 @@ namespace CalamityMod.Projectiles.Melee
 
             // Raise the blade and do charge effects upwards if channeling.
             float horizontalBladeOffset = -4f;
-            float chargeInterpolant = Utils.GetLerpValue(0f, 35f, ChargeTime, true);
+            float chargeInterpolant = Utils.GetLerpValue(0f, 65f, ChargeTime, true);
             if (CurrentState == SwingState.Channeling)
             {
                 baseRotation = MathHelper.PiOver2 * -Direction;
@@ -225,7 +225,7 @@ namespace CalamityMod.Projectiles.Melee
             // Create charge dust.
             if (CurrentState == SwingState.Channeling)
             {
-                int chargeDustCount = (int)Math.Round(MathHelper.Lerp(1f, 3f, ChargePower / 60f));
+                int chargeDustCount = (int)Math.Round(MathHelper.Lerp(1f, 3f, ChargePower / MaxChargeTime));
                 if (ChargePower >= MaxChargeTime)
                     chargeDustCount = 0;
 
@@ -301,7 +301,7 @@ namespace CalamityMod.Projectiles.Melee
             GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(0.95f, 0.85f, 0.5f));
             GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0f);
             if (ChargePower >= MaxChargeTime)
-                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0.7f - ((Main.GlobalTimeWrappedHourly * 30) % 30f / 60f));
+                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0.7f - ((Main.GlobalTimeWrappedHourly * (int)(MaxChargeTime * 0.5f)) % (MaxChargeTime * 0.5f) / MaxChargeTime));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
             var texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OldLordClaymore").Value;
