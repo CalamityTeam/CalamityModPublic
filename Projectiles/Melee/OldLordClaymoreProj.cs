@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (Main.myPlayer == Projectile.owner)
                 {
-                    Owner.velocity = Vector2.Lerp(Owner.velocity, Owner.SafeDirectionTo(Main.MouseWorld) * 18f, 0.125f);
+                    Owner.velocity = Vector2.Lerp(Owner.velocity, Owner.SafeDirectionTo(Main.MouseWorld) * 16f, 0.125f);
                     NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.myPlayer);
                 }
 
@@ -182,7 +182,7 @@ namespace CalamityMod.Projectiles.Melee
 
             // Raise the blade and do charge effects upwards if channeling.
             float horizontalBladeOffset = -4f;
-            float chargeInterpolant = Utils.GetLerpValue(0f, 35f, ChargeTime, true);
+            float chargeInterpolant = Utils.GetLerpValue(0f, 65f, ChargeTime, true);
             if (CurrentState == SwingState.Channeling)
             {
                 baseRotation = MathHelper.PiOver2 * -Direction;
