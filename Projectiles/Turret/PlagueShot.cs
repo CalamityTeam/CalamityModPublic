@@ -61,6 +61,8 @@ namespace CalamityMod.Projectiles.Turret
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 60);
+            if (Projectile.hostile && Main.netMode == NetmodeID.MultiplayerClient) //hostile version pierces through players in multiplayer
+                return;
             Projectile.Kill();
         }
 

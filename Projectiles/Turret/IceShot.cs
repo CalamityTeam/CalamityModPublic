@@ -63,6 +63,8 @@ namespace CalamityMod.Projectiles.Turret
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
             target.AddBuff(BuffID.Frostburn2, 180);
+            if (Projectile.hostile && Main.netMode == NetmodeID.MultiplayerClient) //hostile version pierces through players in multiplayer
+                return;
             Projectile.Kill();
         }
 

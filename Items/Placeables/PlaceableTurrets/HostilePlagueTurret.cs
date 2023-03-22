@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            Tooltip.SetDefault("Ejects homing plague missiles towards nearby players");
+            Tooltip.SetDefault("Ejects plague missiles towards nearby players");
         }
 
         public override void SetDefaults()
