@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using CalamityMod.Projectiles.Typeless;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
@@ -16,10 +17,9 @@ namespace CalamityMod.Items.Placeables
             Item.width = 16;
             Item.height = 16;
             Item.maxStack = 999;
-            // item.ammo = AmmoID.Sand;
-            // item.shoot = ModContent.ProjectileType<AstralSandgun>();
-            // item.notAmmo = true;
-            // item.shootSpeed = 15f;
+            Item.ammo = AmmoID.Sand;
+            Item.shoot = ModContent.ProjectileType<AstralSandBallGun>();
+            Item.notAmmo = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = 15;

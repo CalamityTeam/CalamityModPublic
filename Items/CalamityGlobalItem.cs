@@ -4,6 +4,7 @@ using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
@@ -1522,6 +1523,13 @@ namespace CalamityMod.Items
         #endregion
 
         #region Ammo
+        public override void PickAmmo(Item weapon, Item ammo, Player player, ref int type, ref float speed, ref StatModifier damage, ref float knockback)
+        {
+            // Sandgun with Calamity sands work like vanilla non-plain sand, +5 flat damage
+            if (weapon.type == ItemID.Sandgun && (ammo.type == ModContent.ItemType<AstralSand>() || ammo.type == ModContent.ItemType<EutrophicSand>() || ammo.type == ModContent.ItemType<SulphurousSand>()))
+                damage.Flat += 5;
+        }
+
         public override bool CanConsumeAmmo(Item weapon, Item ammo, Player player) => Main.rand.NextFloat() <= player.Calamity().rangedAmmoCost;
 
         public static bool HasEnoughAmmo(Player player, Item item, int ammoConsumed)
