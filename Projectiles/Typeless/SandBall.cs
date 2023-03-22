@@ -130,55 +130,5 @@ namespace CalamityMod.Projectiles.Typeless
             else
                 Item.NewItem(proj.GetSource_DropAsItem(), proj.position, proj.width, proj.height, SandItemID);            
         }
-
-        /*
-        if (!Main.tile[num1014, num1015].active() && num1016 >= 0)
-				{
-					bool flag11 = false;
-					bool flag12 = false;
-					if (num1015 < Main.maxTilesY - 2)
-					{
-						Tile tile2 = Main.tile[num1014, num1015 + 1];
-						if (tile2 != null && tile2.active())
-						{
-							if (tile2.active() && tile2.type == 314)
-							{
-								flag12 = true;
-							}
-							if (tile2.active() && WorldGen.BlockBelowMakesSandFall(num1014, num1015))
-							{
-								flag12 = true;
-							}
-						}
-					}
-					if (!flag12)
-					{
-						flag11 = WorldGen.PlaceTile(num1014, num1015, num1016, false, true, -1, 0);
-					}
-					if (!flag12 && Main.tile[num1014, num1015].active() && (int)Main.tile[num1014, num1015].type == num1016)
-					{
-						if (Main.tile[num1014, num1015 + 1].halfBrick() || Main.tile[num1014, num1015 + 1].slope() != 0)
-						{
-							WorldGen.SlopeTile(num1014, num1015 + 1, 0, false);
-							if (Main.netMode != 0)
-							{
-								NetMessage.SendData(17, -1, -1, null, 14, (float)num1014, (float)(num1015 + 1), 0f, 0, 0, 0);
-							}
-						}
-						if (Main.netMode != 0)
-						{
-							NetMessage.SendData(17, -1, -1, null, 1, (float)num1014, (float)num1015, (float)num1016, 0, 0, 0);
-						}
-					}
-					else if (!flag11 && num1017 > 0)
-					{
-						num1010 = Item.NewItem(this.GetItemSource_DropAsItem(), (int)this.position.X, (int)this.position.Y, this.width, this.height, num1017, 1, false, 0, false, false);
-					}
-				}
-				else if (num1017 > 0)
-				{
-					num1010 = Item.NewItem(this.GetItemSource_DropAsItem(), (int)this.position.X, (int)this.position.Y, this.width, this.height, num1017, 1, false, 0, false, false);
-				}
-        */
     }
 }
