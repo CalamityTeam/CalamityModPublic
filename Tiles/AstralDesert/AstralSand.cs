@@ -64,7 +64,7 @@ namespace CalamityMod.Tiles.AstralDesert
                 if (!Main.tile[i, j + 1].HasTile)
                 {
                     Main.tile[i, j].Get<TileWallWireStateData>().HasTile = false;
-                    Projectile.NewProjectile(new EntitySource_TileBreak(i, j), new Vector2(i * 16f + 8f, j * 16f + 8f), Vector2.Zero, ModContent.ProjectileType<AstralFallingSand>(), 15, 0f);
+                    Projectile.NewProjectile(new EntitySource_TileBreak(i, j), new Vector2(i * 16f + 8f, j * 16f + 8f), Vector2.Zero, ModContent.ProjectileType<AstralSandBallFalling>(), 15, 0f);
                     WorldGen.SquareTileFrame(i, j);
                     return false;
                 }

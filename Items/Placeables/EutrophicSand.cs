@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.Walls;
+using CalamityMod.Projectiles.Typeless;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -24,6 +25,9 @@ namespace CalamityMod.Items.Placeables
             Item.width = 13;
             Item.height = 10;
             Item.maxStack = 999;
+            Item.ammo = AmmoID.Sand;
+            Item.shoot = ModContent.ProjectileType<EutrophicSandBallGun>();
+            Item.notAmmo = true;
         }
 
         public override void AddRecipes()

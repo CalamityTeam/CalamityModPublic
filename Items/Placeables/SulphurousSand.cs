@@ -1,5 +1,7 @@
-﻿using Terraria.ID;
+﻿using CalamityMod.Projectiles.Typeless;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Placeables
 {
     public class SulphurousSand : ModItem
@@ -22,6 +24,9 @@ namespace CalamityMod.Items.Placeables
             Item.width = 13;
             Item.height = 10;
             Item.maxStack = 999;
+            Item.ammo = AmmoID.Sand;
+            Item.shoot = ModContent.ProjectileType<SulphurousSandBallGun>();
+            Item.notAmmo = true;
         }
 
         public override void AddRecipes()
