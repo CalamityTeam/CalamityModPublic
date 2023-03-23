@@ -2531,27 +2531,27 @@ namespace CalamityMod.NPCs
                         break;
 
                     case 2:
-                        scalar = 0.82; // 1.64
+                        scalar = 0.9; // 1.8
                         break;
 
                     case 3:
-                        scalar = 0.72; // 2.16
+                        scalar = 0.82; // 2.46
                         break;
 
                     case 4:
-                        scalar = 0.64; // 2.56
+                        scalar = 0.76; // 3.04
                         break;
 
                     case 5:
-                        scalar = 0.57; // 2.85
+                        scalar = 0.71; // 3.55
                         break;
 
                     case 6:
-                        scalar = 0.52; // 3.12
+                        scalar = 0.67; // 4.02
                         break;
 
                     default:
-                        scalar = 0.47; // 3.29 + 0.47 per player beyond 7
+                        scalar = 0.64; // 4.48 + 0.64 per player beyond 7
                         break;
                 }
 
