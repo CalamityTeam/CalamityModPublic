@@ -9,6 +9,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -51,20 +52,22 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             Item.damage = 533;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 12;
-            Item.width = 38;
-            Item.height = 48;
-            Item.UseSound = SoundID.Item84;
             Item.useTime = Item.useAnimation = 20;
-            Item.autoReuse = true;
-            Item.useStyle = ItemUseStyleID.Shoot;
-            Item.noMelee = true;
+            Item.shootSpeed = 7f;
+            Item.mana = 12;
             Item.knockBack = 5f;
+
+            Item.shoot = ModContent.ProjectileType<EnormousConsumingVortex>();
+
+            Item.width = 86;
+            Item.height = 104;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item84;
             Item.rare = ModContent.RarityType<Violet>();
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.noMelee = true;
             Item.channel = true;
-            Item.shoot = ModContent.ProjectileType<EnormousConsumingVortex>();
-            Item.shootSpeed = 7f;
+            Item.autoReuse = true;
         }
 
         public override void HoldItem(Player player)
@@ -79,10 +82,29 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool? CanAutoReuseItem(Player player) => true;
 
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            CalamityUtils.DrawInventoryCustomScale(
+                spriteBatch,
+                texture: TextureAssets.Item[Type].Value,
+                position,
+                frame,
+                drawColor,
+                itemColor,
+                origin,
+                scale,
+                wantedScale: 0.4f,
+                drawOffset: default
+            );
+            return false;
+        }
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow").Value);
         }
+
+        public override Vector2? HoldoutOffset() => new Vector2(-6f, 0);
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
