@@ -130,6 +130,7 @@ namespace CalamityMod.Systems
             flags12[1] = downedMauler;
             flags12[2] = downedNuclearTerror;
             flags12[3] = downedBossRush;
+            flags12[4] = DraedonMechdusa;
 
             writer.Write(flags);
             writer.Write(flags2);
@@ -283,6 +284,7 @@ namespace CalamityMod.Systems
             downedMauler = flags12[1];
             downedNuclearTerror = flags12[2];
             downedBossRush = flags12[3];
+            DraedonMechdusa = flags12[4];
 
             RecipeUnlockHandler.ReceiveData(reader);
 
@@ -293,7 +295,6 @@ namespace CalamityMod.Systems
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
             DraedonSummonCountdown = reader.ReadInt32();
-            DraedonMechdusa = reader.ReadBoolean();
             DraedonMechToSummon = (ExoMech)reader.ReadInt32();
             DraedonSummonPosition = reader.ReadVector2();
             SunkenSeaLabCenter = reader.ReadVector2();

@@ -210,6 +210,15 @@ namespace CalamityMod.NPCs.ExoMechs
             {
                 exoMechdusa = true;
                 CalamityWorld.DraedonMechdusa = false;
+                if (Main.netMode != NetmodeID.SinglePlayer)
+                {
+                    var netMessage = CalamityMod.Instance.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.CodebreakerSummonStuff);
+                    netMessage.Write(CalamityWorld.DraedonSummonCountdown);
+                    netMessage.WriteVector2(CalamityWorld.DraedonSummonPosition);
+                    netMessage.Write(CalamityWorld.DraedonMechdusa);
+                    netMessage.Send();
+                }
             }
 
             // Handle delays when re-appearing after being killed.
