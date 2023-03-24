@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables
         {
             CreateRecipe().
                 AddIngredient<EutrophicSand>(1).
-                AddIngredient(TileID.Dirt).
+                AddIngredient(ItemID.DirtBlock, 1).
                 AddTile(TileID.Solidifier).
                 Register();
         }
