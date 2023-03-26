@@ -20,8 +20,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool bossRush = BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || bossRush;
 
+            bool enrage = true;
+            int num = (int)Main.player[npc.target].Center.X / 16;
+            int num2 = (int)Main.player[npc.target].Center.Y / 16;
+
+            Tile tile = Framing.GetTileSafely(num, num2);
+            if (tile.WallType == WallID.HiveUnsafe)
+                enrage = false;
+
             float enrageScale = death ? 0.25f : 0f;
-            if ((npc.position.Y / 16f) < Main.worldSurface || bossRush)
+            if (((npc.position.Y / 16f) < Main.worldSurface && enrage) || bossRush)
             {
                 npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 0.5f;
