@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mantis Claws");
-            Tooltip.SetDefault("Explodes on enemy hits");
+            Tooltip.SetDefault("Explodes on enemy hit\n" +
+                "It's just that shrimple");
             SacrificeTotal = 1;
         }
 
