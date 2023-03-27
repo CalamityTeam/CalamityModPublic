@@ -60,7 +60,7 @@ namespace CalamityMod.Items.TreasureBags
 			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Cryogen>()));
 
             // Materials
-            itemLoot.Add(ModContent.ItemType<EssenceofEleum>(), 1, 5, 9);
+            itemLoot.Add(ModContent.ItemType<EssenceofEleum>(), 1, 10, 12);
 
             // Weapons
             itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]

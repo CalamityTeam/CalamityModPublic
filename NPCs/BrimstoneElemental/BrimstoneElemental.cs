@@ -204,7 +204,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 normalOnly.Add(ModContent.ItemType<Hellborn>(), 10);
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<EssenceofHavoc>(), 1, 4, 8);
+                normalOnly.Add(ModContent.ItemType<EssenceofHavoc>(), 1, 8, 10);
 
                 // Equipment
                 int[] accs = new int[]

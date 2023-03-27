@@ -928,8 +928,7 @@ namespace CalamityMod.Items
                     "With Harpy Ring or Angel Treads equipped, most attacks sometimes launch feathers");
 
             if (item.type == ItemID.BoneWings)
-                AddWingStats(7.5f, 1f, 1, 170, "10% increased movement speed, ranged damage and critical strike chance\n" +
-                    "and +30 defense while wearing the Necro Armor");
+                AddWingStats(7.5f, 1f, 1, 240, "Halves flight time when taking a hit");
 
             if (item.type == ItemID.FlameWings)
                 AddWingStats(7.5f, 1f, 1, 160, "5% increased melee damage and critical strike chance");

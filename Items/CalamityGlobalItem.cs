@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Enums;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables;
@@ -133,6 +134,8 @@ namespace CalamityMod.Items
         #region SetDefaults
         public override void SetDefaults(Item item)
         {
+            ArmorIDs.Wing.Sets.Stats[(int)VanillaWingID.BoneWings] = new WingStats(240, 7.5f, 1f);
+
             // All items that stack to 30, 50, 75, 99 , or 999 now stack to 9999 instead.
             if (item.maxStack == 30 || item.maxStack == 50 || item.maxStack == 75 || item.maxStack == 99 || item.maxStack == 999)
                 item.maxStack = 9999;
@@ -1203,18 +1206,6 @@ namespace CalamityMod.Items
                 player.moveSpeed += 0.2f;
                 player.noFallDmg = true;
             }
-            else if (item.type == ItemID.BoneWings) // Bonus to ranged and defense stats while wearing necro armor
-            {
-                player.noFallDmg = true;
-                if ((player.head == ArmorIDs.Head.NecroHelmet || player.head == ArmorIDs.Head.AncientNecroHelmet) &&
-                    player.body == ArmorIDs.Body.NecroBreastplate && player.legs == ArmorIDs.Legs.NecroGreaves)
-                {
-                    player.moveSpeed += 0.1f;
-                    player.GetDamage<RangedDamageClass>() += 0.1f;
-                    player.GetCritChance<RangedDamageClass>() += 10;
-                    player.statDefense += 30;
-                }
-            }
             else if (item.type == ItemID.MothronWings) // Spawn baby mothrons over time to attack enemies, max of 3
             {
                 player.statDefense += 5;
@@ -1288,10 +1279,6 @@ namespace CalamityMod.Items
                     else if (player.head == ArmorIDs.Head.ShroomiteHelmet) //rockets
                     {
                         player.rocketDamage += 0.05f;
-                    }
-                    else if (player.Calamity().flamethrowerBoost) //flamethrowers
-                    {
-                        player.Calamity().hoverboardBoost = true;
                     }
                 }
             }

@@ -1270,7 +1270,7 @@ namespace CalamityMod.NPCs.Cryogen
                 normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<EssenceofEleum>(), 1, 4, 8);
+                normalOnly.Add(ModContent.ItemType<EssenceofEleum>(), 1, 8, 10);
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<SoulofCryogen>()));
