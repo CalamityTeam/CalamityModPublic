@@ -5,32 +5,34 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class CelestusBoomerang : ModProjectile
+    public class CelestusProj : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Celestus";
-
         private bool initialized = false;
         private float speed = 25f;
+
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Celestus");
+            DisplayName.SetDefault("Celestus Projectile");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = Projectile.height = 94;
+            Projectile.localNPCHitCooldown = 30;
+            Projectile.extraUpdates = 3;
+            Projectile.penetrate = -1;
+
+            Projectile.width = Projectile.height = 132;
+
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = -1;
-            Projectile.extraUpdates = 3;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 30;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
@@ -134,8 +136,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(250, 250, 250, 50);
-
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
@@ -159,8 +159,8 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < 4; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<Celestus2>(), (int)(Projectile.damage * 0.7), Projectile.knockBack, Projectile.owner);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<Celestus2>(), (int)(Projectile.damage * 0.7), Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<CelestusMiniScythe>(), (int)(Projectile.damage * 0.7), Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<CelestusMiniScythe>(), (int)(Projectile.damage * 0.7), Projectile.knockBack, Projectile.owner);
                 }
             }
             SoundEngine.PlaySound(SoundID.Item122, Projectile.Center);
@@ -170,6 +170,20 @@ namespace CalamityMod.Projectiles.Rogue
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
+        }
+
+        public override void PostDraw(Color lightColor)
+        {
+            Rectangle frame = new Rectangle(0, 0, 132, 132);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/CelestusProjGlow").Value,
+                Projectile.Center - Main.screenPosition,
+                frame,
+                Color.White,
+                Projectile.rotation,
+                Projectile.Size / 2,
+                1f,
+                SpriteEffects.None,
+                0);
         }
     }
 }
