@@ -19,21 +19,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetDefaults()
         {
-            Item.width = 34;
             Item.damage = 34;
+            Item.useAnimation = Item.useTime = 8;
+            Item.shootSpeed = 12f;
+            Item.knockBack = 4.5f;
+
+            Item.shoot = ModContent.ProjectileType<CursedDaggerProj>();
+
+            Item.width = 14;
+            Item.height = 48;
+            Item.DamageType = RogueDamageClass.Instance;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.autoReuse = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = Item.useTime = 8;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.knockBack = 4.5f;
-            Item.UseSound = SoundID.Item1;
-            Item.autoReuse = true;
-            Item.height = 34;
-            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            Item.rare = ItemRarityID.Pink;
-            Item.shoot = ModContent.ProjectileType<CursedDaggerProj>();
-            Item.shootSpeed = 12f;
-            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
