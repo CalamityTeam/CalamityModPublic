@@ -245,19 +245,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("Before you ask, no, I do NOT have a heart on my butt while in human form. Don't question my transformation preferences!");
             }
 
-            IList<string> donorList = new List<string>(CalamityLists.donatorList);
-            int maxDonorsListed = 15;
-            string[] donors = new string[maxDonorsListed];
-            for (int i = 0; i < maxDonorsListed; i++)
-            {
-                donors[i] = donorList[Main.rand.Next(donorList.Count)];
-                donorList.Remove(donors[i]);
-            }
-
-            dialogue.Add("Hey " + donors[0] + ", " + donors[1] + ", " + donors[2] + ", " + donors[3] + ", " + donors[4] + ", " + donors[5] + ", " + donors[6] +
-                ", " + donors[7] + ", " + donors[8] + ", " + donors[9] + ", " + donors[10] + ", " + donors[11] + ", " + donors[12] + ", " + donors[13] +
-                " and " + donors[14] + "! You're all pretty good!");
-
             return dialogue[Main.rand.Next(dialogue.Count)];
         }
 
@@ -283,13 +270,27 @@ namespace CalamityMod.NPCs.TownNPCs
             else if (deaths > 100)
                 text += " Consider lowering the difficulty. If you found that statement irritating, good.";
 
+            IList<string> donorList = new List<string>(CalamityLists.donatorList);
+            int maxDonorsListed = 25;
+            string[] donors = new string[maxDonorsListed];
+            for (int i = 0; i < maxDonorsListed; i++)
+            {
+                donors[i] = donorList[Main.rand.Next(donorList.Count)];
+                donorList.Remove(donors[i]);
+            }
+
+            text += ("\n\nHey " + donors[0] + ", " + donors[1] + ", " + donors[2] + ", " + donors[3] + ", " + donors[4] + ", " + donors[5] + ", " + donors[6] +
+                ", " + donors[7] + ", " + donors[8] + ", " + donors[9] + ", " + donors[10] + ", " + donors[11] + ", " + donors[12] + ", " + donors[13] +
+                ", " + donors[14] + ", " + donors[15] + ", " + donors[16] + ", " + donors[17] + ", " + donors[18] + ", " + donors[19] + ", " + donors[20] +
+                ", " + donors[21] + ", " + donors[22] + ", " + donors[23] + " and " + donors[24] + "! You're all pretty good!");
+
             return text;
         }
 
         public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.28");
-            button2 = "Death Count";
+            button2 = "Death Count + Donors";
         }
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
