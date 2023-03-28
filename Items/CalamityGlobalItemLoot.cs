@@ -192,7 +192,7 @@ namespace CalamityMod.Items
                     };
                     loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, golemItems));
                     loot.Add(ModContent.ItemType<AegisBlade>(), 10); // 10% Aegis Blade
-                    loot.Add(ModContent.ItemType<EssenceofSunlight>(), 1, 8, 13); // 100% 8-13 Essence of Sunlight
+                    loot.Add(ModContent.ItemType<EssenceofSunlight>(), 1, 10, 12); // 100% 10-12 Essence of Sunlight
                     loot.AddRevBagAccessories();
                     loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;

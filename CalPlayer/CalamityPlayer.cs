@@ -14,6 +14,7 @@ using CalamityMod.Cooldowns;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
 using CalamityMod.EntitySources;
+using CalamityMod.Enums;
 using CalamityMod.Events;
 using CalamityMod.FluidSimulation;
 using CalamityMod.Items;
@@ -657,8 +658,6 @@ namespace CalamityMod.CalPlayer
         public bool daedalusShard = false;
         public bool brimflameSet = false;
         public bool brimflameFrenzy = false;
-        public bool flamethrowerBoost = false;
-        public bool hoverboardBoost = false; //hoverboard + shroomite visage
         public bool shadeRegen = false;
         public bool shadowSpeed = false;
         public bool dsSetBonus = false;
@@ -1533,9 +1532,6 @@ namespace CalamityMod.CalPlayer
 
             shadeRegen = false;
 
-            flamethrowerBoost = false;
-            hoverboardBoost = false; //hoverboard + shroomite visage
-
             shadowSpeed = false;
             dsSetBonus = false;
             wearingRogueArmor = false;
@@ -2319,8 +2315,6 @@ namespace CalamityMod.CalPlayer
             goldArmorGoldDrops = false;
             miningSet = false;
             miningSetCooldown = 0;
-            flamethrowerBoost = false;
-            hoverboardBoost = false; //hoverboard + shroomite visage
             shadowSpeed = false;
             godSlayer = false;
             godSlayerDamage = false;
@@ -4023,9 +4017,6 @@ namespace CalamityMod.CalPlayer
         #region Get Weapon Damage And KB
         public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
         {
-            if (flamethrowerBoost && item.CountsAsClass<RangedDamageClass>() && (item.useAmmo == AmmoID.Gel || CalamityLists.flamethrowerList.Contains(item.type)))
-                damage += hoverboardBoost ? 0.35f : 0.25f;
-
             if (fungalSymbiote && CalamityLists.MushroomWeaponIDs.Contains(item.type))
                 damage += 0.1f;
 
@@ -5899,6 +5890,10 @@ namespace CalamityMod.CalPlayer
                 if (Player.wingTime > Player.wingTimeMax / 2)
                     Player.wingTime = Player.wingTimeMax / 2;
             }
+
+            // Bone Wings: Getting hit halves current flight time
+            if (Player.wingsLogic == (int)VanillaWingID.BoneWings)
+                Player.wingTime /= 2;
         }
         #endregion
 

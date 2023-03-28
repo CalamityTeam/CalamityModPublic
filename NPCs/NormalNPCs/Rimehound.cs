@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npcLoot.Add(ItemID.Leather, 1, 1, 2); // 100% chance of 1-2 leather
             LeadingConditionRule postCryo = npcLoot.DefineConditionalDropSet(DropHelper.PostCryo());
-            postCryo.Add(ModContent.ItemType<EssenceofEleum>(), 3);
+            postCryo.Add(ModContent.ItemType<EssenceofEleum>());
         }
     }
 }

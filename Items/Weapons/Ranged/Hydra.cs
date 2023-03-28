@@ -106,7 +106,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 int CurrentHeadCount = player.ownedProjectileCounts[HeadID];
                 //Exponentially louder the more heads, slightly
-                SoundStyle FireSound = new("CalamityMod/Sounds/Item/Hydra") { Volume = 0.3f + (float)(Math.Pow(CurrentHeadCount, 1.5D) * 0.2f) };
+                SoundStyle FireSound = new("CalamityMod/Sounds/Item/Hydra") { Volume = 0.3f + (float)(Math.Pow(CurrentHeadCount, 1.2D) * 0.15f) };
                 SoundEngine.PlaySound(FireSound, player.Center);
 
                 Vector2 spreadDirection = shootDirection.RotatedByRandom(MathHelper.ToRadians(ShotSpread / 2f));

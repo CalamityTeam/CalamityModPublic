@@ -13,21 +13,21 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cursed Dagger");
+            DisplayName.SetDefault("Cursed Dagger Projectile");
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 12;
-            Projectile.height = 12;
-            Projectile.friendly = true;
+            Projectile.localNPCHitCooldown = 10;
             Projectile.penetrate = 3;
-            Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
             Projectile.timeLeft = 600;
+
+            Projectile.width = Projectile.height = 38;
+            Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
             AIType = ProjectileID.ThrowingKnife;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.friendly = true;
         }
 
         public override void AI()

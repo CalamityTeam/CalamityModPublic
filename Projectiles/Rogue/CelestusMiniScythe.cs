@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class Celestus2 : ModProjectile
+    public class CelestusMiniScythe : ModProjectile
     {
         public override void SetStaticDefaults()
         {

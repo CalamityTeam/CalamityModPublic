@@ -93,22 +93,22 @@ namespace CalamityMod.NPCs
                 #region Sky / Space
                 // Harpy
                 // Sky Glaze @ 3.33% IF Eye of Cthulhu dead
-                // Essence of Cinder @ 50% IF Hardmode and not statue spawned
+                // Essence of Sunlight @ 50% IF Hardmode and not statue spawned
                 case NPCID.Harpy:
                     postEoC.Add(ModContent.ItemType<SkyGlaze>(), 30);
                     hardmode.AddIf(() => !npc.SpawnedFromStatue, ModContent.ItemType<EssenceofSunlight>(), 2);
                     break;
 
                 // Angry Nimbus
-                // Essence of Cinder @ 50% Normal, 100% Expert+
+                // Essence of Sunlight @ 50%
                 case NPCID.AngryNimbus:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<EssenceofSunlight>(), 2, 1));
+                    npcLoot.Add(ModContent.ItemType<EssenceofSunlight>(), 2);
                     break;
 
                 // Wyvern Head
-                // 1-2 Essence of Cinder @ 100%
+                // 8-10 Essence of Sunlight @ 100%, 10-12 Expert+
                 case NPCID.WyvernHead:
-                    npcLoot.Add(ModContent.ItemType<EssenceofSunlight>(), 1, 1, 2);
+                    npcLoot.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<EssenceofSunlight>(), 1, 8, 10, 10, 12));
                     break;
                 #endregion
 
@@ -193,12 +193,13 @@ namespace CalamityMod.NPCs
                 #endregion
 
                 #region Ice
-                // Icy Merman, Icy Tortoise, Ice Elemental
-                // Essence of Eleum @ 50% Normal, 100% Expert+
+                // Icy Merman, Icy Tortoise, Ice Elemental, Wolf
+                // Essence of Eleum @ 100%
                 case NPCID.IcyMerman:
                 case NPCID.IceTortoise:
                 case NPCID.IceElemental:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<EssenceofEleum>(), 2, 1));
+                case NPCID.Wolf:
+                    npcLoot.Add(ModContent.ItemType<EssenceofEleum>());
                     break;
 
                 // Ice Mimic
@@ -236,9 +237,9 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Ice Golem
-                // 1-2 Essence of Eleum @ 100%
+                // 8-10 Essence of Eleum @ 100%, 10-12 Expert+
                 case NPCID.IceGolem:
-                    npcLoot.Add(ModContent.ItemType<EssenceofEleum>(), 1, 1, 2);
+                    npcLoot.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<EssenceofEleum>(), 1, 8, 10, 10, 12));
                     break;
                 #endregion
 
@@ -337,6 +338,15 @@ namespace CalamityMod.NPCs
                 #endregion
 
                 #region Jungle
+                // All Moss Hornets
+                // Stinger @ 50% Normal, 100% Expert+
+                // Needler @ 4% Normal, 6.67% Expert+
+                if (CalamityLists.mossHornetList.Contains(npc.type))
+                {
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.Stinger, 2, 1));
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<Needler>(), 25, 15));
+                }
+
                 // Jungle Slime, Spiked Jungle Slime, Arapaima
                 // Murky Paste @ 33.33% Normal, 50% Expert+
                 case NPCID.JungleSlime:
@@ -381,6 +391,11 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<ShinobiBlade>(), 25, 15));
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<StaffOfNecrosteocytes>(), 25, 15));
                     break;
+
+                // All Hardmode Dungeon Enemies
+                // Ectoplasm @ 20%
+                if (CalamityLists.dungeonEnemyBuffList.Contains(npc.type))
+                    npcLoot.Add(ItemID.Ectoplasm, 5);
 
                 // Hardmode Dungeon Melee Skeletons
                 // Wisp in a Bottle @ 0.5% INSTEAD OF 0.25%
@@ -456,11 +471,11 @@ namespace CalamityMod.NPCs
                 // Red Devil
                 // Fire Feather @ 10% INSTEAD OF 1.33%
                 // Demonic Bone Ash @ 33.33% Normal, 50% Expert+
-                // Essence of Chaos @ 50% Normal, 100% Expert+
+                // Essence of Chaos @ 50%
                 case NPCID.RedDevil:
                     npcLoot.ChangeDropRate(ItemID.FireFeather, 1, 10);
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<DemonicBoneAsh>(), 3, 2));
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<EssenceofHavoc>(), 2, 1));
+                    npcLoot.Add(ModContent.ItemType<EssenceofHavoc>(), 2);
                     break;
                 #endregion
 
@@ -534,6 +549,16 @@ namespace CalamityMod.NPCs
                 case NPCID.DD2OgreT3:
                     rev.Add(ItemID.OgreMasterTrophy);
                     rev.Add(ItemID.DD2OgrePetItem, 4);
+                    break;
+                #endregion
+
+                #region Frost Legion
+                // All Frost Legion enemies
+                // Essence of Eleum @ 20%
+                case NPCID.SnowmanGangsta:
+                case NPCID.MisterStabby:
+                case NPCID.SnowBalla:
+                    npcLoot.Add(ModContent.ItemType<EssenceofEleum>(), 5);
                     break;
                 #endregion
 
@@ -1324,7 +1349,7 @@ namespace CalamityMod.NPCs
                     normalOnly.Add(DropHelper.PerPlayer(ItemID.ShinyStone));
 
                     // Would be in the bag otherwise
-                    normalOnly.Add(ModContent.ItemType<EssenceofSunlight>(), 1, 5, 10);
+                    normalOnly.Add(ModContent.ItemType<EssenceofSunlight>(), 1, 8, 10);
                     normalOnly.Add(ModContent.ItemType<AegisBlade>(), 10);
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
@@ -1528,20 +1553,6 @@ namespace CalamityMod.NPCs
                 default:
                     break;
                 #endregion
-            }
-
-            // All Hardmode Dungeon Enemies
-            // Ectoplasm @ 20%
-            if (CalamityLists.dungeonEnemyBuffList.Contains(npc.type))
-                npcLoot.Add(ItemID.Ectoplasm, 5);
-
-            // All Moss Hornets
-            // Stinger @ 50% Normal, 100% Expert+
-            // Needler @ 4% Normal, 6.67% Expert+
-            if (CalamityLists.mossHornetList.Contains(npc.type))
-            {
-                npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.Stinger, 2, 1));
-                npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<Needler>(), 25, 15));
             }
 
             // All Skeletons
