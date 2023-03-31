@@ -1551,6 +1551,16 @@ namespace CalamityMod
         }
         #endregion
 
+        public static float[] GetCalamityAI(NPC npc) => npc?.Calamity()?.newAI ?? new float[0];
+
+        public static void SetCalamityAI(NPC npc, int aiSlot, float value)
+        {
+            if (npc != null)
+            {
+                npc.Calamity().newAI[aiSlot] = value;
+            }
+        }
+
         #region Boss Health Bars
         public static bool BossHealthBarVisible() => Main.LocalPlayer.Calamity().drawBossHPBar;
 
@@ -2147,6 +2157,35 @@ namespace CalamityMod
                         if (!isValidNPCArg(args[1]))
                             return new ArgumentException("ERROR: The first argument to \"SetDebuffVulnerability\" must be an NPC.");
                         SetDebuffVulnerability(castNPC(args[1]), args[2].ToString(), (bool?)args[3]);
+                        return null;
+                    }
+
+                case "GetCalamityAI":
+                case "GetNewAI":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify an NPC.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"GetCalamityAI\" must be an NPC.");
+                        return GetCalamityAI(castNPC(args[1]));
+                    }
+
+                case "SetCalamityAI":
+                case "SetNewAI":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify an NPC, an AI slot as an int, and a value for it as a float or a double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify an AI slot as an int, and a value for it as a float or a double.");
+                        if (args.Length < 4)
+                            return new ArgumentNullException("ERROR: Must specify a value for the AI slot as a float or a double.");
+                        if (!(args[3] is float) && !(args[3] is double))
+                            return new ArgumentException("ERROR: The third argument to \"SetCalamityAI\" must be a float or a double.");
+                        if (!(args[2] is int newValue))
+                            return new ArgumentException("ERROR: The second argument to \"SetCalamityAI\" must be an int.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetCalamityAI\" must be an NPC.");
+                        SetCalamityAI(castNPC(args[1]), newValue, (float)args[3]);
                         return null;
                     }
 
