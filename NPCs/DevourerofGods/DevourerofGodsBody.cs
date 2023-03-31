@@ -71,6 +71,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
+            NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             NPC.dontCountMe = true;
 
             if (Main.getGoodWorld)
