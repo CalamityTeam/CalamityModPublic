@@ -280,11 +280,17 @@ namespace CalamityMod
                 case "exomechs":
                 case "exo mechs":
                 case "the exo mechs":
+                    return DownedBossSystem.downedExoMechs;
+
+                case "thanatos":
+                    return DownedBossSystem.downedThanatos;
+
+                case "ares":
+                    return DownedBossSystem.downedAres;
+
                 case "apollo":
                 case "artemis":
-                case "thanatos":
-                case "ares":
-                    return DownedBossSystem.downedExoMechs;
+                    return DownedBossSystem.downedArtemisAndApollo;
 
                 case "calamitas":
                 case "scal":
@@ -1379,7 +1385,8 @@ namespace CalamityMod
         public static bool MakeHeatImmune(Player p) => p is null ? false : (p.Calamity().externalHeatImmunity = true);
         #endregion
 
-        #region Set Damage Reduction
+        #region NPC Damage Reduction
+        // Sets the damage reduction for an NPC type
         public static float SetDamageReduction(int npcID, float dr)
         {
             CalamityMod.DRValues.TryGetValue(npcID, out float oldDR);
@@ -1387,6 +1394,14 @@ namespace CalamityMod
             CalamityMod.DRValues.Add(npcID, dr);
             return oldDR;
         }
+        // Sets a specific NPC's damage reduction
+        public static void SetDamageReductionSpecific(NPC npc, float dr)
+        {
+            if (npc != null)
+                npc.Calamity().DR = dr;
+        }
+        // Gets a specific NPC's current damage reduction
+        public static float GetDamageReduction(NPC npc) => npc?.Calamity()?.DR ?? 0f;
         #endregion
 
         #region Boss Health Bars
@@ -1506,6 +1521,7 @@ namespace CalamityMod
             bool isValidPlayerArg(object o) => o is int || o is Player;
             bool isValidItemArg(object o) => o is int || o is Item;
             bool isValidProjectileArg(object o) => o is int || o is Projectile;
+            bool isValidNPCArg(object o) => o is int || o is NPC;
 
             Player castPlayer(object o)
             {
@@ -1531,6 +1547,15 @@ namespace CalamityMod
                     return Main.projectile[i];
                 else if (o is Projectile p)
                     return p;
+                return null;
+            }
+
+            NPC castNPC(object o)
+            {
+                if (o is int i)
+                    return Main.npc[i];
+                else if (o is NPC n)
+                    return n;
                 return null;
             }
 
@@ -1683,21 +1708,50 @@ namespace CalamityMod
                         return new ArgumentException("ERROR: The first argument to \"AddMaxStealth\" must be a Player or an int.");
                     return AddMaxStealth(castPlayer(args[1]), maxStealth);
 
-                case "DR":
-                case "DamageReduction":
                 case "SetDR":
                 case "SetDamageReduction":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify both NPC ID as an int and damage reduction as a float or double.");
-                    if (args.Length < 3)
-                        return new ArgumentNullException("ERROR: Must specify damage reduction as a float or double.");
-                    if (!(args[2] is float) && !(args[2] is double))
-                        return new ArgumentException("ERROR: The second argument to \"SetDamageReduction\" must be a float or a double.");
-                    if (!castID(args[1], out int npcID))
-                        return new ArgumentException("ERROR: The first argument to \"SetDamageReduction\" must be an int or short ID.");
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both NPC ID as an int and damage reduction as a float or double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify damage reduction as a float or double.");
+                        if (!(args[2] is float) && !(args[2] is double))
+                            return new ArgumentException("ERROR: The second argument to \"SetDamageReduction\" must be a float or a double.");
+                        if (!castID(args[1], out int npcID))
+                            return new ArgumentException("ERROR: The first argument to \"SetDamageReduction\" must be an int or short ID.");
 
-                    float DR = (float)args[2];
-                    return SetDamageReduction(npcID, DR);
+                        float DR = (float)args[2];
+                        return SetDamageReduction(npcID, DR);
+                    }
+
+                case "SetDRSpecific":
+                case "SetDamageReductionSpecfic":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an NPC and damage reduction as a float or double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify damage reduction as a float or double.");
+                        if (!(args[2] is float) && !(args[2] is double))
+                            return new ArgumentException("ERROR: The second argument to \"SetDamageReduction\" must be a float or a double.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetDamageReduction\" must be an NPC.");
+
+                        float DR = (float)args[2];
+                        SetDamageReductionSpecific(castNPC(args[1]), DR);
+                        return null;
+                    }
+
+                case "GetDamageReduction":
+                case "GetDR":
+                case "GetDRSpecific":
+                case "GetDamageReductionSpecific":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify the NPC.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"GetDamageReduction\" must be an NPC.");
+                        return GetDamageReduction(castNPC(args[1]));
+                    }
 
                 case "BossHealthBarVisible":
                 case "BossHealthBarsVisible":
