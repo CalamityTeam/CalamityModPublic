@@ -2,6 +2,7 @@
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -48,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.damage = 300;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 138;
-            Item.height = 138;
+            Item.height = 176;
             Item.useAnimation = Item.useTime = ArrowShootTime; // 40
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
@@ -67,6 +68,9 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         // Shoot via the projectile only
         public override bool CanShoot(Player player) => false;
+
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        => Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/HeavenlyGaleGlow").Value);
 
         public override void AddRecipes()
         {

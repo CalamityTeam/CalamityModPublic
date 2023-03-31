@@ -407,6 +407,8 @@ namespace CalamityMod
                 float flightTimeInterpolant = player.wingTime / player.wingTimeMax;
                 if (player.mount.Active)
                     flightTimeInterpolant = 1f;
+                else if (float.IsInfinity(flightTimeInterpolant) || float.IsNaN(flightTimeInterpolant))
+                    flightTimeInterpolant = 0f;
 
                 return Color.Lerp(player.hairColor, new Color(139, 205, 255), flightTimeInterpolant);
             }));

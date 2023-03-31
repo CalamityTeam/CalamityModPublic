@@ -5893,7 +5893,20 @@ namespace CalamityMod.CalPlayer
 
             // Bone Wings: Getting hit halves current flight time
             if (Player.wingsLogic == (int)VanillaWingID.BoneWings)
+            {
+                // Drop some bones for visual effects
+                if (Main.netMode != NetmodeID.Server && Player.wingTime > 0)
+                {
+                    var source = Player.GetSource_Accessory(FindAccessory(ItemID.BoneWings));
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Vector2 boneVelocity = Vector2.UnitY.RotatedByRandom(MathHelper.ToRadians(30f)) * Main.rand.NextFloat(1.5f, 2.5f);
+                        Gore bone = Gore.NewGoreDirect(source, Player.Center, boneVelocity, 57, Main.rand.NextFloat(0.6f, 0.9f));
+                        bone.timeLeft = Main.rand.Next(6, 30 + 1);
+                    }
+                }
                 Player.wingTime /= 2;
+            }
         }
         #endregion
 
