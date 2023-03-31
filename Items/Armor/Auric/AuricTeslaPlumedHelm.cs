@@ -43,7 +43,6 @@ namespace CalamityMod.Items.Armor.Auric
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Rogue Tarragon, Bloodflare and God Slayer armor effects\n" +
-                "All projectiles spawn healing auric orbs on enemy hits\n" +
 				"+130 maximum stealth";
             var modPlayer = player.Calamity();
             modPlayer.tarraSet = true;

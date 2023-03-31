@@ -1619,21 +1619,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
 
-                if (auricSet)
-                {
-                    float healMult = 0.05f;
-                    healMult -= proj.numHits * 0.025f;
-                    float heal = damage * healMult;
-
-                    if (heal > CalamityMod.lifeStealCap)
-                        heal = CalamityMod.lifeStealCap;
-
-                    if (!CalamityGlobalProjectile.CanSpawnLifeStealProjectile(healMult, heal))
-                        return;
-
-                    CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<AuricOrb>(), 1200f, 3f);
-                }
-                else if (silvaSet)
+                if (silvaSet)
                 {
                     float healMult = 0.03f;
                     healMult -= proj.numHits * 0.015f;
