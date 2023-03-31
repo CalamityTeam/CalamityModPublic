@@ -532,6 +532,48 @@ namespace CalamityMod
         public static float GetMaxStealth(Player p) => p?.Calamity()?.rogueStealthMax ?? 0f;
 
         public static float AddMaxStealth(Player p, float add) => p is null ? 0f : (p.Calamity().rogueStealthMax += add);
+
+        public static bool CanStealthStrike(Player p) => p?.Calamity()?.StealthStrikeAvailable() ?? false;
+        #endregion
+
+        #region Rippers
+        public static float GetRage(Player p) => p?.Calamity()?.rage ?? 0;
+        public static float GetAdrenaline(Player p) => p?.Calamity()?.adrenaline ?? 0;
+        public static float GetRageMax(Player p) => p?.Calamity()?.rageMax ?? 0;
+        public static float GetAdrenalineMax(Player p) => p?.Calamity()?.adrenalineMax ?? 0;
+        #endregion
+
+        #region Charge
+        public static bool GetChargeable(Item i) => i?.Calamity()?.UsesCharge ?? false;
+        public static void SetChargeable(Item i, bool chargeable)
+        {
+            if (i != null)
+                i.Calamity().UsesCharge = chargeable;
+        }
+        public static float GetCharge(Item i) => i?.Calamity()?.Charge ?? 0;
+        public static void SetCharge(Item i, float charge)
+        {
+            if (i != null)
+                i.Calamity().Charge = charge;
+        }
+        public static float GetMaxCharge(Item i) => i?.Calamity()?.MaxCharge ?? 0;
+        public static void SetMaxCharge(Item i, float chargeMax)
+        {
+            if (i != null)
+                i.Calamity().MaxCharge = chargeMax;
+        }
+        public static float GetChargePerUse(Item i) => i?.Calamity()?.ChargePerUse ?? 0;
+        public static void SetChargePerUse(Item i, float chargeUse)
+        {
+            if (i != null)
+                i.Calamity().ChargePerUse = chargeUse;
+        }
+        public static float GetChargePerAltUse(Item i) => i?.Calamity()?.ChargePerAltUse ?? 0;
+        public static void SetChargePerAltUse(Item i, float chargeAltUse)
+        {
+            if (i != null)
+                i.Calamity().ChargePerAltUse = chargeAltUse;
+        }
         #endregion
 
         #region Player Armor Set Bonuses
@@ -1707,6 +1749,171 @@ namespace CalamityMod
                     if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"AddMaxStealth\" must be a Player or an int.");
                     return AddMaxStealth(castPlayer(args[1]), maxStealth);
+
+                case "CanStealthStrike":
+                case "StealthStrikeAvailable":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"CanStealthStrike\" must be a Player or an int.");
+                    return CanStealthStrike(castPlayer(args[1]));
+
+                case "GetRage":
+                case "GetRageCurrent":
+                case "GetCurrentRage":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetRage\" must be a Player or an int.");
+                    return GetRage(castPlayer(args[1]));
+
+                case "GetAdrenaline":
+                case "GetAdrenalineCurrent":
+                case "GetCurrentAdrenaline":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetAdrenaline\" must be a Player or an int.");
+                    return GetAdrenaline(castPlayer(args[1]));
+
+                case "GetMaxRage":
+                case "GetRageMax":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetMaxRage\" must be a Player or an int.");
+                    return GetRageMax(castPlayer(args[1]));
+
+                case "GetMaxAdrenaline":
+                case "GetAdrenalineMax":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetMaxAdrenaline\" must be a Player or an int.");
+                    return GetAdrenalineMax(castPlayer(args[1]));
+
+                case "GetMaxCharge":
+                case "GetChargeMax":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item).");
+                    if (!isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetMaxCharge\" must be an Item or an int.");
+                    return GetMaxCharge(castItem(args[1]));
+
+                case "SetMaxCharge":
+                case "SetChargeMax":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an Item and charge as a float or double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify charge as a float or double.");
+                        if (!(args[2] is float) && !(args[2] is double))
+                            return new ArgumentException("ERROR: The second argument to \"SetMaxCharge\" must be a float or a double.");
+                        if (!isValidItemArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetMaxCharge\" must be an Item.");
+
+                        float Charge = (float)args[2];
+                        SetMaxCharge(castItem(args[1]), Charge);
+                        return null;
+                    }
+
+                case "GetCharge":
+                case "GetCurrentCharge":
+                case "GetChargeCurrent":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item).");
+                    if (!isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetCharge\" must be an Item or an int.");
+                    return GetCharge(castItem(args[1]));
+
+                case "SetCharge":
+                case "SetCurrentCharge":
+                case "SetChargeCurrent":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an Item and charge as a float or double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify charge as a float or double.");
+                        if (!(args[2] is float) && !(args[2] is double))
+                            return new ArgumentException("ERROR: The second argument to \"SetCharge\" must be a float or a double.");
+                        if (!isValidItemArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetCharge\" must be an Item.");
+
+                        float Charge = (float)args[2];
+                        SetCharge(castItem(args[1]), Charge);
+                        return null;
+                    }
+
+                case "GetChargePerUse":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item).");
+                    if (!isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetChargePerUse\" must be an Item or an int.");
+                    return GetChargePerUse(castItem(args[1]));
+
+                case "SetChargePerUse":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an Item and charge as a float or double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify charge as a float or double.");
+                        if (!(args[2] is float) && !(args[2] is double))
+                            return new ArgumentException("ERROR: The second argument to \"SetChargePerUse\" must be a float or a double.");
+                        if (!isValidItemArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetChargePerUse\" must be an Item.");
+
+                        float Charge = (float)args[2];
+                        SetChargePerUse(castItem(args[1]), Charge);
+                        return null;
+                    }
+
+                case "GetChargePerAltUse":
+                case "GetChargePerUseAlt":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item).");
+                    if (!isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetChargePerUse\" must be an Item or an int.");
+                    return GetChargePerAltUse(castItem(args[1]));
+
+                case "SetChargePerAltUse":
+                case "SetChargeUseAlt":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an Item and charge as a float or double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify charge as a float or double.");
+                        if (!(args[2] is float) && !(args[2] is double))
+                            return new ArgumentException("ERROR: The second argument to \"SetChargePerUseAlt\" must be a float or a double.");
+                        if (!isValidItemArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetChargePerUseAlt\" must be an Item.");
+
+                        float Charge = (float)args[2];
+                        SetChargePerAltUse(castItem(args[1]), Charge);
+                        return null;
+                    }
+
+                case "GetChargeable":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item).");
+                    if (!isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetChargeable\" must be an Item or an int.");
+                    return GetChargeable(castItem(args[1]));
+
+                case "SetChargeable":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an Item and if the item can be charged as a bool.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify the ability to charge as a bool.");
+                        if (!(args[2] is float) && !(args[2] is double))
+                            return new ArgumentException("ERROR: The second argument to \"SetChargeable\" must be a bool.");
+                        if (!isValidItemArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetChargeable\" must be an Item.");
+
+                        bool Charge = (bool)args[2];
+                        SetChargeable(castItem(args[1]), Charge);
+                        return null;
+                    }
 
                 case "SetDR":
                 case "SetDamageReduction":
