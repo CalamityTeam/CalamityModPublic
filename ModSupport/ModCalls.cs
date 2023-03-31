@@ -576,6 +576,21 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Mouse Listening
+        public static bool GetRightClickListener(Player p) => p?.Calamity()?.rightClickListener ?? false;
+        public static bool GetMouseWorldListener(Player p) => p?.Calamity()?.mouseWorldListener ?? false;
+        public static void SetRightClickListener(Player p, bool active)
+        {
+            if (p != null)
+                p.Calamity().rightClickListener = active;
+        }
+        public static void SetMouseWorldListener(Player p, bool active)
+        {
+            if (p != null)
+                p.Calamity().mouseWorldListener = active;
+        }
+        #endregion
+
         #region Player Armor Set Bonuses
         /// <summary>
         /// Returns whether the specified player has the set bonus corresponding to the given string.
@@ -1905,13 +1920,59 @@ namespace CalamityMod
                             return new ArgumentNullException("ERROR: Must specify both an Item and if the item can be charged as a bool.");
                         if (args.Length < 3)
                             return new ArgumentNullException("ERROR: Must specify the ability to charge as a bool.");
-                        if (!(args[2] is float) && !(args[2] is double))
+                        if (!(args[2] is bool))
                             return new ArgumentException("ERROR: The second argument to \"SetChargeable\" must be a bool.");
                         if (!isValidItemArg(args[1]))
                             return new ArgumentException("ERROR: The first argument to \"SetChargeable\" must be an Item.");
 
                         bool Charge = (bool)args[2];
                         SetChargeable(castItem(args[1]), Charge);
+                        return null;
+                    }
+
+                case "GetRightClickListener":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetRightClickListener\" must be a Player or an int.");
+                    return GetRightClickListener(castPlayer(args[1]));
+
+                case "GetMouseWorldListener":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetMouseWorldListener\" must be a Player or an int.");
+                    return GetMouseWorldListener(castPlayer(args[1]));
+
+                case "SetRightClickListener":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both a Player and whether or not the listener is active.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify status of the listener as a bool.");
+                        if (!(args[2] is bool))
+                            return new ArgumentException("ERROR: The second argument to \"SetRightClickListener\" must be a bool.");
+                        if (!isValidPlayerArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetRightClickListener\" must be a Player.");
+
+                        bool active = (bool)args[2];
+                        SetRightClickListener(castPlayer(args[1]), active);
+                        return null;
+                    }
+
+                case "SetMouseWorldListener":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both a Player and whether or not the listener is active.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify status of the listener as a bool.");
+                        if (!(args[2] is bool))
+                            return new ArgumentException("ERROR: The second argument to \"SetMouseWorldListener\" must be a bool.");
+                        if (!isValidPlayerArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetMouseWorldListener\" must be a Player.");
+
+                        bool active = (bool)args[2];
+                        SetMouseWorldListener(castPlayer(args[1]), active);
                         return null;
                     }
 
