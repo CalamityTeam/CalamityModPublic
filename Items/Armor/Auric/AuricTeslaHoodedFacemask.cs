@@ -43,8 +43,7 @@ namespace CalamityMod.Items.Armor.Auric
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Ranged Tarragon, Bloodflare and God Slayer armor effects\n" +
-                "All projectiles spawn healing auric orbs on enemy hits";
+            player.setBonus = "Ranged Tarragon, Bloodflare and God Slayer armor effects";
             var modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraRanged = true;
