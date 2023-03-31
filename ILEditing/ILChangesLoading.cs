@@ -94,7 +94,6 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.UpdateJumpHeight += FixJumpHeightBoosts;
             IL.Terraria.Player.Update += BaseJumpHeightAdjustment;
             IL.Terraria.Player.Update += RunSpeedAdjustments;
-            IL.Terraria.Initializers.WingStatsInitializer.Load += ReduceWingHoverVelocities;
             IL.Terraria.Player.Update += NerfMagiluminescence;
             IL.Terraria.Player.Update += NerfSoaringInsigniaRunAcceleration;
             IL.Terraria.Player.WingMovement += RemoveSoaringInsigniaInfiniteWingTime;
@@ -215,7 +214,6 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.UpdateJumpHeight -= FixJumpHeightBoosts;
             IL.Terraria.Player.Update -= BaseJumpHeightAdjustment;
             IL.Terraria.Player.Update -= RunSpeedAdjustments;
-            IL.Terraria.Initializers.WingStatsInitializer.Load -= ReduceWingHoverVelocities;
             IL.Terraria.Player.Update -= NerfMagiluminescence;
             IL.Terraria.Player.Update -= NerfSoaringInsigniaRunAcceleration;
             IL.Terraria.Player.WingMovement -= RemoveSoaringInsigniaInfiniteWingTime;
