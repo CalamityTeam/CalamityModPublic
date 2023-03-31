@@ -1461,6 +1461,96 @@ namespace CalamityMod
         public static float GetDamageReduction(NPC npc) => npc?.Calamity()?.DR ?? 0f;
         #endregion
 
+        #region Debuff Vulnerabilities
+        public static void SetDebuffVulnerability(NPC npc, string debuffName, bool? enabled)
+        {
+            if (npc != null)
+            {
+                switch (debuffName.ToLower())
+                {
+                    case "cold":
+                    case "ice":
+                    case "frozen":
+                    case "freezing":
+                        npc.Calamity().VulnerableToCold = enabled;
+                        break;
+
+                    case "electricity":
+                    case "electric":
+                    case "lightning":
+                    case "thunder":
+                        npc.Calamity().VulnerableToElectricity = enabled;
+                        break;
+
+                    case "heat":
+                    case "hot":
+                    case "fire":
+                    case "burning":
+                        npc.Calamity().VulnerableToHeat = enabled;
+                        break;
+
+                    case "sickness":
+                    case "sick":
+                    case "poison":
+                    case "poisoned":
+                    case "venom":
+                        npc.Calamity().VulnerableToSickness = enabled;
+                        break;
+
+                    case "water":
+                    case "wet":
+                    case "drown":
+                    case "drowning":
+                        npc.Calamity().VulnerableToWater = enabled;
+                        break;
+                }
+            }
+        }
+        public static bool? GetDebuffVulnerability(NPC npc, string debuffName)
+        {
+            if (npc != null)
+            {
+                switch (debuffName.ToLower())
+                {
+                    default:
+                        return false;
+
+                    case "cold":
+                    case "ice":
+                    case "frozen":
+                    case "freezing":
+                        return npc?.Calamity()?.VulnerableToCold ?? null;
+
+                    case "electricity":
+                    case "electric":
+                    case "lightning":
+                    case "thunder":
+                        return npc?.Calamity()?.VulnerableToElectricity ?? null;
+
+                    case "heat":
+                    case "hot":
+                    case "fire":
+                    case "burning":
+                        return npc?.Calamity()?.VulnerableToHeat ?? null;
+
+                    case "sickness":
+                    case "sick":
+                    case "poison":
+                    case "poisoned":
+                    case "venom":
+                        return npc?.Calamity()?.VulnerableToSickness ?? null;
+
+                    case "water":
+                    case "wet":
+                    case "drown":
+                    case "drowning":
+                        return npc?.Calamity()?.VulnerableToWater ?? null;
+                }
+            }
+            return false;
+        }
+        #endregion
+
         #region Boss Health Bars
         public static bool BossHealthBarVisible() => Main.LocalPlayer.Calamity().drawBossHPBar;
 
@@ -2015,10 +2105,49 @@ namespace CalamityMod
                 case "GetDamageReductionSpecific":
                     {
                         if (args.Length < 2)
-                            return new ArgumentNullException("ERROR: Must specify the NPC.");
+                            return new ArgumentNullException("ERROR: Must specify an NPC.");
                         if (!isValidNPCArg(args[1]))
                             return new ArgumentException("ERROR: The first argument to \"GetDamageReduction\" must be an NPC.");
                         return GetDamageReduction(castNPC(args[1]));
+                    }
+
+                case "GetDebuffVulnerability":
+                case "GetDebuffVulnerabilities":
+                case "GetVulnerableDebuffs":
+                case "GetVulnerability":
+                case "GetVulnerabilities":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify an NPC and a debuff type as a string.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify a debuff type as a string.");
+                        if (!(args[2] is string))
+                            return new ArgumentException("ERROR: The second argument to \"SetDebuffVulnerability\" must be a string.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetDebuffVulnerability\" must be an NPC.");
+                        return GetDebuffVulnerability(castNPC(args[1]), args[2].ToString());
+                    }
+
+                case "SetDebuffVulnerability":
+                case "SetDebuffVulnerabilities":
+                case "SetVulnerableDebuffs":
+                case "SetVulnerability":
+                case "SetVulnerabilities":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify an NPC, debuff type as a string, and whether to add or remove a vulnerability as a bool.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify a debuff type as a string, and whether to add or remove a vulnerability as a bool.");
+                        if (args.Length < 4)
+                            return new ArgumentNullException("ERROR: Must specify whether to add or remove a vulnerability as a bool.");
+                        if ((!(args[3] is bool)) && args[3] != null)
+                            return new ArgumentException("ERROR: The third argument to \"SetDebuffVulnerability\" must be a bool.");
+                        if (!(args[2] is string))
+                            return new ArgumentException("ERROR: The second argument to \"SetDebuffVulnerability\" must be a string.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetDebuffVulnerability\" must be an NPC.");
+                        SetDebuffVulnerability(castNPC(args[1]), args[2].ToString(), (bool?)args[3]);
+                        return null;
                     }
 
                 case "BossHealthBarVisible":
