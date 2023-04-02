@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Jelly-Charged Battery");
-            Tooltip.SetDefault("+1 max minions and 7% minion damage\n" +
+            Tooltip.SetDefault("7% increased minion damage\n" +
                                "Minion attacks spawn orbs of energy and inflict Electrified");
         }
 

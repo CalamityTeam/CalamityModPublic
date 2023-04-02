@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Accessories
             SacrificeTotal = 1;
             DisplayName.SetDefault("Nuclear Rod");
             Tooltip.SetDefault("Minions release an irradiated aura on enemy hits\n" +
-                               "+1 max minion\n" +
                                "Grants immunity to Irradiated");
         }
 

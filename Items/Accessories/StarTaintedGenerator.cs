@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Star-Tainted Generator");
-            Tooltip.SetDefault("+2 max minions, does not stack with downgrades\n" +
-                    "7% increased minion damage\n" +
+            Tooltip.SetDefault("7% increased minion damage\n" +
                     "Minion attacks spawn astral explosions and inflict several debuffs\n" +
                     "Grants immunity to Irradiated");
         }

@@ -928,25 +928,25 @@ namespace CalamityMod.CalPlayer
                 {
                     if (nucleogenesis)
                     {
-                        int apparatusDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(60);
+                        int apparatusDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(160);
                         Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<ApparatusExplosion>(), apparatusDamage, 4f, proj.owner);
                         summonProjCooldown = 100f;
                     }
                     else if (starbusterCore)
                     {
-                        int starburstDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(40);
+                        int starburstDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(110);
                         Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SummonAstralExplosion>(), starburstDamage, 3.5f, proj.owner);
                         summonProjCooldown = 60f;
                     }
                     else if (nuclearRod)
                     {
-                        int nuclearDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(20);
+                        int nuclearDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(60);
                         Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<IrradiatedAura>(), nuclearDamage, 0f, proj.owner);
                         summonProjCooldown = 60f;
                     }
                     else if (jellyChargedBattery)
                     {
-                        int batteryDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(15);
+                        int batteryDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(45);
                         CalamityUtils.SpawnOrb(proj, batteryDamage, ProjectileType<EnergyOrb>(), 800f, 15f);
                         summonProjCooldown = 60f;
                     }
@@ -1292,37 +1292,22 @@ namespace CalamityMod.CalPlayer
             if (summon)
             {
                 if (pArtifact && !profanedCrystal)
-                {
                     target.AddBuff(BuffType<HolyFlames>(), 300);
-                }
+
                 if (profanedCrystalBuffs)
-                {
                     target.AddBuff(Main.dayTime ? BuffType<HolyFlames>() : BuffType<Nightwither>(), 600);
-                }
+
                 if (divineBless)
-                {
                     target.AddBuff(BuffType<BanishingFire>(), 60);
-                }
 
                 if (holyMinions)
-                {
                     target.AddBuff(BuffType<HolyFlames>(), 180);
-                }
 
                 if (shadowMinions)
-                {
                     target.AddBuff(BuffID.ShadowFlame, 180);
-                }
 
                 if (voltaicJelly)
-                {
-                    //100% chance for Star Tainted Generator or Nucleogenesis
-                    //20% chance for Voltaic Jelly
-                    if (Main.rand.NextBool(starTaintedGenerator ? 1 : 5))
-                    {
-                        target.AddBuff(BuffID.Electrified, 60);
-                    }
-                }
+                    target.AddBuff(BuffID.Electrified, 60);
 
                 if (starTaintedGenerator)
                 {
@@ -1432,12 +1417,7 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.ShadowFlame, 180);
 
                 if (voltaicJelly)
-                {
-                    // 100% chance for Star Tainted Generator or Nucleogenesis
-                    // 20% chance for Voltaic Jelly
-                    if (Main.rand.NextBool(starTaintedGenerator ? 1 : 5))
-                        target.AddBuff(BuffID.Electrified, 60);
-                }
+                    target.AddBuff(BuffID.Electrified, 60);
 
                 if (starTaintedGenerator)
                 {

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Statis' Blessing");
-            Tooltip.SetDefault("Increased max minions by 2 and 10% increased minion damage\n" +
+            Tooltip.SetDefault("Increases max minions by 1 and minion damage by 10%\n" +
                 "Increased minion knockback\n" +
                 "Minions inflict holy flames on hit");
         }

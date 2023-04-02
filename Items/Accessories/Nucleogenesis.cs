@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Nucleogenesis");
-            Tooltip.SetDefault("Increases max minions by 4, does not stack with downgrades\n" +
+            Tooltip.SetDefault("Increases max minions by 2\n" +
                 "Grants immunity to Shadowflame and Irradiated\n" +
                 "15% increased minion damage\n" +
                 "Increased minion knockback\n" +

@@ -10,8 +10,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Voltaic Jelly");
-            Tooltip.SetDefault("+1 max minions\n" +
-                               "Minion attacks inflict Electrified");
+            Tooltip.SetDefault("Minion attacks inflict Electrified");
         }
 
         public override void SetDefaults()
