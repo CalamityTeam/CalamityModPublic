@@ -14,6 +14,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.UI.VanillaBossBars;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -84,6 +85,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.knockBackResist = 0f;
             AIType = -1;
             NPC.boss = true;
+            NPC.BossBar = ModContent.GetInstance<RavagerBossBar>();
             NPC.netAlways = true;
             NPC.alpha = 255;
             NPC.HitSound = HitSound;
