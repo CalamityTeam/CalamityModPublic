@@ -6589,11 +6589,11 @@ namespace CalamityMod.CalPlayer
 
             if (eArtifact)
             {
-                stealthGenStandstill += 0.15f;
-                stealthGenMoving += 0.15f;
+                stealthGenStandstill += 0.2f;
+                stealthGenMoving += 0.2f;
             }
 
-            //Accessory modifiers can boost these stats
+            // Accessory modifiers can boost these stats
             stealthGenStandstill += accStealthGenBoost;
             stealthGenMoving += accStealthGenBoost;
 

@@ -2982,7 +2982,10 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<GenericDamageClass>() += 0.5f;
 
             if (eArtifact)
-                Player.manaCost *= 0.75f;
+            {
+                Player.manaCost *= 0.7f;
+                Player.whipRangeMultiplier += 0.2f;
+            }
 
             if (auricSArtifact && Player.FindBuffIndex(ModContent.BuffType<FieryDraconidBuff>()) != -1)
                 Player.maxMinions += Player.ownedProjectileCounts[ModContent.ProjectileType<FieryDraconid>()];
