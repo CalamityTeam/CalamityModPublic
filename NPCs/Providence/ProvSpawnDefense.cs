@@ -27,6 +27,7 @@ namespace CalamityMod.NPCs.Providence
 
         public override void SetDefaults()
         {
+            NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.npcSlots = 1f;
             NPC.aiStyle = -1;

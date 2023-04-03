@@ -222,6 +222,7 @@ namespace CalamityMod.CalPlayer
         public int auralisAuroraCounter = 0;
         public int auralisAuroraCooldown = 0;
         public int auralisAurora = 0;
+        public int necroReviveCounter = -1;
         public int hideOfDeusTimer = 0;
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
@@ -611,6 +612,8 @@ namespace CalamityMod.CalPlayer
         public int tornadoCooldown = 0;
         public bool eskimoSet = false; //vanilla armor
         public bool meteorSet = false; //vanilla armor, for space gun nerf
+        public bool necroSet = false; //vanilla armor
+        public bool frostSet = false; //vanilla armor
         public bool victideSet = false;
         public bool victideSummoner = false;
         public bool sulfurSet = false;
@@ -1704,6 +1707,8 @@ namespace CalamityMod.CalPlayer
 
             eskimoSet = false; //vanilla armor
             meteorSet = false; //vanilla armor, for Space Gun nerf
+            necroSet = false; //vanilla armor
+            frostSet = false; //vanilla armor
 
             victideSet = false;
             victideSummoner = false;
@@ -2116,6 +2121,7 @@ namespace CalamityMod.CalPlayer
             auralisAuroraCounter = 0;
             auralisAuroraCooldown = 0;
             auralisAurora = 0;
+            necroReviveCounter = -1;
             hideOfDeusTimer = 0;
             RustyMedallionCooldown = 0;
             SulphWaterPoisoningLevel = 0f;
@@ -2387,6 +2393,8 @@ namespace CalamityMod.CalPlayer
             tornadoCooldown = 0;
             eskimoSet = false; //vanilla armor
             meteorSet = false; //vanilla armor, for Space Gun nerf
+            necroSet = false; //vanilla armor
+            frostSet = false; //vanilla armor
             victideSet = false;
             aeroSet = false;
             sulfurSet = false;
@@ -3827,6 +3835,18 @@ namespace CalamityMod.CalPlayer
                 return false;
             }
 
+            if (necroSet && necroReviveCounter == -1)
+            {
+                SoundEngine.PlaySound(SoundID.DD2_SkeletonDeath, Player.Center);
+
+                necroReviveCounter = 0; // Start ticking the timer of death
+                Player.statLife = Player.statLifeMax2;
+
+                if (Player.statLife < 1)
+                    Player.statLife = 1;
+                return false;
+            }
+
             if (permafrostsConcoction && !Player.HasCooldown(PermafrostConcoction.ID))
             {
                 Player.AddCooldown(PermafrostConcoction.ID, CalamityUtils.SecondsToFrames(180));
@@ -4269,6 +4289,21 @@ namespace CalamityMod.CalPlayer
                 int defenseAdd = (int)(target.defense * 0.5);
                 damage += defenseAdd;
             }
+            if (frostSet)
+            {
+                float DistanceInterpolant = Utils.GetLerpValue(FrostArmorSetChange.MinDistance, FrostArmorSetChange.MaxDistance, target.Distance(Main.player[Main.myPlayer].Center), true);
+                if (item.CountsAsClass<MeleeDamageClass>())
+                {
+                    float MeleeDamageFactor = MathHelper.Lerp(1f, FrostArmorSetChange.ProximityBoost, 1 - DistanceInterpolant);
+                    damage = (int)Math.Ceiling(damage * MeleeDamageFactor);
+                }
+                // Works with bayonets too... for the few that exists
+                else if (item.CountsAsClass<RangedDamageClass>())
+                {
+                    float RangedDamageFactor = MathHelper.Lerp(1f, FrostArmorSetChange.ProximityBoost, DistanceInterpolant);
+                    damage = (int)Math.Ceiling(damage * RangedDamageFactor);
+                }
+            }
             #endregion
         }
 
@@ -4351,6 +4386,20 @@ namespace CalamityMod.CalPlayer
                             }
                         }
                     }
+                }
+            }
+            if (frostSet)
+            {
+                float DistanceInterpolant = Utils.GetLerpValue(FrostArmorSetChange.MinDistance, FrostArmorSetChange.MaxDistance, target.Distance(Main.player[proj.owner].Center), true);
+                if (proj.CountsAsClass<MeleeDamageClass>())
+                {
+                    float MeleeDamageFactor = MathHelper.Lerp(1f, FrostArmorSetChange.ProximityBoost, 1 - DistanceInterpolant);
+                    damage = (int)Math.Ceiling(damage * MeleeDamageFactor);
+                }
+                else if (proj.CountsAsClass<RangedDamageClass>())
+                {
+                    float RangedDamageFactor = MathHelper.Lerp(1f, FrostArmorSetChange.ProximityBoost, DistanceInterpolant);
+                    damage = (int)Math.Ceiling(damage * RangedDamageFactor);
                 }
             }
             #endregion

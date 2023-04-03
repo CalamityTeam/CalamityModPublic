@@ -62,7 +62,22 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<AltarOfTheAccursedItem>());
         }
 
-        public override bool RightClick(int i, int j)
+        public override bool RightClick(int i, int j) => AttemptToSummonSCal(i, j);
+        public override void MouseOver(int i, int j) => HoverItemIcon();
+        public override void MouseOverFar(int i, int j) => HoverItemIcon();
+
+        public static void HoverItemIcon()
+        {
+            if (Main.LocalPlayer.HasItem(ModContent.ItemType<CeremonialUrn>()))
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<CeremonialUrn>();
+            else
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<AshesofCalamity>();
+
+            Main.LocalPlayer.noThrow = 2;
+            Main.LocalPlayer.cursorItemIconEnabled = true;
+        }
+
+        public static bool AttemptToSummonSCal(int i, int j)
         {
             Tile tile = Main.tile[i, j];
 
@@ -91,30 +106,57 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 
             if (!usingSpecialItem)
                 Main.LocalPlayer.ConsumeItem(ModContent.ItemType<AshesofCalamity>(), true);
+            return true;
+        }
+    }
 
+    public class SCalAltarLarge : ModTile
+    {
+        public const int Width = 5;
+        public const int Height = 3;
+        public override void SetStaticDefaults()
+        {
+            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileLavaDeath[Type] = false;
+
+            // Various data sets to protect this tile from unintentional death
+            TileID.Sets.PreventsTileRemovalIfOnTopOfIt[Type] = true;
+            //TileID.Sets.PreventsTileReplaceIfOnTopOfIt[Type] = true; Since this is a furniture item this may be unnecessary?
+            TileID.Sets.PreventsSandfall[Type] = true;
+
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+            TileObjectData.newTile.Width = 5;
+            TileObjectData.newTile.Height = 3;
+            TileObjectData.newTile.Origin = new Point16(1, 2);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
+            TileObjectData.newTile.DrawYOffset = 2;
+            TileObjectData.newTile.StyleHorizontal = true;
+            TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.addTile(Type);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Altar");
+            AddMapEntry(new Color(43, 19, 42), name);
+            TileID.Sets.DisableSmartCursor[Type] = true;
+        }
+
+        public override bool CanExplode(int i, int j) => false;
+
+        public override bool CreateDust(int i, int j, ref int type)
+        {
+            // Red torch dust.
+            type = 60;
             return true;
         }
 
-        public override void MouseOver(int i, int j)
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            if (Main.LocalPlayer.HasItem(ModContent.ItemType<CeremonialUrn>()))
-                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<CeremonialUrn>();
-            else
-                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<AshesofCalamity>();
-
-            Main.LocalPlayer.noThrow = 2;
-            Main.LocalPlayer.cursorItemIconEnabled = true;
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<AltarOfTheAccursedItem>());
         }
 
-        public override void MouseOverFar(int i, int j)
-        {
-            if (Main.LocalPlayer.HasItem(ModContent.ItemType<CeremonialUrn>()))
-                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<CeremonialUrn>();
-            else
-                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<AshesofCalamity>();
-
-            Main.LocalPlayer.noThrow = 2;
-            Main.LocalPlayer.cursorItemIconEnabled = true;
-        }
+        public override bool RightClick(int i, int j) => SCalAltar.AttemptToSummonSCal(i, j);
+        public override void MouseOver(int i, int j) => SCalAltar.HoverItemIcon();
+        public override void MouseOverFar(int i, int j) => SCalAltar.HoverItemIcon();
     }
 }

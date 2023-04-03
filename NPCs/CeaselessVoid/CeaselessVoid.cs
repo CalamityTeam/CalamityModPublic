@@ -10,6 +10,7 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.UI.VanillaBossBars;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -67,6 +68,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.boss = true;
+            NPC.BossBar = ModContent.GetInstance<CeaselessVoidBossBar>();
             NPC.DeathSound = DeathSound;
             NPC.Calamity().VulnerableToSickness = false;
         }

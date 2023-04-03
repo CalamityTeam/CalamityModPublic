@@ -36,6 +36,7 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void SetDefaults()
         {
+            NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.GetNPCDamage();
             NPC.npcSlots = 5f;

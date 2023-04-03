@@ -166,6 +166,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
+            NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }

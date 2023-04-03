@@ -14,6 +14,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.UI.VanillaBossBars;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -68,6 +69,7 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.value = Item.buyPrice(0, 25, 0, 0);
             NPC.Opacity = 0.8f;
             NPC.boss = true;
+            NPC.BossBar = ModContent.GetInstance<SlimeGodBossBar>();
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.dontTakeDamage = true;

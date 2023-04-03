@@ -118,7 +118,7 @@ namespace CalamityMod.NPCs.Crags
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             LeadingConditionRule hardmode = npcLoot.DefineConditionalDropSet(DropHelper.Hardmode());
-            hardmode.Add(ModContent.ItemType<EssenceofHavoc>(), 3);
+            hardmode.Add(ModContent.ItemType<EssenceofHavoc>(), 2);
         }
     }
 }

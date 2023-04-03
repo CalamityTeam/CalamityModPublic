@@ -20,6 +20,7 @@ using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Tiles.AstralSnow;
 using CalamityMod.Tiles.Ores;
+using CalamityMod.UI.VanillaBossBars;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -93,6 +94,7 @@ namespace CalamityMod.NPCs.Cryogen
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 40, 0, 0);
             NPC.boss = true;
+            NPC.BossBar = ModContent.GetInstance<CryogenBossBar>();
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.coldDamage = true;

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.UI.VanillaBossBars;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -63,6 +64,7 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.boss = true;
+            NPC.BossBar = ModContent.GetInstance<LeviathanAnahitaBossBar>();
             NPC.value = Item.buyPrice(0, 60, 0, 0);
             NPC.noGravity = true;
             NPC.noTileCollide = true;

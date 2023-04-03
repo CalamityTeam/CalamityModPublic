@@ -39,6 +39,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SetDefaults()
         {
+            NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.GetNPCDamage();
 

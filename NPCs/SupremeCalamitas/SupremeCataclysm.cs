@@ -56,6 +56,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetDefaults()
         {
+            NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             NPC.damage = 0;
             NPC.npcSlots = 5f;
             NPC.width = 120;

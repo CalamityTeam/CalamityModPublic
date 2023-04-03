@@ -16,6 +16,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.UI.VanillaBossBars;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -79,6 +80,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 NPC.scale *= 1.2f;
 
             NPC.boss = true;
+            NPC.BossBar = ModContent.GetInstance<AstrumDeusBossBar>();
             NPC.value = Item.buyPrice(1, 0, 0, 0);
             NPC.alpha = 255;
             NPC.behindTiles = true;

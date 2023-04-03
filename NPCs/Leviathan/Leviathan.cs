@@ -14,6 +14,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.UI.VanillaBossBars;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -76,6 +77,7 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.noTileCollide = true;
             NPC.noGravity = true;
             NPC.boss = true;
+            NPC.BossBar = ModContent.GetInstance<LeviathanAnahitaBossBar>();
             NPC.netAlways = true;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;

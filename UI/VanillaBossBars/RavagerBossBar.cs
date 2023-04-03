@@ -15,8 +15,6 @@ namespace CalamityMod.UI.VanillaBossBars
 {
     public class RavagerBossBar : ModBossBar
     {
-        public override Asset<Texture2D> GetIconTexture(ref Rectangle? iconFrame) => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[NPCType<RavagerBody>()]];
-        
         // Used to determine the max health of a multi-segmented boss
         public NPC FalseNPCSegment;
         public List<int> RavagerParts = new List<int>
@@ -27,6 +25,8 @@ namespace CalamityMod.UI.VanillaBossBars
             NPCType<RavagerLegLeft>(),
             NPCType<RavagerLegRight>()
         };
+
+        public override Asset<Texture2D> GetIconTexture(ref Rectangle? iconFrame) => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[NPCType<RavagerBody>()]];
 
         public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float lifePercent, ref float shieldPercent)
         {

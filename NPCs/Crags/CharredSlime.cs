@@ -93,7 +93,7 @@ namespace CalamityMod.NPCs.Crags
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<InfernalSuevite>(), 1, 10, 26);
-            npcLoot.Add(ModContent.ItemType<EssenceofHavoc>(), 3);
+            npcLoot.Add(ModContent.ItemType<EssenceofHavoc>(), 2);
             LeadingConditionRule postProv = npcLoot.DefineConditionalDropSet(DropHelper.PostProv());
             postProv.Add(ModContent.ItemType<Bloodstone>(), 4);
         }

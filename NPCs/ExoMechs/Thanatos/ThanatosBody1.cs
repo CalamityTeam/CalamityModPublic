@@ -80,6 +80,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             NPC.dontCountMe = true;
             NPC.chaseable = false;
             NPC.boss = true;
+            NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }

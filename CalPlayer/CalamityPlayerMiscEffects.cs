@@ -1287,6 +1287,22 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+            // Necro armor post-mortem effects. Activates regardless of having the armor equipped because it is a "delayed death"
+            if (necroReviveCounter >= 0)
+            {
+                necroReviveCounter++;
+                float ratioUntilDead = necroReviveCounter / (NecroArmorSetChange.PostMortemDuration * 60f);
+                int upperHealthLimit = (int)MathHelper.Lerp(Player.statLifeMax2, 1, ratioUntilDead);
+
+                if (Player.statLife > upperHealthLimit)
+                    Player.statLife = upperHealthLimit;
+
+                if (necroReviveCounter >= NecroArmorSetChange.PostMortemDuration * 60)
+                    Player.KillMe(PlayerDeathReason.ByCustomReason($"{Player.name} fell to the inevitable."), 1000, -1);
+                else if (necroReviveCounter % 60 == 59)
+                    SoundEngine.PlaySound(SoundID.Item17, Player.Center);
+            }
+
             // Silva invincibility effects
             if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
             {

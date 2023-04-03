@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void SetDefaults()
         {
-            Item.createTile = ModContent.TileType<SCalAltar>();
+            Item.createTile = ModContent.TileType<SCalAltarLarge>();
             Item.useTurn = true;
             Item.useAnimation = 15;
             Item.useTime = 10;

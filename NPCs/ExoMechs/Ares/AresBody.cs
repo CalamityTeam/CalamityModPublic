@@ -17,6 +17,7 @@ using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Skies;
+using CalamityMod.UI.VanillaBossBars;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -188,6 +189,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
+            NPC.BossBar = ModContent.GetInstance<ExoMechsBossBar>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }

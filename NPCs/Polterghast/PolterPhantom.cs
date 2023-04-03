@@ -30,6 +30,7 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void SetDefaults()
         {
+            NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.GetNPCDamage();
             NPC.width = 90;

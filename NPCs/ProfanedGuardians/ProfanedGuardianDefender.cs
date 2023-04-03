@@ -46,6 +46,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void SetDefaults()
         {
+            NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.npcSlots = 3f;
             NPC.aiStyle = -1;
