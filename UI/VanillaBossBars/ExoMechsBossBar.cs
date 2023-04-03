@@ -52,7 +52,11 @@ namespace CalamityMod.UI.VanillaBossBars
             NPC target = Main.npc[info.npcIndexToAimAt];
 
 			if (!target.active && !FindMechsAgain(ref info))
-				return false;
+            {
+                // Reset the spawning bool for refights
+                AllBossesSpawned = false;
+                return false;
+            }
 
             // Immediately grab the boss's health, whichever one it is. We will check later.
             int life = target.life;
