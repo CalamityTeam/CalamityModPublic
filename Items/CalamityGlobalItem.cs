@@ -239,8 +239,9 @@ namespace CalamityMod.Items
                 if (modPlayer.gloveOfRecklessness)
                     velocity = velocity.RotatedByRandom(MathHelper.ToRadians(12f));
             }
+
             if (modPlayer.eArtifact && item.CountsAsClass<RangedDamageClass>())
-                velocity *= 1.25f;
+                velocity *= 1.3f;
         }
 
 
