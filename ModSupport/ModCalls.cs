@@ -11,6 +11,7 @@ using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.UI.DraedonSummoning;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -579,6 +580,8 @@ namespace CalamityMod
         #region Mouse Listening
         public static bool GetRightClickListener(Player p) => p?.Calamity()?.rightClickListener ?? false;
         public static bool GetMouseWorldListener(Player p) => p?.Calamity()?.mouseWorldListener ?? false;
+        public static bool GetRightClick(Player p) => p?.Calamity()?.mouseRight ?? false;
+        public static Vector2 GetMouseWorld(Player p) => p?.Calamity()?.mouseWorld ?? Vector2.Zero;
         public static void SetRightClickListener(Player p, bool active)
         {
             if (p != null)
@@ -1461,6 +1464,25 @@ namespace CalamityMod
         public static float GetDamageReduction(NPC npc) => npc?.Calamity()?.DR ?? 0f;
         #endregion
 
+        #region Defense Damage
+        // Allow an NPC to deal defense damage
+        public static void SetDefenseDamageNPC(NPC npc, bool enabled)
+        {
+            if (npc != null)
+                npc.Calamity().canBreakPlayerDefense = enabled;
+        }
+        // Gets if an NPC can deal defense damage
+        public static bool GetDefenseDamageNPC(NPC npc) => npc?.Calamity()?.canBreakPlayerDefense ?? false;
+        // Allow a projectile to deal defense damage
+        public static void SetDefenseDamageProjectile(Projectile projectile, bool enabled)
+        {
+            if (projectile != null)
+                projectile.Calamity().DealsDefenseDamage = enabled;
+        }
+        // Gets if a projectile can deal defense damage
+        public static bool GetDefenseDamageProjectile(Projectile projectile) => projectile?.Calamity()?.DealsDefenseDamage ?? false;
+        #endregion
+
         #region Debuff Vulnerabilities
         public static void SetDebuffVulnerability(NPC npc, string debuffName, bool? enabled)
         {
@@ -2044,6 +2066,21 @@ namespace CalamityMod
                         return new ArgumentException("ERROR: The first argument to \"GetMouseWorldListener\" must be a Player or an int.");
                     return GetMouseWorldListener(castPlayer(args[1]));
 
+                case "GetRightClick":
+                case "GetMouseRight":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetRightClick\" must be a Player or an int.");
+                    return GetRightClick(castPlayer(args[1]));
+
+                case "GetMouseWorld":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetMouseWorld\" must be a Player or an int.");
+                    return GetMouseWorld(castPlayer(args[1]));
+
                 case "SetRightClickListener":
                     {
                         if (args.Length < 2)
@@ -2119,6 +2156,60 @@ namespace CalamityMod
                         if (!isValidNPCArg(args[1]))
                             return new ArgumentException("ERROR: The first argument to \"GetDamageReduction\" must be an NPC.");
                         return GetDamageReduction(castNPC(args[1]));
+                    }
+
+                case "SetDefenseDamageNPC":
+                case "SetNPCDefenseDamage":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an NPC and if the NPC can deal defense damage as a bool.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify the ability to deal defense damage as a bool.");
+                        if (!(args[2] is bool))
+                            return new ArgumentException("ERROR: The second argument to \"SetDefenseDamageNPC\" must be a bool.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetDefenseDamageNPC\" must be an NPC.");
+
+                        bool ddEnabled = (bool)args[2];
+                        SetDefenseDamageNPC(castNPC(args[1]), ddEnabled);
+                        return null;
+                    }
+
+                case "GetDefenseDamageNPC":
+                case "GetNPCDefenseDamage":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify an NPC.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"GetDefenseDamageNPC\" must be an NPC.");
+                        return GetDefenseDamageNPC(castNPC(args[1]));
+                    }
+
+                case "SetDefenseDamageProjectile":
+                case "SetProjectileDefenseDamage":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an Projectile and if the Projectile can deal defense damage as a bool.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify the ability to deal defense damage as a bool.");
+                        if (!(args[2] is bool))
+                            return new ArgumentException("ERROR: The second argument to \"SetDefenseDamageProjectile\" must be a bool.");
+                        if (!isValidProjectileArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetDefenseDamageProjectile\" must be a Projectile.");
+
+                        bool ddEnabled = (bool)args[2];
+                        SetDefenseDamageProjectile(castProjectile(args[1]), ddEnabled);
+                        return null;
+                    }
+
+                case "GetDefenseDamageProjectile":
+                case "GetProjectileDefenseDamage":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify a Projectile.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"GetDefenseDamageProjectile\" must be a Projectile.");
+                        return GetDefenseDamageProjectile(castProjectile(args[1]));
                     }
 
                 case "GetDebuffVulnerability":
