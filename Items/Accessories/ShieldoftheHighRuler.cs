@@ -65,6 +65,10 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[BuffID.Stoned] = true;
             player.statLifeMax2 += 10;
 
+            // Stop looking into buffing the EoC dash if you're not using it
+            if (player.dashType != 2 || modPlayer.DashID != string.Empty)
+                return;
+
             // If the player hasn't hit anything with the shield and a dash is currently happening, increase velocity on the first frame of the dash to be on par with Tabi.
             // EoC dash decelerates faster than Tabi, so compensate for it by increasing the Tabi dash velocity value by an approximate amount.
             if (player.eocHit == -1 && player.dashDelay == -1)
