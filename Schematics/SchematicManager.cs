@@ -328,9 +328,21 @@ namespace CalamityMod.Schematics
             if (tileType == ModContent.TileType<ChargingStation>())
                 TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEChargingStation>());
             else if (tileType == ModContent.TileType<DraedonLabTurret>())
-                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEDraedonLabTurret>());
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEHostileLabTurret>());
             else if (tileType == ModContent.TileType<LabHologramProjector>())
                 TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TELabHologramProjector>());
+            else if (tileType == ModContent.TileType<HostileFireTurret>())
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEHostileFireTurret>());
+            else if (tileType == ModContent.TileType<HostileIceTurret>())
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEHostileIceTurret>());
+            else if (tileType == ModContent.TileType<HostileLaserTurret>())
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEHostileLaserTurret>());
+            else if (tileType == ModContent.TileType<HostileOnyxTurret>())
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEHostileOnyxTurret>());
+            else if (tileType == ModContent.TileType<HostilePlagueTurret>())
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEHostilePlagueTurret>());
+            else if (tileType == ModContent.TileType<HostileWaterTurret>())
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEHostileWaterTurret>());
         }
         #endregion
     }

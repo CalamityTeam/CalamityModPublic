@@ -11,6 +11,7 @@ using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.UI.DraedonSummoning;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -280,11 +281,17 @@ namespace CalamityMod
                 case "exomechs":
                 case "exo mechs":
                 case "the exo mechs":
+                    return DownedBossSystem.downedExoMechs;
+
+                case "thanatos":
+                    return DownedBossSystem.downedThanatos;
+
+                case "ares":
+                    return DownedBossSystem.downedAres;
+
                 case "apollo":
                 case "artemis":
-                case "thanatos":
-                case "ares":
-                    return DownedBossSystem.downedExoMechs;
+                    return DownedBossSystem.downedArtemisAndApollo;
 
                 case "calamitas":
                 case "scal":
@@ -526,6 +533,65 @@ namespace CalamityMod
         public static float GetMaxStealth(Player p) => p?.Calamity()?.rogueStealthMax ?? 0f;
 
         public static float AddMaxStealth(Player p, float add) => p is null ? 0f : (p.Calamity().rogueStealthMax += add);
+
+        public static bool CanStealthStrike(Player p) => p?.Calamity()?.StealthStrikeAvailable() ?? false;
+        #endregion
+
+        #region Rippers
+        public static float GetRage(Player p) => p?.Calamity()?.rage ?? 0;
+        public static float GetAdrenaline(Player p) => p?.Calamity()?.adrenaline ?? 0;
+        public static float GetRageMax(Player p) => p?.Calamity()?.rageMax ?? 0;
+        public static float GetAdrenalineMax(Player p) => p?.Calamity()?.adrenalineMax ?? 0;
+        #endregion
+
+        #region Charge
+        public static bool GetChargeable(Item i) => i?.Calamity()?.UsesCharge ?? false;
+        public static void SetChargeable(Item i, bool chargeable)
+        {
+            if (i != null)
+                i.Calamity().UsesCharge = chargeable;
+        }
+        public static float GetCharge(Item i) => i?.Calamity()?.Charge ?? 0;
+        public static void SetCharge(Item i, float charge)
+        {
+            if (i != null)
+                i.Calamity().Charge = charge;
+        }
+        public static float GetMaxCharge(Item i) => i?.Calamity()?.MaxCharge ?? 0;
+        public static void SetMaxCharge(Item i, float chargeMax)
+        {
+            if (i != null)
+                i.Calamity().MaxCharge = chargeMax;
+        }
+        public static float GetChargePerUse(Item i) => i?.Calamity()?.ChargePerUse ?? 0;
+        public static void SetChargePerUse(Item i, float chargeUse)
+        {
+            if (i != null)
+                i.Calamity().ChargePerUse = chargeUse;
+        }
+        public static float GetChargePerAltUse(Item i) => i?.Calamity()?.ChargePerAltUse ?? 0;
+        public static void SetChargePerAltUse(Item i, float chargeAltUse)
+        {
+            if (i != null)
+                i.Calamity().ChargePerAltUse = chargeAltUse;
+        }
+        #endregion
+
+        #region Mouse Listening
+        public static bool GetRightClickListener(Player p) => p?.Calamity()?.rightClickListener ?? false;
+        public static bool GetMouseWorldListener(Player p) => p?.Calamity()?.mouseWorldListener ?? false;
+        public static bool GetRightClick(Player p) => p?.Calamity()?.mouseRight ?? false;
+        public static Vector2 GetMouseWorld(Player p) => p?.Calamity()?.mouseWorld ?? Vector2.Zero;
+        public static void SetRightClickListener(Player p, bool active)
+        {
+            if (p != null)
+                p.Calamity().rightClickListener = active;
+        }
+        public static void SetMouseWorldListener(Player p, bool active)
+        {
+            if (p != null)
+                p.Calamity().mouseWorldListener = active;
+        }
         #endregion
 
         #region Player Armor Set Bonuses
@@ -1379,7 +1445,8 @@ namespace CalamityMod
         public static bool MakeHeatImmune(Player p) => p is null ? false : (p.Calamity().externalHeatImmunity = true);
         #endregion
 
-        #region Set Damage Reduction
+        #region NPC Damage Reduction
+        // Sets the damage reduction for an NPC type
         public static float SetDamageReduction(int npcID, float dr)
         {
             CalamityMod.DRValues.TryGetValue(npcID, out float oldDR);
@@ -1387,7 +1454,134 @@ namespace CalamityMod
             CalamityMod.DRValues.Add(npcID, dr);
             return oldDR;
         }
+        // Sets a specific NPC's damage reduction
+        public static void SetDamageReductionSpecific(NPC npc, float dr)
+        {
+            if (npc != null)
+                npc.Calamity().DR = dr;
+        }
+        // Gets a specific NPC's current damage reduction
+        public static float GetDamageReduction(NPC npc) => npc?.Calamity()?.DR ?? 0f;
         #endregion
+
+        #region Defense Damage
+        // Allow an NPC to deal defense damage
+        public static void SetDefenseDamageNPC(NPC npc, bool enabled)
+        {
+            if (npc != null)
+                npc.Calamity().canBreakPlayerDefense = enabled;
+        }
+        // Gets if an NPC can deal defense damage
+        public static bool GetDefenseDamageNPC(NPC npc) => npc?.Calamity()?.canBreakPlayerDefense ?? false;
+        // Allow a projectile to deal defense damage
+        public static void SetDefenseDamageProjectile(Projectile projectile, bool enabled)
+        {
+            if (projectile != null)
+                projectile.Calamity().DealsDefenseDamage = enabled;
+        }
+        // Gets if a projectile can deal defense damage
+        public static bool GetDefenseDamageProjectile(Projectile projectile) => projectile?.Calamity()?.DealsDefenseDamage ?? false;
+        #endregion
+
+        #region Debuff Vulnerabilities
+        public static void SetDebuffVulnerability(NPC npc, string debuffName, bool? enabled)
+        {
+            if (npc != null)
+            {
+                switch (debuffName.ToLower())
+                {
+                    case "cold":
+                    case "ice":
+                    case "frozen":
+                    case "freezing":
+                        npc.Calamity().VulnerableToCold = enabled;
+                        break;
+
+                    case "electricity":
+                    case "electric":
+                    case "lightning":
+                    case "thunder":
+                        npc.Calamity().VulnerableToElectricity = enabled;
+                        break;
+
+                    case "heat":
+                    case "hot":
+                    case "fire":
+                    case "burning":
+                        npc.Calamity().VulnerableToHeat = enabled;
+                        break;
+
+                    case "sickness":
+                    case "sick":
+                    case "poison":
+                    case "poisoned":
+                    case "venom":
+                        npc.Calamity().VulnerableToSickness = enabled;
+                        break;
+
+                    case "water":
+                    case "wet":
+                    case "drown":
+                    case "drowning":
+                        npc.Calamity().VulnerableToWater = enabled;
+                        break;
+                }
+            }
+        }
+        public static bool? GetDebuffVulnerability(NPC npc, string debuffName)
+        {
+            if (npc != null)
+            {
+                switch (debuffName.ToLower())
+                {
+                    default:
+                        return false;
+
+                    case "cold":
+                    case "ice":
+                    case "frozen":
+                    case "freezing":
+                        return npc?.Calamity()?.VulnerableToCold ?? null;
+
+                    case "electricity":
+                    case "electric":
+                    case "lightning":
+                    case "thunder":
+                        return npc?.Calamity()?.VulnerableToElectricity ?? null;
+
+                    case "heat":
+                    case "hot":
+                    case "fire":
+                    case "burning":
+                        return npc?.Calamity()?.VulnerableToHeat ?? null;
+
+                    case "sickness":
+                    case "sick":
+                    case "poison":
+                    case "poisoned":
+                    case "venom":
+                        return npc?.Calamity()?.VulnerableToSickness ?? null;
+
+                    case "water":
+                    case "wet":
+                    case "drown":
+                    case "drowning":
+                        return npc?.Calamity()?.VulnerableToWater ?? null;
+                }
+            }
+            return false;
+        }
+        #endregion
+
+        public static float[] GetCalamityAI(NPC npc) => npc?.Calamity()?.newAI ?? new float[0];
+
+        public static void SetCalamityAI(NPC npc, int aiSlot, float value)
+        {
+            if (npc != null)
+            {
+                npc.Calamity().newAI[aiSlot] = value;
+            }
+        }
 
         #region Boss Health Bars
         public static bool BossHealthBarVisible() => Main.LocalPlayer.Calamity().drawBossHPBar;
@@ -1506,6 +1700,7 @@ namespace CalamityMod
             bool isValidPlayerArg(object o) => o is int || o is Player;
             bool isValidItemArg(object o) => o is int || o is Item;
             bool isValidProjectileArg(object o) => o is int || o is Projectile;
+            bool isValidNPCArg(object o) => o is int || o is NPC;
 
             Player castPlayer(object o)
             {
@@ -1531,6 +1726,15 @@ namespace CalamityMod
                     return Main.projectile[i];
                 else if (o is Projectile p)
                     return p;
+                return null;
+            }
+
+            NPC castNPC(object o)
+            {
+                if (o is int i)
+                    return Main.npc[i];
+                else if (o is NPC n)
+                    return n;
                 return null;
             }
 
@@ -1683,21 +1887,398 @@ namespace CalamityMod
                         return new ArgumentException("ERROR: The first argument to \"AddMaxStealth\" must be a Player or an int.");
                     return AddMaxStealth(castPlayer(args[1]), maxStealth);
 
-                case "DR":
-                case "DamageReduction":
+                case "CanStealthStrike":
+                case "StealthStrikeAvailable":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"CanStealthStrike\" must be a Player or an int.");
+                    return CanStealthStrike(castPlayer(args[1]));
+
+                case "GetRage":
+                case "GetRageCurrent":
+                case "GetCurrentRage":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetRage\" must be a Player or an int.");
+                    return GetRage(castPlayer(args[1]));
+
+                case "GetAdrenaline":
+                case "GetAdrenalineCurrent":
+                case "GetCurrentAdrenaline":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetAdrenaline\" must be a Player or an int.");
+                    return GetAdrenaline(castPlayer(args[1]));
+
+                case "GetMaxRage":
+                case "GetRageMax":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetMaxRage\" must be a Player or an int.");
+                    return GetRageMax(castPlayer(args[1]));
+
+                case "GetMaxAdrenaline":
+                case "GetAdrenalineMax":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetMaxAdrenaline\" must be a Player or an int.");
+                    return GetAdrenalineMax(castPlayer(args[1]));
+
+                case "GetMaxCharge":
+                case "GetChargeMax":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item).");
+                    if (!isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetMaxCharge\" must be an Item or an int.");
+                    return GetMaxCharge(castItem(args[1]));
+
+                case "SetMaxCharge":
+                case "SetChargeMax":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an Item and charge as a float or double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify charge as a float or double.");
+                        if (!(args[2] is float) && !(args[2] is double))
+                            return new ArgumentException("ERROR: The second argument to \"SetMaxCharge\" must be a float or a double.");
+                        if (!isValidItemArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetMaxCharge\" must be an Item.");
+
+                        float Charge = (float)args[2];
+                        SetMaxCharge(castItem(args[1]), Charge);
+                        return null;
+                    }
+
+                case "GetCharge":
+                case "GetCurrentCharge":
+                case "GetChargeCurrent":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item).");
+                    if (!isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetCharge\" must be an Item or an int.");
+                    return GetCharge(castItem(args[1]));
+
+                case "SetCharge":
+                case "SetCurrentCharge":
+                case "SetChargeCurrent":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an Item and charge as a float or double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify charge as a float or double.");
+                        if (!(args[2] is float) && !(args[2] is double))
+                            return new ArgumentException("ERROR: The second argument to \"SetCharge\" must be a float or a double.");
+                        if (!isValidItemArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetCharge\" must be an Item.");
+
+                        float Charge = (float)args[2];
+                        SetCharge(castItem(args[1]), Charge);
+                        return null;
+                    }
+
+                case "GetChargePerUse":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item).");
+                    if (!isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetChargePerUse\" must be an Item or an int.");
+                    return GetChargePerUse(castItem(args[1]));
+
+                case "SetChargePerUse":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an Item and charge as a float or double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify charge as a float or double.");
+                        if (!(args[2] is float) && !(args[2] is double))
+                            return new ArgumentException("ERROR: The second argument to \"SetChargePerUse\" must be a float or a double.");
+                        if (!isValidItemArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetChargePerUse\" must be an Item.");
+
+                        float Charge = (float)args[2];
+                        SetChargePerUse(castItem(args[1]), Charge);
+                        return null;
+                    }
+
+                case "GetChargePerAltUse":
+                case "GetChargePerUseAlt":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item).");
+                    if (!isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetChargePerUse\" must be an Item or an int.");
+                    return GetChargePerAltUse(castItem(args[1]));
+
+                case "SetChargePerAltUse":
+                case "SetChargeUseAlt":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an Item and charge as a float or double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify charge as a float or double.");
+                        if (!(args[2] is float) && !(args[2] is double))
+                            return new ArgumentException("ERROR: The second argument to \"SetChargePerUseAlt\" must be a float or a double.");
+                        if (!isValidItemArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetChargePerUseAlt\" must be an Item.");
+
+                        float Charge = (float)args[2];
+                        SetChargePerAltUse(castItem(args[1]), Charge);
+                        return null;
+                    }
+
+                case "GetChargeable":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item).");
+                    if (!isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetChargeable\" must be an Item or an int.");
+                    return GetChargeable(castItem(args[1]));
+
+                case "SetChargeable":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an Item and if the item can be charged as a bool.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify the ability to charge as a bool.");
+                        if (!(args[2] is bool))
+                            return new ArgumentException("ERROR: The second argument to \"SetChargeable\" must be a bool.");
+                        if (!isValidItemArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetChargeable\" must be an Item.");
+
+                        bool Charge = (bool)args[2];
+                        SetChargeable(castItem(args[1]), Charge);
+                        return null;
+                    }
+
+                case "GetRightClickListener":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetRightClickListener\" must be a Player or an int.");
+                    return GetRightClickListener(castPlayer(args[1]));
+
+                case "GetMouseWorldListener":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetMouseWorldListener\" must be a Player or an int.");
+                    return GetMouseWorldListener(castPlayer(args[1]));
+
+                case "GetRightClick":
+                case "GetMouseRight":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetRightClick\" must be a Player or an int.");
+                    return GetRightClick(castPlayer(args[1]));
+
+                case "GetMouseWorld":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetMouseWorld\" must be a Player or an int.");
+                    return GetMouseWorld(castPlayer(args[1]));
+
+                case "SetRightClickListener":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both a Player and whether or not the listener is active.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify status of the listener as a bool.");
+                        if (!(args[2] is bool))
+                            return new ArgumentException("ERROR: The second argument to \"SetRightClickListener\" must be a bool.");
+                        if (!isValidPlayerArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetRightClickListener\" must be a Player.");
+
+                        bool active = (bool)args[2];
+                        SetRightClickListener(castPlayer(args[1]), active);
+                        return null;
+                    }
+
+                case "SetMouseWorldListener":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both a Player and whether or not the listener is active.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify status of the listener as a bool.");
+                        if (!(args[2] is bool))
+                            return new ArgumentException("ERROR: The second argument to \"SetMouseWorldListener\" must be a bool.");
+                        if (!isValidPlayerArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetMouseWorldListener\" must be a Player.");
+
+                        bool active = (bool)args[2];
+                        SetMouseWorldListener(castPlayer(args[1]), active);
+                        return null;
+                    }
+
                 case "SetDR":
                 case "SetDamageReduction":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify both NPC ID as an int and damage reduction as a float or double.");
-                    if (args.Length < 3)
-                        return new ArgumentNullException("ERROR: Must specify damage reduction as a float or double.");
-                    if (!(args[2] is float) && !(args[2] is double))
-                        return new ArgumentException("ERROR: The second argument to \"SetDamageReduction\" must be a float or a double.");
-                    if (!castID(args[1], out int npcID))
-                        return new ArgumentException("ERROR: The first argument to \"SetDamageReduction\" must be an int or short ID.");
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both NPC ID as an int and damage reduction as a float or double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify damage reduction as a float or double.");
+                        if (!(args[2] is float) && !(args[2] is double))
+                            return new ArgumentException("ERROR: The second argument to \"SetDamageReduction\" must be a float or a double.");
+                        if (!castID(args[1], out int npcID))
+                            return new ArgumentException("ERROR: The first argument to \"SetDamageReduction\" must be an int or short ID.");
 
-                    float DR = (float)args[2];
-                    return SetDamageReduction(npcID, DR);
+                        float DR = (float)args[2];
+                        return SetDamageReduction(npcID, DR);
+                    }
+
+                case "SetDRSpecific":
+                case "SetDamageReductionSpecfic":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an NPC and damage reduction as a float or double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify damage reduction as a float or double.");
+                        if (!(args[2] is float) && !(args[2] is double))
+                            return new ArgumentException("ERROR: The second argument to \"SetDamageReduction\" must be a float or a double.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetDamageReduction\" must be an NPC.");
+
+                        float DR = (float)args[2];
+                        SetDamageReductionSpecific(castNPC(args[1]), DR);
+                        return null;
+                    }
+
+                case "GetDamageReduction":
+                case "GetDR":
+                case "GetDRSpecific":
+                case "GetDamageReductionSpecific":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify an NPC.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"GetDamageReduction\" must be an NPC.");
+                        return GetDamageReduction(castNPC(args[1]));
+                    }
+
+                case "SetDefenseDamageNPC":
+                case "SetNPCDefenseDamage":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an NPC and if the NPC can deal defense damage as a bool.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify the ability to deal defense damage as a bool.");
+                        if (!(args[2] is bool))
+                            return new ArgumentException("ERROR: The second argument to \"SetDefenseDamageNPC\" must be a bool.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetDefenseDamageNPC\" must be an NPC.");
+
+                        bool ddEnabled = (bool)args[2];
+                        SetDefenseDamageNPC(castNPC(args[1]), ddEnabled);
+                        return null;
+                    }
+
+                case "GetDefenseDamageNPC":
+                case "GetNPCDefenseDamage":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify an NPC.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"GetDefenseDamageNPC\" must be an NPC.");
+                        return GetDefenseDamageNPC(castNPC(args[1]));
+                    }
+
+                case "SetDefenseDamageProjectile":
+                case "SetProjectileDefenseDamage":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify both an Projectile and if the Projectile can deal defense damage as a bool.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify the ability to deal defense damage as a bool.");
+                        if (!(args[2] is bool))
+                            return new ArgumentException("ERROR: The second argument to \"SetDefenseDamageProjectile\" must be a bool.");
+                        if (!isValidProjectileArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetDefenseDamageProjectile\" must be a Projectile.");
+
+                        bool ddEnabled = (bool)args[2];
+                        SetDefenseDamageProjectile(castProjectile(args[1]), ddEnabled);
+                        return null;
+                    }
+
+                case "GetDefenseDamageProjectile":
+                case "GetProjectileDefenseDamage":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify a Projectile.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"GetDefenseDamageProjectile\" must be a Projectile.");
+                        return GetDefenseDamageProjectile(castProjectile(args[1]));
+                    }
+
+                case "GetDebuffVulnerability":
+                case "GetDebuffVulnerabilities":
+                case "GetVulnerableDebuffs":
+                case "GetVulnerability":
+                case "GetVulnerabilities":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify an NPC and a debuff type as a string.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify a debuff type as a string.");
+                        if (!(args[2] is string))
+                            return new ArgumentException("ERROR: The second argument to \"SetDebuffVulnerability\" must be a string.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetDebuffVulnerability\" must be an NPC.");
+                        return GetDebuffVulnerability(castNPC(args[1]), args[2].ToString());
+                    }
+
+                case "SetDebuffVulnerability":
+                case "SetDebuffVulnerabilities":
+                case "SetVulnerableDebuffs":
+                case "SetVulnerability":
+                case "SetVulnerabilities":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify an NPC, debuff type as a string, and whether to add or remove a vulnerability as a bool.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify a debuff type as a string, and whether to add or remove a vulnerability as a bool.");
+                        if (args.Length < 4)
+                            return new ArgumentNullException("ERROR: Must specify whether to add or remove a vulnerability as a bool.");
+                        if ((!(args[3] is bool)) && args[3] != null)
+                            return new ArgumentException("ERROR: The third argument to \"SetDebuffVulnerability\" must be a bool.");
+                        if (!(args[2] is string))
+                            return new ArgumentException("ERROR: The second argument to \"SetDebuffVulnerability\" must be a string.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetDebuffVulnerability\" must be an NPC.");
+                        SetDebuffVulnerability(castNPC(args[1]), args[2].ToString(), (bool?)args[3]);
+                        return null;
+                    }
+
+                case "GetCalamityAI":
+                case "GetNewAI":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify an NPC.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"GetCalamityAI\" must be an NPC.");
+                        return GetCalamityAI(castNPC(args[1]));
+                    }
+
+                case "SetCalamityAI":
+                case "SetNewAI":
+                    {
+                        if (args.Length < 2)
+                            return new ArgumentNullException("ERROR: Must specify an NPC, an AI slot as an int, and a value for it as a float or a double.");
+                        if (args.Length < 3)
+                            return new ArgumentNullException("ERROR: Must specify an AI slot as an int, and a value for it as a float or a double.");
+                        if (args.Length < 4)
+                            return new ArgumentNullException("ERROR: Must specify a value for the AI slot as a float or a double.");
+                        if (!(args[3] is float) && !(args[3] is double))
+                            return new ArgumentException("ERROR: The third argument to \"SetCalamityAI\" must be a float or a double.");
+                        if (!(args[2] is int newValue))
+                            return new ArgumentException("ERROR: The second argument to \"SetCalamityAI\" must be an int.");
+                        if (!isValidNPCArg(args[1]))
+                            return new ArgumentException("ERROR: The first argument to \"SetCalamityAI\" must be an NPC.");
+                        SetCalamityAI(castNPC(args[1]), newValue, (float)args[3]);
+                        return null;
+                    }
 
                 case "BossHealthBarVisible":
                 case "BossHealthBarsVisible":

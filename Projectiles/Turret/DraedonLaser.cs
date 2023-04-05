@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
 
-namespace CalamityMod.Projectiles.Enemy
+namespace CalamityMod.Projectiles.Turret
 {
     public class DraedonLaser : ModProjectile
     {
@@ -27,15 +27,24 @@ namespace CalamityMod.Projectiles.Enemy
         {
             Projectile.width = 6;
             Projectile.height = 6;
-            Projectile.hostile = true;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = 4;
             Projectile.extraUpdates = 4;
             Projectile.timeLeft = 240;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
         }
-
+        public override bool PreAI()
+        {
+            // If projectile knockback is set to 0 in the tile entity file, projectile hits players instead
+            // This is used to check if the projectile came from the hostile version of the tile entity
+            if (Projectile.knockBack == 0f)
+                Projectile.hostile = true;
+            else Projectile.friendly = true;
+            return true;
+        }
         public override void AI()
         {
             if (Projectile.localAI[0] == 0f)

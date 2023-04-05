@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.DraedonStructures
 {
-    public class DraedonLabTurret : ModTile
+    public class HostileIceTurret : ModTile
     {
         public const int Width = 3;
         public const int Height = 2;
@@ -19,31 +19,26 @@ namespace CalamityMod.Tiles.DraedonStructures
         public const int OriginOffsetY = 1;
         public const int SheetSquare = 18;
 
-        public override string Texture => "CalamityMod/Tiles/PlayerTurrets/PlayerLabTurret";
+        public override string Texture => "CalamityMod/Tiles/PlayerTurrets/PlayerIceTurret";
         public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
-
-            // Various data sets to protect this tile from unintentional death
-            TileID.Sets.PreventsTileRemovalIfOnTopOfIt[Type] = true;
-            TileID.Sets.PreventsTileReplaceIfOnTopOfIt[Type] = true;
-            TileID.Sets.PreventsSandfall[Type] = true;
 
             // No need to set width, height, origin, etc. here, Style3x2 is exactly what we want.
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.LavaDeath = false;
 
             // When this tile is placed, it places the Draedon Lab Turret tile entity.
-            ModTileEntity te = ModContent.GetInstance<TEHostileLabTurret>();
+            ModTileEntity te = ModContent.GetInstance<TEHostileIceTurret>();
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
 
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Lab Turret");
+            name.SetDefault("Ice Turret");
             AddMapEntry(new Color(67, 72, 81), name);
             HitSound = SoundID.Item14;
 
@@ -65,8 +60,6 @@ namespace CalamityMod.Tiles.DraedonStructures
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            // TODO -- Turrets have no items and can't be picked up and placed by players.
-            // Instead, drop some raw Draedon materials.
             Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<DubiousPlating>(), 8);
             Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<MysteriousCircuitry>(), 8);
 
@@ -74,7 +67,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;
             int top = j - t.TileFrameY % (Height * SheetSquare) / SheetSquare;
 
-            TEHostileLabTurret te = CalamityUtils.FindTileEntity<TEHostileLabTurret>(i, j, Width, Height, SheetSquare);
+            TEHostileIceTurret te = CalamityUtils.FindTileEntity<TEHostileIceTurret>(i, j, Width, Height, SheetSquare);
             te?.Kill(left, top);
         }
 
@@ -85,17 +78,17 @@ namespace CalamityMod.Tiles.DraedonStructures
             if (t.TileFrameX != 36 || t.TileFrameY != 0)
                 return;
 
-            TEHostileLabTurret te = CalamityUtils.FindTileEntity<TEHostileLabTurret>(i, j, Width, Height, SheetSquare);
+            TEHostileIceTurret te = CalamityUtils.FindTileEntity<TEHostileIceTurret>(i, j, Width, Height, SheetSquare);
             if (te is null)
                 return;
             int drawDirection = te.Direction;
             Color drawColor = Lighting.GetColor(i, j);
 
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseTurret").Value;
+            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/PlayerTurrets/IceTurretHead").Value;
             Vector2 screenOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + screenOffset;
             drawOffset.Y -= 2f;
-            drawOffset.X += drawDirection == -1 ? -10f : 2f;
+            drawOffset.X += (drawDirection == -1 ? -10f : 2f) -2f;
 
             SpriteEffects sfx = drawDirection == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
             spriteBatch.Draw(tex, drawOffset, null, drawColor, te.Angle, tex.Size() * 0.5f, 1f, sfx, 0.0f);

@@ -521,7 +521,7 @@ namespace CalamityMod.NPCs.ExoMechs
                     Vector2 shoot = PlayerToFollow.Center - NPC.Center; 
                     shoot.Normalize();
                     shoot *= 4;
-                    int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - Vector2.UnitY * 30, shoot, ModContent.ProjectileType<Projectiles.Enemy.DraedonLaser>(), 116, 0, Main.myPlayer);
+                    int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - Vector2.UnitY * 30, shoot, ModContent.ProjectileType<Projectiles.Turret.DraedonLaser>(), 116, 0, Main.myPlayer);
                     if (p.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[p].timeLeft *= 2;
