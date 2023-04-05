@@ -246,8 +246,26 @@ namespace CalamityMod.ILEditing
 
         private static void ApplyDashKeybind(On.Terraria.Player.orig_DoCommonDashHandle orig, Player self, out int dir, out bool dashing, Player.DashStartAction dashStartAction)
         {
+            // we feasting multiplayer bugs
+            if (self.whoAmI != Main.myPlayer)
+            {
+                orig(self, out dir, out dashing, dashStartAction);
+                return;
+            }
+
             if (CalamityKeybinds.DashHotkey.JustPressed)
             {
+                // Out of safety in the steps following, set the player direction itself here.
+                // If you are holding D but not A, then always dash right.
+                if (self.controlRight && !self.controlLeft)
+                    self.direction = 1;
+                // If you are holding A but not D, then always dash left.
+                else if (self.controlLeft && !self.controlRight)
+                    self.direction = -1;
+                // If you are moving, set dash in the direction the player is moving.
+                else if (MathF.Abs(self.velocity.X) > 0.01f)
+                    self.direction = self.velocity.X > 0f ? 1 : -1;
+
                 dir = self.direction;
                 dashing = true;
                 if (self.dashTime > 0)
