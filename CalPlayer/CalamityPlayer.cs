@@ -3343,7 +3343,7 @@ namespace CalamityMod.CalPlayer
         public override void PreUpdateMovement()
         {
             // Remove acceleration when using the exo chair.
-            if (ExoChair)
+            if (Player.whoAmI == Main.myPlayer && ExoChair)
             {
                 float speed = DraedonGamerChairMount.MovementSpeed;
 

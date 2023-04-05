@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
             CreateRecipe().
                 AddIngredient<MysteriousCircuitry>(14).
                 AddIngredient<DubiousPlating>(20).
-                AddIngredient<Chaosplate>(10).
-                AddIngredient<EssenceofChaos>(12).
+                AddIngredient<Havocplate>(10).
+                AddIngredient<EssenceofHavoc>(12).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(2, out Predicate<Recipe> condition), condition).
                 AddTile(TileID.MythrilAnvil).
                 Register();
