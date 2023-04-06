@@ -403,6 +403,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Accessory
+        public bool shieldOfTheHighRulerDashVelocityBoosted = false;
         public bool luxorsGift = false;
         public bool fungalSymbiote = false;
         public bool trinketOfChi = false;

@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using System;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -10,9 +11,8 @@ namespace CalamityMod.Items.Accessories
     public class ShieldoftheHighRuler : ModItem
     {
         public const int ShieldSlamIFrames = 12;
-        public bool dashVelocityBoosted = false;
-        private const float EoCDashVelocity = 14.5f;
-        private const float TabiDashVelocity = 18.9f;
+        public const float EoCDashVelocity = 14.5f;
+        public const float TabiDashVelocity = 18.9f;
 
         public override void SetStaticDefaults()
         {
@@ -64,30 +64,6 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[BuffID.WindPushed] = true;
             player.buffImmune[BuffID.Stoned] = true;
             player.statLifeMax2 += 10;
-
-            // Stop looking into buffing the EoC dash if you're not using it
-            if (player.dashType != 2 || modPlayer.DashID != string.Empty)
-                return;
-
-            // If the player hasn't hit anything with the shield and a dash is currently happening, increase velocity on the first frame of the dash to be on par with Tabi.
-            // EoC dash decelerates faster than Tabi, so compensate for it by increasing the Tabi dash velocity value by an approximate amount.
-            if (player.eocHit == -1 && player.dashDelay == -1)
-            {
-                if (!dashVelocityBoosted)
-                {
-                    dashVelocityBoosted = true;
-                    player.velocity.X *= TabiDashVelocity / EoCDashVelocity;
-                }
-            }
-            else
-                dashVelocityBoosted = false;
-
-            // Dash delay reduced to 15 frames (half the original 30) if an enemy is bonked.
-            if (player.eocHit != -1)
-            {
-                if (player.dashDelay > 15)
-                    player.dashDelay = 15;
-            }
         }
 
         public override void AddRecipes()
