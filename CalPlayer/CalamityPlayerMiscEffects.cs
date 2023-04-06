@@ -1285,7 +1285,9 @@ namespace CalamityMod.CalPlayer
                         if (!shieldOfTheHighRulerDashVelocityBoosted)
                         {
                             shieldOfTheHighRulerDashVelocityBoosted = true;
-                            Player.velocity.X *= ShieldoftheHighRuler.TabiDashVelocity / ShieldoftheHighRuler.EoCDashVelocity;
+
+                            if (Math.Abs(Player.velocity.X) <= ShieldoftheHighRuler.TabiDashVelocity)
+                                Player.velocity.X *= ShieldoftheHighRuler.TabiDashVelocity / ShieldoftheHighRuler.EoCDashVelocity;
                         }
                     }
                     else
