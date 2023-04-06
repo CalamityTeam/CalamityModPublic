@@ -174,7 +174,7 @@ namespace CalamityMod
                 "SoloMael",
                 "Chaotic Reks",
                 "The Buildmonger",
-                "Yuh",
+                "YuH",
                 "Littlepiggy",
                 "LompL",
                 "Lilith",

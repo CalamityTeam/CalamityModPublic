@@ -53,10 +53,13 @@ namespace CalamityMod.CalPlayer
 
         public void ModDashMovement()
         {
+            if (Player.whoAmI != Main.myPlayer)
+                return;
+
             var source = new ProjectileSource_PlayerDashHit(Player);
 
             // Handle collision slam-through effects.
-            if (HasCustomDash && Player.dashDelay < 0 && Player.whoAmI == Main.myPlayer)
+            if (HasCustomDash && Player.dashDelay < 0)
             {
                 Rectangle hitArea = new Rectangle((int)(Player.position.X + Player.velocity.X * 0.5 - 4f), (int)(Player.position.Y + Player.velocity.Y * 0.5 - 4), Player.width + 8, Player.height + 8);
                 for (int i = 0; i < Main.maxNPCs; i++)

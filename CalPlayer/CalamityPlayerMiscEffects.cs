@@ -1305,6 +1305,37 @@ namespace CalamityMod.CalPlayer
                     Player.buffImmune[debuff] = true;
             }
 
+            // Shield of the High Ruler
+            if (copyrightInfringementShield)
+            {
+                if (Player.dashType == 2 && DashID == string.Empty)
+                {
+                    // If the player hasn't hit anything with the shield and a dash is currently happening, increase velocity on the first frame of the dash to be on par with Tabi.
+                    // EoC dash decelerates faster than Tabi, so compensate for it by increasing the Tabi dash velocity value by an approximate amount.
+                    if (Player.eocHit == -1 && Player.dashDelay == -1)
+                    {
+                        if (!shieldOfTheHighRulerDashVelocityBoosted)
+                        {
+                            shieldOfTheHighRulerDashVelocityBoosted = true;
+
+                            if (Math.Abs(Player.velocity.X) <= ShieldoftheHighRuler.TabiDashVelocity)
+                                Player.velocity.X *= ShieldoftheHighRuler.TabiDashVelocity / ShieldoftheHighRuler.EoCDashVelocity;
+                        }
+                    }
+                    else
+                        shieldOfTheHighRulerDashVelocityBoosted = false;
+
+                    // Dash delay reduced to 15 frames (half the original 30) if an enemy is bonked.
+                    if (Player.eocHit != -1)
+                    {
+                        if (Player.dashDelay > 15)
+                            Player.dashDelay = 15;
+                    }
+                }
+            }
+            else
+                shieldOfTheHighRulerDashVelocityBoosted = false;
+
             // Auric dye cinders.
             int auricDyeCount = Player.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<AuricDye>());
             if (auricDyeCount > 0)
