@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Melee
             SpawnFlares(target.Center, target.width, target.height);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             // Some dust gets produced on impact.
             int dustCount = Main.rand.Next(20, 24);

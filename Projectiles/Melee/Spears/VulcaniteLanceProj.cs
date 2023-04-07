@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             target.AddBuff(BuffID.OnFire3, 240);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             OnHitEffects(target.Center, crit);
             target.AddBuff(BuffID.OnFire3, 240);

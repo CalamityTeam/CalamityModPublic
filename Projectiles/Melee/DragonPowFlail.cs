@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Melee
             Waterfalls(target.Center);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             // Only perform hit effects after reaching approximately 55% of the way out.
             if (Projectile.WithinRange(Main.player[Projectile.owner].Center, 345f))

@@ -281,7 +281,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => OnHitEffect(target.Center, target.whoAmI);
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => OnHitEffect(target.Center, -1);
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => OnHitEffect(target.Center, target.whoAmI);
 
         private void OnHitEffect(Vector2 targetPos, int whoAmI)
 		{

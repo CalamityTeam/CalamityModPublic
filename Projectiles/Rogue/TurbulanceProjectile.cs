@@ -65,9 +65,9 @@ namespace CalamityMod.Projectiles.Rogue
             OnHitEffects(crit);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            OnHitEffects(crit);
+            OnHitEffects(false);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

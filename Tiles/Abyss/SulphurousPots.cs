@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Dusts;
 using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -33,11 +34,22 @@ namespace CalamityMod.Tiles.Abyss
             HitSound = SoundID.Shatter;
         }
 
-        public override bool Drop(int i, int j)/* tModPorter Note: Removed. Use CanDrop to decide if an item should drop. Use GetItemDrops to decide which item drops. Item drops based on placeStyle are handled automatically now, so this method might be able to be removed altogether. */
+
+        public override IEnumerable<Item> GetItemDrops(int i, int j)
         {
             Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(i, j);
             if (tileAtPosition.TileFrameX % 36 == 0 && tileAtPosition.TileFrameY % 36 == 0)
             {
+                if (Main.netMode != NetmodeID.Server)
+				{
+					int goreAmt = Main.rand.Next(1, 2 + 1);
+					for (int k = 0; k < goreAmt; k++)
+					{
+						Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("SulphPotGore1").Type);
+						Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("SulphPotGore2").Type);
+					}
+				}
+
 				// 1 in 400 for a Coin Portal
 				if (Player.GetClosestRollLuck(i, j, 400) == 0f)
 				{
@@ -51,20 +63,9 @@ namespace CalamityMod.Tiles.Abyss
 				}
 				else
 				{
-					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<SulphuricTreasure>());
-				}
-
-				if (Main.netMode != NetmodeID.Server)
-				{
-					int goreAmt = Main.rand.Next(1, 2 + 1);
-					for (int k = 0; k < goreAmt; k++)
-					{
-						Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("SulphPotGore1").Type);
-						Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("SulphPotGore2").Type);
-					}
+					yield return new Item(ModContent.ItemType<SulphuricTreasure>());
 				}
 			}
-			return true;
 		}
 
         public override void NumDust(int i, int j, bool fail, ref int num)

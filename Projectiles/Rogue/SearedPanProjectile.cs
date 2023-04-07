@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
             OnHitEffects(target.whoAmI, target.life, dummy);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.Bleeding, 300);
             OnHitEffects(-1, target.statLife, true);

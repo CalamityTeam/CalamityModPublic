@@ -67,9 +67,6 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Daybreak, 420);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        {
-            target.AddBuff(BuffID.OnFire3, 300);
-        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.OnFire3, 300);
     }
 }

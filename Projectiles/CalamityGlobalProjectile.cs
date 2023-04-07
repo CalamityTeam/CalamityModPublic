@@ -2444,10 +2444,11 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
-        #region ModifyDamageScaling
+        #region ModifyHitNPC
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
 
             // The vanilla damage Jousting Lance multiplier is as follows. Calamity overrides this with a new formula.
             // damageScale = 0.1f + player.velocity.Length() / 7f * 0.9f
@@ -2461,14 +2462,6 @@ namespace CalamityMod.Projectiles
             // If applicable, use ricoshot bonus damage.
             if (totalRicoshotDamageBonus > 0f)
                 damageScale += totalRicoshotDamageBonus;
-        }
-        #endregion
-
-        #region ModifyHitNPC
-        public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
-        {
-            Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
 
             // If this projectile is forced to crit, simply set the crit bool.
             if (forcedCrit)

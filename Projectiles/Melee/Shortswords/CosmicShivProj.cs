@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             for (int k = 0; k < 36; k++)
             {

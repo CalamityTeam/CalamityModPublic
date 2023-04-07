@@ -261,7 +261,7 @@ namespace CalamityMod.Projectiles.Melee
 
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => ShredTarget();
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => ShredTarget();
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => ShredTarget();
 
         private void ShredTarget()
         {

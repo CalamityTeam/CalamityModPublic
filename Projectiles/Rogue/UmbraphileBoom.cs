@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
                 target.AddBuff(ModContent.BuffType<Nightwither>(), 45);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Main.dayTime || Main.rand.NextBool(3)) //100% during day, 33.33% chance at night
                 target.AddBuff(BuffID.Daybreak, 45);

@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Melee
             OnHitEffect(target.Center);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             // Applies God Slayer Inferno on contact.
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240);

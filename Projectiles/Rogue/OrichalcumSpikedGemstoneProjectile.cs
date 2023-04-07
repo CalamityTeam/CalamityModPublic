@@ -55,15 +55,9 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            OnHitEffect(target.Center);
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => OnHitEffect(target.Center);
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        {
-            OnHitEffect(target.Center);
-        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => OnHitEffect(target.Center);
 
         private void OnHitEffect(Vector2 targetPos)
         {

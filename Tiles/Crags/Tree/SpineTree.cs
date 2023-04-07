@@ -11,6 +11,7 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Tiles.Crags;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod.Tiles.Crags.Tree
 {
@@ -193,7 +194,8 @@ namespace CalamityMod.Tiles.Crags.Tree
             }
         }
 
-        public override bool Drop(int i, int j)/* tModPorter Note: Removed. Use CanDrop to decide if an item should drop. Use GetItemDrops to decide which item drops. Item drops based on placeStyle are handled automatically now, so this method might be able to be removed altogether. */
+
+        public override IEnumerable<Item> GetItemDrops(int i, int j)
         {
             //drop seeds from the top of the tree
             if (Framing.GetTileSafely(i, j).TileFrameX == 36)
@@ -201,19 +203,15 @@ namespace CalamityMod.Tiles.Crags.Tree
                 int totalSeeds = Main.rand.Next(1, 3);
                 for (int numSeed = 0; numSeed < totalSeeds; numSeed++)
                 {
-                    Item.NewItem(new EntitySource_TileBreak(i, j), (new Vector2(i, j) * 16) + new Vector2(Main.rand.Next(-46, 46), 
-                    Main.rand.Next(-40, 40) - 66), ModContent.ItemType<Items.Placeables.SpineSapling>(), Main.rand.Next(1, 5));
+                    yield return new Item(ModContent.ItemType<Items.Placeables.SpineSapling>());
                 }
             }
 
             //chance to drop extra wood
             if (Main.rand.NextBool())
             {
-                Item.NewItem(new EntitySource_TileBreak(i, j), (new Vector2(i, j) * 16) + new Vector2(Main.rand.Next(-46, 46), 
-                Main.rand.Next(-40, 40) - 66), ModContent.ItemType<Items.Placeables.ScorchedBone>(), Main.rand.Next(1, 2));
+                yield return new Item(ModContent.ItemType<Items.Placeables.ScorchedBone>());
             }
-
-            return true;
         }
 
         //this checks the entire tree from bottom to top

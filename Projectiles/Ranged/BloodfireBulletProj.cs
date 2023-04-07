@@ -62,7 +62,6 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => damage += OnHitEffect(Main.player[Projectile.owner]);
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */ => damage += OnHitEffect(Main.player[Projectile.owner]);
 
         // Returns the amount of bonus damage that should be dealt. Boosts life regeneration appropriately as a side effect.
         private int OnHitEffect(Player owner)

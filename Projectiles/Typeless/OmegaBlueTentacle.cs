@@ -185,12 +185,6 @@ namespace CalamityMod.Projectiles.Typeless
                 crit = true;
         }
 
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
-        {
-            if (Main.player[Projectile.owner].Calamity().omegaBlueHentai)
-                crit = true;
-        }
-
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].lifeSteal > 0f && !Main.player[Projectile.owner].moonLeech)
@@ -201,29 +195,7 @@ namespace CalamityMod.Projectiles.Typeless
                     Main.player[Projectile.owner].lifeSteal -= healAmount;
                     if (Main.player[Projectile.owner].Calamity().omegaBlueHentai) //hentai always crits, this makes it have same lifesteal delay
                         Main.player[Projectile.owner].lifeSteal += healAmount / 2;
-                    /*Main.player[projectile.owner].statLife += healAmount;
-                    if (Main.player[projectile.owner].statLife > Main.player[projectile.owner].statLifeMax2)
-                        Main.player[projectile.owner].statLife = Main.player[projectile.owner].statLifeMax2;
-                    Main.player[projectile.owner].HealEffect(healAmount, false);*/
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.SpiritHeal, 0, 0f, Projectile.owner, Projectile.owner, healAmount);
-                }
-            }
-        }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        {
-            if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].lifeSteal > 0f && !Main.player[Projectile.owner].moonLeech)
-            {
-                int healAmount = 10 * damage / Projectile.damage; //should always be around max, less if enemy has defense/DR
-                if (healAmount > 0)
-                {
-                    Main.player[Projectile.owner].lifeSteal -= healAmount;
-                    if (Main.player[Projectile.owner].Calamity().omegaBlueHentai) //hentai always crits, this makes it have same lifesteal delay
-                        Main.player[Projectile.owner].lifeSteal += healAmount / 2;
-                    /*Main.player[projectile.owner].statLife += healAmount;
-                    if (Main.player[projectile.owner].statLife > Main.player[projectile.owner].statLifeMax2)
-                        Main.player[projectile.owner].statLife = Main.player[projectile.owner].statLifeMax2;
-                    Main.player[projectile.owner].HealEffect(healAmount, false);*/
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.SpiritHeal, 0, 0f, Projectile.owner, Projectile.owner, healAmount);
                 }
             }
