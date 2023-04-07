@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             SwordSpam(target.Center);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
             SwordSpam(target.Center);

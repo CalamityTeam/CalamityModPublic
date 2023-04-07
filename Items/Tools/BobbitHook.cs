@@ -15,10 +15,10 @@ namespace CalamityMod.Items.Tools
             Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Bobbit Hook");
             // Tooltip.SetDefault($@"Retracts upon attaching to a tile with extreme speeds
-Reach: {BobbitHead.GrappleRangInTiles}
-Launch Velocity: {BobbitHead.LaunchSpeed}
-Reelback Velocity: {BobbitHead.ReelbackSpeed}
-Pull Velocity: {BobbitHead.PullSpeed}");
+//Reach: {BobbitHead.GrappleRangInTiles}
+//Launch Velocity: {BobbitHead.LaunchSpeed}
+//Reelback Velocity: {BobbitHead.ReelbackSpeed}
+//Pull Velocity: {BobbitHead.PullSpeed}");
         }
 
         public override void SetDefaults()

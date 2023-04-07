@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Tarragon Throwing Dart");
             // Tooltip.SetDefault(@"Fires a piercing dart with reduced immunity frames
-Stealth strikes erupt into thorns on enemy hits");
+//Stealth strikes erupt into thorns on enemy hits");
             Item.ResearchUnlockCount = 99;
         }
 

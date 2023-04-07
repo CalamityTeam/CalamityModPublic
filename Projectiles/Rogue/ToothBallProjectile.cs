@@ -36,11 +36,6 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        {
-            target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
-        }
-
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
@@ -49,5 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, -10f, ModContent.ProjectileType<StealthNimbusCloud>(), Projectile.damage / 2, 0f, Projectile.owner, 1f, 0f);
             }
         }
+
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
     }
 }

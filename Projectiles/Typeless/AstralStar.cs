@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Typeless
                 target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Projectile.DamageType != DamageClass.Ranged)
                 target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);

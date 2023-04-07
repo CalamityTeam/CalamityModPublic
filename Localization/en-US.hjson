@@ -14049,21 +14049,11 @@ Mods: {
 			ThermalVent2.MapEntry: Thermal Vent
 			ThermalVent3.MapEntry: Thermal Vent
 			AbyssFossilTile.MapEntry: Abyss Shell Fossil
-
-			AbyssTreasureChest: {
-				MapEntry: Ancient Treasure Chest
-				ContainerName: Ancient Treasure Chest
-			}
-
+			AbyssTreasureChest.MapEntry: Ancient Treasure Chest
 			AcidWoodTreeSapling.MapEntry: MapObject.Sapling
 			LumenylCrystals.MapEntry: Lumenyl
 			PlantyMush.MapEntry: Planty Mush
-
-			RustyChestTile: {
-				MapEntry: Rusty Chest
-				ContainerName: Rusty Chest
-			}
-
+			RustyChestTile.MapEntry: Rusty Chest
 			SulphurousStalacmite1.MapEntry: Stalacmite
 			SulphurousStalacmite2.MapEntry: Stalacmite
 			SulphurousStalacmite3.MapEntry: Stalacmite
@@ -14095,8 +14085,10 @@ Mods: {
 			ViperVines.MapEntry: Viper Vines
 			ArenaTile.MapEntry: Arena
 			AstralBeacon.MapEntry: Astral Beacon
-			chestAstral.MapEntry: Astral Chest
-			chestAstral_Locked.MapEntry: Locked Astral Chest
+			AstralChestLocked: {
+				MapEntry0: Ashen Chest
+				MapEntry1: Locked Ashen Chest
+			}
 			AstralCrateTile.MapEntry: Astral Crate
 			AstralTorch.MapEntry: Torch
 			AstralTreeSapling.MapEntry: MapObject.Sapling
@@ -14120,12 +14112,7 @@ Mods: {
 			AgedLaboratoryServer.MapEntry: Aged Server
 			AgedLaboratoryTerminal.MapEntry: Aged Terminal
 			AgedReinforcedCrate.MapEntry: Aged Reinforced Crate
-
-			AgedSecurityChestTile: {
-				MapEntry: Aged Security Chest
-				ContainerName: Aged Security Chest
-			}
-
+			AgedSecurityChestTile.MapEntry: Aged Security Chest
 			ChargingStation.MapEntry: Charging Station
 			DraedonLabTurret.MapEntry: Lab Turret
 			InactivePowerCellFactory.MapEntry: Inactive Power Cell Factory
@@ -14142,12 +14129,7 @@ Mods: {
 			OnyxExcavatorTile.MapEntry: Onyx Excavator
 			PowerCellFactory.MapEntry: Power Cell Factory
 			ReinforcedCrate.MapEntry: Reinforced Crate
-
-			SecurityChestTile: {
-				MapEntry: Security Chest
-				ContainerName: Security Chest
-			}
-
+			SecurityChestTile.MapEntry: Security Chest
 			CodebreakerTile.MapEntry: The Codebreaker
 			AuricToiletTile.MapEntry: Auric Toilet
 			BabyFlakCrabCageTile.MapEntry: Baby Flak Crab Cage
@@ -14187,19 +14169,9 @@ Mods: {
 			AbyssBookcase.MapEntry: Bookcase
 			AbyssCandelabra.MapEntry: Candelabra
 			AbyssCandle.MapEntry: Candle
-
-			AbyssChest: {
-				MapEntry: Abyss Chest
-				ContainerName: Abyss Chest
-			}
-
+			AbyssChest.MapEntry: Abyss Chest
 			AbyssClock.MapEntry: Grandfather Clock
-
-			AbyssDresser: {
-				MapEntry: Abyss Dresser
-				ContainerName: Abyss Dresser
-			}
-
+			AbyssDresser.MapEntry: Abyss Dresser
 			AbyssSynth.MapEntry: Abyss Synth
 			AbyssTorch.MapEntry: Torch
 			AbyssWorkBench.MapEntry: Work Bench
@@ -14208,31 +14180,16 @@ Mods: {
 			AcidwoodBookcaseTile.MapEntry: Bookcase
 			AcidwoodCandelabraTile.MapEntry: Candelabra
 			AcidwoodCandleTile.MapEntry: Candle
-
-			AcidwoodChestTile: {
-				MapEntry: Acidwood Chest
-				ContainerName: Acidwood Chest
-			}
-
+			AcidwoodChestTile.MapEntry: Acidwood Chest
 			AcidwoodClockTile.MapEntry: Grandfather Clock
-
-			AcidwoodDresserTile: {
-				MapEntry: Acidwood Dresser
-				ContainerName: Acidwood Dresser
-			}
-
+			AcidwoodDresserTile.MapEntry: Acidwood Dresser
 			AcidwoodPianoTile.MapEntry: Piano
 			AcidwoodWorkBenchTile.MapEntry: Work Bench
 			AncientBasin.MapEntry: Ancient Basin
 			AncientBathtub.MapEntry: Bathtub
 			AncientBed.MapEntry: Bed
 			AncientBookcase.MapEntry: Bookcase
-
-			AncientDresser: {
-				MapEntry: Ancient Dresser
-				ContainerName: Ancient Dresser
-			}
-
+			AncientDresser.MapEntry: Ancient Dresser
 			AncientMonolith.MapEntry: Ancient Monolith
 			AncientPipeOrgan.MapEntry: Ancient Pipe Organ
 			AncientWorkBench.MapEntry: Work Bench
@@ -14244,17 +14201,11 @@ Mods: {
 			AshenCandle.MapEntry: Candle
 
 			AshenChest: {
-				MapEntry: Ashen Chest
-				ContainerName: Ashen Chest
+				MapEntry0: Ashen Chest
+				MapEntry1: Locked Ashen Chest
 			}
 
-			AshenChest_Locked.MapEntry: Locked Ashen Chest
-
-			AshenDresser: {
-				MapEntry: Ashen Dresser
-				ContainerName: Ashen Dresser
-			}
-
+			AshenDresser.MapEntry: Ashen Dresser
 			AshenMonolith.MapEntry: Ashen Monolith
 			AshenPipeOrgan.MapEntry: Ashen Pipe Organ
 			AshenWorkBench.MapEntry: Work Bench
@@ -14263,19 +14214,9 @@ Mods: {
 			BotanicBookcase.MapEntry: Bookcase
 			BotanicCandelabra.MapEntry: Candelabra
 			BotanicCandle.MapEntry: Candle
-
-			BotanicChest: {
-				MapEntry: Botanic Chest
-				ContainerName: Botanic Chest
-			}
-
+			BotanicChest.MapEntry: Botanic Chest
 			BotanicClock.MapEntry: Grandfather Clock
-
-			BotanicDresser: {
-				MapEntry: Botanic Dresser
-				ContainerName: Botanic Dresser
-			}
-
+			BotanicDresser.MapEntry: Botanic Dresser
 			BotanicPiano.MapEntry: Piano
 			BotanicWorkBench.MapEntry: Work Bench
 			CosmiliteBasinTile.MapEntry: Cosmilite Basin
@@ -14284,19 +14225,9 @@ Mods: {
 			CosmiliteBookcase.MapEntry: Bookcase
 			CosmiliteCandelabra.MapEntry: Candelabra
 			CosmiliteCandle.MapEntry: Candle
-
-			CosmiliteChest: {
-				MapEntry: Cosmilite Chest
-				ContainerName: Cosmilite Chest
-			}
-
+			CosmiliteChest.MapEntry: Cosmilite Chest
 			CosmiliteClock.MapEntry: Grandfather Clock
-
-			CosmiliteDresser: {
-				MapEntry: Cosmilite Dresser
-				ContainerName: Cosmilite Dresser
-			}
-
+			CosmiliteDresser.MapEntry: Cosmilite Dresser
 			CosmilitePiano.MapEntry: Piano
 			CosmiliteSconce.MapEntry: Cosmilite Sconce
 			CosmiliteWorkBench.MapEntry: Work Bench
@@ -14305,19 +14236,9 @@ Mods: {
 			EutrophicBookcase.MapEntry: Bookcase
 			EutrophicCandelabra.MapEntry: Candelabra
 			EutrophicCandle.MapEntry: Candle
-
-			EutrophicChest: {
-				MapEntry: Eutrophic Chest
-				ContainerName: Eutrophic Chest
-			}
-
+			EutrophicChest.MapEntry: Eutrophic Chest
 			EutrophicClock.MapEntry: Grandfather Clock
-
-			EutrophicDresser: {
-				MapEntry: Eutrophic Dresser
-				ContainerName: Eutrophic Dresser
-			}
-
+			EutrophicDresser.MapEntry: Eutrophic Dresser
 			EutrophicPiano.MapEntry: Piano
 			EutrophicWorkBench.MapEntry: Work Bench
 			ExoBathtubTile.MapEntry: Bathtub
@@ -14325,23 +14246,13 @@ Mods: {
 			ExoBookcaseTile.MapEntry: Bookcase
 			ExoCandelabraTile.MapEntry: Candelabra
 			ExoCandleTile.MapEntry: Candle
-
-			ExoChestTile: {
-				MapEntry: Exo Chest
-				ContainerName: Exo Chest
-			}
-
+			ExoChestTile.MapEntry: Exo Chest
 			ExoClockTile.MapEntry: Grandfather Clock
 			ExoConsoleTile.MapEntry: Console
 			ExoDisplayTile.MapEntry: Display
 			ExoDoorClosed.MapEntry: Exo Door
 			ExoDoorOpen.MapEntry: Exo Door
-
-			ExoDresserTile: {
-				MapEntry: Exo Dresser
-				ContainerName: Exo Dresser
-			}
-
+			ExoDresserTile.MapEntry: Exo Dresser
 			ExoKeyboardTile.MapEntry: Exo Keyboard
 			ExoScreenTile.MapEntry: Screen
 			ExoServerTile.MapEntry: Server
@@ -14353,19 +14264,9 @@ Mods: {
 			MonolithBookcase.MapEntry: Bookcase
 			MonolithCandelabra.MapEntry: Candelabra
 			MonolithCandle.MapEntry: Candle
-
-			MonolithChest: {
-				MapEntry: Monolith Chest
-				ContainerName: Monolith Chest
-			}
-
+			MonolithChest.MapEntry: Monolith Chest
 			MonolithClock.MapEntry: Grandfather Clock
-
-			MonolithDresser: {
-				MapEntry: Monolith Dresser
-				ContainerName: Monolith Dresser
-			}
-
+			MonolithDresser.MapEntry: Monolith Dresser
 			MonolithPiano.MapEntry: Piano
 			MonolithWorkBench.MapEntry: Work Bench
 			OtherworldlyBathtub.MapEntry: Bathtub
@@ -14373,19 +14274,9 @@ Mods: {
 			OtherworldlyBookcase.MapEntry: Bookcase
 			OtherworldlyCandelabra.MapEntry: Candelabra
 			OtherworldlyCandle.MapEntry: Candle
-
-			OtherworldlyChest: {
-				MapEntry: Otherworldly Chest
-				ContainerName: Otherworldly Chest
-			}
-
+			OtherworldlyChest.MapEntry: Otherworldly Chest
 			OtherworldlyClock.MapEntry: Grandfather Clock
-
-			OtherworldlyDresser: {
-				MapEntry: Otherworldly Dresser
-				ContainerName: Otherworldly Dresser
-			}
-
+			OtherworldlyDresser.MapEntry: Otherworldly Dresser
 			OtherworldlyPiano.MapEntry: Piano
 			OtherworldlyWorkBench.MapEntry: Work Bench
 			PlaguedPlateBasin.MapEntry: Broken Plagued 'Bed'
@@ -14394,19 +14285,9 @@ Mods: {
 			PlaguedPlateBookcase.MapEntry: Bookcase
 			PlaguedPlateCandelabra.MapEntry: Candelabra
 			PlaguedPlateCandle.MapEntry: Candle
-
-			PlaguedPlateChest: {
-				MapEntry: Plagued Chest
-				ContainerName: Plagued Chest
-			}
-
+			PlaguedPlateChest.MapEntry: Plagued Chest
 			PlaguedPlateClock.MapEntry: Grandfather Clock
-
-			PlaguedPlateDresser: {
-				MapEntry: Plagued Dresser
-				ContainerName: Plagued Dresser
-			}
-
+			PlaguedPlateDresser.MapEntry: Plagued Dresser
 			PlaguedPlatePiano.MapEntry: Piano
 			PlaguedPlateWorkbench.MapEntry: Work Bench
 			ProfanedBath.MapEntry: Bathtub
@@ -14414,19 +14295,9 @@ Mods: {
 			ProfanedBookcase.MapEntry: Bookcase
 			ProfanedCandelabra.MapEntry: Candelabra
 			ProfanedCandle.MapEntry: Candle
-
-			ProfanedChest: {
-				MapEntry: Profaned Chest
-				ContainerName: Profaned Chest
-			}
-
+			ProfanedChest.MapEntry: Profaned Chest
 			ProfanedClock.MapEntry: Grandfather Clock
-
-			ProfanedDresser: {
-				MapEntry: Profaned Dresser
-				ContainerName: Profaned Dresser
-			}
-
+			ProfanedDresser.MapEntry: Profaned Dresser
 			ProfanedPiano.MapEntry: Piano
 			ProfanedWorkbench.MapEntry: Work Bench
 			MonolithOfTheAccursedTile.MapEntry: Monolith of the Accursed
@@ -14435,19 +14306,9 @@ Mods: {
 			SacrilegiousBookcaseTile.MapEntry: Bookcase
 			SacrilegiousCandelabraTile.MapEntry: Candelabra
 			SacrilegiousCandleTile.MapEntry: Candle
-
-			SacrilegiousChestTile: {
-				MapEntry: Sacrilegious Chest
-				ContainerName: Sacrilegious Chest
-			}
-
+			SacrilegiousChestTile.MapEntry: Sacrilegious Chest
 			SacrilegiousClockTile.MapEntry: Grandfather Clock
-
-			SacrilegiousDresserTile: {
-				MapEntry: Sacrilegious Dresser
-				ContainerName: Sacrilegious Dresser
-			}
-
+			SacrilegiousDresserTile.MapEntry: Sacrilegious Dresser
 			SacrilegiousOrganTile.MapEntry: Piano
 			SacrilegiousWorkBenchTile.MapEntry: Work Bench
 			SilvaBathtub.MapEntry: Bathtub
@@ -14455,19 +14316,9 @@ Mods: {
 			SilvaBookcase.MapEntry: Bookcase
 			SilvaCandelabra.MapEntry: Candelabra
 			SilvaCandle.MapEntry: Candle
-
-			SilvaChest: {
-				MapEntry: Silva Chest
-				ContainerName: Silva Chest
-			}
-
+			SilvaChest.MapEntry: Silva Chest
 			SilvaClock.MapEntry: Grandfather Clock
-
-			SilvaDresser: {
-				MapEntry: Silva Dresser
-				ContainerName: Silva Dresser
-			}
-
+			SilvaDresser.MapEntry: Silva Dresser
 			SilvaPiano.MapEntry: Piano
 			SilvaWorkBench.MapEntry: Work Bench
 			StatigelBath.MapEntry: Bathtub
@@ -14475,19 +14326,9 @@ Mods: {
 			StatigelBookcase.MapEntry: Bookcase
 			StatigelCandelabra.MapEntry: Candelabra
 			StatigelCandle.MapEntry: Candle
-
-			StatigelChest: {
-				MapEntry: Statigel Chest
-				ContainerName: Statigel Chest
-			}
-
+			StatigelChest.MapEntry: Statigel Chest
 			StatigelClock.MapEntry: Grandfather Clock
-
-			StatigelDresser: {
-				MapEntry: Statigel Dresser
-				ContainerName: Statigel Dresser
-			}
-
+			StatigelDresser.MapEntry: Statigel Dresser
 			StatigelPiano.MapEntry: Piano
 			StatigelWorkbench.MapEntry: Work Bench
 			StratusBathtub.MapEntry: Bathtub
@@ -14495,19 +14336,9 @@ Mods: {
 			StratusBookcase.MapEntry: Bookcase
 			StratusCandelabra.MapEntry: Candelabra
 			StratusCandle.MapEntry: Candle
-
-			StratusChest: {
-				MapEntry: Stratus Chest
-				ContainerName: Stratus Chest
-			}
-
+			StratusChest.MapEntry: Stratus Chest
 			StratusClock.MapEntry: Grandfather Clock
-
-			StratusDresser: {
-				MapEntry: Stratus Dresser
-				ContainerName: Stratus Dresser
-			}
-
+			StratusDresser.MapEntry: Stratus Dresser
 			StratusPiano.MapEntry: Piano
 			StratusWorkbench.MapEntry: Work Bench
 			VoidBath.MapEntry: Bathtub
@@ -14515,19 +14346,9 @@ Mods: {
 			VoidBookcase.MapEntry: Bookcase
 			VoidCandelabra.MapEntry: Candelabra
 			VoidCandle.MapEntry: Candle
-
-			VoidChest: {
-				MapEntry: Void Chest
-				ContainerName: Void Chest
-			}
-
+			VoidChest.MapEntry: Void Chest
 			VoidClock.MapEntry: Void Obelisk
-
-			VoidDresser: {
-				MapEntry: Void Dresser
-				ContainerName: Void Dresser
-			}
-
+			VoidDresser.MapEntry: Void Dresser
 			VoidPiano.MapEntry: Piano
 			VoidWorkbench.MapEntry: Work Bench
 			WulfrumBathtub.MapEntry: Bathtub
@@ -14536,12 +14357,7 @@ Mods: {
 			WulfrumCandelabra.MapEntry: Candelabra
 			WulfrumCandle.MapEntry: Candle
 			WulfrumClock.MapEntry: Grandfather Clock
-
-			WulfrumDresser: {
-				MapEntry: Wulfrum Dresser
-				ContainerName: Wulfrum Dresser
-			}
-
+			WulfrumDresser.MapEntry: Wulfrum Dresser
 			WulfrumPiano.MapEntry: Piano
 			WulfrumToilet.MapEntry: Wulfrum Toilet
 			WulfrumWorkbench.MapEntry: Work Bench
@@ -14584,7 +14400,6 @@ Mods: {
 			TableCoral.MapEntry: Table Coral
 			TubeCoral.MapEntry: Tube Coral
 			VernalSoil.MapEntry: Vernal Soil
-			AstralChestLocked.ContainerName: Astral Chest
 		}
 
 		TownNPCMood: {
@@ -17527,7 +17342,6 @@ Mods: {
 			SeraphimBeamLarge.DisplayName: Holy Beam
 			SeraphimDagger.DisplayName: Seraphim
 			SeraphimProjectile.DisplayName: Seraphim
-			ShadowBlackhole.DisplayName: Blackhole
 			ShatteredExplosion.DisplayName: Shattered Sun Blast
 			ShatteredSunKnife.DisplayName: Shattered Sun
 			ShatteredSunScorchedBlade.DisplayName: Scorched Blade

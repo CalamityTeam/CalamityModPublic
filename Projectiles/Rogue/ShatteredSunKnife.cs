@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => ShatteredExplosion();
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => ShatteredExplosion();
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => ShatteredExplosion();
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

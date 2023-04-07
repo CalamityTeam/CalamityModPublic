@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.ResearchUnlockCount = 5;
             // DisplayName.SetDefault("Evergreen Gin");
             // Tooltip.SetDefault(@"It tastes like a Christmas tree, if you can imagine that
-Multiplies all sickness and water-related debuff damage by 1.25
-Reduces life regen by 1");
+//Multiplies all sickness and water-related debuff damage by 1.25
+//Reduces life regen by 1");
         }
 
         public override void SetDefaults()

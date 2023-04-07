@@ -14,13 +14,12 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             this.SetUpDresser();
             LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Plagued Dresser");
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Plagued Dresser");
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>();
         }
+
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
@@ -42,17 +41,16 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>();
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>();
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
     }

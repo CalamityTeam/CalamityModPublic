@@ -18,14 +18,14 @@ namespace CalamityMod.UI.VanillaBossBars
     {
         public override Asset<Texture2D> GetIconTexture(ref Rectangle? iconFrame) => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[NPCType<AstrumDeusHead>()]];
 
-        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)/* tModPorter Note: life and shield current and max values are now separate to allow for hp/shield number text draw */
+        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)
         {
             NPC target = Main.npc[info.npcIndexToAimAt];
 			if (!target.active && !FindMoreWorms(ref info))
 				return false;
 
-            int life = 0;
-            int lifeMax = 0;
+            life = 0f;
+            lifeMax = 0f;
 
             // Determine the real health by finding more of itself
             for (int i = 0; i < Main.maxNPCs; i++)
@@ -51,7 +51,6 @@ namespace CalamityMod.UI.VanillaBossBars
                     }
 				}
 			}
-            lifePercent = Utils.Clamp(life / (float)lifeMax, 0f, 1f);
             return true;
         }
 

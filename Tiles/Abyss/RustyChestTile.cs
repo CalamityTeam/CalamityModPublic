@@ -15,13 +15,12 @@ namespace CalamityMod.Tiles.Abyss
         {
             this.SetUpChest();
             LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Rusty Chest");
             AddMapEntry(new Color(113, 90, 71), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Rusty Chest");
-            ItemDrop = ModContent.ItemType<RustyChest>();
         }
+
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -40,7 +39,6 @@ namespace CalamityMod.Tiles.Abyss
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
 
@@ -51,12 +49,12 @@ namespace CalamityMod.Tiles.Abyss
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver<RustyChest>("Rusty Chest", i, j);
+            CalamityUtils.ChestMouseOver<RustyChest>(i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar<RustyChest>("Rusty Chest", i, j);
+            CalamityUtils.ChestMouseFar<RustyChest>(i, j);
         }
     }
 }

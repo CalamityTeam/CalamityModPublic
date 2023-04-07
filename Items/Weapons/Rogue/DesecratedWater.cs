@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Desecrated Water");
             // Tooltip.SetDefault(@"Throws an unholy flask of water that explodes into an explosion of bubbles on death
-Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno");
+//Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno");
             Item.ResearchUnlockCount = 1;
         }
 

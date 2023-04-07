@@ -21,18 +21,16 @@ namespace CalamityMod.UI.VanillaBossBars
 
         public override Asset<Texture2D> GetIconTexture(ref Rectangle? iconFrame) => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[NPCType<CeaselessVoid>()]];
 
-        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)/* tModPorter Note: life and shield current and max values are now separate to allow for hp/shield number text draw */
+        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)
         {
             NPC target = Main.npc[info.npcIndexToAimAt];
 			if (!target.active)
 				return false;
 
             // Normal boss health
-            lifePercent = Utils.Clamp(target.life / (float)target.lifeMax, 0f, 1f);
+            float lifePercent = Utils.Clamp(life / lifeMax, 0f, 1f);
 
             // Determine the shield health
-            int shield = 0;
-            int shieldMax = 0;
             // Amount of Dark Energies expected from each phase/difficulty
             int ExpectedBallsCounter = ((lifePercent <= 0.1f ? 3 : lifePercent <= 0.4f ? 2 : lifePercent <= 0.7f ? 1 : 0) + (CalamityWorld.death ? 6 : CalamityWorld.revenge ? 5 : Main.expertMode ? 4 : 3)) * (Main.getGoodWorld ? 6 : 3) + 2;
             // The Dark Energies will instantly all die at a certain point of their total max health
@@ -52,7 +50,6 @@ namespace CalamityMod.UI.VanillaBossBars
 	    				shield += part.life;				
     			}
             }
-            shieldPercent = Utils.Clamp(shield / (float)shieldMax, 0f, 1f);
             return true;
         }
     }

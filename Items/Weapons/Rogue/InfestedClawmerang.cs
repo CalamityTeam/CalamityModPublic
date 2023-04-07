@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Infested Clawmerang");
             // Tooltip.SetDefault(@"Fires a slow, long-ranged boomerang
-Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing spores");
+//Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing spores");
             Item.ResearchUnlockCount = 1;
         }
 

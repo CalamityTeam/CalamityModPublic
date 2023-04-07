@@ -206,7 +206,7 @@ namespace CalamityMod.Projectiles.Magic
         // Inflict Dragonfire.
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<Dragonfire>(), 180);
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => target.AddBuff(ModContent.BuffType<Dragonfire>(), 180);
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<Dragonfire>(), 180);
 
         // Determines whether the specified target hitbox is intersecting with the beam.
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

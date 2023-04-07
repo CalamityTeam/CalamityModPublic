@@ -42,10 +42,11 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 8; i++)

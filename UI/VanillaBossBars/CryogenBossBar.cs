@@ -24,18 +24,13 @@ namespace CalamityMod.UI.VanillaBossBars
             return ModContent.Request<Texture2D>("CalamityMod/NPCs/Cryogen/Cryogen_Phase1_Head_Boss");
         }
 
-        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)/* tModPorter Note: life and shield current and max values are now separate to allow for hp/shield number text draw */
+        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)
         {
             NPC target = Main.npc[info.npcIndexToAimAt];
 			if (!target.active)
 				return false;
 
-            // Normal boss health
-            lifePercent = Utils.Clamp(target.life / (float)target.lifeMax, 0f, 1f);
-
             // Determine the shield health
-            int shield = 0;
-            int shieldMax = 0;
             for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				NPC part = Main.npc[i];
@@ -45,7 +40,6 @@ namespace CalamityMod.UI.VanillaBossBars
                     shieldMax += part.lifeMax;
 				}
 			}
-            shieldPercent = Utils.Clamp(shield / (float)shieldMax, 0f, 1f);
             return true;
         }
     }

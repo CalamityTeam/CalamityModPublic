@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.timeLeft = 8;
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (damage <= 0)
                 return;

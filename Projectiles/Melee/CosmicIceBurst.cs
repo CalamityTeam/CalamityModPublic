@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.direction = Main.player[Projectile.owner].direction;
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.Frostburn, 180);
             target.AddBuff(ModContent.BuffType<Nightwither>(), 420);

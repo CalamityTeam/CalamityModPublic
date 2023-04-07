@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.active = false;
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (damage <= 0)
                 return;
@@ -313,17 +313,9 @@ namespace CalamityMod.Projectiles.Summon
             Main.player[Projectile.owner].Calamity().rollBabSpears(35, target.chaseable);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Main.player[Projectile.owner].Calamity().rollBabSpears(35, true);
-        }
-
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            if (hits > 0)
-            {
-                damage -= (int)(damage * (0.1f * (hits / 10))); //loses 10% damage per 10 hits
-            }
         }
 
         public override bool? CanHitNPC(NPC target)
@@ -450,16 +442,6 @@ namespace CalamityMod.Projectiles.Summon
             Main.player[Projectile.owner].Calamity().rollBabSpears(chance, target.chaseable);
         }
 
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
-        {
-            if (Projectile.ai[0] == 1f && Projectile.penetrate == 1)
-            {
-                handleSpecialHit(target.Center);
-            }
-            int chance = Projectile.ai[0] == 2f ? 20 : 10 * Projectile.penetrate;
-            Main.player[Projectile.owner].Calamity().rollBabSpears(chance, true);
-        }
-
         private void handleSpecialHit(Vector2 targCenter)
         {
             if (Projectile.owner == Main.myPlayer)
@@ -533,7 +515,7 @@ namespace CalamityMod.Projectiles.Summon
             onHit();
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             onHit();
         }
@@ -740,7 +722,7 @@ namespace CalamityMod.Projectiles.Summon
                 swarm(target.Center);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Main.player[Projectile.owner].Calamity().rollBabSpears(Projectile.scale == 1.5f ? 1 : 10, true);
             if (Projectile.scale == 1.5f && Projectile.ai[0] != 2f)
@@ -903,7 +885,7 @@ namespace CalamityMod.Projectiles.Summon
             Main.player[Projectile.owner].Calamity().rollBabSpears(50, target.chaseable);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Main.player[Projectile.owner].Calamity().rollBabSpears(50, true);
         }
@@ -1143,13 +1125,6 @@ namespace CalamityMod.Projectiles.Summon
         {
             Main.player[Projectile.owner].Calamity().rollBabSpears(Projectile.ai[0] == 0f ? 0 : 10, target.chaseable);
         }
-
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
-        {
-            Main.player[Projectile.owner].Calamity().rollBabSpears(Projectile.ai[0] == 0f ? 0 : 10, true);
-        }
-
-
 
         public override void Kill(int timeLeft)
         {

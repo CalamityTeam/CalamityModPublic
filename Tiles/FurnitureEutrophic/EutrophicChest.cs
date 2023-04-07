@@ -14,13 +14,12 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
         {
             this.SetUpChest(true);
             LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Eutrophic Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Eutrophic Chest");
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicChest>();
         }
+
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -39,7 +38,6 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
 
@@ -50,12 +48,12 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureEutrophic.EutrophicChest>("Eutrophic Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureEutrophic.EutrophicChest>(i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureEutrophic.EutrophicChest>("Eutrophic Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureEutrophic.EutrophicChest>(i, j);
         }
     }
 }

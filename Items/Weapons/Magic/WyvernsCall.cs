@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Wyvern's Call");
             // Tooltip.SetDefault(@"I call upon the mythical Wyvern to shower the lands with its grace
-Fires wyverns and colored feathers from the sky that stick to enemies and tiles and explode");
+//Fires wyverns and colored feathers from the sky that stick to enemies and tiles and explode");
             Item.staff[Item.type] = true;
             Item.ResearchUnlockCount = 1;
         }

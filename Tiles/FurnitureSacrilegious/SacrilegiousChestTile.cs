@@ -17,13 +17,12 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         {
             this.SetUpChest(true);
             LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Sacrilegious Chest");
             AddMapEntry(new Color(43, 19, 42), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Sacrilegious Chest");
-            ItemDrop = ModContent.ItemType<SacrilegiousChest>();
         }
+
+		public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -42,15 +41,14 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
 
         public override bool RightClick(int i, int j) => CalamityUtils.ChestRightClick(i, j);
 
-        public override void MouseOver(int i, int j) => CalamityUtils.ChestMouseOver<SacrilegiousChest>("Sacrilegious Chest", i, j);
+        public override void MouseOver(int i, int j) => CalamityUtils.ChestMouseOver<SacrilegiousChest>(i, j);
 
-        public override void MouseOverFar(int i, int j) => CalamityUtils.ChestMouseFar<SacrilegiousChest>("Sacrilegious Chest", i, j);
+        public override void MouseOverFar(int i, int j) => CalamityUtils.ChestMouseFar<SacrilegiousChest>(i, j);
 
 		// Make the chest brighter the more stuff it has
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Deific Thunderbolt");
             // Tooltip.SetDefault(@"Fires a lightning bolt to electrocute enemies
-The lightning bolt travels faster while it is raining
-Summons lightning from the sky on impact
-Stealth strikes summon more lightning and travel faster");
+//The lightning bolt travels faster while it is raining
+//Summons lightning from the sky on impact
+//Stealth strikes summon more lightning and travel faster");
             Item.ResearchUnlockCount = 1;
         }
 

@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.velocity *= 0.75f;
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 150);
             target.AddBuff(BuffID.Daybreak, 150);

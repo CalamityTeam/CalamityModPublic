@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.Ichor, 180);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);

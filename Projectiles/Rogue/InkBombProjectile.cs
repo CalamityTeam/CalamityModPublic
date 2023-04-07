@@ -40,10 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
                 CreateInk();
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        {
-            CreateInk();
-        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => CreateInk();
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Turbulance");
             // Tooltip.SetDefault(@"Fires a cloudy javelin that bursts into wind slashes on hit
-Wind slashes home if the javelin crits
-Stealth strikes are trailed by homing wind slashes");
+//Wind slashes home if the javelin crits
+//Stealth strikes are trailed by homing wind slashes");
             Item.ResearchUnlockCount = 1;
         }
 

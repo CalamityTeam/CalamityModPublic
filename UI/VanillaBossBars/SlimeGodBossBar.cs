@@ -27,17 +27,17 @@ namespace CalamityMod.UI.VanillaBossBars
 
         public override Asset<Texture2D> GetIconTexture(ref Rectangle? iconFrame) => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[NPCType<SlimeGodCore>()]];
 
-        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)/* tModPorter Note: life and shield current and max values are now separate to allow for hp/shield number text draw */
+        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)
         {
             NPC target = Main.npc[info.npcIndexToAimAt];
 			if (!target.active)
 				return false;
 
-            int life = 0;
-            int lifeMax = 0;
-            FalseNPCSegment = new NPC();
+            life = 0;
+            lifeMax = 0;
 
             // Add max health by feeding the data of false NPCs
+            FalseNPCSegment = new NPC();
             FalseNPCSegment.SetDefaults(NPCType<CrimulanSlimeGod>(), target.GetMatchingSpawnParams());
             lifeMax += FalseNPCSegment.lifeMax;
             FalseNPCSegment.SetDefaults(NPCType<EbonianSlimeGod>(), target.GetMatchingSpawnParams());
@@ -52,7 +52,6 @@ namespace CalamityMod.UI.VanillaBossBars
 					life += part.life;
 				}
 			}
-            lifePercent = Utils.Clamp(life / (float)lifeMax, 0f, 1f);
             return true;
         }
     }

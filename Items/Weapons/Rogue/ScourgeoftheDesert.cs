@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Scourge of the Desert");
             // Tooltip.SetDefault(@"Gains velocity over time
-Stealth strikes gain damage as they damage enemies");
+//Stealth strikes gain damage as they damage enemies");
             Item.ResearchUnlockCount = 1;
         }
 

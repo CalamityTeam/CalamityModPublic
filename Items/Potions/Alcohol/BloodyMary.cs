@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.ResearchUnlockCount = 5;
             // DisplayName.SetDefault("Bloody Mary");
             // Tooltip.SetDefault(@"Extra spicy and bloody!
-Boosts damage and movement speed by 10% during a Blood Moon
-Reduces life regen by 4 and defense by 4%");
+//Boosts damage and movement speed by 10% during a Blood Moon
+//Reduces life regen by 4 and defense by 4%");
         }
 
         public override void SetDefaults()

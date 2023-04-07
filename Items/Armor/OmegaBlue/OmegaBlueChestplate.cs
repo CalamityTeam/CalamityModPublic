@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Armor.OmegaBlue
             Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Omega Blue Chestplate");
             // Tooltip.SetDefault(@"12% increased damage and 8% increased critical strike chance
-Your attacks inflict Crush Depth
-No positive life regen");
+//Your attacks inflict Crush Depth
+//No positive life regen");
 
             if (Main.netMode == NetmodeID.Server)
                 return;

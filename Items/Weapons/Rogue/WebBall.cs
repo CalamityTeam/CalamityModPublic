@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Web Ball");
             // Tooltip.SetDefault(@"Throws a web-covered ball that covers enemies in cobwebs to slow them down
-Stealth strikes slow enemies down longer");
+//Stealth strikes slow enemies down longer");
             Item.ResearchUnlockCount = 99;
         }
 

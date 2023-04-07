@@ -170,7 +170,7 @@ namespace CalamityMod.Projectiles.Rogue
             Sparks();
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
             target.AddBuff(BuffID.Electrified, 150);

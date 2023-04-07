@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.ClosedDoor };
-            OpenDoorID/* tModPorter Note: Removed. Use TileID.Sets.OpenDoorID instead */ = ModContent.TileType<AncientDoorOpen>();
+            TileID.Sets.OpenDoorID[Type] = ModContent.TileType<AncientDoorOpen>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

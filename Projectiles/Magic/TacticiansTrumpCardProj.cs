@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TacticiansElectricBoom>(), Projectile.damage / 2, 0f, Projectile.owner);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TacticiansElectricBoom>(), Projectile.damage / 2, 0f, Projectile.owner);
         }

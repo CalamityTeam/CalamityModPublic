@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Terra Disk");
             // Tooltip.SetDefault(@"Throws a disk that has a chance to generate several disks if enemies are near it
-Stealth strikes travel slower and are rapidly orbited by the smaller disks");
+//Stealth strikes travel slower and are rapidly orbited by the smaller disks");
             Item.ResearchUnlockCount = 1;
         }
 

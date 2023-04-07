@@ -114,14 +114,6 @@ namespace CalamityMod.Projectiles.Typeless
             return new Color(255, 255, 255, 127);
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            Projectile.direction = Main.player[Projectile.owner].direction;
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
-        {
-            Projectile.direction = Main.player[Projectile.owner].direction;
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => Projectile.direction = Main.player[Projectile.owner].direction;
     }
 }

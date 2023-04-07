@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.ResearchUnlockCount = 5;
             // DisplayName.SetDefault("Everclear");
             // Tooltip.SetDefault(@"This is the most potent booze I have, be careful with it
-Boosts damage by 25%
-Reduces life regen by 10 and defense by 30%");
+//Boosts damage by 25%
+//Reduces life regen by 10 and defense by 30%");
         }
 
         public override void SetDefaults()

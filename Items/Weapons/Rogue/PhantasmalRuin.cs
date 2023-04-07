@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Phantasmal Ruin");
             // Tooltip.SetDefault(@"Fires an enormous ghost lance that emits lost souls as it flies
-Explodes into tormented souls on enemy hits
-Stealth strikes continuously leave spectral clones in their wake");
+//Explodes into tormented souls on enemy hits
+//Stealth strikes continuously leave spectral clones in their wake");
             Item.ResearchUnlockCount = 1;
         }
 

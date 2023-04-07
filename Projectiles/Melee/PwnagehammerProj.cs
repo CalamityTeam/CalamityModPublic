@@ -201,16 +201,6 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
-        {
-            if (Projectile.ai[0] == 1f && Main.myPlayer == Projectile.owner)
-            {
-                int hammer = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -15f), ModContent.ProjectileType<PwnagehammerEcho>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner, 0f, Projectile.ai[1]);
-                Main.projectile[hammer].localAI[0] = Math.Sign(Projectile.velocity.X);
-                Main.projectile[hammer].netUpdate = true;
-            }
-        }
-
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.localAI[0] = target.whoAmI;

@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.ai[1] = target.whoAmI;
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Projectile.ai[0] = 10f;
             Projectile.damage /= 2;

@@ -14,13 +14,12 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         {
             this.SetUpChest();
             LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Cosmilite Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Cosmilite Chest");
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteChest>();
         }
+
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -40,7 +39,6 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
 
@@ -51,12 +49,12 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureCosmilite.CosmiliteChest>("Cosmilite Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureCosmilite.CosmiliteChest>(i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureCosmilite.CosmiliteChest>("Cosmilite Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureCosmilite.CosmiliteChest>(i, j);
         }
     }
 }

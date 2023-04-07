@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             float dist1 = Vector2.Distance(Projectile.Center, target.Hitbox.TopLeft());
             float dist2 = Vector2.Distance(Projectile.Center, target.Hitbox.TopRight());
