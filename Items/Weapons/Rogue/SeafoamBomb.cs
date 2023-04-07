@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Seafoam Bomb");
             // Tooltip.SetDefault(@"Throws a bomb that explodes into a bubble which deals extra damage to enemies
-Stealth strikes are faster and explode into 5 bubbles");
+//Stealth strikes are faster and explode into 5 bubbles");
             Item.ResearchUnlockCount = 1;
         }
 

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.ResearchUnlockCount = 5;
             // DisplayName.SetDefault("Grape Beer");
             // Tooltip.SetDefault(@"This crap is abhorrent but you might like it
-Reduces defense by 3%");
+//Reduces defense by 3%");
         }
 
         public override void SetDefaults()

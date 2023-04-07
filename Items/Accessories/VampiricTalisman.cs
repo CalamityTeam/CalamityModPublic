@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Vampiric Talisman");
             // Tooltip.SetDefault(@"Rogue projectiles give lifesteal on crits
-12% increased rogue damage");
+//12% increased rogue damage");
         }
 
         public override void SetDefaults()

@@ -13,8 +13,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Hardened Honeycomb");
             // Tooltip.SetDefault(@"Fires a honeycomb that shatters into fragments
-Grants the honey buff to players it touches
-Stealth strikes can bounce off walls and enemies");
+//Grants the honey buff to players it touches
+//Stealth strikes can bounce off walls and enemies");
             Item.ResearchUnlockCount = 99;
         }
 

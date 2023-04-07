@@ -13,8 +13,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Bouncy Spiky Ball");
             // Tooltip.SetDefault(@"Throws a very bouncy ball that ricochets off walls and enemies
-Receives a small boost in damage and velocity after bouncing off an enemy
-Stealth strikes throw four at once");
+//Receives a small boost in damage and velocity after bouncing off an enemy
+//Stealth strikes throw four at once");
             Item.ResearchUnlockCount = 99;
         }
 

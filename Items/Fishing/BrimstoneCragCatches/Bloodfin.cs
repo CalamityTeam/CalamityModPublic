@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         {
             // DisplayName.SetDefault("Bloodfin");
             // Tooltip.SetDefault(@"The wonders of angiogenesis
-Grants a buff that boosts life regen for 10 seconds
-The life regen boost is stronger if below 75% health
-10 second duration");
+//Grants a buff that boosts life regen for 10 seconds
+//The life regen boost is stronger if below 75% health
+//10 second duration");
             Item.ResearchUnlockCount = 30;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }

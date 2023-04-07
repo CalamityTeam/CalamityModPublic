@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Sticky Spiky Ball");
             // Tooltip.SetDefault(@"Throws a spiky ball that sticks to everything
-Stealth strikes throw four at once and last a lot longer");
+//Stealth strikes throw four at once and last a lot longer");
             Item.ResearchUnlockCount = 99;
         }
 

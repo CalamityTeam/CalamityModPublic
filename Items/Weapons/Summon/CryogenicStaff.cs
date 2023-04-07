@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Cryogenic Staff");
             // Tooltip.SetDefault(@"Summons an animated ice construct to protect you
-Fire rate and range increase the longer it targets an enemy");
+//Fire rate and range increase the longer it targets an enemy");
             Item.ResearchUnlockCount = 1;
         }
 

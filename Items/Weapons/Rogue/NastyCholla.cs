@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Nasty Cholla");
             // Tooltip.SetDefault(@"Throws a spiky ball that sticks to everything
-Explodes into cactus spikes after roughly 3 seconds
-Can hurt town NPCs
-Stealth strikes throw four at once");
+//Explodes into cactus spikes after roughly 3 seconds
+//Can hurt town NPCs
+//Stealth strikes throw four at once");
             Item.ResearchUnlockCount = 99;
         }
 

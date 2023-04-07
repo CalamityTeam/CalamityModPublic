@@ -13,8 +13,8 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.ResearchUnlockCount = 5;
             // DisplayName.SetDefault("White Wine");
             // Tooltip.SetDefault(@"I drank a full barrel of this stuff once in one night, I couldn't remember who I was the next day
-Boosts magic damage by 8%
-Reduces defense by 6% and life regen by 1");
+//Boosts magic damage by 8%
+//Reduces defense by 6% and life regen by 1");
         }
 
         public override void SetDefaults()

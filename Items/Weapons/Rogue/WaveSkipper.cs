@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Wave Skipper"); // This will drop from the Sunken Sea Scourge miniboss once it's implemented.
             // Tooltip.SetDefault(@"Throws a spear that bounces a lot
-Stealth strikes throw three high speed spears");
+//Stealth strikes throw three high speed spears");
             Item.ResearchUnlockCount = 1;
         }
 

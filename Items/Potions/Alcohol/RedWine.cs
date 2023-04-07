@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.ResearchUnlockCount = 5;
             // DisplayName.SetDefault("Red Wine");
             // Tooltip.SetDefault(@"Too dry for my taste
-Reduces life regen by 1");
+//Reduces life regen by 1");
         }
 
         public override void SetDefaults()

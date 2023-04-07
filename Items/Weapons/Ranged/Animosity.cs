@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Animosity");
             // Tooltip.SetDefault(@"50% chance to not consume ammo
-Fires a powerful sniper round
-Right click to fire a burst of bullets");
+//Fires a powerful sniper round
+//Right click to fire a burst of bullets");
             Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }

@@ -13,8 +13,8 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             // DisplayName.SetDefault("Celestial Onion");
             // Tooltip.SetDefault(@"Alien power pulses inside its layers
-Consuming it does something that cannot be reversed
-This item does nothing in Master Mode");
+//Consuming it does something that cannot be reversed
+//This item does nothing in Master Mode");
             Item.ResearchUnlockCount = 1;
         }
 

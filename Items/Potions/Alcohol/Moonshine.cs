@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.ResearchUnlockCount = 5;
             // DisplayName.SetDefault("Moonshine");
             // Tooltip.SetDefault(@"This stuff is pretty strong but I'm sure you can handle it
-Increases defense by 10 and damage reduction by 3%
-Reduces life regen by 1");
+//Increases defense by 10 and damage reduction by 3%
+//Reduces life regen by 1");
         }
 
         public override void SetDefaults()
