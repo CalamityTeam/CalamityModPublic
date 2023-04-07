@@ -261,10 +261,11 @@ namespace CalamityMod
             return true;
         }
 
-        public static void ChestMouseOver<T>(string chestName, int i, int j) where T : ModItem
+        public static void ChestMouseOver<T>(int i, int j) where T : ModItem
         {
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
+            string chestName = TileLoader.DefaultContainerName(tile.TileType, tile.TileFrameX, tile.TileFrameY);
             int left = i;
             int top = j;
             if (tile.TileFrameX % 36 != 0)
@@ -294,9 +295,9 @@ namespace CalamityMod
             player.cursorItemIconEnabled = true;
         }
 
-        public static void ChestMouseFar<T>(string name, int i, int j) where T : ModItem
+        public static void ChestMouseFar<T>(int i, int j) where T : ModItem
         {
-            ChestMouseOver<T>(name, i, j);
+            ChestMouseOver<T>(i, j);
             Player player = Main.LocalPlayer;
             if (player.cursorItemIconText == "")
             {
@@ -449,10 +450,11 @@ namespace CalamityMod
             return false;
         }
 
-        public static void DresserMouseFar<T>(string chestName) where T : ModItem
+        public static void DresserMouseFar<T>() where T : ModItem
         {
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
+            string chestName = TileLoader.DefaultContainerName(tile.TileType, tile.TileFrameX, tile.TileFrameY);
             int left = Player.tileTargetX;
             int top = Player.tileTargetY;
             left -= (int)(tile.TileFrameX % 54 / 18);
@@ -491,10 +493,11 @@ namespace CalamityMod
             }
         }
 
-        public static void DresserMouseOver<T>(string chestName) where T : ModItem
+        public static void DresserMouseOver<T>() where T : ModItem
         {
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
+            string chestName = TileLoader.DefaultContainerName(tile.TileType, tile.TileFrameX, tile.TileFrameY);
             int left = Player.tileTargetX;
             int top = Player.tileTargetY;
             left -= (int)(tile.TileFrameX % 54 / 18);
@@ -627,11 +630,12 @@ namespace CalamityMod
             return false;
         }
 
-        public static void LockedChestMouseOver<K, C>(string chestName, int i, int j)
+        public static void LockedChestMouseOver<K, C>(int i, int j)
             where K : ModItem where C : ModItem
         {
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
+            string chestName = TileLoader.DefaultContainerName(tile.TileType, tile.TileFrameX, tile.TileFrameY);
             int left = i;
             int top = j;
             if (tile.TileFrameX % 36 != 0)
@@ -663,10 +667,10 @@ namespace CalamityMod
             player.cursorItemIconEnabled = true;
         }
 
-        public static void LockedChestMouseOverFar<K, C>(string chestName, int i, int j)
+        public static void LockedChestMouseOverFar<K, C>(int i, int j)
             where K : ModItem where C : ModItem
         {
-            LockedChestMouseOver<K, C>(chestName, i, j);
+            LockedChestMouseOver<K, C>(i, j);
             Player player = Main.LocalPlayer;
             if (player.cursorItemIconText == "")
             {
@@ -885,7 +889,7 @@ namespace CalamityMod
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(new Func<int, int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
-            TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
+            TileObjectData.newTile.AnchorInvalidTiles = new int[] { TileID.MagicalIceBlock };
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);

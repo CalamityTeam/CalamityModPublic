@@ -15,13 +15,12 @@ namespace CalamityMod.Tiles.DraedonStructures
         {
             this.SetUpChest();
             LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Aged Security Chest");
             AddMapEntry(new Color(130, 119, 115), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Aged Security Chest");
-            ItemDrop = ModContent.ItemType<AgedSecurityChest>();
         }
+
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
 
         public override bool CanExplode(int i, int j) => false;
 
@@ -42,7 +41,6 @@ namespace CalamityMod.Tiles.DraedonStructures
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
 
@@ -50,12 +48,12 @@ namespace CalamityMod.Tiles.DraedonStructures
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver<AgedSecurityChest>("Security Chest", i, j);
+            CalamityUtils.ChestMouseOver<AgedSecurityChest>(i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar<AgedSecurityChest>("Security Chest", i, j);
+            CalamityUtils.ChestMouseFar<AgedSecurityChest>(i, j);
         }
     }
 }

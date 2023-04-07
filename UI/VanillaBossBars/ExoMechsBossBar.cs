@@ -46,7 +46,7 @@ namespace CalamityMod.UI.VanillaBossBars
             return ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosNormalHead");
         }
 
-        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)/* tModPorter Note: life and shield current and max values are now separate to allow for hp/shield number text draw */
+        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)
         {
             ValidateAllMechs(ref info);
             NPC target = Main.npc[info.npcIndexToAimAt];
@@ -59,8 +59,8 @@ namespace CalamityMod.UI.VanillaBossBars
             }
 
             // Immediately grab the boss's health, whichever one it is. We will check later.
-            int life = target.life;
-            int lifeMax = target.lifeMax;
+            life = target.life;
+            lifeMax = target.lifeMax;
 
             // Checking for all bosses
             if (NPC.AnyNPCs(NPCType<AresBody>()) && NPC.AnyNPCs(NPCType<Artemis>()) && NPC.AnyNPCs(NPCType<ThanatosHead>()))
@@ -92,7 +92,6 @@ namespace CalamityMod.UI.VanillaBossBars
                         life += ecco.life;
                 }
             }
-            lifePercent = Utils.Clamp(life / (float)lifeMax, 0f, 1f);
             return true;
         }
 

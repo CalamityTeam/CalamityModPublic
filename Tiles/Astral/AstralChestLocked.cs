@@ -15,20 +15,17 @@ namespace CalamityMod.Tiles.Astral
         public override void SetStaticDefaults()
         {
             this.SetUpChest();
-
-            LocalizedText name = CreateMapEntryName("chestAstral");
-            // name.SetDefault("Astral Chest");
-            AddMapEntry(new Color(174, 129, 92), name, MapChestName);
-
-            name = CreateMapEntryName("chestAstral_Locked");
-            // name.SetDefault("Locked Astral Chest");
-            AddMapEntry(new Color(174, 129, 92), name, MapChestName);
-
+            AddMapEntry(new Color(174, 129, 92), this.GetLocalization("MapEntry0"), MapChestName);
+            AddMapEntry(new Color(174, 129, 92), this.GetLocalization("MapEntry1"), MapChestName);
             DustType = ModContent.DustType<AstralBasic>();
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Astral Chest");
-            ItemDrop = ModContent.ItemType<AstralChest>();
+        }
+
+        public override LocalizedText DefaultContainerName(int frameX, int frameY)
+        {
+            int option = frameX / 36;
+			return this.GetLocalization("MapEntry" + option);
         }
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
@@ -56,7 +53,6 @@ namespace CalamityMod.Tiles.Astral
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
 
@@ -80,12 +76,12 @@ namespace CalamityMod.Tiles.Astral
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver<AstralChest>("Astral Chest", i, j);
+            CalamityUtils.ChestMouseOver<AstralChest>(i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar<AstralChest>("Astral Chest", i, j);
+            CalamityUtils.ChestMouseFar<AstralChest>(i, j);
         }
     }
 }

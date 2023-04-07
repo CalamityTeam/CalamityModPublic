@@ -15,13 +15,12 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             this.SetUpDresser();
             LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Acidwood Dresser");
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Acidwood Dresser");
-            ItemDrop = ModContent.ItemType<AcidwoodDresser>();
         }
+
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -33,9 +32,9 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 
         public override bool RightClick(int i, int j) => CalamityUtils.DresserRightClick();
 
-        public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<AcidwoodDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
+        public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<AcidwoodDresser>();
 
-        public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<AcidwoodDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
+        public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<AcidwoodDresser>();
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
@@ -44,7 +43,6 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
     }

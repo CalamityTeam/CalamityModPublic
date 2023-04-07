@@ -14,13 +14,12 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         {
             this.SetUpDresser();
             LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Abyss Dresser");
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Abyss Dresser");
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssDresser>();
         }
+
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -37,12 +36,12 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureAbyss.AbyssDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureAbyss.AbyssDresser>();
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureAbyss.AbyssDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureAbyss.AbyssDresser>();
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -52,7 +51,6 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
     }

@@ -13,16 +13,16 @@ namespace CalamityMod.Tiles.FurnitureAshen
         public override void SetStaticDefaults()
         {
             this.SetUpChest(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Ashen Chest");
-            AddMapEntry(new Color(191, 142, 111), name, MapChestName);
-            name = CreateMapEntryName(Name + "_Locked");
-            // name.SetDefault("Locked Ashen Chest");
-            AddMapEntry(new Color(174, 129, 92), name, MapChestName);
+            AddMapEntry(new Color(191, 142, 111), this.GetLocalization("MapEntry0"), MapChestName);
+            AddMapEntry(new Color(174, 129, 92), this.GetLocalization("MapEntry1"), MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Ashen Chest");
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenChest>();
+        }
+
+        public override LocalizedText DefaultContainerName(int frameX, int frameY)
+        {
+            int option = frameX / 36;
+			return this.GetLocalization("MapEntry" + option);
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -53,7 +53,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
 
@@ -77,12 +76,12 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureAshen.AshenChest>("Ashen Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureAshen.AshenChest>(i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureAshen.AshenChest>("Ashen Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureAshen.AshenChest>(i, j);
         }
     }
 }

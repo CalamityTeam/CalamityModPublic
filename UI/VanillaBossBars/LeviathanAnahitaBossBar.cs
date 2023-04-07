@@ -23,7 +23,7 @@ namespace CalamityMod.UI.VanillaBossBars
             return TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[NPCType<Anahita>()]];
         }
 
-        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)/* tModPorter Note: life and shield current and max values are now separate to allow for hp/shield number text draw */
+        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)
         {
             NPC target = Main.npc[info.npcIndexToAimAt];
 
@@ -31,8 +31,8 @@ namespace CalamityMod.UI.VanillaBossBars
 				return false;
 
             // Immediately grab the boss's health, whichever one it is. We will check later.
-            int life = target.life;
-            int lifeMax = target.lifeMax;
+            life = target.life;
+            lifeMax = target.lifeMax;
 
             // Find the partner in question
             for (int i = 0; i < Main.maxNPCs; i++)
@@ -45,11 +45,8 @@ namespace CalamityMod.UI.VanillaBossBars
                     lifeMax += wife.lifeMax;
                 }
             }
-            lifePercent = Utils.Clamp(life / (float)lifeMax, 0f, 1f);
 
             // Determine Anahita's shield health only if she's solo (she can't just block Leviathan out of existence)
-            int shield = 0;
-            int shieldMax = 0;
             if (target.type == NPCType<Anahita>() && !NPC.AnyNPCs(NPCType<Leviathan>()))
             {       
                 for (int i = 0; i < Main.maxNPCs; i++)
@@ -62,7 +59,6 @@ namespace CalamityMod.UI.VanillaBossBars
                     }
                 }
             }
-            shieldPercent = Utils.Clamp(shield / (float)shieldMax, 0f, 1f);
             return true;
         }
 

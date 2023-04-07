@@ -15,13 +15,12 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             this.SetUpChest(true);
             LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Acidwood Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Acidwood Chest");
-            ItemDrop = ModContent.ItemType<AcidwoodChest>();
         }
+
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -40,14 +39,13 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
 
         public override bool RightClick(int i, int j) => CalamityUtils.ChestRightClick(i, j);
 
-        public override void MouseOver(int i, int j) => CalamityUtils.ChestMouseOver<AcidwoodChest>("Acidwood Chest", i, j);
+        public override void MouseOver(int i, int j) => CalamityUtils.ChestMouseOver<AcidwoodChest>(i, j);
 
-        public override void MouseOverFar(int i, int j) => CalamityUtils.ChestMouseFar<AcidwoodChest>("Acidwood Chest", i, j);
+        public override void MouseOverFar(int i, int j) => CalamityUtils.ChestMouseFar<AcidwoodChest>(i, j);
     }
 }
