@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Vampiric Talisman");
-            Tooltip.SetDefault(@"Rogue projectiles give lifesteal on crits
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Vampiric Talisman");
+            // Tooltip.SetDefault(@"Rogue projectiles give lifesteal on crits
 12% increased rogue damage");
         }
 

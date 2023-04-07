@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sun God Staff");
-            Tooltip.SetDefault("Summons a solar god spirit to protect you\n" +
-                "There can only be one spirit");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Sun God Staff");
+            /* Tooltip.SetDefault("Summons a solar god spirit to protect you\n" +
+                "There can only be one spirit"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

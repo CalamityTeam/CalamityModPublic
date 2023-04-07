@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Toxicatfish");
+            Item.ResearchUnlockCount = 1;
+            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Toxicatfish");
         }
 
         public override void SetDefaults()

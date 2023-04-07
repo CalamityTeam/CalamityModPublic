@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brimstone Target Ray");
+            // DisplayName.SetDefault("Brimstone Target Ray");
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 

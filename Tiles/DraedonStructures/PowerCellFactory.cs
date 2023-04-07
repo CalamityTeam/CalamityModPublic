@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Audio;
@@ -56,8 +57,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
 
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Power Cell Factory");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Power Cell Factory");
             AddMapEntry(new Color(67, 72, 81), name);
             AnimationFrameHeight = 68;
         }

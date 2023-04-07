@@ -16,12 +16,12 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Universal Genesis");
-            Tooltip.SetDefault("Let the starry sky fall upon your enemies\n" +
+            // DisplayName.SetDefault("Universal Genesis");
+            /* Tooltip.SetDefault("Let the starry sky fall upon your enemies\n" +
                 "Fires a spread of bullets from the gun and a flurry of stars to rain down on the cursor\n" +
                 "Converts musket balls into starcaller shots that summon additional stars on enemy hits\n" +
-                "50% chance to not consume ammo");
-            SacrificeTotal = 1;
+                "50% chance to not consume ammo"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

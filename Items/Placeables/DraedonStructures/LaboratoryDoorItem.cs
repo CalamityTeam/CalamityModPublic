@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Laboratory Door");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Laboratory Door");
         }
 
         public override void SetDefaults()

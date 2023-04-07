@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Rimehound Banner");
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Rimehound");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Rimehound Banner");
+            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Rimehound");
         }
 
         public override void SetDefaults()

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fountain");
+            // DisplayName.SetDefault("Fountain");
         }
 
         public override void SetDefaults()

@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nuclear Fury");
-            Tooltip.SetDefault("Casts a torrent of cosmic typhoons");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Nuclear Fury");
+            // Tooltip.SetDefault("Casts a torrent of cosmic typhoons");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

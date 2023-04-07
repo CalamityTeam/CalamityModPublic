@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eidolic Wail");
-            Tooltip.SetDefault("Earrape\n" +
-                "Fires a string of bouncing sound waves that become stronger as they travel");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Eidolic Wail");
+            /* Tooltip.SetDefault("Earrape\n" +
+                "Fires a string of bouncing sound waves that become stronger as they travel"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

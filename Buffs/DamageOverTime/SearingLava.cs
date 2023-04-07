@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.DamageOverTime
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Searing Lava");
-            Description.SetDefault("The brimstone lava sears your flesh");
+            // DisplayName.SetDefault("Searing Lava");
+            // Description.SetDefault("The brimstone lava sears your flesh");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;

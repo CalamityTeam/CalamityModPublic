@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Arctic Bear Paw");
-            Tooltip.SetDefault(@"The savage mauling that fits in your pocket
+            // DisplayName.SetDefault("Arctic Bear Paw");
+            // Tooltip.SetDefault(@"The savage mauling that fits in your pocket
 Fires spiritual claws that ignore walls");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

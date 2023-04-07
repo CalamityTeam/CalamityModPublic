@@ -12,11 +12,11 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Portabulb");
-            Tooltip.SetDefault("Summons Plantera when used in the Jungle\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Portabulb");
+            /* Tooltip.SetDefault("Summons Plantera when used in the Jungle\n" +
                 "Enrages outside the Underground Jungle\n" +
-                "Not consumable");
+                "Not consumable"); */
 			NPCID.Sets.MPAllowedEnemies[NPCID.Plantera] = true;
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 11; // Truffle Worm
         }
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, NPCID.Plantera);
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Plantera);
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, NPCID.Plantera);
 
             return true;
         }

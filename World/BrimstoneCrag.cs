@@ -34,7 +34,7 @@ namespace CalamityMod.World
         {
             //set StartX here so it can properly scale with worldsize (just to be safe)
             //the 25's are there to offset it from the exact edge of the world so that no "out of bounds" crashing occurs
-            StartX = WorldGen.dungeonX < Main.maxTilesX / 2 ? 25 : (Main.maxTilesX - (Main.maxTilesX / 5)) - 25;
+            StartX = GenVars.dungeonX < Main.maxTilesX / 2 ? 25 : (Main.maxTilesX - (Main.maxTilesX / 5)) - 25;
 
             //set these to be able to easily place things in certain locations, like structures
             int biomeStart = StartX;

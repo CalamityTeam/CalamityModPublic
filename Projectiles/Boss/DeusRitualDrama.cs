@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
         public static readonly Point PulseSize = new(300, 300);
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Deus Ritual Drama");
+            // DisplayName.SetDefault("Deus Ritual Drama");
         }
 
         public override void SetDefaults()

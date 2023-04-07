@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.SulphurousSea
         public const float CheckDistance = 480f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Belching Coral");
+            // DisplayName.SetDefault("Belching Coral");
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
             value.Position.Y += 4;
             value.PortraitPositionYOverride = 24f;
@@ -88,13 +88,13 @@ namespace CalamityMod.NPCs.SulphurousSea
             npcLoot.Add(ModContent.ItemType<BelchingSaxophone>(), 10);
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

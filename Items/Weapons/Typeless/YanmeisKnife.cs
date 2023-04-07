@@ -16,12 +16,12 @@ namespace CalamityMod.Items.Weapons.Typeless
         
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Yanmei's Knife");
-            Tooltip.SetDefault("When hitting a boss, miniboss, or their minions, you gain various boosts and cripple the enemy hit\n" +
+            // DisplayName.SetDefault("Yanmei's Knife");
+            /* Tooltip.SetDefault("When hitting a boss, miniboss, or their minions, you gain various boosts and cripple the enemy hit\n" +
                 "A knife from an unknown world\n" +
                 "An owner whose heart is pure and free of taint\n" +
-                "A heart of iron and valor");
-            SacrificeTotal = 1;
+                "A heart of iron and valor"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

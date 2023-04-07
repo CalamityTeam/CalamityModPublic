@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spine of Thanatos");
-            Tooltip.SetDefault("Releases 3 fast metallic whips outward\n" +
+            // DisplayName.SetDefault("Spine of Thanatos");
+            /* Tooltip.SetDefault("Releases 3 fast metallic whips outward\n" +
                                "Once all three collide, a prism of light is shot outward\n" +
-                               "If an enemy is within the line of sight of the whips on collision, the light will fire towards it");
-            SacrificeTotal = 1;
+                               "If an enemy is within the line of sight of the whips on collision, the light will fire towards it"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

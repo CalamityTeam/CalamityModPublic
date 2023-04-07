@@ -12,14 +12,14 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Elysian Wings");
-            Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Elysian Wings");
+            /* Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
                 "Horizontal speed: 9.50\n" +
                 "Acceleration multiplier: 2.7\n" +
                 "Great vertical speed\n" +
                 "Flight time: 240\n" +
-                "Grants immunity to lava and 10% increased movement speed");
+                "Grants immunity to lava and 10% increased movement speed"); */
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(240, 9.5f, 2.7f);
         }
 

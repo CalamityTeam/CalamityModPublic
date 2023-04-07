@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
         public int currentFrame => frameY + frameX * 4;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flame Pillar");
+            // DisplayName.SetDefault("Flame Pillar");
         }
 
         public override void SetDefaults()
@@ -61,13 +61,13 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire3, 240);
             target.AddBuff(BuffID.Daybreak, 420);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(BuffID.OnFire3, 300);
         }

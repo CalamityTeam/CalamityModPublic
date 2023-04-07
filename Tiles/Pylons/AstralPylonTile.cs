@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.Pylons
         public override Color DustColor => Main.rand.NextBool() ? Color.Coral : Color.MediumTurquoise;
 
 
-        public override int? IsPylonForSale(int npcType, Player player, bool isNPCHappyEnough)
+        public override NPCShop.Entry GetNPCShopEntry()/* tModPorter See ExamplePylonTile for an example. To register to specific NPC shops, use the new shop system directly in ModNPC.AddShop, GlobalNPC.ModifyShop or ModSystem.PostAddRecipes */
         {
             return isNPCHappyEnough && player.Calamity().ZoneAstral ? AssociatedItem : null;
         }

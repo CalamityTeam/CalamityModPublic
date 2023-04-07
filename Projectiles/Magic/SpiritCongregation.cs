@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spirit Monster");
+            // DisplayName.SetDefault("Spirit Monster");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
         }
@@ -292,7 +292,7 @@ namespace CalamityMod.Projectiles.Magic
 
         // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
         // Damage scales up over time as it grows
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             float damageFactor = 0.25f + 0.75f * CurrentPower;
             int fullPowerDamage;

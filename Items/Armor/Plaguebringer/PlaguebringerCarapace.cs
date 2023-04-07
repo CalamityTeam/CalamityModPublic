@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Armor.Plaguebringer
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Plaguebringer Carapace");
-            Tooltip.SetDefault("Grants immunity to the Plague\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Plaguebringer Carapace");
+            /* Tooltip.SetDefault("Grants immunity to the Plague\n" +
                 "12% increased minion damage\n" +
-                "Friendly bees inflict the plague");
+                "Friendly bees inflict the plague"); */
 
             if (Main.netMode == NetmodeID.Server)
                 return;

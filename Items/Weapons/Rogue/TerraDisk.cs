@@ -15,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terra Disk");
-            Tooltip.SetDefault(@"Throws a disk that has a chance to generate several disks if enemies are near it
+            // DisplayName.SetDefault("Terra Disk");
+            // Tooltip.SetDefault(@"Throws a disk that has a chance to generate several disks if enemies are near it
 Stealth strikes travel slower and are rapidly orbited by the smaller disks");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

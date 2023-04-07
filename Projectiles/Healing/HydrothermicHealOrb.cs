@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hydrothermic Rejuvenation");
+            // DisplayName.SetDefault("Hydrothermic Rejuvenation");
         }
 
         public override void SetDefaults()

@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gesture for the Drowned");
+            // DisplayName.SetDefault("Gesture for the Drowned");
 
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
@@ -218,7 +218,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (WaterMode)
                 damage = (int)(damage * TrueBiomeBlade.MarineAttunement_InWaterDamageMultiplier);

@@ -15,13 +15,13 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Metastasis");
-            Tooltip.SetDefault("Summons a sepulcher to fight for you\n" +
+            // DisplayName.SetDefault("Metastasis");
+            /* Tooltip.SetDefault("Summons a sepulcher to fight for you\n" +
                 "While the sepulcher is active brimstone hearts will begin to appear and orbit you\n" +
                 "It will attempt to attack you more and more frequently depending on how many hearts are present\n" +
                 "It takes up 4 minion slots and it can only be summoned once\n" +
-               CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor));
-            SacrificeTotal = 1;
+               CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor)); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

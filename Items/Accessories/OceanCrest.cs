@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Ocean Crest");
-            Tooltip.SetDefault("Most ocean enemies become friendly and provides waterbreathing");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Ocean Crest");
+            // Tooltip.SetDefault("Most ocean enemies become friendly and provides waterbreathing");
         }
 
         public override void SetDefaults()

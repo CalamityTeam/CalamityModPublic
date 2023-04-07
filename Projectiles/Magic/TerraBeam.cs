@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Magic
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Beam");
+            // DisplayName.SetDefault("Beam");
         }
 
         public override void SetDefaults()
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (ShardCooldown > 0f)
                 return;

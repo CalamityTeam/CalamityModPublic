@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spike");
+            // DisplayName.SetDefault("Spike");
             Main.projFrames[Projectile.type] = 5;
         }
 
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Projectile.frame = 0;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => RealPenetrate++;
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => RealPenetrate++;
 
         public override bool? CanHitNPC(NPC target) => RealPenetrate > MaxPenetrate - 1f ? false : (bool?)null;
 

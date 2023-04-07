@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plaguebringer");
+            // DisplayName.SetDefault("Plaguebringer");
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
@@ -613,7 +613,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             return SpawnCondition.HardmodeJungle.Chance * 0.02f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {
@@ -663,7 +663,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             npcLoot.Add(ItemID.Stinger);
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<Plague>(), 240, true);

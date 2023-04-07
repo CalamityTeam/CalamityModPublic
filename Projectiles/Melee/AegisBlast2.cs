@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aegis Blast");
+            // DisplayName.SetDefault("Aegis Blast");
         }
 
         public override void SetDefaults()

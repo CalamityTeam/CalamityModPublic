@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(170, 96, 60)).UseSecondaryColor(new Color(226, 196, 106)).SetShaderTextureArmor(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/SharpNoise", AssetRequestMode.ImmediateLoad));
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Auric Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Auric Dye");
         }
 
         public override void SafeSetDefaults()

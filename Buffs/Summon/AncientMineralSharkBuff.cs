@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ancient Mineral Shark");
-            Description.SetDefault("Ancient yet so dangerous");
+            // DisplayName.SetDefault("Ancient Mineral Shark");
+            // Description.SetDefault("Ancient yet so dangerous");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

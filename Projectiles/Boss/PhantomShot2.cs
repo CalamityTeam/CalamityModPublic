@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Potent Phantom Shot");
+            // DisplayName.SetDefault("Potent Phantom Shot");
         }
 
         public override void SetDefaults()
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(250, 100, 100, Projectile.alpha);
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (damage <= 0)
                 return;

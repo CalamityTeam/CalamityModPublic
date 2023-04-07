@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Norfleet");
+            // DisplayName.SetDefault("Norfleet");
         }
 
         public override void SetDefaults()

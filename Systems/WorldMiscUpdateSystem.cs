@@ -17,6 +17,7 @@ using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityMod.World.CalamityWorld;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.Systems
 {
@@ -40,7 +41,7 @@ namespace CalamityMod.Systems
 
             // Sunken Sea Location
             // This moved in 1.4, it's now officially the "lower half of the Underground Desert" until its worldgen gets fixed
-            Rectangle ugDesert = WorldGen.UndergroundDesertLocation;
+            Rectangle ugDesert = GenVars.UndergroundDesertLocation;
             SunkenSeaLocation = new Rectangle(ugDesert.Left, ugDesert.Center.Y, ugDesert.Width, ugDesert.Height / 2);
 
             // Player variable, always finds the closest player relative to the center of the map

@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Baby Ghost Bell Jar");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Baby Ghost Bell Jar");
         }
 
         public override void SetDefaults()

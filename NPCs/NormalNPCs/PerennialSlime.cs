@@ -11,7 +11,7 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Perennial Slime");
+            // DisplayName.SetDefault("Perennial Slime");
             Main.npcFrameCount[NPC.type] = 2;
         }
 
@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.Cavern.Chance * 0.08f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             // TODO -- This dust was an invalid dust. Replaced with a random dust.
             int dustType = 115;

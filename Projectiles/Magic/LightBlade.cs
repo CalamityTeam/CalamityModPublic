@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Light Blade");
+            // DisplayName.SetDefault("Light Blade");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = NumAfterimages;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Magic
             Lighting.AddLight(Projectile.Center, lightColor.ToVector3() * startingBrightness);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             CalamityPlayer calPlayer = player.Calamity();

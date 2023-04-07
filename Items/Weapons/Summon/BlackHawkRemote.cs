@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Black Hawk Remote");
-            Tooltip.SetDefault("Summons a Black Hawk jet to fight for you\n" +
+            // DisplayName.SetDefault("Black Hawk Remote");
+            /* Tooltip.SetDefault("Summons a Black Hawk jet to fight for you\n" +
                                "Jets will fire bullets from your inventory\n" +
-                               "50% chance to not consume ammo");
-            SacrificeTotal = 1;
+                               "50% chance to not consume ammo"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

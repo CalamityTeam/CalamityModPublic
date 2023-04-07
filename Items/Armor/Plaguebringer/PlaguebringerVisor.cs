@@ -15,10 +15,10 @@ namespace CalamityMod.Items.Armor.Plaguebringer
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Plaguebringer Visor");
-            Tooltip.SetDefault("15% increased minion damage\n" +
-            "+20 max life");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Plaguebringer Visor");
+            /* Tooltip.SetDefault("15% increased minion damage\n" +
+            "+20 max life"); */
         }
 
         public override void SetDefaults()

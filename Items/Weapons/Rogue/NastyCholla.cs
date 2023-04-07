@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nasty Cholla");
-            Tooltip.SetDefault(@"Throws a spiky ball that sticks to everything
+            // DisplayName.SetDefault("Nasty Cholla");
+            // Tooltip.SetDefault(@"Throws a spiky ball that sticks to everything
 Explodes into cactus spikes after roughly 3 seconds
 Can hurt town NPCs
 Stealth strikes throw four at once");
-            SacrificeTotal = 99;
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

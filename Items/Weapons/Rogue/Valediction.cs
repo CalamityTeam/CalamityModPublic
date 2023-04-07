@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Valediction");
-            Tooltip.SetDefault("Throws a homing reaper scythe\n" +
-                "Stealth strikes spawn razorblade typhoons on enemy hits");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Valediction");
+            /* Tooltip.SetDefault("Throws a homing reaper scythe\n" +
+                "Stealth strikes spawn razorblade typhoons on enemy hits"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

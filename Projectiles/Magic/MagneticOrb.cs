@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Magnetic Orb");
+            // DisplayName.SetDefault("Magnetic Orb");
             Main.projFrames[Projectile.type] = 5;
         }
 

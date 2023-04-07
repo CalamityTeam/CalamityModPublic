@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("ClockworkBow");
+            // DisplayName.SetDefault("ClockworkBow");
             //Main.projFrames[projectile.type] = 9;    might animate the bow's string getting drawn but not rn
         }
 

@@ -13,13 +13,13 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Profaned Core");
-            Tooltip.SetDefault("The core of the unholy flame\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Profaned Core");
+            /* Tooltip.SetDefault("The core of the unholy flame\n" +
                 "Summons Providence when used in the Hallow or Underworld\n" +
                 "Unique drop changes depending on the biome fought in\n" +
                 "Enrages when fought during nighttime or when outside the Hallow or Underworld\n" +
-                "Not consumable");
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.SummonItems
                 CalamityUtils.BossAwakenMessage(npc);
             }
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Providence>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<Providence>());
 
             return true;
         }

@@ -6,8 +6,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Hardened Sulphurous Sandstone");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Hardened Sulphurous Sandstone");
         }
 
         public override void SetDefaults()

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Daemon's Flame");
+            // DisplayName.SetDefault("Daemon's Flame");
             Main.projFrames[Projectile.type] = 4;
         }
 

@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.OldDuke
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Tooth Ball");
+            // DisplayName.SetDefault("Tooth Ball");
         }
 
         public override void SetDefaults()
@@ -208,7 +208,7 @@ namespace CalamityMod.NPCs.OldDuke
             }
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
         }
@@ -219,13 +219,13 @@ namespace CalamityMod.NPCs.OldDuke
             return true;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<Irradiated>(), 240);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 3; k++)
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);

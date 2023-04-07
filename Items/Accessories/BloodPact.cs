@@ -9,12 +9,12 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Blood Pact");
-            Tooltip.SetDefault("Doubles your max HP\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Blood Pact");
+            /* Tooltip.SetDefault("Doubles your max HP\n" +
                 "Allows you to be critically hit 25% of the time\n" +
                 "After a critical hit, you gain various buffs for ten seconds\n" +
-                "Any healing potions consumed during this time period heal 50% more health");
+                "Any healing potions consumed during this time period heal 50% more health"); */
         }
 
         public override void SetDefaults()

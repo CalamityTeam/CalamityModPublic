@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tesla's Electricity");
-            Description.SetDefault("Summons an aura of electricity");
+            // DisplayName.SetDefault("Tesla's Electricity");
+            // Description.SetDefault("Summons an aura of electricity");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

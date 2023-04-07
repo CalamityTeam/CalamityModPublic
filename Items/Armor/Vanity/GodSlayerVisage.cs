@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("God Slayer Visage");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("God Slayer Visage");
         }
 
         public override void SetDefaults()

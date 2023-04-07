@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Time Bolt");
-            Tooltip.SetDefault("There should be no boundary to human endeavor.\n" +
-            "Stealth strikes can hit more enemies and create a larger time field");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Time Bolt");
+            /* Tooltip.SetDefault("There should be no boundary to human endeavor.\n" +
+            "Stealth strikes can hit more enemies and create a larger time field"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

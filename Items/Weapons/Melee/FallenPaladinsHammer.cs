@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fallen Paladin's Hammer");
-            Tooltip.SetDefault("Explodes on enemy hits");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Fallen Paladin's Hammer");
+            // Tooltip.SetDefault("Explodes on enemy hits");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

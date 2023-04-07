@@ -7,6 +7,7 @@ using ReLogic.Content;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Ores
@@ -32,8 +33,8 @@ namespace CalamityMod.Tiles.Ores
             MinPick = 210;
             DustType = 173;
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AstralOre>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Astral Ore");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Astral Ore");
             AddMapEntry(new Color(255, 153, 255), name);
             MineResist = 5f;
             HitSound = SoundID.Tink;

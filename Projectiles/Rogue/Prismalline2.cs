@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Prismalline");
+            // DisplayName.SetDefault("Prismalline");
         }
 
         public override void SetDefaults()

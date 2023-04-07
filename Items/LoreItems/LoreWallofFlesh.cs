@@ -18,7 +18,7 @@ May you channel my valor in combating the resulting outpour of energies.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("The Wall of Flesh");
+            // DisplayName.SetDefault("The Wall of Flesh");
         }
 
         public override void SetDefaults()

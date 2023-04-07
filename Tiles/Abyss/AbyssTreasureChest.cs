@@ -36,9 +36,9 @@ namespace CalamityMod.Tiles.Abyss
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
-			ContainerName.SetDefault("Ancient Treasure Chest");
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Ancient Treasure Chest");
+			ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Ancient Treasure Chest");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Ancient Treasure Chest");
 			AddMapEntry(new Color(71, 49, 41), name);
 			DustType = 33;
 			HitSound = SoundID.Dig;

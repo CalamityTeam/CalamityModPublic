@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Puke");
+            // DisplayName.SetDefault("Puke");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
 
         public override bool PreDraw(ref Color lightColor)
         {

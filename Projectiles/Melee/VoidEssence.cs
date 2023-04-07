@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Void Essence");
+            // DisplayName.SetDefault("Void Essence");
             Main.projFrames[Projectile.type] = NumAnimationFrames;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // Rapidly screech to a halt upon touching an enemy and disable homing.
             Projectile.velocity *= 0.4f;

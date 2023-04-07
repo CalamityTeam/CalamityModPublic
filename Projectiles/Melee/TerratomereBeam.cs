@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terra Slash Beam");
+            // DisplayName.SetDefault("Terra Slash Beam");
         }
 
         public override void SetDefaults()

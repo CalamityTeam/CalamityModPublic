@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plague Staff");
-            Tooltip.SetDefault("Fires a tight spread of 4 plague fangs");
+            // DisplayName.SetDefault("Plague Staff");
+            // Tooltip.SetDefault("Fires a tight spread of 4 plague fangs");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

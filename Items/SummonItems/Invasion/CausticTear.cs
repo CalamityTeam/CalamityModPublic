@@ -10,10 +10,10 @@ namespace CalamityMod.Items.SummonItems.Invasion
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Caustic Tear");
-            Tooltip.SetDefault("Causes an acidic downpour in the Sulphurous Sea\n" +
-                "Not consumable");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Caustic Tear");
+            /* Tooltip.SetDefault("Causes an acidic downpour in the Sulphurous Sea\n" +
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye
 
         }
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
         {
             CreateRecipe().
                 AddIngredient<SulphuricScale>(5).
-                AddCondition(Recipe.Condition.NearWater).
+                AddCondition(Condition.NearWater).
                 Register();
         }
     }

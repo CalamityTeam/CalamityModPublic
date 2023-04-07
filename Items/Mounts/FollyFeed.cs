@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Mounts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Folly Feed");
-            Tooltip.SetDefault("Summons a monstrosity");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Folly Feed");
+            // Tooltip.SetDefault("Summons a monstrosity");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

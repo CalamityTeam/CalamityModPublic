@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Typeless
         public PrimitiveTrail FlameTrailDrawer = null;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Demon");
+            // DisplayName.SetDefault("Demon");
             Main.projFrames[Projectile.type] = 12;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 11;
@@ -207,7 +207,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override bool? CanDamage() => Projectile.Opacity >= 1f ? null : false;
 
         // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             if (Main.masterMode) damage = 540;
             else if (Main.expertMode) damage = 450;
@@ -276,13 +276,13 @@ namespace CalamityMod.Projectiles.Typeless
             return false;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             HasDamagedSomething = true;
             Projectile.netUpdate = true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             HasDamagedSomething = true;
             Projectile.netUpdate = true;

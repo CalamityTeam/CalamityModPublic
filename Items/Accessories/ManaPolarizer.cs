@@ -10,13 +10,13 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Mana Polarizer");
-            Tooltip.SetDefault("Increases max mana by 50 and magic damage by 6%\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Mana Polarizer");
+            /* Tooltip.SetDefault("Increases max mana by 50 and magic damage by 6%\n" +
                                "Life regen lowered by 3 if mana is above 50% of its maximum\n" +
                                "Grants spectre healing, the amount healed scales with your mana\n" +
                                "The healing only works while holding a magic weapon\n" +
-                               "The more mana you have, the more you heal");
+                               "The more mana you have, the more you heal"); */
         }
 
         public override void SetDefaults()

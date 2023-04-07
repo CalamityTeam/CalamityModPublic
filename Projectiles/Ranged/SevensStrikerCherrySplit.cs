@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cherry");
+            // DisplayName.SetDefault("Cherry");
         }
 
         public override void SetDefaults()

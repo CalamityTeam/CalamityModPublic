@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flak Kraken");
+            // DisplayName.SetDefault("Flak Kraken");
         }
 
         public override void SetDefaults()

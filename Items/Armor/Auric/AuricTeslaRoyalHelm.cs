@@ -18,9 +18,9 @@ namespace CalamityMod.Items.Armor.Auric
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Auric Tesla Royal Helm");
-            Tooltip.SetDefault("20% increased melee damage and critical strike chance");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Auric Tesla Royal Helm");
+            // Tooltip.SetDefault("20% increased melee damage and critical strike chance");
         }
 
         public override void SetDefaults()

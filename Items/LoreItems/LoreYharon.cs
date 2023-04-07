@@ -28,7 +28,7 @@ Yharon may yet return, as he does, but he… he has bade me farewell.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Yharon, Resplendent Phoenix");
+            // DisplayName.SetDefault("Yharon, Resplendent Phoenix");
         }
 
         public override void SetDefaults()

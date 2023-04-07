@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cranium SMASH");
+            // DisplayName.SetDefault("Cranium SMASH");
         }
 
         public override void SetDefaults()

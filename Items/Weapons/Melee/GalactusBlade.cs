@@ -16,11 +16,11 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Galactus Blade");
-            Tooltip.SetDefault("Forged with the fury of nuclear chaos\n" +
+            // DisplayName.SetDefault("Galactus Blade");
+            /* Tooltip.SetDefault("Forged with the fury of nuclear chaos\n" +
                 "Launches a barrage of comets from the sky\n" +
-                "Receives 33% benefit from melee speed bonuses");
-            SacrificeTotal = 1;
+                "Receives 33% benefit from melee speed bonuses"); */
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
@@ -100,12 +100,12 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }

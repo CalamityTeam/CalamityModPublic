@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
         private bool initialized = false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Impact Round");
+            // DisplayName.SetDefault("Impact Round");
         }
 
         public override void SetDefaults()
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             double damageMult = 1D;
             if (crit)

@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vigilance");
-            Tooltip.SetDefault("Summons a soul seeker to fight for you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Vigilance");
+            // Tooltip.SetDefault("Summons a soul seeker to fight for you");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

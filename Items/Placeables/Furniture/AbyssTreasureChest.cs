@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Ancient Treasure Chest");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Ancient Treasure Chest");
         }
 
         public override void SetDefaults()

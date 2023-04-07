@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Weapons.Rogue
         int knifeLimit = 20;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stellar Knife");
-            Tooltip.SetDefault("Throws knives that stop middair and then home into enemies\n" +
+            // DisplayName.SetDefault("Stellar Knife");
+            /* Tooltip.SetDefault("Throws knives that stop middair and then home into enemies\n" +
                                "Stealth strikes throw a volley of " + knifeCount + " knives in a spread\n" +
-                               "Za Warudo");
-            SacrificeTotal = 1;
+                               "Za Warudo"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

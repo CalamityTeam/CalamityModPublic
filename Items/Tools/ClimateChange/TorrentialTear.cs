@@ -8,11 +8,11 @@ namespace CalamityMod.Items.Tools.ClimateChange
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Torrential Tear");
-            Tooltip.SetDefault("Summons the rain\n" +
+            // DisplayName.SetDefault("Torrential Tear");
+            /* Tooltip.SetDefault("Summons the rain\n" +
                 "Rain will start some time after this item is used\n" +
-                "If used while it's raining, the rain will stop some time afterward");
-            SacrificeTotal = 1;
+                "If used while it's raining, the rain will stop some time afterward"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

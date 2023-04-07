@@ -22,8 +22,8 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 18 };
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Lantern Center");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Lantern Center");
             AddMapEntry(new Color(99, 99, 99), name);
             TileID.Sets.HasOutlines[Type] = true;
 

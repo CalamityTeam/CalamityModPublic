@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Nova");
+            Item.ResearchUnlockCount = 1;
+            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Nova");
         }
 
         public override void SetDefaults()

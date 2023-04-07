@@ -18,7 +18,7 @@ Not even the most evasive target stood a chance.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("The Twins");
+            // DisplayName.SetDefault("The Twins");
         }
 
         public override void SetDefaults()

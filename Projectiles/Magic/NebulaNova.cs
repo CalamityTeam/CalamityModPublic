@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nebula Nova");
+            // DisplayName.SetDefault("Nebula Nova");
         }
 
         public override void SetDefaults()

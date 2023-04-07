@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tenebreus Tides");
+            // DisplayName.SetDefault("Tenebreus Tides");
         }
 
         public override void SetDefaults()
@@ -46,13 +46,13 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 33, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
             SwordSpam(target.Center);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
             SwordSpam(target.Center);

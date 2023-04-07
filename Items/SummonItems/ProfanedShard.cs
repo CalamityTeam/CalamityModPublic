@@ -15,12 +15,12 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Profaned Shard");
-            Tooltip.SetDefault("A shard of the unholy flame\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Profaned Shard");
+            /* Tooltip.SetDefault("A shard of the unholy flame\n" +
                 "Summons the Profaned Guardians when used in the Hallow or Underworld during daytime\n" +
                 "Enrage when not in the Hallow or Underworld\n" +
-                "Not consumable");
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ProfanedGuardianCommander>());
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<ProfanedGuardianCommander>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<ProfanedGuardianCommander>());
 
             return true;
         }

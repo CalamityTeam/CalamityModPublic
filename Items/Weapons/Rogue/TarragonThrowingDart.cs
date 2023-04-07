@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tarragon Throwing Dart");
-            Tooltip.SetDefault(@"Fires a piercing dart with reduced immunity frames
+            // DisplayName.SetDefault("Tarragon Throwing Dart");
+            // Tooltip.SetDefault(@"Fires a piercing dart with reduced immunity frames
 Stealth strikes erupt into thorns on enemy hits");
-            SacrificeTotal = 99;
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

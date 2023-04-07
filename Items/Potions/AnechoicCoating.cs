@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 20;
-            DisplayName.SetDefault("Anechoic Coating");
-            Tooltip.SetDefault("Reduces creatures' ability to detect you in the abyss");
+            Item.ResearchUnlockCount = 20;
+            // DisplayName.SetDefault("Anechoic Coating");
+            // Tooltip.SetDefault("Reduces creatures' ability to detect you in the abyss");
         }
 
         public override void SetDefaults()

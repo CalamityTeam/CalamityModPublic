@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dreamfog");
-            Description.SetDefault("Xi believes in Yuu");
+            // DisplayName.SetDefault("Dreamfog");
+            // Description.SetDefault("Xi believes in Yuu");
             Main.buffNoTimeDisplay[Type] = true;
             Main.lightPet[Type] = true;
         }

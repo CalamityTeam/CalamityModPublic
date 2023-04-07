@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Elemental in a Bottle");
-            Tooltip.SetDefault("Summons a sand elemental to fight for you");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Elemental in a Bottle");
+            // Tooltip.SetDefault("Summons a sand elemental to fight for you");
         }
 
         public override void SetDefaults()

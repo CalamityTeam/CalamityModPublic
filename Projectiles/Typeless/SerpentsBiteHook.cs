@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Typeless
         public const float GrappleRangInTiles = 28.125f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Serpent's Bite");
+            // DisplayName.SetDefault("Serpent's Bite");
         }
 
         public override void SetDefaults()

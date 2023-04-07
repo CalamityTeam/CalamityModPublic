@@ -13,7 +13,7 @@ namespace CalamityMod.NPCs.SlimeGod
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Corrupt Slime Spawn");
+            // DisplayName.SetDefault("Corrupt Slime Spawn");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.SlimeGod
             });
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient && NPC.life <= 0)
             {
@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(BuffID.Weak, 90, true);

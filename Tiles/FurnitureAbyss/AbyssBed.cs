@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
@@ -12,8 +13,8 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         public override void SetStaticDefaults()
         {
             this.SetUpBed(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Bed");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Bed");
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Beds };

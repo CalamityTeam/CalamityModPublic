@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gulper Eel");
+            // DisplayName.SetDefault("Gulper Eel");
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.75f,
@@ -376,7 +376,7 @@ namespace CalamityMod.NPCs.Abyss
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 6, 8, 8, 11));
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {
@@ -395,7 +395,7 @@ namespace CalamityMod.NPCs.Abyss
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);

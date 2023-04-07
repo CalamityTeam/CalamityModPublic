@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Meteor Fist");
-            Tooltip.SetDefault("Fires a fist that explodes \n" +
-                               "Stealth strikes make the fist ricochet between enemies up to 4 times");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Meteor Fist");
+            /* Tooltip.SetDefault("Fires a fist that explodes \n" +
+                               "Stealth strikes make the fist ricochet between enemies up to 4 times"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

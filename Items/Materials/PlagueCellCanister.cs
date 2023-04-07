@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Plague Cell Canister");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Plague Cell Canister");
         }
 
         public override void SetDefaults()

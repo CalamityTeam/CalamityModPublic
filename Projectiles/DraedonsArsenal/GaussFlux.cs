@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gauss Flux");
+            // DisplayName.SetDefault("Gauss Flux");
         }
 
         public override void SetDefaults()

@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gauss Blast");
+            // DisplayName.SetDefault("Gauss Blast");
         }
 
         public override void SetDefaults()

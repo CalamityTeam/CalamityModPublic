@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Round");
+            // DisplayName.SetDefault("Round");
         }
 
         public override void SetDefaults()

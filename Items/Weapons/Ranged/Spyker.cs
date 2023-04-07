@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spyker");
-            Tooltip.SetDefault("Converts musket balls into spikes that stick to enemies, tiles and explode into shrapnel");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Spyker");
+            // Tooltip.SetDefault("Converts musket balls into spikes that stick to enemies, tiles and explode into shrapnel");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

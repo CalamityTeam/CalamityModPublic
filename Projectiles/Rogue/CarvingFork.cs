@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Carving Fork");
+            // DisplayName.SetDefault("Carving Fork");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

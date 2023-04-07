@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Elysian Guard");
-            Description.SetDefault("Movement speed reduced, other stats buffed");
+            // DisplayName.SetDefault("Elysian Guard");
+            // Description.SetDefault("Movement speed reduced, other stats buffed");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

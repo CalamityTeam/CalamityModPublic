@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Power Cell Factory");
-            Tooltip.SetDefault("Produces Draedon Power Cells over time\n" + "One cell is produced every 15 seconds");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Power Cell Factory");
+            // Tooltip.SetDefault("Produces Draedon Power Cells over time\n" + "One cell is produced every 15 seconds");
         }
 
         public override void SetDefaults()

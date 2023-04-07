@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sepulcher");
+            // DisplayName.SetDefault("Sepulcher");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
@@ -674,7 +674,7 @@ namespace CalamityMod.Projectiles.Summon
 
         #region Damage Stuff
         // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             if (Main.masterMode) damage = 450;
             else if (Main.expertMode) damage = 375;

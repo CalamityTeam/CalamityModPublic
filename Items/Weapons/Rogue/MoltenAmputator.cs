@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Molten Amputator");
-            Tooltip.SetDefault("Throws a scythe that emits molten globs on enemy hits\n" +
-                "Stealth strikes spawn molten globs periodically in flight and more on-hit");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Molten Amputator");
+            /* Tooltip.SetDefault("Throws a scythe that emits molten globs on enemy hits\n" +
+                "Stealth strikes spawn molten globs periodically in flight and more on-hit"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

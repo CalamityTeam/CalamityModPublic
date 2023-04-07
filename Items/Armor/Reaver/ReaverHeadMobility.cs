@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Armor.Reaver
         //Jump/Flight Boosts and Movement Speed Helm
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Reaver Visage");
-            Tooltip.SetDefault("10% increased jump speed and 15% increased movement speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Reaver Visage");
+            // Tooltip.SetDefault("10% increased jump speed and 15% increased movement speed");
         }
 
         public override void SetDefaults()

@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.Abyss
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bloatfish");
+            // DisplayName.SetDefault("Bloatfish");
             Main.npcFrameCount[NPC.type] = 4;
         }
 
@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.Abyss
             }
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
             {
@@ -163,7 +163,7 @@ namespace CalamityMod.NPCs.Abyss
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
@@ -198,7 +198,7 @@ namespace CalamityMod.NPCs.Abyss
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 5, 7, 7, 10));
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

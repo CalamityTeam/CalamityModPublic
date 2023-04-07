@@ -18,9 +18,9 @@ namespace CalamityMod.Items.Armor.Auric
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Auric Tesla Space Helmet");
-            Tooltip.SetDefault("15% increased minion damage");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Auric Tesla Space Helmet");
+            // Tooltip.SetDefault("15% increased minion damage");
         }
 
         public override void SetDefaults()

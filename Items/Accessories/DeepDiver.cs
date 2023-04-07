@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Deep Diver");
-            Tooltip.SetDefault("15% increased damage, movement speed and +15 defense while underwater\n" +
-                                "While underwater you gain the ability to dash great distances");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Deep Diver");
+            /* Tooltip.SetDefault("15% increased damage, movement speed and +15 defense while underwater\n" +
+                                "While underwater you gain the ability to dash great distances"); */
         }
 
         public override void SetDefaults()

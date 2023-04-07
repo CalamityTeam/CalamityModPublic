@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aquashard");
+            // DisplayName.SetDefault("Aquashard");
         }
 
         public override void SetDefaults()
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.velocity.Y += 0.01f;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             int projAmt = Main.rand.Next(1, 3);
             if (Projectile.owner == Main.myPlayer)

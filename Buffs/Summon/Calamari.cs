@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Calamari");
-            Description.SetDefault("The squid will protect you");
+            // DisplayName.SetDefault("Calamari");
+            // Description.SetDefault("The squid will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

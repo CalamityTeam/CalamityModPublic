@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Caustic Croaker Staff");
-            Tooltip.SetDefault("Summons a toad that explodes if enemies are nearby");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Caustic Croaker Staff");
+            // Tooltip.SetDefault("Summons a toad that explodes if enemies are nearby");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

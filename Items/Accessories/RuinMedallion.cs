@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Ruin Medallion");
-            Tooltip.SetDefault("Stealth strikes only expend 75% of your max stealth\n" +
-                "6% increased rogue damage, and 6% increased rogue crit chance");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Ruin Medallion");
+            /* Tooltip.SetDefault("Stealth strikes only expend 75% of your max stealth\n" +
+                "6% increased rogue damage, and 6% increased rogue crit chance"); */
         }
 
         public override void SetDefaults()

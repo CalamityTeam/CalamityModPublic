@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Armor.Bloodflare
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Bloodflare Imp Mask");
-            Tooltip.SetDefault("10% increased rogue damage and critical strike chance, 5% increased movement speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Bloodflare Imp Mask");
+            // Tooltip.SetDefault("10% increased rogue damage and critical strike chance, 5% increased movement speed");
         }
 
         public override void SetDefaults()

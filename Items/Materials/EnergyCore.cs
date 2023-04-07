@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Energy Core");
-            Tooltip.SetDefault("It pulses with energy");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Energy Core");
+            // Tooltip.SetDefault("It pulses with energy");
         }
 
         public override void SetDefaults()

@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Radiant Arrow");
+            // DisplayName.SetDefault("Radiant Arrow");
             // While this projectile doesn't have afterimages, it keeps track of old positions for its primitive drawcode.
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 21;
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.timeLeft = 8;
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             if (damage <= 0)
                 return;
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             RestrictLifetime();
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);

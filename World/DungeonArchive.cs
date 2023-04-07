@@ -27,7 +27,7 @@ namespace CalamityMod.World
             for (int j = Main.maxTilesY - 380; j > 0; j--)
             {
                 int i = 100;
-                if (WorldGen.dungeonSide == 1)
+                if (GenVars.dungeonSide == 1)
                 {
                     i = Main.maxTilesX - 100;
                 }
@@ -37,7 +37,7 @@ namespace CalamityMod.World
 
                 while (shouldContinue)
                 {
-                    if (WorldGen.dungeonSide == 1)
+                    if (GenVars.dungeonSide == 1)
                     {
                         i--;
                         if (i < Main.maxTilesX - worldThird)

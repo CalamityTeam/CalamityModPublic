@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
         private bool initialized = false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Slick Cane");
+            // DisplayName.SetDefault("Slick Cane");
         }
 
         public override void SetDefaults()
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             return false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)

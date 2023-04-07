@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.AstralDesert
@@ -24,8 +25,8 @@ namespace CalamityMod.Tiles.AstralDesert
             DustType = ModContent.DustType<AstralBasic>();
             ItemDrop = ModContent.ItemType<Items.Placeables.CelestialRemains>();
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Celestial Remains");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Celestial Remains");
             AddMapEntry(new Color(59, 50, 77));
 
             TileID.Sets.ForAdvancedCollision.ForSandshark[Type] = true;

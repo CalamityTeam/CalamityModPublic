@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Brimstone Jewel");
-            Tooltip.SetDefault("The ultimate reward for defeating such a beast...\n" +
-                "Who knew she'd be so darn cute!");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Brimstone Jewel");
+            /* Tooltip.SetDefault("The ultimate reward for defeating such a beast...\n" +
+                "Who knew she'd be so darn cute!"); */
         }
 
         public override void SetDefaults()

@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
@@ -24,8 +25,8 @@ namespace CalamityMod.Tiles
 
             DustType = 38;
             ItemDrop = ModContent.ItemType<Items.Placeables.VernalSoil>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Vernal Soil");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Vernal Soil");
             AddMapEntry(new Color(80, 120, 0), name);
             HitSound = SoundID.Dig;
 
@@ -90,7 +91,7 @@ namespace CalamityMod.Tiles
                             if (placeTile)
                             {
                                 WorldGen.PlaceObject(i, j2, tileTypeToPlace, true);
-                                NetMessage.SendObjectPlacment(-1, i, j2, tileTypeToPlace, 0, 0, -1, -1);
+                                NetMessage.SendObjectPlacement(-1, i, j2, tileTypeToPlace, 0, 0, -1, -1);
 
                                 // Spread of Chlorophyte Partisan clouds if the bulb spawns while a player is near
                                 bool isPlayerNear = WorldGen.PlayerLOS(i, j2);

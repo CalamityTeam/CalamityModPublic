@@ -8,6 +8,7 @@ using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Audio;
@@ -36,8 +37,8 @@ namespace CalamityMod.Tiles.Astral
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style5x4);
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Astral Beacon");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Astral Beacon");
             AddMapEntry(new Color(128, 128, 158), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             MinPick = 200;

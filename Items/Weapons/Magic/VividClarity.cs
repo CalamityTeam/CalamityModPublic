@@ -14,14 +14,14 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vivid Clarity");
-            Tooltip.SetDefault("Fires five randomized beams of elemental energy at the cursor\n" +
+            // DisplayName.SetDefault("Vivid Clarity");
+            /* Tooltip.SetDefault("Fires five randomized beams of elemental energy at the cursor\n" +
                                "On enemy and tile hits, beams either explode into a big flash,\n" +
                                "summon an additonal laser from the sky,\n" +
                                "or split into energy orbs\n" +
-                               "Its majesty inspires a stroke of unparalleled genius");
+                               "Its majesty inspires a stroke of unparalleled genius"); */
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

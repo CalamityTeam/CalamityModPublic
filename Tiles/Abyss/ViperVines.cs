@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Abyss
@@ -14,8 +15,8 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileBlockLight[Type] = true;
             Main.tileLavaDeath[Type] = true;
             Main.tileNoFail[Type] = true;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Viper Vines");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Viper Vines");
             AddMapEntry(new Color(0, 50, 0), name);
             HitSound = SoundID.Grass;
             DustType = 2;

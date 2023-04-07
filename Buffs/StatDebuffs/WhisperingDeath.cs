@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Whispering Death");
-            Description.SetDefault("Death approaches; attack power and life regen reduced");
+            // DisplayName.SetDefault("Whispering Death");
+            // Description.SetDefault("Death approaches; attack power and life regen reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

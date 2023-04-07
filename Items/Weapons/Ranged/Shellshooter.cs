@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shellshooter");
-            Tooltip.SetDefault("Fires slow but powerful arrows\n" +
-                                "Converts wooden arrows into heavy piercing seashells");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Shellshooter");
+            /* Tooltip.SetDefault("Fires slow but powerful arrows\n" +
+                                "Converts wooden arrows into heavy piercing seashells"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

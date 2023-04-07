@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Young Old Duke");
+            // DisplayName.SetDefault("Young Old Duke");
             Main.projFrames[Projectile.type] = 16;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;

@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Armor.GemTech
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Gem Tech Schynbaulds");
-            Tooltip.SetDefault("If they hurt you, kick them down.");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Gem Tech Schynbaulds");
+            // Tooltip.SetDefault("If they hurt you, kick them down.");
         }
 
         public override void SetDefaults()

@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dodu's Handcannon");
-            Tooltip.SetDefault("The power of the nut rests in your hands\n" +
-                "Fires high explosive peanut shells, literally");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Dodu's Handcannon");
+            /* Tooltip.SetDefault("The power of the nut rests in your hands\n" +
+                "Fires high explosive peanut shells, literally"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

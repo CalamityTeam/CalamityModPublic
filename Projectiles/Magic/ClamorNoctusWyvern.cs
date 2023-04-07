@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wyvern");
+            // DisplayName.SetDefault("Wyvern");
         }
 
         public override void SetDefaults()

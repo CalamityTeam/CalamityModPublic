@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Turbulance");
-            Tooltip.SetDefault(@"Fires a cloudy javelin that bursts into wind slashes on hit
+            // DisplayName.SetDefault("Turbulance");
+            // Tooltip.SetDefault(@"Fires a cloudy javelin that bursts into wind slashes on hit
 Wind slashes home if the javelin crits
 Stealth strikes are trailed by homing wind slashes");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

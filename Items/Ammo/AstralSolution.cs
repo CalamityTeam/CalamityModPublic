@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("Astral Solution");
-            Tooltip.SetDefault("Used by the Clentaminator\n" +
-            "Spreads the Astral Infection");
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("Astral Solution");
+            /* Tooltip.SetDefault("Used by the Clentaminator\n" +
+            "Spreads the Astral Infection"); */
 			ItemID.Sets.SortingPriorityTerraforming[Type] = 95; // Red Solution
         }
 
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Ammo
             Item.value = Item.buyPrice(0, 0, 5, 0);
             Item.rare = ItemRarityID.Orange;
             Item.maxStack = 999;
-            SacrificeTotal = 99;
+            Item.ResearchUnlockCount = 99;
             Item.consumable = true;
             return;
         }

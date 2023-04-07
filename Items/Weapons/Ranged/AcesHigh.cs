@@ -15,11 +15,11 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ace's High");
-            Tooltip.SetDefault("Fires a string of cards with varying effects based on card type\n" +
+            // DisplayName.SetDefault("Ace's High");
+            /* Tooltip.SetDefault("Fires a string of cards with varying effects based on card type\n" +
                 "Hearts grant lifesteal. Spades pierce and ignore immunity frames.\n" +
-                "Diamonds explode. Clubs split into three.");
-            SacrificeTotal = 1;
+                "Diamonds explode. Clubs split into three."); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

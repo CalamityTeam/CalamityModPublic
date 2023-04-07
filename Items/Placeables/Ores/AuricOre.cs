@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Placeables.Ores
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Auric Ore");
-            Tooltip.SetDefault("Infused with long lost draconic energies");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Auric Ore");
+            // Tooltip.SetDefault("Infused with long lost draconic energies");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 119;
         }
 

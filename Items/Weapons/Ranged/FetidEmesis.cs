@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fetid Emesis");
-            Tooltip.SetDefault("40% chance to not consume ammo\n" +
-            "Has a chance to release rotten chunks instead of bullets");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Fetid Emesis");
+            /* Tooltip.SetDefault("40% chance to not consume ammo\n" +
+            "Has a chance to release rotten chunks instead of bullets"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

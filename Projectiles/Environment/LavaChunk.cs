@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Environment
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lava Chunk");
+            // DisplayName.SetDefault("Lava Chunk");
             Main.projFrames[Projectile.type] = 6;
         }
 

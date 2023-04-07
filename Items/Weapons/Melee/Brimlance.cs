@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brimlance");
-            Tooltip.SetDefault("Creates brimstone explosions on enemy hits");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Brimlance");
+            // Tooltip.SetDefault("Creates brimstone explosions on enemy hits");
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

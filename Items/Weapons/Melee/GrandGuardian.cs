@@ -12,13 +12,13 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Grand Guardian");
-            Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
+            // DisplayName.SetDefault("Grand Guardian");
+            /* Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
                        "If enemy defense is 0 or below your attacks will heal you\n" +
                        "Striking enemies causes a large explosion\n" +
                        "Striking enemies that are under half life will cause them to release rainbow bolts\n" +
-                       "Enemies spawn healing orbs on death");
-            SacrificeTotal = 1;
+                       "Enemies spawn healing orbs on death"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
             player.itemLocation += new Vector2(-32f * player.direction, 12f * player.gravDir).RotatedBy(player.itemRotation);
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (target.Calamity().miscDefenseLoss < target.defense)
                 target.Calamity().miscDefenseLoss += 1;
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Melee
             OnHitEffects(player, target.Center, target.life, target.lifeMax, knockback, damage, crit);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             OnHitEffects(player, target.Center, target.statLife, target.statLifeMax2, Item.knockBack, damage, crit);
         }

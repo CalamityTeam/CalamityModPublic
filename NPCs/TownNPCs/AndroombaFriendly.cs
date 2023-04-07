@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.TownNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Androomba Pal");
+            // DisplayName.SetDefault("Androomba Pal");
             Main.npcFrameCount[NPC.type] = 9;
             Main.npcCatchable[NPC.type] = true;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
@@ -232,7 +232,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int i = 0; i < 6; i++)
                 Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 226);

@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Audio;
@@ -42,8 +43,8 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Altar");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Altar");
             AddMapEntry(new Color(43, 19, 42), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
         }
@@ -135,8 +136,8 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Altar");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Altar");
             AddMapEntry(new Color(43, 19, 42), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
         }

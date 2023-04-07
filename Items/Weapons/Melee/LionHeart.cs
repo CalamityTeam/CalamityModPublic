@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lion Heart");
-            Tooltip.SetDefault("Summons an energy explosion on enemy hits\n" +
+            // DisplayName.SetDefault("Lion Heart");
+            /* Tooltip.SetDefault("Summons an energy explosion on enemy hits\n" +
             "Right click to summon an energy shell for a few seconds that halves all damage sources\n" +
-            "This has a 45 second cooldown");
-            SacrificeTotal = 1;
+            "This has a 45 second cooldown"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool CanHitPvp(Player player, Player target) => player.altFunctionUse != 2;
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_ItemUse(Item);
             if (crit)
@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Main.projectile[explosion].DamageType = DamageClass.Melee;
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_ItemUse(Item);
             if (crit)

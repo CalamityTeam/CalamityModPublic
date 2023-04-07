@@ -12,9 +12,9 @@ namespace CalamityMod.Items.LabFinders
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("White Seeking Mechanism");
-            Tooltip.SetDefault("Moves swiftly towards a lab within the frozen caverns");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("White Seeking Mechanism");
+            // Tooltip.SetDefault("Moves swiftly towards a lab within the frozen caverns");
         }
 
         public override void SetDefaults()

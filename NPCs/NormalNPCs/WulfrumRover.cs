@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wulfrum Rover");
+            // DisplayName.SetDefault("Wulfrum Rover");
             Main.npcFrameCount[NPC.type] = 16;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.010f : 0.135f) * pylonMult;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (!Main.dedServ)
             {

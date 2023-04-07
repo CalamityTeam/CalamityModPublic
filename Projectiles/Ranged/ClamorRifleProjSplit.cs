@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Energy Bolt");
+            // DisplayName.SetDefault("Energy Bolt");
         }
 
         public override void SetDefaults()

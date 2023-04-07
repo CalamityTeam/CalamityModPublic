@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(255, 191, 73)).UseSecondaryColor(new Color(255, 255, 186)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Profaned Flame Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Profaned Flame Dye");
         }
 
         public override void SafeSetDefaults()

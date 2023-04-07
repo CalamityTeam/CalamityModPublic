@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bandit");
+            // DisplayName.SetDefault("Bandit");
 
             Main.npcFrameCount[NPC.type] = 23;
             NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
@@ -98,7 +98,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
             for (int k = 0; k < Main.maxPlayers; k++)
             {
@@ -260,7 +260,7 @@ namespace CalamityMod.NPCs.TownNPCs
             button2 = "Refund";
         }
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
             {
@@ -274,7 +274,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public override void SetupShop(Chest shop, ref int nextSlot)
+        public override void ModifyActiveShop(string shopName, Item[] items)
         {
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Cinquedea>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
@@ -362,7 +362,7 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

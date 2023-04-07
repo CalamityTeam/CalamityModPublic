@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Archaic Powder");
-            Tooltip.SetDefault("Increased mining speed by 20%\n" +
-            "5% increased damage reduction and +10 defense while underground or in the underworld");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Archaic Powder");
+            /* Tooltip.SetDefault("Increased mining speed by 20%\n" +
+            "5% increased damage reduction and +10 defense while underground or in the underworld"); */
         }
 
         public override void SetDefaults()

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Needle");
+            // DisplayName.SetDefault("Needle");
         }
 
         public override void SetDefaults()
@@ -48,9 +48,9 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Venom, 180);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Venom, 180);
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(BuffID.Venom, 180);
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => target.AddBuff(BuffID.Venom, 180);
 
         public override void Kill(int timeLeft)
         {

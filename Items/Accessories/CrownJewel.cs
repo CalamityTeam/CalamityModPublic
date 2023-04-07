@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Crown Jewel");
-            Tooltip.SetDefault("Boosts life regen even while under the effects of a damaging debuff\n" +
-                "While under the effects of a damaging debuff you will gain 8 defense");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Crown Jewel");
+            /* Tooltip.SetDefault("Boosts life regen even while under the effects of a damaging debuff\n" +
+                "While under the effects of a damaging debuff you will gain 8 defense"); */
         }
 
         public override void SetDefaults()

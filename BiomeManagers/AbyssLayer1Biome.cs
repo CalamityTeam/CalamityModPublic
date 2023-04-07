@@ -62,7 +62,7 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sulphuric Depths");
+            // DisplayName.SetDefault("Sulphuric Depths");
         }
 
         public override bool IsBiomeActive(Player player)

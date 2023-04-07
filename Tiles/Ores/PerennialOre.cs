@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 using System;
@@ -34,8 +35,8 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.OreMergesWithMud[Type] = true;
 
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.PerennialOre>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Perennial");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Perennial");
             AddMapEntry(new Color(200, 250, 100), name);
             MineResist = 3f;
             MinPick = 200;

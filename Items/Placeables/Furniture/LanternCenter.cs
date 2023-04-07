@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Lantern Center");
-            Tooltip.SetDefault("Lights up the night sky with celebratory lanterns");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Lantern Center");
+            // Tooltip.SetDefault("Lights up the night sky with celebratory lanterns");
         }
 
         public override void SetDefaults()

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Ranged
         private bool initialized = false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Arrow");
+            // DisplayName.SetDefault("Arrow");
         }
 
         public override void SetDefaults()

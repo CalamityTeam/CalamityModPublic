@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Rotten Brain");
-            Tooltip.SetDefault("10% increased damage when below 75% life\n5% decreased movement speed when below 50% life\nShade rains down when you are hit");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Rotten Brain");
+            // Tooltip.SetDefault("10% increased damage when below 75% life\n5% decreased movement speed when below 50% life\nShade rains down when you are hit");
         }
 
         public override void SetDefaults()
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<BloodyWormTooth>().
                 AddTile(TileID.TinkerersWorkbench).
-                AddCondition(Recipe.Condition.InGraveyardBiome).
+                AddCondition(Condition.InGraveyard).
                 Register();
         }
     }

@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Haunted Scroll");
-            Tooltip.SetDefault("Summons a stack of haunted dishes to fight for you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Haunted Scroll");
+            // Tooltip.SetDefault("Summons a stack of haunted dishes to fight for you");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

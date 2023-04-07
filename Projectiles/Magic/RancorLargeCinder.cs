@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Magic
             Time++;
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             damage = Main.rand.Next(80, 90);
         }

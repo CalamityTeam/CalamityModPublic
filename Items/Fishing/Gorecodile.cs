@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Fishing
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gorecodile");
-            Tooltip.SetDefault("Right click to extract blood orbs");
-            SacrificeTotal = 10;
+            // DisplayName.SetDefault("Gorecodile");
+            // Tooltip.SetDefault("Right click to extract blood orbs");
+            Item.ResearchUnlockCount = 10;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 

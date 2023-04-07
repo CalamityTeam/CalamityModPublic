@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
@@ -14,13 +15,13 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Otherworldly Dresser");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Otherworldly Dresser");
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            ContainerName.SetDefault("Otherworldly Dresser");
-            DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureOtherworldly.OtherworldlyDresser>();
+            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Otherworldly Dresser");
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureOtherworldly.OtherworldlyDresser>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -39,12 +40,12 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureOtherworldly.OtherworldlyDresser>(ContainerName.GetDefault());
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureOtherworldly.OtherworldlyDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureOtherworldly.OtherworldlyDresser>(ContainerName.GetDefault());
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureOtherworldly.OtherworldlyDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -54,7 +55,7 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, DresserDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
     }

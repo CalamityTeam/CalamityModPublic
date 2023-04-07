@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aurora Blazer");
-            Tooltip.SetDefault("Spews astral flames that travel in a star-shaped patterns\n" +
-            "60% chance to not consume gel");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Aurora Blazer");
+            /* Tooltip.SetDefault("Spews astral flames that travel in a star-shaped patterns\n" +
+            "60% chance to not consume gel"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

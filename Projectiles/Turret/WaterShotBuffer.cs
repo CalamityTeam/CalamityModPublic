@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Turret
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Water Shot");
+            // DisplayName.SetDefault("Water Shot");
         }
 
         public override void SetDefaults()

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Reaver Orb");
+            // DisplayName.SetDefault("Reaver Orb");
         }
 
         public override void SetDefaults()

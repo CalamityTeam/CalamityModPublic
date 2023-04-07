@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Halley's Comet");
+            // DisplayName.SetDefault("Halley's Comet");
         }
 
         public override void SetDefaults()
@@ -78,12 +78,12 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.rotation += 0.3f * (float)Projectile.direction;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 240);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 240);
         }

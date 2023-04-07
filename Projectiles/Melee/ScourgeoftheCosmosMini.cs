@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Miniature Cosmic Scourge");
+            // DisplayName.SetDefault("Miniature Cosmic Scourge");
             Main.projFrames[Projectile.type] = 2;
         }
 

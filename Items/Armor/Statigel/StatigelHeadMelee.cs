@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Armor.Statigel
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Statigel Helm");
-            Tooltip.SetDefault("10% increased melee damage and melee speed\n" +
-                "7% increased melee critical strike chance");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Statigel Helm");
+            /* Tooltip.SetDefault("10% increased melee damage and melee speed\n" +
+                "7% increased melee critical strike chance"); */
         }
 
         public override void SetDefaults()

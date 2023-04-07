@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Beam");
+            // DisplayName.SetDefault("Beam");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
             float x4 = Main.rgbToHsl(new Color(103, 203, Main.DiscoB)).X;

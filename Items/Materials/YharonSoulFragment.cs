@@ -10,11 +10,11 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
+            Item.ResearchUnlockCount = 25;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
 
-            DisplayName.SetDefault("Yharon Soul Fragment");
-            Tooltip.SetDefault("A shard of a draconic Auric Soul");
+            // DisplayName.SetDefault("Yharon Soul Fragment");
+            // Tooltip.SetDefault("A shard of a draconic Auric Soul");
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)

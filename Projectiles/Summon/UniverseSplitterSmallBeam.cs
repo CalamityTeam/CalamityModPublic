@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Universe Splitter Ray");
+            // DisplayName.SetDefault("Universe Splitter Ray");
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 12000;
         }
 
@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             return false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Electrified, 180);
         }

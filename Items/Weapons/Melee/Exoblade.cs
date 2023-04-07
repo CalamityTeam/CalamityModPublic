@@ -53,12 +53,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exoblade");
-            Tooltip.SetDefault("Left clicks release multiple energy beams that home in on enemies and slice them on hit\n" +
+            // DisplayName.SetDefault("Exoblade");
+            /* Tooltip.SetDefault("Left clicks release multiple energy beams that home in on enemies and slice them on hit\n" +
                                "Right clicks make you dash in the direction of the cursor with the blade\n" +
                                "Enemy hits from the blade during the dash result in massive damage and a rebound\n" +
-                               "Left clicks briefly after a rebound are far stronger and create explosions on enemy hits");
-            SacrificeTotal = 1;
+                               "Left clicks briefly after a rebound are far stronger and create explosions on enemy hits"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

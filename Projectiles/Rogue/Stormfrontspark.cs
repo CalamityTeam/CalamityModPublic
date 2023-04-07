@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spark");
+            // DisplayName.SetDefault("Spark");
         }
 
         public override void SetDefaults()

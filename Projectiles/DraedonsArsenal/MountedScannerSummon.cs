@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mounted Scanner");
+            // DisplayName.SetDefault("Mounted Scanner");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
             ProjectileID.Sets.NeedsUUID[Projectile.type] = true;

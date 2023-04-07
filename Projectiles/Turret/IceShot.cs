@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Turret
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Shot");
+            // DisplayName.SetDefault("Ice Shot");
         }
 
         public override void SetDefaults()
@@ -54,12 +54,12 @@ namespace CalamityMod.Projectiles.Turret
             Projectile.rotation += 0.1f * Projectile.velocity.X;
             DrawParticles();
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
             target.AddBuff(BuffID.Frostburn2, 180);
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
             target.AddBuff(BuffID.Frostburn2, 180);

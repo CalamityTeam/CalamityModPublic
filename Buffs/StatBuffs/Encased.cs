@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Encased");
-            Description.SetDefault("30 defense and +30% damage reduction, but...");
+            // DisplayName.SetDefault("Encased");
+            // Description.SetDefault("30 defense and +30% damage reduction, but...");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
             BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;

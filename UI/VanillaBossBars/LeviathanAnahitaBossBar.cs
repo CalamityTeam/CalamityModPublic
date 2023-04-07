@@ -23,7 +23,7 @@ namespace CalamityMod.UI.VanillaBossBars
             return TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[NPCType<Anahita>()]];
         }
 
-        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float lifePercent, ref float shieldPercent)
+        public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)/* tModPorter Note: life and shield current and max values are now separate to allow for hp/shield number text draw */
         {
             NPC target = Main.npc[info.npcIndexToAimAt];
 

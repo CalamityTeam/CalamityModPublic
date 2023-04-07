@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Box Jellyfish");
+            Item.ResearchUnlockCount = 1;
+            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Box Jellyfish");
         }
 
         public override void SetDefaults()

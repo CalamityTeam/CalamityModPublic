@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(154, 140, 191)).UseSecondaryColor(new Color(249, 109, 235)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Cosmilite Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Cosmilite Dye");
         }
 
         public override void SafeSetDefaults()

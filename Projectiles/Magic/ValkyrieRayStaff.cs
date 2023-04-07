@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Valkyrie Ray");
+            // DisplayName.SetDefault("Valkyrie Ray");
         }
 
         public override void SetDefaults()

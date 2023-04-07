@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Effulgent Feather");
-            Tooltip.SetDefault("It vibrates with fluffy golden energy");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Effulgent Feather");
+            // Tooltip.SetDefault("It vibrates with fluffy golden energy");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(3, 11));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
 			ItemID.Sets.SortingPriorityMaterials[Type] = 102;

@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sacrilegious Lantern");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Sacrilegious Lantern");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -56,21 +56,21 @@ namespace CalamityMod.Items.Armor.Wulfrum
                 EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/Wulfrum/WulfrumHat_FemaleHead", EquipType.Head, name : "WulfrumHatFemale");
             }
 
-            On.Terraria.Player.KeyDoubleTap += ActivateSetBonus;
-            On.Terraria.Main.DrawPendingMouseText += SpoofMouseItem;
+            Terraria.On_Player.KeyDoubleTap += ActivateSetBonus;
+            Terraria.On_Main.DrawPendingMouseText += SpoofMouseItem;
         }
 
         public override void Unload()
         {
-            On.Terraria.Player.KeyDoubleTap -= ActivateSetBonus;
-            On.Terraria.Main.DrawPendingMouseText -= SpoofMouseItem;
+            Terraria.On_Player.KeyDoubleTap -= ActivateSetBonus;
+            Terraria.On_Main.DrawPendingMouseText -= SpoofMouseItem;
 
 
             DummyCannon.TurnToAir();
             DummyCannon = null;
         }
 
-        private void ActivateSetBonus(On.Terraria.Player.orig_KeyDoubleTap orig, Player player, int keyDir)
+        private void ActivateSetBonus(Terraria.On_Player.orig_KeyDoubleTap orig, Player player, int keyDir)
         {
             if (keyDir == 0 && HasArmorSet(player) && !player.mount.Active)
             {
@@ -98,7 +98,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
         }
 
         //Replaces the tooltip of the armor set with the fusion cannon if the player holds shift
-        private void SpoofMouseItem(On.Terraria.Main.orig_DrawPendingMouseText orig)
+        private void SpoofMouseItem(Terraria.On_Main.orig_DrawPendingMouseText orig)
         {
             var player = Main.LocalPlayer;
 
@@ -117,10 +117,10 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Wulfrum Hat & Goggles");
-            Tooltip.SetDefault("10% increased minion damage\n"+
-                "Comes equipped with hair extensions" );
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Wulfrum Hat & Goggles");
+            /* Tooltip.SetDefault("10% increased minion damage\n"+
+                "Comes equipped with hair extensions" ); */
         }
         public override void SetDefaults()
         {
@@ -185,7 +185,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
                 {
                     //Drop the player's held item if they were holding something before
                     if (!(Main.mouseItem.type == DummyCannon.type) && !Main.mouseItem.IsAir)
-                        Main.LocalPlayer.QuickSpawnClonedItem(null, Main.mouseItem, Main.mouseItem.stack);
+                        Main.LocalPlayer.QuickSpawnItem(null, Main.mouseItem, Main.mouseItem.stack);
 
                     Main.mouseItem = DummyCannon;
                 }
@@ -288,9 +288,9 @@ namespace CalamityMod.Items.Armor.Wulfrum
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Wulfrum Jacket");
-            Tooltip.SetDefault("5% increased damage reduction"); //Increases to 10 with the wulfrum bastion active
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Wulfrum Jacket");
+            // Tooltip.SetDefault("5% increased damage reduction"); //Increases to 10 with the wulfrum bastion active
 
             if (Main.netMode != NetmodeID.Server)
             {
@@ -329,9 +329,9 @@ namespace CalamityMod.Items.Armor.Wulfrum
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Wulfrum Overalls");
-            Tooltip.SetDefault("Movement speed increased by 5%");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Wulfrum Overalls");
+            // Tooltip.SetDefault("Movement speed increased by 5%");
         }
 
         public override void SetDefaults()
@@ -401,7 +401,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
             }
         }
 
-        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
+        public override void PostHurt(Player.HurtInfo info)
         {
             if (WulfrumHat.PowerModeEngaged(Player, out var cd))
             {

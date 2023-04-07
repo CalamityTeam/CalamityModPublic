@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
+            Item.ResearchUnlockCount = 5;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
 
-            DisplayName.SetDefault("Twisting Nether");
+            // DisplayName.SetDefault("Twisting Nether");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 109;
         }
 

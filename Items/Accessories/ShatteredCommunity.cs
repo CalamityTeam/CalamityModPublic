@@ -43,16 +43,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Shattered Community");
-            Tooltip.SetDefault("Ruined by unknowable hatred, it still contains (most of) the power of The Community...\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Shattered Community");
+            /* Tooltip.SetDefault("Ruined by unknowable hatred, it still contains (most of) the power of The Community...\n" +
                 "Increases damage by 10% and critical strike chance by 5%\n" +
                 "Increases max health by 10%, damage reduction by 5%, defense by 10 and life regen by 2\n" +
                 "Increases movement speed by 10% and flight time by 20%\n" +
                 "You generate rage over time and rage does not fade away out of combat\n" +
                 "Taking damage gives rage, this effect is not hindered by your defensive stats\n" +
                 "While Rage Mode is active, taking damage gives only half as much rage\n" +
-                "Deal damage with Rage Mode to further empower your wrath\n");
+                "Deal damage with Rage Mode to further empower your wrath\n"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 5));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }

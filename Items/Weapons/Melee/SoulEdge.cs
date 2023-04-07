@@ -16,9 +16,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Soul Edge");
-            Tooltip.SetDefault("Fires the ghastly souls of long-deceased abyss dwellers");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Soul Edge");
+            // Tooltip.SetDefault("Fires the ghastly souls of long-deceased abyss dwellers");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -56,12 +56,12 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
         }

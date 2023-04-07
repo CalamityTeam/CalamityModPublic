@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureVoid
@@ -13,8 +14,8 @@ namespace CalamityMod.Tiles.FurnitureVoid
         {
             this.SetUpClock(true);
             AnimationFrameHeight = 90;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Void Obelisk");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Void Obelisk");
             AddMapEntry(new Color(191, 142, 111), name);
             AdjTiles = new int[] { TileID.GrandfatherClocks };
         }

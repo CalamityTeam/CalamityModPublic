@@ -153,7 +153,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Devourer of Gods");
+            // DisplayName.SetDefault("The Devourer of Gods");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
@@ -2534,7 +2534,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             return minDist <= (Phase2Started ? 80f : 55f) * NPC.scale && (NPC.Opacity >= 1f || postTeleportTimer > 0);
         }
 
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
             if (!Dying && (damage * (crit ? 2D : 1D)) >= NPC.life)
             {
@@ -2546,7 +2546,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             return true;
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             // viable???, done here since it's conditional
             if (CalamityWorld.getFixedBoi && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
@@ -2579,7 +2579,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             return false;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.soundDelay == 0)
             {
@@ -2621,12 +2621,12 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage <= 0)
 				return;

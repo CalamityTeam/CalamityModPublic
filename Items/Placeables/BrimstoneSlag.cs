@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Brimstone Slag");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Brimstone Slag");
         }
 
         public override void SetDefaults()

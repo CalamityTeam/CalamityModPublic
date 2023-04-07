@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Thunderstorm");
-            Tooltip.SetDefault("Make it rain");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Thunderstorm");
+            // Tooltip.SetDefault("Make it rain");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

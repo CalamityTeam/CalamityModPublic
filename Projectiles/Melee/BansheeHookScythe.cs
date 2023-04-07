@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scythe");
+            // DisplayName.SetDefault("Scythe");
         }
 
         public override void SetDefaults()

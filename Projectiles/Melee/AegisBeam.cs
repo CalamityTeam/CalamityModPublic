@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aegis Beam");
+            // DisplayName.SetDefault("Aegis Beam");
         }
 
         public override void SetDefaults()

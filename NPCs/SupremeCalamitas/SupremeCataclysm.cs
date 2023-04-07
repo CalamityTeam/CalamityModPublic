@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Supreme Cataclysm");
+            // DisplayName.SetDefault("Supreme Cataclysm");
             Main.npcFrameCount[NPC.type] = 9;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
@@ -313,7 +313,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override bool CheckActive() => false;
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

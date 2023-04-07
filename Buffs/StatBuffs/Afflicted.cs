@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Afflicted");
-            Description.SetDefault("Empowered by otherworldly spirits");
+            // DisplayName.SetDefault("Afflicted");
+            // Description.SetDefault("Empowered by otherworldly spirits");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;

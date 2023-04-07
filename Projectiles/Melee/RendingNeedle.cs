@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
         internal PrimitiveTrail TrailDrawer;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rending Needle");
+            // DisplayName.SetDefault("Rending Needle");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Vector2 particleOrigin = target.Hitbox.Size().Length() < 140 ? target.Center : Projectile.Center + Projectile.rotation.ToRotationVector2() * 60f;
             for (int i = 0; i < 10; i++)

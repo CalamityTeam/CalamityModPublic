@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Atlas Banner");
+            Item.ResearchUnlockCount = 1;
+            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Atlas Banner");
         }
 
         public override void SetDefaults()

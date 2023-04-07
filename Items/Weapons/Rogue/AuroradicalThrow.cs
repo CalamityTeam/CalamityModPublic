@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Auroradical Throw");
-            Tooltip.SetDefault("Launches a star that splits after a short period of time\n" +
+            // DisplayName.SetDefault("Auroradical Throw");
+            /* Tooltip.SetDefault("Launches a star that splits after a short period of time\n" +
                             "Split stars home in on nearby enemies after a few seconds\n" +
-                            "Stealth strikes summon a meteor upon enemy impact");
-            SacrificeTotal = 1;
+                            "Stealth strikes summon a meteor upon enemy impact"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

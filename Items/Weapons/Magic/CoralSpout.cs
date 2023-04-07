@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Coral Spout");
-            Tooltip.SetDefault("Casts a shotgun-like blast of coral shards\n" +
+            // DisplayName.SetDefault("Coral Spout");
+            /* Tooltip.SetDefault("Casts a shotgun-like blast of coral shards\n" +
                                "Keep the attack button held down to narrow the spread\n" +
                                "Fully charging the attack releases a single, bigger chunk of coral that sticks to enemies\n" +
                                "Grabbing the chunk of coral after it falls from the enemy replenishes 150 mana\n" +
@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons.Magic
                                //Lore tooltip time. Sekiro.
                                "[c/5C95A1:Knowledge is important, and the Old Sea Kingdom's many scribes knew it had to be preserved at any cost.]\n" +
                                "[c/5C95A1:Their libraries were much larger than most, because of the water-proof stone tablets occupying them.]"
-                );
-            SacrificeTotal = 1;
+                ); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
@@ -34,8 +35,8 @@ namespace CalamityMod.Tiles.Crags.Tree
 			TileObjectData.newTile.RandomStyleRange = 3;
 			TileObjectData.newTile.StyleMultiplier = 3;
 			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Spine Sapling");
+			LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Spine Sapling");
             AddMapEntry(new Color(38, 25, 27), name);
             DustType = DustID.Blood;
 			AdjTiles = new int[] { TileID.Saplings };

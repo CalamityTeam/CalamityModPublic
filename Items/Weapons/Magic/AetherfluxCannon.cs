@@ -17,9 +17,9 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aetherflux Cannon");
-            Tooltip.SetDefault("Fires a barrage of phased god rays that pass through terrain");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Aetherflux Cannon");
+            // Tooltip.SetDefault("Fires a barrage of phased god rays that pass through terrain");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -8,10 +8,10 @@ namespace CalamityMod.Items.DifficultyItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Ball and Chain");
-            Tooltip.SetDefault("So heavy...\n" +
-                "Favorite this item to disable any dashes granted by equipment.");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Ball and Chain");
+            /* Tooltip.SetDefault("So heavy...\n" +
+                "Favorite this item to disable any dashes granted by equipment."); */
         }
 
         public override void SetDefaults()

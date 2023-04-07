@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spirit Power");
-            Description.SetDefault("Minion damage boosted by 10%");
+            // DisplayName.SetDefault("Spirit Power");
+            // Description.SetDefault("Minion damage boosted by 10%");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

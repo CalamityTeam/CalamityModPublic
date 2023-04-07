@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Occult Platform");
-            SacrificeTotal = 200;
+            // DisplayName.SetDefault("Occult Platform");
+            Item.ResearchUnlockCount = 200;
         }
 
         public override void SetDefaults()

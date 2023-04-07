@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Bomb");
+            // DisplayName.SetDefault("Ice Bomb");
         }
 
         public override void SetDefaults()
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Boss
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 67, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (damage <= 0)
                 return;

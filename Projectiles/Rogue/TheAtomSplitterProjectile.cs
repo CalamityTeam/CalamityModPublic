@@ -168,7 +168,7 @@ namespace CalamityMod.Projectiles.Rogue
             return base.CanHitNPC(target);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             ReleaseHitDust(target.Center - Projectile.velocity * 3f);
             if (!Main.npc.IndexInRange((int)HitTargetIndex))

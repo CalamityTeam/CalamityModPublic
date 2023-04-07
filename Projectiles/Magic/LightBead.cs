@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Light Bead");
+            // DisplayName.SetDefault("Light Bead");
         }
 
         public override void SetDefaults()

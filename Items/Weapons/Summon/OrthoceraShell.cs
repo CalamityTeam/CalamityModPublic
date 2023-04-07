@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Orthocera Shell");
-            Tooltip.SetDefault("Summons a flying orthocera sentry at the mouse position");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Orthocera Shell");
+            // Tooltip.SetDefault("Summons a flying orthocera sentry at the mouse position");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brimlash");
-            Tooltip.SetDefault("Fires a brimstone bolt that explodes into more bolts on death");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Brimlash");
+            // Tooltip.SetDefault("Fires a brimstone bolt that explodes into more bolts on death");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -44,12 +44,12 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
         }

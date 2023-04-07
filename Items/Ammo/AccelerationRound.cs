@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("Acceleration Round");
-            Tooltip.SetDefault("Gains speed over time");
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("Acceleration Round");
+            // Tooltip.SetDefault("Gains speed over time");
         }
 
         public override void SetDefaults()

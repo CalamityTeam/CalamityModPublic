@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("SHPB");
+            // DisplayName.SetDefault("SHPB");
             Main.projFrames[Projectile.type] = 4;
         }
 

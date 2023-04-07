@@ -7,9 +7,9 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("Counts as a water source");
+            Item.ResearchUnlockCount = 1;
+            Item.ResearchUnlockCount = 1;
+            // Tooltip.SetDefault("Counts as a water source");
         }
 
         public override void SetDefaults()

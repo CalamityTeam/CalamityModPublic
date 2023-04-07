@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.AstrumDeus
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Astrum Deus");
+            // DisplayName.SetDefault("Astrum Deus");
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
@@ -153,7 +153,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             return !NPC.dontTakeDamage;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0 && CalamityWorld.getFixedBoi) // I value people's computers
             {
@@ -189,13 +189,13 @@ namespace CalamityMod.NPCs.AstrumDeus
             return false;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180, true);
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
             NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());

@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.AcidRain
         public const int TotalHitsNeededToDoDamage = 10;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flak Crab");
+            // DisplayName.SetDefault("Flak Crab");
             Main.npcFrameCount[NPC.type] = 7;
         }
 
@@ -212,7 +212,7 @@ namespace CalamityMod.NPCs.AcidRain
                 NPC.frame.Y = 0;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

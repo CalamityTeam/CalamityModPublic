@@ -21,12 +21,12 @@ namespace CalamityMod.Items.SummonItems
         public static readonly SoundStyle StormSound = new("CalamityMod/Sounds/Item/StormWeaverSpawn");
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Rune of Kos");
-            Tooltip.SetDefault("A relic of the profaned flame\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Rune of Kos");
+            /* Tooltip.SetDefault("A relic of the profaned flame\n" +
                 "Contains the power hunted relentlessly by the sentinels of the cosmic devourer\n" +
                 "When used in certain areas of the world, it will unleash them\n" +
-                "Not consumable");
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.SummonItems
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
                 else
-                    NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CeaselessVoid>());
+                    NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<CeaselessVoid>());
             }
             else if (player.ZoneUnderworldHeight)
             {
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.SummonItems
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Signus>());
                 else
-                    NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Signus>());
+                    NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<Signus>());
             }
             else if (player.ZoneSkyHeight)
             {
@@ -77,7 +77,7 @@ namespace CalamityMod.Items.SummonItems
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<StormWeaverHead>());
                 else
-                    NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<StormWeaverHead>());
+                    NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<StormWeaverHead>());
             }
 
             return true;

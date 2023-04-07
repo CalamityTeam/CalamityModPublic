@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Metadata;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Abyss
@@ -18,8 +19,8 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileLavaDeath[Type] = true;
             Main.tileNoFail[Type] = true;
             Main.tileNoSunLight[Type] = false;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Sulphurous Vines");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Sulphurous Vines");
             AddMapEntry(new Color(0, 50, 0), name);
             HitSound = SoundID.Grass;
             DustType = 2;

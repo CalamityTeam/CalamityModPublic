@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Subduction Slicer");
-            Tooltip.SetDefault("Throws a scythe that explodes on enemy hits\n" +
-            "Stealth strikes also summon an orange pillar of fire on enemy hits");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Subduction Slicer");
+            /* Tooltip.SetDefault("Throws a scythe that explodes on enemy hits\n" +
+            "Stealth strikes also summon an orange pillar of fire on enemy hits"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

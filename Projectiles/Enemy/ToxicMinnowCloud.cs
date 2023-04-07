@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Toxic Cloud");
+            // DisplayName.SetDefault("Toxic Cloud");
             Main.projFrames[Projectile.type] = 10;
         }
 
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool CanHitPlayer(Player target) => Projectile.ai[0] < 560f;
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (damage <= 0)
                 return;
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool? CanHitNPC(NPC target) => Projectile.ai[0] < 560f;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Poisoned, 240);
         }

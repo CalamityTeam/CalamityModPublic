@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Undine's Retribution");
-            Tooltip.SetDefault("Casts a swarm of homing spears");
+            // DisplayName.SetDefault("Undine's Retribution");
+            // Tooltip.SetDefault("Casts a swarm of homing spears");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

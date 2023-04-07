@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.GameContent.Metadata;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -41,8 +42,8 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.RandomStyleRange = 3;
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("MapObject.Sapling");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("MapObject.Sapling");
             AddMapEntry(new Color(113, 90, 71), name);
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
             AdjTiles = new int[] { TileID.Saplings };

@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Placeables
 	{
         public override void SetStaticDefaults()
 		{
-			SacrificeTotal = 25;
-			DisplayName.SetDefault("Astral Grass Seeds");
-			Tooltip.SetDefault("Places grass on astral dirt");
+			Item.ResearchUnlockCount = 25;
+			// DisplayName.SetDefault("Astral Grass Seeds");
+			// Tooltip.SetDefault("Places grass on astral dirt");
 		}
 
 		public override void SetDefaults()

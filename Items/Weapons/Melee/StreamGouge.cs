@@ -20,11 +20,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stream Gouge");
-            Tooltip.SetDefault("Summons a portal that the spear crosses through\n" +
+            // DisplayName.SetDefault("Stream Gouge");
+            /* Tooltip.SetDefault("Summons a portal that the spear crosses through\n" +
                 "Shortly after going through the portal, portals appear near the mouse that release copies of the spear's cutting edge\n" +
-                "Enemies hit by the copies create lacerations in space, revealing a cosmic background");
-            SacrificeTotal = 1;
+                "Enemies hit by the copies create lacerations in space, revealing a cosmic background"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

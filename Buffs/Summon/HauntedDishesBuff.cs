@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Haunted Dishes");
-            Description.SetDefault("The haunted dishes will protect you");
+            // DisplayName.SetDefault("Haunted Dishes");
+            // Description.SetDefault("The haunted dishes will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

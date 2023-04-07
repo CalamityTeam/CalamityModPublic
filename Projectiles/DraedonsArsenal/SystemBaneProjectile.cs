@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const float FieldRadius = 360f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("System Bane");
+            // DisplayName.SetDefault("System Bane");
         }
 
         public override void SetDefaults()

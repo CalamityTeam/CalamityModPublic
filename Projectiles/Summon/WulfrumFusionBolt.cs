@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fusion Bolt");
+            // DisplayName.SetDefault("Fusion Bolt");
 
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
@@ -215,7 +215,7 @@ namespace CalamityMod.Projectiles.Summon
             return base.OnTileCollide(oldVelocity);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Main.player[Projectile.owner].MinionAttackTargetNPC = target.whoAmI; //There exists a "whoAmIToTargettingIndex but idk if thats needed question mark
 

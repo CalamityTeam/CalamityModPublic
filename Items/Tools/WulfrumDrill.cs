@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Wulfrum Drill");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Wulfrum Drill");
         }
 
         public override void SetDefaults()

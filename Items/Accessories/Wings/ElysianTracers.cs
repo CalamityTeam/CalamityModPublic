@@ -18,9 +18,9 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Elysian Tracers");
-            Tooltip.SetDefault("Ludicrous speed!\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Elysian Tracers");
+            /* Tooltip.SetDefault("Ludicrous speed!\n" +
                 "Counts as wings\n" +
                 "Horizontal speed: 10.50\n" +
                 "Acceleration multiplier: 2.75\n" +
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "36% increased running acceleration\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
-                "Immunity to lava and On Fire! debuff");
+                "Immunity to lava and On Fire! debuff"); */
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(180, 10.5f, 2.75f);
         }
 

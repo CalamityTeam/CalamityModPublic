@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Celestial Jewel");
-            Tooltip.SetDefault("Boosts life regen even while under the effects of a damaging debuff\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Celestial Jewel");
+            /* Tooltip.SetDefault("Boosts life regen even while under the effects of a damaging debuff\n" +
                 "While under the effects of a damaging debuff you will gain 11 defense\n" +
-                "TOOLTIP LINE HERE");
+                "TOOLTIP LINE HERE"); */
         }
 
         public override void SetDefaults()

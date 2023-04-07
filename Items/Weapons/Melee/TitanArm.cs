@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Titan Arm");
-            Tooltip.SetDefault("Slap Hand but better\n" +
-            "Sends enemies straight to the stars at the speed of light");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Titan Arm");
+            /* Tooltip.SetDefault("Slap Hand but better\n" +
+            "Sends enemies straight to the stars at the speed of light"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -35,13 +35,13 @@ namespace CalamityMod.Items.Weapons.Melee
         // Boosting crit in SetDefaults along with knockback seemed to severely inflate the reforging price. Guaranteed crits for more knockback.
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit = 100;
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
             YeetEnemies(player, target, crit);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
         }

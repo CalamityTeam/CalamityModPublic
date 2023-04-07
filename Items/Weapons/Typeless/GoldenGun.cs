@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Typeless
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Golden Gun");
-            Tooltip.SetDefault("Shoots a straight line of ichor");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Golden Gun");
+            // Tooltip.SetDefault("Shoots a straight line of ichor");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

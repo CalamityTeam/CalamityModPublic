@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Blossom Pickaxe");
-            Tooltip.SetDefault("Can mine Auric Ore");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Blossom Pickaxe");
+            // Tooltip.SetDefault("Can mine Auric Ore");
         }
 
         public override void SetDefaults()

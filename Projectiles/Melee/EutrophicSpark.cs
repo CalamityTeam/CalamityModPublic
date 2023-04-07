@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eutrophic Spark");
+            // DisplayName.SetDefault("Eutrophic Spark");
         }
 
         public override void SetDefaults()

@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Filthy Glove");
-            Tooltip.SetDefault("Stealth strikes have +8 armor penetration and deal 8% more damage");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Filthy Glove");
+            // Tooltip.SetDefault("Stealth strikes have +8 armor penetration and deal 8% more damage");
         }
 
         public override void SetDefaults()

@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Armor.FathomSwarmer
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Fathom Swarmer Visage");
-            Tooltip.SetDefault("5% increased minion damage\n" +
-                "Provides breathing and light underwater");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Fathom Swarmer Visage");
+            /* Tooltip.SetDefault("5% increased minion damage\n" +
+                "Provides breathing and light underwater"); */
         }
 
         public override void SetDefaults()

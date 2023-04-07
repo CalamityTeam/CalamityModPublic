@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Trireme's Gem");
+            // DisplayName.SetDefault("Trireme's Gem");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
         }
@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Typeless
             return false;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Projectile.damage = 0;
             Projectile.velocity = Vector2.Zero;

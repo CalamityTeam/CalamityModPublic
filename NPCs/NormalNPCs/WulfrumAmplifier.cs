@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public const float SuperchargeTime = 720f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wulfrum Amplifier");
+            // DisplayName.SetDefault("Wulfrum Amplifier");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
@@ -185,7 +185,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.033f : 0.15f) * amplifierMult;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 3; k++)
             {

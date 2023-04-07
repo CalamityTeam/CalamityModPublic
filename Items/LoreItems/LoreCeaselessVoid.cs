@@ -22,7 +22,7 @@ Even when faced with blatant lies and harrowing danger, I simply walked away and
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Ceaseless Void");
+            // DisplayName.SetDefault("Ceaseless Void");
         }
 
         public override void SetDefaults()

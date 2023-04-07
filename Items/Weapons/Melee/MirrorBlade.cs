@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mirror Blade");
-            Tooltip.SetDefault("The amount of contact damage an enemy does is added to this weapons' damage\n" +
-                "You must hit an enemy with the blade to trigger this effect");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Mirror Blade");
+            /* Tooltip.SetDefault("The amount of contact damage an enemy does is added to this weapons' damage\n" +
+                "You must hit an enemy with the blade to trigger this effect"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             int conDamage = target.damage + baseDamage;
             if (conDamage < baseDamage)

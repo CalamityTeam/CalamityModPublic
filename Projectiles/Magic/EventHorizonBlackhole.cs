@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blackhole");
+            // DisplayName.SetDefault("Blackhole");
             Main.projFrames[Projectile.type] = 8;
         }
 

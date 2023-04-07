@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chi");
-            Description.SetDefault("Life regen increased");
+            // DisplayName.SetDefault("Chi");
+            // Description.SetDefault("Life regen increased");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;

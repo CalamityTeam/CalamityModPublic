@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bolt");
+            // DisplayName.SetDefault("Bolt");
 
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
@@ -223,7 +223,7 @@ namespace CalamityMod.Projectiles.Magic
             return base.OnTileCollide(oldVelocity);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             int numParticles = Main.rand.Next(4, 7);
             for (int i = 0; i < numParticles; i++)

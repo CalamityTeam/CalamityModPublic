@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.Ravager
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Rock Pillar");
+            // DisplayName.SetDefault("Rock Pillar");
         }
 
         public override void SetDefaults()
@@ -126,7 +126,7 @@ namespace CalamityMod.NPCs.Ravager
 
         public override bool CheckActive() => false;
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage <= 0)
                 return;
@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.netUpdate = true;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

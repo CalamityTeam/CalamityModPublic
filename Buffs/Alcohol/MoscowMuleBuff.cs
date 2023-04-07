@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Alcohol
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Moscow Mule");
-            Description.SetDefault("Damage, critical strike chance, and knockback boosted, life regen reduced");
+            // DisplayName.SetDefault("Moscow Mule");
+            // Description.SetDefault("Damage, critical strike chance, and knockback boosted, life regen reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

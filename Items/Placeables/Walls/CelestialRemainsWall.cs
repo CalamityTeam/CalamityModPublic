@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Walls
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 400;
-            DisplayName.SetDefault("Celestial Remains Wall");
+            Item.ResearchUnlockCount = 400;
+            // DisplayName.SetDefault("Celestial Remains Wall");
         }
 
         public override void SetDefaults()

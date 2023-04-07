@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("AMR");
+            // DisplayName.SetDefault("AMR");
         }
 
         public override void SetDefaults()
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Ranged
             return true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             OnHitEffects(target.Center, crit);
 
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.Calamity().miscDefenseLoss = 25;
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             OnHitEffects(target.Center, crit);
 

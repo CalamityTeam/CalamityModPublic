@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Monkey Darts");
-            Tooltip.SetDefault("Stealth strikes throw 3 bouncing darts at high speed\n" + "'Perfect for popping'");
-            SacrificeTotal = 99;
+            // DisplayName.SetDefault("Monkey Darts");
+            // Tooltip.SetDefault("Stealth strikes throw 3 bouncing darts at high speed\n" + "'Perfect for popping'");
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

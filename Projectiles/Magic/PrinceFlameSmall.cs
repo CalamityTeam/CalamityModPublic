@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
         public const int AttackDelay = 12;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Holy Fire");
+            // DisplayName.SetDefault("Holy Fire");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 60);
         }

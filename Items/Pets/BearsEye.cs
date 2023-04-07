@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Bear's Eye");
-            Tooltip.SetDefault("Summons a pet guardian angel");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Bear's Eye");
+            // Tooltip.SetDefault("Summons a pet guardian angel");
         }
         public override void SetDefaults()
         {

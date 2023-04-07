@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Abyssal Tome");
-            Tooltip.SetDefault("Casts a slow-moving ball of dark energy");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Abyssal Tome");
+            // Tooltip.SetDefault("Casts a slow-moving ball of dark energy");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

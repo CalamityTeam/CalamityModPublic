@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aftershock");
-            Tooltip.SetDefault("Summons boulders from the sky on enemy hits");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Aftershock");
+            // Tooltip.SetDefault("Summons boulders from the sky on enemy hits");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 12f;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_ItemUse(Item);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
@@ -83,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AftershockRock>(), rockDamage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_ItemUse(Item);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);

@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Thief's Dime");
-            Tooltip.SetDefault("Once worthless treasure, now a relic of a thief's companionship\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Thief's Dime");
+            /* Tooltip.SetDefault("Once worthless treasure, now a relic of a thief's companionship\n" +
             "Summons Goldie the coin to light your way and collects nearby coins\n" +
-            "Provides a small amount of light in the abyss");
+            "Provides a small amount of light in the abyss"); */
         }
 
         public override void SetDefaults()

@@ -2445,7 +2445,7 @@ namespace CalamityMod.Projectiles
         #endregion
 
         #region ModifyDamageScaling
-        public override void ModifyDamageScaling(Projectile projectile, ref float damageScale)
+        public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[projectile.owner];
 
@@ -2465,7 +2465,7 @@ namespace CalamityMod.Projectiles
         #endregion
 
         #region ModifyHitNPC
-        public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
@@ -2504,7 +2504,7 @@ namespace CalamityMod.Projectiles
         #endregion
 
         #region ModifyHitPlayer
-        public override void ModifyHitPlayer(Projectile projectile, Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Projectile projectile, Player target, ref Player.HurtModifiers modifiers)
         {
             damage -= (int)(damageReduction * (Main.expertMode ? 0.25f : 0.5f));
             if (damage < 0)

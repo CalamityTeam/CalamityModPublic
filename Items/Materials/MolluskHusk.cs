@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Mollusk Husk");
-            Tooltip.SetDefault("The remains of a mollusk");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Mollusk Husk");
+            // Tooltip.SetDefault("The remains of a mollusk");
         }
 
         public override void SetDefaults()

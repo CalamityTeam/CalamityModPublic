@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tears of Heaven");
-            Tooltip.SetDefault("Casts slow-moving homing balls of heavenly light");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Tears of Heaven");
+            // Tooltip.SetDefault("Casts slow-moving homing balls of heavenly light");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

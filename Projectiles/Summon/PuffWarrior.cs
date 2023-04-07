@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Puff Warrior");
+            // DisplayName.SetDefault("Puff Warrior");
             Main.projFrames[Projectile.type] = 10;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
@@ -199,7 +199,7 @@ namespace CalamityMod.Projectiles.Summon
 			}
 		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
 			if (EnemyFailureCooldown > 0)
 				return;

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Water Droplet");
+            // DisplayName.SetDefault("Water Droplet");
         }
 
         public override void SetDefaults()

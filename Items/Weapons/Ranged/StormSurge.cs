@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Storm Surge");
-            Tooltip.SetDefault("Fear the storm\n" +
-                "Does not consume ammo");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Storm Surge");
+            /* Tooltip.SetDefault("Fear the storm\n" +
+                "Does not consume ammo"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

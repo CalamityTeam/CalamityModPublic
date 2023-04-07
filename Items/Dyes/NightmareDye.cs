@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(249, 81, 0)).UseSecondaryColor(new Color(255, 203, 106));
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Nightmare Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Nightmare Dye");
         }
 
         public override void SafeSetDefaults()

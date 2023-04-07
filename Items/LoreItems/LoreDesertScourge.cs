@@ -16,7 +16,7 @@ Unfortunately for the scourge, it seems that it too was prey in the end. After a
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Desert Scourge");
+            // DisplayName.SetDefault("Desert Scourge");
         }
 
         public override void SetDefaults()

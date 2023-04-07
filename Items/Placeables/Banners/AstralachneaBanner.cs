@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Astralachnea");
+            Item.ResearchUnlockCount = 1;
+            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Astralachnea");
         }
 
         public override void SetDefaults()

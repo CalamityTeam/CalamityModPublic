@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Ores
@@ -28,8 +29,8 @@ namespace CalamityMod.Tiles.Ores
 
             DustType = 105;
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.ScoriaOre>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Scoria");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Scoria");
             AddMapEntry(new Color(210, 101, 28), name);
             MineResist = 4f;
             MinPick = 210;

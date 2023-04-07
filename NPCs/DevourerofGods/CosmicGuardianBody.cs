@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Cosmic Guardian");
+            // DisplayName.SetDefault("Cosmic Guardian");
         }
 
         public override void SetDefaults()
@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             return false;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {
@@ -211,7 +211,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, true);

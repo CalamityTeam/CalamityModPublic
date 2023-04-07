@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shrapnel");
+            // DisplayName.SetDefault("Shrapnel");
         }
 
         public override void SetDefaults()

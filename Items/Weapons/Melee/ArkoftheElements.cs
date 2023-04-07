@@ -44,12 +44,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ark of the Elements");
-            Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
+            // DisplayName.SetDefault("Ark of the Elements");
+            /* Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
                 "This line also gets set in ModifyTooltips\n" +
                 "This line also gets set in ModifyTooltips\n" +
-                "A heavenly pair of blades infused with the essence of Terraria, powerful enough to cut through the fabric of reality");
-            SacrificeTotal = 1;
+                "A heavenly pair of blades infused with the essence of Terraria, powerful enough to cut through the fabric of reality"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

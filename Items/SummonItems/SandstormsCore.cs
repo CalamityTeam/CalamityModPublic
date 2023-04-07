@@ -14,10 +14,10 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Sandstorm's Core");
-            Tooltip.SetDefault("Summons the Great Sand Shark when used in the desert\n" +
-                "Not consumable");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Sandstorm's Core");
+            /* Tooltip.SetDefault("Summons the Great Sand Shark when used in the desert\n" +
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 12; // Frost Legion
         }
 
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<GreatSandShark>());
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<GreatSandShark>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<GreatSandShark>());
 
             return true;
         }

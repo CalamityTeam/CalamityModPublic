@@ -13,7 +13,7 @@ namespace CalamityMod.NPCs.Crags
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Scryllar");
+            // DisplayName.SetDefault("Scryllar");
         }
 
         public override void SetDefaults()
@@ -248,7 +248,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => Scryllar.DefineScryllarLoot(npcLoot);
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
@@ -265,7 +265,7 @@ namespace CalamityMod.NPCs.Crags
 			}
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Baguette");
-            Description.SetDefault("If only I knew... ~Cirrus");
+            // DisplayName.SetDefault("Baguette");
+            // Description.SetDefault("If only I knew... ~Cirrus");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

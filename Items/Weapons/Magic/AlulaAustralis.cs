@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Alula Australis");
-            Tooltip.SetDefault("Fires a beautiful aurora trailed by a star shower");
+            // DisplayName.SetDefault("Alula Australis");
+            // Tooltip.SetDefault("Fires a beautiful aurora trailed by a star shower");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

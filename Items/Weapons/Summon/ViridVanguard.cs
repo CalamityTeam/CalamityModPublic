@@ -28,10 +28,10 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Virid Vanguard");
-            Tooltip.SetDefault("Summons a circular formation of blades that slice nearby enemies to pieces");
+            // DisplayName.SetDefault("Virid Vanguard");
+            // Tooltip.SetDefault("Summons a circular formation of blades that slice nearby enemies to pieces");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

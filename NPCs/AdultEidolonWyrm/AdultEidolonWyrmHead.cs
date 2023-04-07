@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Adult Eidolon Wyrm");
+            // DisplayName.SetDefault("Adult Eidolon Wyrm");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
@@ -1457,7 +1457,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             postClone.Add(ItemID.Ectoplasm, 1, 21, 32);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             // Create gore and dust hit effects.
             if (Main.netMode == NetmodeID.Server)
@@ -1477,7 +1477,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override bool CheckActive() => false;
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
             NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
@@ -1491,7 +1491,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (NPC.Opacity == 1f && damage > 0)
                 player.AddBuff(ModContent.BuffType<CrushDepth>(), 1200, true);

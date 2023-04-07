@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Miasma");
-            Tooltip.SetDefault("Fires a spread of gas clouds that slow down after hitting an enemy");
+            // DisplayName.SetDefault("Miasma");
+            // Tooltip.SetDefault("Fires a spread of gas clouds that slow down after hitting an enemy");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

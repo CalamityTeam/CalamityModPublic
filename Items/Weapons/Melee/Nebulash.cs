@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nebulash");
-            Tooltip.SetDefault("Fires a whip sword that emits particle explosions on hit");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Nebulash");
+            // Tooltip.SetDefault("Fires a whip sword that emits particle explosions on hit");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

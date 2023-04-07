@@ -3,6 +3,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Tiles.Astral;
 using Terraria;
 using Terraria.Audio;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 using ReLogic.Content;
@@ -40,8 +41,8 @@ namespace CalamityMod.Tiles.Ores
 
             DustType = 55;
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AuricOre>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Auric");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Auric");
             AddMapEntry(new Color(255, 200, 0), name);
             MineResist = 10f;
             MinPick = 250;

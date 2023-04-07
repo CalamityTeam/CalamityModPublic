@@ -26,7 +26,7 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Murky Waters");
+            // DisplayName.SetDefault("Murky Waters");
         }
 
         public override bool IsBiomeActive(Player player)

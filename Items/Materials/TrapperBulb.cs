@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Trapper Bulb");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Trapper Bulb");
         }
 
         public override void SetDefaults()

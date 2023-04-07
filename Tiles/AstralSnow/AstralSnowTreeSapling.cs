@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.GameContent.Metadata;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -40,8 +41,8 @@ namespace CalamityMod.Tiles.AstralSnow
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.RandomStyleRange = 3;
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("MapObject.Sapling");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("MapObject.Sapling");
             AddMapEntry(new Color(200, 200, 200), name);
             DustType = ModContent.DustType<AstralBasic>();
             AdjTiles = new int[] { TileID.Saplings };

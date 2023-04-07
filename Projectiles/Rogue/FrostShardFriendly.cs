@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frost Shard");
+            // DisplayName.SetDefault("Frost Shard");
             Main.projFrames[Projectile.type] = 5;
         }
 
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
             return new Color(200, 200, 200, Projectile.alpha);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.ai[0] != 1f)
                 SoundEngine.PlaySound(SoundID.Item27 with { Volume = SoundID.Item12.Volume * 0.7f }, Projectile.position);

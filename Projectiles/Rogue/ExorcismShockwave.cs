@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exorcism Shockwave");
+            // DisplayName.SetDefault("Exorcism Shockwave");
         }
 
         public override void SetDefaults()
@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             float dist1 = Vector2.Distance(Projectile.Center, target.Hitbox.TopLeft());
             float dist2 = Vector2.Distance(Projectile.Center, target.Hitbox.TopRight());

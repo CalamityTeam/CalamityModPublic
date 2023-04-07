@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Briny Baron");
-            Tooltip.SetDefault("Striking an enemy with the blade causes a briny typhoon to appear\n" +
-                "Right click to fire a razorwind aqua blade");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Briny Baron");
+            /* Tooltip.SetDefault("Striking an enemy with the blade causes a briny typhoon to appear\n" +
+                "Right click to fire a razorwind aqua blade"); */
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 187, 0f, 0f, 100, new Color(53, Main.DiscoG, 255));
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_ItemUse(Item);
             if (crit)
@@ -83,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), damage, knockback, player.whoAmI);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_ItemUse(Item);
             if (crit)

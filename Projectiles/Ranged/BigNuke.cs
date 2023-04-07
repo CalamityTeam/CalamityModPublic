@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Big Nuke");
+            // DisplayName.SetDefault("Big Nuke");
             Main.projFrames[Projectile.type] = 4;
         }
 

@@ -15,11 +15,11 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rancor");
-            Tooltip.SetDefault("Casts a magic circle that charges energy and eventually releases a powerful laser burst of controlled maleficent magic\n" +
+            // DisplayName.SetDefault("Rancor");
+            /* Tooltip.SetDefault("Casts a magic circle that charges energy and eventually releases a powerful laser burst of controlled maleficent magic\n" +
                 "The laser causes arms and searing lava to appear on surfaces it touches which harm both you and enemies\n" +
-                CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor));
-            SacrificeTotal = 1;
+                CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor)); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

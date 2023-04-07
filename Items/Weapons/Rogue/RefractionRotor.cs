@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Refraction Rotor");
-            Tooltip.SetDefault("Fires a huge prismatic disk shuriken\n" +
+            // DisplayName.SetDefault("Refraction Rotor");
+            /* Tooltip.SetDefault("Fires a huge prismatic disk shuriken\n" +
                 "The shuriken shatters moments after impact into homing rockets\n" +
-                "Stealth strikes shatter into many more rockets");
-            SacrificeTotal = 1;
+                "Stealth strikes shatter into many more rockets"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

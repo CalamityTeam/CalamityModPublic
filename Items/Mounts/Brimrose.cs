@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Mounts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brimrose");
-            Tooltip.SetDefault("Summons a brimrose mount");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Brimrose");
+            // Tooltip.SetDefault("Summons a brimrose mount");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

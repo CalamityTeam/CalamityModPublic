@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
         public PrimitiveTrail LightningTrailDrawer = null;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Reaper Shark");
+            // DisplayName.SetDefault("Reaper Shark");
             Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 15;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;

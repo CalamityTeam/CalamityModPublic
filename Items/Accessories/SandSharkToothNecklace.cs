@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Sand Shark Tooth Necklace");
-            Tooltip.SetDefault("Increases armor penetration by 10\n" + "6% increased damage");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Sand Shark Tooth Necklace");
+            // Tooltip.SetDefault("Increases armor penetration by 10\n" + "6% increased damage");
         }
 
         public override void SetDefaults()

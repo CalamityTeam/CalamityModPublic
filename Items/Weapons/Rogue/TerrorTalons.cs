@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terror Talons");
-            Tooltip.SetDefault("Fires small wavering claws\n" +
-            "Stealth strikes launch a large, high speed claw which pierces");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Terror Talons");
+            /* Tooltip.SetDefault("Fires small wavering claws\n" +
+            "Stealth strikes launch a large, high speed claw which pierces"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

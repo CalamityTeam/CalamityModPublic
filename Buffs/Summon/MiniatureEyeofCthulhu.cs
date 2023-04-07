@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Miniature Eye of Cthulhu");
-            Description.SetDefault("It's watching you");
+            // DisplayName.SetDefault("Miniature Eye of Cthulhu");
+            // Description.SetDefault("It's watching you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

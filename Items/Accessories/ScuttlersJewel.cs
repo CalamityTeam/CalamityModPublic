@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Scuttler's Jewel");
-            Tooltip.SetDefault("Stealth strike projectiles spawn a jewel spike when destroyed\n" +
-                "Can also be broken down at an extractinator");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Scuttler's Jewel");
+            /* Tooltip.SetDefault("Stealth strike projectiles spawn a jewel spike when destroyed\n" +
+                "Can also be broken down at an extractinator"); */
             ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.scuttlersJewel = true;
         }
 
-        public override void ExtractinatorUse(ref int resultType, ref int resultStack)
+        public override void ExtractinatorUse(int extractinatorBlockType, ref int resultType, ref int resultStack)
         {
             float dropRand = Main.rand.Next(1, 8);
             resultStack = Main.rand.Next(1, 3);

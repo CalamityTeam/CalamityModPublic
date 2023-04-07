@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cinder Blossom");
-            Description.SetDefault("A hot, searing flower is floating uncomfortably close to you");
+            // DisplayName.SetDefault("Cinder Blossom");
+            // Description.SetDefault("A hot, searing flower is floating uncomfortably close to you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

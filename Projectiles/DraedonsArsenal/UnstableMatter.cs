@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Unstable Matter");
+            // DisplayName.SetDefault("Unstable Matter");
         }
 
         public override void SetDefaults()
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (!HasCollidedWithATile)
                 damage /= 3;

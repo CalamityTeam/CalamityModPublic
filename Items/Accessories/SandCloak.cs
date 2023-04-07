@@ -10,11 +10,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Sand Cloak");
-            Tooltip.SetDefault("5% increased movement speed\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Sand Cloak");
+            /* Tooltip.SetDefault("5% increased movement speed\n" +
                 "TOOLTIP LINE HERE\n" +
-                "This effect has a 30 second cooldown before it can be used again");
+                "This effect has a 30 second cooldown before it can be used again"); */
         }
 
         public override void SetDefaults()

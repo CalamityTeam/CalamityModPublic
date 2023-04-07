@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Toxic Heart");
-            Tooltip.SetDefault("Summons a plague aura around you that damages nearby enemies\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Toxic Heart");
+            /* Tooltip.SetDefault("Summons a plague aura around you that damages nearby enemies\n" +
         "Makes you immune to the Plague debuff\n"+
-        "Multiplies all sickness-based debuff damage by 1.5");
+        "Multiplies all sickness-based debuff damage by 1.5"); */
         }
 
         public override void SetDefaults()

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fault Line");
+            // DisplayName.SetDefault("Fault Line");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 14f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 420f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 13f;
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Projectile.Kill();
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire3, 240);
             if (Projectile.owner == Main.myPlayer)

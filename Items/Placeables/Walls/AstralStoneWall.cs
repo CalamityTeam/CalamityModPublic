@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.Walls
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 400;
-            DisplayName.SetDefault("Astral Stone Wall");
+            Item.ResearchUnlockCount = 400;
+            // DisplayName.SetDefault("Astral Stone Wall");
         }
 
         public override void SetDefaults()

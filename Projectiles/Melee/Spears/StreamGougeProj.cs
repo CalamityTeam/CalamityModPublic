@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stream Gouge");
+            // DisplayName.SetDefault("Stream Gouge");
         }
 
         public override void SetDefaults()
@@ -185,7 +185,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }

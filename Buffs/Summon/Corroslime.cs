@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Corroslime");
-            Description.SetDefault("The corroslime will protect you");
+            // DisplayName.SetDefault("Corroslime");
+            // Description.SetDefault("The corroslime will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

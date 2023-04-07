@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Elemental Eruption");
-            Tooltip.SetDefault("90% chance to not consume gel\n" +
-                "Fires a spread of rainbow flames");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Elemental Eruption");
+            /* Tooltip.SetDefault("90% chance to not consume gel\n" +
+                "Fires a spread of rainbow flames"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

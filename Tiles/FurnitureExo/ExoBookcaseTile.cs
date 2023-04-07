@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
@@ -13,8 +14,8 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void SetStaticDefaults()
         {
             this.SetUpBookcase(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Bookcase");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Bookcase");
             AddMapEntry(new Color(71, 95, 114), name);
             AnimationFrameHeight = 54;
             AdjTiles = new int[] { TileID.Bookcases };

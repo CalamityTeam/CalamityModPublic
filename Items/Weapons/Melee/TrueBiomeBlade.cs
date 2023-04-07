@@ -79,13 +79,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Biome Blade");
-            Tooltip.SetDefault("FUNCTION_DESC\n" +
+            // DisplayName.SetDefault("Biome Blade");
+            /* Tooltip.SetDefault("FUNCTION_DESC\n" +
                                "Hold down RMB while standing still on flat ground to attune the weapon to the powers of the surrounding biome\n" +
                                "Using RMB otherwise switches between the current attunement and an extra stored one\n" +
                                "Main Attunement : [None]\n" +
-                               "Secondary Attunement: [None]\n"); //Theres potential for flavor text as well but im not a writer
-            SacrificeTotal = 1;
+                               "Secondary Attunement: [None]\n"); */ //Theres potential for flavor text as well but im not a writer
+            Item.ResearchUnlockCount = 1;
         }
 
         #region tooltip editing
@@ -316,7 +316,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
 
         //This is only used for the purity sigil effect of the default attunement
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (mainAttunement == null || mainAttunement.id != AttunementID.TrueDefault || player.whoAmI != Main.myPlayer)
                 return;

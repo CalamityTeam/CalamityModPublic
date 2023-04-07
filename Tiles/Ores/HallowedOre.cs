@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Ores
@@ -26,8 +27,8 @@ namespace CalamityMod.Tiles.Ores
 
             CalamityUtils.MergeWithGeneral(Type);
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.HallowedOre>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Hallowed Ore");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Hallowed Ore");
             AddMapEntry(new Color(250, 250, 150), name);
             MineResist = 3f;
             MinPick = 180;

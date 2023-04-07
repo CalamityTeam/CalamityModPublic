@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public static readonly Color InnerLightningColor = Color.White;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lightning");
+            // DisplayName.SetDefault("Lightning");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 60;
         }
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // Immediately stop moving on touching an enemy to make it look like they're being electrocuted.
             if (ElectrocutionTarget == -1)

@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Levi");
-            Tooltip.SetDefault("Summons a baby Leviathan pet");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Levi");
+            // Tooltip.SetDefault("Summons a baby Leviathan pet");
         }
 
         public override void SetDefaults()

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Quagmire");
+            // DisplayName.SetDefault("Quagmire");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 12f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 400f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 15f;
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Venom, 180);
         }

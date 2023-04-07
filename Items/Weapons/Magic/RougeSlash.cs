@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rouge Slash");
-            Tooltip.SetDefault("Fires a wave of 3 rouge air slashes");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Rouge Slash");
+            // Tooltip.SetDefault("Fires a wave of 3 rouge air slashes");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

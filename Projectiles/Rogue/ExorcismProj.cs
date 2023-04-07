@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exorcism");
+            // DisplayName.SetDefault("Exorcism");
         }
 
         public override void SetDefaults()

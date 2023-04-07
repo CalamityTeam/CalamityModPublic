@@ -17,13 +17,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hell's Sun");
-            Tooltip.SetDefault("The Subterranean Sun in the palm of your hand\n" +
+            // DisplayName.SetDefault("Hell's Sun");
+            /* Tooltip.SetDefault("The Subterranean Sun in the palm of your hand\n" +
                 "Hurls up to 10 gravity-defying spiky balls\n" +
                 "Once stationary, periodically emit small suns that explode on hit\n" +
                 "Stealth strikes emit suns at a faster rate and last for a longer amount of time\n" +
-                "Right click to delete all existing spiky balls");
-            SacrificeTotal = 1;
+                "Right click to delete all existing spiky balls"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

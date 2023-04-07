@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Hydrothermic Headgear");
-            Tooltip.SetDefault("12% increased ranged damage and 10% increased ranged critical strike chance\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Hydrothermic Headgear");
+            /* Tooltip.SetDefault("12% increased ranged damage and 10% increased ranged critical strike chance\n" +
                 "Reduces ammo usage by 25%\n" +
-                "Grants immunity to lava and On Fire! debuff");
+                "Grants immunity to lava and On Fire! debuff"); */
         }
 
         public override void SetDefaults()

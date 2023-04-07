@@ -9,13 +9,13 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Smoking Comet");
-            Tooltip.SetDefault("Rains stars from the sky\n" +
-            "A very agile yoyo");
+            // DisplayName.SetDefault("Smoking Comet");
+            /* Tooltip.SetDefault("Rains stars from the sky\n" +
+            "A very agile yoyo"); */
             ItemID.Sets.Yoyo[Item.type] = true;
             ItemID.Sets.GamepadExtraRange[Item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

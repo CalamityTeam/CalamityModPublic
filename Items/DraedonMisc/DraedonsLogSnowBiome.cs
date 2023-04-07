@@ -11,9 +11,9 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Cryonic Material Log");
-            Tooltip.SetDefault("[Material Science Report] - Archmage's 'Cryonic Metal'\nClick to view its contents");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Cryonic Material Log");
+            // Tooltip.SetDefault("[Material Science Report] - Archmage's 'Cryonic Metal'\nClick to view its contents");
         }
 
         public override void SetDefaults()

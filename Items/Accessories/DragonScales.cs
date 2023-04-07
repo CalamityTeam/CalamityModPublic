@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Accessories
         
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Dragon Scales");
-            Tooltip.SetDefault("Only a living dragon holds true treasure\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Dragon Scales");
+            /* Tooltip.SetDefault("Only a living dragon holds true treasure\n" +
                                "Rogue projectiles create slow fireballs as they travel\n" +
                                "Stealth strikes create infernados on death\n" +
                                "+10% max run speed and acceleration\n" +
-                               "Grants immunity to Dragonfire");
+                               "Grants immunity to Dragonfire"); */
         }
 
         public override void SetDefaults()

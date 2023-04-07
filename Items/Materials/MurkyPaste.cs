@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Murky Paste");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Murky Paste");
         }
 
         public override void SetDefaults()

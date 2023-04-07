@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Icarus' Folly");
-            Description.SetDefault("Your wing time is reduced by 33%, infinite flight is disabled");
+            // DisplayName.SetDefault("Icarus' Folly");
+            // Description.SetDefault("Your wing time is reduced by 33%, infinite flight is disabled");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

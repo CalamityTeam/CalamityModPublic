@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Seething Discharge");
-            Tooltip.SetDefault("Fires a barrage of brimstone blasts");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Seething Discharge");
+            // Tooltip.SetDefault("Fires a barrage of brimstone blasts");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

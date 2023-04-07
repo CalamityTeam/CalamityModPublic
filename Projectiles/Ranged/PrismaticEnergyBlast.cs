@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Energy Blast");
+            // DisplayName.SetDefault("Energy Blast");
             Main.projFrames[Projectile.type] = 5;
         }
 
@@ -77,14 +77,14 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool? CanDamage() => Projectile.penetrate == 100 ? null : false;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             LaserLength = Projectile.Distance(target.Center);
             CreateExplosion(target.Center);
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
 
         public override void Kill(int timeLeft)
         {

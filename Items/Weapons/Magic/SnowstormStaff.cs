@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Snowstorm Staff");
-            Tooltip.SetDefault("Fires a snowflake that follows the mouse cursor");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Snowstorm Staff");
+            // Tooltip.SetDefault("Fires a snowflake that follows the mouse cursor");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

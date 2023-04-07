@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Audio;
@@ -71,8 +72,8 @@ namespace CalamityMod.Tiles.DraedonSummoner
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TECodebreaker>().Hook_AfterPlacement, -1, 0, true);
 
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("The Codebreaker");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("The Codebreaker");
             AddMapEntry(new Color(92, 107, 112), name);
             AnimationFrameHeight = 144;
         }

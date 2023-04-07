@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Prism Shuriken");
+            // DisplayName.SetDefault("Prism Shuriken");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 16;
         }
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool? CanDamage() => Projectile.alpha <= 128 ? null : false;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.timeLeft > 20)
                 Projectile.timeLeft = 20;

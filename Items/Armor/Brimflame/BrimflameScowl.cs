@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Armor.Brimflame
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Brimflame Cowl");
-            Tooltip.SetDefault("5% increased magic damage and critical strike chance\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Brimflame Cowl");
+            /* Tooltip.SetDefault("5% increased magic damage and critical strike chance\n" +
                 "Increases maximum mana by 70 and reduces mana usage by 10%\n" +
-                "Immunity to On Fire!, Brimstone Flames and Frostburn");
+                "Immunity to On Fire!, Brimstone Flames and Frostburn"); */
         }
 
         public override void SetDefaults()

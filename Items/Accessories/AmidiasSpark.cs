@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Amidias' Spark");
-            Tooltip.SetDefault("Taking damage releases a blast of sparks");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Amidias' Spark");
+            // Tooltip.SetDefault("Taking damage releases a blast of sparks");
         }
 
         public override void SetDefaults()

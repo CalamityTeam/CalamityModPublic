@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Mana Jelly");
-            Tooltip.SetDefault("+20 max mana\n" +
-                "Standing still boosts mana regen");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Mana Jelly");
+            /* Tooltip.SetDefault("+20 max mana\n" +
+                "Standing still boosts mana regen"); */
         }
 
         public override void SetDefaults()

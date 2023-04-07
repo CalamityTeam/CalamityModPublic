@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Rotting Eyeball");
-            Tooltip.SetDefault("Summons a corrupted conglomeration");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Rotting Eyeball");
+            // Tooltip.SetDefault("Summons a corrupted conglomeration");
         }
 
         public override void SetDefaults()

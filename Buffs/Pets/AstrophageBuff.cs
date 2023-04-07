@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Astrophage");
-            Description.SetDefault("Little astral buggy");
+            // DisplayName.SetDefault("Astrophage");
+            // Description.SetDefault("Little astral buggy");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

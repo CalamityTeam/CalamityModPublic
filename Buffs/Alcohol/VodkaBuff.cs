@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Alcohol
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vodka");
-            Description.SetDefault("Damage and critical stike chance boosted, defense and life regen reduced");
+            // DisplayName.SetDefault("Vodka");
+            // Description.SetDefault("Damage and critical stike chance boosted, defense and life regen reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aeroboom");
+            // DisplayName.SetDefault("Aeroboom");
         }
 
         public override void SetDefaults()

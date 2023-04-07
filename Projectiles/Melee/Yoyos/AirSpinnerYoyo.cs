@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Air Spinner");
+            // DisplayName.SetDefault("Air Spinner");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 8f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 300f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 10.5f;

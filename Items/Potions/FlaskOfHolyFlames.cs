@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 20;
-            DisplayName.SetDefault("Flask of Holy Flames");
-            Tooltip.SetDefault("Melee, Whip, and Rogue attacks inflict Holy Flames");
+            Item.ResearchUnlockCount = 20;
+            // DisplayName.SetDefault("Flask of Holy Flames");
+            // Tooltip.SetDefault("Melee, Whip, and Rogue attacks inflict Holy Flames");
         }
 
         public override void SetDefaults()

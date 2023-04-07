@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Astral
@@ -15,19 +16,19 @@ namespace CalamityMod.Tiles.Astral
         {
             this.SetUpChest();
 
-            ModTranslation name = CreateMapEntryName("chestAstral");
-            name.SetDefault("Astral Chest");
+            LocalizedText name = CreateMapEntryName("chestAstral");
+            // name.SetDefault("Astral Chest");
             AddMapEntry(new Color(174, 129, 92), name, MapChestName);
 
             name = CreateMapEntryName("chestAstral_Locked");
-            name.SetDefault("Locked Astral Chest");
+            // name.SetDefault("Locked Astral Chest");
             AddMapEntry(new Color(174, 129, 92), name, MapChestName);
 
             DustType = ModContent.DustType<AstralBasic>();
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            ContainerName.SetDefault("Astral Chest");
-            ChestDrop = ModContent.ItemType<AstralChest>();
+            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Astral Chest");
+            ItemDrop = ModContent.ItemType<AstralChest>();
         }
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
@@ -55,7 +56,7 @@ namespace CalamityMod.Tiles.Astral
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
 

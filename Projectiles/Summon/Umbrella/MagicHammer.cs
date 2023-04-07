@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Marmalade Hammer");
+            // DisplayName.SetDefault("Marmalade Hammer");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 40;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 4;
         }
@@ -257,7 +257,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			}
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
 		{
 			// On bonk, there is a small chance for confetti and Stylish energy
             if ((Behavior == 3f || Behavior == 4f) && Main.rand.NextBool(20) && Projectile.soundDelay <= 0)

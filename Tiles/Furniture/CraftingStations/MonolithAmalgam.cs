@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
@@ -13,8 +14,8 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
         public override void SetStaticDefaults()
         {
             this.SetUpBookcase(true, false, false);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Monolith Amalgam");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Monolith Amalgam");
             AddMapEntry(new Color(191, 142, 111), name);
             AnimationFrameHeight = 54;
         }

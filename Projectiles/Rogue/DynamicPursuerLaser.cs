@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Laser");
+            // DisplayName.SetDefault("Laser");
         }
 
         public override void SetDefaults()

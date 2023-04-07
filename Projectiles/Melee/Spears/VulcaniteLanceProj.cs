@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lance");
+            // DisplayName.SetDefault("Lance");
         }
 
         public override void SetDefaults()
@@ -46,13 +46,13 @@ namespace CalamityMod.Projectiles.Melee.Spears
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             OnHitEffects(target.Center, crit);
             target.AddBuff(BuffID.OnFire3, 240);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             OnHitEffects(target.Center, crit);
             target.AddBuff(BuffID.OnFire3, 240);

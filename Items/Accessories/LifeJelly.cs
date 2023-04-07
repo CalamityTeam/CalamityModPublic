@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Life Jelly");
-            Tooltip.SetDefault("+20 max life\n" +
-                "Standing still boosts life regen");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Life Jelly");
+            /* Tooltip.SetDefault("+20 max life\n" +
+                "Standing still boosts life regen"); */
         }
 
         public override void SetDefaults()

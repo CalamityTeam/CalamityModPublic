@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void SetStaticDefaults()
 		{
-            DisplayName.SetDefault("Cyan Umbrella");
+            // DisplayName.SetDefault("Cyan Umbrella");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 40;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 4;
         }

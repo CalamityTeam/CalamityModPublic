@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.SunkenSea
@@ -24,7 +25,7 @@ namespace CalamityMod.Tiles.SunkenSea
             //TileID.Sets.WallsMergeWith[Type] = true; Uncomment this when it gets pushed to 1.4 stable (or when we start porting to 1.4.4 which should also have it)
             DustType = 108;
             ItemDrop = ModContent.ItemType<Items.Placeables.EutrophicGlass>();
-            ModTranslation name = CreateMapEntryName();
+            LocalizedText name = CreateMapEntryName();
             AddMapEntry(new Color(197, 220, 220), name);
             MineResist = 2f;
             HitSound = SoundID.Shatter;

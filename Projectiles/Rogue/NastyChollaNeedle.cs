@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Needle");
+            // DisplayName.SetDefault("Needle");
         }
 
         public override void SetDefaults()

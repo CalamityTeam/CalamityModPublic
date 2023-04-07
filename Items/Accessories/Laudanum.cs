@@ -9,12 +9,12 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Laudanum");
-            Tooltip.SetDefault("Converts certain debuffs into buffs and extends their durations\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Laudanum");
+            /* Tooltip.SetDefault("Converts certain debuffs into buffs and extends their durations\n" +
                                "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak,\n" +
                                "Broken Armor, Armor Crunch, Chilled, Ichor, and Obstructed\n" +
-                               "Revengeance drop");
+                               "Revengeance drop"); */
         }
 
         public override void SetDefaults()

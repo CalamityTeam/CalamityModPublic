@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Seashell");
+            // DisplayName.SetDefault("Seashell");
         }
 
         public override void SetDefaults()

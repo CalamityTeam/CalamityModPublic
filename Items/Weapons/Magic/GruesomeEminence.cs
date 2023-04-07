@@ -15,12 +15,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gruesome Eminence");
-            Tooltip.SetDefault("Summons a gaseous conglomeration of spirits near the cursor\n" +
+            // DisplayName.SetDefault("Gruesome Eminence");
+            /* Tooltip.SetDefault("Summons a gaseous conglomeration of spirits near the cursor\n" +
                 "At first, the spirits will fly wildly. This can hurt enemies and players\n" +
                 "However, over time they will begin to accumulate to create a single, controllable monstrosity\n" +
-                CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor));
-            SacrificeTotal = 1;
+                CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor)); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

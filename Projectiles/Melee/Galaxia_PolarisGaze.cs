@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Polaris's Gaze");
+            // DisplayName.SetDefault("Polaris's Gaze");
         }
         public override void SetDefaults()
         {
@@ -236,7 +236,7 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         //Since the iframes vary, adjust the damage to be consistent no matter the iframes. The true scaling happens between the BaseDamage and the FulLChargeDamage
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             float deviationFromBaseDamage = damage / (float)FourSeasonsGalaxia.PolarisAttunement_BaseDamage;
             float currentDamage = (int)(MathHelper.Lerp(FourSeasonsGalaxia.PolarisAttunement_BaseDamage * deviationFromBaseDamage, FourSeasonsGalaxia.PolarisAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
@@ -247,7 +247,7 @@ namespace CalamityMod.Projectiles.Melee
             damage = (int)(currentDamage * damageReduction);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             float deviationFromBaseDamage = damage / (float)FourSeasonsGalaxia.PolarisAttunement_BaseDamage;
             float currentDamage = (int)(MathHelper.Lerp(FourSeasonsGalaxia.PolarisAttunement_BaseDamage * deviationFromBaseDamage, FourSeasonsGalaxia.PolarisAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
@@ -260,8 +260,8 @@ namespace CalamityMod.Projectiles.Melee
 
 
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => ShredTarget();
-        public override void OnHitPvp(Player target, int damage, bool crit) => ShredTarget();
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => ShredTarget();
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => ShredTarget();
 
         private void ShredTarget()
         {

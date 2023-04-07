@@ -17,9 +17,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Pulse Pistol");
-            Tooltip.SetDefault("Fires a pulse that arcs to a new target on enemy hits");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Pulse Pistol");
+            // Tooltip.SetDefault("Fires a pulse that arcs to a new target on enemy hits");
         }
 
         public override void SetDefaults()

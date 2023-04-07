@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sandslasher");
-            Tooltip.SetDefault("Throws a huge shuriken made out of fused sand unaffected by gravity which slowly accelerates horizontally\n"
+            // DisplayName.SetDefault("Sandslasher");
+            /* Tooltip.SetDefault("Throws a huge shuriken made out of fused sand unaffected by gravity which slowly accelerates horizontally\n"
                               +"It does more damage depending on how fast it goes horizontally and how long it has been flying for\n"
-                              +"Stealth strikes periodically release sand clouds");
-            SacrificeTotal = 1;
+                              +"Stealth strikes periodically release sand clouds"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

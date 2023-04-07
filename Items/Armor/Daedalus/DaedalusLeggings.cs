@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Armor.Daedalus
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Daedalus Leggings");
-            Tooltip.SetDefault("3% increased critical strike chance\n" +
-                "10% increased movement speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Daedalus Leggings");
+            /* Tooltip.SetDefault("3% increased critical strike chance\n" +
+                "10% increased movement speed"); */
         }
 
         public override void SetDefaults()

@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Armor.Daedalus
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Daedalus Helm");
-            Tooltip.SetDefault("10% increased melee damage and critical strike chance\n" +
-                "15% increased melee speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Daedalus Helm");
+            /* Tooltip.SetDefault("10% increased melee damage and critical strike chance\n" +
+                "15% increased melee speed"); */
         }
 
         public override void SetDefaults()

@@ -4,6 +4,7 @@ using CalamityMod.Projectiles.Environment;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -21,8 +22,8 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Geyser");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Geyser");
             AddMapEntry(new Color(103, 65, 64), name);
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
 

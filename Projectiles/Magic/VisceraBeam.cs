@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Viscera");
+            // DisplayName.SetDefault("Viscera");
         }
 
         public override void SetDefaults()
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (!target.canGhostHeal || Main.player[Projectile.owner].moonLeech)
                 return;

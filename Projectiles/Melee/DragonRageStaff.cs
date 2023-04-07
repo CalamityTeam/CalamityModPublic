@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dragon Rage");
+            // DisplayName.SetDefault("Dragon Rage");
         }
 
         public override void SetDefaults()
@@ -143,13 +143,13 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Dragonfire>(), 180);
             OnHitEffects(target.Center);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             OnHitEffects(target.Center);
         }
@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles.Melee
 			Main.player[Projectile.owner].Calamity().dragonRageCooldown = 60;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[Projectile.owner];
             Rectangle myRect = Projectile.Hitbox;

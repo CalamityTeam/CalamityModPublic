@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Ace's Apron of Affection");
-            Tooltip.SetDefault("Great for hugging people");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Ace's Apron of Affection");
+            // Tooltip.SetDefault("Great for hugging people");
         }
 
         public override void SetDefaults()

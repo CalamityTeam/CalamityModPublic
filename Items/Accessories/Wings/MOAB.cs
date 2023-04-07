@@ -13,16 +13,16 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("MOAB");
-            Tooltip.SetDefault("The mother of all balloons\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("MOAB");
+            /* Tooltip.SetDefault("The mother of all balloons\n" +
                 "Counts as wings\n" +
                 "Horizontal speed: 6.50\n" +
                 "Acceleration multiplier: 1.0\n" +
                 "Good vertical speed\n" +
                 "Flight time: 75\n" +
                 "10% increased jump speed and allows constant jumping\n" +
-                "Grants the player cloud, blizzard, and sandstorm mid-air jumps");
+                "Grants the player cloud, blizzard, and sandstorm mid-air jumps"); */
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(75, 6.5f, 1f);
         }
 

@@ -14,9 +14,9 @@ namespace CalamityMod.Items
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Momentum Capacitor");
-            Tooltip.SetDefault("While using the Momentum Capacitor,\n" + "your top speed will continuously and uncontrollably increase\n" + "This effect only works if there are no bosses alive");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Momentum Capacitor");
+            // Tooltip.SetDefault("While using the Momentum Capacitor,\n" + "your top speed will continuously and uncontrollably increase\n" + "This effect only works if there are no bosses alive");
         }
 
         public override void SetDefaults()

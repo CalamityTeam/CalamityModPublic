@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
         public const float LungeSpeed = 19f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Punch");
+            // DisplayName.SetDefault("Punch");
             Main.projFrames[Projectile.type] = 14;
         }
 
@@ -167,7 +167,7 @@ namespace CalamityMod.Projectiles.Melee
 
         #region NPC Hit Collision Logic
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => ReelBack();
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => ReelBack();
         #endregion
     }
 }

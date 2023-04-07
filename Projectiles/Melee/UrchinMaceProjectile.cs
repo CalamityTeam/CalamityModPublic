@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Urchin Mace");
+            // DisplayName.SetDefault("Urchin Mace");
         }
 
         public override void SetDefaults()
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemAnimation = 2;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int i = 0; i < 3; i++)
             {
@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         //If we don't do that, the hit enemies get knocked back towards you if you hit them from the right??
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             // This would knock enemies away consistently, but i'm choosing to go with the other option
             //hitDirection = Math.Sign(target.Center.X - Owner.Center.X);

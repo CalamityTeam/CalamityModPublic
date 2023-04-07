@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Astral Hamaxe");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Astral Hamaxe");
         }
 
         public override void SetDefaults()
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Tools
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
         }

@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Placeables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spite");
-            Description.SetDefault("Its hateful glow flickers with ire");
+            // DisplayName.SetDefault("Spite");
+            // Description.SetDefault("Its hateful glow flickers with ire");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;

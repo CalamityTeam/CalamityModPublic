@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pwnagehammer");
-            Tooltip.SetDefault("Throws a heavy, gravity-affected hammer that creates a loud blast of hallowed energy when it hits something\n" +
+            // DisplayName.SetDefault("Pwnagehammer");
+            /* Tooltip.SetDefault("Throws a heavy, gravity-affected hammer that creates a loud blast of hallowed energy when it hits something\n" +
             "There is a 20 percent chance for the hammer to home in on a target\n" +
-            "Homing hammers summon an additional spectral hammer on hit and are guaranteed to land a critical hit");
-            SacrificeTotal = 1;
+            "Homing hammers summon an additional spectral hammer on hit and are guaranteed to land a critical hit"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

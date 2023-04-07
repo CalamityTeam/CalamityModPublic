@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Song");
+            // DisplayName.SetDefault("Song");
         }
 
         public override void SetDefaults()

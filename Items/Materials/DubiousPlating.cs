@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Dubious Plating");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Dubious Plating");
         }
 
         public override void SetDefaults()

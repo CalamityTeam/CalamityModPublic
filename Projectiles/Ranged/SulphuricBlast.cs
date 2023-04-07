@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
         public const int TotalSecondsToStick = 8;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sulphuric Blast");
+            // DisplayName.SetDefault("Sulphuric Blast");
             Main.projFrames[Projectile.type] = 20;
         }
 
@@ -62,11 +62,11 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Projectile.ModifyHitNPCSticky(2, true);
         }

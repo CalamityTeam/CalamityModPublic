@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee
         public ref float Time => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Photon Ripper");
+            // DisplayName.SetDefault("Photon Ripper");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 36;
         }
@@ -143,8 +143,8 @@ namespace CalamityMod.Projectiles.Melee
         // Prevent the crystals from utilizing velocity. Their movement is entirely dependant on Center setting.
         public override bool ShouldUpdatePosition() => false;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
     }
 }

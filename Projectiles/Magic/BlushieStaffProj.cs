@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Staff of Blushie");
+            // DisplayName.SetDefault("Staff of Blushie");
         }
 
         public override void SetDefaults()
@@ -87,12 +87,12 @@ namespace CalamityMod.Projectiles.Magic
             hitbox.Height += 2 * yRange;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             damage += target.defense * 2;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.penetrate++;
             target.AddBuff(BuffID.Daybreak, 300);

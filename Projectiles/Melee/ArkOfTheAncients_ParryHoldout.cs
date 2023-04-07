@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fractured Ark");
+            // DisplayName.SetDefault("Fractured Ark");
         }
         public override void SetDefaults()
         {
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee
             CombatText.NewText(Projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
             AlreadyParried = 1f;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (AlreadyParried > 0)
                 return;

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Contagion Ball");
+            // DisplayName.SetDefault("Contagion Ball");
         }
 
         public override void SetDefaults()

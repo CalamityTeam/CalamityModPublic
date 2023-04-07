@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ink Cloud");
+            // DisplayName.SetDefault("Ink Cloud");
             Main.projFrames[Projectile.type] = 10;
         }
 
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool CanHitPlayer(Player target) => Projectile.ai[0] < 180f;
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (damage <= 0)
                 return;

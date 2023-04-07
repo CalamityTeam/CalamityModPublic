@@ -1531,7 +1531,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Shop Stuff
-        public override void SetupShop(int type, Chest shop, ref int nextSlot)
+        public override void ModifyActiveShop(NPC npc, string shopName, Item[] items)
         {
             int goldCost = NPC.downedMoonlord ? 8 : Main.hardMode ? 4 : 2;
 

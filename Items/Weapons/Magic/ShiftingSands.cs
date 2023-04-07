@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shifting Sands");
-            Tooltip.SetDefault("Casts a sand shard that follows the mouse cursor");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Shifting Sands");
+            // Tooltip.SetDefault("Casts a sand shard that follows the mouse cursor");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

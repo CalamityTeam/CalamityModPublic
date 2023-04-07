@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wulfrum Hovercraft");
+            // DisplayName.SetDefault("Wulfrum Hovercraft");
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
@@ -272,7 +272,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.015f : 0.1f) * pylonMult;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (!Main.dedServ)
             {
@@ -302,7 +302,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
             StunTime = StunTimeMax;
             NPC.netUpdate = true;

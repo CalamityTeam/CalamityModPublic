@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
         private int pheight = 58;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Barrage");
+            // DisplayName.SetDefault("Ice Barrage");
         }
 
         public override void SetDefaults()
@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
         }

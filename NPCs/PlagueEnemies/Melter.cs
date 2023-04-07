@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Melter");
+            // DisplayName.SetDefault("Melter");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
             value.PortraitPositionYOverride = -32f;
@@ -64,13 +64,13 @@ namespace CalamityMod.NPCs.PlagueEnemies
             return SpawnCondition.HardmodeJungle.Chance * 0.09f;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<Plague>(), 180, true);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

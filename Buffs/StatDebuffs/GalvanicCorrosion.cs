@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Galvanic Corrosion");
-            Description.SetDefault("Your limbs have begun to corrode");
+            // DisplayName.SetDefault("Galvanic Corrosion");
+            // Description.SetDefault("Your limbs have begun to corrode");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

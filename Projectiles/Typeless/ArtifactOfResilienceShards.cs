@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Typeless
         public const float MaxRadius = 240f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Artifact Shard");
+            // DisplayName.SetDefault("Artifact Shard");
             Main.projFrames[Projectile.type] = 1;
         }
 
@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Typeless
         public const float MaxRadius = 660f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Artifact Shard");
+            // DisplayName.SetDefault("Artifact Shard");
             Main.projFrames[Projectile.type] = 1;
         }
 
@@ -185,7 +185,7 @@ namespace CalamityMod.Projectiles.Typeless
         public const float MaxRadius = 660f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Artifact Shard");
+            // DisplayName.SetDefault("Artifact Shard");
             Main.projFrames[Projectile.type] = 1;
         }
 
@@ -223,7 +223,7 @@ namespace CalamityMod.Projectiles.Typeless
         public const float MaxRadius = 660f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Artifact Shard");
+            // DisplayName.SetDefault("Artifact Shard");
             Main.projFrames[Projectile.type] = 1;
         }
 
@@ -261,7 +261,7 @@ namespace CalamityMod.Projectiles.Typeless
         public const float MaxRadius = 660f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Artifact Shard");
+            // DisplayName.SetDefault("Artifact Shard");
             Main.projFrames[Projectile.type] = 1;
         }
 
@@ -299,7 +299,7 @@ namespace CalamityMod.Projectiles.Typeless
         public const float MaxRadius = 660f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Artifact Shard");
+            // DisplayName.SetDefault("Artifact Shard");
             Main.projFrames[Projectile.type] = 1;
         }
 

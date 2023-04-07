@@ -20,10 +20,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Marnite Repulsion Shield");
-            Tooltip.SetDefault("Enemies behind you are struck by high-knockback hardlight quills\n" +
-                "[c/FFF191:Backstabbers Beware!]");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Marnite Repulsion Shield");
+            /* Tooltip.SetDefault("Enemies behind you are struck by high-knockback hardlight quills\n" +
+                "[c/FFF191:Backstabbers Beware!]"); */
         }
 
         public override void SetDefaults()
@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Repulsion Matrix");
+            // DisplayName.SetDefault("Repulsion Matrix");
         }
 
 
@@ -147,7 +147,7 @@ namespace CalamityMod.Items.Accessories
             return base.CanHitNPC(target);
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             hitDirection = Math.Sign(-Owner.direction);
         }

@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crushsaw Crasher");
-            Tooltip.SetDefault("Throws bouncing axes\n" +
-            "Stealth strikes throw five at once");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Crushsaw Crasher");
+            /* Tooltip.SetDefault("Throws bouncing axes\n" +
+            "Stealth strikes throw five at once"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -59,12 +59,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
         }

@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Serpentine");
-            Tooltip.SetDefault("Casts a serpent that follows the mouse cursor");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Serpentine");
+            // Tooltip.SetDefault("Casts a serpent that follows the mouse cursor");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

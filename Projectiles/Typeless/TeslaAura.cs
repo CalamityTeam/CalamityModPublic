@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tesla's Electricity");
+            // DisplayName.SetDefault("Tesla's Electricity");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
         }
 
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Electrified, 180);
             target.AddBuff(ModContent.BuffType<GalvanicCorrosion>(), 6);
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(BuffID.Electrified, 180);
             target.AddBuff(ModContent.BuffType<GalvanicCorrosion>(), 6);

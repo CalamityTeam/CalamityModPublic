@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Materials
         public int frame = 0;
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Darksun Fragment");
-            Tooltip.SetDefault("An impacted crystal suffused with opposing celestial energies");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Darksun Fragment");
+            // Tooltip.SetDefault("An impacted crystal suffused with opposing celestial energies");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 8));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;

@@ -16,10 +16,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starmada");
-            Tooltip.SetDefault("Fires a barrage of stars and plasma blasts\n" +
-                            "66% chance to not consume ammo");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Starmada");
+            /* Tooltip.SetDefault("Fires a barrage of stars and plasma blasts\n" +
+                            "66% chance to not consume ammo"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

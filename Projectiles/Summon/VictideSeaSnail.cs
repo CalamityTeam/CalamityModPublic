@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sea Snail");
+            // DisplayName.SetDefault("Sea Snail");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             Main.projFrames[Projectile.type] = 7;
         }

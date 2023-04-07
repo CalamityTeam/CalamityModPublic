@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Ranged
         public const float PositioningOffset = 35f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ultima");
+            // DisplayName.SetDefault("Ultima");
         }
 
         public override void SetDefaults()

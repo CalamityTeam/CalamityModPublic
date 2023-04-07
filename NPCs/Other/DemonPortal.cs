@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.Other
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Mysterious Portal");
+            // DisplayName.SetDefault("Mysterious Portal");
         }
 
         public override void SetDefaults()
@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Other
             NPC.Calamity().VulnerableToWater = true;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = 25000;
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */ => NPC.lifeMax = 25000;
 
         public override void AI()
         {
@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.Other
             return null;
         }
 
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
             bool wouldDie = NPC.life - (damage * (crit ? 2D : 1D)) <= 0;
             if (wouldDie)

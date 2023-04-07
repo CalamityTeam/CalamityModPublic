@@ -37,8 +37,8 @@ namespace CalamityMod.Items.Weapons.Summon
         public const int CrippleTime = 360; // 6 seconds
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flamsteed Ring");
-            Tooltip.SetDefault("Summons a colossal controllable mech\n" +
+            // DisplayName.SetDefault("Flamsteed Ring");
+            /* Tooltip.SetDefault("Summons a colossal controllable mech\n" +
                 "Right click to display the mech's control panel\n" +
                 "The panel has 3 configurations, selected using the brackets on the edges of the UI\n" +
                 "Each bracket powers 2 out of 3 possible functions, represented by the circular icons.\n" +
@@ -47,14 +47,14 @@ namespace CalamityMod.Items.Weapons.Summon
                 "The top icon is the mech's weaponry. It must be powered in order to attack.\n" +
                 "Click the top icon to switch between Regicide, an enormous energy blade, and a powerful Gauss rifle.\n" +
                 "Exiting the mount while a boss is alive will temporarily hinder your movement\n" +
-            CalamityUtils.ColorMessage("Now, make them pay.", new Color(135, 206, 235)));
+            CalamityUtils.ColorMessage("Now, make them pay.", new Color(135, 206, 235))); */
 
             if (Main.netMode != NetmodeID.Server)
             {
                 int equipSlotHead = EquipLoader.GetEquipSlot(Mod, "HeadlessEquipTexture", EquipType.Head);
                 ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
             }
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

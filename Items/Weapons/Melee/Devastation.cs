@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Devastation");
-            Tooltip.SetDefault("Fires galaxy blasts that explode\n" +
-                "Receives 33% benefit from melee speed bonuses");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Devastation");
+            /* Tooltip.SetDefault("Fires galaxy blasts that explode\n" +
+                "Receives 33% benefit from melee speed bonuses"); */
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
@@ -113,14 +113,14 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Ichor, 60);
             target.AddBuff(BuffID.OnFire, 180);
             target.AddBuff(BuffID.Frostburn, 120);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(BuffID.Ichor, 60);
             target.AddBuff(BuffID.OnFire, 180);

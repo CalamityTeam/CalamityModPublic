@@ -17,15 +17,15 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Elysian Aegis");
-            Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Elysian Aegis");
+            /* Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
                                "Grants immunity to knockback and the Burning, On Fire!, and Holy Flames debuffs\n" +
                                "+30 max life\n" +
                                "Grants a supreme holy flame dash\n" +
                                "Can be used to ram enemies\n" +
                                "TOOLTIP LINE HERE\n" +
-                               "Activating this buff will reduce your movement speed and increase enemy aggro");
+                               "Activating this buff will reduce your movement speed and increase enemy aggro"); */
         }
 
         public override void SetDefaults()

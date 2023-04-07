@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Trident Icicle");
+            // DisplayName.SetDefault("Trident Icicle");
         }
 
         public override void AI()
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Magic
             Main.dust[index2].noGravity = true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Frostburn2, 180);
         }

@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.CalClone
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Catastrophe");
+            // DisplayName.SetDefault("Catastrophe");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
@@ -173,7 +173,7 @@ namespace CalamityMod.NPCs.CalClone
             npcLoot.Add(ModContent.ItemType<CrushsawCrasher>(), 4);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {
@@ -222,7 +222,7 @@ namespace CalamityMod.NPCs.CalClone
             return true;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);

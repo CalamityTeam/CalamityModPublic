@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Summon
 	public class AquasScepterRaindrop : ModProjectile
 	{
 		public override void SetStaticDefaults() {
-			DisplayName.SetDefault("Rain Droplet");
+			// DisplayName.SetDefault("Rain Droplet");
 			// Sets the amount of frames this minion has on its spritesheet
 			Main.projFrames[Projectile.type] = 1;
         }
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Summon
 		public override bool MinionContactDamage() {
 			return true;
 		}
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.damage = (int)(Projectile.damage * 0.6f);
         }

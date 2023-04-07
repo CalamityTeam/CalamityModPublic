@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaotic Bobber");
+            // DisplayName.SetDefault("Chaotic Bobber");
         }
 
         public override void SetDefaults()

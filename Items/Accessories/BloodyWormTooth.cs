@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Bloody Worm Tooth");
-            Tooltip.SetDefault("7% increased melee damage and speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Bloody Worm Tooth");
+            // Tooltip.SetDefault("7% increased melee damage and speed");
         }
 
         public override void SetDefaults()
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<RottenBrain>().
                 AddTile(TileID.TinkerersWorkbench).
-                AddCondition(Recipe.Condition.InGraveyardBiome).
+                AddCondition(Condition.InGraveyard).
                 Register();
         }
     }

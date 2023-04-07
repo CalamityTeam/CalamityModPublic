@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Armor.Aerospec
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Aerospec Leggings");
-            Tooltip.SetDefault("12% increased movement speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Aerospec Leggings");
+            // Tooltip.SetDefault("12% increased movement speed");
         }
 
         public override void SetDefaults()

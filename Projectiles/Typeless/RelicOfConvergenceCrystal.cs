@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Typeless
         public const float MaxDustOffsetRadius = 70f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Relic of Convergence");
+            // DisplayName.SetDefault("Relic of Convergence");
         }
 
         public override void SetDefaults()

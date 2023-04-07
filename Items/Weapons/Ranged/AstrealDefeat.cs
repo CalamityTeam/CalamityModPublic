@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Astreal Defeat");
-            Tooltip.SetDefault("All arrows are converted to Astreal Arrows that emit flames as they travel");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Astreal Defeat");
+            // Tooltip.SetDefault("All arrows are converted to Astreal Arrows that emit flames as they travel");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

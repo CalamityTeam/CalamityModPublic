@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Infernado");
+            // DisplayName.SetDefault("Infernado");
             Main.projFrames[Projectile.type] = 12;
         }
 
@@ -149,7 +149,7 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (damage <= 0)
                 return;

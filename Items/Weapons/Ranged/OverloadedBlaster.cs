@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Overloaded Blaster");
-            Tooltip.SetDefault("33% chance to not consume gel\n" +
-                "Fires a large spread of bouncing slime");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Overloaded Blaster");
+            /* Tooltip.SetDefault("33% chance to not consume gel\n" +
+                "Fires a large spread of bouncing slime"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

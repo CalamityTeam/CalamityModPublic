@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crystyl Crusher Ray");
+            // DisplayName.SetDefault("Crystyl Crusher Ray");
         }
 
         // Use a different style for constant so it is very clear in code when a constant is used

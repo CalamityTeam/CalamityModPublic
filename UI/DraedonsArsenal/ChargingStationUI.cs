@@ -109,7 +109,7 @@ namespace CalamityMod.UI.DraedonsArsenal
                     // If the player is holding shift and has space for the item, just spawn it on his or her face.
                     if (Main.keyState.PressingShift() && p.ItemSpace(pluggedItem).CanTakeItemToPersonalInventory)
                     {
-                        p.QuickSpawnClonedItem(new EntitySource_TileEntity(charger), pluggedItem, pluggedItem.stack);
+                        p.QuickSpawnItem(new EntitySource_TileEntity(charger), pluggedItem, pluggedItem.stack);
 
                         // Destroy the original plugged item because a clone of it was just spawned.
                         pluggedItem.TurnToAir();

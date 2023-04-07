@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using System;
@@ -20,8 +21,8 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             Main.tileNoAttach[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Steam Vent");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Steam Vent");
             AddMapEntry(new Color(106, 80, 102), name);
             DustType = 33;
 

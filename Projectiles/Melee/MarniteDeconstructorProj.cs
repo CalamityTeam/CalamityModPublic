@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Marnite Deconstructor");
+            // DisplayName.SetDefault("Marnite Deconstructor");
         }
 
         public override string Texture => "CalamityMod/Items/Tools/MarniteDeconstructor";

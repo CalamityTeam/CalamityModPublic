@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Dimensional Soul Artifact");
-            Tooltip.SetDefault("Power\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Dimensional Soul Artifact");
+            /* Tooltip.SetDefault("Power\n" +
                 "Boosts all damage by 25%, but at what cost?\n" +
-                "Increases all damage taken by 15%");
+                "Increases all damage taken by 15%"); */
         }
 
         public override void SetDefaults()

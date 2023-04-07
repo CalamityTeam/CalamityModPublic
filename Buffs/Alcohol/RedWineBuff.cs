@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Alcohol
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Red Wine");
-            Description.SetDefault("Life regen reduced");
+            // DisplayName.SetDefault("Red Wine");
+            // Description.SetDefault("Life regen reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

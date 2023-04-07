@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Phantasmal Fury");
-            Tooltip.SetDefault("Casts a phantasmal bolt that explodes into more bolts");
+            // DisplayName.SetDefault("Phantasmal Fury");
+            // Tooltip.SetDefault("Casts a phantasmal bolt that explodes into more bolts");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

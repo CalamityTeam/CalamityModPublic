@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Brimstone Elemental Mask");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Brimstone Elemental Mask");
 
             if (Main.netMode != NetmodeID.Server)
                 ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;

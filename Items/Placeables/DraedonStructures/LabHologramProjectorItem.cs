@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Lab Hologram Projector");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Lab Hologram Projector");
         }
 
         public override void SetDefaults()

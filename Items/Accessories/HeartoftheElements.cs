@@ -16,10 +16,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Heart of the Elements");
-            Tooltip.SetDefault("The heart of the world\n" +
-                "Summons all elementals to protect you");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Heart of the Elements");
+            /* Tooltip.SetDefault("The heart of the world\n" +
+                "Summons all elementals to protect you"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 8));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }

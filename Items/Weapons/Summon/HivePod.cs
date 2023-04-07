@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hive Pod");
-            Tooltip.SetDefault("Summons an astral hive to protect you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Hive Pod");
+            // Tooltip.SetDefault("Summons an astral hive to protect you");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

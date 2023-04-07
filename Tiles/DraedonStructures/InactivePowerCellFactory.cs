@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -31,8 +32,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.newTile.CoordinatePadding = 0;
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Inactive Power Cell Factory");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Inactive Power Cell Factory");
             AddMapEntry(new Color(67, 72, 81), name);
         }
 

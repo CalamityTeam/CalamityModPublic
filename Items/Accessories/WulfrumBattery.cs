@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Wulfrum Battery");
-            Tooltip.SetDefault( "Empowers your summons with wulfrum energy, letting them emit light around them\n" + 
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Wulfrum Battery");
+            /* Tooltip.SetDefault( "Empowers your summons with wulfrum energy, letting them emit light around them\n" + 
                 "7% increased summon damage\n" +
                 "50% chance to get an extra scrap when killing wulfrum robots\n" +
-                "Can also be scrapped at an extractinator");
+                "Can also be scrapped at an extractinator"); */
 
             ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Accessories
         }
 
         //Scrappable for 3-6 wulfrum scrap or a 20% chance to get an energy core
-        public override void ExtractinatorUse(ref int resultType, ref int resultStack)
+        public override void ExtractinatorUse(int extractinatorBlockType, ref int resultType, ref int resultStack)
         {
             resultType = ModContent.ItemType<WulfrumMetalScrap>();
             resultStack = Main.rand.Next(3, 6);

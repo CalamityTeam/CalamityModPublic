@@ -487,11 +487,11 @@ namespace CalamityMod.World
 
         public static void CreateStandForLarva(Vector2 position)
         {
-            WorldGen.larvaX[WorldGen.numLarva] = Utils.Clamp((int)position.X, 5, Main.maxTilesX - 5);
-            WorldGen.larvaY[WorldGen.numLarva] = Utils.Clamp((int)position.Y, 5, Main.maxTilesY - 5);
-            WorldGen.numLarva++;
-            if (WorldGen.numLarva >= WorldGen.larvaX.Length)
-                WorldGen.numLarva = WorldGen.larvaX.Length - 1;
+            GenVars.larvaX[GenVars.numLarva] = Utils.Clamp((int)position.X, 5, Main.maxTilesX - 5);
+            GenVars.larvaY[GenVars.numLarva] = Utils.Clamp((int)position.Y, 5, Main.maxTilesY - 5);
+            GenVars.numLarva++;
+            if (GenVars.numLarva >= GenVars.larvaX.Length)
+                GenVars.numLarva = GenVars.larvaX.Length - 1;
 
             int num = (int)position.X;
             int num2 = (int)position.Y;
@@ -581,8 +581,8 @@ namespace CalamityMod.World
 
         private static int[] BarLootHoney = new int[]
         {
-            WorldGen.silverBar == TileID.Silver ? ItemID.SilverBar : ItemID.TungstenBar,
-            WorldGen.goldBar == TileID.Gold ? ItemID.GoldBar : ItemID.PlatinumBar
+            GenVars.silverBar == TileID.Silver ? ItemID.SilverBar : ItemID.TungstenBar,
+            GenVars.goldBar == TileID.Gold ? ItemID.GoldBar : ItemID.PlatinumBar
         };
 
         public static void FillHoneyChest(int id, UnifiedRandom random)

@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Abyssal Amulet");
-            Tooltip.SetDefault("Attacks inflict the Crush Depth debuff\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Abyssal Amulet");
+            /* Tooltip.SetDefault("Attacks inflict the Crush Depth debuff\n" +
                 "Grants immunity to the Crush Depth debuff\n" +
-                "While in the abyss you gain 10% increased max life");
+                "While in the abyss you gain 10% increased max life"); */
         }
 
         public override void SetDefaults()

@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Fishing.AstralCatches
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Arcturus Astroidean");
-            Tooltip.SetDefault("Increases fishing power if used in the Astral Infection or Sulphurous Sea");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Arcturus Astroidean");
+            // Tooltip.SetDefault("Increases fishing power if used in the Astral Infection or Sulphurous Sea");
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 

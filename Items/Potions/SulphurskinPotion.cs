@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 20;
-            DisplayName.SetDefault("Sulphurskin Potion");
-            Tooltip.SetDefault("Reduces the effects of the sulphuric waters");
+            Item.ResearchUnlockCount = 20;
+            // DisplayName.SetDefault("Sulphurskin Potion");
+            // Tooltip.SetDefault("Reduces the effects of the sulphuric waters");
         }
 
         public override void SetDefaults()

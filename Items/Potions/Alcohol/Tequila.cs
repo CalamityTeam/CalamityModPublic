@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Potions.Alcohol
         
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Tequila");
-            Tooltip.SetDefault(@"Great for mixing up daytime drinks
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Tequila");
+            // Tooltip.SetDefault(@"Great for mixing up daytime drinks
 Boosts knockback by 10%, crit chance by 4% and defense by 5 during daytime
 Reduces life regen by 1");
         }

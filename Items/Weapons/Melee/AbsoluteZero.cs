@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Absolute Zero");
-            Tooltip.SetDefault("Ancient blade imbued with the Archmage of Ice's magic\nShoots dark ice crystals\nThe blade creates frost explosions on direct hits");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Absolute Zero");
+            // Tooltip.SetDefault("Ancient blade imbued with the Archmage of Ice's magic\nShoots dark ice crystals\nThe blade creates frost explosions on direct hits");
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 3f;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Frostburn2, 300);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Main.projectile[p].Kill();
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(BuffID.Frostburn2, 300);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);

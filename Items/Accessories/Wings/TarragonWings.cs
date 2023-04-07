@@ -16,14 +16,14 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Tarragon Wings");
-            Tooltip.SetDefault("Born of the jungle\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Tarragon Wings");
+            /* Tooltip.SetDefault("Born of the jungle\n" +
                 "Horizontal speed: 9.50\n" +
                 "Acceleration multiplier: 2.5\n" +
                 "Great vertical speed\n" +
                 "Flight time: 250\n" +
-                "+15 defense and +2 life regen while wearing the Tarragon Armor");
+                "+15 defense and +2 life regen while wearing the Tarragon Armor"); */
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(250, 9.5f, 2.5f);
         }
 

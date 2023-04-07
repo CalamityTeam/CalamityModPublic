@@ -10,12 +10,12 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Honey Dew");
-            Tooltip.SetDefault("5% increased damage reduction, +9 defense and increased life regen while in the Jungle\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Honey Dew");
+            /* Tooltip.SetDefault("5% increased damage reduction, +9 defense and increased life regen while in the Jungle\n" +
             "Poison and Venom immunity\n" +
             "Honey-like life regen with no speed penalty\n" +
-            "Most bee/hornet enemies and projectiles do 75% damage to you");
+            "Most bee/hornet enemies and projectiles do 75% damage to you"); */
         }
 
         public override void SetDefaults()

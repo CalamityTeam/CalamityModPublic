@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("Superball Bullet");
-            Tooltip.SetDefault("Bounces at extreme speeds");
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("Superball Bullet");
+            // Tooltip.SetDefault("Bounces at extreme speeds");
         }
 
         public override void SetDefaults()

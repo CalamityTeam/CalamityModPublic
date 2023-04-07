@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Trilobite");
+            // DisplayName.SetDefault("Trilobite");
             Main.npcFrameCount[NPC.type] = 8;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.TrailCacheLength[NPC.type] = 5;
@@ -159,7 +159,7 @@ namespace CalamityMod.NPCs.AcidRain
                 CalamityGlobalNPC.DrawAfterimage(NPC, spriteBatch, drawColor, Color.Transparent, directioning: true);
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             // No need for a netmode check- this code is only called by 1 client, the owner of the projectile that hit the NPC.
             if (SpikeShootCountdown <= 0f)
@@ -194,7 +194,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {
@@ -215,7 +215,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 target.AddBuff(ModContent.BuffType<Irradiated>(), 180);

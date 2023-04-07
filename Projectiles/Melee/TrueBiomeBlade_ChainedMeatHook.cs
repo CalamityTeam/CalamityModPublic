@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Enchanted Meat Hook");
+            // DisplayName.SetDefault("Enchanted Meat Hook");
         }
 
         public override void SetDefaults()
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             int debuffTime = 100;
             target.AddBuff(BuffType<GlacialState>(), debuffTime);

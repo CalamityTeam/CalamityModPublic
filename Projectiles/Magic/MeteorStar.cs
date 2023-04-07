@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Meteor Star");
+            // DisplayName.SetDefault("Meteor Star");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             Main.projFrames[Projectile.type] = 3;
@@ -151,9 +151,9 @@ namespace CalamityMod.Projectiles.Magic
                 Explode();
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => Explode();
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => Explode();
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => Explode();
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => Explode();
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

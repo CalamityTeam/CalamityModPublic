@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Critters
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Nanodroid");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Nanodroid");
         }
 
         public override void SetDefaults()

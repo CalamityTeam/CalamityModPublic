@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
+            Item.ResearchUnlockCount = 25;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
 
-            DisplayName.SetDefault("Core of Havoc");
+            // DisplayName.SetDefault("Core of Havoc");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 94; // Spectre Bar
         }
 

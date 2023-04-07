@@ -24,10 +24,10 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
+            Item.ResearchUnlockCount = 5;
             ItemID.Sets.IsFishingCrate[Type] = true;
-            DisplayName.SetDefault("Sulphurous Crate");
-            Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            // DisplayName.SetDefault("Sulphurous Crate");
+            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
         public override void SetDefaults()

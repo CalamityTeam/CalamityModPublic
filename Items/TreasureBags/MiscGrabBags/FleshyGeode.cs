@@ -11,9 +11,9 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fleshy Geode");
-            Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
-            SacrificeTotal = 10;
+            // DisplayName.SetDefault("Fleshy Geode");
+            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            Item.ResearchUnlockCount = 10;
         }
 
         public override void SetDefaults()

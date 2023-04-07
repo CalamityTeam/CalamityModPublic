@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Energy Shell");
+            // DisplayName.SetDefault("Energy Shell");
             Main.projFrames[Projectile.type] = 6;
         }
 

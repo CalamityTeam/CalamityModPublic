@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dragon Pow");
+            // DisplayName.SetDefault("Dragon Pow");
         }
 
         public override void SetDefaults()
@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // Only perform hit effects after reaching approximately 40% of the way out.
             if (Main.player[Projectile.owner].WithinRange(target.Center, 345f))
@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Melee
             Waterfalls(target.Center);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             // Only perform hit effects after reaching approximately 55% of the way out.
             if (Projectile.WithinRange(Main.player[Projectile.owner].Center, 345f))

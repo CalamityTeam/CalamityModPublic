@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -31,8 +32,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.addAlternate(1);
 
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Aged Laboratory Containment Box");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Aged Laboratory Containment Box");
             AddMapEntry(new Color(82, 67, 66), name);
         }
 

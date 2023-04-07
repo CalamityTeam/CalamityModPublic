@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAshen
@@ -14,9 +15,9 @@ namespace CalamityMod.Tiles.FurnitureAshen
         public override void SetStaticDefaults()
         {
             this.SetUpClock(true);
-            ModTranslation name = CreateMapEntryName();
+            LocalizedText name = CreateMapEntryName();
             AddMapEntry(new Color(191, 142, 111), name);
-            name.SetDefault("Ashen Monolith");
+            // name.SetDefault("Ashen Monolith");
             AdjTiles = new int[] { TileID.GrandfatherClocks };
         }
         int animationFrameWidth = 36;

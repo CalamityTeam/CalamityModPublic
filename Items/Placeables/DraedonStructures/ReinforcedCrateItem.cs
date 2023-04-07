@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Reinforced Crate");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Reinforced Crate");
         }
 
         public override void SetDefaults()

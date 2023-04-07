@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Depths Charm");
-            Tooltip.SetDefault("Reduces the damage caused by the pressure of the abyss while out of breath\n" +
-                "Removes the bleed effect caused by the upper layers of the abyss");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Depths Charm");
+            /* Tooltip.SetDefault("Reduces the damage caused by the pressure of the abyss while out of breath\n" +
+                "Removes the bleed effect caused by the upper layers of the abyss"); */
         }
 
         public override void SetDefaults()

@@ -9,14 +9,14 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Statis' Ninja Belt");
-            Tooltip.SetDefault("6% increased jump speed and allows constant jumping\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Statis' Ninja Belt");
+            /* Tooltip.SetDefault("6% increased jump speed and allows constant jumping\n" +
                 "Grants the ability to swim\n" +
                 "Increased fall damage resistance by 35 blocks\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
                 "The dodge has a 90 second cooldown\n" +
-                "This cooldown is shared with all other dodges and reflects");
+                "This cooldown is shared with all other dodges and reflects"); */
         }
 
         public override void SetDefaults()

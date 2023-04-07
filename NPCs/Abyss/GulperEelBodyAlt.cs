@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Gulper Eel");
+            // DisplayName.SetDefault("Gulper Eel");
         }
 
         public override void SetDefaults()
@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.Abyss
             return false;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 3; k++)
             {
@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.Abyss
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<CrushDepth>(), 120, true);

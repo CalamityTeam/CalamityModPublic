@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blood Bound");
-            Description.SetDefault("You must be desperate for company");
+            // DisplayName.SetDefault("Blood Bound");
+            // Description.SetDefault("You must be desperate for company");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

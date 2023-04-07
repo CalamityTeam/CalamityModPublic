@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
@@ -12,13 +13,13 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Dresser");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Plagued Dresser");
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            ContainerName.SetDefault("Plagued Dresser");
-            DresserDrop = ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>();
+            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Plagued Dresser");
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>();
         }
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
@@ -41,17 +42,17 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>(ContainerName.GetDefault());
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>(ContainerName.GetDefault());
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, DresserDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
     }

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mini Sharkron");
+            // DisplayName.SetDefault("Mini Sharkron");
             Main.projFrames[Projectile.type] = 2;
         }
 

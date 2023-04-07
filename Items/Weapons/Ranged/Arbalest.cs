@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Arbalest");
-            Tooltip.SetDefault("Fires a volley of 10 high-speed arrows\n" +
+            // DisplayName.SetDefault("Arbalest");
+            /* Tooltip.SetDefault("Fires a volley of 10 high-speed arrows\n" +
                 "Arrows start off small and grow in size with continuous fire\n" +
-                "Arrow damage, spread and knockback scale with arrow size");
-            SacrificeTotal = 1;
+                "Arrow damage, spread and knockback scale with arrow size"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

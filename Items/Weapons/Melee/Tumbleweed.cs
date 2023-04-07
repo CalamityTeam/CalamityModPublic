@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tumbleweed");
-            Tooltip.SetDefault("Releases a rolling tumbleweed on hit");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Tumbleweed");
+            // Tooltip.SetDefault("Releases a rolling tumbleweed on hit");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

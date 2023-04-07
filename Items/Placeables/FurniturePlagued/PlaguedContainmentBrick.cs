@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Plagued Containment Brick");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Plagued Containment Brick");
         }
 
         public override void SetDefaults()

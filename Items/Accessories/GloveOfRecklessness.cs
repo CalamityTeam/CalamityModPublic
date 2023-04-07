@@ -10,11 +10,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Glove of Recklessness");
-            Tooltip.SetDefault("Increases rogue attack speed by 15% but decreases damage by 13%\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Glove of Recklessness");
+            /* Tooltip.SetDefault("Increases rogue attack speed by 15% but decreases damage by 13%\n" +
                                "15% increased stealth regeneration\n" +
-                               "Adds inaccuracy to rogue weapons");
+                               "Adds inaccuracy to rogue weapons"); */
         }
 
         public override void SetDefaults()

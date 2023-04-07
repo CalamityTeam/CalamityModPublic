@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
         public SoundStyle HurrySound = new("CalamityMod/Sounds/Custom/WulfrumDroidHurry", 2) { PitchVariance = 0.3f };
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Androomba");
+            // DisplayName.SetDefault("Androomba");
             Main.npcFrameCount[NPC.type] = 22;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
             Main.npcCatchable[NPC.type] = true;
@@ -246,7 +246,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int i = 0; i < 6; i++)
                 Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 226);

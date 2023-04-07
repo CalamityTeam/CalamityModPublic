@@ -19,7 +19,7 @@ With this experiment concluded, he will certainly be examining you next. Watch y
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Astrum Aureus");
+            // DisplayName.SetDefault("Astrum Aureus");
         }
 
         public override void SetDefaults()

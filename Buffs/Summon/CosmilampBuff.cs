@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cosmilamp");
-            Description.SetDefault("The cosmilamp will protect you");
+            // DisplayName.SetDefault("Cosmilamp");
+            // Description.SetDefault("The cosmilamp will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

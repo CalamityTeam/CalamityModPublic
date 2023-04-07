@@ -28,11 +28,11 @@ namespace CalamityMod.Items.Armor.Auric
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Auric Tesla Body Armor");
-            Tooltip.SetDefault("+100 max life\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Auric Tesla Body Armor");
+            /* Tooltip.SetDefault("+100 max life\n" +
                        "8% increased damage and 5% increased critical strike chance\n" +
-                       "You will freeze enemies near you when you are struck");
+                       "You will freeze enemies near you when you are struck"); */
         }
 
         public override void SetDefaults()

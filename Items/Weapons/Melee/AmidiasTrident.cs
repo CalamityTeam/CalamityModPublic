@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Amidias' Trident");
-            Tooltip.SetDefault("Shoots homing whirlpools");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Amidias' Trident");
+            // Tooltip.SetDefault("Shoots homing whirlpools");
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

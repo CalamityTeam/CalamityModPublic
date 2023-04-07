@@ -9,12 +9,12 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Giant Pearl");
-            Tooltip.SetDefault("You have a light aura around you\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Giant Pearl");
+            /* Tooltip.SetDefault("You have a light aura around you\n" +
                 "Enemies within the aura are slowed down\n" +
                 "Does not work while a boss is alive\n" +
-                "Provides a small amount of light in the abyss");
+                "Provides a small amount of light in the abyss"); */
         }
 
         public override void SetDefaults()

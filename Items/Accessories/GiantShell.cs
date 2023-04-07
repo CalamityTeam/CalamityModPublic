@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Giant Shell");
-            Tooltip.SetDefault("15% reduced movement speed\n" +
-                "Taking a hit will make you move very fast for a short time");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Giant Shell");
+            /* Tooltip.SetDefault("15% reduced movement speed\n" +
+                "Taking a hit will make you move very fast for a short time"); */
         }
 
         public override void SetDefaults()

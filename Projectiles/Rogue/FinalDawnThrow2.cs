@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
         bool HasHitEnemy = false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Final Dawn");
+            // DisplayName.SetDefault("The Final Dawn");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             height = 32;
             return true;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // Spawn homing flames that chase the HIT enemy only. This is also limited to one burst
             if (Main.myPlayer == Projectile.owner && !HasHitEnemy)

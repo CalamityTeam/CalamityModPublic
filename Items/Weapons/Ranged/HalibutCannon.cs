@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Halibut Cannon");
-            Tooltip.SetDefault("Yes, it's still overpowered");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Halibut Cannon");
+            // Tooltip.SetDefault("Yes, it's still overpowered");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

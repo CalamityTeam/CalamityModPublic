@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rot Ball");
-            Tooltip.SetDefault("Stealth strikes spawn rain clouds on enemy hits");
-            SacrificeTotal = 99;
+            // DisplayName.SetDefault("Rot Ball");
+            // Tooltip.SetDefault("Stealth strikes spawn rain clouds on enemy hits");
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

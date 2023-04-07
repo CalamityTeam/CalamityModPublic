@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bloodsoaked Crasher");
-            Tooltip.SetDefault("Slows down when hitting an enemy. Speeds up otherwise\n" +
+            // DisplayName.SetDefault("Bloodsoaked Crasher");
+            /* Tooltip.SetDefault("Slows down when hitting an enemy. Speeds up otherwise\n" +
             "Heals on enemy hits\n" +
-            "Stealth strikes spawn homing blood on enemy hits");
-            SacrificeTotal = 1;
+            "Stealth strikes spawn homing blood on enemy hits"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

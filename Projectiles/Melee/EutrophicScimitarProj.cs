@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scimitar Zap");
+            // DisplayName.SetDefault("Scimitar Zap");
             Main.projFrames[Projectile.type] = 3;
         }
 
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
             return new Color(127, 255, 253);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Eutrophication>(), 60);
         }

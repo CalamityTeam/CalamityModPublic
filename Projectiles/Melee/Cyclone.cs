@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
         public int dustvortex = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cyclone");
+            // DisplayName.SetDefault("Cyclone");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

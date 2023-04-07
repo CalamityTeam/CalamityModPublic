@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eclipse Mirror Flash");
+            // DisplayName.SetDefault("Eclipse Mirror Flash");
         }
 
         public override void SetDefaults()

@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Coastal Demonfish"); //Hadal Stew ingredient
-            Tooltip.SetDefault("The horns lay a curse on those who touch it");
-            SacrificeTotal = 3;
+            // DisplayName.SetDefault("Coastal Demonfish"); //Hadal Stew ingredient
+            // Tooltip.SetDefault("The horns lay a curse on those who touch it");
+            Item.ResearchUnlockCount = 3;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 

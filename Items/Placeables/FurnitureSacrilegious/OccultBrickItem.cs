@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Occult Brick");
-            SacrificeTotal = 100;
+            // DisplayName.SetDefault("Occult Brick");
+            Item.ResearchUnlockCount = 100;
         }
 
         public override void SetDefaults()

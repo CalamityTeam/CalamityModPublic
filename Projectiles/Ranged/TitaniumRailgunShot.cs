@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Titanium Decimator");
+            // DisplayName.SetDefault("Titanium Decimator");
         }
 
         public override void SetDefaults()

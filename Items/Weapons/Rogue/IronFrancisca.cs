@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Iron Francisca");
-            Tooltip.SetDefault("The franciscas do more damage for a short time when initially thrown\n" +
-                               "Stealth strikes pierce up to 6 times");
-            SacrificeTotal = 99;
+            // DisplayName.SetDefault("Iron Francisca");
+            /* Tooltip.SetDefault("The franciscas do more damage for a short time when initially thrown\n" +
+                               "Stealth strikes pierce up to 6 times"); */
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

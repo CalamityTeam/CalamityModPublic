@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Blighted Gel");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Blighted Gel");
         }
 
         public override void SetDefaults()

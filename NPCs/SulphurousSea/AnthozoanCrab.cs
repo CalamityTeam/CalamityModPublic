@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.SulphurousSea
         public int boulderIndex;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Anthozoan Crab");
+            // DisplayName.SetDefault("Anthozoan Crab");
             Main.npcFrameCount[NPC.type] = 16;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
@@ -216,13 +216,13 @@ namespace CalamityMod.NPCs.SulphurousSea
             npcLoot.Add(ModContent.ItemType<CorrodedFossil>(), 15);
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

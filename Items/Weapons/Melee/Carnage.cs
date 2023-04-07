@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Carnage");
-            Tooltip.SetDefault("Slain enemies erupt into homing blood");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Carnage");
+            // Tooltip.SetDefault("Slain enemies erupt into homing blood");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -42,14 +42,14 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // Carnage's on-hits only occur on valid enemies. Specifically won't trigger on statues.
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (target.life > 0 || !target.IsAnEnemy(allowStatues: false))
                 return;
             OnHitEffects(player, target, knockback);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             if (target.statLife > 0)
                 return;

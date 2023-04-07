@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Empyrean Blast");
+            // DisplayName.SetDefault("Empyrean Blast");
         }
 
         public override void SetDefaults()

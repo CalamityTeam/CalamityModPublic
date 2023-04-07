@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Banshee Hook");
+            // DisplayName.SetDefault("Banshee Hook");
         }
 
         public override void SetDefaults()
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.owner == Main.myPlayer)
             {

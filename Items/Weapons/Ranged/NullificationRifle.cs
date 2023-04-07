@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nullification Pistol");
-            Tooltip.SetDefault("Is it nullable or not? Let's find out!\n" +
-                "Fires a fast null bullet that distorts NPC stats");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Nullification Pistol");
+            /* Tooltip.SetDefault("Is it nullable or not? Let's find out!\n" +
+                "Fires a fast null bullet that distorts NPC stats"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

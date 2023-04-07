@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Titanium Scope");
+            // DisplayName.SetDefault("Titanium Scope");
         }
 
         public override void SetDefaults()

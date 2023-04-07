@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -18,8 +19,8 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
             AnimationFrameHeight = 36;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Baby Ghost Bell Jar");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Baby Ghost Bell Jar");
             AddMapEntry(new Color(64, 224, 208), name);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }

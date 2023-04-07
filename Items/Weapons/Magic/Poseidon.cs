@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Poseidon");
-            Tooltip.SetDefault("Casts a poseidon typhoon");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Poseidon");
+            // Tooltip.SetDefault("Casts a poseidon typhoon");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

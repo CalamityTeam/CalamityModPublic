@@ -13,7 +13,7 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crown Jewel");
+            // DisplayName.SetDefault("Crown Jewel");
             NPCID.Sets.NPCBestiaryDrawModifiers bestiaryData = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true }; 
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, bestiaryData);
         }
@@ -163,7 +163,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return false;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             Dust.NewDust(NPC.position, NPC.width, NPC.height, 90, hitDirection, -1f, 0, default, 1f);
             if (NPC.life <= 0)

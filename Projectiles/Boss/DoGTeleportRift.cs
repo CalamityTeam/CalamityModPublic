@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rift");
+            // DisplayName.SetDefault("Rift");
         }
 
         public override void SetDefaults()

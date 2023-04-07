@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Astral Snow");
-            SacrificeTotal = 100;
+            // DisplayName.SetDefault("Astral Snow");
+            Item.ResearchUnlockCount = 100;
         }
 
         public override void SetDefaults()

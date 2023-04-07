@@ -18,12 +18,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("God's Paranoia");
-            Tooltip.SetDefault(@"Hurls up to 10 speedy homing spiky balls
+            // DisplayName.SetDefault("God's Paranoia");
+            // Tooltip.SetDefault(@"Hurls up to 10 speedy homing spiky balls
 Attaches to enemies and summons a localized storm of god slayer kunai
 Stealth strikes home in faster and summon kunai at a faster rate
 Right click to delete all existing spiky balls");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

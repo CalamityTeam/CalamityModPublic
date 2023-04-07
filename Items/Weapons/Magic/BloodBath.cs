@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blood Bath");
-            Tooltip.SetDefault("Drenches your foes in blood");
+            // DisplayName.SetDefault("Blood Bath");
+            // Tooltip.SetDefault("Drenches your foes in blood");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

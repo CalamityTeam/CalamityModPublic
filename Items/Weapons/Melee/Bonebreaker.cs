@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bonebreaker");
-            Tooltip.SetDefault("Fires javelins that stick to enemies before bursting into shrapnel");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Bonebreaker");
+            // Tooltip.SetDefault("Fires javelins that stick to enemies before bursting into shrapnel");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

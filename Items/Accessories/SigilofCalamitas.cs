@@ -10,11 +10,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Sigil of Calamitas");
-            Tooltip.SetDefault("15% increased magic damage and 10% decreased mana usage\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Sigil of Calamitas");
+            /* Tooltip.SetDefault("15% increased magic damage and 10% decreased mana usage\n" +
                 "+100 max mana\n" +
-                "Increases pickup range for mana stars");
+                "Increases pickup range for mana stars"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 8));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }

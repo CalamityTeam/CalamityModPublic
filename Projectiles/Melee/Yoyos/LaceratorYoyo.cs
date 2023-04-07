@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lacerator");
+            // DisplayName.SetDefault("Lacerator");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 560f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 18f;
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Projectile.Kill();
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (!target.canGhostHeal || Main.player[Projectile.owner].moonLeech)
                 return;

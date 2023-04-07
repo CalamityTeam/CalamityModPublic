@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override Color? LightColor => new Color(0f, 0.35f, 0.5f);
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spore");
+            // DisplayName.SetDefault("Spore");
         }
 
         public override void SetDefaults()

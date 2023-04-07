@@ -15,15 +15,15 @@ namespace CalamityMod.Items.Materials
     {
         public override void Load()
         {
-            On.Terraria.Item.CanFillEmptyAmmoSlot += AvoidDefaultingToAmmoSlot;
+            Terraria.On_Item.CanFillEmptyAmmoSlot += AvoidDefaultingToAmmoSlot;
         }
 
         public override void Unload()
         {
-            On.Terraria.Item.CanFillEmptyAmmoSlot -= AvoidDefaultingToAmmoSlot;
+            Terraria.On_Item.CanFillEmptyAmmoSlot -= AvoidDefaultingToAmmoSlot;
         }
 
-        private bool AvoidDefaultingToAmmoSlot(On.Terraria.Item.orig_CanFillEmptyAmmoSlot orig, Item self)
+        private bool AvoidDefaultingToAmmoSlot(Terraria.On_Item.orig_CanFillEmptyAmmoSlot orig, Item self)
         {
             if (self.type == Type)
                 return false;
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Materials
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Wulfrum Metal Scrap");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Wulfrum Metal Scrap");
         }
 
         public override void SetDefaults()

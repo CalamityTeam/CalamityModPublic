@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Aged Laboratory Electric Panel");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Aged Laboratory Electric Panel");
         }
 
         public override void SetDefaults()

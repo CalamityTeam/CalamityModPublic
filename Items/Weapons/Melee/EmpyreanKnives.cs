@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Empyrean Knives");
-            Tooltip.SetDefault("Throws a flurry of bouncing knives that can heal the user");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Empyrean Knives");
+            // Tooltip.SetDefault("Throws a flurry of bouncing knives that can heal the user");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

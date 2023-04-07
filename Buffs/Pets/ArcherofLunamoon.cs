@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Archer of Lunamoon");
-            Description.SetDefault("You have a personal spotter");
+            // DisplayName.SetDefault("Archer of Lunamoon");
+            // Description.SetDefault("You have a personal spotter");
             Main.buffNoTimeDisplay[Type] = true;
         }
 

@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Armor.Sulphurous
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Sulphurous Leggings");
-            Tooltip.SetDefault("Movement speed increased by 10%\n" +
-                "Movement speed increased by 35% while submerged in liquid");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Sulphurous Leggings");
+            /* Tooltip.SetDefault("Movement speed increased by 10%\n" +
+                "Movement speed increased by 35% while submerged in liquid"); */
         }
 
         public override void SetDefaults()

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Environment
         private int dustType = 31;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Smoke");
+            // DisplayName.SetDefault("Smoke");
         }
 
         public override void SetDefaults()

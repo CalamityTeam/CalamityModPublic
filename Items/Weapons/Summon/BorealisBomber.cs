@@ -11,12 +11,12 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Borealis Bomber");
-            Tooltip.SetDefault("Summons aureus bombers to fight for you\n" +
+            // DisplayName.SetDefault("Borealis Bomber");
+            /* Tooltip.SetDefault("Summons aureus bombers to fight for you\n" +
             "Aureus bombers explode on enemy impact\n" +
-            "Does not consume minion slots");
+            "Does not consume minion slots"); */
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

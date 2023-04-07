@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fungicide");
-            Tooltip.SetDefault("Converts musket balls into fungal rounds that split on death");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Fungicide");
+            // Tooltip.SetDefault("Converts musket balls into fungal rounds that split on death");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

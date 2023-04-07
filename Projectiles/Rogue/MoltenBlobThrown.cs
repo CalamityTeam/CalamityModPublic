@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Molten Blob");
+            // DisplayName.SetDefault("Molten Blob");
             Main.projFrames[Projectile.type] = 2;
         }
 
@@ -67,12 +67,12 @@ namespace CalamityMod.Projectiles.Rogue
             return new Color(250, 150, 0, Projectile.alpha);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
         }

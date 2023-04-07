@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Astrum Aureus Trophy");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Astrum Aureus Trophy");
         }
 
         public override void SetDefaults()

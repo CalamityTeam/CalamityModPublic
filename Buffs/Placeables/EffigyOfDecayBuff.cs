@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.Placeables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Effigy of Decay");
-            Description.SetDefault("The sulphuric waters empower you");
+            // DisplayName.SetDefault("Effigy of Decay");
+            // Description.SetDefault("The sulphuric waters empower you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;

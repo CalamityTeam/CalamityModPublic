@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Portal");
+            // DisplayName.SetDefault("Portal");
         }
 
         public override void SetDefaults()
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         // Create impact and cosmic parallax particles when hitting enemies.
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             SoundEngine.PlaySound(SoundID.Item74, target.Center);
             if (Main.netMode == NetmodeID.Server)

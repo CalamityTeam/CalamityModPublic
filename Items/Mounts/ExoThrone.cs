@@ -10,11 +10,11 @@ namespace CalamityMod.Items.Mounts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exo Box");
-            Tooltip.SetDefault("Materializes a quite cozy and extremely nimble flying Exo throne\n" +
+            // DisplayName.SetDefault("Exo Box");
+            /* Tooltip.SetDefault("Materializes a quite cozy and extremely nimble flying Exo throne\n" +
                 "Replaced\n" +
-                "A comfortable gamer is a dangerous gamer");
-            SacrificeTotal = 1;
+                "A comfortable gamer is a dangerous gamer"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

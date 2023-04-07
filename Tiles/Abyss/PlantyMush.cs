@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Abyss
@@ -29,8 +30,8 @@ namespace CalamityMod.Tiles.Abyss
 
             DustType = 2;
             ItemDrop = ModContent.ItemType<Items.Placeables.PlantyMush>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Planty Mush");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Planty Mush");
             AddMapEntry(new Color(84, 102, 39), name);
             MineResist = 1f;
             HitSound = MineSound;

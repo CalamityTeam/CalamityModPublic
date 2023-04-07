@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(46, 27, 60)).UseSecondaryColor(new Color(132, 142, 191)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Shadowspec Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Shadowspec Dye");
         }
 
         public override void SafeSetDefaults()

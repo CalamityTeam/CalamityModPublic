@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Celestial Remains");
-            SacrificeTotal = 200;
+            // DisplayName.SetDefault("Celestial Remains");
+            Item.ResearchUnlockCount = 200;
 			ItemID.Sets.SortingPriorityExtractibles[Type] = 3; // Desert Fossil
         }
 
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Placeables
             Item.maxStack = 999;
         }
 
-        public override void ExtractinatorUse(ref int resultType, ref int resultStack)
+        public override void ExtractinatorUse(int extractinatorBlockType, ref int resultType, ref int resultStack)
         {
             /*
                 Celestial remains will give stardust, fallen stars, ancient bone dust, gems and HM ores always by default

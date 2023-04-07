@@ -15,12 +15,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Syringe");
-            Tooltip.SetDefault("Throws a high velocity syringe that increases damage as it travels\n" +
+            // DisplayName.SetDefault("The Syringe");
+            /* Tooltip.SetDefault("Throws a high velocity syringe that increases damage as it travels\n" +
                 "Shatters into glass and plague cinders on impact\n" +
                 "Stealth strikes also shatter into plague bees\n" +
-                "'I'm pretty sure this isn't healthy'");
-            SacrificeTotal = 1;
+                "'I'm pretty sure this isn't healthy'"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

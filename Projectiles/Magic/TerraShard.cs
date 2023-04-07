@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shard");
+            // DisplayName.SetDefault("Shard");
         }
 
         public override void SetDefaults()

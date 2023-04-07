@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tactician's Trump Card");
-            Tooltip.SetDefault("Faint memories of a Princess from the future cross your mind...\n" +
-                "Fires a sword beam that electrifies enemies on hit");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Tactician's Trump Card");
+            /* Tooltip.SetDefault("Faint memories of a Princess from the future cross your mind...\n" +
+                "Fires a sword beam that electrifies enemies on hit"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -48,9 +48,9 @@ namespace CalamityMod.Items.Weapons.Magic
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Electrified, 300);
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Electrified, 300);
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit) => target.AddBuff(BuffID.Electrified, 300);
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo) => target.AddBuff(BuffID.Electrified, 300);
 
         public override void AddRecipes()
         {

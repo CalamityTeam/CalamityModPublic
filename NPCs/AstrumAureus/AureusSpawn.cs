@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Aureus Spawn");
+            // DisplayName.SetDefault("Aureus Spawn");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
@@ -221,7 +221,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             NPC.velocity = (NPC.velocity * (inertia - 1) + vector) / inertia;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.5f * bossLifeScale);
         }
@@ -334,7 +334,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), Main.npc[CalamityGlobalNPC.astrumAureus].Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), (int)(Main.npc[CalamityGlobalNPC.astrumAureus].lifeMax / 200 * NPC.scale), 0f, Main.myPlayer, Main.npc[CalamityGlobalNPC.astrumAureus].whoAmI);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 3; k++)
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, 173, hitDirection, -1f, 0, default, 1f);
@@ -376,7 +376,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => NPC.Opacity == 1f;
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             int debuffType = CalamityWorld.getFixedBoi ? ModContent.BuffType<GodSlayerInferno>() : ModContent.BuffType<AstralInfectionDebuff>();
             player.AddBuff(debuffType, (int)(180 * NPC.scale), true);

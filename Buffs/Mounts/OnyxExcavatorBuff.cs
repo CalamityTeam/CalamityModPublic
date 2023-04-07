@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Mounts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Onyx Excavator");
-            Description.SetDefault("Drill");
+            // DisplayName.SetDefault("Onyx Excavator");
+            // Description.SetDefault("Drill");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

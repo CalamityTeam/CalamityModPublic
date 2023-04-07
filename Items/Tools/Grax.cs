@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Grax");
-            Tooltip.SetDefault("Hitting an enemy will greatly boost your defense, melee damage and melee crit for a short time\n" +
-                "Right click to use without hammering down walls or chopping down trees");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Grax");
+            /* Tooltip.SetDefault("Hitting an enemy will greatly boost your defense, melee damage and melee crit for a short time\n" +
+                "Right click to use without hammering down walls or chopping down trees"); */
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Tools
                 Register();
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             player.AddBuff(ModContent.BuffType<GraxBoost>(), 600);
         }

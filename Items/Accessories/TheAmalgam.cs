@@ -18,15 +18,15 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("The Amalgam");
-            Tooltip.SetDefault("Extends the duration of potion buffs by 100% and potion buffs remain active even after you die\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("The Amalgam");
+            /* Tooltip.SetDefault("Extends the duration of potion buffs by 100% and potion buffs remain active even after you die\n" +
                             "15% increased damage\n" +
                             "Shade rains down when you are hit\n" +
                             "Grants the ability to dodge attacks\n" +
                             $"The dodge has a {BalancingConstants.AmalgamDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects\n" +
                             "Temporarily increases critical strike chance and summon damage after a dodge\n" +
-                            "Nearby enemies receive a variety of sickness-related debuffs when you are hit");
+                            "Nearby enemies receive a variety of sickness-related debuffs when you are hit"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(9, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }

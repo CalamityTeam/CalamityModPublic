@@ -9,14 +9,14 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Supreme Bait Tackle Box Fishing Station");
-            Tooltip.SetDefault("The ultimate fishing accessory\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Supreme Bait Tackle Box Fishing Station");
+            /* Tooltip.SetDefault("The ultimate fishing accessory\n" +
                 "Increases fishing skill by 80\n" +
                 "Fishing line will never break and decreases chance of bait consumption\n" +
                 "Increases chance to catch crates\n" +
                 "Allows fishing in lava\n" +
-                "Sonar potion effect");
+                "Sonar potion effect"); */
         }
 
         public override void SetDefaults()

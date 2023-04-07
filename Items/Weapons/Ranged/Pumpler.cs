@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public const int MaxPumpkins = 5;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pumpler");
-            Tooltip.SetDefault("Hold left click to load up to five pumpkin grenades into the gun");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Pumpler");
+            // Tooltip.SetDefault("Hold left click to load up to five pumpkin grenades into the gun");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

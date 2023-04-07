@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heart of the Elements");
-            Description.SetDefault("All elementals will protect you");
+            // DisplayName.SetDefault("Heart of the Elements");
+            // Description.SetDefault("All elementals will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

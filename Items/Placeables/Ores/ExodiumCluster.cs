@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Placeables.Ores
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Exodium Cluster");
-            Tooltip.SetDefault("A cold cluster from the great unknown.");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Exodium Cluster");
+            // Tooltip.SetDefault("A cold cluster from the great unknown.");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 101;
         }
 

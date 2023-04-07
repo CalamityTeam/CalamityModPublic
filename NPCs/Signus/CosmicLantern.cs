@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.Signus
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cosmic Lantern");
+            // DisplayName.SetDefault("Cosmic Lantern");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
@@ -164,7 +164,7 @@ namespace CalamityMod.NPCs.Signus
             return NPC.alpha == 0;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

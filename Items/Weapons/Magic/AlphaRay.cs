@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Alpha Ray");
-            Tooltip.SetDefault("Disintegrates everything with a tri-beam of energy and lasers\n" +
-                "Right click to fire a Y-shaped beam of destructive energy and a spread of lasers");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Alpha Ray");
+            /* Tooltip.SetDefault("Disintegrates everything with a tri-beam of energy and lasers\n" +
+                "Right click to fire a Y-shaped beam of destructive energy and a spread of lasers"); */
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

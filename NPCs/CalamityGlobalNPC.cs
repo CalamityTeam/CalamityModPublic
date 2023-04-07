@@ -2510,7 +2510,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Scale Expert Multiplayer Stats
-        public override void ScaleExpertStats(NPC npc, int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(NPC npc, int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             // Do absolutely nothing in single player, or in multiplayer with only one player connected.
             if (Main.netMode == NetmodeID.SinglePlayer || numPlayers <= 1)
@@ -2575,7 +2575,7 @@ namespace CalamityMod.NPCs
 
         #region Strike NPC
         // Incoming defense to this function is already affected by the vanilla debuffs Ichor (-15) and Betsy's Curse (-40), and cannot be below zero.
-        public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
         {
             // Don't bother tampering with the damage if it is already zero.
             // Zero damage does not happen in the base game; if something has been set to zero damage by another mod, it's really not intended to do damage.
@@ -4369,7 +4369,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region On Hit Player
-        public override void OnHitPlayer(NPC npc, Player target, int damage, bool crit)
+        public override void OnHitPlayer(NPC npc, Player target, Player.HurtInfo hurtInfo)
         {
             if (damage <= 0)
                 return;
@@ -4511,7 +4511,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Modify Hit
-        public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitByItem(NPC npc, Player player, Item item, ref NPC.HitModifiers modifiers)
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.camper && !player.StandingStill())
@@ -4532,7 +4532,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Modify Hit By Projectile
-        public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
@@ -4731,7 +4731,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Hit Effect
-        public override void HitEffect(NPC npc, int hitDirection, double damage)
+        public override void HitEffect(NPC npc, NPC.HitInfo hit)
         {
             if (npc.life <= 0 && npc.Organic() && RancorBurnTime > 0)
                 DeathAshParticle.CreateAshesFromNPC(npc);

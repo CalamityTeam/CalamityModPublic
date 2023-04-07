@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tactical Plague Engine");
-            Tooltip.SetDefault("Summons a plague jet to pummel your enemies into submission\n" +
+            // DisplayName.SetDefault("Tactical Plague Engine");
+            /* Tooltip.SetDefault("Summons a plague jet to pummel your enemies into submission\n" +
                                "Jets will fire bullets from your inventory\n" +
                                "50% chance to not consume ammo\n" +
                                "Sometimes shoots a missile instead of a bullet\n" +
-                               "Missiles do not consume ammo");
-            SacrificeTotal = 1;
+                               "Missiles do not consume ammo"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

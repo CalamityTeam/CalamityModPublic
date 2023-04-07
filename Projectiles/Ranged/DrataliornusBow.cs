@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Drataliornus");
+            // DisplayName.SetDefault("Drataliornus");
         }
 
         public override void SetDefaults()

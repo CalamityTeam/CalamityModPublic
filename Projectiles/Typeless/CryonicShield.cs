@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cryonic Shield");
+            // DisplayName.SetDefault("Cryonic Shield");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
         }
 
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Projectile.Kill();
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();

@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Coral Symbiosis");
-            Description.SetDefault($"Coral Spout charges up faster and deals {CoralSpout.SymbiosisDamageBuff} extra damage");
+            // DisplayName.SetDefault("Coral Symbiosis");
+            // Description.SetDefault($"Coral Spout charges up faster and deals {CoralSpout.SymbiosisDamageBuff} extra damage");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

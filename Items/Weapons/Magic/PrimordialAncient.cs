@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Primordial Ancient");
-            Tooltip.SetDefault("An ancient relic from an ancient land\n" +
-                "Casts a gigantic blast of dust");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Primordial Ancient");
+            /* Tooltip.SetDefault("An ancient relic from an ancient land\n" +
+                "Casts a gigantic blast of dust"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

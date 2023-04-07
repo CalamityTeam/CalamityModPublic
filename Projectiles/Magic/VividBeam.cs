@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
         private bool initialized = false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Beam");
+            // DisplayName.SetDefault("Beam");
         }
 
         public override void SetDefaults()
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Magic
             return true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.owner == Main.myPlayer)
             {
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Magic
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             if (Projectile.owner == Main.myPlayer)
             {

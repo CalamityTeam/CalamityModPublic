@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Blood Sample");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Blood Sample");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 68; // Sturdy Fossil
         }
 

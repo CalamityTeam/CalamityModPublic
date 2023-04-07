@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("Bubonic Round");
-            Tooltip.SetDefault("Bursts into virulent plague on contact\n" +
-                "Does more damage the higher the target's defense");
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("Bubonic Round");
+            /* Tooltip.SetDefault("Bursts into virulent plague on contact\n" +
+                "Does more damage the higher the target's defense"); */
         }
 
         public override void SetDefaults()

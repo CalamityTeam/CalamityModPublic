@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starcaller Shot");
+            // DisplayName.SetDefault("Starcaller Shot");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
         // This projectile is always fullbright.
         public override Color? GetAlpha(Color lightColor) => new Color(1f, 1f, 1f, 0f);
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             SpawnStars();
         }

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Thorn");
+            // DisplayName.SetDefault("Thorn");
         }
 
         public override void SetDefaults()

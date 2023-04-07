@@ -10,11 +10,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Corrosive Spine");
-            Tooltip.SetDefault("5% increased movement speed\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Corrosive Spine");
+            /* Tooltip.SetDefault("5% increased movement speed\n" +
                                "All rogue weapons inflict poison and spawn irradiated clouds on enemy hits\n" +
-                               "You release a ton of clouds everywhere on hit");
+                               "You release a ton of clouds everywhere on hit"); */
         }
 
         public override void SetDefaults()

@@ -29,9 +29,9 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Dance of Light");
-            Tooltip.SetDefault("Barrages enemies with a hailstorm of Light Blades\n'And in a flash of light, nothing remains'");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("The Dance of Light");
+            // Tooltip.SetDefault("Barrages enemies with a hailstorm of Light Blades\n'And in a flash of light, nothing remains'");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

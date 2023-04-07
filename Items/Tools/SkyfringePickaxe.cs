@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Skyfringe Pickaxe");
-            Tooltip.SetDefault("Able to mine Hellstone");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Skyfringe Pickaxe");
+            // Tooltip.SetDefault("Able to mine Hellstone");
         }
 
         public override void SetDefaults()

@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Arterial Assault");
-            Tooltip.SetDefault("Fires a chain of 5 arrows from the sky\n" +
-                "Wooden arrows are converted into homing bloodfire arrows");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Arterial Assault");
+            /* Tooltip.SetDefault("Fires a chain of 5 arrows from the sky\n" +
+                "Wooden arrows are converted into homing bloodfire arrows"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

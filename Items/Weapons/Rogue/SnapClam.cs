@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Snap Clam");
-            Tooltip.SetDefault("Can latch on enemies and deal damage over time\n" +
-            "Stealth strikes throw five clams at once that cause increased damage over time");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Snap Clam");
+            /* Tooltip.SetDefault("Can latch on enemies and deal damage over time\n" +
+            "Stealth strikes throw five clams at once that cause increased damage over time"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

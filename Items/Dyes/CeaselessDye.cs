@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Dyes
         public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/CeaselessDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass");
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Ceaseless Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Ceaseless Dye");
         }
 
         public override void SafeSetDefaults()

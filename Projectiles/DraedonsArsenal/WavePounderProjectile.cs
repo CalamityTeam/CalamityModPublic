@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wave Pounder");
+            // DisplayName.SetDefault("Wave Pounder");
         }
 
         public override void SetDefaults()

@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Virili");
-            Description.SetDefault("Unfortunately for you, she's quite contagious");
+            // DisplayName.SetDefault("Virili");
+            // Description.SetDefault("Unfortunately for you, she's quite contagious");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Plagued 'Bed'");
-            Tooltip.SetDefault("Counts as a bed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Plagued 'Bed'");
+            // Tooltip.SetDefault("Counts as a bed");
         }
 
         public override void SetDefaults()

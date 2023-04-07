@@ -16,12 +16,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         public const float FullChargeTime = 420f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ultima");
-            Tooltip.SetDefault("Casts a continuous stream of plasma bolts\n" +
+            // DisplayName.SetDefault("Ultima");
+            /* Tooltip.SetDefault("Casts a continuous stream of plasma bolts\n" +
                 "Over time the bolts are replaced with powerful lasers\n" +
                 "Bolts power up into solid beams as you continue shooting\n" +
-                "90% chance to not consume ammo");
-            SacrificeTotal = 1;
+                "90% chance to not consume ammo"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

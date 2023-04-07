@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Skyfin Bombers");
-            Tooltip.SetDefault("Fishy bombers inbound!\n" +
+            // DisplayName.SetDefault("Skyfin Bombers");
+            /* Tooltip.SetDefault("Fishy bombers inbound!\n" +
             "Launches a skyfin nuke that homes in on enemies below it\n" +
-            "Stealth strikes rapidly home in regardless of enemy position");
-            SacrificeTotal = 1;
+            "Stealth strikes rapidly home in regardless of enemy position"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

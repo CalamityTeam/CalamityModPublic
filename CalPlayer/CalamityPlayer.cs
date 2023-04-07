@@ -2523,7 +2523,7 @@ namespace CalamityMod.CalPlayer
                         if (!Collision.SolidCollision(teleportLocation, Player.width, Player.height))
                         {
                             Player.Teleport(teleportLocation, 4, 0);
-                            NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)Player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
+                            NetMessage.SendData(MessageID.TeleportEntity, -1, -1, null, 0, (float)Player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
                             int duration = areThereAnyDamnBosses ? chaosStateDuration_NR : 360;
                             Player.AddBuff(BuffID.ChaosState, duration, true);
@@ -2599,7 +2599,7 @@ namespace CalamityMod.CalPlayer
                             rogueStealth -= rogueStealthMax * 0.25f;
 
                             Player.Teleport(teleportLocation, 1);
-                            NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)Player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
+                            NetMessage.SendData(MessageID.TeleportEntity, -1, -1, null, 0, (float)Player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
                             int duration = chaosStateDuration;
                             Player.AddBuff(BuffID.ChaosState, duration, true);
@@ -3126,7 +3126,7 @@ namespace CalamityMod.CalPlayer
             player.Teleport(pos, style);
 			if (Main.netMode == NetmodeID.Server)
 				RemoteClient.CheckSection(player.whoAmI, player.Center);
-			NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)player.whoAmI, pos.X, pos.Y, style, 0, 0);
+			NetMessage.SendData(MessageID.TeleportEntity, -1, -1, null, 0, (float)player.whoAmI, pos.X, pos.Y, style, 0, 0);
             player.velocity = Vector2.Zero;
             player.immune = postImmune;
             player.immuneTime = postImmuneTime;
@@ -3991,7 +3991,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region On Respawn
-        public override void OnRespawn(Player player)
+        public override void OnRespawn()
         {
             if (healToFull)
                 thirdSageH = true;
@@ -4002,21 +4002,21 @@ namespace CalamityMod.CalPlayer
             PendingProjectilesToRespawn = PendingProjectilesToRespawn.OrderBy(proj => proj.RequiredMinionSlots).ToList();
 
             // Resurrect all pending minions as necessary.
-            if (Main.myPlayer == player.whoAmI)
+            if (Main.myPlayer == Player.whoAmI)
             {
-                float remainingSlots = player.maxMinions;
+                float remainingSlots = Player.maxMinions;
                 for (int i = 0; i < PendingProjectilesToRespawn.Count; i++)
                 {
                     // Stop checking if the player has exhausted all of their base minion slots.
                     if (remainingSlots - PendingProjectilesToRespawn[i].RequiredMinionSlots < 0f)
                         break;
 
-                    PendingProjectilesToRespawn[i].SummonCopy(player.whoAmI);
+                    PendingProjectilesToRespawn[i].SummonCopy(Player.whoAmI);
 
 
                     // Apply vanilla buffs as usual to the player.
                     if (VanillaMinionBuffRelationship.ContainsKey(PendingProjectilesToRespawn[i].Type))
-                        player.AddBuff(VanillaMinionBuffRelationship[PendingProjectilesToRespawn[i].Type], 3600);
+                        Player.AddBuff(VanillaMinionBuffRelationship[PendingProjectilesToRespawn[i].Type], 3600);
 
                     remainingSlots -= PendingProjectilesToRespawn[i].RequiredMinionSlots;
                 }
@@ -4024,7 +4024,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // The player rotation can be off if the player dies at the right time when using Final Dawn.
-            player.fullRotation = 0f;
+            Player.fullRotation = 0f;
         }
         #endregion
 
@@ -4252,7 +4252,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Modify Hit NPC
-        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)/* tModPorter If you don't need the Item, consider using ModifyHitNPC instead */
         {
             #region MultiplierBoosts
             double damageMult = 1.0;
@@ -4308,7 +4308,7 @@ namespace CalamityMod.CalPlayer
             #endregion
         }
 
-        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)/* tModPorter If you don't need the Projectile, consider using ModifyHitNPC instead */
         {
             if (proj.npcProj || proj.trap)
                 return;
@@ -4453,7 +4453,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Modify Hit By NPC
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+        public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
         {
             int bossRushDamage = (Main.expertMode ? 400 : 240) + (BossRushEvent.BossRushStage * 2);
             if (BossRushEvent.BossRushActive)
@@ -4712,7 +4712,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Modify Hit By Proj
-        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
+        public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
         {
             if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
             {
@@ -4986,14 +4986,14 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region On Hit
-        public override void OnHitByNPC(NPC npc, int damage, bool crit)
+        public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
         {
             // ModifyHit (Flesh Totem effect happens here) -> Hurt (includes dodges) -> OnHit
             // As such, to avoid cooldowns proccing from dodge hits, do it here
             if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID) && damage > 0)
                 Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, coreOfTheBloodGod ? "bloodgod" : "default");            
         }
-        public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
+        public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
         {
             if (sulfurSet && !proj.friendly && damage > 0)
             {
@@ -5528,7 +5528,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Pre Hurt
-        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
+        public override void ModifyHurt(ref Player.HurtModifiers modifiers)/* tModPorter Override ImmuneTo, FreeDodge or ConsumableDodge instead to prevent taking damage */
         {
             #region Ignore Incoming Hits
             // If any dodges are active which could dodge this hit, the hurting event is canceled (and the dodge is used).
@@ -5653,7 +5653,7 @@ namespace CalamityMod.CalPlayer
 
         #region Hurt
 
-        public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
+        public override void OnHurt(Player.HurtInfo info)
         {
             #region Defense Damage
             // Check if the player has iframes for the sake of avoiding defense damage.
@@ -5962,7 +5962,7 @@ namespace CalamityMod.CalPlayer
 
         #region Post Hurt
 
-        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
+        public override void PostHurt(Player.HurtInfo info)
         {
             if (pArtifact && !profanedCrystal)
                 Player.AddCooldown(Cooldowns.ProfanedSoulArtifact.ID, CalamityUtils.SecondsToFrames(5));
@@ -6832,7 +6832,7 @@ namespace CalamityMod.CalPlayer
 
         // Triggers effects that must occur when the player enters the world. This sends a bunch of packets in multiplayer.
         // It also starts the speedrun timer if applicable.
-        public override void OnEnterWorld(Player player)
+        public override void OnEnterWorld()
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 EnterWorldSync();

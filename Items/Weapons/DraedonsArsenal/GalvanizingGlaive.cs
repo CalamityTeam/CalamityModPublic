@@ -16,12 +16,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Galvanizing Glaive");
-            Tooltip.SetDefault("Its use as a tool is to quickly separate a single object into two\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Galvanizing Glaive");
+            /* Tooltip.SetDefault("Its use as a tool is to quickly separate a single object into two\n" +
                 "That is also its use as a weapon\n" +
                 "Swings a spear which envelops struck foes in an energy field\n" +
-                "When done swinging, the spear discharges an extra pulse of energy");
+                "When done swinging, the spear discharges an extra pulse of energy"); */
             ItemID.Sets.Spears[Item.type] = true;
         }
 

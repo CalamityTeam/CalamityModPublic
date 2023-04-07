@@ -10,11 +10,11 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Animosity");
-            Tooltip.SetDefault(@"50% chance to not consume ammo
+            // DisplayName.SetDefault("Animosity");
+            // Tooltip.SetDefault(@"50% chance to not consume ammo
 Fires a powerful sniper round
 Right click to fire a burst of bullets");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

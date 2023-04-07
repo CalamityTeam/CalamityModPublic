@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Scorched Remains");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Scorched Remains");
         }
 
         public override void SetDefaults()

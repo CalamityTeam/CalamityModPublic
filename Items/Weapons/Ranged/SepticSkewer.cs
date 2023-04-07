@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Septic Skewer");
-            Tooltip.SetDefault("Launches a spiky harpoon infested with toxins\n" +
-                "Releases bacteria when returning to the player");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Septic Skewer");
+            /* Tooltip.SetDefault("Launches a spiky harpoon infested with toxins\n" +
+                "Releases bacteria when returning to the player"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

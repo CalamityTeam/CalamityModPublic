@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Corroded Fossil");
-            Tooltip.SetDefault("It's very sturdy");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Corroded Fossil");
+            // Tooltip.SetDefault("It's very sturdy");
         }
 
         public override void SetDefaults()

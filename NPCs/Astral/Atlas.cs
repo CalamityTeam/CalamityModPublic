@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Atlas");
+            // DisplayName.SetDefault("Atlas");
             Main.npcFrameCount[NPC.type] = 6;
             //not really important seeing as custom drawing, but for heights sake, 6
             //also it's visuals are messed up on npc spawners etc. because the sheet is 3 wide.
@@ -445,7 +445,7 @@ namespace CalamityMod.NPCs.Astral
             swing_untilNext = 300;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             //play sound
             if (NPC.soundDelay == 0)
@@ -643,7 +643,7 @@ namespace CalamityMod.NPCs.Astral
             return 0f;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300, true);

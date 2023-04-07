@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Acid Gun");
-            Tooltip.SetDefault("Releases three streams of acid");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Acid Gun");
+            // Tooltip.SetDefault("Releases three streams of acid");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

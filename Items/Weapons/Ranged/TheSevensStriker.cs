@@ -32,14 +32,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("The Sevens Striker");
-            Tooltip.SetDefault("Left click to consume 1 coin and play a slot machine\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("The Sevens Striker");
+            /* Tooltip.SetDefault("Left click to consume 1 coin and play a slot machine\n" +
                 "Quality of the outcome depends on the coin used\n" +
                 "Right click to rapidly fire a barrage of coins\n" +
                 "Right click has an 80% chance to not consume coins and will not fire platinum coins\n" +
                 "'A gun given to a great gunslinger\n" +
-                "Forged by the arms of a man given no name'");
+                "Forged by the arms of a man given no name'"); */
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

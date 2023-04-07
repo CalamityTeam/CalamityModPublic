@@ -8,12 +8,12 @@ namespace CalamityMod.Items.Mounts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Onyx Excavator Key");
-            Tooltip.SetDefault("Summons a drill to drill through the world so you can destroy all the neat world generation\n" +
+            // DisplayName.SetDefault("Onyx Excavator Key");
+            /* Tooltip.SetDefault("Summons a drill to drill through the world so you can destroy all the neat world generation\n" +
                 "with complete disregard for all the creatures that inhabit these lands. I am sure the EPA and PETA would like\n" +
                 "to have a word with you afterwards.\n" +
-                "The power of the destruction scales with the highest powered pickaxe in your inventory");
-            SacrificeTotal = 1;
+                "The power of the destruction scales with the highest powered pickaxe in your inventory"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

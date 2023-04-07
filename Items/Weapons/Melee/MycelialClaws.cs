@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mycelial Claws");
-            Tooltip.SetDefault("Grants the Mushy buff for 6 seconds on enemy hits");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Mycelial Claws");
+            // Tooltip.SetDefault("Grants the Mushy buff for 6 seconds on enemy hits");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -32,9 +32,9 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) => player.AddBuff(ModContent.BuffType<Mushy>(), 360);
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone) => player.AddBuff(ModContent.BuffType<Mushy>(), 360);
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit) => player.AddBuff(ModContent.BuffType<Mushy>(), 360);
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo) => player.AddBuff(ModContent.BuffType<Mushy>(), 360);
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {

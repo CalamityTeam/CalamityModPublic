@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(42, 147, 154)).UseSecondaryColor(new Color(238, 93, 82)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Astral Swirl Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Astral Swirl Dye");
         }
 
         public override void SafeSetDefaults()

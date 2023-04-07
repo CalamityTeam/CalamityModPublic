@@ -15,12 +15,12 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Necroplasmic Beacon");
-            Tooltip.SetDefault("It's spooky\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Necroplasmic Beacon");
+            /* Tooltip.SetDefault("It's spooky\n" +
                 "Summons Polterghast when used in the Dungeon\n" +
                 "Enrages in large spaces\n" +
-                "Not consumable");
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Polterghast>());
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Polterghast>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<Polterghast>());
 
             return true;
         }

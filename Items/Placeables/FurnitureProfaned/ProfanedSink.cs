@@ -7,8 +7,8 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("Counts as a lava source");
+            Item.ResearchUnlockCount = 1;
+            // Tooltip.SetDefault("Counts as a lava source");
         }
 
         public override void SetDefaults()

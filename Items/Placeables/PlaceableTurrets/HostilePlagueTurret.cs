@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
         public override string Texture => "CalamityMod/Items/Placeables/PlaceableTurrets/PlagueTurret";
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("Ejects plague missiles towards nearby players");
+            Item.ResearchUnlockCount = 1;
+            // Tooltip.SetDefault("Ejects plague missiles towards nearby players");
         }
 
         public override void SetDefaults()

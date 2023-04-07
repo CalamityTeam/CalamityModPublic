@@ -30,15 +30,15 @@ namespace CalamityMod.Items.Accessories
 
         public override void Load()
         {
-            On.Terraria.Main.DrawInfernoRings += DrawRoverDriveShields;
+            Terraria.On_Main.DrawInfernoRings += DrawRoverDriveShields;
         }
         public override void Unload()
         {
-            On.Terraria.Main.DrawInfernoRings -= DrawRoverDriveShields;
+            Terraria.On_Main.DrawInfernoRings -= DrawRoverDriveShields;
         }
 
 
-        private void DrawRoverDriveShields(On.Terraria.Main.orig_DrawInfernoRings orig, Main self)
+        private void DrawRoverDriveShields(Terraria.On_Main.orig_DrawInfernoRings orig, Main self)
         {
             bool playerFound = false;
 
@@ -151,12 +151,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Rover Drive");
-            Tooltip.SetDefault($"Activates a protective matrix that can absorb {ProtectionMatrixDurabilityMax} damage and grants {ProtectionMatrixDefenseBoost} defense\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Rover Drive");
+            /* Tooltip.SetDefault($"Activates a protective matrix that can absorb {ProtectionMatrixDurabilityMax} damage and grants {ProtectionMatrixDefenseBoost} defense\n" +
             $"However, the systems are fickle and the shield will need {ProtectionMatrixRechargeTime / 60} seconds to charge up fully\n" +
             "Getting hit during the shield recharge period will reset it back to zero\n" +
-                "Can also be scrapped at an extractinator");
+                "Can also be scrapped at an extractinator"); */
 
             ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
@@ -193,7 +193,7 @@ namespace CalamityMod.Items.Accessories
         }
 
         //Scrappable for 3-6 wulfrum scrap or a 20% chance to get an energy core
-        public override void ExtractinatorUse(ref int resultType, ref int resultStack)
+        public override void ExtractinatorUse(int extractinatorBlockType, ref int resultType, ref int resultStack)
         {
             resultType = ModContent.ItemType<WulfrumMetalScrap>();
             resultStack = Main.rand.Next(3, 6);
@@ -226,7 +226,7 @@ namespace CalamityMod.Items.Accessories
             ShieldVisibility = false;
         }
 
-        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
+        public override void PostHurt(Player.HurtInfo info)
         {
             if (RoverDriveOn)
             {

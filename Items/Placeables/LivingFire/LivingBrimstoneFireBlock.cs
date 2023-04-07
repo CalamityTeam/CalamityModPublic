@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.LivingFire
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Living Brimstone Fire Block");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Living Brimstone Fire Block");
         }
 
         public override void SetDefaults()

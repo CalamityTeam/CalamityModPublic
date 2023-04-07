@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Rotten Matter");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Rotten Matter");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 65; // Crimtane Ore
         }
 

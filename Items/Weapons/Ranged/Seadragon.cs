@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Seadragon");
-            Tooltip.SetDefault("50% chance to not consume ammo\n" +
+            // DisplayName.SetDefault("Seadragon");
+            /* Tooltip.SetDefault("50% chance to not consume ammo\n" +
                 "Fires streams of water every other shot\n" +
-                "Fires a homing rocket every 18 shots, which explodes into fire shards on death");
-            SacrificeTotal = 1;
+                "Fires a homing rocket every 18 shots, which explodes into fire shards on death"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

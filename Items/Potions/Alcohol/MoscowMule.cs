@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Potions.Alcohol
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Moscow Mule");
-            Tooltip.SetDefault(@"I once heard the copper mug can be toxic and I told 'em 'listen dummy, I'm already poisoning myself'
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Moscow Mule");
+            // Tooltip.SetDefault(@"I once heard the copper mug can be toxic and I told 'em 'listen dummy, I'm already poisoning myself'
 Boosts damage by 9%, knockback by 50% and critical strike chance by 3%
 Reduces life regen by 4");
         }

@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Pyre Mantle");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Pyre Mantle");
         }
 
         public override void SetDefaults()

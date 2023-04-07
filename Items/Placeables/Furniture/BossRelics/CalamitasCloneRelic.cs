@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Calamitas Clone Relic");
-            Tooltip.SetDefault("A glimpse into what could have been...");
-            SacrificeTotal = 1;
+			// DisplayName.SetDefault("Calamitas Clone Relic");
+            // Tooltip.SetDefault("A glimpse into what could have been...");
+            Item.ResearchUnlockCount = 1;
 		}
 
 		public override void SetDefaults()

@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Son of Yharon");
-            Description.SetDefault("You better not eat his dinner");
+            // DisplayName.SetDefault("Son of Yharon");
+            // Description.SetDefault("You better not eat his dinner");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

@@ -8,10 +8,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Keelhaul");
-            Tooltip.SetDefault("Summons a geyser upon hitting an enemy\n" +
-                "Crumple 'em like paper");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Keelhaul");
+            /* Tooltip.SetDefault("Summons a geyser upon hitting an enemy\n" +
+                "Crumple 'em like paper"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

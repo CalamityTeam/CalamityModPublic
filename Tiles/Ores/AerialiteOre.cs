@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria.Audio;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -42,8 +43,8 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 33;
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOre>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Aerialite");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Aerialite");
             AddMapEntry(new Color(145, 255, 255), name);
             MineResist = 2f;
             MinPick = 65;

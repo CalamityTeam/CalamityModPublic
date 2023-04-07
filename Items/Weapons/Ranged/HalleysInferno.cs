@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Halley's Inferno");
-            Tooltip.SetDefault("Halley came sooner than expected\n" +
+            // DisplayName.SetDefault("Halley's Inferno");
+            /* Tooltip.SetDefault("Halley came sooner than expected\n" +
             "Fires a flaming comet\n" +
             "50% chance to not consume gel\n" +
-            "Right click to zoom out");
-            SacrificeTotal = 1;
+            "Right click to zoom out"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

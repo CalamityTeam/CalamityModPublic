@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Genisis");
-            Tooltip.SetDefault("Fires a Y-shaped beam of destructive energy and a spread of lasers");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Genisis");
+            // Tooltip.SetDefault("Fires a Y-shaped beam of destructive energy and a spread of lasers");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Slime God Relic");
+			// DisplayName.SetDefault("Slime God Relic");
 
-			SacrificeTotal = 1;
+			Item.ResearchUnlockCount = 1;
 		}
 
 		public override void SetDefaults()

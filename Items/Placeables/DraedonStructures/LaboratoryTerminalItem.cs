@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Laboratory Terminal");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Laboratory Terminal");
         }
 
         public override void SetDefaults()

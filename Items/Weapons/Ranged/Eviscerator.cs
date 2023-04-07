@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eviscerator");
-            Tooltip.SetDefault("Converts musket balls into fast-moving blood clots");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Eviscerator");
+            // Tooltip.SetDefault("Converts musket balls into fast-moving blood clots");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

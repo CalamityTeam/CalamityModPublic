@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Summon
         public const int FireballShootRate = 20;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fiery Draconid");
+            // DisplayName.SetDefault("Fiery Draconid");
             Main.projFrames[Projectile.type] = 10;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
@@ -200,7 +200,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Dragonfire>(), 180);
             
@@ -228,7 +228,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             // Do much more damage during a ram than otherwise.
             if (RamCountdown > 0f)

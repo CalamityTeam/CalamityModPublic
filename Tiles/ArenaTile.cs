@@ -2,6 +2,7 @@
 using CalamityMod.NPCs.SupremeCalamitas;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Skies;
@@ -17,8 +18,8 @@ namespace CalamityMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Arena");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Arena");
             AddMapEntry(new Color(128, 0, 0), name);
         }
 

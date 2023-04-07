@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tumbleweed");
+            // DisplayName.SetDefault("Tumbleweed");
         }
 
         public override void SetDefaults()
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.rotation += Projectile.velocity.X * 0.05f;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // TODO -- Make this use proper i-frame variables.
             target.immune[Projectile.owner] = 5;

@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Armor.Bloodflare
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Bloodflare Ram Mask");
-            Tooltip.SetDefault("10% increased melee damage and critical strike chance");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Bloodflare Ram Mask");
+            // Tooltip.SetDefault("10% increased melee damage and critical strike chance");
         }
 
         public override void SetDefaults()

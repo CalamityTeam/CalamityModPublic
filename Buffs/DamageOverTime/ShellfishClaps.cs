@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.DamageOverTime
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shellfish Claps");
-            Description.SetDefault("Clamfest");
+            // DisplayName.SetDefault("Shellfish Claps");
+            // Description.SetDefault("Clamfest");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

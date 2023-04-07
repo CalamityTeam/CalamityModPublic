@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Storm Ruler");
-            Tooltip.SetDefault("Only a storm can fell a greatwood\n" +
+            // DisplayName.SetDefault("Storm Ruler");
+            /* Tooltip.SetDefault("Only a storm can fell a greatwood\n" +
                 "Fires beams that generate tornadoes on death\n" +
-                "Tornadoes suck enemies in");
-            SacrificeTotal = 1;
+                "Tornadoes suck enemies in"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

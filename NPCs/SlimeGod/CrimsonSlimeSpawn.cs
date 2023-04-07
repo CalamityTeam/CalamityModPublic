@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.SlimeGod
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crimson Slime Spawn");
+            // DisplayName.SetDefault("Crimson Slime Spawn");
             Main.npcFrameCount[NPC.type] = 2;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.SlimeGod
             });
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             Color dustColor = Color.Crimson;
             dustColor.A = 150;
@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemID.Blindfold, 50);
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(BuffID.Darkness, 90, true);

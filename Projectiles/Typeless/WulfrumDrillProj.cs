@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Drill");
+            // DisplayName.SetDefault("Drill");
         }
 
 

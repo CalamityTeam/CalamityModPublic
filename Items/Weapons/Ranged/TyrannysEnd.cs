@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tyranny's End");
-            Tooltip.SetDefault("Pierce the heart of even the most heavily-armored foe\n" +
+            // DisplayName.SetDefault("Tyranny's End");
+            /* Tooltip.SetDefault("Pierce the heart of even the most heavily-armored foe\n" +
                 "Converts musket balls into .70 caliber sniper rounds that bypass enemy defense and DR\n" +
-                "Rounds mark enemies for death and summon a swarm of additional bullets on crits");
-            SacrificeTotal = 1;
+                "Rounds mark enemies for death and summon a swarm of additional bullets on crits"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

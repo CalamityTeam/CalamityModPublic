@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Ranged
         private bool spawnedAura = false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nuke");
+            // DisplayName.SetDefault("Nuke");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
@@ -168,13 +168,13 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             OnHitEffects();
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             OnHitEffects();
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);

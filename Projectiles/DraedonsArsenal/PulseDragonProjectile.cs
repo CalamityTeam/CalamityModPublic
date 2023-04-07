@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const float MaximumPossibleOutwardness = 72f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pulse Dragon");
+            // DisplayName.SetDefault("Pulse Dragon");
         }
 
         public override void SetDefaults()

@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Ancient Bone Dust");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Ancient Bone Dust");
         }
 
         public override void SetDefaults()

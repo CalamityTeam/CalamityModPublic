@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Circlet Eater");
+            // DisplayName.SetDefault("Circlet Eater");
             Main.projFrames[Projectile.type] = 4;
         }
 

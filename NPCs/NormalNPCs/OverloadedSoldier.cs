@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Overloaded Soldier");
+            // DisplayName.SetDefault("Overloaded Soldier");
             Main.npcFrameCount[NPC.type] = 14;
         }
 
@@ -382,13 +382,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.Underground.Chance * 0.02f;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 3; k++)
             {

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
         public const float ChargeDelay = 60f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Party Cannon");
+            // DisplayName.SetDefault("Party Cannon");
         }
 
         public override void SetDefaults()

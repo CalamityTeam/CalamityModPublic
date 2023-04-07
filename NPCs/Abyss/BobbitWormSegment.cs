@@ -11,7 +11,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Bobbit Worm");
+            // DisplayName.SetDefault("Bobbit Worm");
         }
 
         public override void SetDefaults()

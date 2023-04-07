@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Broken Plagued 'Bed'");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Broken Plagued 'Bed'");
         }
 
         public override void SetDefaults()

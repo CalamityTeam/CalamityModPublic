@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Barracuda");
+            // DisplayName.SetDefault("Barracuda");
             Main.projFrames[Projectile.type] = 4;
         }
 

@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Critters
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Repair Unit");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Repair Unit");
         }
 
         public override void SetDefaults()

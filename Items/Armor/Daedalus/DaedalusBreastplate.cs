@@ -18,9 +18,9 @@ namespace CalamityMod.Items.Armor.Daedalus
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Daedalus Breastplate");
-            Tooltip.SetDefault("3% increased damage and critical strike chance");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Daedalus Breastplate");
+            // Tooltip.SetDefault("3% increased damage and critical strike chance");
         }
 
         public override void SetDefaults()

@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bear");
-            Description.SetDefault("A guardian angel is following you.");
+            // DisplayName.SetDefault("Bear");
+            // Description.SetDefault("A guardian angel is following you.");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

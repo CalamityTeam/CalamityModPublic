@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Purified Gel");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Purified Gel");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 71; // Soul of Light
         }
 

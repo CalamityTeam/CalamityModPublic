@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pineapple");
-            Description.SetDefault("It smells like pizza...");
+            // DisplayName.SetDefault("Pineapple");
+            // Description.SetDefault("It smells like pizza...");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.SunkenSea
@@ -21,8 +22,8 @@ namespace CalamityMod.Tiles.SunkenSea
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 33;
             ItemDrop = ModContent.ItemType<Items.Placeables.SeaPrismBrick>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Sea Prism Brick");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Sea Prism Brick");
             AddMapEntry(new Color(47, 193, 236), name);
             MineResist = 3f;
             HitSound = SoundID.Tink;

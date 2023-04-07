@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Granite Energy");
+            // DisplayName.SetDefault("Granite Energy");
         }
 
         public override void SetDefaults()

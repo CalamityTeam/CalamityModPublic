@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Star-Tainted Generator");
-            Tooltip.SetDefault("7% increased minion damage\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Star-Tainted Generator");
+            /* Tooltip.SetDefault("7% increased minion damage\n" +
                     "Minion attacks spawn astral explosions and inflict several debuffs\n" +
-                    "Grants immunity to Irradiated");
+                    "Grants immunity to Irradiated"); */
         }
 
         public override void SetDefaults()

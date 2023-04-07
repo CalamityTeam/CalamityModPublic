@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Relic of Ruin");
-            Tooltip.SetDefault("Casts a spread of sand blades");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Relic of Ruin");
+            // Tooltip.SetDefault("Casts a spread of sand blades");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

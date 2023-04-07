@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tyrant's Fury");
-            Description.SetDefault("30% increased melee damage and 10% increased melee crit chance");
+            // DisplayName.SetDefault("Tyrant's Fury");
+            // Description.SetDefault("30% increased melee damage and 10% increased melee crit chance");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

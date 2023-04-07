@@ -10,9 +10,9 @@ namespace CalamityMod.Items.LabFinders
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Lab Seeking Mechanism");
-            Tooltip.SetDefault("A receptacle for technology which pinpoints the power cores of Draedon's Labs");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Lab Seeking Mechanism");
+            // Tooltip.SetDefault("A receptacle for technology which pinpoints the power cores of Draedon's Labs");
         }
 
         public override void SetDefaults()

@@ -14,7 +14,7 @@ A glorious hunt, a fine foe. Now you know you must chase them to the ends of Ter
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Queen Slime");
+            // DisplayName.SetDefault("Queen Slime");
         }
 
         public override void SetDefaults()

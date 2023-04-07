@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Surge");
+            // DisplayName.SetDefault("Surge");
             Main.projFrames[Projectile.type] = 6;
         }
 

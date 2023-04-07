@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spent Fuel Container");
+            // DisplayName.SetDefault("Spent Fuel Container");
         }
 
         public override void SetDefaults()

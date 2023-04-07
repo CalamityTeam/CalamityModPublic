@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Apollo Trophy");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Apollo Trophy");
         }
 
         public override void SetDefaults()

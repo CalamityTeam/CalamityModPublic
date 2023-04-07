@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.DamageOverTime
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crush Depth");
-            Description.SetDefault("Aquatic pressure");
+            // DisplayName.SetDefault("Crush Depth");
+            // Description.SetDefault("Aquatic pressure");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

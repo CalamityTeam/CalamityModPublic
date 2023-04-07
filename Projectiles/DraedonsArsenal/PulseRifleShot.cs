@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pulse Bolt");
+            // DisplayName.SetDefault("Pulse Bolt");
         }
 
         public override void SetDefaults()
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 280 && target.CanBeChasedBy(Projectile);
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.ai[1] < 5f && !hasHit && Main.myPlayer == Projectile.owner)
             {

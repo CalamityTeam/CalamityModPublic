@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(36, 86, 163)).UseSecondaryColor(new Color(124, 204, 223)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Stratus Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Stratus Dye");
         }
 
         public override void SafeSetDefaults()

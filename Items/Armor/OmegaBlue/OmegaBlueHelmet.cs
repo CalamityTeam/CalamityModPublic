@@ -27,9 +27,9 @@ namespace CalamityMod.Items.Armor.OmegaBlue
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Omega Blue Helmet");
-            Tooltip.SetDefault(@"You can move freely through liquids
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Omega Blue Helmet");
+            // Tooltip.SetDefault(@"You can move freely through liquids
 12% increased damage and 8% increased critical strike chance");
 
             if (Main.netMode == NetmodeID.Server)

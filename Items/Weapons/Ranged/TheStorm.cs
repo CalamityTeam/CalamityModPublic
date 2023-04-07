@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Storm");
-            Tooltip.SetDefault("Fires a spread of arrows from the sky\n" +
-                "Converts wooden arrows into lightning bolts");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("The Storm");
+            /* Tooltip.SetDefault("Fires a spread of arrows from the sky\n" +
+                "Converts wooden arrows into lightning bolts"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

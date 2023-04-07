@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -23,8 +24,8 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             TileObjectData.newTile.Origin = new Point16(2, 1);
             TileObjectData.addTile(Type);
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Draedon's Forge");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Draedon's Forge");
             AddMapEntry(new Color(230, 157, 41), name);
 
             AnimationFrameHeight = 54;

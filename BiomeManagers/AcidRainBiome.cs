@@ -13,7 +13,7 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Acid Rain");
+            // DisplayName.SetDefault("Acid Rain");
         }
 
         //Does this even need proper detection, the detection code is done elsewhere

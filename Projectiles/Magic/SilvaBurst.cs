@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Silva Burst");
+            // DisplayName.SetDefault("Silva Burst");
         }
 
         public override void SetDefaults()

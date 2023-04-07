@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Abaddon");
-            Tooltip.SetDefault("Grants immunity to Brimstone Flames and Searing Lava");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Abaddon");
+            // Tooltip.SetDefault("Grants immunity to Brimstone Flames and Searing Lava");
         }
 
         public override void SetDefaults()

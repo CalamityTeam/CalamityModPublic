@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Stardust");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Stardust");
         }
 
         public override void SetDefaults()

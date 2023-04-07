@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wulfrum Bobber");
+            // DisplayName.SetDefault("Wulfrum Bobber");
         }
 
         public override void SetDefaults()

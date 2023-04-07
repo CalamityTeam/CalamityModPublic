@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Midnight Shot");
+            // DisplayName.SetDefault("Midnight Shot");
             Main.projFrames[Projectile.type] = 1;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }

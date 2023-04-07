@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Valkyrie Ray");
+            // DisplayName.SetDefault("Valkyrie Ray");
         }
 
         public override void SetDefaults()
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         // Ensure that the hit direction is correct when hitting enemies.
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             hitDirection = (Projectile.Center.X < target.Center.X).ToDirectionInt();
         }

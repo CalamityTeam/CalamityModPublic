@@ -12,11 +12,11 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Teratoma");
-            Tooltip.SetDefault("Summons the Hive Mind when used in the Corruption\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Teratoma");
+            /* Tooltip.SetDefault("Summons the Hive Mind when used in the Corruption\n" +
                 "Enrages outside the Underground Corruption\n" +
-                "Not consumable");
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 5; // Abeemination / Deer Thing
         }
 
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<HiveMind>());
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<HiveMind>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<HiveMind>());
 
             return true;
         }

@@ -19,10 +19,10 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Warbanner of the Sun");
-            Tooltip.SetDefault("Increases melee damage, true melee damage and melee speed the closer you are to enemies\n" +
-                "Max boost is 20% increased melee damage, true melee damage and melee speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Warbanner of the Sun");
+            /* Tooltip.SetDefault("Increases melee damage, true melee damage and melee speed the closer you are to enemies\n" +
+                "Max boost is 20% increased melee damage, true melee damage and melee speed"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 5));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }

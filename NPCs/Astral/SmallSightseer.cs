@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Small Sightseer");
+            // DisplayName.SetDefault("Small Sightseer");
             Main.npcFrameCount[NPC.type] = 4;
 
             if (!Main.dedServ)
@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.Astral
             CalamityGlobalNPC.DoFlyingAI(NPC, (CalamityWorld.death ? 9.8f : CalamityWorld.revenge ? 7.8f : 5.8f), (CalamityWorld.death ? 0.05f : CalamityWorld.revenge ? 0.04f : 0.03f), 350f);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.soundDelay == 0)
             {
@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.Astral
             return 0f;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60, true);

@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Bloodstone Core");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Bloodstone Core");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 113;
         }
 

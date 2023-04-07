@@ -16,10 +16,10 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Wand");
-            Tooltip.SetDefault("The ultimate wand");
+            // DisplayName.SetDefault("The Wand");
+            // Tooltip.SetDefault("The ultimate wand");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

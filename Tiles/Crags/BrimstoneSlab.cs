@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Tiles.Crags;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,8 +25,8 @@ namespace CalamityMod.Tiles.Crags
             CalamityUtils.MergeWithHell(Type);
 
             ItemDrop = ModContent.ItemType<Items.Placeables.BrimstoneSlab>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Brimstone Slab");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Brimstone Slab");
             AddMapEntry(new Color(79, 55, 70), name);
             MineResist = 3f;
             MinPick = 100;

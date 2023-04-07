@@ -16,11 +16,11 @@ namespace CalamityMod.Items.Armor.Auric
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Auric Tesla Cuisses");
-            Tooltip.SetDefault("10% increased movement speed\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Auric Tesla Cuisses");
+            /* Tooltip.SetDefault("10% increased movement speed\n" +
                 "12% increased damage and 5% increased critical strike chance\n" +
-                "Magic carpet effect");
+                "Magic carpet effect"); */
         }
 
         public override void SetDefaults()

@@ -11,12 +11,12 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heresy");
-            Tooltip.SetDefault("Releases fire and souls upward from a held book\n" +
-                "As the book is held the power of both increases");
+            // DisplayName.SetDefault("Heresy");
+            /* Tooltip.SetDefault("Releases fire and souls upward from a held book\n" +
+                "As the book is held the power of both increases"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

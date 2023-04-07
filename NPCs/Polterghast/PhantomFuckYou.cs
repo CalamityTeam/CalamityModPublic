@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.Polterghast
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Phantom");
+            // DisplayName.SetDefault("Phantom");
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
@@ -174,7 +174,7 @@ namespace CalamityMod.NPCs.Polterghast
             return false;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             Dust.NewDust(NPC.position, NPC.width, NPC.height, 180, hitDirection, -1f, 0, default, 1f);
             if (NPC.life <= 0)

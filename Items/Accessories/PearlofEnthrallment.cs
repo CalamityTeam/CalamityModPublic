@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Pearl of Enthrallment");
-            Tooltip.SetDefault("Summons a water elemental to fight for you\n" +
-                "The elemental stays above you, shooting water spears, ice mist, and treble clefs at nearby enemies");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Pearl of Enthrallment");
+            /* Tooltip.SetDefault("Summons a water elemental to fight for you\n" +
+                "The elemental stays above you, shooting water spears, ice mist, and treble clefs at nearby enemies"); */
         }
 
         public override void SetDefaults()

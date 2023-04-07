@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(153, 200, 193)).UseSecondaryColor(new Color(236, 244, 213)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Aerialite Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Aerialite Dye");
         }
 
         public override void SafeSetDefaults()

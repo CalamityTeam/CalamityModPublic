@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Matter Modulator");
-            Tooltip.SetDefault("Using extra mass gained from collision with solid materials, it causes extra damage\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Matter Modulator");
+            /* Tooltip.SetDefault("Using extra mass gained from collision with solid materials, it causes extra damage\n" +
             "Fires a burst of unstable matter that does significant damage after striking a tile\n" +
-            "Before striking a tile, the matter pierces infinitely but deals little damage");
+            "Before striking a tile, the matter pierces infinitely but deals little damage"); */
         }
 
         public override void SetDefaults()

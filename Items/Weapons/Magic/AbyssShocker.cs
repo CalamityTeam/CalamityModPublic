@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Abyss Shocker");
-            Tooltip.SetDefault("Fires an erratic lightning bolt that arcs and bounces between enemies");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Abyss Shocker");
+            // Tooltip.SetDefault("Fires an erratic lightning bolt that arcs and bounces between enemies");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

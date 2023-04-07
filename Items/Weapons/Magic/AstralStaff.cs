@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Astral Staff");
-            Tooltip.SetDefault("Summons a large crystal from the sky that has a large area of effect on impact.");
+            // DisplayName.SetDefault("Astral Staff");
+            // Tooltip.SetDefault("Summons a large crystal from the sky that has a large area of effect on impact.");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

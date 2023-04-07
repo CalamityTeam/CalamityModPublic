@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Forbidden Sun");
-            Tooltip.SetDefault("Casts a fire orb that emits a gigantic explosion on death");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Forbidden Sun");
+            // Tooltip.SetDefault("Casts a fire orb that emits a gigantic explosion on death");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

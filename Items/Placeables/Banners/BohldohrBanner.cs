@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Bohldohr Banner");
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Bohldohr");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Bohldohr Banner");
+            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Bohldohr");
         }
 
         public override void SetDefaults()

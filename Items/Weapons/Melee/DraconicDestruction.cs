@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draconic Destruction");
-            Tooltip.SetDefault("Fires a draconic sword beam that explodes into additional beams\n" +
-                "Additional beams fly up and down to shred enemies");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Draconic Destruction");
+            /* Tooltip.SetDefault("Fires a draconic sword beam that explodes into additional beams\n" +
+                "Additional beams fly up and down to shred enemies"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Daybreak, 600);
         }

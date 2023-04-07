@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Seeking Scorcher");
-            Tooltip.SetDefault("May your enemies burn in hell for the sins they have committed\n" +
-            "Throws a holy boomerang that seeks out up to four enemies before returning to the player");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Seeking Scorcher");
+            /* Tooltip.SetDefault("May your enemies burn in hell for the sins they have committed\n" +
+            "Throws a holy boomerang that seeks out up to four enemies before returning to the player"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

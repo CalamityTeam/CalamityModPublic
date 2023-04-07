@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starfish Shard");
+            // DisplayName.SetDefault("Starfish Shard");
         }
 
         public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.timeLeft <= 50)
             CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 20f, 20f);
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Venom, 360);
         }

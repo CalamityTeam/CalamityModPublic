@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Plagued Work Bench");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Plagued Work Bench");
         }
 
         public override void SetDefaults()

@@ -23,9 +23,9 @@ namespace CalamityMod.Items.TreasureBags
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Treasure Coffer (Calamitas)");
-            Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Treasure Coffer (Calamitas)");
+            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
             ItemID.Sets.BossBag[Item.type] = true;
         }
 

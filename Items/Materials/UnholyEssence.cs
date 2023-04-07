@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Unholy Essence");
-            Tooltip.SetDefault("The essence of profaned creatures");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Unholy Essence");
+            // Tooltip.SetDefault("The essence of profaned creatures");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 5));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;

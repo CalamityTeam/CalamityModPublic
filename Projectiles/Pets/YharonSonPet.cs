@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Pets
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Son of Yharon");
+            // DisplayName.SetDefault("Son of Yharon");
             Main.projPet[Projectile.type] = true;
         }
 

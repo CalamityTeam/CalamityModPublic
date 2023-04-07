@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Sentry");
+            // DisplayName.SetDefault("Ice Sentry");
             Main.projFrames[Projectile.type] = 18;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }

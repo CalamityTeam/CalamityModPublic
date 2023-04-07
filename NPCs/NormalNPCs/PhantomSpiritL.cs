@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Phantom Spirit");
+            // DisplayName.SetDefault("Phantom Spirit");
             Main.npcFrameCount[NPC.type] = 5;
         }
 
@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

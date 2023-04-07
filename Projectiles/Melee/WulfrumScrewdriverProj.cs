@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Screwdriver");
+            // DisplayName.SetDefault("Screwdriver");
         }
         public override void SetDefaults()
         {
@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles.Melee
             return score;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             SoundEngine.PlaySound(WulfrumScrewdriver.ThudSound, target.Center);
             Projectile.timeLeft = 0;

@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Beastial Pickaxe");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Beastial Pickaxe");
         }
 
         public override void SetDefaults()
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Tools
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Venom, 300);
         }

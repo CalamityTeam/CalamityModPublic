@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Storm Dragoon");
-            Tooltip.SetDefault("Fires a spray of bullets\n" +
-            "90% chance to not consume ammo");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Storm Dragoon");
+            /* Tooltip.SetDefault("Fires a spray of bullets\n" +
+            "90% chance to not consume ammo"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

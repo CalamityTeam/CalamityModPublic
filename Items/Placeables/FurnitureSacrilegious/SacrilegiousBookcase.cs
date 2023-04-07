@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sacrilegious Bookcase");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Sacrilegious Bookcase");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

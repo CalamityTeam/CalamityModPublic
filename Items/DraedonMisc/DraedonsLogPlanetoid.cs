@@ -11,9 +11,9 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Low Orbit Study Log");
-            Tooltip.SetDefault("[Space and Soil Survey] - Low Terraria Orbit\nClick to view its contents");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Low Orbit Study Log");
+            // Tooltip.SetDefault("[Space and Soil Survey] - Low Terraria Orbit\nClick to view its contents");
         }
 
         public override void SetDefaults()

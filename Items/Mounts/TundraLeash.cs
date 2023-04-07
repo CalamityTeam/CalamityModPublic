@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Mounts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tundra Leash");
-            Tooltip.SetDefault("Summons a Rimehound mount");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Tundra Leash");
+            // Tooltip.SetDefault("Summons a Rimehound mount");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

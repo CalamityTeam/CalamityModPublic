@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Elemental Lance");
-            Tooltip.SetDefault("Rend the cosmos asunder!\n" +
-                "Fires a lance beam that splits multiple times as it travels");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Elemental Lance");
+            /* Tooltip.SetDefault("Rend the cosmos asunder!\n" +
+                "Fires a lance beam that splits multiple times as it travels"); */
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

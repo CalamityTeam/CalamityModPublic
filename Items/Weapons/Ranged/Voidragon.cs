@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             // Long live Megafleet. You will be missed. Maybe one day we can revive you.
-            DisplayName.SetDefault("Voidragon");
-            Tooltip.SetDefault("75% chance to not consume ammo\n" +
+            // DisplayName.SetDefault("Voidragon");
+            /* Tooltip.SetDefault("75% chance to not consume ammo\n" +
                 "Fires void blasts that explode every other shot\n" +
-                "Shoots demon flame tentacles alongside every shot");
-            SacrificeTotal = 1;
+                "Shoots demon flame tentacles alongside every shot"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

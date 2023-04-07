@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Rogue Emblem");
-            Tooltip.SetDefault("15% increased rogue damage");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Rogue Emblem");
+            // Tooltip.SetDefault("15% increased rogue damage");
         }
 
         public override void SetDefaults()

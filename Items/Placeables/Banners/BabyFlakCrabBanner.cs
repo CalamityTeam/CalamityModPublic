@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Baby Flak Crab Banner");
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Baby Flak Crab");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Baby Flak Crab Banner");
+            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Baby Flak Crab");
         }
 
         public override void SetDefaults()

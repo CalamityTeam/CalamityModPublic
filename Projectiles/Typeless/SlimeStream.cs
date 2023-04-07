@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Silme Stream");
+            // DisplayName.SetDefault("Silme Stream");
         }
 
         public override void SetDefaults()
@@ -30,6 +30,6 @@ namespace CalamityMod.Projectiles.Typeless
                 CalamityUtils.HomeInOnNPC(Projectile, false, 320f, 12f, 20f);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Slimed, 600);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Slimed, 600);
     }
 }

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
         private int lifeTime = 420;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fire");
+            // DisplayName.SetDefault("Fire");
             Main.projFrames[Projectile.type] = 5;
         }
 
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.Damage();
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Dragonfire>(), 120);
         }

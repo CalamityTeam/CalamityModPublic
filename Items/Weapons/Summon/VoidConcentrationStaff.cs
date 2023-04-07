@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Void Concentration Staff");
-            Tooltip.SetDefault("Summons a foreboding aura that attacks by firing void orbs\n" +
+            // DisplayName.SetDefault("Void Concentration Staff");
+            /* Tooltip.SetDefault("Summons a foreboding aura that attacks by firing void orbs\n" +
                                "Minion damage is increased by 5% while the aura is active\n" +
                                "Requires three minion slots to use\n" +
                                "Only one may exist\n" +
-                               "Right click to launch a black hole that grows in size");
-            SacrificeTotal = 1;
+                               "Right click to launch a black hole that grows in size"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

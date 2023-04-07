@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Jelly-Charged Battery");
-            Tooltip.SetDefault("7% increased minion damage\n" +
-                               "Minion attacks spawn orbs of energy and inflict Electrified");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Jelly-Charged Battery");
+            /* Tooltip.SetDefault("7% increased minion damage\n" +
+                               "Minion attacks spawn orbs of energy and inflict Electrified"); */
         }
 
         public override void SetDefaults()

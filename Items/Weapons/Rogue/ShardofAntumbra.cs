@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shard of Antumbra");
-            Tooltip.SetDefault("Stealth strikes leave homing stars in their wake");
-            SacrificeTotal = 99;
+            // DisplayName.SetDefault("Shard of Antumbra");
+            // Tooltip.SetDefault("Stealth strikes leave homing stars in their wake");
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

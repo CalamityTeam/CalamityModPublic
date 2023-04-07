@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Saros Possession");
-            Description.SetDefault("A radiant aura protects you");
+            // DisplayName.SetDefault("Saros Possession");
+            // Description.SetDefault("A radiant aura protects you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

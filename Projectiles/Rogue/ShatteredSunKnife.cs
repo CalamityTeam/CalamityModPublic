@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shattered Sun");
+            // DisplayName.SetDefault("Shattered Sun");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -137,9 +137,9 @@ namespace CalamityMod.Projectiles.Rogue
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => ShatteredExplosion();
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => ShatteredExplosion();
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => ShatteredExplosion();
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => ShatteredExplosion();
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

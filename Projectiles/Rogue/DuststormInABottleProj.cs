@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Duststorm");
+            // DisplayName.SetDefault("Duststorm");
         }
 
         public override void SetDefaults()

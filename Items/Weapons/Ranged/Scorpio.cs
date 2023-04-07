@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scorpio");
-            Tooltip.SetDefault("BOOM\n" +
+            // DisplayName.SetDefault("Scorpio");
+            /* Tooltip.SetDefault("BOOM\n" +
                 "Right click to fire a nuke\n" +
-                "Rockets will destroy tiles with tile-destroying ammo");
-            SacrificeTotal = 1;
+                "Rockets will destroy tiles with tile-destroying ammo"); */
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

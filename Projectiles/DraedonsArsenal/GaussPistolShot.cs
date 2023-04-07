@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const float ChargeTime = 30f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gauss Shot");
+            // DisplayName.SetDefault("Gauss Shot");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
         }

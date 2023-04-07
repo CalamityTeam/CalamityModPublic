@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.Abyss
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Laserfish");
+            // DisplayName.SetDefault("Laserfish");
             Main.npcFrameCount[NPC.type] = 6;
         }
 
@@ -125,7 +125,7 @@ namespace CalamityMod.NPCs.Abyss
             npcLoot.AddIf(DropHelper.PostCal(), ModContent.ItemType<Lumenyl>(), 2);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

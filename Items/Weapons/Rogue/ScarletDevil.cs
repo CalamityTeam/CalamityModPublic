@@ -14,12 +14,12 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scarlet Devil");
-            Tooltip.SetDefault("Throws an ultra high velocity spear, which creates more projectiles that home in\n" +
+            // DisplayName.SetDefault("Scarlet Devil");
+            /* Tooltip.SetDefault("Throws an ultra high velocity spear, which creates more projectiles that home in\n" +
                 "The spear creates a Scarlet Blast upon hitting an enemy\n" +
                 "Stealth strikes grant you lifesteal and summon a star of projectiles upon hitting an enemy\n" +
-                "'Divine Spear \"Spear the Gungnir\"'");
-            SacrificeTotal = 1;
+                "'Divine Spear \"Spear the Gungnir\"'"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

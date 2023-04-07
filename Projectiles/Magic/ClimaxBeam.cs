@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Voltaic Bolt");
+            // DisplayName.SetDefault("Voltaic Bolt");
         }
 
         public override void SetDefaults()

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lumenyl Fluid");
+            // DisplayName.SetDefault("Lumenyl Fluid");
             Main.projFrames[Projectile.type] = 3;
         }
 
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.alpha += 10;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (!target.friendly)
             {

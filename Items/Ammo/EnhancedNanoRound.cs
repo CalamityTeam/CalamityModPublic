@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("Enhanced Nano Round");
-            Tooltip.SetDefault("Confuses enemies and releases a cloud of nanites when enemies die");
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("Enhanced Nano Round");
+            // Tooltip.SetDefault("Confuses enemies and releases a cloud of nanites when enemies die");
         }
 
         public override void SetDefaults()

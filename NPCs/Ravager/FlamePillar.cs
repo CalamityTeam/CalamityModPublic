@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.Ravager
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Flame Pillar");
+            // DisplayName.SetDefault("Flame Pillar");
             Main.npcFrameCount[NPC.type] = 4;
         }
 
@@ -160,7 +160,7 @@ namespace CalamityMod.NPCs.Ravager
 
         public override bool CheckActive() => false;
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

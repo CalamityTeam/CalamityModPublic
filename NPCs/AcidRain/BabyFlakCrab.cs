@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.AcidRain
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Baby Flak Crab");
+            // DisplayName.SetDefault("Baby Flak Crab");
             Main.npcFrameCount[NPC.type] = 6;
             Main.npcCatchable[NPC.type] = true;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.AcidRain
             return 0.15f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

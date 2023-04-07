@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gel Dart");
-            Tooltip.SetDefault("Throws bouncing darts\n" +
+            // DisplayName.SetDefault("Gel Dart");
+            /* Tooltip.SetDefault("Throws bouncing darts\n" +
             "Stealth strikes ignore gravity and bounce more vigorously\n" +
-            "They additionally leak slime and cover enemies in dark sludge");
-            SacrificeTotal = 99;
+            "They additionally leak slime and cover enemies in dark sludge"); */
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

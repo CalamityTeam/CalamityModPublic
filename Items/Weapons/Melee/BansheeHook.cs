@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Banshee Hook");
-            Tooltip.SetDefault("Swings a banshee hook that fires blades and explodes on hit");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Banshee Hook");
+            // Tooltip.SetDefault("Swings a banshee hook that fires blades and explodes on hit");
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

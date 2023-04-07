@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Profaned Energy");
+            // DisplayName.SetDefault("Profaned Energy");
             Main.npcFrameCount[NPC.type] = 6;
         }
 
@@ -226,7 +226,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return true;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

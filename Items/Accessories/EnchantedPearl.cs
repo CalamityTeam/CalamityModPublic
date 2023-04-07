@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Enchanted Pearl");
-            Tooltip.SetDefault("Increases fishing skill\n" +
-                "Increases chance to catch crates");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Enchanted Pearl");
+            /* Tooltip.SetDefault("Increases fishing skill\n" +
+                "Increases chance to catch crates"); */
         }
 
         public override void SetDefaults()

@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Melee
         public const float explosionDamageMultiplier = 1.8f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cosmic Energy");
+            // DisplayName.SetDefault("Cosmic Energy");
         }
 
         public override void SetDefaults()
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.velocity.Y = startingVelocityY + (float)(Math.Cos(Projectile.ai[0] / 12D + randomAngleDelta) * 7D);
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // for spawning the side beams
             for (int i = 0; i < 3; i++)

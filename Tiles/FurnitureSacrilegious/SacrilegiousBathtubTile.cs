@@ -2,6 +2,7 @@ using CalamityMod.Items.Placeables.FurnitureSacrilegious;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
@@ -10,8 +11,8 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         public override void SetStaticDefaults()
         {
             this.SetUpBathtub(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Bathtub");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Bathtub");
             AddMapEntry(new Color(43, 19, 42), name);
         }
 

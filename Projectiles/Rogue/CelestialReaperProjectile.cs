@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Celestial Reaper");
+            // DisplayName.SetDefault("Celestial Reaper");
         }
 
         public override void SetDefaults()
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool CanHitPvp(Player target) => HomingCooldown <= 0;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             HomingCooldown = 25;
             Projectile.velocity *= -0.75f; // Bounce off of the enemy.

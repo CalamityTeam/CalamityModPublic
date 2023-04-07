@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Fishing
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Enchanted Starfish");
-            Tooltip.SetDefault("Permanently increases maximum mana by 20");
-            SacrificeTotal = 10;
+            // DisplayName.SetDefault("Enchanted Starfish");
+            // Tooltip.SetDefault("Permanently increases maximum mana by 20");
+            Item.ResearchUnlockCount = 10;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 

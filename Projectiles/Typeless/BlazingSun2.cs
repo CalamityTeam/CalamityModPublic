@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blazing Sun");
+            // DisplayName.SetDefault("Blazing Sun");
         }
 
         public override void SetDefaults()

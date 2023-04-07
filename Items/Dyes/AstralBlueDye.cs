@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(109, 242, 197)).UseSecondaryColor(new Color(42, 147, 154));
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Astral Blue Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Astral Blue Dye");
         }
 
         public override void SafeSetDefaults()

@@ -30,9 +30,9 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Abyssal Treasure");
-            Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
-            SacrificeTotal = 10;
+            // DisplayName.SetDefault("Abyssal Treasure");
+            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            Item.ResearchUnlockCount = 10;
         }
 
         public override void SetDefaults()

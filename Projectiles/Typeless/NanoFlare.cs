@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nano Flare");
+            // DisplayName.SetDefault("Nano Flare");
         }
 
         public override void SetDefaults()

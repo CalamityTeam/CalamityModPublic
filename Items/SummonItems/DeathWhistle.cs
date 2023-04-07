@@ -13,11 +13,11 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Death Whistle");
-            Tooltip.SetDefault("A very old temple whistle\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Death Whistle");
+            /* Tooltip.SetDefault("A very old temple whistle\n" +
                 "Summons the Ravager\n" +
-                "Not consumable");
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 16; // Solar Tablet / Bloody Tear
         }
 
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.SummonItems
                 CalamityUtils.BossAwakenMessage(npc);
             }
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<RavagerBody>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<RavagerBody>());
 
             return true;
         }

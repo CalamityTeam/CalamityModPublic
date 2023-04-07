@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -17,8 +18,8 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Static Refiner");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Static Refiner");
             AddMapEntry(new Color(191, 142, 111), name);
             AnimationFrameHeight = 54;
             //also counts as a Solidifier

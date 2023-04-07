@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -21,8 +22,8 @@ namespace CalamityMod.Tiles.FurnitureExo
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Screen");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Screen");
             AddMapEntry(new Color(71, 95, 114), name);
             DustType = 8;
             AnimationFrameHeight = 36;

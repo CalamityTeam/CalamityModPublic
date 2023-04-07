@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blade");
+            // DisplayName.SetDefault("Blade");
         }
 
         public override void SetDefaults()

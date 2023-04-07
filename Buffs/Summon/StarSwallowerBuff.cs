@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Star Swallower");
-            Description.SetDefault("Mmmm myes");
+            // DisplayName.SetDefault("Star Swallower");
+            // Description.SetDefault("Mmmm myes");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

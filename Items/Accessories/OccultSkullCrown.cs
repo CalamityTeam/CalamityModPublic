@@ -12,16 +12,16 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Occult Skull Crown");
-            Tooltip.SetDefault("Only a fool would ever wear this...\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Occult Skull Crown");
+            /* Tooltip.SetDefault("Only a fool would ever wear this...\n" +
                                "You constantly gain rage over time and rage does not fade away when out of combat\n" +
                                "Converts certain debuffs into buffs and extends their durations\n" +
                                "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak,\n" +
                                "Broken Armor, Armor Crunch, Chilled, Ichor and Obstructed\n" +
                                "Adrenaline charges 20% faster\n" +
                                "Increases your max movement speed and acceleration by 5%\n" +
-                               "Revengeance item");
+                               "Revengeance item"); */
 
             if (Main.netMode != NetmodeID.Server)
             {

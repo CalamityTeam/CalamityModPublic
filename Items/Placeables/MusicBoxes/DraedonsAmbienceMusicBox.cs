@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Placeables.MusicBoxes
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Music Box (Draedon's Ambience)");
-            Tooltip.SetDefault("Plays high tech ambience by PinpinNeon");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Music Box (Draedon's Ambience)");
+            // Tooltip.SetDefault("Plays high tech ambience by PinpinNeon");
         }
 
         public override void SetDefaults()

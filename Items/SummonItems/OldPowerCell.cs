@@ -13,11 +13,11 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Old Power Cell");
-            Tooltip.SetDefault("Summons the Golem when used in the Jungle Temple\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Old Power Cell");
+            /* Tooltip.SetDefault("Summons the Golem when used in the Jungle Temple\n" +
                 "Enrages outside the Jungle Temple\n" +
-                "Not consumable");
+                "Not consumable"); */
 			NPCID.Sets.MPAllowedEnemies[NPCID.Golem] = true;
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 15; // Lihzahrd Power Cell
         }
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, NPCID.Golem);
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Golem);
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, NPCID.Golem);
 
             return true;
         }

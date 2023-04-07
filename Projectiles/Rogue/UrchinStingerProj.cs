@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Rogue
         private int projdmg = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stinger");
+            // DisplayName.SetDefault("Stinger");
         }
 
         public override void SetDefaults()
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
             return true;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.Calamity().stealthStrike)
             {
@@ -83,12 +83,12 @@ namespace CalamityMod.Projectiles.Rogue
             return base.Colliding(projHitbox, targetHitbox);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Poisoned, 180);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(BuffID.Poisoned, 180);
         }

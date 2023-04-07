@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starmada");
+            // DisplayName.SetDefault("Starmada");
         }
 
         public override void SetDefaults()

@@ -19,10 +19,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Freedom Star");
-            Tooltip.SetDefault(@"Tap to fire energy orbs
+            // DisplayName.SetDefault("Freedom Star");
+            // Tooltip.SetDefault(@"Tap to fire energy orbs
 Hold to charge and fire a beam that explodes on hit");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

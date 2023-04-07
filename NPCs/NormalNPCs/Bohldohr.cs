@@ -11,7 +11,7 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bohldohr");
+            // DisplayName.SetDefault("Bohldohr");
         }
 
         public override void SetDefaults()
@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.JungleTemple.Chance * 0.1f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

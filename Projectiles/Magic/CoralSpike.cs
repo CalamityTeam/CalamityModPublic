@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Coral Spike");
+            // DisplayName.SetDefault("Coral Spike");
         }
 
         public override void SetDefaults()

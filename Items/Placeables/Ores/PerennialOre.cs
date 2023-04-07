@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.Ores
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Perennial Ore");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Perennial Ore");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 92; // Shroomite Bar
         }
 

@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Corvid Harbinger Staff");
-            Tooltip.SetDefault("Nevermore.\n" +
-                               "Summons a powerful raven which teleports and dashes");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Corvid Harbinger Staff");
+            /* Tooltip.SetDefault("Nevermore.\n" +
+                               "Summons a powerful raven which teleports and dashes"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

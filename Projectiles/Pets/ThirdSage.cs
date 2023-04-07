@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Third Sage");
+            // DisplayName.SetDefault("Third Sage");
             Main.projPet[Projectile.type] = true;
             Main.projFrames[Projectile.type] = 7;
         }

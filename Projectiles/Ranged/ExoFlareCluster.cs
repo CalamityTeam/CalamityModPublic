@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
         public const float MaxDistanceFromTarget = 350f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exo Flare Cluster");
+            // DisplayName.SetDefault("Exo Flare Cluster");
             ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
         }
 
@@ -66,12 +66,12 @@ namespace CalamityMod.Projectiles.Ranged
             }
             Projectile.StickyProjAI(5);
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Projectile.ModifyHitNPCSticky(4, true);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.width == 50)
             {
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
         }

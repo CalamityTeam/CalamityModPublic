@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSacrilegious
@@ -19,8 +20,8 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
 
             this.SetUpClock(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Grandfather Clock");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Grandfather Clock");
             AddMapEntry(new Color(43, 19, 42), name);
             AdjTiles = new int[] { TileID.GrandfatherClocks };
         }

@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Life Alloy");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Life Alloy");
             ItemID.Sets.SortingPriorityMaterials[Type] = 95; // Stardust Fragment
         }
 

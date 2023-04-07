@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heron Bobber");
+            // DisplayName.SetDefault("Heron Bobber");
         }
 
         public override void SetDefaults()

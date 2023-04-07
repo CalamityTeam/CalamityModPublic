@@ -26,12 +26,12 @@ namespace CalamityMod.Items.SummonItems
         public int spawnYAdd = 0;
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Eye of Desolation");
-            Tooltip.SetDefault("This is going to be a horrific night...\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Eye of Desolation");
+            /* Tooltip.SetDefault("This is going to be a horrific night...\n" +
                 "Summons the Calamitas Clone when used during nighttime\n" +
                 "Enrages during the day\n" +
-                "Not consumable");
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 10; // Pirate Map
         }
 
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CalamitasClone>());
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CalamitasClone>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<CalamitasClone>());
 
             if (Main.netMode != NetmodeID.MultiplayerClient && CalamityWorld.getFixedBoi)
             {

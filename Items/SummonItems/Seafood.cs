@@ -13,11 +13,11 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Seafood");
-            Tooltip.SetDefault("Summons the Aquatic Scourge when used in the Sulphurous Sea\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Seafood");
+            /* Tooltip.SetDefault("Summons the Aquatic Scourge when used in the Sulphurous Sea\n" +
                 "Enrages outside the Sulphurous Sea\n" +
-                "Not consumable");
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 8; // Mechanical Worm
         }
 
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AquaticScourgeHead>());
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<AquaticScourgeHead>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<AquaticScourgeHead>());
 
             return true;
         }

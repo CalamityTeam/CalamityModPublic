@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crystal Shot");
+            // DisplayName.SetDefault("Crystal Shot");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Frostburn2, 180);
         }

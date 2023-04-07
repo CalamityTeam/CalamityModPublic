@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nondescript Damaging Entity");
+            // DisplayName.SetDefault("Nondescript Damaging Entity");
         }
 
         public override void SetDefaults()

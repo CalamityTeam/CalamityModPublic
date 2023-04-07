@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Armor.GodSlayer
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("God Slayer Mask");
-            Tooltip.SetDefault("14% increased rogue damage and critical strike chance, 5% increased movement speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("God Slayer Mask");
+            // Tooltip.SetDefault("14% increased rogue damage and critical strike chance, 5% increased movement speed");
         }
 
         public override void SetDefaults()

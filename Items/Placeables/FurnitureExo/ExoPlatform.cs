@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 200;
+            Item.ResearchUnlockCount = 200;
         }
 
         public override void SetDefaults()

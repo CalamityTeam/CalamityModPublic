@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Biting Embrace");
+            // DisplayName.SetDefault("Biting Embrace");
             Main.projFrames[Projectile.type] = 6; //The true trolling is that we only really use this for the third swing.
         }
         public override void SetDefaults()
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Melee
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + displace, Owner.Center + displace + (rotation.ToRotationVector2() * bladeLength), 24, ref collisionPoint);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             base.OnHitNPC(target, damage, knockback, crit);
             if (SwingMode == 2)

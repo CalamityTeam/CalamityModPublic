@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crimslime Staff");
-            Tooltip.SetDefault("Summons a crim slime to fight for you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Crimslime Staff");
+            // Tooltip.SetDefault("Summons a crim slime to fight for you");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

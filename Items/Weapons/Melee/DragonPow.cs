@@ -20,10 +20,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dragon Pow");
-            Tooltip.SetDefault(@"Fires a dragon head that releases draconic sparks
+            // DisplayName.SetDefault("Dragon Pow");
+            // Tooltip.SetDefault(@"Fires a dragon head that releases draconic sparks
 Summons a barrage of petals and waterfalls on enemy hits");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

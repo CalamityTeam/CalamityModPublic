@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Devourer of Cods Bobber");
+            // DisplayName.SetDefault("Devourer of Cods Bobber");
         }
 
         public override void SetDefaults()

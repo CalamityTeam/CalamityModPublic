@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Old Hunter Hat");
-            Tooltip.SetDefault("Attire fashioned after the appearance of hunters from a faraway land");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Old Hunter Hat");
+            // Tooltip.SetDefault("Attire fashioned after the appearance of hunters from a faraway land");
         }
 
         public override void SetDefaults()
@@ -51,9 +51,9 @@ namespace CalamityMod.Items.Armor.Vanity
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Old Hunter Shirt");
-            Tooltip.SetDefault("Attire fashioned after the appearance of hunters from a faraway land");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Old Hunter Shirt");
+            // Tooltip.SetDefault("Attire fashioned after the appearance of hunters from a faraway land");
 
             if (Main.netMode == NetmodeID.Server)
                 return;
@@ -94,9 +94,9 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Old Hunter Pants");
-            Tooltip.SetDefault("Attire fashioned after the appearance of hunters from a faraway land");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Old Hunter Pants");
+            // Tooltip.SetDefault("Attire fashioned after the appearance of hunters from a faraway land");
         }
 
         public override void SetDefaults()

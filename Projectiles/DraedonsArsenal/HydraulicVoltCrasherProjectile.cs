@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hydraulic Volt Crasher");
+            // DisplayName.SetDefault("Hydraulic Volt Crasher");
             Main.projFrames[Projectile.type] = 3;
         }
 
@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.velocity.X *= Main.rand.NextFloat(0.97f, 1.03f);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             SoundEngine.PlaySound(CommonCalamitySounds.PlasmaBoltSound, target.Center);
             if (chargeCooldown > 0)

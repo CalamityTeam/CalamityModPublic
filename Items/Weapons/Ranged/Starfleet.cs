@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starfleet");
-            Tooltip.SetDefault("Fires a spread of plasma blasts");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Starfleet");
+            // Tooltip.SetDefault("Fires a spread of plasma blasts");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

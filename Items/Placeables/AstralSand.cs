@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Astral Sand");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Astral Sand");
         }
 
         public override void SetDefaults()

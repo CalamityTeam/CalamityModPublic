@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Blood Orb");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Blood Orb");
         }
 
         public override void SetDefaults()

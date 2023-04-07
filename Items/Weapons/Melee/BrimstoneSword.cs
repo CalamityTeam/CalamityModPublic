@@ -15,11 +15,11 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brimstone Sword");
-            Tooltip.SetDefault("Summons brimstone geysers on hit\n" +
+            // DisplayName.SetDefault("Brimstone Sword");
+            /* Tooltip.SetDefault("Summons brimstone geysers on hit\n" +
                 "Right click to throw like a javelin that explodes on hit\n" +
-                "Receives 33% benefit from melee speed bonuses");
-            SacrificeTotal = 1;
+                "Receives 33% benefit from melee speed bonuses"); */
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_ItemUse(Item);
             if (crit)
@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<Brimblast>(), damage, knockback, Main.myPlayer);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_ItemUse(Item);
             if (crit)

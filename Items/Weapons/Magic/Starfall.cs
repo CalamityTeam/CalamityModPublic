@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starfall");
-            Tooltip.SetDefault("Casts a spread of astral stars at the mouse cursor");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Starfall");
+            // Tooltip.SetDefault("Casts a spread of astral stars at the mouse cursor");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

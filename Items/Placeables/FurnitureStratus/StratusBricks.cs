@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Stratus Brick");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Stratus Brick");
         }
 
         public override void SetDefaults()

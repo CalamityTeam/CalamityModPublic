@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Pineapple");
-            Tooltip.SetDefault("Summons a pineapple");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Pineapple");
+            // Tooltip.SetDefault("Summons a pineapple");
         }
 
         public override void SetDefaults()

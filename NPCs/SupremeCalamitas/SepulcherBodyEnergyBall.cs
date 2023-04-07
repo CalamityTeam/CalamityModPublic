@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Sepulcher");
+            // DisplayName.SetDefault("Sepulcher");
             Main.npcFrameCount[NPC.type] = 5;
         }
 
@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.frame.Y = ((int)(NPC.frameCounter / 5) + NPC.whoAmI) % Main.npcFrameCount[NPC.type] * frameHeight;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient && NPC.life <= 0)
             {

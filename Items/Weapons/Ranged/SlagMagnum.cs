@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Slag Magnum");
-            Tooltip.SetDefault("Converts musket balls into fossil shards that split into additional shards on death");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Slag Magnum");
+            // Tooltip.SetDefault("Converts musket balls into fossil shards that split into additional shards on death");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Clamor Rifle");
-            Tooltip.SetDefault("Converts musket balls into homing energy bolts");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Clamor Rifle");
+            // Tooltip.SetDefault("Converts musket balls into homing energy bolts");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

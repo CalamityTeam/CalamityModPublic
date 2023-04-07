@@ -17,7 +17,7 @@ Judgment is long passed, and extinction is left waiting.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("The Perforators and Their Hive");
+            // DisplayName.SetDefault("The Perforators and Their Hive");
         }
 
         public override void SetDefaults()

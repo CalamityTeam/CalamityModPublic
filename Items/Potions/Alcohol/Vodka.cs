@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Potions.Alcohol
         
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Vodka");
-            Tooltip.SetDefault(@"The number one alcohol for creating great mixed drinks
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Vodka");
+            // Tooltip.SetDefault(@"The number one alcohol for creating great mixed drinks
 Boosts damage by 6% and critical strike chance by 2%
 Reduces life regen by 1 and defense by 5%");
         }

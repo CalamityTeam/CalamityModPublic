@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Trident");
+            // DisplayName.SetDefault("Trident");
         }
 
         public override void SetDefaults()

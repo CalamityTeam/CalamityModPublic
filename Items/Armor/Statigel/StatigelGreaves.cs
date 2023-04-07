@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Armor.Statigel
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Statigel Greaves");
-            Tooltip.SetDefault("5% increased damage and movement speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Statigel Greaves");
+            // Tooltip.SetDefault("5% increased damage and movement speed");
         }
 
         public override void SetDefaults()

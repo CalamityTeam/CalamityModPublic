@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Biofusillade");
-            Tooltip.SetDefault("Unleashes a concentrated beam of life energy");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Biofusillade");
+            // Tooltip.SetDefault("Unleashes a concentrated beam of life energy");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

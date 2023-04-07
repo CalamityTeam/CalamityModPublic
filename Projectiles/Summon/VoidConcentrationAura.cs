@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Concentrated Void Aura");
+            // DisplayName.SetDefault("Concentrated Void Aura");
         }
 
         public override void SetDefaults()

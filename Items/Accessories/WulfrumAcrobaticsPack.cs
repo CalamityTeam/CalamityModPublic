@@ -26,13 +26,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Wulfrum Acrobatics Pack");
-            Tooltip.SetDefault("Transforms equipped hooks into a wulfrum slingshot\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Wulfrum Acrobatics Pack");
+            /* Tooltip.SetDefault("Transforms equipped hooks into a wulfrum slingshot\n" +
             "The slingshot allows for advanced rope-swinging physics\n" +
             "Automatically grapples nearby walls if a lethal fall is detected\n" +
             "This safety feature won't activate if DOWN is held\n" +
-            "8% increased movement speed");
+            "8% increased movement speed"); */
         }
 
         public override void SetDefaults()

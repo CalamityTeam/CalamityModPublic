@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Yharon Relic");
-            Tooltip.SetDefault("A glimpse into what will be...");
-            SacrificeTotal = 1;
+			// DisplayName.SetDefault("Yharon Relic");
+            // Tooltip.SetDefault("A glimpse into what will be...");
+            Item.ResearchUnlockCount = 1;
 		}
 
 		public override void SetDefaults()

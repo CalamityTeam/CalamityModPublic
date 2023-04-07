@@ -26,7 +26,7 @@ Please, if you would, show her respect where I did not.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Calamitas");
+            // DisplayName.SetDefault("Calamitas");
         }
 
         public override void SetDefaults()

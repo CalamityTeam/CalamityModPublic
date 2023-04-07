@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Rotdog Banner");
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Rotdog");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Rotdog Banner");
+            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Rotdog");
         }
 
         public override void SetDefaults()

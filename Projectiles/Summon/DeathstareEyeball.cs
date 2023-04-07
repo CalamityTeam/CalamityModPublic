@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Summon
         public ref float PupilOutwardness => ref Projectile.localAI[1];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eyeball");
+            // DisplayName.SetDefault("Eyeball");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;

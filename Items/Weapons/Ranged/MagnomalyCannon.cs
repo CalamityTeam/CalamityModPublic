@@ -15,11 +15,11 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Magnomaly Cannon");
-            Tooltip.SetDefault("Launches a powerful exo rocket to nuke anything and everything\n" +
+            // DisplayName.SetDefault("Magnomaly Cannon");
+            /* Tooltip.SetDefault("Launches a powerful exo rocket to nuke anything and everything\n" +
                 "Rockets are surrounded by an invisible damaging aura and split into damaging beams on hit\n" +
-                "66% chance to not consume rockets");
-            SacrificeTotal = 1;
+                "66% chance to not consume rockets"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

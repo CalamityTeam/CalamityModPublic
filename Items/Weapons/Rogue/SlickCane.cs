@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Slick Cane");
-            Tooltip.SetDefault("Swipes a cane that steals money from enemies.\n" +
+            // DisplayName.SetDefault("Slick Cane");
+            /* Tooltip.SetDefault("Swipes a cane that steals money from enemies.\n" +
                                "Stealth strikes gives a 1 in 15 chance for enemies to drop 1-3 gold coins when hit\n" +
-                               "'Economy at its finest'");
-            SacrificeTotal = 1;
+                               "'Economy at its finest'"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

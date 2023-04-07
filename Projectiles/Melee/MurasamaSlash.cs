@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Murasama");
+            // DisplayName.SetDefault("Murasama");
         }
 
         public override void SetDefaults()

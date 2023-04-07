@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ultima Ray");
+            // DisplayName.SetDefault("Ultima Ray");
         }
 
         public override void SetDefaults()

@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Genesis Pickaxe");
-            Tooltip.SetDefault("Can mine Uelibloom Ore");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Genesis Pickaxe");
+            // Tooltip.SetDefault("Can mine Uelibloom Ore");
         }
 
         public override void SetDefaults()

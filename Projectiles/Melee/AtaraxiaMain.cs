@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Not Exoblade");
+            // DisplayName.SetDefault("Not Exoblade");
             Main.projFrames[Projectile.type] = NumAnimationFrames;
         }
 
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.frame = 0;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.ShadowFlame, 180);
         }

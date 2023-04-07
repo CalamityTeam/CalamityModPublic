@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Turret
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lab Turret Laser");
+            // DisplayName.SetDefault("Lab Turret Laser");
         }
 
         public override void SetDefaults()

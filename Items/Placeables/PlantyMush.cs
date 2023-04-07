@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Planty Mush");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Planty Mush");
         }
 
         public override void SetDefaults()

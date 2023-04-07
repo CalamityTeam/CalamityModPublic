@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Mounts.Minecarts
             Item.UseSound = SoundID.Item68;
             Item.noMelee = true;
             Item.mountType = ModContent.MountType<DoGCartMount>();
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void AddRecipes()

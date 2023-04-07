@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ultimus Cleaver");
-            Tooltip.SetDefault("Launches damaging homing sparks and explodes on enemy hits");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Ultimus Cleaver");
+            // Tooltip.SetDefault("Launches damaging homing sparks and explodes on enemy hits");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire3, 360);
             int onHitDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);

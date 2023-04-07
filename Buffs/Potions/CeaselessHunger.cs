@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ceaseless Hunger");
-            Description.SetDefault("You are sucking up all the items");
+            // DisplayName.SetDefault("Ceaseless Hunger");
+            // Description.SetDefault("You are sucking up all the items");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

@@ -16,15 +16,15 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Shield of the High Ruler");
-            Tooltip.SetDefault("For the fate of the kingdom\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Shield of the High Ruler");
+            /* Tooltip.SetDefault("For the fate of the kingdom\n" +
                 "Grants immunity to knockback\n" +
                 "Immune to most debuffs\n" +
                 "+10 max life\n" +
                 "Grants an improved Shield of Cthulhu dash\n" +
                 "Bonking an enemy reduces the delay before you can dash again by 50%\n" +
-                "If you are facing a projectile when it hits you it will deal 15% less damage");
+                "If you are facing a projectile when it hits you it will deal 15% less damage"); */
         }
 
         public override void SetDefaults()

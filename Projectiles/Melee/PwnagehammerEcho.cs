@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pwnagehammer Echo");
+            // DisplayName.SetDefault("Pwnagehammer Echo");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool CanHitPvp(Player target) => Projectile.ai[0] > 42f;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.localAI[0] = target.whoAmI;
         }

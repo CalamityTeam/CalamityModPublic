@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Laser Rifle");
+            // DisplayName.SetDefault("Laser Rifle");
         }
 
         public override void SetDefaults()

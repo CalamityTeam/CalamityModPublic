@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -21,8 +22,8 @@ namespace CalamityMod.Tiles.MusicBoxes
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
             TileID.Sets.DisableSmartCursor[Type] = true;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Music Box");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Music Box");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

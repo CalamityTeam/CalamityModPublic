@@ -14,9 +14,9 @@ namespace CalamityMod.Items.PermanentBoosters
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Phantom Heart");
-            Tooltip.SetDefault("Permanently increases maximum mana by 50");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Phantom Heart");
+            // Tooltip.SetDefault("Permanently increases maximum mana by 50");
+            Item.ResearchUnlockCount = 1;
 			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 19; // Mana Crystal
         }

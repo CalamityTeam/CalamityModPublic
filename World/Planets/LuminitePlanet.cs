@@ -18,8 +18,8 @@ namespace CalamityMod.World.Planets
             // The worldgen structure map only gets created/regenerated when you generate a world, for some reason.
             // This means if you simply enter a world and generate this planetoid, the map will not exist yet, and errors will arise.
             // As a result, a new one is generated as necessary.
-            if (WorldGen.structures is null)
-                WorldGen.structures = new StructureMap();
+            if (GenVars.structures is null)
+                GenVars.structures = new StructureMap();
             var config = WorldGenConfiguration.FromEmbeddedPath("Terraria.GameContent.WorldBuilding.Configuration.json");
 
             int totalPlanetoidsToGenerate = Main.maxTilesX / 1500 + 2;
@@ -30,12 +30,12 @@ namespace CalamityMod.World.Planets
                     Point planetoidOrigin = new Point(WorldGen.genRand.Next(Main.maxTilesX / 2 - 800, Main.maxTilesX / 2 + 800), WorldGen.genRand.Next(75, 125));
                     if (WorldGen.genRand.NextBool(2))
                     {
-                        if (config.CreateBiome<LuminitePlanet>().Place(planetoidOrigin, WorldGen.structures))
+                        if (config.CreateBiome<LuminitePlanet>().Place(planetoidOrigin, GenVars.structures))
                             break;
                     }
                     else
                     {
-                        if (config.CreateBiome<LuminitePlanet2>().Place(planetoidOrigin, WorldGen.structures))
+                        if (config.CreateBiome<LuminitePlanet2>().Place(planetoidOrigin, GenVars.structures))
                             break;
                     }
                 }

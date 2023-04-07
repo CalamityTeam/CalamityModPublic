@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
@@ -14,8 +15,8 @@ namespace CalamityMod.Tiles.Crags
         public override void SetStaticDefaults()
         {
             this.SetUpTorch();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Torch");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Torch");
             AddMapEntry(new Color(253, 221, 3), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             TileID.Sets.Torch[Type] = true;

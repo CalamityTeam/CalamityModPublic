@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Meld Blob");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Meld Blob");
         }
 
         public override void SetDefaults()

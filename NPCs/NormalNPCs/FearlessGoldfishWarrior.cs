@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fearless Goldfish Warrior");
+            // DisplayName.SetDefault("Fearless Goldfish Warrior");
             Main.npcFrameCount[NPC.type] = 10;
         }
 
@@ -379,7 +379,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.OverworldDayRain.Chance * 0.05f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 3; k++)
             {
@@ -394,7 +394,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             bool instakill = false;
             List<string> metarexNames = new List<string> { "LordMetarex", "Metarex" };

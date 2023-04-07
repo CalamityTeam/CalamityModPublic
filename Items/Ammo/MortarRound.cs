@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("Mortar Round");
-            Tooltip.SetDefault("Large blast radius. Will destroy tiles\n" +
-                "Used by normal guns");
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("Mortar Round");
+            /* Tooltip.SetDefault("Large blast radius. Will destroy tiles\n" +
+                "Used by normal guns"); */
         }
 
         public override void SetDefaults()

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Smoking Comet");
+            // DisplayName.SetDefault("Smoking Comet");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 8f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 200f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 12f;

@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Armor.Sulphurous
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Sulphurous Helmet");
-            Tooltip.SetDefault("4% increased rogue damage\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Sulphurous Helmet");
+            /* Tooltip.SetDefault("4% increased rogue damage\n" +
                 "2% increased rogue critical strike chance\n" +
-                "Grants underwater breathing");
+                "Grants underwater breathing"); */
         }
 
         public override void SetDefaults()

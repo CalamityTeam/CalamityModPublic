@@ -7,8 +7,8 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Profaned Guardian Trophy");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Profaned Guardian Trophy");
         }
 
         public override void SetDefaults()

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Final Dawn");
+            // DisplayName.SetDefault("The Final Dawn");
             Main.projFrames[Projectile.type] = 9;
         }
         public override void SetDefaults()
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Rogue
                                   0f);
             return false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
         }

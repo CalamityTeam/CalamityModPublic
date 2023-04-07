@@ -152,7 +152,7 @@ namespace CalamityMod.Prefixes
             valueMult *= extraValue;
         }
 
-        public override bool CanRoll(Item item) => item.CountsAsClass<RogueDamageClass>() && item.IsCandidateForReforge && GetType() != typeof(RogueWeaponPrefix);
+        public override bool CanRoll(Item item) => item.CountsAsClass<RogueDamageClass>() && item.IsCandidateForReforge/* tModPorter Note: Removed. Use `maxStack == 1 || Item.AllowReforgeForStackableItem` or `Item.Prefix(-3)` to check whether an item is reforgeable */ && GetType() != typeof(RogueWeaponPrefix);
 
         public override void SetStats(ref float damageMult, ref float knockbackMult, ref float useTimeMult, ref float scaleMult, ref float shootSpeedMult, ref float manaMult, ref int critBonus)
         {

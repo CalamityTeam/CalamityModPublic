@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mollusk");
+            // DisplayName.SetDefault("Mollusk");
         }
 
         public override void SetDefaults()

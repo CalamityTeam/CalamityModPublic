@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Soul Piercer");
-            Tooltip.SetDefault("Casts a powerful ray that summons extra rays on its first hit");
+            // DisplayName.SetDefault("Soul Piercer");
+            // Tooltip.SetDefault("Casts a powerful ray that summons extra rays on its first hit");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

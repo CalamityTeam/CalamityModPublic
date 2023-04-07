@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Enemy
         public const int Lifetime = 360;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("You Think You're Safe");
+            // DisplayName.SetDefault("You Think You're Safe");
         }
 
         public override void SetDefaults()

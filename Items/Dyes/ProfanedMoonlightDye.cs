@@ -13,8 +13,8 @@ namespace CalamityMod.Items.Dyes
         public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/ProfanedMoonlightDye", AssetRequestMode.ImmediateLoad).Value), "DyePass");
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Profaned Moonlight Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Profaned Moonlight Dye");
         }
 
         public override void SafeSetDefaults()

@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Marksman Shot");
+            // DisplayName.SetDefault("Marksman Shot");
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 4000;
         }
 
@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Midas, 60);
 

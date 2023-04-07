@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.DamageOverTime
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Burning Blood");
-            Description.SetDefault("Your blood is on fire");
+            // DisplayName.SetDefault("Burning Blood");
+            // Description.SetDefault("Your blood is on fire");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
+            Item.ResearchUnlockCount = 1;
             //Tooltip.SetDefault("This is a modded chair.");
         }
 

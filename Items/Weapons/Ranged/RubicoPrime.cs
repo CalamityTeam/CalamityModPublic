@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rubico Prime");
-            Tooltip.SetDefault("Semi-automatic sniper that fires in 5 second bursts\n" +
-                "Fires impact rounds that have an increased crit multiplier");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Rubico Prime");
+            /* Tooltip.SetDefault("Semi-automatic sniper that fires in 5 second bursts\n" +
+                "Fires impact rounds that have an increased crit multiplier"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

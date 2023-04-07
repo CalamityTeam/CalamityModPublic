@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
         public override string Texture => "CalamityMod/Items/Placeables/PlaceableTurrets/WaterTurret";
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("Shoots high-speed water blasts at nearby players");
+            Item.ResearchUnlockCount = 1;
+            // Tooltip.SetDefault("Shoots high-speed water blasts at nearby players");
         }
 
         public override void SetDefaults()

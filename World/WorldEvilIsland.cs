@@ -24,7 +24,7 @@ namespace CalamityMod.World
                 {
                     xIslandGen = WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.2));
                     yIslandGen = WorldGen.genRand.Next(95, 126);
-                    yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
+                    yIslandGen = Math.Min(yIslandGen, (int)GenVars.worldSurfaceLow - 50);
 
                     int checkAreaX = 160;
                     int checkAreaY = 90;
@@ -44,7 +44,7 @@ namespace CalamityMod.World
                 {
                     xIslandGen = WorldGen.genRand.Next((int)(x * 0.8), (int)(x * 0.9));
                     yIslandGen = WorldGen.genRand.Next(95, 126);
-                    yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
+                    yIslandGen = Math.Min(yIslandGen, (int)GenVars.worldSurfaceLow - 50);
 
                     int checkAreaX = 160;
                     int checkAreaY = 90;
@@ -68,7 +68,7 @@ namespace CalamityMod.World
                         WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.3)) :
                         WorldGen.genRand.Next((int)(x * 0.7), (int)(x * 0.9));
                     yIslandGen = WorldGen.genRand.Next(95, 126);
-                    yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
+                    yIslandGen = Math.Min(yIslandGen, (int)GenVars.worldSurfaceLow - 50);
 
                     int checkAreaX = 160;
                     int checkAreaY = 90;

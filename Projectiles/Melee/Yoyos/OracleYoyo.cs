@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Oracle");
+            // DisplayName.SetDefault("The Oracle");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 800f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 16f;
@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // On hit effects do not apply if no damage was done.
             if (damage <= 0)

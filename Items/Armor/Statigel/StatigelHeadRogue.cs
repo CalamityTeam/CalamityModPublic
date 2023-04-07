@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Armor.Statigel
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Statigel Mask");
-            Tooltip.SetDefault("10% increased rogue damage and 34% chance to not consume rogue items\n" +
-                "7% increased rogue critical strike chance and 5% increased movement speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Statigel Mask");
+            /* Tooltip.SetDefault("10% increased rogue damage and 34% chance to not consume rogue items\n" +
+                "7% increased rogue critical strike chance and 5% increased movement speed"); */
         }
 
         public override void SetDefaults()

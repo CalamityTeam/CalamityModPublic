@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(52, 212, 229)).UseSecondaryColor(new Color(52, 212, 229)).UseImage("Images/Misc/noise").UseSaturation(0f);
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Blue Cosmic Flame Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Blue Cosmic Flame Dye");
         }
 
         public override void SafeSetDefaults()

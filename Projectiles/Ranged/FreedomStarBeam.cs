@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Freedom Star Beam");
+            // DisplayName.SetDefault("Freedom Star Beam");
         }
 
         public override void SetDefaults()
@@ -184,7 +184,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         // Spawn lunar flare explosions on hit.
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Main.myPlayer == Projectile.owner)
             {

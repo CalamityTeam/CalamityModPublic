@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Alliance Triangle");
+            // DisplayName.SetDefault("Alliance Triangle");
         }
 
         public override void SetDefaults()

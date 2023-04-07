@@ -14,10 +14,10 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Draedon Power Cell");
-            Tooltip.SetDefault("Used to charge Draedon's weaponry at a Charging Station\n" +
-                               "Also can be processed by the Extractinator for spare parts");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Draedon Power Cell");
+            /* Tooltip.SetDefault("Used to charge Draedon's weaponry at a Charging Station\n" +
+                               "Also can be processed by the Extractinator for spare parts"); */
             ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.DraedonMisc
             Item.value = Item.sellPrice(0, 0, 0, 20);
         }
 
-        public override void ExtractinatorUse(ref int resultType, ref int resultStack)
+        public override void ExtractinatorUse(int extractinatorBlockType, ref int resultType, ref int resultStack)
         {
             float dropRand = Main.rand.NextFloat();
             resultStack = 1;

@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Aged Laboratory Screen");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Aged Laboratory Screen");
         }
 
         public override void SetDefaults()

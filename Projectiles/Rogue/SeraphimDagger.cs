@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
         // Halve damage every hit
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => Projectile.damage = Math.Max(1, (int)(Projectile.damage * 0.5));
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => Projectile.damage = Math.Max(1, (int)(Projectile.damage * 0.5));
 
         public override bool PreDraw(ref Color lightColor)
         {

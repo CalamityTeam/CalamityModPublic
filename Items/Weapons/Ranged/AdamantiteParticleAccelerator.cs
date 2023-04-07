@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static readonly Color[] LightColors = new Color[] { new Color(235, 40, 121), new Color(49, 161, 246) }; //beam colors
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Adamantite Particle Accelerator");
-            Tooltip.SetDefault("Charges and fires 2 beams of opposite polarities. Hitting with the opposite polarity increases the damage");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Adamantite Particle Accelerator");
+            // Tooltip.SetDefault("Charges and fires 2 beams of opposite polarities. Hitting with the opposite polarity increases the damage");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

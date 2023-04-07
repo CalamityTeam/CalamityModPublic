@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Skynamite");
-            Tooltip.SetDefault("You don't need an aerodynamics major to use this\n" +
-            "Throws a floaty explosive that defies gravity");
-            SacrificeTotal = 99;
+            // DisplayName.SetDefault("Skynamite");
+            /* Tooltip.SetDefault("You don't need an aerodynamics major to use this\n" +
+            "Throws a floaty explosive that defies gravity"); */
+            Item.ResearchUnlockCount = 99;
             ItemID.Sets.ItemsThatCountAsBombsForDemolitionistToSpawn[Item.type] = true;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }

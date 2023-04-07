@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -17,8 +18,8 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.CopyFrom(TileObjectData.Style6x3);
             TileObjectData.addTile(Type);
             AnimationFrameHeight = 54;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Baby Flak Crab Cage");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Baby Flak Crab Cage");
             AddMapEntry(new Color(175, 238, 238), name);
         }
 

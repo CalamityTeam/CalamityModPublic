@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Summon
         
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tundra Flame Blossoms");
+            // DisplayName.SetDefault("Tundra Flame Blossoms");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }

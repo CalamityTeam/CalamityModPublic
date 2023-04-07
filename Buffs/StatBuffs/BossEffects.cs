@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Boss Effects");
-            Description.SetDefault("This tooltip is edited in the function below");
+            // DisplayName.SetDefault("Boss Effects");
+            // Description.SetDefault("This tooltip is edited in the function below");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
@@ -24,7 +24,7 @@ namespace CalamityMod.Buffs.StatBuffs
             player.Calamity().isNearbyBoss = true;
         }
 
-        public override void ModifyBuffTip(ref string tip, ref int rare)
+        public override void ModifyBuffText(ref string buffName, ref string tip, ref int rare)
         {
             StringBuilder sb = new StringBuilder(512);
             sb.Append("The nearby boss is:\n");

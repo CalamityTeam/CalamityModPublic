@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Devourer of Gods");
+            // DisplayName.SetDefault("The Devourer of Gods");
         }
 
         public override void SetDefaults()
@@ -250,7 +250,7 @@ namespace CalamityMod.Projectiles.Magic
                 JawRotation = MathHelper.Lerp(JawRotation, MathHelper.ToRadians(15f), 0.24f);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
             target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 300, true);

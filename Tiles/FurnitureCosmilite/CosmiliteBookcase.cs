@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
@@ -11,8 +12,8 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         public override void SetStaticDefaults()
         {
             this.SetUpBookcase(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Bookcase");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);
             AnimationFrameHeight = 54;
             AdjTiles = new int[] { TileID.Bookcases };

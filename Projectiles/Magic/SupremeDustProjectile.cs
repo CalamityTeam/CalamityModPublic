@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dust");
+            // DisplayName.SetDefault("Dust");
         }
 
         public override void SetDefaults()
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.rotation += 0.3f * (float)Projectile.direction;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
             if (Projectile.owner == Main.myPlayer)
@@ -95,6 +95,6 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
     }
 }

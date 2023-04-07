@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Still Not Exoblade");
+            // DisplayName.SetDefault("Still Not Exoblade");
         }
 
         public override void SetDefaults()

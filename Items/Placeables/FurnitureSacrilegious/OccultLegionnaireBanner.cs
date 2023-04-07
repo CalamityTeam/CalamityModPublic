@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Occult Legionnaire Banner");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Occult Legionnaire Banner");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

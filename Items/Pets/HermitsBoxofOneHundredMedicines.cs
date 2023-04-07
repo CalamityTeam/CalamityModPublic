@@ -14,14 +14,14 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Hermit's Box of One Hundred Medicines");
-            Tooltip.SetDefault("As the ice melts in the springs\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Hermit's Box of One Hundred Medicines");
+            /* Tooltip.SetDefault("As the ice melts in the springs\n" +
                 "And waves wash the old moss' hair...\n" +
                 "Thank you, Goodbye.\n" +
                 "Summons the Third Sage\n" +
                 "Use the item with right click in the hotbar to toggle the Third Sage's blessing.\n" +
-                "With the blessing, the player will spawn with full health rather than half.");
+                "With the blessing, the player will spawn with full health rather than half."); */
         }
 
         public override void SetDefaults()

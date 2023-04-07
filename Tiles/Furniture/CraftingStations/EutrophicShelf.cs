@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -40,8 +41,8 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
             TileObjectData.addAlternate(1);
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Eutrophic Shelf");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Eutrophic Shelf");
             AddMapEntry(new Color(191, 142, 111), name);
             AnimationFrameHeight = 54;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);

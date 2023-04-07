@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Profaned Partisan");
-            Tooltip.SetDefault(@"Fires an unholy spear that explodes on death
+            // DisplayName.SetDefault("Profaned Partisan");
+            // Tooltip.SetDefault(@"Fires an unholy spear that explodes on death
 Stealth strikes spawn smaller spears to fly along side it");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

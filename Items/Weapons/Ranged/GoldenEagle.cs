@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Golden Eagle");
-            Tooltip.SetDefault("Fires 5 bullets at once");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Golden Eagle");
+            // Tooltip.SetDefault("Fires 5 bullets at once");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

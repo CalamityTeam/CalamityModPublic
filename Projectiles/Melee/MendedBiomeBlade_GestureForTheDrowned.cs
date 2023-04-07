@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Biome Blade"); //This is litterally just the biome blade without even any extra magic effects so
+            // DisplayName.SetDefault("Biome Blade"); //This is litterally just the biome blade without even any extra magic effects so
         }
 
         public override void SetDefaults()

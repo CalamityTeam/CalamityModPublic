@@ -11,11 +11,11 @@ namespace CalamityMod.Items.PermanentBoosters
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Celestial Onion");
-            Tooltip.SetDefault(@"Alien power pulses inside its layers
+            // DisplayName.SetDefault("Celestial Onion");
+            // Tooltip.SetDefault(@"Alien power pulses inside its layers
 Consuming it does something that cannot be reversed
 This item does nothing in Master Mode");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

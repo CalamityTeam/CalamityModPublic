@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Critters
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Twinkler");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Twinkler");
         }
 
         public override void SetDefaults()

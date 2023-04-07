@@ -11,13 +11,13 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Grave Grimreaver");
-            Tooltip.SetDefault("Hurls a cursed scythe which homes in\n"+
+            // DisplayName.SetDefault("Grave Grimreaver");
+            /* Tooltip.SetDefault("Hurls a cursed scythe which homes in\n"+
             "The scythe summons skulls as it flies and explodes into bats on hit\n"+
             "Stealth strikes spawn a flood of bats and falling skulls when destroyed\n"+
             "Inflicts cursed flames and confusion\n"+
-            "'A dapper skeleton's weapon of choice'");
-            SacrificeTotal = 1;
+            "'A dapper skeleton's weapon of choice'"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

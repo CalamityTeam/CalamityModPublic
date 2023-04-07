@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
         public ref float OwnerUUID => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Beam");
+            // DisplayName.SetDefault("Beam");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

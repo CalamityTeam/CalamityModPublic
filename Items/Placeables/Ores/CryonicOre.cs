@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.Ores
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Cryonic Ore");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Cryonic Ore");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 90; // Chlorophyte Ore
         }
 

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aura Rain");
+            // DisplayName.SetDefault("Aura Rain");
         }
 
         public override void SetDefaults()

@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Astral Bow");
-            Tooltip.SetDefault("Fires a burst of three arrows");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Astral Bow");
+            // Tooltip.SetDefault("Fires a burst of three arrows");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

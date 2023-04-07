@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Summon
         
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tundra Flame Blossoms Orb");
+            // DisplayName.SetDefault("Tundra Flame Blossoms Orb");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netUpdate= true;
         }
         
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             DustFlowerOnHit(); // Makes a dust effect that looks like a flower.
 

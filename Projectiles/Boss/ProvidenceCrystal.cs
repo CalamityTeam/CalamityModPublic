@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Holy Crystal");
+            // DisplayName.SetDefault("Holy Crystal");
         }
 
         public override void SetDefaults()

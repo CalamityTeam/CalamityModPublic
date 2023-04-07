@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Fishing.AstralCatches
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Astrophage");
-            Tooltip.SetDefault("Summons an astrophage to follow you around");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Astrophage");
+            // Tooltip.SetDefault("Summons an astrophage to follow you around");
         }
 
         public override void SetDefaults()

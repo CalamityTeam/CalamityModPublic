@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Cosmilite Basin");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Cosmilite Basin");
         }
 
         public override void SetDefaults()

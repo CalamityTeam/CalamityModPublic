@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Perennial Bar");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Perennial Bar");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 92; // Shroomite Bar
         }
 

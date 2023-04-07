@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cleansing Blaze");
-            Tooltip.SetDefault("90% chance to not consume gel");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Cleansing Blaze");
+            // Tooltip.SetDefault("90% chance to not consume gel");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

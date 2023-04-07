@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Divine Geode");
-            Tooltip.SetDefault("A chunk of crystallized holy energy");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Divine Geode");
+            // Tooltip.SetDefault("A chunk of crystallized holy energy");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 104;
         }
 

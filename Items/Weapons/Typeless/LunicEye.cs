@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Typeless
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lunic Eye");
-            Tooltip.SetDefault("Fires lunic beams that reduce enemy protection\n" +
-                "This weapon scales with all your damage stats at once");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Lunic Eye");
+            /* Tooltip.SetDefault("Fires lunic beams that reduce enemy protection\n" +
+                "This weapon scales with all your damage stats at once"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Maybe catching bricks with your face isn't such a hot idea...\n" +
+            /* Tooltip.SetDefault("Maybe catching bricks with your face isn't such a hot idea...\n" +
                 "Critical hits tear away enemy defense\n" +
-                "Stealth strikes shatter and briefly stun enemies");
-            DisplayName.SetDefault("Apoctolith");
-            SacrificeTotal = 1;
+                "Stealth strikes shatter and briefly stun enemies"); */
+            // DisplayName.SetDefault("Apoctolith");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

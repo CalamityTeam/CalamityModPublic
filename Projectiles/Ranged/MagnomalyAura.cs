@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Magnomaly Aura");
+            // DisplayName.SetDefault("Magnomaly Aura");
         }
 
         public override void SetDefaults()

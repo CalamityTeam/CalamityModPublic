@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.TownNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Archmage");
+            // DisplayName.SetDefault("Archmage");
 
             Main.npcFrameCount[NPC.type] = 25;
             NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => DownedBossSystem.downedCryogen;
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */ => DownedBossSystem.downedCryogen;
 
 		public override List<string> SetNPCNameList() => new List<string>() { "Permafrost" };
 
@@ -136,7 +136,7 @@ namespace CalamityMod.NPCs.TownNPCs
             button = Language.GetTextValue("LegacyInterface.28");
         }
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
             {
@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public override void SetupShop(Chest shop, ref int nextSlot)
+        public override void ModifyActiveShop(string shopName, Item[] items)
         {
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostbiteBlaster>());
             nextSlot++;
@@ -183,7 +183,7 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 shop.item[nextSlot].SetDefaults(ItemID.WarmthPotion);
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-                if (Main.LocalPlayer.discount)
+                if (Main.LocalPlayer.discountAvailable)
                 shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
                 nextSlot++;
             }
@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
-            if (Main.LocalPlayer.discount)
+            if (Main.LocalPlayer.discountAvailable)
               shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
             nextSlot++;
             if (Main.LocalPlayer.HasItem(ModContent.ItemType<IceBarrage>()))

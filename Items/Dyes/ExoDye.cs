@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Exo Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Exo Dye");
         }
 
         public override void SafeSetDefaults()

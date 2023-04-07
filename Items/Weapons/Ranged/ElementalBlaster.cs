@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Elemental Blaster");
-            Tooltip.SetDefault("Does not consume ammo\n" +
-                "Fires a storm of rainbow blasts");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Elemental Blaster");
+            /* Tooltip.SetDefault("Does not consume ammo\n" +
+                "Fires a storm of rainbow blasts"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

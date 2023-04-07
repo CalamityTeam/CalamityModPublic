@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.SunkenSea
@@ -14,8 +15,8 @@ namespace CalamityMod.Tiles.SunkenSea
             Main.tileNoFail[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Sea Prism Crystal");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Sea Prism Crystal");
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(0, 150, 200), name);
             HitSound = SoundID.Item27;

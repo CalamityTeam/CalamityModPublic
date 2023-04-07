@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ball O Fugu");
+            // DisplayName.SetDefault("Ball O Fugu");
         }
 
         public override void SetDefaults()
@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Melee
             return true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Poisoned, 180);
             Projectile.ai[0] = 1f;

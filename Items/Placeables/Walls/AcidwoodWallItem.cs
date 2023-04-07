@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.Walls
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Acidwood Wall");
-            SacrificeTotal = 400;
+            // DisplayName.SetDefault("Acidwood Wall");
+            Item.ResearchUnlockCount = 400;
         }
 
         public override void SetDefaults()

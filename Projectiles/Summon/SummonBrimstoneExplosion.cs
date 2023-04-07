@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Explosion");
+            // DisplayName.SetDefault("Explosion");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
             Main.projFrames[Projectile.type] = 6;
         }
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.ExpandHitboxBy(48);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             // Prevent absurd quantities of damage to the player.
             damage = (int)(damage * 0.018);

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
         private int Bounces = 5;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eyeball");
+            // DisplayName.SetDefault("Eyeball");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

@@ -7,8 +7,8 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Supreme Catastrophe Trophy");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Supreme Catastrophe Trophy");
         }
 
         public override void SetDefaults()

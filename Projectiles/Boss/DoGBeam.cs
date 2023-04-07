@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Portal Laser");
+            // DisplayName.SetDefault("Portal Laser");
             Main.projFrames[Projectile.type] = 2;
         }
 

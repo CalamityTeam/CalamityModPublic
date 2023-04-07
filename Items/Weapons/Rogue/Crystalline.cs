@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crystalline");
-            Tooltip.SetDefault("Splits into several projectiles as it travels\n" +
-                               "Stealth strikes make the blade split more and create crystals when destroyed");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Crystalline");
+            /* Tooltip.SetDefault("Splits into several projectiles as it travels\n" +
+                               "Stealth strikes make the blade split more and create crystals when destroyed"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
+            Item.ResearchUnlockCount = 100;
 			ItemID.Sets.Torches[Item.type] = true;
         }
 

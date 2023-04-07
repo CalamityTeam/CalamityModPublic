@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flower");
+            // DisplayName.SetDefault("Flower");
         }
 
         public override void SetDefaults()

@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Magic
         public static readonly float SinusoidalPositionAngleIncrement = MathHelper.ToRadians(3.5f);
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eternity");
+            // DisplayName.SetDefault("Eternity");
         }
 
         public override void SetDefaults()

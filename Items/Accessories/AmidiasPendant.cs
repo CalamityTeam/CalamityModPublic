@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Amidias' Pendant");
-            Tooltip.SetDefault("Periodically rains down prism shards that can briefly stun enemies");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Amidias' Pendant");
+            // Tooltip.SetDefault("Periodically rains down prism shards that can briefly stun enemies");
         }
 
         public override void SetDefaults()

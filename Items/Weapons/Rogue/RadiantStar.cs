@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Radiant Star");
-            Tooltip.SetDefault("Throws daggers that explode and split after a while\n" +
-                "Stealth strike splits more with a devastating explosion and sucks enemies in");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Radiant Star");
+            /* Tooltip.SetDefault("Throws daggers that explode and split after a while\n" +
+                "Stealth strike splits more with a devastating explosion and sucks enemies in"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

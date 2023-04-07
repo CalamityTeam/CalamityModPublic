@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
@@ -10,8 +11,8 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         public override void SetStaticDefaults()
         {
             this.SetUpPiano(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Abyss Synth");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Abyss Synth");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

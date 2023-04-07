@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Armor.Victide
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Victide Headcrab");
-            Tooltip.SetDefault("5% increased rogue damage");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Victide Headcrab");
+            // Tooltip.SetDefault("5% increased rogue damage");
         }
 
         public override void SetDefaults()

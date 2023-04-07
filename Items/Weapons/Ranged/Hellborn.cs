@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hellborn");
-            Tooltip.SetDefault("Fires a spread of 3 bullets\n" +
+            // DisplayName.SetDefault("Hellborn");
+            /* Tooltip.SetDefault("Fires a spread of 3 bullets\n" +
                 "Converts musket balls into explosive bullets\n" +
                 "Enemies that touch the gun while it's being fired trigger a massive explosion\n" +
                 "After the explosion, this gun gains a massive boost to damage, fire rate and knockback for 10 seconds\n" +
-                "These stat bonuses slowly decay over time");
-            SacrificeTotal = 1;
+                "These stat bonuses slowly decay over time"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return false;
         }
 
-        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
             player.Calamity().hellbornBoost = 600;
             damage  = (int)(damage * ExplosionDamageMultiplier);
@@ -122,17 +122,17 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
         }
 
-        public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPvp(Player player, Player target, ref Player.HurtModifiers modifiers)
         {
             damage *= 10;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire3, 360);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(BuffID.OnFire3, 360);
         }

@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spirit Defense");
-            Description.SetDefault("Defense boosted by 6 and damage reduction boosted by 3%");
+            // DisplayName.SetDefault("Spirit Defense");
+            // Description.SetDefault("Defense boosted by 6 and damage reduction boosted by 3%");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

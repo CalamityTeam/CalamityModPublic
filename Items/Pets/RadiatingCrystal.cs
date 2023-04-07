@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Radiating Crystal");
-            Tooltip.SetDefault("The crystal contains traces of holothurin\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Radiating Crystal");
+            /* Tooltip.SetDefault("The crystal contains traces of holothurin\n" +
                 "Summons a radiator light pet\n" +
-                "Provides a small amount of light in the abyss");
+                "Provides a small amount of light in the abyss"); */
         }
 
         public override void SetDefaults()

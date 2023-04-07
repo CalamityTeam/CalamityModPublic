@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Craw Carapace");
-            Tooltip.SetDefault("Enemies take damage when they touch you");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Craw Carapace");
+            // Tooltip.SetDefault("Enemies take damage when they touch you");
         }
 
         public override void SetDefaults()

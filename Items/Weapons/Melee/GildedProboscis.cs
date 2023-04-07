@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gilded Proboscis");
-            Tooltip.SetDefault("Heals the player on hit");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Gilded Proboscis");
+            // Tooltip.SetDefault("Heals the player on hit");
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

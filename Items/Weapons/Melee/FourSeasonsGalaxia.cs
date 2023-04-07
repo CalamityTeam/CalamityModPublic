@@ -73,15 +73,15 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Galaxia");
-            Tooltip.SetDefault("FUNCTION_DESC\n" +
+            // DisplayName.SetDefault("Galaxia");
+            /* Tooltip.SetDefault("FUNCTION_DESC\n" +
             "FUNCTION_PASSIVE\n" +
             "Freed from earthly shackles and coursing with cosmic power\n" +
             "Has access to all of the attunements at all times\n" +
             "Use right click to cycle the sword's attunement depending on the cursor's position\n" +
             "Active Attunement : None\n" +
-            "Passive Blessing : None\n");
-            SacrificeTotal = 1;
+            "Passive Blessing : None\n"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         #region tooltip editing

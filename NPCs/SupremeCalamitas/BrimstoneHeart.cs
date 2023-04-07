@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Brimstone Heart");
+            // DisplayName.SetDefault("Brimstone Heart");
             Main.npcFrameCount[NPC.type] = 6;
         }
 
@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {
@@ -161,7 +161,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             Main.instance.DrawCacheNPCsBehindNonSolidTiles.Add(index);
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             if (projectile.type == ModContent.ProjectileType<CelestusMiniScythe>())
                 damage = (int)(damage * 0.66);

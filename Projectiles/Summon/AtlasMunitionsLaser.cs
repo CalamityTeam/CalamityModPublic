@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exo Pulse Laser");
+            // DisplayName.SetDefault("Exo Pulse Laser");
             Main.projFrames[Type] = 4;
             ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }

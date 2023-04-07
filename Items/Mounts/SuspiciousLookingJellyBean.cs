@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Mounts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Suspicious Looking Jelly Bean");
-            Tooltip.SetDefault("JELLY BEAN");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Suspicious Looking Jelly Bean");
+            // Tooltip.SetDefault("JELLY BEAN");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nychthemeron Orb");
+            // DisplayName.SetDefault("Nychthemeron Orb");
         }
 
         public override void SetDefaults()

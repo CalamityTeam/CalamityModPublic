@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crystal");
+            // DisplayName.SetDefault("Crystal");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
         }

@@ -15,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Phangasm");
-            Tooltip.SetDefault("Fires a spread of 5 arrows and emits phantom arrows on enemy hits\n" +
-                            "66% chance to not consume ammo");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Phangasm");
+            /* Tooltip.SetDefault("Fires a spread of 5 arrows and emits phantom arrows on enemy hits\n" +
+                            "66% chance to not consume ammo"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

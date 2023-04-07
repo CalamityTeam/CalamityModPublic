@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Vital Jelly");
-            Tooltip.SetDefault("10% increased movement and jump speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Vital Jelly");
+            // Tooltip.SetDefault("10% increased movement and jump speed");
         }
 
         public override void SetDefaults()

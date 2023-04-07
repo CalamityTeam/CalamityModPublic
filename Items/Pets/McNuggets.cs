@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("McNuggets");
-            Tooltip.SetDefault("These chicken nuggets aren't for you to eat!");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("McNuggets");
+            // Tooltip.SetDefault("These chicken nuggets aren't for you to eat!");
         }
 
         public override void SetDefaults()

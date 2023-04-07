@@ -25,9 +25,9 @@ namespace CalamityMod.Items.Weapons.Magic
         };
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rainbow Party Cannon");
-            Tooltip.SetDefault("Let the rainbow remind you that together we will always shine...");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Rainbow Party Cannon");
+            // Tooltip.SetDefault("Let the rainbow remind you that together we will always shine...");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

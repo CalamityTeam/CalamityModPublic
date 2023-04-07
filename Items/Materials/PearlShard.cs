@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Pearl Shard");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Pearl Shard");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 60; // Meteorite
         }
 

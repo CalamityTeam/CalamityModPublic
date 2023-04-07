@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Yharon, Dragon of Rebirth"); // phase 1 name
+            // DisplayName.SetDefault("Yharon, Dragon of Rebirth"); // phase 1 name
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
@@ -2934,7 +2934,7 @@ namespace CalamityMod.NPCs.Yharon
         #endregion
 
         #region On Hit Player
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<Dragonfire>(), 240, true);
@@ -2942,7 +2942,7 @@ namespace CalamityMod.NPCs.Yharon
         #endregion
 
         #region Projectile Resists
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             if (projectile.type == ModContent.ProjectileType<TimeBoltKnife>())
                 damage = (int)(damage * 0.85);
@@ -2966,7 +2966,7 @@ namespace CalamityMod.NPCs.Yharon
             return true;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
             NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
@@ -3099,7 +3099,7 @@ namespace CalamityMod.NPCs.Yharon
         #endregion
 
         #region Hit Effect
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             // hit sound
             if (NPC.soundDelay == 0)

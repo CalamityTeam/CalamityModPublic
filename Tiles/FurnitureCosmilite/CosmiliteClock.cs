@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
@@ -12,8 +13,8 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         public override void SetStaticDefaults()
         {
             this.SetUpClock(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Grandfather Clock");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Grandfather Clock");
             AddMapEntry(new Color(191, 142, 111), name);
             AdjTiles = new int[] { TileID.GrandfatherClocks };
         }

@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cragmaw Mire");
+            // DisplayName.SetDefault("Cragmaw Mire");
             Main.npcFrameCount[NPC.type] = 2;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
@@ -461,7 +461,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.netUpdate = true;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
             NPC.damage = (int)(NPC.damage * 0.85f);
@@ -483,7 +483,7 @@ namespace CalamityMod.NPCs.AcidRain
                 NPC.frame.Y = 0;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
@@ -505,7 +505,7 @@ namespace CalamityMod.NPCs.AcidRain
             CalamityNetcode.SyncWorld();
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 target.AddBuff(ModContent.BuffType<Irradiated>(), 300);

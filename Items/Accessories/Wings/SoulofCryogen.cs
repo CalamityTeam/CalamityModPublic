@@ -15,16 +15,16 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Soul of Cryogen");
-            Tooltip.SetDefault("Counts as wings\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Soul of Cryogen");
+            /* Tooltip.SetDefault("Counts as wings\n" +
                 "Horizontal speed: 6.25\n" +
                 "Acceleration multiplier: 1.0\n" +
                 "Average vertical speed\n" +
                 "Flight time: 120\n" +
                 "7% increase to all damage\n" +
                 "All melee attacks and projectiles inflict frostburn\n" +
-                "Icicles rain down as you fly");
+                "Icicles rain down as you fly"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 3));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;

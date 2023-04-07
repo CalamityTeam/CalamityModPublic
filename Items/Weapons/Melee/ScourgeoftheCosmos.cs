@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scourge of the Cosmos");
-            Tooltip.SetDefault("Throws a bouncing cosmic scourge that emits tiny homing cosmic scourges on death and tile hits");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Scourge of the Cosmos");
+            // Tooltip.SetDefault("Throws a bouncing cosmic scourge that emits tiny homing cosmic scourges on death and tile hits");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

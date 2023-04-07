@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gleaming Magnolia");
-            Tooltip.SetDefault("Casts a gleaming flower that explodes into petals");
+            // DisplayName.SetDefault("Gleaming Magnolia");
+            // Tooltip.SetDefault("Casts a gleaming flower that explodes into petals");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Malevolence");
-            Tooltip.SetDefault("Fires two arrows at once\n" +
-                "Converts wooden arrows into plague arrows that explode into bees on death");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Malevolence");
+            /* Tooltip.SetDefault("Fires two arrows at once\n" +
+                "Converts wooden arrows into plague arrows that explode into bees on death"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

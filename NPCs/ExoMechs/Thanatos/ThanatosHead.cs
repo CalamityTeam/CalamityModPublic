@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("XM-05 Thanatos");
+            // DisplayName.SetDefault("XM-05 Thanatos");
             Main.npcFrameCount[NPC.type] = 5;
 
             // Ensure that the reticle is not culled due to the player being very far from Thanatos.
@@ -1049,7 +1049,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             return minDist <= 50f && NPC.Opacity == 1f && noContactDamageTimer <= 0;
         }
 
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
             if (NPC.localAI[3] < immunityTime)
                 damage *= 0.01;
@@ -1261,7 +1261,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.soundDelay == 0)
             {
@@ -1307,7 +1307,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public override bool CheckActive() => false;
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
             NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());

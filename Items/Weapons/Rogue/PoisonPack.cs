@@ -15,11 +15,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Poison Pack");
-            Tooltip.SetDefault("Throws up to 3 poisonous spiky balls\n" +
+            // DisplayName.SetDefault("Poison Pack");
+            /* Tooltip.SetDefault("Throws up to 3 poisonous spiky balls\n" +
                 "Stealth strikes cause the balls to release spore clouds\n" +
-                "Right click to delete all existing spiky balls");
-            SacrificeTotal = 1;
+                "Right click to delete all existing spiky balls"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Primordial Earth");
-            Tooltip.SetDefault("Casts a large blast of dust");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Primordial Earth");
+            // Tooltip.SetDefault("Casts a large blast of dust");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

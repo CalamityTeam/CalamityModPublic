@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Environment
         private bool initialized = false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Geyser");
+            // DisplayName.SetDefault("Geyser");
         }
 
         public override void SetDefaults()

@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Effervescence");
-            Tooltip.SetDefault("Shoots a massive spread of bubbles");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Effervescence");
+            // Tooltip.SetDefault("Shoots a massive spread of bubbles");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

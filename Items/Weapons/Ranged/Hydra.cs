@@ -26,13 +26,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hydra");
-            Tooltip.SetDefault("Fires a spread of " + BulletsPerShot + " toxic bullets\n"+
+            // DisplayName.SetDefault("Hydra");
+            /* Tooltip.SetDefault("Fires a spread of " + BulletsPerShot + " toxic bullets\n"+
                             "Grows a gun-head every " + TimeToSpawnHead + " seconds, up to a maximum of " + MaximumHeadCount + " heads\n" +
                             "Left-click to command any existing heads to fire\n" +
                             "Right-click to launch the heads for powerful explosive damage\n" +
-                            "[c/9D80B0:Fusion of heavy machinery and Lernaean blood]");
-            SacrificeTotal = 1;
+                            "[c/9D80B0:Fusion of heavy machinery and Lernaean blood]"); */
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Squash Shell");
+            // DisplayName.SetDefault("Squash Shell");
         }
 
         public override void SetDefaults()
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (State == 0)
             {

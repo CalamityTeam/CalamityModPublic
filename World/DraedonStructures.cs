@@ -336,7 +336,7 @@ namespace CalamityMod.World
             do
             {
                 // Pick a location based on the Underground Desert, because the Sunken Sea is based on the Underground Desert
-                Rectangle ugDesert = WorldGen.UndergroundDesertLocation;
+                Rectangle ugDesert = GenVars.UndergroundDesertLocation;
                 int placementPositionX = -1;
 
                 // 50% chance to be on either the left or the right.

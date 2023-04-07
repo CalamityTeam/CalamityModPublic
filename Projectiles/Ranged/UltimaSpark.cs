@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Ranged
         public const float MaxHomingDistance = 1200f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ultima Spark");
+            // DisplayName.SetDefault("Ultima Spark");
         }
 
         public override void SetDefaults()

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture
@@ -12,8 +13,8 @@ namespace CalamityMod.Tiles.Furniture
         public override void SetStaticDefaults()
         {
             this.SetUpLantern();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Twinkler in a Bottle");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Twinkler in a Bottle");
             AddMapEntry(new Color(255, 99, 71), name);
             AnimationFrameHeight = 36;
 

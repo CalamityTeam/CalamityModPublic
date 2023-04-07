@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Viscera");
-            Tooltip.SetDefault("Fires a blood beam that heals you on enemy hits\n" +
-                "The more tiles and enemies the beam bounces off of or travels through the more healing the beam does");
+            // DisplayName.SetDefault("Viscera");
+            /* Tooltip.SetDefault("Fires a blood beam that heals you on enemy hits\n" +
+                "The more tiles and enemies the beam bounces off of or travels through the more healing the beam does"); */
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

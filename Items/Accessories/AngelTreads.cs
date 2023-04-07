@@ -11,15 +11,15 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Angel Treads");
-            Tooltip.SetDefault("Extreme speed!\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Angel Treads");
+            /* Tooltip.SetDefault("Extreme speed!\n" +
                                "36% increased running acceleration\n" +
                                "Increased flight time\n" +
                                "Greater mobility on ice\n" +
                                "Water and lava walking\n" +
                                "Immunity to the On Fire! debuff\n" +
-                               "Temporary immunity to lava");
+                               "Temporary immunity to lava"); */
         }
 
         public override void SetDefaults()

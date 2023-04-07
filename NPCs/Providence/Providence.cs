@@ -115,7 +115,7 @@ namespace CalamityMod.NPCs.Providence
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Providence, the Profaned Goddess");
+            // DisplayName.SetDefault("Providence, the Profaned Goddess");
             Main.npcFrameCount[NPC.type] = 3;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
@@ -2315,13 +2315,13 @@ namespace CalamityMod.NPCs.Providence
             return null;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
             NPC.damage = (int)(NPC.damage * 0.8f);
         }
 
-        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
             if (!hasTakenDaytimeDamage)
             {
@@ -2377,7 +2377,7 @@ namespace CalamityMod.NPCs.Providence
             }
         }
 
-        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
             if (!hasTakenDaytimeDamage)
             {
@@ -2423,7 +2423,7 @@ namespace CalamityMod.NPCs.Providence
             return false;
         }
 
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
             if ((damage * (crit ? 2D : 1D)) >= NPC.life)
             {
@@ -2437,10 +2437,10 @@ namespace CalamityMod.NPCs.Providence
                 return false;
             }
 
-            return base.StrikeNPC(ref damage, defense, ref knockback, hitDirection, ref crit);
+            return base.ModifyIncomingHit(ref damage, defense, ref knockback, hitDirection, ref crit);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.soundDelay == 0 && !Dying)
             {

@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Rogue
         public float timer = 0f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Kylie");
+            // DisplayName.SetDefault("Kylie");
         }
 
         public override void SetDefaults()
@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             //Start homing at player if you hit an enemy
             Projectile.ai[0] = 1;

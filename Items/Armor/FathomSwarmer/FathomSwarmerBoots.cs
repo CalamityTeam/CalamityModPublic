@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Armor.FathomSwarmer
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Fathom Swarmer Greaves");
-            Tooltip.SetDefault("4% increased minion damage\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Fathom Swarmer Greaves");
+            /* Tooltip.SetDefault("4% increased minion damage\n" +
                 "Grants the ability to swim\n" +
-                "Movement speed increased by 40% while submerged in liquid");
+                "Movement speed increased by 40% while submerged in liquid"); */
         }
 
         public override void SetDefaults()

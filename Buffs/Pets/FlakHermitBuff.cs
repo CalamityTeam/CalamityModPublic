@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flak Hermit");
-            Description.SetDefault("Little acid buggy");
+            // DisplayName.SetDefault("Flak Hermit");
+            // Description.SetDefault("Little acid buggy");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

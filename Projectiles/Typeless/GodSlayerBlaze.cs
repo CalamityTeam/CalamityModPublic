@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blaze");
+            // DisplayName.SetDefault("Blaze");
         }
 
         public override void SetDefaults()
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.ai[1] == 1f)
                 target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Typeless
                 target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             if (Projectile.ai[1] == 1f)
                 target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);

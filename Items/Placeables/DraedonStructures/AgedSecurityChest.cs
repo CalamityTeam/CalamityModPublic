@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Aged Security Chest");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Aged Security Chest");
         }
 
         public override void SetDefaults()

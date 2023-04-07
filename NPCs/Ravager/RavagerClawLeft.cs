@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.Ravager
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Ravager");
+            // DisplayName.SetDefault("Ravager");
         }
 
         public override void SetDefaults()
@@ -292,13 +292,13 @@ namespace CalamityMod.NPCs.Ravager
             return false;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240, true);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life > 0)
             {

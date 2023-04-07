@@ -21,11 +21,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Plasma Grenade");
-            Tooltip.SetDefault("Each grenade contains a heavily condensed and heated unit of plasma. Use with care\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Plasma Grenade");
+            /* Tooltip.SetDefault("Each grenade contains a heavily condensed and heated unit of plasma. Use with care\n" +
                                "Throws a grenade that explodes into plasma on collision\n" +
-                               "Stealth strikes explode violently on collision into a vaporizing blast");
+                               "Stealth strikes explode violently on collision into a vaporizing blast"); */
         }
 
         public override void SetDefaults()

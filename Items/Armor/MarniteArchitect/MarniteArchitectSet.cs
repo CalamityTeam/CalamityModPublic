@@ -36,20 +36,20 @@ namespace CalamityMod.Items.Armor.MarniteArchitect
 
         public override void Load()
         {
-            On.Terraria.Player.QuickMount += ActivateLift;
+            Terraria.On_Player.QuickMount += ActivateLift;
         }
 
         public override void Unload()
         {
-            On.Terraria.Player.QuickMount -= ActivateLift;
+            Terraria.On_Player.QuickMount -= ActivateLift;
         }
 
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Marnite Architect Headgear");
-            Tooltip.SetDefault("Increases block placement range by 5");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Marnite Architect Headgear");
+            // Tooltip.SetDefault("Increases block placement range by 5");
 
             if (Main.netMode == NetmodeID.Server)
                 return;
@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Armor.MarniteArchitect
             Item.defense = 0;
         }
 
-        private void ActivateLift(On.Terraria.Player.orig_QuickMount orig, Player self)
+        private void ActivateLift(Terraria.On_Player.orig_QuickMount orig, Player self)
         {
             //Spoof the mount thing
             if (!self.mount.Active && HasArmorSet(self) && self.miscEquips[Player.miscSlotMount].IsAir)
@@ -159,9 +159,9 @@ namespace CalamityMod.Items.Armor.MarniteArchitect
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Marnite Architect Toga");
-            Tooltip.SetDefault("Increases tile placement speed by 50%");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Marnite Architect Toga");
+            // Tooltip.SetDefault("Increases tile placement speed by 50%");
 
             if (Main.netMode == NetmodeID.Server)
                 return;

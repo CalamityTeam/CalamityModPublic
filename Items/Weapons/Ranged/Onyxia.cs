@@ -15,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Onyxia");
-            Tooltip.SetDefault(NotConsumeAmmo.ToString() + "% chance to not consume ammo\n" +
-                "Fires a storm of bullets and onyx shards");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Onyxia");
+            /* Tooltip.SetDefault(NotConsumeAmmo.ToString() + "% chance to not consume ammo\n" +
+                "Fires a storm of bullets and onyx shards"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

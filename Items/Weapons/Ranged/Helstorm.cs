@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Helstorm");
-            Tooltip.SetDefault("Fires two bullets at once\n" +
-                "The gun also deals damage to enemies that touch it");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Helstorm");
+            /* Tooltip.SetDefault("Fires two bullets at once\n" +
+                "The gun also deals damage to enemies that touch it"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -73,12 +73,12 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Register();
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire3, 360);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(BuffID.OnFire3, 360);
         }

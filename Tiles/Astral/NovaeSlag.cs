@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Astral
@@ -25,8 +26,8 @@ namespace CalamityMod.Tiles.Astral
             DustType = ModContent.DustType<AstralBasic>();
             ItemDrop = ModContent.ItemType<Items.Placeables.NovaeSlag>();
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Novae Slag");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Novae Slag");
             AddMapEntry(new Color(133, 69, 115));
 
             TileID.Sets.ChecksForMerge[Type] = true;

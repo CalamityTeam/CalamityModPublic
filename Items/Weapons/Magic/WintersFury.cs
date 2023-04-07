@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Winter's Fury");
-            Tooltip.SetDefault("The pages are freezing to the touch");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Winter's Fury");
+            // Tooltip.SetDefault("The pages are freezing to the touch");
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

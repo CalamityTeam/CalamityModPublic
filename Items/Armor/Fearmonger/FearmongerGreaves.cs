@@ -12,12 +12,12 @@ namespace CalamityMod.Items.Armor.Fearmonger
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Fearmonger Greaves");
-            Tooltip.SetDefault("6% increased damage\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Fearmonger Greaves");
+            /* Tooltip.SetDefault("6% increased damage\n" +
             "50% increased minion knockback\n" +
             "10% increased movement speed\n" +
-            "Taking damage makes you move very fast for a short time");
+            "Taking damage makes you move very fast for a short time"); */
         }
 
         public override void SetDefaults()

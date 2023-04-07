@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Plague Caller");
-            Tooltip.SetDefault("Summons a baby Plaguebringer pet");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Plague Caller");
+            // Tooltip.SetDefault("Summons a baby Plaguebringer pet");
         }
 
         public override void SetDefaults()

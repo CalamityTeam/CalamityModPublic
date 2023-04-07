@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hadal Urn");
+            // DisplayName.SetDefault("Hadal Urn");
         }
 
         public override void SetDefaults()

@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("UI");
+            // DisplayName.SetDefault("UI");
         }
 
         public override void SetDefaults()

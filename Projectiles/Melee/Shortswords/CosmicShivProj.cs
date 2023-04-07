@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cosmic Shiv");
+            // DisplayName.SetDefault("Cosmic Shiv");
         }
 
         public override void SetDefaults()
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
             Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 173);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int k = 0; k < 36; k++)
             {
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             for (int k = 0; k < 36; k++)
             {

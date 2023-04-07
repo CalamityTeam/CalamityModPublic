@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Aerial Hamaxe");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Aerial Hamaxe");
         }
 
         public override void SetDefaults()

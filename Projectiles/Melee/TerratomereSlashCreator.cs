@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Anime Sword Effect");
+            // DisplayName.SetDefault("Anime Sword Effect");
         }
 
         public override void SetDefaults()

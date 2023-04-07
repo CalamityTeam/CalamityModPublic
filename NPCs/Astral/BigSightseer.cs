@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Big Sightseer");
+            // DisplayName.SetDefault("Big Sightseer");
             Main.npcFrameCount[NPC.type] = 4;
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/BigSightseerGlow", AssetRequestMode.ImmediateLoad).Value;
@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.Astral
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.soundDelay == 0)
             {
@@ -176,7 +176,7 @@ namespace CalamityMod.NPCs.Astral
             return 0f;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.Astral
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Seeker Spit");
+            // DisplayName.SetDefault("Seeker Spit");
             Main.npcFrameCount[NPC.type] = 1;
             NPCID.Sets.ProjectileNPC[Type] = true;
         }
@@ -236,7 +236,7 @@ namespace CalamityMod.NPCs.Astral
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (damage > 0)
             {
@@ -244,7 +244,7 @@ namespace CalamityMod.NPCs.Astral
             }
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             if (damage > 0)
             {
@@ -259,7 +259,7 @@ namespace CalamityMod.NPCs.Astral
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             DoKillDust();
         }
@@ -269,7 +269,7 @@ namespace CalamityMod.NPCs.Astral
             return false;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);

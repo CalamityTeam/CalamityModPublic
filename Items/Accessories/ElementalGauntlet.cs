@@ -13,14 +13,14 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Elemental Gauntlet");
-            Tooltip.SetDefault("Melee attacks and projectiles inflict Hellfire\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Elemental Gauntlet");
+            /* Tooltip.SetDefault("Melee attacks and projectiles inflict Hellfire\n" +
                 "15% increased melee speed, damage, and 5% increased melee critical strike chance\n" +
                 "20% increased true melee damage\n" +
                 "Increased melee knockback\n" +
                 "Enables auto swing for melee weapons\n" +
-                "Increases the size of melee weapons");
+                "Increases the size of melee weapons"); */
         }
 
         public override void SetDefaults()

@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Ashes of Annihilation");
-            Tooltip.SetDefault("The smoldering essence of the Witch's wrath");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Ashes of Annihilation");
+            // Tooltip.SetDefault("The smoldering essence of the Witch's wrath");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
 			ItemID.Sets.SortingPriorityMaterials[Type] = 123;

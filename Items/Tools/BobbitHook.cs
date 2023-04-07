@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Bobbit Hook");
-            Tooltip.SetDefault($@"Retracts upon attaching to a tile with extreme speeds
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Bobbit Hook");
+            // Tooltip.SetDefault($@"Retracts upon attaching to a tile with extreme speeds
 Reach: {BobbitHead.GrappleRangInTiles}
 Launch Velocity: {BobbitHead.LaunchSpeed}
 Reelback Velocity: {BobbitHead.ReelbackSpeed}

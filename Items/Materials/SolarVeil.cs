@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Solar Veil");
-            Tooltip.SetDefault("Sunlight cannot penetrate the fabric of this cloth");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Solar Veil");
+            // Tooltip.SetDefault("Sunlight cannot penetrate the fabric of this cloth");
         }
 
         public override void SetDefaults()

@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Serpentuna");
-            SacrificeTotal = 2;
+            // DisplayName.SetDefault("Serpentuna");
+            Item.ResearchUnlockCount = 2;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 

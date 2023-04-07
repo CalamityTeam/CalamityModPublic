@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Summon
         public NPC Target => Owner.HasMinionAttackTargetNPC ? Main.npc[Owner.MinionAttackTargetNPC] : null;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Perdition Beacon");
+            // DisplayName.SetDefault("Perdition Beacon");
             Main.projFrames[Projectile.type] = 16;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }

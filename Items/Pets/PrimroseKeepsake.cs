@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Primrose Keepsake");
-            Tooltip.SetDefault("Did they just...");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Primrose Keepsake");
+            // Tooltip.SetDefault("Did they just...");
         }
 
         public override void SetDefaults()

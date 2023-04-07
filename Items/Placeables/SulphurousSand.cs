@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Sulphurous Sand");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Sulphurous Sand");
         }
 
         public override void SetDefaults()

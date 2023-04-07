@@ -18,7 +18,7 @@ Perhaps fortune will favor you if you catch it unaware.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("The Slime God");
+            // DisplayName.SetDefault("The Slime God");
         }
 
         public override void SetDefaults()

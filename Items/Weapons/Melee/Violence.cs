@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Violence");
-            Tooltip.SetDefault("Releases a blazing fork which stays near the mouse and shreds enemies");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Violence");
+            // Tooltip.SetDefault("Releases a blazing fork which stays near the mouse and shreds enemies");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

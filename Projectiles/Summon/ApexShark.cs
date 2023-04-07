@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Summon
         private int HitCooldown = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ancient Mineral Shark");
+            // DisplayName.SetDefault("Ancient Mineral Shark");
             Main.projFrames[Projectile.type] = 8;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
@@ -244,7 +244,7 @@ namespace CalamityMod.Projectiles.Summon
 
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Main.rand.NextBool(3))
                 target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 90);

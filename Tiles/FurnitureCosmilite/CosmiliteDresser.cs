@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
@@ -12,13 +13,13 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Cosmilite Dresser");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Cosmilite Dresser");
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            ContainerName.SetDefault("Cosmilite Dresser");
-            DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>();
+            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Cosmilite Dresser");
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -37,12 +38,12 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>(ContainerName.GetDefault());
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>(ContainerName.GetDefault());
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -52,7 +53,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, DresserDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
     }

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
         bool intersectingSomething = false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Infernado");
+            // DisplayName.SetDefault("Infernado");
             Main.projFrames[Projectile.type] = 12;
         }
 
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
         }

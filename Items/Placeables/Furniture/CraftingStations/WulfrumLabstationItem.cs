@@ -7,9 +7,9 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Wulfrum Labstation");
-            Tooltip.SetDefault("Used for special crafting");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Wulfrum Labstation");
+            // Tooltip.SetDefault("Used for special crafting");
         }
 
         public override void SetDefaults()

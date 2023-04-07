@@ -59,7 +59,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                 // If an item was stored, release it back into the world.
                 if (!CurrentlyHeldItem.IsAir)
                 {
-                    Main.LocalPlayer.QuickSpawnClonedItem(Main.LocalPlayer.GetSource_Misc(CurrentlyHeldItem.Name), CurrentlyHeldItem, CurrentlyHeldItem.stack);
+                    Main.LocalPlayer.QuickSpawnItem(Main.LocalPlayer.GetSource_Misc(CurrentlyHeldItem.Name), CurrentlyHeldItem, CurrentlyHeldItem.stack);
                     CurrentlyHeldItem.TurnToAir();
                 }
 
@@ -178,7 +178,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                 cost = (int)MathHelper.Min(cost, Item.buyPrice(5)) * 5;
 
             // Make it 20% cheaper if the player has the Discount Card or Greedy Ring
-            if (Main.LocalPlayer.discount)
+            if (Main.LocalPlayer.discountAvailable)
                 cost = (int)(cost * 0.8);
 
             // Draw the coin costs.
@@ -373,7 +373,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             int oldPrefix = CurrentlyHeldItem.prefix;
             CurrentlyHeldItem.SetDefaults(CurrentlyHeldItem.type);
             CurrentlyHeldItem.Prefix(oldPrefix);
-            CurrentlyHeldItem = CurrentlyHeldItem.CloneWithModdedDataFrom(originalItem);
+            CurrentlyHeldItem = CurrentlyHeldItem.CloneWithModdedDataFrom(originalItem)/* tModPorter Note: Removed. Use Clone, ResetPrefix or Refresh */;
 
             if (SelectedEnchantment.Value.Name == EnchantmentManager.UpgradeEnchantName)
             {

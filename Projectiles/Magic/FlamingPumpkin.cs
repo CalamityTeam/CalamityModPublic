@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pumpkin");
+            // DisplayName.SetDefault("Pumpkin");
         }
 
         public override void SetDefaults()

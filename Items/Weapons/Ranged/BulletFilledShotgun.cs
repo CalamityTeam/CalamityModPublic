@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bullet-Filled Shotgun");
-            Tooltip.SetDefault("Fires a massive spread of bouncing bullets\n" +
+            // DisplayName.SetDefault("Bullet-Filled Shotgun");
+            /* Tooltip.SetDefault("Fires a massive spread of bouncing bullets\n" +
                                "Consumes five bullets per-use\n" +
-                               "Aim? What's that?");
-            SacrificeTotal = 1;
+                               "Aim? What's that?"); */
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

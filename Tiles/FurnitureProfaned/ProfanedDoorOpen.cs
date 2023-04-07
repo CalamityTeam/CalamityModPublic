@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.OpenDoor };
-            CloseDoorID = ModContent.TileType<ProfanedDoorClosed>();
+            CloseDoorID/* tModPorter Note: Removed. Use TileID.Sets.CloseDoorID instead */ = ModContent.TileType<ProfanedDoorClosed>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

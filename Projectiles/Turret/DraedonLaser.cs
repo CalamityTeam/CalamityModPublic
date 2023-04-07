@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Turret
         public const int MaxTrailPoints = 50;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lab Turret Laser");
+            // DisplayName.SetDefault("Lab Turret Laser");
         }
 
         public override void SetDefaults()

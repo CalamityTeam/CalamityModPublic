@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("System Bane");
-            Tooltip.SetDefault("Can be used to quickly send out an electromagnetic blast\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("System Bane");
+            /* Tooltip.SetDefault("Can be used to quickly send out an electromagnetic blast\n" +
                                "Hurls an unstable device which sticks to the ground and shocks nearby enemies with lightning\n" +
-                               "Stealth strikes make the device emit a large, damaging EMP field");
+                               "Stealth strikes make the device emit a large, damaging EMP field"); */
         }
 
         public override void SetDefaults()

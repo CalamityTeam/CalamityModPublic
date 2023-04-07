@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Silva Helm");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Silva Helm");
         }
 
         public override void SetDefaults()

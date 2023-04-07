@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plasma Explosion");
+            // DisplayName.SetDefault("Plasma Explosion");
         }
 
         public override void SetDefaults()

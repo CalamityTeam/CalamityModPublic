@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
         public const float Gravity = 0.2f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gamma Canister");
+            // DisplayName.SetDefault("Gamma Canister");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

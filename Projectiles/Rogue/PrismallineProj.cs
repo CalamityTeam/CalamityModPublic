@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Prismalline");
+            // DisplayName.SetDefault("Prismalline");
         }
 
         public override void SetDefaults()
@@ -113,14 +113,14 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             hitEnemy = true;
             if (Projectile.Calamity().stealthStrike)
                 target.AddBuff(ModContent.BuffType<Eutrophication>(), 30);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             hitEnemy = true;
             if (Projectile.Calamity().stealthStrike)

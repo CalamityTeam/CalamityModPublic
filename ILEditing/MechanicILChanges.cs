@@ -244,7 +244,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldc_I4, 10 - BalancingConstants.ShieldOfCthulhuBonkNoCollideFrames);
         }
 
-        private static void ApplyDashKeybind(On.Terraria.Player.orig_DoCommonDashHandle orig, Player self, out int dir, out bool dashing, Player.DashStartAction dashStartAction)
+        private static void ApplyDashKeybind(Terraria.On_Player.orig_DoCommonDashHandle orig, Player self, out int dir, out bool dashing, Player.DashStartAction dashStartAction)
         {
             // we feasting multiplayer bugs
             if (self.whoAmI != Main.myPlayer)
@@ -297,7 +297,7 @@ namespace CalamityMod.ILEditing
         #endregion Dash Fixes and Improvements
 
         #region Allow Empress to Enrage in Boss Rush
-        private static bool AllowEmpressToEnrageInBossRush(On.Terraria.NPC.orig_ShouldEmpressBeEnraged orig)
+        private static bool AllowEmpressToEnrageInBossRush(Terraria.On_NPC.orig_ShouldEmpressBeEnraged orig)
         {
             if (Main.dayTime || BossRushEvent.BossRushActive)
                 return true;
@@ -308,7 +308,7 @@ namespace CalamityMod.ILEditing
 
         #region Enabling of Triggered NPC Platform Fallthrough
         // Why this isn't a mechanism provided by TML itself or vanilla itself is beyond me.
-        private static void AllowTriggeredFallthrough(On.Terraria.NPC.orig_ApplyTileCollision orig, NPC self, bool fall, Vector2 cPosition, int cWidth, int cHeight)
+        private static void AllowTriggeredFallthrough(Terraria.On_NPC.orig_ApplyTileCollision orig, NPC self, bool fall, Vector2 cPosition, int cWidth, int cHeight)
         {
             if (self.active && self.type == ModContent.NPCType<FusionFeeder>())
             {
@@ -346,7 +346,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ret);
         }
 
-        private static void AlterTownNPCSpawnRate(On.Terraria.Main.orig_UpdateTime_SpawnTownNPCs orig)
+        private static void AlterTownNPCSpawnRate(Terraria.On_Main.orig_UpdateTime_SpawnTownNPCs orig)
         {
             double oldWorldRate = Main.desiredWorldTilesUpdateRate;
             Main.desiredWorldTilesUpdateRate *= CalamityConfig.Instance.TownNPCSpawnRateMultiplier;
@@ -463,7 +463,7 @@ namespace CalamityMod.ILEditing
         #endregion Removal of Dodge RNG
 
         #region Custom Gate Door Logic
-        private static bool OpenDoor_LabDoorOverride(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)
+        private static bool OpenDoor_LabDoorOverride(Terraria.On_WorldGen.orig_OpenDoor orig, int i, int j, int direction)
         {
             Tile tile = Main.tile[i, j];
 
@@ -479,7 +479,7 @@ namespace CalamityMod.ILEditing
             return orig(i, j, direction);
         }
 
-        private static bool CloseDoor_LabDoorOverride(On.Terraria.WorldGen.orig_CloseDoor orig, int i, int j, bool forced)
+        private static bool CloseDoor_LabDoorOverride(Terraria.On_WorldGen.orig_CloseDoor orig, int i, int j, bool forced)
         {
             Tile tile = Main.tile[i, j];
 
@@ -497,7 +497,7 @@ namespace CalamityMod.ILEditing
         #endregion Custom Gate Door Logic
 
         #region Platform Collision Checks for Grounded Bosses
-        private static bool EnableCalamityBossPlatformCollision(On.Terraria.NPC.orig_Collision_DecideFallThroughPlatforms orig, NPC self)
+        private static bool EnableCalamityBossPlatformCollision(Terraria.On_NPC.orig_Collision_DecideFallThroughPlatforms orig, NPC self)
         {
             if ((self.type == ModContent.NPCType<AstrumAureus>() || self.type == ModContent.NPCType<Crabulon>() || self.type == ModContent.NPCType<RavagerBody>() ||
                 self.type == ModContent.NPCType<RockPillar>() || self.type == ModContent.NPCType<FlamePillar>()) &&
@@ -509,7 +509,7 @@ namespace CalamityMod.ILEditing
         #endregion Platform Collision Checks for Grounded Bosses
 
         #region Incorporate Enchantments in Item Names
-        private static string IncorporateEnchantmentInAffix(On.Terraria.Item.orig_AffixName orig, Item self)
+        private static string IncorporateEnchantmentInAffix(Terraria.On_Item.orig_AffixName orig, Item self)
         {
             string result = orig(self);
             if (!self.IsAir && self.Calamity().AppliedEnchantment.HasValue)
@@ -519,7 +519,7 @@ namespace CalamityMod.ILEditing
         #endregion Incorporate Enchantments in Item Names
 
         #region Hellbound Enchantment Projectile Creation Effects
-        private static int IncorporateMinionExplodingCountdown(On.Terraria.Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float orig, IEntitySource spawnSource, float x, float y, float xSpeed, float ySpeed, int type, int damage, float knockback, int owner, float ai0, float ai1)
+        private static int IncorporateMinionExplodingCountdown(Terraria.On_Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float orig, IEntitySource spawnSource, float x, float y, float xSpeed, float ySpeed, int type, int damage, float knockback, int owner, float ai0, float ai1)
         {
             // This is unfortunately not something that can be done via SetDefaults since owner is set
             // after that method is called. Doing it directly when the projectile is spawned appears to be the only reasonable way.
@@ -568,7 +568,7 @@ namespace CalamityMod.ILEditing
         #endregion Mana Sickness Replacement for Chaos Stone
 
         #region Fire Cursor Effect for the Calamity Accessory
-        private static void UseCoolFireCursorEffect(On.Terraria.Main.orig_DrawCursor orig, Vector2 bonus, bool smart)
+        private static void UseCoolFireCursorEffect(Terraria.On_Main.orig_DrawCursor orig, Vector2 bonus, bool smart)
         {
             Player player = Main.LocalPlayer;
 
@@ -746,7 +746,7 @@ namespace CalamityMod.ILEditing
         #endregion Custom Draw Layers
 
         #region General Particle Rendering
-        private static void DrawFusableParticles(On.Terraria.Main.orig_SortDrawCacheWorms orig, Main self)
+        private static void DrawFusableParticles(Terraria.On_Main.orig_SortDrawCacheWorms orig, Main self)
         {
             DeathAshParticle.DrawAll();
             FusableParticleManager.RenderAllFusableParticles();
@@ -757,13 +757,13 @@ namespace CalamityMod.ILEditing
             orig(self);
         }
 
-        private static void DrawForegroundParticles(On.Terraria.Main.orig_DrawInfernoRings orig, Main self)
+        private static void DrawForegroundParticles(Terraria.On_Main.orig_DrawInfernoRings orig, Main self)
         {
             GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
             orig(self);
         }
 
-        private static void ResetRenderTargetSizes(On.Terraria.Main.orig_SetDisplayMode orig, int width, int height, bool fullscreen)
+        private static void ResetRenderTargetSizes(Terraria.On_Main.orig_SetDisplayMode orig, int width, int height, bool fullscreen)
         {
             if (FusableParticleManager.HasBeenFormallyDefined)
                 FusableParticleManager.LoadParticleRenderSets(true, width, height);
@@ -772,7 +772,7 @@ namespace CalamityMod.ILEditing
         #endregion General Particle Rendering
 
         #region Custom Lava Visuals
-        private static void DrawCustomLava(On.Terraria.GameContent.Drawing.TileDrawing.orig_DrawPartialLiquid orig, TileDrawing self, Tile tileCache, Vector2 position, Rectangle liquidSize, int liquidType, Color aColor)
+        private static void DrawCustomLava(Terraria.GameContent.Drawing.On_TileDrawing.orig_DrawPartialLiquid orig, TileDrawing self, Tile tileCache, Vector2 position, Rectangle liquidSize, int liquidType, Color aColor)
         {
             if (liquidType != 1)
             {
@@ -983,7 +983,7 @@ namespace CalamityMod.ILEditing
         #endregion Custom Lava Visuals
 
         #region Water Visuals
-        private static void MakeSulphSeaWaterBetter(On.Terraria.Graphics.Light.TileLightScanner.orig_GetTileLight orig, TileLightScanner self, int x, int y, out Vector3 outputColor)
+        private static void MakeSulphSeaWaterBetter(Terraria.Graphics.Light.On_TileLightScanner.orig_GetTileLight orig, TileLightScanner self, int x, int y, out Vector3 outputColor)
         {
             orig(self, x, y, out outputColor);
             if (outputColor == Vector3.One || outputColor == new Vector3(0.25f, 0.25f, 0.25f) || outputColor == new Vector3(0.5f, 0.5f, 0.5f))
@@ -1200,14 +1200,14 @@ namespace CalamityMod.ILEditing
         #endregion Make Tax Collector Worth it
 
         #region Foreground tiles drawing
-        private static void DrawForegroundStuff(On.Terraria.Main.orig_DrawGore orig, Main self)
+        private static void DrawForegroundStuff(Terraria.On_Main.orig_DrawGore orig, Main self)
         {
             orig(self);
             if (Main.PlayerLoaded && !Main.gameMenu)
                 ForegroundManager.DrawTiles();
         }
 
-        private static void ClearForegroundStuff(On.Terraria.GameContent.Drawing.TileDrawing.orig_PreDrawTiles orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets)
+        private static void ClearForegroundStuff(Terraria.GameContent.Drawing.On_TileDrawing.orig_PreDrawTiles orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets)
         {
             orig(self, solidLayer, forRenderTargets, intoRenderTargets);
 
@@ -1217,7 +1217,7 @@ namespace CalamityMod.ILEditing
         #endregion
 
         #region Tile ping overlay
-        private static void ClearTilePings(On.Terraria.GameContent.Drawing.TileDrawing.orig_Draw orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)
+        private static void ClearTilePings(Terraria.GameContent.Drawing.On_TileDrawing.orig_Draw orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)
         {
             //Retro & Trippy light modes are fine. Just reset the cache before every time stuff gets drawn.
             if (Lighting.UpdateEveryFrame)
@@ -1250,7 +1250,7 @@ namespace CalamityMod.ILEditing
         /// <summary>
         /// Determines if the custom grapple movement should take place or not. Useful for hooks that only do movement tricks in some cases
         /// </summary>
-        private static void CustomGrappleMovementCheck(On.Terraria.Player.orig_GrappleMovement orig, Player self)
+        private static void CustomGrappleMovementCheck(Terraria.On_Player.orig_GrappleMovement orig, Player self)
         {
             WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
 
@@ -1263,7 +1263,7 @@ namespace CalamityMod.ILEditing
         /// <summary>
         /// This is called right before the game decides wether or not to update the players velocity based on "real" physics (aka not tongued or hooked or with a pulley)
         /// </summary>
-        private static void CustomGrapplePreDefaultMovement(On.Terraria.Player.orig_UpdatePettingAnimal orig, Player self)
+        private static void CustomGrapplePreDefaultMovement(Terraria.On_Player.orig_UpdatePettingAnimal orig, Player self)
         {
             orig(self);
 
@@ -1287,7 +1287,7 @@ namespace CalamityMod.ILEditing
         /// Used before the player steps up a half tile. If we don't do that, players that are grappled but don't use hook movement won't be able to go over tiles.
         /// The hook cache is reset in PreUpdateMovement
         /// </summary>
-        private static void CustomGrapplePreStepUp(On.Terraria.Player.orig_SlopeDownMovement orig, Player self)
+        private static void CustomGrapplePreStepUp(Terraria.On_Player.orig_SlopeDownMovement orig, Player self)
         {
             orig(self);
 
@@ -1303,7 +1303,7 @@ namespace CalamityMod.ILEditing
         /// <summary>
         /// This is done to put the hook if it was cacehd during the frame instruction.
         /// </summary>
-        private static void CustomGrapplePostFrame(On.Terraria.Player.orig_PlayerFrame orig, Player self)
+        private static void CustomGrapplePostFrame(Terraria.On_Player.orig_PlayerFrame orig, Player self)
         {
             orig(self);
             WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
@@ -1320,7 +1320,7 @@ namespace CalamityMod.ILEditing
 
         #region Find Calamity Item Dye Shader
 
-        internal static void FindCalamityItemDyeShader(On.Terraria.Player.orig_UpdateItemDye orig, Player self, bool isNotInVanitySlot, bool isSetToHidden, Item armorItem, Item dyeItem)
+        internal static void FindCalamityItemDyeShader(Terraria.On_Player.orig_UpdateItemDye orig, Player self, bool isNotInVanitySlot, bool isSetToHidden, Item armorItem, Item dyeItem)
         {
             orig(self, isNotInVanitySlot, isSetToHidden, armorItem, dyeItem);
             if (armorItem.type == ModContent.ItemType<Calamity>())

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Totality Flask");
+            // DisplayName.SetDefault("Totality Flask");
         }
 
         public override void SetDefaults()

@@ -98,7 +98,7 @@ namespace CalamityMod.World
 
             UnifiedRandom rand = WorldGen.genRand;
             float solidTileRequirement = 600f;
-            bool localAbyssSide = WorldGen.dungeonX < Main.maxTilesX / 2;
+            bool localAbyssSide = GenVars.dungeonX < Main.maxTilesX / 2;
 
             // Pre-cache a list of Ancients Awakened tiles to avoid, for performance reasons
             IList<ushort> aaTilesToAvoid = new List<ushort>(16);
@@ -224,7 +224,7 @@ namespace CalamityMod.World
                 return false;
             }
             // Avoid the dungeon so that the beacon doesn't eat it.
-            if (Math.Abs(i - WorldGen.dungeonX) < 65)
+            if (Math.Abs(i - GenVars.dungeonX) < 65)
             {
                 return false;
             }
@@ -415,7 +415,7 @@ namespace CalamityMod.World
                     if (j < 181)
                         j = 181;
 
-                    int xOffset = WorldGen.dungeonX < Main.maxTilesX / 2 ? WorldGen.genRand.Next(-80, -40) : WorldGen.genRand.Next(40, 80);
+                    int xOffset = GenVars.dungeonX < Main.maxTilesX / 2 ? WorldGen.genRand.Next(-80, -40) : WorldGen.genRand.Next(40, 80);
 
                     bool altarPlaced = false;
                     while (!altarPlaced)

@@ -10,11 +10,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Necklace of Vexation");
-            Tooltip.SetDefault("Revenge\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Necklace of Vexation");
+            /* Tooltip.SetDefault("Revenge\n" +
             "20% increased damage when under 50% life\n" +
-            "All attacks inflict acid venom while wearing Reaver armor");
+            "All attacks inflict acid venom while wearing Reaver armor"); */
         }
 
         public override void SetDefaults()

@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rare Sand Elemental");
-            Description.SetDefault("The sand elemental will heal you");
+            // DisplayName.SetDefault("Rare Sand Elemental");
+            // Description.SetDefault("The sand elemental will heal you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

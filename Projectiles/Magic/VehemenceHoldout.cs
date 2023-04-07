@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
         public override string Texture => "CalamityMod/Items/Weapons/Magic/Vehemence";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vehemence");
+            // DisplayName.SetDefault("Vehemence");
         }
 
         public override void SetDefaults()

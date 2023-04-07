@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frost Blossom Staff");
-            Tooltip.SetDefault("Summons a frozen flower over your head\n" +
-                "There can only be one flower");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Frost Blossom Staff");
+            /* Tooltip.SetDefault("Summons a frozen flower over your head\n" +
+                "There can only be one flower"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

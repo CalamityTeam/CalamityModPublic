@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Armor.Aerospec
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Aerospec Helmet");
-            Tooltip.SetDefault("5% increased movement speed and minion damage");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Aerospec Helmet");
+            // Tooltip.SetDefault("5% increased movement speed and minion damage");
         }
 
         public override void SetDefaults()

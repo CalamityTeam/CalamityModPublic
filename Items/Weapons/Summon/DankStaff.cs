@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dank Staff");
-            Tooltip.SetDefault("Summons a dank creeper to fight for you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Dank Staff");
+            // Tooltip.SetDefault("Summons a dank creeper to fight for you");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

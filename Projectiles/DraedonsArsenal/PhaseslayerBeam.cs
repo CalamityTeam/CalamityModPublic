@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const int Lifetime = 180;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Light Blade");
+            // DisplayName.SetDefault("Light Blade");
             Main.projFrames[Projectile.type] = 5;
         }
 

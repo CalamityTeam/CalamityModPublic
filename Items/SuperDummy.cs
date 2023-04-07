@@ -10,12 +10,12 @@ namespace CalamityMod.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Super Dummy");
-            Tooltip.SetDefault("Creates a super dummy\n" +
+            // DisplayName.SetDefault("Super Dummy");
+            /* Tooltip.SetDefault("Creates a super dummy\n" +
                 "Regenerates 1 million life per second\n" +
                 "Will not die when taking damage over time from debuffs\n" +
-                "Right click to kill all super dummies");
-            SacrificeTotal = 1;
+                "Right click to kill all super dummies"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

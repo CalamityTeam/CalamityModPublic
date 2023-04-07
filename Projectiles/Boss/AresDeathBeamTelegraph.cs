@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             // Telegraph for Ares' eight-pointed-star laser beams
-            DisplayName.SetDefault("Exo Overload Telegraph");
+            // DisplayName.SetDefault("Exo Overload Telegraph");
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 

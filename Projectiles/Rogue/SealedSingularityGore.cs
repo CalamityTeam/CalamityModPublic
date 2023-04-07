@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sealed Singularity Fragment");
+            // DisplayName.SetDefault("Sealed Singularity Fragment");
         }
 
         public override void SetDefaults()

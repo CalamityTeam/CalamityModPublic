@@ -15,14 +15,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("The Camper");
-            Tooltip.SetDefault("In rest may we find victory.\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("The Camper");
+            /* Tooltip.SetDefault("In rest may we find victory.\n" +
                 "You deal 90% less damage unless stationary\n" +
                 "Standing still grants buff(s) dependent on what weapon you're holding\n" +
                 "Standing still provides a damaging aura around you\n" +
                 "While moving, you regenerate health as if standing still\n" +
-                "Provides a small amount of light in the Abyss");
+                "Provides a small amount of light in the Abyss"); */
         }
 
         public override void SetDefaults()

@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Solstice Claymore");
-            Tooltip.SetDefault("Changes projectile color based on the time of year\n" +
-                               "Inflicts daybroken during the day and nightwither during the night");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Solstice Claymore");
+            /* Tooltip.SetDefault("Changes projectile color based on the time of year\n" +
+                               "Inflicts daybroken during the day and nightwither during the night"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Main.dayTime)
             {
@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             if (!Main.dayTime)
             {

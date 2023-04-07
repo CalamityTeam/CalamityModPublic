@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("God Slayer Horned Helm");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("God Slayer Horned Helm");
         }
 
         public override void SetDefaults()

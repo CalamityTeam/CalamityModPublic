@@ -12,7 +12,7 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sea Urchin");
+            // DisplayName.SetDefault("Sea Urchin");
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
         }
 
@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             CalamityAI.UnicornAI(NPC, Mod, true, NPC.wet ? 9f : 4f, NPC.wet ? 5.5f : 2.2f, NPC.wet ? 0.09f : 0.04f, NPC.wet ? -14f : -6.5f, NPC.wet ? -12f : -6f, NPC.wet ? -11f : -5f, NPC.wet ? -10f : -4f, NPC.wet ? -13f : -6f);
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(BuffID.Venom, 120, true);
@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<UrchinStinger>(), 1, 30, 50);
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

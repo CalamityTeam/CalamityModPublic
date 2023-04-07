@@ -20,7 +20,7 @@ One mortal, sworn to the service of the Dragons, rose in determination to save t
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Prelude");
+            // DisplayName.SetDefault("Prelude");
         }
 
         public override void SetDefaults()

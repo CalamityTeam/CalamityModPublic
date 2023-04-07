@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sepulcher");
-            Description.SetDefault("It is not benevolent");
+            // DisplayName.SetDefault("Sepulcher");
+            // Description.SetDefault("It is not benevolent");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

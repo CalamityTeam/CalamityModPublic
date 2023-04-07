@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sulphurous Grabber Yoyo");
+            // DisplayName.SetDefault("Sulphurous Grabber Yoyo");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 350f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 16f;
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }

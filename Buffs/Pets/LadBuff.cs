@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Father");
-            Description.SetDefault("A father of many floats around you");
+            // DisplayName.SetDefault("The Father");
+            // Description.SetDefault("A father of many floats around you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

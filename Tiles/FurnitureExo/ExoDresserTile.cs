@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
@@ -14,13 +15,13 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Dresser");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Exo Dresser");
             AddMapEntry(new Color(71, 95, 114), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            ContainerName.SetDefault("Exo Dresser");
-            DresserDrop = ModContent.ItemType<ExoDresser>();
+            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Exo Dresser");
+            ItemDrop = ModContent.ItemType<ExoDresser>();
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -35,9 +36,9 @@ namespace CalamityMod.Tiles.FurnitureExo
 
         public override bool RightClick(int i, int j) => CalamityUtils.DresserRightClick();
 
-        public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<ExoDresser>(ContainerName.GetDefault());
+        public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<ExoDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
 
-        public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<ExoDresser>(ContainerName.GetDefault());
+        public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<ExoDresser>(ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.GetDefault());
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
@@ -46,7 +47,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, DresserDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
 

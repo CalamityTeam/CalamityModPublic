@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
         public Player Owner => Main.player[Projectile.owner];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Slime Puppet");
+            // DisplayName.SetDefault("Slime Puppet");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 1;
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.ai[0] = 50f;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Slimed, 300);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Slimed, 300);
 
         public override void Kill(int timeLeft)
         {

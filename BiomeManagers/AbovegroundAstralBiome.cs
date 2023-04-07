@@ -20,7 +20,7 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Astral Surface Fog");
+            // DisplayName.SetDefault("Astral Surface Fog");
         }
 
         public override bool IsBiomeActive(Player player)

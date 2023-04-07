@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
 
         }
 

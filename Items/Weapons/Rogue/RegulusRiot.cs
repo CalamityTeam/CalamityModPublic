@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Regulus Riot");
-            Tooltip.SetDefault(@"Fires a swift homing disk
+            // DisplayName.SetDefault("Regulus Riot");
+            // Tooltip.SetDefault(@"Fires a swift homing disk
 Stealth strikes explode into energy stars");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

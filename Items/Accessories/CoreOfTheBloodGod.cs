@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Core of the Blood God");
-            Tooltip.SetDefault("Boosts your max HP by 15%\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Core of the Blood God");
+            /* Tooltip.SetDefault("Boosts your max HP by 15%\n" +
                 "Healing Potions are 25% more effective\n" +
                 "Halves enemy contact damage\n" +
-                "When you take contact damage this effect has a 20 second cooldown");
+                "When you take contact damage this effect has a 20 second cooldown"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }

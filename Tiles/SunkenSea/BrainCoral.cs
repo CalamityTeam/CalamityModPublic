@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -17,8 +18,8 @@ namespace CalamityMod.Tiles.SunkenSea
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
             DustType = 253;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Brain Coral");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Brain Coral");
             AddMapEntry(new Color(36, 61, 111));
             MineResist = 3f;
 

@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
         public override string Texture => "CalamityMod/Items/Placeables/PlaceableTurrets/LaserTurret";
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("Blasts nearby players with lightning-fast laser beams");
+            Item.ResearchUnlockCount = 1;
+            // Tooltip.SetDefault("Blasts nearby players with lightning-fast laser beams");
         }
 
         public override void SetDefaults()

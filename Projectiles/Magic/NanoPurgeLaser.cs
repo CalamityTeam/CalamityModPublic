@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nano Beam");
+            // DisplayName.SetDefault("Nano Beam");
         }
 
         public override void SetDefaults()

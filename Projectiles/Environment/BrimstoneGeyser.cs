@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Environment
         private int dustType = (int)CalamityDusts.Brimstone;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Smoke");
+            // DisplayName.SetDefault("Smoke");
         }
 
         public override void SetDefaults()
@@ -167,7 +167,7 @@ namespace CalamityMod.Projectiles.Environment
             }
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (damage <= 0)
                 return;

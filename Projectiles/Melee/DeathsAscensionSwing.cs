@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Death's Ascension");
+            // DisplayName.SetDefault("Death's Ascension");
         }
 
         public override void SetDefaults()

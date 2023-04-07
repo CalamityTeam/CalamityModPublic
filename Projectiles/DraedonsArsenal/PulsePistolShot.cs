@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public List<NPC> NPCsAlreadyHit = new List<NPC>();
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pulse Bolt");
+            // DisplayName.SetDefault("Pulse Bolt");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
         }
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
         }
         public override bool? CanDamage() => Time > Projectile.MaxUpdates;
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (!NPCsAlreadyHit.Contains(target))
                 NPCsAlreadyHit.Add(target);

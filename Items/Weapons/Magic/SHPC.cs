@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("SHPC");
-            Tooltip.SetDefault("Fires plasma orbs that linger and emit massive explosions\n" +
-                "Right click to fire powerful energy beams");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("SHPC");
+            /* Tooltip.SetDefault("Fires plasma orbs that linger and emit massive explosions\n" +
+                "Right click to fire powerful energy beams"); */
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

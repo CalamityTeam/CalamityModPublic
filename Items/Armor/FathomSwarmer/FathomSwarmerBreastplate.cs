@@ -11,12 +11,12 @@ namespace CalamityMod.Items.Armor.FathomSwarmer
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Fathom Swarmer Breastplate");
-            Tooltip.SetDefault("6% increased damage reduction\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Fathom Swarmer Breastplate");
+            /* Tooltip.SetDefault("6% increased damage reduction\n" +
                 "6% increased minion damage\n" +
                 "Boosted defense and regen increased while submerged in liquid\n" +
-                "Reduces defense loss within the Abyss");
+                "Reduces defense loss within the Abyss"); */
 
             if (Main.netMode == NetmodeID.Server)
                 return;

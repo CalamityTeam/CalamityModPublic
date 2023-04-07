@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Armor.Astral
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Astral Breastplate");
-            Tooltip.SetDefault("+80 max mana and +20 max life\n" +
-                               "Creature detection");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Astral Breastplate");
+            /* Tooltip.SetDefault("+80 max mana and +20 max life\n" +
+                               "Creature detection"); */
         }
 
         public override void SetDefaults()

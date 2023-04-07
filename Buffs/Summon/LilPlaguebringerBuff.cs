@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lil' Plaguebringer");
-            Description.SetDefault("The plaguebringer will protect you");
+            // DisplayName.SetDefault("Lil' Plaguebringer");
+            // Description.SetDefault("The plaguebringer will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

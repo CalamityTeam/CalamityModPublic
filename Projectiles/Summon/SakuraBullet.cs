@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sakura Bullet");
+            // DisplayName.SetDefault("Sakura Bullet");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

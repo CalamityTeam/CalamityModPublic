@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Solar God Spirit");
-            Description.SetDefault("The solar god spirit will protect you");
+            // DisplayName.SetDefault("Solar God Spirit");
+            // Description.SetDefault("The solar god spirit will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

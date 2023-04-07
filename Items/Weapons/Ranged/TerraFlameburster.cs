@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terra Flameburster");
-            Tooltip.SetDefault("80% chance to not consume gel");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Terra Flameburster");
+            // Tooltip.SetDefault("80% chance to not consume gel");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

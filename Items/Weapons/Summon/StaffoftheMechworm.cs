@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Weapons.Summon
         public const int BaseDamage = 100; // originally 325
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Staff of the Mechworm");
-            Tooltip.SetDefault("Summons an aerial mechworm to fight for you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Staff of the Mechworm");
+            // Tooltip.SetDefault("Summons an aerial mechworm to fight for you");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

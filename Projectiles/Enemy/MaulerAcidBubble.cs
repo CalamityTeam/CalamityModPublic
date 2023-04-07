@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Enemy
         public override string Texture => "CalamityMod/Projectiles/Enemy/SulphuricAcidBubble";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Acid Bubble");
+            // DisplayName.SetDefault("Acid Bubble");
             Main.projFrames[Projectile.type] = 7;
         }
 
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Enemy
             return false;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (damage <= 0 || Projectile.localAI[1] < 1f)
                 return;

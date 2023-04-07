@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sparkling Laser");
+            // DisplayName.SetDefault("Sparkling Laser");
             Main.projFrames[Projectile.type] = 5;
         }
 
@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Magic
             Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * LaserLength, Projectile.width + 16, DelegateMethods.CutTiles);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (target.life <= 0 && target.lifeMax > 5 && Projectile.owner == Main.myPlayer)
             {

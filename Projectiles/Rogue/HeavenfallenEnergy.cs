@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heavenfallen Energy");
+            // DisplayName.SetDefault("Heavenfallen Energy");
         }
 
         public override void SetDefaults()
@@ -53,9 +53,9 @@ namespace CalamityMod.Projectiles.Rogue
                 CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, homingRange, 12f, 20f);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
         
-        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
         
         public override bool? CanDamage() => Projectile.ai[0] >= 15f || raining;
     }

@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Web Ball");
-            Tooltip.SetDefault(@"Throws a web-covered ball that covers enemies in cobwebs to slow them down
+            // DisplayName.SetDefault("Web Ball");
+            // Tooltip.SetDefault(@"Throws a web-covered ball that covers enemies in cobwebs to slow them down
 Stealth strikes slow enemies down longer");
-            SacrificeTotal = 99;
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

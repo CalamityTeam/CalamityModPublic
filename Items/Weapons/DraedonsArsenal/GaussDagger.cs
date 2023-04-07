@@ -15,10 +15,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public const int HitsRequiredForFlux = 2;
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Gauss Dagger");
-            Tooltip.SetDefault("Slicing foes, it causes a flux of energy to form on the area tearing at them with turbulent forces\n" +
-            "Repeat strikes envelop foes in magnetic flux");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Gauss Dagger");
+            /* Tooltip.SetDefault("Slicing foes, it causes a flux of energy to form on the area tearing at them with turbulent forces\n" +
+            "Repeat strikes envelop foes in magnetic flux"); */
         }
         public override void SetDefaults()
         {
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 1);
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.Calamity().GaussFluxTimer += 50;
             if (target.Calamity().GaussFluxTimer >= 30 * HitsRequiredForFlux)

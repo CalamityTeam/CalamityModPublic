@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Deepsea Staff");
-            Tooltip.SetDefault("Summons an aquatic star to fight for you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Deepsea Staff");
+            // Tooltip.SetDefault("Summons an aquatic star to fight for you");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

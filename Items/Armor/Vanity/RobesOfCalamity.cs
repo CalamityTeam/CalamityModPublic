@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Armor.Vanity
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Robes of Calamity");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Robes of Calamity");
         }
 
         public override void SetDefaults()

@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Anechoic Plating");
-            Tooltip.SetDefault("Reduces creature's ability to detect you in the abyss\n" +
-                "Reduces the defense reduction that the abyss causes");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Anechoic Plating");
+            /* Tooltip.SetDefault("Reduces creature's ability to detect you in the abyss\n" +
+                "Reduces the defense reduction that the abyss causes"); */
         }
 
         public override void SetDefaults()

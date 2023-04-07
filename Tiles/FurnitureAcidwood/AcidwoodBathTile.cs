@@ -2,6 +2,7 @@ using CalamityMod.Items.Placeables.FurnitureAcidwood;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAcidwood
 {
@@ -10,8 +11,8 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         public override void SetStaticDefaults()
         {
             this.SetUpBathtub();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Bathtub");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
             AnimationFrameHeight = 54;
         }

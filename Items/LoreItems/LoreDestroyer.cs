@@ -18,7 +18,7 @@ While in truth it was repurposed mining equipment, their sheer presence on the b
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("The Destroyer");
+            // DisplayName.SetDefault("The Destroyer");
         }
 
         public override void SetDefaults()

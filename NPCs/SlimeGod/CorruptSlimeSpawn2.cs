@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Corrupt Slime Spawn");
+            // DisplayName.SetDefault("Corrupt Slime Spawn");
             Main.npcFrameCount[NPC.type] = 2;
         }
 
@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.Calamity().VulnerableToSickness = false;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             Color dustColor = Color.Lavender;
             dustColor.A = 150;
@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemID.Vitamins, 50);
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(BuffID.Weak, 90, true);

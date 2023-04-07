@@ -11,9 +11,9 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Environmental Pollution Log");
-            Tooltip.SetDefault("[Environment Log] - Pollution and 'Wall of Flesh'\nClick to view its contents");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Environmental Pollution Log");
+            // Tooltip.SetDefault("[Environment Log] - Pollution and 'Wall of Flesh'\nClick to view its contents");
         }
 
         public override void SetDefaults()

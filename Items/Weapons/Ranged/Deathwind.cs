@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Deathwind");
-            Tooltip.SetDefault("Fires a spread of 4 arrows\n" +
-                "Wooden arrows are converted into nebula arrows");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Deathwind");
+            /* Tooltip.SetDefault("Fires a spread of 4 arrows\n" +
+                "Wooden arrows are converted into nebula arrows"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

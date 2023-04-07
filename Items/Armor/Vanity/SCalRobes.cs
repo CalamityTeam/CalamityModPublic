@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Calamitous Robes");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Calamitous Robes");
 
             if (Main.netMode != NetmodeID.Server)
             {

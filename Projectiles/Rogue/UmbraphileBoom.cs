@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Umbra Blast");
+            // DisplayName.SetDefault("Umbra Blast");
         }
 
         public override void SetDefaults()
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Main.dayTime || Main.rand.NextBool(3)) //100% during day, 33.33% chance at night
                 target.AddBuff(BuffID.Daybreak, 45);
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
                 target.AddBuff(ModContent.BuffType<Nightwither>(), 45);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             if (Main.dayTime || Main.rand.NextBool(3)) //100% during day, 33.33% chance at night
                 target.AddBuff(BuffID.Daybreak, 45);

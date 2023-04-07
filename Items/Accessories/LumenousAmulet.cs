@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Lumenous Amulet");
-            Tooltip.SetDefault("Attacks inflict the Crush Depth debuff\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Lumenous Amulet");
+            /* Tooltip.SetDefault("Attacks inflict the Crush Depth debuff\n" +
                 "Grants immunity to the Crush Depth debuff\n" +
                 "While in the abyss you gain 25% increased max life\n" +
-                "Provides a moderate amount of light in the abyss");
+                "Provides a moderate amount of light in the abyss"); */
         }
 
         public override void SetDefaults()

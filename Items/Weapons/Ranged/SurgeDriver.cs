@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Surge Driver");
-            Tooltip.SetDefault("Left clicks release a laser ray that explodes on collision\n" +
-                "Right clicks release a barrage of laser beams that release homing energy on enemy hits");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Surge Driver");
+            /* Tooltip.SetDefault("Left clicks release a laser ray that explodes on collision\n" +
+                "Right clicks release a barrage of laser beams that release homing energy on enemy hits"); */
+            Item.ResearchUnlockCount = 1;
 
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }

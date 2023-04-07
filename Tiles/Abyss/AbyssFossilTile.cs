@@ -2,6 +2,7 @@ using CalamityMod.Items.Fishing.SulphurCatches;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -16,8 +17,8 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileWaterDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Abyss Shell Fossil");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Abyss Shell Fossil");
             AddMapEntry(new Color(29, 37, 58), name);
             DustType = 33;
         }

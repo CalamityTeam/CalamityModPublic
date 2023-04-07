@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Beetle Juice");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Beetle Juice");
         }
 
         public override void SetDefaults()

@@ -11,8 +11,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Akato");
-            Description.SetDefault("Looks like you'll have to take care of it now");
+            // DisplayName.SetDefault("Akato");
+            // Description.SetDefault("Looks like you'll have to take care of it now");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

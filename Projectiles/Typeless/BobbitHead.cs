@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Typeless
         public const float GrappleRangInTiles = 40f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bobbit Head");
+            // DisplayName.SetDefault("Bobbit Head");
         }
 
         public override void SetDefaults()

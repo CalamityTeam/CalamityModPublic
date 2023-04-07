@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ares' Cannons");
-            Description.SetDefault("Pulse cannon not included");
+            // DisplayName.SetDefault("Ares' Cannons");
+            // Description.SetDefault("Pulse cannon not included");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

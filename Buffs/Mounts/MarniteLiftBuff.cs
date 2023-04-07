@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Mounts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Marnite Lift");
-            Description.SetDefault("Do you even..?");
+            // DisplayName.SetDefault("Marnite Lift");
+            // Description.SetDefault("Do you even..?");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

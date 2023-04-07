@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
         public ref float Time => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wither Blossom");
+            // DisplayName.SetDefault("Wither Blossom");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }

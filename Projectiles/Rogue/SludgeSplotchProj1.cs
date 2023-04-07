@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
         public static int sludgeDustType = 191;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sludge Splotch");
+            // DisplayName.SetDefault("Sludge Splotch");
         }
 
         public override void SetDefaults()
@@ -41,9 +41,9 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Slimed, 120);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Slimed, 120);
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(BuffID.Slimed, 120);
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => target.AddBuff(BuffID.Slimed, 120);
 
         public override void Kill(int timeLeft)
         {

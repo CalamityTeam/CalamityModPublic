@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.Other
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Demon");
+            // DisplayName.SetDefault("Demon");
             Main.npcFrameCount[NPC.type] = 5;
         }
 
@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.Other
             NPC.Calamity().VulnerableToWater = true;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = 100000;
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */ => NPC.lifeMax = 100000;
 
         public override void AI()
         {
@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.Other
                 NPC.frame.Y = 0;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
                 Utils.PoofOfSmoke(NPC.Center);

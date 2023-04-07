@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stratus Star Platform");
-            SacrificeTotal = 200;
+            // DisplayName.SetDefault("Stratus Star Platform");
+            Item.ResearchUnlockCount = 200;
         }
 
         public override void SetDefaults()

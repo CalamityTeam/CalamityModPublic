@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables
     [LegacyName("ChaoticBrick")]
     public class ScoriaBrick : ModItem
     {
-        public override void SetStaticDefaults() => SacrificeTotal = 100;
+        public override void SetStaticDefaults() => Item.ResearchUnlockCount = 100;
 
         public override void SetDefaults()
         {

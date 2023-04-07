@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
@@ -9,8 +10,8 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         public override void SetStaticDefaults()
         {
             this.SetUpBathtub(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Bathtub");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
             AnimationFrameHeight = 54;
         }

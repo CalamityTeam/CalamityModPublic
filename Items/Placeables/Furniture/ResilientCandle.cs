@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Resilient Candle");
-            Tooltip.SetDefault("When placed, nearby players' defense blocks 5% more damage\n" +
-                "'Neither rain nor wind can snuff its undying flame'");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Resilient Candle");
+            /* Tooltip.SetDefault("When placed, nearby players' defense blocks 5% more damage\n" +
+                "'Neither rain nor wind can snuff its undying flame'"); */
         }
 
         public override void SetDefaults()

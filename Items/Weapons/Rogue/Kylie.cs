@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static float Speed = 14f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Kylie");
-            Tooltip.SetDefault("Stealth strikes throws three shorter ranged kylies instead of a single long range one\n" + "'Also known as Dowak'");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Kylie");
+            // Tooltip.SetDefault("Stealth strikes throws three shorter ranged kylies instead of a single long range one\n" + "'Also known as Dowak'");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

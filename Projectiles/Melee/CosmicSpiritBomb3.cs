@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bomb");
+            // DisplayName.SetDefault("Bomb");
         }
 
         public override void SetDefaults()
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee
             return new Color(200, 200, 200, Projectile.alpha);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Ichor, 60);
         }

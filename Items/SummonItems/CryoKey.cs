@@ -17,11 +17,11 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Cryo Key");
-            Tooltip.SetDefault("Summons Cryogen when used in the tundra\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Cryo Key");
+            /* Tooltip.SetDefault("Summons Cryogen when used in the tundra\n" +
                 "Enrages outside the tundra\n" +
-                "Not consumable");
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 7; // Mechanical Eye
         }
 
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Cryogen>());
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Cryogen>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<Cryogen>());
 
             return true;
         }

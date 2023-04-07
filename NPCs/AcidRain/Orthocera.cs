@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Orthocera");
+            // DisplayName.SetDefault("Orthocera");
             Main.npcFrameCount[NPC.type] = 5;
         }
 
@@ -248,7 +248,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
@@ -264,7 +264,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 target.AddBuff(ModContent.BuffType<Irradiated>(), 180);

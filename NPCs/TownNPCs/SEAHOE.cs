@@ -7,9 +7,9 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Pets;
 using CalamityMod.Projectiles.Rogue;
-using IL.Terraria.DataStructures;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Personalities;
 using Terraria.ID;
@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.TownNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sea King");
+            // DisplayName.SetDefault("Sea King");
 
             Main.npcFrameCount[NPC.type] = 25;
             NPCID.Sets.ExtraFramesCount[NPC.type] = 5;
@@ -75,7 +75,7 @@ namespace CalamityMod.NPCs.TownNPCs
             });
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
             return DownedBossSystem.downedCLAM && DownedBossSystem.downedDesertScourge;
         }
@@ -336,7 +336,7 @@ namespace CalamityMod.NPCs.TownNPCs
             button2 = "Help";
         }
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
             {
@@ -353,7 +353,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public override void SetupShop(Chest shop, ref int nextSlot)
+        public override void ModifyActiveShop(string shopName, Item[] items)
         {
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Shellshooter>());
             nextSlot++;
@@ -377,17 +377,17 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 shop.item[nextSlot].SetDefaults(ItemID.GillsPotion);
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                if (Main.LocalPlayer.discount)
+                if (Main.LocalPlayer.discountAvailable)
                 shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
                 nextSlot++;
                 shop.item[nextSlot].SetDefaults(ItemID.WaterWalkingPotion);
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                if (Main.LocalPlayer.discount)
+                if (Main.LocalPlayer.discountAvailable)
                 shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
                 nextSlot++;
                 shop.item[nextSlot].SetDefaults(ItemID.FlipperPotion);
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                if (Main.LocalPlayer.discount)
+                if (Main.LocalPlayer.discountAvailable)
                 shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
                 nextSlot++;
             }
@@ -395,7 +395,7 @@ namespace CalamityMod.NPCs.TownNPCs
             {
             shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
-            if (Main.LocalPlayer.discount)
+            if (Main.LocalPlayer.discountAvailable)
                 shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
             nextSlot++;
             }
@@ -403,7 +403,7 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodwormItem>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
-                if (Main.LocalPlayer.discount)
+                if (Main.LocalPlayer.discountAvailable)
                   shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
                 nextSlot++;
             }
@@ -427,7 +427,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

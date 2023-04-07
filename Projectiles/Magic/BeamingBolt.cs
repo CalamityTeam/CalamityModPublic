@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Beaming Bolt");
+            // DisplayName.SetDefault("Beaming Bolt");
         }
 
         public override void SetDefaults()

@@ -20,10 +20,10 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cosmilamp");
-            Tooltip.SetDefault("Summons a cosmic lantern above your head to fight for you\n" +
-                $"Each lantern takes up {LanternSummonCost} minion slots");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Cosmilamp");
+            /* Tooltip.SetDefault("Summons a cosmic lantern above your head to fight for you\n" +
+                $"Each lantern takes up {LanternSummonCost} minion slots"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

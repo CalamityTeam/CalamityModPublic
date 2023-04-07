@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Feather");
+            // DisplayName.SetDefault("Feather");
         }
 
         public override void SetDefaults()

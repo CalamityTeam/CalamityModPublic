@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Spelunker's Amulet");
-            Tooltip.SetDefault("Spelunker effect and 15% increased mining speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Spelunker's Amulet");
+            // Tooltip.SetDefault("Spelunker effect and 15% increased mining speed");
         }
 
         public override void SetDefaults()

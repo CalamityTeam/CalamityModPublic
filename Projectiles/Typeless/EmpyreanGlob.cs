@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Empyeran Glob");
+            // DisplayName.SetDefault("Empyeran Glob");
         }
 
         public override void SetDefaults()

@@ -15,12 +15,12 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cinders of Lament");
-            Tooltip.SetDefault("Summons either Cataclysm or Catastrophe at the mouse position\n" +
+            // DisplayName.SetDefault("Cinders of Lament");
+            /* Tooltip.SetDefault("Summons either Cataclysm or Catastrophe at the mouse position\n" +
                 "They will look at you for a moment before charging at you\n" +
                 "They can do damage to both you and enemies\n" +
-               CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor));
-            SacrificeTotal = 1;
+               CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor)); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Infested Clawmerang");
-            Tooltip.SetDefault(@"Fires a slow, long-ranged boomerang
+            // DisplayName.SetDefault("Infested Clawmerang");
+            // Tooltip.SetDefault(@"Fires a slow, long-ranged boomerang
 Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing spores");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

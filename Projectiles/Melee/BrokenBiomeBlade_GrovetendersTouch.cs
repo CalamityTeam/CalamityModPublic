@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Grovetender's Touch");
+            // DisplayName.SetDefault("Grovetender's Touch");
         }
         public override void SetDefaults()
         {
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Melee
             return base.Colliding(projHitbox, targetHitbox);
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
             Vector2 projectileHalfLength = (Projectile.Size / 2f) * Projectile.rotation.ToRotationVector2();

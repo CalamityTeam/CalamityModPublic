@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Reefclaw Hamaxe");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Reefclaw Hamaxe");
         }
 
         public override void SetDefaults()

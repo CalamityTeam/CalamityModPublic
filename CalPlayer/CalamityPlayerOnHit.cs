@@ -46,7 +46,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region On Hit NPC
-        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)/* tModPorter If you don't need the Item, consider using OnHitNPC instead */
         {
             if (Player.whoAmI != Main.myPlayer)
                 return;
@@ -188,7 +188,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region On Hit NPC With Proj
-        public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)/* tModPorter If you don't need the Projectile, consider using OnHitNPC instead */
         {
             if (Player.whoAmI != Main.myPlayer)
                 return;
@@ -387,7 +387,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region PvP
-        public override void OnHitPvp(Item item, Player target, int damage, bool crit)
+        public override void OnHitPvp(Item item, Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHurt on the receiving player and check info.PvP. Use info.DamageSource.SourcePlayerIndex to get the attacking player */
         {
             if (Player.whoAmI != Main.myPlayer)
                 return;
@@ -454,7 +454,7 @@ namespace CalamityMod.CalPlayer
             PvpDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), item.CountsAsClass<SummonMeleeSpeedDamageClass>(), false);
         }
 
-        public override void OnHitPvpWithProj(Projectile proj, Player target, int damage, bool crit)
+        public override void OnHitPvpWithProj(Projectile proj, Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHurt on the receiving player and check info.PvP. Use info.DamageSource.SourcePlayerIndex to get the attacking player */
         {
             if (Player.whoAmI != Main.myPlayer)
                 return;

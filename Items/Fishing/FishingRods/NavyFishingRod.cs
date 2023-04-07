@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Navy Fishing Rod");
-            Tooltip.SetDefault("While held, slowly electrifies nearby enemies.\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Navy Fishing Rod");
+            /* Tooltip.SetDefault("While held, slowly electrifies nearby enemies.\n" +
                 "The sea is a city.\n" + //Life of Pi ref Ch.59
-                "Just below are highways, boulevards, streets and roundabouts bustling with submarine traffic.");
+                "Just below are highways, boulevards, streets and roundabouts bustling with submarine traffic."); */
         }
 
         public override void SetDefaults()

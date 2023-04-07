@@ -16,9 +16,9 @@ namespace CalamityMod.Items.Armor.Statigel
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Statigel Hood");
-            Tooltip.SetDefault("Increased minion knockback");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Statigel Hood");
+            // Tooltip.SetDefault("Increased minion knockback");
         }
 
         public override void SetDefaults()

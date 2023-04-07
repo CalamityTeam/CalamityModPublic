@@ -12,11 +12,11 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Decapodita Sprout");
-            Tooltip.SetDefault("Summons Crabulon when used in the Mushroom biome\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Decapodita Sprout");
+            /* Tooltip.SetDefault("Summons Crabulon when used in the Mushroom biome\n" +
                 "Enrages outside the Underground Mushroom biome\n" +
-                "Not consumable");
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 3; // Worm Food / Bloody Spine
         }
 
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.SummonItems
                 CalamityUtils.BossAwakenMessage(npc);
             }
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Crabulon>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<Crabulon>());
 
             return true;
         }

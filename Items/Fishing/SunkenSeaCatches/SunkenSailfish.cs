@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sunken Sailfish"); //Potion material
-            Tooltip.SetDefault("Zooming at 60 miles per hour");
-            SacrificeTotal = 3;
+            // DisplayName.SetDefault("Sunken Sailfish"); //Potion material
+            // Tooltip.SetDefault("Zooming at 60 miles per hour");
+            Item.ResearchUnlockCount = 3;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 

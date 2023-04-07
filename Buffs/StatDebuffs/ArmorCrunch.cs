@@ -12,8 +12,8 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Armor Crunch");
-            Description.SetDefault("Your armor is shredded");
+            // DisplayName.SetDefault("Armor Crunch");
+            // Description.SetDefault("Your armor is shredded");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

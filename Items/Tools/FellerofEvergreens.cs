@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Feller of Evergreens");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Feller of Evergreens");
         }
 
         public override void SetDefaults()

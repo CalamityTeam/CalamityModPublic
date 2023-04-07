@@ -11,10 +11,10 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Eidolon Tablet");
-            Tooltip.SetDefault("Summons the Lunatic Cultist\n" +
-                "Not consumable");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Eidolon Tablet");
+            /* Tooltip.SetDefault("Summons the Lunatic Cultist\n" +
+                "Not consumable"); */
 			NPCID.Sets.MPAllowedEnemies[NPCID.CultistBoss] = true;
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 16; // Solar Tablet / Bloody Tear
         }
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.SummonItems
                 CalamityUtils.BossAwakenMessage(npc);
             }
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.CultistBoss);
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, NPCID.CultistBoss);
 
             return true;
         }

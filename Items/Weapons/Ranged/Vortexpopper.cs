@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vortexpopper");
-            Tooltip.SetDefault("Fires bubbles everywhere that pop into bullets");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Vortexpopper");
+            // Tooltip.SetDefault("Fires bubbles everywhere that pop into bullets");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

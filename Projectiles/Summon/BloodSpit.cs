@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spit");
+            // DisplayName.SetDefault("Spit");
             Main.projFrames[Projectile.type] = 3;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }

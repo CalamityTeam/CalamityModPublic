@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(249, 129, 185)).UseSecondaryColor(new Color(131, 58, 103)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Pink Statigel Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Pink Statigel Dye");
         }
 
         public override void SafeSetDefaults()

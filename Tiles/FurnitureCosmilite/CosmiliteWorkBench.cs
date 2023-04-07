@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
@@ -12,8 +13,8 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         public override void SetStaticDefaults()
         {
             this.SetUpWorkBench(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Work Bench");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.WorkBenches };

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crystal");
+            // DisplayName.SetDefault("Crystal");
         }
 
         public override void SetDefaults()
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Melee
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             int buffType = Projectile.ai[0] == 0f ? BuffID.Frostburn : BuffID.OnFire;
             target.AddBuff(buffType, 90);

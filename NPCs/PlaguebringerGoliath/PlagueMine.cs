@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Plague Mine");
+            // DisplayName.SetDefault("Plague Mine");
             Main.npcFrameCount[NPC.type] = 4;
         }
 
@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             return false;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
             {

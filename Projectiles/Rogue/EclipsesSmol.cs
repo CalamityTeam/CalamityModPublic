@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eclipse's Small");
+            // DisplayName.SetDefault("Eclipse's Small");
         }
 
         public override void SetDefaults()

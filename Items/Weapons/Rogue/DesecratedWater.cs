@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         public const int BaseDamage = 55;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Desecrated Water");
-            Tooltip.SetDefault(@"Throws an unholy flask of water that explodes into an explosion of bubbles on death
+            // DisplayName.SetDefault("Desecrated Water");
+            // Tooltip.SetDefault(@"Throws an unholy flask of water that explodes into an explosion of bubbles on death
 Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

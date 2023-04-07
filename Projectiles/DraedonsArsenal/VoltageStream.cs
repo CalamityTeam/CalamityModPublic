@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Voltage Stream");
+            // DisplayName.SetDefault("Voltage Stream");
         }
 
         public override void SetDefaults()
@@ -104,12 +104,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 Projectile.Kill();
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.damage = (int)(Projectile.damage * 0.75);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Projectile.damage = (int)(Projectile.damage * 0.75);
         }

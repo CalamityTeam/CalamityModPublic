@@ -19,7 +19,7 @@ Such stalwart loyalty! It reminds me of Yharon.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Leviathan and Anahita");
+            // DisplayName.SetDefault("Leviathan and Anahita");
         }
 
         public override void SetDefaults()

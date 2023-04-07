@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Enchanted Axe");
+            // DisplayName.SetDefault("Enchanted Axe");
         }
 
         public override void SetDefaults()

@@ -17,13 +17,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Murasama");
-            Tooltip.SetDefault("There will be blood!\n" +
+            // DisplayName.SetDefault("Murasama");
+            /* Tooltip.SetDefault("There will be blood!\n" +
                 "ID and power-level locked\n" +
-                "Prove your strength or have the correct user ID to wield this sword");
+                "Prove your strength or have the correct user ID to wield this sword"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 13));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

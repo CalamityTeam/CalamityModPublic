@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Draedon's Forge");
-            Tooltip.SetDefault("A plasma-lattice nanoforge powered by limitless Exo energies\n" +
-                "Functions as every major crafting station simultaneously");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Draedon's Forge");
+            /* Tooltip.SetDefault("A plasma-lattice nanoforge powered by limitless Exo energies\n" +
+                "Functions as every major crafting station simultaneously"); */
         }
 
         public override void SetDefaults()

@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exothermal Artemis Beam Telegraph");
+            // DisplayName.SetDefault("Exothermal Artemis Beam Telegraph");
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 

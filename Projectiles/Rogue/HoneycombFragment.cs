@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Honeycomb Fragment");
+            // DisplayName.SetDefault("Honeycomb Fragment");
         }
 
         public override void SetDefaults()

@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hardened Honeycomb");
-            Tooltip.SetDefault(@"Fires a honeycomb that shatters into fragments
+            // DisplayName.SetDefault("Hardened Honeycomb");
+            // Tooltip.SetDefault(@"Fires a honeycomb that shatters into fragments
 Grants the honey buff to players it touches
 Stealth strikes can bounce off walls and enemies");
-            SacrificeTotal = 99;
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

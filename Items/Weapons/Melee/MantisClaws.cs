@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mantis Claws");
-            Tooltip.SetDefault("Explodes on enemy hit\n" +
-                "It's just that shrimple");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Mantis Claws");
+            /* Tooltip.SetDefault("Explodes on enemy hit\n" +
+                "It's just that shrimple"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_ItemUse(Item);
 
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.OnFire3, 300);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_ItemUse(Item);
 

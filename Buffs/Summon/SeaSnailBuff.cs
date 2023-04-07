@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sea Snail");
-            Description.SetDefault("Meow?");
+            // DisplayName.SetDefault("Sea Snail");
+            // Description.SetDefault("Meow?");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

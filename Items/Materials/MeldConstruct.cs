@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Meld Construct");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Meld Construct");
         }
 
         public override void SetDefaults()

@@ -7,8 +7,8 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("Counts as a water source");
+            Item.ResearchUnlockCount = 1;
+            // Tooltip.SetDefault("Counts as a water source");
         }
 
         public override void SetDefaults()

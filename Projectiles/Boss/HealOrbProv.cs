@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heal");
+            // DisplayName.SetDefault("Heal");
         }
 
         public override void SetDefaults()

@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(123, 205, 237)).UseSecondaryColor(new Color(85, 85, 171));
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Endothermic Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Endothermic Dye");
         }
 
         public override void SafeSetDefaults()

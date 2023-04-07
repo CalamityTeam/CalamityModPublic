@@ -7,8 +7,8 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Surf Clam");
-            SacrificeTotal = 2;
+            // DisplayName.SetDefault("Surf Clam");
+            Item.ResearchUnlockCount = 2;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 

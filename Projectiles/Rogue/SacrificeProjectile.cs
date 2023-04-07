@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Sacrifice";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sacrificial Dagger");
+            // DisplayName.SetDefault("Sacrificial Dagger");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
         }
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.StickyProjAI(50);
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Projectile.ModifyHitNPCSticky(15, true);
             Projectile.velocity *= 0.5f;

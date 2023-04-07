@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Digging Turtle");
+            // DisplayName.SetDefault("Digging Turtle");
         }
 
         public override void SetDefaults()

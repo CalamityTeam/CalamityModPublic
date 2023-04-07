@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mana Drain");
+            // DisplayName.SetDefault("Mana Drain");
         }
 
         public override void SetDefaults()

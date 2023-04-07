@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flarefrost Blade");
-            Tooltip.SetDefault("Fires a homing flarefrost orb");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Flarefrost Blade");
+            // Tooltip.SetDefault("Fires a homing flarefrost orb");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -53,13 +53,13 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire3, 180);
             target.AddBuff(BuffID.Frostburn2, 180);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(BuffID.OnFire3, 180);
             target.AddBuff(BuffID.Frostburn2, 180);

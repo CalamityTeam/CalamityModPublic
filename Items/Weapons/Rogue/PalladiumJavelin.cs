@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Palladium Javelin");
-            Tooltip.SetDefault("Stealth strikes split into more javelins and boost life regeneration on hits");
-            SacrificeTotal = 99;
+            // DisplayName.SetDefault("Palladium Javelin");
+            // Tooltip.SetDefault("Stealth strikes split into more javelins and boost life regeneration on hits");
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

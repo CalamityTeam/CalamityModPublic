@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -15,13 +16,13 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void SetStaticDefaults()
         {
             this.SetUpChest(true, 2);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Chest");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Exo Chest");
             AddMapEntry(new Color(71, 95, 114), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            ContainerName.SetDefault("Exo Chest");
-            ChestDrop = ModContent.ItemType<ExoChest>();
+            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Exo Chest");
+            ItemDrop = ModContent.ItemType<ExoChest>();
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -43,7 +44,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
 

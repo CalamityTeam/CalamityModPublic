@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Calcium");
-            Description.SetDefault("You are immune to fall damage");
+            // DisplayName.SetDefault("Calcium");
+            // Description.SetDefault("You are immune to fall damage");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

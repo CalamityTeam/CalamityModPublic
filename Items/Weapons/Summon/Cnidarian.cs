@@ -16,14 +16,14 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cnidarian");
-            Tooltip.SetDefault("Fishes up an electric jellyfish\n" +
+            // DisplayName.SetDefault("Cnidarian");
+            /* Tooltip.SetDefault("Fishes up an electric jellyfish\n" +
             "Periodically sends out sparks to electrocute nearby enemies.\n" +
             //Lore tooltip time. Elden Ring.
             "[c/5C95A1:From looking at their less sapient brethren, the Old Kingdom's inhabitants adapted tools and weapons designed for underwater efficiency.]\n" +
             "[c/5C95A1:The electric properties of ghost bells remain useful even after death, having been commonly used as conduits.]"
-            );
-            SacrificeTotal = 1;
+            ); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

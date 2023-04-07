@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Nuclear Rod");
-            Tooltip.SetDefault("Minions release an irradiated aura on enemy hits\n" +
-                               "Grants immunity to Irradiated");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Nuclear Rod");
+            /* Tooltip.SetDefault("Minions release an irradiated aura on enemy hits\n" +
+                               "Grants immunity to Irradiated"); */
         }
 
         public override void SetDefaults()

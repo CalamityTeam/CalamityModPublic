@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ashen Debris");
+            // DisplayName.SetDefault("Ashen Debris");
         }
 
         public override void SetDefaults()

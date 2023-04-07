@@ -14,12 +14,12 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Blessed Phoenix Egg");
-            Tooltip.SetDefault("An effigy of a Phoenix Dragon egg, used in worship\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Blessed Phoenix Egg");
+            /* Tooltip.SetDefault("An effigy of a Phoenix Dragon egg, used in worship\n" +
                                "Summons Yharon, Dragon of Rebirth\n" +
                                "Enrages outside the fire walls\n" +
-                               "Not consumable");
+                               "Not consumable"); */
             ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Yharon>());
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Yharon>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<Yharon>());
 
             return true;
         }

@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eidolon Staff");
-            Tooltip.SetDefault("The power of an ancient cultist resonates within this staff\n" +
-                "Fires a spread of ancient light and a spinning ice cluster");
+            // DisplayName.SetDefault("Eidolon Staff");
+            /* Tooltip.SetDefault("The power of an ancient cultist resonates within this staff\n" +
+                "Fires a spread of ancient light and a spinning ice cluster"); */
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

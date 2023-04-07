@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wither Blossoms Staff");
-            Tooltip.SetDefault("Summons four decaying flowers over your head\n" +
-                               "The combined flowers consume two minion slots");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Wither Blossoms Staff");
+            /* Tooltip.SetDefault("Summons four decaying flowers over your head\n" +
+                               "The combined flowers consume two minion slots"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

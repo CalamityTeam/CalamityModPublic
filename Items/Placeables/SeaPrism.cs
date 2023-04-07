@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Sea Prism");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Sea Prism");
         }
 
         public override void SetDefaults()

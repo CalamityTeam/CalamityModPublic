@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Typeless
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aestheticus");
-            Tooltip.SetDefault("Fires crystals that explode and slow enemies down\n" +
-                "This weapon scales with all your damage stats at once");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Aestheticus");
+            /* Tooltip.SetDefault("Fires crystals that explode and slow enemies down\n" +
+                "This weapon scales with all your damage stats at once"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -52,12 +52,12 @@ namespace CalamityMod.Items.Weapons.Typeless
             return false;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Vaporfied>(), 120);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(ModContent.BuffType<Vaporfied>(), 120);
         }

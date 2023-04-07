@@ -20,9 +20,9 @@ namespace CalamityMod.Items.TreasureBags
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Treasure Bag (The Old Duke)");
-            Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Treasure Bag (The Old Duke)");
+            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
 			ItemID.Sets.BossBag[Item.type] = true;
         }
 

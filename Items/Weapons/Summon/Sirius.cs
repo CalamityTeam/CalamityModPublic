@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sirius");
-            Tooltip.SetDefault("Summons the brightest star in the night sky to shine upon your foes\n" +
+            // DisplayName.SetDefault("Sirius");
+            /* Tooltip.SetDefault("Summons the brightest star in the night sky to shine upon your foes\n" +
                 "Can only be summoned once\n" +
-                "Uses 6 minion slots");
-            SacrificeTotal = 1;
+                "Uses 6 minion slots"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

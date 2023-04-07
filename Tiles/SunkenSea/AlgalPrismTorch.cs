@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.SunkenSea
@@ -12,8 +13,8 @@ namespace CalamityMod.Tiles.SunkenSea
         public override void SetStaticDefaults()
         {
             this.SetUpTorch(true, true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Torch");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Torch");
             AddMapEntry(new Color(253, 221, 3), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             ItemDrop = ModContent.ItemType<Items.Placeables.Furniture.AlgalPrismTorch>();

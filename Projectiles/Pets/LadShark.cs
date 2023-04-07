@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lad Shark");
+            // DisplayName.SetDefault("Lad Shark");
             Main.projPet[Projectile.type] = true;
         }
 

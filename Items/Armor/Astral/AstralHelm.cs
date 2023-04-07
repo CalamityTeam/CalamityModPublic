@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Armor.Astral
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Astral Helm");
-            Tooltip.SetDefault("Danger detection");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Astral Helm");
+            // Tooltip.SetDefault("Danger detection");
         }
 
         public override void SetDefaults()

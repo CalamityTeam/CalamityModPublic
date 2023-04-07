@@ -7,9 +7,9 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bloody Boost");
-            Description.SetDefault("Increased offensive and defensive stats\n" +
-            "Healing potions grant more health");
+            // DisplayName.SetDefault("Bloody Boost");
+            /* Description.SetDefault("Increased offensive and defensive stats\n" +
+            "Healing potions grant more health"); */
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

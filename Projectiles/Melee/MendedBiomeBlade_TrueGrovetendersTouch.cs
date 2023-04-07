@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Grovetender's Touch");
+            // DisplayName.SetDefault("Grovetender's Touch");
         }
         public override void SetDefaults()
         {
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Melee
             return base.Colliding(projHitbox, targetHitbox);
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Vector2 projectileHalfLength = 85f * Projectile.rotation.ToRotationVector2();
             float collisionPoint = 0;
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Melee
                 damage = (int)(damage * TrueBiomeBlade.TropicalAttunement_ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (crit)
             {

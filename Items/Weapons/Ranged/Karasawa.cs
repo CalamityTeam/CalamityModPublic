@@ -18,9 +18,9 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Karasawa");
-            Tooltip.SetDefault("...This is heavy... too heavy.");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Karasawa");
+            // Tooltip.SetDefault("...This is heavy... too heavy.");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Turret
         public override string Texture => "CalamityMod/Projectiles/Ranged/GoliathRocket";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plague Shot");
+            // DisplayName.SetDefault("Plague Shot");
         }
 
         public override void SetDefaults()
@@ -54,11 +54,11 @@ namespace CalamityMod.Projectiles.Turret
             Projectile.velocity = ((Projectile.oldVelocity*7f) + Projectile.velocity) / 8; //inertia
             DrawParticles();
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 60);
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 60);
             if (Projectile.hostile && Main.netMode == NetmodeID.MultiplayerClient) //hostile version pierces through players in multiplayer

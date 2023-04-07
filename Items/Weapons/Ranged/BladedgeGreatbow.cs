@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bladedge Railbow");
-            Tooltip.SetDefault("Fires a spread of 4 arrows and 2 leaves at once");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Bladedge Railbow");
+            // Tooltip.SetDefault("Fires a spread of 4 arrows and 2 leaves at once");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

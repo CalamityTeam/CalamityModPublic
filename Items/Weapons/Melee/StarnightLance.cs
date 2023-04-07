@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starnight Lance");
-            Tooltip.SetDefault("Shoots a starnight beam");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Starnight Lance");
+            // Tooltip.SetDefault("Shoots a starnight beam");
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

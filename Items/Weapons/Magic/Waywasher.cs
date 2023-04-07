@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Waywasher");
-            Tooltip.SetDefault("Casts inaccurate water bolts");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Waywasher");
+            // Tooltip.SetDefault("Casts inaccurate water bolts");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.Crags
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cultist Assassin");
+            // DisplayName.SetDefault("Cultist Assassin");
             Main.npcFrameCount[NPC.type] = 4;
         }
 
@@ -63,13 +63,13 @@ namespace CalamityMod.NPCs.Crags
             return (spawnInfo.Player.Calamity().ZoneCalamity || spawnInfo.Player.ZoneDungeon) && Main.hardMode ? 0.04f : 0f;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

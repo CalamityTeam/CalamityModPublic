@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Localization
 {
@@ -231,9 +232,9 @@ namespace CalamityMod.Localization
             Load();
             foreach (string[] localization in _localizations)
             {
-                ModTranslation text = LocalizationLoader.CreateTranslation($"Mods.{CalamityMod.Instance.Name}.{localization[0]}");
-                text.SetDefault(localization[1]);
-                LocalizationLoader.AddTranslation(text);
+                LocalizedText text = Language.GetOrRegister($"Mods.{CalamityMod.Instance.Name}.{localization[0]}");
+                // text.SetDefault(localization[1]);
+                LocalizationLoader.AddTranslation(text)/* tModPorter Note: Removed. Use Language.GetOrRegister */;
             }
             Unload();
         }

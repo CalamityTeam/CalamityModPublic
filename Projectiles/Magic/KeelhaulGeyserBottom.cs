@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Geyser");
+            // DisplayName.SetDefault("Geyser");
             Main.projFrames[Projectile.type] = 4;
         }
 

@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gauss Explosion");
+            // DisplayName.SetDefault("Gauss Explosion");
         }
 
         public override void SetDefaults()

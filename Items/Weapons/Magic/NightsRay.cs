@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Night's Ray");
-            Tooltip.SetDefault("Fires a dark ray\n" +
-                "When hitting enemies, they are hit by several new beams from their sides");
+            // DisplayName.SetDefault("Night's Ray");
+            /* Tooltip.SetDefault("Fires a dark ray\n" +
+                "When hitting enemies, they are hit by several new beams from their sides"); */
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

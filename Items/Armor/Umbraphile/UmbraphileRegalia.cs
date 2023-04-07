@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Armor.Umbraphile
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Umbraphile Regalia");
-            Tooltip.SetDefault("10% increased rogue damage and 10% increased rogue crit");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Umbraphile Regalia");
+            // Tooltip.SetDefault("10% increased rogue damage and 10% increased rogue crit");
         }
 
         public override void SetDefaults()

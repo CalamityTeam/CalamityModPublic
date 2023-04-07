@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Mutated Truffle");
-            Tooltip.SetDefault("Summons a small Old Duke to fight for you\n" +
-                               "When below 50% life, it moves much faster");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Mutated Truffle");
+            /* Tooltip.SetDefault("Summons a small Old Duke to fight for you\n" +
+                               "When below 50% life, it moves much faster"); */
         }
 
         public override void SetDefaults()

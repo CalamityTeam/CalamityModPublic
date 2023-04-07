@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("Lobs fragile ice mist bombs at nearby enemies\n" +
-                "Cannot attack while a boss is alive");
+            Item.ResearchUnlockCount = 1;
+            /* Tooltip.SetDefault("Lobs fragile ice mist bombs at nearby enemies\n" +
+                "Cannot attack while a boss is alive"); */
         }
 
         public override void SetDefaults()

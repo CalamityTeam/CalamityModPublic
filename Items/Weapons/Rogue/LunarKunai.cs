@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lunar Kunai");
-            Tooltip.SetDefault("Throws out a set of three kunai that ignore gravity and slightly home in on enemies\n"
+            // DisplayName.SetDefault("Lunar Kunai");
+            /* Tooltip.SetDefault("Throws out a set of three kunai that ignore gravity and slightly home in on enemies\n"
                               +"After traveling enough distance, the kunai supercharge with lunar energy, homing in far more aggressively and exploding on impact\n"
-                              +"Stealth strikes instantly throw eight supercharged Kunai");
-            SacrificeTotal = 99;
+                              +"Stealth strikes instantly throw eight supercharged Kunai"); */
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

@@ -9,11 +9,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Mirage Mirror");
-            Tooltip.SetDefault("Bend light around you\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Mirage Mirror");
+            /* Tooltip.SetDefault("Bend light around you\n" +
                 "Reduces enemy aggression outside of the abyss\n" +
-                "Stealth generates 25% faster when standing still and 12% faster while moving");
+                "Stealth generates 25% faster when standing still and 12% faster while moving"); */
         }
 
         public override void SetDefaults()

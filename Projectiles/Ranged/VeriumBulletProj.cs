@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
         private float speed = 0f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Verium Bullet");
+            // DisplayName.SetDefault("Verium Bullet");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool CanHitPvp(Player target) => Projectile.ai[0] <= 0f;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.ai[0] = 10f;
             Projectile.damage /= 2;
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.ai[1] = target.whoAmI;
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Projectile.ai[0] = 10f;
             Projectile.damage /= 2;

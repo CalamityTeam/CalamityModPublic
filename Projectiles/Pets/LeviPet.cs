@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Levi");
+            // DisplayName.SetDefault("Levi");
             Main.projFrames[Projectile.type] = 5;
             Main.projPet[Projectile.type] = true;
         }

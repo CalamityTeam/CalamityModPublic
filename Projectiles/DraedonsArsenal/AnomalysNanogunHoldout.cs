@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Anomaly's Nanogun");
+            // DisplayName.SetDefault("The Anomaly's Nanogun");
         }
 
         public override void SetDefaults()

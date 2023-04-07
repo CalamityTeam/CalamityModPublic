@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.Placeables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Corruption Effigy");
-            Description.SetDefault("The corruption empowers you");
+            // DisplayName.SetDefault("Corruption Effigy");
+            // Description.SetDefault("The corruption empowers you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;

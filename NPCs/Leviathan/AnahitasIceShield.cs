@@ -12,7 +12,7 @@ namespace CalamityMod.NPCs.Leviathan
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Ice Shield");
+            // DisplayName.SetDefault("Ice Shield");
         }
 
         public override void SetDefaults()
@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.netUpdate = true;
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
             {
@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override Color? GetAlpha(Color drawColor) => NPC.ai[1] == 1f ? Color.Transparent : new Color(200, 200, 200, drawColor.A) * NPC.Opacity;
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (NPC.ai[1] == 1f || damage <= 0)
                 return;
@@ -115,7 +115,7 @@ namespace CalamityMod.NPCs.Leviathan
             player.AddBuff(BuffID.Frostburn, 240, true);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

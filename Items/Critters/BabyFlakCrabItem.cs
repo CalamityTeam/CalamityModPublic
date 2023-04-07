@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Critters
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Baby Flak Crab");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Baby Flak Crab");
         }
 
         public override void SetDefaults()

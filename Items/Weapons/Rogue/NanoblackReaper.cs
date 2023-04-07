@@ -20,12 +20,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nanoblack Reaper");
-            Tooltip.SetDefault("Unleashes a storm of nanoblack energy blades\n" +
+            // DisplayName.SetDefault("Nanoblack Reaper");
+            /* Tooltip.SetDefault("Unleashes a storm of nanoblack energy blades\n" +
                 "Blades target bosses whenever possible\n" +
                 "Stealth strikes cause the scythe to create a large amount of homing afterimages instead of energy blades\n" +
-                "'She smothered them in Her hatred'");
-            SacrificeTotal = 1;
+                "'She smothered them in Her hatred'"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

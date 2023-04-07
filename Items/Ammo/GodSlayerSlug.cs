@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("God Slayer Slug");
-            Tooltip.SetDefault("Heavy ammunition with unlimited piercing that tears through spacetime\n" +
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("God Slayer Slug");
+            /* Tooltip.SetDefault("Heavy ammunition with unlimited piercing that tears through spacetime\n" +
                 "After a slug lands a hit, if it strikes a wall or runs out of targets to pierce,\n" +
-                "it warps backwards through space and supercharges, exploding on impact");
+                "it warps backwards through space and supercharges, exploding on impact"); */
         }
 
         public override void SetDefaults()

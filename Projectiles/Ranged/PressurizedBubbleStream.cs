@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pressurized Bubble Stream");
+            // DisplayName.SetDefault("Pressurized Bubble Stream");
         }
 
         public override void SetDefaults()

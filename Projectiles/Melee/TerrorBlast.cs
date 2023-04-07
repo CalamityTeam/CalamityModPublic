@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terror Blast");
+            // DisplayName.SetDefault("Terror Blast");
         }
 
         public override void SetDefaults()

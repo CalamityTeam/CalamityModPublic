@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Abhorrent Monolith");
+            // DisplayName.SetDefault("Abhorrent Monolith");
         }
         public override void SetDefaults()
         {
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.Center = Projectile.Center + Projectile.velocity * 40f;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.numHits > 0)
                 damage = (int)(damage * TrueBiomeBlade.AstralAttunement_MonolithDamageFalloff);

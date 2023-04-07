@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Deific Thunderbolt");
-            Tooltip.SetDefault(@"Fires a lightning bolt to electrocute enemies
+            // DisplayName.SetDefault("Deific Thunderbolt");
+            // Tooltip.SetDefault(@"Fires a lightning bolt to electrocute enemies
 The lightning bolt travels faster while it is raining
 Summons lightning from the sky on impact
 Stealth strikes summon more lightning and travel faster");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

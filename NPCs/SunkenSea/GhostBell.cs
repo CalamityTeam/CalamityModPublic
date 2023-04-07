@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ghost Bell");
+            // DisplayName.SetDefault("Ghost Bell");
             Main.npcFrameCount[NPC.type] = 6;
         }
 
@@ -150,13 +150,13 @@ namespace CalamityMod.NPCs.SunkenSea
                 new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(BuffID.Electrified, 120, true);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

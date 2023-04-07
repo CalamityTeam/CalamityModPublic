@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crimslime");
-            Description.SetDefault("The crimslime will protect you");
+            // DisplayName.SetDefault("Crimslime");
+            // Description.SetDefault("The crimslime will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

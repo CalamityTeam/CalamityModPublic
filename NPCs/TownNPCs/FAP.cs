@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.TownNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Drunk Princess");
+            // DisplayName.SetDefault("Drunk Princess");
 
             Main.npcFrameCount[NPC.type] = 25;
             NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 CalamityWorld.spawnedCirrus = true;
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
             for (int k = 0; k < Main.maxPlayers; k++)
             {
@@ -293,7 +293,7 @@ namespace CalamityMod.NPCs.TownNPCs
             button2 = "Death Count + Donors";
         }
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
             {
@@ -307,7 +307,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original alcohol value
+        public override void ModifyActiveShop(string shopName, Item[] items) //charges 50% extra than the original alcohol value
         {
             int wife = NPC.FindFirstNPC(NPCID.Stylist);
             bool wifeIsAround = wife != -1;

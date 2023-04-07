@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Magic
         public const int FadeoutTime = 25;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Holy Fireball");
+            // DisplayName.SetDefault("Holy Fireball");
             Main.projFrames[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }

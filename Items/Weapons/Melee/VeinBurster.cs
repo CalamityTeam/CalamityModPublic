@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vein Burster");
-            Tooltip.SetDefault("Fires a blood ball that sticks to tiles and explodes");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Vein Burster");
+            // Tooltip.SetDefault("Fires a blood ball that sticks to tiles and explodes");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

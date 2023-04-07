@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vermillion Arrow");
+            // DisplayName.SetDefault("Vermillion Arrow");
         }
 
         public override void SetDefaults()
@@ -198,9 +198,9 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => OnHitEffect();
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => OnHitEffect();
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => OnHitEffect();
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => OnHitEffect();
 
         private void OnHitEffect()
 		{

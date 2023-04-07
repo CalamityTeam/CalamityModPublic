@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tumbleweed");
+            // DisplayName.SetDefault("Tumbleweed");
         }
 
         public override void SetDefaults()
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Melee
             return true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             SoundEngine.PlaySound(SoundID.NPCDeath15, Projectile.position);
             for (int num621 = 0; num621 < 20; num621++)

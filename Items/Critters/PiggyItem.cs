@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Critters
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Piggy");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Piggy");
         }
 
         public override void SetDefaults()

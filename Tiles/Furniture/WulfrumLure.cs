@@ -9,6 +9,7 @@ using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Audio;
@@ -34,8 +35,8 @@ namespace CalamityMod.Tiles.Furniture
             Main.tileNoAttach[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Wulfrum Lure");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Wulfrum Lure");
             AddMapEntry(new Color(194, 255, 67), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
 

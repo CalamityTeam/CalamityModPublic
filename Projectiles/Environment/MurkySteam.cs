@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Environment
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Steam");
+            // DisplayName.SetDefault("Steam");
 
             // This prevents the water from creating a universal distortion wherever it lands, thus making the geysers look weird.
             ProjectileID.Sets.NoLiquidDistortion[Type] = true;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Environment
             Projectile.velocity.Y *= 0.97f;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (damage <= 0)
                 return;

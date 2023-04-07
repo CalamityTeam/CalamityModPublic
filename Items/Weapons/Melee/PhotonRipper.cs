@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Photon Ripper");
-            Tooltip.SetDefault("Projects a directed stream of hardlight teeth at ultra high velocity\n" +
-                "This weapon and its projectiles function as a chainsaw");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Photon Ripper");
+            /* Tooltip.SetDefault("Projects a directed stream of hardlight teeth at ultra high velocity\n" +
+                "This weapon and its projectiles function as a chainsaw"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

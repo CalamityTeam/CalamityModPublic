@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Plagued Sink");
-            Tooltip.SetDefault("Counts as a water source");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Plagued Sink");
+            // Tooltip.SetDefault("Counts as a water source");
         }
 
         public override void SetDefaults()

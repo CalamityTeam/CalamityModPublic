@@ -35,11 +35,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terratomere");
-            Tooltip.SetDefault("Linked to the essence of Terraria\n" +
+            // DisplayName.SetDefault("Terratomere");
+            /* Tooltip.SetDefault("Linked to the essence of Terraria\n" +
                                "Heals the player on true melee hits\n" +
-                               "Fires a piercing energy bolt that causes hit targets to explode and be slashed");
-            SacrificeTotal = 1;
+                               "Fires a piercing energy bolt that causes hit targets to explode and be slashed"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

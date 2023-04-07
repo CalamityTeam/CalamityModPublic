@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wulfrum Scaffold Kit");
+            // DisplayName.SetDefault("Wulfrum Scaffold Kit");
         }
 
         public static int tileGlowTime = 10;

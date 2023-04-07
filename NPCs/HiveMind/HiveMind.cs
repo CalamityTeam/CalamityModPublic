@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Hive Mind");
+            // DisplayName.SetDefault("The Hive Mind");
             Main.npcFrameCount[NPC.type] = 16;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.TrailCacheLength[NPC.type] = NPC.oldPos.Length;
@@ -1001,7 +1001,7 @@ namespace CalamityMod.NPCs.HiveMind
             }
         }
 
-        public override bool? CanHitNPC(NPC target) => NPC.alpha == 0; // Can only be hit while fully visible
+        public override bool CanHitNPC(NPC target)/* tModPorter Suggestion: Return true instead of null */ => NPC.alpha == 0; // Can only be hit while fully visible
 
         // Can only hit the target if within certain distance
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -1026,7 +1026,7 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => NPC.scale == 1f; // Only draw HP bar while at full size
 
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
             if (phase2timer < 0 && damage > 1)
             {
@@ -1037,13 +1037,13 @@ namespace CalamityMod.NPCs.HiveMind
             return true;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
             NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < damage / NPC.lifeMax * 100.0; k++)
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, 14, hitDirection, -1f, 0, default, 1f);

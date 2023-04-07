@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
         public const int ShootRate = 60;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eye of Night");
+            // DisplayName.SetDefault("Eye of Night");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }

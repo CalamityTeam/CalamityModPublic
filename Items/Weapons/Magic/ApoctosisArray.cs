@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Apoctosis Array");
-            Tooltip.SetDefault("Fires ion blasts that speed up and then explode\n" +
+            // DisplayName.SetDefault("Apoctosis Array");
+            /* Tooltip.SetDefault("Fires ion blasts that speed up and then explode\n" +
                 "Damage scales with how full your mana is\n" +
-                "Using Astral Injection reduces the effectiveness of the mana boost");
-            SacrificeTotal = 1;
+                "Using Astral Injection reduces the effectiveness of the mana boost"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

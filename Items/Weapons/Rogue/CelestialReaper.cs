@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Celestial Reaper");
-            Tooltip.SetDefault("Throws a fast homing scythe\n" +
+            // DisplayName.SetDefault("Celestial Reaper");
+            /* Tooltip.SetDefault("Throws a fast homing scythe\n" +
                                "The scythe will bounce after hitting an enemy up to six times\n" +
-                               "Stealth strikes create damaging afterimages");
-            SacrificeTotal = 1;
+                               "Stealth strikes create damaging afterimages"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -26,7 +26,7 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Thermal Vents");
+            // DisplayName.SetDefault("Thermal Vents");
         }
 
         public override bool IsBiomeActive(Player player)

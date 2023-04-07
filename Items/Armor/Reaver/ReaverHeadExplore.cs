@@ -16,10 +16,10 @@ namespace CalamityMod.Items.Armor.Reaver
         //Exploration and Mining Helm
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Reaver Headgear");
-            Tooltip.SetDefault("40% increased pick speed and block/wall placement speed\n" +
-                "Grants immunity to lava and can move freely through liquids");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Reaver Headgear");
+            /* Tooltip.SetDefault("40% increased pick speed and block/wall placement speed\n" +
+                "Grants immunity to lava and can move freely through liquids"); */
         }
 
         public override void SetDefaults()

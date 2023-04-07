@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Armor.SnowRuffian
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Snow Ruffian Greaves");
-            Tooltip.SetDefault("5% increased movement speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Snow Ruffian Greaves");
+            // Tooltip.SetDefault("5% increased movement speed");
         }
 
         public override void SetDefaults()

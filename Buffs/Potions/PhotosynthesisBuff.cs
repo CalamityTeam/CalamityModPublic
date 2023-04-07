@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Photosynthesis");
-            Description.SetDefault("Life regen boosted, more during daytime, and hearts heal more HP");
+            // DisplayName.SetDefault("Photosynthesis");
+            // Description.SetDefault("Life regen boosted, more during daytime, and hearts heal more HP");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

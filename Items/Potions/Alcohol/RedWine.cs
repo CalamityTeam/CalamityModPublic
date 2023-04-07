@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Red Wine");
-            Tooltip.SetDefault(@"Too dry for my taste
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Red Wine");
+            // Tooltip.SetDefault(@"Too dry for my taste
 Reduces life regen by 1");
         }
 

@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sanguine Bladewheel");
+            // DisplayName.SetDefault("Sanguine Bladewheel");
         }
         public override void SetDefaults()
         {
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Melee
 
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.SuperPogoAttunement_WheelProc)
                 sword.OnHitProc = true;

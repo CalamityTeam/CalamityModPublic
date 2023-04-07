@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Thorn");
+            // DisplayName.SetDefault("Thorn");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Summon
                 dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f);
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             if ((player.ActiveItem().CountsAsClass<SummonDamageClass>() &&

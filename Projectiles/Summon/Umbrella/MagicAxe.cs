@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Jade Axe");
+            // DisplayName.SetDefault("Jade Axe");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 40;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 4;
         }
@@ -279,9 +279,9 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => OnHitEffect(target.Center, target.whoAmI);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => OnHitEffect(target.Center, target.whoAmI);
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => OnHitEffect(target.Center, -1);
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => OnHitEffect(target.Center, -1);
 
         private void OnHitEffect(Vector2 targetPos, int whoAmI)
 		{

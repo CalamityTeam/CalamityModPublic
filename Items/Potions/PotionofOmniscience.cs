@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 20;
-            DisplayName.SetDefault("Potion of Omniscience");
-            Tooltip.SetDefault("Highlights nearby creatures, enemy projectiles,\n" +
-                "danger sources, and treasure");
+            Item.ResearchUnlockCount = 20;
+            // DisplayName.SetDefault("Potion of Omniscience");
+            /* Tooltip.SetDefault("Highlights nearby creatures, enemy projectiles,\n" +
+                "danger sources, and treasure"); */
         }
 
         public override void SetDefaults()

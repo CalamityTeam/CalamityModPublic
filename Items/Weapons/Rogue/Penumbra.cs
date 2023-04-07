@@ -15,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static float ShootSpeed = 8f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Penumbra");
-            Tooltip.SetDefault("Throws a shadow bomb that explodes into homing souls\n" +
-                               "Stealth strikes make the bomb manifest on the cursor and explode into more souls");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Penumbra");
+            /* Tooltip.SetDefault("Throws a shadow bomb that explodes into homing souls\n" +
+                               "Stealth strikes make the bomb manifest on the cursor and explode into more souls"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gatling Laser");
+            // DisplayName.SetDefault("Gatling Laser");
         }
 
         public override void SetDefaults()

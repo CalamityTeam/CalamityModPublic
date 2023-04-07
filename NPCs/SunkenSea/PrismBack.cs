@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.SunkenSea
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Prism-Back");
+            // DisplayName.SetDefault("Prism-Back");
             Main.npcFrameCount[NPC.type] = 5;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.SunkenSea
             postDS.Add(ModContent.ItemType<PrismShard>(), 1, 1, 3);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

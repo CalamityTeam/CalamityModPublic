@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Essence Flayer");
-            Tooltip.SetDefault("Shoots an essence scythe that generates healing spirits on enemy kills");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Essence Flayer");
+            // Tooltip.SetDefault("Shoots an essence scythe that generates healing spirits on enemy kills");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -52,12 +52,12 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }

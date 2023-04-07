@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Iron Boots");
-            Tooltip.SetDefault("Allows you to fall faster while in liquids");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Iron Boots");
+            // Tooltip.SetDefault("Allows you to fall faster while in liquids");
         }
 
         public override void SetDefaults()

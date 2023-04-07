@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Belladonna Spirit");
-            Description.SetDefault("A cute forest spirit is following you");
+            // DisplayName.SetDefault("Belladonna Spirit");
+            // Description.SetDefault("A cute forest spirit is following you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

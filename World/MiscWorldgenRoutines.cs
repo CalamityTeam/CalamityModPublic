@@ -152,7 +152,7 @@ namespace CalamityMod.World
             else
             {
                 // Silver, Tungsten, Gold or Platinum bars (following worldgen choice)
-                int barID = WorldGen.genRand.NextBool() ? WorldGen.goldBar : WorldGen.silverBar;
+                int barID = WorldGen.genRand.NextBool() ? GenVars.goldBar : GenVars.silverBar;
                 PutItemInChest(ref chest, barID, 3, 10);
 
                 // 50% chance of 25-50 Holy Arrows

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aquatic Discharge");
+            // DisplayName.SetDefault("Aquatic Discharge");
         }
 
         public override void SetDefaults()
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Electric);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             var source = Projectile.GetSource_FromThis();
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
             Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), sparkDamage, knockback, Main.myPlayer);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Player player = Main.player[Projectile.owner];
             var source = Projectile.GetSource_FromThis();

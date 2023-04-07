@@ -8,10 +8,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Corrupt Flask");
-            Tooltip.SetDefault("4% increased damage reduction and +6 defense while in the corruption\n" +
-                "Grants immunity to the Cursed Inferno debuff");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Corrupt Flask");
+            /* Tooltip.SetDefault("4% increased damage reduction and +6 defense while in the corruption\n" +
+                "Grants immunity to the Cursed Inferno debuff"); */
         }
 
         public override void SetDefaults()

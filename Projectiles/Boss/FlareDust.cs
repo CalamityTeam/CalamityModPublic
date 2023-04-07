@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flare Dust");
+            // DisplayName.SetDefault("Flare Dust");
             Main.projFrames[Projectile.type] = 5;
         }
 
@@ -211,7 +211,7 @@ namespace CalamityMod.Projectiles.Boss
             return minDist <= 16f * Projectile.scale;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (damage <= 0)
                 return;

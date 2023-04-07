@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shady Rain");
+            // DisplayName.SetDefault("Shady Rain");
         }
 
         public override void SetDefaults()

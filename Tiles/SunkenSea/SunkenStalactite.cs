@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Enums;
 using Terraria.ObjectData;
@@ -22,7 +23,7 @@ namespace CalamityMod.Tiles.SunkenSea
 			TileObjectData.newTile.AnchorBottom = default(AnchorData);
             TileObjectData.addTile(Type);
             DustType = 253;
-            ModTranslation name = CreateMapEntryName();
+            LocalizedText name = CreateMapEntryName();
             AddMapEntry(new Color(31, 92, 114));
             MineResist = 3f;
 

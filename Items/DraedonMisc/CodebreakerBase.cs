@@ -10,8 +10,8 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Codebreaker Base");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Codebreaker Base");
         }
 
         public override void SetDefaults()

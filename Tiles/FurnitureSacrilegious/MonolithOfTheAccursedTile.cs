@@ -7,6 +7,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -35,8 +36,8 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 
             TileID.Sets.HasOutlines[Type] = true;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Monolith of the Accursed");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Monolith of the Accursed");
             AddMapEntry(new Color(43, 19, 42), name);
         }
 

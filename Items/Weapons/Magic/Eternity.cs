@@ -22,10 +22,10 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eternity");
-            Tooltip.SetDefault("Hexes a possible nearby enemy, trapping them in a brilliant display of destruction\n" +
-                "This line is modified in ModifyTooltips");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Eternity");
+            /* Tooltip.SetDefault("Hexes a possible nearby enemy, trapping them in a brilliant display of destruction\n" +
+                "This line is modified in ModifyTooltips"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

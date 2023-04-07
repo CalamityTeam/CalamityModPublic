@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aquashard Shotgun");
-            Tooltip.SetDefault("Converts musket balls into aquashards that split upon hitting an enemy");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Aquashard Shotgun");
+            // Tooltip.SetDefault("Converts musket balls into aquashards that split upon hitting an enemy");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

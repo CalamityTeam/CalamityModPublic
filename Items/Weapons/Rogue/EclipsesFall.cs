@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eclipse's Fall");
-            Tooltip.SetDefault("When the sun goes dark, you will know judgment\n" +
+            // DisplayName.SetDefault("Eclipse's Fall");
+            /* Tooltip.SetDefault("When the sun goes dark, you will know judgment\n" +
             "Summons spears from the sky on hit\n" +
-            "Stealth strikes impale enemies and summon a constant barrage of spears over time");
-            SacrificeTotal = 1;
+            "Stealth strikes impale enemies and summon a constant barrage of spears over time"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

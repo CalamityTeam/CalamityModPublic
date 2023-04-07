@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Swarmer");
-            Tooltip.SetDefault("Fires a swarm of bees and wasps");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("The Swarmer");
+            // Tooltip.SetDefault("Fires a swarm of bees and wasps");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

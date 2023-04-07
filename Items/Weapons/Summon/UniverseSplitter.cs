@@ -16,17 +16,17 @@ namespace CalamityMod.Items.Weapons.Summon
         public const float ItemUseDustMaxRadius = 36f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Universe Splitter");
-            Tooltip.SetDefault("Summons an energy field at the mouse cursor\n" +
+            // DisplayName.SetDefault("Universe Splitter");
+            /* Tooltip.SetDefault("Summons an energy field at the mouse cursor\n" +
                                "After the field has been deployed, it begins to summon multiple small beams\n" +
                                "After several seconds have passed, an enormous laser beam appears at the field's position\n" +
                                "This effect has a cooldown\n" +
                                "Attempting to use this item during the cooldown will cause it to short circuit and do damage to you.\n" +
                                "An ancient artifact from a previous age, it waits for your command...\n" +
-                               "This is a terrible idea, but it isn't yours anyways... right?");
+                               "This is a terrible idea, but it isn't yours anyways... right?"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 14));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

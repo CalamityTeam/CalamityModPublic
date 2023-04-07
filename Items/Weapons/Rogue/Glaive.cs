@@ -16,10 +16,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Glaive");
-            Tooltip.SetDefault(@"Tosses up to 3 sharp returning glaives
+            // DisplayName.SetDefault("Glaive");
+            // Tooltip.SetDefault(@"Tosses up to 3 sharp returning glaives
 Stealth strikes are super fast and pierce infinitely");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

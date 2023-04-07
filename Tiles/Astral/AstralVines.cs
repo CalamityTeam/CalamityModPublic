@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Metadata;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Astral
@@ -28,8 +29,8 @@ namespace CalamityMod.Tiles.Astral
 
             HitSound = SoundID.Grass;
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Astral Vines");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Astral Vines");
             AddMapEntry(new Color(65, 56, 83), name);
         }
 

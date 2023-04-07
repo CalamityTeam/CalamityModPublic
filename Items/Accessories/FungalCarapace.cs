@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Fungal Carapace");
-            Tooltip.SetDefault("You emit a cloud of mushroom spores when you are hit");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Fungal Carapace");
+            // Tooltip.SetDefault("You emit a cloud of mushroom spores when you are hit");
         }
 
         public override void SetDefaults()

@@ -16,11 +16,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sky Stabber");
-            Tooltip.SetDefault("Throws up to 4 gravity-defying spiky balls\n" +
+            // DisplayName.SetDefault("Sky Stabber");
+            /* Tooltip.SetDefault("Throws up to 4 gravity-defying spiky balls\n" +
                 "Stealth strikes make the balls rain feathers onto enemies when they hit\n" +
-                "Right click to delete all existing spiky balls");
-            SacrificeTotal = 1;
+                "Right click to delete all existing spiky balls"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

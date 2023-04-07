@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Clam Crusher");
-            Tooltip.SetDefault("Launches a huge clam that stuns enemies for a short amount of time\n" +
-                               "Starts being affected by gravity and does much more damage after being airborne for a while");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Clam Crusher");
+            /* Tooltip.SetDefault("Launches a huge clam that stuns enemies for a short amount of time\n" +
+                               "Starts being affected by gravity and does much more damage after being airborne for a while"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

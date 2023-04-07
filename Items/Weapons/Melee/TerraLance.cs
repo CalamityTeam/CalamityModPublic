@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terra Lance");
-            Tooltip.SetDefault("Fires a lance beam");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Terra Lance");
+            // Tooltip.SetDefault("Fires a lance beam");
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

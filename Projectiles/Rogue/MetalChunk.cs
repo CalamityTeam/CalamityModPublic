@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Metal Chunk"); //Metal Chungus - Shucks
+            // DisplayName.SetDefault("Metal Chunk"); //Metal Chungus - Shucks
         }
 
         public override void SetDefaults()

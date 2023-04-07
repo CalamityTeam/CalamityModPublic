@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Perdition");
-            Tooltip.SetDefault("Summons a beacon at the position of the mouse\n" +
+            // DisplayName.SetDefault("Perdition");
+            /* Tooltip.SetDefault("Summons a beacon at the position of the mouse\n" +
                 "When a target is manually selected via right click it releases torrents of souls from below onto the target\n" +
-                "Only one beacon may exist at a time");
-            SacrificeTotal = 1;
+                "Only one beacon may exist at a time"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

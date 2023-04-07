@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nano Purge");
+            // DisplayName.SetDefault("Nano Purge");
             Main.projFrames[Projectile.type] = 4;
         }
 

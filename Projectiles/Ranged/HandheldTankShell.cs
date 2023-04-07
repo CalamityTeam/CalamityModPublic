@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tank Shell");
+            // DisplayName.SetDefault("Tank Shell");
         }
 
         public override void SetDefaults()

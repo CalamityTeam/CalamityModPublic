@@ -5,7 +5,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mad Alchemist's Gas");
+            // DisplayName.SetDefault("Mad Alchemist's Gas");
         }
 
         public override void SetDefaults()

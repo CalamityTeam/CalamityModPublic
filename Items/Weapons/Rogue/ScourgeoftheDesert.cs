@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scourge of the Desert");
-            Tooltip.SetDefault(@"Gains velocity over time
+            // DisplayName.SetDefault("Scourge of the Desert");
+            // Tooltip.SetDefault(@"Gains velocity over time
 Stealth strikes gain damage as they damage enemies");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

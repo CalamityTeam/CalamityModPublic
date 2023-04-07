@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Endo Hydra");
-            Description.SetDefault("The endo hydra will protect you... for some reason");
+            // DisplayName.SetDefault("Endo Hydra");
+            // Description.SetDefault("The endo hydra will protect you... for some reason");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Void Vortex");
+            // DisplayName.SetDefault("Void Vortex");
             Main.projFrames[Projectile.type] = 5;
         }
 

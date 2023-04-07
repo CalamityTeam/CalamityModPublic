@@ -17,10 +17,10 @@ namespace CalamityMod.Items.DraedonMisc
         public static readonly SoundStyle InstallSound = new("CalamityMod/Sounds/Custom/Codebreaker/LongRangeSensorArrayInstall");
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Long Ranged Sensor Array");
-            Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
-                "Allows you to decrypt the Jungle schematic");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Long Ranged Sensor Array");
+            /* Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
+                "Allows you to decrypt the Jungle schematic"); */
         }
 
         public override void SetDefaults()

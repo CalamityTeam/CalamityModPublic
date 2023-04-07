@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Siren Song");
+            // DisplayName.SetDefault("Siren Song");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

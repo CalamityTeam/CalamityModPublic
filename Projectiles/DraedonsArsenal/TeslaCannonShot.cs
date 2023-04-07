@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tesla Beam");
+            // DisplayName.SetDefault("Tesla Beam");
         }
 
         public override void SetDefaults()

@@ -16,9 +16,9 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Seraph Tracers");
-            Tooltip.SetDefault("Ludicrous speed!\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Seraph Tracers");
+            /* Tooltip.SetDefault("Ludicrous speed!\n" +
                 "Counts as wings\n" +
                 "Horizontal speed: 9.00\n" +
                 "Acceleration multiplier: 2.5\n" +
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "24% increased running acceleration\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
-                "Immunity to lava and On Fire! debuff");
+                "Immunity to lava and On Fire! debuff"); */
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(140, 9f, 2.6f);
         }
 

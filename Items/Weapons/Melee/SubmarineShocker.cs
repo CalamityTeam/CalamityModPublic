@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Submarine Shocker");
-            Tooltip.SetDefault("Enemies release electric sparks on hit");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Submarine Shocker");
+            // Tooltip.SetDefault("Enemies release electric sparks on hit");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

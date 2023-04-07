@@ -212,8 +212,8 @@ namespace CalamityMod.World.Planets
 
         private int[] BarLoot = new int[]
         {
-            WorldGen.copperBar == TileID.Copper ? ItemID.CopperBar : ItemID.TinBar,
-            WorldGen.ironBar == TileID.Iron ? ItemID.IronBar : ItemID.LeadBar
+            GenVars.copperBar == TileID.Copper ? ItemID.CopperBar : ItemID.TinBar,
+            GenVars.ironBar == TileID.Iron ? ItemID.IronBar : ItemID.LeadBar
         };
 
         private void FillChest(int id)

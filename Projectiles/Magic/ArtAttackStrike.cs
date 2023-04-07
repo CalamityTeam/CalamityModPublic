@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Art Attack");
+            // DisplayName.SetDefault("Art Attack");
         }
 
         public override void SetDefaults()

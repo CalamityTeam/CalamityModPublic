@@ -11,12 +11,12 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 20;
-            DisplayName.SetDefault("Shadow Potion");
-            Tooltip.SetDefault("Turns the player into a shadow with glowing eyes\n" +
+            Item.ResearchUnlockCount = 20;
+            // DisplayName.SetDefault("Shadow Potion");
+            /* Tooltip.SetDefault("Turns the player into a shadow with glowing eyes\n" +
 			"Rogue weapons spawn projectiles on hit\n" +
             "Stealth generation is increased by 8%\n" +
-			"Visual effects can be disabled with the Stealth Invisibility config");
+			"Visual effects can be disabled with the Stealth Invisibility config"); */
         }
 
         public override void SetDefaults()

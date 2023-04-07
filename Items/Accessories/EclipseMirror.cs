@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Eclipse Mirror");
-            Tooltip.SetDefault("Its reflection shows naught but darkness\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Eclipse Mirror");
+            /* Tooltip.SetDefault("Its reflection shows naught but darkness\n" +
                 "+10 maximum stealth\n" +
                 "6% increased rogue damage, and 6% increased rogue crit chance\n" +
                 "Vastly reduces enemy aggression, even in the abyss\n" +
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories
                 "Stealth strikes only expend 50% of your max stealth\n" +
                 "Grants the ability to evade attacks in a blast of darksun light, which inflicts extreme damage in a wide area\n" +
                 "Evading an attack grants full stealth but has a 90 second cooldown\n" +
-                "This cooldown is shared with all other dodges and reflects");
+                "This cooldown is shared with all other dodges and reflects"); */
         }
 
         public override void SetDefaults()

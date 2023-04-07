@@ -9,11 +9,11 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Baguette");
-            Tooltip.SetDefault("{$CommonItemTooltip.MinorStats}\n" +
+            // DisplayName.SetDefault("Baguette");
+            /* Tooltip.SetDefault("{$CommonItemTooltip.MinorStats}\n" +
             "Boosts the effects of Red Wine\n" +
-            "[c/FCE391:je suis Monte]");
-            SacrificeTotal = 5;
+            "[c/FCE391:je suis Monte]"); */
+            Item.ResearchUnlockCount = 5;
         }
 
         public override void SetDefaults()

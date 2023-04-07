@@ -7,8 +7,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vernal Soil");
-            SacrificeTotal = 10;
+            // DisplayName.SetDefault("Vernal Soil");
+            Item.ResearchUnlockCount = 10;
         }
 
         public override void SetDefaults()

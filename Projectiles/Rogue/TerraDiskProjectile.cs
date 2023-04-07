@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terra Disk");
+            // DisplayName.SetDefault("Terra Disk");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
@@ -197,7 +197,7 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // Return to the player after striking an enemy. Stealth strikes don't return immediately.
             if (!Projectile.Calamity().stealthStrike || Projectile.ai[1] > 3)

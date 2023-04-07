@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Entropic Claymore");
-            Tooltip.SetDefault("Fires a spread of homing plasma balls");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Entropic Claymore");
+            // Tooltip.SetDefault("Fires a spread of homing plasma balls");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

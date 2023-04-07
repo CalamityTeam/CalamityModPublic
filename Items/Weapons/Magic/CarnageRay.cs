@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Carnage Ray");
-            Tooltip.SetDefault("Fires a blood ray\n" +
-                "The farther along the ray hit enemies are, the more damage they take");
+            // DisplayName.SetDefault("Carnage Ray");
+            /* Tooltip.SetDefault("Fires a blood ray\n" +
+                "The farther along the ray hit enemies are, the more damage they take"); */
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

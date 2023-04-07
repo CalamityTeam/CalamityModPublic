@@ -18,7 +18,7 @@ I know not how it wields her brimstone magic. Perhaps some day one of us may fin
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Calamitas Clone");
+            // DisplayName.SetDefault("Calamitas Clone");
         }
 
         public override void SetDefaults()

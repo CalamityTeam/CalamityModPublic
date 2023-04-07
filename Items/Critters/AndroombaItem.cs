@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Critters
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Androomba");
-            Tooltip.SetDefault("Right click the roomba with a solution to insert it\n"+"While a solution is inserted, the roomba will start spreading its contents");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Androomba");
+            // Tooltip.SetDefault("Right click the roomba with a solution to insert it\n"+"While a solution is inserted, the roomba will start spreading its contents");
         }
 
         public override void SetDefaults()

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Pets
         public ref float Time => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Little Light");
+            // DisplayName.SetDefault("Little Light");
             Main.projFrames[Projectile.type] = 9;
             Main.projPet[Projectile.type] = true;
             ProjectileID.Sets.LightPet[Projectile.type] = true;

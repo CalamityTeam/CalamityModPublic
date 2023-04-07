@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Environment
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Acid");
+            // DisplayName.SetDefault("Acid");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Environment
             return true;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (damage <= 0)
                 return;

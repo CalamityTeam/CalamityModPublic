@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bloodfin Boost");
-            Description.SetDefault("Don't let the blood get to your head");
+            // DisplayName.SetDefault("Bloodfin Boost");
+            // Description.SetDefault("Don't let the blood get to your head");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

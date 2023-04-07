@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Barracuda Gun");
-            Tooltip.SetDefault("Fires two barracudas that latch onto enemies");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Barracuda Gun");
+            // Tooltip.SetDefault("Fires two barracudas that latch onto enemies");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

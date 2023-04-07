@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Smoke");
+            // DisplayName.SetDefault("Smoke");
         }
 
         public override void SetDefaults()

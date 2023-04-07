@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Taser");
+            // DisplayName.SetDefault("Taser");
         }
 
         public override void SetDefaults()
@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Electrified, 120);
 

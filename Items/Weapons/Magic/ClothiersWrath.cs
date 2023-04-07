@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Clothier's Wrath");
-            Tooltip.SetDefault("Shoots 3 shadowflame skulls");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Clothier's Wrath");
+            // Tooltip.SetDefault("Shoots 3 shadowflame skulls");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.Walls
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 400;
-            DisplayName.SetDefault("Unsafe Eutrophic Sand Wall");
+            Item.ResearchUnlockCount = 400;
+            // DisplayName.SetDefault("Unsafe Eutrophic Sand Wall");
         }
 
         public override void SetDefaults()

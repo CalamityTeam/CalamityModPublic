@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Ores
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Scoria Ore");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Scoria Ore");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 95; // Stardust Fragment
         }
 

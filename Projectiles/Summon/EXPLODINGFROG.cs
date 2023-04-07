@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
         public const float ExplosionAngleVariance = 0.8f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("A not frog of the explosive variety");
+            // DisplayName.SetDefault("A not frog of the explosive variety");
             Main.projFrames[Projectile.type] = 5;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;

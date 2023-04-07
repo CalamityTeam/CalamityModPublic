@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Armor.Empyrean
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Empyrean Cuisses");
-            Tooltip.SetDefault("5% increased rogue damage and critical strike chance\n" +
-                    "15% increased movement speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Empyrean Cuisses");
+            /* Tooltip.SetDefault("5% increased rogue damage and critical strike chance\n" +
+                    "15% increased movement speed"); */
         }
 
         public override void SetDefaults()

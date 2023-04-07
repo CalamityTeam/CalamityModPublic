@@ -8,11 +8,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Alluring Bait");
-            Tooltip.SetDefault("30 increased fishing power\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Alluring Bait");
+            /* Tooltip.SetDefault("30 increased fishing power\n" +
                 "Greatly increases chance of catching potion ingredient fish\n" +
-				"Potion ingredient fish yield is increased");
+				"Potion ingredient fish yield is increased"); */
         }
 
         public override void SetDefaults()

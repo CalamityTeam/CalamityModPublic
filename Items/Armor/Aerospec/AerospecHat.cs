@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Armor.Aerospec
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Aerospec Hat");
-            Tooltip.SetDefault("8% increased magic damage and +20 max mana");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Aerospec Hat");
+            // Tooltip.SetDefault("8% increased magic damage and +20 max mana");
         }
 
         public override void SetDefaults()

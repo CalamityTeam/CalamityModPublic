@@ -27,10 +27,10 @@ namespace CalamityMod.Items.Materials
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
+            Item.ResearchUnlockCount = 25;
 
-            DisplayName.SetDefault("Auric Bar");
-            Tooltip.SetDefault("Boundless power emanates from the metal");
+            // DisplayName.SetDefault("Auric Bar");
+            // Tooltip.SetDefault("Boundless power emanates from the metal");
 
 			ItemID.Sets.SortingPriorityMaterials[Type] = 120;
             ItemID.Sets.AnimatesAsSoul[Type] = true;

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hydrothermic Sphere");
+            // DisplayName.SetDefault("Hydrothermic Sphere");
         }
 
         public override void SetDefaults()
@@ -37,12 +37,12 @@ namespace CalamityMod.Projectiles.Typeless
                 CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 9f, 20f);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire3, 180);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(BuffID.OnFire3, 180);
         }

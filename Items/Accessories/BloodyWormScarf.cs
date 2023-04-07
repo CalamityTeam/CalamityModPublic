@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Bloody Worm Scarf");
-            Tooltip.SetDefault("7% increased damage reduction\n" +
-                "7% increased melee damage and speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Bloody Worm Scarf");
+            /* Tooltip.SetDefault("7% increased damage reduction\n" +
+                "7% increased melee damage and speed"); */
         }
 
         public override void SetDefaults()

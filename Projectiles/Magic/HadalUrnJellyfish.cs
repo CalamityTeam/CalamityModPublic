@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
         bool neartarget = false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mirage Jelly");
+            // DisplayName.SetDefault("Mirage Jelly");
             Main.projFrames[Projectile.type] = 5;
         }
 
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.timeLeft = 60;
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
         }

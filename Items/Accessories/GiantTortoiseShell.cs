@@ -9,11 +9,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Giant Tortoise Shell");
-            Tooltip.SetDefault("10% decreased movement speed\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Giant Tortoise Shell");
+            /* Tooltip.SetDefault("10% decreased movement speed\n" +
                 "Enemies take damage when they hit you\n" +
-                "Grants immunity to Armor Crunch");
+                "Grants immunity to Armor Crunch"); */
         }
 
         public override void SetDefaults()

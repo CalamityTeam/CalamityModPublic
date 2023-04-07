@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Prototype Plasma Drive Core");
-            Tooltip.SetDefault("Despite all the time it spent in storage, its furnace still burns strong");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Prototype Plasma Drive Core");
+            // Tooltip.SetDefault("Despite all the time it spent in storage, its furnace still burns strong");
         }
 
         public override void SetDefaults()

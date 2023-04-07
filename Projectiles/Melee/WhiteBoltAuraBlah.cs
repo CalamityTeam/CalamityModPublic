@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aura");
+            // DisplayName.SetDefault("Aura");
         }
 
         public override void SetDefaults()

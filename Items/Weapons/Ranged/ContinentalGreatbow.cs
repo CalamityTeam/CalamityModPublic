@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Continental Greatbow");
-            Tooltip.SetDefault("Wooden arrows are set alight with fire\n" +
+            // DisplayName.SetDefault("Continental Greatbow");
+            /* Tooltip.SetDefault("Wooden arrows are set alight with fire\n" +
                 "Fires 3 arrows at once\n" +
-                "Fires 2 additional cursed, hellfire, or ichor arrows");
-            SacrificeTotal = 1;
+                "Fires 2 additional cursed, hellfire, or ichor arrows"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Signus
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Cosmic Mine");
+            // DisplayName.SetDefault("Cosmic Mine");
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 

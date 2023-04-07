@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gamma Heart");
-            Tooltip.SetDefault("Summons radioactive heads that are bound by your body");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Gamma Heart");
+            // Tooltip.SetDefault("Summons radioactive heads that are bound by your body");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

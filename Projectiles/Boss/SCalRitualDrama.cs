@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Boss
         public const int TotalRitualTime = 270;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Calamitous Ritual Drama");
+            // DisplayName.SetDefault("Calamitous Ritual Drama");
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 

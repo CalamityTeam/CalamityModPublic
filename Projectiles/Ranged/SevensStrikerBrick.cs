@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brick");
+            // DisplayName.SetDefault("Brick");
         }
 
         public override void SetDefaults()

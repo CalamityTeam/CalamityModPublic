@@ -19,7 +19,7 @@ While the land has paid a terrible price, the price of a wrongful conviction is 
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Astrum Deus");
+            // DisplayName.SetDefault("Astrum Deus");
         }
 
         public override void SetDefaults()

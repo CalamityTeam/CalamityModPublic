@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -21,8 +22,8 @@ namespace CalamityMod.Tiles.SunkenSea
             };
             TileObjectData.addTile(Type);
             DustType = 253;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Tube Coral");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Tube Coral");
             AddMapEntry(new Color(36, 61, 111));
             MineResist = 3f;
 

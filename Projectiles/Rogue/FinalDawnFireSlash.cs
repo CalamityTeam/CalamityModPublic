@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Rogue
         public const float StealthReturnRatio = 0.25f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Final Dawn");
+            // DisplayName.SetDefault("The Final Dawn");
             Main.projFrames[Projectile.type] = 11;
         }
         public override void SetDefaults()
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.spriteDirection = player.direction;
             player.heldProj = Projectile.whoAmI;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             CalamityPlayer calamityPlayer = Main.player[Projectile.owner].Calamity();
             // Restore stealth

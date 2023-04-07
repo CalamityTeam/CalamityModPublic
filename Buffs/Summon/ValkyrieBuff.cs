@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Valkyrie");
-            Description.SetDefault("The valkyrie will protect you");
+            // DisplayName.SetDefault("Valkyrie");
+            // Description.SetDefault("The valkyrie will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

@@ -16,12 +16,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Burning Sky");
-            Tooltip.SetDefault("Hold the blade to the sky, and witness Armageddon");
+            // DisplayName.SetDefault("The Burning Sky");
+            // Tooltip.SetDefault("Hold the blade to the sky, and witness Armageddon");
 
             // Visually a sword, but with no true melee capability. The Burning Sky is held out like a staff.
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo) => target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
     }
 }

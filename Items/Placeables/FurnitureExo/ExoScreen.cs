@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Exo Screen");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Exo Screen");
         }
 
         public override void SetDefaults()

@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Walls
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 400;
-            DisplayName.SetDefault("Plagued Containment Wall");
+            Item.ResearchUnlockCount = 400;
+            // DisplayName.SetDefault("Plagued Containment Wall");
         }
 
         public override void SetDefaults()

@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Trash Can");
-            Tooltip.SetDefault("Summons the trash man");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Trash Can");
+            // Tooltip.SetDefault("Summons the trash man");
         }
         public override void SetDefaults()
         {

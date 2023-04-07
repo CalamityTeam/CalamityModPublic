@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ark of the Elements");
+            // DisplayName.SetDefault("Ark of the Elements");
         }
         public override void SetDefaults()
         {
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Melee
             AlreadyParried = 1f;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (AlreadyParried > 0)
                 return;

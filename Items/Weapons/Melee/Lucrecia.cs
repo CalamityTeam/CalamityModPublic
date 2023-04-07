@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lucrecia");
-            Tooltip.SetDefault("Finesse\n" +
+            // DisplayName.SetDefault("Lucrecia");
+            /* Tooltip.SetDefault("Finesse\n" +
                 "Striking an enemy makes you immune for a short time\n" +
                 "Fires a DNA chain\n" +
-                "Receives 33% benefit from melee speed bonuses");
-            SacrificeTotal = 1;
+                "Receives 33% benefit from melee speed bonuses"); */
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 

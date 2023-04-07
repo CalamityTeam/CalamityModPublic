@@ -67,12 +67,12 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ares' Exoskeleton");
-            Tooltip.SetDefault("Creates a panel with four slots and four choices above it: Plasma, Tesla, Laser, and Gauss\n" +
+            // DisplayName.SetDefault("Ares' Exoskeleton");
+            /* Tooltip.SetDefault("Creates a panel with four slots and four choices above it: Plasma, Tesla, Laser, and Gauss\n" +
             "Clicking one of the choices and then clicking one of the slots summons a cannon of that type\n" +
             "Clicking on a slot that's already occupied destroys its associated cannon and clears the slot\n" +
-            $"Cannons take {MinionSlotsPerCannon} minion slots each");
-            SacrificeTotal = 1;
+            $"Cannons take {MinionSlotsPerCannon} minion slots each"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

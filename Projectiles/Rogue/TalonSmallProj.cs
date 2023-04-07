@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terror Talon");
+            // DisplayName.SetDefault("Terror Talon");
         }
 
         public override void SetDefaults()

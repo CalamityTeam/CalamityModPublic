@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tundra Flame Blossoms Staff");
-            Tooltip.SetDefault("Summons three flarefrost orchids over your head\n" +
-                "Each flower consumes one minion slot");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Tundra Flame Blossoms Staff");
+            /* Tooltip.SetDefault("Summons three flarefrost orchids over your head\n" +
+                "Each flower consumes one minion slot"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

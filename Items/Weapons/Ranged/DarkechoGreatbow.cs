@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Darkecho Greatbow");
-            Tooltip.SetDefault("Fires two arrows at once\n" +
-                "Fires an additional crystal dart");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Darkecho Greatbow");
+            /* Tooltip.SetDefault("Fires two arrows at once\n" +
+                "Fires an additional crystal dart"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

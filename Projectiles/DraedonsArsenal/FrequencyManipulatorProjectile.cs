@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const float SpinTime = 30f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frequency Manipulator");
+            // DisplayName.SetDefault("Frequency Manipulator");
         }
 
         public override void SetDefaults()
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             OnHitEffects();
         }

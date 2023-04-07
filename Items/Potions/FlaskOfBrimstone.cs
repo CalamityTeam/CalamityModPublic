@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 20;
-            DisplayName.SetDefault("Flask of Brimstone");
-            Tooltip.SetDefault("Melee, Whip, and Rogue attacks inflict Brimstone Flames");
+            Item.ResearchUnlockCount = 20;
+            // DisplayName.SetDefault("Flask of Brimstone");
+            // Tooltip.SetDefault("Melee, Whip, and Rogue attacks inflict Brimstone Flames");
         }
 
         public override void SetDefaults()

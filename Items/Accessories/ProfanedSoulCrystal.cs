@@ -42,10 +42,10 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Profaned Soul Crystal");
-            Tooltip.SetDefault("Transforms you into an emissary of the profaned goddess\n" +
-                "This tooltip gets modified");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Profaned Soul Crystal");
+            /* Tooltip.SetDefault("Transforms you into an emissary of the profaned goddess\n" +
+                "This tooltip gets modified"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
 

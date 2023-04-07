@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brick");
+            // DisplayName.SetDefault("Brick");
         }
 
         public override void SetDefaults()

@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Armor.Victide
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Victide Hermit Helmet");
-            Tooltip.SetDefault("5% increased magic damage");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Victide Hermit Helmet");
+            // Tooltip.SetDefault("5% increased magic damage");
         }
 
         public override void SetDefaults()

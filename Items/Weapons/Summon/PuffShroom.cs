@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Puff Shroom");
-            Tooltip.SetDefault("Summons a cute mushroom warrior to fight for you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Puff Shroom");
+            // Tooltip.SetDefault("Summons a cute mushroom warrior to fight for you");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

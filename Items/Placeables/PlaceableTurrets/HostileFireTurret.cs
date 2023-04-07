@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
         public override string Texture => "CalamityMod/Items/Placeables/PlaceableTurrets/FireTurret";
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("Roasts nearby players with a flamethrower at full blast");
+            Item.ResearchUnlockCount = 1;
+            // Tooltip.SetDefault("Roasts nearby players with a flamethrower at full blast");
         }
 
         public override void SetDefaults()

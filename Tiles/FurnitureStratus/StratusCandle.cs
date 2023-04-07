@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStratus
@@ -11,8 +12,8 @@ namespace CalamityMod.Tiles.FurnitureStratus
         public override void SetStaticDefaults()
         {
             this.SetUpCandle(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Candle");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Candle");
             AddMapEntry(new Color(253, 221, 3), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Candles };

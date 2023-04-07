@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sulphuric Acid Cannon");
-            Tooltip.SetDefault("Fires an acidic shot that sticks to enemies and dissolves them");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Sulphuric Acid Cannon");
+            // Tooltip.SetDefault("Fires an acidic shot that sticks to enemies and dissolves them");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

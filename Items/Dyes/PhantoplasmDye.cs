@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(245, 143, 182)).UseSecondaryColor(new Color(119, 238, 255)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Phantoplasm Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Phantoplasm Dye");
         }
 
         public override void SafeSetDefaults()

@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Depth Cells");
-            Tooltip.SetDefault("The cells of abyssal creatures");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Depth Cells");
+            // Tooltip.SetDefault("The cells of abyssal creatures");
         }
 
         public override void SetDefaults()

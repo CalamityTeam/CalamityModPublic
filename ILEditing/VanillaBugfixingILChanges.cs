@@ -136,7 +136,7 @@ namespace CalamityMod.ILEditing
         #endregion Fixing Splitting Worm Banner Spam in Deathmode
 
         #region Let Rogue Items Be Reforgeable
-        private static bool LetRogueItemsBeReforgeable(On.Terraria.Item.orig_Prefix orig, Item self, int pre)
+        private static bool LetRogueItemsBeReforgeable(Terraria.On_Item.orig_Prefix orig, Item self, int pre)
         {
             if (self.CountsAsClass<RogueDamageClass>() && self.maxStack == 1 && pre == -3)
             {

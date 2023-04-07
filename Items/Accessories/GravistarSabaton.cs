@@ -8,11 +8,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Gravistar Sabaton");
-            Tooltip.SetDefault("Tap the DOWN key to increase your fall speed for 5 seconds\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Gravistar Sabaton");
+            /* Tooltip.SetDefault("Tap the DOWN key to increase your fall speed for 5 seconds\n" +
                                "This has an 8 second cooldown\n" +
-                               "Striking the ground with increased fall speed will cause an astral explosion");
+                               "Striking the ground with increased fall speed will cause an astral explosion"); */
         }
 
         public override void SetDefaults()

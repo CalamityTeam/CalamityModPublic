@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spout");
+            // DisplayName.SetDefault("Spout");
             Main.projFrames[Projectile.type] = 6;
         }
 

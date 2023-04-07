@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         public const float Speed = 13f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blazing Star");
-            Tooltip.SetDefault("Tosses up to 3 red hot returning glaives\n" +
-                               "Stealth strikes throw three glaives with infinite piercing");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Blazing Star");
+            /* Tooltip.SetDefault("Tosses up to 3 red hot returning glaives\n" +
+                               "Stealth strikes throw three glaives with infinite piercing"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

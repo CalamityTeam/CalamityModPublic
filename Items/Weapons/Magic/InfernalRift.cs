@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Infernal Rift");
-            Tooltip.SetDefault("Summons infernal blades that spawn additional blades on enemy hits");
+            // DisplayName.SetDefault("Infernal Rift");
+            // Tooltip.SetDefault("Summons infernal blades that spawn additional blades on enemy hits");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

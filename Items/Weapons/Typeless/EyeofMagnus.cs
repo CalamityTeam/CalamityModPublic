@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Weapons.Typeless
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eye of Magnus");
-            Tooltip.SetDefault("Fires powerful beams that reduce enemy protection\n" +
+            // DisplayName.SetDefault("Eye of Magnus");
+            /* Tooltip.SetDefault("Fires powerful beams that reduce enemy protection\n" +
                 "This weapon scales with all your damage stats at once\n" +
-                "Heals mana and health on hit");
-            SacrificeTotal = 1;
+                "Heals mana and health on hit"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

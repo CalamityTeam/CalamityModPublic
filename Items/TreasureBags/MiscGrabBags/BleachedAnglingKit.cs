@@ -9,10 +9,10 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bleached Angling Kit");
-            Tooltip.SetDefault("Has a chance to contain various fishing gear\n" +
-            "{$CommonItemTooltip.RightClickToOpen}");
-            SacrificeTotal = 10;
+            // DisplayName.SetDefault("Bleached Angling Kit");
+            /* Tooltip.SetDefault("Has a chance to contain various fishing gear\n" +
+            "{$CommonItemTooltip.RightClickToOpen}"); */
+            Item.ResearchUnlockCount = 10;
         }
 
         public override void SetDefaults()

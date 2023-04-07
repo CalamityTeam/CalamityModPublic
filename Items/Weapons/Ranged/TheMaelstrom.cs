@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Maelstrom");
-            Tooltip.SetDefault("Fires charged Reaper Sharks that explode into water");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("The Maelstrom");
+            // Tooltip.SetDefault("Fires charged Reaper Sharks that explode into water");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

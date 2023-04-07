@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const int Lifetime = 240;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pulse Energy");
+            // DisplayName.SetDefault("Pulse Energy");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
         }

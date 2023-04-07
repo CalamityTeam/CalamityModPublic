@@ -18,10 +18,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Celestus");
-            Tooltip.SetDefault("Throws a scythe that splits into multiple scythes on enemy hits\n" +
-                "Stealth strikes reverse direction and home in on enemies after returning to the player");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Celestus");
+            /* Tooltip.SetDefault("Throws a scythe that splits into multiple scythes on enemy hits\n" +
+                "Stealth strikes reverse direction and home in on enemies after returning to the player"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

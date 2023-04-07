@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Rum");
-            Tooltip.SetDefault(@"Sweet and potent, just how I like it
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Rum");
+            // Tooltip.SetDefault(@"Sweet and potent, just how I like it
 Boosts life regen by 2 and movement speed by 10%
 Reduces defense by 5%");
         }

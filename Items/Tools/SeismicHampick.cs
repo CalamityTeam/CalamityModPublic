@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Seismic Hampick");
-            Tooltip.SetDefault(@"Capable of mining Lihzahrd Bricks
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Seismic Hampick");
+            // Tooltip.SetDefault(@"Capable of mining Lihzahrd Bricks
 Left click to use as a pickaxe
 Right click to use as a hammer");
 
@@ -85,7 +85,7 @@ Right click to use as a hammer");
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire3, 300);
         }

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gastric Vomit");
+            // DisplayName.SetDefault("Gastric Vomit");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Venom, 120);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Venom, 120);
 
         public override void Kill(int timeLeft)
         {

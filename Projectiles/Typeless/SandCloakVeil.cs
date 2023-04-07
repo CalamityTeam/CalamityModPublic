@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dust Veil");
+            // DisplayName.SetDefault("Dust Veil");
         }
 
         public override void SetDefaults()
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Typeless
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // Knockback has to be done manually to ensure the enemies are repelled from the aura as opposed to thrown to one side of it
 

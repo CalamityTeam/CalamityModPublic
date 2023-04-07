@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Weapon Imbue: Holy Flames");
-            Description.SetDefault("Melee, Whip, and Rogue attacks ignite enemies with holy flames");
+            // DisplayName.SetDefault("Weapon Imbue: Holy Flames");
+            // Description.SetDefault("Melee, Whip, and Rogue attacks ignite enemies with holy flames");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

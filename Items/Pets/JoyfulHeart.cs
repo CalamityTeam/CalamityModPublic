@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Joyful Heart");
-            Tooltip.SetDefault("It's oddly warm. Attracts the forbidden one.");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Joyful Heart");
+            // Tooltip.SetDefault("It's oddly warm. Attracts the forbidden one.");
         }
         public override void SetDefaults()
         {

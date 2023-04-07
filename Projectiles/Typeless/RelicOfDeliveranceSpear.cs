@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Typeless
         public const float MaxChargeSpeed = 30f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Relic of Deliverance");
+            // DisplayName.SetDefault("Relic of Deliverance");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             Main.projFrames[Projectile.type] = 4;

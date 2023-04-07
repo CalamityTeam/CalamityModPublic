@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pulse");
+            // DisplayName.SetDefault("Pulse");
             Main.projFrames[Projectile.type] = 6;
         }
 

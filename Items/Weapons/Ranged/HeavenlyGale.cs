@@ -37,11 +37,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heavenly Gale");
-            Tooltip.SetDefault("Fires a rapid stream of supercharged exo-crystals\n" +
+            // DisplayName.SetDefault("Heavenly Gale");
+            /* Tooltip.SetDefault("Fires a rapid stream of supercharged exo-crystals\n" +
                 "Holding the bow and waiting for some time before firing causes the crystals to become more powerful\n" +
-                "If the crystals are sufficiently powerful enough they will summon torrents of exo-lightning above whatever target they hit");
-            SacrificeTotal = 1;
+                "If the crystals are sufficiently powerful enough they will summon torrents of exo-lightning above whatever target they hit"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

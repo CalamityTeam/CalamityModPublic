@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Atlantis Spear");
+            // DisplayName.SetDefault("Atlantis Spear");
         }
 
         public override void SetDefaults()

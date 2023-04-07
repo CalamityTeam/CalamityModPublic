@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Armored Shell");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Armored Shell");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 107;
         }
 

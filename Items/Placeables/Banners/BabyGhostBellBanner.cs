@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Baby Ghost Bell Banner");
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Baby Ghost Bell");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Baby Ghost Bell Banner");
+            // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Baby Ghost Bell");
         }
 
         public override void SetDefaults()

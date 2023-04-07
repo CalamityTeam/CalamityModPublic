@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ghastly Chain");
+            // DisplayName.SetDefault("Ghastly Chain");
         }
         public override void SetDefaults()
         {
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.Center = Target.Center;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.FlailBladeAttunement_GhostChainProc)
                 sword.OnHitProc = true;

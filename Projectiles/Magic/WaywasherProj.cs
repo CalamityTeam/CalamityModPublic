@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Waywasher Blast");
+            // DisplayName.SetDefault("Waywasher Blast");
         }
 
         public override void SetDefaults()

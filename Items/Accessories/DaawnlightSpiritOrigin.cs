@@ -52,9 +52,9 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Daawnlight Spirit Origin");
-            Tooltip.SetDefault("All nearby enemies and bosses are marked with bullseyes\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Daawnlight Spirit Origin");
+            /* Tooltip.SetDefault("All nearby enemies and bosses are marked with bullseyes\n" +
                 "Ranged attacks that strike a bullseye always critically strike and deal massive damage\n" +
                 "When a bullseye is struck, it vanishes and a new one appears elsewhere\n" +
                 "Explosions or large projectiles cannot strike bullseyes\n" +
@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Accessories
                 "All ranged weapons will deal even more critical strike damage the slower they are\n" +
                 "Summons a heroic spirit from another world if accessory visibility is enabled\n" +
                 "The heroic spirit is also summoned when this accessory is placed in vanity slots\n" +
-                "'A strand of a lost cosmos remains, waiting for its master'");
+                "'A strand of a lost cosmos remains, waiting for its master'"); */
         }
 
         public override void SetDefaults()

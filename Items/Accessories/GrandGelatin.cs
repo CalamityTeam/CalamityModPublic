@@ -9,11 +9,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Grand Gelatin");
-            Tooltip.SetDefault("10% increased movement and jump speed\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Grand Gelatin");
+            /* Tooltip.SetDefault("10% increased movement and jump speed\n" +
                 "+20 max life and mana\n" +
-                "Standing still boosts life and mana regen");
+                "Standing still boosts life and mana regen"); */
         }
 
         public override void SetDefaults()

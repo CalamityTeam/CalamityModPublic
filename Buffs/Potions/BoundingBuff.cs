@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bounding");
-            Description.SetDefault("Increased jump height, jump speed, and fall damage resistance");
+            // DisplayName.SetDefault("Bounding");
+            // Description.SetDefault("Increased jump height, jump speed, and fall damage resistance");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

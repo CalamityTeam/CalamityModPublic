@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Contaminated Bile");
+            // DisplayName.SetDefault("Contaminated Bile");
         }
 
         public override void SetDefaults()

@@ -459,7 +459,7 @@ namespace CalamityMod
             foreach (KeyValuePair<string, int> kv in configLabelItemEmbeds)
             {
                 string localizationKey = $"Mods.CalamityMod.Config.EntryTitle.{kv.Key}";
-                ModTranslation trans = getTrans.Invoke(null, new object[] { localizationKey, true }) as ModTranslation;
+                LocalizedText trans = getTrans.Invoke(null, new object[] { localizationKey, true }) as LocalizedText;
                 var culture = Language.ActiveCulture;
                 trans.AddTranslation(culture, EmbedItem(kv.Value, trans.GetTranslation(culture)));
             }

@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Armor.Daedalus
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Daedalus Headgear");
-            Tooltip.SetDefault("13% increased ranged damage and 7% increased ranged critical strike chance\n" +
-                "Reduces ammo usage by 20%");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Daedalus Headgear");
+            /* Tooltip.SetDefault("13% increased ranged damage and 7% increased ranged critical strike chance\n" +
+                "Reduces ammo usage by 20%"); */
         }
 
         public override void SetDefaults()

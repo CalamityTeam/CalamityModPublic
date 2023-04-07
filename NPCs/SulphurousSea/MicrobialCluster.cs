@@ -13,7 +13,7 @@ namespace CalamityMod.NPCs.SulphurousSea
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Microbial Cluster");
+            // DisplayName.SetDefault("Microbial Cluster");
         }
 
         public override void SetDefaults()
@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.InSulphur() && spawnInfo.Water ? 0.4f : 0f;
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

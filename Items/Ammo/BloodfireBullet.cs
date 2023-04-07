@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("Bloodfire Bullet");
-            Tooltip.SetDefault("Accelerates your life regeneration on hit\n" + "Deals bonus damage based on your current life regeneration");
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("Bloodfire Bullet");
+            // Tooltip.SetDefault("Accelerates your life regeneration on hit\n" + "Deals bonus damage based on your current life regeneration");
         }
 
         public override void SetDefaults()

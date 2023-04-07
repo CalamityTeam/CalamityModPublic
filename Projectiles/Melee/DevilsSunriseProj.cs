@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Devil's Sunrise");
+            // DisplayName.SetDefault("Devil's Sunrise");
             Main.projFrames[Projectile.type] = 28;
         }
 
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Melee
             return new Color(red, greenAndBlue, greenAndBlue, Projectile.alpha);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }

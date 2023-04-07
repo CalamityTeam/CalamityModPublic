@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pike");
+            // DisplayName.SetDefault("Pike");
         }
 
         public override void SetDefaults()
@@ -56,6 +56,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
     }
 }

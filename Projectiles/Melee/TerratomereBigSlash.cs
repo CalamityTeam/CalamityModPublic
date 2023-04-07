@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terratomere Slash");
+            // DisplayName.SetDefault("Terratomere Slash");
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = Terratomere.SlashLifetime + 1;
         }
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public Color SlashColorFunction(float _) => Color.Lime * Projectile.Opacity;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             TargetIndex = target.whoAmI;
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<TerratomereExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);

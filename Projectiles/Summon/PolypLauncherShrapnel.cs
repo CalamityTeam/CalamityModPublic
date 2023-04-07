@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Polyp Shrapnel");
+            // DisplayName.SetDefault("Polyp Shrapnel");
             ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }
 

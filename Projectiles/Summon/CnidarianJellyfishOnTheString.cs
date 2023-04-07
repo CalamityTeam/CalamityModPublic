@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cnidarian");
+            // DisplayName.SetDefault("Cnidarian");
         }
 
         public override void SetDefaults()
@@ -207,7 +207,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netSpam = 0;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             //Play a wet slap sound if you hit an enemy fast enough. Also make the players minions target the slapped npc.
             float centrifugalForce = Math.Clamp((Segments[SegmentCount - 1].position - Segments[SegmentCount - 1].oldPosition).Length() * 2f, 0f, 130f) / 130f;

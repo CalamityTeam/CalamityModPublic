@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Placeables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Limber");
-            Description.SetDefault("The floating flame seems to uplift your very spirit");
+            // DisplayName.SetDefault("Limber");
+            // Description.SetDefault("The floating flame seems to uplift your very spirit");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;

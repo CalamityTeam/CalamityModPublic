@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("Terra Arrow");
-            Tooltip.SetDefault("Travels incredibly quickly and explodes into more arrows when it hits a certain velocity");
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("Terra Arrow");
+            // Tooltip.SetDefault("Travels incredibly quickly and explodes into more arrows when it hits a certain velocity");
         }
 
         public override void SetDefaults()

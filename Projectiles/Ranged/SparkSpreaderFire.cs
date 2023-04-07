@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sparked Flames");
+            // DisplayName.SetDefault("Sparked Flames");
         }
 
         public override void SetDefaults()
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.rotation += 0.3f * Projectile.direction;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(1, 4));
-        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(1, 4));
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(1, 4));
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(1, 4));
     }
 }

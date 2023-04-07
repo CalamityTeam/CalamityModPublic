@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plague Homing Stinger");
+            // DisplayName.SetDefault("Plague Homing Stinger");
         }
 
         public override void SetDefaults()
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.velocity *= 1.02f;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }

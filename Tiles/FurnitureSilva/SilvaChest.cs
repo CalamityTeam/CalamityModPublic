@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSilva
@@ -13,13 +14,13 @@ namespace CalamityMod.Tiles.FurnitureSilva
         public override void SetStaticDefaults()
         {
             this.SetUpChest(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Silva Chest");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Silva Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            ContainerName.SetDefault("Silva Chest");
-            ChestDrop = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaChest>();
+            ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Silva Chest");
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -40,7 +41,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
             Chest.DestroyChest(i, j);
         }
 

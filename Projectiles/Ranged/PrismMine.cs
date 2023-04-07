@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Ranged
             return base.Colliding(projHitbox, targetHitbox);
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             // Have the damage be reduced based on hit count. This effect becomes stronger the more hits, before hitting a lower bound.
             float damageFactor = 1f - 3f * (float)Math.Pow(Projectile.numHits / 14f, 2D) + 2f * (float)Math.Pow(Projectile.numHits / 14f, 3D);

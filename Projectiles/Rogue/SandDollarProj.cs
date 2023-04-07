@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sand Dollar");
+            // DisplayName.SetDefault("Sand Dollar");
         }
 
         public override void SetDefaults()

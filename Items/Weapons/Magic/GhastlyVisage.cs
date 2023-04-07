@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ghastly Visage");
-            Tooltip.SetDefault("Fires homing ghast energy that explodes");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Ghastly Visage");
+            // Tooltip.SetDefault("Fires homing ghast energy that explodes");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

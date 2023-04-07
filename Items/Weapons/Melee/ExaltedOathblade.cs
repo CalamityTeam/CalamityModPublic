@@ -16,9 +16,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exalted Oathblade");
-            Tooltip.SetDefault("Fires a spread of demonic scythes and critical hits cause shadowflame explosions");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Exalted Oathblade");
+            // Tooltip.SetDefault("Fires a spread of demonic scythes and critical hits cause shadowflame explosions");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 173);
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.ShadowFlame, 150);
             target.AddBuff(BuffID.OnFire, 300);
@@ -103,7 +103,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
             target.AddBuff(BuffID.OnFire, 300);

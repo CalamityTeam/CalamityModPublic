@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Armored Digger");
+            // DisplayName.SetDefault("Armored Digger");
         }
 
         public override void SetDefaults()
@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 3; k++)
             {

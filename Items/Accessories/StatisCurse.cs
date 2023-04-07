@@ -15,12 +15,12 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Statis' Curse");
-            Tooltip.SetDefault("Increases max minions by 1 and minion damage by 10%\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Statis' Curse");
+            /* Tooltip.SetDefault("Increases max minions by 1 and minion damage by 10%\n" +
                 "Increased minion knockback\n" +
                 "Minions inflict holy flames and shadowflames on hit\n" +
-                "Grants immunity to Shadowflame");
+                "Grants immunity to Shadowflame"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }

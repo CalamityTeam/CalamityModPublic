@@ -12,12 +12,12 @@ namespace CalamityMod.Items.Armor.Prismatic
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Prismatic Helmet");
-            Tooltip.SetDefault("18% increased magic damage and 12% increased magic crit\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Prismatic Helmet");
+            /* Tooltip.SetDefault("18% increased magic damage and 12% increased magic crit\n" +
                 "20% decreased non-magic damage\n" +
                 "Enemies with less than 500 max health deal no contact damage\n" +
-                "This does not occur while a boss is alive");
+                "This does not occur while a boss is alive"); */
         }
 
         public override void SetDefaults()

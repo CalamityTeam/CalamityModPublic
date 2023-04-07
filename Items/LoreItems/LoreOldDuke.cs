@@ -20,7 +20,7 @@ Above almost all others, this creature was a living fable. One must wonder what 
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("The Old Duke");
+            // DisplayName.SetDefault("The Old Duke");
         }
 
         public override void SetDefaults()

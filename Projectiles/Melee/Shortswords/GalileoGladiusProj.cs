@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Galileo Gladius"); // TODO: Make it function like Gladius, not like PiercingStarlight.
+            // DisplayName.SetDefault("Galileo Gladius"); // TODO: Make it function like Gladius, not like PiercingStarlight.
         }
 
         public override void SetDefaults()
@@ -62,13 +62,13 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
             SpawnMeteor(Main.player[Projectile.owner]);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
             SpawnMeteor(Main.player[Projectile.owner]);

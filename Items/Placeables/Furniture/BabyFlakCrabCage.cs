@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Baby Flak Crab Cage");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Baby Flak Crab Cage");
         }
 
         public override void SetDefaults()

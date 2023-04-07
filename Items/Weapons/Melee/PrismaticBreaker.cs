@@ -34,13 +34,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Prismatic Breaker");
-            Tooltip.SetDefault("Seems to belong to a certain magical girl. Radiates with intense cosmic energy.\n" +
+            // DisplayName.SetDefault("Prismatic Breaker");
+            /* Tooltip.SetDefault("Seems to belong to a certain magical girl. Radiates with intense cosmic energy.\n" +
                 "Fire to charge for a powerful rainbow laser\n" +
                 "Right click to instead swing the sword and fire rainbow colored waves\n" +
-                "The sword is boosted by both melee and ranged damage");
+                "The sword is boosted by both melee and ranged damage"); */
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
 
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
@@ -128,13 +128,13 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
             target.AddBuff(BuffID.Daybreak, 300);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
             target.AddBuff(BuffID.Daybreak, 300);

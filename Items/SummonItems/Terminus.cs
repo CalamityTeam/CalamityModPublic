@@ -15,10 +15,10 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Terminus");
-            Tooltip.SetDefault("Activates Boss Rush Mode, using it again will deactivate Boss Rush Mode\n" +
-                                "During the Boss Rush, all wires and wired devices will be disabled");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Terminus");
+            /* Tooltip.SetDefault("Activates Boss Rush Mode, using it again will deactivate Boss Rush Mode\n" +
+                                "During the Boss Rush, all wires and wired devices will be disabled"); */
         }
 
         public override void SetDefaults()

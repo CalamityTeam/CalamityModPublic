@@ -19,7 +19,7 @@ Where once he saw justice, there was now tyranny. He departed, and the Witch not
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("The Archmage");
+            // DisplayName.SetDefault("The Archmage");
         }
 
         public override void SetDefaults()

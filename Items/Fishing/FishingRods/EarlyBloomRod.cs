@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Early Bloom Rod");
-            Tooltip.SetDefault("Fires six lines at once. Line never snaps.\n" +
-                "The early bird catches the fish.");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Early Bloom Rod");
+            /* Tooltip.SetDefault("Fires six lines at once. Line never snaps.\n" +
+                "The early bird catches the fish."); */
         }
 
         public override void SetDefaults()

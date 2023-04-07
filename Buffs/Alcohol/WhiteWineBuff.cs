@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Alcohol
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("White Wine");
-            Description.SetDefault("Magic damage boosted, life regen and defense reduced");
+            // DisplayName.SetDefault("White Wine");
+            // Description.SetDefault("Magic damage boosted, life regen and defense reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

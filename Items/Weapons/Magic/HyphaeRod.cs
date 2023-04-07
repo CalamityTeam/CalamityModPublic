@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hyphae Rod");
-            Tooltip.SetDefault("Creates mushroom spores near the player");
+            // DisplayName.SetDefault("Hyphae Rod");
+            // Tooltip.SetDefault("Creates mushroom spores near the player");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

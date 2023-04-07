@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Big Beam of Death");
+            // DisplayName.SetDefault("Big Beam of Death");
         }
 
         public override void SetDefaults()

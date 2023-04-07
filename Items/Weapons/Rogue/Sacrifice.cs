@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sacrifice");
-            Tooltip.SetDefault("Throws sacrificial daggers that lodge themselves in enemies\n" +
+            // DisplayName.SetDefault("Sacrifice");
+            /* Tooltip.SetDefault("Throws sacrificial daggers that lodge themselves in enemies\n" +
                 "Right click causes all stuck daggers to fly back at you and give you life\n" +
                 "Daggers stuck to enemies release bloodsplosions over time\n" +
-                "Stealth strikes lodge for longer and provide much more life when returning to you");
-            SacrificeTotal = 1;
+                "Stealth strikes lodge for longer and provide much more life when returning to you"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

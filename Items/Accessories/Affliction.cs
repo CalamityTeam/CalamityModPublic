@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Affliction");
-            Tooltip.SetDefault("Gives you and all other players on your team +1 life regen,\n" +
-                               "+10% max life, 7% damage reduction, 13 defense and 10% increased damage");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Affliction");
+            /* Tooltip.SetDefault("Gives you and all other players on your team +1 life regen,\n" +
+                               "+10% max life, 7% damage reduction, 13 defense and 10% increased damage"); */
         }
 
         public override void SetDefaults()

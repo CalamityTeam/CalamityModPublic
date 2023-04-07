@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
         public override string Texture => "CalamityMod/NPCs/SupremeCalamitas/SupremeCatastrophe";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Catastrophe");
+            // DisplayName.SetDefault("Catastrophe");
             Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Summon
             CataclysmSummon.Behavior(Projectile, Main.player[Projectile.owner], ref Time);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 180);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 180);
 
         public override bool PreDraw(ref Color lightColor)
         {
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             if (Main.masterMode) damage = 320;
             else if (Main.expertMode) damage = 260;

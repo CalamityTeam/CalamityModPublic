@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lunarian Bow");
-            Tooltip.SetDefault("Fires two arrows at once\n" +
-                "Converts wooden arrows into sliding energy bolts");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Lunarian Bow");
+            /* Tooltip.SetDefault("Fires two arrows at once\n" +
+                "Converts wooden arrows into sliding energy bolts"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

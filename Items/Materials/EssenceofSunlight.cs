@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
+            Item.ResearchUnlockCount = 25;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
 
-            DisplayName.SetDefault("Essence of Sunlight");
-            Tooltip.SetDefault("The essence of sky, light, and storm creatures");
+            // DisplayName.SetDefault("Essence of Sunlight");
+            // Tooltip.SetDefault("The essence of sky, light, and storm creatures");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 71; // Soul of Light
         }
 

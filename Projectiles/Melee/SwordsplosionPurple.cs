@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Purple Sword");
+            // DisplayName.SetDefault("Purple Sword");
         }
 
         public override void SetDefaults()

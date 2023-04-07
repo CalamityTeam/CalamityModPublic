@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Abyss Ball");
+            // DisplayName.SetDefault("Abyss Ball");
         }
 
         public override void SetDefaults()

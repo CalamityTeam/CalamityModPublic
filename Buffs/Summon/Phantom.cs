@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Phantom");
-            Description.SetDefault("The phantom will protect you");
+            // DisplayName.SetDefault("Phantom");
+            // Description.SetDefault("The phantom will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

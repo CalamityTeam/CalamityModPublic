@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Resurrection Butterfly");
-            Description.SetDefault("Sleep beneath the Cherry Blossoms, Red-White Butterfly");
+            // DisplayName.SetDefault("Resurrection Butterfly");
+            // Description.SetDefault("Sleep beneath the Cherry Blossoms, Red-White Butterfly");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

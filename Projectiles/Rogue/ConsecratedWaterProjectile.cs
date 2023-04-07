@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Consecrated Water");
+            // DisplayName.SetDefault("Consecrated Water");
         }
 
         public override void SetDefaults()

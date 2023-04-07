@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aether's Whisper");
-            Tooltip.SetDefault("Inflicts long-lasting shadowflame and splits on tile hits\n" +
-                "Projectiles gain damage as they travel");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Aether's Whisper");
+            /* Tooltip.SetDefault("Inflicts long-lasting shadowflame and splits on tile hits\n" +
+                "Projectiles gain damage as they travel"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

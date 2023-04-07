@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Herring Staff");
-            Tooltip.SetDefault("Summons a group of herrings to fight for you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Herring Staff");
+            // Tooltip.SetDefault("Summons a group of herrings to fight for you");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -12,7 +12,7 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Desert Scourge");
+            // DisplayName.SetDefault("Desert Scourge");
         }
 
         public override void SetDefaults()
@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.DesertScourge
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 3; k++)
             {
@@ -169,12 +169,12 @@ namespace CalamityMod.NPCs.DesertScourge
             return false;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(BuffID.Bleeding, 180, true);

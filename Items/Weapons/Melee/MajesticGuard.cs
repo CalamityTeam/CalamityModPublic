@@ -8,10 +8,10 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Majestic Guard");
-            Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
-                "If enemy defense is 0 or below your attacks will heal you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Majestic Guard");
+            /* Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
+                "If enemy defense is 0 or below your attacks will heal you"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Pink;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (target.Calamity().miscDefenseLoss < target.defense)
                 target.Calamity().miscDefenseLoss += 1;

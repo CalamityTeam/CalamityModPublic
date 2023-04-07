@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Turret
         public override string Texture => "CalamityMod/Projectiles/Summon/SmallAresArms/MinionPlasmaGas";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plague Gas");
+            // DisplayName.SetDefault("Plague Gas");
         }
 
         public override void SetDefaults()
@@ -51,11 +51,11 @@ namespace CalamityMod.Projectiles.Turret
             if (Projectile.timeLeft < 40) // Remove hitbox once the projectile is barely visible anymore
                 ableToHit = false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 60);
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 60);
         }

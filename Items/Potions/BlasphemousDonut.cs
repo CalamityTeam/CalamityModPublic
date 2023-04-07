@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blasphemous Donut");
-            Tooltip.SetDefault("{$CommonItemTooltip.MediumStats}\n'Donut worry, it's perfectly edible'");
-            SacrificeTotal = 5;
+            // DisplayName.SetDefault("Blasphemous Donut");
+            // Tooltip.SetDefault("{$CommonItemTooltip.MediumStats}\n'Donut worry, it's perfectly edible'");
+            Item.ResearchUnlockCount = 5;
         }
         public override void SetDefaults()
         {

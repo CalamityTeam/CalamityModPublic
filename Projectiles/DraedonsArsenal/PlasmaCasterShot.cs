@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plasma Bolt");
+            // DisplayName.SetDefault("Plasma Bolt");
         }
 
         public override void SetDefaults()

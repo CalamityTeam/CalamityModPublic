@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Weapons.Rogue
         private int counter = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Utensil Poker");
-            Tooltip.SetDefault("Space chickens, that is all.\n" +
+            // DisplayName.SetDefault("Utensil Poker");
+            /* Tooltip.SetDefault("Space chickens, that is all.\n" +
                 "Fires random utensils in bursts of three\n" +
-                "Stealth strikes replace any utensil with a powerful butcher knife");
-            SacrificeTotal = 1;
+                "Stealth strikes replace any utensil with a powerful butcher knife"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

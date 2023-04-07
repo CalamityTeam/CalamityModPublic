@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("Icicle Arrow");
-            Tooltip.SetDefault("Shatters into shards on impact");
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("Icicle Arrow");
+            // Tooltip.SetDefault("Shatters into shards on impact");
         }
 
         public override void SetDefaults()

@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shock Grenade");
-            Tooltip.SetDefault("Throws a grenade that explodes into a burst of lightning\n" +
-                "Stealth strikes cause the grenade to leave an electrifying aura when it explodes");
-            SacrificeTotal = 99;
+            // DisplayName.SetDefault("Shock Grenade");
+            /* Tooltip.SetDefault("Throws a grenade that explodes into a burst of lightning\n" +
+                "Stealth strikes cause the grenade to leave an electrifying aura when it explodes"); */
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

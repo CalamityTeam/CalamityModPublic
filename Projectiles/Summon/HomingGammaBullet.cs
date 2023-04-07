@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gamma Bullet");
+            // DisplayName.SetDefault("Gamma Bullet");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.velocity = (Projectile.velocity * 6f + Projectile.SafeDirectionTo(potentialTarget.Center) * 15f) / 7f;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             previousNPCs.Add(target.whoAmI);
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240);

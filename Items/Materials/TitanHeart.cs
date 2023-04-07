@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Titan Heart");
-            Tooltip.SetDefault("Also used at the Astral Beacon");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Titan Heart");
+            // Tooltip.SetDefault("Also used at the Astral Beacon");
         }
 
         public override void SetDefaults()

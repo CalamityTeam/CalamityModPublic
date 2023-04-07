@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Calamitous Boots");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Calamitous Boots");
         }
 
         public override void SetDefaults()

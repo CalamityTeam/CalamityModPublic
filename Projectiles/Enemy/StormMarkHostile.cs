@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mark");
+            // DisplayName.SetDefault("Mark");
         }
 
         public override void SetDefaults()

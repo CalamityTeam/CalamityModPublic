@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Eutrophic Glass");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Eutrophic Glass");
         }
 
         public override void SetDefaults()

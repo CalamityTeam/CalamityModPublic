@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Igneous Exaltation");
-            Tooltip.SetDefault("Summons an orbiting blade\n" +
-                               "Right click to launch all blades towards the cursor");
+            // DisplayName.SetDefault("Igneous Exaltation");
+            /* Tooltip.SetDefault("Summons an orbiting blade\n" +
+                               "Right click to launch all blades towards the cursor"); */
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

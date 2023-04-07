@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Danny Devito");
-            Description.SetDefault("The trash man is following you.");
+            // DisplayName.SetDefault("Danny Devito");
+            // Description.SetDefault("The trash man is following you.");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

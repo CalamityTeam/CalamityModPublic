@@ -9,10 +9,10 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Bloodworm");
-            Tooltip.SetDefault("Summons The Old Duke if used as bait in the Sulphurous Sea\n" +
-                "Enrages outside the Sulphurous Sea");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Bloodworm");
+            /* Tooltip.SetDefault("Summons The Old Duke if used as bait in the Sulphurous Sea\n" +
+                "Enrages outside the Sulphurous Sea"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.SummonItems
             Item.consumable = true;
             Item.noUseGraphic = true;
             Item.makeNPC = (short)ModContent.NPCType<BloodwormNormal>();
-            SacrificeTotal = 3;
+            Item.ResearchUnlockCount = 3;
         }
 
 		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)

@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Clasper");
-            Description.SetDefault("The ice clasper will protect you");
+            // DisplayName.SetDefault("Ice Clasper");
+            // Description.SetDefault("The ice clasper will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

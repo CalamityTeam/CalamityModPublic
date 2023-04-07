@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bullet");
+            // DisplayName.SetDefault("Bullet");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			}
 		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (!target.betsysCurse)
                 target.AddBuff(BuffID.BetsysCurse, 180);
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(BuffID.Ichor, 180);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);

@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Ores
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Infernal Suevite");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Infernal Suevite");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 90; // Chlorophyte Ore
         }
 

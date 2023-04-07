@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Mounts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gaze of Crysthamyr");
-            Description.SetDefault("You are riding a shadow dragon");
+            // DisplayName.SetDefault("Gaze of Crysthamyr");
+            // Description.SetDefault("You are riding a shadow dragon");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
-            DisplayName.SetDefault("Ultima Bolt");
+            // DisplayName.SetDefault("Ultima Bolt");
         }
 
         public override void SetDefaults()

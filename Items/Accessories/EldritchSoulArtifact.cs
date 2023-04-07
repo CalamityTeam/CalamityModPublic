@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Eldritch Soul Artifact");
-            Tooltip.SetDefault("Knowledge\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Eldritch Soul Artifact");
+            /* Tooltip.SetDefault("Knowledge\n" +
                 "Boosts melee speed by 12%, ranged velocity by 30%, rogue stealth regen by 20%, whip range by 20% and reduces mana cost by 30%\n" +
-                "Grants immunity to Whispering Death");
+                "Grants immunity to Whispering Death"); */
         }
 
         public override void SetDefaults()

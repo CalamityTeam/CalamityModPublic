@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Monsoon");
-            Tooltip.SetDefault("Fires a spread of 5 arrows\n" +
-                "Wooden arrows are converted into typhoon arrows and sharks");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Monsoon");
+            /* Tooltip.SetDefault("Fires a spread of 5 arrows\n" +
+                "Wooden arrows are converted into typhoon arrows and sharks"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

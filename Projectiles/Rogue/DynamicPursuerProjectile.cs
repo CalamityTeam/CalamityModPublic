@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dynamic Pursuer");
+            // DisplayName.SetDefault("Dynamic Pursuer");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -161,7 +161,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + redExtremity2, direction2 * 3f, ModContent.ProjectileType<DynamicPursuerLaser>(), damage, Projectile.knockBack, Projectile.owner);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (((Projectile.Calamity().stealthStrike && Projectile.numHits == 4) || !Projectile.Calamity().stealthStrike) && !ReturningToPlayer)
             {

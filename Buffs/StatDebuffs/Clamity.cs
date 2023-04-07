@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Clamity");
-            Description.SetDefault("The clams have been angered!");
+            // DisplayName.SetDefault("Clamity");
+            // Description.SetDefault("The clams have been angered!");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;

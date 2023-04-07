@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Armor.GodSlayer
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("God Slayer Leggings");
-            Tooltip.SetDefault("5% increased movement speed\n" +
-                "10% increased damage and critical strike chance");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("God Slayer Leggings");
+            /* Tooltip.SetDefault("5% increased movement speed\n" +
+                "10% increased damage and critical strike chance"); */
         }
 
         public override void SetDefaults()

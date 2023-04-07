@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Brimstone Elemental Trophy");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Brimstone Elemental Trophy");
         }
 
         public override void SetDefaults()

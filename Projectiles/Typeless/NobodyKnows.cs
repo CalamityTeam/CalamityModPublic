@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nope");
+            // DisplayName.SetDefault("Nope");
         }
 
         public override void SetDefaults()

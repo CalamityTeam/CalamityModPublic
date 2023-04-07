@@ -161,7 +161,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Redtide Spear");
+            // DisplayName.SetDefault("Redtide Spear");
         }
 
         public override void SetDefaults()
@@ -299,7 +299,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             //Send the enemy flying up if hit by the upwards thrust.
             if (CurrentAttackState == AttackState.UpwardsThrust)
@@ -315,7 +315,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 Owner.GiveIFrames(5);
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             //Boost the knockback during the run attack
             if (CurrentAttackState == AttackState.RunAttack)

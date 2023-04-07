@@ -6,6 +6,7 @@ using Terraria.Enums;
 using Terraria.GameContent;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -38,8 +39,8 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
             // Toilets count as Chairs
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Wulfrum Toilet");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Wulfrum Toilet");
             AddMapEntry(new Color(100, 153, 100), name);
             TileID.Sets.CanBeSatOnForNPCs[Type] = true;
             TileID.Sets.CanBeSatOnForPlayers[Type] = true;

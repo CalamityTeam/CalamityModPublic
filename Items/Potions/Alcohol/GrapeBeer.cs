@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Grape Beer");
-            Tooltip.SetDefault(@"This crap is abhorrent but you might like it
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Grape Beer");
+            // Tooltip.SetDefault(@"This crap is abhorrent but you might like it
 Reduces defense by 3%");
         }
 

@@ -12,11 +12,11 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Bloody Worm Food");
-            Tooltip.SetDefault("Summons the Perforator Hive when used in the Crimson\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Bloody Worm Food");
+            /* Tooltip.SetDefault("Summons the Perforator Hive when used in the Crimson\n" +
                 "Enrages outside the Underground Crimson\n" +
-                "Not consumable");
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 5; // Abeemination / Deer Thing
         }
 
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<PerforatorHive>());
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<PerforatorHive>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<PerforatorHive>());
 
             return true;
         }

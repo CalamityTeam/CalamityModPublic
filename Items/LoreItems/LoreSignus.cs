@@ -20,7 +20,7 @@ Yet, Statis must have struck a bargain with Signus, as he escaped his banishment
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Signus"); // Signus, the Blade Between?
+            // DisplayName.SetDefault("Signus"); // Signus, the Blade Between?
         }
 
         public override void SetDefaults()

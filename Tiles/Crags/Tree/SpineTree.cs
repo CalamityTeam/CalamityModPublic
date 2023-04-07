@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using Terraria.DataStructures;
@@ -40,8 +41,8 @@ namespace CalamityMod.Tiles.Crags.Tree
             Main.tileSolid[Type] = false;
             Main.tileLighted[Type] = false;
             Main.tileBlockLight[Type] = false;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Giant Spine");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Giant Spine");
             AddMapEntry(new Color(38, 25, 27), name);
             DustType = 155;
 			HitSound = SoundID.DD2_SkeletonHurt;
@@ -192,7 +193,7 @@ namespace CalamityMod.Tiles.Crags.Tree
             }
         }
 
-        public override bool Drop(int i, int j)
+        public override bool Drop(int i, int j)/* tModPorter Note: Removed. Use CanDrop to decide if an item should drop. Use GetItemDrops to decide which item drops. Item drops based on placeStyle are handled automatically now, so this method might be able to be removed altogether. */
         {
             //drop seeds from the top of the tree
             if (Framing.GetTileSafely(i, j).TileFrameX == 36)

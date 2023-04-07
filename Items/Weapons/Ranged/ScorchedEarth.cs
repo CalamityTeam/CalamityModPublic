@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         private int counter = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scorched Earth");
-            Tooltip.SetDefault("Fires a burst of four fuel-air rockets which explode into cluster bombs\n" +
+            // DisplayName.SetDefault("Scorched Earth");
+            /* Tooltip.SetDefault("Fires a burst of four fuel-air rockets which explode into cluster bombs\n" +
             "Each burst consumes two rockets each\n" +
-            "Burns your targets to a fine crisp");
-            SacrificeTotal = 1;
+            "Burns your targets to a fine crisp"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

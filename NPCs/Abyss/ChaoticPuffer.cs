@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaotic Puffer");
+            // DisplayName.SetDefault("Chaotic Puffer");
             Main.npcFrameCount[NPC.type] = 11;
         }
 
@@ -242,7 +242,7 @@ namespace CalamityMod.NPCs.Abyss
             npcLoot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<ScoriaOre>(), 1, 10, 26);
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
@@ -254,13 +254,13 @@ namespace CalamityMod.NPCs.Abyss
             }
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             NPC.velocity.X = projectile.velocity.X;
             NPC.velocity.Y = projectile.velocity.Y;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 3; k++)
             {

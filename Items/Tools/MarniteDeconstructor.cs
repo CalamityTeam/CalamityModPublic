@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Marnite Deconstructor");
-            Tooltip.SetDefault("Its engine generates hardlight rays capable of excavating walls from a long distance\n" + "Ignores 10 points of enemy Defense");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Marnite Deconstructor");
+            // Tooltip.SetDefault("Its engine generates hardlight rays capable of excavating walls from a long distance\n" + "Ignores 10 points of enemy Defense");
         }
 
         public override void SetDefaults()

@@ -15,11 +15,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Night's Gaze");
-            Tooltip.SetDefault("Strike your foes with this spear of the night\n" +
+            // DisplayName.SetDefault("Night's Gaze");
+            /* Tooltip.SetDefault("Strike your foes with this spear of the night\n" +
                 "Throws a spear that shatters when it hits an enemy\n" +
-                "Stealth strikes cause the spear to summon homing stars as it flies");
-            SacrificeTotal = 1;
+                "Stealth strikes cause the spear to summon homing stars as it flies"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -21,10 +21,10 @@ namespace CalamityMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Crystyl Crusher");
-            Tooltip.SetDefault("Gotta dig faster, gotta go deeper\n" +
-                "Right click to swing normally");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Crystyl Crusher");
+            /* Tooltip.SetDefault("Gotta dig faster, gotta go deeper\n" +
+                "Right click to swing normally"); */
             Item.staff[Item.type] = true;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }

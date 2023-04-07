@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aqua Stream");
+            // DisplayName.SetDefault("Aqua Stream");
         }
 
         public override void SetDefaults()

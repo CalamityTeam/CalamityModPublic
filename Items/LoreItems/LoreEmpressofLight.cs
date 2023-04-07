@@ -16,7 +16,7 @@ I had deigned to slay her myself for her treachery, but she was a notoriously ev
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Empress of Light");
+            // DisplayName.SetDefault("Empress of Light");
         }
 
         public override void SetDefaults()

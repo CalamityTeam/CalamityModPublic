@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Counter Scarf");
-            Tooltip.SetDefault("10% increased true melee damage\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Counter Scarf");
+            /* Tooltip.SetDefault("10% increased true melee damage\n" +
                 "Grants the ability to dash; dashing into an attack will cause you to dodge it\n" +
-                "After a successful dodge you must wait 30 seconds before you can dodge again");
+                "After a successful dodge you must wait 30 seconds before you can dodge again"); */
         }
 
         public override void SetDefaults()

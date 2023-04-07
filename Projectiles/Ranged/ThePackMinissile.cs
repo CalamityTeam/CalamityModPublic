@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pack Minissile");
+            // DisplayName.SetDefault("Pack Minissile");
             Main.projFrames[Projectile.type] = 4;
         }
 

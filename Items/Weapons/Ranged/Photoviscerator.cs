@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Photoviscerator");
-            Tooltip.SetDefault("90% chance to not consume gel\n" +
+            // DisplayName.SetDefault("Photoviscerator");
+            /* Tooltip.SetDefault("90% chance to not consume gel\n" +
                 "Fires a stream of exo flames and light that explodes into homing sparks\n" +
-                "Right click to fire homing flares which stick to enemies and incinerate them");
-            SacrificeTotal = 1;
+                "Right click to fire homing flares which stick to enemies and incinerate them"); */
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

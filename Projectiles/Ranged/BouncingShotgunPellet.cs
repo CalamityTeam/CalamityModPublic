@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
         private int bounce = 2;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shotgun Pellet");
+            // DisplayName.SetDefault("Shotgun Pellet");
         }
 
         public override void SetDefaults()
@@ -45,9 +45,9 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
 
         public override void Kill(int timeLeft)
         {

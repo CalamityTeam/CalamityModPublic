@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Auric Orb");
+            // DisplayName.SetDefault("Auric Orb");
         }
 
         public override void SetDefaults()

@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Ancient Fossil");
-            Tooltip.SetDefault("Increases mining speed by 15%");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Ancient Fossil");
+            // Tooltip.SetDefault("Increases mining speed by 15%");
         }
 
         public override void SetDefaults()

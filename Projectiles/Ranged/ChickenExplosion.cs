@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Kentucky Fried Explosion");
+            // DisplayName.SetDefault("Kentucky Fried Explosion");
         }
 
         public override void SetDefaults()
@@ -43,12 +43,12 @@ namespace CalamityMod.Projectiles.Ranged
             EmitDust();
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
         }

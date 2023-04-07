@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Yharim's Crystal");
-            Tooltip.SetDefault("Fires draconic beams of total annihilation");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Yharim's Crystal");
+            // Tooltip.SetDefault("Fires draconic beams of total annihilation");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

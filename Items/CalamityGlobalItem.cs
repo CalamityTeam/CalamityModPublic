@@ -184,7 +184,7 @@ namespace CalamityMod.Items
 
             // Let every accessory be equipped in vanity slots.
             if (item.accessory)
-                item.canBePlacedInVanityRegardlessOfConditions = true;
+                item.hasVanityEffects = true;
 
             // Make most expert items no longer expert because they drop in all modes now.
             switch (item.type)
@@ -1661,7 +1661,7 @@ namespace CalamityMod.Items
         #endregion
 
         #region On Create
-        public override void OnCreate(Item item, ItemCreationContext context)
+        public override void OnCreated(Item item, ItemCreationContext context)
         {
 			// ChoosePrefix also happens on craft so go reset it here too
 			storedPrefix = -1;
@@ -1683,7 +1683,7 @@ namespace CalamityMod.Items
         // removed data saved on items; reforging is now a coalescing flowchart that has no RNG
         public override int ChoosePrefix(Item item, UnifiedRandom rand)
         {
-			if (storedPrefix == -1 && item.CountsAsClass<RogueDamageClass>() && item.IsCandidateForReforge)
+			if (storedPrefix == -1 && item.CountsAsClass<RogueDamageClass>() && item.IsCandidateForReforge/* tModPorter Note: Removed. Use `maxStack == 1 || Item.AllowReforgeForStackableItem` or `Item.Prefix(-3)` to check whether an item is reforgeable */)
 			{
 				// Crafting (or first reforge of) a rogue weapon has a 75% chance for a random modifier, this check is done by vanilla
 				// Negative modifiers have a 66.66% chance of being voided, Annoying modifier is intentionally ignored by vanilla
@@ -1708,7 +1708,7 @@ namespace CalamityMod.Items
                 // Calculate the item's reforge cost.
                 int value = item.value;
                 Player p = Main.LocalPlayer;
-                ItemLoader.ReforgePrice(item, ref value, ref p.discount);
+                ItemLoader.ReforgePrice(item, ref value, ref p.discountAvailable);
 
                 // Steal 20% of that money.
                 CalamityWorld.MoneyStolenByBandit += value / 5;

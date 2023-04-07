@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Summon
         public ref float StuckJumpSpeed => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Daedalus Golem");
+            // DisplayName.SetDefault("Daedalus Golem");
             Main.projFrames[Projectile.type] = 18;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;

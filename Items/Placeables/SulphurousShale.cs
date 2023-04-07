@@ -6,8 +6,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Sulphurous Shale");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Sulphurous Shale");
         }
 
         public override void SetDefaults()

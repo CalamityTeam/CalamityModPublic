@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Holy Collider");
-            Tooltip.SetDefault("Striking enemies will cause them to explode into holy fire");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Holy Collider");
+            // Tooltip.SetDefault("Striking enemies will cause them to explode into holy fire");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ModContent.RarityType<Turquoise>();
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_ItemUse(Item);
             SoundEngine.PlaySound(SoundID.Item14, target.Center);
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_ItemUse(Item);
             SoundEngine.PlaySound(SoundID.Item14, target.Center);

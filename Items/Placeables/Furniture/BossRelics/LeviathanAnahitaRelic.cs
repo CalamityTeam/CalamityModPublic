@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Leviathan and Anahita Relic");
+			// DisplayName.SetDefault("Leviathan and Anahita Relic");
 
-			SacrificeTotal = 1;
+			Item.ResearchUnlockCount = 1;
 		}
 
 		public override void SetDefaults()

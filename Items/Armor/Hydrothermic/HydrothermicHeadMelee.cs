@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Hydrothermic Helm");
-            Tooltip.SetDefault("12% increased melee damage and 10% increased melee critical strike chance\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Hydrothermic Helm");
+            /* Tooltip.SetDefault("12% increased melee damage and 10% increased melee critical strike chance\n" +
                 "18% increased melee speed\n" +
                 "Melee attacks and melee projectiles inflict on fire\n" +
-                "Grants immunity to lava and On Fire! debuff");
+                "Grants immunity to lava and On Fire! debuff"); */
         }
 
         public override void SetDefaults()

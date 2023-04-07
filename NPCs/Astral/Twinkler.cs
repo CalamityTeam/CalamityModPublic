@@ -13,7 +13,7 @@ namespace CalamityMod.NPCs.Astral
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Twinkler");
+            // DisplayName.SetDefault("Twinkler");
             Main.npcFrameCount[NPC.type] = 8;
             Main.npcCatchable[NPC.type] = true;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override bool? CanBeHitByProjectile(Projectile projectile) => null;
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Pets
         public Player Owner => Main.player[Projectile.owner];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Daawnlight");
+            // DisplayName.SetDefault("Daawnlight");
             Main.projFrames[Projectile.type] = 12;
         }
 

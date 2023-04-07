@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            Tooltip.SetDefault("An Ashen Slab variant that merges differently with nearby blocks\n" +
-                            "Favored by advanced builders");
+            Item.ResearchUnlockCount = 100;
+            /* Tooltip.SetDefault("An Ashen Slab variant that merges differently with nearby blocks\n" +
+                            "Favored by advanced builders"); */
         }
 
         public override void SetDefaults()
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
                 AddIngredient<SmoothBrimstoneSlag>(50).
                 AddIngredient<UnholyCore>().
                 AddTile<AshenAltar>().
-                AddCondition(Recipe.Condition.InGraveyardBiome).
+                AddCondition(Condition.InGraveyard).
                 Register();
         }
     }

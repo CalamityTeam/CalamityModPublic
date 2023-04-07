@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spark");
+            // DisplayName.SetDefault("Spark");
         }
 
         public override void SetDefaults()

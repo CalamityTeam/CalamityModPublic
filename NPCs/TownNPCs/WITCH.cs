@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.TownNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brimstone Witch");
+            // DisplayName.SetDefault("Brimstone Witch");
 
             Main.npcFrameCount[NPC.type] = 27;
             NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.TownNPCs
             });
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => DownedBossSystem.downedCalamitas && !NPC.AnyNPCs(NPCType<SCalBoss>());
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */ => DownedBossSystem.downedCalamitas && !NPC.AnyNPCs(NPCType<SCalBoss>());
 
 		public override List<string> SetNPCNameList() => new List<string>() { "Calamitas" };
 
@@ -151,7 +151,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetChatButtons(ref string button, ref string button2) => button = "Enchant";
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
             {
@@ -212,7 +212,7 @@ namespace CalamityMod.NPCs.TownNPCs
         }
 
         // Explode into red dust on death.
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

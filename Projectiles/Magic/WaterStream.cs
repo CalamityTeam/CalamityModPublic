@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stream");
+            // DisplayName.SetDefault("Stream");
         }
 
         public override void SetDefaults()

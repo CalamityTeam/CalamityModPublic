@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Star");
-            Tooltip.SetDefault("Throws fast but brittle homing ice stars\n" +
-                "Stealth strikes last longer and spawn smaller homing stars on first hits");
-            SacrificeTotal = 99;
+            // DisplayName.SetDefault("Ice Star");
+            /* Tooltip.SetDefault("Throws fast but brittle homing ice stars\n" +
+                "Stealth strikes last longer and spawn smaller homing stars on first hits"); */
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

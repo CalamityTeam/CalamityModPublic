@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Karasawa Shot");
+            // DisplayName.SetDefault("Karasawa Shot");
         }
 
         public override void SetDefaults()

@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Healing
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Silva Orb");
+            // DisplayName.SetDefault("Silva Orb");
         }
 
         public override void SetDefaults()

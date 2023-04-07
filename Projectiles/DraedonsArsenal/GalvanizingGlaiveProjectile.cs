@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Galvanizing Glaive");
+            // DisplayName.SetDefault("Galvanizing Glaive");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 90;
         }
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Main.rand.NextBool(12))
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<GaussFlux>(), damage, 0f, Projectile.owner, 0f, target.whoAmI);

@@ -13,12 +13,12 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Exotic Pheromones");
-            Tooltip.SetDefault("Specifically formulated to attract draconic hybrids\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Exotic Pheromones");
+            /* Tooltip.SetDefault("Specifically formulated to attract draconic hybrids\n" +
                 "Summons The Dragonfolly when used in the Jungle\n" +
                 "Enrages outside the Jungle\n" +
-                "Not consumable");
+                "Not consumable"); */
             ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Bumblefuck>());
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Bumblefuck>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<Bumblefuck>());
 
             return true;
         }

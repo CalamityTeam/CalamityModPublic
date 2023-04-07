@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scorching Seeker");
+            // DisplayName.SetDefault("Scorching Seeker");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Melee
         //glowmask effect
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             //inflict Holy Flames for 6 seconds
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);

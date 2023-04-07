@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Placeables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaos Candle");
-            Description.SetDefault("Spawn rates around the candle are boosted!");
+            // DisplayName.SetDefault("Chaos Candle");
+            // Description.SetDefault("Spawn rates around the candle are boosted!");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Healing
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Reaver Heal Orb");
+            // DisplayName.SetDefault("Reaver Heal Orb");
         }
 
         public override void SetDefaults()

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureWulfrum
 {
@@ -10,8 +11,8 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
         public override void SetStaticDefaults()
         {
             this.SetUpBathtub();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Bathtub");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Bathtub");
             AddMapEntry(new Color(100, 153, 100), name);
             AnimationFrameHeight = 54;
         }

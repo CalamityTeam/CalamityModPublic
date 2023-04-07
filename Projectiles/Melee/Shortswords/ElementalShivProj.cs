@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Elemental Shiv"); // TODO: Make this one function like PiercingStarlight
+            // DisplayName.SetDefault("Elemental Shiv"); // TODO: Make this one function like PiercingStarlight
         }
 
         public override void SetDefaults()

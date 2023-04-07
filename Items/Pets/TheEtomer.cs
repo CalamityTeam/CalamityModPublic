@@ -15,11 +15,11 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("The Etomer");
-            Tooltip.SetDefault("Summons an electric troublemaker\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("The Etomer");
+            /* Tooltip.SetDefault("Summons an electric troublemaker\n" +
                 "A little note is attached:\n" +
-                "Thank you, Aloe! Very much appreciated from Ben");
+                "Thank you, Aloe! Very much appreciated from Ben"); */
         }
 
         public override void SetDefaults()

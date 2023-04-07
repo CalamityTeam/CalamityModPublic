@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Totality Breakers");
-            Tooltip.SetDefault(@"Explodes into highly flammable black tar
+            // DisplayName.SetDefault("Totality Breakers");
+            // Tooltip.SetDefault(@"Explodes into highly flammable black tar
 Tar oils enemies and sets them alight
 Stealth strikes leak tar as they fly");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

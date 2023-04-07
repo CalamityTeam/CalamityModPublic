@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Verstaltite Fishing Rod");
-            Tooltip.SetDefault("Increased fishing power when in the tundra\n" +
-                "The ancient alloy's prismatic qualities are perfect for attracting fish");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Verstaltite Fishing Rod");
+            /* Tooltip.SetDefault("Increased fishing power when in the tundra\n" +
+                "The ancient alloy's prismatic qualities are perfect for attracting fish"); */
         }
 
         public override void SetDefaults()

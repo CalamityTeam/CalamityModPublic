@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nadir");
+            // DisplayName.SetDefault("Nadir");
         }
 
         public override void SetDefaults()

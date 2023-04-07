@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.SunkenSea
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blinded Angler");
+            // DisplayName.SetDefault("Blinded Angler");
             Main.npcFrameCount[NPC.type] = 6;
         }
 
@@ -120,7 +120,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npcLoot.Add(ModContent.ItemType<PrismShard>(), 1, 5, 9);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

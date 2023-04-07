@@ -9,13 +9,13 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Bloom Stone");
-            Tooltip.SetDefault("One of the ancient relics\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Bloom Stone");
+            /* Tooltip.SetDefault("One of the ancient relics\n" +
                 "You quickly regenerate life while on the ground\n" +
                 "This effect works best during daytime\n" +
                 "Flowers grow if you are standing on grass\n" +
-                "Random dye plants will grow while standing on grassless dirt");
+                "Random dye plants will grow while standing on grassless dirt"); */
         }
 
         public override void SetDefaults()

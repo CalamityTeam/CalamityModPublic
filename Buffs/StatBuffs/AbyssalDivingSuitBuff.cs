@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Abyssal Diving Suit");
-            Description.SetDefault("You are made of metal");
+            // DisplayName.SetDefault("Abyssal Diving Suit");
+            // Description.SetDefault("You are made of metal");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;

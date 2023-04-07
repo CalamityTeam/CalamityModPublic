@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Irradiated Pulse");
+            // DisplayName.SetDefault("Irradiated Pulse");
         }
 
         public override void SetDefaults()
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool? CanHitNPC(NPC target) => !target.CountsAsACritter && !target.friendly && target.chaseable;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), RustyBeaconPrototype.IrradiatedDebuffTime);
             target.AddBuff(BuffID.Poisoned, RustyBeaconPrototype.PoisonedDebuffTime);

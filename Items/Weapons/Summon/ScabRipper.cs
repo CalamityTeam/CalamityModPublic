@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scab Ripper");
-            Tooltip.SetDefault("Summons a baby blood crawler to protect you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Scab Ripper");
+            // Tooltip.SetDefault("Summons a baby blood crawler to protect you");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

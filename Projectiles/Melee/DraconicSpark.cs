@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draconic Spark");
+            // DisplayName.SetDefault("Draconic Spark");
         }
 
         public override void SetDefaults()
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         // Debuff applied depends on spark color.
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.ai[0] == 0f)
                 target.AddBuff(BuffID.Daybreak, 180);

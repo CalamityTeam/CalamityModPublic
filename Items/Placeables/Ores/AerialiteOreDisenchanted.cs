@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.Ores
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Disenchanted Aerialite Ore");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Disenchanted Aerialite Ore");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 69; // Hellstone
         }
 

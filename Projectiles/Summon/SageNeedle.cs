@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
         public const int OnDeathHealValue = 1;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sage Needle");
+            // DisplayName.SetDefault("Sage Needle");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.velocity.Y += 0.16f;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             int totalSageSpirits = Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<SageSpirit>()];
 

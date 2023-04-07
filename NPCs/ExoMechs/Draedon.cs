@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draedon");
+            // DisplayName.SetDefault("Draedon");
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
@@ -785,12 +785,12 @@ namespace CalamityMod.NPCs.ExoMechs
             }
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = 16000;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life > 0)
                 return;
@@ -829,7 +829,7 @@ namespace CalamityMod.NPCs.ExoMechs
         }
 
         // Always instantly kill Draedon when he's vulnerable
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
             damage *= 56D;
             if (damage < NPC.lifeMax)

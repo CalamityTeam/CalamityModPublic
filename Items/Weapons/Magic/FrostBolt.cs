@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frost Bolt");
-            Tooltip.SetDefault("Casts a slow-moving ball of frost");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Frost Bolt");
+            // Tooltip.SetDefault("Casts a slow-moving ball of frost");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

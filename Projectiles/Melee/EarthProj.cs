@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Earth");
+            // DisplayName.SetDefault("Earth");
         }
 
         public override void SetDefaults()
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(BuffID.Frostburn, 240);

@@ -18,7 +18,7 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sunken Sea");
+            // DisplayName.SetDefault("Sunken Sea");
         }
 
         public override bool IsBiomeActive(Player player)

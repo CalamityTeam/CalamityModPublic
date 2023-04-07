@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("White Wine");
-            Tooltip.SetDefault(@"I drank a full barrel of this stuff once in one night, I couldn't remember who I was the next day
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("White Wine");
+            // Tooltip.SetDefault(@"I drank a full barrel of this stuff once in one night, I couldn't remember who I was the next day
 Boosts magic damage by 8%
 Reduces defense by 6% and life regen by 1");
         }

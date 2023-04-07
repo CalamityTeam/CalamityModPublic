@@ -18,7 +18,7 @@ Years of careless mass waste disposal has now left the coast's transformation ir
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Sulphur Sea");
+            // DisplayName.SetDefault("Sulphur Sea");
         }
 
         public override void SetDefaults()

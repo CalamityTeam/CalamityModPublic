@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Hood of Calamity");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Hood of Calamity");
 
             if (Main.netMode != NetmodeID.Server)
                 ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;

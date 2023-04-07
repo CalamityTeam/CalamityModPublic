@@ -15,7 +15,7 @@ Essence of a pious God could never fester into a mire as dreadful as this.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("The Crimson");
+            // DisplayName.SetDefault("The Crimson");
         }
 
         public override void SetDefaults()

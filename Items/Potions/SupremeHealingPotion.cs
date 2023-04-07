@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Supreme Healing Potion");
-            SacrificeTotal = 30;
+            // DisplayName.SetDefault("Supreme Healing Potion");
+            Item.ResearchUnlockCount = 30;
         }
 
         public override void SetDefaults()

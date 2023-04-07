@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Impious Immolator");
+            // DisplayName.SetDefault("Impious Immolator");
             Main.npcFrameCount[NPC.type] = 4;
         }
 
@@ -274,7 +274,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npcLoot.Add(ModContent.ItemType<BlasphemousDonut>(), 20);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

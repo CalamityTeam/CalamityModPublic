@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
         public const int TotalFlames = 120;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Final Dawn");
+            // DisplayName.SetDefault("The Final Dawn");
             Main.projFrames[Projectile.type] = 8;
         }
         public override void SetDefaults()
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.Kill();
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Dragonfire>(), 180);
         }

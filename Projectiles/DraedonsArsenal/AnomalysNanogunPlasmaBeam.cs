@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plasma Beam");
+            // DisplayName.SetDefault("Plasma Beam");
         }
 
         public override void SetDefaults()

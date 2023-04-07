@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Placeables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vigor");
-            Description.SetDefault("Its brilliant light suffuses those nearby with hope");
+            // DisplayName.SetDefault("Vigor");
+            // Description.SetDefault("Its brilliant light suffuses those nearby with hope");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;

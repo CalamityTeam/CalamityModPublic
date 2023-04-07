@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Seashine Sword");
-            Tooltip.SetDefault("Shoots an aqua sword beam");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Seashine Sword");
+            // Tooltip.SetDefault("Shoots an aqua sword beam");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

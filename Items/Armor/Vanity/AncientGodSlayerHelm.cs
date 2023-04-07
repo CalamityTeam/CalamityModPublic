@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Ancient God Slayer Helm");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Ancient God Slayer Helm");
         }
 
         public override void SetDefaults()

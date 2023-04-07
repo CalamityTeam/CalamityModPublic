@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Enchanted Conch");
-            Tooltip.SetDefault("Summons a hermit crab to fight for you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Enchanted Conch");
+            // Tooltip.SetDefault("Summons a hermit crab to fight for you");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

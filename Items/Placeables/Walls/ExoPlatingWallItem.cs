@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Walls
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 400;
-            DisplayName.SetDefault("Exo Plating Wall");
+            Item.ResearchUnlockCount = 400;
+            // DisplayName.SetDefault("Exo Plating Wall");
         }
 
         public override void SetDefaults()

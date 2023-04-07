@@ -13,7 +13,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Super Dummy");
+            // DisplayName.SetDefault("Super Dummy");
             Main.npcFrameCount[NPC.type] = 11;
             NPCID.Sets.CantTakeLunchMoney[Type] = true;
         }
@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             // Dummy AI, no way
             NPC.ai[0] = hitDirection * -NPC.direction;

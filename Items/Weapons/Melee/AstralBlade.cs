@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Astral Blade");
-            Tooltip.SetDefault("Deals more damage the more life an enemy has left");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Astral Blade");
+            // Tooltip.SetDefault("Deals more damage the more life an enemy has left");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -39,12 +39,12 @@ namespace CalamityMod.Items.Weapons.Melee
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 25;
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
         }
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
             float lifeRatio = target.life / (float)target.lifeMax;
             float multiplier = MathHelper.Lerp(1f, 2f, lifeRatio);

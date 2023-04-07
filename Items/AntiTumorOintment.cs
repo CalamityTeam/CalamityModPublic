@@ -8,9 +8,9 @@ namespace CalamityMod.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Anti-Tumor Ointment");
-            Tooltip.SetDefault("Favorite this item to prevent hive tumors from spawning near you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Anti-Tumor Ointment");
+            // Tooltip.SetDefault("Favorite this item to prevent hive tumors from spawning near you");
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

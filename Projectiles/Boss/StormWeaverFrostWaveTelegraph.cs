@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frost Wave Telegraph");
+            // DisplayName.SetDefault("Frost Wave Telegraph");
         }
 
         public override void SetDefaults()

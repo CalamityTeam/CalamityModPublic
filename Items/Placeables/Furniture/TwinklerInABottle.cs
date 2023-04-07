@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Twinkler in a Bottle");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Twinkler in a Bottle");
         }
 
         public override void SetDefaults()

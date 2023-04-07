@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStatigel
@@ -12,8 +13,8 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         public override void SetStaticDefaults()
         {
             this.SetUpBed();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Bed");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Bed");
             AddMapEntry(new Color(191, 142, 111), name);
             AdjTiles = new int[] { TileID.Beds };
         }

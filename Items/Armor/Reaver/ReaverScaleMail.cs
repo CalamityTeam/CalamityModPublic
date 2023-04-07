@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Armor.Reaver
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Reaver Scale Mail");
-            Tooltip.SetDefault("9% increased damage and 4% increased critical strike chance\n" +
-                "+20 max life");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Reaver Scale Mail");
+            /* Tooltip.SetDefault("9% increased damage and 4% increased critical strike chance\n" +
+                "+20 max life"); */
 
             if (Main.netMode == NetmodeID.Server)
                 return;

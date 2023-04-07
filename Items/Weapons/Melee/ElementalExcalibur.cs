@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Elemental Excalibur");
-            Tooltip.SetDefault("Freezes enemies and heals the player on hit\n" +
+            // DisplayName.SetDefault("Elemental Excalibur");
+            /* Tooltip.SetDefault("Freezes enemies and heals the player on hit\n" +
                 "Fires rainbow beams that change their behavior based on their color\n" +
-                "Right click for true melee");
-            SacrificeTotal = 1;
+                "Right click for true melee"); */
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
@@ -78,13 +78,13 @@ namespace CalamityMod.Items.Weapons.Melee
             return base.CanUseItem(player);
         }
 
-        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
             if (player.altFunctionUse == 2)
                 damage *= 2;
         }
 
-        public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPvp(Player player, Player target, ref Player.HurtModifiers modifiers)
         {
             if (player.altFunctionUse == 2)
                 damage *= 2;
@@ -141,7 +141,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
 
@@ -153,7 +153,7 @@ namespace CalamityMod.Items.Weapons.Melee
             player.HealEffect(healAmount);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
 

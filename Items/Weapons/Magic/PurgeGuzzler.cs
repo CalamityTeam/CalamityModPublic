@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Purge Guzzler");
-            Tooltip.SetDefault("Emits three beams of holy energy in a tight spread");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Purge Guzzler");
+            // Tooltip.SetDefault("Emits three beams of holy energy in a tight spread");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

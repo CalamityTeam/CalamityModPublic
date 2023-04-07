@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Plagued Table");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Plagued Table");
         }
 
         public override void SetDefaults()

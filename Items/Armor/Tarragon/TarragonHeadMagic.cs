@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Armor.Tarragon
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Tarragon Mask");
-            Tooltip.SetDefault("20% increased magic damage and 10% increased magic critical strike chance\n" +
-                "5% increased damage reduction, +100 max mana, and 15% reduced mana usage");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Tarragon Mask");
+            /* Tooltip.SetDefault("20% increased magic damage and 10% increased magic critical strike chance\n" +
+                "5% increased damage reduction, +100 max mana, and 15% reduced mana usage"); */
         }
 
         public override void SetDefaults()

@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Phantomic Empowerment");
-            Description.SetDefault("Empowering minion damage by 10%");
+            // DisplayName.SetDefault("Phantomic Empowerment");
+            // Description.SetDefault("Empowering minion damage by 10%");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

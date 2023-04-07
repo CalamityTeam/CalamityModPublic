@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draconic Aura Flare");
+            // DisplayName.SetDefault("Draconic Aura Flare");
         }
 
         public override void SetDefaults()

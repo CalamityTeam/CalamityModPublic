@@ -26,7 +26,7 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Void");
+            // DisplayName.SetDefault("The Void");
         }
 
         public override bool IsBiomeActive(Player player)

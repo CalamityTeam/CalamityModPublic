@@ -16,12 +16,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         public const int StealthStrikeLightCount = 7;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Seraphim");
-            Tooltip.SetDefault("Throws an extraordinarily fast dagger which slows down exponentially and dissipates into light\n" +
+            // DisplayName.SetDefault("Seraphim");
+            /* Tooltip.SetDefault("Throws an extraordinarily fast dagger which slows down exponentially and dissipates into light\n" +
                 $"Once dissipation has ended, {SplitDaggerCount} fast, splitting blades that aim at and slice nearby targets are released, along\n" +
                 "with a large laserbeam\n" +
-                $"Stealth strikes release a volley of {StealthStrikeLightCount} lights which explode into smaller laser beams along with the dagger");
-            SacrificeTotal = 1;
+                $"Stealth strikes release a volley of {StealthStrikeLightCount} lights which explode into smaller laser beams along with the dagger"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

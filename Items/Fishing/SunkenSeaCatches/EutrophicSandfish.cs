@@ -7,8 +7,8 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eutrophic Sandfish");
-            SacrificeTotal = 2;
+            // DisplayName.SetDefault("Eutrophic Sandfish");
+            Item.ResearchUnlockCount = 2;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 

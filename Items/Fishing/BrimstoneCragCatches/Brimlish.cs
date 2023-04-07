@@ -7,8 +7,8 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brimlish");
-            SacrificeTotal = 2;
+            // DisplayName.SetDefault("Brimlish");
+            Item.ResearchUnlockCount = 2;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 

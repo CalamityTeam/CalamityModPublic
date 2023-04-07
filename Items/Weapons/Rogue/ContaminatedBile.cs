@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Contaminated Bile");
-            Tooltip.SetDefault("Throws a flask of sickly green, irradiated bile which explodes on collision\n" +
-                               "Stealth strikes make the explosion much more violent and powerful");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Contaminated Bile");
+            /* Tooltip.SetDefault("Throws a flask of sickly green, irradiated bile which explodes on collision\n" +
+                               "Stealth strikes make the explosion much more violent and powerful"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Furniture.Fountains
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Abyss Water Fountain");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Abyss Water Fountain");
         }
 
         public override void SetDefaults()

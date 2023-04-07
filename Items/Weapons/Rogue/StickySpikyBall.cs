@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sticky Spiky Ball");
-            Tooltip.SetDefault(@"Throws a spiky ball that sticks to everything
+            // DisplayName.SetDefault("Sticky Spiky Ball");
+            // Tooltip.SetDefault(@"Throws a spiky ball that sticks to everything
 Stealth strikes throw four at once and last a lot longer");
-            SacrificeTotal = 99;
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Empyrean Ember");
+            // DisplayName.SetDefault("Empyrean Ember");
         }
 
         public override void SetDefaults()

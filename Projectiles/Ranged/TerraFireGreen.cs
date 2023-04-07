@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fire");
+            // DisplayName.SetDefault("Fire");
         }
 
         public override void SetDefaults()
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.rotation += 0.3f * (float)Projectile.direction;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.immune[Projectile.owner] = 5;
             target.AddBuff(BuffID.CursedInferno, 90);

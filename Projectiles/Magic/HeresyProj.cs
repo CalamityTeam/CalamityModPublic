@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Magic
         public ref float AttackTimer => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heresy");
+            // DisplayName.SetDefault("Heresy");
             Main.projFrames[Projectile.type] = 8;
         }
 

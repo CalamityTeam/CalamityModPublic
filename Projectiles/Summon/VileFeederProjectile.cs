@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eater of Souls Mini");
+            // DisplayName.SetDefault("Eater of Souls Mini");
             Main.projFrames[Projectile.type] = 4;
         }
 

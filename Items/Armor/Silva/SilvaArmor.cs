@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Armor.Silva
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Silva Armor");
-            Tooltip.SetDefault("+80 max life\n" +
-                       "12% increased damage and 8% increased critical strike chance");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Silva Armor");
+            /* Tooltip.SetDefault("+80 max life\n" +
+                       "12% increased damage and 8% increased critical strike chance"); */
         }
 
         public override void SetDefaults()

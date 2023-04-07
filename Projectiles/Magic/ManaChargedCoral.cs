@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mana-charged Coral");
+            // DisplayName.SetDefault("Mana-charged Coral");
             Main.projFrames[Projectile.type] = 3;
         }
 
@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             SoundEngine.PlaySound(SoundID.GlommerBounce, Projectile.Center);
             Projectile.velocity = Vector2.Zero;

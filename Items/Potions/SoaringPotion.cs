@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 20;
-            DisplayName.SetDefault("Soaring Potion");
-            Tooltip.SetDefault("Increases flight time and horizontal flight speed by 10%\n" +
+            Item.ResearchUnlockCount = 20;
+            // DisplayName.SetDefault("Soaring Potion");
+            /* Tooltip.SetDefault("Increases flight time and horizontal flight speed by 10%\n" +
                 "Restores a fraction of your wing flight time after a true melee strike\n" +
-                "The amount of flight time restored scales with your melee stats and weapon swing speed");
+                "The amount of flight time restored scales with your melee stats and weapon swing speed"); */
         }
 
         public override void SetDefaults()

@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Ashen Horns");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Ashen Horns");
 
             if (Main.netMode != NetmodeID.Server)
                 ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;

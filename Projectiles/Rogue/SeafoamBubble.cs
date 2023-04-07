@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Seafoam Bubble");
+            // DisplayName.SetDefault("Seafoam Bubble");
         }
 
         public override void SetDefaults()

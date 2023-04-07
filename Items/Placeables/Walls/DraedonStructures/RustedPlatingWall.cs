@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Placeables.Walls.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 400;
+            Item.ResearchUnlockCount = 400;
         }
 
         public override void SetDefaults()

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Barrage");
+            // DisplayName.SetDefault("Ice Barrage");
         }
 
         public override void SetDefaults()

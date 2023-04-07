@@ -13,12 +13,12 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Charred Idol");
-            Tooltip.SetDefault("Use at your own risk\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Charred Idol");
+            /* Tooltip.SetDefault("Use at your own risk\n" +
                "Summons the Brimstone Elemental when used in the Brimstone Crags\n" +
                "Enrages outside the Brimstone Crags\n" +
-               "Not consumable");
+               "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 9; // Mechanical Skull
         }
 
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<BrimstoneElemental>());
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<BrimstoneElemental>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<BrimstoneElemental>());
 
             return true;
         }

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cinder");
+            // DisplayName.SetDefault("Cinder");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             int flowerPetalCount = Main.rand.Next(3, 5 + 1);
             float thetaDelta = Projectile.velocity.ToRotation();

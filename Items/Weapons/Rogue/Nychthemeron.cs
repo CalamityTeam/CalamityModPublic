@@ -12,13 +12,13 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nychthemeron");
-            Tooltip.SetDefault("Throws a spiky ball that ignores gravity and summons a pair of dark and light orbs that orbit the player\n" +
+            // DisplayName.SetDefault("Nychthemeron");
+            /* Tooltip.SetDefault("Throws a spiky ball that ignores gravity and summons a pair of dark and light orbs that orbit the player\n" +
                 "Once the spiky ball disappears the orbs will home in on the nearest target\n" +
                 "Up to 10 spiky balls can exist at a time\n" +
                 "Stealth strikes cause all spiky balls and orbs to be thrown at once\n" +
-                "Right click to recall all existing spiky balls");
-            SacrificeTotal = 1;
+                "Right click to recall all existing spiky balls"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

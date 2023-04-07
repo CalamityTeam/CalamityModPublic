@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Regislash");
+            // DisplayName.SetDefault("Regislash");
             Main.projFrames[Projectile.type] = 6;
         }
 

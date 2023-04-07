@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Temporal Umbrella");
-            Tooltip.SetDefault("Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow\n" +
+            // DisplayName.SetDefault("Temporal Umbrella");
+            /* Tooltip.SetDefault("Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow\n" +
                 "Summons a variety of tools to assist you in battle:\n" +
                 " - A vermilion arrow to pierce your adversaries\n" +
                 " - A marmalade hammer to bonk enemies in style\n" +
@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Weapons.Summon
                 " - A cyan umbrella to beat down your foes with grace\n" +
                 " - A lavender rifle to snipe those who stand in your way\n" +
                 "Best of all, you get to wear a top hat\n" +
-                "Requires 5 minion slots to use and there can only be one set of tools");
-            SacrificeTotal = 1;
+                "Requires 5 minion slots to use and there can only be one set of tools"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

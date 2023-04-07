@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Bloodstained Glove");
-            Tooltip.SetDefault("Stealth strikes have +8 armor penetration and heal for 2 HP");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Bloodstained Glove");
+            // Tooltip.SetDefault("Stealth strikes have +8 armor penetration and heal for 2 HP");
         }
 
         public override void SetDefaults()

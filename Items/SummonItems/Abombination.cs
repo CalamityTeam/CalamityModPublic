@@ -14,12 +14,12 @@ namespace CalamityMod.Items.SummonItems
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PBGSummon");
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Abombination");
-            Tooltip.SetDefault("Calls in the airborne abomination\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Abombination");
+            /* Tooltip.SetDefault("Calls in the airborne abomination\n" +
                 "Summons the Plaguebringer Goliath when used in the Jungle\n" +
                 "Enrages outside the Jungle\n" +
-                "Not consumable");
+                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 16; // Solar Tablet / Bloody Tear
         }
 
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<PlaguebringerGoliath>());
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<PlaguebringerGoliath>());
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<PlaguebringerGoliath>());
 
             return true;
         }

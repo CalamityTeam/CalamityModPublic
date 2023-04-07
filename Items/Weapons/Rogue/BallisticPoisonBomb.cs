@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ballistic Poison Bomb");
-            Tooltip.SetDefault("Throws a sticky bomb that explodes into spikes and poison clouds\n" +
-            "Stealth strikes throw three at once");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Ballistic Poison Bomb");
+            /* Tooltip.SetDefault("Throws a sticky bomb that explodes into spikes and poison clouds\n" +
+            "Stealth strikes throw three at once"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

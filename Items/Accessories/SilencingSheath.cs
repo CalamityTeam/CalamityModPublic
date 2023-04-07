@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Silencing Sheath");
-            Tooltip.SetDefault("+10 maximum stealth");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Silencing Sheath");
+            // Tooltip.SetDefault("+10 maximum stealth");
         }
 
         public override void SetDefaults()

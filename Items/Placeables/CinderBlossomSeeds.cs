@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Placeables
 	{
         public override void SetStaticDefaults()
 		{
-			SacrificeTotal = 25;
-			DisplayName.SetDefault("Cinder Blossom Seeds");
-			Tooltip.SetDefault("Places cinder blossom grass on scorched remains");
+			Item.ResearchUnlockCount = 25;
+			// DisplayName.SetDefault("Cinder Blossom Seeds");
+			// Tooltip.SetDefault("Places cinder blossom grass on scorched remains");
 		}
 
 		public override void SetDefaults()

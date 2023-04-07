@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
         static float TeslaAuraScale = 3f; //Changing this float will change the radius of the hitbox and scale of the sprite at the same time, making the visual match the hitbox no matter what size is chosen.
         public bool ableToHit = true; // bool that controls the state of CanDamage()
 		public override void SetStaticDefaults() {
-			DisplayName.SetDefault("Tesla Aura");
+			// DisplayName.SetDefault("Tesla Aura");
 			// Sets the amount of frames this minion has on its spritesheet
 			Main.projFrames[Projectile.type] = 5;
 		}
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, (TeslaAuraScale * 96.0f), targetHitbox);
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.damage = (int)(Projectile.damage * 0.6f);
         }

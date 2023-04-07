@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(54, 164, 66)).UseSecondaryColor(new Color(224, 115, 65));
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Reaver Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Reaver Dye");
         }
 
         public override void SafeSetDefaults()

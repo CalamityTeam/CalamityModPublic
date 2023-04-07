@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rem's Revenge");
-            Tooltip.SetDefault("Wielded by the most powerful fighter.\n" +
-            "Summons blood explosions and lowers enemy defense on hit");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Rem's Revenge");
+            /* Tooltip.SetDefault("Wielded by the most powerful fighter.\n" +
+            "Summons blood explosions and lowers enemy defense on hit"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

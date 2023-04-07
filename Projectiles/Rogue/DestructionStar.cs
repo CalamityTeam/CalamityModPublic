@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Star of Destruction");
+            // DisplayName.SetDefault("Star of Destruction");
         }
 
         public override void SetDefaults()
@@ -45,12 +45,12 @@ namespace CalamityMod.Projectiles.Rogue
                 hitCount = 16;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             hitCount++;
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             hitCount++;
         }

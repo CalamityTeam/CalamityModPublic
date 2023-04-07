@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Onyx Chain Blaster");
-            Tooltip.SetDefault("50% chance to not consume ammo\n" +
-                "Fires a spread of bullets and an onyx shard");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Onyx Chain Blaster");
+            /* Tooltip.SetDefault("50% chance to not consume ammo\n" +
+                "Fires a spread of bullets and an onyx shard"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

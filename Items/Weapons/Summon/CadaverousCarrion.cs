@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cadaverous Carrion");
-            Tooltip.SetDefault("Summons a gross Old Duke head on the ground");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Cadaverous Carrion");
+            // Tooltip.SetDefault("Summons a gross Old Duke head on the ground");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

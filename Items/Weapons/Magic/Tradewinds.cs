@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tradewinds");
-            Tooltip.SetDefault("Casts fast moving sunlight feathers");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Tradewinds");
+            // Tooltip.SetDefault("Casts fast moving sunlight feathers");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

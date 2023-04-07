@@ -16,9 +16,9 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Midnight Sun Beacon");
-            Tooltip.SetDefault("Summons a UFO to vaporize enemies");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Midnight Sun Beacon");
+            // Tooltip.SetDefault("Summons a UFO to vaporize enemies");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

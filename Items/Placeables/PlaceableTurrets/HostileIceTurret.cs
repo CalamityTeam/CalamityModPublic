@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
         public override string Texture => "CalamityMod/Items/Placeables/PlaceableTurrets/IceTurret";
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            Tooltip.SetDefault("Lobs fragile ice mist bombs at nearby players");
+            Item.ResearchUnlockCount = 1;
+            // Tooltip.SetDefault("Lobs fragile ice mist bombs at nearby players");
         }
 
         public override void SetDefaults()

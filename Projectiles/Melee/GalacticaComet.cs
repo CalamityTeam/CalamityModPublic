@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Comet");
+            // DisplayName.SetDefault("Comet");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.Damage();
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.DamageType != DamageClass.Ranged)
                 target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);

@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Snake Eyes");
-            Description.SetDefault("Always watching...");
+            // DisplayName.SetDefault("Snake Eyes");
+            // Description.SetDefault("Always watching...");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

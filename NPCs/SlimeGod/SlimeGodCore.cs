@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Slime God");
+            // DisplayName.SetDefault("The Slime God");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
 			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
@@ -638,7 +638,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSlimeGod, ModContent.ItemType<LoreSlimeGod>(), desc: DropHelper.FirstKillText);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {
@@ -648,7 +648,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
             {

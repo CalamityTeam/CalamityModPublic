@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Resurrection Butterfly");
-            Tooltip.SetDefault("Remembering the melancholy of human existence\n" +
+            // DisplayName.SetDefault("Resurrection Butterfly");
+            /* Tooltip.SetDefault("Remembering the melancholy of human existence\n" +
                 "Even ghosts stray from the path of righteousness\n" +
-                "Summons a pair of butterflies to fight for you");
-            SacrificeTotal = 1;
+                "Summons a pair of butterflies to fight for you"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

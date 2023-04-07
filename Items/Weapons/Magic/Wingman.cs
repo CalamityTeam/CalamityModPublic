@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wingman");
-            Tooltip.SetDefault("Fires a concentrated laser beam");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Wingman");
+            // Tooltip.SetDefault("Fires a concentrated laser beam");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

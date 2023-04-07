@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wulfrum Controller");
-            Tooltip.SetDefault("Summons a wulfrum droid to fight for you\n" +
+            // DisplayName.SetDefault("Wulfrum Controller");
+            /* Tooltip.SetDefault("Summons a wulfrum droid to fight for you\n" +
                 "Hold right click while holding the remote to switch all of your drones into supercharge mode\n" +
                 "Supercharged droids will stop attacking and focus wulfrum energy onto you\n" +
                 "The beam provides extra regeneration and defense\n" +
-                "Can also be used to heal other players by keeping your mouse cursor close enough to them");
-            SacrificeTotal = 1;
+                "Can also be used to heal other players by keeping your mouse cursor close enough to them"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

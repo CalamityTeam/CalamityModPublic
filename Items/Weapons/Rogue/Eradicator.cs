@@ -15,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eradicator");
-            Tooltip.SetDefault("Throws a disk that fires lasers at nearby enemies\n" +
-            "Stealth strikes stick to enemies and unleash a barrage of lasers in all directions");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Eradicator");
+            /* Tooltip.SetDefault("Throws a disk that fires lasers at nearby enemies\n" +
+            "Stealth strikes stick to enemies and unleash a barrage of lasers in all directions"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

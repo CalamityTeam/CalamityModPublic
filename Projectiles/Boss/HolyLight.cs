@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Holy Light");
+            // DisplayName.SetDefault("Holy Light");
         }
 
         public override void SetDefaults()

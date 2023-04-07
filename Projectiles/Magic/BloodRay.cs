@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blood Ray");
+            // DisplayName.SetDefault("Blood Ray");
         }
 
         public override void SetDefaults()

@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Magic
         public const float FadeinTime = 40f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Comet");
+            // DisplayName.SetDefault("Comet");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
             Main.projFrames[Projectile.type] = 3;

@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Barinautical");
-            Tooltip.SetDefault("Converts wooden arrows into strings of 3 electric bolt arrows that explode");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Barinautical");
+            // Tooltip.SetDefault("Converts wooden arrows into strings of 3 electric bolt arrows that explode");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

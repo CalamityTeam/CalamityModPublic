@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Novae Slag");
-            SacrificeTotal = 200;
+            // DisplayName.SetDefault("Novae Slag");
+            Item.ResearchUnlockCount = 200;
 			ItemID.Sets.SortingPriorityExtractibles[Type] = 1; // Silt Block
         }
 
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables
             Item.height = 16;
             Item.maxStack = 999;
         }
-        public override void ExtractinatorUse(ref int resultType, ref int resultStack)
+        public override void ExtractinatorUse(int extractinatorBlockType, ref int resultType, ref int resultStack)
         {
             /*
                 Novae slag will give stardust, fallen stars, gems and HM ores always by default

@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(123, 99, 130)).UseSecondaryColor(new Color(189, 66, 84)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Astral Flesh Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Astral Flesh Dye");
         }
 
         public override void SafeSetDefaults()

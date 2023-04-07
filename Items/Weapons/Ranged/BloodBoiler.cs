@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blood Boiler");
-            Tooltip.SetDefault("Fires a stream of lifestealing bloodfire\n" +
-                "Uses your health as ammo\n" + "25% chance to not consume ammo");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Blood Boiler");
+            /* Tooltip.SetDefault("Fires a stream of lifestealing bloodfire\n" +
+                "Uses your health as ammo\n" + "25% chance to not consume ammo"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

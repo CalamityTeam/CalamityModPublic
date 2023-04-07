@@ -7,8 +7,8 @@ namespace CalamityMod.Items.Placeables.Walls
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 400;
-            DisplayName.SetDefault("Hardened Astral Sand Wall");
+            Item.ResearchUnlockCount = 400;
+            // DisplayName.SetDefault("Hardened Astral Sand Wall");
         }
 
         public override void SetDefaults()

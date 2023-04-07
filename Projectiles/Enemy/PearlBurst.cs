@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pearl Burst");
+            // DisplayName.SetDefault("Pearl Burst");
             Main.projFrames[Projectile.type] = 4;
         }
 

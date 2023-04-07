@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Living Shard");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Living Shard");
         }
 
         public override void SetDefaults()

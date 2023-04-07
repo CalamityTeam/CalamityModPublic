@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture
@@ -14,8 +15,8 @@ namespace CalamityMod.Tiles.Furniture
         {
             this.SetUpCandle();
             ItemDrop = ModContent.ItemType<Items.Placeables.Furniture.ChaosCandle>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Chaos Candle");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Chaos Candle");
             AddMapEntry(new Color(238, 145, 105), name);
             AdjTiles = new int[] { TileID.Candles };
         }

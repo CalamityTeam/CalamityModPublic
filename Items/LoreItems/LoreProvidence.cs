@@ -21,7 +21,7 @@ Perhaps it was their easily-swayed nature, that let her draw so much power from 
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Providence, the Profaned Goddess");
+            // DisplayName.SetDefault("Providence, the Profaned Goddess");
         }
 
         public override void SetDefaults()

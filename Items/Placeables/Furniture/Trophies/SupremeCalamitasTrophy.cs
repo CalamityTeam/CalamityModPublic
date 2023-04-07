@@ -7,8 +7,8 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Calamitas Trophy");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Calamitas Trophy");
         }
 
         public override void SetDefaults()

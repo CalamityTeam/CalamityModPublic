@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crystal Crawler");
+            // DisplayName.SetDefault("Crystal Crawler");
             Main.npcFrameCount[NPC.type] = 5;
         }
 
@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.EnchantedSword.Chance;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

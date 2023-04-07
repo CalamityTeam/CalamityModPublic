@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Anarchy Blade");
-            Tooltip.SetDefault("The lower your life the more damage this blade does\n" +
+            // DisplayName.SetDefault("Anarchy Blade");
+            /* Tooltip.SetDefault("The lower your life the more damage this blade does\n" +
                 "Your hits will generate a large explosion\n" +
-                "If you're below 50% life your hits have a chance to instantly kill regular enemies");
-            SacrificeTotal = 1;
+                "If you're below 50% life your hits have a chance to instantly kill regular enemies"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
             damage.Base += lifeAmount * 0.1f;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_ItemUse(Item);
             if (crit)
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_ItemUse(Item);
             if (crit)

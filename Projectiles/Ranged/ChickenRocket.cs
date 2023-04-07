@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chicken Rocket");
+            // DisplayName.SetDefault("Chicken Rocket");
         }
 
         public override void SetDefaults()

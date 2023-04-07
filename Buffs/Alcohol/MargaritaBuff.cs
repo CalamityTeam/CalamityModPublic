@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Alcohol
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Margarita");
-            Description.SetDefault("Reduced duration to most debuffs, defense and life regen reduced");
+            // DisplayName.SetDefault("Margarita");
+            // Description.SetDefault("Reduced duration to most debuffs, defense and life regen reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

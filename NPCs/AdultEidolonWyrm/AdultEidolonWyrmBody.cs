@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Adult Eidolon Wyrm");
+            // DisplayName.SetDefault("Adult Eidolon Wyrm");
         }
 
         public override void SetDefaults()
@@ -179,7 +179,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override bool CheckActive() => false;
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

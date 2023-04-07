@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 20;
-            DisplayName.SetDefault("Astral Injection");
-            Tooltip.SetDefault("Gives mana sickness and hurts you when used, but you regenerate mana extremely quickly even while moving or casting spells");
-            SacrificeTotal = 30;
+            Item.ResearchUnlockCount = 20;
+            // DisplayName.SetDefault("Astral Injection");
+            // Tooltip.SetDefault("Gives mana sickness and hurts you when used, but you regenerate mana extremely quickly even while moving or casting spells");
+            Item.ResearchUnlockCount = 30;
         }
 
         public override void SetDefaults()

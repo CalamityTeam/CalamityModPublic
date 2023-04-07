@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Mounts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brimrose Mount");
-            Description.SetDefault("The seat is toasty. That is all");
+            // DisplayName.SetDefault("Brimrose Mount");
+            // Description.SetDefault("The seat is toasty. That is all");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

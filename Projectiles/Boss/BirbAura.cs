@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draconic Aura");
+            // DisplayName.SetDefault("Draconic Aura");
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Boss
             Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], Projectile.width * Projectile.scale, DelegateMethods.CastLight);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             if (timer <= 0f && (Projectile.localAI[0] >= 120f || Projectile.timeLeft <= 900))
             {

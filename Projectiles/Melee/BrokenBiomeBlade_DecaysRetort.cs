@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Decay's Retort");
+            // DisplayName.SetDefault("Decay's Retort");
         }
         public override void SetDefaults()
         {
@@ -89,8 +89,8 @@ namespace CalamityMod.Projectiles.Melee
             Owner.velocity = direction.SafeNormalize(Vector2.UnitX * Owner.direction) * LungeSpeed;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => OnHitEffects(!target.canGhostHeal || Main.player[Projectile.owner].moonLeech);
-        public override void OnHitPvp(Player target, int damage, bool crit) => OnHitEffects(Main.player[Projectile.owner].moonLeech);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => OnHitEffects(!target.canGhostHeal || Main.player[Projectile.owner].moonLeech);
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => OnHitEffects(Main.player[Projectile.owner].moonLeech);
 
         private void OnHitEffects(bool cannotLifesteal)
         {

@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chicken Cannon");
+            // DisplayName.SetDefault("Chicken Cannon");
             Main.projFrames[Projectile.type] = 4;
         }
 

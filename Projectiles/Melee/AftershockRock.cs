@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rock");
+            // DisplayName.SetDefault("Rock");
         }
 
         public override void SetDefaults()

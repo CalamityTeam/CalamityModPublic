@@ -21,16 +21,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("The Sponge");
-            Tooltip.SetDefault("10% increased damage reduction\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("The Sponge");
+            /* Tooltip.SetDefault("10% increased damage reduction\n" +
                 "+30 max life and mana\n" +
                 "5% increased movement and jump speed\n" +
                 "Standing still boosts life and mana regen\n" +
                 "Enemies take damage when they touch you\n" +
                 "You emit a cloud of mushroom spores when you are hit\n" +
                 "6.25% of the damage from enemy attacks is absorbed and converted into healing\n" +
-                "Grants immunity to Armor Crunch");
+                "Grants immunity to Armor Crunch"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 30));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }

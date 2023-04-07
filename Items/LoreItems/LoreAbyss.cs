@@ -21,7 +21,7 @@ She will soon remake it in her image. I can think of no worse fate for this accu
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("The Abyss");
+            // DisplayName.SetDefault("The Abyss");
         }
 
         public override void SetDefaults()

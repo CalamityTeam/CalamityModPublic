@@ -9,12 +9,12 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Serpent's Bite");
-            Tooltip.SetDefault($@"Reach: {SerpentsBiteHook.GrappleRangInTiles}
+            // DisplayName.SetDefault("Serpent's Bite");
+            // Tooltip.SetDefault($@"Reach: {SerpentsBiteHook.GrappleRangInTiles}
 Launch Velocity: {SerpentsBiteHook.LaunchSpeed}
 Reelback Velocity: {SerpentsBiteHook.ReelbackSpeed}
 Pull Velocity: {SerpentsBiteHook.PullSpeed}");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

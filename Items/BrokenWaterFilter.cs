@@ -9,9 +9,9 @@ namespace CalamityMod.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Broken Water Filter");
-            Tooltip.SetDefault("Favorite this item to disable natural Acid Rain spawns");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Broken Water Filter");
+            // Tooltip.SetDefault("Favorite this item to disable natural Acid Rain spawns");
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sienna");
+            // DisplayName.SetDefault("Sienna");
         }
 
         public override void SetDefaults()

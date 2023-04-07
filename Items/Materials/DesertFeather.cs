@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 5;
-            DisplayName.SetDefault("Desert Feather");
+            Item.ResearchUnlockCount = 5;
+            // DisplayName.SetDefault("Desert Feather");
         }
 
         public override void SetDefaults()

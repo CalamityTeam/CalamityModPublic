@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sacrilegious Clock");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Sacrilegious Clock");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

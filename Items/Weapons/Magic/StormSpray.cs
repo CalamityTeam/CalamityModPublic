@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Storm Spray");
-            Tooltip.SetDefault("Fires a spray of water that drips extra trails of water");
+            // DisplayName.SetDefault("Storm Spray");
+            // Tooltip.SetDefault("Fires a spray of water that drips extra trails of water");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

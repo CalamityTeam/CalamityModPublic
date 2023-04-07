@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Phantomic Bulwark");
+            // DisplayName.SetDefault("Phantomic Bulwark");
             Main.projFrames[Projectile.type] = 4;
         }
 

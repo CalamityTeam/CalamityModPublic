@@ -9,11 +9,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("The Bee");
-            Tooltip.SetDefault("When at full HP, your damage is increased based on your damage reduction\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("The Bee");
+            /* Tooltip.SetDefault("When at full HP, your damage is increased based on your damage reduction\n" +
                             "Damage taken at full HP is halved\n" +
-                            "This has a 10 second cooldown");
+                            "This has a 10 second cooldown"); */
         }
 
         public override void SetDefaults()

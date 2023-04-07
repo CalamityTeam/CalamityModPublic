@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Death Valley Duster");
-            Tooltip.SetDefault("Casts a large blast of dust");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Death Valley Duster");
+            // Tooltip.SetDefault("Casts a large blast of dust");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

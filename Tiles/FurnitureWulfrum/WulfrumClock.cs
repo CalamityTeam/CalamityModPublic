@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureWulfrum
@@ -13,8 +14,8 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
         public override void SetStaticDefaults()
         {
             this.SetUpClock();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Grandfather Clock");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Grandfather Clock");
             AddMapEntry(new Color(100, 153, 100), name);
             AdjTiles = new int[] { TileID.GrandfatherClocks };
         }

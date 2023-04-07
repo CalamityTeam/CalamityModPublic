@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Damageable
         public override SoundStyle DeathSound => SoundID.NPCDeath14;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Artifact of Resilience");
+            // DisplayName.SetDefault("Artifact of Resilience");
         }
 
         public override void SafeSetDefaults()

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mechworm");
+            // DisplayName.SetDefault("Mechworm");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
         }
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Summon
             MechwormBody.SegmentAI(Projectile, 16, ref playerMinionSlots);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 90);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 90);
 
         public override bool PreDraw(ref Color lightColor)
         {

@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Noseless Popo");
-            Description.SetDefault("Your nose has been stolen!");
+            // DisplayName.SetDefault("Noseless Popo");
+            // Description.SetDefault("Your nose has been stolen!");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
             BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;

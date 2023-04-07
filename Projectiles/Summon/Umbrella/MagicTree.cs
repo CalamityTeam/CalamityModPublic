@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tree");
+            // DisplayName.SetDefault("Tree");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

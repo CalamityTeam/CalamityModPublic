@@ -14,13 +14,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Asgard's Valor");
-            Tooltip.SetDefault("Grants immunity to knockback\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Asgard's Valor");
+            /* Tooltip.SetDefault("Grants immunity to knockback\n" +
                 "Immune to most debuffs\n" +
                 "+16 defense while submerged in liquid\n" +
                 "+20 max life\n" +
-                "Grants a holy dash which can be used to ram enemies");
+                "Grants a holy dash which can be used to ram enemies"); */
         }
 
         public override void SetDefaults()

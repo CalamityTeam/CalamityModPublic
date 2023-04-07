@@ -40,15 +40,15 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
         public override void Load()
         {
-            On.Terraria.Player.KeyDoubleTap += ActivateSetBonus;
+            Terraria.On_Player.KeyDoubleTap += ActivateSetBonus;
         }
 
         public override void Unload()
         {
-            On.Terraria.Player.KeyDoubleTap -= ActivateSetBonus;
+            Terraria.On_Player.KeyDoubleTap -= ActivateSetBonus;
         }
 
-        private void ActivateSetBonus(On.Terraria.Player.orig_KeyDoubleTap orig, Player player, int keyDir)
+        private void ActivateSetBonus(Terraria.On_Player.orig_KeyDoubleTap orig, Player player, int keyDir)
         {
             if (keyDir == 0 && HasArmorSet(player) && !player.mount.Active)
             {
@@ -64,9 +64,9 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Desert Prowler Hat");
-            Tooltip.SetDefault("4% increased ranged critical strike chance and 20% chance to not consume ammo");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Desert Prowler Hat");
+            // Tooltip.SetDefault("4% increased ranged critical strike chance and 20% chance to not consume ammo");
         }
 
         public override void SetDefaults()
@@ -217,9 +217,9 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Desert Prowler Shirt");
-            Tooltip.SetDefault("5% increased ranged critical strike chance");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Desert Prowler Shirt");
+            // Tooltip.SetDefault("5% increased ranged critical strike chance");
 
             if (Main.netMode == NetmodeID.Server)
                 return;
@@ -262,9 +262,9 @@ namespace CalamityMod.Items.Armor.DesertProwler
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Desert Prowler Pants");
-            Tooltip.SetDefault("10% increased movement speed and immunity to the Mighty Wind debuff");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Desert Prowler Pants");
+            // Tooltip.SetDefault("10% increased movement speed and immunity to the Mighty Wind debuff");
         }
 
         public override void SetDefaults()
@@ -456,7 +456,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
             }
         }
 
-        public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (LightsOut)
             {

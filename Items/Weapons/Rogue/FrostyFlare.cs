@@ -11,12 +11,12 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frosty Flare");
-            Tooltip.SetDefault("Do not insert in flare gun\n" +
+            // DisplayName.SetDefault("Frosty Flare");
+            /* Tooltip.SetDefault("Do not insert in flare gun\n" +
                 "Sticks to enemies\n" +
                 "Generates a localized hailstorm\n" +
-                "Stealth strikes trail snowflakes and summon phantom copies instead of ice shards");
-            SacrificeTotal = 99;
+                "Stealth strikes trail snowflakes and summon phantom copies instead of ice shards"); */
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

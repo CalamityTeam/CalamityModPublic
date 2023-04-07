@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mercurial Monolith");
+            // DisplayName.SetDefault("Mercurial Monolith");
         }
         public override void SetDefaults()
         {
@@ -174,7 +174,7 @@ namespace CalamityMod.Projectiles.Melee
             return validPositionFound;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.ShockwaveAttunement_MonolithProc)
                 sword.OnHitProc = true;

@@ -14,14 +14,14 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Exodus Wings");
-            Tooltip.SetDefault("Pulsing with an alien heartbeat\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Exodus Wings");
+            /* Tooltip.SetDefault("Pulsing with an alien heartbeat\n" +
                 "Horizontal speed: 9.00\n" +
                 "Acceleration multiplier: 2.5\n" +
                 "Great vertical speed\n" +
                 "Flight time: 180\n" +
-                "5% increased rogue damage and critical strike chance while wearing the Empyrean Armor");
+                "5% increased rogue damage and critical strike chance while wearing the Empyrean Armor"); */
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(180, 9f, 2.5f);
         }
 

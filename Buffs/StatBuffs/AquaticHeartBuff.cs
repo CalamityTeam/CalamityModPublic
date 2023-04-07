@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Water Elemental");
-            Description.SetDefault("You are a water elemental now");
+            // DisplayName.SetDefault("Water Elemental");
+            // Description.SetDefault("You are a water elemental now");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;

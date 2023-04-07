@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Elemental Quiver");
-            Tooltip.SetDefault("15% increased ranged damage, 5% increased ranged critical strike chance and 20% reduced ammo usage\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Elemental Quiver");
+            /* Tooltip.SetDefault("15% increased ranged damage, 5% increased ranged critical strike chance and 20% reduced ammo usage\n" +
                 "Grants a 20% chance to not consume arrows\n" +
-                "Greatly increases all ranged projectile velocity");
+                "Greatly increases all ranged projectile velocity"); */
         }
 
         public override void SetDefaults()

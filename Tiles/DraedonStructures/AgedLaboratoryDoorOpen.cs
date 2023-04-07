@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -36,13 +37,13 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.addTile(Type);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Laboratory Door");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Laboratory Door");
             AddMapEntry(Color.DarkSlateGray, name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.OpenDoor };
             DustType = 8;
-            CloseDoorID = ModContent.TileType<AgedLaboratoryDoorClosed>();
+            CloseDoorID/* tModPorter Note: Removed. Use TileID.Sets.CloseDoorID instead */ = ModContent.TileType<AgedLaboratoryDoorClosed>();
         }
 
         public override bool Slope(int i, int j) => false;

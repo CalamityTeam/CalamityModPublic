@@ -11,12 +11,12 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Flame-Licked Shell");
-            Tooltip.SetDefault("35% decreased movement speed\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Flame-Licked Shell");
+            /* Tooltip.SetDefault("35% decreased movement speed\n" +
                                 "Enemies take damage when they hit you\n" +
                                 "You move faster and lose 18 defense for 3 seconds if you take damage\n" +
-                                "Grants immunity to lava and Armor Crunch");
+                                "Grants immunity to lava and Armor Crunch"); */
         }
 
         public override void SetDefaults()

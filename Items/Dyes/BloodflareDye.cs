@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(122, 10, 60)).UseSecondaryColor(new Color(219, 102, 106)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Bloodflare Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Bloodflare Dye");
         }
 
         public override void SafeSetDefaults()

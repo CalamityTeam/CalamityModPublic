@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flame");
+            // DisplayName.SetDefault("Flame");
             Main.projFrames[Projectile.type] = 5;
         }
 

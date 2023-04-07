@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Reaver Rage");
-            Description.SetDefault("You are angry");
+            // DisplayName.SetDefault("Reaver Rage");
+            // Description.SetDefault("You are angry");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

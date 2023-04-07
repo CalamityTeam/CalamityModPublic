@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exo Pulse Laser");
+            // DisplayName.SetDefault("Exo Pulse Laser");
             Main.projFrames[Type] = 4;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.velocity *= 1.026f;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             int dustCount = 32;
             bool sideways = Main.rand.NextBool(8);

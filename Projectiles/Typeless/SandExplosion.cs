@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sand");
+            // DisplayName.SetDefault("Sand");
         }
 
         public override void SetDefaults()

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tentacle");
+            // DisplayName.SetDefault("Tentacle");
         }
 
         public override void SetDefaults()

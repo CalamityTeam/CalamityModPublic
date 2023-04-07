@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Phantasmal Ruin");
-            Tooltip.SetDefault(@"Fires an enormous ghost lance that emits lost souls as it flies
+            // DisplayName.SetDefault("Phantasmal Ruin");
+            // Tooltip.SetDefault(@"Fires an enormous ghost lance that emits lost souls as it flies
 Explodes into tormented souls on enemy hits
 Stealth strikes continuously leave spectral clones in their wake");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Inferna Cutter");
-            Tooltip.SetDefault("Critical hits with the blade cause small explosions\n" +
-                "Generates a number of small sparks when swung");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Inferna Cutter");
+            /* Tooltip.SetDefault("Critical hits with the blade cause small explosions\n" +
+                "Generates a number of small sparks when swung"); */
         }
 
         public override void SetDefaults()
@@ -134,7 +134,7 @@ namespace CalamityMod.Items.Tools
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (crit)
             {

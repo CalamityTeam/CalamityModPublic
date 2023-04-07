@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Starbuster Core");
-            Tooltip.SetDefault("Summons release an astral explosion on enemy hits");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Starbuster Core");
+            // Tooltip.SetDefault("Summons release an astral explosion on enemy hits");
         }
 
         public override void SetDefaults()

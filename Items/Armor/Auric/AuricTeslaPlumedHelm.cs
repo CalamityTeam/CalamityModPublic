@@ -16,9 +16,9 @@ namespace CalamityMod.Items.Armor.Auric
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Auric Tesla Plumed Helm");
-            Tooltip.SetDefault("20% increased rogue damage, critical strike chance and 5% increased movement speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Auric Tesla Plumed Helm");
+            // Tooltip.SetDefault("20% increased rogue damage, critical strike chance and 5% increased movement speed");
         }
 
         public override void SetDefaults()

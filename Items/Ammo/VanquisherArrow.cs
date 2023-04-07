@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("Vanquisher Arrow");
-            Tooltip.SetDefault("Pierces through tiles\n" +
-                "Spawns extra homing arrows as it travels");
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("Vanquisher Arrow");
+            /* Tooltip.SetDefault("Pierces through tiles\n" +
+                "Spawns extra homing arrows as it travels"); */
         }
 
         public override void SetDefaults()

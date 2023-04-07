@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Charging Station");
-            Tooltip.SetDefault("Charges Draedon's Arsenal items using Power Cells\n" +
-                "Place both an item and Power Cells into the Charging Station to charge the item");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Charging Station");
+            /* Tooltip.SetDefault("Charges Draedon's Arsenal items using Power Cells\n" +
+                "Place both an item and Power Cells into the Charging Station to charge the item"); */
         }
 
         public override void SetDefaults()

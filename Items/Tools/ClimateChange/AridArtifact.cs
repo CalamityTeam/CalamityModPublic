@@ -7,11 +7,11 @@ namespace CalamityMod.Items.Tools.ClimateChange
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Arid Artifact");
-            Tooltip.SetDefault("Summons a sandstorm\n" +
+            // DisplayName.SetDefault("Arid Artifact");
+            /* Tooltip.SetDefault("Summons a sandstorm\n" +
                                "The sandstorm will happen shortly after the item is used\n" +
-                               "If used during a sandstorm, the sandstorm will stop some time afterward.");
-            SacrificeTotal = 1;
+                               "If used during a sandstorm, the sandstorm will stop some time afterward."); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tarragon Cloak");
-            Description.SetDefault("Contact damage is reduced");
+            // DisplayName.SetDefault("Tarragon Cloak");
+            // Description.SetDefault("Contact damage is reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

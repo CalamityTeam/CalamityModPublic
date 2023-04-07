@@ -14,14 +14,14 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Earth");
-            Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
+            // DisplayName.SetDefault("Earth");
+            /* Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
                 "Your attacks will heal you a lot\n" +
                 "Rains RGB meteors that explode into more meteors after a short time on enemy hits\n" +
                 "Ice meteors freeze enemies\n" +
                 "Flame meteors explode\n" +
-                "Green meteors spawn healing orbs");
-            SacrificeTotal = 1;
+                "Green meteors spawn healing orbs"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.Calamity().devItem = true;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_ItemUse(Item);
             float num72 = 25f;
@@ -105,7 +105,7 @@ namespace CalamityMod.Items.Weapons.Melee
             player.HealEffect(heal);
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_ItemUse(Item);
             float num72 = 25f;

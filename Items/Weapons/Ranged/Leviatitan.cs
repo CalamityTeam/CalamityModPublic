@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Leviatitan");
-            Tooltip.SetDefault("Converts musket balls into toxic and normal water blasts");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Leviatitan");
+            // Tooltip.SetDefault("Converts musket balls into toxic and normal water blasts");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

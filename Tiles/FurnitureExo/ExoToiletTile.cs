@@ -7,6 +7,7 @@ using Terraria.Enums;
 using Terraria.GameContent;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -39,8 +40,8 @@ namespace CalamityMod.Tiles.FurnitureExo
             // Toilets count as Chairs
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Toilet");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Exo Toilet");
             AddMapEntry(new Color(71, 95, 114), name);
             TileID.Sets.CanBeSatOnForNPCs[Type] = true;
             TileID.Sets.CanBeSatOnForPlayers[Type] = true;

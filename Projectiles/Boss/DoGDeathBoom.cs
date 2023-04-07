@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults() 
         {
-            DisplayName.SetDefault("Cosmic Explosion");
+            // DisplayName.SetDefault("Cosmic Explosion");
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 

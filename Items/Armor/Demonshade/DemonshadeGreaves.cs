@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Armor.Demonshade
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Demonshade Greaves");
-            Tooltip.SetDefault("Shadow speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Demonshade Greaves");
+            // Tooltip.SetDefault("Shadow speed");
         }
 
         public override void SetDefaults()

@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nanodroid");
+            // DisplayName.SetDefault("Nanodroid");
             Main.npcFrameCount[NPC.type] = 8;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
             Main.npcCatchable[NPC.type] = true;
@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             NPC.frame.Y = frame * frameHeight;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int i = 0; i < 6; i++)
                 Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 226);

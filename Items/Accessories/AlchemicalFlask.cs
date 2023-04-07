@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Alchemical Flask");
-            Tooltip.SetDefault("All attacks inflict the Plague and grants immunity to the Plague\n" +
-                "Projectiles spawn plague seekers on enemy hits");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Alchemical Flask");
+            /* Tooltip.SetDefault("All attacks inflict the Plague and grants immunity to the Plague\n" +
+                "Projectiles spawn plague seekers on enemy hits"); */
         }
 
         public override void SetDefaults()

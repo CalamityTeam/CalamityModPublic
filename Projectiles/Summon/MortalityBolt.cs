@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
         public Color ProjectileColor => Main.hslToRgb(Projectile.localAI[0], 1f, 0.5f);
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bolt");
+            // DisplayName.SetDefault("Bolt");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

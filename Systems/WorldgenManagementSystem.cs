@@ -27,7 +27,7 @@ namespace CalamityMod.Systems
         #endregion
 
         #region ModifyWorldGenTasks
-        public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
+        public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
         {
             //Evil Floating Island
             int islandIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Floating Island Houses"));
@@ -86,7 +86,7 @@ namespace CalamityMod.Systems
                     {
                         attempts++;
                         Point origin = WorldGen.RandomWorldPoint((int)Main.worldSurface + 25, 20, Main.maxTilesY - (int)Main.worldSurface - 125, 20);
-                        if (GiantHive.CanPlaceGiantHive(origin, WorldGen.structures))
+                        if (GiantHive.CanPlaceGiantHive(origin, GenVars.structures))
                             break;
                     }
                 }));
@@ -99,7 +99,7 @@ namespace CalamityMod.Systems
                 tasks.Insert(mechanicIndex + 1, new PassLegacy("Mechanic Shed", (progress, config) =>
                 {
                     progress.Message = "Placing mechanic shed";
-                    MechanicShed.PlaceMechanicShed(WorldGen.structures);
+                    MechanicShed.PlaceMechanicShed(GenVars.structures);
                 }));
             }
 
@@ -110,7 +110,7 @@ namespace CalamityMod.Systems
                 tasks.Insert(vernalIndex + 1, new PassLegacy("Vernal Pass", (progress, config) =>
                 {
                     progress.Message = "Blessing a flourishing jungle grove";
-                    VernalPass.PlaceVernalPass(WorldGen.structures);
+                    VernalPass.PlaceVernalPass(GenVars.structures);
                 }));
             }
 
@@ -122,7 +122,7 @@ namespace CalamityMod.Systems
                 {
                     progress.Message = "Partially flooding an overblown desert";
 
-                    int sunkenSeaX = WorldGen.UndergroundDesertLocation.Left;
+                    int sunkenSeaX = GenVars.UndergroundDesertLocation.Left;
                     int sunkenSeaY = Main.maxTilesY - 400;
 
                     SunkenSea.Place(new Point(sunkenSeaX, sunkenSeaY));
@@ -179,31 +179,31 @@ namespace CalamityMod.Systems
                     if (WorldGen.crimson)
                     {
                         progress.Message = "Slaying a vengeful god";
-                        UndergroundShrines.PlaceCrimsonShrine(WorldGen.structures);
+                        UndergroundShrines.PlaceCrimsonShrine(GenVars.structures);
                     }
                     else
                     {
                         progress.Message = "Rotting a god's grave";
-                        UndergroundShrines.PlaceCorruptionShrine(WorldGen.structures);
+                        UndergroundShrines.PlaceCorruptionShrine(GenVars.structures);
                     }                    
 
                     progress.Message = "Burrowing an artifact from Osiris";
-                    UndergroundShrines.PlaceDesertShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceDesertShrine(GenVars.structures);
 
                     progress.Message = "Crystallizing a deep blue geode";
-                    UndergroundShrines.PlaceGraniteShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceGraniteShrine(GenVars.structures);
 
                     progress.Message = "Hiding a beast tamer's igloo";
-                    UndergroundShrines.PlaceIceShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceIceShrine(GenVars.structures);
 
                     progress.Message = "Recovering a piece of the Parthenon";
-                    UndergroundShrines.PlaceMarbleShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceMarbleShrine(GenVars.structures);
 
                     progress.Message = "Planting a mushroom rich of hyphae";
-                    UndergroundShrines.PlaceMushroomShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceMushroomShrine(GenVars.structures);
 
                     progress.Message = "Assembling a shinobi hideout";
-                    UndergroundShrines.PlaceSurfaceShrine(WorldGen.structures);
+                    UndergroundShrines.PlaceSurfaceShrine(GenVars.structures);
                 }));
 
                 //aerialite
@@ -229,35 +229,35 @@ namespace CalamityMod.Systems
                     int labCount = Main.maxTilesX / 1500;
 
                     progress.Message = "Forging with the fires of hell";
-                    DraedonStructures.PlaceHellLab(out Point hellPlacementPosition, workshopPositions, WorldGen.structures);
+                    DraedonStructures.PlaceHellLab(out Point hellPlacementPosition, workshopPositions, GenVars.structures);
                     workshopPositions.Add(hellPlacementPosition);
 
                     progress.Message = "Studying marine biology";
-                    DraedonStructures.PlaceSunkenSeaLab(out Point sunkenSeaPlacementPosition, workshopPositions, WorldGen.structures);
+                    DraedonStructures.PlaceSunkenSeaLab(out Point sunkenSeaPlacementPosition, workshopPositions, GenVars.structures);
                     workshopPositions.Add(sunkenSeaPlacementPosition);
 
                     progress.Message = "Prototyping quantum supercooling";
-                    DraedonStructures.PlaceIceLab(out Point icePlacementPosition, workshopPositions, WorldGen.structures);
+                    DraedonStructures.PlaceIceLab(out Point icePlacementPosition, workshopPositions, GenVars.structures);
                     workshopPositions.Add(icePlacementPosition);
 
                     progress.Message = "Developing abhorrent bioweaponry";
-                    DraedonStructures.PlacePlagueLab(out Point plaguePlacementPosition, workshopPositions, WorldGen.structures);
+                    DraedonStructures.PlacePlagueLab(out Point plaguePlacementPosition, workshopPositions, GenVars.structures);
                     workshopPositions.Add(plaguePlacementPosition);
 
                     progress.Message = "Strip mining for minerals";
-                    DraedonStructures.PlaceCavernLab(out Point cavernPlacementPosition, workshopPositions, WorldGen.structures);
+                    DraedonStructures.PlaceCavernLab(out Point cavernPlacementPosition, workshopPositions, GenVars.structures);
                     workshopPositions.Add(cavernPlacementPosition);
 
                     progress.Message = "Abandoned engineering projects";
                     for (int i = 0; i < workshopCount; i++)
                     {
-                        DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions, WorldGen.structures);
+                        DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions, GenVars.structures);
                         workshopPositions.Add(placementPosition);
                     }
                     progress.Message = "Other minor research projects";
                     for (int i = 0; i < labCount; i++)
                     {
-                        DraedonStructures.PlaceResearchFacility(out Point placementPosition, workshopPositions, WorldGen.structures);
+                        DraedonStructures.PlaceResearchFacility(out Point placementPosition, workshopPositions, GenVars.structures);
                         workshopPositions.Add(placementPosition);
                     }
                 }));
@@ -375,10 +375,10 @@ namespace CalamityMod.Systems
             }
 
             // Save the set of ores that got generated
-            OreTypes[0] = (ushort)WorldGen.copperBar;
-            OreTypes[1] = (ushort)WorldGen.ironBar;
-            OreTypes[2] = (ushort)WorldGen.silverBar;
-            OreTypes[3] = (ushort)WorldGen.goldBar;
+            OreTypes[0] = (ushort)GenVars.copperBar;
+            OreTypes[1] = (ushort)GenVars.ironBar;
+            OreTypes[2] = (ushort)GenVars.silverBar;
+            OreTypes[3] = (ushort)GenVars.goldBar;
         }
         #endregion
     }

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bonebreaker");
+            // DisplayName.SetDefault("Bonebreaker");
         }
 
         public override void SetDefaults()
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.StickyProjAI(15);
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Projectile.ModifyHitNPCSticky(6, true);
         }
@@ -94,14 +94,14 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.BoneJavelin, 240);
             target.AddBuff(BuffID.Venom, 120);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(BuffID.BoneJavelin, 240);
             target.AddBuff(BuffID.Venom, 120);

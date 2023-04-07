@@ -14,8 +14,8 @@ namespace CalamityMod.Tiles.FurnitureAncient
         public override void SetStaticDefaults()
         {
             this.SetUpBed(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Bed");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Bed");
             AddMapEntry(new Color(191, 142, 111), name);
             AdjTiles = new int[] { TileID.Beds };
         }

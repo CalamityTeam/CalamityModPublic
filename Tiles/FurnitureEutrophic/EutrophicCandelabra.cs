@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
@@ -11,8 +12,8 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
         public override void SetStaticDefaults()
         {
             this.SetUpCandelabra();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Candelabra");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Candelabra");
             AddMapEntry(new Color(253, 221, 3), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Candelabras };

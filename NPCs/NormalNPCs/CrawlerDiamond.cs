@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Diamond Crawler");
+            // DisplayName.SetDefault("Diamond Crawler");
             Main.npcFrameCount[NPC.type] = 5;
         }
 
@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.Cavern.Chance * 0.025f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
             {

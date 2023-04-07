@@ -12,14 +12,14 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Elemental Ray");
-            Tooltip.SetDefault("Casts four celestial beams near the player\n" +
+            // DisplayName.SetDefault("Elemental Ray");
+            /* Tooltip.SetDefault("Casts four celestial beams near the player\n" +
                 "Solar beams explode into fire on enemy hits\n" +
                 "Nebula beams sweep a little bit over time\n" +
                 "Vortex beams act like fast lightning and electrify enemies on hit\n" +
-                "Stardust beams release small stars that home on enemy hits");
+                "Stardust beams release small stars that home on enemy hits"); */
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

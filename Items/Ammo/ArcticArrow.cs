@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("Arctic Arrow");
-            Tooltip.SetDefault("Freezes enemies for a short time");
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("Arctic Arrow");
+            // Tooltip.SetDefault("Freezes enemies for a short time");
         }
 
         public override void SetDefaults()

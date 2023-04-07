@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Extant Abhorrence");
+            // DisplayName.SetDefault("Extant Abhorrence");
         }
         public override void SetDefaults()
         {
@@ -237,12 +237,12 @@ namespace CalamityMod.Projectiles.Melee
             return validPositionFound;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Owner.GiveIFrames(TrueBiomeBlade.AstralAttunement_DashHitIFrames);
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             damage = (int)(damage * (1f + TrueBiomeBlade.AstralAttunement_FullChargeBoost * (float)Math.Pow(Charge / MaxCharge, 2)));
         }

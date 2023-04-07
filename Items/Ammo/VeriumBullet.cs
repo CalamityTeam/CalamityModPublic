@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("Verium Bullet");
-            Tooltip.SetDefault("There is no escape!\n" +
-            "Homes in after striking an enemy");
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("Verium Bullet");
+            /* Tooltip.SetDefault("There is no escape!\n" +
+            "Homes in after striking an enemy"); */
         }
 
         public override void SetDefaults()

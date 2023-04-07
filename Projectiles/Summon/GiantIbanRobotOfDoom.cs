@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Andromeda");
+            // DisplayName.SetDefault("Andromeda");
             ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
         }
 

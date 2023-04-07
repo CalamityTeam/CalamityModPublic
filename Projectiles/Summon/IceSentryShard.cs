@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frost Shard");
+            // DisplayName.SetDefault("Frost Shard");
             ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }
 

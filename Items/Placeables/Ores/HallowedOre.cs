@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.Ores
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Hallowed Ore");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Hallowed Ore");
 			ItemID.Sets.SortingPriorityMaterials[Type] = 89; // Hallowed Bar
         }
 

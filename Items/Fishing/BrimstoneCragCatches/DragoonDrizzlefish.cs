@@ -11,12 +11,12 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dragoon Drizzlefish");
-            Tooltip.SetDefault(@"Fires an inaccurate spread of fireballs
+            // DisplayName.SetDefault("Dragoon Drizzlefish");
+            // Tooltip.SetDefault(@"Fires an inaccurate spread of fireballs
 The brimstone sac appears to contain fuel
 Revenge is a dish best served flaming hot");
             Item.staff[Item.type] = true; //so it doesn't look weird af when holding it
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

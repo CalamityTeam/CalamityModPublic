@@ -9,10 +9,10 @@ namespace CalamityMod.Items.PermanentBoosters
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starlight Fuel Cell");
-            Tooltip.SetDefault("Permanently increases Adrenaline Mode damage by 15% and damage reduction by 5%\n" +
-                "Revengeance drop");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Starlight Fuel Cell");
+            /* Tooltip.SetDefault("Permanently increases Adrenaline Mode damage by 15% and damage reduction by 5%\n" +
+                "Revengeance drop"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

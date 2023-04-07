@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
         
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shaderain Nimbus");
+            // DisplayName.SetDefault("Shaderain Nimbus");
             Main.projFrames[Projectile.type] = 4;
         }
 
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.netUpdate = true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // Makes a dust effect.
             for (int dustIndex = 0; dustIndex < 40; dustIndex++)

@@ -9,11 +9,11 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Stress Pills");
-            Tooltip.SetDefault("Adrenaline charges 20% faster\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Stress Pills");
+            /* Tooltip.SetDefault("Adrenaline charges 20% faster\n" +
                 "Increases your max movement speed and acceleration by 5%\n" +
-                "Revengeance drop");
+                "Revengeance drop"); */
         }
 
         public override void SetDefaults()

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Typeless
         private bool fromArmour = false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Acid Bubble");
+            // DisplayName.SetDefault("Acid Bubble");
             Main.projFrames[Projectile.type] = 7;
         }
 
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Typeless
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.localAI[1] < 1f)
             {
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.Kill();
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             if (Projectile.localAI[1] < 1f)
             {

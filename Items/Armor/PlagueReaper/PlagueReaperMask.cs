@@ -16,9 +16,9 @@ namespace CalamityMod.Items.Armor.PlagueReaper
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Plague Reaper Mask");
-            Tooltip.SetDefault("10% increased ranged damage and 8% increased ranged critical strike chance");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Plague Reaper Mask");
+            // Tooltip.SetDefault("10% increased ranged damage and 8% increased ranged critical strike chance");
         }
 
         public override void SetDefaults()

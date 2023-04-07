@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -13,8 +14,8 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             this.SetUpBathtub();
             TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Bathtub");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
             AnimationFrameHeight = 54;
         }

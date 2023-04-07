@@ -18,7 +18,7 @@ A shame that its last bastion of tranquility has fallen.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Aquatic Scourge");
+            // DisplayName.SetDefault("Aquatic Scourge");
         }
 
         public override void SetDefaults()

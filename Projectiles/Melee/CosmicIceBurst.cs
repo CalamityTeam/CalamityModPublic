@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cosmic Ice");
+            // DisplayName.SetDefault("Cosmic Ice");
             Main.projFrames[Projectile.type] = 6;
         }
 
@@ -118,14 +118,14 @@ namespace CalamityMod.Projectiles.Melee
             return new Color(150, Main.DiscoG, 255, 127);
         }*/
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Frostburn, 180);
             target.AddBuff(ModContent.BuffType<Nightwither>(), 420);
             Projectile.direction = Main.player[Projectile.owner].direction;
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(BuffID.Frostburn, 180);
             target.AddBuff(ModContent.BuffType<Nightwither>(), 420);

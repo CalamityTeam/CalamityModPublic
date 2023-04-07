@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults() //don't remove this projectile
         {
-            DisplayName.SetDefault("Explosion");
+            // DisplayName.SetDefault("Explosion");
         }
 
         public override void SetDefaults()
@@ -27,12 +27,12 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.alpha = 255;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
         }

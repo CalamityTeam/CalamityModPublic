@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Empyrean Marble");
+            // DisplayName.SetDefault("Empyrean Marble");
         }
 
         public override void SetDefaults()

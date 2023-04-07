@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terror Blade");
-            Tooltip.SetDefault("Fires a terror beam that bounces off tiles\n" +
-                "On every bounce it emits an explosion");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Terror Blade");
+            /* Tooltip.SetDefault("Fires a terror beam that bounces off tiles\n" +
+                "On every bounce it emits an explosion"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

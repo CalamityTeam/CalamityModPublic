@@ -7,8 +7,8 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 200;
-            DisplayName.SetDefault("Plagued Shelf");
+            Item.ResearchUnlockCount = 200;
+            // DisplayName.SetDefault("Plagued Shelf");
         }
 
         public override void SetDefaults()

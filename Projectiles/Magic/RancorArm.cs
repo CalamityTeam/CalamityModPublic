@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Magic
         public ref float Time => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vengeful Arm");
+            // DisplayName.SetDefault("Vengeful Arm");
             Main.projFrames[Projectile.type] = 6;
         }
 
@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             if (Projectile.friendly)
             {

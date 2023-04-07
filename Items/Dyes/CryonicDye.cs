@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(138, 225, 255)).UseSecondaryColor(new Color(90, 90, 204)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            SacrificeTotal = 3;
-            DisplayName.SetDefault("Cryonic Dye");
+            Item.ResearchUnlockCount = 3;
+            // DisplayName.SetDefault("Cryonic Dye");
         }
 
         public override void SafeSetDefaults()

@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Viral Sprout");
-            Tooltip.SetDefault("Summons a sage spirit to fight for you\n" +
-                "Inflicts Sage Poison, a debuff that becomes stronger the more spirits you own");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Viral Sprout");
+            /* Tooltip.SetDefault("Summons a sage spirit to fight for you\n" +
+                "Inflicts Sage Poison, a debuff that becomes stronger the more spirits you own"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

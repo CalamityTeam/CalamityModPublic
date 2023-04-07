@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Teardrop Cleaver");
-            Tooltip.SetDefault("Makes your enemies cry");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Teardrop Cleaver");
+            // Tooltip.SetDefault("Makes your enemies cry");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<TemporalSadness>(), 60);
         }

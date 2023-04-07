@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gore from a not frog of the explosive variety");
+            // DisplayName.SetDefault("Gore from a not frog of the explosive variety");
             ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }
 
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.rotation += Projectile.velocity.X * 0.03f;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 720);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<Irradiated>(), 720);
 
         public override void Kill(int timeLeft)
         {

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eternity");
+            // DisplayName.SetDefault("Eternity");
         }
 
         public override void SetDefaults()

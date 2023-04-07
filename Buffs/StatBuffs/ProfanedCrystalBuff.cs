@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Devotion");
-            Description.SetDefault("");
+            // DisplayName.SetDefault("Devotion");
+            // Description.SetDefault("");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
@@ -27,7 +27,7 @@ namespace CalamityMod.Buffs.StatBuffs
             }
         }
 
-        public override void ModifyBuffTip(ref string tip, ref int rare)
+        public override void ModifyBuffText(ref string buffName, ref string tip, ref int rare)
         {
             Player player = Main.player[Main.myPlayer];
             if (player.Calamity().profanedCrystalBuffs)

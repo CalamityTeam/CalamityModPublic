@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults() 
         {
-            DisplayName.SetDefault("Giant Fuck-off Deathray of Doom");
+            // DisplayName.SetDefault("Giant Fuck-off Deathray of Doom");
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 

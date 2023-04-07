@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -20,8 +21,8 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.addTile(Type);
             DustType = 7;
             TileID.Sets.DisableSmartCursor[Type] = true;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Trophy");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Trophy");
             AddMapEntry(new Color(120, 85, 60), name);
             TileID.Sets.FramesOnKillWall[Type] = true;
         }

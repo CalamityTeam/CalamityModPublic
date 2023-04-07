@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.Cryogen
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Cryogen's Shield");
+            // DisplayName.SetDefault("Cryogen's Shield");
         }
 
         public override void SetDefaults()
@@ -110,7 +110,7 @@ namespace CalamityMod.NPCs.Cryogen
             return minDist <= (100f * NPC.scale) && NPC.Opacity == 1f;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
             {
@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.Cryogen
             return false;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.5f * bossLifeScale);
         }
@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.Cryogen
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             int dusttype = CalamityWorld.getFixedBoi ? 235 : 67;
             for (int k = 0; k < 3; k++)

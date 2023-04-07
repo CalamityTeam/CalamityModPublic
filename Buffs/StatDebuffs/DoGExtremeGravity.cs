@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Extreme Gravity");
-            Description.SetDefault("Your wing time is reduced by 25%, infinite flight is disabled");
+            // DisplayName.SetDefault("Extreme Gravity");
+            // Description.SetDefault("Your wing time is reduced by 25%, infinite flight is disabled");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;

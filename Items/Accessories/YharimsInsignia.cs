@@ -11,13 +11,13 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Yharim's Insignia");
-            Tooltip.SetDefault("10% increased damage when under 50% life\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Yharim's Insignia");
+            /* Tooltip.SetDefault("10% increased damage when under 50% life\n" +
                 "10% increased melee speed\n" +
                 "10% increased melee and true melee damage\n" +
                 "All melee attacks inflict Holy Flames\n" +
-                "Increased melee knockback");
+                "Increased melee knockback"); */
         }
 
         public override void SetDefaults()

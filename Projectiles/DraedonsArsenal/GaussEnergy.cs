@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gauss Energy");
+            // DisplayName.SetDefault("Gauss Energy");
         }
 
         public override void SetDefaults()

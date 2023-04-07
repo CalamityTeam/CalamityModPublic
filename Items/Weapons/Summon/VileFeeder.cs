@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vile Feeder");
-            Tooltip.SetDefault("Summons a baby eater of souls to protect you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Vile Feeder");
+            // Tooltip.SetDefault("Summons a baby eater of souls to protect you");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

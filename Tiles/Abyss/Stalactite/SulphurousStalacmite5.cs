@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -31,8 +32,8 @@ namespace CalamityMod.Tiles.Abyss.Stalactite
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Stalacmite");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Stalacmite");
             AddMapEntry(new Color(57, 48, 83), name);
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
 

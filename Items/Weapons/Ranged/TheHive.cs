@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Hive");
-            Tooltip.SetDefault("Launches a variety of rockets that explode into bees on death\n" +
-                "Rockets will destroy tiles with tile-destroying ammo");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("The Hive");
+            /* Tooltip.SetDefault("Launches a variety of rockets that explode into bees on death\n" +
+                "Rockets will destroy tiles with tile-destroying ammo"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

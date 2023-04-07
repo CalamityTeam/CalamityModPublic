@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mini Sand Shark");
+            // DisplayName.SetDefault("Mini Sand Shark");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Armor.Reaver
         //Defense and DR Helm
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Reaver Helm");
-            Tooltip.SetDefault("15% increased damage reduction but 30% decreased damage\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Reaver Helm");
+            /* Tooltip.SetDefault("15% increased damage reduction but 30% decreased damage\n" +
                 "+50 max life\n" +
-                "Passively regenerates one health point every second");
+                "Passively regenerates one health point every second"); */
         }
 
         public override void SetDefaults()

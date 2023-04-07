@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vile Feeder");
-            Description.SetDefault("The baby eater of souls will protect you");
+            // DisplayName.SetDefault("Vile Feeder");
+            // Description.SetDefault("The baby eater of souls will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Summon
         public const float SmallBeamAngleMax = MathHelper.TwoPi / 15f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Field");
+            // DisplayName.SetDefault("Field");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

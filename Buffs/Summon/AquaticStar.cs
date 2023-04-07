@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aquatic Star");
-            Description.SetDefault("The aquatic star will protect you");
+            // DisplayName.SetDefault("Aquatic Star");
+            // Description.SetDefault("The aquatic star will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;

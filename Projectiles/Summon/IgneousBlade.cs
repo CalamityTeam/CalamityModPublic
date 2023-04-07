@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Summon
         public bool Firing = false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Igneous Blade");
+            // DisplayName.SetDefault("Igneous Blade");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
         }
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Firing)
             {

@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Empyrean Rage");
-            Description.SetDefault("Rage of the cosmos");
+            // DisplayName.SetDefault("Empyrean Rage");
+            // Description.SetDefault("Rage of the cosmos");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

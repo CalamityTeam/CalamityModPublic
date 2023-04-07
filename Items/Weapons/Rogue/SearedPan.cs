@@ -20,15 +20,15 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static int ConsecutiveHitOpening = 40;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Seared Pan");
-            Tooltip.SetDefault("dAMaGe iS rAthEr cOnSisTeNT\n" +
+            // DisplayName.SetDefault("Seared Pan");
+            /* Tooltip.SetDefault("dAMaGe iS rAthEr cOnSisTeNT\n" +
                 "Fires a frying pan at high velocity\n" +
                 "Enemy hits summon fireballs that linger around the target\n" +
                 "Landing three consecutive hits grants will launch a golden pan\n" +
                 "Golden pans cause all fireballs to aggressively home in on their target\n" +
                 "Stealth strikes act similar to golden pans but also explode into golden sparks\n" +
-                "Stealth strikes also summon additional fireballs on hit");
-            SacrificeTotal = 1;
+                "Stealth strikes also summon additional fireballs on hit"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

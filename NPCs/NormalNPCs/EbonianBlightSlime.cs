@@ -11,7 +11,7 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ebonian Blight Slime");
+            // DisplayName.SetDefault("Ebonian Blight Slime");
             Main.npcFrameCount[NPC.type] = 4;
         }
 
@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             });
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 3; k++)
             {
@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.Corruption.Chance * 0.15f;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (damage > 0)
                 player.AddBuff(BuffID.Weak, 240, true);

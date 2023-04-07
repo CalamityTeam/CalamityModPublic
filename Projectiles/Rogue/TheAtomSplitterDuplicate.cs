@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
         public ref float Lifetime => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Atom Splitter");
+            // DisplayName.SetDefault("Atom Splitter");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }

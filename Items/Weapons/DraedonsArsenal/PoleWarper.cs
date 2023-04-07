@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Pole Warper");
-            Tooltip.SetDefault("Magnetic devices which tear at foes by propelling themselves off their opposite counterparts\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Pole Warper");
+            /* Tooltip.SetDefault("Magnetic devices which tear at foes by propelling themselves off their opposite counterparts\n" +
                 "Incredibly dangerous\n" +
-                "Summons a pair of floating magnets that repel each other and relentlessly swarm enemies");
+                "Summons a pair of floating magnets that repel each other and relentlessly swarm enemies"); */
         }
 
         public override void SetDefaults()

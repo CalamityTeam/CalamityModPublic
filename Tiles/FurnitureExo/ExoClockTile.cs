@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
@@ -14,8 +15,8 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void SetStaticDefaults()
         {
             this.SetUpClock(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Grandfather Clock");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Grandfather Clock");
             AddMapEntry(new Color(71, 95, 114), name);
             AdjTiles = new int[] { TileID.GrandfatherClocks };
         }

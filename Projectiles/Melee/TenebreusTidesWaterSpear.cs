@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tenebreus Tides Water Spear");
+            // DisplayName.SetDefault("Tenebreus Tides Water Spear");
             Main.projFrames[Projectile.type] = 4;
         }
 
@@ -218,7 +218,7 @@ namespace CalamityMod.Projectiles.Melee
             return true;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             // If 'split' projectile hits an enemy
             if (Projectile.ai[0] >= (float)(1 + penetrationAmt) && Projectile.ai[0] < (float)(1 + penetrationAmt * 2))
@@ -239,7 +239,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.netUpdate = true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
         }

@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
-            DisplayName.SetDefault("Galactica Singularity");
-            Tooltip.SetDefault("A shard of the cosmos");
+            Item.ResearchUnlockCount = 25;
+            // DisplayName.SetDefault("Galactica Singularity");
+            // Tooltip.SetDefault("A shard of the cosmos");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 24));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;

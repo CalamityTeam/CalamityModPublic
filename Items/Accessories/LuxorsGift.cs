@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Luxor's Gift");
-            Tooltip.SetDefault("Weapons fire unique projectiles based on the damage type they have\n" +
-                "Some weapons are unable to receive this bonus");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Luxor's Gift");
+            /* Tooltip.SetDefault("Weapons fire unique projectiles based on the damage type they have\n" +
+                "Some weapons are unable to receive this bonus"); */
         }
 
         public override void SetDefaults()

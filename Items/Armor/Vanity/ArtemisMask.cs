@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Artemis Mask");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Artemis Mask");
 
             if (Main.netMode != NetmodeID.Server)
             {

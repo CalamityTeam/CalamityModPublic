@@ -110,7 +110,7 @@ namespace CalamityMod.ILEditing
         #endregion Reforge Requirement Relaxation
 
         #region Prevention of Slime Rain Spawns When Near Bosses
-        private static void PreventBossSlimeRainSpawns(On.Terraria.NPC.orig_SlimeRainSpawns orig, int plr)
+        private static void PreventBossSlimeRainSpawns(Terraria.On_NPC.orig_SlimeRainSpawns orig, int plr)
         {
             if (!Main.player[plr].Calamity().isNearbyBoss && CalamityConfig.Instance.BossZen)
                 orig(plr);
@@ -384,7 +384,7 @@ namespace CalamityMod.ILEditing
         #endregion Make Tag Damage Multiplicative
 
         #region Remove Hellforge Pickaxe Requirement
-        private static int RemoveHellforgePickaxeRequirement(On.Terraria.Player.orig_GetPickaxeDamage orig, Player self, int x, int y, int pickPower, int hitBufferIndex, Tile tileTarget)
+        private static int RemoveHellforgePickaxeRequirement(Terraria.On_Player.orig_GetPickaxeDamage orig, Player self, int x, int y, int pickPower, int hitBufferIndex, Tile tileTarget)
         {
             if (tileTarget.TileType == TileID.Hellforge)
                 pickPower = 65;
@@ -398,7 +398,7 @@ namespace CalamityMod.ILEditing
         #endregion Fix Chlorophyte Crystal Attacking Where it Shouldn't
 
         #region Color Blighted Gel
-        private static void ColorBlightedGel(On.Terraria.GameContent.ItemDropRules.CommonCode.orig_ModifyItemDropFromNPC orig, NPC npc, int itemIndex)
+        private static void ColorBlightedGel(Terraria.GameContent.ItemDropRules.On_CommonCode.orig_ModifyItemDropFromNPC orig, NPC npc, int itemIndex)
         {
             orig(npc, itemIndex);
 
@@ -424,7 +424,7 @@ namespace CalamityMod.ILEditing
         #endregion Color Blighted Gel
 
         #region Improve Angler Quest Rewards
-        private static void ImproveAnglerRewards(On.Terraria.Player.orig_GetAnglerReward orig, Player self, NPC angler)
+        private static void ImproveAnglerRewards(Terraria.On_Player.orig_GetAnglerReward orig, Player self, NPC angler)
         {
             orig(self, angler);
 

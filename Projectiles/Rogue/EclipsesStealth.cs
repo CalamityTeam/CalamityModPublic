@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eclipse's Fall");
+            // DisplayName.SetDefault("Eclipse's Fall");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.StickyProjAI(10);
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             // Impale the enemy on contact ("sticky behavior").
             Projectile.ModifyHitNPCSticky(1, true);

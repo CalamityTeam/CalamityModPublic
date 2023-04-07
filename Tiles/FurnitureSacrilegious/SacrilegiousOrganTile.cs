@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -18,8 +19,8 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4); //This piano has bookcase dimensions
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Piano");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Piano");
             AddMapEntry(new Color(43, 19, 42), name);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }

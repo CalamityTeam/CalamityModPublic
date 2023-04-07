@@ -49,11 +49,11 @@ namespace CalamityMod.ILEditing
 
             cursor.EmitDelegate<Action>(() =>
             {
-                WorldGen.dungeonX = Utils.Clamp(WorldGen.dungeonX, SulphurousSea.BiomeWidth + 167, Main.maxTilesX - SulphurousSea.BiomeWidth - 167);
+                GenVars.dungeonX = Utils.Clamp(GenVars.dungeonX, SulphurousSea.BiomeWidth + 167, Main.maxTilesX - SulphurousSea.BiomeWidth - 167);
 
                 // Adjust the Y position of the dungeon to accomodate for the X shift.
-                WorldUtils.Find(new Point(WorldGen.dungeonX, WorldGen.dungeonY), Searches.Chain(new Searches.Down(9001), new Conditions.IsSolid()), out Point result);
-                WorldGen.dungeonY = result.Y - 10;
+                WorldUtils.Find(new Point(GenVars.dungeonX, GenVars.dungeonY), Searches.Chain(new Searches.Down(9001), new Conditions.IsSolid()), out Point result);
+                GenVars.dungeonY = result.Y - 10;
             });
         }
 
@@ -91,7 +91,7 @@ namespace CalamityMod.ILEditing
         #endregion Fixing of Living Tree/Sulphurous Sea Interactions
 
         #region Removal of Hardmode Ore Generation from Evil Altars
-        private static void PreventSmashAltarCode(On.Terraria.WorldGen.orig_SmashAltar orig, int i, int j)
+        private static void PreventSmashAltarCode(Terraria.On_WorldGen.orig_SmashAltar orig, int i, int j)
         {
             if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
                 return;
@@ -210,7 +210,7 @@ namespace CalamityMod.ILEditing
         #endregion
 
         #region Clear temporary modded tiles
-        private static void ClearModdedTempTiles(On.Terraria.IO.WorldFile.orig_ClearTempTiles orig)
+        private static void ClearModdedTempTiles(Terraria.IO.On_WorldFile.orig_ClearTempTiles orig)
         {
             orig();
 

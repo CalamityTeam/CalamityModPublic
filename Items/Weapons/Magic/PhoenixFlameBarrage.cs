@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Phoenix Flame Barrage");
-            Tooltip.SetDefault("Baptism by draconic fire\n" +
-                "Casts a barrage of fire from the sky");
+            // DisplayName.SetDefault("Phoenix Flame Barrage");
+            /* Tooltip.SetDefault("Baptism by draconic fire\n" +
+                "Casts a barrage of fire from the sky"); */
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

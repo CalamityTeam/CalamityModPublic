@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stellar Cannon");
-            Tooltip.SetDefault("Launches an explosive astral crystal");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Stellar Cannon");
+            // Tooltip.SetDefault("Launches an explosive astral crystal");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

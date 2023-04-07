@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
@@ -12,8 +13,8 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
         public override void SetStaticDefaults()
         {
             this.SetUpCandle(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Candle");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Candle");
             AddMapEntry(new Color(253, 221, 3), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Candles };

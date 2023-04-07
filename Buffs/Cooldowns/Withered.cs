@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Cooldowns
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Withered");
-            Description.SetDefault("Holding withered weapons causes you to suffer but makes your weapons strong");
+            // DisplayName.SetDefault("Withered");
+            // Description.SetDefault("Holding withered weapons causes you to suffer but makes your weapons strong");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

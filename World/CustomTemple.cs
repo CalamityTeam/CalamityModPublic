@@ -2,6 +2,7 @@
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.World
 {
@@ -17,7 +18,7 @@ namespace CalamityMod.World
             while (!success)
             {
                 int x;
-                if (WorldGen.dungeonX < Main.maxTilesX / 2)
+                if (GenVars.dungeonX < Main.maxTilesX / 2)
                     x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.6), (int)(Main.maxTilesX * 0.85));
                 else
                     x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.15), (int)(Main.maxTilesX * 0.4));
@@ -591,11 +592,11 @@ namespace CalamityMod.World
             }
 
             // Set variables for the bounds and room count of the temple.
-            WorldGen.tLeft = farthestRoomLeft;
-            WorldGen.tRight = farthestRoomRight;
-            WorldGen.tTop = farthestRoomTop;
-            WorldGen.tBottom = farthestRoomBottom;
-            WorldGen.tRooms = totalRooms;
+            GenVars.tLeft = farthestRoomLeft;
+            GenVars.tRight = farthestRoomRight;
+            GenVars.tTop = farthestRoomTop;
+            GenVars.tBottom = farthestRoomBottom;
+            GenVars.tRooms = totalRooms;
         }
 
         public static void GenerateGenericRoom(Rectangle roomBounds)
@@ -754,11 +755,11 @@ namespace CalamityMod.World
 
         public static void NewJungleTemplePart2()
         {
-            int templeLeft = WorldGen.tLeft;
-            int templeRight = WorldGen.tRight;
-            int templeTop = WorldGen.tTop;
-            int templeBottom = WorldGen.tBottom;
-            int totalRooms = WorldGen.tRooms;
+            int templeLeft = GenVars.tLeft;
+            int templeRight = GenVars.tRight;
+            int templeTop = GenVars.tTop;
+            int templeBottom = GenVars.tBottom;
+            int totalRooms = GenVars.tRooms;
             float totalTrapsToPlace = totalRooms * 2.1f;
             float totalStatuesToPlace = totalRooms * 1.6f;
             float totalChestsToPlace = totalRooms * 0.4f;

@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Hydrothermic Hood");
-            Tooltip.SetDefault("12% increased rogue damage and 10% increased rogue critical strike chance\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Hydrothermic Hood");
+            /* Tooltip.SetDefault("12% increased rogue damage and 10% increased rogue critical strike chance\n" +
                 "50% chance to not consume rogue items and 5% increased movement speed\n" +
-                "Grants immunity to lava and On Fire! debuff");
+                "Grants immunity to lava and On Fire! debuff"); */
         }
 
         public override void SetDefaults()

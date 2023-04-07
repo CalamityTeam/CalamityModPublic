@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Goldie");
-            Description.SetDefault("All that glitters is gold");
+            // DisplayName.SetDefault("Goldie");
+            // Description.SetDefault("All that glitters is gold");
             Main.buffNoTimeDisplay[Type] = true;
             Main.lightPet[Type] = true;
         }

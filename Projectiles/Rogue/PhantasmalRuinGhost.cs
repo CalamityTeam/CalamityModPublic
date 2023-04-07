@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Phantasmal Afterimage");
+            // DisplayName.SetDefault("Phantasmal Afterimage");
         }
 
         public override void SetDefaults()

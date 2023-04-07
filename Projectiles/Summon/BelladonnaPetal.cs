@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Summon
         
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Belladonna Petal");
+            // DisplayName.SetDefault("Belladonna Petal");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Summon
             return true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Poisoned, 240);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Poisoned, 240);
 
         #endregion
     }

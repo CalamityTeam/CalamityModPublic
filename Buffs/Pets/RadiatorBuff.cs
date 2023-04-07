@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Radiator");
-            Description.SetDefault("Radioactive but adorable");
+            // DisplayName.SetDefault("Radiator");
+            // Description.SetDefault("Radioactive but adorable");
             Main.buffNoTimeDisplay[Type] = true;
             Main.lightPet[Type] = true;
         }

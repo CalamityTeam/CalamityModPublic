@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Urchin Stinger");
-            Tooltip.SetDefault("Stealth strikes stick to enemies while releasing sulphuric bubbles");
-            SacrificeTotal = 99;
+            // DisplayName.SetDefault("Urchin Stinger");
+            // Tooltip.SetDefault("Stealth strikes stick to enemies while releasing sulphuric bubbles");
+            Item.ResearchUnlockCount = 99;
         }
 
         public override void SetDefaults()

@@ -14,14 +14,14 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Nucleogenesis");
-            Tooltip.SetDefault("Increases max minions by 2\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Nucleogenesis");
+            /* Tooltip.SetDefault("Increases max minions by 2\n" +
                 "Grants immunity to Shadowflame and Irradiated\n" +
                 "15% increased minion damage\n" +
                 "Increased minion knockback\n" +
                 "Minions inflict a variety of debuffs\n" +
-                "Minions spawn damaging sparks on enemy hits"); //subject to change to be "cooler"
+                "Minions spawn damaging sparks on enemy hits"); */ //subject to change to be "cooler"
         }
 
         public override void SetDefaults()

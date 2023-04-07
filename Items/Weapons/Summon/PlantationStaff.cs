@@ -12,12 +12,12 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plantation Staff");
-            Tooltip.SetDefault("Summons a miniature plantera to protect you\n" +
+            // DisplayName.SetDefault("Plantation Staff");
+            /* Tooltip.SetDefault("Summons a miniature plantera to protect you\n" +
             "Fires seeds, spiky balls, and spore clouds from afar to poison targets\n" +
             "Enrages when you get under 75% health and begins ramming enemies\n" +
-            "Occupies 3 minion slots and there can only be one");
-            SacrificeTotal = 1;
+            "Occupies 3 minion slots and there can only be one"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

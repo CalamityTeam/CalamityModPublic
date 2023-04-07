@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stardust Shard");
+            // DisplayName.SetDefault("Stardust Shard");
         }
 
         public override void SetDefaults()

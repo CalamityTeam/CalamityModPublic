@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Valaricicle");
+            // DisplayName.SetDefault("Valaricicle");
         }
 
         public override void SetDefaults()

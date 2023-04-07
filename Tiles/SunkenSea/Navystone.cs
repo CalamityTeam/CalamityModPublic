@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.SunkenSea
@@ -24,8 +25,8 @@ namespace CalamityMod.Tiles.SunkenSea
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 96;
             ItemDrop = ModContent.ItemType<Items.Placeables.Navystone>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Navystone");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Navystone");
             AddMapEntry(new Color(31, 92, 114), name);
             MineResist = 2f;
             HitSound = SoundID.Tink;

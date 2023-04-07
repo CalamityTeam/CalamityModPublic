@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sacrilegious Work Bench");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Sacrilegious Work Bench");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Signal");
+            // DisplayName.SetDefault("Signal");
         }
 
         public override void SetDefaults()

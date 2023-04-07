@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.Enums;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -26,8 +27,8 @@ namespace CalamityMod.Tiles.DraedonStructures
 			TileObjectData.newTile.CoordinatePadding = 2;
 			TileObjectData.newTile.DrawYOffset = 2;
 			TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Onyx Excavator");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Onyx Excavator");
             AddMapEntry(new Color(128, 0, 128), name);
         }
 

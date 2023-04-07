@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Turret
         public override string Texture => "CalamityMod/Projectiles/Summon/SmallAresArms/MinionPlasmaGas";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ice Gas");
+            // DisplayName.SetDefault("Ice Gas");
         }
 
         public override void SetDefaults()
@@ -51,12 +51,12 @@ namespace CalamityMod.Projectiles.Turret
             if (Projectile.timeLeft < 30) // Remove hitbox once the projectile is barely visible anymore
                 ableToHit = false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
             target.AddBuff(BuffID.Frostburn2, 180);
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.Frostburn2, 180);
         }

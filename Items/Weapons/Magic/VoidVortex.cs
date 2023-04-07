@@ -16,10 +16,10 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Void Vortex");
-            Tooltip.SetDefault("Conjures a swirling vortex of supercharged magnet spheres around the cursor");
+            // DisplayName.SetDefault("Void Vortex");
+            // Tooltip.SetDefault("Conjures a swirling vortex of supercharged magnet spheres around the cursor");
             Item.staff[Item.type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

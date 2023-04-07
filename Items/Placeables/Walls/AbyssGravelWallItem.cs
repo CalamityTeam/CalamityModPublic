@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Placeables.Walls
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 400;
-            DisplayName.SetDefault("Abyss Gravel Wall");
+            Item.ResearchUnlockCount = 400;
+            // DisplayName.SetDefault("Abyss Gravel Wall");
         }
 
         public override void SetDefaults()

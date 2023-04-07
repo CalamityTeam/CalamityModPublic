@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Summon
         
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aquatic Star");
+            // DisplayName.SetDefault("Aquatic Star");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }

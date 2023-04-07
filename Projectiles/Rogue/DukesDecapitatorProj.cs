@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/DukesDecapitator";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Decapitator");
+            // DisplayName.SetDefault("Decapitator");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.rotation += rotationAmount;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.velocity = Vector2.Zero;
             rotationAmount -= 0.05f;

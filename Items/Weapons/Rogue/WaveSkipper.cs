@@ -15,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wave Skipper"); // This will drop from the Sunken Sea Scourge miniboss once it's implemented.
-            Tooltip.SetDefault(@"Throws a spear that bounces a lot
+            // DisplayName.SetDefault("Wave Skipper"); // This will drop from the Sunken Sea Scourge miniboss once it's implemented.
+            // Tooltip.SetDefault(@"Throws a spear that bounces a lot
 Stealth strikes throw three high speed spears");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

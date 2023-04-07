@@ -25,7 +25,7 @@ namespace CalamityMod.World.Planets
             int i = 0;
             while (i < MainPlanetoidAttempts)
             {
-                if (config2.CreateBiome<MainPlanet>().Place(new Point(WorldGen.genRand.Next(Main.maxTilesX / 2 - 300, Main.maxTilesX / 2 + 300), WorldGen.genRand.Next(128, 134)), WorldGen.structures))
+                if (config2.CreateBiome<MainPlanet>().Place(new Point(WorldGen.genRand.Next(Main.maxTilesX / 2 - 300, Main.maxTilesX / 2 + 300), WorldGen.genRand.Next(128, 134)), GenVars.structures))
                 {
                     break;
                 }
@@ -39,7 +39,7 @@ namespace CalamityMod.World.Planets
                 int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2), (int)(Main.maxTilesX * 0.8));
                 int y = WorldGen.genRand.Next(70, 101);
 
-                bool placed = config2.CreateBiome<HeartPlanet>().Place(new Point(x, y), WorldGen.structures);
+                bool placed = config2.CreateBiome<HeartPlanet>().Place(new Point(x, y), GenVars.structures);
 
                 if (placed)
                     LCPlanetoidCount--;
@@ -54,7 +54,7 @@ namespace CalamityMod.World.Planets
                 int y = WorldGen.genRand.Next(100, 131);
 
 
-                bool placed = config2.CreateBiome<GrassPlanet>().Place(new Point(x, y), WorldGen.structures);
+                bool placed = config2.CreateBiome<GrassPlanet>().Place(new Point(x, y), GenVars.structures);
 
                 if (placed)
                     GrassPlanetoidCount--;
@@ -68,7 +68,7 @@ namespace CalamityMod.World.Planets
                 int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.3f), (int)(Main.maxTilesX * 0.7f));
                 int y = WorldGen.genRand.Next(100, 131);
 
-                bool placed = config2.CreateBiome<MudPlanet>().Place(new Point(x, y), WorldGen.structures);
+                bool placed = config2.CreateBiome<MudPlanet>().Place(new Point(x, y), GenVars.structures);
 
                 if (placed)
                     MudPlanetoidCount--;

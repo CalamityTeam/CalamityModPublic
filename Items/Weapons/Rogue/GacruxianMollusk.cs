@@ -15,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Gacruxian Mollusk");
-            Tooltip.SetDefault("Releases homing sparks while traveling\n" +
-            "Stealth strikes release homing snails that create even more sparks");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Gacruxian Mollusk");
+            /* Tooltip.SetDefault("Releases homing sparks while traveling\n" +
+            "Stealth strikes release homing snails that create even more sparks"); */
         }
 
         public override void SetDefaults()

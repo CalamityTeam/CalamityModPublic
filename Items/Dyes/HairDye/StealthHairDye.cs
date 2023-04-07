@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Dyes.HairDye
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stealth Hair Dye");
+            // DisplayName.SetDefault("Stealth Hair Dye");
         }
 
         public override void SetDefaults()
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Dyes.HairDye
             Item.useAnimation = 17;
             Item.useTime = 17;
             Item.consumable = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
     }
 }

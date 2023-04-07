@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Armor.Victide
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Victide Shellmet");
-            Tooltip.SetDefault("5% increased melee damage");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Victide Shellmet");
+            // Tooltip.SetDefault("5% increased melee damage");
         }
 
         public override void SetDefaults()

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dust");
+            // DisplayName.SetDefault("Dust");
         }
 
         public override void SetDefaults()

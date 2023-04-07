@@ -184,9 +184,9 @@ namespace CalamityMod.World
             }
 
             //initial hole
-            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX, (int)WorldGen.worldSurfaceLow + 65, AbyssChasmBottom, true);
-            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX - 22, (int)WorldGen.worldSurfaceLow, AbyssChasmBottom, true);
-            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX + 22, (int)WorldGen.worldSurfaceLow, AbyssChasmBottom, true);
+            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX, (int)GenVars.worldSurfaceLow + 65, AbyssChasmBottom, true);
+            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX - 22, (int)GenVars.worldSurfaceLow, AbyssChasmBottom, true);
+            MiscWorldgenRoutines.ChasmGenerator(abyssChasmX + 22, (int)GenVars.worldSurfaceLow, AbyssChasmBottom, true);
 
             int maxAbyssIslands = 11; //Small World
 
@@ -1060,7 +1060,7 @@ namespace CalamityMod.World
                     Main.tile[x + 1, y + 1].TileType == ModContent.TileType<Tiles.Abyss.AbyssTreasureChest>()) //bottom right
                     {
                         Chest.Unlock(x, y);
-                        NetMessage.SendData(MessageID.Unlock, -1, -1, null, Main.LocalPlayer.whoAmI, 1f, x, y);
+                        NetMessage.SendData(MessageID.LockAndUnlock, -1, -1, null, Main.LocalPlayer.whoAmI, 1f, x, y);
                     }
                 }
             }

@@ -9,11 +9,11 @@ namespace CalamityMod.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Relic of Convergence");
-            Tooltip.SetDefault("Creates a profaned crystal that charges power\n" +
+            // DisplayName.SetDefault("Relic of Convergence");
+            /* Tooltip.SetDefault("Creates a profaned crystal that charges power\n" +
                                "Holding out the crystal slows the player down\n" +
-                               "At the end of its life, the crystal heals the player for 70 HP");
-            SacrificeTotal = 1;
+                               "At the end of its life, the crystal heals the player for 70 HP"); */
+            Item.ResearchUnlockCount = 1;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 

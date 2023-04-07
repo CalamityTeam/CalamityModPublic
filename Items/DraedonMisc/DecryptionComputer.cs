@@ -18,11 +18,11 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Decryption Computer");
-            Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Decryption Computer");
+            /* Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
                 "Allows you to decrypt the Planetoid schematic\n" +
-                "Doing so allows you to learn how to craft new things");
+                "Doing so allows you to learn how to craft new things"); */
         }
 
         public override void SetDefaults()

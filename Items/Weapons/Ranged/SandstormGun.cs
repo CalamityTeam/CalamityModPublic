@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sandstorm");
-            Tooltip.SetDefault("Fires sand bullets that explode and slow enemies on hit\n" +
-                "50% chance to not consume sand");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Sandstorm");
+            /* Tooltip.SetDefault("Fires sand bullets that explode and slow enemies on hit\n" +
+                "50% chance to not consume sand"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

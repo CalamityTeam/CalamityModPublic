@@ -15,7 +15,7 @@ Slaying one merely paves the way for a dozen more. Surely this does not concern 
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("The Eye of Cthulhu");
+            // DisplayName.SetDefault("The Eye of Cthulhu");
         }
 
         public override void SetDefaults()

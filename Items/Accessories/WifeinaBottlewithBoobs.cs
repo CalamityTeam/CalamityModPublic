@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Rare Elemental in a Bottle");
-            Tooltip.SetDefault("Summons a sand elemental to heal you\n" +
-                ";D");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Rare Elemental in a Bottle");
+            /* Tooltip.SetDefault("Summons a sand elemental to heal you\n" +
+                ";D"); */
         }
 
         public override void SetDefaults()

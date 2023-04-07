@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Enums;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -33,9 +34,9 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.newTile.WaterDeath = false;
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
+            LocalizedText name = CreateMapEntryName();
             AddMapEntry(new Color(150, 100, 50), name);
-            name.SetDefault("Column");
+            // name.SetDefault("Column");
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
 
             base.SetStaticDefaults();

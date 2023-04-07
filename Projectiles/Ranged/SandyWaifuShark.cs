@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shark");
+            // DisplayName.SetDefault("Shark");
             Main.projFrames[Projectile.type] = 8;
         }
 
@@ -51,9 +51,9 @@ namespace CalamityMod.Projectiles.Ranged
                 CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 8f, 20f);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */ => target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
 
         public override bool PreDraw(ref Color lightColor)
         {

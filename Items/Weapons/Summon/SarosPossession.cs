@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Saros Possession");
-            Tooltip.SetDefault("Gain absolute control over light itself\n" +
+            // DisplayName.SetDefault("Saros Possession");
+            /* Tooltip.SetDefault("Gain absolute control over light itself\n" +
                                "Can only be summoned once\n" +
-                               "Uses 8 minion slots");
-            SacrificeTotal = 1;
+                               "Uses 8 minion slots"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

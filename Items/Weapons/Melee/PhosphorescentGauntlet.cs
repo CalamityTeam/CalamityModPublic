@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Phosphorescent Gauntlet");
-            Tooltip.SetDefault("Releases rapid sulphurous punches\n" +
+            // DisplayName.SetDefault("Phosphorescent Gauntlet");
+            /* Tooltip.SetDefault("Releases rapid sulphurous punches\n" +
                 "On use, you lunge in the direction of the mouse\n" +
-                "On collision, you are knocked back");
-            SacrificeTotal = 1;
+                "On collision, you are knocked back"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

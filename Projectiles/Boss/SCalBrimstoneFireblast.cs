@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Boss
         public static readonly SoundStyle ImpactSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneFireblastImpact");
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brimstone Fireblast");
+            // DisplayName.SetDefault("Brimstone Fireblast");
             Main.projFrames[Projectile.type] = 5;
         }
 
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool CanHitPlayer(Player target) => Projectile.Opacity == 1f;
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (damage <= 0 || Projectile.Opacity != 1f)
                 return;

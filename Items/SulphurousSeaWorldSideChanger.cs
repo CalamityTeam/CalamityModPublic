@@ -13,8 +13,8 @@ namespace CalamityMod.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sulphurous Sea World Side Changer");
-            Tooltip.SetDefault("Spawn and use this if your regular ocean counts as a Sulphurous Sea\n"+"This will also fix the Abyss if it is broken");
+            // DisplayName.SetDefault("Sulphurous Sea World Side Changer");
+            // Tooltip.SetDefault("Spawn and use this if your regular ocean counts as a Sulphurous Sea\n"+"This will also fix the Abyss if it is broken");
         }
 
         public override void SetDefaults()

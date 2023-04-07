@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Tiles.Crags;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,8 +29,8 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.Ore[Type] = true;
 
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.InfernalSuevite>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Infernal Suevite");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Infernal Suevite");
             AddMapEntry(new Color(17, 16, 26), name);
             MineResist = 6f;
             MinPick = 150;

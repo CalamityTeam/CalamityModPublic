@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chibii Devourer");
-            Description.SetDefault("What? Were you expecting someone else?");
+            // DisplayName.SetDefault("Chibii Devourer");
+            // Description.SetDefault("What? Were you expecting someone else?");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

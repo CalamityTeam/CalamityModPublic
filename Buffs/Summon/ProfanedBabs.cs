@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Profaned Soul");
-            Description.SetDefault("The Profaned Babs will fight for and defend you!");
+            // DisplayName.SetDefault("The Profaned Soul");
+            // Description.SetDefault("The Profaned Babs will fight for and defend you!");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;
@@ -27,7 +27,7 @@ namespace CalamityMod.Buffs.Summon
                 player.buffTime[buffIndex] = 18000;
         }
 
-        public override void ModifyBuffTip(ref string tip, ref int rare)
+        public override void ModifyBuffText(ref string buffName, ref string tip, ref int rare)
         {
             Player player = Main.player[Main.myPlayer];
             if (player.Calamity().profanedCrystal && !player.Calamity().profanedCrystalBuffs)

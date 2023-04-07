@@ -21,13 +21,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Roxcalibur");
-            Tooltip.SetDefault("You couldn't get it out of the rock, so you just brought the rock instead\n" +
+            // DisplayName.SetDefault("Roxcalibur");
+            /* Tooltip.SetDefault("You couldn't get it out of the rock, so you just brought the rock instead\n" +
                 "A hellish entity of flesh holds the key to this weapon's power\n" +
                 "Left click to shoot several rock shards\n" +
                 "Right click to dive downwards and bounce off enemies\n" +
-                "Diving into blocks creates a shockwave");
-            SacrificeTotal = 1;
+                "Diving into blocks creates a shockwave"); */
+            Item.ResearchUnlockCount = 1;
 
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
@@ -247,7 +247,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Item.useStyle == ItemUseStyleID.HoldUp)
             {
@@ -270,7 +270,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             if (Item.useStyle == ItemUseStyleID.HoldUp)
             {

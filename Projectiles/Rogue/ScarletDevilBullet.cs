@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gungnir Bullet");
+            // DisplayName.SetDefault("Gungnir Bullet");
         }
 
         public override void SetDefaults()

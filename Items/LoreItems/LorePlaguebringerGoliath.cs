@@ -20,7 +20,7 @@ That would make me no better than the divine scoundrels I pursued.";
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Plaguebringer Goliath");
+            // DisplayName.SetDefault("Plaguebringer Goliath");
         }
 
         public override void SetDefaults()

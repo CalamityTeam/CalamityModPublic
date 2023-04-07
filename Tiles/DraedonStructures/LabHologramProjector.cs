@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Audio;
@@ -47,8 +48,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
 
             TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Lab Hologram Projector");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Lab Hologram Projector");
             AddMapEntry(new Color(99, 131, 199));
             AnimationFrameHeight = 112;
 

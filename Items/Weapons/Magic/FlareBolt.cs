@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flare Bolt");
-            Tooltip.SetDefault("Casts a slow-moving ball of flame");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Flare Bolt");
+            // Tooltip.SetDefault("Casts a slow-moving ball of flame");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

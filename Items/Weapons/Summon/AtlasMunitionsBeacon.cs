@@ -43,8 +43,8 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Atlas Munitions Beacon");
-            Tooltip.SetDefault("Drops down a crate from the sky that houses a mounted, stationary cannon\n" +
+            // DisplayName.SetDefault("Atlas Munitions Beacon");
+            /* Tooltip.SetDefault("Drops down a crate from the sky that houses a mounted, stationary cannon\n" +
             "The cannon will fire at any enemies within its range\n" +
             "If an enemy is in close proximity, it will enter Overdrive mode\n" +
             "When in Overdrive mode the cannon uses three barrels that each collectively fire\n" +
@@ -54,8 +54,8 @@ namespace CalamityMod.Items.Weapons.Summon
             "If the held cannon overheats due to Overdrive mode, you are forced to drop it\n" +
             "Pressing right click allows you to drop it manually\n" +
             "If the held cannon is dropped near the mount, it will re-attach automatically\n" +
-            "It's surprisingly easy to pick up");
-            SacrificeTotal = 1;
+            "It's surprisingly easy to pick up"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

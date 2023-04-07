@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Endo Hydra Staff");
-            Tooltip.SetDefault("Summons a frigid entity with a head\n" +
-                               "If the entity already exists, using this item again will cause it to gain more heads");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Endo Hydra Staff");
+            /* Tooltip.SetDefault("Summons a frigid entity with a head\n" +
+                               "If the entity already exists, using this item again will cause it to gain more heads"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

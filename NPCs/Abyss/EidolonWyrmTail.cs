@@ -12,7 +12,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Eidolon Wyrm");
+            // DisplayName.SetDefault("Eidolon Wyrm");
         }
 
         public override void SetDefaults()
@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.Abyss
             return false;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {

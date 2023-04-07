@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Armor.PlagueReaper
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Plague Reaper Striders");
-            Tooltip.SetDefault("3% increased ranged critical strike chance\n" +
-                "15% increased movement speed");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Plague Reaper Striders");
+            /* Tooltip.SetDefault("3% increased ranged critical strike chance\n" +
+                "15% increased movement speed"); */
         }
 
         public override void SetDefaults()

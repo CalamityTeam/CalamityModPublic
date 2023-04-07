@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Celestial Reaper");
+            // DisplayName.SetDefault("Celestial Reaper");
         }
 
         public override void SetDefaults()

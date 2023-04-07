@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Summon
         public ref float GeneralRotationalOffset => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rift");
+            // DisplayName.SetDefault("Rift");
             ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
         }
 

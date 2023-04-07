@@ -2,6 +2,7 @@
 using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,8 +24,8 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.Ore[Type] = true;
             TileID.Sets.OreMergesWithMud[Type] = true;
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exodium");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Exodium");
             AddMapEntry(new Color(51, 48, 68), name);
             MineResist = 5f;
             MinPick = 225;

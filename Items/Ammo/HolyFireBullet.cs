@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 99;
-            DisplayName.SetDefault("Holy Fire Bullet");
-            Tooltip.SetDefault("Explosive holy bullets");
+            Item.ResearchUnlockCount = 99;
+            // DisplayName.SetDefault("Holy Fire Bullet");
+            // Tooltip.SetDefault("Explosive holy bullets");
         }
 
         public override void SetDefaults()

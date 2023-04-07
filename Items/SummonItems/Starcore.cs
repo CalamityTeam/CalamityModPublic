@@ -10,11 +10,11 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Starcore");
-            Tooltip.SetDefault("May the stars guide your way\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Starcore");
+            /* Tooltip.SetDefault("May the stars guide your way\n" +
                 "Summons Astrum Deus at the Astral Beacon, but is not consumed\n" +
-                "Enrages during the day");
+                "Enrages during the day"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 16; // Solar Tablet / Bloody Tear
         }
 

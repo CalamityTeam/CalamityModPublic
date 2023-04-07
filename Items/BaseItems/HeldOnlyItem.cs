@@ -18,18 +18,18 @@ namespace CalamityMod.Items.BaseItems
 
         public override void Load()
         {
-            On.Terraria.Player.dropItemCheck += DontDropCoolStuff;
-            On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += LockMouseToSpecialItem;
-            On.Terraria.UI.ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawSpecial;
+            Terraria.On_Player.dropItemCheck += DontDropCoolStuff;
+            Terraria.UI.On_ItemSlot.LeftClick_ItemArray_int_int += LockMouseToSpecialItem;
+            Terraria.UI.On_ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawSpecial;
         }
         public override void Unload()
         {
-            On.Terraria.Player.dropItemCheck -= DontDropCoolStuff;
-            On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int -= LockMouseToSpecialItem;
-            On.Terraria.UI.ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color -= DrawSpecial;
+            Terraria.On_Player.dropItemCheck -= DontDropCoolStuff;
+            Terraria.UI.On_ItemSlot.LeftClick_ItemArray_int_int -= LockMouseToSpecialItem;
+            Terraria.UI.On_ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color -= DrawSpecial;
         }
 
-        private void DrawSpecial(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Item[] inv, int context, int slot, Vector2 position, Color color)
+        private void DrawSpecial(Terraria.UI.On_ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Item[] inv, int context, int slot, Vector2 position, Color color)
         {
             if (inv[slot].ModItem is HeldOnlyItem && !(inv[slot].ModItem as HeldOnlyItem).VisibleInUI)
                 return;
@@ -47,14 +47,14 @@ namespace CalamityMod.Items.BaseItems
 
         public override bool CanPickup(Player player) => false;
         
-        private void LockMouseToSpecialItem(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Item[] inv, int context, int slot)
+        private void LockMouseToSpecialItem(Terraria.UI.On_ItemSlot.orig_LeftClick_ItemArray_int_int orig, Item[] inv, int context, int slot)
         {
             if (!(Main.mouseItem.ModItem is HeldOnlyItem))
                 orig(inv, context, slot);
         }
 
         //https://media.discordapp.net/attachments/458432092301295618/993675527539916850/unknown.png
-        private void DontDropCoolStuff(On.Terraria.Player.orig_dropItemCheck orig, Terraria.Player self)
+        private void DontDropCoolStuff(Terraria.On_Player.orig_dropItemCheck orig, Terraria.Player self)
         {
             if (!(Main.mouseItem.ModItem is HeldOnlyItem))
                 orig(self);

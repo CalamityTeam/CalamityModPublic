@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gleaming Dagger");
-            Tooltip.SetDefault("Throws a shiny blade that ricochets towards another enemy on hit\n" +
+            // DisplayName.SetDefault("Gleaming Dagger");
+            /* Tooltip.SetDefault("Throws a shiny blade that ricochets towards another enemy on hit\n" +
                 "Stealth strikes cause the blade to home in after ricocheting, with each ricochet dealing 20% more damage\n" +
-                "Stealth strikes also have increased piercing");
-            SacrificeTotal = 1;
+                "Stealth strikes also have increased piercing"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

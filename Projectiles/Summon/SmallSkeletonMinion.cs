@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Summon
         public int Variant;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Small Skeleton");
+            // DisplayName.SetDefault("Small Skeleton");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
             Main.projFrames[Projectile.type] = 7;

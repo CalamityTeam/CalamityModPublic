@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shock Grenade");
+            // DisplayName.SetDefault("Shock Grenade");
         }
 
         public override void SetDefaults()

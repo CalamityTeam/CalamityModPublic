@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("God Slayer Heal Orb");
+            // DisplayName.SetDefault("God Slayer Heal Orb");
         }
 
         public override void SetDefaults()

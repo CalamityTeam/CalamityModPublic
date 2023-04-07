@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Armor.Fearmonger
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Fearmonger Greathelm");
-            Tooltip.SetDefault("Pure terror radiates from your eyes\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Fearmonger Greathelm");
+            /* Tooltip.SetDefault("Pure terror radiates from your eyes\n" +
             "+60 max mana and 10% decreased mana usage\n" +
-            "10% increased minion damage");
+            "10% increased minion damage"); */
         }
 
         public override void SetDefaults()

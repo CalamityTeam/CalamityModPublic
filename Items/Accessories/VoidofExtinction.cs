@@ -17,13 +17,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Void of Extinction");
-            Tooltip.SetDefault("Drops brimstone fireballs from the sky occasionally\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Void of Extinction");
+            /* Tooltip.SetDefault("Drops brimstone fireballs from the sky occasionally\n" +
                 "12% increase to all damage\n" +
                 "All attacks inflict Brimstone Flames\n" +
                 "Brimstone fire rains down after getting hit\n" +
-                "Grants immunity to lava, Burning, On Fire!, Brimstone Flames and Searing Lava");
+                "Grants immunity to lava, Burning, On Fire!, Brimstone Flames and Searing Lava"); */
         }
 
         public override void SetDefaults()

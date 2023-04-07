@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Holy Bab Fireball");
+            // DisplayName.SetDefault("Holy Bab Fireball");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Main.myPlayer == Projectile.owner)
             {
@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.active = false;
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             if (damage <= 0)
                 return;
@@ -193,7 +193,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Holy Bab Fire");
+            // DisplayName.SetDefault("Holy Bab Fire");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
@@ -308,17 +308,17 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Main.player[Projectile.owner].Calamity().rollBabSpears(35, target.chaseable);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Main.player[Projectile.owner].Calamity().rollBabSpears(35, true);
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (hits > 0)
             {
@@ -381,7 +381,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Holy Friendly Spear");
+            // DisplayName.SetDefault("Holy Friendly Spear");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -440,7 +440,7 @@ namespace CalamityMod.Projectiles.Summon
         }
 
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.ai[0] == 1f && Projectile.penetrate == 1)
             {
@@ -450,7 +450,7 @@ namespace CalamityMod.Projectiles.Summon
             Main.player[Projectile.owner].Calamity().rollBabSpears(chance, target.chaseable);
         }
 
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
             if (Projectile.ai[0] == 1f && Projectile.penetrate == 1)
             {
@@ -528,12 +528,12 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             onHit();
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             onHit();
         }
@@ -649,7 +649,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Holy Bab Boomer");
+            // DisplayName.SetDefault("Holy Bab Boomer");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             Main.projFrames[Projectile.type] = 3;
@@ -733,14 +733,14 @@ namespace CalamityMod.Projectiles.Summon
             return null;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Main.player[Projectile.owner].Calamity().rollBabSpears(Projectile.ai[0] == 1f ? 1 : 10, target.chaseable);
             if (Projectile.scale == 1.5f && Projectile.ai[0] != 2f)
                 swarm(target.Center);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Main.player[Projectile.owner].Calamity().rollBabSpears(Projectile.scale == 1.5f ? 1 : 10, true);
             if (Projectile.scale == 1.5f && Projectile.ai[0] != 2f)
@@ -816,7 +816,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Holy Bab Boomer Orb");
+            // DisplayName.SetDefault("Holy Bab Boomer Orb");
             Main.projFrames[Projectile.type] = 4;
         }
 
@@ -898,12 +898,12 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Main.player[Projectile.owner].Calamity().rollBabSpears(50, target.chaseable);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)/* tModPorter Note: Removed. Use OnHitPlayer and check info.PvP */
         {
             Main.player[Projectile.owner].Calamity().rollBabSpears(50, true);
         }
@@ -919,7 +919,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Holy Bab Crystal Shard");
+            // DisplayName.SetDefault("Holy Bab Crystal Shard");
         }
 
         public override void SetDefaults()
@@ -1139,12 +1139,12 @@ namespace CalamityMod.Projectiles.Summon
             return Projectile.timeLeft <= 90;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Main.player[Projectile.owner].Calamity().rollBabSpears(Projectile.ai[0] == 0f ? 0 : 10, target.chaseable);
         }
 
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)/* tModPorter Note: Removed. Use ModifyHitPlayer and check modifiers.PvP */
         {
             Main.player[Projectile.owner].Calamity().rollBabSpears(Projectile.ai[0] == 0f ? 0 : 10, true);
         }
@@ -1210,7 +1210,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bab Spear");
+            // DisplayName.SetDefault("Bab Spear");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

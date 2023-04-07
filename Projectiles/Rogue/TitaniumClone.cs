@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
         private static float RotationIncrement = 0.22f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shuriken");
+            // DisplayName.SetDefault("Shuriken");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

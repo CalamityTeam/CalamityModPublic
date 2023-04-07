@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ancient Energy Blast");
+            // DisplayName.SetDefault("Ancient Energy Blast");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Color pulseColor = Main.rand.NextBool() ? (Main.rand.NextBool() ? Color.CornflowerBlue : Color.Coral) : (Main.rand.NextBool() ? Color.GreenYellow : Color.Gold);
             Particle pulse = new PulseRing(target.Center, Vector2.Zero, pulseColor, 0.05f, 0.2f + Main.rand.NextFloat(0f, 1f), 30);
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             //Add some damage falloff
             damage = (int)(damage * Math.Pow((1 - TrueArkoftheAncients.blastFalloffStrenght), Projectile.numHits * TrueArkoftheAncients.blastFalloffSpeed));

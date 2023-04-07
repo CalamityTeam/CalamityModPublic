@@ -14,15 +14,15 @@ namespace CalamityMod.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Normality Relocator");
-            Tooltip.SetDefault("I'll be there in the blink of an eye\n" +
+            // DisplayName.SetDefault("Normality Relocator");
+            /* Tooltip.SetDefault("I'll be there in the blink of an eye\n" +
                 "This line is modified below\n" +
                 "Fall speed is doubled for 30 frames after teleporting\n" +
                 "Teleportation is disabled while Chaos State is active\n" +
-                "Works while in the inventory");
+                "Works while in the inventory"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

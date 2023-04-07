@@ -20,12 +20,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Calamity");
-            Tooltip.SetDefault("Lights your cursor ablaze with the Witch's flames, engulfing it in a blazing aura\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Calamity");
+            /* Tooltip.SetDefault("Lights your cursor ablaze with the Witch's flames, engulfing it in a blazing aura\n" +
                 "Enemies touching the blaze take immense damage and are inflicted with Vulnerability Hex\n" +
                 "Equip in a vanity slot to change the cursor without dealing damage\n" +
-                "These changes work in conjunction with the Rainbow Cursor");
+                "These changes work in conjunction with the Rainbow Cursor"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blue Healing Orb");
+            // DisplayName.SetDefault("Blue Healing Orb");
         }
 
         public override void SetDefaults()

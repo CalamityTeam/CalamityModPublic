@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
-            DisplayName.SetDefault("Eutrophic Sand");
+            Item.ResearchUnlockCount = 100;
+            // DisplayName.SetDefault("Eutrophic Sand");
         }
 
         public override void SetDefaults()

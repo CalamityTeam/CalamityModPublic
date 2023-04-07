@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Armor.GodSlayer
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("God Slayer Horned Greathelm");
-            Tooltip.SetDefault("14% increased melee damage and critical strike chance");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("God Slayer Horned Greathelm");
+            // Tooltip.SetDefault("14% increased melee damage and critical strike chance");
         }
 
         public override void SetDefaults()

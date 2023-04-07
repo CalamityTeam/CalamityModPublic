@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Void Field Generator");
+            // DisplayName.SetDefault("Void Field Generator");
         }
 
         public override void SetDefaults()

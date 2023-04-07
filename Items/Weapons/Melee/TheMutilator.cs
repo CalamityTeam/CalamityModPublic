@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Mutilator");
-            Tooltip.SetDefault("Striking an enemy below 20% life will trigger a bloodsplosion\n" +
-                "Bloodsplosions cause hearts to drop that can be picked up to heal you");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("The Mutilator");
+            /* Tooltip.SetDefault("Striking an enemy below 20% life will trigger a bloodsplosion\n" +
+                "Bloodsplosions cause hearts to drop that can be picked up to heal you"); */
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ModContent.RarityType<Turquoise>();
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (target.life <= (target.lifeMax * 0.2f) && target.canGhostHeal)
             {

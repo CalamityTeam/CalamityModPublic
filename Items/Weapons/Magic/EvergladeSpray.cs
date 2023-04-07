@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Everglade Spray");
-            Tooltip.SetDefault("Fires a stream of burning green ichor");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Everglade Spray");
+            // Tooltip.SetDefault("Fires a stream of burning green ichor");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

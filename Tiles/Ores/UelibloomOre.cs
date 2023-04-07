@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Ores
@@ -24,8 +25,8 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.OreMergesWithMud[Type] = true;
 
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.UelibloomOre>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Uelibloom");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Uelibloom");
             AddMapEntry(new Color(0, 255, 0), name);
             MineResist = 5f;
             MinPick = 225;

@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Drew's Wings");
-            Tooltip.SetDefault("Absolutely Fabulous\n" +
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Drew's Wings");
+            /* Tooltip.SetDefault("Absolutely Fabulous\n" +
                 "Horizontal speed: 12.00\n" +
                 "Acceleration multiplier: 3.0\n" +
                 "Excellent vertical speed\n" +
-                "Flight time: 361");
+                "Flight time: 361"); */
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(361, 12f, 3f);
         }
 

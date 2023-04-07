@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Angelic Shotgun");
-            Tooltip.SetDefault(@"Each shot casts a radiant beam of holy light from the sky
+            // DisplayName.SetDefault("Angelic Shotgun");
+            // Tooltip.SetDefault(@"Each shot casts a radiant beam of holy light from the sky
 Converts musket balls into illuminated bullets
 Fighting 'til the war's won");
-            SacrificeTotal = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

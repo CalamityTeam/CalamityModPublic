@@ -12,8 +12,8 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Kami Flu");
-            Description.SetDefault("Defenseless and dying");
+            // DisplayName.SetDefault("Kami Flu");
+            // Description.SetDefault("Defenseless and dying");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

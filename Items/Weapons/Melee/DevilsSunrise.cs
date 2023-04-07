@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Devil's Sunrise");
-            Tooltip.SetDefault("Balls? Smalls.");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Devil's Sunrise");
+            // Tooltip.SetDefault("Balls? Smalls.");
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

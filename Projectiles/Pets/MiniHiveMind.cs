@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Pets
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mini Hive Mind");
+            // DisplayName.SetDefault("Mini Hive Mind");
             Main.projFrames[Projectile.type] = 16;
             Main.projPet[Projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;

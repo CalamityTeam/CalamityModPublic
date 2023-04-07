@@ -20,7 +20,7 @@ The village's ignorance was shameful in its own right, but this is worse still."
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Plantera");
+            // DisplayName.SetDefault("Plantera");
         }
 
         public override void SetDefaults()

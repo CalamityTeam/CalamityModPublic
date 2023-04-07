@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Betty Explosion");
+            // DisplayName.SetDefault("Betty Explosion");
         }
 
         public override void SetDefaults()

@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.Map;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Default;
@@ -51,7 +52,7 @@ namespace CalamityMod.Tiles.BaseTiles
             TileID.Sets.InteractibleByNPCs[Type] = true;
             TileID.Sets.PreventsSandfall[Type] = true;
 
-            ModTranslation pylonName = CreateMapEntryName();
+            LocalizedText pylonName = CreateMapEntryName();
             AddMapEntry(PylonMapColor, pylonName);
         }
 
