@@ -97,46 +97,66 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Phase 2, check for free head
             bool flag43 = NPC.AnyNPCs(NPCID.GolemHeadFree);
 
-            // Spawn arm dust
-            if (!flag41)
+            // Deactivate torches
+            if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld && npc.velocity.Y > 0f)
             {
-                int num642 = Dust.NewDust(new Vector2(npc.Center.X - 80f, npc.Center.Y - 9f), 8, 8, 31, 0f, 0f, 100, default, 1f);
-                Dust dust = Main.dust[num642];
-                dust.alpha += Main.rand.Next(100);
-                dust.velocity *= 0.2f;
-                dust.velocity.Y -= 0.5f + Main.rand.Next(10) * 0.1f;
-                dust.fadeIn = 0.5f + Main.rand.Next(10) * 0.1f;
-
-                if (Main.rand.NextBool(10))
+                for (int j = (int)(npc.position.X / 16f); (float)j < (npc.position.X + (float)npc.width) / 16f; j++)
                 {
-                    num642 = Dust.NewDust(new Vector2(npc.Center.X - 80f, npc.Center.Y - 9f), 8, 8, 6, 0f, 0f, 0, default, 1f);
-                    if (Main.rand.Next(20) != 0)
+                    for (int k = (int)(npc.position.Y / 16f); (float)k < (npc.position.Y + (float)npc.width) / 16f; k++)
                     {
-                        Main.dust[num642].noGravity = true;
-                        dust = Main.dust[num642];
-                        dust.scale *= 1f + Main.rand.Next(10) * 0.1f;
-                        dust.velocity.Y -= 1f;
+                        if (Main.tile[j, k].TileType == TileID.Torches)
+                        {
+                            Main.tile[j, k].Get<TileWallWireStateData>().HasTile = false;
+                            if (Main.netMode == NetmodeID.Server)
+                                NetMessage.SendTileSquare(-1, j, k);
+                        }
                     }
                 }
             }
-            if (!flag42)
-            {
-                int num643 = Dust.NewDust(new Vector2(npc.Center.X + 62f, npc.Center.Y - 9f), 8, 8, 31, 0f, 0f, 100, default, 1f);
-                Dust dust = Main.dust[num643];
-                dust.alpha += Main.rand.Next(100);
-                dust.velocity *= 0.2f;
-                dust.velocity.Y -= 0.5f + Main.rand.Next(10) * 0.1f;
-                dust.fadeIn = 0.5f + Main.rand.Next(10) * 0.1f;
 
-                if (Main.rand.NextBool(10))
+            // Spawn arm dust
+            if (!Main.getGoodWorld)
+            {
+                if (!flag41)
                 {
-                    num643 = Dust.NewDust(new Vector2(npc.Center.X + 62f, npc.Center.Y - 9f), 8, 8, 6, 0f, 0f, 0, default, 1f);
-                    if (Main.rand.Next(20) != 0)
+                    int num642 = Dust.NewDust(new Vector2(npc.Center.X - 80f, npc.Center.Y - 9f), 8, 8, 31, 0f, 0f, 100, default, 1f);
+                    Dust dust = Main.dust[num642];
+                    dust.alpha += Main.rand.Next(100);
+                    dust.velocity *= 0.2f;
+                    dust.velocity.Y -= 0.5f + Main.rand.Next(10) * 0.1f;
+                    dust.fadeIn = 0.5f + Main.rand.Next(10) * 0.1f;
+
+                    if (Main.rand.NextBool(10))
                     {
-                        Main.dust[num643].noGravity = true;
-                        dust = Main.dust[num643];
-                        dust.scale *= 1f + Main.rand.Next(10) * 0.1f;
-                        dust.velocity.Y -= 1f;
+                        num642 = Dust.NewDust(new Vector2(npc.Center.X - 80f, npc.Center.Y - 9f), 8, 8, 6, 0f, 0f, 0, default, 1f);
+                        if (Main.rand.Next(20) != 0)
+                        {
+                            Main.dust[num642].noGravity = true;
+                            dust = Main.dust[num642];
+                            dust.scale *= 1f + Main.rand.Next(10) * 0.1f;
+                            dust.velocity.Y -= 1f;
+                        }
+                    }
+                }
+                if (!flag42)
+                {
+                    int num643 = Dust.NewDust(new Vector2(npc.Center.X + 62f, npc.Center.Y - 9f), 8, 8, 31, 0f, 0f, 100, default, 1f);
+                    Dust dust = Main.dust[num643];
+                    dust.alpha += Main.rand.Next(100);
+                    dust.velocity *= 0.2f;
+                    dust.velocity.Y -= 0.5f + Main.rand.Next(10) * 0.1f;
+                    dust.fadeIn = 0.5f + Main.rand.Next(10) * 0.1f;
+
+                    if (Main.rand.NextBool(10))
+                    {
+                        num643 = Dust.NewDust(new Vector2(npc.Center.X + 62f, npc.Center.Y - 9f), 8, 8, 6, 0f, 0f, 0, default, 1f);
+                        if (Main.rand.Next(20) != 0)
+                        {
+                            Main.dust[num643].noGravity = true;
+                            dust = Main.dust[num643];
+                            dust.scale *= 1f + Main.rand.Next(10) * 0.1f;
+                            dust.velocity.Y -= 1f;
+                        }
                     }
                 }
             }
@@ -528,30 +548,90 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
             else if (npc.ai[0] == 1f)
             {
-                npc.noTileCollide = true;
-                npc.collideX = false;
-                npc.collideY = false;
+                Vector2 vector80 = new Vector2(npc.Center.X, npc.Center.Y);
+                float num724 = Main.npc[NPC.golemBoss].Center.X - vector80.X;
+                float num725 = Main.npc[NPC.golemBoss].Center.Y - vector80.Y;
+                num725 -= 9f;
+                num724 = (npc.type != NPCID.GolemFistLeft) ? (num724 + 78f) : (num724 - 84f);
+                if (Main.getGoodWorld)
+                    num724 = (npc.type != NPCID.GolemFistLeft) ? (num724 - 40f) : (num724 + 40f);
 
-                float num728 = 20f;
-                num728 *= (aggression + 3f) / 4f;
-                if (num728 > 48f)
-                    num728 = 48f;
+                npc.ai[1] += 1f;
+                npc.Center = new Vector2(num724, num725);
+                npc.rotation = 0f;
+                npc.velocity = Vector2.Zero;
+                if (npc.ai[1] <= 15f)
+                {
+                    for (int i = 0; i < 1; i++)
+                    {
+                        Vector2 vector3 = Main.rand.NextVector2Circular(80f, 80f);
+                        Vector2 vector4 = vector3 * -1f * 0.05f;
+                        Vector2 vector5 = Main.rand.NextVector2Circular(20f, 20f);
+                        Dust dust = Dust.NewDustPerfect(npc.Center + vector4 + vector3 + vector5, 228, vector4);
+                        dust.fadeIn = 1.5f;
+                        dust.scale = 0.5f;
+                        if (Main.getGoodWorld)
+                            dust.noLight = true;
 
-                Vector2 vector81 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num729 = Main.player[npc.target].Center.X - vector81.X;
-                float num730 = Main.player[npc.target].Center.Y - vector81.Y;
-                float num731 = (float)Math.Sqrt(num729 * num729 + num730 * num730);
-                num731 = num728 / num731;
-                npc.velocity.X = num729 * num731;
-                npc.velocity.Y = num730 * num731;
-                npc.ai[0] = 2f;
+                        dust.noGravity = true;
+                    }
+                }
 
-                npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
-                if (npc.type == NPCID.GolemFistLeft)
-                    npc.rotation = (float)Math.Atan2(0f - npc.velocity.Y, 0f - npc.velocity.X);
+                if (npc.ai[1] >= 30f)
+                {
+                    npc.noTileCollide = true;
+                    npc.collideX = false;
+                    npc.collideY = false;
+
+                    float num728 = 20f;
+                    num728 *= (aggression + 3f) / 4f;
+                    if (num728 > 48f)
+                        num728 = 48f;
+
+                    Vector2 vector81 = new Vector2(npc.Center.X, npc.Center.Y);
+                    float num729 = Main.player[npc.target].Center.X - vector81.X;
+                    float num730 = Main.player[npc.target].Center.Y - vector81.Y;
+                    float num731 = (float)Math.Sqrt(num729 * num729 + num730 * num730);
+                    num731 = num728 / num731;
+                    npc.velocity.X = num729 * num731;
+                    npc.velocity.Y = num730 * num731;
+                    npc.ai[0] = 2f;
+                    npc.ai[1] = 0f;
+
+                    npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
+                    if (npc.type == NPCID.GolemFistLeft)
+                        npc.rotation = (float)Math.Atan2(0f - npc.velocity.Y, 0f - npc.velocity.X);
+                }
             }
             else if (npc.ai[0] == 2f)
             {
+                if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld)
+                {
+                    for (int j = (int)(npc.position.X / 16f) - 1; (float)j < (npc.position.X + (float)npc.width) / 16f + 1f; j++)
+                    {
+                        for (int k = (int)(npc.position.Y / 16f) - 1; (float)k < (npc.position.Y + (float)npc.width) / 16f + 1f; k++)
+                        {
+                            if (Main.tile[j, k].TileType == TileID.Torches)
+                            {
+                                Main.tile[j, k].Get<TileWallWireStateData>().HasTile = false;
+                                if (Main.netMode == NetmodeID.Server)
+                                    NetMessage.SendTileSquare(-1, j, k);
+                            }
+                        }
+                    }
+                }
+
+                npc.ai[1] += 1f;
+                if (npc.ai[1] == 1f)
+                    SoundEngine.PlaySound(SoundID.Item14, npc.Center);
+
+                if (Main.rand.NextBool())
+                {
+                    Vector2 vector7 = npc.velocity * 0.5f;
+                    Vector2 vector8 = Main.rand.NextVector2Circular(20f, 20f);
+                    Dust.NewDustPerfect(npc.Center + vector7 + vector8, 306, vector7, 0, Main.OurFavoriteColor).scale = 2f;
+                }
+
                 if (Math.Abs(npc.velocity.X) > Math.Abs(npc.velocity.Y))
                 {
                     if (npc.velocity.X > 0f && npc.Center.X > Main.player[npc.target].Center.X)
@@ -1166,6 +1246,24 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (turboEnrage && Main.getGoodWorld)
                         Main.projectile[num720].extraUpdates += 1;
                 }
+            }
+
+            if (!Main.getGoodWorld)
+            {
+                npc.position += npc.netOffset;
+                int num765 = Main.rand.Next(2) * 2 - 1;
+                Vector2 vector95 = npc.Bottom + new Vector2((float)(num765 * 22) * npc.scale, -22f * npc.scale);
+                Dust dust5 = Dust.NewDustPerfect(vector95, 228, ((float)Math.PI / 2f + -(float)Math.PI / 2f * (float)num765 + Main.rand.NextFloatDirection() * ((float)Math.PI / 4f)).ToRotationVector2() * (2f + Main.rand.NextFloat()));
+                Dust dust = dust5;
+                dust.velocity += npc.velocity;
+                dust5.noGravity = true;
+                dust5 = Dust.NewDustPerfect(npc.Bottom + new Vector2(Main.rand.NextFloatDirection() * 6f * npc.scale, (Main.rand.NextFloat() * -4f - 8f) * npc.scale), 228, Vector2.UnitY * (2f + Main.rand.NextFloat()));
+                dust5.fadeIn = 0f;
+                dust5.scale = 0.7f + Main.rand.NextFloat() * 0.5f;
+                dust5.noGravity = true;
+                dust = dust5;
+                dust.velocity += npc.velocity;
+                npc.position -= npc.netOffset;
             }
 
             return false;

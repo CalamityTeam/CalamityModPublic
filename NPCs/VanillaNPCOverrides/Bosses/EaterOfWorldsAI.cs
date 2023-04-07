@@ -68,12 +68,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool phase5 = lifeRatio < 0.1f;
 
             // Fire projectiles
-            if (Main.netMode != NetmodeID.MultiplayerClient && (!phase5 || death))
+            if (Main.netMode != NetmodeID.MultiplayerClient && (!phase5 || death || Main.getGoodWorld))
             {
                 // Vile spit
                 if (npc.type == NPCID.EaterofWorldsBody)
                 {
-                    if (Main.rand.NextBool(Main.getGoodWorld ? 600 : 900) && phase2)
+                    if (Main.rand.NextBool(Main.getGoodWorld ? 450 : 900) && phase2)
                     {
                         npc.TargetClosest();
                         if (Collision.CanHitLine(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))

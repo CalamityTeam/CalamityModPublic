@@ -813,7 +813,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         npc.localAI[1] -= 0.07f;
                         if (npc.localAI[1] < 0f)
+                        {
                             npc.localAI[1] = 0f;
+                            if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld && Main.remixWorld)
+                            {
+                                for (int num1268 = 0; num1268 < 30; num1268++)
+                                {
+                                    if (!WorldGen.SolidTile((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f)))
+                                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-1599, 1600) * 0.01f, (float)Main.rand.Next(-1599, 1) * 0.01f, ProjectileID.MoonBoulder, 70, 10f);
+                                }
+                            }
+                        }
 
                         num1210 = 3;
                     }

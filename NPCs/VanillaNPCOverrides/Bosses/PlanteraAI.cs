@@ -774,11 +774,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 float num775 = (float)Math.Sqrt(num773 * num773 + num774 * num774);
                 if (num775 < 12f + velocity)
                 {
+                    if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld && npc.localAI[3] == 1f)
+                    {
+                        npc.localAI[3] = 0f;
+                        WorldGen.SpawnPlanteraThorns(npc.Center);
+                    }
+
                     npc.velocity.X = num773;
                     npc.velocity.Y = num774;
                 }
                 else
                 {
+                    if (Main.netMode != NetmodeID.MultiplayerClient && Main.getGoodWorld)
+                        npc.localAI[3] = 1f;
+
                     num775 = velocity / num775;
                     npc.velocity.X = num773 * num775;
                     npc.velocity.Y = num774 * num775;
@@ -790,6 +799,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 float num777 = Main.npc[NPC.plantBoss].Center.Y - vector96.Y;
                 npc.rotation = (float)Math.Atan2(num777, num776) - MathHelper.PiOver2;
             }
+
             return false;
         }
 
@@ -798,6 +808,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
+            if (Main.getGoodWorld)
+            {
+                if (Main.rand.NextBool(5))
+                    npc.reflectsProjectiles = true;
+                else
+                    npc.reflectsProjectiles = false;
+            }
 
             // Despawn if Plantera is gone
             if (NPC.plantBoss < 0)

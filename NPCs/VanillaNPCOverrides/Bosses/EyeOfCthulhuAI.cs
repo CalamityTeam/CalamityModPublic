@@ -33,6 +33,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 enrageScale += 2f;
             }
 
+            npc.reflectsProjectiles = false;
+
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest();
@@ -251,6 +253,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             else if (npc.ai[0] == 1f || npc.ai[0] == 2f)
             {
+                if (Main.getGoodWorld)
+                    npc.reflectsProjectiles = true;
+
                 if (npc.ai[0] == 1f)
                 {
                     npc.ai[2] += 0.005f;
@@ -266,9 +271,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 npc.rotation += npc.ai[2];
                 npc.ai[1] += 1f;
-                if (npc.ai[1] % 20f == 0f)
+                if (npc.ai[1] % (Main.getGoodWorld ? 10f : 20f) == 0f)
                 {
                     Vector2 servantSpawnVelocity = Main.rand.NextVector2CircularEdge(5.65f, 5.65f);
+                    if (Main.getGoodWorld)
+                        servantSpawnVelocity *= 3f;
+
                     Vector2 servantSpawnCenter = npc.Center + servantSpawnVelocity * 10f;
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {

@@ -28,6 +28,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Set defense
             npc.defense = npc.defDefense;
 
+            npc.reflectsProjectiles = false;
+
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest();
@@ -144,7 +146,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         int type = ProjectileID.Skull;
                         int damage = npc.GetProjectileDamage(type);
-                        int numProj = death ? 5 : 3;
+                        int numProj = Main.getGoodWorld ? 22 : death ? 5 : 3;
 
                         float num743 = Main.player[npc.target].Center.X - npc.Center.X;
                         float num744 = Main.player[npc.target].Center.Y - npc.Center.Y;
@@ -157,7 +159,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         center.X += num743 * 5f;
                         center.Y += num744 * 5f;
 
-                        float rotation = MathHelper.ToRadians(60);
+                        float rotation = MathHelper.ToRadians(Main.getGoodWorld ? 180 : 60);
                         float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
                         double startAngle = Math.Atan2(num743, num744) - rotation / 2;
                         double deltaAngle = rotation / numProj;
@@ -393,6 +395,33 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Spin charge
             else if (npc.ai[1] == 1f)
             {
+                if (Main.getGoodWorld)
+                {
+                    npc.reflectsProjectiles = true;
+                    if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 0f && NPC.CountNPCS(NPCID.DarkCaster) < 6)
+                    {
+                        int num167 = 1000;
+                        for (int num168 = 0; num168 < num167; num168++)
+                        {
+                            int num169 = (int)(npc.Center.X / 16f) + Main.rand.Next(-50, 51);
+                            int num170;
+                            for (num170 = (int)(npc.Center.Y / 16f) + Main.rand.Next(-50, 51); num170 < Main.maxTilesY - 10 && !WorldGen.SolidTile(num169, num170); num170++)
+                            {
+                            }
+                            
+                            num170--;
+                            if (!WorldGen.SolidTile(num169, num170))
+                            {
+                                int num171 = NPC.NewNPC(npc.GetSource_FromAI(), num169 * 16 + 8, num170 * 16, 32);
+                                if (Main.netMode == NetmodeID.Server && num171 < Main.maxNPCs)
+                                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num171);
+
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 npc.defense -= 10;
 
                 float phaseChangeRateBoost = 0.5f * (1f - lifeRatio);
@@ -404,6 +433,32 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 if (npc.ai[2] >= 300f)
                 {
+                    if (Main.getGoodWorld)
+                    {
+                        if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(NPCID.DarkCaster) < 6)
+                        {
+                            int num167 = 1000;
+                            for (int num168 = 0; num168 < num167; num168++)
+                            {
+                                int num169 = (int)(npc.Center.X / 16f) + Main.rand.Next(-50, 51);
+                                int num170;
+                                for (num170 = (int)(npc.Center.Y / 16f) + Main.rand.Next(-50, 51); num170 < Main.maxTilesY - 10 && !WorldGen.SolidTile(num169, num170); num170++)
+                                {
+                                }
+
+                                num170--;
+                                if (!WorldGen.SolidTile(num169, num170))
+                                {
+                                    int num171 = NPC.NewNPC(npc.GetSource_FromAI(), num169 * 16 + 8, num170 * 16, 32);
+                                    if (Main.netMode == NetmodeID.Server && num171 < Main.maxNPCs)
+                                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num171);
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
                     npc.ai[2] = 0f;
                     npc.ai[1] = 0f;
                     calamityGlobalNPC.newAI[1] = 0f;

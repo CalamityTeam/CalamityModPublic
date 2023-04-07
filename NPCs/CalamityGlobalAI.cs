@@ -4005,6 +4005,24 @@ namespace CalamityMod.NPCs
             }
             if (Main.netMode != NetmodeID.MultiplayerClient && !targetDead)
             {
+                if (Main.getGoodWorld && npc.type == NPCID.EaterofSouls)
+                {
+                    if (NPC.AnyNPCs(NPCID.EaterofWorldsHead))
+                    {
+                        if (npc.justHit)
+                            npc.localAI[0] = 0f;
+
+                        npc.localAI[0] += 1f;
+                        if (npc.localAI[0] == 60f)
+                        {
+                            if (targetData.Type != 0 && Collision.CanHit(npc, targetData))
+                                NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (float)(npc.width / 2) + npc.velocity.X), (int)(npc.position.Y + (float)(npc.height / 2) + npc.velocity.Y), NPCID.VileSpitEaterOfWorlds);
+
+                            npc.localAI[0] = 0f;
+                        }
+                    }
+                }
+
                 if (npc.type == NPCID.Corruptor)
                 {
                     if (npc.justHit)

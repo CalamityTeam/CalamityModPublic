@@ -76,6 +76,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Phase 2
             if (npc.ai[0] < 0f)
             {
+                if (Main.getGoodWorld)
+                    NPC.brainOfGravity = npc.whoAmI;
+
                 // Spawn gore
                 if (npc.localAI[2] == 0f)
                 {
