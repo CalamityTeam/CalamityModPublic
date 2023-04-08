@@ -40,32 +40,35 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool phase2 = lifeRatio < 0.66f;
             bool phase3 = lifeRatio < 0.33f;
 
-            if (Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(180) && NPC.CountNPCS(NPCID.FireImp) < 4)
+            if (Main.getGoodWorld && Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(180))
             {
-                int num351 = 1000;
-                for (int num352 = 0; num352 < num351; num352++)
+                if (NPC.CountNPCS(NPCID.FireImp) < 4)
                 {
-                    int num353 = (int)(npc.Center.X / 16f);
-                    int num354 = (int)(npc.Center.Y / 16f);
-                    if (npc.target >= 0)
+                    int num351 = 1000;
+                    for (int num352 = 0; num352 < num351; num352++)
                     {
-                        num353 = (int)(Main.player[npc.target].Center.X / 16f);
-                        num354 = (int)(Main.player[npc.target].Center.Y / 16f);
-                    }
+                        int num353 = (int)(npc.Center.X / 16f);
+                        int num354 = (int)(npc.Center.Y / 16f);
+                        if (npc.target >= 0)
+                        {
+                            num353 = (int)(Main.player[npc.target].Center.X / 16f);
+                            num354 = (int)(Main.player[npc.target].Center.Y / 16f);
+                        }
 
-                    num353 += Main.rand.Next(-50, 51);
-                    for (num354 += Main.rand.Next(-50, 51); num354 < Main.maxTilesY - 10 && !WorldGen.SolidTile(num353, num354); num354++)
-                    {
-                    }
+                        num353 += Main.rand.Next(-50, 51);
+                        for (num354 += Main.rand.Next(-50, 51); num354 < Main.maxTilesY - 10 && !WorldGen.SolidTile(num353, num354); num354++)
+                        {
+                        }
 
-                    num354--;
-                    if (!WorldGen.SolidTile(num353, num354))
-                    {
-                        int num355 = NPC.NewNPC(npc.GetSource_FromAI(), num353 * 16 + 8, num354 * 16, 24);
-                        if (Main.netMode == NetmodeID.Server && num355 < Main.maxNPCs)
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num355);
+                        num354--;
+                        if (!WorldGen.SolidTile(num353, num354))
+                        {
+                            int num355 = NPC.NewNPC(npc.GetSource_FromAI(), num353 * 16 + 8, num354 * 16, 24);
+                            if (Main.netMode == NetmodeID.Server && num355 < Main.maxNPCs)
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num355);
 
-                        break;
+                            break;
+                        }
                     }
                 }
             }
@@ -80,6 +83,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.ai[1] += 1f;
                 if (bossRush)
                     npc.ai[1] += 3f;
+                if (CalamityWorld.LegendaryMode)
+                    npc.ai[1] += 9f;
 
                 if (npc.ai[1] > 2700f)
                     npc.ai[2] = 1f;

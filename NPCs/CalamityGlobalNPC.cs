@@ -5548,8 +5548,11 @@ namespace CalamityMod.NPCs
             if (npc.IsABestiaryIconDummy)
                 return null;
 
-            if (Main.LocalPlayer.Calamity().trippy)
+            if (Main.LocalPlayer.Calamity().trippy || (npc.type == NPCID.KingSlime && CalamityWorld.LegendaryMode))
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
+
+            if (npc.type == NPCID.QueenBee && CalamityWorld.LegendaryMode)
+                return new Color(255, 0, 0, npc.alpha);
 
             if (enraged > 0)
                 return new Color(200, 50, 50, npc.alpha);

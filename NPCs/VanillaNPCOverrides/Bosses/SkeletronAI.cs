@@ -398,25 +398,54 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (Main.getGoodWorld)
                 {
                     npc.reflectsProjectiles = true;
-                    if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 0f && NPC.CountNPCS(NPCID.DarkCaster) < 6)
+                    if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 0f)
                     {
-                        int num167 = 1000;
-                        for (int num168 = 0; num168 < num167; num168++)
+                        if (NPC.CountNPCS(NPCID.DarkCaster) < 6)
                         {
-                            int num169 = (int)(npc.Center.X / 16f) + Main.rand.Next(-50, 51);
-                            int num170;
-                            for (num170 = (int)(npc.Center.Y / 16f) + Main.rand.Next(-50, 51); num170 < Main.maxTilesY - 10 && !WorldGen.SolidTile(num169, num170); num170++)
+                            int num167 = 1000;
+                            for (int num168 = 0; num168 < num167; num168++)
                             {
-                            }
-                            
-                            num170--;
-                            if (!WorldGen.SolidTile(num169, num170))
-                            {
-                                int num171 = NPC.NewNPC(npc.GetSource_FromAI(), num169 * 16 + 8, num170 * 16, 32);
-                                if (Main.netMode == NetmodeID.Server && num171 < Main.maxNPCs)
-                                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num171);
+                                int num169 = (int)(npc.Center.X / 16f) + Main.rand.Next(-50, 51);
+                                int num170;
+                                for (num170 = (int)(npc.Center.Y / 16f) + Main.rand.Next(-50, 51); num170 < Main.maxTilesY - 10 && !WorldGen.SolidTile(num169, num170); num170++)
+                                {
+                                }
 
-                                break;
+                                num170--;
+                                if (!WorldGen.SolidTile(num169, num170))
+                                {
+                                    int num171 = NPC.NewNPC(npc.GetSource_FromAI(), num169 * 16 + 8, num170 * 16, NPCID.DarkCaster);
+                                    if (Main.netMode == NetmodeID.Server && num171 < Main.maxNPCs)
+                                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num171);
+
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (CalamityWorld.LegendaryMode)
+                        {
+                            if (!NPC.AnyNPCs(NPCID.DiabolistWhite))
+                            {
+                                int num167 = 1000;
+                                for (int num168 = 0; num168 < num167; num168++)
+                                {
+                                    int num169 = (int)(npc.Center.X / 16f) + Main.rand.Next(-50, 51);
+                                    int num170;
+                                    for (num170 = (int)(npc.Center.Y / 16f) + Main.rand.Next(-50, 51); num170 < Main.maxTilesY - 10 && !WorldGen.SolidTile(num169, num170); num170++)
+                                    {
+                                    }
+
+                                    num170--;
+                                    if (!WorldGen.SolidTile(num169, num170))
+                                    {
+                                        int num171 = NPC.NewNPC(npc.GetSource_FromAI(), num169 * 16 + 8, num170 * 16, NPCID.DiabolistWhite);
+                                        if (Main.netMode == NetmodeID.Server && num171 < Main.maxNPCs)
+                                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num171);
+
+                                        break;
+                                    }
+                                }
                             }
                         }
                     }
@@ -449,7 +478,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 num170--;
                                 if (!WorldGen.SolidTile(num169, num170))
                                 {
-                                    int num171 = NPC.NewNPC(npc.GetSource_FromAI(), num169 * 16 + 8, num170 * 16, 32);
+                                    int num171 = NPC.NewNPC(npc.GetSource_FromAI(), num169 * 16 + 8, num170 * 16, NPCID.DarkCaster);
                                     if (Main.netMode == NetmodeID.Server && num171 < Main.maxNPCs)
                                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num171);
 

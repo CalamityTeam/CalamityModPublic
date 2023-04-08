@@ -286,6 +286,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         if (Main.netMode == NetmodeID.Server && num34 < Main.maxNPCs)
                             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num34, 0f, 0f, 0f, 0, 0, 0);
+
+                        if (CalamityWorld.LegendaryMode)
+                        {
+                            int type = ProjectileID.BloodNautilusShot;
+                            Vector2 projectileVelocity = Main.rand.NextVector2CircularEdge(10f, 10f);
+                            int numProj = 3;
+                            int spread = 20;
+                            float rotation = MathHelper.ToRadians(spread);
+                            for (int i = 0; i < numProj; i++)
+                            {
+                                Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(perturbedSpeed) * 10f, perturbedSpeed, type, 15, 0f, Main.myPlayer);
+                            }
+                        }
                     }
 
                     int num;
@@ -631,7 +645,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (npc.ai[2] % 45f == 0f)
                     {
-                        Vector2 servantSpawnVelocity = Main.rand.NextVector2CircularEdge(5.65f, 5.65f);
+                        Vector2 servantSpawnVelocity = Vector2.Normalize(npc.Center - Main.player[npc.target].Center) * 5f;
                         Vector2 servantSpawnCenter = npc.Center + servantSpawnVelocity * 10f;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
@@ -641,6 +655,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             if (Main.netMode == NetmodeID.Server && num34 < Main.maxNPCs)
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num34, 0f, 0f, 0f, 0, 0, 0);
+
+                            if (CalamityWorld.LegendaryMode)
+                            {
+                                int type = ProjectileID.BloodNautilusShot;
+                                Vector2 projectileVelocity = servantSpawnVelocity * 2f;
+                                int numProj = 3;
+                                int spread = 20;
+                                float rotation = MathHelper.ToRadians(spread);
+                                for (int i = 0; i < numProj; i++)
+                                {
+                                    Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(perturbedSpeed) * 10f, perturbedSpeed, type, 15, 0f, Main.myPlayer);
+                                }
+                            }
                         }
 
                         SoundEngine.PlaySound(SoundID.NPCDeath13, npc.position);

@@ -428,6 +428,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (Main.rand.NextBool(100))
                             npcType = NPCID.Pinky;
 
+                        if (CalamityWorld.LegendaryMode)
+                            npcType = NPCID.RainbowSlime;
+
                         int num255 = NPC.NewNPC(npc.GetSource_FromAI(), x, y, npcType);
                         Main.npc[num255].SetDefaults(npcType);
                         Main.npc[num255].velocity.X = Main.rand.Next(-15, 16) * 0.1f;

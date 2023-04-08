@@ -202,7 +202,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     // Charge sound
                     if (npc.ai[2] == 0f)
+                    {
                         SoundEngine.PlaySound(SoundID.Roar, npc.position);
+
+                        if (CalamityWorld.LegendaryMode)
+                        {
+                            if (Main.netMode != NetmodeID.Server)
+                            {
+                                if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < CalamityGlobalNPC.CatchUpDistance350Tiles)
+                                    Main.player[Main.myPlayer].AddBuff(BuffID.Confused, 60);
+                            }
+                        }
+                    }
 
                     // Velocity
                     int var = 120;
@@ -668,7 +679,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
         public static int GetBrainOfCthuluCreepersCountRevDeath()
         {
-            return Main.getGoodWorld ? 40 : (CalamityWorld.death || BossRushEvent.BossRushActive) ? 30 : 25;
+            return CalamityWorld.LegendaryMode ? 50 : Main.getGoodWorld ? 40 : (CalamityWorld.death || BossRushEvent.BossRushActive) ? 30 : 25;
         }
 
         private static float GetCrimsonBossKnockBack(NPC npc, int numPlayers, float lifeScale, float baseKnockBackResist)

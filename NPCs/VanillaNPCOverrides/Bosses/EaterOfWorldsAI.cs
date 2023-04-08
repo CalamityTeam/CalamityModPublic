@@ -19,11 +19,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool death = CalamityWorld.death || bossRush;
 
             // Causes it to split far more in death mode
-            if (((npc.ai[2] % 2f == 0f && npc.type == NPCID.EaterofWorldsBody) || npc.type == NPCID.EaterofWorldsHead) && death)
+            if ((((npc.ai[2] % 2f == 0f && npc.type == NPCID.EaterofWorldsBody) || npc.type == NPCID.EaterofWorldsHead) && death) || CalamityWorld.LegendaryMode)
             {
                 calamityGlobalNPC.DR = 0.5f;
                 npc.defense = npc.defDefense * 2;
             }
+
+            if (CalamityWorld.LegendaryMode && npc.type == NPCID.EaterofWorldsHead)
+                npc.reflectsProjectiles = true;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -559,7 +562,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
         public static int GetEaterOfWorldsSegmentsCountRevDeath()
         {
-            return (CalamityWorld.death || BossRushEvent.BossRushActive) ? 67 : 77;
+            return CalamityWorld.LegendaryMode ? 100 : (CalamityWorld.death || BossRushEvent.BossRushActive) ? 67 : 77;
         }
     }
 }

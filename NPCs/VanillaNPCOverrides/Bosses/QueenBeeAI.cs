@@ -471,6 +471,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int spawnType = Main.rand.Next(210, 212);
                         if (phase3)
                             spawnType = NPCID.Bee;
+                        if (CalamityWorld.LegendaryMode)
+                            spawnType = NPCID.Hellbat;
 
                         int spawn = NPC.NewNPC(npc.GetSource_FromAI(), (int)vector76.X, (int)vector76.Y, spawnType);
                         Main.npc[spawn].velocity = Main.player[npc.target].Center - npc.Center;
@@ -568,8 +570,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num627 = num624 / num627;
                         num625 *= num627;
                         num626 *= num627;
-                        int type = ProjectileID.QueenBeeStinger;
-                        int projectile = Projectile.NewProjectile(npc.GetSource_FromAI(), vector78.X, vector78.Y, num625, num626, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer);
+                        int type = CalamityWorld.LegendaryMode ? ProjectileID.FlamingWood : ProjectileID.QueenBeeStinger;
+                        int projectile = Projectile.NewProjectile(npc.GetSource_FromAI(), vector78.X, vector78.Y, num625, num626, type, CalamityWorld.LegendaryMode ? 25 : npc.GetProjectileDamage(type), 0f, Main.myPlayer);
                         Main.projectile[projectile].timeLeft = 600;
                         Main.projectile[projectile].extraUpdates = 1;
                     }
