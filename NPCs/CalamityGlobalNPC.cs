@@ -3059,7 +3059,7 @@ namespace CalamityMod.NPCs
                         break;
                 }
             }
-            else if (npc.type == NPCID.Retinazer)
+            else if (npc.type == NPCID.Retinazer && !Main.getGoodWorld)
                 return TwinsAI.TrueMeleeRetinazerPhase2AI(npc);
 
             if (CalamityWorld.revenge)
@@ -5969,14 +5969,35 @@ namespace CalamityMod.NPCs
 
                     npc.frame.Y = (int)newAI[3];
 
+                    // Mechdusa drawing
+                    if (NPC.IsMechQueenUp)
+                    {
+                        if (npc.ai[1] == 0f || npc.ai[1] == 4f)
+                        {
+                            newAI[2] += 1f;
+                            if (newAI[2] >= 12f)
+                            {
+                                newAI[2] = 0f;
+                                newAI[3] += frameHeight;
+                                if (newAI[3] / frameHeight >= 5)
+                                    newAI[3] = frameHeight * 3;
+                            }
+                        }
+                        else
+                        {
+                            newAI[2] = 0f;
+                            newAI[3] = frameHeight * 5;
+                        }
+                    }
+
                     // Floating phase
-                    if (npc.ai[1] == 0f || npc.ai[1] == 4f)
+                    else if (npc.ai[1] == 0f || npc.ai[1] == 4f)
                     {
                         newAI[2] += 1f;
                         if (newAI[2] >= 12f)
                         {
                             newAI[2] = 0f;
-                            newAI[3] = newAI[3] + frameHeight;
+                            newAI[3] += frameHeight;
 
                             if (newAI[3] / frameHeight >= 2f)
                                 newAI[3] = 0f;

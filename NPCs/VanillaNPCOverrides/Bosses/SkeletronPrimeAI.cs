@@ -31,6 +31,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
+            if (npc.ai[3] != 0f)
+                NPC.mechQueen = npc.whoAmI;
+
             // Spawn arms
             if (npc.ai[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -184,7 +187,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (shouldSpinAroundTarget || npc.ai[1] != 4f)
                         {
                             if (shouldSpinAroundTarget)
-                                npc.ai[3] = 300f;
+                                npc.localAI[3] = 300f;
 
                             npc.ai[2] = 0f;
                             npc.ai[1] = shouldSpinAroundTarget ? 5f : 1f;
@@ -194,11 +197,25 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
                 }
 
-                npc.rotation = npc.velocity.X / 15f;
+                if (NPC.IsMechQueenUp)
+                    npc.rotation = npc.rotation.AngleLerp(npc.velocity.X / 15f * 0.5f, 0.75f);
+                else
+                    npc.rotation = npc.velocity.X / 15f;
 
                 float velocityY = 3f - (death ? 1f - lifeRatio : 0f);
                 float velocityX = 7f - (death ? 3.5f * (1f - lifeRatio) : 0f);
                 float acceleration = 0.1f + (death ? 0.05f * (1f - lifeRatio) : 0f);
+
+                float num500 = 0f;
+                float num501 = 0f;
+                float num502 = 0f;
+                int num503 = ((!(Main.player[npc.target].Center.X < npc.Center.X)) ? 1 : (-1));
+                if (NPC.IsMechQueenUp)
+                {
+                    num502 = -150f * (float)num503;
+                    num500 = -100f;
+                    num501 = -100f;
+                }
 
                 if (!cannonAlive)
                 {
@@ -232,7 +249,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (Main.player[npc.target].HoldingTrueMeleeWeapon())
                     acceleration *= 0.5f;
 
-                if (npc.position.Y > Main.player[npc.target].position.Y - 400f)
+                if (npc.position.Y > Main.player[npc.target].position.Y - (400f + num500))
                 {
                     if (npc.velocity.Y > 0f)
                         npc.velocity.Y *= 0.9f;
@@ -242,7 +259,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.velocity.Y > velocityY)
                         npc.velocity.Y = velocityY;
                 }
-                else if (npc.position.Y < Main.player[npc.target].position.Y - 450f)
+                else if (npc.position.Y < Main.player[npc.target].position.Y - (450f + num501))
                 {
                     if (npc.velocity.Y < 0f)
                         npc.velocity.Y *= 0.9f;
@@ -253,7 +270,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.velocity.Y = -velocityY;
                 }
 
-                if (npc.position.X + (npc.width / 2) > Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + 400f)
+                if (npc.position.X + (npc.width / 2) > Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (400f + num502))
                 {
                     if (npc.velocity.X > 0f)
                         npc.velocity.X *= 0.9f;
@@ -263,7 +280,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.velocity.X > velocityX)
                         npc.velocity.X = velocityX;
                 }
-                if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - 400f)
+                if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - (400f + num502))
                 {
                     if (npc.velocity.X < 0f)
                         npc.velocity.X *= 0.9f;
@@ -326,7 +343,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.localAI[1] = 0f;
                     }
 
-                    npc.rotation += npc.direction * 0.3f;
+                    if (NPC.IsMechQueenUp)
+                        npc.rotation = npc.rotation.AngleLerp(npc.velocity.X / 15f * 0.5f, 0.75f);
+                    else
+                        npc.rotation += npc.direction * 0.3f;
+
                     Vector2 vector48 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num455 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector48.X;
                     float num456 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector48.Y;
@@ -344,9 +365,25 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         speed *= baseDistanceVelocityMult;
                     }
 
+                    if (NPC.IsMechQueenUp)
+                    {
+                        float num508 = (NPC.npcsFoundForCheckActive[NPCID.TheDestroyerBody] ? 0.6f : 0.75f);
+                        speed *= num508;
+                    }
+
                     num457 = speed / num457;
                     npc.velocity.X = num455 * num457;
                     npc.velocity.Y = num456 * num457;
+
+                    if (NPC.IsMechQueenUp)
+                    {
+                        float num509 = Vector2.Distance(npc.Center, Main.player[npc.target].Center);
+                        if (num509 < 0.1f)
+                            num509 = 0f;
+
+                        if (num509 < speed)
+                            npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * num509;
+                    }
                 }
 
                 // Daytime enrage
@@ -356,7 +393,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     calamityGlobalNPC.DR = 0.9999f;
                     calamityGlobalNPC.unbreakableDR = true;
 
-                    npc.rotation += npc.direction * 0.3f;
+                    if (NPC.IsMechQueenUp)
+                        npc.rotation = npc.rotation.AngleLerp(npc.velocity.X / 15f * 0.5f, 0.75f);
+                    else
+                        npc.rotation += npc.direction * 0.3f;
 
                     Vector2 vector49 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num458 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector49.X;
@@ -410,14 +450,44 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Despawning
                 if (npc.ai[1] == 3f)
                 {
-                    npc.velocity.Y += 0.1f;
-                    if (npc.velocity.Y < 0f)
-                        npc.velocity.Y *= 0.9f;
+                    if (NPC.IsMechQueenUp)
+                    {
+                        int num514 = NPC.FindFirstNPC(NPCID.Retinazer);
+                        if (num514 >= 0)
+                            Main.npc[num514].EncourageDespawn(5);
 
-                    npc.velocity.X *= 0.9f;
+                        num514 = NPC.FindFirstNPC(NPCID.Spazmatism);
+                        if (num514 >= 0)
+                            Main.npc[num514].EncourageDespawn(5);
 
-                    if (npc.timeLeft > 500)
-                        npc.timeLeft = 500;
+                        if (!NPC.AnyNPCs(NPCID.Retinazer) && !NPC.AnyNPCs(NPCID.Spazmatism))
+                        {
+                            num514 = NPC.FindFirstNPC(NPCID.TheDestroyer);
+                            if (num514 >= 0)
+                                Main.npc[num514].Transform(NPCID.TheDestroyerTail);
+
+                            npc.EncourageDespawn(5);
+                        }
+
+                        npc.velocity.Y += 0.1f;
+                        if (npc.velocity.Y < 0f)
+                            npc.velocity.Y *= 0.95f;
+
+                        npc.velocity.X *= 0.95f;
+                        if (npc.velocity.Y > 13f)
+                            npc.velocity.Y = 13f;
+                    }
+                    else
+                    {
+                        npc.velocity.Y += 0.1f;
+                        if (npc.velocity.Y < 0f)
+                            npc.velocity.Y *= 0.9f;
+
+                        npc.velocity.X *= 0.9f;
+
+                        if (npc.timeLeft > 500)
+                            npc.timeLeft = 500;
+                    }
                 }
 
                 // Fly around target in a circle
@@ -447,7 +517,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             calamityGlobalNPC.newAI[0] = Main.player[npc.target].direction;
 
                         // Set spin velocity
-                        npc.velocity.X = MathHelper.Pi * npc.ai[3] / spinVelocity;
+                        npc.velocity.X = MathHelper.Pi * npc.localAI[3] / spinVelocity;
                         npc.velocity *= -calamityGlobalNPC.newAI[0];
                         npc.netUpdate = true;
                     }
@@ -499,7 +569,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 // Fly overhead and spit missiles if on low health
                                 npc.ai[1] = phase3 ? 6f : 1f;
                                 npc.ai[2] = 0f;
-                                npc.ai[3] = 0f;
+                                npc.localAI[3] = 0f;
                                 calamityGlobalNPC.newAI[1] = 0f;
                                 calamityGlobalNPC.newAI[0] = 0f;
                                 npc.TargetClosest();
@@ -523,8 +593,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.SimpleFlyMovement(Vector2.Normalize(destination - npc.Center) * flightVelocity, flightAcceleration);
 
                     // Spit homing missiles and then go to floating phase
-                    npc.ai[3] += 1f;
-                    if (Vector2.Distance(npc.Center, destination) < 160f || npc.ai[2] > 0f || npc.ai[3] > 120f)
+                    npc.localAI[3] += 1f;
+                    if (Vector2.Distance(npc.Center, destination) < 160f || npc.ai[2] > 0f || npc.localAI[3] > 120f)
                     {
                         float missileSpawnDivisor = death ? 8f : 12f;
                         npc.ai[2] += 1f;
@@ -549,7 +619,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             {
                                 npc.ai[1] = 0f;
                                 npc.ai[2] = 0f;
-                                npc.ai[3] = 0f;
+                                npc.localAI[3] = 0f;
                                 calamityGlobalNPC.newAI[0] = 0f;
                                 calamityGlobalNPC.newAI[1] = 0f;
                                 npc.TargetClosest();

@@ -423,6 +423,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
             }
 
+            Vector2 mechQueenSpacing = Vector2.Zero;
+            if (NPC.IsMechQueenUp)
+            {
+                NPC nPC = Main.npc[NPC.mechQueen];
+                Vector2 mechQueenCenter = nPC.GetMechQueenCenter();
+                Vector2 vector42 = new Vector2(-150f, -250f);
+                vector42 *= 0.75f;
+                float num418 = nPC.velocity.X * 0.025f;
+                mechQueenSpacing = mechQueenCenter + vector42;
+                mechQueenSpacing = mechQueenSpacing.RotatedBy(num418, mechQueenCenter);
+            }
+
+            npc.reflectsProjectiles = false;
+
             if (Main.player[npc.target].dead)
             {
                 npc.velocity.Y -= 0.04f;
@@ -461,40 +475,73 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     Vector2 vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num385 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (num384 * 300) - vector40.X;
                     float num386 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 300f - vector40.Y;
+
+                    if (NPC.IsMechQueenUp)
+                    {
+                        num382 = 14f;
+                        num385 = mechQueenSpacing.X;
+                        num386 = mechQueenSpacing.Y;
+                        num385 -= vector40.X;
+                        num386 -= vector40.Y;
+                    }
+
                     float num387 = (float)Math.Sqrt(num385 * num385 + num386 * num386);
                     float num388 = num387;
 
-                    num387 = num382 / num387;
-                    num385 *= num387;
-                    num386 *= num387;
+                    if (NPC.IsMechQueenUp)
+                    {
+                        if (num387 > num382)
+                        {
+                            num387 = num382 / num387;
+                            num385 *= num387;
+                            num386 *= num387;
+                        }
 
-                    if (npc.velocity.X < num385)
+                        float num426 = 60f;
+                        npc.velocity.X = (npc.velocity.X * (num426 - 1f) + num385) / num426;
+                        npc.velocity.Y = (npc.velocity.Y * (num426 - 1f) + num386) / num426;
+                    }
+                    else
                     {
-                        npc.velocity.X += num383;
-                        if (npc.velocity.X < 0f && num385 > 0f)
+                        num387 = num382 / num387;
+                        num385 *= num387;
+                        num386 *= num387;
+
+                        if (npc.velocity.X < num385)
+                        {
                             npc.velocity.X += num383;
-                    }
-                    else if (npc.velocity.X > num385)
-                    {
-                        npc.velocity.X -= num383;
-                        if (npc.velocity.X > 0f && num385 < 0f)
+                            if (npc.velocity.X < 0f && num385 > 0f)
+                                npc.velocity.X += num383;
+                        }
+                        else if (npc.velocity.X > num385)
+                        {
                             npc.velocity.X -= num383;
-                    }
-                    if (npc.velocity.Y < num386)
-                    {
-                        npc.velocity.Y += num383;
-                        if (npc.velocity.Y < 0f && num386 > 0f)
+                            if (npc.velocity.X > 0f && num385 < 0f)
+                                npc.velocity.X -= num383;
+                        }
+                        if (npc.velocity.Y < num386)
+                        {
                             npc.velocity.Y += num383;
-                    }
-                    else if (npc.velocity.Y > num386)
-                    {
-                        npc.velocity.Y -= num383;
-                        if (npc.velocity.Y > 0f && num386 < 0f)
+                            if (npc.velocity.Y < 0f && num386 > 0f)
+                                npc.velocity.Y += num383;
+                        }
+                        else if (npc.velocity.Y > num386)
+                        {
                             npc.velocity.Y -= num383;
+                            if (npc.velocity.Y > 0f && num386 < 0f)
+                                npc.velocity.Y -= num383;
+                        }
                     }
 
                     npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 450f - (death ? 900f * (1f - lifeRatio) : 0f))
+                    float phaseGateValue = 450f - (death ? 900f * (1f - lifeRatio) : 0f);
+                    float laserGateValue = 30f;
+                    if (NPC.IsMechQueenUp)
+                    {
+                        phaseGateValue = 900f;
+                        laserGateValue = ((!NPC.npcsFoundForCheckActive[NPCID.TheDestroyerBody]) ? 60f : 90f);
+                    }
+                    if (npc.ai[2] >= phaseGateValue)
                     {
                         npc.ai[1] = 1f;
                         npc.ai[2] = 0f;
@@ -512,7 +559,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 npc.ai[3] += 0.5f;
                         }
 
-                        if (npc.ai[3] >= 30f)
+                        if (npc.ai[3] >= laserGateValue)
                         {
                             npc.ai[3] = 0f;
                             vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -606,6 +653,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             else if (npc.ai[0] == 1f || npc.ai[0] == 2f)
             {
+                if (NPC.IsMechQueenUp)
+                    npc.reflectsProjectiles = true;
+
                 if (npc.ai[0] == 1f)
                 {
                     npc.ai[2] += 0.005f;
@@ -702,38 +752,65 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     Vector2 vector42 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num401 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector42.X;
                     float num402 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 300f - vector42.Y;
-                    float num403 = (float)Math.Sqrt(num401 * num401 + num402 * num402);
-                    num403 = num399 / num403;
-                    num401 *= num403;
-                    num402 *= num403;
 
-                    if (npc.velocity.X < num401)
+                    if (NPC.IsMechQueenUp)
                     {
-                        npc.velocity.X += num400;
-                        if (npc.velocity.X < 0f && num401 > 0f)
+                        num399 = 14f;
+                        num401 = mechQueenSpacing.X;
+                        num402 = mechQueenSpacing.Y;
+                        num401 -= vector42.X;
+                        num402 -= vector42.Y;
+                    }
+
+                    float num403 = (float)Math.Sqrt(num401 * num401 + num402 * num402);
+
+                    if (NPC.IsMechQueenUp)
+                    {
+                        if (num403 > num399)
+                        {
+                            num403 = num399 / num403;
+                            num401 *= num403;
+                            num402 *= num403;
+                        }
+
+                        npc.velocity.X = (npc.velocity.X * 4f + num401) / 5f;
+                        npc.velocity.Y = (npc.velocity.Y * 4f + num402) / 5f;
+                    }
+                    else
+                    {
+                        num403 = num399 / num403;
+                        num401 *= num403;
+                        num402 *= num403;
+
+                        if (npc.velocity.X < num401)
+                        {
                             npc.velocity.X += num400;
-                    }
-                    else if (npc.velocity.X > num401)
-                    {
-                        npc.velocity.X -= num400;
-                        if (npc.velocity.X > 0f && num401 < 0f)
+                            if (npc.velocity.X < 0f && num401 > 0f)
+                                npc.velocity.X += num400;
+                        }
+                        else if (npc.velocity.X > num401)
+                        {
                             npc.velocity.X -= num400;
-                    }
-                    if (npc.velocity.Y < num402)
-                    {
-                        npc.velocity.Y += num400;
-                        if (npc.velocity.Y < 0f && num402 > 0f)
+                            if (npc.velocity.X > 0f && num401 < 0f)
+                                npc.velocity.X -= num400;
+                        }
+                        if (npc.velocity.Y < num402)
+                        {
                             npc.velocity.Y += num400;
-                    }
-                    else if (npc.velocity.Y > num402)
-                    {
-                        npc.velocity.Y -= num400;
-                        if (npc.velocity.Y > 0f && num402 < 0f)
+                            if (npc.velocity.Y < 0f && num402 > 0f)
+                                npc.velocity.Y += num400;
+                        }
+                        else if (npc.velocity.Y > num402)
+                        {
                             npc.velocity.Y -= num400;
+                            if (npc.velocity.Y > 0f && num402 < 0f)
+                                npc.velocity.Y -= num400;
+                        }
                     }
 
                     npc.ai[2] += spazAlive ? 1f : 1.25f;
-                    if (npc.ai[2] >= 300f - (death ? 120f * (0.7f - lifeRatio) : 0f))
+                    float phaseGateValue = NPC.IsMechQueenUp ? 900f : 300f - (death ? 120f * (0.7f - lifeRatio) : 0f);
+                    if (npc.ai[2] >= phaseGateValue)
                     {
                         npc.ai[1] = 1f;
                         npc.ai[2] = 0f;
@@ -1125,6 +1202,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 num420 -= MathHelper.TwoPi;
 
             float num421 = 0.15f;
+            if (NPC.IsMechQueenUp && npc.ai[0] == 3f && npc.ai[1] == 0f)
+                num421 *= 0.25f;
+
             if (npc.rotation < num420)
             {
                 if ((num420 - npc.rotation) > MathHelper.Pi)
@@ -1171,6 +1251,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
             }
 
+            Vector2 mechQueenSpacing = Vector2.Zero;
+            if (NPC.IsMechQueenUp)
+            {
+                NPC nPC2 = Main.npc[NPC.mechQueen];
+                Vector2 mechQueenCenter2 = nPC2.GetMechQueenCenter();
+                Vector2 vector48 = new Vector2(150f, -250f);
+                vector48 *= 0.75f;
+                float num462 = nPC2.velocity.X * 0.025f;
+                mechQueenSpacing = mechQueenCenter2 + vector48;
+                mechQueenSpacing = mechQueenSpacing.RotatedBy(num462, mechQueenCenter2);
+            }
+
+            npc.reflectsProjectiles = false;
+
             // Despawn
             if (Main.player[npc.target].dead)
             {
@@ -1213,40 +1307,65 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     Vector2 vector44 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num427 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (num426 * 400) - vector44.X;
                     float num428 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector44.Y;
+                    if (NPC.IsMechQueenUp)
+                    {
+                        num424 = 14f;
+                        num427 = mechQueenSpacing.X;
+                        num428 = mechQueenSpacing.Y;
+                        num427 -= vector44.X;
+                        num428 -= vector44.Y;
+                    }
+
                     float num429 = (float)Math.Sqrt(num427 * num427 + num428 * num428);
 
-                    num429 = num424 / num429;
-                    num427 *= num429;
-                    num428 *= num429;
+                    if (NPC.IsMechQueenUp)
+                    {
+                        if (num429 > num424)
+                        {
+                            num429 = num424 / num429;
+                            num427 *= num429;
+                            num428 *= num429;
+                        }
 
-                    if (npc.velocity.X < num427)
+                        npc.velocity.X = (npc.velocity.X * 4f + num427) / 5f;
+                        npc.velocity.Y = (npc.velocity.Y * 4f + num428) / 5f;
+                    }
+                    else
                     {
-                        npc.velocity.X += num425;
-                        if (npc.velocity.X < 0f && num427 > 0f)
+                        num429 = num424 / num429;
+                        num427 *= num429;
+                        num428 *= num429;
+
+                        if (npc.velocity.X < num427)
+                        {
                             npc.velocity.X += num425;
-                    }
-                    else if (npc.velocity.X > num427)
-                    {
-                        npc.velocity.X -= num425;
-                        if (npc.velocity.X > 0f && num427 < 0f)
+                            if (npc.velocity.X < 0f && num427 > 0f)
+                                npc.velocity.X += num425;
+                        }
+                        else if (npc.velocity.X > num427)
+                        {
                             npc.velocity.X -= num425;
-                    }
-                    if (npc.velocity.Y < num428)
-                    {
-                        npc.velocity.Y += num425;
-                        if (npc.velocity.Y < 0f && num428 > 0f)
+                            if (npc.velocity.X > 0f && num427 < 0f)
+                                npc.velocity.X -= num425;
+                        }
+                        if (npc.velocity.Y < num428)
+                        {
                             npc.velocity.Y += num425;
-                    }
-                    else if (npc.velocity.Y > num428)
-                    {
-                        npc.velocity.Y -= num425;
-                        if (npc.velocity.Y > 0f && num428 < 0f)
+                            if (npc.velocity.Y < 0f && num428 > 0f)
+                                npc.velocity.Y += num425;
+                        }
+                        else if (npc.velocity.Y > num428)
+                        {
                             npc.velocity.Y -= num425;
+                            if (npc.velocity.Y > 0f && num428 < 0f)
+                                npc.velocity.Y -= num425;
+                        }
                     }
 
                     // Fire cursed flames for 5 seconds
                     npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 300f - (death ? 600f * (1f - lifeRatio) : 0f))
+                    float phaseGateValue = NPC.IsMechQueenUp ? 900f : 300f - (death ? 600f * (1f - lifeRatio) : 0f);
+                    if (npc.ai[2] >= phaseGateValue)
                     {
                         // Reset AI array and go to charging phase
                         npc.ai[1] = 1f;
@@ -1371,6 +1490,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Transition phase
             else if (npc.ai[0] == 1f || npc.ai[0] == 2f)
             {
+                if (NPC.IsMechQueenUp)
+                    npc.reflectsProjectiles = true;
+
                 // AI timer for rotation
                 if (npc.ai[0] == 1f)
                 {
@@ -1468,50 +1590,54 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     float num444 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector46.Y;
                     float num445 = (float)Math.Sqrt(num443 * num443 + num444 * num444);
 
-                    // Boost speed if too far from target
-                    if (num445 > 300f)
-                        num440 += 0.5f;
-                    if (num445 > 400f)
-                        num440 += 0.5f;
-
-                    if (Main.getGoodWorld)
+                    if (!NPC.IsMechQueenUp)
                     {
-                        num440 *= 1.15f;
-                        num441 *= 1.15f;
-                    }
+                        // Boost speed if too far from target
+                        if (num445 > 300f)
+                            num440 += 0.5f;
+                        if (num445 > 400f)
+                            num440 += 0.5f;
 
-                    num445 = num440 / num445;
-                    num443 *= num445;
-                    num444 *= num445;
+                        if (Main.getGoodWorld)
+                        {
+                            num440 *= 1.15f;
+                            num441 *= 1.15f;
+                        }
 
-                    if (npc.velocity.X < num443)
-                    {
-                        npc.velocity.X += num441;
-                        if (npc.velocity.X < 0f && num443 > 0f)
+                        num445 = num440 / num445;
+                        num443 *= num445;
+                        num444 *= num445;
+
+                        if (npc.velocity.X < num443)
+                        {
                             npc.velocity.X += num441;
-                    }
-                    else if (npc.velocity.X > num443)
-                    {
-                        npc.velocity.X -= num441;
-                        if (npc.velocity.X > 0f && num443 < 0f)
+                            if (npc.velocity.X < 0f && num443 > 0f)
+                                npc.velocity.X += num441;
+                        }
+                        else if (npc.velocity.X > num443)
+                        {
                             npc.velocity.X -= num441;
-                    }
-                    if (npc.velocity.Y < num444)
-                    {
-                        npc.velocity.Y += num441;
-                        if (npc.velocity.Y < 0f && num444 > 0f)
+                            if (npc.velocity.X > 0f && num443 < 0f)
+                                npc.velocity.X -= num441;
+                        }
+                        if (npc.velocity.Y < num444)
+                        {
                             npc.velocity.Y += num441;
-                    }
-                    else if (npc.velocity.Y > num444)
-                    {
-                        npc.velocity.Y -= num441;
-                        if (npc.velocity.Y > 0f && num444 < 0f)
+                            if (npc.velocity.Y < 0f && num444 > 0f)
+                                npc.velocity.Y += num441;
+                        }
+                        else if (npc.velocity.Y > num444)
+                        {
                             npc.velocity.Y -= num441;
+                            if (npc.velocity.Y > 0f && num444 < 0f)
+                                npc.velocity.Y -= num441;
+                        }
                     }
 
                     // Fire flamethrower for x seconds
                     npc.ai[2] += retAlive ? 1f : 2f;
-                    if (npc.ai[2] >= 180f - (death ? 60f * (0.7f - lifeRatio) : 0f))
+                    float phaseGateValue = NPC.IsMechQueenUp ? 900f : 180f - (death ? 60f * (0.7f - lifeRatio) : 0f);
+                    if (npc.ai[2] >= phaseGateValue)
                     {
                         npc.ai[1] = (!retAlive || enrage) ? 5f : 1f;
                         npc.ai[2] = 0f;
@@ -1558,6 +1684,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 vector46.X -= num443 * 1f;
                                 vector46.Y -= num444 * 1f;
 
+                                if (NPC.IsMechQueenUp)
+                                {
+                                    Vector2 vector52 = (npc.rotation + (float)Math.PI / 2f).ToRotationVector2() * num446 + npc.velocity * 0.5f;
+                                    num443 = vector52.X;
+                                    num444 = vector52.Y;
+                                    vector46 = npc.Center - vector52 * 3f;
+                                }
+
                                 if (canHit)
                                     Projectile.NewProjectile(npc.GetSource_FromAI(), vector46.X, vector46.Y, num443, num444, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 else
@@ -1567,6 +1701,28 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 }
                             }
                         }
+                    }
+
+                    if (NPC.IsMechQueenUp)
+                    {
+                        num440 = 14f;
+                        num443 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector46.X;
+                        num444 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - 300f - vector46.Y;
+                        num443 = mechQueenSpacing.X;
+                        num444 = mechQueenSpacing.Y;
+                        num443 -= vector46.X;
+                        num444 -= vector46.Y;
+                        num445 = (float)Math.Sqrt(num443 * num443 + num444 * num444);
+                        if (num445 > num440)
+                        {
+                            num445 = num440 / num445;
+                            num443 *= num445;
+                            num444 *= num445;
+                        }
+
+                        int num490 = 60;
+                        npc.velocity.X = (npc.velocity.X * (float)(num490 - 1) + num443) / (float)num490;
+                        npc.velocity.Y = (npc.velocity.Y * (float)(num490 - 1) + num444) / (float)num490;
                     }
                 }
 

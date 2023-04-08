@@ -640,6 +640,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 float rotation = MathHelper.ToRadians(120);
                                 for (int i = 0; i < numGelProjectiles; i++)
                                 {
+                                    if (CalamityWorld.LegendaryMode)
+                                        destination *= Main.rand.NextFloat() + 0.5f;
+
                                     Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numGelProjectiles - 1)));
                                     int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, -2f);
                                     Main.projectile[proj].timeLeft = 900;
@@ -650,6 +653,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 for (int j = 0; j < numGelProjectiles; j++)
                                 {
                                     Vector2 spinningpoint = new Vector2(projectileVelocity, 0f);
+
+                                    if (CalamityWorld.LegendaryMode)
+                                        spinningpoint *= Main.rand.NextFloat() + 0.5f;
+
                                     spinningpoint = spinningpoint.RotatedBy((-j) * ((float)Math.PI * 2f) / numGelProjectiles, Vector2.Zero);
                                     int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, spinningpoint, type, damage, 0f, Main.myPlayer, 0f, -2f);
                                     Main.projectile[proj].timeLeft = 900;
@@ -758,7 +765,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.netUpdate = true;
             }
 
-            int num28 = (int)(npc.lifeMax * (phase3 ? 0.04f : phase2 ? 0.03f : 0.025f));
+            int num28 = (int)(npc.lifeMax * (CalamityWorld.LegendaryMode ? 0.01f : phase3 ? 0.04f : phase2 ? 0.03f : 0.025f));
             if (!((npc.life + num28) < npc.localAI[0]))
                 return false;
 

@@ -1060,6 +1060,9 @@ namespace CalamityMod.Projectiles
 
                         projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.05f;
 
+                        if (CalamityWorld.LegendaryMode && projectile.velocity.Length() > 2f)
+                            projectile.velocity *= 0.985f;
+
                         return false;
                     }
                 }

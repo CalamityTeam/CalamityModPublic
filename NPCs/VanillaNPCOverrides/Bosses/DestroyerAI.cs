@@ -16,6 +16,34 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
     {
         public static bool BuffedDestroyerAI(NPC npc, Mod mod)
         {
+            int num = 0;
+            int num2 = 10;
+            if (NPC.IsMechQueenUp && npc.type != NPCID.TheDestroyer)
+            {
+                int num3 = (int)npc.ai[1];
+                while (num3 > 0 && num3 < Main.maxNPCs)
+                {
+                    if (Main.npc[num3].active && Main.npc[num3].type >= NPCID.TheDestroyer && Main.npc[num3].type <= NPCID.TheDestroyerTail)
+                    {
+                        num++;
+                        if (Main.npc[num3].type == NPCID.TheDestroyer)
+                            break;
+
+                        if (num >= num2)
+                        {
+                            num = 0;
+                            break;
+                        }
+
+                        num3 = (int)Main.npc[num3].ai[1];
+                        continue;
+                    }
+
+                    num = 0;
+                    break;
+                }
+            }
+
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             bool bossRush = BossRushEvent.BossRushActive;
@@ -80,9 +108,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        int num = Dust.NewDust(npc.position, npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
-                        Main.dust[num].noGravity = true;
-                        Main.dust[num].noLight = true;
+                        int spawnDust = Dust.NewDust(npc.position, npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
+                        Main.dust[spawnDust].noGravity = true;
+                        Main.dust[spawnDust].noLight = true;
                     }
                 }
                 npc.alpha -= 42;
@@ -409,6 +437,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             if (npc.ai[1] > 0f && npc.ai[1] < Main.npc.Length)
             {
+                int num23 = (int)(44f * npc.scale);
                 try
                 {
                     vector3 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -418,9 +447,24 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 catch
                 {
                 }
+
+                if (num > 0)
+                {
+                    float num25 = (float)num23 - (float)num23 * (((float)num - 1f) * 0.1f);
+                    if (num25 < 0f)
+                        num25 = 0f;
+
+                    if (num25 > (float)num23)
+                        num25 = num23;
+
+                    num22 = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) + num25 - vector3.Y;
+                }
+
                 npc.rotation = (float)Math.Atan2(num21, num20) + MathHelper.PiOver2;
                 num22 = (float)Math.Sqrt(num20 * num20 + num21 * num21);
-                int num23 = (int)(44f * npc.scale);
+                if (num > 0)
+                    num23 = num23 / num2 * num;
+
                 num22 = (num22 - num23) / num22;
                 num20 *= num22;
                 num21 *= num22;
@@ -605,6 +649,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.netUpdate = true;
             }
 
+            if (NPC.IsMechQueenUp && npc.type == NPCID.TheDestroyer)
+            {
+                NPC nPC = Main.npc[NPC.mechQueen];
+                Vector2 mechQueenCenter = nPC.GetMechQueenCenter();
+                Vector2 vector4 = new Vector2(0f, 100f);
+                Vector2 spinningpoint = mechQueenCenter + vector4;
+                float num30 = nPC.velocity.X * 0.025f;
+                spinningpoint = spinningpoint.RotatedBy(num30, mechQueenCenter);
+                npc.position = spinningpoint - npc.Size / 2f + nPC.velocity;
+                npc.velocity.X = 0f;
+                npc.velocity.Y = 0f;
+                npc.rotation = num30 * 0.75f + (float)Math.PI;
+            }
+
             return false;
         }
 
@@ -690,21 +748,78 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 num5 = -velocity / 2f;
             }
 
-            if (npc.velocity.X < num4)
-                npc.velocity.X += acceleration;
-            else if (npc.velocity.X > num4)
-                npc.velocity.X -= acceleration;
+            if (npc.ai[3] != 0f)
+            {
+                if (NPC.IsMechQueenUp)
+                {
+                    NPC nPC = Main.npc[NPC.mechQueen];
+                    Vector2 vector2 = new Vector2(26f * npc.ai[3], 0f);
+                    int num9 = (int)npc.ai[2];
+                    if (num9 < 0 || num9 >= Main.maxNPCs)
+                    {
+                        num9 = NPC.FindFirstNPC(NPCID.TheDestroyer);
+                        npc.ai[2] = num9;
+                        npc.netUpdate = true;
+                    }
 
-            if (npc.velocity.Y < num5)
-                npc.velocity.Y += acceleration;
-            else if (npc.velocity.Y > num5)
-                npc.velocity.Y -= acceleration;
+                    if (num9 > -1)
+                    {
+                        NPC nPC2 = Main.npc[num9];
+                        if (!nPC2.active || nPC2.type != NPCID.TheDestroyer)
+                        {
+                            npc.dontTakeDamage = false;
+                            if (npc.ai[3] > 0f)
+                                npc.netUpdate = true;
+
+                            npc.ai[3] = 0f;
+                        }
+                        else
+                        {
+                            Vector2 spinningpoint = nPC2.Center + vector2;
+                            spinningpoint = spinningpoint.RotatedBy(nPC2.rotation, nPC2.Center);
+                            npc.Center = spinningpoint;
+                            npc.velocity = nPC.velocity;
+                            npc.dontTakeDamage = true;
+                        }
+                    }
+                    else
+                    {
+                        npc.dontTakeDamage = false;
+                        if (npc.ai[3] > 0f)
+                            npc.netUpdate = true;
+
+                        npc.ai[3] = 0f;
+                    }
+                }
+                else
+                {
+                    npc.dontTakeDamage = false;
+                    if (npc.ai[3] > 0f)
+                        npc.netUpdate = true;
+
+                    npc.ai[3] = 0f;
+                }
+            }
+            else
+            {
+                npc.dontTakeDamage = false;
+
+                if (npc.velocity.X < num4)
+                    npc.velocity.X += acceleration;
+                else if (npc.velocity.X > num4)
+                    npc.velocity.X -= acceleration;
+
+                if (npc.velocity.Y < num5)
+                    npc.velocity.Y += acceleration;
+                else if (npc.velocity.Y > num5)
+                    npc.velocity.Y -= acceleration;
+            }
 
             npc.localAI[0] += 1f;
             if (npc.justHit)
                 npc.localAI[0] = 0f;
 
-            float laserGateValue = bossRush ? 150f : 240f;
+            float laserGateValue = NPC.IsMechQueenUp ? 360f : bossRush ? 150f : 240f;
             if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= laserGateValue)
             {
                 npc.localAI[0] = 0f;
@@ -713,6 +828,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     int type = ProjectileID.PinkLaser;
                     int damage = npc.GetProjectileDamage(type);
                     int totalProjectiles = (CalamityWorld.death || bossRush) ? 3 : 1;
+                    Vector2 vector3 = new Vector2(num4, num5);
+                    if (NPC.IsMechQueenUp)
+                    {
+                        Vector2 v = targetData.Center - npc.Center - targetData.Velocity * 20f;
+                        float projectileVelocity = 8f;
+                        vector3 = v.SafeNormalize(Vector2.UnitY) * projectileVelocity;
+                    }
                     for (int i = 0; i < totalProjectiles; i++)
                     {
                         float velocityMultiplier = 1f;
@@ -727,7 +849,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 velocityMultiplier = 0.8f;
                                 break;
                         }
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector.X, vector.Y, num4 * velocityMultiplier, num5 * velocityMultiplier, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector, vector3 * velocityMultiplier, type, damage, 0f, Main.myPlayer);
                     }
 
                     npc.netUpdate = true;
@@ -776,11 +898,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 if ((npc.velocity.X > 0f && num4 > 0f) || (npc.velocity.X < 0f && num4 < 0f))
                 {
-                    if (Math.Abs(npc.velocity.X) < 12f)
+                    if (Math.Abs(npc.velocity.X) < (NPC.IsMechQueenUp ? 5f : 12f))
                         npc.velocity.X *= 1.05f;
                 }
                 else
                     npc.velocity.X *= 0.9f;
+            }
+
+            if (NPC.IsMechQueenUp && npc.ai[2] == 0f)
+            {
+                Vector2 center = npc.GetTargetData().Center;
+                Vector2 v2 = center - npc.Center;
+                int num28 = 120;
+                if (v2.Length() < (float)num28)
+                    npc.Center = center - v2.SafeNormalize(Vector2.UnitY) * num28;
             }
 
             if (targetDead)
