@@ -151,7 +151,6 @@ namespace CalamityMod.Tiles
 
             // Fruit from trees upon tree destruction
             // 50% chance to drop 1 to 2 fruit
-            // TODO -- ADD ASH TREE SUPPORT IN 1.4.4 PORT
             if (!effectOnly && !fail && Main.netMode != NetmodeID.MultiplayerClient && TileID.Sets.IsShakeable[type] && WorldGen.genRand.NextBool())
             {
                 GetTreeBottom(i, j, out int treeX, out int treeY);
@@ -253,6 +252,10 @@ namespace CalamityMod.Tiles
 
                                 case TreeTypes.Crimson:
                                     treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.BloodOrange : ItemID.Rambutan;
+                                    break;
+
+                                case TreeTypes.Ash:
+                                    treeDropItemType = WorldGen.genRand.NextBool() ? ItemID.Pomegranate : ItemID.SpicyPepper;
                                     break;
 
                                 default:

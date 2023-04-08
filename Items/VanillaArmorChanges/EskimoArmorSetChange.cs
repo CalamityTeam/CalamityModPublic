@@ -36,10 +36,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             player.Calamity().eskimoSet = true;
 
-            // TODO -- DELETE THE FOLLOWING 2 LINES IN THE 1.4.4 PORT
-            player.buffImmune[BuffID.Chilled] = true;
-            player.buffImmune[BuffID.Frozen] = true;
-
             player.buffImmune[BuffID.Frostburn] = true;
             player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
         }
