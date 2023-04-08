@@ -1311,7 +1311,7 @@ namespace CalamityMod.NPCs
             else if (CalamityLists.DestroyerIDs.Contains(npc.type))
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.25);
-                npc.scale *= CalamityWorld.getFixedBoi ? 2.5f : CalamityWorld.death ? 2f : 1.5f;
+                npc.scale *= CalamityWorld.getFixedBoi ? 2.5f : CalamityWorld.death ? 1.7f : 1.5f;
                 npc.npcSlots = 10f;
             }
             else if (npc.type == NPCID.Probe)
@@ -1319,7 +1319,7 @@ namespace CalamityMod.NPCs
                 if (CalamityWorld.death)
                     npc.lifeMax = (int)(npc.lifeMax * 2.0);
 
-                npc.scale *= CalamityWorld.getFixedBoi ? 2f : CalamityWorld.death ? 1.5f : 1.2f;
+                npc.scale *= CalamityWorld.getFixedBoi ? 2f : CalamityWorld.death ? 1.3f : 1.2f;
             }
             else if (npc.type == NPCID.SkeletronPrime)
             {

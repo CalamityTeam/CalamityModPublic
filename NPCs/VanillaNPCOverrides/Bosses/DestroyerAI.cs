@@ -171,11 +171,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[3] = npc.whoAmI;
                         npc.realLife = npc.whoAmI;
                         int index = npc.whoAmI;
-
-                        int totalSegments = 80;
-                        if (Main.getGoodWorld)
-                            totalSegments *= 2;
-
+                        int totalSegments = Main.getGoodWorld ? 100 : 80;
                         for (int j = 0; j <= totalSegments; j++)
                         {
                             int type = NPCID.TheDestroyerBody;
