@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.TargetClosest(false);
 
             // Enrage
-            if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+            if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) || CalamityWorld.LegendaryMode)
             {
                 calamityGlobalNPC.newAI[0] += 1f;
                 if (calamityGlobalNPC.newAI[0] >= 120f)
@@ -852,12 +852,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Vector2 vector18 = npc.Center + new Vector2(npc.direction * 30, 12f);
                         float scaleFactor = death ? 6f : 4f;
 
-                        float num48 = 0.251327425f;
+                        float num48 = MathHelper.ToRadians(15f);
                         int num49 = 0;
-                        while (num49 < 5f)
+                        float totalAncientLights = 5f;
+                        while (num49 < totalAncientLights)
                         {
                             Vector2 vector19 = vec4 * scaleFactor;
-                            vector19 = vector19.RotatedBy(num48 * num49 - (1.2566371f - num48) / 2f);
+                            vector19 = vector19.RotatedBy(num48 * num49 - (MathHelper.Pi / totalAncientLights * 2f - num48) / 2f);
                             float ai = (Main.rand.NextFloat() - 0.5f) * 0.3f * MathHelper.TwoPi / 60f;
                             int num50 = NPC.NewNPC(npc.GetSource_FromAI(), (int)vector18.X, (int)vector18.Y + 7, NPCID.AncientLight, 0, 0f, ai, vector19.X, vector19.Y, 255);
                             Main.npc[num50].velocity = vector19;
@@ -1186,7 +1187,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 kill = true;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int totalProjectiles = (Main.npc[(int)npc.ai[0]].type == NPCID.CultistBoss && !phase3) ? 8 : 4;
+                    int totalProjectiles = CalamityWorld.LegendaryMode ? 9 : (Main.npc[(int)npc.ai[0]].type == NPCID.CultistBoss && !phase3) ? 8 : 4;
                     float radians = MathHelper.TwoPi / totalProjectiles;
                     Vector2 spinningPoint = new Vector2(0f, -splitProjVelocity);
                     for (int k = 0; k < totalProjectiles; k++)
