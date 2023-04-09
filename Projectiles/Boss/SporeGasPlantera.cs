@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
@@ -40,7 +41,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             Projectile.ai[1] += 1f;
-            if (Projectile.ai[1] > 1800f)
+            if (Projectile.ai[1] > (CalamityWorld.LegendaryMode ? 600f : 1800f))
             {
                 Projectile.localAI[0] += 10f;
                 Projectile.damage = 0;
@@ -58,17 +59,17 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.rotation += Projectile.velocity.X * 0.02f;
             Projectile.rotation += Projectile.direction * 0.002f;
 
-            if (Projectile.velocity.Length() > 0.5f)
+            if (Projectile.velocity.Length() > (CalamityWorld.LegendaryMode ? 2f : 0.5f))
                 Projectile.velocity *= 0.98f;
         }
 
-        public override bool CanHitPlayer(Player target) => Projectile.ai[1] <= 1800f && Projectile.ai[1] > 120f;
+        public override bool CanHitPlayer(Player target) => Projectile.ai[1] <= (CalamityWorld.LegendaryMode ? 600f : 1800f) && Projectile.ai[1] > 120f;
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (Projectile.ai[1] > 1800f)
+            if (Projectile.ai[1] > (CalamityWorld.LegendaryMode ? 600f : 1800f))
             {
-                byte b2 = (byte)((26f - (Projectile.ai[1] - 1800f)) * 10f);
+                byte b2 = (byte)((26f - (Projectile.ai[1] - (CalamityWorld.LegendaryMode ? 600f : 1800f))) * 10f);
                 byte a2 = (byte)(Projectile.alpha * (b2 / 255f));
                 return new Color(b2, b2, b2, a2);
             }
@@ -101,7 +102,7 @@ namespace CalamityMod.Projectiles.Boss
             if (damage <= 0)
                 return;
 
-            if (Projectile.ai[1] <= 1800f && Projectile.ai[1] > 120f)
+            if (Projectile.ai[1] <= (CalamityWorld.LegendaryMode ? 600f : 1800f) && Projectile.ai[1] > 120f)
                 target.AddBuff(BuffID.Poisoned, 480);
         }
     }

@@ -315,31 +315,31 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.TargetClosest();
                             int projectileType = ProjectileID.SeedPlantera;
                             float projectileVelocity = 17f;
-                            int chance = bossRush ? 2 : 6;
-                            if (Main.rand.NextBool(chance))
+                            if (Main.rand.NextBool(8))
                             {
                                 projectileType = ModContent.ProjectileType<SporeGasPlantera>();
                                 projectileVelocity = 3f;
                             }
-                            if (lifeRatio < 0.9f && Main.rand.NextBool(3))
+                            else if ((lifeRatio < 0.85f || CalamityWorld.LegendaryMode) && Main.rand.NextBool(4))
                             {
-                                npc.localAI[1] = -30f;
+                                npc.localAI[1] = CalamityWorld.LegendaryMode ? -15f : -30f;
                                 projectileType = ProjectileID.PoisonSeedPlantera;
                             }
-                            else if (lifeRatio < 0.8f && Main.rand.NextBool(4))
+                            else if ((lifeRatio < 0.7f || CalamityWorld.LegendaryMode) && Main.rand.NextBool(2))
                             {
                                 int thornBallCount = 0;
+                                int maxThornBalls = CalamityWorld.LegendaryMode ? 10 : 2;
                                 for (int i = 0; i < Main.maxProjectiles; i++)
                                 {
                                     if (Main.projectile[i].active && Main.projectile[i].type == ProjectileID.ThornBall)
                                         thornBallCount++;
 
-                                    if (thornBallCount > 1)
+                                    if (thornBallCount > maxThornBalls - 1)
                                         break;
                                 }
-                                if (thornBallCount < 2)
+                                if (thornBallCount < maxThornBalls)
                                 {
-                                    npc.localAI[1] = -120f;
+                                    npc.localAI[1] = CalamityWorld.LegendaryMode ? -60f : -120f;
                                     projectileType = ProjectileID.ThornBall;
                                 }
                             }
@@ -539,7 +539,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     float shootBoost = 2f * (0.5f - lifeRatio);
                     calamityGlobalNPC.newAI[0] += 1f + shootBoost;
 
-                    float sporeGasGateValue = bossRush ? 300f : 600f;
+                    float sporeGasGateValue = CalamityWorld.LegendaryMode ? 150f : bossRush ? 300f : 600f;
                     if (calamityGlobalNPC.newAI[0] >= sporeGasGateValue)
                     {
                         npc.TargetClosest();
