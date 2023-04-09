@@ -961,9 +961,8 @@ namespace CalamityMod.Items
 
             if (set == "CrystalAssassin")
             {
-                player.GetDamage<GenericDamageClass>() -= 0.1f;
-                player.GetCritChance<GenericDamageClass>() -= 10;
-                player.setBonus = "Allows the ability to dash";
+                player.setBonus = "Allows the ability to dash\n" +
+                    "10% increased damage and critical strike chance";
                 modPlayer.DashID = string.Empty;
             }
             else if (set == "SquireTier2")
