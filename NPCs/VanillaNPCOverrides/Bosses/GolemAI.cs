@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool flag40 = NPC.AnyNPCs(NPCID.GolemHead);
             bool flag41 = NPC.AnyNPCs(NPCID.GolemFistLeft);
             bool flag42 = NPC.AnyNPCs(NPCID.GolemFistRight);
-            npc.dontTakeDamage = flag40 || flag41 || flag42;
+            npc.dontTakeDamage = (flag40 || flag41 || flag42) && !CalamityWorld.LegendaryMode;
 
             // Phase 2, check for free head
             bool flag43 = NPC.AnyNPCs(NPCID.GolemHeadFree);
@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.velocity.Y == 0f)
                 {
                     // Laser fire when head is dead
-                    if (Main.netMode != NetmodeID.MultiplayerClient && (!flag40 || turboEnrage))
+                    if (Main.netMode != NetmodeID.MultiplayerClient && (!flag40 || turboEnrage || CalamityWorld.LegendaryMode))
                     {
                         npc.localAI[1] += 1f;
 
@@ -266,7 +266,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         float speedMult = 1f;
 
                         float multiplier = turboEnrage ? 0.0025f : enrage ? 0.002f : 0.0015f;
-                        if (distanceBelowTarget > 0f && ((!flag41 && !flag42) || turboEnrage))
+                        if (distanceBelowTarget > 0f && ((!flag41 && !flag42) || turboEnrage || CalamityWorld.LegendaryMode))
                             speedMult += distanceBelowTarget * multiplier;
 
                         float speedMultLimit = turboEnrage ? 3.5f : enrage ? 3f : 2.5f;
@@ -274,7 +274,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             speedMult = speedMultLimit;
 
                         if (Main.player[npc.target].position.Y < npc.Bottom.Y)
-                            npc.velocity.Y = (((!flag43 && !flag40) || turboEnrage ? -15.1f : -12.1f) + (enrage ? -4f : 0f)) * speedMult;
+                            npc.velocity.Y = ((((!flag43 && !flag40) || turboEnrage || CalamityWorld.LegendaryMode) ? -15.1f : -12.1f) + (enrage ? -4f : 0f)) * speedMult;
                         else
                             npc.velocity.Y = 1f;
 
@@ -325,7 +325,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     // Fireball explosion when head is dead
-                    if (Main.netMode != NetmodeID.MultiplayerClient && (!flag40 || turboEnrage))
+                    if (Main.netMode != NetmodeID.MultiplayerClient && (!flag40 || turboEnrage || CalamityWorld.LegendaryMode))
                     {
                         for (int num621 = 0; num621 < 10; num621++)
                         {
@@ -769,7 +769,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Count body parts
             bool flag41 = NPC.AnyNPCs(NPCID.GolemFistLeft);
             bool flag42 = NPC.AnyNPCs(NPCID.GolemFistRight);
-            npc.dontTakeDamage = flag41 || flag42;
+            npc.dontTakeDamage = (flag41 || flag42) && !CalamityWorld.LegendaryMode;
 
             // Stay in position on top of body
             npc.Center = Main.npc[NPC.golemBoss].Center - new Vector2(Main.getGoodWorld ? 2f : 3f, Main.getGoodWorld ? 37f : 57f);
@@ -976,7 +976,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Laser fire if arms are dead
-            if ((!flag41 && !flag42) || death)
+            if ((!flag41 && !flag42) || death || CalamityWorld.LegendaryMode)
             {
                 npc.ai[0] = 1f;
                 return false;
