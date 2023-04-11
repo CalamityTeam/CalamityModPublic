@@ -1623,10 +1623,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
 
                 if (Main.rand.NextBool(420))
-                {
-
                     SoundEngine.PlaySound(Main.rand.NextBool() ? SoundID.Zombie100 : SoundID.Zombie101, npc.Center);
-                }
 
                 Vector2 value22 = new Vector2(30f);
 
@@ -1880,6 +1877,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             vector217 *= 4f;
                             int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + vector216.X, npc.Center.Y + vector216.Y, vector217.X, vector217.Y, type, 0, 0f, Main.myPlayer, 30f, npc.whoAmI);
                             Main.projectile[proj].timeLeft = 1200;
+
+                            if (CalamityWorld.LegendaryMode)
+                            {
+                                for (int num1268 = 0; num1268 < 3; num1268++)
+                                {
+                                    if (!WorldGen.SolidTile((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f)))
+                                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-1599, 1600) * 0.01f, (float)Main.rand.Next(-1599, 1) * 0.01f, ProjectileID.MoonBoulder, 70, 10f);
+                                }
+                            }
                         }
                     }
                     else
