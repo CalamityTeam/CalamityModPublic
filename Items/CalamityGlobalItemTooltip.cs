@@ -1115,6 +1115,9 @@ namespace CalamityMod.Items
                     EditTooltipByName("PrefixAccDefense",
                         (line) => line.Text = line.Text.Replace("4", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(1f));
                     return;
+                case PrefixID.Lucky:
+                    EditTooltipByName("PrefixAccCritChance", (line) => line.Text += "\n+0.05 luck");
+                    return;
             }
             #endregion
         }

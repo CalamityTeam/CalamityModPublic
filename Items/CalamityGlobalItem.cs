@@ -1480,6 +1480,9 @@ namespace CalamityMod.Items
 
                 player.endurance += 0.01f;
             }
+
+            if (item.prefix == PrefixID.Lucky)
+                player.luck += 0.05f;
         }
         #endregion
 
