@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -21,10 +22,12 @@ namespace CalamityMod.Projectiles.Boss
         {
             Projectile.width = 10;
             Projectile.height = 10;
+            if (CalamityWorld.LegendaryMode)
+                Projectile.scale = 2f;
             Projectile.hostile = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = CalamityWorld.LegendaryMode ? 900 : 600;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.alpha = 255;
         }
@@ -61,7 +64,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             Projectile.position = Projectile.Center;
-            Projectile.width = Projectile.height = 32;
+            Projectile.width = Projectile.height = (int)(32 * Projectile.scale);
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             int num226 = 36;

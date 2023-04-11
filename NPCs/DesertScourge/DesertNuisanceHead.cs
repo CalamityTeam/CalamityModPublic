@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
             NPC.width = 60;
             NPC.height = 60;
-            NPC.lifeMax = BossRushEvent.BossRushActive ? 35000 : 800;
+            NPC.lifeMax = BossRushEvent.BossRushActive ? 35000 : CalamityWorld.LegendaryMode ? 2400 : 800;
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
@@ -214,6 +214,11 @@ namespace CalamityMod.NPCs.DesertScourge
             }
             float num18 = speed;
             float num19 = turnSpeed;
+            if (CalamityWorld.LegendaryMode)
+            {
+                num18 *= 1.5f;
+                num19 *= 1.5f;
+            }
             Vector2 vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
             float num20 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
             float num21 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
