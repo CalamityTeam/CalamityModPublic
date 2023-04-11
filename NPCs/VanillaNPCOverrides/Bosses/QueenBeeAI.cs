@@ -8,6 +8,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.NPCs.PlagueEnemies;
+using CalamityMod.Projectiles.Boss;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -465,20 +467,24 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Spawn bees or hornets
                 if (Collision.CanHit(vector76, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && spawnBee)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCHit1, npc.position);
+                    SoundEngine.PlaySound(SoundID.NPCHit1, npc.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int spawnType = Main.rand.Next(210, 212);
-                        if (phase3)
-                            spawnType = NPCID.Bee;
+                        int spawnType = phase3 ? NPCID.Bee : Main.rand.Next(NPCID.Bee, NPCID.BeeSmall + 1);
                         if (CalamityWorld.LegendaryMode)
-                            spawnType = NPCID.Hellbat;
+                        {
+                            if (phase3)
+                                spawnType = Main.rand.NextBool(3) ? ModContent.NPCType<PlagueChargerLarge>() : ModContent.NPCType<PlagueCharger>();
+                            else
+                                spawnType = NPCID.Hellbat;
+                        }
 
                         int spawn = NPC.NewNPC(npc.GetSource_FromAI(), (int)vector76.X, (int)vector76.Y, spawnType);
                         Main.npc[spawn].velocity = Main.player[npc.target].Center - npc.Center;
                         Main.npc[spawn].velocity.Normalize();
                         Main.npc[spawn].velocity *= 5f;
-                        Main.npc[spawn].localAI[0] = 60f;
+                        if (!CalamityWorld.LegendaryMode)
+                            Main.npc[spawn].localAI[0] = 60f;
                         Main.npc[spawn].netUpdate = true;
                     }
                 }
@@ -570,8 +576,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num627 = num624 / num627;
                         num625 *= num627;
                         num626 *= num627;
-                        int type = CalamityWorld.LegendaryMode ? ProjectileID.FlamingWood : ProjectileID.QueenBeeStinger;
-                        int projectile = Projectile.NewProjectile(npc.GetSource_FromAI(), vector78.X, vector78.Y, num625, num626, type, CalamityWorld.LegendaryMode ? 25 : npc.GetProjectileDamage(type), 0f, Main.myPlayer);
+                        int type = CalamityWorld.LegendaryMode ? (phase3 ? ModContent.ProjectileType<PlagueStingerGoliathV2>() : ProjectileID.FlamingWood) : ProjectileID.QueenBeeStinger;
+                        int projectile = Projectile.NewProjectile(npc.GetSource_FromAI(), vector78.X, vector78.Y, num625, num626, type, CalamityWorld.LegendaryMode ? 25 : npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, (CalamityWorld.LegendaryMode && phase3) ? Main.player[npc.target].position.Y : 0f);
                         Main.projectile[projectile].timeLeft = 600;
                         Main.projectile[projectile].extraUpdates = 1;
                     }

@@ -5552,7 +5552,12 @@ namespace CalamityMod.NPCs
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
 
             if (npc.type == NPCID.QueenBee && CalamityWorld.LegendaryMode)
-                return new Color(255, 0, 0, npc.alpha);
+            {
+                if (npc.life / (float)npc.lifeMax < 0.5f)
+                    return new Color(0, 255, 0, npc.alpha);
+                else
+                    return new Color(255, 0, 0, npc.alpha);
+            }
 
             if (enraged > 0)
                 return new Color(200, 50, 50, npc.alpha);
