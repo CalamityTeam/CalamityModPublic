@@ -186,6 +186,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
             }
 
+            if (CalamityWorld.LegendaryMode)
+                chargeTime += Main.rand.Next(5, 66);
+
             // Spawn cthulhunadoes in phase 3
             if (phase3AI && (!phase4 || Main.getGoodWorld))
             {
@@ -342,7 +345,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Phase switch
                 npc.ai[2] += 1f;
-                if (npc.ai[2] >= idlePhaseTimer)
+                if (npc.ai[2] >= idlePhaseTimer || CalamityWorld.LegendaryMode)
                 {
                     int num23 = 0;
                     switch ((int)npc.ai[3])
@@ -587,7 +590,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Phase switch
                 npc.ai[2] += 1f;
-                if (npc.ai[2] >= idlePhaseTimer)
+                if (npc.ai[2] >= idlePhaseTimer || CalamityWorld.LegendaryMode)
                 {
                     int num28 = 0;
                     switch ((int)npc.ai[3])
@@ -726,7 +729,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + npc.Center;
                         int num31 = NPC.NewNPC(npc.GetSource_FromAI(), (int)vector10.X, (int)vector10.Y + 45, NPCID.DetonatingBubble);
                         Main.npc[num31].target = npc.target;
-                        Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * bubbleSpinBubbleVelocity;
+                        Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * bubbleSpinBubbleVelocity * (CalamityWorld.LegendaryMode ? (Main.rand.NextFloat() + 0.5f) : 1f);
                         Main.npc[num31].netUpdate = true;
                         Main.npc[num31].ai[3] = Main.rand.Next(80, 121) / 100f;
 
@@ -863,7 +866,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Phase switch
                 npc.ai[2] += 1f;
-                if (npc.ai[2] >= idlePhaseTimer)
+                if (npc.ai[2] >= idlePhaseTimer || CalamityWorld.LegendaryMode)
                 {
                     int num33 = 0;
                     if (phase4)
