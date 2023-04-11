@@ -361,7 +361,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.ai[1] < 60f)
                         AI_120_HallowBoss_DoMagicEffect(npc.Center + value29, 1, Utils.GetLerpValue(0f, 60f, npc.ai[1], clamped: true), npc);
 
-                    int num91 = 2;
+                    int num91 = CalamityWorld.LegendaryMode ? 1 : 2;
                     if ((int)npc.ai[1] % num91 == 0 && npc.ai[1] < 60f)
                     {
                         int projectileType = ProjectileID.HallowBossRainbowStreak;
@@ -376,7 +376,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             rainbowStreakVelocity *= MathHelper.Lerp(0.8f, 1.6f, ai3);
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + value29, rainbowStreakVelocity, projectileType, projectileDamage, 0f, Main.myPlayer, npc.target, ai3);
+                        {
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + value29, rainbowStreakVelocity, projectileType, projectileDamage, 0f, Main.myPlayer, npc.target, ai3);
+                            if (Main.rand.NextBool(60) && CalamityWorld.LegendaryMode)
+                            {
+                                Main.projectile[proj].extraUpdates += 1;
+                                Main.projectile[proj].netUpdate = true;
+                            }
+                        }
 
                         // Spawn extra homing Rainbow Streaks per player.
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -554,7 +561,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.ai[1] % 42f == 0f && npc.ai[1] < 42f)
                     {
                         float num64 = (float)Math.PI * 2f * Main.rand.NextFloat();
-                        float totalProjectiles = death ? (dayTimeEnrage ? 22f : 15f) : (dayTimeEnrage ? 18f : 13f);
+                        float totalProjectiles = CalamityWorld.LegendaryMode ? 30f : death ? (dayTimeEnrage ? 22f : 15f) : (dayTimeEnrage ? 18f : 13f);
                         int projIndex = 0;
                         bool inversePhase2SpreadPattern = Main.rand.NextBool();
                         for (float i = 0f; i < 1f; i += 1f / totalProjectiles)
@@ -568,6 +575,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             float initialVelocity = death ? 2f : 1.75f;
                             if (dayTimeEnrage && projIndex % 2 == 0)
                                 initialVelocity *= 2f;
+                            if (CalamityWorld.LegendaryMode)
+                                initialVelocity *= 1.5f;
 
                             // Given that maxAddedVelocity = 2
                             // Before inverse: index 0 = 2, index 0.25 = 0, index 0.5 = 2, index 0.75 = 0, index 1 = 2
@@ -833,7 +842,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 rainbowStreakVelocity *= MathHelper.Lerp(0.8f, 1.6f, ai3);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, rainbowStreakVelocity, projectileType, projectileDamage, 0f, Main.myPlayer, npc.target, ai3);
+                            {
+                                int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, rainbowStreakVelocity, projectileType, projectileDamage, 0f, Main.myPlayer, npc.target, ai3);
+                                if (Main.rand.NextBool(30) && CalamityWorld.LegendaryMode)
+                                {
+                                    Main.projectile[proj].extraUpdates += 1;
+                                    Main.projectile[proj].netUpdate = true;
+                                }
+                            }
 
                             // Spawn extra homing Rainbow Streaks per player.
                             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -1039,7 +1055,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         Vector2 vector = new Vector2(0f, death ? -24f : -22f).RotatedBy((float)Math.PI * 2f * num22);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + value6, vector, projectileType, projectileDamage, 0f, Main.myPlayer, npc.target, num22);
+                        {
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + value6, vector, projectileType, projectileDamage, 0f, Main.myPlayer, npc.target, num22);
+                            if (Main.rand.NextBool(15) && CalamityWorld.LegendaryMode)
+                            {
+                                Main.projectile[proj].extraUpdates += 1;
+                                Main.projectile[proj].netUpdate = true;
+                            }
+                        }
 
                         // Spawn extra homing Rainbow Streaks per player.
                         if (Main.netMode != NetmodeID.MultiplayerClient)
