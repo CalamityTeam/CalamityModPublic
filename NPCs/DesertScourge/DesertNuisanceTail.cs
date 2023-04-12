@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.DesertScourge
             if (Main.getGoodWorld)
                 NPC.defense += 33;
 
-            NPC.lifeMax = BossRushEvent.BossRushActive ? 35000 : CalamityWorld.LegendaryMode ? 2400 : 800;
+            NPC.lifeMax = BossRushEvent.BossRushActive ? 35000 : (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 2400 : 800;
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;

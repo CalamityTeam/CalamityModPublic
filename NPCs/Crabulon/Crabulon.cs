@@ -278,7 +278,7 @@ namespace CalamityMod.NPCs.Crabulon
                     walkingVelocity = 3f;
                 if (death)
                     walkingVelocity += 2f * (1f - lifeRatio);
-                if (CalamityWorld.LegendaryMode)
+                if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
                     walkingVelocity *= 2f;
                 walkingVelocity += 2.5f * enrageScale;
 
@@ -626,7 +626,7 @@ namespace CalamityMod.NPCs.Crabulon
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num660 = (int)(NPC.lifeMax * (CalamityWorld.LegendaryMode ? 0.01 : Main.getGoodWorld ? 0.025 : 0.05));
+                    int num660 = (int)(NPC.lifeMax * ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 0.01 : Main.getGoodWorld ? 0.025 : 0.05));
                     if ((NPC.life + num660) < NPC.localAI[0])
                     {
                         NPC.localAI[0] = NPC.life;

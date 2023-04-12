@@ -22,12 +22,12 @@ namespace CalamityMod.Projectiles.Boss
         {
             Projectile.width = 10;
             Projectile.height = 10;
-            if (CalamityWorld.LegendaryMode)
+            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
                 Projectile.scale = 2f;
             Projectile.hostile = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = CalamityWorld.LegendaryMode ? 900 : 600;
+            Projectile.timeLeft = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 900 : 600;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.alpha = 255;
         }

@@ -5548,10 +5548,10 @@ namespace CalamityMod.NPCs
             if (npc.IsABestiaryIconDummy)
                 return null;
 
-            if (Main.LocalPlayer.Calamity().trippy || (npc.type == NPCID.KingSlime && CalamityWorld.LegendaryMode))
+            if (Main.LocalPlayer.Calamity().trippy || (npc.type == NPCID.KingSlime && CalamityWorld.LegendaryMode && CalamityWorld.revenge))
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
 
-            if (npc.type == NPCID.QueenBee && CalamityWorld.LegendaryMode)
+            if (npc.type == NPCID.QueenBee && CalamityWorld.LegendaryMode && CalamityWorld.revenge)
             {
                 if (npc.life / (float)npc.lifeMax < 0.5f)
                     return new Color(0, 255, 0, npc.alpha);

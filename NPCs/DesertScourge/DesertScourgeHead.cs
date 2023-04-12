@@ -279,7 +279,7 @@ namespace CalamityMod.NPCs.DesertScourge
                             for (int i = 0; i < numProj; i++)
                             {
                                 Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                                if (CalamityWorld.LegendaryMode)
+                                if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
                                     perturbedSpeed *= Main.rand.NextFloat() + 0.5f;
 
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
@@ -432,7 +432,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    float velocity = CalamityWorld.LegendaryMode ? 16f : bossRush ? 9f : death ? 7f : 6f;
+                    float velocity = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 16f : bossRush ? 9f : death ? 7f : 6f;
                     int type = ModContent.ProjectileType<GreatSandBlast>();
                     int damage = NPC.GetProjectileDamage(type);
                     Vector2 projectileVelocity = Vector2.Normalize(NPC.Center + NPC.velocity * 10f - NPC.Center) * velocity;
@@ -440,7 +440,7 @@ namespace CalamityMod.NPCs.DesertScourge
                     if (Main.getGoodWorld)
                         numProj *= 2;
 
-                    int spread = CalamityWorld.LegendaryMode ? 120 : 90;
+                    int spread = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 120 : 90;
                     float rotation = MathHelper.ToRadians(spread);
                     for (int i = 0; i < numProj; i++)
                     {

@@ -25,10 +25,10 @@ namespace CalamityMod.NPCs.Crabulon
             NPC.GetNPCDamage();
             NPC.width = 14;
             NPC.height = 14;
-            if (CalamityWorld.LegendaryMode)
+            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
                 NPC.scale = 2f;
 
-            NPC.lifeMax = CalamityWorld.LegendaryMode ? 30 : 15;
+            NPC.lifeMax = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 30 : 15;
             if (BossRushEvent.BossRushActive)
                 NPC.lifeMax = 8000;
             if (Main.getGoodWorld)
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.Crabulon
             Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0f, 0.2f, 0.4f);
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             float xVelocityLimit = BossRushEvent.BossRushActive ? 7.5f : 5f;
-            float yVelocityLimit = CalamityWorld.LegendaryMode ? 0.5f : revenge ? 1.25f : 1f;
+            float yVelocityLimit = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 0.5f : revenge ? 1.25f : 1f;
             NPC.TargetClosest();
             Player player = Main.player[NPC.target];
             NPC.velocity.Y += 0.02f;
@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.Crabulon
             }
             NPC.rotation = NPC.velocity.X * 0.1f;
 
-            if (CalamityWorld.LegendaryMode)
+            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
             {
                 float pushVelocity = 0.5f;
                 for (int i = 0; i < Main.maxNPCs; i++)
