@@ -173,9 +173,15 @@ namespace CalamityMod.NPCs.HiveMind
                         num944 = num941 / num944;
                         num942 *= num944;
                         num943 *= num944;
-                        int type = ModContent.ProjectileType<VileClot>();
-                        int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        int type = (CalamityWorld.LegendaryMode && CalamityWorld.revenge && Main.rand.NextBool(5)) ? ProjectileID.CursedFlameHostile : ModContent.ProjectileType<VileClot>();
+                        int damage = type == ProjectileID.CursedFlameHostile ? 30 : NPC.GetProjectileDamage(type);
+                        Vector2 projectileVelocity = new Vector2(num942, num943);
+                        if (type == ProjectileID.CursedFlameHostile)
+                        {
+                            Vector2 v = Main.player[NPC.target].Center - NPC.Center - Main.player[NPC.target].velocity * 20f;
+                            projectileVelocity = v.SafeNormalize(Vector2.UnitY) * num941;
+                        }
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector104, projectileVelocity, type, damage, 0f, Main.myPlayer);
                         NPC.netUpdate = true;
                     }
                 }

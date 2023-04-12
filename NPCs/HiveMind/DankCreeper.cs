@@ -35,6 +35,9 @@ namespace CalamityMod.NPCs.HiveMind
             if (Main.getGoodWorld)
                 NPC.lifeMax *= 4;
 
+            if ((CalamityWorld.LegendaryMode && CalamityWorld.revenge))
+                NPC.reflectsProjectiles = true;
+
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.3f;

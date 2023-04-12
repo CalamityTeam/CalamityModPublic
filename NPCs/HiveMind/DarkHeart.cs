@@ -71,8 +71,8 @@ namespace CalamityMod.NPCs.HiveMind
         {
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             NPC.TargetClosest();
-            float num1164 = revenge ? 4.5f : 4f;
-            float num1165 = revenge ? 0.8f : 0.75f;
+            float num1164 = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 8f : revenge ? 4.5f : 4f;
+            float num1165 = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 1f : revenge ? 0.8f : 0.75f;
             if (BossRushEvent.BossRushActive)
             {
                 num1164 *= 2f;
@@ -81,9 +81,9 @@ namespace CalamityMod.NPCs.HiveMind
 
             Vector2 vector133 = new Vector2(NPC.Center.X, NPC.Center.Y);
             float num1166 = Main.player[NPC.target].Center.X - vector133.X;
-            float num1167 = Main.player[NPC.target].Center.Y - vector133.Y - 400f;
+            float num1167 = Main.player[NPC.target].Center.Y - vector133.Y - ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 500f : 400f);
             float num1168 = (float)Math.Sqrt(num1166 * num1166 + num1167 * num1167);
-            if (num1168 < 20f)
+            if (num1168 < ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 10f : 20f))
             {
                 num1166 = NPC.velocity.X;
                 num1167 = NPC.velocity.Y;
@@ -136,7 +136,8 @@ namespace CalamityMod.NPCs.HiveMind
                     int num1170 = (int)(NPC.position.Y + NPC.height + 4f);
                     int type = ModContent.ProjectileType<ShaderainHostile>();
                     int damage = NPC.GetProjectileDamage(type);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), num1169, num1170, 0f, 4f, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    float randomXVelocity = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? Main.rand.NextFloat() * 5f : 0f;
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), num1169, num1170, randomXVelocity, 4f, type, damage, 0f, Main.myPlayer);
                 }
             }
         }

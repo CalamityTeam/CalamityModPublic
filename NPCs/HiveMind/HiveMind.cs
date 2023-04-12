@@ -971,7 +971,9 @@ namespace CalamityMod.NPCs.HiveMind
                                 {
                                     int type = ModContent.ProjectileType<ShadeNimbusHostile>();
                                     int damage = NPC.GetProjectileDamage(type);
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.position.X + Main.rand.Next(NPC.width), NPC.position.Y + Main.rand.Next(NPC.height), 0, 0, type, damage, 0, Main.myPlayer, 11, 0);
+                                    Vector2 cloudSpawnPos = new Vector2(NPC.position.X + Main.rand.Next(NPC.width), NPC.position.Y + Main.rand.Next(NPC.height));
+                                    Vector2 randomVelocity = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? Main.rand.NextVector2CircularEdge(4f, 4f) : Vector2.Zero;
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), cloudSpawnPos, randomVelocity, type, damage, 0, Main.myPlayer, 11f);
                                 }
 
                                 if (NPC.ai[0] == 10)
