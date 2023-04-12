@@ -57,6 +57,9 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.npcSlots = 10f;
             NPC.width = 44;
             NPC.height = 44;
+            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                NPC.scale = 2f;
+
             NPC.defense = 6;
             NPC.LifeMaxNERB(420);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -456,6 +459,8 @@ namespace CalamityMod.NPCs.SlimeGod
             float inertia = 50f;
             if (Main.getGoodWorld)
                 inertia *= 0.8f;
+            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                inertia -= Main.rand.Next(31);
 
             NPC.velocity = (NPC.velocity * inertia + idealVelocity) / (inertia + 1f);
             if (distanceFromFlyDestination < 350f)

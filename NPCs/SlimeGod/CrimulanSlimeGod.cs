@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.damage = NPC.defDamage + 25;
             }
 
-            float scale = Main.getGoodWorld ? 0.8f : 1f;
+            float scale = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 0.6f : Main.getGoodWorld ? 0.8f : 1f;
             NPC.aiAction = 0;
             NPC.noTileCollide = false;
             NPC.noGravity = false;

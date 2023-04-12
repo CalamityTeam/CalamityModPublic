@@ -29,12 +29,11 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.GetNPCDamage();
             NPC.width = 40;
             NPC.height = 30;
+            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                NPC.scale = 2f;
+
             NPC.defense = 6;
-            NPC.lifeMax = 130;
-            if (BossRushEvent.BossRushActive)
-            {
-                NPC.lifeMax = 12000;
-            }
+            NPC.lifeMax = BossRushEvent.BossRushActive ? 12000 : (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 260 : 130;
             NPC.knockBackResist = 0f;
             NPC.Opacity = 0.8f;
             NPC.lavaImmune = false;
