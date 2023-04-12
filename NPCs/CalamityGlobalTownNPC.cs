@@ -236,7 +236,10 @@ namespace CalamityMod.NPCs
         {
             "Ozymandias", // <@!146333264871686145> (Ozzatron#0001)
         };
-        private static readonly string[] TownDogLabradorNames = null;
+        private static readonly string[] TownDogLabradorNames =
+		{
+			"Riley", // <@!260875558592708619> (potion pal#9979)
+		};
         private static readonly string[] TownDogPitBullNames = null;
         private static readonly string[] TownDogBeagleNames =
         {
