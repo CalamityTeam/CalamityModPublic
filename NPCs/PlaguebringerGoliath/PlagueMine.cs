@@ -131,15 +131,15 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage > 0)
+            if (hurtInfo.Damage > 0)
             {
                 if (CalamityWorld.getFixedBoi) // it is the plague, you get very sick.
                 {
-                    player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 300, true);
-                    player.AddBuff(BuffID.Poisoned, 300, true);
-                    player.AddBuff(BuffID.Venom, 300, true);
+                    target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 300, true);
+                    target.AddBuff(BuffID.Poisoned, 300, true);
+                    target.AddBuff(BuffID.Venom, 300, true);
                 }
-                player.AddBuff(ModContent.BuffType<Plague>(), 300, true);
+                target.AddBuff(ModContent.BuffType<Plague>(), 300, true);
             }
         }
 

@@ -113,9 +113,9 @@ namespace CalamityMod.NPCs.Ravager
             if (NPC.life > 0)
             {
                 int num285 = 0;
-                while ((double)num285 < damage / (double)NPC.lifeMax * 100.0)
+                while ((double)num285 < hit.Damage / (double)NPC.lifeMax * 100.0)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, (float)hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, (float)hit.HitDirection, -1f, 0, default, 1f);
                     num285++;
                 }
             }

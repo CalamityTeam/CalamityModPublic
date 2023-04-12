@@ -102,8 +102,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage > 0)
-                player.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+            if (hurtInfo.Damage > 0)
+                target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
 
         public override void FindFrame(int frameHeight)
@@ -154,13 +154,13 @@ namespace CalamityMod.NPCs.SulphurousSea
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hit.HitDirection, -1f, 0, default, 1f);
             }
             if (NPC.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hit.HitDirection, -1f, 0, default, 1f);
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {

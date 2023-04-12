@@ -688,7 +688,7 @@ namespace CalamityMod.NPCs.SlimeGod
             dustColor.A = 150;
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, dustColor, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hit.HitDirection, -1f, NPC.alpha, dustColor, 1f);
             }
         }
 
@@ -699,8 +699,8 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage > 0)
-                player.AddBuff(BuffID.Darkness, 300, true);
+            if (hurtInfo.Damage > 0)
+                target.AddBuff(BuffID.Darkness, 300, true);
         }
     }
 }

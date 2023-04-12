@@ -1195,8 +1195,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage > 0)
-                player.AddBuff(ModContent.BuffType<HolyFlames>(), 300, true);
+            if (hurtInfo.Damage > 0)
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 300, true);
         }
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
@@ -1208,7 +1208,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, hit.HitDirection, -1f, 0, default, 1f);
 
             if (NPC.life <= 0)
             {
@@ -1221,7 +1221,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 for (int k = 0; k < 50; k++)
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, hit.HitDirection, -1f, 0, default, 1f);
             }
         }
     }

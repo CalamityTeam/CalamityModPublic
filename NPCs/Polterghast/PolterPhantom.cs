@@ -518,8 +518,8 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage > 0)
-                player.AddBuff(BuffID.MoonLeech, 360, true);
+            if (hurtInfo.Damage > 0)
+                target.AddBuff(BuffID.MoonLeech, 360, true);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -536,7 +536,7 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void HitEffect(NPC.HitInfo hit)
         {
-            Dust.NewDust(NPC.position, NPC.width, NPC.height, 180, hitDirection, -1f, 0, default, 1f);
+            Dust.NewDust(NPC.position, NPC.width, NPC.height, 180, hit.HitDirection, -1f, 0, default, 1f);
             if (NPC.life <= 0)
             {
                 NPC.position.X = NPC.position.X + (NPC.width / 2);

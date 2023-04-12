@@ -170,7 +170,7 @@ namespace CalamityMod.NPCs.Signus
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 204, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 204, hit.HitDirection, -1f, 0, default, 1f);
                 }
             }
         }

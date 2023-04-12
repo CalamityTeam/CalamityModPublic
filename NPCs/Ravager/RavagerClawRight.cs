@@ -295,8 +295,8 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage > 0)
-                player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240, true);
+            if (hurtInfo.Damage > 0)
+                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240, true);
         }
 
         public override void HitEffect(NPC.HitInfo hit)
@@ -304,9 +304,9 @@ namespace CalamityMod.NPCs.Ravager
             if (NPC.life > 0)
             {
                 int num285 = 0;
-                while (num285 < damage / NPC.lifeMax * 100.0)
+                while (num285 < hit.Damage / NPC.lifeMax * 100.0)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hit.HitDirection, -1f, 0, default, 1f);
                     num285++;
                 }
             }

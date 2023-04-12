@@ -2451,7 +2451,7 @@ namespace CalamityMod.NPCs.Providence
             int dustType = ProvUtils.GetDustID(currentMode);
             for (int k = 0; k < 15; k++)
             {
-                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, hitDirection, -1f, 0, default, 1f);
+                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, hit.HitDirection, -1f, 0, default, 1f);
                 Main.dust[dust].noGravity = true;
             }
 

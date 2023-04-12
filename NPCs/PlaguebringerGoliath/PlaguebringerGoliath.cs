@@ -1117,7 +1117,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             for (int k = 0; k < 2; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hit.HitDirection, -1f, 0, default, 1f);
             }
             if (NPC.life <= 0)
             {
@@ -1320,15 +1320,15 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage > 0)
+            if (hurtInfo.Damage > 0)
             {
                 if (CalamityWorld.getFixedBoi) // it is the plague, you get very sick.
                 {
-                    player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 480, true);
-                    player.AddBuff(BuffID.Poisoned, 480, true);
-                    player.AddBuff(BuffID.Venom, 480, true);
+                    target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 480, true);
+                    target.AddBuff(BuffID.Poisoned, 480, true);
+                    target.AddBuff(BuffID.Venom, 480, true);
                 }
-                player.AddBuff(ModContent.BuffType<Plague>(), 480, true);
+                target.AddBuff(ModContent.BuffType<Plague>(), 480, true);
             }
         }
     }

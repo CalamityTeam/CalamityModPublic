@@ -649,18 +649,18 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;
                 color.A = 150;
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, color, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hit.HitDirection, -1f, NPC.alpha, color, 1f);
             }
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage > 0)
+            if (hurtInfo.Damage > 0)
             {
                 int debufftype = CalamityWorld.getFixedBoi ? BuffID.VortexDebuff : BuffID.Slow;
-                player.AddBuff(debufftype, 180, true);
-                player.AddBuff(BuffID.Weak, 180, true);
-                player.AddBuff(BuffID.Darkness, 180, true);
+                target.AddBuff(debufftype, 180, true);
+                target.AddBuff(BuffID.Weak, 180, true);
+                target.AddBuff(BuffID.Darkness, 180, true);
 			}
         }
     }

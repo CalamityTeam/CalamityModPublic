@@ -890,8 +890,8 @@ namespace CalamityMod.NPCs.StormWeaver
                 chargePhaseGateValue *= 0.5f;
 
             int buffDuration = NPC.Calamity().newAI[0] >= chargePhaseGateValue ? 480 : 240;
-            if (damage > 0)
-                player.AddBuff(BuffID.Electrified, buffDuration, true);
+            if (hurtInfo.Damage > 0)
+                target.AddBuff(BuffID.Electrified, buffDuration, true);
         }
 
         public override bool CheckActive()
@@ -902,7 +902,7 @@ namespace CalamityMod.NPCs.StormWeaver
         public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 5; k++)
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, hit.HitDirection, -1f, 0, default, 1f);
 
             if (NPC.life <= 0)
             {
