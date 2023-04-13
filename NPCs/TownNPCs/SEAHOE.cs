@@ -341,90 +341,39 @@ namespace CalamityMod.NPCs.TownNPCs
             if (firstButton)
             {
                 Main.LocalPlayer.Calamity().newAmidiasInventory = false;
-                shop = true;
+                shopName = "Shop";
             }
             else
             {
-                shop = false;
                 Main.npcChatText = Lore();
                 NPC.Calamity().newAI[0]++;
                 Player player = Main.player[Main.myPlayer];
                 player.AddBuff(ModContent.BuffType<AmidiasBlessing>(), 36000);
             }
         }
-
-        public override void ModifyActiveShop(string shopName, Item[] items)
+        public override void AddShops()
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Shellshooter>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SnapClam>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SandDollar>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Waywasher>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<CoralCannon>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<UrchinFlail>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<AmidiasTrident>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EnchantedConch>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<PolypLauncher>());
-            nextSlot++;
-            if (CalamityConfig.Instance.PotionSelling)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.GillsPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                if (Main.LocalPlayer.discountAvailable)
-                shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.WaterWalkingPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                if (Main.LocalPlayer.discountAvailable)
-                shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.FlipperPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                if (Main.LocalPlayer.discountAvailable)
-                shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-                nextSlot++;
-            }
-            if (Main.hardMode)
-            {
-            shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
-            if (Main.LocalPlayer.discountAvailable)
-                shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-            nextSlot++;
-            }
-            if (DownedBossSystem.downedBoomerDuke)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodwormItem>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
-                if (Main.LocalPlayer.discountAvailable)
-                  shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-                nextSlot++;
-            }
+            Condition potionSells = new("While the Town NPC Potion Selling configuration option is enabled", () => CalamityConfig.Instance.PotionSelling);
+            Condition downedOldDuke = new("If The Old Duke has been defeated", () => DownedBossSystem.downedBoomerDuke);
 
-            bool happy = Main.LocalPlayer.currentShoppingSettings.PriceAdjustment <= 0.8999999761581421;
-            if (happy)
-            {
-                if (Main.LocalPlayer.ZoneBeach)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.ShrimpPoBoy);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 50, 0);
-                    nextSlot++;
-
-                    if (NPC.downedBoss1)
-                    {
-                        shop.item[nextSlot].SetDefaults(ItemID.Fries);
-                        shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-                        nextSlot++;
-                    }
-                }
-            }
+            NPCShop shop = new(Type);
+            shop.Add(ModContent.ItemType<Shellshooter>())
+                .Add(ModContent.ItemType<SnapClam>())
+                .Add(ModContent.ItemType<SandDollar>())
+                .Add(ModContent.ItemType<Waywasher>())
+                .Add(ModContent.ItemType<CoralCannon>())
+                .Add(ModContent.ItemType<UrchinFlail>())
+                .Add(ModContent.ItemType<AmidiasTrident>())
+                .Add(ModContent.ItemType<EnchantedConch>())
+                .Add(ModContent.ItemType<PolypLauncher>())
+                .AddWithCustomValue(ItemID.GillsPotion, Item.buyPrice(gold: 1), potionSells)
+                .AddWithCustomValue(ItemID.WaterWalkingPotion, Item.buyPrice(gold: 1), potionSells)
+                .AddWithCustomValue(ItemID.FlipperPotion, Item.buyPrice(gold: 1), potionSells)
+                .AddWithCustomValue(ItemID.TruffleWorm, Item.buyPrice(gold: 10), Condition.Hardmode)
+                .AddWithCustomValue(ModContent.ItemType<BloodwormItem>(), Item.buyPrice(2), downedOldDuke)
+                .AddWithCustomValue(ItemID.ShrimpPoBoy, Item.buyPrice(gold: 2, silver: 50), Condition.HappyEnough, Condition.InBeach)
+                .AddWithCustomValue(ItemID.Fries, Item.buyPrice(gold: 2), Condition.HappyEnough, Condition.InBeach, Condition.DownedEyeOfCthulhu)
+                .Register();
         }
 
         public override void HitEffect(NPC.HitInfo hit)

@@ -265,101 +265,42 @@ namespace CalamityMod.NPCs.TownNPCs
             if (firstButton)
             {
                 Main.LocalPlayer.Calamity().newBanditInventory = false;
-                shop = true;
+                shopName = "Shop";
             }
             else
             {
-                shop = false;
                 Main.npcChatText = Refund();
             }
         }
-
-        public override void ModifyActiveShop(string shopName, Item[] items)
+        public override void AddShops()
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Cinquedea>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Glaive>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Kylie>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<OldDie>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.TigerClimbingGear);
-            nextSlot++;
-            if (CalamityConfig.Instance.PotionSelling)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.InvisibilityPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.NightOwlPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                nextSlot++;
-            }
-            if (Main.hardMode)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<SlickCane>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
-                nextSlot++;
-            }
-            if (NPC.downedPirates)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<ThiefsDime>());
-                nextSlot++;
-            }
-            if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<MomentumCapacitor>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
-                nextSlot++;
-            }
-            if (DownedBossSystem.downedCalamitasClone)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
-                nextSlot++;
-            }
-            if (NPC.downedPlantBoss)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfPrecision>());
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfRecklessness>());
-                nextSlot++;
-            }
-            if (NPC.downedGolemBoss)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<EtherealExtorter>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
-                nextSlot++;
-            }
-            if (NPC.downedMoonlord)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<CelestialReaper>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
-                nextSlot++;
-            }
-            if (DownedBossSystem.downedDoG)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<VeneratedLocket>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(25, 0, 0, 0);
-                nextSlot++;
-            }
-            if (DownedBossSystem.downedYharon)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<DragonScales>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(40, 0, 0, 0);
-                nextSlot++;
-            }
-            //:BearWatchingYou:
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearsEye>());
-            nextSlot++;
+            Condition potionSells = new("While the Town NPC Potion Selling configuration option is enabled", () => CalamityConfig.Instance.PotionSelling);
+            Condition downedCalclone = new("If the Calamitas Clone has been defeated", () => DownedBossSystem.downedCalamitasClone);
+            Condition downedDoG = new("If The Devourer of Gods has been defeated", () => DownedBossSystem.downedDoG);
+            Condition downedYharon = new("If Yharon has been defeated", () => DownedBossSystem.downedYharon);
+
+            NPCShop shop = new(Type);
+            shop.AddWithCustomValue(ModContent.ItemType<Cinquedea>(), Item.buyPrice(gold: 9))
+                .AddWithCustomValue(ModContent.ItemType<Glaive>(), Item.buyPrice(gold: 9))
+                .AddWithCustomValue(ModContent.ItemType<Kylie>(), Item.buyPrice(gold: 9))
+                .AddWithCustomValue(ModContent.ItemType<OldDie>(), Item.buyPrice(gold: 40))
+                .Add(ItemID.TigerClimbingGear)
+                .AddWithCustomValue(ItemID.InvisibilityPotion, Item.buyPrice(gold: 1), potionSells)
+                .AddWithCustomValue(ItemID.NightOwlPotion, Item.buyPrice(gold: 1), potionSells)
+                .AddWithCustomValue(ItemID.TrapsightPotion, Item.buyPrice(gold: 1), potionSells)
+                .AddWithCustomValue(ModContent.ItemType<SlickCane>(), Item.buyPrice(gold: 25), Condition.Hardmode)
+                .Add(ModContent.ItemType<ThiefsDime>(), Condition.DownedPirates)
+                .AddWithCustomValue(ModContent.ItemType<MomentumCapacitor>(), Item.buyPrice(gold: 60), Condition.DownedMechBossAll)
+                .Add(ModContent.ItemType<DeepWounder>(), downedCalclone)
+                .Add(ModContent.ItemType<MonkeyDarts>(), Condition.DownedPlantera)
+                .Add(ModContent.ItemType<GloveOfPrecision>(), Condition.DownedPlantera)
+                .Add(ModContent.ItemType<GloveOfRecklessness>(), Condition.DownedPlantera)
+                .AddWithCustomValue(ModContent.ItemType<EtherealExtorter>(), Item.buyPrice(1), Condition.DownedGolem)
+                .AddWithCustomValue(ModContent.ItemType<CelestialReaper>(), Item.buyPrice(2), Condition.DownedMoonLord)
+                .AddWithCustomValue(ModContent.ItemType<VeneratedLocket>(), Item.buyPrice(25), downedDoG)
+                .AddWithCustomValue(ModContent.ItemType<DragonScales>(), Item.buyPrice(40), downedYharon)
+                .Add(ModContent.ItemType<BearsEye>()) //:BearWatchingYou:
+                .Register();
         }
 
         public override void HitEffect(NPC.HitInfo hit)

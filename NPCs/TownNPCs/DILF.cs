@@ -141,77 +141,34 @@ namespace CalamityMod.NPCs.TownNPCs
             if (firstButton)
             {
                 Main.LocalPlayer.Calamity().newPermafrostInventory = false;
-                shop = true;
+                shopName = "Shop";
             }
         }
 
-        public override void ModifyActiveShop(string shopName, Item[] items)
+        public override void AddShops()
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostbiteBlaster>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleTrident>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IceStar>());
-            nextSlot++;
-            if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<ArcticBearPaw>());
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryogenicStaff>());
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostyFlare>());
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Cryophobia>());
-                nextSlot++;
-            }
-            if (NPC.downedChristmasIceQueen && NPC.downedChristmasTree && NPC.downedChristmasSantank)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<AbsoluteZero>());
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<EternalBlizzard>());
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<WintersFury>());
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcyBullet>());
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleArrow>());
-                nextSlot++;
-            }
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<PermafrostsConcoction>());
-            nextSlot++;
-            if (CalamityConfig.Instance.PotionSelling)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.WarmthPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-                if (Main.LocalPlayer.discountAvailable)
-                shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-                nextSlot++;
-            }
-            shop.item[nextSlot].SetDefaults(ItemID.SuperManaPotion);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeliciousMeat>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
-            if (Main.LocalPlayer.discountAvailable)
-              shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-            nextSlot++;
-            if (Main.LocalPlayer.HasItem(ModContent.ItemType<IceBarrage>()))
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodRune>());
-                nextSlot++;
-            }
-
-            bool happy = Main.LocalPlayer.currentShoppingSettings.PriceAdjustment <= 0.8999999761581421;
-            if (happy)
-            {
-                if (Main.LocalPlayer.ZoneSnow)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.IceCream);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-                    nextSlot++;
-                }
-            }
+            Condition potionSells = new("While the Town NPC Potion Selling configuration option is enabled", () => CalamityConfig.Instance.PotionSelling);
+            NPCShop shop = new(Type);
+                shop.Add(ModContent.ItemType<FrostbiteBlaster>())
+                .Add(ModContent.ItemType<IcicleTrident>())
+                .Add(ModContent.ItemType<IceStar>())
+                .Add(ModContent.ItemType<ArcticBearPaw>(), Condition.DownedMechBossAll)
+                .Add(ModContent.ItemType<CryogenicStaff>(), Condition.DownedMechBossAll)
+                .Add(ModContent.ItemType<FrostyFlare>(), Condition.DownedMechBossAll)
+                .Add(ModContent.ItemType<Cryophobia>(), Condition.DownedMechBossAll)
+                .Add(ModContent.ItemType<AbsoluteZero>(), Condition.DownedEverscream, Condition.DownedSantaNK1, Condition.DownedIceQueen)
+                .Add(ModContent.ItemType<EternalBlizzard>(), Condition.DownedEverscream, Condition.DownedSantaNK1, Condition.DownedIceQueen)
+                .Add(ModContent.ItemType<WintersFury>(), Condition.DownedEverscream, Condition.DownedSantaNK1, Condition.DownedIceQueen)
+                .Add(ModContent.ItemType<IcyBullet>(), Condition.DownedEverscream, Condition.DownedSantaNK1, Condition.DownedIceQueen)
+                .Add(ModContent.ItemType<IcicleArrow>(), Condition.DownedEverscream, Condition.DownedSantaNK1, Condition.DownedIceQueen)
+                .Add(ModContent.ItemType<PermafrostsConcoction>())
+                .AddWithCustomValue(ItemID.WarmthPotion, Item.buyPrice(0, 2), potionSells)
+                .Add(ItemID.SuperManaPotion)
+                .Add(ModContent.ItemType<DeliciousMeat>())
+                .AddWithCustomValue(ModContent.ItemType<Popo>(), Item.buyPrice(5))
+                .Add(ModContent.ItemType<BloodRune>(), Condition.PlayerCarriesItem(ModContent.ItemType<IceBarrage>()))
+                .Add(ItemID.IceCream, Condition.HappyEnough, Condition.InSnow)
+                .Register();
         }
 
         // Make this Town NPC teleport to the King statue when triggered.

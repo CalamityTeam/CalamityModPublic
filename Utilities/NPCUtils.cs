@@ -389,6 +389,20 @@ namespace CalamityMod
 
         public static T ModNPC<T>(this NPC npc) where T : ModNPC => npc.ModNPC as T;
 
+        public static NPCShop AddWithCustomValue(this NPCShop shop, int itemType, int customValue, params Condition[] conditions)
+        {
+            var item = new Item(itemType)
+            {
+                shopCustomPrice = customValue
+            };
+            return shop.Add(item, conditions);
+        }
+
+        public static NPCShop AddWithCustomValue<T>(this NPCShop shop, int customValue, params Condition[] conditions) where T : ModItem
+        {
+            return shop.AddWithCustomValue(ItemType<T>(), customValue, conditions);
+        }
+
         /// <summary>
         /// Summons a boss near a particular area depending on a specific spawn context.
         /// </summary>
