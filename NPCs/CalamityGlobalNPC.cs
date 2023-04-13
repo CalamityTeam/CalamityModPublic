@@ -4371,7 +4371,7 @@ namespace CalamityMod.NPCs
         #region On Hit Player
         public override void OnHitPlayer(NPC npc, Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage <= 0)
+            if (hurtInfo.Damage <= 0)
                 return;
 
             if (target.Calamity().sulfurSet)

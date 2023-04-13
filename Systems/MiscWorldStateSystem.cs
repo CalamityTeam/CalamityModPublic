@@ -17,8 +17,6 @@ namespace CalamityMod
         #region Resetting
         public static void ResetWorldData()
         {
-            NPC.LunarShieldPowerExpert = 100;
-
             CalamityGlobalNPC.holyBoss = -1;
             CalamityGlobalNPC.doughnutBoss = -1;
             CalamityGlobalNPC.doughnutBossDefender = -1;
