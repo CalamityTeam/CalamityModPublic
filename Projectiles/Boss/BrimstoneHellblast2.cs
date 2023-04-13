@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (damage <= 0 || Projectile.Opacity != 1f)
+            if (info.Damage <= 0 || Projectile.Opacity != 1f)
                 return;
 
             if (Projectile.ai[0] == 0f || CalamityWorld.getFixedBoi)

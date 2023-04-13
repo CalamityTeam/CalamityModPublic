@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (damage <= 0)
+            if (info.Damage <= 0)
                 return;
 
             target.velocity *= 0.5f;

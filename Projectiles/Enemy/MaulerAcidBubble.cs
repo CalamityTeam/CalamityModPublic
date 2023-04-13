@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (damage <= 0 || Projectile.localAI[1] < 1f)
+            if (info.Damage <= 0 || Projectile.localAI[1] < 1f)
                 return;
 
             target.AddBuff(ModContent.BuffType<Irradiated>(), 120);

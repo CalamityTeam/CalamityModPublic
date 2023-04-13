@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (damage <= 0)
+            if (info.Damage <= 0)
                 return;
             
             target.AddBuff(BuffID.Poisoned, 240);

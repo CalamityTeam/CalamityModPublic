@@ -194,7 +194,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (damage <= 0)
+            if (info.Damage <= 0)
                 return;
 
             if (Projectile.localAI[1] <= 900f && Projectile.localAI[1] > 120f)

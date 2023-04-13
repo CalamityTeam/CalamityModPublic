@@ -48,8 +48,11 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.velocity *= 1.02f;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
+            if (info.Damage <= 0)
+                return;
+
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
 

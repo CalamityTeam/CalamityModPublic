@@ -85,14 +85,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (damage <= 0)
+            if (info.Damage <= 0)
                 return;
 
             if (Projectile.Opacity == 1f)
             {
                 int debufftype = CalamityWorld.getFixedBoi ? BuffID.Obstructed : BuffID.VortexDebuff;
                 int duration = CalamityWorld.getFixedBoi ? 30 : 60;
-                if (damage > 0)
+                if (info.Damage > 0)
                     target.AddBuff(debufftype, duration, true);
             }
         }
