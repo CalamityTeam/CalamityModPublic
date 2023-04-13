@@ -2628,13 +2628,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage <= 0)
+            if (hurtInfo.Damage <= 0)
 				return;
 
-            player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
-            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 600, true);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
+            target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 600, true);
 
-            if (player.Calamity().dogTextCooldown <= 0)
+            if (target.Calamity().dogTextCooldown <= 0)
             {
                 string text = Utils.SelectRandom(Main.rand, new string[]
                 {
@@ -2645,7 +2645,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 Color messageColor = Color.Cyan;
                 Rectangle location = new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height);
                 CombatText.NewText(location, messageColor, Language.GetTextValue(text), true);
-                player.Calamity().dogTextCooldown = 60;
+                target.Calamity().dogTextCooldown = 60;
             }
         }
     }

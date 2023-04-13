@@ -284,8 +284,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
         {
             int debufftype = CalamityWorld.getFixedBoi ? BuffID.Obstructed : BuffID.VortexDebuff;
             int duration = CalamityWorld.getFixedBoi ? 30 : 60;
-            if (damage > 0)
-                player.AddBuff(debufftype, duration, true);
+            if (hurtInfo.Damage > 0)
+                target.AddBuff(debufftype, duration, true);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -316,7 +316,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, hitDirection, -1f, 0, default, 1f);
+                    int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, hit.HitDirection, -1f, 0, default, 1f);
                     Main.dust[dust].noGravity = true;
                 }
             }

@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
         }
 
         public override void FindFrame(int frameHeight) // 9 total frames
@@ -254,7 +254,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 235, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 235, hit.HitDirection, -1f, 0, default, 1f);
             }
             if (NPC.life <= 0)
             {

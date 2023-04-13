@@ -337,7 +337,7 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void HitEffect(NPC.HitInfo hit)
         {
             for (int k = 0; k < 3; k++)
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 173, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 173, hit.HitDirection, -1f, 0, default, 1f);
 
             if (NPC.life <= 0)
             {
@@ -379,7 +379,7 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             int debuffType = CalamityWorld.getFixedBoi ? ModContent.BuffType<GodSlayerInferno>() : ModContent.BuffType<AstralInfectionDebuff>();
-            player.AddBuff(debuffType, (int)(180 * NPC.scale), true);
+            target.AddBuff(debuffType, (int)(180 * NPC.scale), true);
         }
     }
 }

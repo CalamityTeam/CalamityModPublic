@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void HitEffect(NPC.HitInfo hit)
         {
             // Dummy AI, no way
-            NPC.ai[0] = hitDirection * -NPC.direction;
+            NPC.ai[0] = hit.HitDirection * -NPC.direction;
             // Reset hit timer if it isn't enraged
             if (deathCounter > 0 && deathCounter < 6000)
             {

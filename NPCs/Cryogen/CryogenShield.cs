@@ -112,17 +112,17 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage > 0)
+            if (hurtInfo.Damage > 0)
             {
                 if (CalamityWorld.getFixedBoi)
                 {
-                    player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
-                    player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
+                    target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
+                    target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
                 }
                 else
                 {
-                    player.AddBuff(BuffID.Frostburn, 240, true);
-                    player.AddBuff(BuffID.Chilled, 120, true);
+                    target.AddBuff(BuffID.Frostburn, 240, true);
+                    target.AddBuff(BuffID.Chilled, 120, true);
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace CalamityMod.NPCs.Cryogen
             int dusttype = CalamityWorld.getFixedBoi ? 235 : 67;
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, dusttype, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, dusttype, hit.HitDirection, -1f, 0, default, 1f);
             }
             if (NPC.life <= 0)
             {

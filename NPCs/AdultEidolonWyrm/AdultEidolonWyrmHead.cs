@@ -1464,12 +1464,12 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 return;
 
             for (int k = 0; k < 15; k++)
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hit.HitDirection, -1f, 0, default, 1f);
 
             if (NPC.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hit.HitDirection, -1f, 0, default, 1f);
 
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WyrmAdult").Type, 1f);
             }
@@ -1493,8 +1493,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (NPC.Opacity == 1f && damage > 0)
-                player.AddBuff(ModContent.BuffType<CrushDepth>(), 1200, true);
+            if (NPC.Opacity == 1f && hurtInfo.Damage > 0)
+                target.AddBuff(ModContent.BuffType<CrushDepth>(), 1200, true);
         }
     }
 }

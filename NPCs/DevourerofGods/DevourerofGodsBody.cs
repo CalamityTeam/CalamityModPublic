@@ -496,10 +496,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage > 0)
+            if (hurtInfo.Damage > 0)
             {
-                player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240, true);
-                player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 480, true);
+                target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240, true);
+                target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 480, true);
             }
         }
     }

@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override void HitEffect(NPC.HitInfo hit)
         {
-            CalamityGlobalNPC.DoHitDust(NPC, hitDirection, ModContent.DustType<AstralOrange>(), 1f, 4, 24);
+            CalamityGlobalNPC.DoHitDust(NPC, hit.HitDirection, ModContent.DustType<AstralOrange>(), 1f, 4, 24);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -87,8 +87,8 @@ namespace CalamityMod.NPCs.Astral
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage > 0)
-                player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
+            if (hurtInfo.Damage > 0)
+                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)

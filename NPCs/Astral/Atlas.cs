@@ -454,7 +454,7 @@ namespace CalamityMod.NPCs.Astral
                 SoundEngine.PlaySound(HurtSound, NPC.Center);
             }
 
-            CalamityGlobalNPC.DoHitDust(NPC, hitDirection, (Main.rand.Next(0, Math.Max(0, NPC.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 3, 30);
+            CalamityGlobalNPC.DoHitDust(NPC, hit.HitDirection, (Main.rand.Next(0, Math.Max(0, NPC.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 3, 30);
 
             //if dead do gores
             if (NPC.life <= 0)
@@ -645,8 +645,8 @@ namespace CalamityMod.NPCs.Astral
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage > 0)
-                player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300, true);
+            if (hurtInfo.Damage > 0)
+                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300, true);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)

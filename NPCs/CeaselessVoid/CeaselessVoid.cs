@@ -266,7 +266,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
             for (int k = 0; k < 5; k++)
             {
-                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, hitDirection, -1f, 0, default, 1f);
+                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, hit.HitDirection, -1f, 0, default, 1f);
                 Main.dust[dust].noGravity = true;
             }
 

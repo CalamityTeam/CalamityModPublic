@@ -471,8 +471,8 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (damage > 0)
-                player.AddBuff(ModContent.BuffType<Irradiated>(), 480);
+            if (hurtInfo.Damage > 0)
+                target.AddBuff(ModContent.BuffType<Irradiated>(), 480);
         }
 
         public override void HitEffect(NPC.HitInfo hit)
@@ -480,9 +480,9 @@ namespace CalamityMod.NPCs.OldDuke
             if (NPC.life > 0)
             {
                 int num211 = 0;
-                while (num211 < damage / NPC.lifeMax * 100.0)
+                while (num211 < hit.Damage / NPC.lifeMax * 100.0)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hit.HitDirection, -1f, 0, default, 1f);
                     num211++;
                 }
             }
@@ -490,7 +490,7 @@ namespace CalamityMod.NPCs.OldDuke
             {
                 for (int num212 = 0; num212 < 150; num212++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, 2 * hitDirection, -2f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, 2 * hit.HitDirection, -2f, 0, default, 1f);
                 }
 
                 if (Main.netMode != NetmodeID.Server)
