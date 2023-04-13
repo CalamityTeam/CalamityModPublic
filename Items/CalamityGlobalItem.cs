@@ -241,9 +241,8 @@ namespace CalamityMod.Items
             }
 
             if (modPlayer.eArtifact && item.CountsAsClass<RangedDamageClass>())
-                velocity *= 1.3f;
+                velocity *= 1.25f;
         }
-
 
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack)
         {
