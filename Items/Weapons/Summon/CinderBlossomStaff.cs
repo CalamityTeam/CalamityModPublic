@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient(ItemID.HellstoneBar, 10).
-                //AddIngredient(ItemID.AshWood, 10).
+                AddIngredient(ItemID.AshWood, 10).
                 AddIngredient(ItemID.Fireblossom, 5).
                 AddTile(TileID.Anvils).
                 Register();
