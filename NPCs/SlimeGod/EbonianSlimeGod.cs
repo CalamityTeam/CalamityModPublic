@@ -122,6 +122,13 @@ namespace CalamityMod.NPCs.SlimeGod
 
             if (lifeRatio <= 0.5f && Main.netMode != NetmodeID.MultiplayerClient && expertMode)
             {
+                if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                {
+                    int type = ModContent.ProjectileType<UnstableEbonianGlob>();
+                    for (int i = 0; i < 30; i++)
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)Main.rand.Next(-1199, 1200) * 0.01f, (float)Main.rand.Next(-1199, 1200) * 0.01f, type, 35, 0f);
+                }
+
                 SoundEngine.PlaySound(SoundID.NPCDeath1, NPC.Center);
                 Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X - 30, (int)spawnAt.Y, ModContent.NPCType<SplitEbonianSlimeGod>());

@@ -311,7 +311,7 @@ namespace CalamityMod.NPCs.Perforator
             // Emit ichor blobs
             if (phase2)
             {
-                if (wormsAlive == 0 || bossRush || floatAboveToFireBlobs)
+                if (wormsAlive == 0 || bossRush || floatAboveToFireBlobs || (CalamityWorld.LegendaryMode && CalamityWorld.revenge))
                 {
                     NPC.ai[2] += 1f;
                     if (NPC.ai[2] >= blobPhaseGateValue)
@@ -354,6 +354,9 @@ namespace CalamityMod.NPCs.Perforator
                                 Vector2 blobVelocity = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
                                 blobVelocity.Normalize();
                                 blobVelocity *= Main.rand.Next(400, 801) * (bossRush ? 0.02f : 0.01f);
+
+                                if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                                    blobVelocity *= Main.rand.NextFloat() + 1f;
 
                                 float blobVelocityYAdd = Math.Abs(blobVelocity.Y) * 0.5f;
                                 if (blobVelocity.Y < 2f)
