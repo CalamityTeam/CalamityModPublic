@@ -34,7 +34,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Utilities;
-using Microsoft.CodeAnalysis;
 
 namespace CalamityMod.NPCs.Yharon
 {
