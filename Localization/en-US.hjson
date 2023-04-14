@@ -7278,6 +7278,15 @@ Mods: {
 					'''
 			}
 
+			Fabsoup: {
+				DisplayName: Pot of Pain
+				Tooltip:
+					'''
+					{$CommonItemTooltip.MajorStats}
+					'hrngh, soup'
+					'''
+			}
+
 			FlaskOfBrimstone: {
 				DisplayName: Flask of Brimstone
 				Tooltip: Melee, Whip, and Rogue attacks inflict Brimstone Flames
