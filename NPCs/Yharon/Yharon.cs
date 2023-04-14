@@ -2941,18 +2941,6 @@ namespace CalamityMod.NPCs.Yharon
         }
         #endregion
 
-        #region Projectile Resists
-        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
-        {
-            if (projectile.type == ModContent.ProjectileType<TimeBoltKnife>())
-                damage = (int)(damage * 0.85);
-            if (projectile.type == ModContent.ProjectileType<ReaperProjectile>())
-                damage = (int)(damage * 0.9);
-            if (projectile.type == ModContent.ProjectileType<PhantasmalSoul>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinProj>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinGhost>())
-                damage = (int)(damage * 0.95);
-        }
-        #endregion
-
         #region HP Bar Cooldown Slot and Stats
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {

@@ -86,12 +86,12 @@ namespace CalamityMod.NPCs.TownNPCs
                 CalamityWorld.spawnedCirrus = true;
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
-        {
+        public override bool CanTownNPCSpawn(int numTownNPCs)
+        { 
             for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
-                bool hasVodka = player.InventoryHas(ModContent.ItemType<FabsolsVodka>())/* || player.PortableStorageHas(ModContent.ItemType<FabsolsVodka>())*/;
+                bool hasVodka = player.InventoryHas(ModContent.ItemType<FabsolsVodka>()) || player.PortableStorageHas(ModContent.ItemType<FabsolsVodka>());
                 if (player.active && hasVodka)
                     return Main.hardMode || CalamityWorld.spawnedCirrus;
             }
@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (CalamityWorld.getFixedBoi)
             {
-                Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, false, -1);
+                Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, -1, false);
                 SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, Main.player[Main.myPlayer].Center);
             }
 
@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 }
                 else
                 {
-                    Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, false, -1);
+                    Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, -1, false); ;
                     SoundEngine.PlaySound(CnidarianJellyfishOnTheString.SlapSound, Main.player[Main.myPlayer].Center);
                     return "Sorry, I have no moral compass at the moment.";
                 }
@@ -298,200 +298,65 @@ namespace CalamityMod.NPCs.TownNPCs
             if (firstButton)
             {
                 Main.LocalPlayer.Calamity().newCirrusInventory = false;
-                shop = true;
+                shopName = "Shop";
             }
             else
             {
-                shop = false;
                 Main.npcChatText = Death();
             }
         }
 
-        public override void ModifyActiveShop(string shopName, Item[] items) //charges 50% extra than the original alcohol value
+        public override void AddShops()
         {
-            int wife = NPC.FindFirstNPC(NPCID.Stylist);
-            bool wifeIsAround = wife != -1;
-            bool beLessDrunk = wifeIsAround && NPC.downedMoonlord;
+            Condition potionSells = new("While the Town NPC Potion Selling configuration option is enabled", () => CalamityConfig.Instance.PotionSelling);
+            Condition downedAureus = new("If Astrum Aureus has been defeated", () => DownedBossSystem.downedAstrumAureus);
 
-            if (CalamityConfig.Instance.PotionSelling)
+            NPCShop shop = new(Type);
+            shop.AddWithCustomValue(ItemID.HeartreachPotion, Item.buyPrice(gold: 2), potionSells)
+                .AddWithCustomValue(ItemID.LifeforcePotion, Item.buyPrice(gold: 4), potionSells) // 8 post ml
+                .AddWithCustomValue(ItemID.LovePotion, Item.buyPrice(gold: 1), potionSells)
+                .AddWithCustomValue(ModContent.ItemType<GrapeBeer>(), Item.buyPrice(silver: 30))
+                .AddWithCustomValue(ModContent.ItemType<RedWine>(), Item.buyPrice(gold: 1))
+                .AddWithCustomValue(ModContent.ItemType<Whiskey>(), Item.buyPrice(gold: 2))
+                .AddWithCustomValue(ModContent.ItemType<Rum>(), Item.buyPrice(gold: 2))
+                .AddWithCustomValue(ModContent.ItemType<Tequila>(), Item.buyPrice(gold: 2))
+                .AddWithCustomValue(ModContent.ItemType<Fireball>(), Item.buyPrice(gold: 3))
+                .AddWithCustomValue(ModContent.ItemType<FabsolsVodka>(), Item.buyPrice(gold: 4))
+                .AddWithCustomValue(ModContent.ItemType<Vodka>(), Item.buyPrice(gold: 2), Condition.DownedMechBossAll)
+                .AddWithCustomValue(ModContent.ItemType<Screwdriver>(), Item.buyPrice(gold: 6), Condition.DownedMechBossAll)
+                .AddWithCustomValue(ModContent.ItemType<WhiteWine>(), Item.buyPrice(gold: 6), Condition.DownedMechBossAll)
+                .AddWithCustomValue(ModContent.ItemType<EvergreenGin>(), Item.buyPrice(gold: 8), Condition.DownedPlantera)
+                .AddWithCustomValue(ModContent.ItemType<CaribbeanRum>(), Item.buyPrice(gold: 8), Condition.DownedPlantera)
+                .AddWithCustomValue(ModContent.ItemType<Margarita>(), Item.buyPrice(gold: 8), Condition.DownedPlantera)
+                .AddWithCustomValue(ItemID.EmpressButterfly, Item.buyPrice(gold: 10), Condition.DownedPlantera)
+                .AddWithCustomValue(ModContent.ItemType<Everclear>(), Item.buyPrice(gold: 3), downedAureus)
+                .AddWithCustomValue(ModContent.ItemType<BloodyMary>(), Item.buyPrice(gold: 4), downedAureus, Condition.BloodMoon)
+                .AddWithCustomValue(ModContent.ItemType<StarBeamRye>(), Item.buyPrice(gold: 6), downedAureus, Condition.TimeNight)
+                .AddWithCustomValue(ModContent.ItemType<Moonshine>(), Item.buyPrice(gold: 2), Condition.DownedGolem)
+                .AddWithCustomValue(ModContent.ItemType<MoscowMule>(), Item.buyPrice(gold: 8), Condition.DownedGolem)
+                .AddWithCustomValue(ModContent.ItemType<CinnamonRoll>(), Item.buyPrice(gold: 8), Condition.DownedGolem)
+                .AddWithCustomValue(ModContent.ItemType<TequilaSunrise>(), Item.buyPrice(gold: 10), Condition.DownedGolem)
+                .AddWithCustomValue(ItemID.BloodyMoscato, Item.buyPrice(gold: 1), Condition.DownedMoonLord, Condition.NpcIsPresent(NPCID.Stylist))
+                .AddWithCustomValue(ItemID.BananaDaiquiri, Item.buyPrice(silver: 75), Condition.DownedMoonLord, Condition.NpcIsPresent(NPCID.Stylist))
+                .AddWithCustomValue(ItemID.PeachSangria, Item.buyPrice(silver: 50), Condition.DownedMoonLord, Condition.NpcIsPresent(NPCID.Stylist))
+                .AddWithCustomValue(ItemID.PinaColada, Item.buyPrice(gold: 1), Condition.DownedMoonLord, Condition.NpcIsPresent(NPCID.Stylist))
+                .AddWithCustomValue(ModContent.ItemType<WeightlessCandle>(), Item.buyPrice(gold: 50))
+                .AddWithCustomValue(ModContent.ItemType<VigorousCandle>(), Item.buyPrice(gold: 50))
+                .AddWithCustomValue(ModContent.ItemType<ResilientCandle>(), Item.buyPrice(gold: 50))
+                .AddWithCustomValue(ModContent.ItemType<SpitefulCandle>(), Item.buyPrice(gold: 50))
+                .AddWithCustomValue(ModContent.ItemType<OddMushroom>(), Item.buyPrice(1))
+                .AddWithCustomValue(ItemID.UnicornHorn, Item.buyPrice(0, 2, 50), Condition.HappyEnough, Condition.InHallow)
+                .AddWithCustomValue(ItemID.Milkshake, Item.buyPrice(gold: 5), Condition.HappyEnough, Condition.InHallow, Condition.NpcIsPresent(NPCID.Stylist))
+                .Register();
+        }
+
+        public override void ModifyActiveShop(string shopName, Item[] items)
+        {
+            for (int i = 0; i < items.Length; i++)
             {
-                shop.item[nextSlot].SetDefaults(ItemID.HeartreachPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-                nextSlot++;
-
-                shop.item[nextSlot].SetDefaults(ItemID.LifeforcePotion);
-                int goldCost = NPC.downedMoonlord ? 8 : 4;
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, goldCost, 0, 0);
-                nextSlot++;
-
-                shop.item[nextSlot].SetDefaults(ItemID.LovePotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                nextSlot++;
-            }
-
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<GrapeBeer>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 30, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<RedWine>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Whiskey>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Rum>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Tequila>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Fireball>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<FabsolsVodka>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 4, 0, 0);
-            nextSlot++;
-
-            if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Vodka>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-                nextSlot++;
-
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Screwdriver>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 6, 0, 0);
-                nextSlot++;
-
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<WhiteWine>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 6, 0, 0);
-                nextSlot++;
-            }
-
-            if (NPC.downedPlantBoss)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<EvergreenGin>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
-                nextSlot++;
-
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<CaribbeanRum>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
-                nextSlot++;
-
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Margarita>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
-                nextSlot++;
-
-                shop.item[nextSlot].SetDefaults(ItemID.EmpressButterfly);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
-                nextSlot++;
-            }
-
-            if (DownedBossSystem.downedAstrumAureus)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Everclear>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
-                nextSlot++;
-
-                if (Main.bloodMoon)
+                if (items[i].type == ItemID.HeartreachPotion && NPC.downedMoonlord)
                 {
-                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodyMary>());
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 4, 0, 0);
-                    nextSlot++;
-                }
-
-                if (!Main.dayTime)
-                {
-                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<StarBeamRye>());
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 6, 0, 0);
-                    nextSlot++;
-                }
-            }
-
-            if (NPC.downedGolemBoss)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Moonshine>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-                nextSlot++;
-
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<MoscowMule>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
-                nextSlot++;
-
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<CinnamonRoll>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
-                nextSlot++;
-
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<TequilaSunrise>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
-                nextSlot++;
-            }
-
-            if (beLessDrunk)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.BloodyMoscato);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                nextSlot++;
-
-                shop.item[nextSlot].SetDefaults(ItemID.BananaDaiquiri);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 75, 0);
-                nextSlot++;
-
-                shop.item[nextSlot].SetDefaults(ItemID.PeachSangria);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
-                nextSlot++;
-
-                shop.item[nextSlot].SetDefaults(ItemID.PinaColada);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                nextSlot++;
-            }
-
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<WeightlessCandle>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 50, 0, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<VigorousCandle>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 50, 0, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<ResilientCandle>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 50, 0, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SpitefulCandle>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 50, 0, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<OddMushroom>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
-            nextSlot++;
-
-            bool happyAsFuck = Main.LocalPlayer.currentShoppingSettings.PriceAdjustment <= 0.8999999761581421;
-            if (happyAsFuck)
-            {
-                /*if (wifeIsAround)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.MilkCarton);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                    nextSlot++;
-                }*/
-
-                if (Main.LocalPlayer.ZoneHallow)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.UnicornHorn);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 50, 0);
-                    nextSlot++;
-
-                    if (wifeIsAround)
-                    {
-                        shop.item[nextSlot].SetDefaults(ItemID.Milkshake);
-                        shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 5, 0, 0);
-                        nextSlot++;
-                    }
+                    items[i].shopCustomPrice = Item.buyPrice(gold: 8);
                 }
             }
         }

@@ -70,13 +70,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool CanHitPvp(Player player, Player target) => player.altFunctionUse != 2;
 
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.CritDamage *= 0.5f;
+        }
+
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_ItemUse(Item);
-            if (crit)
-                damage /= 2;
 
-            int explosion = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, knockback, player.whoAmI);
+            int explosion = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), Item.damage, Item.knockBack, player.whoAmI);
             if (explosion.WithinBounds(Main.maxProjectiles))
                 Main.projectile[explosion].DamageType = DamageClass.Melee;
         }
@@ -84,10 +87,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_ItemUse(Item);
-            if (crit)
-                damage /= 2;
 
-            int explosion = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, Item.knockBack, player.whoAmI);
+            int explosion = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), Item.damage, Item.knockBack, player.whoAmI);
             if (explosion.WithinBounds(Main.maxProjectiles))
                 Main.projectile[explosion].DamageType = DamageClass.Melee;
         }

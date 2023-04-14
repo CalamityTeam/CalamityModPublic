@@ -1,4 +1,4 @@
-﻿/*using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Rarities;
 using Terraria;
 using Terraria.Audio;
@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Potions
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/SoupConsumption");
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pot of Pain");
-            Tooltip.SetDefault("{$CommonItemTooltip.MajorStats}\n'hrngh, soup'");
+            /*DisplayName.SetDefault("Pot of Pain");
+            Tooltip.SetDefault("{$CommonItemTooltip.MajorStats}\n'hrngh, soup'");*/
             SacrificeTotal = 1;
         }
 
@@ -55,4 +55,4 @@ namespace CalamityMod.Items.Potions
             }
         }
     }
-}*/
+}

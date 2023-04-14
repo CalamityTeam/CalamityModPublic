@@ -39,16 +39,18 @@ namespace CalamityMod.Items.Weapons.Melee
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 44);
         }
 
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.CritDamage *= 0.5f;
+        }
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Venom, 300);
 
             var source = player.GetSource_ItemUse(Item);
-            if (crit)
-                damage /= 2;
 
-            Projectile.NewProjectile(source, player.position.X + 40f + Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
-            Projectile.NewProjectile(source, player.position.X - 40f + Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
+            Projectile.NewProjectile(source, player.position.X + 40f + Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(Item.damage * 0.25), 0f, Main.myPlayer);
+            Projectile.NewProjectile(source, player.position.X - 40f + Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(Item.damage * 0.25), 0f, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
@@ -56,11 +58,9 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Venom, 300);
 
             var source = player.GetSource_ItemUse(Item);
-            if (crit)
-                damage /= 2;
 
-            Projectile.NewProjectile(source, player.position.X + 40f + Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
-            Projectile.NewProjectile(source, player.position.X - 40f + Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
+            Projectile.NewProjectile(source, player.position.X + 40f + Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(Item.damage * 0.25), 0f, Main.myPlayer);
+            Projectile.NewProjectile(source, player.position.X - 40f + Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(Item.damage * 0.25), 0f, Main.myPlayer);
         }
 
         public override void AddRecipes()

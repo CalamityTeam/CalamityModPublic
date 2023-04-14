@@ -256,6 +256,19 @@ namespace CalamityMod.Balancing
 
             #endregion The Devourer of Gods
 
+            #region Yharon
+            
+            // 15% resist to Time Bolt
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<TimeBoltKnife>()))));
+
+            // 10% resist to Old Reaper
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<ReaperProjectile>()))));
+
+            // 5% resist to Phantasmal Ruin
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.95f, ProjectileType<PhantasmalSoul>(), ProjectileType<PhantasmalRuinProj>(), ProjectileType<PhantasmalRuinGhost>()))));
+
+            #endregion
+
             #region Ares
 
             // 50% resist to true melee.

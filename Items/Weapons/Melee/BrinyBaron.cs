@@ -73,25 +73,23 @@ namespace CalamityMod.Items.Weapons.Melee
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 187, 0f, 0f, 100, new Color(53, Main.DiscoG, 255));
         }
 
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.CritDamage *= 0.5f;
+        }
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_ItemUse(Item);
-            if (crit)
-                damage /= 2;
-
             if (player.ownedProjectileCounts[ModContent.ProjectileType<BrinySpout>()] == 0)
-                Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), Item.damage, Item.knockBack, player.whoAmI);
         }
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_ItemUse(Item);
-            if (crit)
-                damage /= 2;
-
             if (player.ownedProjectileCounts[ModContent.ProjectileType<BrinySpout>()] == 0)
-                Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), damage, Item.knockBack, player.whoAmI);
-        }
+                Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), Item.damage, Item.knockBack, player.whoAmI);
+        }   
 
         public override void UseAnimation(Player player)
         {

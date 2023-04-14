@@ -1534,201 +1534,204 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Shop Stuff
-        public override void ModifyActiveShop(NPC npc, string shopName, Item[] items)
+        // TODO: convert all bools into proper conditions
+        public override void ModifyShop(NPCShop shop)
         {
+            int type = shop.NpcType;
             int goldCost = NPC.downedMoonlord ? 8 : Main.hardMode ? 4 : 2;
 
             bool happy = Main.LocalPlayer.currentShoppingSettings.PriceAdjustment <= 0.8999999761581421;
 
             if (type == NPCID.Merchant)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.Bottle, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 0, 0, 20));
-                SetShopItem(ref shop, ref nextSlot, ItemID.WormholePotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 0, 25, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.ArcheryPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss1, Item.buyPrice(0, goldCost, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.HealingPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, ItemID.ManaPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, ItemID.TitanPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss3, Item.buyPrice(0, 2, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.Flare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
-                SetShopItem(ref shop, ref nextSlot, ItemID.BlueFlare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
-                SetShopItem(ref shop, ref nextSlot, ItemID.ApprenticeBait, NPC.downedBoss1);
-                SetShopItem(ref shop, ref nextSlot, ItemID.JourneymanBait, NPC.downedBoss3);
-                SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedPlantBoss);
-                SetShopItem(ref shop, ref nextSlot, ItemID.AngelStatue, NPC.FindFirstNPC(NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.Burger, happy && NPC.downedBoss3, Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.Hotdog, happy && Main.hardMode, Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.CoffeeCup, happy, Item.buyPrice(0, 2));
+                SetShopItem(ref shop, ItemID.Bottle, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 0, 0, 20));
+                SetShopItem(ref shop, ItemID.WormholePotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 0, 25, 0));
+                SetShopItem(ref shop, ItemID.ArcheryPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss1, Item.buyPrice(0, goldCost, 0, 0));
+                SetShopItem(ref shop, ItemID.HealingPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss2);
+                SetShopItem(ref shop, ItemID.ManaPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss2);
+                SetShopItem(ref shop, ItemID.TitanPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss3, Item.buyPrice(0, 2, 0, 0));
+                SetShopItem(ref shop, ItemID.Flare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
+                SetShopItem(ref shop, ItemID.BlueFlare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
+                SetShopItem(ref shop, ItemID.ApprenticeBait, NPC.downedBoss1);
+                SetShopItem(ref shop, ItemID.JourneymanBait, NPC.downedBoss3);
+                SetShopItem(ref shop, ItemID.MasterBait, NPC.downedPlantBoss);
+                SetShopItem(ref shop, ItemID.AngelStatue, NPC.FindFirstNPC(NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ItemID.Burger, happy && NPC.downedBoss3, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ItemID.Hotdog, happy && Main.hardMode, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ItemID.CoffeeCup, happy, Item.buyPrice(0, 2));
             }
 
             if (type == NPCID.DyeTrader)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemType<DefiledFlameDye>(), Main.hardMode, Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, ItemID.DyeTradersScimitar, true, Item.buyPrice(0, 15));
+                SetShopItem(ref shop, ItemType<DefiledFlameDye>(), Main.hardMode, Item.buyPrice(0, 10));
+                SetShopItem(ref shop, ItemID.DyeTradersScimitar, true, Item.buyPrice(0, 15));
             }
 
             if (type == NPCID.Demolitionist)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.MiningPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss1, Item.buyPrice(0, 1, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.IronskinPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss1, Item.buyPrice(0, 1, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.ShinePotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss1, Item.buyPrice(0, 1, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.SpelunkerPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.ObsidianSkinPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss3, Item.buyPrice(0, 2, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.EndurancePotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss3, Item.buyPrice(0, goldCost, 0, 0));
+                SetShopItem(ref shop, ItemID.MiningPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss1, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ItemID.IronskinPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss1, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ItemID.ShinePotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss1, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ItemID.SpelunkerPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));
+                SetShopItem(ref shop, ItemID.ObsidianSkinPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss3, Item.buyPrice(0, 2, 0, 0));
+                SetShopItem(ref shop, ItemID.EndurancePotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss3, Item.buyPrice(0, goldCost, 0, 0));
             }
 
             if (type == NPCID.ArmsDealer)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemType<P90>(), Main.hardMode, Item.buyPrice(gold: 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(gold: 20));
-                SetShopItem(ref shop, ref nextSlot, ItemID.AmmoBox, Main.hardMode, Item.buyPrice(gold: 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.Uzi, NPC.downedPlantBoss, Item.buyPrice(gold: 45));
-                SetShopItem(ref shop, ref nextSlot, ItemID.TacticalShotgun, NPC.downedGolemBoss, Item.buyPrice(gold: 60));
-                SetShopItem(ref shop, ref nextSlot, ItemID.SniperRifle, NPC.downedGolemBoss, Item.buyPrice(gold: 60));
-                SetShopItem(ref shop, ref nextSlot, ItemID.RifleScope, NPC.downedGolemBoss, Item.buyPrice(gold: 60));
-                SetShopItem(ref shop, ref nextSlot, ItemID.AmmoReservationPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.HunterPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 2, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.BattlePotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));
+                SetShopItem(ref shop, ItemType<P90>(), Main.hardMode, Item.buyPrice(gold: 25));
+                SetShopItem(ref shop, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(gold: 20));
+                SetShopItem(ref shop, ItemID.AmmoBox, Main.hardMode, Item.buyPrice(gold: 25));
+                SetShopItem(ref shop, ItemID.Uzi, NPC.downedPlantBoss, Item.buyPrice(gold: 45));
+                SetShopItem(ref shop, ItemID.TacticalShotgun, NPC.downedGolemBoss, Item.buyPrice(gold: 60));
+                SetShopItem(ref shop, ItemID.SniperRifle, NPC.downedGolemBoss, Item.buyPrice(gold: 60));
+                SetShopItem(ref shop, ItemID.RifleScope, NPC.downedGolemBoss, Item.buyPrice(gold: 60));
+                SetShopItem(ref shop, ItemID.AmmoReservationPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ItemID.HunterPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 2, 0, 0));
+                SetShopItem(ref shop, ItemID.BattlePotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));
             }
 
             if (type == NPCID.Stylist)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemType<StealthHairDye>(), Main.LocalPlayer.Calamity().rogueStealthMax > 0f && Main.LocalPlayer.Calamity().wearingRogueArmor);
-                SetShopItem(ref shop, ref nextSlot, ItemType<WingTimeHairDye>(), Main.LocalPlayer.wingTimeMax > 0);
-                SetShopItem(ref shop, ref nextSlot, ItemType<AdrenalineHairDye>(), CalamityWorld.revenge);
-                SetShopItem(ref shop, ref nextSlot, ItemType<RageHairDye>(), CalamityWorld.revenge);
-                SetShopItem(ref shop, ref nextSlot, ItemID.StylistKilLaKillScissorsIWish, true, Item.buyPrice(0, 15));
-                SetShopItem(ref shop, ref nextSlot, ItemType<CirrusDress>(), Main.LocalPlayer.Calamity().alcoholPoisoning && NPC.FindFirstNPC(NPCType<FAP>()) != -1);
-                SetShopItem(ref shop, ref nextSlot, ItemID.ChocolateChipCookie, happy && NPC.FindFirstNPC(NPCType<FAP>()) != -1, Item.buyPrice(0, 3));
+                SetShopItem(ref shop, ItemType<StealthHairDye>(), Main.LocalPlayer.Calamity().rogueStealthMax > 0f && Main.LocalPlayer.Calamity().wearingRogueArmor);
+                SetShopItem(ref shop, ItemType<WingTimeHairDye>(), Main.LocalPlayer.wingTimeMax > 0);
+                SetShopItem(ref shop, ItemType<AdrenalineHairDye>(), CalamityWorld.revenge);
+                SetShopItem(ref shop, ItemType<RageHairDye>(), CalamityWorld.revenge);
+                SetShopItem(ref shop, ItemID.StylistKilLaKillScissorsIWish, true, Item.buyPrice(0, 15));
+                SetShopItem(ref shop, ItemType<CirrusDress>(), Main.LocalPlayer.Calamity().alcoholPoisoning && NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ItemID.ChocolateChipCookie, happy && NPC.FindFirstNPC(NPCType<FAP>()) != -1, Item.buyPrice(0, 3));
             }
 
             if (type == NPCID.Cyborg)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.RocketLauncher, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemType<MartianDistressRemote>(), NPC.downedGolemBoss, Item.buyPrice(0, 50));
-                SetShopItem(ref shop, ref nextSlot, ItemType<LionHeart>(), DownedBossSystem.downedPolterghast);
+                SetShopItem(ref shop, ItemID.RocketLauncher, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+                SetShopItem(ref shop, ItemType<MartianDistressRemote>(), NPC.downedGolemBoss, Item.buyPrice(0, 50));
+                SetShopItem(ref shop, ItemType<LionHeart>(), DownedBossSystem.downedPolterghast);
             }
 
             if (type == NPCID.Dryad)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.ThornsPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.FeatherfallPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.RegenerationPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.SwiftnessPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss2, Item.buyPrice(0, goldCost, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
-                SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<RomajedaOrchid>());
-                SetShopItem(ref shop, ref nextSlot, ItemID.Grapes, happy && NPC.downedBoss3, Item.buyPrice(0, 2, 50));
+                SetShopItem(ref shop, ItemID.ThornsPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ItemID.FeatherfallPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ItemID.RegenerationPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));
+                SetShopItem(ref shop, ItemID.SwiftnessPotion, CalamityConfig.Instance.PotionSelling && NPC.downedBoss2, Item.buyPrice(0, goldCost, 0, 0));
+                SetShopItem(ref shop, ItemID.JungleRose, price: Item.buyPrice(0, 2));
+                SetShopItem(ref shop, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
+                SetShopItem(ref shop, ItemType<RomajedaOrchid>());
+                SetShopItem(ref shop, ItemID.Grapes, happy && NPC.downedBoss3, Item.buyPrice(0, 2, 50));
             }
 
             if (type == NPCID.GoblinTinkerer)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.StinkPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemType<StatMeter>());
-                SetShopItem(ref shop, ref nextSlot, ItemID.Spaghetti, happy && NPC.downedBoss3, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ItemID.StinkPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ItemType<StatMeter>());
+                SetShopItem(ref shop, ItemID.Spaghetti, happy && NPC.downedBoss3, Item.buyPrice(0, 5));
             }
 
             if (type == NPCID.Mechanic)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.BuilderPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.CombatWrench, true, Item.buyPrice(0, 10, 0, 0));
+                SetShopItem(ref shop, ItemID.BuilderPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ItemID.CombatWrench, true, Item.buyPrice(0, 10, 0, 0));
             }
 
             if (type == NPCID.Clothier)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemType<BlueBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<BlueSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<BlueTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<GreenBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<GreenSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<GreenTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<PinkBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<PinkSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<PinkTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemType<CounterScarf>(), price: Item.buyPrice(gold: 10));
-                SetShopItem(ref shop, ref nextSlot, ItemID.GoldenKey, Main.hardMode, Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemType<GodSlayerHornedHelm>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
-                SetShopItem(ref shop, ref nextSlot, ItemType<GodSlayerVisage>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
-                SetShopItem(ref shop, ref nextSlot, ItemType<SilvaHelm>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
-                SetShopItem(ref shop, ref nextSlot, ItemType<SilvaHornedHelm>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
-                SetShopItem(ref shop, ref nextSlot, ItemType<SilvaMask>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ItemType<BlueBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ItemType<BlueSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ItemType<BlueTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ItemType<GreenBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ItemType<GreenSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ItemType<GreenTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ItemType<PinkBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ItemType<PinkSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ItemType<PinkTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ItemType<CounterScarf>(), price: Item.buyPrice(gold: 10));
+                SetShopItem(ref shop, ItemID.GoldenKey, Main.hardMode, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ItemType<GodSlayerHornedHelm>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ItemType<GodSlayerVisage>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ItemType<SilvaHelm>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ItemType<SilvaHornedHelm>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ItemType<SilvaMask>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
             }
 
             if (type == NPCID.Painter)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.PainterPaintballGun, price: Item.buyPrice(0, 15));
+                SetShopItem(ref shop, ItemID.PainterPaintballGun, price: Item.buyPrice(0, 15));
             }
 
             if (type == NPCID.Steampunker)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemType<AstralSolution>(), price: Item.buyPrice(0, 0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.PurpleSolution, Main.LocalPlayer.ZoneGraveyard && WorldGen.crimson, price: Item.buyPrice(0, 0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.RedSolution, Main.LocalPlayer.ZoneGraveyard && !WorldGen.crimson, price: Item.buyPrice(0, 0, 5));
+                SetShopItem(ref shop, ItemType<AstralSolution>(), price: Item.buyPrice(0, 0, 5));
+                SetShopItem(ref shop, ItemID.PurpleSolution, Main.LocalPlayer.ZoneGraveyard && WorldGen.crimson, price: Item.buyPrice(0, 0, 5));
+                SetShopItem(ref shop, ItemID.RedSolution, Main.LocalPlayer.ZoneGraveyard && !WorldGen.crimson, price: Item.buyPrice(0, 0, 5));
             }
 
             if (type == NPCID.Wizard)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.ManaRegenerationPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, goldCost, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.MagicPowerPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, goldCost, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.GravitationPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 2, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.PotionOfReturn, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, goldCost, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemType<HowlsHeart>());
-                SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.RodofDiscord, Main.hardMode && Main.LocalPlayer.ZoneHallow, price: Item.buyPrice(10));
-                SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.MagnetSphere, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+                SetShopItem(ref shop, ItemID.ManaRegenerationPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, goldCost, 0, 0));
+                SetShopItem(ref shop, ItemID.MagicPowerPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, goldCost, 0, 0));
+                SetShopItem(ref shop, ItemID.GravitationPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 2, 0, 0));
+                SetShopItem(ref shop, ItemID.PotionOfReturn, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, goldCost, 0, 0));
+                SetShopItem(ref shop, ItemType<HowlsHeart>());
+                SetShopItem(ref shop, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ItemID.RodofDiscord, Main.hardMode && Main.LocalPlayer.ZoneHallow, price: Item.buyPrice(10));
+                SetShopItem(ref shop, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+                SetShopItem(ref shop, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+                SetShopItem(ref shop, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+                SetShopItem(ref shop, ItemID.MagnetSphere, NPC.downedGolemBoss, Item.buyPrice(0, 25));
             }
 
             if (type == NPCID.WitchDoctor)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.SummoningPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, goldCost, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.CalmingPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.RagePotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, goldCost, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.WrathPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, goldCost, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.InfernoPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 2, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemType<SunkenSeaFountain>());
-                SetShopItem(ref shop, ref nextSlot, ItemType<SulphurousFountainItem>());
-                SetShopItem(ref shop, ref nextSlot, ItemType<AbyssFountainItem>(), Main.hardMode);
-                SetShopItem(ref shop, ref nextSlot, ItemType<AstralFountainItem>(), Main.hardMode);
-                SetShopItem(ref shop, ref nextSlot, ItemID.ButterflyDust, NPC.downedGolemBoss, Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, ItemID.FriedEgg, happy, Item.buyPrice(0, 2, 50));
+                SetShopItem(ref shop, ItemID.SummoningPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, goldCost, 0, 0));
+                SetShopItem(ref shop, ItemID.CalmingPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ItemID.RagePotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, goldCost, 0, 0));
+                SetShopItem(ref shop, ItemID.WrathPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, goldCost, 0, 0));
+                SetShopItem(ref shop, ItemID.InfernoPotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 2, 0, 0));
+                SetShopItem(ref shop, ItemType<SunkenSeaFountain>());
+                SetShopItem(ref shop, ItemType<SulphurousFountainItem>());
+                SetShopItem(ref shop, ItemType<AbyssFountainItem>(), Main.hardMode);
+                SetShopItem(ref shop, ItemType<AstralFountainItem>(), Main.hardMode);
+                SetShopItem(ref shop, ItemID.ButterflyDust, NPC.downedGolemBoss, Item.buyPrice(0, 10));
+                SetShopItem(ref shop, ItemID.FriedEgg, happy, Item.buyPrice(0, 2, 50));
             }
 
             if (type == NPCID.PartyGirl)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.GenderChangePotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.Pizza, happy && NPC.downedBoss3, Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.CreamSoda, happy, Item.buyPrice(0, 2, 50));
+                SetShopItem(ref shop, ItemID.GenderChangePotion, CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ItemID.Pizza, happy && NPC.downedBoss3, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ItemID.CreamSoda, happy, Item.buyPrice(0, 2, 50));
             }
 
             if (type == NPCID.Princess)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.PrincessWeapon, true, Item.buyPrice(0, 50, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemType<LanternCenter>());
-                SetShopItem(ref shop, ref nextSlot, ItemID.AppleJuice, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
-                SetShopItem(ref shop, ref nextSlot, ItemID.FruitJuice, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
-                SetShopItem(ref shop, ref nextSlot, ItemID.Lemonade, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
-                SetShopItem(ref shop, ref nextSlot, ItemID.PrismaticPunch, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
-                SetShopItem(ref shop, ref nextSlot, ItemID.SmoothieofDarkness, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
-                SetShopItem(ref shop, ref nextSlot, ItemID.TropicalSmoothie, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ItemID.PrincessWeapon, true, Item.buyPrice(0, 50, 0, 0));
+                SetShopItem(ref shop, ItemType<LanternCenter>());
+                SetShopItem(ref shop, ItemID.AppleJuice, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ItemID.FruitJuice, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ItemID.Lemonade, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ItemID.PrismaticPunch, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ItemID.SmoothieofDarkness, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
+                SetShopItem(ref shop, ItemID.TropicalSmoothie, NPC.FindFirstNPC(NPCType<FAP>()) != -1);
             }
 
             if (type == NPCID.SkeletonMerchant)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemType<CalciumPotion>(), CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 0, 20, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.MilkCarton);
-                SetShopItem(ref shop, ref nextSlot, ItemID.Marrow, Main.hardMode, Item.buyPrice(0, 36));
+                SetShopItem(ref shop, ItemType<CalciumPotion>(), CalamityConfig.Instance.PotionSelling, Item.buyPrice(0, 0, 20, 0));
+                SetShopItem(ref shop, ItemID.MilkCarton);
+                SetShopItem(ref shop, ItemID.Marrow, Main.hardMode, Item.buyPrice(0, 36));
             }
 
             if (type == NPCID.Golfer)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.PotatoChips, happy, Item.buyPrice(0, 1));
+                SetShopItem(ref shop, ItemID.PotatoChips, happy, Item.buyPrice(0, 1));
             }
 
             if (type == NPCID.BestiaryGirl)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.Steak, happy && Main.hardMode, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ItemID.Steak, happy && Main.hardMode, Item.buyPrice(0, 5));
             }
+            shop.Register();
         }
 
         public override void SetupTravelShop(int[] shop, ref int nextSlot)
@@ -1740,17 +1743,16 @@ namespace CalamityMod.NPCs
             }
         }
 
-        public void SetShopItem(ref Chest shop, ref int nextSlot, int itemID, bool condition = true, int? price = null)
+        // TODO: remove once ModifyShop uses conditions instead of bools?
+        public void SetShopItem(ref NPCShop shop, int itemID, bool condition = true, int? price = null)
         {
-            if (condition)
+            if (price != null)
             {
-                shop.item[nextSlot].SetDefaults(itemID);
-                if (price != null)
-                {
-                    shop.item[nextSlot].shopCustomPrice = price;
-                }
-
-                nextSlot++;
+                shop.AddWithCustomValue(itemID, (int)price, new Condition("god have mercy", () => condition));
+            }
+            else
+            {
+                shop.Add(itemID, new Condition("god have mercy", () => condition));
             }
         }
         #endregion
