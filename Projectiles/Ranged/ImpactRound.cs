@@ -4,7 +4,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
-using Terraria.WorldBuilding;
 
 namespace CalamityMod.Projectiles.Ranged
 {
