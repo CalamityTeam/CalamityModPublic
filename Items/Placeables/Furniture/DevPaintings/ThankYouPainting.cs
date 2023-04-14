@@ -99,6 +99,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Shayy",
 			"Spider Prov",
 			"StipulateVenus",
+			"Sylvium",
 			"That Blasterd Basterd",
 			"Tomat",
 			"Triangle",
