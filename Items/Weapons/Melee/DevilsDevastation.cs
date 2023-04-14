@@ -114,16 +114,20 @@ namespace CalamityMod.Items.Weapons.Melee
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 173);
         }
 
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.CritDamage *= 0.5f;
+        }
+
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.ShadowFlame, 150);
             target.AddBuff(BuffID.OnFire, 300);
             if (crit)
             {
-                damage /= 2;
                 target.AddBuff(BuffID.ShadowFlame, 450);
                 target.AddBuff(BuffID.OnFire, 900);
-                player.ApplyDamageToNPC(target, damage * 4, 0f, 0, false);
+                player.ApplyDamageToNPC(target, Item.damage * 4, 0f, 0, false);
                 float scalar1 = 1.7f;
                 float scalar2 = 0.8f;
                 float scalar3 = 2f;

@@ -34,16 +34,16 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 3f;
         }
 
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.CritDamage *= 0.5f;
+        }
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Frostburn2, 300);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
-
-            if (crit)
-                damage /= 2;
-
             var source = player.GetSource_ItemUse(Item);
-            int p = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), damage, knockback * 3f, player.whoAmI);
+            int p = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), Item.damage, 12f, player.whoAmI);
             Main.projectile[p].Kill();
         }
 
@@ -51,12 +51,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(BuffID.Frostburn2, 300);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
-
-            if (crit)
-                damage /= 2;
-
             var source = player.GetSource_ItemUse(Item);
-            int p = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), damage, 12f, player.whoAmI);
+            int p = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), Item.damage, 12f, player.whoAmI);
             Main.projectile[p].Kill();
         }
     }
