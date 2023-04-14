@@ -4683,7 +4683,7 @@ namespace CalamityMod.CalPlayer
 
                 // Scale with base damage reduction
                 if (Player.endurance > 0)
-                    contactDamageReduction *= 1f - (Player.endurance * 0.01f);
+                    contactDamageReduction *= 1f - Player.endurance;
 
                 contactDamageReduction = 1D / (1D + contactDamageReduction);
                 damage = (int)(damage * contactDamageReduction);
@@ -4977,7 +4977,7 @@ namespace CalamityMod.CalPlayer
 
                 // Scale with base damage reduction
                 if (Player.endurance > 0)
-                    projectileDamageReduction *= 1f - (Player.endurance * 0.01f);
+                    projectileDamageReduction *= 1f - Player.endurance;
 
                 projectileDamageReduction = 1D / (1D + projectileDamageReduction);
                 damage = (int)(damage * projectileDamageReduction);
@@ -5599,10 +5599,6 @@ namespace CalamityMod.CalPlayer
                 damageMult += 0.15;
             if (enraged) // Demonshade Enrage increases incoming damage by 25%.
                 damageMult += 0.25;
-
-            // Add 5% damage multiplier for each Beetle Shell beetle that is active, thus reducing the DR from 10% to 5% per stack.
-            if (Player.beetleDefense && Player.beetleOrbs > 0)
-                damageMult += 0.05 * Player.beetleOrbs;
 
             // Blood Pact gives you a 1/4 chance to be crit, increasing the incoming damage by 25%.
             if (bloodPact && Main.rand.NextBool(4))
