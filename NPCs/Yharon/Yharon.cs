@@ -34,6 +34,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Utilities;
+using Microsoft.CodeAnalysis;
 
 namespace CalamityMod.NPCs.Yharon
 {
@@ -2938,18 +2939,6 @@ namespace CalamityMod.NPCs.Yharon
         {
             if (hurtInfo.Damage > 0)
                 target.AddBuff(ModContent.BuffType<Dragonfire>(), 240, true);
-        }
-        #endregion
-
-        #region Projectile Resists
-        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
-        {
-            if (projectile.type == ModContent.ProjectileType<TimeBoltKnife>())
-                damage = (int)(damage * 0.85);
-            if (projectile.type == ModContent.ProjectileType<ReaperProjectile>())
-                damage = (int)(damage * 0.9);
-            if (projectile.type == ModContent.ProjectileType<PhantasmalSoul>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinProj>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinGhost>())
-                damage = (int)(damage * 0.95);
         }
         #endregion
 
