@@ -30,11 +30,6 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
             num = fail ? 1 : 3;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureWulfrum.WulfrumBathtub>());
-        }
-
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             int xFrameOffset = Main.tile[i, j].TileFrameX;

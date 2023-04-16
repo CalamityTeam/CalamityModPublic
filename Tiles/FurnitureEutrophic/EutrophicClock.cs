@@ -61,11 +61,6 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             }
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicClock>());
-        }
-
         public override void MouseOver(int i, int j) => CalamityUtils.MouseOver(i, j, ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicClock>());
     }
 }

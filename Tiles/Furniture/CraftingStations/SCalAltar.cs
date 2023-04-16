@@ -47,6 +47,8 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             // name.SetDefault("Altar");
             AddMapEntry(new Color(43, 19, 42), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
+            
+            ItemDrop = ModContent.ItemType<AltarOfTheAccursedItem>();
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -56,11 +58,6 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             // Red torch dust.
             type = 60;
             return true;
-        }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<AltarOfTheAccursedItem>());
         }
 
         public override bool RightClick(int i, int j) => AttemptToSummonSCal(i, j);
@@ -149,11 +146,6 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             // Red torch dust.
             type = 60;
             return true;
-        }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<AltarOfTheAccursedItem>());
         }
 
         public override bool RightClick(int i, int j) => SCalAltar.AttemptToSummonSCal(i, j);

@@ -35,6 +35,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             LocalizedText name = CreateMapEntryName();
             // name.SetDefault("Inactive Power Cell Factory");
             AddMapEntry(new Color(67, 72, 81), name);
+            
+            ItemDrop = ModContent.ItemType<PowerCellFactoryItem>();
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -48,11 +50,6 @@ namespace CalamityMod.Tiles.DraedonStructures
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
-        }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<PowerCellFactoryItem>());
         }
     }
 }

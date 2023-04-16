@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Dusts;
+using CalamityMod.Items.Placeables.FurnitureMonolith;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -18,6 +19,7 @@ namespace CalamityMod.Tiles.FurnitureMonolith
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.OpenDoor };
+            ItemDrop = ModContent.ItemType<MonolithDoor>();
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<MonolithDoorClosed>();
         }
 
@@ -58,17 +60,12 @@ namespace CalamityMod.Tiles.FurnitureMonolith
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeables.FurnitureMonolith.MonolithDoor>());
-        }
-
         public override void MouseOver(int i, int j)
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureMonolith.MonolithDoor>();
+            player.cursorItemIconID = ModContent.ItemType<MonolithDoor>();
         }
     }
 }

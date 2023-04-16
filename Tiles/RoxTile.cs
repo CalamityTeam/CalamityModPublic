@@ -23,11 +23,8 @@ namespace CalamityMod.Tiles
             // name.SetDefault("Roxcalibur");
             AddMapEntry(new Color(240, 77, 7), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
-        }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 16, ModContent.ItemType<Roxcalibur>());
+            ItemDrop = ModContent.ItemType<Roxcalibur>();
         }
     }
 }

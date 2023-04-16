@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Dusts.Furniture;
+using CalamityMod.Items.Placeables.FurnitureOtherworldly;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -18,6 +19,7 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.OpenDoor };
+            ItemDrop = ModContent.ItemType<OtherworldlyDoor>();
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<OtherworldlyDoorClosed>();
         }
 
@@ -35,17 +37,12 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeables.FurnitureOtherworldly.OtherworldlyDoor>());
-        }
-
         public override void MouseOver(int i, int j)
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureOtherworldly.OtherworldlyDoor>();
+            player.cursorItemIconID = ModContent.ItemType<OtherworldlyDoor>();
         }
     }
 }

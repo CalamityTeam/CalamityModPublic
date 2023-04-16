@@ -62,9 +62,6 @@ namespace CalamityMod.Tiles.DraedonStructures
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            // Drop the projector itself.
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<LabHologramProjectorItem>());
-
             Tile tile = Main.tile[i, j];
             int left = i - tile.TileFrameX % (Width * SheetSquare) / SheetSquare;
             int top = j - tile.TileFrameY % (Height * SheetSquare) / SheetSquare;

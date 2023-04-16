@@ -34,11 +34,6 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 32, ModContent.ItemType<SacrilegiousBed>());
-        }
-
         public override bool RightClick(int i, int j) => CalamityUtils.BedRightClick(i, j);
 
         public override void MouseOver(int i, int j) => CalamityUtils.MouseOver(i, j, ModContent.ItemType<SacrilegiousBed>());

@@ -40,10 +40,5 @@ namespace CalamityMod.Tiles.Furniture
             if (!player.dead && player.active)
                 player.AddBuff(ModContent.BuffType<EffigyOfDecayBuff>(), 20);
         }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ModContent.ItemType<EffigyOfDecay>());
-        }
     }
 }

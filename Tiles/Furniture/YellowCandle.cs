@@ -65,10 +65,5 @@ namespace CalamityMod.Tiles.Furniture
             g = 0.75f;
             b = 0.35f;
         }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.SpitefulCandle>());
-        }
     }
 }

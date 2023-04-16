@@ -30,11 +30,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             LocalizedText name = CreateMapEntryName();
             // name.SetDefault("Onyx Excavator");
             AddMapEntry(new Color(128, 0, 128), name);
-        }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 16, ModContent.ItemType<OnyxExcavatorKey>());
+            
+            ItemDrop = ModContent.ItemType<OnyxExcavatorKey>();
         }
     }
 }

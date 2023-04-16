@@ -30,11 +30,6 @@ namespace CalamityMod.Tiles.Furniture
             num = fail ? 1 : 3;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<ThaumaticChair>());
-        }
-
         public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info) => CalamityUtils.ChairSitInfo(i, j, ref info);
 
         public override bool RightClick(int i, int j) => CalamityUtils.ChairRightClick(i, j);

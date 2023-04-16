@@ -43,11 +43,6 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
             num = fail ? 1 : 3;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ModContent.ItemType<AcidwoodClock>());
-        }
-
         public override void MouseOver(int i, int j) => CalamityUtils.MouseOver(i, j, ModContent.ItemType<AcidwoodClock>());
     }
 }

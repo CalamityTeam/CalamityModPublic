@@ -17,6 +17,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.OpenDoor };
+            ItemDrop = ModContent.ItemType<AshenDoor>();
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<AshenDoorClosed>();
         }
 
@@ -32,11 +33,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
-        }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, ModContent.ItemType<AshenDoor>());
         }
 
         public override void MouseOver(int i, int j)
