@@ -61,6 +61,9 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.LifeMaxNERB(80000, 96000, 1000000);
+            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                NPC.lifeMax *= 2;
+
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;

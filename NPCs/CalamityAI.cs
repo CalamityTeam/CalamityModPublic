@@ -404,8 +404,9 @@ namespace CalamityMod.NPCs
             float num188 = 5f;
             float num189 = 0.08f;
             Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-            float num191 = player.position.X + (player.width / 2);
-            float num192 = player.position.Y + (player.height / 2);
+            Vector2 predictionVector = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? Main.player[npc.target].velocity * 20f : Vector2.Zero;
+            float num191 = player.position.X + (player.width / 2) + predictionVector.X;
+            float num192 = player.position.Y + (player.height / 2) + predictionVector.Y;
 
             if (head && !doSpiral)
             {
