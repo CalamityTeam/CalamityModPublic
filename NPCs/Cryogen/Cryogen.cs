@@ -289,14 +289,41 @@ namespace CalamityMod.NPCs.Cryogen
             else if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;
 
+            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+            {
+                int spawnType = CalamityWorld.getFixedBoi ? NPCID.RedDevil : NPCID.IceGolem;
+                if (!NPC.AnyNPCs(spawnType))
+                {
+                    int num167 = 1000;
+                    for (int num168 = 0; num168 < num167; num168++)
+                    {
+                        int num169 = (int)(NPC.Center.X / 16f) + Main.rand.Next(-50, 51);
+                        int num170;
+                        for (num170 = (int)(NPC.Center.Y / 16f) + Main.rand.Next(-50, 51); num170 < Main.maxTilesY - 10 && !WorldGen.SolidTile(num169, num170); num170++)
+                        {
+                        }
+
+                        num170--;
+                        if (!WorldGen.SolidTile(num169, num170))
+                        {
+                            int num171 = NPC.NewNPC(NPC.GetSource_FromAI(), num169 * 16 + 8, num170 * 16, spawnType);
+                            if (Main.netMode == NetmodeID.Server && num171 < Main.maxNPCs)
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num171);
+
+                            break;
+                        }
+                    }
+                }
+            }
+
             float chargePhaseGateValue = bossRush ? 240f : 360f;
             float chargeDuration = 60f;
-            float chargeTelegraphTime = NPC.ai[0] == 2f ? 80f : 120f;
+            float chargeTelegraphTime = NPC.ai[0] == 2f ? ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 60f : 80f) : ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 90f : 120f);
             float chargeTelegraphMaxRotationIncrement = 1f;
             float chargeTelegraphRotationIncrement = chargeTelegraphMaxRotationIncrement / chargeTelegraphTime;
             float chargeSlowDownTime = 15f;
-            float chargeVelocityMin = 12f;
-            float chargeVelocityMax = 30f;
+            float chargeVelocityMin = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 24f : 12f;
+            float chargeVelocityMax = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 42f : 30f;
             if (Main.getGoodWorld)
             {
                 chargePhaseGateValue *= 0.7f;
