@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             //Add some damage falloff
-            damage = (int)(damage * Math.Pow((1 - ArkoftheElements.blastFalloffStrenght), Projectile.numHits * ArkoftheElements.blastFalloffSpeed));
+            modifiers.SourceDamage *= Math.Pow(1 - ArkoftheElements.blastFalloffStrenght, Projectile.numHits * ArkoftheElements.blastFalloffSpeed);
         }
 
         //Animation keys

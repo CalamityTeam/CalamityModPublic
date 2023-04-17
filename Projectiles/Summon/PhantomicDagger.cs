@@ -56,18 +56,14 @@ namespace CalamityMod.Projectiles.Summon
             if (target.defense > 999 || target.Calamity().DR >= 0.95f || target.Calamity().unbreakableDR)
                 return;
 
-            int cap = (int)(damage * 1.05f); // Capped at 5% dr ignoring
-            damage = Math.Min((int)(damage * (1 / (1 - target.Calamity().DR))), cap);
+            int cap = 3;
+            float capDamageFactor = 0.05f;
+            int excessCount = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type] - cap;
+            modifiers.SourceDamage *= MathHelper.Clamp(1f - (capDamageFactor * excessCount), 0f, 1f);
 
-            int projectileCount = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
-            int cap2 = 3;
-            int oldDamage = damage;
-            if (projectileCount > cap2)
-            {
-                damage -= (int)(oldDamage * ((projectileCount - cap2) * 0.05));
-                if (damage < 1)
-                    damage = 1;
-            }
+            // Bypass a portion of the target's DR
+            float maxDRPenetration = 1.05f; // 5% extra damage
+            modifiers.FinalDamage *= MathHelper.Clamp(1f / (1f - target.Calamity().DR), 1f, maxDRPenetration);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.timeLeft < spinTime)
             {
-                damage = (int)(Projectile.damage * 1.75f) + Main.rand.Next(0, 6);
+                modifiers.SourceDamage *= 1.75f;
             }
         }
 

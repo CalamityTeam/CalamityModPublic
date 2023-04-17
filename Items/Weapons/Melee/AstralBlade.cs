@@ -66,11 +66,11 @@ namespace CalamityMod.Items.Weapons.Melee
             float lifeRatio = target.life / (float)target.lifeMax;
             float multiplier = MathHelper.Lerp(1f, 2f, lifeRatio);
 
-            damage = (int)(damage * multiplier);
-            knockback *= multiplier;
+            modifiers.SourceDamage *= multiplier;
+            modifiers.Knockback *= multiplier;
 
-            if (!crit)
-                crit = Main.rand.NextBool((int)MathHelper.Clamp((Item.crit + player.GetCritChance<MeleeDamageClass>()) * multiplier, 0f, 99f), 100);
+            if (Main.rand.NextBool((int)MathHelper.Clamp((Item.crit + player.GetCritChance<MeleeDamageClass>()) * multiplier, 0f, 99f), 100))
+                modifiers.SetCrit();
 
             if (multiplier > 1.5f)
             {

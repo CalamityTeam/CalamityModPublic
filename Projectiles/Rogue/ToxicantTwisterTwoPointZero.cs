@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.ai[1] <= 40f && Projectile.ai[0] != 1f)
             {
-                damage /= 3;
+                modifiers.SourceDamage *= 0.3333f;
             }
         }
 

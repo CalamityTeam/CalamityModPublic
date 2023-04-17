@@ -182,7 +182,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Main.player[Projectile.owner].Calamity().omegaBlueHentai)
-                crit = true;
+                modifiers.SetCrit();
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

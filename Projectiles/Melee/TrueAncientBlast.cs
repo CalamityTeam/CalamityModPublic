@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             //Add some damage falloff
-            damage = (int)(damage * Math.Pow((1 - TrueArkoftheAncients.blastFalloffStrenght), Projectile.numHits * TrueArkoftheAncients.blastFalloffSpeed));
+            modifiers.SourceDamage *= Math.Pow(1 - TrueArkoftheAncients.blastFalloffStrenght, Projectile.numHits * TrueArkoftheAncients.blastFalloffSpeed);
         }
 
         public override bool PreDraw(ref Color lightColor)

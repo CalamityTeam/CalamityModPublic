@@ -417,7 +417,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Combo == 3f)
-                damage = (int)(damage * ArkoftheElements.snapDamageMultiplier);
+                modifiers.SourceDamage *= ArkoftheElements.snapDamageMultiplier;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

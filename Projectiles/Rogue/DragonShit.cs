@@ -72,15 +72,10 @@ namespace CalamityMod.Projectiles.Rogue
         // Reduce damage of projectiles if more than the cap are active
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            int projectileCount = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
             int cap = 5;
-            int oldDamage = damage;
-            if (projectileCount > cap)
-            {
-                damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
-                if (damage < 1)
-                    damage = 1;
-            }
+            float capDamageFactor = 0.05f;
+            int excessCount = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type] - cap;
+            modifiers.SourceDamage *= MathHelper.Clamp(1f - (capDamageFactor * excessCount), 0f, 1f);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, Projectile.alpha);

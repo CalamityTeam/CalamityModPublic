@@ -44,12 +44,13 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage = (int)(damage * 1.2);
-            crit |= Main.rand.NextBool(10);
+            modifiers.SourceDamage *= 1.2f;
+            if (Main.rand.NextBool(10))
+                modifiers.SetCrit();
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        {   
             SoundEngine.PlaySound(SoundID.NPCHit34, Projectile.position);
         }
 

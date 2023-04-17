@@ -83,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
             player.Calamity().hellbornBoost = 600;
-            damage  = (int)(damage * ExplosionDamageMultiplier);
+            modifiers.SourceDamage *= ExplosionDamageMultiplier;
             int touchDamage = player.CalcIntDamage<RangedDamageClass>(Item.damage);
             player.ApplyDamageToNPC(target, touchDamage, 0f, 0, false);
             float num50 = 3.4f;
@@ -124,7 +124,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void ModifyHitPvp(Player player, Player target, ref Player.HurtModifiers modifiers)
         {
-            damage *= 10;
+            modifiers.SourceDamage *= 10;
         }
 
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)

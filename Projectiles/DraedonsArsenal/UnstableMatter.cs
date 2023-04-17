@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (!HasCollidedWithATile)
-                damage /= 3;
+                modifiers.SourceDamage /= 3;
             else if (Projectile.penetrate == -1)
                 Projectile.penetrate = 1;
         }

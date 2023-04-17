@@ -224,26 +224,23 @@ namespace CalamityMod.Projectiles.Melee
         //Since the iframes vary, adjust the damage to be consistent no matter the iframes. The true scaling happens between the BaseDamage and the FulLChargeDamage
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            float deviationFromBaseDamage = damage / (float)OmegaBiomeBlade.SuperPogoAttunement_BaseDamage;
-            float currentDamage = (int)(MathHelper.Lerp(OmegaBiomeBlade.SuperPogoAttunement_BaseDamage * deviationFromBaseDamage, OmegaBiomeBlade.SuperPogoAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
-
+            float maxMultiplier = OmegaBiomeBlade.SuperPogoAttunement_FullChargeDamage / (float)OmegaBiomeBlade.SuperPogoAttunement_BaseDamage;
+            float damageMultiplier = MathHelper.Lerp(1f, maxMultiplier, ShredRatio);
             //Adjust the damage to make it constant based on the local iframes
             float damageReduction = Projectile.localNPCHitCooldown / (float)OmegaBiomeBlade.SuperPogoAttunement_LocalIFrames;
 
-            damage = (int)(currentDamage * damageReduction);
+            modifiers.SourceDamage *= damageMultiplier * damageReduction;
         }
 
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            float deviationFromBaseDamage = damage / (float)OmegaBiomeBlade.SuperPogoAttunement_BaseDamage;
-            float currentDamage = (int)(MathHelper.Lerp(OmegaBiomeBlade.SuperPogoAttunement_BaseDamage * deviationFromBaseDamage, OmegaBiomeBlade.SuperPogoAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
-
+            float maxMultiplier = OmegaBiomeBlade.SuperPogoAttunement_FullChargeDamage / (float)OmegaBiomeBlade.SuperPogoAttunement_BaseDamage;
+            float damageMultiplier = MathHelper.Lerp(1f, maxMultiplier, ShredRatio);
             //Adjust the damage to make it constant based on the local iframes
             float damageReduction = Projectile.localNPCHitCooldown / (float)OmegaBiomeBlade.SuperPogoAttunement_LocalIFrames;
 
-            damage = (int)(currentDamage * damageReduction);
+            modifiers.SourceDamage *= damageMultiplier * damageReduction;
         }
-
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => ShredTarget();
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => ShredTarget();

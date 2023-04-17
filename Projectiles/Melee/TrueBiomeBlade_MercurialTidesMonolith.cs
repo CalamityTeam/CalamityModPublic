@@ -180,8 +180,7 @@ namespace CalamityMod.Projectiles.Melee
                 sword.OnHitProc = true;
 
             if (Projectile.numHits > 0)
-                damage = (int)(damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageFalloff);
-
+                modifiers.SourceDamage *= OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageFalloff;
         }
 
         public override bool PreDraw(ref Color lightColor)

@@ -89,7 +89,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage += target.defense * 2;
+            // holy crap this is kinda broken??
+            modifiers.DefenseEffectiveness = MultipliableFloat.One * 0f;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

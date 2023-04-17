@@ -243,7 +243,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage = (int)(damage * (1f + OmegaBiomeBlade.ShockwaveAttunement_FullChargeBoost * (float)Math.Pow(Charge / MaxCharge, 2)));
+            modifiers.SourceDamage *= 1f + OmegaBiomeBlade.ShockwaveAttunement_FullChargeBoost * (float)Math.Pow(Charge / MaxCharge, 2);
 
             if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.ShockwaveAttunement_SwordProc)
                 sword.OnHitProc = true;

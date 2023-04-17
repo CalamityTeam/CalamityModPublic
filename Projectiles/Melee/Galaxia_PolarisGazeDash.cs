@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            crit = true;
+            modifiers.SetCrit();
 
             Particle bloom = new StrongBloom(target.Center, target.velocity, Color.Crimson * 0.5f, 1f, 30);
             GeneralParticleHandler.SpawnParticle(bloom);

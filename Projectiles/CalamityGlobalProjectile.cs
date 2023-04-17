@@ -2459,12 +2459,12 @@ namespace CalamityMod.Projectiles
             {
                 float baseVelocityDamageMultiplier = 0.01f + player.velocity.Length() * 0.002f;
                 float calamityVelocityDamageMultiplier = 100f * (1f - (1f / (1f + baseVelocityDamageMultiplier)));
-                damageScale = calamityVelocityDamageMultiplier;
+                modifiers.SourceDamage *= calamityVelocityDamageMultiplier;
             }
 
             // If applicable, use ricoshot bonus damage.
             if (totalRicoshotDamageBonus > 0f)
-                damageScale += totalRicoshotDamageBonus;
+                modifiers.SourceDamage *= totalRicoshotDamageBonus;
 
             // If this projectile is forced to crit, simply set the crit bool.
             if (forcedCrit)
@@ -2480,21 +2480,21 @@ namespace CalamityMod.Projectiles
             {
                 float proximityDamageInterpolant = Utils.GetLerpValue(250f, 2400f, target.Distance(player.Center), true);
                 float proximityDamageFactor = MathHelper.SmoothStep(0.7f, 1.45f, proximityDamageInterpolant);
-                damage = (int)Math.Ceiling(damage * proximityDamageFactor);
+                modifiers.SourceDamage *= proximityDamageFactor;
             }
 
             if (modPlayer.closeProximityRewardEnchant)
             {
                 float proximityDamageInterpolant = Utils.GetLerpValue(400f, 175f, target.Distance(player.Center), true);
                 float proximityDamageFactor = MathHelper.SmoothStep(0.75f, 1.75f, proximityDamageInterpolant);
-                damage = (int)Math.Ceiling(damage * proximityDamageFactor);
+                modifiers.SourceDamage *= proximityDamageFactor;
             }
 
             // Aerial Bane does 50% damage to "airborne" enemies. This is just simple math to revert that as it is a very unbalanced mechanic.
             if (projectile.type == ProjectileID.DD2BetsyArrow)
             {
                 if (!WorldUtils.Find(projectile.Center.ToTileCoordinates(), Searches.Chain(new Searches.Down(12), new Conditions.IsSolid()), out _))
-                    damage = (int)(damage * 2f / 3f);
+                    modifiers.SourceDamage /= 1.5f;
             }
         }
         #endregion

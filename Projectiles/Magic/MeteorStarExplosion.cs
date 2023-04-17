@@ -35,18 +35,21 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            damage = Main.rand.Next(GloriousEnd.PlayerExplosionDmgMin, GloriousEnd.PlayerExplosionDmgMax + 1);
+            // Surely there is a more intuitive way to do this, right...?
+            int intendedDamage = Main.rand.Next(GloriousEnd.PlayerExplosionDmgMin, GloriousEnd.PlayerExplosionDmgMax + 1);
+            modifiers.SourceDamage *= intendedDamage / (float)Projectile.damage;
             if (Projectile.ai[0] == 1f)
-                damage /= 2;
+                modifiers.SourceDamage /= 2;
         }
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (target.townNPC)
             {
-                damage = Main.rand.Next(GloriousEnd.PlayerExplosionDmgMin, GloriousEnd.PlayerExplosionDmgMax + 1);
+                int intendedDamage = Main.rand.Next(GloriousEnd.PlayerExplosionDmgMin, GloriousEnd.PlayerExplosionDmgMax + 1);
+                modifiers.SourceDamage *= intendedDamage / (float)Projectile.damage;
                 if (Projectile.ai[0] == 1f)
-                    damage /= 2;
+                    modifiers.SourceDamage /= 2;
             }
         }
     }

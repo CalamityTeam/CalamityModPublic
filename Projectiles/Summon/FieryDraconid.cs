@@ -232,7 +232,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             // Do much more damage during a ram than otherwise.
             if (RamCountdown > 0f)
-                damage = (int)(damage * YharonsKindleStaff.ReboundRamDamageFactor);
+                modifiers.FinalDamage *= YharonsKindleStaff.ReboundRamDamageFactor;
         }
 
         public override bool? CanDamage() => Projectile.localAI[0] > 1f;

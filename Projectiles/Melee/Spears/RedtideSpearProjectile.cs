@@ -319,7 +319,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             //Boost the knockback during the run attack
             if (CurrentAttackState == AttackState.RunAttack)
-                knockback *= 1.35f;
+                modifiers.Knockback *= 1.35f;
         }
 
         public override bool PreDraw(ref Color lightColor)

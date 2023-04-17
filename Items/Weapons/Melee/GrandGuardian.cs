@@ -55,12 +55,12 @@ namespace CalamityMod.Items.Weapons.Melee
                 player.HealEffect(4);
             }
 
-            OnHitEffects(player, target.Center, target.life, target.lifeMax, Item.knockBack, Item.damage, crit);
+            OnHitEffects(player, target.Center, target.life, target.lifeMax, Item.knockBack, Item.damage, hit.Crit);
         }
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
-            OnHitEffects(player, target.Center, target.statLife, target.statLifeMax2, Item.knockBack, Item.damage, crit);
+            OnHitEffects(player, target.Center, target.statLife, target.statLifeMax2, Item.knockBack, Item.damage, false);
         }
         // this should use onHitNPC and ModifyHitNPC instead of onHitEffects
         private void OnHitEffects(Player player, Vector2 targetPos, int targetLife, int targetMaxLife, float knockback, int damage, bool crit)

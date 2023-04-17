@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
+            base.ModifyHitNPC(target, ref modifiers);
             Vector2 projectileHalfLength = (Projectile.Size / 2f) * Projectile.rotation.ToRotationVector2();
             float collisionPoint = 0;
             //If you hit the enemy during the coyote time with the blade of the whip, guarantee a crit & get some bonus damage
@@ -81,19 +81,18 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (SnapCoyoteTime > 0f)
                 {
-                    damage = (int)(damage * BrokenBiomeBlade.TropicalAttunement_SweetSpotDamageMultiplier);
-                    crit = true;
+                    modifiers.SourceDamage *= BrokenBiomeBlade.TropicalAttunement_SweetSpotDamageMultiplier;
+                    modifiers.SetCrit();
                     for (int i = 0; i < 3; i++)
                     {
                         Vector2 sparkSpeed = Owner.DirectionTo(target.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)) * 9f;
                         Particle Spark = new CritSpark(target.Center, sparkSpeed, Color.White, Color.LimeGreen, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 0.6f);
                         GeneralParticleHandler.SpawnParticle(Spark);
                     }
-
                 }
             }
             else
-                damage = (int)(damage * BrokenBiomeBlade.TropicalAttunement_ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
+                modifiers.SourceDamage *= BrokenBiomeBlade.TropicalAttunement_ChainDamageReduction; //If the enemy is hit with the chain of the whip, the damage gets reduced
         }
 
         public override void AI()

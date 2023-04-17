@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Melee
             //hitDirection = Math.Sign(target.Center.X - Owner.Center.X);
             
             //Doing it this way lets the player choose if they want to knockback enemies towards them by pointing away from them
-            hitDirection = Owner.direction;
+            modifiers.HitDirection = Owner.direction;
         }
 
         public override bool PreDraw(ref Color lightColor)

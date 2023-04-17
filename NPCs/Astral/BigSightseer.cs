@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            if (damage > 0)
+            if (modifiers.FinalDamage > 0)
             {
                 NPC.StrikeNPCNoInteraction(9999, 0, 0);
             }
@@ -246,14 +246,14 @@ namespace CalamityMod.NPCs.Astral
 
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            if (damage > 0)
+            if (modifiers.FinalDamage > 0)
             {
 				if (target.HasNPCBannerBuff(ModContent.NPCType<BigSightseer>()))
 				{
 					if (Main.expertMode)
-						damage = (int)(damage * 0.5f);
+						modifiers.TargetDamageMultiplier = MultipliableFloat.One * 0.5f;
 					else
-						damage = (int)(damage * 0.75f);
+						modifiers.TargetDamageMultiplier = MultipliableFloat.One * 0.75f;
 				}
                 NPC.StrikeNPCNoInteraction(9999, 0, 0);
             }

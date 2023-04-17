@@ -171,24 +171,22 @@ namespace CalamityMod.Projectiles.Melee
         //Since the iframes vary, adjust the damage to be consistent no matter the iframes. The true scaling happens between the BaseDamage and the FulLChargeDamage
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            float deviationFromBaseDamage = damage / (float)TrueBiomeBlade.HotAttunement_BaseDamage;
-            float currentDamage = (int)(MathHelper.Lerp(TrueBiomeBlade.HotAttunement_BaseDamage * deviationFromBaseDamage, TrueBiomeBlade.HotAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
-
+            float maxMultiplier = TrueBiomeBlade.HotAttunement_FullChargeDamage / (float)TrueBiomeBlade.HotAttunement_BaseDamage;
+            float damageMultiplier = MathHelper.Lerp(1f, maxMultiplier, ShredRatio);
             //Adjust the damage to make it constant based on the local iframes
             float damageReduction = Projectile.localNPCHitCooldown / (float)TrueBiomeBlade.HotAttunement_LocalIFrames;
 
-            damage = (int)(currentDamage * damageReduction);
+            modifiers.SourceDamage *= damageMultiplier * damageReduction;
         }
 
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            float deviationFromBaseDamage = damage / (float)TrueBiomeBlade.HotAttunement_BaseDamage;
-            float currentDamage = (int)(MathHelper.Lerp(TrueBiomeBlade.HotAttunement_BaseDamage * deviationFromBaseDamage, TrueBiomeBlade.HotAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
-
+            float maxMultiplier = TrueBiomeBlade.HotAttunement_FullChargeDamage / (float)TrueBiomeBlade.HotAttunement_BaseDamage;
+            float damageMultiplier = MathHelper.Lerp(1f, maxMultiplier, ShredRatio);
             //Adjust the damage to make it constant based on the local iframes
             float damageReduction = Projectile.localNPCHitCooldown / (float)TrueBiomeBlade.HotAttunement_LocalIFrames;
 
-            damage = (int)(currentDamage * damageReduction);
+            modifiers.SourceDamage *= damageMultiplier * damageReduction;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => ShredTarget();

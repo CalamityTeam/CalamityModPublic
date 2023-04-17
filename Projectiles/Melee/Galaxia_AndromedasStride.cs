@@ -270,7 +270,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage = (int)(damage * (1f + FourSeasonsGalaxia.AndromedaAttunement_FullChargeBoost * (float)Math.Pow(Charge / MaxCharge, 2)));
+            modifiers.SourceDamage *= 1f + FourSeasonsGalaxia.AndromedaAttunement_FullChargeBoost * (float)Math.Pow(Charge / MaxCharge, 2);
         }
 
         public override bool PreDraw(ref Color lightColor)

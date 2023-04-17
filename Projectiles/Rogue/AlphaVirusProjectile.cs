@@ -129,8 +129,8 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (minDist > Projectile.width)
             {
-                damage /= 5;
-                knockback = 0f;
+                modifiers.SourceDamage *= 0.2f;
+                modifiers.Knockback *= 0f;
             }
         }
 

@@ -81,13 +81,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
             if (player.altFunctionUse == 2)
-                damage *= 2;
+                modifiers.SourceDamage *= 2;
         }
 
         public override void ModifyHitPvp(Player player, Player target, ref Player.HurtModifiers modifiers)
         {
             if (player.altFunctionUse == 2)
-                damage *= 2;
+                modifiers.SourceDamage *= 2;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

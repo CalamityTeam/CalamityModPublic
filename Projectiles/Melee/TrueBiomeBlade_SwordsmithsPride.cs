@@ -254,9 +254,9 @@ namespace CalamityMod.Projectiles.Melee
         {
 
             if (CurrentState == 1f)
-                damage = (int)(damage * MathHelper.Lerp(1f, OmegaBiomeBlade.WhirlwindAttunement_ThrowDamageBoost, Empowerment / maxEmpowerment));
+                modifiers.SourceDamage *= MathHelper.Lerp(1f, OmegaBiomeBlade.WhirlwindAttunement_ThrowDamageBoost, Empowerment / maxEmpowerment);
             else
-                damage = (int)(damage * (OmegaBiomeBlade.WhirlwindAttunement_BaseDamageReduction + (OmegaBiomeBlade.WhirlwindAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment)));
+                modifiers.SourceDamage *= OmegaBiomeBlade.WhirlwindAttunement_BaseDamageReduction + (OmegaBiomeBlade.WhirlwindAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment);
 
             if (CurrentState != 1)
             {

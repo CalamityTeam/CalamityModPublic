@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Rogue
             damageScale /= radius;
             damageScale = 1f - damageScale;
 
-            damage = (int)(damage * damageScale);
+            modifiers.SourceDamage *= damageScale;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);

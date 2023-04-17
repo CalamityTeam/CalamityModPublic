@@ -156,8 +156,7 @@ namespace CalamityMod.Projectiles.Ranged
             //If a polarity beam hits the target with the opposite polarity, the damage dealt increases by 20%
             if (polarity * targetPolarity < 0)
             {
-                double newDamage = damage * 1.2;
-                damage = (int)newDamage;
+                modifiers.SourceDamage *= 1.2f;
 
                 for (int i = 0; i < 4; i++)
                 {

@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.numHits > 12 || damageFactor < DamageFactorLowerBound)
                 damageFactor = DamageFactorLowerBound;
 
-            damage = (int)(damage * damageFactor);
+            modifiers.SourceDamage *= damageFactor;
         }
 
         public List<Projectile> LocateOtherMines()

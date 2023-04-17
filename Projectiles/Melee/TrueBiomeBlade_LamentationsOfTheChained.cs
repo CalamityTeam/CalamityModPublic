@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Melee
                     sword.OnHitProc = true;
 
 
-                crit = true;
+                modifiers.SetCrit();
                 for (int i = 0; i < 2; i++)
                 {
                     Vector2 sparkSpeed = Owner.DirectionTo(target.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)) * 9f;
@@ -114,14 +114,14 @@ namespace CalamityMod.Projectiles.Melee
                 if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.FlailBladeAttunement_ChainProc)
                     sword.OnHitProc = true;
 
-                damage = (int)(damage * OmegaBiomeBlade.FlailBladeAttunement_ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
-                crit = false; //For once, we also block crits completely from the chain
+                modifiers.SourceDamage *= OmegaBiomeBlade.FlailBladeAttunement_ChainDamageReduction; //If the enemy is hit with the chain of the whip, the damage gets reduced
+                modifiers.DisableCrit(); //For once, we also block crits completely from the chain
             }
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (crit)
+            if (hit.Crit)
             {
                 SoundEngine.PlaySound(CommonCalamitySounds.SwiftSliceSound, Projectile.Center);
                 excludedTargets[0] = target;
@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Melee
                     NPC potentialTarget = TargetNext(target.Center, i);
                     if (potentialTarget == null)
                         break;
-                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ProjectileType<GhastlyChain>(), (int)(damage * OmegaBiomeBlade.FlailBladeAttunement_GhostChainDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
+                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ProjectileType<GhastlyChain>(), (int)(damageDone * OmegaBiomeBlade.FlailBladeAttunement_GhostChainDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
                     if (proj.ModProjectile is GhastlyChain chain)
                         chain.Gravity = Main.rand.NextFloat(30f, 50f);
                 }

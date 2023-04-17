@@ -37,16 +37,14 @@ namespace CalamityMod.Projectiles.Ranged
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             //Avoid touching things that you probably aren't meant to damage
-            if (target.defense > 999 || target.Calamity().DR >= 0.95f || target.Calamity().unbreakableDR)
+            if (modifiers.SuperArmor || target.defense > 999 || target.Calamity().DR >= 0.95f || target.Calamity().unbreakableDR)
                 return;
 
-            //DR applies after defense, so undo it first
-            damage = (int)(damage * (1 / (1 - target.Calamity().DR)));
+            //Bypass defense
+            modifiers.DefenseEffectiveness = MultipliableFloat.One * 0f;
 
-            //Then proceed to ignore all defense
-            int penetratableDefense = (int)Math.Max(target.defense - Main.player[Projectile.owner].GetArmorPenetration<GenericDamageClass>(), 0);
-            int penetratedDefense = Math.Min(penetratableDefense, target.defense);
-            damage += (int)(0.5f * penetratedDefense);
+            //Bypass DR
+            modifiers.FinalDamage /= 1f - target.Calamity().DR;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

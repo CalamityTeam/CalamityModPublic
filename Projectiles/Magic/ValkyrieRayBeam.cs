@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Magic
         // Ensure that the hit direction is correct when hitting enemies.
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            hitDirection = (Projectile.Center.X < target.Center.X).ToDirectionInt();
+            modifiers.HitDirection = (Projectile.Center.X < target.Center.X).ToDirectionInt();
         }
 
         private Color GetBeamColor()

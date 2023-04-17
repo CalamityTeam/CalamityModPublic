@@ -131,9 +131,8 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.numHits > 0)
-                damage = (int)(damage * TrueBiomeBlade.AstralAttunement_MonolithDamageFalloff);
+                modifiers.SourceDamage *= TrueBiomeBlade.AstralAttunement_MonolithDamageFalloff;
         }
-
 
         public override bool PreDraw(ref Color lightColor)
         {

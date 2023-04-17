@@ -193,9 +193,9 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (CurrentState == 1f)
-                damage = (int)(damage * MathHelper.Lerp(1f, TrueBiomeBlade.HolyAttunement_ThrowDamageBoost, Empowerment / maxEmpowerment));
+                modifiers.SourceDamage *= MathHelper.Lerp(1f, TrueBiomeBlade.HolyAttunement_ThrowDamageBoost, Empowerment / maxEmpowerment);
             else
-                damage = (int)(damage * (TrueBiomeBlade.HolyAttunement_BaseDamageReduction + (TrueBiomeBlade.HolyAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment)));
+                modifiers.SourceDamage *= TrueBiomeBlade.HolyAttunement_BaseDamageReduction + (TrueBiomeBlade.HolyAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment);
         }
 
         public override void Kill(int timeLeft)

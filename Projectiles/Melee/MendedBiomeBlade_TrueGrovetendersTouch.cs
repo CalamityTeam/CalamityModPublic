@@ -92,19 +92,18 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (SnapCoyoteTime > 0f)
                 {
-                    damage = (int)(damage * TrueBiomeBlade.TropicalAttunement_SweetSpotDamageMultiplier);
-                    crit = true;
+                    modifiers.SourceDamage *= TrueBiomeBlade.TropicalAttunement_SweetSpotDamageMultiplier;
+                    modifiers.SetCrit();
                     for (int i = 0; i < 4; i++)
                     {
                         Vector2 sparkSpeed = Owner.DirectionTo(target.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)) * 9f;
                         Particle Spark = new CritSpark(target.Center, sparkSpeed, Color.White, Color.LimeGreen, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 0.6f);
                         GeneralParticleHandler.SpawnParticle(Spark);
                     }
-
                 }
             }
             else
-                damage = (int)(damage * TrueBiomeBlade.TropicalAttunement_ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
+                modifiers.SourceDamage *= TrueBiomeBlade.TropicalAttunement_ChainDamageReduction; //If the enemy is hit with the chain of the whip, the damage gets reduced
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -123,7 +122,7 @@ namespace CalamityMod.Projectiles.Melee
                         boing = true;
                         SoundEngine.PlaySound(SoundID.Item56);
                     }
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ProjectileType<GrovetendersEntanglingVines>(), (int)(damage * TrueBiomeBlade.TropicalAttunement_VineDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ProjectileType<GrovetendersEntanglingVines>(), (int)(damageDone * TrueBiomeBlade.TropicalAttunement_VineDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
                 }
                 Array.Clear(excludedTargets, 0, 3);
             }

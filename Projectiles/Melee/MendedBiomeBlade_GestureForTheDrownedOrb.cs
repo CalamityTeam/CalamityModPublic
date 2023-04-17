@@ -221,7 +221,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (WaterMode)
-                damage = (int)(damage * TrueBiomeBlade.MarineAttunement_InWaterDamageMultiplier);
+                modifiers.SourceDamage *= TrueBiomeBlade.MarineAttunement_InWaterDamageMultiplier;
         }
 
         public override bool PreDraw(ref Color lightColor)
