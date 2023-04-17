@@ -32,10 +32,5 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             TileID.Sets.DisableSmartCursor[Type] = true;
             AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.Banner"));
         }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<EyeOfTheAccursedBanner>());
-        }
     }
 }

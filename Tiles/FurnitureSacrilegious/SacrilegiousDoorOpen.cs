@@ -17,6 +17,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.Door"));
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.OpenDoor };
+            ItemDrop = ModContent.ItemType<SacrilegiousDoor>();
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<SacrilegiousDoorClosed>();
         }
 
@@ -32,11 +33,6 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         }
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, ModContent.ItemType<SacrilegiousDoor>());
-        }
 
         public override void MouseOver(int i, int j)
         {

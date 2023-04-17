@@ -52,11 +52,6 @@ namespace CalamityMod.Tiles.Astral
             return true;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<AstralBeaconItem>());
-        }
-
         public override bool RightClick(int i, int j)
         {
             Tile tile = Main.tile[i, j];

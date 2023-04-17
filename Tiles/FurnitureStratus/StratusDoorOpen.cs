@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Placeables.FurnitureStratus;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
@@ -16,6 +17,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.OpenDoor };
+            ItemDrop = ModContent.ItemType<StratusDoor>();
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<StratusDoorClosed>();
         }
 
@@ -33,17 +35,12 @@ namespace CalamityMod.Tiles.FurnitureStratus
             num = fail ? 1 : 3;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusDoor>());
-        }
-
         public override void MouseOver(int i, int j)
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusDoor>();
+            player.cursorItemIconID = ModContent.ItemType<StratusDoor>();
         }
     }
 }

@@ -63,10 +63,5 @@ namespace CalamityMod.Tiles.Furniture
             g = 0.88f;
             b = 0.82f;
         }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<BabyGhostBellJar>());
-        }
     }
 }

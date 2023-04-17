@@ -58,11 +58,6 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             b = 0.5f;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.CraftingStations.AncientAltar>());
-        }
-
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             CalamityUtils.DrawStaticFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/Furniture/CraftingStations/AncientAltarFlame").Value, i, j, offsetY: animationFrame * AnimationFrameHeight);

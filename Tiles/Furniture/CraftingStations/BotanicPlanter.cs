@@ -50,11 +50,6 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             }
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.CraftingStations.BotanicPlanter>());
-        }
-
         public override void HitWire(int i, int j)
         {
             CalamityUtils.LightHitWire(Type, i, j, 3, 3);

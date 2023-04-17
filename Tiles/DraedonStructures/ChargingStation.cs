@@ -62,9 +62,6 @@ namespace CalamityMod.Tiles.DraedonStructures
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            // Drop the charging station itself.
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<ChargingStationItem>());
-
             Tile t = Main.tile[i, j];
             int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;
             int top = j - t.TileFrameY % (Height * SheetSquare) / SheetSquare;

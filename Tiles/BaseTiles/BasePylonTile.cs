@@ -66,7 +66,6 @@ namespace CalamityMod.Tiles.BaseTiles
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             ModContent.GetInstance<TECalamityPylon>().Kill(i, j);
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 2, 3, AssociatedItem);
         }
 
         public override bool CreateDust(int i, int j, ref int type) => false;

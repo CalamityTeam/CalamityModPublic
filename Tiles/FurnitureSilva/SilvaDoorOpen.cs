@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Dusts.Furniture;
+using CalamityMod.Items.Placeables.FurnitureSilva;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -17,6 +18,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.OpenDoor };
+            ItemDrop = ModContent.ItemType<SilvaDoor>();
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<SilvaDoorClosed>();
         }
 
@@ -34,17 +36,12 @@ namespace CalamityMod.Tiles.FurnitureSilva
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaDoor>());
-        }
-
         public override void MouseOver(int i, int j)
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaDoor>();
+            player.cursorItemIconID = ModContent.ItemType<SilvaDoor>();
         }
     }
 }
