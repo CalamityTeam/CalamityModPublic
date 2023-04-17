@@ -917,7 +917,7 @@ namespace CalamityMod.NPCs
                             int tornadoType = brimmy.currentMode == 3 ? ModContent.ProjectileType<StormMarkHostile>() : ProjectileID.SandnadoHostileMark;
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), pos, Vector2.Zero, tornadoType, damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), pos, Vector2.Zero, tornadoType, damage, 0f, Main.myPlayer, 0f, 0f);
                             }
                         }
                         if (brimmy.currentMode == 2)
@@ -984,6 +984,8 @@ namespace CalamityMod.NPCs
                         Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * velocity;
                         int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 5f, projectileVelocity, type, damage, 0f, Main.myPlayer, player.position.X, player.position.Y);
                         Main.projectile[proj].timeLeft = 240;
+                        if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                            Main.projectile[proj].extraUpdates += 1;
 
                         if (npc.ai[1] % divisor2 == divisor2 - 1f)
                         {
@@ -1007,7 +1009,9 @@ namespace CalamityMod.NPCs
                             for (int i = 0; i < numProj; i++)
                             {
                                 Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer, 1f, 0f);
+                                int proj2 = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer, 1f, 0f);
+                                if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                                    Main.projectile[proj2].extraUpdates += 1;
                             }
                         }
                     }
@@ -1068,6 +1072,8 @@ namespace CalamityMod.NPCs
                             int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, projectileVelocity, type, damage, 0f, Main.myPlayer, 1f, 0f);
                             Main.projectile[proj].timeLeft = 300;
                             Main.projectile[proj].tileCollide = false;
+                            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                                Main.projectile[proj].extraUpdates += 1;
                         }
 
                         totalProjectiles = 12;
@@ -1086,7 +1092,9 @@ namespace CalamityMod.NPCs
                         for (int k = 0; k < totalProjectiles; k++)
                         {
                             Vector2 vector255 = spinningPoint.RotatedBy(radians2 * k);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 5f, vector255, type, damage, 0f, Main.myPlayer, 1f, 0f);
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 5f, vector255, type, damage, 0f, Main.myPlayer, 1f, 0f);
+                            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                                Main.projectile[proj].extraUpdates += 1;
                         }
 
                         if (death)
@@ -1095,7 +1103,9 @@ namespace CalamityMod.NPCs
                             for (int k = 0; k < totalProjectiles; k++)
                             {
                                 Vector2 vector255 = spinningPoint.RotatedBy(radians2 * k);
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 5f, vector255 * 0.75f, type, damage, 0f, Main.myPlayer, 1f, 0f);
+                                int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 5f, vector255 * 0.75f, type, damage, 0f, Main.myPlayer, 1f, 0f);
+                                if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                                    Main.projectile[proj].extraUpdates += 1;
                             }
                         }
 
