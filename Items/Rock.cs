@@ -9,8 +9,7 @@ namespace CalamityMod.Items
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Rock");
-            // Tooltip.SetDefault("The first object Xeroc ever created");
+            Item.ResearchUnlockCount = 0;
         }
 
         public override void SetDefaults()
