@@ -1334,6 +1334,10 @@ namespace CalamityMod.NPCs
                     {
                         SoundEngine.PlaySound(SoundID.Item109, npc.Center);
                         calamityGlobalNPC.newAI[2] = 2f;
+
+                        if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                            calamityGlobalNPC.newAI[3] = 0f;
+
                         SpawnDust();
                     }
                     else if (calamityGlobalNPC.newAI[0] <= npc.lifeMax * 0.4)
@@ -1354,6 +1358,10 @@ namespace CalamityMod.NPCs
                     {
                         SoundEngine.PlaySound(SoundID.Item109, npc.Center);
                         calamityGlobalNPC.newAI[2] = 1f;
+
+                        if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                            calamityGlobalNPC.newAI[3] = 0f;
+
                         SpawnDust();
                     }
                 }
@@ -1718,6 +1726,47 @@ namespace CalamityMod.NPCs
                 }
 
                 return;
+            }
+            else if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+            {
+                if (calamityGlobalNPC.newAI[3] < 900f)
+                    calamityGlobalNPC.newAI[3] += 1f;
+                else
+                    calamityGlobalNPC.newAI[3] = 0f;
+
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    npc.ai[0] += 1f;
+                    float hellblastGateValue = 30f - enrageScale;
+                    if (npc.ai[0] >= hellblastGateValue)
+                    {
+                        npc.ai[0] = 0f;
+                        int type = ModContent.ProjectileType<BrimstoneHellblast2>();
+                        int damage = npc.GetProjectileDamage(type);
+                        float projSpeed = bossRush ? 5f : 4f;
+                        if (calamityGlobalNPC.newAI[3] % (hellblastGateValue * 6f) == 0f)
+                        {
+                            float distance = Main.rand.NextBool() ? -1000f : 1000f;
+                            float velocity = distance == -1000f ? projSpeed : -projSpeed;
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                        }
+                        if (calamityGlobalNPC.newAI[3] < 300f) // Blasts from above
+                        {
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, projSpeed, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                        }
+                        else if (calamityGlobalNPC.newAI[3] < 600f) // Blasts from left and right
+                        {
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -(projSpeed - 0.5f), 0f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), projSpeed - 0.5f, 0f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                        }
+                        else // Blasts from above, left, and right
+                        {
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, projSpeed - 1f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -(projSpeed - 1f), 0f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), projSpeed - 1f, 0f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                        }
+                    }
+                }
             }
 
             npc.alpha = npc.dontTakeDamage ? 255 : 0;
