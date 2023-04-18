@@ -189,7 +189,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].lifeSteal > 0f && !Main.player[Projectile.owner].moonLeech)
             {
-                int healAmount = 10 * damage / Projectile.damage; //should always be around max, less if enemy has defense/DR
+                int healAmount = 10 * damageDone / Projectile.damage; //should always be around max, less if enemy has defense/DR
                 if (healAmount > 0)
                 {
                     Main.player[Projectile.owner].lifeSteal -= healAmount;

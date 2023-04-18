@@ -55,10 +55,10 @@ namespace CalamityMod.CalPlayer
             GemTechState.MeleeOnHitEffects(target);
 
             // Handle on-hit melee effects for the mythril armor set.
-            MythrilArmorSetChange.OnHitEffects(target, damage, Player);
+            MythrilArmorSetChange.OnHitEffects(target, damageDone, Player);
 
             if (witheringWeaponEnchant)
-                witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
+                witheringDamageDone += (int)(damageDone * (hit.Crit ? 2D : 1D));
 
             if (flamingItemEnchant)
                 target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
@@ -175,15 +175,15 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.OnFire3, 120);
             }
 
-            ItemLifesteal(target, item, damage);
-            ItemOnHit(item, damage, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
+            ItemLifesteal(target, item, damageDone);
+            ItemOnHit(item, damageDone, target.Center, hit.Crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
             NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), item.CountsAsClass<SummonMeleeSpeedDamageClass>(), false);
 
             // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
             if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
                 return;
             if (rageModeActive && shatteredCommunity)
-                Player.GetModPlayer<ShatteredCommunityPlayer>().AccumulateRageDamage(damage);
+                Player.GetModPlayer<ShatteredCommunityPlayer>().AccumulateRageDamage(damageDone);
         }
         #endregion
 
@@ -201,10 +201,10 @@ namespace CalamityMod.CalPlayer
 
             // Handle on-hit projectiles effects for the mythril armor set.
             if (proj.type != ModContent.ProjectileType<MythrilFlare>())
-                MythrilArmorSetChange.OnHitEffects(target, damage, Player);
+                MythrilArmorSetChange.OnHitEffects(target, damageDone, Player);
 
             if (witheringWeaponEnchant)
-                witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
+                witheringDamageDone += (int)(damageDone * (hit.Crit ? 2D : 1D));
 
             cgn.IncreasedColdEffects_EskimoSet = eskimoSet;
             cgn.IncreasedColdEffects_CryoStone = CryoStone;
@@ -372,8 +372,8 @@ namespace CalamityMod.CalPlayer
                     cgn.somaShredApplicator = Player.whoAmI;
                 }
 
-                ProjLifesteal(target, proj, damage, crit);
-                ProjOnHit(proj, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
+                ProjLifesteal(target, proj, damageDone, hit.Crit);
+                ProjOnHit(proj, target.Center, hit.Crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
                 NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), proj.CountsAsClass<SummonMeleeSpeedDamageClass>(), true);
 
                 // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
@@ -381,7 +381,7 @@ namespace CalamityMod.CalPlayer
                     return;
 
                 if (rageModeActive && shatteredCommunity)
-                    Player.GetModPlayer<ShatteredCommunityPlayer>().AccumulateRageDamage(damage);
+                    Player.GetModPlayer<ShatteredCommunityPlayer>().AccumulateRageDamage(damageDone);
             }
         }
         #endregion

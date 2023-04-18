@@ -8,7 +8,6 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class VoidConcentrationOrb : ModProjectile
     {
-
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Void Orb");

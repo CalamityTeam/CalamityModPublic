@@ -233,7 +233,7 @@ namespace CalamityMod.Projectiles.Typeless
             if (!target.canGhostHeal)
                 return;
 
-            float healAmt = damage * 0.25f;
+            float healAmt = damageDone * 0.25f;
             if ((int)healAmt == 0)
                 return;
 

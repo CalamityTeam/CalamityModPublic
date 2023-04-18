@@ -51,14 +51,10 @@ namespace CalamityMod.Projectiles.Turret
             if (Projectile.timeLeft < 40) // Remove hitbox once the projectile is barely visible anymore
                 ableToHit = false;
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(ModContent.BuffType<Plague>(), 60);
-        }
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
-            target.AddBuff(ModContent.BuffType<Plague>(), 60);
-        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<Plague>(), 60);
+
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<Plague>(), 60);
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

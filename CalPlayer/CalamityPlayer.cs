@@ -4254,8 +4254,6 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit NPC
         public override void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)/* tModPorter If you don't need the Item, consider using ModifyHitNPC instead */
         {
-            NPC.HitInfo hitInfo = new NPC.HitInfo();
-
             #region MultiplierBoosts
             double damageMult = 1.0;
 
@@ -4279,7 +4277,7 @@ namespace CalamityMod.CalPlayer
             }
             if (item.type == ItemID.TitaniumSword)
             {
-                int knockbackAdd = (int)(hitInfo.Damage * 0.15 * (1f - target.knockBackResist));
+                int knockbackAdd = (int)(modifiers.GetDamage(item.damage, false) * 0.15 * (1f - target.knockBackResist));
                 modifiers.FlatBonusDamage += knockbackAdd;
             }
             if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
@@ -4312,8 +4310,6 @@ namespace CalamityMod.CalPlayer
 
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)/* tModPorter If you don't need the Projectile, consider using ModifyHitNPC instead */
         {
-            NPC.HitInfo hitInfo = new NPC.HitInfo();
-
             if (proj.npcProj || proj.trap)
                 return;
 
@@ -4367,7 +4363,7 @@ namespace CalamityMod.CalPlayer
             #region AdditiveBoosts
             if (proj.type == ProjectileID.TitaniumTrident)
             {
-                int knockbackAdd = (int)(hitInfo.Damage * 0.15 * (1f - target.knockBackResist));
+                int knockbackAdd = (int)(proj.damage * 0.15 * (1f - target.knockBackResist));
                 modifiers.FlatBonusDamage += knockbackAdd;
             }
             if (proj.type == ModContent.ProjectileType<BubonicRoundProj>())
@@ -4452,7 +4448,7 @@ namespace CalamityMod.CalPlayer
 
             // Handle on-hit ranged effects for the gem tech armor set.
             if (proj.CountsAsClass<RangedDamageClass>() && proj.type != ModContent.ProjectileType<GemTechGreenFlechette>())
-                GemTechState.RangedOnHitEffects(target, hitInfo.Damage);
+                GemTechState.RangedOnHitEffects(target, proj.damage);
         }
         #endregion
 

@@ -408,7 +408,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (instakill)
             {
                 target.KillMe(PlayerDeathReason.ByCustomReason(target.name + " was once again impaled by Goldfish."), 1000.0, 0, false);
-                damage = Main.rand.Next(1000, 1500) + (int)(target.statLifeMax2 * Main.rand.NextFloat(2.0f, 3.5f));
+                modifiers.FinalDamage *= target.statLifeMax2 * Main.rand.NextFloat(2.0f, 3.5f);
             }
         }
 
