@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
+            Item.ResearchUnlockCount = 100;
         }
 
         public override void SetDefaults()
