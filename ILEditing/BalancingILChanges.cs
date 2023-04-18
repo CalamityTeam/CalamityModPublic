@@ -57,38 +57,38 @@ namespace CalamityMod.ILEditing
         #region Magiluminescence Changes
         private static void NerfMagiluminescence(ILContext il)
         {
-            // Nerf the run acceleration boost from 2x to 1.25x.
+            // Nerf the run acceleration boost from 1.75x to 1.25x.
             var cursor = new ILCursor(il);
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Player>("hasMagiluminescence")))
             {
                 LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence bool.");
                 return;
             }
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(2f)))
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.75f)))
             {
                 LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence run acceleration multiplier.");
                 return;
             }
             cursor.Next.Operand = 1.25f;
 
-            // Nerf the max run speed boost from 1.2x to 1x.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.2f)))
+            // Nerf the max run speed boost from 1.15x to 1.05x.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.15f)))
             {
                 LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence max run speed multiplier.");
                 return;
             }
             cursor.Next.Operand = 1.05f;
 
-            // Nerf the acc run speed boost from 1.2x to 1x.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.2f)))
+            // Nerf the acc run speed boost from 1.15x to 1.05x.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.15f)))
             {
                 LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence acc run speed multiplier.");
                 return;
             }
             cursor.Next.Operand = 1.05f;
 
-            // Nerf the run slowdown boost from 2x to 1.25x.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(2f)))
+            // Nerf the run slowdown boost from 1.75x to 1.25x.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.75f)))
             {
                 LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence run slowdown multiplier.");
                 return;
