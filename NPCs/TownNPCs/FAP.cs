@@ -313,7 +313,9 @@ namespace CalamityMod.NPCs.TownNPCs
 
             NPCShop shop = new(Type);
             shop.AddWithCustomValue(ItemID.HeartreachPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough)
-                .AddWithCustomValue(ItemID.LifeforcePotion, Item.buyPrice(gold: (NPC.downedMoonlord ? 16 : Main.hardMode ? 8 : 4)), potionSells, Condition.HappyEnough)
+                .AddWithCustomValue(ItemID.LifeforcePotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough, Condition.PreHardmode)
+                .AddWithCustomValue(ItemID.LifeforcePotion, Item.buyPrice(gold: 8), potionSells, Condition.HappyEnough, Condition.Hardmode, Condition.NotDownedMoonLord)
+                .AddWithCustomValue(ItemID.LifeforcePotion, Item.buyPrice(gold: 16), potionSells, Condition.HappyEnough, Condition.DownedMoonLord)
                 .AddWithCustomValue(ItemID.LovePotion, Item.buyPrice(silver: 25), potionSells, Condition.HappyEnough)
                 .AddWithCustomValue(ModContent.ItemType<GrapeBeer>(), Item.buyPrice(silver: 30))
                 .AddWithCustomValue(ModContent.ItemType<RedWine>(), Item.buyPrice(gold: 1))
