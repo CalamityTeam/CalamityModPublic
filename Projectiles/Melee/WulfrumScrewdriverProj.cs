@@ -196,7 +196,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
 
-            base.OnHitNPC(target, damage, knockback, crit);
+            base.OnHitNPC(target, hit, damageDone);
         }
 
         public override void Kill(int timeLeft)
