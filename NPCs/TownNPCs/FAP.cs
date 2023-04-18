@@ -312,9 +312,9 @@ namespace CalamityMod.NPCs.TownNPCs
             Condition downedAureus = new("If Astrum Aureus has been defeated", () => DownedBossSystem.downedAstrumAureus);
 
             NPCShop shop = new(Type);
-            shop.AddWithCustomValue(ItemID.HeartreachPotion, Item.buyPrice(gold: 2), potionSells)
-                .AddWithCustomValue(ItemID.LifeforcePotion, Item.buyPrice(gold: 4), potionSells) // 8 post ml
-                .AddWithCustomValue(ItemID.LovePotion, Item.buyPrice(gold: 1), potionSells)
+            shop.AddWithCustomValue(ItemID.HeartreachPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough)
+                .AddWithCustomValue(ItemID.LifeforcePotion, Item.buyPrice(gold: (NPC.downedMoonlord ? 16 : Main.hardMode ? 8 : 4)), potionSells, Condition.HappyEnough)
+                .AddWithCustomValue(ItemID.LovePotion, Item.buyPrice(silver: 25), potionSells, Condition.HappyEnough)
                 .AddWithCustomValue(ModContent.ItemType<GrapeBeer>(), Item.buyPrice(silver: 30))
                 .AddWithCustomValue(ModContent.ItemType<RedWine>(), Item.buyPrice(gold: 1))
                 .AddWithCustomValue(ModContent.ItemType<Whiskey>(), Item.buyPrice(gold: 2))

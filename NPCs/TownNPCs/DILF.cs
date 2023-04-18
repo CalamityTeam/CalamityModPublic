@@ -162,7 +162,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 .Add(ModContent.ItemType<IcyBullet>(), Condition.DownedEverscream, Condition.DownedSantaNK1, Condition.DownedIceQueen)
                 .Add(ModContent.ItemType<IcicleArrow>(), Condition.DownedEverscream, Condition.DownedSantaNK1, Condition.DownedIceQueen)
                 .Add(ModContent.ItemType<PermafrostsConcoction>())
-                .AddWithCustomValue(ItemID.WarmthPotion, Item.buyPrice(0, 2), potionSells)
+                .AddWithCustomValue(ItemID.WarmthPotion, Item.buyPrice(0, 4), potionSells, Condition.HappyEnough)
                 .Add(ItemID.SuperManaPotion)
                 .Add(ModContent.ItemType<DeliciousMeat>())
                 .AddWithCustomValue(ModContent.ItemType<Popo>(), Item.buyPrice(5))
