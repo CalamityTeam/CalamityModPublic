@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Accessories
     [LegacyName("ChaosAmulet")]
     public class SpelunkersAmulet : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Spelunker's Amulet");
-            // Tooltip.SetDefault("Spelunker effect and 15% increased mining speed");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;
@@ -25,7 +18,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.pickSpeed -= 0.15f;
+            player.pickSpeed -= 0.1f;
             player.findTreasure = true;
         }
 

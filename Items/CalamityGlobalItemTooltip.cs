@@ -565,6 +565,10 @@ namespace CalamityMod.Items
             // Rebalances to vanilla item stats
             #region Vanilla Item Rebalance Tooltips
 
+            // Ancient Chisel rebalance.
+            if (item.type == ItemID.AncientChisel)
+                EditTooltipByNum(0, (line) => line.Text = "Increases mining speed by 15%");
+
             // Frozen Turtle Shell rebalance.
             if (item.type == ItemID.FrozenTurtleShell)
                 EditTooltipByNum(0, (line) => line.Text = "Puts a shell around the owner when below 50% life that reduces damage by 15%");

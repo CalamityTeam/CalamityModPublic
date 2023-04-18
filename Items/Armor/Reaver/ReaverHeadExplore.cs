@@ -13,22 +13,13 @@ namespace CalamityMod.Items.Armor.Reaver
     [LegacyName("ReaverHeadgear")]
     public class ReaverHeadExplore : ModItem
     {
-        //Exploration and Mining Helm
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Reaver Headgear");
-            /* Tooltip.SetDefault("40% increased pick speed and block/wall placement speed\n" +
-                "Grants immunity to lava and can move freely through liquids"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;
             Item.height = 22;
             Item.value = CalamityGlobalItem.RarityLimeBuyPrice;
             Item.rare = ItemRarityID.Lime;
-            Item.defense = 7; //40
+            Item.defense = 7;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -75,7 +66,7 @@ namespace CalamityMod.Items.Armor.Reaver
         {
             player.ignoreWater = true;
             player.lavaImmune = true;
-            player.pickSpeed -= 0.4f;
+            player.pickSpeed -= 0.2f;
             player.tileSpeed += 0.4f;
             player.wallSpeed += 0.4f;
         }

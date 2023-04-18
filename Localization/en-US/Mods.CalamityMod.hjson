@@ -465,7 +465,7 @@ Items: {
 
 	AncientFossil: {
 		DisplayName: Ancient Fossil
-		Tooltip: Increases mining speed by 15%
+		Tooltip: Increases mining speed by 10%
 	}
 
 	AnechoicPlating: {
@@ -539,7 +539,7 @@ Items: {
 		DisplayName: Archaic Powder
 		Tooltip:
 			'''
-			Increased mining speed by 20%
+			Increases mining speed by 15%
 			5% increased damage reduction and +10 defense while underground or in the underworld
 			'''
 	}
@@ -815,7 +815,7 @@ Items: {
 			'''
 			Contains the power of the dark sun
 			12% increase to damage and melee speed
-			+1 life regen, 15% increased mining speed and +2 max minions
+			+1 life regen and +2 max minions
 			Increased minion knockback
 			During the day the player has +4 life regen
 			During the night the player has +20 defense
@@ -1797,7 +1797,7 @@ Items: {
 
 	SpelunkersAmulet: {
 		DisplayName: Spelunker's Amulet
-		Tooltip: Spelunker effect and 15% increased mining speed
+		Tooltip: Spelunker effect and 10% increased mining speed
 	}
 
 	SpiritGlyph: {
@@ -3244,7 +3244,7 @@ Items: {
 		DisplayName: Reaver Headgear
 		Tooltip:
 			'''
-			40% increased pick speed and block/wall placement speed
+			20% increased mining speed and block/wall placement speed
 			Temporary immunity to lava and can move freely through liquids
 			'''
 	}

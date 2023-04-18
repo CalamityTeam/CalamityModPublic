@@ -2428,10 +2428,13 @@ namespace CalamityMod.CalPlayer
                 Player.maxMinions += 2;
                 Player.GetDamage<GenericDamageClass>() += 0.12f;
                 Player.GetKnockback<SummonDamageClass>() += 1.2f;
-                Player.pickSpeed -= 0.15f;
                 if (Main.eclipse || !Main.dayTime)
                     Player.statDefense += Main.eclipse ? 10 : 20;
             }
+
+            // Ancient Chisel nerf
+            if (Player.chiselSpeed)
+                Player.pickSpeed += 0.1f;
 
             if (eGauntlet)
             {

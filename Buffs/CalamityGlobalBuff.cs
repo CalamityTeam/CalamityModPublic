@@ -31,6 +31,11 @@ namespace CalamityMod.Buffs
             else if (type == BuffID.SugarRush)
             {
                 player.moveSpeed -= 0.1f;
+                player.pickSpeed += 0.1f;
+            }
+            else if (type == BuffID.Mining)
+            {
+                player.pickSpeed += 0.1f;
             }
             else if (type == BuffID.Swiftness)
             {
@@ -43,10 +48,12 @@ namespace CalamityMod.Buffs
             else if (type == BuffID.WellFed2)
             {
                 player.moveSpeed -= 0.225f;
+                player.pickSpeed += 0.025f;
             }
             else if (type == BuffID.WellFed3)
             {
                 player.moveSpeed -= 0.3f;
+                player.pickSpeed += 0.05f;
             }
             else if (type == BuffID.Shine)
             {
@@ -120,7 +127,11 @@ namespace CalamityMod.Buffs
                     break;
 
                 case BuffID.SugarRush:
-                    tip = "10% increased movement speed and 20% increased mining speed";
+                    tip = "10% increased movement and mining speed";
+                    break;
+
+                case BuffID.Mining:
+                    tip = "15% increased mining speed";
                     break;
 
                 case BuffID.LeafCrystal:

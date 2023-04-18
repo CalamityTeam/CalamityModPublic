@@ -6,13 +6,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class AncientFossil : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Ancient Fossil");
-            // Tooltip.SetDefault("Increases mining speed by 15%");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;
@@ -24,7 +17,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.pickSpeed -= 0.15f;
+            player.pickSpeed -= 0.1f;
         }
 
         public override void AddRecipes()

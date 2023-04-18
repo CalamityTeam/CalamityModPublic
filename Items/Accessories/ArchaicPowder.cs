@@ -7,14 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class ArchaicPowder : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Archaic Powder");
-            /* Tooltip.SetDefault("Increased mining speed by 20%\n" +
-            "5% increased damage reduction and +10 defense while underground or in the underworld"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 20;
@@ -26,7 +18,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.pickSpeed -= 0.2f;
+            player.pickSpeed -= 0.15f;
             if (player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight || player.ZoneUnderworldHeight)
             {
                 player.statDefense += 10;
