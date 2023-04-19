@@ -410,7 +410,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (NPC.realLife >= 0)
                 {
-                    damage = 0D;
+                    modifiers.SourceDamage *= 0f;
                     NPC.dontTakeDamage = true;
                     Main.npc[NPC.realLife].dontTakeDamage = true;
                     Main.npc[NPC.realLife].life = 1;
@@ -423,9 +423,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         Main.npc[NPC.realLife].netUpdate = true;
                     }
                 }
-                return false;
             }
-            return true;
         }
 
         public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
@@ -433,7 +431,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             // viable???, done here since it's conditional
             if (CalamityWorld.getFixedBoi && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
             {
-                damage *= 40;
+                modifiers.SourceDamage *= 40f;
             }
         }
 

@@ -2580,7 +2580,7 @@ namespace CalamityMod.NPCs
             // Don't bother tampering with the damage if it is already zero.
             // Zero damage does not happen in the base game; if something has been set to zero damage by another mod, it's really not intended to do damage.
             if (damage == 0D)
-                return true;
+                return;
 
             // Safety for ML's eyes on Rev+ so that the boss doesn't remain invulnerable forever
             // TODO -- this is very old, is it still needed?
@@ -2633,21 +2633,21 @@ namespace CalamityMod.NPCs
             {
                 float resistanceGateValue = (CalamityLists.AstrumDeusIDs.Contains(npc.type) && newAI[0] != 0f) ? 300f : 600f;
                 if (newAI[1] < resistanceGateValue || (newAI[2] > 0f && CalamityLists.DestroyerIDs.Contains(npc.type)))
-                    damage *= 0.01;
+                    modifiers.SourceDamage *= 0.01f;
             }
 
             // Large Deus worm takes reduced damage to last a long enough time.
             // TODO -- WHY DOES DEUS HAVE THIS UNDOCUMENTED MULTIPLIER HERE??
             // this should be in ModifyHitNPC for deus himself
             if (CalamityLists.AstrumDeusIDs.Contains(npc.type) && newAI[0] == 0f)
-                damage *= 0.8;
+                modifiers.SourceDamage *= 0.8f;
 
             // Inflict 0 damage if it's below 0.5
             damage = damage < 0.5 ? 0D : damage < 1D ? 1D : damage;
 
             // Disable vanilla damage method if damage is less than 0.5
             if (damage == 0D)
-                return false;
+                return;
 
             // Immediately after StrikeNPC runs, vanilla does the following 3 things:
             // 1 - Reduces damage by vanilla effective defense
@@ -2657,7 +2657,6 @@ namespace CalamityMod.NPCs
             // The following line cancels out vanilla defense calculations, since we just did our own above.
             // We return true to allow all 3 to run, but cancel out #1, meaning crits and Crawltipede still work.
             damage = Main.CalculateDamageNPCsTake((int)damage, -defense);
-            return true;
         }
 
         /// <summary>
@@ -4515,7 +4514,7 @@ namespace CalamityMod.NPCs
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.camper && !player.StandingStill())
-                damage = (int)(damage * 0.1);
+                modifiers.SourceDamage *= 0.1f;
 
             // True melee resists
             if (CalamityLists.DesertScourgeIDs.Contains(npc.type) || CalamityLists.EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper ||
@@ -4524,9 +4523,9 @@ namespace CalamityMod.NPCs
                 npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || CalamityLists.AresIDs.Contains(npc.type) || npc.type == NPCType<Crabulon.Crabulon>() ||
                 npc.type == NPCType<ProfanedRocks>())
             {
-                double damageMult = CalamityLists.ThanatosIDs.Contains(npc.type) ? 0.35 : 0.5;
+                float damageMult = CalamityLists.ThanatosIDs.Contains(npc.type) ? 0.35f : 0.5f;
                 if (item.CountsAsClass<MeleeDamageClass>() && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
-                    damage = (int)(damage * damageMult);
+                    modifiers.SourceDamage *= damageMult;
             }
         }
         #endregion
@@ -4539,9 +4538,9 @@ namespace CalamityMod.NPCs
 
             MakeTownNPCsTakeMoreDamage(npc, projectile, Mod, ref damage);
 
-            //Block natural falling stars from killing boss spawners randomly
+            // Block natural falling stars from killing boss spawners randomly
             if ((projectile.type == ProjectileID.FallingStar && projectile.damage >= 1000) && (npc.type == NPCType<PerforatorCyst>() || npc.type == NPCType<HiveTumor>() || npc.type == NPCType<LeviathanStart>()))
-                damage = 0;
+                modifiers.SourceDamage *= 0f;
 
             // Supercrits
             var cgp = projectile.Calamity();
@@ -4562,7 +4561,7 @@ namespace CalamityMod.NPCs
 
                     // Apply supercrit damage. This projectile is already guaranteed to be a crit, which will double its damage at the end.
                     // As such, only 50% damage is added per supercrit layer here.
-                    damage = (int)(damage * (1f + 0.5f * supercritLayers));
+                    modifiers.SourceDamage *= 1f + 0.5f * supercritLayers;
                 }
             }
 
@@ -4621,7 +4620,7 @@ namespace CalamityMod.NPCs
                     // If a bullseye is triggered, set it as hit.
                     if (willStrikeBullseye && bullseye.ai[1] == 0f)
                     {
-                        crit = true;
+                        modifiers.SetCrit();
                         hitBullseye = true;
                         bullseye.ai[1] = 1f; // Make the bullseye disappear immediately.
                         bullseye.netUpdate = true;
@@ -4636,7 +4635,7 @@ namespace CalamityMod.NPCs
                     // Here, damage is divded by 2 to compensate for that.
                     // This means that the bonus provided by Daawnlight Spirit Origin can be computed as a complete replacement to regular crits.
                     float mult = DaawnlightSpiritOrigin.GetDamageMultiplier(player, modPlayer, hitBullseye, cgp.forcedCrit) / 2f;
-                    damage = (int)(damage * mult);
+                    modifiers.SourceDamage *= mult;
                 }
             }
 
@@ -4644,7 +4643,7 @@ namespace CalamityMod.NPCs
             if (!projectile.npcProj && !projectile.trap)
             {
                 if (projectile.CountsAsClass<RangedDamageClass>() && modPlayer.plagueReaper && pFlames > 0)
-                    damage = (int)(damage * 1.1);
+                    modifiers.SourceDamage *= 1.1f;
             }
 
             // Any weapons that shoot projectiles from anywhere other than the player's center aren't affected by point-blank shot damage boost.
@@ -4653,7 +4652,7 @@ namespace CalamityMod.NPCs
                 if (projectile.Calamity().pointBlankShotDuration > 0)
                 {
                     float pointBlankShotDamageMultiplier = 1f + (projectile.Calamity().pointBlankShotDuration / (float)CalamityGlobalProjectile.DefaultPointBlankDuration * 0.5f);
-                    damage = (int)(damage * pointBlankShotDamageMultiplier);
+                    modifiers.SourceDamage *= pointBlankShotDamageMultiplier;
                     projectile.Calamity().pointBlankShotDuration = 0;
                 }
             }
@@ -4669,14 +4668,14 @@ namespace CalamityMod.NPCs
                 if (npc.type == NPCID.Creeper || CalamityLists.DesertScourgeIDs.Contains(npc.type) || CalamityLists.PerforatorIDs.Contains(npc.type))
                     hasResist = true;
                 if (hasResist)
-                    damage = (int)(damage * 0.2);
+                    modifiers.SourceDamage *= 0.2f;
             }
 
             if (CalamityLists.pierceResistList.Contains(npc.type))
                 PierceResistGlobal(projectile, npc, ref damage);
 
             if (modPlayer.camper && !player.StandingStill())
-                damage = (int)(damage * 0.1);
+                modifiers.SourceDamage *= 0.1f;
         }
 
         // Generalized pierce resistance that stacks with all other resistances for some specific bosses defined in a list.

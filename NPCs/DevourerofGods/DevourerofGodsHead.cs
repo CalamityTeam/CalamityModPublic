@@ -2538,12 +2538,9 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             if (!Dying && (damage * (crit ? 2D : 1D)) >= NPC.life)
             {
-                damage = 0D;
+                modifiers.SourceDamage *= 0f;
                 CheckDead();
-                return false;
             }
-
-            return true;
         }
 
         public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
@@ -2551,7 +2548,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             // viable???, done here since it's conditional
             if (CalamityWorld.getFixedBoi && projectile.type == ModContent.ProjectileType<LaceratorYoyo>())
             {
-                damage *= 40;
+                modifiers.SourceDamage *= 40f;
             }
         }
 
