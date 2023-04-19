@@ -25,9 +25,7 @@ namespace CalamityMod.Tiles.AstralDesert
             DustType = ModContent.DustType<AstralBasic>();
             ItemDrop = ModContent.ItemType<Items.Placeables.CelestialRemains>();
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Celestial Remains");
-            AddMapEntry(new Color(59, 50, 77));
+            AddMapEntry(new Color(59, 50, 77), CreateMapEntryName());
 
             TileID.Sets.ForAdvancedCollision.ForSandshark[Type] = true;
 

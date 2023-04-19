@@ -26,8 +26,6 @@ namespace CalamityMod.Tiles.Astral
             DustType = ModContent.DustType<AstralBasic>();
             ItemDrop = ModContent.ItemType<Items.Placeables.NovaeSlag>();
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Novae Slag");
             AddMapEntry(new Color(133, 69, 115));
 
             TileID.Sets.ChecksForMerge[Type] = true;

@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -29,9 +29,7 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Ribs");
-            AddMapEntry(new Color(57, 48, 83), name);
+            AddMapEntry(new Color(57, 48, 83), CalamityUtils.GetText("Tiles.Ribs"));
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
 
             base.SetStaticDefaults();

@@ -13,9 +13,7 @@ namespace CalamityMod.Tiles.Furniture
         public override void SetStaticDefaults()
         {
             this.SetUpLantern();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Twinkler in a Bottle");
-            AddMapEntry(new Color(255, 99, 71), name);
+            AddMapEntry(new Color(255, 99, 71), CalamityUtils.GetItemName<TwinklerInABottle>());
             AnimationFrameHeight = 36;
 
             TileID.Sets.DisableSmartCursor[Type] = true;

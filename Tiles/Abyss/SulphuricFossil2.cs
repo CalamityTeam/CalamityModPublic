@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Localization;
@@ -18,9 +18,7 @@ namespace CalamityMod.Tiles.Abyss
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Fossil");
-            AddMapEntry(new Color(113, 90, 71), name);
+            AddMapEntry(new Color(113, 90, 71), CalamityUtils.GetText("Tiles.Fossil"));
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
         }
 

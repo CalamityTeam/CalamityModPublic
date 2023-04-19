@@ -31,9 +31,7 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Thermal Vent");
-            AddMapEntry(new Color(132, 56, 42), name);
+            AddMapEntry(new Color(132, 56, 42), CreateMapEntryName());
             DustType = 162;
 
             base.SetStaticDefaults();

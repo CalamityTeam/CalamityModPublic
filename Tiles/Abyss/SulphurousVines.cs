@@ -19,9 +19,7 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileLavaDeath[Type] = true;
             Main.tileNoFail[Type] = true;
             Main.tileNoSunLight[Type] = false;
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Sulphurous Vines");
-            AddMapEntry(new Color(0, 50, 0), name);
+            AddMapEntry(new Color(0, 50, 0), CreateMapEntryName());
             HitSound = SoundID.Grass;
             DustType = 2;
 			TileID.Sets.IsVine[Type] = true;

@@ -19,9 +19,7 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
             AnimationFrameHeight = 36;
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Baby Ghost Bell Jar");
-            AddMapEntry(new Color(64, 224, 208), name);
+            AddMapEntry(new Color(64, 224, 208), CalamityUtils.GetItemName<BabyGhostBellJar>());
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 

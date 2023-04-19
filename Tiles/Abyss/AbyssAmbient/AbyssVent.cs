@@ -21,9 +21,7 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             Main.tileNoAttach[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Steam Vent");
-            AddMapEntry(new Color(106, 80, 102), name);
+            AddMapEntry(new Color(106, 80, 102), CreateMapEntryName());
             DustType = 33;
 
             base.SetStaticDefaults();

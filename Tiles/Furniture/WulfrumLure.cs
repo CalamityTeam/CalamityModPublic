@@ -35,9 +35,7 @@ namespace CalamityMod.Tiles.Furniture
             Main.tileNoAttach[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Wulfrum Lure");
-            AddMapEntry(new Color(194, 255, 67), name);
+            AddMapEntry(new Color(194, 255, 67), CalamityUtils.GetItemName<WulfrumLureItem>());
             TileID.Sets.DisableSmartCursor[Type] = true;
 
             DustType = 83;

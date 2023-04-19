@@ -18,8 +18,6 @@ namespace CalamityMod.Tiles.SunkenSea
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.addTile(Type);
             DustType = 253;
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Fan Coral");
             AddMapEntry(new Color(54, 69, 72));
             MineResist = 3f;
 

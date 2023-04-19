@@ -26,9 +26,7 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 2, 0);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Corruption Effigy");
-            AddMapEntry(new Color(126, 156, 134), name);
+            AddMapEntry(new Color(126, 156, 134), CalamityUtils.GetItemName<Items.Placeables.Furniture.CorruptionEffigy>());
         }
 
         public override void NearbyEffects(int i, int j, bool closer)

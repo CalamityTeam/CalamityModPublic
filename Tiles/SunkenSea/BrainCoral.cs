@@ -18,8 +18,6 @@ namespace CalamityMod.Tiles.SunkenSea
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
             DustType = 253;
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Brain Coral");
             AddMapEntry(new Color(36, 61, 111));
             MineResist = 3f;
 

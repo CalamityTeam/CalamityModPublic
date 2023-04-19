@@ -23,19 +23,23 @@ namespace CalamityMod.Tiles.BaseTiles
         public Asset<Texture2D> crystalTexture;
         public Asset<Texture2D> mapIcon;
 
-        //The type of dust created by the pylon
+        /// <summary>
+        /// The type of dust created by the pylon
+        /// </summary>
         public virtual int DustID => 43;
         public virtual Color DustColor => Color.White;
         public virtual Color LightColor => Color.White;
         public abstract int AssociatedItem { get; }
-        public abstract string PylonMapText { get; }
         public abstract Color PylonMapColor { get; }
 
         public override void Load()
         {
-            // Pre-loading textures
-            crystalTexture = ModContent.Request<Texture2D>(Texture + "_Crystal");
-            mapIcon = ModContent.Request<Texture2D>(Texture + "_MapIcon");
+            if (!Main.dedServ)
+            {
+                // Pre-loading textures
+                crystalTexture = ModContent.Request<Texture2D>(Texture + "_Crystal");
+                mapIcon = ModContent.Request<Texture2D>(Texture + "_MapIcon");
+            }
         }
 
         public override void Unload()
@@ -52,8 +56,7 @@ namespace CalamityMod.Tiles.BaseTiles
             TileID.Sets.InteractibleByNPCs[Type] = true;
             TileID.Sets.PreventsSandfall[Type] = true;
 
-            LocalizedText pylonName = CreateMapEntryName();
-            AddMapEntry(PylonMapColor, pylonName);
+            AddMapEntry(PylonMapColor, CalamityUtils.GetItemName(AssociatedItem));
         }
 
         public override void MouseOver(int i, int j)
@@ -160,7 +163,7 @@ namespace CalamityMod.Tiles.BaseTiles
         {
             // Just like in SpecialDraw, we want things to be handled the EXACT same way vanilla would handle it, which ModPylon also has built in methods for:
             bool mouseOver = DefaultDrawMapIcon(ref context, mapIcon, pylonInfo.PositionInTiles.ToVector2() + new Vector2(1.5f, 2f), drawColor, deselectedScale, selectedScale);
-            DefaultMapClickHandle(mouseOver, pylonInfo, PylonMapText, ref mouseOverText);
+            DefaultMapClickHandle(mouseOver, pylonInfo, Lang.GetItemName(AssociatedItem).Key, ref mouseOverText);
         }
     }
 }

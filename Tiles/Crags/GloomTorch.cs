@@ -15,9 +15,7 @@ namespace CalamityMod.Tiles.Crags
         public override void SetStaticDefaults()
         {
             this.SetUpTorch();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Torch");
-            AddMapEntry(new Color(253, 221, 3), name);
+            AddMapEntry(new Color(253, 221, 3), CalamityUtils.GetItemName(ItemID.Torch));
             TileID.Sets.DisableSmartCursor[Type] = true;
             TileID.Sets.Torch[Type] = true;
             TileID.Sets.FramesOnKillWall[Type] = true;

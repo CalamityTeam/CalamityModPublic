@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Placeables;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -31,7 +32,7 @@ namespace CalamityMod.Tiles.SunkenSea
             ItemDrop = ModContent.ItemType<Items.Placeables.EutrophicSand>();
             LocalizedText name = CreateMapEntryName();
             // name.SetDefault("Eutrophic Sand");
-            AddMapEntry(new Color(92, 145, 167), name);
+            AddMapEntry(new Color(92, 145, 167), CalamityUtils.GetItemName<Items.Placeables.EutrophicSand>());
 
             TileFraming.SetUpUniversalMerge(Type, TileID.Sandstone, out tileAdjacency);
             TileFraming.SetUpUniversalMerge(Type, TileID.Sand, out secondTileAdjacency);

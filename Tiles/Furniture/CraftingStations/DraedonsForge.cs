@@ -24,9 +24,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             TileObjectData.newTile.Origin = new Point16(2, 1);
             TileObjectData.addTile(Type);
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Draedon's Forge");
-            AddMapEntry(new Color(230, 157, 41), name);
+            AddMapEntry(new Color(230, 157, 41), CalamityUtils.GetItemName<Items.Placeables.Furniture.CraftingStations.DraedonsForge>());
 
             AnimationFrameHeight = 54;
             TileID.Sets.DisableSmartCursor[Type] = true;

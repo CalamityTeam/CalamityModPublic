@@ -43,9 +43,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Altar");
-            AddMapEntry(new Color(43, 19, 42), name);
+            AddMapEntry(new Color(43, 19, 42), CalamityUtils.GetItemName<Items.Placeables.Furniture.CraftingStations.AltarOfTheAccursedItem>());
             TileID.Sets.DisableSmartCursor[Type] = true;
             
             ItemDrop = ModContent.ItemType<AltarOfTheAccursedItem>();
@@ -133,9 +131,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Altar");
-            AddMapEntry(new Color(43, 19, 42), name);
+            AddMapEntry(new Color(43, 19, 42), CalamityUtils.GetItemName<Items.Placeables.Furniture.CraftingStations.AltarOfTheAccursedItem>());
             TileID.Sets.DisableSmartCursor[Type] = true;
         }
 

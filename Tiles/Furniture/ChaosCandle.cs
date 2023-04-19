@@ -15,9 +15,7 @@ namespace CalamityMod.Tiles.Furniture
         {
             this.SetUpCandle();
             ItemDrop = ModContent.ItemType<Items.Placeables.Furniture.ChaosCandle>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Chaos Candle");
-            AddMapEntry(new Color(238, 145, 105), name);
+            AddMapEntry(new Color(238, 145, 105), CreateMapEntryName());
             AdjTiles = new int[] { TileID.Candles };
         }
 

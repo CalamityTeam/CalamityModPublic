@@ -22,11 +22,10 @@ namespace CalamityMod.Tiles.SunkenSea
             Main.tileLighted[Type] = true;
             Main.tileShine2[Type] = false;
             TileID.Sets.ChecksForMerge[Type] = true;
-            //TileID.Sets.WallsMergeWith[Type] = true; Uncomment this when it gets pushed to 1.4 stable (or when we start porting to 1.4.4 which should also have it)
+            TileID.Sets.WallsMergeWith[Type] = true;
             DustType = 108;
             ItemDrop = ModContent.ItemType<Items.Placeables.EutrophicGlass>();
-            LocalizedText name = CreateMapEntryName();
-            AddMapEntry(new Color(197, 220, 220), name);
+            AddMapEntry(new Color(197, 220, 220), CalamityUtils.GetItemName<Items.Placeables.EutrophicGlass>());
             MineResist = 2f;
             HitSound = SoundID.Shatter;
             MinPick = 55;

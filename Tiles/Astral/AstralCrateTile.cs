@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Fishing.AstralCatches;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -23,9 +23,7 @@ namespace CalamityMod.Tiles.Astral
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Astral Crate");
-            AddMapEntry(new Color(47, 66, 90), name);
+            AddMapEntry(new Color(47, 66, 90), CalamityUtils.GetItemName<AstralCrate>());
             DustType = ModContent.DustType<AstralBlue>();
         }
 

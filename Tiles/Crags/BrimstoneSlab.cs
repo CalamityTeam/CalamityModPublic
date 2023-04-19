@@ -25,9 +25,7 @@ namespace CalamityMod.Tiles.Crags
             CalamityUtils.MergeWithHell(Type);
 
             ItemDrop = ModContent.ItemType<Items.Placeables.BrimstoneSlab>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Brimstone Slab");
-            AddMapEntry(new Color(79, 55, 70), name);
+            AddMapEntry(new Color(79, 55, 70), CreateMapEntryName());
             MineResist = 3f;
             MinPick = 100;
             HitSound = SoundID.Tink;

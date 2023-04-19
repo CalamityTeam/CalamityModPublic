@@ -14,9 +14,7 @@ namespace CalamityMod.Tiles.Astral
         public override void SetStaticDefaults()
         {
             this.SetUpTorch();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Torch");
-            AddMapEntry(new Color(253, 221, 3), name);
+            AddMapEntry(new Color(253, 221, 3), CalamityUtils.GetItemName(ItemID.Torch));
             TileID.Sets.DisableSmartCursor[Type] = true;
             ItemDrop = ModContent.ItemType<Items.Placeables.Furniture.AstralTorch>();
             AdjTiles = new int[] { TileID.Torches };

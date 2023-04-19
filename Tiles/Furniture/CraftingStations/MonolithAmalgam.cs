@@ -14,9 +14,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
         public override void SetStaticDefaults()
         {
             this.SetUpBookcase(true, false, false);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Monolith Amalgam");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<Items.Placeables.Furniture.CraftingStations.MonolithAmalgam>());
             AnimationFrameHeight = 54;
         }
 

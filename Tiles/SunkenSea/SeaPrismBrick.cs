@@ -22,9 +22,7 @@ namespace CalamityMod.Tiles.SunkenSea
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 33;
             ItemDrop = ModContent.ItemType<Items.Placeables.SeaPrismBrick>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Sea Prism Brick");
-            AddMapEntry(new Color(47, 193, 236), name);
+            AddMapEntry(new Color(47, 193, 236), CalamityUtils.GetItemName<Items.Placeables.SeaPrismBrick>());
             MineResist = 3f;
             HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;

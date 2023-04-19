@@ -25,9 +25,7 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Abandoned Crate");
-            AddMapEntry(new Color(97, 69, 52), name);
+            AddMapEntry(new Color(97, 69, 52), CreateMapEntryName());
             DustType = DustID.WoodFurniture;
             HitSound = MineSound;
 
