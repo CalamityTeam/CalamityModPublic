@@ -7,13 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class AmidiasSpark : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Amidias' Spark");
-            // Tooltip.SetDefault("Taking damage releases a blast of sparks");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

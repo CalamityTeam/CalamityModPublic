@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.player[Projectile.owner].lifeSteal <= 0f)
                 return;
 
-            float healAmt = damage * Main.rand.NextFloat(0.075f, 0.9f);
+            float healAmt = hit.Damage * Main.rand.NextFloat(0.075f, 0.9f);
             if (healAmt < 1f)
                 healAmt = 1f;
 
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.player[Projectile.owner].lifeSteal <= 0f)
                 return;
 
-            float healAmt = damage * Main.rand.NextFloat(0.075f, 0.9f);
+            float healAmt = info.Damage * Main.rand.NextFloat(0.075f, 0.9f);
             if (healAmt < 1f)
                 healAmt = 1f;
 

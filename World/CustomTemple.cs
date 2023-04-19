@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -200,7 +201,7 @@ namespace CalamityMod.World
                     GenerateShrineRoom(roomBounds[i]);
             }
 
-            Vector2 pathPosition = new Vector2(pathPositionX, pathPositionY);
+            Vector2D pathPosition = new Vector2D(pathPositionX, pathPositionY);
 
             // Cut out areas between rooms, creating corridors.
             for (int i = 0; i < totalRooms; i++)

@@ -6,10 +6,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ModLoader;
-using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria.GameContent;
@@ -20,15 +16,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Dark Sun Ring");
-            /* Tooltip.SetDefault("Contains the power of the dark sun\n" +
-                "12% increase to damage and melee speed\n" +
-                "+1 life regen and 15% increased mining speed\n" +
-                "Increased minion knockback\n" +
-                "During the day the player has +4 life regen\n" +
-                "During the night the player has +20 defense\n" +
-                "During an eclipse the player has +2 life regen and +10 defense"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }

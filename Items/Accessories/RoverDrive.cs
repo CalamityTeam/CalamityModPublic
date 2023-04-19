@@ -232,7 +232,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (ProtectionMatrixDurability > 0)
                 {
-                    ProtectionMatrixDurability -= (int)damage;
+                    ProtectionMatrixDurability -= info.Damage;
                     if (ProtectionMatrixDurability <= 0)
                     {
                         ProtectionMatrixDurability = 0;
@@ -244,7 +244,7 @@ namespace CalamityMod.Items.Accessories
                     for (int i = 0; i < numParticles; i++)
                     {
                         Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(3, 14);
-                        velocity.X += 5f * hitDirection;
+                        velocity.X += 5f * info.HitDirection;
                         GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(Player.Center, velocity, Main.rand.NextFloat(2.5f, 3f), Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), 25));
                     }
                 }

@@ -12,16 +12,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class AstralArcanum : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Astral Arcanum");
-            /* Tooltip.SetDefault("Provides immunity to the astral infection debuff\n" +
-                "Boosts life regen even while under the effects of a damaging debuff\n" +
-                "While under the effects of a damaging debuff you will gain 15 defense\n" +
-                "TOOLTIP LINE HERE"); */
-        }
-
         public override void SetDefaults()
         {
             Item.defense = 12;

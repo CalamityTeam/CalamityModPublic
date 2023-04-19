@@ -21,27 +21,6 @@ namespace CalamityMod.Items.Accessories
             }
         }
 
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Abyssal Diving Suit");
-            /* Tooltip.SetDefault("Transforms the holder into an armored diver\n" +
-                "Increases max movement speed and acceleration while underwater but you move slowly outside of water\n" +
-                "The suits' armored plates reduce damage taken by 15%\n" +
-                "The plates will only take damage if the damage taken is over 50\n" +
-                "After the suit has taken too much damage its armored plates will take 3 minutes to regenerate\n" +
-                "Reduces the damage caused by the pressure of the abyss while out of breath\n" +
-                "Removes the bleed effect caused by the abyss in all layers except the deepest one\n" +
-                "Grants the ability to swim and greatly extends underwater breathing\n" +
-                "Provides light underwater and extra mobility on ice\n" +
-                "Provides a moderate amount of light in the abyss\n" +
-                "Greatly reduces breath loss in the abyss\n" +
-                "Reduces creature's ability to detect you in the abyss\n" +
-                "Reduces the defense reduction that the abyss causes\n" +
-                "Grants immunity to the sulphurous waters\n" +
-                "Allows you to fall faster while in liquids"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 18;

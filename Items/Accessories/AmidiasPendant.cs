@@ -12,13 +12,6 @@ namespace CalamityMod.Items.Accessories
         public const float ShardAngleSpread = 120;
         public int ShardCountdown = 0;
 
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Amidias' Pendant");
-            // Tooltip.SetDefault("Periodically rains down prism shards that can briefly stun enemies");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

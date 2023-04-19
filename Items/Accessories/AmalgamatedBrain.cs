@@ -10,18 +10,6 @@ namespace CalamityMod.Items.Accessories
     // TODO -- this item includes a dodge accessory, Brain of Cthulhu
     public class AmalgamatedBrain : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Amalgamated Brain");
-            /* Tooltip.SetDefault("10% increased damage\n" +
-                               "Shade rains down when you are hit\n" +
-                               "Grants the ability to dodge attacks\n" +
-                               $"The dodge has a {BalancingConstants.BrainDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects\n" +
-                               "Temporarily increases critical strike chance and summon damage after a dodge\n" +
-                               "You will confuse nearby enemies when you are struck"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 34;

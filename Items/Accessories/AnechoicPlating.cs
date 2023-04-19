@@ -7,14 +7,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class AnechoicPlating : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Anechoic Plating");
-            /* Tooltip.SetDefault("Reduces creature's ability to detect you in the abyss\n" +
-                "Reduces the defense reduction that the abyss causes"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

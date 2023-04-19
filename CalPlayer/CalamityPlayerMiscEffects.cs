@@ -3632,7 +3632,7 @@ namespace CalamityMod.CalPlayer
 
             // Defense can never be reduced below zero, no matter what
             if (Player.statDefense < 0)
-                Player.statDefense = 0;
+                Player.statDefense *= 0;
 
             // Multiplicative defense reductions.
             // These are done last because they need to be after the defense lower cap at 0.

@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Face)]
     public class Abaddon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Abaddon");
-            // Tooltip.SetDefault("Grants immunity to Brimstone Flames and Searing Lava");
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;

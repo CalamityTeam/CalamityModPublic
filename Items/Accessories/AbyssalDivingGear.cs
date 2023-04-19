@@ -11,15 +11,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Abyssal Diving Gear");
-            /* Tooltip.SetDefault("Reduces the damage caused by the pressure of the abyss while out of breath\n" +
-                "Removes the bleed effect caused by the abyss\n" +
-                "Grants the ability to swim and greatly extends underwater breathing\n" +
-                "Provides light underwater and extra mobility on ice\n" +
-                "Provides a moderate amount of light in the abyss\n" +
-                "Greatly reduces breath loss in the abyss"); */
-
             if (Main.netMode != NetmodeID.Server)
             {
                 int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Face);

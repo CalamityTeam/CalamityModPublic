@@ -9,19 +9,6 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Shoes)]
     public class AngelTreads : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Angel Treads");
-            /* Tooltip.SetDefault("Extreme speed!\n" +
-                               "36% increased running acceleration\n" +
-                               "Increased flight time\n" +
-                               "Greater mobility on ice\n" +
-                               "Water and lava walking\n" +
-                               "Immunity to the On Fire! debuff\n" +
-                               "Temporary immunity to lava"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 32;

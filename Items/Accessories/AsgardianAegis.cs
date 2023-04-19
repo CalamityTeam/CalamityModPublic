@@ -17,20 +17,6 @@ namespace CalamityMod.Items.Accessories
     {
         public const int ShieldSlamIFrames = 12;
 
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Asgardian Aegis");
-            /* Tooltip.SetDefault("Grants immunity to knockback\n" +
-                "Immune to most debuffs\n" +
-                "+40 max life and increased life regeneration\n" +
-                "Grants a supreme god slayer flame dash\n" +
-                "Can be used to ram enemies\n" +
-                "TOOLTIP LINE HERE\n" +
-                "Activating this buff will reduce your movement speed and increase enemy aggro\n" +
-                "+20 defense while submerged in liquid"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 60;

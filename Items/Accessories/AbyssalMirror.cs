@@ -9,18 +9,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class AbyssalMirror : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Abyssal Mirror");
-            /* Tooltip.SetDefault("Light does not reach the depths of the ocean\n" +
-                "Significantly reduces enemy aggression, even in the abyss\n" +
-                "Stealth generates 25% faster when standing still and 12% faster while moving\n" +
-                "Grants the ability to evade attacks, releasing a cloud of lumenyl fluid which damages and stuns nearby enemies\n" +
-                "Evading an attack grants a lot of stealth but has a 90 second cooldown\n" +
-                "This cooldown is shared with all other dodges and reflects"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 30;

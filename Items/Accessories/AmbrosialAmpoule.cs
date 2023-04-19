@@ -9,15 +9,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class AmbrosialAmpoule : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Ambrosial Ampoule");
-            /* Tooltip.SetDefault("You emit light\n" +
-                "5% increased damage reduction and increased life regen\n" +
-                "Grants immunity to the Frozen, Chilled, Frostburn, Cursed Inferno and Burning Blood debuffs"); */
-        }
-
         public override void SetDefaults()
         {
             Item.defense = 6;

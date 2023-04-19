@@ -583,9 +583,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            ItemLoader.OnHitNPC(Owner.ActiveItem(), Owner, target, damage, knockback, crit);
-            NPCLoader.OnHitByItem(target, Owner, Owner.ActiveItem(), damage, knockback, crit);
-            PlayerLoader.OnHitNPC(Owner, Owner.ActiveItem(), target, damage, knockback, crit);
+            ItemLoader.OnHitNPC(Owner.ActiveItem(), Owner, target, hit, damageDone);
+            NPCLoader.OnHitByItem(target, Owner, Owner.ActiveItem(), hit, damageDone);
+            PlayerLoader.OnHitNPC(Owner, target, hit, damageDone);
 
             if (State == SwingState.BonkDash)
             {
