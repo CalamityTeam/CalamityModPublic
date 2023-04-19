@@ -18,9 +18,7 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
             AnimationFrameHeight = 36;
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Sea Minnow Jar");
-            AddMapEntry(new Color(65, 105, 225), name);
+            AddMapEntry(new Color(65, 105, 225), CalamityUtils.GetItemName<SeaMinnowJar>());
         }
 
         public override bool CreateDust(int i, int j, ref int type)

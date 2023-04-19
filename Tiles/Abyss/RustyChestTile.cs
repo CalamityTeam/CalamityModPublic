@@ -15,12 +15,12 @@ namespace CalamityMod.Tiles.Abyss
         {
             this.SetUpChest();
             LocalizedText name = CreateMapEntryName();
-            AddMapEntry(new Color(113, 90, 71), name, MapChestName);
+            AddMapEntry(new Color(113, 90, 71), CalamityUtils.GetItemName<RustyChest>(), CalamityUtils.GetMapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
         }
 
-        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CalamityUtils.GetItemName<RustyChest>();
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -29,8 +29,6 @@ namespace CalamityMod.Tiles.Abyss
         }
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
-
-        public string MapChestName(string name, int i, int j) => CalamityUtils.GetMapChestName(name, i, j);
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {

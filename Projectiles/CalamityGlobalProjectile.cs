@@ -2502,9 +2502,7 @@ namespace CalamityMod.Projectiles
         #region ModifyHitPlayer
         public override void ModifyHitPlayer(Projectile projectile, Player target, ref Player.HurtModifiers modifiers)
         {
-            damage -= (int)(damageReduction * (Main.expertMode ? 0.25f : 0.5f));
-            if (damage < 0)
-                damage = 0;
+            modifiers.FinalDamage *= damageReduction * (Main.expertMode ? 0.75f : 0.5f);
         }
         #endregion
 

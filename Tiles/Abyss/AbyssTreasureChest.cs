@@ -1,11 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
-using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.Localization;
-using Terraria.Audio;
 using Terraria.GameContent.ObjectInteractions;
 using Microsoft.Xna.Framework;
 
@@ -16,15 +12,14 @@ namespace CalamityMod.Tiles.Abyss
 		public override void SetStaticDefaults() 
 		{
 			this.SetUpChest();
-			LocalizedText name = CreateMapEntryName();
-			AddMapEntry(new Color(71, 49, 41), name, MapChestName);
+			AddMapEntry(new Color(71, 49, 41), CalamityUtils.GetItemName<Items.Placeables.Furniture.AbyssTreasureChest>(), CalamityUtils.GetMapChestName);
 			TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
 			DustType = 33;
 			HitSound = SoundID.Dig;
 		}
 
-		public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
+		public override LocalizedText DefaultContainerName(int frameX, int frameY) => CalamityUtils.GetItemName<Items.Placeables.Furniture.AbyssTreasureChest>();
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
@@ -34,8 +29,6 @@ namespace CalamityMod.Tiles.Abyss
 		{
 			return true;
 		}
-
-		public string MapChestName(string name, int i, int j) => CalamityUtils.GetMapChestName(name, i, j);
 
 		public override void NumDust(int i, int j, bool fail, ref int num) 
 		{

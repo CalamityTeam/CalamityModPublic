@@ -61,14 +61,11 @@ namespace CalamityMod.Projectiles.Turret
                 Projectile.velocity.Y = fallSpeedCap;
             Projectile.velocity.X *= 0.995f;
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(BuffID.Wet, 240);
-        }
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
-            target.AddBuff(BuffID.Wet, 240);
-        }
+        
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Wet, 240);
+        
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(BuffID.Wet, 240);
+
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D lightTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SmallGreyscaleCircle").Value;

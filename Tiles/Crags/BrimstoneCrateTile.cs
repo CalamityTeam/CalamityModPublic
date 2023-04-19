@@ -1,4 +1,4 @@
-using CalamityMod.Items.Fishing.BrimstoneCragCatches;
+﻿using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -22,9 +22,7 @@ namespace CalamityMod.Tiles.Crags
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Brimstone Crate");
-            AddMapEntry(new Color(128, 0, 0), name); //Maroon
+            AddMapEntry(new Color(128, 0, 0), CalamityUtils.GetItemName<BrimstoneCrate>()); //Maroon
             DustType = 60;
         }
 

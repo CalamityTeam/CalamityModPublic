@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            base.OnHitNPC(target, damage, knockback, crit);
+            base.OnHitNPC(target, hit, damageDone);
             if (SwingMode == 2)
                 target.AddBuff(BuffType<GlacialState>(), 20);
         }

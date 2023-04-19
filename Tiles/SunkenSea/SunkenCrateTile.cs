@@ -22,9 +22,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Sunken Crate");
-            AddMapEntry(new Color(106, 218, 230), name);
+            AddMapEntry(new Color(106, 218, 230), CalamityUtils.GetItemName<SunkenCrate>());
             DustType = 253;
         }
 

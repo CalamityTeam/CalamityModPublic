@@ -27,9 +27,7 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 2, 0);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Effigy of Decay");
-            AddMapEntry(new Color(113, 90, 71), name);
+            AddMapEntry(new Color(113, 90, 71), CalamityUtils.GetItemName<EffigyOfDecay>());
         }
 
         public override void NearbyEffects(int i, int j, bool closer)

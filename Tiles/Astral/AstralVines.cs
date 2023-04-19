@@ -29,9 +29,7 @@ namespace CalamityMod.Tiles.Astral
 
             HitSound = SoundID.Grass;
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Astral Vines");
-            AddMapEntry(new Color(65, 56, 83), name);
+            AddMapEntry(new Color(65, 56, 83), CreateMapEntryName());
         }
 
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)

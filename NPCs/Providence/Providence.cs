@@ -2437,7 +2437,7 @@ namespace CalamityMod.NPCs.Providence
                 return false;
             }
 
-            return base.ModifyIncomingHit(ref damage, defense, ref knockback, hitDirection, ref crit);
+            return base.ModifyIncomingHit(ref modifiers);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 100;
+            Item.ResearchUnlockCount = 25;
             // DisplayName.SetDefault("Phantoplasm");
             // Tooltip.SetDefault("It churns and seethes with ghastly malice");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 5));

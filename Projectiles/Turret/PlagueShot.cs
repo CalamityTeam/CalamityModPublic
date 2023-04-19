@@ -54,10 +54,9 @@ namespace CalamityMod.Projectiles.Turret
             Projectile.velocity = ((Projectile.oldVelocity*7f) + Projectile.velocity) / 8; //inertia
             DrawParticles();
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(ModContent.BuffType<Plague>(), 60);
-        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<Plague>(), 60);
+
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 60);

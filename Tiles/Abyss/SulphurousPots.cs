@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.Abyss
 
             LocalizedText name = CreateMapEntryName();
             // name.SetDefault("Pot");
-            AddMapEntry(new Color(226, 205, 101), name);
+            AddMapEntry(new Color(226, 205, 101), Language.GetText("MapObject.Pot"));
 
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
             HitSound = SoundID.Shatter;

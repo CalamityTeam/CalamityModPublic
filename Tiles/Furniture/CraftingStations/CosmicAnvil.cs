@@ -25,9 +25,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             // You cannot face the Cosmic Anvil left or right, it only has one orientation
             TileObjectData.newTile.Direction = Terraria.Enums.TileObjectDirection.None;
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Cosmic Anvil");
-            AddMapEntry(new Color(159, 125, 201), name);
+            AddMapEntry(new Color(159, 125, 201), CalamityUtils.GetItemName<Items.Placeables.Furniture.CraftingStations.CosmicAnvilItem>());
             TileID.Sets.DisableSmartCursor[Type] = true;
             // Visual Studio complains about this line. However, if you change it to DustID.BubbleBurst_Purple, it won't compile.
             DustType = 179;

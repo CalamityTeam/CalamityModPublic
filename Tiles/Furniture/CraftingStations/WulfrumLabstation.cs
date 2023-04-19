@@ -16,9 +16,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             Main.tileFrameImportant[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Wulfrum Labstation");
-            AddMapEntry(new Color(100, 153, 100), name);
+            AddMapEntry(new Color(100, 153, 100), CalamityUtils.GetItemName<Items.Placeables.Furniture.CraftingStations.WulfrumLabstationItem>());
         }
 
         public override bool CreateDust(int i, int j, ref int type)

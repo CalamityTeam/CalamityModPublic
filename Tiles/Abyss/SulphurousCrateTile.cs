@@ -23,9 +23,7 @@ namespace CalamityMod.Tiles.Abyss
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Sulphurous Crate");
-            AddMapEntry(new Color(47, 79, 79), name); //dark slate gray
+            AddMapEntry(new Color(47, 79, 79), CalamityUtils.GetItemName<SulphurousCrate>()); // dark slate gray
             DustType = 33;
         }
 

@@ -67,9 +67,7 @@ namespace CalamityMod.Tiles.Abyss
 			else if (Main.rand.NextBool(12))
 			{
 				createLeaves = true;
-				int dropItem = 0;
-				WorldGen.KillTile_GetItemDrops(x, y, Main.tile[x, y], out dropItem, out int _, out int _, out int _);
-				Item.NewItem(WorldGen.GetItemSource_FromTreeShake(x, y), x * 16, y * 16, 16, 16, dropItem, Main.rand.Next(1, 4));
+				Item.NewItem(WorldGen.GetItemSource_FromTreeShake(x, y), x * 16, y * 16, 16, 16, DropWood(), Main.rand.Next(1, 4));
 			}
 			else if (Main.rand.NextBool(20))
 			{

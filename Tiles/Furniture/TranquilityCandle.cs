@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.Placeables;
+using CalamityMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -14,10 +15,7 @@ namespace CalamityMod.Tiles.Furniture
         public override void SetStaticDefaults()
         {
             this.SetUpCandle();
-            ItemDrop = ModContent.ItemType<Items.Placeables.Furniture.TranquilityCandle>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Tranquility Candle");
-            AddMapEntry(new Color(238, 145, 105), name);
+            AddMapEntry(new Color(238, 145, 105), CalamityUtils.GetItemName<Items.Placeables.Furniture.TranquilityCandle>());
             AdjTiles = new int[] { TileID.Candles };
         }
 

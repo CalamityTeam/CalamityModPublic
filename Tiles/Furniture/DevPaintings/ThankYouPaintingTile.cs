@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Furniture.DevPaintings;
+﻿using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -28,9 +28,7 @@ namespace CalamityMod.Tiles.Furniture.DevPaintings
             TileID.Sets.FramesOnKillWall[Type] = true;
             TileID.Sets.DisableSmartCursor[Type] = true;
 			DustType = 7;
-			LocalizedText name = CreateMapEntryName();
-			// name.SetDefault("Thank You Painting");
-			AddMapEntry(new Color(120, 85, 60), name);
+			AddMapEntry(new Color(120, 85, 60), CreateMapEntryName());
 		}
 	}
 }

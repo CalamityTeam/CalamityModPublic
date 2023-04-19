@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Ranged
                 return;
 
             //Bypass defense
-            modifiers.DefenseEffectiveness = MultipliableFloat.One * 0f;
+            modifiers.DefenseEffectiveness *= 0f;
 
             //Bypass DR
             modifiers.FinalDamage /= 1f - target.Calamity().DR;

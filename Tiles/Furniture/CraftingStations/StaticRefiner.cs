@@ -18,9 +18,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Static Refiner");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<Items.Placeables.Furniture.CraftingStations.StaticRefiner>());
             AnimationFrameHeight = 54;
             //also counts as a Solidifier
             AdjTiles = new int[] { TileID.Solidifier };

@@ -21,9 +21,7 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.addTile(Type);
             DustType = 7;
             TileID.Sets.DisableSmartCursor[Type] = true;
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Trophy");
-            AddMapEntry(new Color(120, 85, 60), name);
+            AddMapEntry(new Color(120, 85, 60), Language.GetText("MapObject.Trophy"));
             TileID.Sets.FramesOnKillWall[Type] = true;
         }
     }

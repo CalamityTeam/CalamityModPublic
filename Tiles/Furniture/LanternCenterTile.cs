@@ -22,9 +22,7 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 18 };
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Lantern Center");
-            AddMapEntry(new Color(99, 99, 99), name);
+            AddMapEntry(new Color(99, 99, 99), CalamityUtils.GetItemName<LanternCenter>());
             TileID.Sets.HasOutlines[Type] = true;
 
             AnimationFrameHeight = 54;

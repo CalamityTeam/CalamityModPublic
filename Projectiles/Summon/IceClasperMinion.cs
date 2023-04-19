@@ -97,9 +97,6 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.immune[Projectile.owner] = 7;
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.immune[Projectile.owner] = 7;
     }
 }

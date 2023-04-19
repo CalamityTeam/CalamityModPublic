@@ -30,9 +30,7 @@ namespace CalamityMod.Tiles.Abyss.Stalactite
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.DrawYOffset = -2;
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Stalactite");
-            AddMapEntry(new Color(57, 48, 83), name);
+            AddMapEntry(new Color(57, 48, 83), CalamityUtils.GetText("Tiles.Stalactite"));
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
 
             base.SetStaticDefaults();

@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.SunkenSea
             this.SetUpTorch(true, true);
             LocalizedText name = CreateMapEntryName();
             // name.SetDefault("Torch");
-            AddMapEntry(new Color(253, 221, 3), name);
+            AddMapEntry(new Color(253, 221, 3), CalamityUtils.GetItemName(ItemID.Torch));
             TileID.Sets.DisableSmartCursor[Type] = true;
             ItemDrop = ModContent.ItemType<Items.Placeables.Furniture.RefractivePrismTorch>();
             AdjTiles = new int[] { TileID.Torches };

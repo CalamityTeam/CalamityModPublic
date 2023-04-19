@@ -27,9 +27,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 2, 0);
             TileObjectData.addTile(Type);
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Plague Infuser");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<Items.Placeables.Furniture.CraftingStations.PlagueInfuser>());
             AnimationFrameHeight = 72;
         }
 

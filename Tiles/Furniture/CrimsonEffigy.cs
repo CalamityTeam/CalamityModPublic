@@ -26,9 +26,7 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 2, 0);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Crimson Effigy");
-            AddMapEntry(new Color(238, 145, 105), name);
+            AddMapEntry(new Color(238, 145, 105), CalamityUtils.GetItemName<Items.Placeables.Furniture.CrimsonEffigy>());
         }
 
         public override void NearbyEffects(int i, int j, bool closer)

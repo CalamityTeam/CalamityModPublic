@@ -15,9 +15,7 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileBlockLight[Type] = true;
             Main.tileLavaDeath[Type] = true;
             Main.tileNoFail[Type] = true;
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Viper Vines");
-            AddMapEntry(new Color(0, 50, 0), name);
+            AddMapEntry(new Color(0, 50, 0), CreateMapEntryName());
             HitSound = SoundID.Grass;
             DustType = 2;
         }

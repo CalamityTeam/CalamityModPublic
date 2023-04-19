@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.Placeables;
+using CalamityMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -18,11 +19,8 @@ namespace CalamityMod.Tiles.Furniture
             Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Spiteful Candle");
-            AdjTiles = new int[] { TileID.Candles };
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-            AddMapEntry(new Color(238, 145, 105), name);
+            AddMapEntry(new Color(238, 145, 105), CalamityUtils.GetItemName<SpitefulCandle>());
             AnimationFrameHeight = 34;
         }
 
