@@ -15,6 +15,13 @@ namespace CalamityMod.DataStructures
         public float RequiredMinionSlots;
         public float OriginalKnockback;
         public float[] AIValues;
+
+        // summoners shine stuff
+        internal int SummonersShine_SourceItem;
+        internal int SummonersShine_Crit;
+        internal float SummonersShine_MinionAS;
+        internal float SummonersShine_PrefixMinionPower;
+
         public virtual bool DisallowMultipleEntries => false;
         public DeadMinionProperties(int type, float requiredMinionSlots, int originalDamage, int damage, float originalKnockback, float[] aiValues)
         {
@@ -32,7 +39,13 @@ namespace CalamityMod.DataStructures
                 return;
 
             Player owner = Main.player[ownerIndex];
-            int copy = Projectile.NewProjectile(new EntitySource_Misc("1"), owner.Center, Vector2.Zero, Type, Damage, OriginalKnockback, ownerIndex, AIValues[0], AIValues[1]);
+
+            // Ozzatron 19APR2023: If Summoner's Shine is loaded, use a Call from its API to respawn minions
+            IEntitySource source = new EntitySource_Misc("1");
+            Mod summonersShine = CalamityMod.Instance.summonersShine;
+            if (summonersShine is not null)
+                source = (IEntitySource)summonersShine.Call(10, 21, SummonersShine_SourceItem, SummonersShine_MinionAS, SummonersShine_Crit, SummonersShine_PrefixMinionPower);
+            int copy = Projectile.NewProjectile(source, owner.Center, Vector2.Zero, Type, Damage, OriginalKnockback, ownerIndex, AIValues[0], AIValues[1]);
 
             if (Main.projectile.IndexInRange(copy))
             {
@@ -66,7 +79,13 @@ namespace CalamityMod.DataStructures
                 return;
 
             Player owner = Main.player[ownerIndex];
-            int body = Projectile.NewProjectile(new EntitySource_Misc("1"), owner.Center, Vector2.Zero, ModContent.ProjectileType<EndoHydraBody>(), Damage, OriginalKnockback, owner.whoAmI);
+
+            // Ozzatron 19APR2023: If Summoner's Shine is loaded, use a Call from its API to respawn minions
+            IEntitySource source = new EntitySource_Misc("1");
+            Mod summonersShine = CalamityMod.Instance.summonersShine;
+            if (summonersShine is not null)
+                source = (IEntitySource)summonersShine.Call(10, 21, SummonersShine_SourceItem, SummonersShine_MinionAS, SummonersShine_Crit, SummonersShine_PrefixMinionPower);
+            int body = Projectile.NewProjectile(source, owner.Center, Vector2.Zero, ModContent.ProjectileType<EndoHydraBody>(), Damage, OriginalKnockback, owner.whoAmI);
 
             // If there was not enough space for even the body to be created, don't both trying to create even more projectiles needlessly.
             if (!Main.projectile.IndexInRange(body))
@@ -98,7 +117,13 @@ namespace CalamityMod.DataStructures
                 return;
 
             Player owner = Main.player[ownerIndex];
-            Endogenesis.SummonEndoCooper(new EntitySource_Misc("1"), AttackMode, Main.MouseWorld, Damage, OriginalDamage, OriginalKnockback, owner, out int bodyIndex, out int limbsIndex);
+
+            // Ozzatron 19APR2023: If Summoner's Shine is loaded, use a Call from its API to respawn minions
+            IEntitySource source = new EntitySource_Misc("1");
+            Mod summonersShine = CalamityMod.Instance.summonersShine;
+            if (summonersShine is not null)
+                source = (IEntitySource)summonersShine.Call(10, 21, SummonersShine_SourceItem, SummonersShine_MinionAS, SummonersShine_Crit, SummonersShine_PrefixMinionPower);
+            Endogenesis.SummonEndoCooper(source, AttackMode, Main.MouseWorld, Damage, OriginalDamage, OriginalKnockback, owner, out int bodyIndex, out int limbsIndex);
             Main.projectile[bodyIndex].Calamity().RequiresManualResurrection = true;
             Main.projectile[limbsIndex].Calamity().RequiresManualResurrection = true;
         }

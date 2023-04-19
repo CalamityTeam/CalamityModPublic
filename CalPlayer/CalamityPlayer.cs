@@ -3737,6 +3737,16 @@ namespace CalamityMod.CalPlayer
                         if (CalamityLists.DontCopyOriginalMinionAIList.Contains(projectile.type))
                             aiToCopy = new float[aiToCopy.Length];
                         deadMinionProperties = new DeadMinionProperties(projectile.type, projectile.minionSlots, projectile.originalDamage, projectile.damage, projectile.knockBack, aiToCopy);
+
+                        // Ozzatron 19APR2023: If Summoner's Shine is loaded, use a Call from its API to persist a bunch of extra junk
+                        Mod summonersShine = CalamityMod.Instance.summonersShine;
+                        if (summonersShine is not null)
+                        {
+                            deadMinionProperties.SummonersShine_SourceItem = (int)summonersShine.Call(10, 22, projectile);
+                            deadMinionProperties.SummonersShine_Crit = (int)summonersShine.Call(6, projectile, 0);
+                            deadMinionProperties.SummonersShine_MinionAS = (float)summonersShine.Call(6, projectile, 1);
+                            deadMinionProperties.SummonersShine_PrefixMinionPower = (float)summonersShine.Call(6, projectile, 10);
+                        }
                     }
 
                     // Refuse to add duplicate entries of a certain type if an entry already exists and
