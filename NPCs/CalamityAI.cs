@@ -2639,7 +2639,7 @@ namespace CalamityMod.NPCs
             if (expertMode)
                 astralFlameBarrageTimerIncrement += death ? (float)Math.Round(3f * (1f - lifeRatio)) : (float)Math.Round(2f * (1f - lifeRatio));
 
-            float walkingVelocity = 5f;
+            float walkingVelocity = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 6f : 5f;
             walkingVelocity += 3f * enrageScale;
             if (phase5)
                 walkingVelocity += 2f;
@@ -3051,7 +3051,7 @@ namespace CalamityMod.NPCs
                                 calamityGlobalNPC.newAI[1] = speedMultLimit;
                         }
 
-                        float velocity = 20f;
+                        float velocity = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 27f : 20f;
                         velocity += 6f * enrageScale;
                         if (expertMode)
                             velocity += death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
@@ -3171,7 +3171,7 @@ namespace CalamityMod.NPCs
                         {
                             calamityGlobalNPC.newAI[2] = 0f;
 
-                            float laserVelocity = death ? 6f : 5f;
+                            float laserVelocity = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 7f : death ? 6f : 5f;
                             int maxProjectiles = !phase3 ? (bossRush ? 13 : death ? 11 : 9) : (bossRush ? 17 : death ? 15 : 13);
                             int spread = !phase3 ? (bossRush ? 20 : death ? 18 : 16) : (bossRush ? 24 : death ? 22 : 20);
 
@@ -3221,6 +3221,8 @@ namespace CalamityMod.NPCs
                             fallSpeed += 0.36f * enrageScale;
                             if (expertMode)
                                 fallSpeed += death ? 0.36f * (1f - lifeRatio) : 0.24f * (1f - lifeRatio);
+                            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                                fallSpeed += 0.5f;
 
                             if (calamityGlobalNPC.newAI[1] > 0f)
                                 fallSpeed *= calamityGlobalNPC.newAI[1] + 1f;
@@ -3246,6 +3248,8 @@ namespace CalamityMod.NPCs
                         velocityXCap += 3.6f * enrageScale;
                         if (expertMode)
                             velocityXCap += death ? 3.6f * (1f - lifeRatio) : 2.4f * (1f - lifeRatio);
+                        if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                            velocityXCap += 5f;
 
                         if (calamityGlobalNPC.newAI[0] > 0f)
                             velocityXCap *= calamityGlobalNPC.newAI[0] + 1f;
