@@ -1,19 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using Terraria;
-using Terraria.Localization;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Ores
 {
     public class AerialiteOreDisenchanted : ModTile
     {
+        private const int AnimationFrameWidth = 234;
+
         public byte[,] tileAdjacency;
         public byte[,] secondTileAdjacency;
         public byte[,] thirdTileAdjacency;
         public byte[,] fourthTileAdjacency;
+
         public override void SetStaticDefaults()
         {
             Main.tileOreFinderPriority[Type] = 445;
@@ -36,10 +37,7 @@ namespace CalamityMod.Tiles.Ores
 
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 33;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOreDisenchanted>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Disenchanted Aerialite");
-            AddMapEntry(new Color(204, 170, 81), name);
+            AddMapEntry(new Color(204, 170, 81), CreateMapEntryName());
             MineResist = 2f;
             MinPick = 110;
             HitSound = SoundID.Tink;
@@ -52,15 +50,19 @@ namespace CalamityMod.Tiles.Ores
         }
         public override void PostSetDefaults()
         {
-        Main.tileNoSunLight[Type] = false;
+            Main.tileNoSunLight[Type] = false;
         }
-
-        int animationFrameWidth = 234;
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
         }
+
+        public override bool CanExplode(int i, int j)
+        {
+            return false;
+        }
+
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             TileFraming.GetAdjacencyData(i, j, TileID.Cloud, out tileAdjacency[i, j]);
@@ -157,7 +159,7 @@ namespace CalamityMod.Tiles.Ores
                     }
                     break;
             }
-            frameXOffset = uniqueAnimationFrameX * animationFrameWidth;
+            frameXOffset = uniqueAnimationFrameX * AnimationFrameWidth;
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
@@ -165,19 +167,6 @@ namespace CalamityMod.Tiles.Ores
             TileFraming.DrawUniversalMergeFrames(i, j, secondTileAdjacency, "CalamityMod/Tiles/Merges/RainCloudMerge");
             TileFraming.DrawUniversalMergeFrames(i, j, thirdTileAdjacency, "CalamityMod/Tiles/Merges/SnowCloudMerge");
             TileFraming.DrawUniversalMergeFrames(i, j, fourthTileAdjacency, "CalamityMod/Tiles/Merges/DirtMerge");
-        }
-
-        private Color GetDrawColour(int i, int j, Color colour)
-        {
-            int colType = Main.tile[i, j].TileColor;
-            Color paintCol = WorldGen.paintColor(colType);
-            if (colType >= 13 && colType <= 24)
-            {
-                colour.R = (byte)(paintCol.R / 255f * colour.R);
-                colour.G = (byte)(paintCol.G / 255f * colour.G);
-                colour.B = (byte)(paintCol.B / 255f * colour.B);
-            }
-            return colour;
         }
     }
 }
