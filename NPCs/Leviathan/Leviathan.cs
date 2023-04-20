@@ -391,13 +391,18 @@ namespace CalamityMod.NPCs.Leviathan
                                 num416 *= num417;
                                 vector40.X += num415 * 4f;
                                 vector40.Y += num416 * 4f;
+
                                 if (CalamityWorld.getFixedBoi)
                                 {
-                                    type = ProjectileID.Boulder;
+                                    type = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? ProjectileID.BouncyBoulder : ProjectileID.Boulder;
                                     vector40.Y -= 5; //Shoot a bit more up since boulders are affected by gravity
                                     damage *= 2;
                                 }
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), vector40.X, vector40.Y, num415, num416, type, damage, 0f, Main.myPlayer);
+
+                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector40.X, vector40.Y, num415, num416, type, damage, 0f, Main.myPlayer);
+                                if (CalamityWorld.getFixedBoi)
+                                    Main.projectile[proj].scale *= 5f;
+
                                 if (soundDelay <= 0)
                                 {
                                     soundDelay = 120;
@@ -425,7 +430,7 @@ namespace CalamityMod.NPCs.Leviathan
                     NPC.ai[1] += num638 / 2;
 
                     bool flag103 = false;
-                    float num640 = (!sirenAlive || phase4) ? 60f : 40f;
+                    float num640 = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 20f : (!sirenAlive || phase4) ? 60f : 40f;
                     if (NPC.ai[1] > num640)
                     {
                         NPC.ai[1] = 0f;
@@ -433,7 +438,7 @@ namespace CalamityMod.NPCs.Leviathan
                         flag103 = true;
                     }
 
-                    int spawnLimit = (sirenAlive && !phase4) ? 1 : (death ? 2 : 3);
+                    int spawnLimit = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 10 : (sirenAlive && !phase4) ? 1 : (death ? 2 : 3);
                     if (flag103 && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < spawnLimit)
                     {
                         SoundEngine.PlaySound(soundChoice with { Pitch = soundChoice.Pitch + extrapitch }, vector);

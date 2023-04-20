@@ -1811,9 +1811,12 @@ namespace CalamityMod.NPCs
                         projectileVelocity += 3f * enrageScale;
                         int type = ModContent.ProjectileType<BrimstoneHellfireball>();
                         int damage = npc.GetProjectileDamage(type);
-                        Vector2 fireballVelocity = Vector2.Normalize(player.Center - npc.Center) * projectileVelocity;
+                        bool shootPredictiveShot = CalamityWorld.LegendaryMode && CalamityWorld.revenge && Main.rand.NextBool();
+                        Vector2 predictionVector = shootPredictiveShot ? player.velocity * 20f : Vector2.Zero;
+                        Vector2 fireballVelocity = Vector2.Normalize(player.Center + predictionVector - npc.Center) * projectileVelocity;
                         Vector2 offset = Vector2.Normalize(fireballVelocity) * 40f;
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage, 0f, Main.myPlayer, player.position.X, player.position.Y);
+                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage, 0f, Main.myPlayer, player.position.X, player.position.Y);
+                        Main.projectile[proj].netUpdate = true;
                     }
                 }
             }
@@ -1910,7 +1913,7 @@ namespace CalamityMod.NPCs
                     {
                         int type = ModContent.ProjectileType<BrimstoneHellblast>();
                         int damage = npc.GetProjectileDamage(type);
-                        Vector2 fireballVelocity = npc.velocity * 0.01f;
+                        Vector2 fireballVelocity = CalamityWorld.LegendaryMode ? Main.rand.NextVector2CircularEdge(0.02f, 0.02f) : npc.velocity * 0.01f;
                         Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, fireballVelocity, type, damage, 0f, Main.myPlayer, 1f, 0f);
                     }
                 }

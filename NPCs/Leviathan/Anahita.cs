@@ -178,6 +178,8 @@ namespace CalamityMod.NPCs.Leviathan
                 bubbleVelocity += 2f * (1f - lifeRatio);
             if (Main.getGoodWorld)
                 bubbleVelocity *= 1.15f;
+            if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+                bubbleVelocity *= 2f;
 
             NPC.damage = NPC.defDamage;
 
@@ -616,38 +618,74 @@ namespace CalamityMod.NPCs.Leviathan
                     int totalProjectiles = 8;
                     int projectileDistance = 600;
                     int type = ModContent.ProjectileType<WaterSpear>();
-                    switch ((int)NPC.localAI[3])
+                    if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
                     {
-                        case 0:
-                            SoundEngine.PlaySound(SoundID.Item21, player.Center);
-                            break;
-                        case 1:
-                            totalProjectiles = 3;
-                            type = ModContent.ProjectileType<FrostMist>();
-                            SoundEngine.PlaySound(SoundID.Item30, player.Center);
-                            break;
-                        case 2:
-                            totalProjectiles = 6;
-                            type = ModContent.ProjectileType<SirenSong>();
-                            float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
-                            Main.musicPitch = soundPitch;
-                            SoundEngine.PlaySound(SoundID.Item26, player.Center);
-                            break;
+                        float radians = MathHelper.TwoPi / totalProjectiles;
+                        int damage = NPC.GetProjectileDamage(type);
+                        for (int i = 0; i < totalProjectiles; i++)
+                        {
+                            switch (Main.rand.Next(3))
+                            {
+                                case 0:
+                                    SoundEngine.PlaySound(SoundID.Item21, player.Center);
+                                    break;
+
+                                case 1:
+                                    type = ModContent.ProjectileType<FrostMist>();
+                                    SoundEngine.PlaySound(SoundID.Item30, player.Center);
+                                    break;
+
+                                case 2:
+                                    type = ModContent.ProjectileType<SirenSong>();
+                                    float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
+                                    Main.musicPitch = soundPitch;
+                                    SoundEngine.PlaySound(SoundID.Item26, player.Center);
+                                    break;
+                            }
+
+                            Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -projectileVelocity).RotatedBy(radians * i)) * projectileDistance;
+                            Vector2 projVelocity = Vector2.Normalize(player.Center - spawnVector) * projectileVelocity;
+                            int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnVector, projVelocity, type, damage, 0f, Main.myPlayer);
+                            Main.projectile[proj].netUpdate = true;
+                        }
                     }
-                    NPC.localAI[3] += 1f;
-                    if (NPC.localAI[3] > 2f)
-                        NPC.localAI[3] = 0f;
-
-                    if ((phase2 && !leviAlive) || phase4)
-                        totalProjectiles += totalProjectiles / 2;
-
-                    float radians = MathHelper.TwoPi / totalProjectiles;
-                    int damage = NPC.GetProjectileDamage(type);
-                    for (int i = 0; i < totalProjectiles; i++)
+                    else
                     {
-                        Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -projectileVelocity).RotatedBy(radians * i)) * projectileDistance;
-                        Vector2 projVelocity = Vector2.Normalize(player.Center - spawnVector) * projectileVelocity;
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnVector, projVelocity, type, damage, 0f, Main.myPlayer);
+                        switch ((int)NPC.localAI[3])
+                        {
+                            case 0:
+                                SoundEngine.PlaySound(SoundID.Item21, player.Center);
+                                break;
+
+                            case 1:
+                                totalProjectiles = 3;
+                                type = ModContent.ProjectileType<FrostMist>();
+                                SoundEngine.PlaySound(SoundID.Item30, player.Center);
+                                break;
+
+                            case 2:
+                                totalProjectiles = 6;
+                                type = ModContent.ProjectileType<SirenSong>();
+                                float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
+                                Main.musicPitch = soundPitch;
+                                SoundEngine.PlaySound(SoundID.Item26, player.Center);
+                                break;
+                        }
+                        NPC.localAI[3] += 1f;
+                        if (NPC.localAI[3] > 2f)
+                            NPC.localAI[3] = 0f;
+
+                        if ((phase2 && !leviAlive) || phase4)
+                            totalProjectiles += totalProjectiles / 2;
+
+                        float radians = MathHelper.TwoPi / totalProjectiles;
+                        int damage = NPC.GetProjectileDamage(type);
+                        for (int i = 0; i < totalProjectiles; i++)
+                        {
+                            Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -projectileVelocity).RotatedBy(radians * i)) * projectileDistance;
+                            Vector2 projVelocity = Vector2.Normalize(player.Center - spawnVector) * projectileVelocity;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnVector, projVelocity, type, damage, 0f, Main.myPlayer);
+                        }
                     }
                 }
 
@@ -718,6 +756,22 @@ namespace CalamityMod.NPCs.Leviathan
             {
                 NPC.Calamity().canBreakPlayerDefense = true;
                 NPC.damage = (int)(NPC.defDamage * 1.5);
+
+                if (CalamityWorld.LegendaryMode && CalamityWorld.revenge && NPC.ai[1] % 5f == 0f)
+                {
+                    SoundEngine.PlaySound(SoundID.Item85, NPC.Center);
+                    Vector2 vector119 = new Vector2(NPC.position.X + (NPC.width / 2) + (15 * NPC.direction * NPC.scale), NPC.position.Y + 30 * NPC.scale);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        int spawn = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, NPCID.DetonatingBubble);
+                        Main.npc[spawn].target = NPC.target;
+                        Main.npc[spawn].velocity = player.Center - vector119;
+                        Main.npc[spawn].velocity.Normalize();
+                        Main.npc[spawn].velocity *= bubbleVelocity;
+                        Main.npc[spawn].netUpdate = true;
+                        Main.npc[spawn].ai[3] = Main.rand.Next(80, 121) / 100f;
+                    }
+                }
 
                 // Spawn dust
                 int num24 = 7;
