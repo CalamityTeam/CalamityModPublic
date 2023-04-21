@@ -133,6 +133,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(43, 19, 42), CalamityUtils.GetItemName<Items.Placeables.Furniture.CraftingStations.AltarOfTheAccursedItem>());
             TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { ModContent.TileType<SCalAltar>() };
         }
 
         public override bool CanExplode(int i, int j) => false;
