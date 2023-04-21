@@ -3,7 +3,7 @@ Items: {
 		DisplayName: Astral Pylon
 		Tooltip:
 			'''
-			Teleport to another pylon when 2 villagers are nearby
+			{$CommonItemTooltip.TeleportationPylon}
 			You can only place one per type and in the matching biome
 			'''
 	}
@@ -22,7 +22,7 @@ Items: {
 		DisplayName: Sulphur Pylon
 		Tooltip:
 			'''
-			Teleport to another pylon when 2 villagers are nearby
+			{$CommonItemTooltip.TeleportationPylon}
 			You can only place one per type and in the matching biome
 			'''
 	}
@@ -31,7 +31,7 @@ Items: {
 		DisplayName: Sunken Pylon
 		Tooltip:
 			'''
-			Teleport to another pylon when 2 villagers are nearby
+			{$CommonItemTooltip.TeleportationPylon}
 			You can only place one per type and in the matching biome
 			'''
 	}
@@ -5816,23 +5816,23 @@ Items: {
 			Doing so will create a square arena of blocks, with the altar at its center
 			During the battle, heart pickups only heal for half as much
 			The Witch enrages while you are outside of the arena
-			Used for special crafting
+			{$CommonItemTooltip.SpecialCrafting}
 			'''
 	}
 
 	AncientAltar: {
 		DisplayName: Ancient Altar
-		Tooltip: Used for special crafting
+		Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
 	}
 
 	AshenAltar: {
 		DisplayName: Ashen Altar
-		Tooltip: Used for special crafting
+		Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
 	}
 
 	BotanicPlanter: {
 		DisplayName: Botanic Planter
-		Tooltip: Used for special crafting
+		Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
 	}
 
 	CosmicAnvilItem: {
@@ -5855,42 +5855,42 @@ Items: {
 
 	EutrophicShelf: {
 		DisplayName: Eutrophic Shelf
-		Tooltip: Used for special crafting
+		Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
 	}
 
 	MonolithAmalgam: {
 		DisplayName: Monolith Amalgam
-		Tooltip: Used for special crafting
+		Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
 	}
 
 	PlagueInfuser: {
 		DisplayName: Plague Infuser
-		Tooltip: Used for special crafting
+		Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
 	}
 
 	ProfanedCrucible: {
 		DisplayName: Profaned Crucible
-		Tooltip: Used for special crafting
+		Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
 	}
 
 	SilvaBasin: {
 		DisplayName: Silva Basin
-		Tooltip: Used for special crafting
+		Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
 	}
 
 	StaticRefiner: {
 		DisplayName: Static Refiner
-		Tooltip: Used for special crafting
+		Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
 	}
 
 	VoidCondenser: {
 		DisplayName: Void Condenser
-		Tooltip: Used for special crafting
+		Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
 	}
 
 	WulfrumLabstationItem: {
 		DisplayName: Wulfrum Labstation
-		Tooltip: Used for special crafting
+		Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
 	}
 
 	CrimsonEffigy: {
