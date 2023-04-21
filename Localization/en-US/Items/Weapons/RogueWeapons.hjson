@@ -1,0 +1,1394 @@
+Mods : {
+	CalamityMod : {
+		Items : {
+			AcidicRainBarrel: {
+				DisplayName: Acidic Rain Barrel
+				Tooltip:
+					'''
+					Throws a rolling barrel that explodes on wall collision
+					Stealth strikes make it rain on collision
+					'''
+			}
+
+			AdamantiteThrowingAxe: {
+				DisplayName: Adamantite Throwing Axe
+				Tooltip: Stealth strikes summon lightning bolts on enemy hits
+			}
+
+			AlphaVirus: {
+				DisplayName: Alpha Virus
+				Tooltip:
+					'''
+					Throws a giant plague cell with a lethal aura that splits into 6 plague seekers on death
+					Stealth strikes cause the plague cell to move slower, accumulating an aura of swirling plague seekers as it flies
+					'''
+			}
+
+			Apoctolith: {
+				DisplayName: Apoctolith
+				Tooltip:
+					'''
+					Maybe catching bricks with your face isn't such a hot idea...
+					Critical hits tear away enemy defense
+					Stealth strikes shatter and briefly stun enemies
+					'''
+			}
+
+			AshenStalactite: {
+				DisplayName: Ashen Stalactite
+				Tooltip:
+					'''
+					Throws a fast, small stalactite that crumbles to dust after travelling a short distance
+					Stealth strikes cause a larger, more damaging stalagmite to be thrown which travels slower and further before crumbling to damaging dust
+					'''
+			}
+
+			AuroradicalThrow: {
+				DisplayName: Auroradical Throw
+				Tooltip:
+					'''
+					Launches a star that splits after a short period of time
+					Split stars home in on nearby enemies after a few seconds
+					Stealth strikes summon a meteor upon enemy impact
+					'''
+			}
+
+			BallisticPoisonBomb: {
+				DisplayName: Ballistic Poison Bomb
+				Tooltip:
+					'''
+					Throws a sticky bomb that explodes into spikes and poison clouds
+					Stealth strikes throw three at once
+					'''
+			}
+
+			BlastBarrel: {
+				DisplayName: Blast Barrel
+				Tooltip:
+					'''
+					Throws a rolling barrel that explodes on wall collision
+					Stealth strikes makes the barrel bounce twice before disappearing with varied effects after each bounce
+					'Some people used to jump over these'
+					'''
+			}
+
+			BlazingStar: {
+				DisplayName: Blazing Star
+				Tooltip:
+					'''
+					Tosses up to 3 red hot returning glaives
+					Stealth strikes throw three glaives with infinite piercing
+					'''
+			}
+
+			BloodsoakedCrasher: {
+				DisplayName: Bloodsoaked Crasher
+				Tooltip:
+					'''
+					Slows down when hitting an enemy. Speeds up otherwise
+					Heals on enemy hits
+					Stealth strikes spawn homing blood on enemy hits
+					'''
+			}
+
+			BouncingEyeball: {
+				DisplayName: Bouncing Eyeball
+				Tooltip:
+					'''
+					Throws an eyeball that bounces off of surfaces.
+					Knockback is much stronger during a blood moon
+					Stealth strikes cause the eyeballs to move much faster and bounce more energetically
+					'''
+			}
+
+			BouncySpikyBall: {
+				DisplayName: Bouncy Spiky Ball
+				Tooltip:
+					'''
+					Throws a very bouncy ball that ricochets off walls and enemies
+					Receives a small boost in damage and velocity after bouncing off an enemy
+					Stealth strikes throw four at once
+					'''
+			}
+
+			BrackishFlask: {
+				DisplayName: Brackish Flask
+				Tooltip:
+					'''
+					Explodes into poisonous seawater blasts
+					Stealth strikes summon a brackish spear spike
+					'''
+			}
+
+			Brimblade: {
+				DisplayName: Brimblade
+				Tooltip:
+					'''
+					Throws a blade that splits on enemy hits
+					Stealth strikes split further and cause the player to launch a barrage of brimstone darts
+					'''
+			}
+
+			BurningStrife: {
+				DisplayName: Burning Strife
+				Tooltip:
+					'''
+					Throws a shadowflame spiky ball that bursts into flames
+					Stealth Strikes make the ball linger and explode more violently
+					'Definitely not pocket safe'
+					'''
+			}
+
+			CelestialReaper: {
+				DisplayName: Celestial Reaper
+				Tooltip:
+					'''
+					Throws a fast homing scythe
+					The scythe will bounce after hitting an enemy up to six times
+					Stealth strikes create damaging afterimages
+					'''
+			}
+
+			Celestus: {
+				DisplayName: Celestus
+				Tooltip:
+					'''
+					Throws a scythe that splits into multiple scythes on enemy hits
+					Stealth strikes reverse direction and home in on enemies after returning to the player
+					'''
+			}
+
+			Cinquedea: {
+				DisplayName: Cinquedea
+				Tooltip: Stealth strikes home in after hitting an enemy
+			}
+
+			CobaltKunai: {
+				DisplayName: Cobalt Kunai
+				Tooltip: Stealth strikes fire three homing cobalt energy bolts
+			}
+
+			ConsecratedWater: {
+				DisplayName: Consecrated Water
+				Tooltip:
+					'''
+					The bottle is surprisingly dusty
+					Throws a holy flask of water that explodes into a sacred flame pillar on death
+					The pillar is destroyed if there's no tiles below it
+					Stealth strikes create three flame pillars instead of one on impact
+					'''
+			}
+
+			ContaminatedBile: {
+				DisplayName: Contaminated Bile
+				Tooltip:
+					'''
+					Throws a flask of sickly green, irradiated bile which explodes on collision
+					Stealth strikes make the explosion much more violent and powerful
+					'''
+			}
+
+			CorpusAvertor: {
+				DisplayName: Corpus Avertor
+				Tooltip:
+					'''
+					Seems like it has worn down over time
+					Attacks grant lifesteal based on damage dealt
+					The lower your HP the more damage this weapon does and heals the player on enemy hits
+					Stealth strikes throw a single rainbow outlined dagger
+					On enemy hits, this dagger boosts the damage and life regen of all members of your team
+					However, there is a small chance it will cut your health in half instead
+					'''
+			}
+
+			CosmicKunai: {
+				DisplayName: Cosmic Kunai
+				Tooltip:
+					'''
+					Fires a stream of short-range kunai
+					Stealth strikes spawn 5 Cosmic Scythes which home and explode
+					'''
+			}
+
+			CraniumSmasher: {
+				DisplayName: Cranium Smasher
+				Tooltip:
+					'''
+					Throws disks that roll on the ground, occasionally launches an explosive disk
+					Stealth strikes launch an explosive disk that can pierce several enemies
+					'''
+			}
+
+			CrushsawCrasher: {
+				DisplayName: Crushsaw Crasher
+				Tooltip:
+					'''
+					Throws bouncing axes
+					Stealth strikes throw five at once
+					'''
+			}
+
+			Crystalline: {
+				DisplayName: Crystalline
+				Tooltip:
+					'''
+					Splits into several projectiles as it travels
+					Stealth strikes make the blade split more and create crystals when destroyed
+					'''
+			}
+
+			CrystalPiercer: {
+				DisplayName: Crystal Piercer
+				Tooltip:
+					'''
+					Throws a crystal javelin that pierces infinitely
+					Stealth strikes travel through blocks, ignore gravity, and summon crystal shards as they fly
+					'''
+			}
+
+			CursedDagger: {
+				DisplayName: Cursed Dagger
+				Tooltip:
+					'''
+					Throws bouncing daggers
+					Stealth strikes are showered in cursed fireballs
+					'''
+			}
+
+			DeepSeaDumbbell: {
+				DisplayName: Deep Sea Dumbbell
+				Tooltip:
+					'''
+					Throws a dumbbell that bounces and flings weights with each bounce
+					Right click to flex, increasing the damage of your next attack up to 5 times damage
+					Flexes can hit enemies directly
+					'''
+			}
+
+			DeepWounder: {
+				DisplayName: Deep Wounder
+				Tooltip:
+					'''
+					Throws an abyssal hatchet that inflicts Armor Crunch and Crush Depth to the enemies it hits
+					Stealth strikes cause the hatchet to be thrown faster and trail water, inflicting Marked for Death in addition to the other debuffs
+					'''
+			}
+
+			DefectiveSphere: {
+				DisplayName: Defective Sphere
+				Tooltip:
+					'''
+					Fires a variety of deadly spheres with different effects
+					Up to five spheres can be thrown at a time
+					Stealth strikes launch all 4 sphere types at once
+					'''
+			}
+
+			DeificThunderbolt: {
+				DisplayName: Deific Thunderbolt
+				Tooltip:
+					'''
+					Fires a lightning bolt to electrocute enemies
+					The lightning bolt travels faster while it is raining
+					Summons lightning from the sky on impact
+					Stealth strikes summon more lightning and travel faster
+					'''
+			}
+
+			DesecratedWater: {
+				DisplayName: Desecrated Water
+				Tooltip:
+					'''
+					Throws an unholy flask of water that explodes into an explosion of bubbles on death
+					Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno
+					'''
+			}
+
+			DukesDecapitator: {
+				DisplayName: Duke's Decapitator
+				Tooltip:
+					'''
+					Throws a hydro axe which shreds enemies when it comes into contact with them
+					The faster it's spinning, the more times it hits before disappearing
+					Stealth Strikes make it emit short-ranged bubbles.
+					'''
+			}
+
+			DuststormInABottle: {
+				DisplayName: Duststorm in a Bottle
+				Tooltip:
+					'''
+					Explodes into a dust cloud
+					Stealth strikes form a more intense and longer lasting dust cloud
+					'''
+			}
+
+			DynamicPursuer: {
+				DisplayName: Dynamic Pursuer
+				Tooltip:
+					'''
+					A weapon that, as it flies, processes calculations and fires electricity
+					Releases a flying disk that fires electricity at nearby enemies
+					Stealth strikes allow the disk to ricochet multiple times and unleash an electric explosion, then fire inaccurate lasers while returning
+					'''
+			}
+
+			EclipsesFall: {
+				DisplayName: Eclipse's Fall
+				Tooltip:
+					'''
+					When the sun goes dark, you will know judgment
+					Summons spears from the sky on hit
+					Stealth strikes impale enemies and summon a constant barrage of spears over time
+					'''
+			}
+
+			ElementalDisk: {
+				DisplayName: Elemental Disk
+				Tooltip:
+					'''
+					Throws a disk that has a chance to generate several disks if enemies are near it
+					Stealth strikes fly slower but travel farther, pierce through enemies, and spawn extra disks more frequently
+					'''
+			}
+
+			EnchantedAxe: {
+				DisplayName: Enchanted Axe
+				Tooltip:
+					'''
+					Throws a high velocity axe that returns to you after travelling a short distance or hitting a wall
+					At the furthest point from the player, a magical axe that travels through walls will be cast towards the nearest enemy
+					Stealth strikes make the axe fly further, throwing out many other magical axes in all directions
+					'''
+			}
+
+			EpidemicShredder: {
+				DisplayName: Epidemic Shredder
+				Tooltip:
+					'''
+					Contrary to its name, it will probably cause an epidemic if used incorrectly
+					Throws a plagued boomerang that releases plague seekers when it hits tiles or enemies
+					Stealth strikes cause the boomerang to release plague seekers constantly as it travels
+					'''
+			}
+
+			Equanimity: {
+				DisplayName: Equanimity
+				Tooltip:
+					'''
+					Throws a dark/light boomerang that confuses enemies
+					The boomerang will create light shards upon hitting enemies when thrown out, and will fire homing dark shards when returning
+					Stealth strikes cause the boomerang to create both dark and light shards whenever one type would be created
+					'''
+			}
+
+			Eradicator: {
+				DisplayName: Eradicator
+				Tooltip:
+					'''
+					Throws a disk that fires lasers at nearby enemies
+					Stealth strikes stick to enemies and unleash a barrage of lasers in all directions
+					'''
+			}
+
+			ExecutionersBlade: {
+				DisplayName: Executioner's Blade
+				Tooltip:
+					'''
+					Throws a stream of homing blades
+					Stealth strikes summon a guillotine of blades on hit
+					'''
+			}
+
+			Exorcism: {
+				DisplayName: Exorcism
+				Tooltip:
+					'''
+					Throws a hallowed cross which explodes into a flash of light that damages nearby enemies, closer enemies receiving more damage
+					As the cross travels downwards, the damage inflicted by both the cross and flash increases constantly
+					Stealth strikes cause the cross to be thrown with full damage immediately. Hallowed stars fall when the cross explodes
+					'''
+			}
+
+			FantasyTalisman: {
+				DisplayName: Fantasy Talisman
+				Tooltip:
+					'''
+					Fires high velocity talismans that ignore gravity
+					Talismans attach to enemies, causing them to release lost souls
+					Stealth strikes release more souls and leave behind souls as they travel
+					'''
+			}
+
+			FeatherKnife: {
+				DisplayName: Feather Knife
+				Tooltip:
+					'''
+					Throws a knife which summons homing feathers
+					Stealth strike throws a volley of knives
+					'''
+			}
+
+			FinalDawn: {
+				DisplayName: The Final Dawn
+				Tooltip:
+					'''
+					We shall ride into the sunrise once more
+					Attack enemies with a giant scythe swing to replenish stealth
+					Press up and attack to throw the scythe 
+					Stealth strikes perform a horizontal swing that leaves a lingering fire aura
+					Stealth strikes performed while pressing up fling yourself at the enemy and slice through them, causing homing fireballs to emerge
+					'''
+			}
+
+			FishboneBoomerang: {
+				DisplayName: Fishbone Boomerang
+				Tooltip:
+					'''
+					Stealth strikes make the boomerang ricochet between enemies
+					[c/5C95A1:Though the evaporating Sea Kingdom fought a losing battle, its proud inhabitants did not go down easily.]
+					[c/5C95A1:As a last resort, they had to fashion weapons from the skeletons of dead animals.]
+					'''
+			}
+
+			FrostcrushValari: {
+				DisplayName: Frostcrush Valari
+				Tooltip:
+					'''
+					Fires a long ranged boomerang that explodes into icicles on hit
+					Stealth strikes throw three shorter ranged boomerangs that freeze along with a spread of icicles
+					'''
+			}
+
+			FrostyFlare: {
+				DisplayName: Frosty Flare
+				Tooltip:
+					'''
+					Do not insert in flare gun
+					Sticks to enemies
+					Generates a localized hailstorm
+					Stealth strikes trail snowflakes and summon phantom copies instead of ice shards
+					'''
+			}
+
+			GacruxianMollusk: {
+				DisplayName: Gacruxian Mollusk
+				Tooltip:
+					'''
+					Releases homing sparks while traveling
+					Stealth strikes release homing snails that create even more sparks
+					'''
+			}
+
+			GelDart: {
+				DisplayName: Gel Dart
+				Tooltip:
+					'''
+					Throws bouncing darts
+					Stealth strikes ignore gravity and bounce more vigorously
+					They additionally leak slime and cover enemies in dark sludge
+					'''
+			}
+
+			GhoulishGouger: {
+				DisplayName: Ghoulish Gouger
+				Tooltip:
+					'''
+					Throws sets of four ghoulish scythes at ultra high velocity
+					Stealth strikes summon a flurry of tormented souls on hit
+					'''
+			}
+
+			GildedDagger: {
+				DisplayName: Gilded Dagger
+				Tooltip:
+					'''
+					Throws a shiny blade that ricochets towards another enemy on hit
+					Stealth strikes cause the blade to home in after ricocheting, with each ricochet dealing 20% more damage
+					Stealth strikes also have increased piercing
+					'''
+			}
+
+			Glaive: {
+				DisplayName: Glaive
+				Tooltip:
+					'''
+					Tosses up to 3 sharp returning glaives
+					Stealth strikes are super fast and pierce infinitely
+					'''
+			}
+
+			GleamingDagger: {
+				DisplayName: Gleaming Dagger
+				Tooltip:
+					'''
+					Throws a shiny blade that ricochets towards another enemy on hit
+					Stealth strikes cause the blade to home in after ricocheting, with each ricochet dealing 20% more damage
+					Stealth strikes also have increased piercing
+					'''
+			}
+
+			GodsParanoia: {
+				DisplayName: God's Paranoia
+				Tooltip:
+					'''
+					Hurls up to 10 speedy homing spiky balls
+					Attaches to enemies and summons a localized storm of god slayer kunai
+					Stealth strikes home in faster and summon kunai at a faster rate
+					Right click to delete all existing spiky balls
+					'''
+			}
+
+			GraveGrimreaver: {
+				DisplayName: Grave Grimreaver
+				Tooltip:
+					'''
+					Hurls a cursed scythe which homes in
+					The scythe summons skulls as it flies and explodes into bats on hit
+					Stealth strikes spawn a flood of bats and falling skulls when destroyed
+					Inflicts cursed flames and confusion
+					'A dapper skeleton's weapon of choice'
+					'''
+			}
+
+			HardenedHoneycomb: {
+				DisplayName: Hardened Honeycomb
+				Tooltip:
+					'''
+					Fires a honeycomb that shatters into fragments
+					Grants the honey buff to players it touches
+					Stealth strikes can bounce off walls and enemies
+					'''
+			}
+
+			HeavenfallenStardisk: {
+				DisplayName: Heavenfallen Stardisk
+				Tooltip:
+					'''
+					Throws a stardisk upwards which then launches itself towards your mouse cursor
+					Explodes into 5 astral energy bolts if the thrower is moving vertically when throwing it
+					Stealth strikes rain astral energy bolts from the sky
+					'''
+			}
+
+			HellsSun: {
+				DisplayName: Hell's Sun
+				Tooltip:
+					'''
+					The Subterranean Sun in the palm of your hand
+					Hurls up to 10 gravity-defying spiky balls
+					Once stationary, periodically emit small suns that explode on hit
+					Stealth strikes emit suns at a faster rate and last for a longer amount of time
+					Right click to delete all existing spiky balls
+					'''
+			}
+
+			Hypothermia: {
+				DisplayName: Hypothermia
+				Tooltip:
+					'''
+					Throws a constant barrage of black ice shards
+					Stealth strikes hurl a set of razor sharp ice chunks that shatter on impact
+					'''
+			}
+
+			Icebreaker: {
+				DisplayName: Icebreaker
+				Tooltip: Stealth strikes spawn a cosmic explosion and freeze nearby enemies on enemy hits
+			}
+
+			IceStar: {
+				DisplayName: Ice Star
+				Tooltip:
+					'''
+					Throws fast but brittle homing ice stars
+					Stealth strikes last longer and spawn smaller homing stars on first hits
+					'''
+			}
+
+			IchorSpear: {
+				DisplayName: Ichor Spear
+				Tooltip:
+					'''
+					Throws an ichor tipped trident
+					Stealth strikes are showered in splashes of ichor
+					'''
+			}
+
+			InfernalKris: {
+				DisplayName: Infernal Kris
+				Tooltip:
+					'''
+					Throws a burning dagger that starts spinning after travelling a short distance, inflicting additional damage while spinning
+					Stealth strikes cause the dagger to be engulfed in flames, exploding on contact with walls and enemies
+					'''
+			}
+
+			InfestedClawmerang: {
+				DisplayName: Infested Clawmerang
+				Tooltip:
+					'''
+					Fires a slow, long-ranged boomerang
+					Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing spores
+					'''
+			}
+
+			IronFrancisca: {
+				DisplayName: Iron Francisca
+				Tooltip:
+					'''
+					The franciscas do more damage for a short time when initially thrown
+					Stealth strikes pierce up to 6 times
+					'''
+			}
+
+			JawsOfOblivion: {
+				DisplayName: Jaws of Oblivion
+				Tooltip:
+					'''
+					Throws a tight spread of six venomous reaper fangs that stick in enemies
+					Stealth strikes cause the teeth to emit a crushing shockwave on impact
+					You're gonna need a bigger boat
+					'''
+			}
+
+			KelvinCatalyst: {
+				DisplayName: Kelvin Catalyst
+				Tooltip:
+					'''
+					Throws an icy blade that splits into multiple ice stars on enemy hits
+					Stealth strikes will briefly gain sentience and ram nearby enemies before returning to the player
+					'''
+			}
+
+			Kylie: {
+				DisplayName: Kylie
+				Tooltip:
+					'''
+					Stealth strikes throws three shorter ranged kylies instead of a single long range one
+					'Also known as Dowak'
+					'''
+			}
+
+			LeadTomahawk: {
+				DisplayName: Lead Tomahawk
+				Tooltip:
+					'''
+					The tomahawks have more damage for a short time when initially thrown
+					Stealth strikes pierce up to 6 times
+					'''
+			}
+
+			LeonidProgenitor: {
+				DisplayName: Leonid Progenitor
+				Tooltip:
+					'''
+					Throws a bombshell that explodes, summoning a meteor to impact the site
+					Right click to throw a spread of gravity affected comets that explode, leaving behind a star
+					Stealth strikes lob a bombshell that additionally splits into comets on hit
+					'''
+			}
+
+			LeviathanTeeth: {
+				DisplayName: Leviathan Teeth
+				Tooltip:
+					'''
+					Rapidly throws a variety of poisonous fangs that stick to enemies
+					Stealth strikes cause 6 very fast teeth to be thrown, ignoring gravity and inflicting extreme knockback
+					'''
+			}
+
+			Lionfish: {
+				DisplayName: Lionfish
+				Tooltip:
+					'''
+					Sticks to enemies and injects a potent toxin
+					Stealth strikes are trailed by homing urchin spikes
+					'''
+			}
+
+			LuminousStriker: {
+				DisplayName: Luminous Striker
+				Tooltip:
+					'''
+					Send the stars back to where they belong
+					Throws a stardust javelin trailed by rising stardust shards
+					Explodes into additional stardust shards upon hitting enemies
+					Stealth strikes cause the stardust shards to fly alongside the javelin instead of rising
+					'''
+			}
+
+			LunarKunai: {
+				DisplayName: Lunar Kunai
+				Tooltip:
+					'''
+					Throws out a set of three kunai that ignore gravity and slightly home in on enemies
+					After traveling enough distance, the kunai supercharge with lunar energy, homing in far more aggressively and exploding on impact
+					Stealth strikes instantly throw eight supercharged Kunai
+					'''
+			}
+
+			Malachite: {
+				DisplayName: Malachite
+				Tooltip:
+					'''
+					Throws a stream of kunai that stick to enemies and explode
+					Right click to throw a single kunai that pierces, after piercing an enemy it emits a massive explosion on the next enemy hit
+					Stealth strikes fire three kunai that home in, stick to enemies, and explode
+					'''
+			}
+
+			MangroveChakram: {
+				DisplayName: Mangrove Chakram
+				Tooltip: Stealth strikes leave a trail of lingering flowers
+			}
+
+			MetalMonstrosity: {
+				DisplayName: Metal Monstrosity
+				Tooltip:
+					'''
+					This has to hurt
+					Hurls a heavy metal ball that shatters on impact
+					Stealth strikes cause the ball to release spikes as it travels
+					'''
+			}
+
+			MeteorFist: {
+				DisplayName: Meteor Fist
+				Tooltip:
+					'''
+					Fires a fist that explodes 
+					Stealth strikes make the fist ricochet between enemies up to 4 times
+					'''
+			}
+
+			MoltenAmputator: {
+				DisplayName: Molten Amputator
+				Tooltip:
+					'''
+					Throws a scythe that emits molten globs on enemy hits
+					Stealth strikes spawn molten globs periodically in flight and more on-hit
+					'''
+			}
+
+			MonkeyDarts: {
+				DisplayName: Monkey Darts
+				Tooltip:
+					'''
+					Stealth strikes throw 3 bouncing darts at high speed
+					'Perfect for popping'
+					'''
+			}
+
+			Mycoroot: {
+				DisplayName: Mycoroot
+				Tooltip:
+					'''
+					Fires a stream of short-range fungal roots
+					Stealth strikes spawn an explosion of fungi spores
+					and grant you and all other players the Mushy buff for 15 seconds
+					'''
+			}
+
+			MythrilKnife: {
+				DisplayName: Mythril Knife
+				Tooltip: Stealth strikes are coated in deadly toxins, inflicting irradiated, poison, and acid venom
+			}
+
+			NanoblackReaper: {
+				DisplayName: Nanoblack Reaper
+				Tooltip:
+					'''
+					Unleashes a storm of nanoblack energy blades
+					Blades target bosses whenever possible
+					Stealth strikes cause the scythe to create a large amount of homing afterimages instead of energy blades
+					'She smothered them in Her hatred'
+					'''
+			}
+
+			NastyCholla: {
+				DisplayName: Nasty Cholla
+				Tooltip:
+					'''
+					Throws a spiky ball that sticks to everything
+					Explodes into cactus spikes after roughly 3 seconds
+					Can hurt town NPCs
+					Stealth strikes throw four at once
+					'''
+			}
+
+			NightsGaze: {
+				DisplayName: Night's Gaze
+				Tooltip:
+					'''
+					Strike your foes with this spear of the night
+					Throws a spear that shatters when it hits an enemy
+					Stealth strikes cause the spear to summon homing stars as it flies
+					'''
+			}
+
+			Nychthemeron: {
+				DisplayName: Nychthemeron
+				Tooltip:
+					'''
+					Throws a spiky ball that ignores gravity and summons a pair of dark and light orbs that orbit the player
+					Once the spiky ball disappears the orbs will home in on the nearest target
+					Up to 10 spiky balls can exist at a time
+					Stealth strikes cause all spiky balls and orbs to be thrown at once
+					Right click to recall all existing spiky balls
+					'''
+			}
+
+			OrichalcumSpikedGemstone: {
+				DisplayName: Orichalcum Spiked Gemstone
+				Tooltip: Stealth strikes last longer and summon petals on enemy hits
+			}
+
+			PalladiumJavelin: {
+				DisplayName: Palladium Javelin
+				Tooltip: Stealth strikes split into more javelins and boost life regeneration on hits
+			}
+
+			Penumbra: {
+				DisplayName: Penumbra
+				Tooltip:
+					'''
+					Throws a shadow bomb that explodes into homing souls
+					Stealth strikes make the bomb manifest on the cursor and explode into more souls
+					'''
+			}
+
+			PhantasmalRuin: {
+				DisplayName: Phantasmal Ruin
+				Tooltip:
+					'''
+					Fires an enormous ghost lance that emits lost souls as it flies
+					Explodes into tormented souls on enemy hits
+					Stealth strikes continuously leave spectral clones in their wake
+					'''
+			}
+
+			PhantomLance: {
+				DisplayName: Phantom Lance
+				Tooltip:
+					'''
+					Fires a spectral javelin that rapidly releases lost souls
+					Fades away and slows down over time
+					Lost souls released later deal less damage
+					Stealth strikes don't slow down and souls always deal full damage
+					'''
+			}
+
+			Plaguenade: {
+				DisplayName: Plaguenade
+				Tooltip:
+					'''
+					Releases a swarm of angry plague bees
+					Stealth strikes spawn more bees and generate a larger explosion
+					'''
+			}
+
+			PoisonPack: {
+				DisplayName: Poison Pack
+				Tooltip:
+					'''
+					Throws up to 3 poisonous spiky balls
+					Stealth strikes cause the balls to release spore clouds
+					Right click to delete all existing spiky balls
+					'''
+			}
+
+			Prismalline: {
+				DisplayName: Prismalline
+				Tooltip:
+					'''
+					Throws daggers that split after a while
+					Stealth strikes additionally explode into prism shards and briefly stun enemies
+					'''
+			}
+
+			ProfanedPartisan: {
+				DisplayName: Profaned Partisan
+				Tooltip:
+					'''
+					Fires an unholy spear that explodes on death
+					Stealth strikes spawn smaller spears to fly along side it
+					'''
+			}
+
+			RadiantStar: {
+				DisplayName: Radiant Star
+				Tooltip:
+					'''
+					Throws daggers that explode and split after a while
+					Stealth strike splits more with a devastating explosion and sucks enemies in
+					'''
+			}
+
+			RefractionRotor: {
+				DisplayName: Refraction Rotor
+				Tooltip:
+					'''
+					Fires a huge prismatic disk shuriken
+					The shuriken shatters moments after impact into homing rockets
+					Stealth strikes shatter into many more rockets
+					'''
+			}
+
+			RegulusRiot: {
+				DisplayName: Regulus Riot
+				Tooltip:
+					'''
+					Fires a swift homing disk
+					Stealth strikes explode into energy stars
+					'''
+			}
+
+			RotBall: {
+				DisplayName: Rot Ball
+				Tooltip: Stealth strikes spawn rain clouds on enemy hits
+			}
+
+			Sacrifice: {
+				DisplayName: Sacrifice
+				Tooltip:
+					'''
+					Throws sacrificial daggers that lodge themselves in enemies
+					Right click causes all stuck daggers to fly back at you and give you life
+					Daggers stuck to enemies release bloodsplosions over time
+					Stealth strikes lodge for longer and provide much more life when returning to you
+					'''
+			}
+
+			SandDollar: {
+				DisplayName: Sand Dollar
+				Tooltip:
+					'''
+					Throws up to 2 returning sand dollars
+					Stealth strikes throw 2 long ranged sand dollars that explode into coral shards on enemy hits
+					'''
+			}
+
+			Sandslasher: {
+				DisplayName: Sandslasher
+				Tooltip:
+					'''
+					Throws a huge shuriken made out of fused sand unaffected by gravity which slowly accelerates horizontally
+					It does more damage depending on how fast it goes horizontally and how long it has been flying for
+					Stealth strikes periodically release sand clouds
+					'''
+			}
+
+			ScarletDevil: {
+				DisplayName: Scarlet Devil
+				Tooltip:
+					'''
+					Throws an ultra high velocity spear, which creates more projectiles that home in
+					The spear creates a Scarlet Blast upon hitting an enemy
+					Stealth strikes grant you lifesteal and summon a star of projectiles upon hitting an enemy
+					'Divine Spear "Spear the Gungnir"'
+					'''
+			}
+
+			ScourgeoftheDesert: {
+				DisplayName: Scourge of the Desert
+				Tooltip:
+					'''
+					Gains velocity over time
+					Stealth strikes gain damage as they damage enemies
+					'''
+			}
+
+			ScourgeoftheSeas: {
+				DisplayName: Scourge of the Seas
+				Tooltip:
+					'''
+					Snaps apart into a venomous cloud upon striking an enemy
+					Stealth strikes are coated with vile toxins, afflicting enemies with a powerful debuff
+					'''
+			}
+
+			SeafoamBomb: {
+				DisplayName: Seafoam Bomb
+				Tooltip:
+					'''
+					Throws a bomb that explodes into a bubble which deals extra damage to enemies
+					Stealth strikes are faster and explode into 5 bubbles
+					'''
+			}
+
+			SealedSingularity: {
+				DisplayName: Sealed Singularity
+				Tooltip:
+					'''
+					Shatters on impact, summoning a black hole that sucks in nearby enemies
+					Stealth strikes summon a black hole that lasts longer and sucks enemies with stronger force
+					'''
+			}
+
+			SearedPan: {
+				DisplayName: Seared Pan
+				Tooltip:
+					'''
+					dAMaGe iS rAthEr cOnSisTeNT
+					Fires a frying pan at high velocity
+					Enemy hits summon fireballs that linger around the target
+					Landing three consecutive hits grants will launch a golden pan
+					Golden pans cause all fireballs to aggressively home in on their target
+					Stealth strikes act similar to golden pans but also explode into golden sparks
+					Stealth strikes also summon additional fireballs on hit
+					'''
+			}
+
+			Seraphim: {
+				DisplayName: Seraphim
+				Tooltip:
+					'''
+					Throws an extraordinarily fast dagger which slows down exponentially and dissipates into light
+					Once dissipation has ended, 6 fast, splitting blades that aim at and slice nearby targets are released, along
+					with a large laserbeam
+					Stealth strikes release a volley of 7 lights which explode into smaller laser beams along with the dagger
+					'''
+			}
+
+			ShardofAntumbra: {
+				DisplayName: Shard of Antumbra
+				Tooltip: Stealth strikes leave homing stars in their wake
+			}
+
+			ShatteredSun: {
+				DisplayName: Shattered Sun
+				Tooltip:
+					'''
+					Throws daggers that split into scorching homing daggers
+					Stealth strikes fire volleys of homing daggers from the player on dagger hits that suck enemies in
+					'''
+			}
+
+			ShinobiBlade: {
+				DisplayName: Shinobi Blade
+				Tooltip:
+					'''
+					Throws a fast blade that spawns healing orbs when it kills an enemy
+					Stealth strikes repeatedly stab the struck enemy from random directions
+					'''
+			}
+
+			ShockGrenade: {
+				DisplayName: Shock Grenade
+				Tooltip:
+					'''
+					Throws a grenade that explodes into a burst of lightning
+					Stealth strikes cause the grenade to leave an electrifying aura when it explodes
+					'''
+			}
+
+			SkyfinBombers: {
+				DisplayName: Skyfin Bombers
+				Tooltip:
+					'''
+					Fishy bombers inbound!
+					Launches a skyfin nuke that homes in on enemies below it
+					Stealth strikes rapidly home in regardless of enemy position
+					'''
+			}
+
+			SkyStabber: {
+				DisplayName: Sky Stabber
+				Tooltip:
+					'''
+					Throws up to 4 gravity-defying spiky balls
+					Stealth strikes make the balls rain feathers onto enemies when they hit
+					Right click to delete all existing spiky balls
+					'''
+			}
+
+			SlickCane: {
+				DisplayName: Slick Cane
+				Tooltip:
+					'''
+					Swipes a cane that steals money from enemies.
+					Stealth strikes gives a 1 in 15 chance for enemies to drop 1-3 gold coins when hit
+					'Economy at its finest'
+					'''
+			}
+
+			SludgeSplotch: {
+				DisplayName: Sludge Splotch
+				Tooltip: Stealth strikes cause the main ball of sludge to split on hit, inflicting more damage
+			}
+
+			SnapClam: {
+				DisplayName: Snap Clam
+				Tooltip:
+					'''
+					Can latch on enemies and deal damage over time
+					Stealth strikes throw five clams at once that cause increased damage over time
+					'''
+			}
+
+			SpearofDestiny: {
+				DisplayName: Spear of Destiny
+				Tooltip:
+					'''
+					Throws three spears with the outer two having homing capabilities
+					Stealth strikes cause all three spears to home in, ignore tiles, and pierce more
+					'''
+			}
+
+			SpearofPaleolith: {
+				DisplayName: Spear of Paleolith
+				Tooltip:
+					'''
+					Throws an ancient spear that shatters enemy armor
+					Spears rain fossil shards as they travel
+					Stealth strikes travel slower but further, raining more fossil shards
+					'''
+			}
+
+			SpentFuelContainer: {
+				DisplayName: Spent Fuel Container
+				Tooltip:
+					'''
+					War Never Changes
+					Throws a fuel container with trace amounts of plutonium that causes a nuclear explosion
+					The explosion does not occur if there are no tiles below it
+					Stealth strikes leave a lingering irradiated zone after the explosion dissipates
+					'''
+			}
+
+			StarofDestruction: {
+				DisplayName: Star of Destruction
+				Tooltip:
+					'''
+					Fires a huge destructive mine that explodes into destruction bolts
+					Amount of bolts scales with enemies hit, up to 16
+					Stealth strikes always explode into the max amount of bolts
+					'''
+			}
+
+			StellarKnife: {
+				DisplayName: Stellar Knife
+				Tooltip:
+					'''
+					Throws knives that stop middair and then home into enemies
+					Stealth strikes throw a volley of 10 knives in a spread
+					Za Warudo
+					'''
+			}
+
+			StickySpikyBall: {
+				DisplayName: Sticky Spiky Ball
+				Tooltip:
+					'''
+					Throws a spiky ball that sticks to everything
+					Stealth strikes throw four at once and last a lot longer
+					'''
+			}
+
+			StormfrontRazor: {
+				DisplayName: Stormfront Razor
+				Tooltip:
+					'''
+					Throws a knife that summons lightning on hit.
+					Stealth strikes cause the knife to be faster and summon multiple lightning bolts on hit
+					[c/24c7f0:Strike and stem the flow]
+					'''
+			}
+
+			SubductionSlicer: {
+				DisplayName: Subduction Slicer
+				Tooltip:
+					'''
+					Throws a scythe that explodes on enemy hits
+					Stealth strikes also summon an orange pillar of fire on enemy hits
+					'''
+			}
+
+			Supernova: {
+				DisplayName: Supernova
+				Tooltip:
+					'''
+					Creates a massive explosion on impact
+					Explodes into spikes and homing energy
+					Stealth strikes release energy as they fly
+					'''
+			}
+
+			TarragonThrowingDart: {
+				DisplayName: Tarragon Throwing Dart
+				Tooltip:
+					'''
+					Fires a piercing dart with reduced immunity frames
+					Stealth strikes erupt into thorns on enemy hits
+					'''
+			}
+
+			TerraDisk: {
+				DisplayName: Terra Disk
+				Tooltip:
+					'''
+					Throws a disk that has a chance to generate several disks if enemies are near it
+					Stealth strikes travel slower and are rapidly orbited by the smaller disks
+					'''
+			}
+
+			TerrorTalons: {
+				DisplayName: Terror Talons
+				Tooltip:
+					'''
+					Fires small wavering claws
+					Stealth strikes launch a large, high speed claw which pierces
+					'''
+			}
+
+			TheAtomSplitter: {
+				DisplayName: The Atom Splitter
+				Tooltip:
+					'''
+					Throws a quantum-superimposed javelin that strikes from numerous timelines at once
+					Stealth strikes perform far more simultaneous strikes
+					'''
+			}
+
+			TheOldReaper: {
+				DisplayName: The Old Reaper
+				Tooltip:
+					'''
+					Slice 'n dice
+					Stealth strikes throw four at once
+					'''
+			}
+
+			TheSyringe: {
+				DisplayName: The Syringe
+				Tooltip:
+					'''
+					Throws a high velocity syringe that increases damage as it travels
+					Shatters into glass and plague cinders on impact
+					Stealth strikes also shatter into plague bees
+					'I'm pretty sure this isn't healthy'
+					'''
+			}
+
+			ThrowingBrick: {
+				DisplayName: Throwing Brick
+				Tooltip:
+					'''
+					Prove its resistance by throwing it upwards and catching it with your face
+					Throws a brick that shatters if stealth is full.
+					'''
+			}
+
+			TimeBolt: {
+				DisplayName: Time Bolt
+				Tooltip:
+					'''
+					There should be no boundary to human endeavor.
+					Stealth strikes can hit more enemies and create a larger time field
+					'''
+			}
+
+			TitaniumShuriken: {
+				DisplayName: Titanium Shuriken
+				Tooltip: Stealth strikes act like a boomerang that spawns clones on enemy hits
+			}
+
+			ToothBall: {
+				DisplayName: Tooth Ball
+				Tooltip: Stealth strikes spawn rain clouds on enemy hits
+			}
+
+			TotalityBreakers: {
+				DisplayName: Totality Breakers
+				Tooltip:
+					'''
+					Explodes into highly flammable black tar
+					Tar oils enemies and sets them alight
+					Stealth strikes leak tar as they fly
+					'''
+			}
+
+			ToxicantTwister: {
+				DisplayName: Toxicant Twister
+				Tooltip:
+					'''
+					Throws a slow moving boomerang
+					After a few moments, the boomerang chooses a target and rapidly homes in
+					Stealth strikes home in faster and rapidly release sand
+					'''
+			}
+
+			Turbulance: {
+				DisplayName: Turbulance
+				Tooltip:
+					'''
+					Fires a cloudy javelin that bursts into wind slashes on hit
+					Wind slashes home if the javelin crits
+					Stealth strikes are trailed by homing wind slashes
+					'''
+			}
+
+			UrchinStinger: {
+				DisplayName: Urchin Stinger
+				Tooltip: Stealth strikes stick to enemies while releasing sulphuric bubbles
+			}
+
+			UtensilPoker: {
+				DisplayName: Utensil Poker
+				Tooltip:
+					'''
+					Space chickens, that is all.
+					Fires random utensils in bursts of three
+					Stealth strikes replace any utensil with a powerful butcher knife
+					'''
+			}
+
+			Valediction: {
+				DisplayName: Valediction
+				Tooltip:
+					'''
+					Throws a homing reaper scythe
+					Stealth strikes spawn razorblade typhoons on enemy hits
+					'''
+			}
+
+			WaveSkipper: {
+				DisplayName: Wave Skipper
+				Tooltip:
+					'''
+					Throws a spear that bounces a lot
+					Stealth strikes throw three high speed spears
+					'''
+			}
+
+			WebBall: {
+				DisplayName: Web Ball
+				Tooltip:
+					'''
+					Throws a web-covered ball that covers enemies in cobwebs to slow them down
+					Stealth strikes slow enemies down longer
+					'''
+			}
+
+			Wrathwing: {
+				DisplayName: Wrathwing
+				Tooltip:
+					'''
+					Throws an agile, homing winged spear that constantly spits fire
+					Stealth strikes create an eruption of cinders on hit
+					'''
+			}
+
+			WulfrumKnife: {
+				DisplayName: Wulfrum Knife
+				Tooltip:
+					'''
+					Fires wulfrum knives in bursts of 3
+					Stealth strikes make the knife fly further and hit several times at once
+					Hold right click to magnetize all nearby fallen knives back to you
+					'''
+			}
+		}
+	}
+}

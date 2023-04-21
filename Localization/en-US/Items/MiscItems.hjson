@@ -1,0 +1,254 @@
+Mods : {
+	CalamityMod : {
+		Items : {
+			/* Critters */
+			AndroombaItem: {
+				DisplayName: "{$Mods.CalamityMod.NPCName.Androomba}"
+				Tooltip:
+					'''
+					Right click the roomba with a solution to insert it
+					While a solution is inserted, the roomba will start spreading its contents
+					'''
+			}
+			
+			BabyFlakCrabItem.DisplayName: "{$Mods.CalamityMod.NPCName.BabyFlakCrab}"
+			BabyGhostBellItem.DisplayName: "{$Mods.CalamityMod.NPCName.BabyGhostBell}"
+			NanodroidDysfunctionalItem.DisplayName: Dysfunctional Nanodroid
+			NanodroidItem.DisplayName: "{$Mods.CalamityMod.NPCName.Nanodroid}"
+			NanodroidPlagueGreenItem.DisplayName: Green Plague Nanodroid
+			NanodroidPlagueRedItem.DisplayName: Red Plague Nanodroid
+			PiggyItem.DisplayName: "{$Mods.CalamityMod.NPCName.Piggy}"
+			RepairUnitItem.DisplayName: "{$Mods.CalamityMod.NPCName.RepairUnitCritter}"
+			SeaMinnowItem.DisplayName: "{$Mods.CalamityMod.NPCName.SeaMinnow}"
+			TwinklerItem.DisplayName: "{$Mods.CalamityMod.NPCName.Twinkler}"
+			
+			/* Permanent Boosters */
+			BloodOrange: {
+				DisplayName: Blood Orange
+				Tooltip:
+					'''
+					It has a distinctly sweet flavor and a strong aroma
+					Permanently increases maximum life by 25
+					Can only be used if the max amount of life fruit has been consumed
+					'''
+			}
+
+			CelestialOnion: {
+				DisplayName: Celestial Onion
+				Tooltip:
+					'''
+					Alien power pulses inside its layers
+					Consuming it does something that cannot be reversed
+					This item does nothing in Master Mode
+					'''
+			}
+
+			CometShard: {
+				DisplayName: Comet Shard
+				Tooltip: Permanently increases maximum mana by 50
+			}
+
+			Dragonfruit: {
+				DisplayName: Dragonfruit
+				Tooltip:
+					'''
+					Though somewhat bland, what taste can be described is unlike any other experienced
+					Permanently increases maximum life by 25
+					Can only be used if the max amount of life fruit has been consumed
+					'''
+			}
+
+			Ectoheart: {
+				DisplayName: Ectoheart
+				Tooltip:
+					'''
+					Permanently increases Adrenaline Mode damage by 15% and damage reduction by 5%
+					Revengeance drop
+					'''
+			}
+
+			Elderberry: {
+				DisplayName: Elderberry
+				Tooltip:
+					'''
+					A tangy, tart flavor with a somewhat earthen touch
+					Permanently increases maximum life by 25
+					Can only be used if the max amount of life fruit has been consumed
+					'''
+			}
+
+			ElectrolyteGelPack: {
+				DisplayName: Electrolyte Gel Pack
+				Tooltip:
+					'''
+					Permanently increases Adrenaline Mode damage by 15% and damage reduction by 5%
+					Revengeance drop
+					'''
+			}
+
+			EtherealCore: {
+				DisplayName: Ethereal Core
+				Tooltip: Permanently increases maximum mana by 50
+			}
+
+			InfernalBlood: {
+				DisplayName: Infernal Blood
+				Tooltip:
+					'''
+					Permanently increases the duration of Rage Mode by 1 second
+					Revengeance drop
+					'''
+			}
+
+			MiracleFruit: {
+				DisplayName: Miracle Fruit
+				Tooltip:
+					'''
+					Refreshing and cool, perhaps even a bit minty
+					Permanently increases maximum life by 25
+					Can only be used if the max amount of life fruit has been consumed
+					'''
+			}
+
+			MushroomPlasmaRoot: {
+				DisplayName: Mushroom Plasma Root
+				Tooltip:
+					'''
+					Permanently increases the duration of Rage Mode by 1 second
+					Revengeance drop
+					'''
+			}
+
+			PhantomHeart: {
+				DisplayName: Phantom Heart
+				Tooltip: Permanently increases maximum mana by 50
+			}
+
+			RedLightningContainer: {
+				DisplayName: Red Lightning Container
+				Tooltip:
+					'''
+					Permanently increases the duration of Rage Mode by 1 second
+					Revengeance drop
+					'''
+			}
+
+			StarlightFuelCell: {
+				DisplayName: Starlight Fuel Cell
+				Tooltip:
+					'''
+					Permanently increases Adrenaline Mode damage by 15% and damage reduction by 5%
+					Revengeance drop
+					'''
+			}
+			
+			/* Spawn Blockers */
+			AntiCystOintment: {
+				DisplayName: Anti-Cyst Ointment
+				Tooltip: Favorite this item to prevent perforator cysts from spawning near you
+			}
+
+			AntiTumorOintment: {
+				DisplayName: Anti-Tumor Ointment
+				Tooltip: Favorite this item to prevent hive tumors from spawning near you
+			}
+	
+			BleachBall: {
+				DisplayName: Bleach Ball
+				Tooltip: Favorite this item to prevent the Aquatic Scourge from naturally spawning near you
+			}
+			
+			BrokenWaterFilter: {
+				DisplayName: Broken Water Filter
+				Tooltip: Favorite this item to disable natural Acid Rain spawns
+			}
+			
+			SirenproofEarMuffs: {
+				DisplayName: Sirenproof Earmuffs
+				Tooltip: Favorite this item to prevent Anahita from spawning near you
+			}
+			
+			VoodooDemonVoodooDoll: {
+				DisplayName: Voodoo Demon Voodoo Doll
+				Tooltip: Favorite this item to prevent voodoo demons from spawning near you
+			}
+			
+			/* Uncategorized */
+			BallAndChain: {
+				DisplayName: Ball and Chain
+				Tooltip:
+					'''
+					So heavy...
+					Favorite this item to disable any dashes granted by equipment.
+					'''
+			}
+
+			BrimstoneLocus: {
+				DisplayName: Brimstone Locus
+				Tooltip:
+					'''
+					Not only can I enhance your equipment with potent magic, I can also draw out the true strength and ascend
+					some of your weaponry to entirely new forms
+					Such items are revealed while this item is in your inventory
+					'''
+			}
+			
+			MomentumCapacitor: {
+				DisplayName: Momentum Capacitor
+				Tooltip:
+					'''
+					While using the Momentum Capacitor,
+					your top speed will continuously and uncontrollably increase
+					This effect only works if there are no bosses alive
+					'''
+			}
+			
+			NormalityRelocator: {
+				DisplayName: Normality Relocator
+				Tooltip:
+					'''
+					I'll be there in the blink of an eye
+					This line is modified below
+					Fall speed is doubled for 30 frames after teleporting
+					Teleportation is disabled while Chaos State is active
+					Works while in the inventory
+					'''
+			}
+			
+			RelicOfConvergence: {
+				DisplayName: Relic of Convergence
+				Tooltip:
+					'''
+					Creates a profaned crystal that charges power
+					Holding out the crystal slows the player down
+					At the end of its life, the crystal heals the player for 70 HP
+					'''
+			}
+
+			Rock: {
+				DisplayName: Rock
+				Tooltip: The first object Xeroc ever created
+			}
+
+			SulphurousSeaWorldSideChanger: {
+				DisplayName: Sulphurous Sea World Side Changer
+				Tooltip:
+					'''
+					Spawn and use this if your regular ocean counts as a Sulphurous Sea
+					This will also fix the Abyss if it is broken
+					'''
+			}
+
+			SuperDummy: {
+				DisplayName: Super Dummy
+				Tooltip:
+					'''
+					Creates a super dummy
+					Regenerates 1 million life per second
+					Will not die when taking damage over time from debuffs
+					Right click to kill all super dummies
+					'''
+			}
+		}
+	}
+}

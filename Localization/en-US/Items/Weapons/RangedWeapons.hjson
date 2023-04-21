@@ -1,0 +1,1246 @@
+Mods : {
+	CalamityMod : {
+		Items : {
+			AcesHigh: {
+				DisplayName: Ace's High
+				Tooltip:
+					'''
+					Fires a string of cards with varying effects based on card type
+					Hearts grant lifesteal. Spades pierce and ignore immunity frames.
+					Diamonds explode. Clubs split into three.
+					'''
+			}
+
+			AdamantiteParticleAccelerator: {
+				DisplayName: Adamantite Particle Accelerator
+				Tooltip: Charges and fires 2 beams of opposite polarities. Hitting with the opposite polarity increases the damage
+			}
+
+			Alluvion: {
+				DisplayName: Alluvion
+				Tooltip:
+					'''
+					Converts wooden arrows into sharks, torrential and typhoon arrows
+					Fires a torrent of six arrows at once
+					'''
+			}
+
+			AngelicShotgun: {
+				DisplayName: Angelic Shotgun
+				Tooltip:
+					'''
+					Each shot casts a radiant beam of holy light from the sky
+					Converts musket balls into illuminated bullets
+					Fighting 'til the war's won
+					'''
+			}
+
+			Animosity: {
+				DisplayName: Animosity
+				Tooltip:
+					'''
+					50% chance to not consume ammo
+					Fires a powerful sniper round
+					Right click to fire a burst of bullets
+					'''
+			}
+
+			AntiMaterielRifle: {
+				DisplayName: Anti-materiel Rifle
+				Tooltip:
+					'''
+					Converts musket balls into .50 caliber sniper rounds that rip apart enemy defense and DR
+					If you crit the target a second swarm of bullets will fire
+					'''
+			}
+
+			AquashardShotgun: {
+				DisplayName: Aquashard Shotgun
+				Tooltip: Converts musket balls into aquashards that split upon hitting an enemy
+			}
+
+			Arbalest: {
+				DisplayName: Arbalest
+				Tooltip:
+					'''
+					Fires a volley of 10 high-speed arrows
+					Arrows start off small and grow in size with continuous fire
+					Arrow damage, spread and knockback scale with arrow size
+					'''
+			}
+
+			Archerfish: {
+				DisplayName: Archerfish
+				Tooltip: Converts musket balls into streams of water
+			}
+
+			ArterialAssault: {
+				DisplayName: Arterial Assault
+				Tooltip:
+					'''
+					Fires a chain of 5 arrows from the sky
+					Wooden arrows are converted into homing bloodfire arrows
+					'''
+			}
+
+			AstralBlaster: {
+				DisplayName: Astral Blaster
+				Tooltip: Converts musket balls into homing astral rounds
+			}
+
+			AstralRepeater: {
+				DisplayName: Astral Bow
+				Tooltip: Fires a burst of three arrows
+			}
+
+			AstrealDefeat: {
+				DisplayName: Astreal Defeat
+				Tooltip: All arrows are converted to Astreal Arrows that emit flames as they travel
+			}
+
+			Auralis: {
+				DisplayName: Auralis
+				Tooltip:
+					'''
+					Fires a high speed glowing bullet that inflicts debilitating debuffs
+					Right click to zoom out
+					Standing still provides increasing damage bonuses up to 25%
+					Standing still for 5 or more seconds while using the scope ability will summon an aurora
+					The aurora reduces the damage of the next projectile hit by a flat 100
+					This effect lasts up to 20 seconds and has a 30 second cooldown
+					50% chance to not consume bullets
+					'''
+			}
+
+			AuroraBlazer: {
+				DisplayName: Aurora Blazer
+				Tooltip:
+					'''
+					Spews astral flames that travel in a star-shaped patterns
+					60% chance to not consume gel
+					'''
+			}
+
+			Barinade: {
+				DisplayName: Barinade
+				Tooltip: Converts wooden arrows into electric bolt arrows that explode
+			}
+
+			Barinautical: {
+				DisplayName: Barinautical
+				Tooltip: Converts wooden arrows into strings of 3 electric bolt arrows that explode
+			}
+
+			BarracudaGun: {
+				DisplayName: Barracuda Gun
+				Tooltip: Fires two barracudas that latch onto enemies
+			}
+
+			BladedgeGreatbow: {
+				DisplayName: Bladedge Railbow
+				Tooltip: Fires a spread of 4 arrows and 2 leaves at once
+			}
+
+			BlightSpewer.DisplayName: Blight Spewer
+
+			BlissfulBombardier: {
+				DisplayName: Blissful Bombardier
+				Tooltip:
+					'''
+					Fires flare rockets
+					Rockets will destroy tiles with tile-destroying ammo
+					'''
+			}
+
+			BloodBoiler: {
+				DisplayName: Blood Boiler
+				Tooltip:
+					'''
+					Fires a stream of lifestealing bloodfire
+					Uses your health as ammo
+					25% chance to not consume ammo
+					'''
+			}
+
+			BlossomFlux: {
+				DisplayName: Blossom Flux
+				Tooltip:
+					'''
+					Fires a stream of leaves
+					Right click to fire a spore orb that explodes into a cloud of spore gas
+					'''
+			}
+
+			BrimstoneFury: {
+				DisplayName: Brimstone Fury
+				Tooltip: Converts wooden arrows into spreads of 3 brimstone bolts
+			}
+
+			BulletFilledShotgun: {
+				DisplayName: Bullet-Filled Shotgun
+				Tooltip:
+					'''
+					Fires a massive spread of bouncing bullets
+					Consumes five bullets per-use
+					Aim? What's that?
+					'''
+			}
+
+			Butcher: {
+				DisplayName: Butcher
+				Tooltip:
+					'''
+					Fires bullets faster and more accurately the longer you hold the trigger
+					25% chance to not consume ammo
+					'''
+			}
+
+			ChickenCannon: {
+				DisplayName: Chicken Cannon
+				Tooltip:
+					'''
+					Fires chicken flares which create enormous incendiary explosions
+					Right click to detonate all airborne rockets
+					'''
+			}
+
+			ClamorRifle: {
+				DisplayName: Clamor Rifle
+				Tooltip: Converts musket balls into homing energy bolts
+			}
+
+			ClaretCannon: {
+				DisplayName: Claret Cannon
+				Tooltip:
+					'''
+					Fires strings of 3 bullets
+					Converts musket balls into bloody tears that drain enemy health
+					'''
+			}
+
+			CleansingBlaze: {
+				DisplayName: Cleansing Blaze
+				Tooltip: 90% chance to not consume gel
+			}
+
+			ClockGatlignum: {
+				DisplayName: Clock Gatlignum
+				Tooltip:
+					'''
+					33% chance to not consume ammo
+					Converts musket balls into strings of 3 high velocity bullets
+					'''
+			}
+
+			ClockworkBow: {
+				DisplayName: Clockwork Bow
+				Tooltip:
+					'''
+					Hold left click to load up to six precision bolts
+					The more precision bolts are loaded, the harder they hit
+					'''
+			}
+
+			Condemnation: {
+				DisplayName: Condemnation
+				Tooltip:
+					'''
+					Fires powerful scarlet bolts suffused with hateful magics
+					Hold left click to load up to eight bolts for powerful burst fire
+					Hold right click to use the repeater full auto
+					'''
+			}
+
+			ConferenceCall: {
+				DisplayName: Conference Call
+				Tooltip:
+					'''
+					@everyone
+					50% chance to not consume ammo
+					'''
+			}
+
+			Contagion: {
+				DisplayName: Contagion
+				Tooltip: Fires contagion arrows that leave exploding orbs behind as they travel
+			}
+
+			ContinentalGreatbow: {
+				DisplayName: Continental Greatbow
+				Tooltip:
+					'''
+					Wooden arrows are set alight with fire
+					Fires 3 arrows at once
+					Fires 2 additional cursed, hellfire, or ichor arrows
+					'''
+			}
+
+			CoralCannon: {
+				DisplayName: Coral Cannon
+				Tooltip:
+					'''
+					Has a 20% chance to shoot a big coral that stuns enemies
+					Does not consume ammo
+					'''
+			}
+
+			CorinthPrime: {
+				DisplayName: Corinth Prime
+				Tooltip:
+					'''
+					Shoots a tight burst of 6 high velocity bullets
+					Converts musket balls into high velocity explosive bullets
+					Right click to fire a grenade
+					The grenade emits a massive explosion if it doesn't touch anything for 2 seconds
+					Otherwise, the grenade emits an extremely weak explosion
+					'''
+			}
+
+			CorrodedCaustibow: {
+				DisplayName: Corroded Caustibow
+				Tooltip: Converts wooden arrows into slow, powerful shells that trail an irradiated aura
+			}
+
+			CosmicBolter: {
+				DisplayName: Cosmic Bolter
+				Tooltip:
+					'''
+					Fires a tight column of three arrows
+					Converts wooden arrows into sliding energy bolts
+					'''
+			}
+
+			CrackshotColt: {
+				DisplayName: Crackshot Colt
+				Tooltip:
+					'''
+					Right click to toss a Copper Coin in the air
+					Striking a coin with a bullet causes it to ricochet into the nearest enemy
+					Up to 4 coins can be tossed simultaneously, and shots will ricochet off multiple coins if possible
+					Ricocheted bullets always critically strike and do bonus damage based on the coins used
+					'''
+			}
+
+			CursedCapper: {
+				DisplayName: Cursed Capper
+				Tooltip: Fires cursed bullets
+			}
+
+			DaemonsFlame: {
+				DisplayName: Daemon's Flame
+				Tooltip:
+					'''
+					Shoots daemon flame fireballs as well as 4 regular arrows
+					66% chance to not consume ammo
+					'''
+			}
+
+			DarkechoGreatbow: {
+				DisplayName: Darkecho Greatbow
+				Tooltip:
+					'''
+					Fires two arrows at once
+					Fires an additional crystal dart
+					'''
+			}
+
+			Deathwind: {
+				DisplayName: Deathwind
+				Tooltip:
+					'''
+					Fires a spread of 4 arrows
+					Wooden arrows are converted into nebula arrows
+					'''
+			}
+
+			Disseminator: {
+				DisplayName: Disseminator
+				Tooltip:
+					'''
+					@everyone
+					50% chance to not consume ammo
+					'''
+			}
+
+			DodusHandcannon: {
+				DisplayName: Dodu's Handcannon
+				Tooltip:
+					'''
+					The power of the nut rests in your hands
+					Fires high explosive peanut shells, literally
+					'''
+			}
+
+			DragonsBreath: {
+				DisplayName: Dragon's Breath
+				Tooltip:
+					'''
+					Left click fires in two-shot bursts
+					The first shot is a spread of 6 normal bullets
+					The second shot is a tight spread of 6 Dragon's Breath rounds
+					Right click fires full auto and mixes the bullets randomly, but does 20% less damage
+					This weapon has no randomness to its spread pattern
+					66% chance to not consume ammo
+					'''
+			}
+
+			Drataliornus: {
+				DisplayName: Drataliornus
+				Tooltip:
+					'''
+					Fires an escalating stream of fireballs.
+					Fireballs rain meteors, leave dragon dust trails, and launch additional bolts at max speed.
+					Taking damage while firing the stream will interrupt it and reduce your wing flight time.
+					Right click to fire two devastating barrages of five empowered fireballs.
+					'Just don't get hit'
+					'''
+			}
+
+			ElementalBlaster: {
+				DisplayName: Elemental Blaster
+				Tooltip:
+					'''
+					Does not consume ammo
+					Fires a storm of rainbow blasts
+					'''
+			}
+
+			ElementalEruption: {
+				DisplayName: Elemental Eruption
+				Tooltip:
+					'''
+					90% chance to not consume gel
+					Fires a spread of rainbow flames
+					'''
+			}
+
+			EternalBlizzard: {
+				DisplayName: Eternal Blizzard
+				Tooltip: Fires an additional icicle arrow that shatters on impact
+			}
+
+			Eviscerator: {
+				DisplayName: Eviscerator
+				Tooltip: Converts musket balls into fast-moving blood clots
+			}
+
+			FetidEmesis: {
+				DisplayName: Fetid Emesis
+				Tooltip:
+					'''
+					40% chance to not consume ammo
+					Has a chance to release rotten chunks instead of bullets
+					'''
+			}
+
+			FirestormCannon: {
+				DisplayName: Firestorm Cannon
+				Tooltip:
+					'''
+					70% chance to not consume flares
+					Right click to fire a spread of flares
+					'''
+			}
+
+			FlakKraken: {
+				DisplayName: Flak Kraken
+				Tooltip: Fires an energy reticle that becomes more powerful over time
+			}
+
+			FlakToxicannon: {
+				DisplayName: Flak Toxicannon
+				Tooltip:
+					'''
+					Fires angled shots in the direction of the cursor
+					Can only be shot in a cone direction above the player
+					High IQ required
+					'''
+			}
+
+			FlarewingBow: {
+				DisplayName: Flarewing Bow
+				Tooltip:
+					'''
+					Shoots a spread of 4 arrows
+					Wooden arrows are converted into bouncing obsidian bats
+					'''
+			}
+
+			FlurrystormCannon: {
+				DisplayName: Flurrystorm Cannon
+				Tooltip:
+					'''
+					Fires a chain of snowballs that become faster over time
+					Has a chance to also fire an ice chunk that shatters into shards
+					50% chance to not consume snowballs
+					'''
+			}
+
+			FreedomStar: {
+				DisplayName: Freedom Star
+				Tooltip:
+					'''
+					Tap to fire energy orbs
+					Hold to charge and fire a beam that explodes on hit
+					'''
+			}
+
+			FrostbiteBlaster: {
+				DisplayName: Frostbite Blaster
+				Tooltip:
+					'''
+					Fires a spread of 6 bullets
+					Converts musket balls into icicles
+					'''
+			}
+
+			Fungicide: {
+				DisplayName: Fungicide
+				Tooltip: Converts musket balls into fungal rounds that split on death
+			}
+
+			Galeforce: {
+				DisplayName: Galeforce
+				Tooltip: Fires a spread of low-damage feathers
+			}
+
+			GodsBellows: {
+				DisplayName: God's Bellows
+				Tooltip: 70% chance to not consume gel
+			}
+
+			GoldenEagle: {
+				DisplayName: Golden Eagle
+				Tooltip: Fires 5 bullets at once
+			}
+
+			Goobow: {
+				DisplayName: Goobow
+				Tooltip: Fires two streams of slime
+			}
+
+			GunkShot: {
+				DisplayName: Gunk Shot
+				Tooltip: Shoots a spread of bullets
+			}
+
+			HalibutCannon: {
+				DisplayName: Halibut Cannon
+				Tooltip: Yes, it's still overpowered
+			}
+
+			HalleysInferno: {
+				DisplayName: Halley's Inferno
+				Tooltip:
+					'''
+					Halley came sooner than expected
+					Fires a flaming comet
+					50% chance to not consume gel
+					Right click to zoom out
+					'''
+			}
+
+			HandheldTank.DisplayName: Handheld Tank
+
+			HavocsBreath: {
+				DisplayName: Havoc's Breath
+				Tooltip: 50% chance to not consume gel
+			}
+
+			HeavenlyGale: {
+				DisplayName: Heavenly Gale
+				Tooltip:
+					'''
+					Fires a rapid stream of supercharged exo-crystals
+					Holding the bow and waiting for some time before firing causes the crystals to become more powerful
+					If the crystals are sufficiently powerful enough they will summon torrents of exo-lightning above whatever target they hit
+					'''
+			}
+
+			Hellborn: {
+				DisplayName: Hellborn
+				Tooltip:
+					'''
+					Fires a spread of 3 bullets
+					Converts musket balls into explosive bullets
+					Enemies that touch the gun while it's being fired trigger a massive explosion
+					After the explosion, this gun gains a massive boost to damage, fire rate and knockback for 10 seconds
+					These stat bonuses slowly decay over time
+					'''
+			}
+
+			Helstorm: {
+				DisplayName: Helstorm
+				Tooltip:
+					'''
+					Fires two bullets at once
+					The gun also deals damage to enemies that touch it
+					'''
+			}
+
+			HoarfrostBow: {
+				DisplayName: Hoarfrost Bow
+				Tooltip:
+					'''
+					Fires two arrows at once
+					Converts wooden arrows into mist arrows
+					'''
+			}
+
+			Hydra: {
+				DisplayName: Hydra
+				Tooltip:
+					'''
+					Fires a spread of 4 toxic bullets
+					Grows a gun-head every 3 seconds, up to a maximum of 3 heads
+					Left-click to command any existing heads to fire
+					Right-click to launch the heads for powerful explosive damage
+					[c/9D80B0:Fusion of heavy machinery and Lernaean blood]
+					'''
+			}
+
+			Infinity: {
+				DisplayName: Infinity
+				Tooltip:
+					'''
+					Fires a barrage of energy bolts that split and bounce
+					Right click to fire a barrage of normal bullets
+					They say infinity is neverending, yet you hold it in your hands
+					'''
+			}
+
+			Karasawa: {
+				DisplayName: Karasawa
+				Tooltip: ...This is heavy... too heavy.
+			}
+
+			Leviatitan: {
+				DisplayName: Leviatitan
+				Tooltip: Converts musket balls into toxic and normal water blasts
+			}
+
+			LunarianBow: {
+				DisplayName: Lunarian Bow
+				Tooltip:
+					'''
+					Fires two arrows at once
+					Converts wooden arrows into sliding energy bolts
+					'''
+			}
+
+			MagnaStriker: {
+				DisplayName: Magna Striker
+				Tooltip: Fires a string of opal and magna strikes
+			}
+
+			MagnomalyCannon: {
+				DisplayName: Magnomaly Cannon
+				Tooltip:
+					'''
+					Launches a powerful exo rocket to nuke anything and everything
+					Rockets are surrounded by an invisible damaging aura and split into damaging beams on hit
+					66% chance to not consume rockets
+					'''
+			}
+
+			Malevolence: {
+				DisplayName: Malevolence
+				Tooltip:
+					'''
+					Fires two arrows at once
+					Converts wooden arrows into plague arrows that explode into bees on death
+					'''
+			}
+
+			MarksmanBow: {
+				DisplayName: Marksman Bow
+				Tooltip:
+					'''
+					Fires three arrows at once
+					Wooden arrows are converted into Jester's arrows
+					'''
+			}
+
+			Megalodon: {
+				DisplayName: Megalodon
+				Tooltip:
+					'''
+					50% chance to not consume ammo
+					Fires streams of water every other shot
+					'''
+			}
+
+			Meowthrower: {
+				DisplayName: Meowthrower
+				Tooltip:
+					'''
+					85% chance to not consume gel
+					Fires blue and pink flames that emit meows on enemy hits
+					'''
+			}
+
+			MidasPrime: {
+				DisplayName: Midas Prime
+				Tooltip:
+					'''
+					Right click to coss a Gold Coin or Silver Coin in the air
+					Striking a coin with a bullet causes it to ricochet into the nearest enemy
+					Up to 4 coins can be tossed simultaneously, and shots will ricochet off multiple coins if possible
+					Ricocheted bullets always critically strike and do bonus damage based on the coins used
+					'''
+			}
+
+			MineralMortar: {
+				DisplayName: Mineral Mortar
+				Tooltip: Shoots an onyx bomb that explodes into sand sharks on death
+			}
+
+			Minigun: {
+				DisplayName: Minigun
+				Tooltip: 80% chance to not consume ammo
+			}
+
+			MolecularManipulator: {
+				DisplayName: Molecular Manipulator
+				Tooltip:
+					'''
+					Is it nullable or not? Let's find out!
+					Fires a fast null bullet that distorts NPC stats
+					'''
+			}
+
+			Monsoon: {
+				DisplayName: Monsoon
+				Tooltip:
+					'''
+					Fires a spread of 5 arrows
+					Wooden arrows are converted into typhoon arrows and sharks
+					'''
+			}
+
+			Needler: {
+				DisplayName: Needler
+				Tooltip: Converts musket balls into needles that stick to enemies and explode
+			}
+
+			NettlevineGreatbow: {
+				DisplayName: Nettlevine Greatbow
+				Tooltip:
+					'''
+					Shoots 4 arrows at once
+					Fires 2 additional venom or chlorophyte arrows
+					'''
+			}
+
+			Norfleet: {
+				DisplayName: Norfleet
+				Tooltip: Fire everything!
+			}
+
+			NullificationRifle: {
+				DisplayName: Nullification Pistol
+				Tooltip:
+					'''
+					Is it nullable or not? Let's find out!
+					Fires a fast null bullet that distorts NPC stats
+					'''
+			}
+
+			OnyxChainBlaster: {
+				DisplayName: Onyx Chain Blaster
+				Tooltip:
+					'''
+					50% chance to not consume ammo
+					Fires a spread of bullets and an onyx shard
+					'''
+			}
+
+			Onyxia: {
+				DisplayName: Onyxia
+				Tooltip:
+					'''
+					50% chance to not consume ammo
+					Fires a storm of bullets and onyx shards
+					'''
+			}
+
+			OpalStriker: {
+				DisplayName: Opal Striker
+				Tooltip:
+					'''
+					50% chance to not consume ammo
+					Fires a string of opal strikes
+					'''
+			}
+
+			OverloadedBlaster: {
+				DisplayName: Overloaded Blaster
+				Tooltip:
+					'''
+					33% chance to not consume gel
+					Fires a large spread of bouncing slime
+					'''
+			}
+
+			P90: {
+				DisplayName: P90
+				Tooltip:
+					'''
+					50% chance to not consume ammo
+					It's a bullet hose
+					'''
+			}
+
+			PearlGod: {
+				DisplayName: Pearl God
+				Tooltip:
+					'''
+					Your life is mine...
+					Fires shockblast rounds that emit massive explosions and steal enemy life as well as additional bullets
+					Every seventh shot fires a massive shockblast
+					'''
+			}
+
+			PestilentDefiler: {
+				DisplayName: Pestilent Defiler
+				Tooltip: Converts musket balls into plague rounds that explode and split apart on death
+			}
+
+			Phangasm: {
+				DisplayName: Phangasm
+				Tooltip:
+					'''
+					Fires a spread of 5 arrows and emits phantom arrows on enemy hits
+					66% chance to not consume ammo
+					'''
+			}
+
+			Photoviscerator: {
+				DisplayName: Photoviscerator
+				Tooltip:
+					'''
+					90% chance to not consume gel
+					Fires a stream of exo flames and light that explodes into homing sparks
+					Right click to fire homing flares which stick to enemies and incinerate them
+					'''
+			}
+
+			PlanetaryAnnihilation: {
+				DisplayName: Planetary Annihilation
+				Tooltip:
+					'''
+					Fires a storm of 7 arrows from the sky
+					Wooden arrows are converted into homing energy bolts
+					'''
+			}
+
+			PolarisParrotfish: {
+				DisplayName: Polaris Parrotfish
+				Tooltip:
+					'''
+					It carries the mark of the Northern Star
+					Projectile hits grant buffs to the weapon
+					Buffs are removed on hit
+					'''
+			}
+
+			PridefulHuntersPlanarRipper: {
+				DisplayName: Prideful Hunter's Planar Ripper
+				Tooltip:
+					'''
+					Every fourth shot deals 135% damage
+					Converts musket balls into lightning bolts
+					Lightning bolts travel extremely fast and explode on enemy kills
+					Lightning bolt crits grant a stacking speed boost to the player
+					This stacks up to 20 percent bonus movement speed and acceleration
+					The boost will reset if the player holds a different item
+					33% chance to not consume ammo
+					'''
+			}
+
+			PristineFury: {
+				DisplayName: Pristine Fury
+				Tooltip:
+					'''
+					Fires an intense helix of flames that explode into a column of fire
+					Right click to fire a short ranged cloud of lingering flames
+					'''
+			}
+
+			Pumpler: {
+				DisplayName: Pumpler
+				Tooltip: Hold left click to load up to five pumpkin grenades into the gun
+			}
+
+			RealmRavager: {
+				DisplayName: Realm Ravager
+				Tooltip:
+					'''
+					Shoots a burst of 3 to 4 bullets
+					Converts musket balls into explosive bullets
+					'''
+			}
+
+			ReedBlowgun: {
+				DisplayName: Reed Blowgun
+				Tooltip:
+					'''
+					Fires a high-pressure stream of bubbles
+					[c/5C95A1:The Old Sea Kingdom never truly sought to expand beyond its initial borders.]
+					[c/5C95A1:However, they had a perfect track record of repelling any invasions, thanks to their insurmountable advantage in the water.]
+					'''
+			}
+
+			RubicoPrime: {
+				DisplayName: Rubico Prime
+				Tooltip:
+					'''
+					Semi-automatic sniper that fires in 5 second bursts
+					Fires impact rounds that have an increased crit multiplier
+					'''
+			}
+
+			SandstormGun: {
+				DisplayName: Sandstorm
+				Tooltip:
+					'''
+					Fires sand bullets that explode and slow enemies on hit
+					50% chance to not consume sand
+					'''
+			}
+
+			ScorchedEarth: {
+				DisplayName: Scorched Earth
+				Tooltip:
+					'''
+					Fires a burst of four fuel-air rockets which explode into cluster bombs
+					Each burst consumes two rockets each
+					Burns your targets to a fine crisp
+					'''
+			}
+
+			Scorpio: {
+				DisplayName: Scorpio
+				Tooltip:
+					'''
+					BOOM
+					Right click to fire a nuke
+					Rockets will destroy tiles with tile-destroying ammo
+					'''
+			}
+
+			SDFMG: {
+				DisplayName: SDFMG
+				Tooltip:
+					'''
+					It came from the edge of Terraria
+					50% chance to not consume ammo
+					'''
+			}
+
+			Seadragon: {
+				DisplayName: Seadragon
+				Tooltip:
+					'''
+					50% chance to not consume ammo
+					Fires streams of water every other shot
+					Fires a homing rocket every 18 shots, which explodes into fire shards on death
+					'''
+			}
+
+			SeasSearing: {
+				DisplayName: Sea's Searing
+				Tooltip:
+					'''
+					Fires a string of bubbles summoning a shower of bubbles on hit
+					Right click to fire a slower, larger water blast that summons a water spout
+					'''
+			}
+
+			SepticSkewer: {
+				DisplayName: Septic Skewer
+				Tooltip:
+					'''
+					Launches a spiky harpoon infested with toxins
+					Releases bacteria when returning to the player
+					'''
+			}
+
+			Shadethrower: {
+				DisplayName: Shadethrower
+				Tooltip: 66% chance to not consume gel
+			}
+
+			Shellshooter: {
+				DisplayName: Shellshooter
+				Tooltip:
+					'''
+					Fires slow but powerful arrows
+					Converts wooden arrows into heavy piercing seashells
+					'''
+			}
+
+			Shredder: {
+				DisplayName: Shredder
+				Tooltip:
+					'''
+					The myth, the legend, the weapon that drops more frames than any other
+					Fires a barrage of energy bolts that split and bounce
+					Right click to fire a barrage of normal bullets
+					'''
+			}
+
+			Shroomer: {
+				DisplayName: Shroomer
+				Tooltip: Fires bullets and an extremely powerful homing mushroom
+			}
+
+			SlagMagnum: {
+				DisplayName: Slag Magnum
+				Tooltip: Converts musket balls into fossil shards that split into additional shards on death
+			}
+
+			SomaPrime: {
+				DisplayName: Soma Prime
+				Tooltip:
+					'''
+					This weapon can supercrit if its crit chance is over 100%
+					All bullets fired inflict Shred, a stacking bleed debuff
+					Shred deals 150 DPS per stack and scales with your ranged stats
+					Damage ticks of Shred can also critically strike or supercrit
+					Replaces standard bullets with High Velocity Bullets
+					80% chance to not consume ammo
+					'''
+			}
+
+			SparkSpreader: {
+				DisplayName: Spark Spreader
+				Tooltip: 70% chance to not consume gel
+			}
+
+			SpectralstormCannon: {
+				DisplayName: Spectralstorm Cannon
+				Tooltip:
+					'''
+					70% chance to not consume flares
+					Fires a storm of lost souls and flares
+					'''
+			}
+
+			SpeedBlaster: {
+				DisplayName: Speed Blaster
+				Tooltip: Shoots a string of paint blasts
+			}
+
+			Spyker: {
+				DisplayName: Spyker
+				Tooltip: Converts musket balls into spikes that stick to enemies, tiles and explode into shrapnel
+			}
+
+			Starfleet: {
+				DisplayName: Starfleet
+				Tooltip: Fires a spread of plasma blasts
+			}
+
+			Starmada: {
+				DisplayName: Starmada
+				Tooltip:
+					'''
+					Fires a barrage of stars and plasma blasts
+					66% chance to not consume ammo
+					'''
+			}
+
+			StarSputter: {
+				DisplayName: Star Sputter
+				Tooltip:
+					'''
+					Fires a chain of comets
+					Fires a bigger, more powerful comet every four rounds
+					Look to the stars for a galaxy far, far away
+					'''
+			}
+
+			StellarCannon: {
+				DisplayName: Stellar Cannon
+				Tooltip: Launches an explosive astral crystal
+			}
+
+			StormDragoon: {
+				DisplayName: Storm Dragoon
+				Tooltip:
+					'''
+					Fires a spray of bullets
+					90% chance to not consume ammo
+					'''
+			}
+
+			StormSurge: {
+				DisplayName: Storm Surge
+				Tooltip:
+					'''
+					Fear the storm
+					Does not consume ammo
+					'''
+			}
+
+			SulphuricAcidCannon: {
+				DisplayName: Sulphuric Acid Cannon
+				Tooltip: Fires an acidic shot that sticks to enemies and dissolves them
+			}
+
+			SurgeDriver: {
+				DisplayName: Surge Driver
+				Tooltip:
+					'''
+					Left clicks release a laser ray that explodes on collision
+					Right clicks release a barrage of laser beams that release homing energy on enemy hits
+					'''
+			}
+
+			Svantechnical: {
+				DisplayName: Svantechnical
+				Tooltip:
+					'''
+					Fires several barrages of bullets
+					Right click to zoom out
+					'''
+			}
+
+			TelluricGlare: {
+				DisplayName: Telluric Glare
+				Tooltip: Fires volleys of four colossal radiant arrows which can pass through walls
+			}
+
+			TerraFlameburster: {
+				DisplayName: Terra Flameburster
+				Tooltip: 80% chance to not consume gel
+			}
+
+			TheBallista: {
+				DisplayName: The Ballista
+				Tooltip: Converts wooden arrows into greatarrows that crush enemy armor and break into shards on death
+			}
+
+			TheHive: {
+				DisplayName: The Hive
+				Tooltip:
+					'''
+					Launches a variety of rockets that explode into bees on death
+					Rockets will destroy tiles with tile-destroying ammo
+					'''
+			}
+
+			TheJailor: {
+				DisplayName: The Jailor
+				Tooltip: Releases electric mines outward that connect to each-other via arcs
+			}
+
+			TheMaelstrom: {
+				DisplayName: The Maelstrom
+				Tooltip: Fires charged Reaper Sharks that explode into water
+			}
+
+			ThePack: {
+				DisplayName: The Pack
+				Tooltip: Fires large homing rockets that explode into more homing mini rockets when in proximity to an enemy
+			}
+
+			TheSevensStriker: {
+				DisplayName: The Sevens Striker
+				Tooltip:
+					'''
+					Left click to consume 1 coin and play a slot machine
+					Quality of the outcome depends on the coin used
+					Right click to rapidly fire a barrage of coins
+					Right click has an 80% chance to not consume coins and will not fire platinum coins
+					'A gun given to a great gunslinger
+					Forged by the arms of a man given no name'
+					'''
+			}
+
+			TheStorm: {
+				DisplayName: The Storm
+				Tooltip:
+					'''
+					Fires a spread of arrows from the sky
+					Converts wooden arrows into lightning bolts
+					'''
+			}
+
+			TitaniumRailgun: {
+				DisplayName: Titanium Railgun
+				Tooltip:
+					'''
+					Hold down to charge up a decimating titanium blast
+					Longer hold time increases power, leading to more damage, size, and knockback
+					Power is capped when the cannon's sights have fully converged
+					'''
+			}
+
+			Toxibow: {
+				DisplayName: Toxibow
+				Tooltip: Converts wooden arrows into slow arrows that inflict irradiated
+			}
+
+			TyrannysEnd: {
+				DisplayName: Tyranny's End
+				Tooltip:
+					'''
+					Pierce the heart of even the most heavily-armored foe
+					Converts musket balls into .70 caliber sniper rounds that bypass enemy defense and DR
+					Rounds mark enemies for death and summon a swarm of additional bullets on crits
+					'''
+			}
+
+			Ultima: {
+				DisplayName: Ultima
+				Tooltip:
+					'''
+					Casts a continuous stream of plasma bolts
+					Over time the bolts are replaced with powerful lasers
+					Bolts power up into solid beams as you continue shooting
+					90% chance to not consume ammo
+					'''
+			}
+
+			UniversalGenesis: {
+				DisplayName: Universal Genesis
+				Tooltip:
+					'''
+					Let the starry sky fall upon your enemies
+					Fires a spread of bullets from the gun and a flurry of stars to rain down on the cursor
+					Converts musket balls into starcaller shots that summon additional stars on enemy hits
+					50% chance to not consume ammo
+					'''
+			}
+
+			Voidragon: {
+				DisplayName: Voidragon
+				Tooltip:
+					'''
+					75% chance to not consume ammo
+					Fires void blasts that explode every other shot
+					Shoots demon flame tentacles alongside every shot
+					'''
+			}
+
+			Vortexpopper: {
+				DisplayName: Vortexpopper
+				Tooltip: Fires bubbles everywhere that pop into bullets
+			}
+
+			WulfrumBlunderbuss: {
+				DisplayName: Wulfrum Blunderbuss
+				Tooltip:
+					'''
+					Consumes wulfrum scrap or silver coins to fire
+					The shot's spread can be diminished by aiming further away, at the cost of less damage
+					Ignores 3 points of enemy Defense
+					[c/83B87E:"The good thing about Wulfrum is that while it breaks fast, it can be reused even faster"]
+					[c/83B87E:"In fact, it is quite common for a robot to be turned into ammo right after it stops functioning"]
+					'''
+			}
+		}
+	}
+}

@@ -1,0 +1,385 @@
+Mods : {
+	CalamityMod : {
+		Items : {
+			AstralBreastplate: {
+				DisplayName: Astral Breastplate
+				Tooltip:
+					'''
+					+80 max mana and +20 max life
+					Creature detection
+					'''
+			}
+
+			AstralHelm: {
+				DisplayName: Astral Helm
+				Tooltip: Danger detection
+			}
+
+			AstralLeggings: {
+				DisplayName: Astral Leggings
+				Tooltip:
+					'''
+					10% increased movement speed
+					Treasure and ore detection
+					'''
+			}
+	
+			BrimflameBoots: {
+				DisplayName: Brimflame Boots
+				Tooltip:
+					'''
+					5% increased magic damage
+					5% increased movement speed
+					'''
+			}
+
+			BrimflameRobes: {
+				DisplayName: Brimflame Robes
+				Tooltip:
+					'''
+					5% increased magic damage and critical strike chance
+					Reduces damage from touching lava
+					'''
+			}
+
+			BrimflameScowl: {
+				DisplayName: Brimflame Cowl
+				Tooltip:
+					'''
+					5% increased magic damage and critical strike chance
+					Increases maximum mana by 70 and reduces mana usage by 10%
+					Immunity to On Fire!, Brimstone Flames and Frostburn
+					'''
+			}
+
+			CirrusDress: {
+				DisplayName: Cirrus' Dress
+				Tooltip:
+					'''
+					Here, this should help you drink a lot more than usual!
+					5% increased magic damage and critical strike chance
+					You feel thick...
+					'''
+			}
+
+			DaedalusBreastplate: {
+				DisplayName: Daedalus Breastplate
+				Tooltip: 3% increased damage and critical strike chance
+			}
+
+			DaedalusHeadMagic: {
+				DisplayName: Daedalus Hood
+				Tooltip:
+					'''
+					13% increased magic damage and 7% increased magic critical strike chance
+					10% decreased mana usage and +60 max mana
+					'''
+			}
+
+			DaedalusHeadMelee: {
+				DisplayName: Daedalus Helm
+				Tooltip:
+					'''
+					10% increased melee damage and critical strike chance
+					15% increased melee speed
+					'''
+			}
+
+			DaedalusHeadRanged: {
+				DisplayName: Daedalus Headgear
+				Tooltip:
+					'''
+					13% increased ranged damage and 7% increased ranged critical strike chance
+					Reduces ammo usage by 20%
+					'''
+			}
+
+			DaedalusHeadRogue: {
+				DisplayName: Daedalus Facemask
+				Tooltip:
+					'''
+					13% increased rogue damage and 7% increased rogue critical strike chance, increases rogue velocity by 15%
+					5% increased movement speed
+					'''
+			}
+
+			DaedalusHeadSummon: {
+				DisplayName: Daedalus Mask
+				Tooltip: 5% increased minion damage
+			}
+
+			DaedalusLeggings: {
+				DisplayName: Daedalus Leggings
+				Tooltip:
+					'''
+					3% increased critical strike chance
+					10% increased movement speed
+					'''
+			}
+	
+			FathomSwarmerBoots: {
+				DisplayName: Fathom Swarmer Greaves
+				Tooltip:
+					'''
+					4% increased minion damage
+					Grants the ability to swim
+					Movement speed increased by 40% while submerged in liquid
+					'''
+			}
+
+			FathomSwarmerBreastplate: {
+				DisplayName: Fathom Swarmer Breastplate
+				Tooltip:
+					'''
+					6% increased damage reduction
+					6% increased minion damage
+					Boosted defense and regen increased while submerged in liquid
+					Reduces defense loss within the Abyss
+					'''
+			}
+
+			FathomSwarmerVisage: {
+				DisplayName: Fathom Swarmer Visage
+				Tooltip:
+					'''
+					5% increased minion damage
+					Provides breathing and light underwater
+					'''
+			}
+	
+			ForbiddenCirclet: {
+				DisplayName: Forbidden Circlet
+				Tooltip: 10% increased summon damage and 15% increased rogue velocity
+			}
+	
+			HydrothermicArmor: {
+				DisplayName: Hydrothermic Armor
+				Tooltip:
+					'''
+					+20 max life
+					8% increased damage and 4% increased critical strike chance
+					'''
+			}
+
+			HydrothermicHeadMagic: {
+				DisplayName: Hydrothermic Mask
+				Tooltip:
+					'''
+					12% increased magic damage, +100 max mana, and 10% increased magic critical strike chance
+					Temporary immunity to lava, and immunity to fire damage
+					'''
+			}
+
+			HydrothermicHeadMelee: {
+				DisplayName: Hydrothermic Helm
+				Tooltip:
+					'''
+					12% increased melee damage and 10% increased melee critical strike chance
+					18% increased melee speed
+					Melee attacks and melee projectiles inflict on fire
+					Temporary immunity to lava and immunity to fire damage
+					'''
+			}
+
+			HydrothermicHeadRanged: {
+				DisplayName: Hydrothermic Headgear
+				Tooltip:
+					'''
+					12% increased ranged damage and 10% increased ranged critical strike chance
+					Reduces ammo usage by 25%, temporary immunity to lava, and immunity to fire damage
+					'''
+			}
+
+			HydrothermicHeadRogue: {
+				DisplayName: Hydrothermic Hood
+				Tooltip:
+					'''
+					12% increased rogue damage and 10% increased rogue critical strike chance
+					50% chance to not consume rogue items and 5% increased movement speed
+					Temporary immunity to lava and immunity to fire damage
+					'''
+			}
+
+			HydrothermicHeadSummon: {
+				DisplayName: Hydrothermic Helmet
+				Tooltip:
+					'''
+					5% increased minion damage and increased minion knockback
+					Temporary immunity to lava and immunity to fire damage
+					'''
+			}
+
+			HydrothermicSubligar: {
+				DisplayName: Hydrothermic Subligar
+				Tooltip:
+					'''
+					5% increased critical strike chance
+					10% increased movement speed
+					'''
+			}
+	
+			MolluskShelleggings: {
+				DisplayName: Mollusk Shelleggings
+				Tooltip:
+					'''
+					12% increased damage and 4% increased critical strike chance
+					7% decreased movement speed
+					'''
+			}
+
+			MolluskShellmet: {
+				DisplayName: Mollusk Shellmet
+				Tooltip:
+					'''
+					5% increased damage and 4% increased critical strike chance
+					You can move freely through liquids
+					'''
+			}
+
+			MolluskShellplate: {
+				DisplayName: Mollusk Shellplate
+				Tooltip:
+					'''
+					10% increased damage and 6% increased critical strike chance
+					15% decreased movement speed
+					'''
+			}
+	
+			PlaguebringerCarapace: {
+				DisplayName: Plaguebringer Carapace
+				Tooltip:
+					'''
+					Grants immunity to the Plague
+					12% increased minion damage
+					Friendly bees inflict the plague
+					'''
+			}
+
+			PlaguebringerPistons: {
+				DisplayName: Plaguebringer Pistons
+				Tooltip:
+					'''
+					13% increased minion damage and 15% increased movement speed
+					You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt
+					You spawn bees while sprinting or dashing
+					'''
+			}
+
+			PlaguebringerVisor: {
+				DisplayName: Plaguebringer Visor
+				Tooltip:
+					'''
+					15% increased minion damage
+					+20 max life
+					'''
+			}
+
+			PlagueReaperMask: {
+				DisplayName: Plague Reaper Mask
+				Tooltip: 10% increased ranged damage and 8% increased ranged critical strike chance
+			}
+
+			PlagueReaperStriders: {
+				DisplayName: Plague Reaper Striders
+				Tooltip:
+					'''
+					3% increased ranged critical strike chance
+					15% increased movement speed
+					'''
+			}
+
+			PlagueReaperVest: {
+				DisplayName: Plague Reaper Vest
+				Tooltip:
+					'''
+					Grants immunity to the Plague
+					15% increased ranged damage and 5% increased ranged critical strike chance
+					'''
+			}
+		
+			ReaverCuisses: {
+				DisplayName: Reaver Cuisses
+				Tooltip:
+					'''
+					5% increased critical strike chance
+					12% increased movement speed
+					'''
+			}
+
+			ReaverHeadExplore: {
+				DisplayName: Reaver Headgear
+				Tooltip:
+					'''
+					20% increased mining speed and block/wall placement speed
+					Temporary immunity to lava and can move freely through liquids
+					'''
+			}
+
+			ReaverHeadMobility: {
+				DisplayName: Reaver Visage
+				Tooltip: 10% increased jump speed and 15% increased movement speed
+			}
+
+			ReaverHeadTank: {
+				DisplayName: Reaver Helm
+				Tooltip:
+					'''
+					15% increased damage reduction but 30% decreased damage
+					+50 max life
+					Passively regenerates one health point every second
+					'''
+			}
+
+			ReaverScaleMail: {
+				DisplayName: Reaver Scale Mail
+				Tooltip:
+					'''
+					9% increased damage and 4% increased critical strike chance
+					+20 max life
+					'''
+			}
+	
+			TitanHeartBoots: {
+				DisplayName: Titan Heart Boots
+				Tooltip: 4% increased rogue damage, 10% increased rogue velocity, and 5% increased rogue knockback
+			}
+
+			TitanHeartMantle: {
+				DisplayName: Titan Heart Mantle
+				Tooltip:
+					'''
+					45% chance to not consume rogue items
+					5% boosted rogue knockback but 15% lowered rogue attack speed
+					'''
+			}
+
+			TitanHeartMask: {
+				DisplayName: Titan Heart Mask
+				Tooltip:
+					'''
+					5% increased rogue damage and knockback
+					Rogue weapons inflict the Astral Infection debuff
+					'''
+			}
+
+			UmbraphileBoots: {
+				DisplayName: Umbraphile Boots
+				Tooltip:
+					'''
+					9% increased rogue damage and 6% increased rogue crit
+					20% increased movement speed
+					'''
+			}
+
+			UmbraphileHood: {
+				DisplayName: Umbraphile Hood
+				Tooltip: 8% increased rogue damage and 10% increased rogue velocity
+			}
+
+			UmbraphileRegalia: {
+				DisplayName: Umbraphile Regalia
+				Tooltip: 10% increased rogue damage and 10% increased rogue crit
+			}
+		}
+	}
+}

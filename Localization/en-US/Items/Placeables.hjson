@@ -1,0 +1,1747 @@
+Mods : {
+	CalamityMod : {
+		Items : {
+			AstralPylon: {
+				DisplayName: Astral Pylon
+				Tooltip:
+					'''
+					{$CommonItemTooltip.TeleportationPylon}
+					You can only place one per type and in the matching biome
+					'''
+			}
+
+			CragsPylon: {
+				DisplayName: Crags Pylon
+				Tooltip:
+					'''
+					Teleport to another pylon
+					The nature of the Crags allows you to teleport to this pylon without nearby villagers
+					You can only place one per type and in the matching biome
+					'''
+			}
+
+			SulphurPylon: {
+				DisplayName: Sulphur Pylon
+				Tooltip:
+					'''
+					{$CommonItemTooltip.TeleportationPylon}
+					You can only place one per type and in the matching biome
+					'''
+			}
+
+			SunkenPylon: {
+				DisplayName: Sunken Pylon
+				Tooltip:
+					'''
+					{$CommonItemTooltip.TeleportationPylon}
+					You can only place one per type and in the matching biome
+					'''
+			}
+
+			AbyssGravel.DisplayName: Abyss Gravel
+			Acidwood.DisplayName: Acidwood
+			AerialiteBrick.DisplayName: Aerialite Brick
+			AstralBar.DisplayName: Astral Bar
+			AstralBrick.DisplayName: Astral Brick
+			AstralClay.DisplayName: Astral Clay
+			AstralDirt.DisplayName: Astral Dirt
+
+			AstralGrassSeeds: {
+				DisplayName: Astral Grass Seeds
+				Tooltip: Places grass on astral dirt
+			}
+
+			AstralIce.DisplayName: Astral Ice
+			AstralMonolith.DisplayName: Astral Monolith
+			AstralSand.DisplayName: Astral Sand
+			AstralSandstone.DisplayName: Astral Sandstone
+			AstralSnow.DisplayName: Astral Snow
+			AstralStone.DisplayName: Astral Stone
+
+			AcidEelBanner: {
+				DisplayName: Acid Eel Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Acid Eel"
+			}
+
+			AeroSlimeBanner: {
+				DisplayName: Aero Slime Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Aero Slime"
+			}
+
+			AmberCrawlerBanner: {
+				DisplayName: Amber Crawler Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Amber Crawler"
+			}
+
+			AmethystCrawlerBanner: {
+				DisplayName: Amethyst Crawler Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus} Amethyst Crawler"
+			}
+
+			AndroombaBanner: {
+				DisplayName: Androomba Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Androomba"
+			}
+
+			AnthozoanCrabBanner: {
+				DisplayName: Anthozoan Crab Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Anthozoan Crab"
+			}
+
+			AquaticUrchinBanner: {
+				DisplayName: Aquatic Urchin Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Aquatic Urchin"
+			}
+
+			AriesBanner: {
+				DisplayName: Aries Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Aries"
+			}
+
+			ArmoredDiggerBanner: {
+				DisplayName: Armored Digger Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Armored Digger"
+			}
+
+			AstralachneaBanner: {
+				DisplayName: Astralachnea Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Astralachnea"
+			}
+
+			AstralProbeBanner: {
+				DisplayName: Astral Probe Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Astral Probe"
+			}
+
+			AstralSlimeBanner: {
+				DisplayName: Astral Slime Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Astral Slime"
+			}
+
+			AtlasBanner: {
+				DisplayName: Atlas Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Atlas Banner"
+			}
+
+			BabyFlakCrabBanner: {
+				DisplayName: Baby Flak Crab Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Baby Flak Crab"
+			}
+
+			BabyGhostBellBanner: {
+				DisplayName: Baby Ghost Bell Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Baby Ghost Bell"
+			}
+
+			BelchingCoralBanner: {
+				DisplayName: Belching Coral Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Belching Coral"
+			}
+
+			BigSightseerBanner: {
+				DisplayName: Big Sightseer Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Big Sightseer"
+			}
+
+			BlindedAnglerBanner: {
+				DisplayName: Blinded Angler Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Blinded Angler"
+			}
+
+			BloatfishBanner: {
+				DisplayName: Bloatfish Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Bloatfish"
+			}
+
+			BloomSlimeBanner: {
+				DisplayName: Bloom Slime Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Bloom Slime"
+			}
+
+			BobbitWormBanner: {
+				DisplayName: Bobbit Worm Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Bobbit Worm"
+			}
+
+			BohldohrBanner: {
+				DisplayName: Bohldohr Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Bohldohr"
+			}
+
+			BoxJellyfishBanner: {
+				DisplayName: Box Jellyfish Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Box Jellyfish"
+			}
+
+			CalamityEyeBanner: {
+				DisplayName: Calamity Eye Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Calamity Eye"
+			}
+
+			ChaoticPufferBanner: {
+				DisplayName: Chaotic Puffer Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Chaotic Puffer"
+			}
+
+			CharredSlimeBanner: {
+				DisplayName: Charred Slime Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Charred Slime"
+			}
+
+			ClamBanner: {
+				DisplayName: Clam Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Clam"
+			}
+
+			CloudElementalBanner: {
+				DisplayName: Cloud Elemental Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Cloud Elemental"
+			}
+
+			CnidrionBanner: {
+				DisplayName: Cnidrion Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Cnidrion"
+			}
+
+			ColossalSquidBanner: {
+				DisplayName: Colossal Squid Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Colossal Squid"
+			}
+
+			CosmicElementalBanner: {
+				DisplayName: Cosmic Elemental Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Cosmic Elemental"
+			}
+
+			CrimulanBlightSlimeBanner: {
+				DisplayName: Crimulan Blight Slime Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Crimulan Blight Slime"
+			}
+
+			CryonBanner: {
+				DisplayName: Cryon Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Cryon"
+			}
+
+			CryoSlimeBanner: {
+				DisplayName: Cryo Slime Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Cryo Slime"
+			}
+
+			CrystalCrawlerBanner: {
+				DisplayName: Crystal Crawler Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Crystal Crawler"
+			}
+
+			CultistAssassinBanner: {
+				DisplayName: Cultist Assassin Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Cultist Assassin"
+			}
+
+			CuttlefishBanner: {
+				DisplayName: Cuttlefish Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Cuttlefish"
+			}
+
+			DespairStoneBanner: {
+				DisplayName: Despair Stone Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Despair Stone"
+			}
+
+			DevilFishBanner: {
+				DisplayName: Devil Fish Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Devil Fish"
+			}
+
+			DiamondCrawlerBanner: {
+				DisplayName: Diamond Crawler Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Diamond Crawler"
+			}
+
+			EarthElementalBanner: {
+				DisplayName: Earth Elemental Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Earth Elemental"
+			}
+
+			EbonianBlightSlimeBanner: {
+				DisplayName: Ebonian Blight Slime Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Ebonian Blight Slime"
+			}
+
+			EidolistBanner: {
+				DisplayName: Eidolist Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Eidolist"
+			}
+
+			EidolonWyrmJuvenileBanner: {
+				DisplayName: Eidolon Wyrm Juvenile Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Juvenile Eidolon Wyrm"
+			}
+
+			EmeraldCrawlerBanner: {
+				DisplayName: Emerald Crawler Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Emerald Crawler"
+			}
+
+			EutrophicRayBanner: {
+				DisplayName: Eutrophic Ray Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Eutrophic Ray"
+			}
+
+			FearlessGoldfishWarriorBanner: {
+				DisplayName: Fearless Goldfish Warrior Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Fearless Goldfish Warrior"
+			}
+
+			FlakCrabBanner: {
+				DisplayName: Flak Crab Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Flak Crab"
+			}
+
+			FrogfishBanner: {
+				DisplayName: Frogfish Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Frogfish"
+			}
+
+			FusionFeederBanner: {
+				DisplayName: Fusion Feeder Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Fusion Feeder"
+			}
+
+			GammaSlimeBanner: {
+				DisplayName: Gamma Slime Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Gamma Slime"
+			}
+
+			GhostBellBanner: {
+				DisplayName: Ghost Bell Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Ghost Bell"
+			}
+
+			GiantSquidBanner: {
+				DisplayName: Giant Squid Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Giant Squid"
+			}
+
+			GnasherBanner: {
+				DisplayName: Gnasher Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Gnasher"
+			}
+
+			GulperEelBanner: {
+				DisplayName: Gulper Eel Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Gulper Eel"
+			}
+
+			HadarianBanner: {
+				DisplayName: Hadarian Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Hadarian"
+			}
+
+			HeatSpiritBanner: {
+				DisplayName: Heat Spirit Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Heat Spirit"
+			}
+
+			HiveBanner: {
+				DisplayName: Hive Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Hive"
+			}
+
+			IceClasperBanner: {
+				DisplayName: Ice Clasper Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Ice Clasper"
+			}
+
+			ImpiousImmolatorBanner: {
+				DisplayName: Impious Immolator Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Impious Immolator"
+			}
+
+			IrradiatedSlimeBanner: {
+				DisplayName: Irradiated Slime Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Irradiated Slime"
+			}
+
+			LaserfishBanner: {
+				DisplayName: Laserfish Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Laserfish"
+			}
+
+			LuminousCorvinaBanner: {
+				DisplayName: Luminous Corvina Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Luminous Corvina"
+			}
+
+			MantisBanner: {
+				DisplayName: Mantis Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Mantis"
+			}
+
+			MantisShrimpBanner: {
+				DisplayName: Mantis Shrimp Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Mantis Shrimp"
+			}
+
+			MelterBanner: {
+				DisplayName: Melter Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Melter"
+			}
+
+			MirageJellyBanner: {
+				DisplayName: Mirage Jelly Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Mirage Jelly"
+			}
+
+			MorayEelBanner: {
+				DisplayName: Moray Eel Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Moray Eel"
+			}
+
+			NovaBanner: {
+				DisplayName: Nova Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Nova"
+			}
+
+			NuclearToadBanner: {
+				DisplayName: Nuclear Toad Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Nuclear Toad"
+			}
+
+			OarfishBanner: {
+				DisplayName: Oarfish Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Oarfish"
+			}
+
+			OrthoceraBanner: {
+				DisplayName: Orthocera Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Orthocera"
+			}
+
+			OverloadedSoldierBanner: {
+				DisplayName: Overloaded Soldier Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Overloaded Soldier"
+			}
+
+			PerennialSlimeBanner: {
+				DisplayName: Perennial Slime Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Perennial Slime"
+			}
+
+			PestilentSlimeBanner: {
+				DisplayName: Pestilent Slime Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Pestilent Slime"
+			}
+
+			PhantomSpiritBanner: {
+				DisplayName: Phantom Spirit Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Phantom Spirit"
+			}
+
+			PiggyBanner: {
+				DisplayName: Piggy Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Piggy"
+			}
+
+			PlaguebringerBanner: {
+				DisplayName: Plaguebringer Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Plaguebringer"
+			}
+
+			PlagueChargerBanner: {
+				DisplayName: Plague Charger Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Plague Charger"
+			}
+
+			PlagueshellBanner: {
+				DisplayName: Plagueshell Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Plagueshell"
+			}
+
+			PrismBackBanner: {
+				DisplayName: Prism-Back Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Prism-Back"
+			}
+
+			ProfanedEnergyBanner: {
+				DisplayName: Profaned Energy Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Profaned Energy"
+			}
+
+			RadiatorBanner: {
+				DisplayName: Radiator Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Radiator"
+			}
+
+			ReaperSharkBanner: {
+				DisplayName: Reaper Shark Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Reaper Shark"
+			}
+
+			RepairUnitBanner: {
+				DisplayName: Repair Unit Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Repair Unit"
+			}
+
+			RimehoundBanner: {
+				DisplayName: Rimehound Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Rimehound"
+			}
+
+			RotdogBanner: {
+				DisplayName: Rotdog Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Rotdog"
+			}
+
+			RubyCrawlerBanner: {
+				DisplayName: Ruby Crawler Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Ruby Crawler"
+			}
+
+			SapphireCrawlerBanner: {
+				DisplayName: Sapphire Crawler Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Sapphire Crawler"
+			}
+
+			ScornEaterBanner: {
+				DisplayName: Scorn Eater Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Scorn Eater"
+			}
+
+			ScryllarBanner: {
+				DisplayName: Scryllar Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Scryllar"
+			}
+
+			SeaFloatyBanner: {
+				DisplayName: Sea Floaty Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Sea Floaty"
+			}
+
+			SeaMinnowBanner: {
+				DisplayName: Sea Minnow Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Sea Minnow"
+			}
+
+			SeaSerpentBanner: {
+				DisplayName: Sea Serpent Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Sea Serpent"
+			}
+
+			SeaUrchinBanner: {
+				DisplayName: Sea Urchin Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Sea Urchin"
+			}
+
+			ShockstormShuttleBanner: {
+				DisplayName: Shockstorm Shuttle Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Shockstorm Shuttle"
+			}
+
+			SkyfinBanner: {
+				DisplayName: Skyfin Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Skyfin"
+			}
+
+			SmallSightseerBanner: {
+				DisplayName: Small Sightseer Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Small Sightseer"
+			}
+
+			SoulSlurperBanner: {
+				DisplayName: Soul Slurper Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Soul Slurper"
+			}
+
+			StellarCulexBanner: {
+				DisplayName: Stellar Culex Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Stellar Culex"
+			}
+
+			StormlionBanner: {
+				DisplayName: Stormlion Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Stormlion"
+			}
+
+			SulflounderBanner: {
+				DisplayName: Sulflounder Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Sulflounder"
+			}
+
+			SulphurousSkaterBanner: {
+				DisplayName: Sulphurous Skater Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Sulphurous Skater"
+			}
+
+			SunskaterBanner: {
+				DisplayName: Sunskater Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Sunskater"
+			}
+
+			TopazCrawlerBanner: {
+				DisplayName: Topaz Crawler Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Topaz Crawler"
+			}
+
+			ToxicatfishBanner: {
+				DisplayName: Toxicatfish Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Toxicatfish"
+			}
+
+			ToxicMinnowBanner: {
+				DisplayName: Toxic Minnow Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Toxic Minnow"
+			}
+
+			TrasherBanner: {
+				DisplayName: Trasher Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Trasher"
+			}
+
+			TrilobiteBanner: {
+				DisplayName: Trilobite Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Trilobite"
+			}
+
+			ViperfishBanner: {
+				DisplayName: Viperfish Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Viperfish"
+			}
+
+			VirulingBanner: {
+				DisplayName: Viruling Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Viruling"
+			}
+
+			WulfrumAmplifierBanner: {
+				DisplayName: Wulfrum Amplifier Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Wulfrum Amplifier"
+			}
+
+			WulfrumDroneBanner: {
+				DisplayName: Wulfrum Drone Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Wulfrum Drone"
+			}
+
+			WulfrumGyratorBanner: {
+				DisplayName: Wulfrum Gyrator Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Wulfrum Gyrator"
+			}
+
+			WulfrumHovercraftBanner: {
+				DisplayName: Wulfrum Hovercraft Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Wulfrum Hovercraft"
+			}
+
+			WulfrumRoverBanner: {
+				DisplayName: Wulfrum Rover Banner
+				Tooltip: "{$CommonItemTooltip.BannerBonus}Wulfrum Rover"
+			}
+
+			BrimstoneSlab.DisplayName: Brimstone Slab
+			BrimstoneSlag.DisplayName: Brimstone Slag
+			CelestialRemains.DisplayName: Celestial Remains
+
+			CinderBlossomSeeds: {
+				DisplayName: Cinder Blossom Seeds
+				Tooltip: Places cinder blossom grass on scorched remains
+			}
+
+			CryonicBrick.DisplayName: Cryonic Brick
+			AgedLaboratoryConsoleItem.DisplayName: Aged Laboratory Console
+			AgedLaboratoryContainmentBoxItem.DisplayName: Aged Laboratory Containment Box
+			AgedLaboratoryDisplayItem.DisplayName: Aged Laboratory Display
+			AgedLaboratoryDoorItem.DisplayName: Aged Laboratory Door
+			AgedLaboratoryElectricPanelItem.DisplayName: Aged Laboratory Electric Panel
+			AgedLaboratoryScreenItem.DisplayName: Aged Laboratory Screen
+			AgedLaboratoryServerItem.DisplayName: Aged Laboratory Server
+			AgedLaboratoryTerminalItem.DisplayName: Aged Laboratory Terminal
+			AgedReinforcedCrateItem.DisplayName: Aged Reinforced Crate
+			AgedSecurityChest.DisplayName: Aged Security Chest
+
+			ChargingStationItem: {
+				DisplayName: Charging Station
+				Tooltip:
+					'''
+					Charges Draedon's Arsenal items using Power Cells
+					Place both an item and Power Cells into the Charging Station to charge the item
+					'''
+			}
+
+			HazardChevronPanels.DisplayName: Hazard Chevron Panels
+			LabHologramProjectorItem.DisplayName: Lab Hologram Projector
+			LaboratoryConsoleItem.DisplayName: Laboratory Console
+			LaboratoryContainmentBoxItem.DisplayName: Laboratory Containment Box
+			LaboratoryDisplayItem.DisplayName: Laboratory Display
+			LaboratoryDoorItem.DisplayName: Laboratory Door
+			LaboratoryElectricPanelItem.DisplayName: Laboratory Electric Panel
+			LaboratoryPanels.DisplayName: Laboratory Panels
+			LaboratoryPipePlating.DisplayName: Laboratory Pipe Plating
+			LaboratoryPlating.DisplayName: Laboratory Plating
+			LaboratoryScreenItem.DisplayName: Laboratory Screen
+			LaboratoryServerItem.DisplayName: Laboratory Server
+			LaboratoryShelf.DisplayName: Laboratory Shelf
+			LaboratoryTerminalItem.DisplayName: Laboratory Terminal
+
+			PowerCellFactoryItem: {
+				DisplayName: Power Cell Factory
+				Tooltip:
+					'''
+					Produces Draedon Power Cells over time
+					One cell is produced every 15 seconds
+					'''
+			}
+
+			ReinforcedCrateItem.DisplayName: Reinforced Crate
+			RustedPipes.DisplayName: Rusted Pipes
+			RustedPlating.DisplayName: Rusted Plating
+			RustedShelf.DisplayName: Rusted Shelf
+			SecurityChest.DisplayName: Security Chest
+			EutrophicGlass.DisplayName: Eutrophic Glass
+			EutrophicSand.DisplayName: Eutrophic Sand
+			AbyssTreasureChest.DisplayName: Ancient Treasure Chest
+
+			AlgalPrismTorch: {
+				DisplayName: Algal Prism Torch
+				Tooltip: Can be placed in water
+			}
+
+			AstralBeaconItem: {
+				DisplayName: Astral Beacon
+				Tooltip: Summons Astrum Deus in exchange for specific offerings
+			}
+
+			AstralChest.DisplayName: Astral Chest
+			AstralTorch.DisplayName: Astral Torch
+
+			AuricToilet: {
+				DisplayName: Auric Toilet
+				Tooltip:
+					'''
+					This was used by the gods 
+					Sitting on such a throne would be a disgrace to all
+					'''
+			}
+
+			BabyFlakCrabCage.DisplayName: Baby Flak Crab Cage
+			BabyGhostBellJar.DisplayName: Baby Ghost Bell Jar
+
+			AquaticScourgeRelic: {
+				DisplayName: Aquatic Scourge Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			AstrumAureusRelic.DisplayName: Astrum Aureus Relic
+
+			AstrumDeusRelic: {
+				DisplayName: Astrum Deus Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			BrimstoneElementalRelic: {
+				DisplayName: Brimstone Elemental Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			CalamitasCloneRelic: {
+				DisplayName: Calamitas Clone Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			CalamitasRelic.DisplayName: Calamitas Relic
+
+			CeaselessVoidRelic: {
+				DisplayName: Ceaseless Void Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			CrabulonRelic.DisplayName: Crabulon Relic
+			CragmawMireRelic.DisplayName: Cragmaw Mire Relic
+
+			CryogenRelic: {
+				DisplayName: Cryogen Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			DesertScourgeRelic: {
+				DisplayName: Desert Scourge Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			DevourerOfGodsRelic: {
+				DisplayName: Devourer of Gods Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			DraedonRelic.DisplayName: Draedon Relic
+
+			DragonfollyRelic: {
+				DisplayName: Dragonfolly Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			GiantClamRelic.DisplayName: Giant Clam Relic
+			GreatSandSharkRelic.DisplayName: Great Sand Shark Relic
+
+			HiveMindRelic: {
+				DisplayName: Hive Mind Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			LeviathanAnahitaRelic.DisplayName: Leviathan and Anahita Relic
+			MaulerRelic.DisplayName: Mauler Relic
+			NuclearTerrorRelic.DisplayName: Nuclear Terror Relic
+			OldDukeRelic.DisplayName: Old Duke Relic
+
+			PerforatorsRelic: {
+				DisplayName: Perforators Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			PlaguebringerGoliathRelic: {
+				DisplayName: Plaguebringer Goliath Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			PolterghastRelic: {
+				DisplayName: Polterghast Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			ProfanedGuardiansRelic.DisplayName: Profaned Guardians Relic
+			ProvidenceRelic.DisplayName: Providence Relic
+
+			RavagerRelic: {
+				DisplayName: Ravager Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			SignusRelic: {
+				DisplayName: Signus Relic
+				Tooltip: A glimpse into what will be...
+			}
+
+			SlimeGodRelic.DisplayName: Slime God Relic
+
+			StormWeaverRelic: {
+				DisplayName: Storm Weaver Relic
+				Tooltip: A glimpse into what could have been...
+			}
+
+			YharonRelic: {
+				DisplayName: Yharon Relic
+				Tooltip: A glimpse into what will be...
+			}
+
+			ChaosCandle: {
+				DisplayName: Chaos Candle
+				Tooltip: The mere presence of this candle enrages surrounding enemies drastically
+			}
+
+			CorruptionEffigy: {
+				DisplayName: Corruption Effigy
+				Tooltip:
+					'''
+					When placed down, nearby players have their movement speed and crit chance increased by 10%
+					Nearby players also suffer a 5% decrease to their damage reduction
+					'''
+			}
+
+			AltarOfTheAccursedItem: {
+				DisplayName: Altar of the Accursed
+				Tooltip:
+					'''
+					Offer Ashes of Calamity at this altar to summon the Witch
+					Doing so will create a square arena of blocks, with the altar at its center
+					During the battle, heart pickups only heal for half as much
+					The Witch enrages while you are outside of the arena
+					{$CommonItemTooltip.SpecialCrafting}
+					'''
+			}
+
+			AncientAltar: {
+				DisplayName: Ancient Altar
+				Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
+			}
+
+			AshenAltar: {
+				DisplayName: Ashen Altar
+				Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
+			}
+
+			BotanicPlanter: {
+				DisplayName: Botanic Planter
+				Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
+			}
+
+			CosmicAnvilItem: {
+				DisplayName: Cosmic Anvil
+				Tooltip:
+					'''
+					An otherworldly anvil capable of withstanding the pressures of stellar collapse
+					Also functions as every previous tier of anvil
+					'''
+			}
+
+			DraedonsForge: {
+				DisplayName: Draedon's Forge
+				Tooltip:
+					'''
+					A plasma-lattice nanoforge powered by limitless Exo energies
+					Functions as every major crafting station simultaneously
+					'''
+			}
+
+			EutrophicShelf: {
+				DisplayName: Eutrophic Shelf
+				Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
+			}
+
+			MonolithAmalgam: {
+				DisplayName: Monolith Amalgam
+				Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
+			}
+
+			PlagueInfuser: {
+				DisplayName: Plague Infuser
+				Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
+			}
+
+			ProfanedCrucible: {
+				DisplayName: Profaned Crucible
+				Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
+			}
+
+			SilvaBasin: {
+				DisplayName: Silva Basin
+				Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
+			}
+
+			StaticRefiner: {
+				DisplayName: Static Refiner
+				Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
+			}
+
+			VoidCondenser: {
+				DisplayName: Void Condenser
+				Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
+			}
+
+			WulfrumLabstationItem: {
+				DisplayName: Wulfrum Labstation
+				Tooltip: "{$CommonItemTooltip.SpecialCrafting}"
+			}
+
+			CrimsonEffigy: {
+				DisplayName: Crimson Effigy
+				Tooltip:
+					'''
+					When placed down nearby players have their damage increased by 15% and defense by 10
+					Nearby players also suffer a 10% decrease to their maximum health
+					'''
+			}
+
+			ThankYouPainting: {
+				DisplayName: Thank You
+				Tooltip:
+					'''
+					Thanks to the entire team, everyone who supported, and those who all play the mod and keep it alive!
+					The confines of this painting is not enough to fit the entire team
+					Hold SHIFT to see a list of past and current developers
+					'''
+			}
+
+			EffigyOfDecay: {
+				DisplayName: Effigy of Decay
+				Tooltip:
+					'''
+					When placed down, nearby players can breathe underwater
+					This effect does not work in the abyss
+					Nearby players are also immune to the sulphuric poisoning
+					'''
+			}
+
+			AbyssFountainItem.DisplayName: Abyss Water Fountain
+			AstralFountainItem.DisplayName: Astral Water Fountain
+			SulphurousFountainItem.DisplayName: Sulphuric Water Fountain
+			SunkenSeaFountain.DisplayName: Sunken Water Fountain
+			GloomTorch.DisplayName: Gloom Torch
+
+			LanternCenter: {
+				DisplayName: Lantern Center
+				Tooltip: Lights up the night sky with celebratory lanterns
+			}
+
+			NavyPrismTorch: {
+				DisplayName: Navy Prism Torch
+				Tooltip: Can be placed in water
+			}
+
+			PiggyCage.DisplayName: Piggy Cage
+
+			RefractivePrismTorch: {
+				DisplayName: Refractive Prism Torch
+				Tooltip: Can be placed in water
+			}
+
+			ResilientCandle: {
+				DisplayName: Resilient Candle
+				Tooltip:
+					'''
+					When placed, nearby players' defense blocks 5% more damage
+					'Neither rain nor wind can snuff its undying flame'
+					'''
+			}
+
+			RustyChest.DisplayName: Rusty Chest
+			SeaMinnowJar.DisplayName: Sea Minnow Jar
+
+			SpitefulCandle: {
+				DisplayName: Spiteful Candle
+				Tooltip:
+					'''
+					When placed, nearby enemies take 5% more damage.
+					This extra damage bypasses enemy damage reduction and defense
+					'Its hateful glow flickers with ire'
+					'''
+			}
+
+			SulphurousTorch: {
+				DisplayName: Sulphurous Torch
+				Tooltip: Can be placed in water
+			}
+
+			ThaumaticChair: {
+				DisplayName: Thaumatic Chair
+				Tooltip: One of Chloe's finest creations
+			}
+
+			TranquilityCandle: {
+				DisplayName: Tranquility Candle
+				Tooltip: The mere presence of this candle calms surrounding enemies drastically
+			}
+
+			AnahitaTrophy.DisplayName: Anahita Trophy
+			ApolloTrophy.DisplayName: Apollo Trophy
+			AquaticScourgeTrophy.DisplayName: Aquatic Scourge Trophy
+			AresTrophy.DisplayName: Ares Trophy
+			ArtemisTrophy.DisplayName: Artemis Trophy
+			AstrumAureusTrophy.DisplayName: Astrum Aureus Trophy
+			AstrumDeusTrophy.DisplayName: Astrum Deus Trophy
+			BrimstoneElementalTrophy.DisplayName: Brimstone Elemental Trophy
+			CalamitasCloneTrophy.DisplayName: Calamitas Clone Trophy
+			CataclysmTrophy.DisplayName: Cataclysm Trophy
+			CatastropheTrophy.DisplayName: Catastrophe Trophy
+			CeaselessVoidTrophy.DisplayName: Ceaseless Void Trophy
+			CrabulonTrophy.DisplayName: Crabulon Trophy
+			CragmawMireTrophy.DisplayName: Cragmaw Mire Trophy
+			CryogenTrophy.DisplayName: Cryogen Trophy
+			DesertScourgeTrophy.DisplayName: Desert Scourge Trophy
+			DevourerofGodsTrophy.DisplayName: Devourer of Gods Trophy
+			DragonfollyTrophy.DisplayName: Dragonfolly Trophy
+			GiantClamTrophy.DisplayName: Giant Clam Trophy
+			GreatSandSharkTrophy.DisplayName: Great Sand Shark Trophy
+			HiveMindTrophy.DisplayName: Hive Mind Trophy
+			LeviathanTrophy.DisplayName: Leviathan Trophy
+			MaulerTrophy.DisplayName: Mauler Trophy
+			NuclearTerrorTrophy.DisplayName: Nuclear Terror Trophy
+			OldDukeTrophy.DisplayName: Old Duke Trophy
+			PerforatorTrophy.DisplayName: Perforator Trophy
+			PlaguebringerGoliathTrophy.DisplayName: Plaguebringer Goliath Trophy
+			PolterghastTrophy.DisplayName: Polterghast Trophy
+			ProfanedGuardianTrophy.DisplayName: Profaned Guardian Trophy
+			ProvidenceTrophy.DisplayName: Providence Trophy
+			RavagerTrophy.DisplayName: Ravager Trophy
+			SignusTrophy.DisplayName: Signus Trophy
+			SlimeGodTrophy.DisplayName: Slime God Trophy
+			SupremeCalamitasTrophy.DisplayName: Calamitas Trophy
+			SupremeCataclysmTrophy.DisplayName: Supreme Cataclysm Trophy
+			SupremeCatastropheTrophy.DisplayName: Supreme Catastrophe Trophy
+			ThanatosTrophy.DisplayName: Thanatos Trophy
+			WeaverTrophy.DisplayName: Storm Weaver Trophy
+			YharonTrophy.DisplayName: Yharon Trophy
+			TwinklerInABottle.DisplayName: Twinkler in a Bottle
+
+			VigorousCandle: {
+				DisplayName: Vigorous Candle
+				Tooltip:
+					'''
+					When placed, nearby players regenerate 0.4% of their maximum health per second
+					This regeneration is at full power even while moving and bypasses Revengeance Mode caps
+					'Its brilliant light suffuses those nearby with hope'
+					'''
+			}
+
+			WeightlessCandle: {
+				DisplayName: Weightless Candle
+				Tooltip:
+					'''
+					When placed, nearby players gain 10% movement speed, 10% wing time and 5% acceleration
+					'The floating flame seems to uplift your very spirit'
+					'''
+			}
+
+			WulfrumLureItem: {
+				DisplayName: Wulfrum Lure
+				Tooltip:
+					'''
+					Consumes [i:5801] Energy Cores to emit a wulfrum signal that lures Wulfrum automatons out
+					The signal lasts for 30 seconds
+					'''
+			}
+
+			AbyssBathtub.DisplayName: Abyss Bathtub
+			AbyssBed.DisplayName: Abyss Bed
+			AbyssBookcase.DisplayName: Abyss Bookcase
+			AbyssCandelabra.DisplayName: Abyss Candelabra
+			AbyssCandle.DisplayName: Abyss Candle
+			AbyssChair.DisplayName: Abyss Chair
+			AbyssChandelier.DisplayName: Abyss Chandelier
+			AbyssChest.DisplayName: Abyss Chest
+			AbyssClock.DisplayName: Abyss Clock
+			AbyssDoor.DisplayName: Abyss Door
+			AbyssDresser.DisplayName: Abyss Dresser
+			AbyssLamp.DisplayName: Abyss Lamp
+			AbyssLantern.DisplayName: Abyss Lantern
+
+			AbyssSink: {
+				DisplayName: Abyss Sink
+				Tooltip: Counts as a water source
+			}
+
+			AbyssSofa.DisplayName: Abyss Sofa
+			AbyssSynth.DisplayName: Abyss Synth
+			AbyssTable.DisplayName: Abyss Table
+
+			AbyssTorch: {
+				DisplayName: Abyss Torch
+				Tooltip: Can be placed in water
+			}
+
+			AbyssWorkBench.DisplayName: Abyss Work Bench
+			SmoothAbyssGravel.DisplayName: Smooth Abyss Gravel
+			SmoothAbyssGravelPlatform.DisplayName: Smooth Abyss Gravel Platform
+			AcidwoodBathtub.DisplayName: Acidwood Bathtub
+			AcidwoodBed.DisplayName: Acidwood Bed
+			AcidwoodBench.DisplayName: Acidwood Bench
+			AcidwoodBookcase.DisplayName: Acidwood Bookcase
+			AcidwoodCandelabra.DisplayName: Acidwood Candelabra
+			AcidwoodCandle.DisplayName: Acidwood Candle
+			AcidwoodChair.DisplayName: Acidwood Chair
+			AcidwoodChandelier.DisplayName: Acidwood Chandelier
+			AcidwoodChest.DisplayName: Acidwood Chest
+			AcidwoodClock.DisplayName: Acidwood Clock
+			AcidwoodDoor.DisplayName: Acidwood Door
+			AcidwoodDresser.DisplayName: Acidwood Dresser
+			AcidwoodLamp.DisplayName: Acidwood Lamp
+			AcidwoodLantern.DisplayName: Acidwood Lantern
+			AcidwoodPiano.DisplayName: Acidwood Piano
+			AcidwoodPlatform.DisplayName: Acidwood Platform
+
+			AcidwoodSink: {
+				DisplayName: Acidwood Sink
+				Tooltip: Counts as a water source
+			}
+
+			AcidwoodTable.DisplayName: Acidwood Table
+			AcidwoodWorkBench.DisplayName: Acidwood Work Bench
+			AncientBasin.DisplayName: Ancient Basin
+			AncientBathtub.DisplayName: Ancient Bathtub
+			AncientBed.DisplayName: Ancient Bed
+			AncientBookcase.DisplayName: Ancient Bookcase
+			AncientChair.DisplayName: Ancient Chair
+			AncientChandelier.DisplayName: Ancient Chandelier
+			AncientDoor.DisplayName: Ancient Door
+			AncientDresser.DisplayName: Ancient Dresser
+			AncientLamp.DisplayName: Ancient Lamp
+			AncientLantern.DisplayName: Ancient Lantern
+			AncientMonolith.DisplayName: Ancient Monolith
+			AncientPipeOrgan.DisplayName: Ancient Pipe Organ
+
+			AncientSink: {
+				DisplayName: Ancient Sink
+				Tooltip: Counts as a lava source
+			}
+
+			AncientSofa.DisplayName: Ancient Sofa
+			AncientTable.DisplayName: Ancient Table
+			AncientWorkBench.DisplayName: Ancient Work Bench
+
+			AshenAccentSlab: {
+				DisplayName: Ashen Accent Slab
+				Tooltip:
+					'''
+					An Ashen Slab variant that merges differently with nearby blocks
+					Favored by advanced builders
+					'''
+			}
+
+			AshenBasin.DisplayName: Ashen Basin
+			AshenBathtub.DisplayName: Ashen Bathtub
+			AshenBed.DisplayName: Ashen Bed
+			AshenBookcase.DisplayName: Ashen Bookcase
+			AshenCandelabra.DisplayName: Ashen Candelabra
+			AshenCandle.DisplayName: Ashen Candle
+			AshenChair.DisplayName: Ashen Chair
+			AshenChandelier.DisplayName: Ashen Chandelier
+			AshenChest.DisplayName: Ashen Chest
+			AshenDoor.DisplayName: Ashen Door
+			AshenDresser.DisplayName: Ashen Dresser
+			AshenLamp.DisplayName: Ashen Lamp
+			AshenLantern.DisplayName: Ashen Lantern
+			AshenMonolith.DisplayName: Ashen Monolith
+			AshenPipeOrgan.DisplayName: Ashen Pipe Organ
+			AshenPlatform.DisplayName: Ashen Platform
+
+			AshenSink: {
+				DisplayName: Ashen Sink
+				Tooltip: Counts as a lava source
+			}
+
+			AshenSlab.DisplayName: Ashen Slab
+			AshenSofa.DisplayName: Ashen Sofa
+			AshenTable.DisplayName: Ashen Table
+			AshenWorkBench.DisplayName: Ashen Work Bench
+			SmoothBrimstoneSlag.DisplayName: Smooth Brimstone Slag
+			BotanicBathtub.DisplayName: Botanic Bathtub
+			BotanicBed.DisplayName: Botanic Bed
+			BotanicBench.DisplayName: Botanic Bench
+			BotanicBookcase.DisplayName: Botanic Bookcase
+			BotanicCandelabra.DisplayName: Botanic Candelabra
+			BotanicCandle.DisplayName: Botanic Candle
+			BotanicChair.DisplayName: Botanic Chair
+			BotanicChandelier.DisplayName: Botanic Chandelier
+			BotanicChest.DisplayName: Botanic Chest
+			BotanicClock.DisplayName: Botanic Clock
+			BotanicDoor.DisplayName: Botanic Door
+			BotanicDresser.DisplayName: Botanic Dresser
+			BotanicLamp.DisplayName: Botanic Lamp
+			BotanicLantern.DisplayName: Botanic Lantern
+			BotanicPiano.DisplayName: Botanic Piano
+			BotanicPlatform.DisplayName: Botanic Platform
+
+			BotanicSink: {
+				DisplayName: Botanic Sink
+				Tooltip: Counts as a honey source
+			}
+
+			BotanicTable.DisplayName: Botanic Table
+			BotanicWorkBench.DisplayName: Botanic Work Bench
+			CosmiliteBasin.DisplayName: Cosmilite Basin
+			CosmiliteBathtub.DisplayName: Cosmilite Bathtub
+			CosmiliteBed.DisplayName: Cosmilite Bed
+			CosmiliteBookcase.DisplayName: Cosmilite Bookcase
+			CosmiliteBrick.DisplayName: Cosmilite Brick
+			CosmiliteCandelabra.DisplayName: Cosmilite Candelabra
+			CosmiliteCandle.DisplayName: Cosmilite Candle
+			CosmiliteChair.DisplayName: Cosmilite Chair
+			CosmiliteChandelier.DisplayName: Cosmilite Chandelier
+			CosmiliteChest.DisplayName: Cosmilite Chest
+			CosmiliteClock.DisplayName: Cosmilite Clock
+			CosmiliteDoor.DisplayName: Cosmilite Door
+			CosmiliteDresser.DisplayName: Cosmilite Dresser
+			CosmiliteLamp.DisplayName: Cosmilite Lamp
+			CosmiliteLantern.DisplayName: Cosmilite Lantern
+			CosmilitePiano.DisplayName: Cosmilite Piano
+			CosmilitePlatform.DisplayName: Cosmilite Platform
+			CosmiliteSconce.DisplayName: Cosmilite Sconce
+
+			CosmiliteSink: {
+				DisplayName: Cosmilite Sink
+				Tooltip: Counts as a water source
+			}
+
+			CosmiliteSofa.DisplayName: Cosmilite Sofa
+			CosmiliteTable.DisplayName: Cosmilite Table
+			CosmiliteWorkBench.DisplayName: Cosmilite Work Bench
+			EutrophicBathtub.DisplayName: Eutrophic Bathtub
+			EutrophicBed.DisplayName: Eutrophic Bed
+			EutrophicBench.DisplayName: Eutrophic Bench
+			EutrophicBookcase.DisplayName: Eutrophic Bookcase
+			EutrophicCandelabra.DisplayName: Eutrophic Candelabra
+			EutrophicCandle.DisplayName: Eutrophic Candle
+			EutrophicChair.DisplayName: Eutrophic Chair
+			EutrophicChandelier.DisplayName: Eutrophic Chandelier
+			EutrophicChest.DisplayName: Eutrophic Chest
+			EutrophicClock.DisplayName: Eutrophic Clock
+			EutrophicDoor.DisplayName: Eutrophic Door
+			EutrophicDresser.DisplayName: Eutrophic Dresser
+			EutrophicLamp.DisplayName: Eutrophic Lamp
+			EutrophicLantern.DisplayName: Eutrophic Lantern
+			EutrophicPiano.DisplayName: Eutrophic Piano
+			EutrophicPlatform.DisplayName: Eutrophic Platform
+
+			EutrophicSink: {
+				DisplayName: Eutrophic Sink
+				Tooltip: Counts as a water source
+			}
+
+			EutrophicTable.DisplayName: Eutrophic Table
+			EutrophicWorkBench.DisplayName: Eutrophic Work Bench
+			SmoothNavystone.DisplayName: Smooth Navystone
+			ExoBathtub.DisplayName: Exo Bathtub
+			ExoBed.DisplayName: Exo Bed
+			ExoBookcase.DisplayName: Exo Bookcase
+			ExoCandelabra.DisplayName: Exo Candelabra
+			ExoCandle.DisplayName: Exo Candle
+			ExoChair.DisplayName: Exo Chair
+			ExoChandelier.DisplayName: Exo Chandelier
+			ExoChest.DisplayName: Exo Chest
+			ExoClock.DisplayName: Exo Clock
+			ExoConsole.DisplayName: Exo Console
+			ExoDisplay.DisplayName: Exo Display
+			ExoDoor.DisplayName: Exo Door
+			ExoDresser.DisplayName: Exo Dresser
+			ExoKeyboard.DisplayName: Exo Keyboard
+			ExoLamp.DisplayName: Exo Lamp
+			ExoLantern.DisplayName: Exo Lantern
+			ExoPlatform.DisplayName: Exo Platform
+			ExoPlating.DisplayName: Exo Plating
+			ExoPrismPanel.DisplayName: Exo Prism Panel
+			ExoPrismPlatform.DisplayName: Exo Prism Platform
+			ExoScreen.DisplayName: Exo Screen
+			ExoServer.DisplayName: Exo Server
+
+			ExoSink: {
+				DisplayName: Exo Sink
+				Tooltip: Counts as a water, honey, and lava source
+			}
+
+			ExoSofa.DisplayName: Exo Sofa
+			ExoTable.DisplayName: Exo Table
+			ExoTerminal.DisplayName: Exo Terminal
+			ExoToilet.DisplayName: Exo Toilet
+			ExoWorkbench.DisplayName: Exo Workbench
+			MonolithBathtub.DisplayName: Monolith Bathtub
+			MonolithBed.DisplayName: Monolith Bed
+			MonolithBench.DisplayName: Monolith Bench
+			MonolithBookcase.DisplayName: Monolith Bookcase
+			MonolithCandelabra.DisplayName: Monolith Candelabra
+			MonolithCandle.DisplayName: Monolith Candle
+			MonolithChair.DisplayName: Monolith Chair
+			MonolithChandelier.DisplayName: Monolith Chandelier
+			MonolithChest.DisplayName: Monolith Chest
+			MonolithClock.DisplayName: Monolith Clock
+			MonolithDoor.DisplayName: Monolith Door
+			MonolithDresser.DisplayName: Monolith Dresser
+			MonolithLamp.DisplayName: Monolith Lamp
+			MonolithLantern.DisplayName: Monolith Lantern
+			MonolithPiano.DisplayName: Monolith Piano
+			MonolithPlatform.DisplayName: Monolith Platform
+
+			MonolithSink: {
+				DisplayName: Monolith Sink
+				Tooltip: Counts as a water source
+			}
+
+			MonolithTable.DisplayName: Monolith Table
+			MonolithWorkBench.DisplayName: Monolith Work Bench
+			OtherworldlyBathtub.DisplayName: Otherworldly Bathtub
+			OtherworldlyBed.DisplayName: Otherworldly Bed
+			OtherworldlyBookcase.DisplayName: Otherworldly Bookcase
+			OtherworldlyCandelabra.DisplayName: Otherworldly Candelabra
+			OtherworldlyCandle.DisplayName: Otherworldly Candle
+			OtherworldlyChair.DisplayName: Otherworldly Chair
+			OtherworldlyChandelier.DisplayName: Otherworldly Chandelier
+			OtherworldlyChest.DisplayName: Otherworldly Chest
+			OtherworldlyClock.DisplayName: Otherworldly Clock
+			OtherworldlyDoor.DisplayName: Otherworldly Door
+			OtherworldlyDresser.DisplayName: Otherworldly Dresser
+			OtherworldlyLamp.DisplayName: Otherworldly Lamp
+			OtherworldlyLantern.DisplayName: Otherworldly Lantern
+			OtherworldlyPiano.DisplayName: Otherworldly Piano
+			OtherworldlyPlatform.DisplayName: Otherworldly Platform
+
+			OtherworldlySink: {
+				DisplayName: Otherworldly Sink
+				Tooltip: Counts as a water source
+			}
+
+			OtherworldlySofa.DisplayName: Otherworldly Sofa
+			OtherworldlyStone.DisplayName: Otherworldly Stone
+			OtherworldlyTable.DisplayName: Otherworldly Table
+			OtherworldlyWorkBench.DisplayName: Otherworldly Work Bench
+			BrokenPlaguedBed.DisplayName: Broken Plagued 'Bed'
+			PlaguedContainmentBrick.DisplayName: Plagued Containment Brick
+			PlaguedPlateBathtub.DisplayName: Plagued Bathtub
+
+			PlaguedPlateBed: {
+				DisplayName: Plagued 'Bed'
+				Tooltip: Counts as a bed
+			}
+
+			PlaguedPlateBookcase.DisplayName: Plagued Bookcase
+			PlaguedPlateCandelabra.DisplayName: Plagued Candelabra
+			PlaguedPlateCandle.DisplayName: Plagued Candle
+			PlaguedPlateChair.DisplayName: Plagued Chair
+			PlaguedPlateChandelier.DisplayName: Plagued Chandelier
+			PlaguedPlateChest.DisplayName: Plagued Chest
+			PlaguedPlateClock.DisplayName: Plagued Clock
+			PlaguedPlateDoor.DisplayName: Plagued Door
+			PlaguedPlateDresser.DisplayName: Plagued Dresser
+			PlaguedPlateLamp.DisplayName: Plagued Lamp
+			PlaguedPlateLantern.DisplayName: Plagued Lantern
+			PlaguedPlatePiano.DisplayName: Plagued Piano
+			PlaguedPlatePlatform.DisplayName: Plagued Shelf
+
+			PlaguedPlateSink: {
+				DisplayName: Plagued Sink
+				Tooltip: Counts as a water source
+			}
+
+			PlaguedPlateSofa.DisplayName: Plagued Sofa
+			PlaguedPlateTable.DisplayName: Plagued Table
+			PlaguedWorkBench.DisplayName: Plagued Work Bench
+			ProfanedBathtub.DisplayName: Profaned Bathtub
+			ProfanedBed.DisplayName: Profaned Bed
+			ProfanedBench.DisplayName: Profaned Bench
+			ProfanedBookcase.DisplayName: Profaned Bookcase
+			ProfanedCandelabra.DisplayName: Profaned Candelabra
+			ProfanedCandle.DisplayName: Profaned Candle
+			ProfanedChair.DisplayName: Profaned Chair
+			ProfanedChandelier.DisplayName: Profaned Chandelier
+			ProfanedChest.DisplayName: Profaned Chest
+			ProfanedClock.DisplayName: Profaned Clock
+			ProfanedCrystal.DisplayName: Profaned Crystal
+			ProfanedDoor.DisplayName: Profaned Door
+			ProfanedDresser.DisplayName: Profaned Dresser
+			ProfanedLamp.DisplayName: Profaned Lamp
+			ProfanedLantern.DisplayName: Profaned Lantern
+			ProfanedPiano.DisplayName: Profaned Piano
+			ProfanedPlatform.DisplayName: Profaned Platform
+			ProfanedRock.DisplayName: Profaned Rock
+
+			ProfanedSink: {
+				DisplayName: Profaned Sink
+				Tooltip: Counts as a lava source
+			}
+
+			ProfanedSlab.DisplayName: Profaned Slab
+			ProfanedTable.DisplayName: Profaned Table
+			ProfanedWorkbench.DisplayName: Profaned Workbench
+			RunicProfanedBrick.DisplayName: Runic Profaned Brick
+			EyeOfTheAccursedBanner.DisplayName: Eye of the Accursed Banner
+
+			LargeRitualCandle: {
+				DisplayName: Large Ritual Candle
+				Tooltip: Right click to place in a different style
+			}
+
+			MonolithOfTheAccursed: {
+				DisplayName: Monolith of the Accursed
+				Tooltip:
+					'''
+					Let the sky burn a blazing red
+					The monolith has two different modes
+					'''
+			}
+
+			OccultBrickItem.DisplayName: Occult Brick
+			OccultLegionnaireBanner.DisplayName: Occult Legionnaire Banner
+			OccultPlatformItem.DisplayName: Occult Platform
+
+			RitualCandle: {
+				DisplayName: Ritual Candle
+				Tooltip: Right click to place in a different style
+			}
+
+			SacrilegiousBathtub.DisplayName: Sacrilegious Bathtub
+			SacrilegiousBed.DisplayName: Sacrilegious Bed
+			SacrilegiousBench.DisplayName: Sacrilegious Bench
+			SacrilegiousBookcase.DisplayName: Sacrilegious Bookcase
+			SacrilegiousCandelabra.DisplayName: Sacrilegious Candelabra
+			SacrilegiousCandle.DisplayName: Sacrilegious Candle
+			SacrilegiousChair.DisplayName: Sacrilegious Chair
+			SacrilegiousChandelier.DisplayName: Sacrilegious Chandelier
+			SacrilegiousChest.DisplayName: Sacrilegious Chest
+			SacrilegiousClock.DisplayName: Sacrilegious Clock
+			SacrilegiousDoor.DisplayName: Sacrilegious Door
+			SacrilegiousDresser.DisplayName: Sacrilegious Dresser
+			SacrilegiousLamp.DisplayName: Sacrilegious Lamp
+			SacrilegiousLantern.DisplayName: Sacrilegious Lantern
+			SacrilegiousOrgan.DisplayName: Sacrilegious Organ
+
+			SacrilegiousSink: {
+				DisplayName: Sacrilegious Sink
+				Tooltip: Counts as a water, honey, and lava source
+			}
+
+			SacrilegiousTable.DisplayName: Sacrilegious Table
+			SacrilegiousWorkBench.DisplayName: Sacrilegious Work Bench
+			SilvaBathtub.DisplayName: Silva Bathtub
+			SilvaBed.DisplayName: Silva Bed
+			SilvaBench.DisplayName: Silva Bench
+			SilvaBookcase.DisplayName: Silva Bookcase
+			SilvaCandelabra.DisplayName: Silva Candelabra
+			SilvaCandle.DisplayName: Silva Candle
+			SilvaChair.DisplayName: Silva Chair
+			SilvaChandelier.DisplayName: Silva Chandelier
+			SilvaChest.DisplayName: Silva Chest
+			SilvaClock.DisplayName: Silva Clock
+			SilvaCrystal.DisplayName: Silva Crystal
+			SilvaDoor.DisplayName: Silva Door
+			SilvaDresser.DisplayName: Silva Dresser
+			SilvaLamp.DisplayName: Silva Lamp
+			SilvaLantern.DisplayName: Silva Lantern
+			SilvaPiano.DisplayName: Silva Piano
+			SilvaPlatform.DisplayName: Silva Platform
+
+			SilvaSink: {
+				DisplayName: Silva Sink
+				Tooltip: Counts as a water source
+			}
+
+			SilvaTable.DisplayName: Silva Table
+			SilvaWorkBench.DisplayName: Silva Work Bench
+			StatigelBathtub.DisplayName: Statigel Bathtub
+			StatigelBed.DisplayName: Statigel Bed
+			StatigelBlock.DisplayName: Statigel Block
+			StatigelBookcase.DisplayName: Statigel Bookcase
+			StatigelCandelabra.DisplayName: Statigel Candelabra
+			StatigelCandle.DisplayName: Statigel Candle
+			StatigelChair.DisplayName: Statigel Chair
+			StatigelChandelier.DisplayName: Statigel Chandelier
+			StatigelChest.DisplayName: Statigel Chest
+			StatigelClock.DisplayName: Statigel Clock
+			StatigelDoor.DisplayName: Statigel Door
+			StatigelDresser.DisplayName: Statigel Dresser
+			StatigelLamp.DisplayName: Statigel Lamp
+			StatigelLantern.DisplayName: Statigel Lantern
+			StatigelPiano.DisplayName: Statigel Piano
+			StatigelPlatform.DisplayName: Statigel Platform
+
+			StatigelSink: {
+				DisplayName: Statigel Sink
+				Tooltip: Counts as a water source
+			}
+
+			StatigelSofa.DisplayName: Statigel Sofa
+			StatigelTable.DisplayName: Statigel Table
+			StatigelWorkbench.DisplayName: Statigel Workbench
+			StratusBathtub.DisplayName: Stratus Bathtub
+			StratusBed.DisplayName: Stratus Bed
+			StratusBookcase.DisplayName: Stratus Bookcase
+			StratusBricks.DisplayName: Stratus Brick
+			StratusCandelabra.DisplayName: Stratus Candelabra
+			StratusCandle.DisplayName: Stratus Candle
+			StratusChair.DisplayName: Stratus Chair
+			StratusChandelier.DisplayName: Stratus Chandelier
+			StratusChest.DisplayName: Stratus Chest
+			StratusClock.DisplayName: Stratus Clock
+			StratusDoor.DisplayName: Stratus Door
+			StratusDresser.DisplayName: Stratus Dresser
+			StratusLamp.DisplayName: Stratus Lamp
+			StratusLantern.DisplayName: Stratus Lantern
+			StratusPiano.DisplayName: Stratus Piano
+			StratusPlatform.DisplayName: Stratus Platform
+
+			StratusSink: {
+				DisplayName: Stratus Sink
+				Tooltip: Counts as a water source
+			}
+
+			StratusSofa.DisplayName: Stratus Sofa
+			StratusStarPlatformItem.DisplayName: Stratus Star Platform
+			StratusTable.DisplayName: Stratus Table
+			StratusWorkbench.DisplayName: Stratus Workbench
+			SmoothVoidstone.DisplayName: Smooth Voidstone
+			SmoothVoidstonePlatform.DisplayName: Smooth Voidstone Platform
+			VoidBathtub.DisplayName: Void Bathtub
+			VoidBed.DisplayName: Void Bed
+			VoidBookcase.DisplayName: Void Bookcase
+			VoidCandelabra.DisplayName: Void Candelabra
+			VoidCandle.DisplayName: Void Candle
+			VoidChair.DisplayName: Void Chair
+			VoidChandelier.DisplayName: Void Chandelier
+			VoidChest.DisplayName: Void Chest
+			VoidDoor.DisplayName: Void Door
+			VoidDresser.DisplayName: Void Dresser
+			VoidLamp.DisplayName: Void Lamp
+			VoidLantern.DisplayName: Void Lantern
+			VoidObelisk.DisplayName: Void Obelisk
+			VoidPiano.DisplayName: Void Piano
+
+			VoidSink: {
+				DisplayName: Void Sink
+				Tooltip: Counts as a water source
+			}
+
+			VoidSofa.DisplayName: Void Sofa
+			VoidstoneSlab.DisplayName: Voidstone Slab
+			VoidTable.DisplayName: Void Table
+			VoidWorkbench.DisplayName: Void Workbench
+			WulfrumBathtub.DisplayName: Wulfrum Bathtub
+			WulfrumBed.DisplayName: Wulfrum Bed
+			WulfrumBookcase.DisplayName: Wulfrum Bookcase
+			WulfrumCandelabra.DisplayName: Wulfrum Candelabra
+			WulfrumCandle.DisplayName: Wulfrum Candle
+			WulfrumChair.DisplayName: Wulfrum Chair
+			WulfrumChandelier.DisplayName: Wulfrum Chandelier
+			WulfrumClock.DisplayName: Wulfrum Clock
+			WulfrumDresser.DisplayName: Wulfrum Dresser
+			WulfrumLamp.DisplayName: Wulfrum Lamp
+			WulfrumLantern.DisplayName: Wulfrum Lantern
+			WulfrumPiano.DisplayName: Wulfrum Piano
+			WulfrumPlating.DisplayName: Wulfrum Plating
+			WulfrumSink.DisplayName: Wulfrum Sink
+			WulfrumSofa.DisplayName: Wulfrum Sofa
+			WulfrumTable.DisplayName: Wulfrum Table
+			WulfrumToilet.DisplayName: Wulfrum Toilet
+			WulfrumWorkbench.DisplayName: Wulfrum Workbench
+			HardenedAstralSand.DisplayName: Hardened Astral Sand
+			HardenedSulphurousSandstone.DisplayName: Hardened Sulphurous Sandstone
+			LivingBrimstoneFireBlock.DisplayName: Living Brimstone Fire Block
+			LivingGodSlayerFireBlock.DisplayName: Living God Slayer Fire Block
+			LivingHolyFireBlock.DisplayName: Living Holy Fire Block
+
+			DraedonsAmbienceMusicBox: {
+				DisplayName: Music Box (Draedon's Ambience)
+				Tooltip: Plays high tech ambience by PinpinNeon
+			}
+
+			Navystone.DisplayName: Navystone
+			NovaeSlag.DisplayName: Novae Slag
+			AerialiteOre.DisplayName: Aerialite Ore
+			AerialiteOreDisenchanted.DisplayName: Disenchanted Aerialite Ore
+			AstralOre.DisplayName: Astral Ore
+
+			AuricOre: {
+				DisplayName: Auric Ore
+				Tooltip: Infused with long lost draconic energies
+			}
+
+			CryonicOre.DisplayName: Cryonic Ore
+
+			ExodiumCluster: {
+				DisplayName: Exodium Cluster
+				Tooltip: A cold cluster from the great unknown.
+			}
+
+			HallowedOre.DisplayName: Hallowed Ore
+			InfernalSuevite.DisplayName: Infernal Suevite
+			PerennialOre.DisplayName: Perennial Ore
+			ScoriaOre.DisplayName: Scoria Ore
+			UelibloomOre.DisplayName: Uelibloom Ore
+			PerennialBrick.DisplayName: Perennial Brick
+			PlantyMush.DisplayName: Planty Mush
+
+			Cinderplate: {
+				DisplayName: Cinderplate
+				Tooltip: It resonates with otherworldly energy.
+			}
+
+			Elumplate: {
+				DisplayName: Elumplate
+				Tooltip: It resonates with otherworldly energy.
+			}
+
+			Havocplate: {
+				DisplayName: Havocplate
+				Tooltip: It resonates with otherworldly energy.
+			}
+
+			Navyplate: {
+				DisplayName: Navyplate
+				Tooltip: It resonates with otherworldly energy.
+			}
+
+			Onyxplate: {
+				DisplayName: Onyxplate
+				Tooltip: It resonates with otherworldly energy.
+			}
+
+			Plagueplate: {
+				DisplayName: Plagueplate
+				Tooltip: It resonates with otherworldly energy.
+			}
+
+			PrismShard: {
+				DisplayName: Prism Shard
+				Tooltip: Glows brighter underwater
+			}
+
+			PyreMantle.DisplayName: Pyre Mantle
+			PyreMantleMolten.DisplayName: Molten Pyre Mantle
+			ScorchedBone.DisplayName: Scorched Bone
+			ScorchedRemains.DisplayName: Scorched Remains
+			ScoriaBrick.DisplayName: Scoria Brick
+			SeaPrism.DisplayName: Sea Prism
+			SeaPrismBrick.DisplayName: Sea Prism Brick
+
+			SpineSapling: {
+				DisplayName: Small Spine
+				Tooltip: Plants Giant Spine saplings on Brimstone Slag
+			}
+
+			SulphurousSand.DisplayName: Sulphurous Sand
+			SulphurousSandstone.DisplayName: Sulphurous Sandstone
+			SulphurousShale.DisplayName: Sulphurous Shale
+			UelibloomBrick.DisplayName: Uelibloom Brick
+			VernalSoil.DisplayName: Vernal Soil
+			Voidstone.DisplayName: Voidstone
+			AbyssGravelWallItem.DisplayName: Abyss Gravel Wall
+			AcidwoodWallItem.DisplayName: Acidwood Wall
+			AerialiteBrickWall.DisplayName: Aerialite Brick Wall
+			AshenSlabWall.DisplayName: Ashen Slab Wall
+			AstralBrickWall.DisplayName: Astral Brick Wall
+			AstralDirtWall.DisplayName: Astral Dirt Wall
+			AstralGrassWall.DisplayName: Astral Grass Wall
+			AstralIceWall.DisplayName: Astral Ice Wall
+			AstralMonolithWall.DisplayName: Astral Monolith Wall
+			AstralSandstoneWall.DisplayName: Astral Sandstone Wall
+			AstralSnowWall.DisplayName: Astral Snow Wall
+			AstralStoneWall.DisplayName: Astral Stone Wall
+			BrimstoneSlabWall.DisplayName: Brimstone Slab Wall
+			BrimstoneSlagWall.DisplayName: Brimstone Slag Wall
+			CelestialRemainsWall.DisplayName: Celestial Remains Wall
+			CinderplateWall.DisplayName: Cinderplate Wall
+			CosmiliteBrickWall.DisplayName: Cosmilite Brick Wall
+			CryonicBrickWall.DisplayName: Cryonic Brick Wall
+			HazardChevronWall.DisplayName: Hazard Chevron Wall
+			LaboratoryPanelWall.DisplayName: Laboratory Panel Wall
+			LaboratoryPlateBeam.DisplayName: Laboratory Plate Beam
+			LaboratoryPlatePillar.DisplayName: Laboratory Plate Pillar
+			LaboratoryPlatingWall.DisplayName: Laboratory Plating Wall
+			RustedPlateBeam.DisplayName: Rusted Plate Beam
+			RustedPlatePillar.DisplayName: Rusted Plate Pillar
+			RustedPlatingWall.DisplayName: Rusted Plating Wall
+			ElumplateWall.DisplayName: Elumplate Wall
+			EutrophicSandWall.DisplayName: Unsafe Eutrophic Sand Wall
+			EutrophicSandWallSafe.DisplayName: Eutrophic Sand Wall
+			ExoPlatingWallItem.DisplayName: Exo Plating Wall
+			ExoPrismPanelWallItem.DisplayName: Exo Prism Panel Wall
+			FloralWall.DisplayName: Floral Wall
+			HardenedAstralSandWall.DisplayName: Hardened Astral Sand Wall
+			HardenedSulphurousSandstoneWall.DisplayName: Hardened Sulphurous Sandstone Wall
+			HavocplateWall.DisplayName: Havocplate Wall
+			NavyplateWall.DisplayName: Navyplate Wall
+			NavystoneWall.DisplayName: Unsafe Navystone Wall
+			NavystoneWallSafe.DisplayName: Navystone Wall
+			OccultBrickWallItem.DisplayName: Occult Brick Wall
+			OnyxplateWall.DisplayName: Onyxplate Wall
+			OtherworldlyStoneWall.DisplayName: Otherworldly Stone Wall
+			PerennialBrickWall.DisplayName: Perennial Brick Wall
+			PlagueContainmentCellsWall.DisplayName: Plagueplate Wall
+			PlaguedPlateWall.DisplayName: Plagued Containment Wall
+			ProfanedCrystalWall.DisplayName: Profaned Crystal Wall
+			ProfanedRockWall.DisplayName: Profaned Rock Wall
+			ProfanedSlabWall.DisplayName: Profaned Slab Wall
+			RunicProfanedBrickWall.DisplayName: Runic Profaned Brick Wall
+			ScorchedBoneWall.DisplayName: Scorched Bone Wall
+			ScoriaBrickWall.DisplayName: Scoria Brick Wall
+			SilvaWall.DisplayName: Silva Wall
+			SmoothAbyssGravelWall.DisplayName: Smooth Abyss Gravel Wall
+			SmoothBrimstoneSlagWall.DisplayName: Smooth Brimstone Slag Wall
+			SmoothNavystoneWall.DisplayName: Smooth Navystone Wall
+			SmoothVoidstoneWall.DisplayName: Smooth Voidstone Wall
+			StatigelWall.DisplayName: Statigel Wall
+			StratusWall.DisplayName: Stratus Wall
+			SulphurousSandstoneWall.DisplayName: Sulphurous Sandstone Wall
+			SulphurousSandWall.DisplayName: Sulphurous Sand Wall
+			SulphurousShaleWall.DisplayName: Sulphurous Shale Wall
+			UelibloomBrickWall.DisplayName: Uelibloom Brick Wall
+			VoidstoneSlabWall.DisplayName: Voidstone Slab Wall
+			VoidstoneWall.DisplayName: Voidstone Wall
+		}
+	}
+}

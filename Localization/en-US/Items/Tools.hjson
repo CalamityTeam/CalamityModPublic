@@ -1,0 +1,177 @@
+Mods : {
+	CalamityMod : {
+		Items : {
+			AbyssalWarhammer.DisplayName: Abyssal Warhammer
+			AerialHamaxe.DisplayName: Aerial Hamaxe
+			AstralHamaxe.DisplayName: Astral Hamaxe
+			AstralPickaxe.DisplayName: Astral Pickaxe
+
+			AxeofPurity: {
+				DisplayName: Axe of Purity
+				Tooltip:
+					'''
+					Left click to use as a tool
+					Right click to cleanse evil
+					'''
+			}
+
+			BeastialPickaxe.DisplayName: Beastial Pickaxe
+			BerserkerWaraxe.DisplayName: Berserker Waraxe
+
+			BlossomPickaxe: {
+				DisplayName: Blossom Pickaxe
+				Tooltip: Can mine Auric Ore
+			}
+
+			BobbitHook: {
+				DisplayName: Bobbit Hook
+				Tooltip:
+					'''
+					Retracts upon attaching to a tile with extreme speeds
+					Reach: 40
+					Launch Velocity: 25
+					Reelback Velocity: 28
+					Pull Velocity: 24
+					'''
+			}
+
+			AridArtifact: {
+				DisplayName: Arid Artifact
+				Tooltip:
+					'''
+					Summons a sandstorm
+					The sandstorm will happen shortly after the item is used
+					If used during a sandstorm, the sandstorm will stop some time afterward.
+					'''
+			}
+
+			Cosmolight: {
+				DisplayName: Cosmolight
+				Tooltip:
+					'''
+					Advances time immediately to the next dawn, noon, dusk or midnight
+					Does not work while a boss is alive
+					'''
+			}
+
+			TorrentialTear: {
+				DisplayName: Torrential Tear
+				Tooltip:
+					'''
+					Summons the rain
+					Rain will start some time after this item is used
+					If used while it's raining, the rain will stop some time afterward
+					'''
+			}
+
+			CrystylCrusher: {
+				DisplayName: Crystyl Crusher
+				Tooltip:
+					'''
+					Gotta dig faster, gotta go deeper
+					Right click to swing normally
+					'''
+			}
+
+			FellerofEvergreens.DisplayName: Feller of Evergreens
+			Gelpick.DisplayName: Gelpick
+
+			GenesisPickaxe: {
+				DisplayName: Genesis Pickaxe
+				Tooltip: Can mine Uelibloom Ore
+			}
+
+			Grax: {
+				DisplayName: Grax
+				Tooltip:
+					'''
+					Hitting an enemy will greatly boost your defense, melee damage and melee crit for a short time
+					Right click to use without hammering down walls or chopping down trees
+					'''
+			}
+
+			GreatbayPickaxe: {
+				DisplayName: Greatbay Pickaxe
+				Tooltip: Can mine Demonite, Crimtane, Meteorite, Sea Prisms and Sea Prism Crystals
+			}
+
+			InfernaCutter: {
+				DisplayName: Inferna Cutter
+				Tooltip:
+					'''
+					Critical hits with the blade cause small explosions
+					Generates a number of small sparks when swung
+					'''
+			}
+
+			MarniteDeconstructor: {
+				DisplayName: Marnite Deconstructor
+				Tooltip:
+					'''
+					Its engine generates hardlight rays capable of excavating walls from a long distance
+					Ignores 10 points of enemy Defense
+					'''
+			}
+
+			MarniteObliterator: {
+				DisplayName: Marnite Obliterator
+				Tooltip:
+					'''
+					Uses a diamond focus to project a long-range digging beam of light
+					Ignores 5 points of enemy Defense
+					'''
+			}
+
+			ReefclawHamaxe.DisplayName: Reefclaw Hamaxe
+
+			SeismicHampick: {
+				DisplayName: Seismic Hampick
+				Tooltip:
+					'''
+					Capable of mining Lihzahrd Bricks
+					Left click to use as a pickaxe
+					Right click to use as a hammer
+					'''
+			}
+
+			ShardlightPickaxe.DisplayName: Shardlight Pickaxe
+
+			SkyfringePickaxe: {
+				DisplayName: Skyfringe Pickaxe
+				Tooltip: Able to mine Hellstone
+			}
+
+			TectonicTruncator.DisplayName: Tectonic Truncator
+
+			WulfrumDiggingTurtle: {
+				DisplayName: Wulfrum Digging Turtle
+				Tooltip:
+					'''
+					Throws a rickety mining contraption to dig out a small tunnel
+					In case of an emergency, right click to instantly detonate all your digging turtles
+					'''
+			}
+
+			WulfrumDrill.DisplayName: Wulfrum Drill
+
+			WulfrumScaffoldKit: {
+				DisplayName: Wulfrum Scaffold Kit
+				Tooltip:
+					'''
+					"For when you need something built fast and don't need it to last."
+					Places down temporary metal scaffolding. Uses up one wulfrum metal scrap for 40 tiles built
+					Scaffold needs to be adjacent to a solid tile to be placed down
+					'''
+			}
+
+			WulfrumTreasurePinger: {
+				DisplayName: Wulfrum Treasure Pinger
+				Tooltip:
+					'''
+					Helps you find metal that's hopefully more valuable than wulfrum
+					This contraption seems incredibly shoddy. [c/fc4903:It'll break sooner than later for sure]
+					'''
+			}
+		}
+	}
+}

@@ -1,0 +1,944 @@
+Mods : {
+	CalamityMod : {
+		Items : {
+			AbyssalTome: {
+				DisplayName: Abyssal Tome
+				Tooltip: Casts a slow-moving ball of dark energy
+			}
+
+			AbyssShocker: {
+				DisplayName: Abyss Shocker
+				Tooltip: Fires an erratic lightning bolt that arcs and bounces between enemies
+			}
+
+			AcidGun: {
+				DisplayName: Acid Gun
+				Tooltip: Releases three streams of acid
+			}
+
+			AetherfluxCannon: {
+				DisplayName: Aetherflux Cannon
+				Tooltip: Fires a barrage of phased god rays that pass through terrain
+			}
+
+			AethersWhisper: {
+				DisplayName: Aether's Whisper
+				Tooltip:
+					'''
+					Inflicts long-lasting shadowflame and splits on tile hits
+					Projectiles gain damage as they travel
+					'''
+			}
+
+			AlphaRay: {
+				DisplayName: Alpha Ray
+				Tooltip:
+					'''
+					Disintegrates everything with a tri-beam of energy and lasers
+					Right click to fire a Y-shaped beam of destructive energy and a spread of lasers
+					'''
+			}
+
+			AlulaAustralis: {
+				DisplayName: Alula Australis
+				Tooltip: Fires a beautiful aurora trailed by a star shower
+			}
+
+			AnahitasArpeggio: {
+				DisplayName: Anahita's Arpeggio
+				Tooltip: Casts slow-moving treble clefs that confuse enemies
+			}
+
+			ApoctosisArray: {
+				DisplayName: Apoctosis Array
+				Tooltip:
+					'''
+					Fires ion blasts that speed up and then explode
+					Damage scales with how full your mana is
+					Using Astral Injection reduces the effectiveness of the mana boost
+					'''
+			}
+
+			Apotheosis: {
+				DisplayName: Apotheosis
+				Tooltip:
+					'''
+					Eat worms
+					Unleashes interdimensional projection magic
+					'''
+			}
+
+			AquamarineStaff: {
+				DisplayName: Aquamarine Staff
+				Tooltip: Shoots two blue bolts
+			}
+
+			ArchAmaryllis: {
+				DisplayName: Arch Amaryllis
+				Tooltip: Casts a beaming flower that explodes into homing petals
+			}
+
+			ArcticBearPaw: {
+				DisplayName: Arctic Bear Paw
+				Tooltip:
+					'''
+					The savage mauling that fits in your pocket
+					Fires spiritual claws that ignore walls
+					'''
+			}
+
+			ArtAttack: {
+				DisplayName: Art Attack
+				Tooltip:
+					'''
+					Casts a star that follows the mouse that creates a rainbow trail as it moves
+					Once a full shape is created with the trail all enemies within it take damage proportional to how long it took to draw the shape
+					And the audience goes wild!
+					'''
+			}
+
+			AsteroidStaff: {
+				DisplayName: Asteroid Staff
+				Tooltip: Summons asteroids from the sky
+			}
+
+			AstralachneaStaff: {
+				DisplayName: Astralachnea Staff
+				Tooltip: Fires a spread of homing astral spider fangs
+			}
+
+			AstralStaff: {
+				DisplayName: Astral Staff
+				Tooltip: Summons a large crystal from the sky that has a large area of effect on impact.
+			}
+
+			Atlantis: {
+				DisplayName: Atlantis
+				Tooltip: Casts aquatic spears that split as they travel
+			}
+
+			AuguroftheElements: {
+				DisplayName: Augur of the Elements
+				Tooltip: Casts a burst of elemental tentacles to spear your enemies
+			}
+
+			BelchingSaxophone: {
+				DisplayName: Belching Saxophone
+				Tooltip:
+					'''
+					Doot
+					Fires an array of dirty reeds, music notes, and sulphuric bubbles
+					'''
+			}
+
+			Biofusillade: {
+				DisplayName: Biofusillade
+				Tooltip: Unleashes a concentrated beam of life energy
+			}
+
+			BlackAnurian: {
+				DisplayName: Black Anurian
+				Tooltip: Spews bubbles and homing plankton
+			}
+
+			BloodBath: {
+				DisplayName: Blood Bath
+				Tooltip: Drenches your foes in blood
+			}
+
+			BrimroseStaff: {
+				DisplayName: Brimrose Staff
+				Tooltip: Fires a spread of brimstone beams
+			}
+
+			BurningSea: {
+				DisplayName: Burning Sea
+				Tooltip: Fires a bouncing brimstone fireball that splits into homing fireballs upon collision with water
+			}
+
+			CarnageRay: {
+				DisplayName: Carnage Ray
+				Tooltip:
+					'''
+					Fires a blood ray
+					The farther along the ray hit enemies are, the more damage they take
+					'''
+			}
+
+			ClamorNoctus: {
+				DisplayName: Clamor Noctus
+				Tooltip:
+					'''
+					Let the sky fall
+					Fires night wyverns and stars from the sky that stick to enemies and tiles and explode
+					'''
+			}
+
+			ClothiersWrath: {
+				DisplayName: Clothier's Wrath
+				Tooltip: Shoots 3 shadowflame skulls
+			}
+
+			CoralSpout: {
+				DisplayName: Coral Spout
+				Tooltip:
+					'''
+					Casts a shotgun-like blast of coral shards
+					Keep the attack button held down to narrow the spread
+					Fully charging the attack releases a single, bigger chunk of coral that sticks to enemies
+					Grabbing the chunk of coral after it falls from the enemy replenishes 150 mana
+					The mana-charged coral also provides a buff that increases the coral's damage and the convergence speed
+					[c/5C95A1:Knowledge is important, and the Old Sea Kingdom's many scribes knew it had to be preserved at any cost.]
+					[c/5C95A1:Their libraries were much larger than most, because of the water-proof stone tablets occupying them.]
+					'''
+			}
+
+			CosmicRainbow: {
+				DisplayName: Cosmic Rainbow
+				Tooltip: Launches a barrage of rainbows
+			}
+
+			Cryophobia: {
+				DisplayName: Cryophobia
+				Tooltip:
+					'''
+					Chill
+					Fires an icy wave that splits multiple times and explodes into shards
+					'''
+			}
+
+			DarkSpark: {
+				DisplayName: Dark Spark
+				Tooltip:
+					'''
+					And everything under the sun is in tune,
+					But the sun is eclipsed by the moon.
+					'''
+			}
+
+			DeathhailStaff: {
+				DisplayName: Deathhail Staff
+				Tooltip:
+					'''
+					Rain death upon your foes!
+					Casts a storm of nebula lasers from the sky
+					'''
+			}
+
+			DeathValleyDuster: {
+				DisplayName: Death Valley Duster
+				Tooltip: Casts a large blast of dust
+			}
+
+			DivineRetribution: {
+				DisplayName: Divine Retribution
+				Tooltip: Mage is superior to rogue; look, we got a donor weapon to prove it!
+			}
+
+			Downpour: {
+				DisplayName: Downpour
+				Tooltip: Fires a spray of water that drips extra trails of water
+			}
+
+			Effervescence: {
+				DisplayName: Effervescence
+				Tooltip: Shoots a massive spread of bubbles
+			}
+
+			EidolicWail: {
+				DisplayName: Eidolic Wail
+				Tooltip:
+					'''
+					Earrape
+					Fires a string of bouncing sound waves that become stronger as they travel
+					'''
+			}
+
+			EidolonStaff: {
+				DisplayName: Eidolon Staff
+				Tooltip:
+					'''
+					The power of an ancient cultist resonates within this staff
+					Fires a spread of ancient light and a spinning ice cluster
+					'''
+			}
+
+			EldritchTome: {
+				DisplayName: Eldritch Tome
+				Tooltip: Casts eldritch tentacles to spear your enemies
+			}
+
+			ElementalRay: {
+				DisplayName: Elemental Ray
+				Tooltip:
+					'''
+					Casts four celestial beams near the player
+					Solar beams explode into fire on enemy hits
+					Nebula beams sweep a little bit over time
+					Vortex beams act like fast lightning and electrify enemies on hit
+					Stardust beams release small stars that home on enemy hits
+					'''
+			}
+
+			Eternity: {
+				DisplayName: Eternity
+				Tooltip:
+					'''
+					Hexes a possible nearby enemy, trapping them in a brilliant display of destruction
+					This line is modified in ModifyTooltips
+					'''
+			}
+
+			EventHorizon: {
+				DisplayName: Event Horizon
+				Tooltip:
+					'''
+					Nothing, not even light, can return.
+					Fires a ring of stars to home in on nearby enemies
+					Stars spawn black holes on enemy hits
+					'''
+			}
+
+			EvergladeSpray: {
+				DisplayName: Everglade Spray
+				Tooltip: Fires a stream of burning green ichor
+			}
+
+			Fabstaff: {
+				DisplayName: Fabstaff
+				Tooltip: Casts a bouncing beam that splits when enemies are near it
+			}
+
+			FaceMelter: {
+				DisplayName: Face Melter
+				Tooltip:
+					'''
+					WOOO!! FAAAAAAANTASYY WORLDDDDD!
+					Fires music notes
+					Right click summons an amplifier that shoots towards your mouse
+					'''
+			}
+
+			FatesReveal: {
+				DisplayName: Fate's Reveal
+				Tooltip: Spawns ghostly fireballs that follow the player
+			}
+
+			FlareBolt: {
+				DisplayName: Flare Bolt
+				Tooltip: Casts a slow-moving ball of flame
+			}
+
+			ForbiddenSun: {
+				DisplayName: Forbidden Sun
+				Tooltip: Casts a fire orb that emits a gigantic explosion on death
+			}
+
+			FrigidflashBolt: {
+				DisplayName: Frigidflash Bolt
+				Tooltip: Casts a slow-moving ball of flash-freezing magma
+			}
+
+			FrostBolt: {
+				DisplayName: Frost Bolt
+				Tooltip: Casts a slow-moving ball of frost
+			}
+
+			Genisis: {
+				DisplayName: Genisis
+				Tooltip: Fires a Y-shaped beam of destructive energy and a spread of lasers
+			}
+
+			GhastlyVisage: {
+				DisplayName: Ghastly Visage
+				Tooltip: Fires homing ghast energy that explodes
+			}
+
+			GleamingMagnolia: {
+				DisplayName: Gleaming Magnolia
+				Tooltip: Casts a gleaming flower that explodes into petals
+			}
+
+			GloriousEnd: {
+				DisplayName: Glorious End
+				Tooltip:
+					'''
+					Casts a meteor star for the player to ride in the direction of the cursor
+					The meteor star explodes after hitting an enemy, crashing into a wall, or after 6 seconds
+					This explosion hurts both enemies and the player
+					Releasing the cursor before the star explodes will cause it to explode prematurely for less damage
+					Mounts are disabled while this weapon is in use
+					'''
+			}
+
+			GrandStaffoftheNebulaMage: {
+				DisplayName: Grand Staff of the Nebula Mage
+				Tooltip: The true power of the Nebula Mage rests in your hands...
+			}
+
+			GruesomeEminence: {
+				DisplayName: Gruesome Eminence
+				Tooltip:
+					'''
+					Summons a gaseous conglomeration of spirits near the cursor
+					At first, the spirits will fly wildly. This can hurt enemies and players
+					However, over time they will begin to accumulate to create a single, controllable monstrosity
+					[c/c61b40:The spirits of the amalgam could never pass on to their desired afterlife,]
+					[c/c61b40:Tainted and melded by rage as they were.]
+
+					'''
+			}
+
+			HadalUrn: {
+				DisplayName: Hadal Urn
+				Tooltip:
+					'''
+					Fires a random assortment of ocean creatures
+					'There's no telling how long it was down there... or what lurks inside'
+					'''
+			}
+
+			HarvestStaff: {
+				DisplayName: Harvest Staff
+				Tooltip: Casts flaming pumpkins
+			}
+
+			HeliumFlash: {
+				DisplayName: Helium Flash
+				Tooltip:
+					'''
+					The power of a galaxy, if only for mere moments
+					Launches volatile star cores which erupt into colossal fusion blasts
+					'''
+			}
+
+			HellwingStaff: {
+				DisplayName: Hellwing Staff
+				Tooltip: Casts flaming bats
+			}
+
+			Hematemesis: {
+				DisplayName: Hematemesis
+				Tooltip: Casts a barrage of blood geysers from below
+			}
+
+			Heresy: {
+				DisplayName: Heresy
+				Tooltip:
+					'''
+					Releases fire and souls upward from a held book
+					As the book is held the power of both increases
+					'''
+			}
+
+			HyphaeRod: {
+				DisplayName: Hyphae Rod
+				Tooltip: Creates mushroom spores near the player
+			}
+
+			IceBarrage: {
+				DisplayName: Ice Barrage
+				Tooltip:
+					'''
+					Oh dear, you are dead!
+					Casts a deadly and powerful ice spell in the location of the cursor
+					This ice spell locks itself to the position of nearby enemies
+					Consumes 2 Blood Runes every time it's used
+					'''
+			}
+
+			IcicleStaff: {
+				DisplayName: Icicle Staff
+				Tooltip: Casts icicles from the sky
+			}
+
+			IcicleTrident: {
+				DisplayName: Icicle Trident
+				Tooltip: Shoots piercing icicles
+			}
+
+			InfernalRift: {
+				DisplayName: Infernal Rift
+				Tooltip: Summons infernal blades that spawn additional blades on enemy hits
+			}
+
+			IonBlaster: {
+				DisplayName: Ion Blaster
+				Tooltip:
+					'''
+					Fires ion blasts that speed up and then explode
+					Damage scales with how full your mana is
+					Using Astral Injection reduces the effectiveness of the mana boost
+					'''
+			}
+
+			Keelhaul: {
+				DisplayName: Keelhaul
+				Tooltip:
+					'''
+					Summons a geyser upon hitting an enemy
+					Crumple 'em like paper
+					'''
+			}
+
+			LashesofChaos: {
+				DisplayName: Lashes of Chaos
+				Tooltip: Watch the world burn...
+			}
+
+			Lazhar: {
+				DisplayName: Lazhar
+				Tooltip: Fires a highly volatile concentrated solar beam
+			}
+
+			LightGodsBrilliance: {
+				DisplayName: Light God's Brilliance
+				Tooltip: Casts small, homing light beads along with explosive light balls
+			}
+
+			MadAlchemistsCocktailGlove: {
+				DisplayName: Mad Alchemist's Cocktail Glove
+				Tooltip:
+					'''
+					Fires a variety of high-velocity flasks
+					Right click to throw a prismatic flask that inflicts many debuffs
+					Red flasks explode violently, blue flasks contain poison gas,
+					green flasks summon lunar flares and purple flasks explode into homing shrapnel
+					'''
+			}
+
+			MagnaCannon: {
+				DisplayName: Magna Cannon
+				Tooltip: Fires a concentrated blast of energy
+			}
+
+			MagneticMeltdown: {
+				DisplayName: Magnetic Meltdown
+				Tooltip: Launches a diamond cross of supercharged magnet spheres
+			}
+
+			ManaRose: {
+				DisplayName: Mana Rose
+				Tooltip: Casts a mana flower that explodes into petals
+			}
+
+			Miasma: {
+				DisplayName: Miasma
+				Tooltip: Fires a spread of gas clouds that slow down after hitting an enemy
+			}
+
+			Mistlestorm: {
+				DisplayName: Mistlestorm
+				Tooltip: Casts a storm of pine needles and leaves
+			}
+
+			NanoPurge: {
+				DisplayName: Nano Purge
+				Tooltip: Fires a barrage of nano lasers
+			}
+
+			NightsRay: {
+				DisplayName: Night's Ray
+				Tooltip:
+					'''
+					Fires a dark ray
+					When hitting enemies, they are hit by several new beams from their sides
+					'''
+			}
+
+			NuclearFury: {
+				DisplayName: Nuclear Fury
+				Tooltip: Casts a torrent of cosmic typhoons
+			}
+
+			ParasiticSceptor: {
+				DisplayName: Parasitic Scepter
+				Tooltip: Fires a spread of water leeches that latch onto enemies, dealing a stacking damage over time
+			}
+
+			PhantasmalFury: {
+				DisplayName: Phantasmal Fury
+				Tooltip: Casts a phantasmal bolt that explodes into more bolts
+			}
+
+			PhoenixFlameBarrage: {
+				DisplayName: Phoenix Flame Barrage
+				Tooltip:
+					'''
+					Baptism by draconic fire
+					Casts a barrage of fire from the sky
+					'''
+			}
+
+			PlagueStaff: {
+				DisplayName: Plague Staff
+				Tooltip: Fires a tight spread of 4 plague fangs
+			}
+
+			PlasmaRifle: {
+				DisplayName: Plasma Rifle
+				Tooltip:
+					'''
+					Fires a plasma blast that explodes
+					Right click to rapidly fire plasma bolts
+					'''
+			}
+
+			PlasmaRod: {
+				DisplayName: Plasma Rod
+				Tooltip:
+					'''
+					Casts a low-damage plasma bolt
+					Shooting a tile will cause several bolts with increased damage to fire
+					Shooting an enemy will inflict shadowflame
+					'''
+			}
+
+			Poseidon: {
+				DisplayName: Poseidon
+				Tooltip: Casts a poseidon typhoon
+			}
+
+			PrimordialAncient: {
+				DisplayName: Primordial Ancient
+				Tooltip:
+					'''
+					An ancient relic from an ancient land
+					Casts a gigantic blast of dust
+					'''
+			}
+
+			PrimordialEarth: {
+				DisplayName: Primordial Earth
+				Tooltip: Casts a large blast of dust
+			}
+
+			PurgeGuzzler: {
+				DisplayName: Purge Guzzler
+				Tooltip: Emits three beams of holy energy in a tight spread
+			}
+
+			RainbowPartyCannon: {
+				DisplayName: Rainbow Party Cannon
+				Tooltip: Let the rainbow remind you that together we will always shine...
+			}
+
+			Rancor: {
+				DisplayName: Rancor
+				Tooltip:
+					'''
+					Casts a magic circle that charges energy and eventually releases a powerful laser burst of controlled maleficent magic
+					The laser causes arms and searing lava to appear on surfaces it touches which harm both you and enemies
+					[c/c61b40:Forgiveness can only heal so much,]
+					[c/c61b40:If the recipient has not yet forgiven themselves.]
+
+					'''
+			}
+
+			RecitationoftheBeast: {
+				DisplayName: Recitation of the Beast
+				Tooltip:
+					'''
+					A thousand years sealed in the demon's realm will teach you a thing or two
+					Summons beast scythes around the player in a small circle,
+					before firing toward the cursor and home in to nearby enemies
+					'''
+			}
+
+			RelicofRuin: {
+				DisplayName: Relic of Ruin
+				Tooltip: Casts a spread of sand blades
+			}
+
+			RougeSlash: {
+				DisplayName: Rouge Slash
+				Tooltip: Fires a wave of 3 rouge air slashes
+			}
+
+			SanguineFlare: {
+				DisplayName: Sanguine Flare
+				Tooltip: Fires a blast of sanguine flares that drain enemy life
+			}
+
+			SeethingDischarge: {
+				DisplayName: Seething Discharge
+				Tooltip: Fires a barrage of brimstone blasts
+			}
+
+			Serpentine: {
+				DisplayName: Serpentine
+				Tooltip: Casts a serpent that follows the mouse cursor
+			}
+
+			ShadecrystalTome: {
+				DisplayName: Shadecrystal Barrage
+				Tooltip: Summons rapid fire shadecrystals, can shoot two crystals at once
+			}
+
+			ShaderainStaff: {
+				DisplayName: Shaderain Staff
+				Tooltip: Fires a shade storm cloud
+			}
+
+			ShadowboltStaff: {
+				DisplayName: Shadowbolt Staff
+				Tooltip: The more tiles and enemies the beam bounces off of or travels through the more damage the beam does
+			}
+
+			ShiftingSands: {
+				DisplayName: Shifting Sands
+				Tooltip: Casts a sand shard that follows the mouse cursor
+			}
+
+			SHPC: {
+				DisplayName: SHPC
+				Tooltip:
+					'''
+					Fires plasma orbs that linger and emit massive explosions
+					Right click to fire powerful energy beams
+					'''
+			}
+
+			SkyGlaze: {
+				DisplayName: Sky Glaze
+				Tooltip: Fires feathers from the sky that stick to enemies and tiles and explode
+			}
+
+			SlitheringEels: {
+				DisplayName: Slithering Eels
+				Tooltip: Casts a magical acid eel that releases acid drops as it moves
+			}
+
+			SnowstormStaff: {
+				DisplayName: Snowstorm Staff
+				Tooltip: Fires a snowflake that follows the mouse cursor
+			}
+
+			SoulPiercer: {
+				DisplayName: Soul Piercer
+				Tooltip: Casts a powerful ray that summons extra rays on its first hit
+			}
+
+			StaffofBlushie: {
+				DisplayName: Staff of Blushie
+				Tooltip: Hold your mouse, wait, wait, wait, and put your trust in the power of blue magic
+			}
+
+			Starfall: {
+				DisplayName: Starfall
+				Tooltip: Casts a spread of astral stars at the mouse cursor
+			}
+
+			StormSpray: {
+				DisplayName: Storm Spray
+				Tooltip: Fires a spray of water that drips extra trails of water
+			}
+
+			SubsumingVortex: {
+				DisplayName: Subsuming Vortex
+				Tooltip:
+					'''
+					Left clicking releases a barrage of vortices that race towards enemies
+					Right clicking casts a gigantic vortex in front of you with a bias towards the mouse
+					When enemies are near the vortex, it sends multiple fast-moving smaller vortices towards them
+					After enough time has passed the vortex stops shooting, and releasing the right mouse button fires the vortex towards the mouse
+					'''
+			}
+
+			TacticiansTrumpCard: {
+				DisplayName: Tactician's Trump Card
+				Tooltip:
+					'''
+					Faint memories of a Princess from the future cross your mind...
+					Fires a sword beam that electrifies enemies on hit
+					'''
+			}
+
+			TearsofHeaven: {
+				DisplayName: Tears of Heaven
+				Tooltip: Casts slow-moving homing balls of heavenly light
+			}
+
+			TerraRay: {
+				DisplayName: Terra Ray
+				Tooltip:
+					'''
+					Casts an energy ray that splits into energy on enemy hits
+					More energy is created the farther along the ray the hit enemy is
+					'''
+			}
+
+			TheDanceofLight: {
+				DisplayName: The Dance of Light
+				Tooltip:
+					'''
+					Barrages enemies with a hailstorm of Light Blades
+					'And in a flash of light, nothing remains'
+					'''
+			}
+
+			ThePrince: {
+				DisplayName: The Prince
+				Tooltip:
+					'''
+					Casts a holy fireball that explodes into 6 flames
+					So you're telling me that the prince exploded, and then turned into a flower?
+					-Dain, the sailor druid
+					'''
+			}
+
+			TheSwarmer: {
+				DisplayName: The Swarmer
+				Tooltip: Fires a swarm of bees and wasps
+			}
+
+			TheWand: {
+				DisplayName: The Wand
+				Tooltip: The ultimate wand
+			}
+
+			ThornBlossom: {
+				DisplayName: Thorn Blossom
+				Tooltip: Every rose has its thorn
+			}
+
+			Thunderstorm: {
+				DisplayName: Thunderstorm
+				Tooltip: Make it rain
+			}
+
+			TomeofFates: {
+				DisplayName: Tome of Fates
+				Tooltip:
+					'''
+					Casts cosmic tentacles to spear your enemies
+					Can randomly fire a red tentacle for immense damage
+					'''
+			}
+
+			Tradewinds: {
+				DisplayName: Tradewinds
+				Tooltip: Casts fast moving sunlight feathers
+			}
+
+			UltraLiquidator: {
+				DisplayName: Ultra Liquidator
+				Tooltip:
+					'''
+					Summons liquidation blades that summon more blades on enemy hits
+					The blades inflict ichor, cursed inferno and brimstone flames
+					'''
+			}
+
+			UndinesRetribution: {
+				DisplayName: Undine's Retribution
+				Tooltip: Casts a swarm of homing spears
+			}
+
+			ValkyrieRay: {
+				DisplayName: Valkyrie Ray
+				Tooltip: Casts a devastating ray of holy power
+			}
+
+			Vehemence: {
+				DisplayName: Vehemence
+				Tooltip: Casts intense bolts of hellish power that explode into skulls
+			}
+
+			VenusianTrident: {
+				DisplayName: Venusian Trident
+				Tooltip: Casts an infernal trident that erupts into a gigantic explosion of fire and magma shards
+			}
+
+			Vesuvius: {
+				DisplayName: Vesuvius
+				Tooltip:
+					'''
+					Calls down a swarm of molten asteroids
+					Right click to fire a spread of molten asteroids from the staff
+					'''
+			}
+
+			Viscera: {
+				DisplayName: Viscera
+				Tooltip:
+					'''
+					Fires a blood beam that heals you on enemy hits
+					The more tiles and enemies the beam bounces off of or travels through the more healing the beam does
+					'''
+			}
+
+			VitriolicViper: {
+				DisplayName: Vitriolic Viper
+				Tooltip: Releases a volley of venomous fangs and spit
+			}
+
+			VividClarity: {
+				DisplayName: Vivid Clarity
+				Tooltip:
+					'''
+					Fires five randomized beams of elemental energy at the cursor
+					On enemy and tile hits, beams either explode into a big flash,
+					summon an additonal laser from the sky,
+					or split into energy orbs
+					Its majesty inspires a stroke of unparalleled genius
+					'''
+			}
+
+			VoidVortex: {
+				DisplayName: Void Vortex
+				Tooltip: Conjures a swirling vortex of supercharged magnet spheres around the cursor
+			}
+
+			VoltaicClimax: {
+				DisplayName: Voltaic Climax
+				Tooltip: Conjures an octagon of supercharged magnet spheres around the cursor
+			}
+
+			Waywasher: {
+				DisplayName: Waywasher
+				Tooltip: Casts inaccurate water bolts
+			}
+
+			Wingman: {
+				DisplayName: Wingman
+				Tooltip: Fires a concentrated laser beam
+			}
+
+			WintersFury: {
+				DisplayName: Winter's Fury
+				Tooltip: The pages are freezing to the touch
+			}
+
+			WrathoftheAncients: {
+				DisplayName: Wrath of the Ancients
+				Tooltip: Summons an energy pulse at the cursor to periodically summon homing spirits
+			}
+
+			WulfrumProsthesis: {
+				DisplayName: Wulfrum Prosthesis
+				Tooltip:
+					'''
+					Casts a wulfrum bolt
+					Right click to drain mana from creatures in front of you
+					[c/83B87E:Technology and magic have been forever locked in an arms race of imitation and retaliation]
+					[c/83B87E:At times they work in tandem, as seen in certain prosthetic limbs]
+					'''
+			}
+
+			WyvernsCall: {
+				DisplayName: Wyvern's Call
+				Tooltip:
+					'''
+					I call upon the mythical Wyvern to shower the lands with its grace
+					Fires wyverns and colored feathers from the sky that stick to enemies and tiles and explode
+					'''
+			}
+
+			YharimsCrystal: {
+				DisplayName: Yharim's Crystal
+				Tooltip: Fires draconic beams of total annihilation
+			}
+		}
+	}
+}

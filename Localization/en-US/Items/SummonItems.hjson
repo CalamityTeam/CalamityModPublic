@@ -1,0 +1,297 @@
+Mods : {
+	CalamityMod : {
+		Items : {
+			Abombination: {
+				DisplayName: Abombination
+				Tooltip:
+					'''
+					Calls in the airborne abomination
+					Summons the Plaguebringer Goliath when used in the Jungle
+					Enrages outside the Jungle
+					Not consumable
+					'''
+			}
+
+			AstralChunk: {
+				DisplayName: Astral Chunk
+				Tooltip:
+					'''
+					Summons Astrum Aureus when used in the Astral Infection during nighttime
+					Enrages during the day
+					Not consumable
+					'''
+			}
+
+			BloodwormItem: {
+				DisplayName: Bloodworm
+				Tooltip:
+					'''
+					Summons The Old Duke if used as bait in the Sulphurous Sea
+					Enrages outside the Sulphurous Sea
+					'''
+			}
+
+			BloodyWormFood: {
+				DisplayName: Bloody Worm Food
+				Tooltip:
+					'''
+					Summons the Perforator Hive when used in the Crimson
+					Enrages outside the Underground Crimson
+					Not consumable
+					'''
+			}
+
+			CeremonialUrn: {
+				DisplayName: Ceremonial Urn
+				Tooltip:
+					'''
+					Use at the Altar of the Accursed to summon the Supreme Witch, Calamitas
+					Not consumable
+					'''
+			}
+
+			CharredIdol: {
+				DisplayName: Charred Idol
+				Tooltip:
+					'''
+					Use at your own risk
+					Summons the Brimstone Elemental when used in the Brimstone Crags
+					Enrages outside the Brimstone Crags
+					Not consumable
+					'''
+			}
+
+			CosmicWorm: {
+				DisplayName: Cosmic Worm
+				Tooltip:
+					'''
+					Summons the Devourer of Gods
+					Not consumable
+					'''
+			}
+
+			CryoKey: {
+				DisplayName: Cryo Key
+				Tooltip:
+					'''
+					Summons Cryogen when used in the tundra
+					Enrages outside the tundra
+					Not consumable
+					'''
+			}
+
+			DeathWhistle: {
+				DisplayName: Death Whistle
+				Tooltip:
+					'''
+					A very old temple whistle
+					Summons the Ravager
+					Not consumable
+					'''
+			}
+
+			DecapoditaSprout: {
+				DisplayName: Decapodita Sprout
+				Tooltip:
+					'''
+					Summons Crabulon when used in the Mushroom biome
+					Enrages outside the Underground Mushroom biome
+					Not consumable
+					'''
+			}
+
+			DesertMedallion: {
+				DisplayName: Desert Medallion
+				Tooltip:
+					'''
+					Summons the Desert Scourge when used in the Desert
+					Enrages outside the Desert
+					Not consumable
+					'''
+			}
+
+			EidolonTablet: {
+				DisplayName: Eidolon Tablet
+				Tooltip:
+					'''
+					Summons the Lunatic Cultist
+					Not consumable
+					'''
+			}
+
+			ExoticPheromones: {
+				DisplayName: Exotic Pheromones
+				Tooltip:
+					'''
+					Specifically formulated to attract draconic hybrids
+					Summons The Dragonfolly when used in the Jungle
+					Enrages outside the Jungle
+					Not consumable
+					'''
+			}
+
+			EyeofDesolation: {
+				DisplayName: Eye of Desolation
+				Tooltip:
+					'''
+					Tonight is going to be a horrific night...
+					Summons the Calamitas Clone when used during nighttime
+					Enrages during the day
+					Not consumable
+					'''
+			}
+
+			CausticTear: {
+				DisplayName: Caustic Tear
+				Tooltip:
+					'''
+					Causes an acidic downpour in the Sulphurous Sea
+					Not consumable
+					'''
+			}
+
+			MartianDistressRemote: {
+				DisplayName: Martian Distress Remote
+				Tooltip:
+					'''
+					Summons the Martian Madness
+					Not consumable
+					'''
+			}
+
+			NecroplasmicBeacon: {
+				DisplayName: Necroplasmic Beacon
+				Tooltip:
+					'''
+					It's spooky
+					Summons Polterghast when used in the Dungeon
+					Enrages in large spaces
+					Not consumable
+					'''
+			}
+
+			OldPowerCell: {
+				DisplayName: Old Power Cell
+				Tooltip:
+					'''
+					Summons the Golem when used in the Jungle Temple
+					Enrages outside the Jungle Temple
+					Not consumable
+					'''
+			}
+
+			OverloadedSludge: {
+				DisplayName: Overloaded Sludge
+				Tooltip:
+					'''
+					It looks corrupted
+					Summons the Slime God
+					Not consumable
+					'''
+			}
+
+			Portabulb: {
+				DisplayName: Portabulb
+				Tooltip:
+					'''
+					Summons Plantera when used in the Jungle
+					Enrages outside the Underground Jungle
+					Not consumable
+					'''
+			}
+
+			ProfanedCore: {
+				DisplayName: Profaned Core
+				Tooltip:
+					'''
+					The core of the unholy flame
+					Summons Providence when used in the Hallow or Underworld
+					Unique drop changes depending on the biome fought in
+					Enrages when fought during nighttime or when outside the Hallow or Underworld
+					Not consumable
+					'''
+			}
+
+			ProfanedShard: {
+				DisplayName: Profaned Shard
+				Tooltip:
+					'''
+					A shard of the unholy flame
+					Summons the Profaned Guardians when used in the Hallow or Underworld during daytime
+					Enrage when not in the Hallow or Underworld
+					Not consumable
+					'''
+			}
+
+			RuneofKos: {
+				DisplayName: Rune of Kos
+				Tooltip:
+					'''
+					A relic of the profaned flame
+					Contains the power hunted relentlessly by the sentinels of the cosmic devourer
+					When used in certain areas of the world, it will unleash them
+					Not consumable
+					'''
+			}
+
+			SandstormsCore: {
+				DisplayName: Sandstorm's Core
+				Tooltip:
+					'''
+					Summons the Great Sand Shark when used in the desert
+					Not consumable
+					'''
+			}
+
+			Seafood: {
+				DisplayName: Seafood
+				Tooltip:
+					'''
+					Summons the Aquatic Scourge when used in the Sulphurous Sea
+					Enrages outside the Sulphurous Sea
+					Not consumable
+					'''
+			}
+
+			Starcore: {
+				DisplayName: Starcore
+				Tooltip:
+					'''
+					May the stars guide your way
+					Summons Astrum Deus at the Astral Beacon, but is not consumed
+					Enrages during the day
+					'''
+			}
+
+			Teratoma: {
+				DisplayName: Teratoma
+				Tooltip:
+					'''
+					Summons the Hive Mind when used in the Corruption
+					Enrages outside the Underground Corruption
+					Not consumable
+					'''
+			}
+
+			Terminus: {
+				DisplayName: Terminus
+				Tooltip:
+					'''
+					Activates Boss Rush Mode, using it again will deactivate Boss Rush Mode
+					During the Boss Rush, all wires and wired devices will be disabled
+					'''
+			}
+
+			YharonEgg: {
+				DisplayName: Blessed Phoenix Egg
+				Tooltip:
+					'''
+					An effigy of a Phoenix Dragon egg, used in worship
+					Summons Yharon, Dragon of Rebirth
+					Enrages outside the fire walls
+					Not consumable
+					'''
+			}
+		}
+	}
+}

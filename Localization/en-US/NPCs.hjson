@@ -1,0 +1,300 @@
+Mods : {
+	CalamityMod : {
+		NPCs: {
+			Bloatfish.DisplayName: Bloatfish
+			BobbitWormHead.DisplayName: Bobbit Worm
+			BobbitWormSegment.DisplayName: Bobbit Worm
+			BoxJellyfish.DisplayName: Box Jellyfish
+			ChaoticPuffer.DisplayName: Chaotic Puffer
+			ColossalSquid.DisplayName: Colossal Squid
+			Cuttlefish.DisplayName: Cuttlefish
+			DevilFish.DisplayName: Devil Fish
+			DevilFishAlt.DisplayName: Devil Fish
+			EidolonWyrmBody.DisplayName: Eidolon Wyrm
+			EidolonWyrmBodyAlt.DisplayName: Eidolon Wyrm
+			EidolonWyrmHead.DisplayName: Eidolon Wyrm
+			EidolonWyrmTail.DisplayName: Eidolon Wyrm
+			GiantSquid.DisplayName: Giant Squid
+			GulperEelBody.DisplayName: Gulper Eel
+			GulperEelBodyAlt.DisplayName: Gulper Eel
+			GulperEelHead.DisplayName: Gulper Eel
+			GulperEelTail.DisplayName: Gulper Eel
+			Laserfish.DisplayName: Laserfish
+			LuminousCorvina.DisplayName: Luminous Corvina
+			MirageJelly.DisplayName: Mirage Jelly
+			MorayEel.DisplayName: Moray Eel
+			OarfishBody.DisplayName: Oarfish
+			OarfishHead.DisplayName: Oarfish
+			OarfishTail.DisplayName: Oarfish
+			ReaperShark.DisplayName: Reaper Shark
+			ToxicMinnow.DisplayName: Toxic Minnow
+			Viperfish.DisplayName: Viperfish
+			AcidEel.DisplayName: Acid Eel
+			BabyFlakCrab.DisplayName: Baby Flak Crab
+			BloodwormFleeing.DisplayName: Bloodworm
+			BloodwormNormal.DisplayName: Bloodworm
+			CragmawMire.DisplayName: Cragmaw Mire
+			FlakCrab.DisplayName: Flak Crab
+			GammaSlime.DisplayName: Gamma Slime
+			IrradiatedSlime.DisplayName: Irradiated Slime
+			Mauler.DisplayName: Mauler
+			NuclearTerror.DisplayName: Nuclear Terror
+			NuclearToad.DisplayName: Nuclear Toad
+			Orthocera.DisplayName: Orthocera
+			Radiator.DisplayName: Radiator
+			Skyfin.DisplayName: Skyfin
+			SulphurousSkater.DisplayName: Sulphurous Skater
+			Trilobite.DisplayName: Trilobite
+			AdultEidolonWyrmBody.DisplayName: Adult Eidolon Wyrm
+			AdultEidolonWyrmBodyAlt.DisplayName: Adult Eidolon Wyrm
+			AdultEidolonWyrmHead.DisplayName: Adult Eidolon Wyrm
+			AdultEidolonWyrmTail.DisplayName: Adult Eidolon Wyrm
+			AquaticScourgeBody.DisplayName: Aquatic Scourge
+			AquaticScourgeBodyAlt.DisplayName: Aquatic Scourge
+			AquaticScourgeHead.DisplayName: Aquatic Scourge
+			AquaticScourgeTail.DisplayName: Aquatic Scourge
+			Aries.DisplayName: Aries
+			AstralachneaGround.DisplayName: Astralachnea
+			AstralachneaWall.DisplayName: Astralachnea
+			AstralProbe.DisplayName: Astral Probe
+			AstralSeekerSpit.DisplayName: Seeker Spit
+			AstralSlime.DisplayName: Astral Slime
+			Atlas.DisplayName: Atlas
+			BigSightseer.DisplayName: Big Sightseer
+			FusionFeeder.DisplayName: Fusion Feeder
+			Hadarian.DisplayName: Hadarian
+			HiveEnemy.DisplayName: Hive
+			Hiveling.DisplayName: Hiveling
+			Mantis.DisplayName: Mantis
+			Nova.DisplayName: Nova
+			SmallSightseer.DisplayName: Small Sightseer
+			StellarCulex.DisplayName: Stellar Culex
+			Twinkler.DisplayName: Twinkler
+			AstrumAureus.DisplayName: Astrum Aureus
+			AureusSpawn.DisplayName: Aureus Spawn
+			AstrumDeusBody.DisplayName: Astrum Deus
+			AstrumDeusHead.DisplayName: Astrum Deus
+			AstrumDeusTail.DisplayName: Astrum Deus
+			Brimling.DisplayName: Brimling
+			BrimstoneElemental.DisplayName: Brimstone Elemental
+			Bumblefuck.DisplayName: The Dragonfolly
+			Bumblefuck2.DisplayName: Draconic Swarmer
+			CalamitasClone.DisplayName: Calamitas Clone
+			Cataclysm.DisplayName: Cataclysm
+			Catastrophe.DisplayName: Catastrophe
+			SoulSeeker.DisplayName: Soul Seeker
+			CeaselessVoid.DisplayName: Ceaseless Void
+			DarkEnergy.DisplayName: Dark Energy
+			CrabShroom.DisplayName: Crab Shroom
+			Crabulon.DisplayName: Crabulon
+			CalamityEye.DisplayName: Calamity Eye
+			CharredSlime.DisplayName: Charred Slime
+			CultistAssassin.DisplayName: Cultist Assassin
+			DespairStone.DisplayName: Despair Stone
+			HeatSpirit.DisplayName: Heat Spirit
+			Scryllar.DisplayName: Scryllar
+			ScryllarRage.DisplayName: Scryllar
+			SoulSlurper.DisplayName: Soul Slurper
+			Cryogen.DisplayName: Cryogen
+			CryogenShield.DisplayName: Cryogen's Shield
+			DesertNuisanceBody.DisplayName: A Desert Nuisance
+			DesertNuisanceHead.DisplayName: A Desert Nuisance
+			DesertNuisanceTail.DisplayName: A Desert Nuisance
+			DesertScourgeBody.DisplayName: Desert Scourge
+			DesertScourgeHead.DisplayName: Desert Scourge
+			DesertScourgeTail.DisplayName: Desert Scourge
+			CosmicGuardianBody.DisplayName: Cosmic Guardian
+			CosmicGuardianHead.DisplayName: Cosmic Guardian
+			CosmicGuardianTail.DisplayName: Cosmic Guardian
+			DevourerofGodsBody.DisplayName: The Devourer of Gods
+			DevourerofGodsHead.DisplayName: The Devourer of Gods
+			DevourerofGodsTail.DisplayName: The Devourer of Gods
+			Androomba.DisplayName: Androomba
+			Nanodroid.DisplayName: Nanodroid
+			NanodroidDysfunctional.DisplayName: Nanodroid
+			NanodroidPlagueGreen.DisplayName: Nanodroid
+			NanodroidPlagueRed.DisplayName: Nanodroid
+			RepairUnitCritter.DisplayName: Repair Unit
+			Apollo.DisplayName: XS-03 Apollo
+			AresBody.DisplayName: XF-09 Ares
+			AresGaussNuke.DisplayName: XF-09 Ares Gauss Nuke
+			AresLaserCannon.DisplayName: XF-09 Ares Laser Cannon
+			AresPlasmaFlamethrower.DisplayName: XF-09 Ares Plasma Cannon
+			AresTeslaCannon.DisplayName: XF-09 Ares Tesla Cannon
+			Artemis.DisplayName: XS-01 Artemis
+			Draedon.DisplayName: Draedon
+			ThanatosBody1.DisplayName: XM-05 Thanatos
+			ThanatosBody2.DisplayName: XM-05 Thanatos
+			ThanatosHead.DisplayName: XM-05 Thanatos
+			ThanatosTail.DisplayName: XM-05 Thanatos
+			GreatSandShark.DisplayName: Great Sand Shark
+			DankCreeper.DisplayName: Dank Creeper
+			DarkHeart.DisplayName: Dark Heart
+			HiveBlob.DisplayName: Hive Blob
+			HiveBlob2.DisplayName: Hive Blob
+			HiveMind.DisplayName: The Hive Mind
+			HiveTumor.DisplayName: Hive Tumor
+			Anahita.DisplayName: Anahita
+			AnahitasIceShield.DisplayName: Ice Shield
+			AquaticAberration.DisplayName: Aquatic Aberration
+			Leviathan.DisplayName: The Leviathan
+			LeviathanStart.DisplayName: ???
+			AeroSlime.DisplayName: Aero Slime
+			ArmoredDiggerBody.DisplayName: Armored Digger
+			ArmoredDiggerHead.DisplayName: Armored Digger
+			ArmoredDiggerTail.DisplayName: Armored Digger
+			AuroraSpirit.DisplayName: Aurora Spirit
+			BloomSlime.DisplayName: Bloom Slime
+			Bohldohr.DisplayName: Bohldohr
+			Cnidrion.DisplayName: Cnidrion
+			CosmicElemental.DisplayName: Cosmic Elemental
+			CrawlerAmber.DisplayName: Amber Crawler
+			CrawlerAmethyst.DisplayName: Amethyst Crawler
+			CrawlerCrystal.DisplayName: Crystal Crawler
+			CrawlerDiamond.DisplayName: Diamond Crawler
+			CrawlerEmerald.DisplayName: Emerald Crawler
+			CrawlerRuby.DisplayName: Ruby Crawler
+			CrawlerSapphire.DisplayName: Sapphire Crawler
+			CrawlerTopaz.DisplayName: Topaz Crawler
+			CrimulanBlightSlime.DisplayName: Crimulan Blight Slime
+			Cryon.DisplayName: Cryon
+			CryoSlime.DisplayName: Cryo Slime
+			EbonianBlightSlime.DisplayName: Ebonian Blight Slime
+			Eidolist.DisplayName: Eidolist
+			FearlessGoldfishWarrior.DisplayName: Fearless Goldfish Warrior
+			Frogfish.DisplayName: Frogfish
+			Horse.DisplayName: Earth Elemental
+			IceClasper.DisplayName: Ice Clasper
+			ImpiousImmolator.DisplayName: Impious Immolator
+			KingSlimeJewel.DisplayName: Crown Jewel
+			MantisShrimp.DisplayName: Mantis Shrimp
+			OverloadedSoldier.DisplayName: Overloaded Soldier
+			PerennialSlime.DisplayName: Perennial Slime
+			PhantomSpirit.DisplayName: Phantom Spirit
+			PhantomSpiritL.DisplayName: Phantom Spirit
+			PhantomSpiritM.DisplayName: Phantom Spirit
+			PhantomSpiritS.DisplayName: Phantom Spirit
+			Piggy.DisplayName: Piggy
+			ProfanedEnergyBody.DisplayName: Profaned Energy
+			ProfanedEnergyLantern.DisplayName: Profaned Energy
+			Rimehound.DisplayName: Rimehound
+			Rotdog.DisplayName: Rotdog
+			ScornEater.DisplayName: Scorn Eater
+			SeaUrchin.DisplayName: Sea Urchin
+			ShockstormShuttle.DisplayName: Shockstorm Shuttle
+			Stormlion.DisplayName: Stormlion
+			Sunskater.DisplayName: Sunskater
+			SuperDummyNPC.DisplayName: Super Dummy
+			ThiccWaifu.DisplayName: Cloud Elemental
+			WildBumblefuck.DisplayName: Draconic Swarmer
+			WulfrumAmplifier.DisplayName: Wulfrum Amplifier
+			WulfrumDrone.DisplayName: Wulfrum Drone
+			WulfrumGyrator.DisplayName: Wulfrum Gyrator
+			WulfrumHovercraft.DisplayName: Wulfrum Hovercraft
+			WulfrumRover.DisplayName: Wulfrum Rover
+			OldDuke.DisplayName: The Old Duke
+			OldDukeToothBall.DisplayName: Tooth Ball
+			SulphurousSharkron.DisplayName: Sulphurous Sharkron
+			CalamitasEnchantDemon.DisplayName: Demon
+			DemonPortal.DisplayName: Mysterious Portal
+			ExhumedHeart.DisplayName: Exhumed Brimstone Heart
+			LecherousOrb.DisplayName: Lecherous Orb
+			PerforatorBodyLarge.DisplayName: The Perforator
+			PerforatorBodyMedium.DisplayName: The Perforator
+			PerforatorBodySmall.DisplayName: The Perforator
+			PerforatorCyst.DisplayName: Perforator Cyst
+			PerforatorHeadLarge.DisplayName: The Perforator
+			PerforatorHeadMedium.DisplayName: The Perforator
+			PerforatorHeadSmall.DisplayName: The Perforator
+			PerforatorHive.DisplayName: The Perforator Hive
+			PerforatorTailLarge.DisplayName: The Perforator
+			PerforatorTailMedium.DisplayName: The Perforator
+			PerforatorTailSmall.DisplayName: The Perforator
+			PlaguebringerGoliath.DisplayName: The Plaguebringer Goliath
+			PlagueHomingMissile.DisplayName: Plague Homing Missile
+			PlagueMine.DisplayName: Plague Mine
+			Melter.DisplayName: Melter
+			PestilentSlime.DisplayName: Pestilent Slime
+			PlaguebringerMiniboss.DisplayName: Plaguebringer
+			PlagueCharger.DisplayName: Plague Charger
+			PlagueChargerLarge.DisplayName: Plague Charger
+			Plagueshell.DisplayName: Plagueshell
+			Viruling.DisplayName: Viruling
+			PhantomFuckYou.DisplayName: Phantom
+			Polterghast.DisplayName: Polterghast
+			PolterghastHook.DisplayName: Polterghast Hook
+			PolterPhantom.DisplayName: Polterghast
+			ProfanedGuardianCommander.DisplayName: Guardian Commander
+			ProfanedGuardianDefender.DisplayName: Guardian Defender
+			ProfanedGuardianHealer.DisplayName: Guardian Healer
+			ProfanedRocks.DisplayName: Profaned Rocks
+			Providence.DisplayName: Providence, the Profaned Goddess
+			ProvSpawnDefense.DisplayName: Providence Defender
+			ProvSpawnHealer.DisplayName: Providence Healer
+			ProvSpawnOffense.DisplayName: Providence Offense
+			FlamePillar.DisplayName: Flame Pillar
+			RavagerBody.DisplayName: Ravager
+			RavagerClawLeft.DisplayName: Ravager
+			RavagerClawRight.DisplayName: Ravager
+			RavagerHead.DisplayName: Ravager
+			RavagerHead2.DisplayName: Ravager
+			RavagerLegLeft.DisplayName: Ravager
+			RavagerLegRight.DisplayName: Ravager
+			RockPillar.DisplayName: Rock Pillar
+			CosmicLantern.DisplayName: Cosmic Lantern
+			CosmicMine.DisplayName: Cosmic Mine
+			Signus.DisplayName: Signus, Envoy of the Devourer
+			CorruptSlimeSpawn.DisplayName: Corrupt Slime Spawn
+			CorruptSlimeSpawn2.DisplayName: Corrupt Slime Spawn
+			CrimsonSlimeSpawn.DisplayName: Crimson Slime Spawn
+			CrimsonSlimeSpawn2.DisplayName: Crimson Slime Spawn
+			CrimulanSlimeGod.DisplayName: Crimulan Slime God
+			EbonianSlimeGod.DisplayName: Ebonian Slime God
+			SlimeGodCore.DisplayName: The Slime God
+			SplitCrimulanSlimeGod.DisplayName: Crimulan Slime God
+			SplitEbonianSlimeGod.DisplayName: Ebonian Slime God
+			StormWeaverBody.DisplayName: Storm Weaver
+			StormWeaverHead.DisplayName: Storm Weaver
+			StormWeaverTail.DisplayName: Storm Weaver
+			AnthozoanCrab.DisplayName: Anthozoan Crab
+			AquaticUrchin.DisplayName: Aquatic Urchin
+			BelchingCoral.DisplayName: Belching Coral
+			Gnasher.DisplayName: Gnasher
+			MicrobialCluster.DisplayName: Microbial Cluster
+			Sulflounder.DisplayName: Sulflounder
+			Toxicatfish.DisplayName: Toxicatfish
+			Trasher.DisplayName: Trasher
+			BabyGhostBell.DisplayName: Baby Ghost Bell
+			BlindedAngler.DisplayName: Blinded Angler
+			Clam.DisplayName: Clam
+			EutrophicRay.DisplayName: Eutrophic Ray
+			GhostBell.DisplayName: Ghost Bell
+			GiantClam.DisplayName: Giant Clam
+			PrismBack.DisplayName: Prism-Back
+			SeaFloaty.DisplayName: Sea Floaty
+			SeaMinnow.DisplayName: Sea Minnow
+			SeaSerpent1.DisplayName: Sea Serpent
+			SeaSerpent2.DisplayName: Sea Serpent
+			SeaSerpent3.DisplayName: Sea Serpent
+			SeaSerpent4.DisplayName: Sea Serpent
+			SeaSerpent5.DisplayName: Sea Serpent
+			BrimstoneHeart.DisplayName: Brimstone Heart
+			SepulcherArm.DisplayName: Sepulcher
+			SepulcherBody.DisplayName: Sepulcher
+			SepulcherBodyEnergyBall.DisplayName: Sepulcher
+			SepulcherHead.DisplayName: Sepulcher
+			SepulcherTail.DisplayName: Sepulcher
+			SoulSeekerSupreme.DisplayName: Soul Seeker
+			SupremeCalamitas.DisplayName: Supreme Witch, Calamitas
+			SupremeCataclysm.DisplayName: Cataclysm
+			SupremeCatastrophe.DisplayName: Catastrophe
+			AndroombaFriendly.DisplayName: Androomba Pal
+			DILF.DisplayName: Archmage
+			FAP.DisplayName: Drunk Princess
+			SEAHOE.DisplayName: Sea King
+			THIEF.DisplayName: Bandit
+			WITCH.DisplayName: Brimstone Witch
+			Yharon.DisplayName: Yharon, Dragon of Rebirth
+		}
+	}
+}

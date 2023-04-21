@@ -1,0 +1,177 @@
+Mods : {
+	CalamityMod : {
+		Items : {
+			DraedonPowerCell: {
+				DisplayName: Draedon Power Cell
+				Tooltip:
+					'''
+					Used to charge Draedon's weaponry at a Charging Station
+					Also can be processed by the Extractinator for spare parts
+					'''
+			}
+			
+			/* Codebreaker Pieces */
+			AdvancedDisplay: {
+				DisplayName: Advanced Display
+				Tooltip:
+					'''
+					Can be placed on the Codebreaker
+					Allows you to decrypt the Underworld schematic
+					'''
+			}
+
+			AuricQuantumCoolingCell: {
+				DisplayName: Auric Quantum Cooling Cell
+				Tooltip:
+					'''
+					Can be placed in the Codebreaker, completing it
+					The completion of the Codebreaker allows you to make contact with its original creator
+					Attempting to do so may have dire consequences
+					'''
+			}
+
+			CodebreakerBase.DisplayName: Codebreaker Base
+
+			DecryptionComputer: {
+				DisplayName: Decryption Computer
+				Tooltip:
+					'''
+					Can be placed on the Codebreaker
+					Allows you to decrypt the Planetoid schematic
+					Doing so allows you to learn how to craft new things
+					'''
+			}
+			
+			LongRangedSensorArray: {
+				DisplayName: Long Ranged Sensor Array
+				Tooltip:
+					'''
+					Can be placed on the Codebreaker
+					Allows you to decrypt the Jungle schematic
+					'''
+			}
+
+			VoltageRegulationSystem: {
+				DisplayName: Voltage Regulation System
+				Tooltip:
+					'''
+					Can be placed on the Codebreaker
+					Allows you to decrypt the Ice biome schematic
+					'''
+			}
+			
+			/* Draedon Logs */
+			DraedonsLogHell: {
+				DisplayName: Environmental Pollution Log
+				Tooltip:
+					'''
+					[Environment Log] - Pollution and 'Wall of Flesh'
+					Click to view its contents
+					'''
+			}
+
+			DraedonsLogJungle: {
+				DisplayName: Plague Nanomachine Log
+				Tooltip:
+					'''
+					[Nanomachine Experimentation Results] - 'The Plague'
+					Click to view its contents
+					'''
+			}
+
+			DraedonsLogPlanetoid: {
+				DisplayName: Low Orbit Study Log
+				Tooltip:
+					'''
+					[Space and Soil Survey] - Low Terraria Orbit
+					Click to view its contents
+					'''
+			}
+
+			DraedonsLogSnowBiome: {
+				DisplayName: Cryonic Material Log
+				Tooltip:
+					'''
+					[Material Science Report] - Archmage's 'Cryonic Metal'
+					Click to view its contents
+					'''
+			}
+
+			DraedonsLogSunkenSea: {
+				DisplayName: Marine Biology Log
+				Tooltip:
+					'''
+					[Bioform Research] - Aquatic Life of Ilmeris
+					Click to view its contents
+					'''
+			}
+			
+			/* Lab Finders */
+			CyanSeekingMechanism: {
+				DisplayName: Cyan Seeking Mechanism
+				Tooltip: Moves swiftly towards a lab deep below the desert
+			}
+
+			GreenSeekingMechanism: {
+				DisplayName: Green Seeking Mechanism
+				Tooltip: Moves swiftly towards a lab within the jungle
+			}
+
+			LabSeekingMechanism: {
+				DisplayName: Lab Seeking Mechanism
+				Tooltip: A receptacle for technology which pinpoints the power cores of Draedon's Labs
+			}
+
+			OnyxSeekingMechanism: {
+				DisplayName: Onyx Seeking Mechanism
+				Tooltip: Moves swiftly towards a lab within the caverns
+			}
+
+			RedSeekingMechanism: {
+				DisplayName: Red Seeking Mechanism
+				Tooltip: Moves swiftly towards a lab within the underworld
+			}
+
+			WhiteSeekingMechanism: {
+				DisplayName: White Seeking Mechanism
+				Tooltip: Moves swiftly towards a lab within the frozen caverns
+			}
+
+			YellowSeekingMechanism: {
+				DisplayName: Yellow Seeking Mechanism
+				Tooltip: Moves swiftly towards a lab within the sky
+			}
+			
+			/* Schematics */
+			EncryptedSchematicHell: {
+				DisplayName: Encrypted Schematic (Underworld)
+				Tooltip: Requires a Codebreaker with a sophisticated display to decrypt
+			}
+
+			EncryptedSchematicIce: {
+				DisplayName: Encrypted Schematic (Ice)
+				Tooltip: Requires a Codebreaker with a complex voltage regulation system to decrypt
+			}
+
+			EncryptedSchematicJungle: {
+				DisplayName: Encrypted Schematic (Jungle)
+				Tooltip: Requires a Codebreaker with a fine tuned, long range sensor to decrypt
+			}
+
+			EncryptedSchematicPlanetoid: {
+				DisplayName: Encrypted Schematic (Planetoid)
+				Tooltip: Requires a Codebreaker with a basic decryption computer to decrypt
+			}
+
+			EncryptedSchematicSunkenSea: {
+				DisplayName: Schematic (Sunken Sea)
+				Tooltip:
+					'''
+					Finely detailed diagrams of numerous devices and weaponry dance across the holographic screen.
+					Picking up this item or holding it in your inventory permanently unlocks new recipes.
+					Click to view its contents.
+					'''
+			}
+		}
+	}
+}

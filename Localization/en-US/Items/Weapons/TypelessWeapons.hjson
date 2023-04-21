@@ -1,0 +1,89 @@
+Mods : {
+	CalamityMod : {
+		Items : {
+			Aestheticus: {
+				DisplayName: Aestheticus
+				Tooltip:
+					'''
+					Fires crystals that explode and slow enemies down
+					This weapon scales with all your damage stats at once
+					'''
+			}
+
+			EyeofMagnus: {
+				DisplayName: Eye of Magnus
+				Tooltip:
+					'''
+					Fires powerful beams that reduce enemy protection
+					This weapon scales with all your damage stats at once
+					Heals mana and health on hit
+					'''
+			}
+
+			GoldenGun: {
+				DisplayName: Golden Gun
+				Tooltip: Shoots a straight line of ichor
+			}
+
+			LunicEye: {
+				DisplayName: Lunic Eye
+				Tooltip:
+					'''
+					Fires lunic beams that reduce enemy protection
+					This weapon scales with all your damage stats at once
+					'''
+			}
+
+			RelicOfDeliverance: {
+				DisplayName: Relic of Deliverance
+				Tooltip:
+					'''
+					Summons a spear that causes you to lunge towards the mouse position
+					The spear requires a charge-up. The longer the charge, the stronger the lunge
+					The spear disappears immediately if you are not holding this item while charging
+					If enough time has passed or the spear collides into a wall, the spear dies and the lunge ends
+					'''
+			}
+
+			RelicOfResilience: {
+				DisplayName: Relic of Resilience
+				Tooltip:
+					'''
+					Summons a bulwark at the mouse position
+					The bulwark is killed by enemies and all projectiles.
+					On death, the bulwark explodes into a rotating burst of shards
+					If an enemy is in the area of the shards, its next attack is much weaker. This effect has a cooldown
+					After a bit of time, the shards come together to reform the original bulwark.
+					This reformation can only happen 3 times.
+					You gain a small cooldown when summoning a new bulwark.
+					If a bulwark already exists, using this item will relocate it
+					'''
+			}
+
+			Skynamite: {
+				DisplayName: Skynamite
+				Tooltip:
+					'''
+					You don't need an aerodynamics major to use this
+					Throws a floaty explosive that defies gravity
+					'''
+			}
+
+			StarStruckWater: {
+				DisplayName: Star Struck Water
+				Tooltip: Spreads the astral infection to some blocks
+			}
+
+			YanmeisKnife: {
+				DisplayName: Yanmei's Knife
+				Tooltip:
+					'''
+					When hitting a boss, miniboss, or their minions, you gain various boosts and cripple the enemy hit
+					A knife from an unknown world
+					An owner whose heart is pure and free of taint
+					A heart of iron and valor
+					'''
+			}
+		}
+	}
+}
