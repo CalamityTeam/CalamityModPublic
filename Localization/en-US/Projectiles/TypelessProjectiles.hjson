@@ -1,0 +1,130 @@
+Mods : {
+	CalamityMod : {
+		Projectiles : {
+			AeroExplosive.DisplayName: Aeroboom
+			AllianceTriangle.DisplayName: Alliance Triangle
+			ArcZap.DisplayName: Arc Zap
+			ArtifactOfResilienceShard1.DisplayName: Artifact Shard
+			ArtifactOfResilienceShard2.DisplayName: Artifact Shard
+			ArtifactOfResilienceShard3.DisplayName: Artifact Shard
+			ArtifactOfResilienceShard4.DisplayName: Artifact Shard
+			ArtifactOfResilienceShard5.DisplayName: Artifact Shard
+			ArtifactOfResilienceShard6.DisplayName: Artifact Shard
+			AstralFallingSand.DisplayName: Astral Falling Sand
+			AstralSpray.DisplayName: Astral Spray
+			AstralStar.DisplayName: Star
+			BallisticPoisonCloud.DisplayName: Ballistic Cloud
+			BlazingSun.DisplayName: Blazing Sun
+			BlazingSun2.DisplayName: Blazing Sun
+			BlissfulBombardierDustProjectile.DisplayName: Dust
+			BloodBomb.DisplayName: Bomb
+			BloodBombExplosion.DisplayName: Explosion
+			BlunderBoosterAura.DisplayName: Red Lightning Aura
+			BobbitHead.DisplayName: Bobbit Head
+			BossRushEffectThing.DisplayName: Boss Rush Effect Thing
+			BossRushEndEffectThing.DisplayName: Boss Rush End Effect Thing
+			BossRushFailureEffectThing.DisplayName: Boss Rush Failure Effect Thing
+			BossRushTierAnimation.DisplayName: Boss Rush Tier Animation
+			BrimstoneHellfireballFriendly2.DisplayName: Hellfire
+			ChaoticGeyser.DisplayName: Chaotic Geyser
+			ChlorophyteLifePulse.DisplayName: Life Pulse
+			CoralBubble.DisplayName: Bubble
+			CoralBubbleSmall.DisplayName: Bubble
+			CryonicShield.DisplayName: Cryonic Shield
+			CursorProj.DisplayName: Aestheticus Crystal
+			CursorProjSplit.DisplayName: Aestheticus Crystal
+			CyanLabSeeker.DisplayName: Seeking Mechanism
+			DarkIce.DisplayName: Dark Ice
+			DeepseaBlaze.DisplayName: Deepsea Blaze
+			DemonshadeRedDevil.DisplayName: Red Devil
+			DevourerofCodsBobber.DisplayName: Devourer of Cods Bobber
+			DirectStrike.DisplayName: Nondescript Damaging Entity
+			DragonDust.DisplayName: Dust
+			EarlyBloomBobber.DisplayName: Early Bloom Bobber
+			EmpyreanBlast.DisplayName: Empyrean Blast
+			EmpyreanEmber.DisplayName: Empyrean Ember
+			EmpyreanGlob.DisplayName: Empyeran Glob
+			EmpyreanMarble.DisplayName: Empyrean Marble
+			EmpyreanStellarDetritus.DisplayName: Empyrean Stellar Detritus
+			EnergyShell.DisplayName: Energy Shell
+			FeralDoubleBobber.DisplayName: Feral Bobber
+			FuckYou.DisplayName: Explosion
+			FungalClumpMinion.DisplayName: Fungal Clump
+			GemTechArmorGem.DisplayName: Trireme's Gem
+			GhostlyBolt.DisplayName: Bolt
+			GodKiller.DisplayName: God Killer
+			GodSlayerBlaze.DisplayName: Blaze
+			GodSlayerShrapnel.DisplayName: Flame
+			GodSlayerShrapnelRound.DisplayName: Round
+			GoldenGunProj.DisplayName: Golden Round
+			GreenLabSeeker.DisplayName: Seeking Mechanism
+			HellfireExplosionFriendly2.DisplayName: Explosion
+			HeronBobber.DisplayName: Heron Bobber
+			HolyExplosion.DisplayName: Explosion
+			HolyExplosionSupreme.DisplayName: Explosion
+			HydrothermalSmoke.DisplayName: Smoke
+			HydrothermicFlare.DisplayName: Hydrothermic Flare
+			HydrothermicFlareRogue.DisplayName: Hydrothermic Flare
+			HydrothermicSphere.DisplayName: Hydrothermic Sphere
+			JewelSpike.DisplayName: Spike
+			KelvinCatalystStar.DisplayName: Kelvin Catalyst Star
+			LunicBeam.DisplayName: Beam
+			MageHammerBoom.DisplayName: Explosion
+			MagnusBeam.DisplayName: Beam
+			MythrilFlare.DisplayName: Mythril Flare
+			NanoFlare.DisplayName: Nano Flare
+			Nanotech.DisplayName: Nanoblade
+			NavyBobber.DisplayName: Navy Bobber
+			NebulaDust.DisplayName: Dust
+			NebulaStar.DisplayName: Star
+			NobodyKnows.DisplayName: Nope
+			OmegaBlueTentacle.DisplayName: Omega Blue Tentacle
+			OnyxLabSeeker.DisplayName: Seeking Mechanism
+			PendantProjectile1.DisplayName: Prism Shard
+			PendantProjectile2.DisplayName: Prism Shard
+			PendantProjectile3.DisplayName: Prism Shard
+			PoisonousSeawater.DisplayName: Seawater
+			ReaverOrb.DisplayName: Reaver Orb
+			ReaverThornBase.DisplayName: Thorn
+			ReaverThornTip.DisplayName: Thorn
+			RedLabSeeker.DisplayName: Seeking Mechanism
+			RelicOfConvergenceCrystal.DisplayName: Relic of Convergence
+			RelicOfDeliveranceSpear.DisplayName: Relic of Deliverance
+			RiftReelerBobber.DisplayName: Chaotic Bobber
+			SabatonBoom.DisplayName: Sabaton Boom
+			SabatonSlam.DisplayName: Sabaton Slam
+			SandCloakVeil.DisplayName: Dust Veil
+			SandExplosion.DisplayName: Sand
+			Seashell.DisplayName: Seashell
+			SepulcherSoul.DisplayName: Tormented Soul
+			SerpentsBiteHook.DisplayName: Serpent's Bite
+			ShadowflameExplosion.DisplayName: Shadowflame Explosion
+			ShadowflameExplosionBig.DisplayName: Shadowflame Explosion
+			SkyFlareFriendly.DisplayName: Flare
+			SlimeStream.DisplayName: Silme Stream
+			SlurperBobber.DisplayName: Slurper Bobber
+			SpiritOriginBullseye.DisplayName: Spirit Origin Bullseye
+			StandingFire.DisplayName: Flame
+			StarStruckWaterBottle.DisplayName: Bottle
+			StickyFeatherAero.DisplayName: Feather
+			SuicideBomberDemon.DisplayName: Demon
+			SulphuricAcidBubbleFriendly.DisplayName: Acid Bubble
+			TarraEnergy.DisplayName: Tarra Energy
+			TerminusHoldout.DisplayName: Terminus Holdout
+			TeslaAura.DisplayName: Tesla's Electricity
+			VanquisherArrowSplit.DisplayName: Arrow
+			VerstaltiteBobber.DisplayName: Verstaltite Bobber
+			VoidFieldGenerator.DisplayName: Void Field Generator
+			WaterConvertor.DisplayName: Water Convertor
+			WhiteLabSeeker.DisplayName: Seeking Mechanism
+			WulfrumBobber.DisplayName: Wulfrum Bobber
+			WulfrumDiggingTurtleProjectile.DisplayName: Digging Turtle
+			WulfrumDrillProj.DisplayName: Drill
+			WulfrumHook.DisplayName: Wulfrum Slingshot
+			WulfrumLureSignal.DisplayName: Signal
+			WulfrumScaffoldKitHoldout.DisplayName: Wulfrum Scaffold Kit
+			YanmeisKnifeSlash.DisplayName: Yanmei's Knife
+			YellowLabSeeker.DisplayName: Seeking Mechanism
+		}
+	}
+}

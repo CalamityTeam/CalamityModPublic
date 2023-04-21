@@ -1,0 +1,43 @@
+Mods : {
+	CalamityMod : {
+		Projectiles : {
+			AstralMeteorProj.DisplayName: Astral Meteor
+			BelchingCoralSpike.DisplayName: Spike
+			CrabBoulder.DisplayName: Boulder
+			CragmawAcidDrop.DisplayName: Acid
+			CragmawBeam.DisplayName: Gamma Ray
+			CragmawExplosion.DisplayName: Nuclear Explosion
+			CragmawSpike.DisplayName: Spike
+			CragmawVibeCheckChain.DisplayName: You Think You're Safe
+			CrimsonSpike.DisplayName: Spike
+			DraedonLaser.DisplayName: Lab Turret Laser
+			EarthRockBig.DisplayName: Rock
+			EarthRockSmall.DisplayName: Rock
+			FlakAcid.DisplayName: Acid
+			FlameBurstHostile.DisplayName: Burst
+			GammaAcid.DisplayName: Acid
+			GammaBeam.DisplayName: Gamma Ray
+			GammaRayBurst.DisplayName: G-FUEL BEAM
+			HorsWaterBlast.DisplayName: Water
+			InkBombHostile.DisplayName: Ink Bomb
+			InkPoisonCloud.DisplayName: Ink Cloud
+			LightningCloud.DisplayName: Cloud
+			MantisRing.DisplayName: Mantis Ring
+			MaulerAcidBubble.DisplayName: Acid Bubble
+			MaulerAcidDrop.DisplayName: Acid
+			NuclearBulletLarge.DisplayName: Nuclear Bullet
+			NuclearBulletMedium.DisplayName: Nuclear Bullet
+			NuclearToadGoo.DisplayName: Goop
+			OrthoceraStream.DisplayName: Acid Stream
+			PearlBurst.DisplayName: Pearl Burst
+			PearlRain.DisplayName: Pearl Rain
+			PufferExplosion.DisplayName: Explosion
+			StormMarkHostile.DisplayName: Mark
+			SulphuricAcidBubble.DisplayName: Acid Bubble
+			SulphuricAcidMist.DisplayName: Acid Mist
+			TornadoHostile.DisplayName: Tornado
+			ToxicMinnowCloud.DisplayName: Toxic Cloud
+			TrilobiteSpike.DisplayName: Spike
+		}
+	}
+}
