@@ -2468,7 +2468,7 @@ namespace CalamityMod.Projectiles
 
             // If this projectile is forced to crit, simply set the crit bool.
             if (forcedCrit)
-                crit = true;
+                modifiers.SetCrit();
 
             if (modPlayer.rottenDogTooth && projectile.Calamity().stealthStrike)
                 target.AddBuff(BuffType<ArmorCrunch>(), RottenDogtooth.ArmorCrunchDebuffTime);

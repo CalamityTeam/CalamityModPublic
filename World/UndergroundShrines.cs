@@ -470,8 +470,7 @@ namespace CalamityMod.World
             {
                 new ChestItem(ModContent.ItemType<FungalSymbiote>(), 1),
                 new ChestItem(ItemID.TruffleWorm, 3),
-                //TODO -- Mushroom Torches are 1.4.4. exclusive
-                //new ChestItem(ItemID.MushroomTorch, WorldGen.genRand.Next(100, 110 + 1)),
+                new ChestItem(ItemID.MushroomTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(20, 24 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(10, 12 + 1)),

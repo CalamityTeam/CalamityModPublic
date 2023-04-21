@@ -112,8 +112,7 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             CreateRecipe().
                 AddIngredient(ItemID.FrogLeg).
-                AddIngredient(ItemID.BundleofBalloons).
-                //TODO -- Use HorseshoeBundle for 1.4.4.
+                AddIngredient(ItemID.HorseshoeBundle).
                 AddIngredient(ItemID.Jetpack).
                 AddIngredient(ItemID.SoulofFright).
                 AddIngredient(ItemID.SoulofMight).

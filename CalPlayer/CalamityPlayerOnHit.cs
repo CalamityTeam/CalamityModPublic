@@ -285,11 +285,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<WhisperingDeath>(), 60);
                     break;
 
-                // TODO -- REMOVE IN 1.4.4 LABOR OF LOVE PORT
-                case ProjectileID.DarkLance:
-                    target.AddBuff(BuffID.ShadowFlame, 120);
-                    break;
-
                 case ProjectileID.PoisonedKnife:
                     target.AddBuff(BuffID.Poisoned, 300);
                     break;

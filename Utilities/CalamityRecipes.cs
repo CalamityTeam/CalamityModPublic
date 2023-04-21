@@ -789,11 +789,6 @@ namespace CalamityMod
                 { Vanilla(ItemID.WormFood), WormFoodRecipeEdit },
                 { Vanilla(ItemID.BloodySpine), BloodySpineRecipeEdit },
                 { Vanilla(ItemID.GoblinBattleStandard), ChangeIngredientStack(ItemID.TatteredCloth, 5) },
-                { VanillaEach(
-                    ItemID.BluePhasesaber, ItemID.GreenPhasesaber, ItemID.OrangePhasesaber, ItemID.PurplePhasesaber,
-                    ItemID.RedPhasesaber, ItemID.WhitePhasesaber, ItemID.YellowPhasesaber),
-                    ChangeIngredientStack(ItemID.CrystalShard, 20) // TODO -- PORT: 1.4.4 reduces Phasesaber crystals to 25, remove this
-                },
                 { Vanilla(ItemID.ChlorophyteBar), ChangeIngredientStack(ItemID.ChlorophyteOre, 4) },
 
                 { Vanilla(ItemID.ShroomiteBar), ChangeIngredientStack(ItemID.GlowingMushroom, 5) },
