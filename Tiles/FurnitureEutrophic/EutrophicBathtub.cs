@@ -9,16 +9,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicBathtub : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBathtub();
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
-            TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bathtub");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AnimationFrameHeight = 54;
-        }
+        public override void SetStaticDefaults() => this.SetUpBathtub();
 
         public override bool CreateDust(int i, int j, ref int type)
         {

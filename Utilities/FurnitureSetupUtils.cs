@@ -708,6 +708,7 @@ namespace CalamityMod
 
             // All bathtubs count as tables.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+            mt.AddMapEntry(new Color(144, 148, 144), Language.GetText("ItemName.Bathtub"));
         }
 
         /// <summary>

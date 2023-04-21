@@ -7,13 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class AbyssBathtub : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBathtub(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bathtub");
-            AddMapEntry(new Color(191, 142, 111), name);
-        }
+        public override void SetStaticDefaults() => this.SetUpBathtub(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

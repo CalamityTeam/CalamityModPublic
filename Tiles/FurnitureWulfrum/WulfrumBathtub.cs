@@ -8,14 +8,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
 {
     public class WulfrumBathtub : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBathtub();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bathtub");
-            AddMapEntry(new Color(100, 153, 100), name);
-            AnimationFrameHeight = 54;
-        }
+        public override void SetStaticDefaults() => this.SetUpBathtub();
 
         public override bool CanExplode(int i, int j) => false;
 

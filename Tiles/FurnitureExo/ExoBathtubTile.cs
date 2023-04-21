@@ -9,14 +9,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoBathtubTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBathtub(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bathtub");
-            AddMapEntry(new Color(71, 95, 114), name);
-            AnimationFrameHeight = 54;
-        }
+        public override void SetStaticDefaults() => this.SetUpBathtub(true);
 
         public override bool CanExplode(int i, int j) => false;
 

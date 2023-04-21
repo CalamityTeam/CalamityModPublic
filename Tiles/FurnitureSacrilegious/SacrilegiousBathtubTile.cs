@@ -8,13 +8,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousBathtubTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBathtub(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bathtub");
-            AddMapEntry(new Color(43, 19, 42), name);
-        }
+        public override void SetStaticDefaults() => this.SetUpBathtub(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

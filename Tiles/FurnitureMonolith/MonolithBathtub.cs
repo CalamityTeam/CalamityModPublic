@@ -9,14 +9,7 @@ namespace CalamityMod.Tiles.FurnitureMonolith
 {
     public class MonolithBathtub : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBathtub(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bathtub");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AnimationFrameHeight = 54;
-        }
+        public override void SetStaticDefaults() => this.SetUpBathtub(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

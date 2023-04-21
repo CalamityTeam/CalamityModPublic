@@ -7,14 +7,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelBath : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBathtub();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bathtub");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AnimationFrameHeight = 54;
-        }
+        public override void SetStaticDefaults() => this.SetUpBathtub();
 
         public override bool CreateDust(int i, int j, ref int type)
         {
