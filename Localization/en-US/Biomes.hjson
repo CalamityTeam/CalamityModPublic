@@ -1,0 +1,20 @@
+Mods : {
+	CalamityMod : {
+		Biomes: {
+			AbovegroundAstralBiome.DisplayName: Astral Surface Fog
+			AbovegroundAstralDesertBiome.DisplayName: Astral Desert Surface
+			AbovegroundAstralSnowBiome.DisplayName: Astral Snow Surface
+			AbyssLayer1Biome.DisplayName: Sulphuric Depths
+			AbyssLayer2Biome.DisplayName: Murky Waters
+			AbyssLayer3Biome.DisplayName: Thermal Vents
+			AbyssLayer4Biome.DisplayName: The Void
+			AcidRainBiome.DisplayName: Acid Rain
+			ArsenalLabBiome.DisplayName: Arsenal Labs
+			BrimstoneCragsBiome.DisplayName: Brimstone Crags
+			SulphurousSeaBiome.DisplayName: Sulphurous Sea
+			SunkenSeaBiome.DisplayName: Sunken Sea
+			UndergroundAstralBiome.DisplayName: Astral Underground
+			AbovegroundAstralBiomeSurface.DisplayName: Astral Surface
+		}
+	}
+}

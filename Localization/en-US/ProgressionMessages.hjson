@@ -1,0 +1,80 @@
+Mods : {
+	CalamityMod : {
+		ProgressionMessages : {
+			/* Desert Scourge */
+			OpenSunkenSea: The depths of the underground desert are rumbling...
+			SandstormTrigger: The desert wind is blowing furiously!
+
+			/* 2nd Evil Boss */
+			SkyOreText: The sky is glittering with cyan light.
+			
+			/* Skeletron */
+			SkeletronAbyssChestNotification: The First Dryad's vines deem you worthy of their abyssal treasures.
+			
+			/* Wall of Flesh */
+			UglyBossText: The Sunken Sea trembles...
+			HardmodeOreTier1Text: Your world has been blessed with Cobalt and Palladium!
+			
+			/* Mechanical Bosses */
+			HardmodeOreTier2Text: Your world has been blessed with Mythril and Orichalcum!
+			HardmodeOreTier3Text: Your world has been blessed with Adamantite and Titanium!
+			HardmodeOreTier4Text: The hallow has been blessed with consecrated stone!
+
+			/* Skeletron Prime (now unused) */
+			SteelSkullBossText: A blood red inferno lingers in the night...
+			
+			/* Cryogen */
+			IceOreText: The ice caves are crackling with frigid energy.
+			
+			/* Aquatic Scourge */
+			WetWormBossText: The sulphuric sky darkens...
+			
+			/* Cal Clone */
+			PlantBossText: The ocean depths are trembling.
+			
+			/* Plantera */
+			PlantOreText: Energized plant matter has formed in the underground.
+			SandSharkText3: The desert sand shifts intensely!
+			
+			/* Astrum Aureus */
+			AstralText: A star has fallen from the heavens!
+			AureusBossText: The astral enemies have been empowered!
+			AureusBossText2: A faint ethereal click can be heard from the dungeon.
+			
+			/* Golem */
+			BabyBossText: A plague has befallen the Jungle.
+			
+			/* Lunatic Cultist (now unused) */
+			DeusText: A star-spawned horror tunnels through the astral infection.
+			
+			/* Astrum Deus */
+			AstralBossText: The seal of the stars has been broken! You can now mine Astral Ore.
+			
+			/* Moon Lord */
+			MoonBossText: The profaned flame blazes fiercely!
+			MoonBossText2: Cosmic terrors are watching...
+			FutureOreText: A cold and dark energy has materialized in space.
+			
+			/* Providence */
+			TreeOreText: Fossilized tree bark is bursting through the jungle's mud.
+			ProfanedBossText2: Shrieks are echoing from the dungeon.
+			ProfanedBossText3: The calamitous beings have been inundated with bloodstone.
+			ProfanedBossText4: The Profaned Goddess has recognised your devotion to purity!
+			
+			/* Polterghast */
+			GhostBossText: The abyssal spirits have been disturbed.
+			GhostBossText2: Wails echo through the dilapidated dungeon halls...
+			GhostBossText3: Long-dead prisoners seek their zealous revenge...
+			GhostBossText4: The souls released stir the acidic storms...
+			/* Polterghast (April Fools) */
+			AprilFools2: A boomer awaits...
+			
+			/* Devourer of Gods */
+			DoGBossText: The frigid moon shimmers brightly.
+			DoGBossText2: The harvest moon glows eerily.
+			
+			/* Yharon */
+			AuricOreText: Ancient draconic power manifests in the caverns, lacing itself through the rock
+		}
+	}
+}

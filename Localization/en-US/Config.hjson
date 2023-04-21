@@ -1,0 +1,271 @@
+Mods : {
+	CalamityMod : {
+		Config: {
+			MainTitle: Main Config
+
+			SectionTitle: {
+				ExpertMaster: Expert and Master Mode Changes
+				Gameplay: General Gameplay Changes
+				Graphics: Graphics Changes
+				Revengeance: Revengeance Mode Changes
+				UI: UI Changes
+				BaseBoosts: Base Stat Boosts
+			}
+
+			EntryTitle: {
+				AdrenalineMeterPosX: "[i:2799] Adrenaline Meter X Position"
+				AdrenalineMeterPosY: "[i:2799] Adrenaline Meter Y Position"
+				Afterimages: "[i:1742] Afterimages"
+				BossesStopWeather: "[i:6765] Bosses Stop Weather"
+				BossHealthBarExtraInfo: "[i:5626] Boss Health Bar Extra Info"
+				BossHealthBoost: "[i:29] Boss Health Boost Percentage"
+				BossZen: "[i:6718] Bosses Drastically Reduce Spawn Rates"
+				ChargeMeter: "[i:5617] Display Charge Meter"
+				ChargeMeterPosX: "[i:2799] Charge Meter X Position"
+				ChargeMeterPosY: "[i:2799] Charge Meter Y Position"
+				ChilledWaterRework: "[i:1861] Chilled Water Rework"
+				CooldownDisplay: "[i:5303] Cooldown Rack Display Mode"
+				DebuffDisplay: "[i:1356] Display Enemy Debuffs"
+				EarlyHardmodeProgressionRework: "[i:367] Early Hardmode Progression Rework"
+				FasterBaseSpeed: "[i:54] Increase Base Movement Speed"
+				FasterFallHotkey: "[i:5612] Enable Fast Falling"
+				FasterJumpSpeed: "[i:2423] Increase Base Jump Speed"
+				FasterTilePlacement: "[i:3061] Increase Base Building Speed"
+				ForceTownSafety: "[i:63] Force Town Safety"
+				HigherJumpHeight: "[i:159] Increase Base Jump Height"
+				MeterPosLock: "[i:3647] Lock Meter Positions"
+				NerfExpertDebuffs: "[i:1612] Remove Increased Debuff Duration"
+				ParticleLimit: "[i:3459] Max Particle Limit"
+				RageMeterPosX: "[i:2799] Rage Meter X Position"
+				RageMeterPosY: "[i:2799] Rage Meter Y Position"
+				RemoveReforgeRNG: "[i:3499] Remove Reforge RNG"
+				RipperMeterShake: "[i:5867] Rage and Adrenaline Meter Shake"
+				Screenshake: "[i:6842] Screenshake"
+				ShopNewAlert: "[i:306] New Shop Inventory Alerts"
+				SpeedrunTimer: "[i:3099] Display Speedrun Timer"
+				SpeedrunTimerPosX: "[i:2799] Speedrun Timer X Position"
+				SpeedrunTimerPosY: "[i:2799] Speedrun Timer Y Position"
+				StealthInvisibility: "[i:5651] Stealth Invisibility"
+				StealthMeter: "[i:5250] Display Stealth Meter"
+				StealthMeterPosX: "[i:2799] Stealth Meter X Position"
+				StealthMeterPosY: "[i:2799] Stealth Meter Y Position"
+				SulphuricWaterMeterPosX: "[i:2799] Sulphuric Water Poison Meter X Position"
+				SulphuricWaterMeterPosY: "[i:2799] Sulphuric Water Poison Meter Y Position"
+				PotionSelling: "[i:296] Town NPC Potion Selling"
+				TownNPCSpawnRateMultiplier: "[i:267] Town NPC Spawn Rate Multiplier"
+				TownNPCsSpawnAtNight: "[i:1307] Town NPCs Spawn at Night"
+				VanillaCooldownDisplay: "[i:188] Display Vanilla Cooldowns"
+				WikiStatusMessage: "[i:149] Wiki Status Message"
+				BossRushRegenCurse: "[i:216] "
+				BossRushDashCurse: "[i:216] "
+				BossRushIFrameCurse: "[i:216] "
+			}
+
+			EntryTooltip: {
+				AdrenalineMeterPosX:
+					'''
+					The X position of the Adrenaline Meter, measured as a % of your screen width.
+					The meter can be dragged with the mouse if Lock Meter Positions is disabled.
+					'''
+				AdrenalineMeterPosY:
+					'''
+					The Y position of the Adrenaline Meter, measured as a % of your screen height.
+					The meter can be dragged with the mouse if Lock Meter Positions is disabled.
+					'''
+				Afterimages:
+					'''
+					Enables rendering afterimages for Calamity NPCs, projectiles, etc.
+					Disable to improve performance.
+					'''
+				BossesStopWeather:
+					'''
+					When enabled, many late game bosses while stop all rain and related weather when spawned.
+					Enable if you have performance issues during late game boss fights.
+					'''
+				BossHealthBarExtraInfo:
+					'''
+					Adds extra info to Calamity's boss health bar.
+					This displays either the boss's exact health or number of remaining parts or segments.
+					'''
+				BossHealthBoost:
+					'''
+					Globally boosts the health of all bosses by the specified percentage.
+					This stacks with multiplayer boss health boosts.
+					Does not affect bosses that are already spawned.
+					'''
+				BossZen:
+					'''
+					All living bosses will drastically reduce the spawn rates of regular enemies.
+					This also prevents Slime Rain from occurring while a boss is alive.
+					'''
+				ChargeMeter:
+					'''
+					Enables the Charge Meter UI, which displays the current charge of the player's held weapon.
+					The Charge Meter is always hidden if not holding a weapon which requires charge.
+					'''
+				ChargeMeterPosX:
+					'''
+					The X position of the Charge Meter, measured as a % of your screen width.
+					The meter can be dragged with the mouse if Lock Meter Positions is disabled.
+					'''
+				ChargeMeterPosY:
+					'''
+					The Y position of the Charge Meter, measured as a % of your screen height.
+					The meter can be dragged with the mouse if Lock Meter Positions is disabled.
+					'''
+				ChilledWaterRework: When enabled, water in the Snow and Ice biomes will rapidly drain the player's breath instead of inflicting Chilled.
+				CooldownDisplay:
+					'''
+					Adds the Cooldown Rack which displays all important cooldowns right underneath buffs and debuffs.
+					Set this to 1 to display the Cooldown Rack in compact mode, and to 0 to hide it entirely.
+					'''
+				DebuffDisplay: Adds an array of debuff icons above all bosses and minibosses.
+				EarlyHardmodeProgressionRework:
+					'''
+					Demon Altars no longer spawn ores and crimson/corruption blocks when broken.
+					Wall of Flesh spawns Cobalt and Palladium ore on first kill.
+					The first mech boss you fight has 20% less HP and damage and spawns Mythril and Orichalcum ore on first kill.
+					The second mech boss you fight has 10% less HP and damage and spawns Adamantite and Titanium ore on first kill.
+					The third mech boss spawns Hallowed Ore on first kill
+					'''
+				FasterBaseSpeed:
+					'''
+					Increases the player's base movement speed substantially by always giving them +50% movement speed.
+					This setting does nothing if the mod Terraria Overhaul is loaded.
+					Calamity is balanced around this setting being enabled.
+					'''
+				FasterFallHotkey:
+					'''
+					When enabled, you can hold the DOWN key while in the air to accelerate downwards faster.
+					This config does not increase your maximum falling speed, just how quickly you accelerate to it.
+					Calamity is balanced around this setting being enabled.
+					'''
+				FasterJumpSpeed:
+					'''
+					Slightly increases the player's base jump speed.
+					Calamity is balanced around this setting being enabled.
+					'''
+				FasterTilePlacement:
+					'''
+					Substantially increases how rapidly the player can place tiles and walls.
+					This config stacks with the Brick Layer, Portable Cement Mixer and other accessories.
+					'''
+				ForceTownSafety:
+					'''
+					Counteracts Expert and Master Mode allowing enemies to spawn near towns by vastly decreasing spawn rates.
+					This can have unintended side effects such as making critters difficult to find.
+					'''
+				HigherJumpHeight:
+					'''
+					Increases the player's base jump height by 10% so that they can jump 7 tiles.
+					Calamity is balanced around this setting being enabled.
+					'''
+				MeterPosLock:
+					'''
+					Prevents clicking on the Stealth, Charge, Rage, and Adrenaline Meters.
+					This stops them from being dragged around with the mouse.
+					'''
+				NerfExpertDebuffs:
+					'''
+					Disables Expert Mode doubling (and Master Mode tripling) the duration of debuffs on the player.
+					Calamity is balanced around this setting being enabled.
+					'''
+				ParticleLimit:
+					'''
+					Sets the maximum of particle effects that can exist at once.
+					Particles are separate from dust and gores.
+					Turn down to improve performance.
+					'''
+				RageMeterPosX:
+					'''
+					The X position of the Rage Meter, measured as a % of your screen width.
+					The meter can be dragged with the mouse if Lock Meter Positions is disabled.
+					'''
+				RageMeterPosY:
+					'''
+					The Y position of the Rage Meter, measured as a % of your screen height.
+					The meter can be dragged with the mouse if Lock Meter Positions is disabled.
+					'''
+				RemoveReforgeRNG:
+					'''
+					Removes randomness from the Goblin Tinkerer's reforges for both weapons and accessories.
+					Disable this if using mods that change reforging on their own to prevent conflicts.
+					'''
+				RipperMeterShake:
+					'''
+					How much the Rage and Adrenaline Meters shake while in use.
+					Set to zero to disable the shaking entirely.
+					'''
+				Screenshake: Enable or disable all screen-shaking effects.
+				ShopNewAlert: Adds an icon that appears over Town NPCs when they have new items in their shops.
+				SpeedrunTimer:
+					'''
+					Enables an in-game speedrun timer which shows in-game time down to the millisecond.
+					A second line displays the time of your most recent boss kill.
+					The time is tracked per player and only counts time while loaded into a world.
+					'''
+				SpeedrunTimerPosX:
+					'''
+					The X position of the Speedrun Timer, measured as a % of your screen width.
+					This must be set manually and cannot be dragged around.
+					'''
+				SpeedrunTimerPosY:
+					'''
+					The Y position of the Speedrun Timer, measured as a % of your screen height.
+					This must be set manually and cannot be dragged around.
+					'''
+				StealthInvisibility:
+					'''
+					Enables players gradually turning invisible as their Rogue Stealth increases.
+					This effect is visually similar to Shroomite armor's stealth.
+					'''
+				StealthMeter:
+					'''
+					Enables the Stealth Meter UI, which shows the player's current stealth level.
+					The Stealth Meter is always hidden if not wearing Rogue armor.
+					'''
+				StealthMeterPosX:
+					'''
+					The X position of the Stealth Meter, measured as a % of your screen width.
+					The meter can be dragged with the mouse if Lock Meter Positions is disabled.
+					'''
+				StealthMeterPosY:
+					'''
+					The Y position of the Stealth Meter, measured as a % of your screen height.
+					The meter can be dragged with the mouse if Lock Meter Positions is disabled.
+					'''
+				SulphuricWaterMeterPosX:
+					'''
+					The X position of the Sulphuric Water Poison Meter, measured as a % of your screen width.
+					The meter can be dragged with the mouse if Lock Meter Positions is disabled.
+					'''
+				SulphuricWaterMeterPosY:
+					'''
+					The Y position of the Sulphuric Water Poison Meter, measured as a % of your screen height.
+					The meter can be dragged with the mouse if Lock Meter Positions is disabled.
+					'''
+				PotionSelling:
+					'''
+					Allows town NPCs to sell various potions.
+					Certain potions are sold after specific bosses have been defeated.
+					'''
+				TownNPCSpawnRateMultiplier:
+					'''
+					Directly multiply the rate at which town NPCs spawn and respawn.
+					This reduces waiting times if a boss or event wipes your whole town.
+					'''
+				TownNPCsSpawnAtNight:
+					'''
+					When enabled, town NPCs can spawn and respawn at night.
+					This includes the Old Man.
+					'''
+				VanillaCooldownDisplay:
+					'''
+					Adds the vanilla debuffs Potion Sickness and Chaos State to the Cooldown Rack.
+					This doesn't remove them from your buff list, but can help with visibility nonetheless
+					'''
+				WikiStatusMessage: Enable or disable the status message promoting the Official Calamity Wiki that plays on world entry.
+			}
+		}
+	}
+}
