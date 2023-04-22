@@ -233,7 +233,7 @@ namespace CalamityMod.NPCs.CalClone
             CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedCalamitasClone);
 
             // Abyss awakens after killing Calamitas
-            string key = "Mods.CalamityMod.PlantBossText";
+            string key = "Mods.CalamityMod.ProgressionMessages.PlantBossText";
             Color messageColor = Color.RoyalBlue;
 
             if (!DownedBossSystem.downedCalamitasClone)

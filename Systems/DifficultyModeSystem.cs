@@ -226,8 +226,8 @@ namespace CalamityMod.Systems
             Name = "Revengeance";
             ShortDescription = "[c/F54254:The intended Calamity experience!]";
 
-            ActivationTextKey = "Mods.CalamityMod.RevengeText";
-            DeactivationTextKey = "Mods.CalamityMod.RevengeText2";
+            ActivationTextKey = "Mods.CalamityMod.UI.RevengeText";
+            DeactivationTextKey = "Mods.CalamityMod.UI.RevengeText2";
 
             ActivationSound = SoundID.Item119;
 
@@ -266,8 +266,8 @@ namespace CalamityMod.Systems
             Name = "Death";
             ShortDescription = "[c/C82DF7:A tougher challenge for the more experienced, or for those that want a step up from Revengeance Mode]";
 
-            ActivationTextKey = "Mods.CalamityMod.DeathText";
-            DeactivationTextKey = "Mods.CalamityMod.DeathText2";
+            ActivationTextKey = "Mods.CalamityMod.UI.DeathText";
+            DeactivationTextKey = "Mods.CalamityMod.UI.DeathText2";
 
             ActivationSound = DemonshadeHelm.ActivationSound;
 

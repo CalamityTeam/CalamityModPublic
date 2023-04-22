@@ -3,7 +3,7 @@ Mods : {
 		Items : {
 			/* Critters */
 			AndroombaItem: {
-				DisplayName: "{$Mods.CalamityMod.NPCName.Androomba}"
+				DisplayName: "{$Mods.CalamityMod.NPCs.Androomba.DisplayName}"
 				Tooltip:
 					'''
 					Right click the roomba with a solution to insert it
@@ -11,16 +11,16 @@ Mods : {
 					'''
 			}
 			
-			BabyFlakCrabItem.DisplayName: "{$Mods.CalamityMod.NPCName.BabyFlakCrab}"
-			BabyGhostBellItem.DisplayName: "{$Mods.CalamityMod.NPCName.BabyGhostBell}"
+			BabyFlakCrabItem.DisplayName: "{$Mods.CalamityMod.NPCs.BabyFlakCrab.DisplayName}"
+			BabyGhostBellItem.DisplayName: "{$Mods.CalamityMod.NPCs.BabyGhostBell.DisplayName}"
 			NanodroidDysfunctionalItem.DisplayName: Dysfunctional Nanodroid
-			NanodroidItem.DisplayName: "{$Mods.CalamityMod.NPCName.Nanodroid}"
+			NanodroidItem.DisplayName: "{$Mods.CalamityMod.NPCs.Nanodroid.DisplayName}"
 			NanodroidPlagueGreenItem.DisplayName: Green Plague Nanodroid
 			NanodroidPlagueRedItem.DisplayName: Red Plague Nanodroid
-			PiggyItem.DisplayName: "{$Mods.CalamityMod.NPCName.Piggy}"
-			RepairUnitItem.DisplayName: "{$Mods.CalamityMod.NPCName.RepairUnitCritter}"
-			SeaMinnowItem.DisplayName: "{$Mods.CalamityMod.NPCName.SeaMinnow}"
-			TwinklerItem.DisplayName: "{$Mods.CalamityMod.NPCName.Twinkler}"
+			PiggyItem.DisplayName: "{$Mods.CalamityMod.NPCs.Piggy.DisplayName}"
+			RepairUnitItem.DisplayName: "{$Mods.CalamityMod.NPCs.RepairUnitCritter.DisplayName}"
+			SeaMinnowItem.DisplayName: "{$Mods.CalamityMod.NPCs.SeaMinnow.DisplayName}"
+			TwinklerItem.DisplayName: "{$Mods.CalamityMod.NPCs.Twinkler.DisplayName}"
 			
 			/* Permanent Boosters */
 			BloodOrange: {

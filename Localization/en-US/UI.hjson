@@ -1,0 +1,17 @@
+Mods: {
+	CalamityMod: {
+		UI: {
+			DefenseDamage: Defense Damage
+			RevengeText: Revengeance is active.
+			RevengeText2: Revengeance is not active.
+			DeathText: Death is active; enjoy the fun.
+			DeathText2: Death is not active; not fun enough for you?
+			ArmageddonText: Bosses will now kill you instantly.
+			ArmageddonText2: Bosses will no longer kill you instantly.
+			ArmageddonDodgeDisable: All of your dodges are now disabled.
+			ArmageddonDodgeEnable: All of your dodges are now re-enabled.
+			ChangingTheRules: You cannot change the rules now!
+			SmallWorldWarning: "[c/ff00000:SMALL WORLDS NOT SUPPORTED BY CALAMITY]"
+		}
+	}
+}

@@ -20,7 +20,6 @@ using CalamityMod.ILEditing;
 using CalamityMod.Items;
 using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.VanillaArmorChanges;
-using CalamityMod.Localization;
 using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
@@ -261,7 +260,6 @@ namespace CalamityMod
             SetupVanillaDR();
             SetupBossKillTimes();
             SetupBossVelocityScalingValues();
-            CalamityLocalization.AddLocalizations();
             CalamityConfig.RegisterDynamicLocalization();
             SchematicManager.Load();
             CustomLavaManagement.Load();

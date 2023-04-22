@@ -239,7 +239,7 @@ namespace CalamityMod.UI.ModeIndicator
             else if (CalamityPlayer.areThereAnyDamnBosses || BossRushEvent.BossRushActive)
             {
                 locked = true;
-                text = "[c/919191:"+ Language.GetTextValue("Mods.CalamityMod.ChangingTheRules") + "]";
+                text = "[c/919191:"+ Language.GetTextValue("Mods.CalamityMod.UI.ChangingTheRules") + "]";
             }
 
             //Shakes the lock if it automatically changed, because a boss was summoned

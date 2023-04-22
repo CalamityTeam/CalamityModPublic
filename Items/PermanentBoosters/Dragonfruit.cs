@@ -43,7 +43,7 @@ namespace CalamityMod.Items.PermanentBoosters
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.dFruit)
             {
-                string key = "Mods.CalamityMod.DragonfruitText";
+                string key = "Mods.CalamityMod.Misc.DragonfruitText";
                 Color messageColor = Color.Cyan;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 

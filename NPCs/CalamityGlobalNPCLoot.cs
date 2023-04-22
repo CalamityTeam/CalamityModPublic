@@ -1695,7 +1695,7 @@ namespace CalamityMod.NPCs
                     {
                         World.Abyss.UnlockAllAbyssChests();
 
-                        string keysk = "Mods.CalamityMod.SkeletronAbyssChestNotification";
+                        string keysk = "Mods.CalamityMod.ProgressionMessages.SkeletronAbyssChestNotification";
                         CalamityUtils.DisplayLocalizedText(keysk, new Color(76, 181, 76));
                     }
                     break;
@@ -1710,14 +1710,14 @@ namespace CalamityMod.NPCs
                         if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
                             WorldGen.altarCount++;
 
-                        string key2 = "Mods.CalamityMod.UglyBossText";
+                        string key2 = "Mods.CalamityMod.ProgressionMessages.UglyBossText";
                         Color messageColor2 = Color.Aquamarine;
                         CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 
                         // TODO -- this should probably be moved to a thread like Aureus meteor
                         if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
                         {
-                            string key3 = "Mods.CalamityMod.HardmodeOreTier1Text";
+                            string key3 = "Mods.CalamityMod.ProgressionMessages.HardmodeOreTier1Text";
                             Color messageColor3 = new Color(50, 255, 130);
                             CalamityUtils.SpawnOre(TileID.Cobalt, 12E-05, 0.45f, 0.7f, 3, 8);
                             CalamityUtils.SpawnOre(TileID.Palladium, 12E-05, 0.45f, 0.7f, 3, 8);
@@ -1774,9 +1774,9 @@ namespace CalamityMod.NPCs
                     // Spawn Perennial Ore if Plantera has never been killed
                     if (!NPC.downedPlantBoss)
                     {
-                        string key = "Mods.CalamityMod.PlantOreText";
+                        string key = "Mods.CalamityMod.ProgressionMessages.PlantOreText";
                         Color messageColor = Color.GreenYellow;
-                        string key2 = "Mods.CalamityMod.SandSharkText3";
+                        string key2 = "Mods.CalamityMod.ProgressionMessages.SandSharkText3";
                         Color messageColor2 = Color.Goldenrod;
 
                         // TODO -- this should probably be moved to a thread like Aureus meteor
@@ -1813,7 +1813,7 @@ namespace CalamityMod.NPCs
                         if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                             SoundEngine.PlaySound(PlagueSound, Main.player[Main.myPlayer].Center);
 
-                        string key3 = "Mods.CalamityMod.BabyBossText";
+                        string key3 = "Mods.CalamityMod.ProgressionMessages.BabyBossText";
                         Color messageColor3 = Color.Lime;
 
                         CalamityUtils.DisplayLocalizedText(key3, messageColor3);
@@ -1842,13 +1842,13 @@ namespace CalamityMod.NPCs
                     SetNewShopVariable(new int[] { NPCID.Princess, ModContent.NPCType<THIEF>() }, NPC.downedMoonlord);
                     SetNewBossJustDowned(npc);
 
-                    string key5 = "Mods.CalamityMod.MoonBossText";
+                    string key5 = "Mods.CalamityMod.ProgressionMessages.MoonBossText";
                     Color messageColor5 = Color.Orange;
-                    string key6 = "Mods.CalamityMod.MoonBossText2";
+                    string key6 = "Mods.CalamityMod.ProgressionMessages.MoonBossText2";
                     Color messageColor6 = Color.Violet;
-                    string key7 = "Mods.CalamityMod.ProfanedBossText2";
+                    string key7 = "Mods.CalamityMod.ProgressionMessages.ProfanedBossText2";
                     Color messageColor7 = Color.Cyan;
-                    string key8 = "Mods.CalamityMod.FutureOreText";
+                    string key8 = "Mods.CalamityMod.ProgressionMessages.FutureOreText";
                     Color messageColor8 = Color.LightGray;
 
                     if (!CalamityWorld.HasGeneratedLuminitePlanetoids)
@@ -1886,7 +1886,7 @@ namespace CalamityMod.NPCs
         {
             if (!NPC.downedMechBossAny)
             {
-                string key = "Mods.CalamityMod.HardmodeOreTier2Text";
+                string key = "Mods.CalamityMod.ProgressionMessages.HardmodeOreTier2Text";
                 Color messageColor = new Color(50, 255, 130);
                 CalamityUtils.SpawnOre(TileID.Mythril, 12E-05, 0.55f, 0.8f, 3, 8);
                 CalamityUtils.SpawnOre(TileID.Orichalcum, 12E-05, 0.55f, 0.8f, 3, 8);
@@ -1894,7 +1894,7 @@ namespace CalamityMod.NPCs
             }
             else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
             {
-                string key = "Mods.CalamityMod.HardmodeOreTier3Text";
+                string key = "Mods.CalamityMod.ProgressionMessages.HardmodeOreTier3Text";
                 Color messageColor = new Color(50, 255, 130);
                 CalamityUtils.SpawnOre(TileID.Adamantite, 12E-05, 0.65f, 0.9f, 3, 8);
                 CalamityUtils.SpawnOre(TileID.Titanium, 12E-05, 0.65f, 0.9f, 3, 8);
@@ -1902,7 +1902,7 @@ namespace CalamityMod.NPCs
             }
             else
             {
-                string key = "Mods.CalamityMod.HardmodeOreTier4Text";
+                string key = "Mods.CalamityMod.ProgressionMessages.HardmodeOreTier4Text";
                 Color messageColor = new Color(50, 255, 130);
                 CalamityUtils.SpawnOre(ModContent.TileType<HallowedOre>(), 12E-05, 0.55f, 0.9f, 3, 8, TileID.Pearlstone, TileID.HallowHardenedSand, TileID.HallowSandstone, TileID.HallowedIce);
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -1972,14 +1972,14 @@ namespace CalamityMod.NPCs
                 CalamityMod.ghostKillCount++;
                 if (CalamityMod.ghostKillCount == 10)
                 {
-                    string key = "Mods.CalamityMod.GhostBossText2";
+                    string key = "Mods.CalamityMod.BossMessages.GhostBossText2";
                     Color messageColor = Color.Cyan;
 
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
                 else if (CalamityMod.ghostKillCount == 20)
                 {
-                    string key = "Mods.CalamityMod.GhostBossText3";
+                    string key = "Mods.CalamityMod.BossMessages.GhostBossText3";
                     Color messageColor = Color.Cyan;
 
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -2009,14 +2009,14 @@ namespace CalamityMod.NPCs
                 CalamityMod.sharkKillCount++;
                 if (CalamityMod.sharkKillCount == 4)
                 {
-                    string key = "Mods.CalamityMod.SandSharkText";
+                    string key = "Mods.CalamityMod.BossMessages.SandSharkText";
                     Color messageColor = Color.Goldenrod;
 
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
                 else if (CalamityMod.sharkKillCount == 8)
                 {
-                    string key = "Mods.CalamityMod.SandSharkText2";
+                    string key = "Mods.CalamityMod.BossMessages.SandSharkText2";
                     Color messageColor = Color.Goldenrod;
 
                     CalamityUtils.DisplayLocalizedText(key, messageColor);

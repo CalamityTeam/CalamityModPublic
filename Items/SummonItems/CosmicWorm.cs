@@ -44,7 +44,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            string key = "Mods.CalamityMod.EdgyBossText7";
+            string key = "Mods.CalamityMod.BossMessages.EdgyBossText7";
             Color messageColor = Color.Cyan;
             CalamityUtils.DisplayLocalizedText(key, messageColor);
 

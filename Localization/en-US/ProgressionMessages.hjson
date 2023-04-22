@@ -19,9 +19,6 @@ Mods : {
 			HardmodeOreTier2Text: Your world has been blessed with Mythril and Orichalcum!
 			HardmodeOreTier3Text: Your world has been blessed with Adamantite and Titanium!
 			HardmodeOreTier4Text: The hallow has been blessed with consecrated stone!
-
-			/* Skeletron Prime (now unused) */
-			SteelSkullBossText: A blood red inferno lingers in the night...
 			
 			/* Cryogen */
 			IceOreText: The ice caves are crackling with frigid energy.
@@ -44,9 +41,6 @@ Mods : {
 			/* Golem */
 			BabyBossText: A plague has befallen the Jungle.
 			
-			/* Lunatic Cultist (now unused) */
-			DeusText: A star-spawned horror tunnels through the astral infection.
-			
 			/* Astrum Deus */
 			AstralBossText: The seal of the stars has been broken! You can now mine Astral Ore.
 			
@@ -54,17 +48,15 @@ Mods : {
 			MoonBossText: The profaned flame blazes fiercely!
 			MoonBossText2: Cosmic terrors are watching...
 			FutureOreText: A cold and dark energy has materialized in space.
+			ProfanedBossText2: Shrieks are echoing from the dungeon.
 			
 			/* Providence */
 			TreeOreText: Fossilized tree bark is bursting through the jungle's mud.
-			ProfanedBossText2: Shrieks are echoing from the dungeon.
 			ProfanedBossText3: The calamitous beings have been inundated with bloodstone.
 			ProfanedBossText4: The Profaned Goddess has recognised your devotion to purity!
 			
 			/* Polterghast */
 			GhostBossText: The abyssal spirits have been disturbed.
-			GhostBossText2: Wails echo through the dilapidated dungeon halls...
-			GhostBossText3: Long-dead prisoners seek their zealous revenge...
 			GhostBossText4: The souls released stir the acidic storms...
 			/* Polterghast (April Fools) */
 			AprilFools2: A boomer awaits...

@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Typeless
 					NetMessage.SendData(MessageID.InstancedItem, i, -1, null, rock);
 				}
 			}
-            CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFiveEndText", BossRushEvent.XerocTextColor); // "Hmm? You expected a reward beyond this mere pebble? Patience, the true reward will come apparent in time..."
+            CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Events.BossRushTierFiveEndText", BossRushEvent.XerocTextColor); // "Hmm? You expected a reward beyond this mere pebble? Patience, the true reward will come apparent in time..."
         }
     }
 }

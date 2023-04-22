@@ -26,6 +26,10 @@ Mods : {
 			
 			/* Providence */
 			ProfanedBossText: Holy flames burn away at your wings...
+
+			/* Polterghast */
+			GhostBossText2: Wails echo through the dilapidated dungeon halls...
+			GhostBossText3: Long-dead prisoners seek their zealous revenge...
 			
 			/* Devourer of Gods */
 			EdgyBossText: Don't get cocky!

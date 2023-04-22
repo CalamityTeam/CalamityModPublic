@@ -194,7 +194,7 @@ namespace CalamityMod.World
                         // If the meteor actually dropped, post the message stating as such.
                         if (meteorDropped)
                         {
-                            string key = "Mods.CalamityMod.AstralText";
+                            string key = "Mods.CalamityMod.ProgressionMessages.AstralText";
                             Color messageColor = Color.Gold;
 
                             CalamityUtils.DisplayLocalizedText(key, messageColor);

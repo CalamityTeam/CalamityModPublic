@@ -1094,14 +1094,14 @@ namespace CalamityMod.NPCs.Polterghast
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     SoundEngine.PlaySound(ReaperShark.SearchRoarSound, Main.player[Main.myPlayer].Center);
 
-                string key = "Mods.CalamityMod.GhostBossText";
+                string key = "Mods.CalamityMod.ProgressionMessages.GhostBossText";
                 Color messageColor = Color.RoyalBlue;
-                string sulfSeaBoostMessage = "Mods.CalamityMod.GhostBossText4";
+                string sulfSeaBoostMessage = "Mods.CalamityMod.ProgressionMessages.GhostBossText4";
                 Color sulfSeaBoostColor = AcidRainEvent.TextColor;
 
                 if ((Main.rand.NextBool(20) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || CalamityWorld.getFixedBoi)
                 {
-                    sulfSeaBoostMessage = "Mods.CalamityMod.AprilFools2"; // Goddamn boomer duke moments
+                    sulfSeaBoostMessage = "Mods.CalamityMod.ProgressionMessages.AprilFools2"; // Goddamn boomer duke moments
                 }
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);

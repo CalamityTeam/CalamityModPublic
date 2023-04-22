@@ -41,7 +41,7 @@ namespace CalamityMod.Items.PermanentBoosters
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.bOrange)
             {
-                string key = "Mods.CalamityMod.BloodOrangeText";
+                string key = "Mods.CalamityMod.Misc.BloodOrangeText";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
                 return false;

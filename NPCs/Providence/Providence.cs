@@ -1285,7 +1285,7 @@ namespace CalamityMod.NPCs.Providence
                     if (NPC.ai[3] >= (phaseTime * 1.5f) && !text)
                     {
                         text = true;
-                        string key = "Mods.CalamityMod.ProfanedBossText";
+                        string key = "Mods.CalamityMod.BossMessages.ProfanedBossText";
                         Color messageColor = Color.Orange;
 
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -1850,9 +1850,9 @@ namespace CalamityMod.NPCs.Providence
             // If Providence has not been killed, notify players of Uelibloom Ore
             if (!DownedBossSystem.downedProvidence)
             {
-                string key2 = "Mods.CalamityMod.ProfanedBossText3";
+                string key2 = "Mods.CalamityMod.ProgressionMessages.ProfanedBossText3";
                 Color messageColor2 = Color.Orange;
-                string key3 = "Mods.CalamityMod.TreeOreText";
+                string key3 = "Mods.CalamityMod.ProgressionMessages.TreeOreText";
                 Color messageColor3 = Color.LightGreen;
 
                 CalamityUtils.SpawnOre(ModContent.TileType<UelibloomOre>(), 17E-05, 0.55f, 0.9f, 8, 14, TileID.Mud);
@@ -1865,7 +1865,7 @@ namespace CalamityMod.NPCs.Providence
             {
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {
-                    Main.NewText(Language.GetTextValue("Mods.CalamityMod.ProfanedBossText4"), Color.DarkOrange);
+                    Main.NewText(Language.GetTextValue("Mods.CalamityMod.ProgressionMessages.ProfanedBossText4"), Color.DarkOrange);
                 }
             }
 

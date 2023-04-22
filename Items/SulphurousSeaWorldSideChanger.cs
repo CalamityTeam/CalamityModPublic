@@ -32,11 +32,11 @@ namespace CalamityMod.Items
         public override bool? UseItem(Player player)
         {
             CalamityNetcode.SyncWorld();
-            string key = "Mods.CalamityMod.SulphurSwitchLeft";
+            string key = "Mods.CalamityMod.Misc.SulphurSwitchLeft";
             if (Abyss.AtLeftSideOfWorld)
             {
                 Abyss.AtLeftSideOfWorld = false;
-                key = "Mods.CalamityMod.SulphurSwitchRight";
+                key = "Mods.CalamityMod.Misc.SulphurSwitchRight";
             }
             else
             {

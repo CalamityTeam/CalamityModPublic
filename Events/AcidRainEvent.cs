@@ -220,7 +220,7 @@ namespace CalamityMod.Events
             }
 
             UpdateInvasion();
-            BroadcastEventText("Mods.CalamityMod.AcidRainStart"); // A toxic downpour falls over the wasteland seas!
+            BroadcastEventText("Mods.CalamityMod.Events.AcidRainStart"); // A toxic downpour falls over the wasteland seas!
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace CalamityMod.Events
                 if (AccumulatedKillPoints <= 0)
                 {
                     AcidRainEventIsOngoing = false;
-                    BroadcastEventText("Mods.CalamityMod.AcidRainEnd"); // The sulphuric skies begin to clear...
+                    BroadcastEventText("Mods.CalamityMod.Events.AcidRainEnd"); // The sulphuric skies begin to clear...
 
                     // Turn off the rain from the event
                     Main.numCloudsTemp = Main.rand.Next(5, 20 + 1);

@@ -41,7 +41,7 @@ namespace CalamityMod.Items.PermanentBoosters
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.mFruit)
             {
-                string key = "Mods.CalamityMod.MiracleFruitText";
+                string key = "Mods.CalamityMod.Misc.MiracleFruitText";
                 Color messageColor = Color.GreenYellow;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 

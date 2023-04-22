@@ -37,7 +37,7 @@ namespace CalamityMod.Items.PermanentBoosters
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.cShard)
             {
-                string key = "Mods.CalamityMod.CometShardText";
+                string key = "Mods.CalamityMod.Misc.CometShardText";
                 Color messageColor = Color.DarkOrchid;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 

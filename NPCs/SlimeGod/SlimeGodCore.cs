@@ -249,7 +249,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     // Let the player know that the Slime God isn't dead fr
                     if (!DownedBossSystem.downedSlimeGod)
                     {
-                        string key = "Mods.CalamityMod.SlimeGodRun";
+                        string key = "Mods.CalamityMod.BossMessages.SlimeGodRun";
                         Color messageColor = Color.Magenta;
 
                         CalamityUtils.DisplayLocalizedText(key, messageColor);

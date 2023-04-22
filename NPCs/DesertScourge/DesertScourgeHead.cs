@@ -679,9 +679,9 @@ namespace CalamityMod.NPCs.DesertScourge
             // If Desert Scourge has not been killed yet, notify players that the Sunken Sea is open and Sandstorms can happen
             if (!DownedBossSystem.downedDesertScourge)
             {
-                string key = "Mods.CalamityMod.OpenSunkenSea";
+                string key = "Mods.CalamityMod.ProgressionMessages.OpenSunkenSea";
                 Color messageColor = Color.Aquamarine;
-                string key2 = "Mods.CalamityMod.SandstormTrigger";
+                string key2 = "Mods.CalamityMod.ProgressionMessages.SandstormTrigger";
                 Color messageColor2 = Color.PaleGoldenrod;
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);

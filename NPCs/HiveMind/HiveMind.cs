@@ -1127,7 +1127,7 @@ namespace CalamityMod.NPCs.HiveMind
             // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
             if (!DownedBossSystem.downedHiveMind && !DownedBossSystem.downedPerforator)
             {
-                string key = "Mods.CalamityMod.SkyOreText";
+                string key = "Mods.CalamityMod.ProgressionMessages.SkyOreText";
                 Color messageColor = Color.Cyan;
                 AerialiteOreGen.Generate(true);
 

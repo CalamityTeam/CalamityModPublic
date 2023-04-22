@@ -37,7 +37,7 @@ namespace CalamityMod.Items.PermanentBoosters
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.eCore)
             {
-                string key = "Mods.CalamityMod.EtherealCoreText";
+                string key = "Mods.CalamityMod.Misc.EtherealCoreText";
                 Color messageColor = Color.Purple;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 

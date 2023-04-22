@@ -1566,7 +1566,7 @@ namespace CalamityMod.NPCs.Yharon
             {
                 moveCloser = true;
 
-                string key = "Mods.CalamityMod.FlameText";
+                string key = "Mods.CalamityMod.BossMessages.FlameText";
                 Color messageColor = Color.Orange;
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -2912,7 +2912,7 @@ namespace CalamityMod.NPCs.Yharon
             {
                 CalamityUtils.SpawnOre(ModContent.TileType<AuricOre>(), 2E-05, 0.75f, 0.9f, 10, 20);
 
-                string key = "Mods.CalamityMod.AuricOreText";
+                string key = "Mods.CalamityMod.ProgressionMessages.AuricOreText";
                 Color messageColor = Color.Gold;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }

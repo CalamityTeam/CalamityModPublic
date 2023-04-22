@@ -399,8 +399,8 @@ namespace CalamityMod.NPCs.AstrumAureus
             // If Astrum Aureus has not yet been killed, notify players of new Astral enemy drops
             if (!DownedBossSystem.downedAstrumAureus)
             {
-                string key = "Mods.CalamityMod.AureusBossText";
-                string key2 = "Mods.CalamityMod.AureusBossText2";
+                string key = "Mods.CalamityMod.ProgressionMessages.AureusBossText";
+                string key2 = "Mods.CalamityMod.ProgressionMessages.AureusBossText2";
                 Color messageColor = Color.Gold;
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);

@@ -53,14 +53,14 @@ namespace CalamityMod.Items.Pets
                     if (!player.Calamity().healToFull)
                     {
                         player.Calamity().healToFull = true;
-                        string key = "Mods.CalamityMod.ThirdSageBlessingText";
+                        string key = "Mods.CalamityMod.Misc.ThirdSageBlessingText";
                         Color messageColor = Color.Violet;
                         Main.NewText(Language.GetTextValue(key), messageColor);
                     }
                     else
                     {
                         player.Calamity().healToFull = false;
-                        string key2 = "Mods.CalamityMod.ThirdSageBlessingText2";
+                        string key2 = "Mods.CalamityMod.Misc.ThirdSageBlessingText2";
                         Color messageColor2 = Color.Violet;
                         Main.NewText(Language.GetTextValue(key2), messageColor2);
                     }

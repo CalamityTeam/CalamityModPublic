@@ -550,7 +550,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 // Dialogue the moment the second phase starts
                 if (NPC.localAI[2] == 60f)
                 {
-                    string key = "Mods.CalamityMod.EdgyBossText5";
+                    string key = "Mods.CalamityMod.BossMessages.EdgyBossText5";
                     Color messageColor = Color.Cyan;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
@@ -700,7 +700,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                     calamityGlobalNPC.newAI[3] = 0f;
 
                                     // Anger message
-                                    string key = "Mods.CalamityMod.EdgyBossText6";
+                                    string key = "Mods.CalamityMod.BossMessages.EdgyBossText6";
                                     Color messageColor = Color.Cyan;
                                     CalamityUtils.DisplayLocalizedText(key, messageColor);
 
@@ -1461,7 +1461,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         if (revenge)
                             spawnDoGCountdown = 10;
 
-                        string key = "Mods.CalamityMod.EdgyBossText";
+                        string key = "Mods.CalamityMod.BossMessages.EdgyBossText";
                         Color messageColor = Color.Cyan;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
 
@@ -2435,11 +2435,11 @@ namespace CalamityMod.NPCs.DevourerofGods
             // If DoG has not been killed yet, notify players that the holiday moons are buffed
             if (!DownedBossSystem.downedDoG)
             {
-                string key = "Mods.CalamityMod.DoGBossText";
+                string key = "Mods.CalamityMod.ProgressionMessages.DoGBossText";
                 Color messageColor = Color.Cyan;
-                string key2 = "Mods.CalamityMod.DoGBossText2";
+                string key2 = "Mods.CalamityMod.ProgressionMessages.DoGBossText2";
                 Color messageColor2 = Color.Orange;
-                string key3 = "Mods.CalamityMod.DargonBossText";
+                string key3 = "Mods.CalamityMod.ProgressionMessages.DargonBossText";
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
                 CalamityUtils.DisplayLocalizedText(key2, messageColor2);
@@ -2635,9 +2635,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 string text = Utils.SelectRandom(Main.rand, new string[]
                 {
-                    "Mods.CalamityMod.EdgyBossText2",
-                    "Mods.CalamityMod.EdgyBossText3",
-                    "Mods.CalamityMod.EdgyBossText4"
+                    "Mods.CalamityMod.BossMessages.EdgyBossText2",
+                    "Mods.CalamityMod.BossMessages.EdgyBossText3",
+                    "Mods.CalamityMod.BossMessages.EdgyBossText4"
                 });
                 Color messageColor = Color.Cyan;
                 Rectangle location = new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height);

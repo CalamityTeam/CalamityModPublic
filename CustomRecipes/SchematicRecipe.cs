@@ -14,19 +14,19 @@ namespace CalamityMod.CustomRecipes
                 case "Sunken Sea":
                 default:
                     condition = r => RecipeUnlockHandler.HasFoundSunkenSeaSchematic;
-                    return NetworkText.FromKey($"Mods.CalamityMod.SunkenSeaSchematicRecipeCondition");
+                    return NetworkText.FromKey($"Mods.CalamityMod.Misc.SunkenSeaSchematicRecipeCondition");
                 case "Planetoid":
                     condition = r => RecipeUnlockHandler.HasFoundPlanetoidSchematic;
-                    return NetworkText.FromKey($"Mods.CalamityMod.PlanetoidSchematicRecipeCondition");
+                    return NetworkText.FromKey($"Mods.CalamityMod.Misc.PlanetoidSchematicRecipeCondition");
                 case "Jungle":
                     condition = r => RecipeUnlockHandler.HasFoundJungleSchematic;
-                    return NetworkText.FromKey($"Mods.CalamityMod.JungleSchematicRecipeCondition");
+                    return NetworkText.FromKey($"Mods.CalamityMod.Misc.JungleSchematicRecipeCondition");
                 case "Hell":
                     condition = r => RecipeUnlockHandler.HasFoundHellSchematic;
-                    return NetworkText.FromKey($"Mods.CalamityMod.UnderworldSchematicRecipeCondition");
+                    return NetworkText.FromKey($"Mods.CalamityMod.Misc.UnderworldSchematicRecipeCondition");
                 case "Ice":
                     condition = r => RecipeUnlockHandler.HasFoundIceSchematic;
-                    return NetworkText.FromKey($"Mods.CalamityMod.IceSchematicRecipeCondition");
+                    return NetworkText.FromKey($"Mods.CalamityMod.Misc.IceSchematicRecipeCondition");
             }
         }
     }

@@ -927,7 +927,7 @@ namespace CalamityMod.NPCs.Cryogen
 
                     if (Main.rand.NextBool(chance))
                     {
-                        string key = CalamityWorld.getFixedBoi ? "Mods.CalamityMod.PyrogenBossText" : "Mods.CalamityMod.CryogenBossText";
+                        string key = CalamityWorld.getFixedBoi ? "Mods.CalamityMod.BossMessages.PyrogenBossText" : "Mods.CalamityMod.BossMessages.CryogenBossText";
                         Color messageColor = CalamityWorld.getFixedBoi ? Color.Orange : Color.Cyan;
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
@@ -1331,7 +1331,7 @@ namespace CalamityMod.NPCs.Cryogen
             // If Cryogen has not been killed, notify players about Cryonic Ore
             if (!DownedBossSystem.downedCryogen)
             {
-                string key = "Mods.CalamityMod.IceOreText";
+                string key = "Mods.CalamityMod.ProgressionMessages.IceOreText";
                 Color messageColor = Color.LightSkyBlue;
                 CalamityUtils.SpawnOre(ModContent.TileType<CryonicOre>(), 15E-05, 0.45f, 0.7f, 3, 8, TileID.SnowBlock, TileID.IceBlock, TileID.CorruptIce, TileID.FleshIce, TileID.HallowedIce, ModContent.TileType<AstralSnow>(), ModContent.TileType<AstralIce>());
 

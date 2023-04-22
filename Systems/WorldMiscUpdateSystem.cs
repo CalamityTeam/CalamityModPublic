@@ -87,7 +87,7 @@ namespace CalamityMod.Systems
             // Very, very, very rarely display a Lorde joke text if the system clock is set to April Fools Day.
             if (Main.rand.NextBool(100000000) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
             {
-                string key = CalamityWorld.getFixedBoi ? "Mods.CalamityMod.AprilFoolsGFB" : "Mods.CalamityMod.AprilFools";
+                string key = CalamityWorld.getFixedBoi ? "Mods.CalamityMod.BossMessages.AprilFoolsGFB" : "Mods.CalamityMod.BossMessages.AprilFools";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }

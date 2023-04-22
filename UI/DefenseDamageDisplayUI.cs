@@ -39,7 +39,7 @@ namespace CalamityMod.UI
             if (hoveringOverIcon)
             {
                 Main.hoverItemName = $"{Main.LocalPlayer.statDefense} {Language.GetTextValue("LegacyInterface.10")}" +
-                    $"\n{defenseDamage} {Language.GetTextValue("Mods.CalamityMod.DefenseDamage")}";
+                    $"\n{defenseDamage} {Language.GetTextValue("Mods.CalamityMod.UI.DefenseDamage")}";
             }
         }
     }
