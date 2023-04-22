@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables
             Item.consumable = true;
             Item.width = 16;
             Item.height = 16;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
         }
 
         public override void ExtractinatorUse(int extractinatorBlockType, ref int resultType, ref int resultStack)

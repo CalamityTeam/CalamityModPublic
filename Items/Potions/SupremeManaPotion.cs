@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Potions
             Item.width = 28;
             Item.height = 18;
             Item.useTurn = true;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.healMana = 400;
             Item.useAnimation = 17;
             Item.useTime = 17;

@@ -153,10 +153,6 @@ namespace CalamityMod.Items
             ArmorIDs.Wing.Sets.Stats[(int)VanillaWingID.LongRainbowTrailWings] = new WingStats(180, 8f, 2.75f, true, 11.6f, 11.6f);
             #endregion
 
-            // All items that stack to 30, 50, 75, 99 , or 999 now stack to 9999 instead.
-            if (item.maxStack == 30 || item.maxStack == 50 || item.maxStack == 75 || item.maxStack == 99 || item.maxStack == 999)
-                item.maxStack = 9999;
-
             // Having more than this causes integer overflow
             if (item.type == ItemID.PlatinumCoin)
                 item.maxStack = 2147;

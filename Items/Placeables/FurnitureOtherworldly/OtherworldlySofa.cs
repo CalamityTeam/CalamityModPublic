@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
             Item.SetNameOverride("Otherworldly Sofa");
             Item.width = 28;
             Item.height = 20;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

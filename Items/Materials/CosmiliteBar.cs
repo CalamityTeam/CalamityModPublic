@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Materials
             Item.createTile = ModContent.TileType<CosmiliteBarTile>();
             Item.width = 32;
             Item.height = 24;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.value = Item.sellPrice(gold: 20);
             Item.rare = ModContent.RarityType<DarkBlue>();
             Item.useStyle = ItemUseStyleID.Swing;

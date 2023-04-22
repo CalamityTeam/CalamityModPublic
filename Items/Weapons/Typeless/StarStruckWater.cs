@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.shoot = ModContent.ProjectileType<StarStruckWaterBottle>();
             Item.width = 18;
             Item.height = 20;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.knockBack = 3f;
             Item.UseSound = SoundID.Item1;

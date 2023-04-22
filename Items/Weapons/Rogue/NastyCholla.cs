@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.damage = BaseDamage;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Swing;

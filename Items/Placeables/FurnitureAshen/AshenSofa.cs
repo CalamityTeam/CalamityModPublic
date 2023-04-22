@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
         {
             Item.width = 26;
             Item.height = 26;
-            Item.maxStack = 99;
+            Item.maxStack = Item.CommonMaxStack;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             Item.SetNameOverride("Profaned Crucible");
             Item.width = 8;
             Item.height = 10;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

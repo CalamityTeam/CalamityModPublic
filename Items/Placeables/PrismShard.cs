@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables
             Item.consumable = true;
             Item.width = 26;
             Item.height = 26;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.value = Item.sellPrice(silver: 3);
             Item.rare = ItemRarityID.Green;
         }

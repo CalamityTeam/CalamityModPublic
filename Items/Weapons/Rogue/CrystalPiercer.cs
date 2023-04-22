@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 62;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.value = 2500;
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<CrystalPiercerProjectile>();

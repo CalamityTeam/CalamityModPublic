@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             Item.consumable = true;
             Item.width = 38;
             Item.height = 32;
-            Item.maxStack = 9999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ModContent.RarityType<Violet>();
         }

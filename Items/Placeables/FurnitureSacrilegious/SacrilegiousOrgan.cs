@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
         {
             Item.width = 24;
             Item.height = 34;
-            Item.maxStack = 9999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

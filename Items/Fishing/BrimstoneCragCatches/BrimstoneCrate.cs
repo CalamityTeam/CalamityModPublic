@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 
         public override void SetDefaults()
         {
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.width = 32;
             Item.height = 32;

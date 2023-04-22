@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Tools
         public override void SetDefaults()
         {
             Item.useTime = Item.useAnimation = 8;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.shootSpeed = 20f;
             Item.shoot = ModContent.ProjectileType<WulfrumDiggingTurtleProjectile>();

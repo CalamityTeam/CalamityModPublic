@@ -24,7 +24,7 @@ namespace CalamityMod.Items.DraedonMisc
             Item.consumable = true;
             Item.width = 42;
             Item.height = 32;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Orange;
             Item.createTile = ModContent.TileType<CodebreakerTile>();
         }

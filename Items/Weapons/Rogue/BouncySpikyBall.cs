@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.consumable = true;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.height = 14;
             Item.value = Item.buyPrice(0, 0, 1, 0);
             Item.rare = ItemRarityID.Blue;

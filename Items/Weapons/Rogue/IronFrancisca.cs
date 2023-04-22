@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = false;
             Item.height = 36;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.value = Item.buyPrice(0, 0, 1, 0);
             Item.rare = ItemRarityID.White;
             Item.shoot = ModContent.ProjectileType<IronFranciscaProj>();

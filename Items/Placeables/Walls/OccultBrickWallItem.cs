@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.Walls
         {
             Item.width = 18;
             Item.height = 18;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

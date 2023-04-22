@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Potions
             Item.width = 30;
             Item.height = 34;
             Item.useTurn = true;
-            Item.maxStack = 30;
+            Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.LightRed;
             Item.useAnimation = 17;
             Item.useTime = 17;

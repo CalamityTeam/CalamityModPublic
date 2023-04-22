@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
         {
             Item.width = 32;
             Item.height = 26;
-            Item.maxStack = 99;
+            Item.maxStack = Item.CommonMaxStack;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

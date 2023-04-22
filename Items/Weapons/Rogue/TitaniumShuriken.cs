@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 34;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.value = 2000;
             Item.rare = ItemRarityID.LightRed;
             Item.shoot = ModContent.ProjectileType<TitaniumShurikenProjectile>();

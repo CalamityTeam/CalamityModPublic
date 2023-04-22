@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Fountains
         {
             Item.width = 26;
             Item.height = 32;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

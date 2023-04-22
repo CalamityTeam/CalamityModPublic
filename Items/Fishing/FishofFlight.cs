@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Fishing
 
         public override void SetDefaults()
         {
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.width = 30;
             Item.height = 30;

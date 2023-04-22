@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Yellow;
             Item.useTime = 23;
             Item.useAnimation = 23;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.UseSound = SoundID.Item1;
             Item.consumable = true;
             Item.DamageType = RogueDamageClass.Instance;

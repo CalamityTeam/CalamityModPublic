@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         {
             Item.width = 30;
             Item.height = 26;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.value = Item.sellPrice(silver: 5);
             Item.rare = ItemRarityID.Blue;
         }

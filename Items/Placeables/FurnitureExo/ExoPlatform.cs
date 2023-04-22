@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
             Item.SetNameOverride("Exo Platform");
             Item.width = 8;
             Item.height = 10;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

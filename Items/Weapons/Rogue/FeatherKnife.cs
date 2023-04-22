@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.consumable = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item1;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.shoot = ModContent.ProjectileType<FeatherKnifeProjectile>();
             Item.shootSpeed = 25f;
             Item.DamageType = RogueDamageClass.Instance;

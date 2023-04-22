@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 1f;
             Item.autoReuse = true;
             Item.height = 30;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<ShockGrenadeProjectile>();

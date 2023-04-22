@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Placeables.FurnitureWulfrum
             Item.SetNameOverride("Wulfrum Work Bench");
             Item.width = 32;
             Item.height = 18;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

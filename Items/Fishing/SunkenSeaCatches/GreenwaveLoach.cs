@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         {
             Item.width = 40;
             Item.height = 38;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.value = Item.sellPrice(gold: 10);
             Item.rare = ItemRarityID.Orange;
         }

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
         {
             Item.width = 30;
             Item.height = 30;
-            Item.maxStack = 99;
+            Item.maxStack = Item.CommonMaxStack;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

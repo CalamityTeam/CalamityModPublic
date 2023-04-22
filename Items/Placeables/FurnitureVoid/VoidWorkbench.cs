@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             Item.SetNameOverride("Void Work Bench");
             Item.width = 28;
             Item.height = 14;
-            Item.maxStack = 99;
+            Item.maxStack = Item.CommonMaxStack;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.Ores
             Item.consumable = true;
             Item.width = 22;
             Item.height = 22;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.value = Item.sellPrice(silver: 36);
             Item.rare = ItemRarityID.Cyan;
         }
