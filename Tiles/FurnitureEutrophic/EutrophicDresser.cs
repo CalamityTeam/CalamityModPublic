@@ -16,8 +16,6 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<Items.Placeables.FurnitureEutrophic.EutrophicDresser>(), CalamityUtils.GetMapChestName);
         }
 
-        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
-
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 51, 0f, 0f, 1, new Color(54, 69, 72), 1f);

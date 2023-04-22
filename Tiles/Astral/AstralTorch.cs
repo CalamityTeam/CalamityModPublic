@@ -11,16 +11,7 @@ namespace CalamityMod.Tiles.Astral
 {
     public class AstralTorch : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpTorch();
-            AddMapEntry(new Color(253, 221, 3), CalamityUtils.GetItemName(ItemID.Torch));
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Furniture.AstralTorch>();
-            AdjTiles = new int[] { TileID.Torches };
-            TileID.Sets.Torch[Type] = true;
-            TileID.Sets.FramesOnKillWall[Type] = true;
-        }
+        public override void SetStaticDefaults() => this.SetUpTorch();
 
         // This is required for torches to break underwater
         public override bool CanPlace(int i, int j) => Main.tile[i, j].LiquidAmount <= 0;

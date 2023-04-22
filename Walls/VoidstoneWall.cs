@@ -17,7 +17,6 @@ namespace CalamityMod.Walls
             Main.wallHouse[Type] = true;
             GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Walls/VoidstoneWall_Glowmask", AssetRequestMode.ImmediateLoad).Value;
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.VoidstoneWall>();
             AddMapEntry(new Color(0, 0, 0));
         }
 

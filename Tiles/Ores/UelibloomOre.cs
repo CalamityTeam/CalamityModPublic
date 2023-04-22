@@ -24,10 +24,7 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.Ore[Type] = true;
             TileID.Sets.OreMergesWithMud[Type] = true;
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.UelibloomOre>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Uelibloom");
-            AddMapEntry(new Color(0, 255, 0), name);
+            AddMapEntry(new Color(0, 255, 0), CreateMapEntryName());
             MineResist = 5f;
             MinPick = 225;
             HitSound = SoundID.Tink;

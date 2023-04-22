@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileLavaDeath[Type] = true;
             Main.tileNoFail[Type] = true;
             Main.tileNoSunLight[Type] = false;
-            AddMapEntry(new Color(0, 50, 0), CreateMapEntryName());
+            AddMapEntry(new Color(0, 50, 0));
             HitSound = SoundID.Grass;
             DustType = 2;
 			TileID.Sets.IsVine[Type] = true;

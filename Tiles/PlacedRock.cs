@@ -20,7 +20,6 @@ namespace CalamityMod.Tiles
             TileObjectData.addTile(Type);
 
             DustType = DustID.Stone;
-            ItemDrop = ModContent.ItemType<Rock>();
 
             AddMapEntry(new Color(83, 91, 102));
         }

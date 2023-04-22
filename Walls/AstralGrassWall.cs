@@ -20,7 +20,6 @@ namespace CalamityMod.Walls
         {
             // TODO -- Change this dust to be one more befitting Astral Grass.
             DustType = DustID.Shadowflame;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.AstralGrassWall>();
 
             WallID.Sets.Conversion.Grass[Type] = true;
 

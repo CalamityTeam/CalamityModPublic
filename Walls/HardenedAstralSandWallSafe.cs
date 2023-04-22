@@ -11,7 +11,6 @@ namespace CalamityMod.Walls
         {
             // TODO -- Change this dust to be one more befitting Hardened Astral Sand.
             DustType = DustID.Shadowflame;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.HardenedAstralSandWall>();
             Main.wallHouse[Type] = true;
 
             WallID.Sets.Conversion.HardenedSand[Type] = true;

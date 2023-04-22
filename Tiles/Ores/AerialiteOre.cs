@@ -42,10 +42,7 @@ namespace CalamityMod.Tiles.Ores
 
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 33;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOre>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Aerialite");
-            AddMapEntry(new Color(145, 255, 255), name);
+            AddMapEntry(new Color(145, 255, 255), CreateMapEntryName());
             MineResist = 2f;
             MinPick = 65;
             HitSound = MineSound;

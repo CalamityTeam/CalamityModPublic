@@ -22,8 +22,6 @@ namespace CalamityMod.Tiles.SunkenSea
             };
             TileObjectData.addTile(Type);
             DustType = 253;
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Tube Coral");
             AddMapEntry(new Color(36, 61, 111));
             MineResist = 3f;
 

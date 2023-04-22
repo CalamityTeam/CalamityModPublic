@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.DraedonStructures
             HitSound = SoundID.Item52;
             DustType = 32;
             MinPick = 30;
-            ItemDrop = ModContent.ItemType<Items.Placeables.DraedonStructures.RustedPipes>();
             AddMapEntry(new Color(128, 90, 77));
         }
 

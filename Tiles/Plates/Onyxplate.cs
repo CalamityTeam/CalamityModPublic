@@ -32,7 +32,6 @@ namespace CalamityMod.Tiles.Plates
             HitSound = MinePlatingSound;
             MineResist = 1f;
             DustType = 173;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Plates.Onyxplate>();
             AddMapEntry(new Color(182, 28, 232));
         }
 

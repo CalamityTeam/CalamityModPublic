@@ -48,9 +48,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
 
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Lab Hologram Projector");
-            AddMapEntry(new Color(99, 131, 199));
+            AddMapEntry(new Color(99, 131, 199), CalamityUtils.GetItemName<LabHologramProjectorItem>());
             AnimationFrameHeight = 112;
 
             // Spawn electric sparks when this tile is hit with a pickaxe.

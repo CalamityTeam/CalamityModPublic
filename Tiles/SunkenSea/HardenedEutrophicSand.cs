@@ -30,10 +30,7 @@ namespace CalamityMod.Tiles.SunkenSea
             TileID.Sets.CanBeDugByShovel[Type] = true;
 
             DustType = 108;
-            ItemDrop = ModContent.ItemType<Items.Placeables.HardenedEutrophicSand>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Hardened Eutrophic Sand");
-            AddMapEntry(new Color(67, 107, 143), name);
+            AddMapEntry(new Color(67, 107, 143));
             MineResist = 2f;
 
             TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<EutrophicSand>(), out tileAdjacency);

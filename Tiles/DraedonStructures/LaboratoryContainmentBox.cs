@@ -32,9 +32,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.addAlternate(1);
             TileObjectData.addTile(Type);
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Laboratory Containment Box");
-            AddMapEntry(new Color(82, 67, 66), name);
+            AddMapEntry(new Color(82, 67, 66), CalamityUtils.GetText("Tiles.ContainmentBox"));
         }
 
         public override bool CanExplode(int i, int j) => false;

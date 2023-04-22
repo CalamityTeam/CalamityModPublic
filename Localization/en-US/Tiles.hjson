@@ -1,70 +1,44 @@
 Mods: {
     CalamityMod: {
         Tiles: {
-            /* Common Entries shared by multiple tiles */
+            /* Common entries shared by multiple tiles */
+			/* Ambient Objects */
             Fossil: Fossil
             Column: Column
             Ribs: Ribs
             Stalagmite: Stalagmite
             Stalactite: Stalactite
+			PirateCrate: Abandoned Crate
+			
+			/* Basic Calamity Furniture */
+			Basin: Basin
+			PipeOrgan: Pipe Organ
+			Sconce: Sconce
+			
+			/* Draedon Lab Furniture */
+			Console: Console
+			ContainmentBox: Containment Box
+			Display: Display
+			ElectricPanel: Electric Panel
+			ReinforcedCrate: Reinforced Crate
+			Screen: Screen
+			Server: Server
+			Terminal: Terminal
 
-            /* Individual Tile entries */
-            /* Sulphurous Sea / Abyss */
-            SulphurousVines.MapEntry: Sulphurous Vines
-            ViperVines.MapEntry: Viper Vines
-            SteamGeyser.MapEntry: Geyser
-            AbyssVent.MapEntry: Steam Vent
-            ThermalVent.MapEntry: Thermal Vent
-            PirateCrate.MapEntry: Abandoned Crate
-
-            /* Astral */
-            ArenaTile.MapEntry: Arena
-	        AstralBeacon.MapEntry: Astral Beacon
-            AstralChestLocked: {
-		        MapEntry0: "{$ItemName.AstralChest}"
-		        MapEntry1: "Locked Astral Chest"
-	        }
-            AstralVines.MapEntry: Astral Vines
-            CelestialRemains.MapEntry: Celestial Remains
+            /* Individual entries */
+            /* Sulphurous Sea & Abyss */
+            SteamGeyser1.MapEntry: Geyser
+            AbyssVent1.MapEntry: Steam Vent
+            ThermalVent1.MapEntry: Thermal Vent
 
             /* Brimstone Crags */
-            BrimstoneSlab.MapEntry: Brimstone Slab
             SpineSapling.MapEntry: Spine Sapling
             SpineTree.MapEntry: Giant Spine
 
             /* Draedon */
-            AgedLaboratoryConsole.MapEntry: Aged Console
-	        AgedLaboratoryContainmentBox.MapEntry: Aged Laboratory Containment Box
-	        AgedLaboratoryDisplay.MapEntry: Aged Display
-	        AgedLaboratoryDoorClosed.MapEntry: Laboratory Door
-	        AgedLaboratoryDoorOpen.MapEntry: Laboratory Door
-	        AgedLaboratoryElectricPanel.MapEntry: Aged Electric Panel
-	        AgedLaboratoryScreen.MapEntry: Aged Screen
-	        AgedLaboratoryServer.MapEntry: Aged Server
-	        AgedLaboratoryTerminal.MapEntry: Aged Terminal
-            AgedReinforcedCrate.MapEntry: Aged Reinforced Crate
-	        AgedSecurityChestTile.MapEntry: Aged Security Chest
-            ChargingStation.MapEntry: Charging Station
-	        DraedonLabTurret.MapEntry: Lab Turret
 	        InactivePowerCellFactory.MapEntry: Inactive Power Cell Factory
-	        LabHologramProjector.MapEntry: Lab Hologram Projector
-	        LaboratoryConsole.MapEntry: Console
-	        LaboratoryContainmentBox.MapEntry: Laboratory Containment Box
-	        LaboratoryDisplay.MapEntry: Display
-	        LaboratoryDoorClosed.MapEntry: Laboratory Door
-	        LaboratoryDoorOpen.MapEntry: Laboratory Door
-	        LaboratoryElectricPanel.MapEntry: Electric Panel
-	        LaboratoryScreen.MapEntry: Screen
-	        LaboratoryServer.MapEntry: Server
-	        LaboratoryTerminal.MapEntry: Terminal
             OnyxExcavatorTile.MapEntry: Onyx Excavator
-	        PowerCellFactory.MapEntry: Power Cell Factory
-	        ReinforcedCrate.MapEntry: Reinforced Crate
-            SecurityChestTile.MapEntry: Security Chest
 	        CodebreakerTile.MapEntry: The Codebreaker
-
-            /* Sunken Sea */
-            SeaPrismCrystals.MapEntry: Sea Prism Crystal
 
             /* Ores */
             AerialiteOre.MapEntry: Aerialite
@@ -78,29 +52,18 @@ Mods: {
 	        PerennialOre.MapEntry: Perennial
 	        ScoriaOre.MapEntry: Scoria
 	        UelibloomOre.MapEntry: Uelibloom
-
-            /* Misc */
-	        AncientAltar.MapEntry: Ancient Altar
-	        AshenAltar.MapEntry: Ashen Altar
-	        BotanicPlanter.MapEntry: Botanic Planter
-	        CosmicAnvil.MapEntry: Cosmic Anvil
-	        DraedonsForge.MapEntry: Draedon's Forge
-	        EutrophicShelf.MapEntry: Eutrophic Shelf
-	        MonolithAmalgam.MapEntry: Monolith Amalgam
-	        PlagueInfuser.MapEntry: Plague Infuser
-	        ProfanedCrucible.MapEntry: Profaned Crucible
-	        SCalAltar.MapEntry: Altar
-	        SilvaBasin.MapEntry: Effulgent Manipulator
-	        StaticRefiner.MapEntry: Static Refiner
-	        VoidCondenser.MapEntry: Void Condenser
-	        WulfrumLabstation.MapEntry: Wulfrum Labstation
-	        ThankYouPaintingTile.MapEntry: Thank You Painting
-            AstralPylonTile.MapEntry: "{$Mods.CalamityMod.ItemName.AstralPylon}"
-	        CragsPylonTile.MapEntry: "{$Mods.CalamityMod.ItemName.CragsPylon}"
-	        SulphurPylonTile.MapEntry: "{$Mods.CalamityMod.ItemName.SulphurPylon}"
-	        SunkenPylonTile.MapEntry: "{$Mods.CalamityMod.ItemName.SunkenPylon}"
-
-            /* TODO: Make all furniture tiles use common MapObject/ItemName entries instead of registering their own indivdual entries */
+			
+			/* Misc */
+			ArenaTile.MapEntry: Arena
+			AshenChest: {
+				MapEntry0: "{$ItemName.AshenChest}"
+				MapEntry1: Locked Ashen Chest
+			}
+			AstralChestLocked: {
+		        MapEntry0: "{$ItemName.AstralChest}"
+		        MapEntry1: "Locked Astral Chest"
+	        }
+			PlaguedPlateBed.MapEntry: "'Bed'"
         }
     }
 }

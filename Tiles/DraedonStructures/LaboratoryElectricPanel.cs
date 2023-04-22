@@ -32,9 +32,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.addAlternate(1);
             TileObjectData.addTile(Type);
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Electric Panel");
-            AddMapEntry(Color.DimGray, name);
+            AddMapEntry(Color.DimGray, CalamityUtils.GetText("Tiles.ElectricPanel"));
             DustType = 8;
         }
 

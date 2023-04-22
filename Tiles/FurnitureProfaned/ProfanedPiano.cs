@@ -20,9 +20,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Piano");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("ItemName.Piano"));
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }
 

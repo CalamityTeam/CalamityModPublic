@@ -32,7 +32,6 @@ namespace CalamityMod.Tiles.Plates
 
             HitSound = MinePlatingSound;
             MineResist = 1f;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Plates.Navyplate>();
             AddMapEntry(new Color(85, 151, 196));
         }
 

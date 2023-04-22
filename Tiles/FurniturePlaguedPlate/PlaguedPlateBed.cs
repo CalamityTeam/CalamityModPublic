@@ -20,9 +20,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("'Bed'");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), CreateMapEntryName());
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Beds };
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);

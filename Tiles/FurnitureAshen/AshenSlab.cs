@@ -16,7 +16,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
             Main.tileBlockLight[Type] = true;
             CalamityUtils.SetMerge(Type, ModContent.TileType<BrimstoneSlag>());
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenSlab>();
             HitSound = SoundID.Tink;
             MineResist = 5f;
             MinPick = 180;

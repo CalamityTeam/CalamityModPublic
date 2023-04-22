@@ -34,9 +34,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.addAlternate(1);
 
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Server");
-            AddMapEntry(new Color(82, 67, 66), name);
+            AddMapEntry(new Color(82, 67, 66), CalamityUtils.GetText("Tiles.Server"));
         }
 
         public override bool CanExplode(int i, int j) => false;

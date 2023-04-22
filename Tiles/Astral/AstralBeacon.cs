@@ -37,9 +37,7 @@ namespace CalamityMod.Tiles.Astral
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style5x4);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Astral Beacon");
-            AddMapEntry(new Color(128, 128, 158), name);
+            AddMapEntry(new Color(128, 128, 158), CalamityUtils.GetItemName<AstralBeaconItem>());
             TileID.Sets.DisableSmartCursor[Type] = true;
             MinPick = 200;
         }

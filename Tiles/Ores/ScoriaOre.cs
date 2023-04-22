@@ -28,10 +28,7 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.Ore[Type] = true;
 
             DustType = 105;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.ScoriaOre>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Scoria");
-            AddMapEntry(new Color(210, 101, 28), name);
+            AddMapEntry(new Color(210, 101, 28), CreateMapEntryName());
             MineResist = 4f;
             MinPick = 210;
             HitSound = SoundID.Tink;

@@ -15,7 +15,6 @@ namespace CalamityMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             HitSound = SoundID.Tink;
-            ItemDrop = ModContent.ItemType<Items.Placeables.AerialiteBrick>();
             AddMapEntry(new Color(68, 58, 145));
 
             TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);

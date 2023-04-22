@@ -24,7 +24,6 @@ namespace CalamityMod.Tiles.Astral
             CalamityUtils.MergeWithOres(Type);
 
             DustType = ModContent.DustType<AstralBasic>();
-            ItemDrop = ModContent.ItemType<Items.Placeables.AstralStone>();
 
             HitSound = SoundID.Tink;
 

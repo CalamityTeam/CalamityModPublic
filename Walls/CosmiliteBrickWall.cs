@@ -10,7 +10,6 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.CosmiliteBrickWall>();
             AddMapEntry(new Color(34, 33, 59));
         }
 

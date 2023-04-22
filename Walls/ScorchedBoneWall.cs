@@ -12,7 +12,6 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.ScorchedBoneWall>();
             AddMapEntry(new Color(49, 33, 35));
         }
 

@@ -9,7 +9,6 @@ namespace CalamityMod.Walls.DraedonStructures
         public override void SetStaticDefaults()
         {
             DustType = 1;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.DraedonStructures.LaboratoryPanelWall>();
             Main.wallHouse[Type] = true;
 
             AddMapEntry(new Color(63, 57, 56));

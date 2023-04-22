@@ -37,9 +37,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             TileObjectData.addTile(Type);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Exo Door");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(119, 105, 79), Language.GetText("MapObject.Door"));
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.ClosedDoor };
             DustType = 8;

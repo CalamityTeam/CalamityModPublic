@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.Astral
 
             HitSound = SoundID.Grass;
 
-            AddMapEntry(new Color(65, 56, 83), CreateMapEntryName());
+            AddMapEntry(new Color(65, 56, 83));
         }
 
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)

@@ -27,10 +27,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             TileObjectData.newTile.UsesCustomCanPlace = true;
 
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Cosmilite Sconce");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AnimationFrameHeight = 54;
+            AddMapEntry(new Color(253, 221, 3), CalamityUtils.GetText("Tiles.Sconce"));
             TileID.Sets.DisableSmartCursor[Type] = true;
             TileID.Sets.FramesOnKillWall[Type] = true;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);

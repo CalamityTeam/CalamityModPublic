@@ -32,9 +32,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.newTile.CoordinatePadding = 0;
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Inactive Power Cell Factory");
-            AddMapEntry(new Color(67, 72, 81), name);
+            AddMapEntry(new Color(67, 72, 81), CreateMapEntryName());
             
             ItemDrop = ModContent.ItemType<PowerCellFactoryItem>();
         }

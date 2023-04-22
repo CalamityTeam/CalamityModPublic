@@ -19,9 +19,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Ashen Pipe Organ");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetText("Tiles.PipeOrgan"));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

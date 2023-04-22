@@ -29,9 +29,7 @@ namespace CalamityMod.Tiles.Astral
             CalamityUtils.SetMerge(Type, TileID.LivingWood);
             CalamityUtils.SetMerge(Type, TileID.LivingMahogany);
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.AstralMonolith>();
             AddMapEntry(new Color(45, 36, 63));
-
 
             TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<AstralDirt>(), out tileAdjacency);
         }

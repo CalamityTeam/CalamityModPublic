@@ -31,7 +31,6 @@ namespace CalamityMod.Tiles.Abyss
             HitSound = MineSound;
             MineResist = 10f;
             MinPick = 180;
-            ItemDrop = ModContent.ItemType<Items.Placeables.PyreMantle>();
             AddMapEntry(new Color(19, 20, 32));
 
 

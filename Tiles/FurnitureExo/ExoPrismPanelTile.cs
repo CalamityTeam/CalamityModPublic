@@ -27,7 +27,6 @@ namespace CalamityMod.Tiles.FurnitureExo
 
             MineResist = 2.2f;
             HitSound = SoundID.Shatter;
-            ItemDrop = ModContent.ItemType<ExoPrismPanel>();
             AddMapEntry(new Color(52, 67, 78));
             AnimationFrameHeight = 90;
         }

@@ -13,7 +13,6 @@ namespace CalamityMod.Walls
             Main.wallLargeFrames[Type] = 2;
 
             HitSound = SoundID.Shatter;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.ProfanedCrystalWall>();
             AddMapEntry(new Color(125, 97, 123));
         }
 

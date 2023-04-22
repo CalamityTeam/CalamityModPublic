@@ -12,7 +12,6 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.RunicProfanedBrickWall>();
             AddMapEntry(new Color(43, 22, 27));
         }
 

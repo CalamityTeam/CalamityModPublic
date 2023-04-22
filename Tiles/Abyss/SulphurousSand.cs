@@ -31,7 +31,6 @@ namespace CalamityMod.Tiles.Abyss
             TileID.Sets.CanBeDugByShovel[Type] = true;
 
             DustType = 32;
-            ItemDrop = ModContent.ItemType<Items.Placeables.SulphurousSand>();
             AddMapEntry(new Color(150, 100, 50));
             MineResist = 1f;
             HitSound = SoundID.Dig;

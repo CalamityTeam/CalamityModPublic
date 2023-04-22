@@ -11,7 +11,6 @@ namespace CalamityMod.Walls
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
-            ItemDrop = ModContent.ItemType<OccultBrickWallItem>();
             HitSound = SoundID.Dig;
             AddMapEntry(new Color(111, 95, 110));
         }

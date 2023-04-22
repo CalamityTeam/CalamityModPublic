@@ -23,7 +23,6 @@ namespace CalamityMod.Tiles.DraedonStructures
             HitSound = MinePlatingSound;
             DustType = 32;
             MinPick = 30;
-            ItemDrop = ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPipePlating>();
             AddMapEntry(new Color(91, 64, 56));
 
             TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);

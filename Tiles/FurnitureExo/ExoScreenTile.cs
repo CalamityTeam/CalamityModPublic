@@ -22,9 +22,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Screen");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(71, 95, 114), CalamityUtils.GetText("Tiles.Screen"));
             DustType = 8;
             AnimationFrameHeight = 36;
             TileID.Sets.FramesOnKillWall[Type] = true;

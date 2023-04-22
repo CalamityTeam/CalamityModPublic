@@ -27,7 +27,6 @@ namespace CalamityMod.Tiles.Astral
             CalamityUtils.SetMerge(Type, TileID.CrimsonGrass);
 
             DustType = ModContent.DustType<AstralBasic>();
-            ItemDrop = ModContent.ItemType<Items.Placeables.AstralDirt>();
 
             AddMapEntry(new Color(59, 50, 77));
 

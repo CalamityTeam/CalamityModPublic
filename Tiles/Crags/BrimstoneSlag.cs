@@ -24,7 +24,6 @@ namespace CalamityMod.Tiles.Crags
             HitSound = SoundID.Tink;
             MineResist = 3f;
             MinPick = 100;
-            ItemDrop = ModContent.ItemType<Items.Placeables.BrimstoneSlag>();
             AddMapEntry(new Color(53, 33, 56));
             TileFraming.SetUpUniversalMerge(Type, TileID.Ash, out TileAdjacency);
         }

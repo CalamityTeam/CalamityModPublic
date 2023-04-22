@@ -34,10 +34,7 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.Ore[Type] = true;
             TileID.Sets.OreMergesWithMud[Type] = true;
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.PerennialOre>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Perennial");
-            AddMapEntry(new Color(200, 250, 100), name);
+            AddMapEntry(new Color(200, 250, 100), CreateMapEntryName());
             MineResist = 3f;
             MinPick = 200;
             HitSound = SoundID.Tink;

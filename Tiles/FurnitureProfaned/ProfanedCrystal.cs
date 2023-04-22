@@ -22,7 +22,6 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
             HitSound = SoundID.Shatter;
             MineResist = 1f;
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedCrystal>();
             AddMapEntry(new Color(181, 136, 177));
         }
 

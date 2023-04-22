@@ -11,7 +11,6 @@ namespace CalamityMod.Walls
         {
             // TODO -- Change this dust to be one more befitting Astral Stone.
             DustType = DustID.Shadowflame;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.AstralStoneWall>();
             Main.wallHouse[Type] = true;
 
             WallID.Sets.Conversion.Stone[Type] = true;

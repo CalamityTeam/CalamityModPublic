@@ -25,9 +25,6 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.DrawYOffset = 4;
             TileObjectData.addTile(Type);
-
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Pot");
             AddMapEntry(new Color(226, 205, 101), Language.GetText("MapObject.Pot"));
 
             DustType = (int)CalamityDusts.SulfurousSeaAcid;

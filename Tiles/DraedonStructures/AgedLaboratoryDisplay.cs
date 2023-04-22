@@ -27,9 +27,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Aged Display");
-            AddMapEntry(Color.DarkSlateGray, name);
+            AddMapEntry(Color.DarkSlateGray, CalamityUtils.GetText("Tiles.Display"));
         }
 
         public override bool CanExplode(int i, int j) => false;

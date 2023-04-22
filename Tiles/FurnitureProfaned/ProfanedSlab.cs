@@ -21,7 +21,6 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
             HitSound = SoundID.Tink;
             MineResist = 4f;
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedSlab>();
             AddMapEntry(new Color(122, 66, 59));
             AnimationFrameHeight = 90;
         }

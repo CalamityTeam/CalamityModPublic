@@ -34,9 +34,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             TileObjectData.addAlternate(1);
             TileObjectData.addTile(Type);
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Console");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(71, 95, 114), CalamityUtils.GetText("Tiles.Console"));
         }
 
         public override bool CanExplode(int i, int j) => false;

@@ -11,7 +11,6 @@ namespace CalamityMod.Walls
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.AstralMonolithWall>();
             AddMapEntry(new Color(5, 5, 5));
         }
 

@@ -18,9 +18,7 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.CopyFrom(TileObjectData.Style6x3);
             TileObjectData.addTile(Type);
             AnimationFrameHeight = 54;
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Piggy Cage");
-            AddMapEntry(new Color(175, 238, 238), CalamityUtils.GetItemName<PiggyCage>());
+            AddMapEntry(new Color(122, 217, 232), CalamityUtils.GetItemName<PiggyCage>());
         }
 
         public override bool CreateDust(int i, int j, ref int type)

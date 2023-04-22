@@ -15,7 +15,6 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             Main.tileBlockLight[Type] = true;
             HitSound = SoundID.Tink;
             MineResist = 2.1f;
-            ItemDrop = ModContent.ItemType<PlaguedContainmentBrick>();
             AddMapEntry(new Color(51, 99, 75));
         }
 

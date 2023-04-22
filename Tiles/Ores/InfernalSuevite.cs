@@ -28,10 +28,7 @@ namespace CalamityMod.Tiles.Ores
 
             TileID.Sets.Ore[Type] = true;
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.InfernalSuevite>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Infernal Suevite");
-            AddMapEntry(new Color(17, 16, 26), name);
+            AddMapEntry(new Color(17, 16, 26), CreateMapEntryName());
             MineResist = 6f;
             MinPick = 150;
             HitSound = SoundID.Tink;

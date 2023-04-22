@@ -19,9 +19,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4); //This piano has bookcase dimensions
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Piano");
-            AddMapEntry(new Color(43, 19, 42), name);
+            AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetText("Tiles.PipeOrgan"));
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }
 

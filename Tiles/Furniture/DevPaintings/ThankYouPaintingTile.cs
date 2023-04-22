@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.Furniture.DevPaintings
             TileID.Sets.FramesOnKillWall[Type] = true;
             TileID.Sets.DisableSmartCursor[Type] = true;
 			DustType = 7;
-			AddMapEntry(new Color(120, 85, 60), CreateMapEntryName());
+			AddMapEntry(new Color(99, 50, 30), Language.GetText("MapObject.Painting"));
 		}
 	}
 }

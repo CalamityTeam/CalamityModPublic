@@ -24,8 +24,7 @@ namespace CalamityMod.Tiles.SunkenSea
             TileID.Sets.ChecksForMerge[Type] = true;
             TileID.Sets.WallsMergeWith[Type] = true;
             DustType = 108;
-            ItemDrop = ModContent.ItemType<Items.Placeables.EutrophicGlass>();
-            AddMapEntry(new Color(197, 220, 220), CalamityUtils.GetItemName<Items.Placeables.EutrophicGlass>());
+            AddMapEntry(new Color(197, 220, 220));
             MineResist = 2f;
             HitSound = SoundID.Shatter;
             MinPick = 55;

@@ -9,7 +9,6 @@ namespace CalamityMod.Walls
         public override void SetStaticDefaults()
         {
             DustType = ModContent.DustType<Dusts.AstralBasic>();
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.AstralSnowWall>();
             Main.wallHouse[Type] = true;
 
             AddMapEntry(new Color(135, 145, 149));

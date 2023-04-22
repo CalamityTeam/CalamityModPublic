@@ -12,7 +12,6 @@ namespace CalamityMod.Walls
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
-            ItemDrop = ModContent.ItemType<ExoPrismPanelWallItem>();
             AddMapEntry(new Color(41, 55, 65));
         }
 

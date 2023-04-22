@@ -16,7 +16,6 @@ namespace CalamityMod.Tiles.LivingFire
         {
             Main.tileLighted[Type] = true;
             HitSound = SoundID.Dig;
-            ItemDrop = ModContent.ItemType<LivingBrimstoneFireBlock>();
             AddMapEntry(new Color(178, 34, 34));
             AnimationFrameHeight = 90;
             Main.tileSolid[Type] = false;

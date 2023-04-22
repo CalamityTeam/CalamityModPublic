@@ -43,9 +43,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
 
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Charging Station");
-            AddMapEntry(new Color(67, 72, 81), name);
+            AddMapEntry(new Color(67, 72, 81), CalamityUtils.GetItemName<ChargingStationItem>());
         }
 
         public override bool CanExplode(int i, int j) => false;

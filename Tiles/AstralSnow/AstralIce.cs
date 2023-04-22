@@ -24,7 +24,6 @@ namespace CalamityMod.Tiles.AstralSnow
             CalamityUtils.MergeAstralTiles(Type);
 
             DustType = 173;
-            ItemDrop = ModContent.ItemType<Items.Placeables.AstralIce>();
 
             HitSound = SoundID.Item50;
 

@@ -13,7 +13,6 @@ namespace CalamityMod.Walls
             // TODO -- Change this dust to be one more befitting Astral Dirt.
             DustType = DustID.Shadowflame;
             Main.wallHouse[Type] = true;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.AstralDirtWall>();
             AddMapEntry(new Color(26, 22, 32));
         }
 

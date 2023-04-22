@@ -22,9 +22,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Aged Screen");
-            AddMapEntry(Color.DarkGray, name);
+            AddMapEntry(Color.DarkGray, CalamityUtils.GetText("Tiles.Screen"));
             TileID.Sets.FramesOnKillWall[Type] = true;
             DustType = 8;
         }

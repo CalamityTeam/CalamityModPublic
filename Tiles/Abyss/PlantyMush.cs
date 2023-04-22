@@ -29,9 +29,6 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithAbyss(Type);
 
             DustType = 2;
-            ItemDrop = ModContent.ItemType<Items.Placeables.PlantyMush>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Planty Mush");
             AddMapEntry(new Color(84, 102, 39), CalamityUtils.GetItemName<Items.Placeables.PlantyMush>());
             MineResist = 1f;
             HitSound = MineSound;

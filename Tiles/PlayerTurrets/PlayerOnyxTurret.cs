@@ -37,9 +37,7 @@ namespace CalamityMod.Tiles.PlayerTurrets
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
 
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Onyx Turret");
-            AddMapEntry(new Color(67, 72, 81), name);
+            AddMapEntry(new Color(67, 72, 81), Language.GetText("MapObject.Turret"));
             HitSound = SoundID.Item14;
 
             // Has 500% durability.

@@ -40,10 +40,7 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.OreMergesWithMud[Type] = true;
 
             DustType = 55;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AuricOre>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Auric");
-            AddMapEntry(new Color(255, 200, 0), name);
+            AddMapEntry(new Color(255, 200, 0), CreateMapEntryName());
             MineResist = 10f;
             MinPick = 250;
             HitSound = MineSound;

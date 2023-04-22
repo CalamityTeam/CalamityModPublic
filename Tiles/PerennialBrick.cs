@@ -21,7 +21,6 @@ namespace CalamityMod.Tiles
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeDecorativeTiles(Type);
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.PerennialBrick>();
             HitSound = SoundID.Tink;
             AddMapEntry(new Color(17, 133, 46));
             AnimationFrameHeight = 90;

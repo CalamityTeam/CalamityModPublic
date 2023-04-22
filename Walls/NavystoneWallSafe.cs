@@ -10,7 +10,6 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
             DustType = 96;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.NavystoneWallSafe>();
             AddMapEntry(new Color(0, 50, 50));
         }
 

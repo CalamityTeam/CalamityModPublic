@@ -26,10 +26,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileShine2[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
-            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.HallowedOre>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Hallowed Ore");
-            AddMapEntry(new Color(250, 250, 150), name);
+            AddMapEntry(new Color(250, 250, 150), CreateMapEntryName());
             MineResist = 3f;
             MinPick = 180;
             HitSound = SoundID.Tink;

@@ -20,7 +20,6 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeWithAbyss(Type);
 
-            ItemDrop = ModContent.ItemType<Acidwood>();
             HitSound = SoundID.Dig;
             AddMapEntry(new Color(218, 169, 97));
             AnimationFrameHeight = 270;

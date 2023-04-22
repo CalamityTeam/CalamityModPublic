@@ -19,9 +19,7 @@ namespace CalamityMod.Tiles
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Roxcalibur");
-            AddMapEntry(new Color(240, 77, 7), name);
+            AddMapEntry(new Color(240, 77, 7), CalamityUtils.GetItemName<Roxcalibur>());
             TileID.Sets.DisableSmartCursor[Type] = true;
 
             ItemDrop = ModContent.ItemType<Roxcalibur>();

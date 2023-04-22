@@ -22,7 +22,6 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
             CalamityUtils.MergeWithGeneral(Type);
 
             HitSound = MinePlatingSound;
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureWulfrum.WulfrumPlating>();
             AddMapEntry(new Color(155, 171, 117));
         }
 

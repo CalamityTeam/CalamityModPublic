@@ -10,7 +10,6 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
             DustType = 108;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.EutrophicSandWallSafe>();
             AddMapEntry(new Color(11, 56, 81));
         }
 

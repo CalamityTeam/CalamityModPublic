@@ -18,8 +18,6 @@ namespace CalamityMod.Tiles.Abyss
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Fossil");
             AddMapEntry(new Color(113, 90, 71), CalamityUtils.GetText("Tiles.Fossil"));
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
         }

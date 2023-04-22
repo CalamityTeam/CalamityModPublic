@@ -72,9 +72,7 @@ namespace CalamityMod.Tiles.DraedonSummoner
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TECodebreaker>().Hook_AfterPlacement, -1, 0, true);
 
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("The Codebreaker");
-            AddMapEntry(new Color(92, 107, 112), name);
+            AddMapEntry(new Color(92, 107, 112), CreateMapEntryName());
             AnimationFrameHeight = 144;
         }
 

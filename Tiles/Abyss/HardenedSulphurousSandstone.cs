@@ -21,7 +21,6 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithAbyss(Type);
 
             DustType = 32;
-            ItemDrop = ModContent.ItemType<Items.Placeables.HardenedSulphurousSandstone>();
             AddMapEntry(new Color(76, 58, 59));
             MineResist = 1.45f;
             HitSound = SoundID.Dig;

@@ -10,7 +10,6 @@ namespace CalamityMod.Walls
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
-            ItemDrop = ModContent.ItemType<ExoPlatingWallItem>();
             AddMapEntry(new Color(41, 55, 65));
         }
 

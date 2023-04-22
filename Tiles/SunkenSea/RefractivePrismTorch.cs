@@ -10,18 +10,7 @@ namespace CalamityMod.Tiles.SunkenSea
 {
     public class RefractivePrismTorch : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpTorch(true, true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Torch");
-            AddMapEntry(new Color(253, 221, 3), CalamityUtils.GetItemName(ItemID.Torch));
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Furniture.RefractivePrismTorch>();
-            AdjTiles = new int[] { TileID.Torches };
-            TileID.Sets.Torch[Type] = true;
-            TileID.Sets.FramesOnKillWall[Type] = true;
-        }
+        public override void SetStaticDefaults() => this.SetUpTorch(true, true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

@@ -11,7 +11,6 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.FloralWall>();
             AddMapEntry(new Color(23, 39, 48));
         }
 

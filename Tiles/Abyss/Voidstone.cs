@@ -33,7 +33,6 @@ namespace CalamityMod.Tiles.Abyss
             HitSound = MineSound;
             MineResist = 10f;
             MinPick = 180;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Voidstone>();
             AddMapEntry(new Color(15, 15, 15));
 
             TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);

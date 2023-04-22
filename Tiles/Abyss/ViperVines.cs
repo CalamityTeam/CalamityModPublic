@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileBlockLight[Type] = true;
             Main.tileLavaDeath[Type] = true;
             Main.tileNoFail[Type] = true;
-            AddMapEntry(new Color(0, 50, 0), CreateMapEntryName());
+            AddMapEntry(new Color(0, 50, 0));
             HitSound = SoundID.Grass;
             DustType = 2;
         }

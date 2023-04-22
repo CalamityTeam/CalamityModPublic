@@ -37,9 +37,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.addTile(Type);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Laboratory Door");
-            AddMapEntry(Color.DarkSlateGray, name);
+            AddMapEntry(new Color(119, 105, 79), Language.GetText("MapObject.Door"));
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.ClosedDoor };
             DustType = 8;

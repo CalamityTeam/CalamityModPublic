@@ -32,10 +32,7 @@ namespace CalamityMod.Tiles.Ores
 
             MinPick = 210;
             DustType = 173;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AstralOre>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Astral Ore");
-            AddMapEntry(new Color(255, 153, 255), name);
+            AddMapEntry(new Color(255, 153, 255), CreateMapEntryName());
             MineResist = 5f;
             HitSound = SoundID.Tink;
 

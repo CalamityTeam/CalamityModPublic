@@ -42,9 +42,7 @@ namespace CalamityMod.Tiles.Crags.Tree
             Main.tileSolid[Type] = false;
             Main.tileLighted[Type] = false;
             Main.tileBlockLight[Type] = false;
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Giant Spine");
-            AddMapEntry(new Color(38, 25, 27), name);
+            AddMapEntry(new Color(38, 25, 27), CreateMapEntryName());
             DustType = 155;
 			HitSound = SoundID.DD2_SkeletonHurt;
             ItemDrop = ModContent.ItemType<Items.Placeables.ScorchedBone>();

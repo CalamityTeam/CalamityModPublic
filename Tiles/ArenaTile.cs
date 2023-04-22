@@ -18,9 +18,7 @@ namespace CalamityMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Arena");
-            AddMapEntry(new Color(128, 0, 0), name);
+            AddMapEntry(new Color(128, 0, 0), CreateMapEntryName());
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)

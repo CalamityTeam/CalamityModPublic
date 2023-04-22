@@ -22,7 +22,6 @@ namespace CalamityMod.Tiles
             CalamityUtils.MergeDecorativeTiles(Type);
 
             HitSound = SoundID.Tink;
-            ItemDrop = ModContent.ItemType<Items.Placeables.CryonicBrick>();
             AddMapEntry(new Color(99, 131, 199));
 
             TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);

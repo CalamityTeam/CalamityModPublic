@@ -21,7 +21,6 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 
             TileID.Sets.ChecksForMerge[Type] = true;
             HitSound = SoundID.Tink;
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.SmoothNavystone>();
             AddMapEntry(new Color(39, 48, 53));
         }
 

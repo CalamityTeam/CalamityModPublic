@@ -24,15 +24,12 @@ namespace CalamityMod.Tiles.Ores
             TileID.Sets.Ore[Type] = true;
             TileID.Sets.OreMergesWithMud[Type] = true;
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Exodium");
-            AddMapEntry(new Color(51, 48, 68), name);
+            AddMapEntry(new Color(51, 48, 68), CreateMapEntryName());
             MineResist = 5f;
             MinPick = 225;
             HitSound = SoundID.Tink;
             Main.tileOreFinderPriority[Type] = 760;
             Main.tileSpelunker[Type] = true;
-            ItemDrop = ModContent.ItemType<ExodiumCluster>();
             base.SetStaticDefaults();
 
             TileID.Sets.ChecksForMerge[Type] = true;

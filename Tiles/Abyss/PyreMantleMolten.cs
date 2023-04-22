@@ -36,7 +36,6 @@ namespace CalamityMod.Tiles.Abyss
             HitSound = MineSound;
             MineResist = 10f;
             MinPick = 180;
-            ItemDrop = ModContent.ItemType<Items.Placeables.PyreMantleMolten>();
             AddMapEntry(new Color(113, 49, 16));
 
             TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);

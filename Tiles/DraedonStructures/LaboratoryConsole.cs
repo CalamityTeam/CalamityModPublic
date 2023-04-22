@@ -34,9 +34,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.addAlternate(1);
             TileObjectData.addTile(Type);
 
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Console");
-            AddMapEntry(new Color(82, 67, 66), name);
+            AddMapEntry(new Color(82, 67, 66), CalamityUtils.GetText("Tiles.Console"));
         }
 
         public override bool CanExplode(int i, int j) => false;

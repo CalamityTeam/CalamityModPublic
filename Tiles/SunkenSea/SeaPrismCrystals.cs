@@ -15,10 +15,8 @@ namespace CalamityMod.Tiles.SunkenSea
             Main.tileNoFail[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Sea Prism Crystal");
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-            AddMapEntry(new Color(0, 150, 200), CalamityUtils.GetItemName<Items.Placeables.SeaPrismBrick>());
+            AddMapEntry(new Color(0, 150, 200), CalamityUtils.GetItemName<PrismShard>());
             HitSound = SoundID.Item27;
             DustType = 67;
             ItemDrop = ModContent.ItemType<PrismShard>();

@@ -20,10 +20,7 @@ namespace CalamityMod.Tiles.Ores
 
             TileID.Sets.Ore[Type] = true;
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.CryonicOre>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Cryonic");
-            AddMapEntry(new Color(0, 0, 150), name);
+            AddMapEntry(new Color(0, 0, 150), CreateMapEntryName());
             MineResist = 3f;
             MinPick = 180;
             HitSound = SoundID.Tink;

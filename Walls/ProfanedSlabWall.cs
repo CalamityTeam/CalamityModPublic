@@ -12,7 +12,6 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.ProfanedSlabWall>();
             AddMapEntry(new Color(59, 27, 23));
         }
 

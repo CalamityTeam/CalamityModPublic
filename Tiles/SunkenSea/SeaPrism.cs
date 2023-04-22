@@ -27,8 +27,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 33;
-            ItemDrop = ModContent.ItemType<Items.Placeables.SeaPrism>();
-            AddMapEntry(new Color(0, 150, 200), CalamityUtils.GetItemName<Items.Placeables.SeaPrism>());
+            AddMapEntry(new Color(0, 150, 200));
             MineResist = 3f;
             HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;

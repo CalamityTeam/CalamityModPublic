@@ -24,10 +24,7 @@ namespace CalamityMod.Tiles
             TileID.Sets.CanBeDugByShovel[Type] = true;
 
             DustType = 38;
-            ItemDrop = ModContent.ItemType<Items.Placeables.VernalSoil>();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Vernal Soil");
-            AddMapEntry(new Color(80, 120, 0), name);
+            AddMapEntry(new Color(80, 120, 0));
             HitSound = SoundID.Dig;
 
             TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);

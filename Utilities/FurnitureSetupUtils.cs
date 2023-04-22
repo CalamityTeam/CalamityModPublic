@@ -1305,6 +1305,9 @@ namespace CalamityMod
             Main.tileNoFail[mt.Type] = true;
             Main.tileWaterDeath[mt.Type] = !waterImmune;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
+            TileID.Sets.Torch[mt.Type] = true;
+            TileID.Sets.FramesOnKillWall[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.StyleTorch);
             TileObjectData.newTile.WaterDeath = !waterImmune;
             TileObjectData.newTile.LavaDeath = !lavaImmune;
@@ -1330,6 +1333,8 @@ namespace CalamityMod
 
             // All torches count as light sources.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
+            mt.AddMapEntry(new Color(253, 221, 3), Language.GetText("ItemName.Torch"));
+            mt.AdjTiles = new int[] { TileID.Torches };
         }
 
         /// <summary>

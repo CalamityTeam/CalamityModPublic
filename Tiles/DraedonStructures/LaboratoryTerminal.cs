@@ -37,9 +37,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.addAlternate(1);
 
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Terminal");
-            AddMapEntry(Color.DarkSlateGray, name);
+            AddMapEntry(Color.DarkSlateGray, CalamityUtils.GetText("Tiles.Terminal"));
         }
 
         public override bool CanExplode(int i, int j) => false;

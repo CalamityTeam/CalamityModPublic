@@ -26,7 +26,6 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
 
             HitSound = SoundID.Tink;
             MineResist = 3f;
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureOtherworldly.OtherworldlyStone>();
             AddMapEntry(new Color(60, 42, 61));
         }
 

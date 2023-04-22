@@ -10,7 +10,6 @@ namespace CalamityMod.Walls
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.ScoriaBrickWall>();
             AddMapEntry(new Color(255, 0, 0));
             DustType = 105;
         }

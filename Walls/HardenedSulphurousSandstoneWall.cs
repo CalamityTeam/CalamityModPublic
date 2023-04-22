@@ -10,7 +10,6 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
             DustType = 32;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.HardenedSulphurousSandstoneWall>();
             AddMapEntry(new Color(62, 50, 39));
         }
 

@@ -20,7 +20,6 @@ namespace CalamityMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             HitSound = SoundID.Tink;
-            ItemDrop = ModContent.ItemType<Items.Placeables.AstralBrick>();
             AddMapEntry(new Color(128, 128, 158));
 
             TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);

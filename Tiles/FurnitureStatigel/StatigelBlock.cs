@@ -16,7 +16,6 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeSmoothTiles(Type);
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelBlock>();
             AddMapEntry(new Color(215, 74, 121));
         }
 

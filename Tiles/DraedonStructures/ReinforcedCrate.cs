@@ -22,9 +22,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Reinforced Crate");
-            AddMapEntry(Color.DimGray, name);
+            AddMapEntry(Color.DimGray, CalamityUtils.GetText("Tiles.ReinforcedCrate"));
         }
 
         public override bool CanExplode(int i, int j) => false;

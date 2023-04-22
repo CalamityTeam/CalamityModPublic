@@ -36,9 +36,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 
             TileID.Sets.HasOutlines[Type] = true;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Monolith of the Accursed");
-            AddMapEntry(new Color(43, 19, 42), name);
+            AddMapEntry(new Color(43, 19, 42), CalamityUtils.GetItemName<MonolithOfTheAccursed>());
         }
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;

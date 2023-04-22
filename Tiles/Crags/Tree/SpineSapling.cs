@@ -35,9 +35,7 @@ namespace CalamityMod.Tiles.Crags.Tree
 			TileObjectData.newTile.RandomStyleRange = 3;
 			TileObjectData.newTile.StyleMultiplier = 3;
 			TileObjectData.addTile(Type);
-			LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Spine Sapling");
-            AddMapEntry(new Color(38, 25, 27), name);
+            AddMapEntry(new Color(38, 25, 27), CreateMapEntryName());
             DustType = DustID.Blood;
 			AdjTiles = new int[] { TileID.Saplings };
 		}

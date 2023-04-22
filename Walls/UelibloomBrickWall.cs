@@ -10,7 +10,6 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.UelibloomBrickWall>();
             AddMapEntry(new Color(97, 59, 35));
         }
 

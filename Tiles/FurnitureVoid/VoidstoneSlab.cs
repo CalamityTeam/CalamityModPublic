@@ -16,7 +16,6 @@ namespace CalamityMod.Tiles.FurnitureVoid
             HitSound = SoundID.Tink;
             MineResist = 7f;
             MinPick = 180;
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureVoid.VoidstoneSlab>();
             AddMapEntry(new Color(27, 24, 31));
             AnimationFrameHeight = 270;
         }

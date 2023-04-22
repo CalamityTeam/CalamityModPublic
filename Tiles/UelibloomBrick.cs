@@ -28,7 +28,6 @@ namespace CalamityMod.Tiles
 
             MineResist = 2f;
             HitSound = SoundID.Tink;
-            ItemDrop = ModContent.ItemType<Items.Placeables.UelibloomBrick>();
             AddMapEntry(new Color(174, 108, 46));
 
             TileFraming.SetUpUniversalMerge(Type, TileID.Dirt, out tileAdjacency);

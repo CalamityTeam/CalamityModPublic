@@ -27,9 +27,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 			TileObjectData.newTile.CoordinatePadding = 2;
 			TileObjectData.newTile.DrawYOffset = 2;
 			TileObjectData.addTile(Type);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Onyx Excavator");
-            AddMapEntry(new Color(128, 0, 128), name);
+            AddMapEntry(new Color(128, 0, 128), CreateMapEntryName());
             
             ItemDrop = ModContent.ItemType<OnyxExcavatorKey>();
         }

@@ -9,7 +9,6 @@ namespace CalamityMod.Walls
     {
         public override void SetStaticDefaults()
         {
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.BrimstoneSlagWall>();
             AddMapEntry(new Color(24, 16, 29));
         }
 

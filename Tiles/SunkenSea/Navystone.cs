@@ -24,8 +24,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
             TileID.Sets.ChecksForMerge[Type] = true;
             DustType = 96;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Navystone>();
-            AddMapEntry(new Color(31, 92, 114), CalamityUtils.GetItemName<Items.Placeables.Navystone>());
+            AddMapEntry(new Color(31, 92, 114));
             MineResist = 2f;
             HitSound = SoundID.Tink;
 
