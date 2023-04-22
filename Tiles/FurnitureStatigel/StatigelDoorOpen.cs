@@ -14,9 +14,6 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen();
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.OpenDoor };
             ItemDrop = ModContent.ItemType<StatigelDoor>();
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<StatigelDoorClosed>();
         }

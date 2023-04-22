@@ -14,9 +14,6 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen();
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.OpenDoor };
             ItemDrop = ModContent.ItemType<EutrophicDoor>();
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<EutrophicDoorClosed>();
         }

@@ -14,46 +14,22 @@ namespace CalamityMod.Tiles.DraedonStructures
         public override void SetStaticDefaults()
         {
             this.SetUpChest();
-            LocalizedText name = CreateMapEntryName();
-            AddMapEntry(new Color(130, 119, 115), name, MapChestName);
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Containers };
+            AddMapEntry(new Color(130, 119, 115), CalamityUtils.GetItemName<SecurityChest>(), CalamityUtils.GetMapChestName);
         }
 
-        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
-
         public override bool CanExplode(int i, int j) => false;
-
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 226, 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
-
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
-        public string MapChestName(string name, int i, int j) => CalamityUtils.GetMapChestName(name, i, j);
-
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Chest.DestroyChest(i, j);
-        }
-
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CalamityUtils.GetItemName<SecurityChest>();
+		public override void MouseOver(int i, int j) => CalamityUtils.ChestMouseOver<SecurityChest>(i, j);
+		public override void MouseOverFar(int i, int j) => CalamityUtils.ChestMouseFar<SecurityChest>(i, j);
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Chest.DestroyChest(i, j);
         public override bool RightClick(int i, int j) => CalamityUtils.ChestRightClick(i, j);
-
-        public override void MouseOver(int i, int j)
-        {
-            CalamityUtils.ChestMouseOver<SecurityChest>(i, j);
-        }
-
-        public override void MouseOverFar(int i, int j)
-        {
-            CalamityUtils.ChestMouseFar<SecurityChest>(i, j);
-        }
     }
 }

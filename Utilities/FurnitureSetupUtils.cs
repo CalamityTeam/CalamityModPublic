@@ -907,6 +907,8 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(mt.Type);
+
+            mt.AdjTiles = new int[] { TileID.Containers };
         }
 
         /// <summary>
@@ -952,6 +954,7 @@ namespace CalamityMod
             TileID.Sets.NotReallySolid[mt.Type] = true;
             TileID.Sets.DrawsWalls[mt.Type] = true;
             TileID.Sets.HasOutlines[mt.Type] = true;
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.Height = 3;
             TileObjectData.newTile.Origin = new Point16(0, 0);
@@ -973,6 +976,8 @@ namespace CalamityMod
 
             // As you could probably guess, all closed doors count as doors.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
+            mt.AddMapEntry(new Color(119, 105, 79), Language.GetText("MapObject.Door"));
+            mt.AdjTiles = new int[] { TileID.ClosedDoor };
         }
 
         /// <summary>
@@ -1029,9 +1034,12 @@ namespace CalamityMod
             TileObjectData.addTile(mt.Type);
             TileID.Sets.HousingWalls[mt.Type] = true;
             TileID.Sets.HasOutlines[mt.Type] = true;
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
 
             // As you could probably guess, all open doors count as doors.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
+            mt.AddMapEntry(new Color(119, 105, 79), Language.GetText("MapObject.Door"));
+            mt.AdjTiles = new int[] { TileID.OpenDoor };
         }
 
         /// <summary>

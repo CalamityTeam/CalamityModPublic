@@ -14,38 +14,21 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         public override void SetStaticDefaults()
         {
             this.SetUpChest(true);
-            LocalizedText name = CreateMapEntryName();
-            AddMapEntry(new Color(191, 142, 111), name, MapChestName);
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Containers };
+            AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<AcidwoodChest>(), CalamityUtils.GetMapChestName);
         }
-
-        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
 
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 7, 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
-
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
-        public string MapChestName(string name, int i, int j) => CalamityUtils.GetMapChestName(name, i, j);
-
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Chest.DestroyChest(i, j);
-        }
-
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CalamityUtils.GetItemName<AcidwoodChest>();
+		public override void MouseOver(int i, int j) => CalamityUtils.ChestMouseOver<AcidwoodChest>(i, j);
+		public override void MouseOverFar(int i, int j) => CalamityUtils.ChestMouseFar<AcidwoodChest>(i, j);
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Chest.DestroyChest(i, j);
         public override bool RightClick(int i, int j) => CalamityUtils.ChestRightClick(i, j);
-
-        public override void MouseOver(int i, int j) => CalamityUtils.ChestMouseOver<AcidwoodChest>(i, j);
-
-        public override void MouseOverFar(int i, int j) => CalamityUtils.ChestMouseFar<AcidwoodChest>(i, j);
     }
 }

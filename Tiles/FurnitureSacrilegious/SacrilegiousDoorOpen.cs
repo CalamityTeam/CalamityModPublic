@@ -14,9 +14,6 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.Door"));
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.OpenDoor };
             ItemDrop = ModContent.ItemType<SacrilegiousDoor>();
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<SacrilegiousDoorClosed>();
         }
