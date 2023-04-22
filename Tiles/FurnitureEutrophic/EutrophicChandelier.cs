@@ -9,12 +9,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicChandelier : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpChandelier();
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chandelier"));
-            AdjTiles = new int[] { TileID.Chandeliers };
-        }
+        public override void SetStaticDefaults() => this.SetUpChandelier();
 
         public override bool CreateDust(int i, int j, ref int type)
         {

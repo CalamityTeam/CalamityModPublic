@@ -9,12 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusChandelier : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpChandelier(true);
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chandelier"));
-            AdjTiles = new int[] { TileID.Chandeliers };
-        }
+        public override void SetStaticDefaults() => this.SetUpChandelier(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

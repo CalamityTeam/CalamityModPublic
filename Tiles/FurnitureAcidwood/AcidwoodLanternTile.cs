@@ -11,14 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodLanternTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpLantern();
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Lantern"));
-
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.HangingLanterns };
-        }
+        public override void SetStaticDefaults() => this.SetUpLantern();
 
         public override bool CreateDust(int i, int j, ref int type)
         {

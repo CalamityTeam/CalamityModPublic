@@ -11,12 +11,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousChandelierTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpChandelier(true);
-            AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.Chandelier"));
-            AdjTiles = new int[] { TileID.Chandeliers };
-        }
+        public override void SetStaticDefaults() => this.SetUpChandelier(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

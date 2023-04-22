@@ -10,14 +10,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientLantern : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpLantern(true);
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Lantern"));
-
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.HangingLanterns };
-        }
+        public override void SetStaticDefaults() => this.SetUpLantern(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

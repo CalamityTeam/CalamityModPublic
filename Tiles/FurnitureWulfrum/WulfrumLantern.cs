@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
             TileObjectData.addTile(Type);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-            AddMapEntry(new Color(100, 153, 100), Language.GetText("MapObject.Lantern"));
+            AddMapEntry(new Color(251, 235, 127), Language.GetText("MapObject.Lantern"));
 
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.HangingLanterns };

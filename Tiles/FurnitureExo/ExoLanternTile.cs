@@ -11,14 +11,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoLanternTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpLantern(true);
-            AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Lantern"));
-
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.HangingLanterns };
-        }
+        public override void SetStaticDefaults() => this.SetUpLantern(true);
 
         public override bool CanExplode(int i, int j) => false;
 

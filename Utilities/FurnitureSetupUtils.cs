@@ -875,6 +875,8 @@ namespace CalamityMod
 
             // All chandeliers count as light sources.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
+            mt.AddMapEntry(new Color(235, 166, 135), Language.GetText("MapObject.Chandelier"));
+            mt.AdjTiles = new int[] { TileID.Chandeliers };
         }
 
         /// <summary>
@@ -1090,18 +1092,24 @@ namespace CalamityMod
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-        internal static void SetUpLantern(this ModTile mt, bool lavaImmune = false)
+        /// <param name="autoMapEntry">Whether this tile is supposed to use normal map entries. Defaults to true.</param>
+        internal static void SetUpLantern(this ModTile mt, bool lavaImmune = false, bool autoMapEntry = true)
         {
             Main.tileLighted[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
             Main.tileWaterDeath[mt.Type] = false;
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2Top);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(mt.Type);
 
             // All hanging lanterns count as light sources.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
+            if (autoMapEntry)
+                mt.AddMapEntry(new Color(251, 235, 127), Language.GetText("MapObject.Lantern"));
+
+            mt.AdjTiles = new int[] { TileID.HangingLanterns };
         }
 
         /// <summary>

@@ -11,12 +11,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoChandelierTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpChandelier(true);
-            AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Chandelier"));
-            AdjTiles = new int[] { TileID.Chandeliers };
-        }
+        public override void SetStaticDefaults() => this.SetUpChandelier(true);
 
         public override bool CanExplode(int i, int j) => false;
 

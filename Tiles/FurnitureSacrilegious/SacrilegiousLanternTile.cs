@@ -11,14 +11,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousLanternTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpLantern(true);
-            AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.Lantern"));
-
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.HangingLanterns };
-        }
+        public override void SetStaticDefaults() => this.SetUpLantern(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

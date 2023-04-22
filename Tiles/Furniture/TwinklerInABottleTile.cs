@@ -12,11 +12,9 @@ namespace CalamityMod.Tiles.Furniture
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpLantern();
+            this.SetUpLantern(false, false);
             AddMapEntry(new Color(255, 99, 71), CalamityUtils.GetItemName<TwinklerInABottle>());
             AnimationFrameHeight = 36;
-
-            TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.HangingLanterns, TileID.FireflyinaBottle, TileID.LightningBuginaBottle };
         }
 
