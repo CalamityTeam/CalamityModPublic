@@ -11,15 +11,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousBedTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBed(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bed");
-            AddMapEntry(new Color(43, 19, 42), name);
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Beds };
-        }
+        public override void SetStaticDefaults() => this.SetUpBed(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

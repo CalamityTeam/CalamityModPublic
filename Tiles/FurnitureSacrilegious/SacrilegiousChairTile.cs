@@ -12,12 +12,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousChairTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpChair(true);
-            AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.Chair"));
-            AdjTiles = new int[] { TileID.Chairs };
-        }
+        public override void SetStaticDefaults() => this.SetUpChair(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

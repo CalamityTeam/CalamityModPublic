@@ -11,11 +11,6 @@ namespace CalamityMod.Tiles.Furniture.BossTrophies
 {
     public class AresTrophyTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpTrophy();
-            AddMapEntry(new Color(120, 85, 60), Language.GetText("MapObject.Trophy"));
-            DustType = 7;
-        }
+        public override void SetStaticDefaults() => this.SetUpTrophy();
     }
 }

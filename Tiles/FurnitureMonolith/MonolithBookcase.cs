@@ -11,15 +11,7 @@ namespace CalamityMod.Tiles.FurnitureMonolith
 {
     public class MonolithBookcase : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBookcase(true, false);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bookcase");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AnimationFrameHeight = 54;
-            AdjTiles = new int[] { TileID.Bookcases };
-        }
+        public override void SetStaticDefaults() => this.SetUpBookcase(true, false);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

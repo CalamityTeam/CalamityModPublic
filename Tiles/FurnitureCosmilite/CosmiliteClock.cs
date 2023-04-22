@@ -10,14 +10,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmiliteClock : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpClock(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Grandfather Clock");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AdjTiles = new int[] { TileID.GrandfatherClocks };
-        }
+        public override void SetStaticDefaults() => this.SetUpClock(true);
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 

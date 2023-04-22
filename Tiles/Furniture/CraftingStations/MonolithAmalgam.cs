@@ -15,7 +15,6 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
         {
             this.SetUpBookcase(true, false, false);
             AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<Items.Placeables.Furniture.CraftingStations.MonolithAmalgam>());
-            AnimationFrameHeight = 54;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

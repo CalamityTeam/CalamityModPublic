@@ -9,12 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenTable : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpTable(true);
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Table"));
-            AdjTiles = new int[] { TileID.Tables };
-        }
+        public override void SetStaticDefaults() => this.SetUpTable(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

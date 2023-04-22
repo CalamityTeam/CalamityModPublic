@@ -11,11 +11,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousBenchTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpSofa(true);
-            AddMapEntry(new Color(43, 19, 42), Language.GetText("Bench"));
-        }
+        public override void SetStaticDefaults() => this.SetUpSofa(true, true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

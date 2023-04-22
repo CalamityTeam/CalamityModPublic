@@ -10,12 +10,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
 {
     public class WulfrumTable : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpTable();
-            AddMapEntry(new Color(100, 153, 100), Language.GetText("MapObject.Table"));
-            AdjTiles = new int[] { TileID.Tables };
-        }
+        public override void SetStaticDefaults() => this.SetUpTable();
 
         public override bool CanExplode(int i, int j) => false;
 

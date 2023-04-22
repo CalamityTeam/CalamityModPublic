@@ -744,6 +744,8 @@ namespace CalamityMod
 
             // All beds count as chairs.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
+            mt.AddMapEntry(new Color(191, 142, 111), Language.GetText("ItemName.Bed"));
+            mt.AdjTiles = new int[] { TileID.Beds };
         }
 
         /// <summary>
@@ -752,8 +754,8 @@ namespace CalamityMod
         /// <param name="mt">The ModTile which is being initialized.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
         /// <param name="solidTop">Whether this tile is supposed to have a solid top. Defaults to true.</param>
-        /// <param name="table">Whether this tile counts as a table for housing. Defaults to true.</param>
-        internal static void SetUpBookcase(this ModTile mt, bool lavaImmune = false, bool solidTop = true, bool table = true)
+        /// <param name="autoBookcase">Whether this tile is automatically registered as a bookcase and table with proper map entry. Defaults to true.</param>
+        internal static void SetUpBookcase(this ModTile mt, bool lavaImmune = false, bool solidTop = true, bool autoBookcase = true)
         {
             Main.tileSolidTop[mt.Type] = solidTop;
             Main.tileLighted[mt.Type] = true;
@@ -765,9 +767,13 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(mt.Type);
 
-            // All bookcases count as tables. Monolith Amalgam does not count as a table.
-            if (table)
+            // Skip this for special bookcases such as Monolith Amalgam
+            if (autoBookcase)
+            {
                 mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+                mt.AddMapEntry(new Color(191, 142, 111), Language.GetText("ItemName.Bookcase"));
+                mt.AdjTiles = new int[] { TileID.Bookcases };
+            }
         }
 
         /// <summary>
@@ -848,6 +854,8 @@ namespace CalamityMod
 
             // As you could probably guess, all chairs count as chairs.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
+            mt.AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chair"));
+            mt.AdjTiles = new int[] { TileID.Chairs };
         }
 
         /// <summary>
@@ -936,6 +944,9 @@ namespace CalamityMod
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(mt.Type);
+
+            mt.AddMapEntry(new Color(191, 142, 111), Language.GetText("ItemName.GrandfatherClock"));
+            mt.AdjTiles = new int[] { TileID.GrandfatherClocks };
         }
 
         /// <summary>
@@ -1071,6 +1082,7 @@ namespace CalamityMod
 
             // All dressers count as tables.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+            mt.AdjTiles = new int[] { TileID.Dressers };
         }
 
         /// <summary>
@@ -1139,6 +1151,7 @@ namespace CalamityMod
 
             // All pianos count as tables.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+            mt.AddMapEntry(new Color(191, 142, 111), Language.GetText("ItemName.Piano"));
         }
 
         /// <summary>
@@ -1156,6 +1169,7 @@ namespace CalamityMod
             Main.tileTable[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
             TileID.Sets.Platforms[mt.Type] = true;
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
@@ -1168,6 +1182,8 @@ namespace CalamityMod
 
             // All platforms count as doors (so that you may have top-or-bottom entry/exit rooms)
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
+            mt.AddMapEntry(new Color(191, 142, 111));
+            mt.AdjTiles = new int[] { TileID.Platforms };
         }
 
         /// <summary>
@@ -1221,6 +1237,10 @@ namespace CalamityMod
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(mt.Type);
+
+            mt.AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));
+            if (water)
+                mt.AdjTiles = new int[] { TileID.Sinks };
         }
 
         /// <summary>
@@ -1228,7 +1248,8 @@ namespace CalamityMod
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-        internal static void SetUpSofa(this ModTile mt, bool lavaImmune = false)
+        /// <param name="bench">Whether this tile is displayed as bench instead of sofa on the map. Defaults to false.</param>
+        internal static void SetUpSofa(this ModTile mt, bool lavaImmune = false, bool bench = false)
         {
             Main.tileLighted[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
@@ -1242,6 +1263,7 @@ namespace CalamityMod
 
             // All sofas count as chairs.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
+            mt.AddMapEntry(new Color(191, 142, 111), bench ? Language.GetText("ItemName.Bench") : Language.GetText("ItemName.Sofa"));
         }
 
         /// <summary>
@@ -1265,6 +1287,8 @@ namespace CalamityMod
 
             // As you could probably guess, all tables count as tables.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+            mt.AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Table"));
+            mt.AdjTiles = new int[] { TileID.Tables };
         }
 
         /// <summary>
@@ -1321,6 +1345,7 @@ namespace CalamityMod
             Main.tileTable[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
             Main.tileWaterDeath[mt.Type] = false;
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 18 };
             TileObjectData.newTile.LavaDeath = !lavaImmune;
@@ -1328,13 +1353,16 @@ namespace CalamityMod
 
             // All work benches count as tables.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+            mt.AddMapEntry(new Color(191, 142, 111), Language.GetText("ItemName.WorkBench"));
+            mt.AdjTiles = new int[] { TileID.WorkBenches };
         }
 
         /// <summary>
         /// Extension which initializes a ModTile to be a fountain.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
-        internal static void SetUpFountain(this ModTile mt)
+        /// <param name="mapColor">The map color of the tile.</param>
+        internal static void SetUpFountain(this ModTile mt, Color mapColor)
         {
             //All fountains are immune to lava
             Main.tileLighted[mt.Type] = true;
@@ -1354,6 +1382,9 @@ namespace CalamityMod
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 2, 0);
             TileObjectData.addTile(mt.Type);
+
+            mt.AddMapEntry(mapColor, Language.GetText("MapObject.WaterFountain"));
+            mt.AnimationFrameHeight = 72;
         }
 
         /// <summary>
@@ -1390,6 +1421,9 @@ namespace CalamityMod
             TileObjectData.addTile(mt.Type);
             TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileID.Sets.FramesOnKillWall[mt.Type] = true;
+
+            mt.AddMapEntry(new Color(120, 85, 60), Language.GetText("MapObject.Trophy"));
+            mt.DustType = 7;
         }
 
 		/// <summary>

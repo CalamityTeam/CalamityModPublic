@@ -11,12 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenChair : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpChair(true);
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chair"));
-            AdjTiles = new int[] { TileID.Chairs };
-        }
+        public override void SetStaticDefaults() => this.SetUpChair(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

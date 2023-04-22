@@ -12,14 +12,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoBedTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBed(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bed");
-            AddMapEntry(new Color(71, 95, 114), name);
-            AdjTiles = new int[] { TileID.Beds };
-        }
+        public override void SetStaticDefaults() => this.SetUpBed(true);
 
         public override bool CanExplode(int i, int j) => false;
 

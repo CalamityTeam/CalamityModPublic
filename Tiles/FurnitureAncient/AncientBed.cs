@@ -11,14 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientBed : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBed(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bed");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AdjTiles = new int[] { TileID.Beds };
-        }
+        public override void SetStaticDefaults() => this.SetUpBed(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

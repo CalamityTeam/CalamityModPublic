@@ -11,14 +11,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
 {
     public class WulfrumBed : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBed();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bed");
-            AddMapEntry(new Color(100, 153, 100), name);
-            AdjTiles = new int[] { TileID.Beds };
-        }
+        public override void SetStaticDefaults() => this.SetUpBed();
 
         public override bool CanExplode(int i, int j) => false;
 

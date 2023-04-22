@@ -12,15 +12,8 @@ namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenMonolith : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpClock(true);
-            LocalizedText name = CreateMapEntryName();
-            AddMapEntry(new Color(191, 142, 111), name);
-            // name.SetDefault("Ashen Monolith");
-            AdjTiles = new int[] { TileID.GrandfatherClocks };
-        }
-        int animationFrameWidth = 36;
+        public int animationFrameWidth = 36;
+        public override void SetStaticDefaults() => this.SetUpClock(true);
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 

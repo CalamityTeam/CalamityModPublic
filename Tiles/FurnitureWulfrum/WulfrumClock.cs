@@ -11,14 +11,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
 {
     public class WulfrumClock : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpClock();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Grandfather Clock");
-            AddMapEntry(new Color(100, 153, 100), name);
-            AdjTiles = new int[] { TileID.GrandfatherClocks };
-        }
+        public override void SetStaticDefaults() => this.SetUpClock();
 
         public override bool CanExplode(int i, int j) => false;
 

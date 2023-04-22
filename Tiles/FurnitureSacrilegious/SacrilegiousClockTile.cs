@@ -20,10 +20,6 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
 
             this.SetUpClock(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Grandfather Clock");
-            AddMapEntry(new Color(43, 19, 42), name);
-            AdjTiles = new int[] { TileID.GrandfatherClocks };
         }
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;

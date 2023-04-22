@@ -10,15 +10,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousBookcaseTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBookcase(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bookcase");
-            AddMapEntry(new Color(43, 19, 42), name);
-            AnimationFrameHeight = 54;
-            AdjTiles = new int[] { TileID.Bookcases };
-        }
+        public override void SetStaticDefaults() => this.SetUpBookcase(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

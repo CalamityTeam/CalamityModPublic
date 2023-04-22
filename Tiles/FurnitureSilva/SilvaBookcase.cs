@@ -10,15 +10,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
 {
     public class SilvaBookcase : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBookcase(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bookcase");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AnimationFrameHeight = 54;
-            AdjTiles = new int[] { TileID.Bookcases };
-        }
+        public override void SetStaticDefaults() => this.SetUpBookcase(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

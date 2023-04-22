@@ -12,12 +12,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 {
     public class SunkenSeaFountainTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpFountain();
-            AddMapEntry(new Color(104, 195, 255), Language.GetText("MapObject.WaterFountain"));
-            AnimationFrameHeight = 72;
-        }
+        public override void SetStaticDefaults() => this.SetUpFountain(new Color(104, 195, 255));
 
         public override void NearbyEffects(int i, int j, bool closer)
         {

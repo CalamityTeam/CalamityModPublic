@@ -20,10 +20,6 @@ namespace CalamityMod.Tiles.FurnitureExo
             }
 
             this.SetUpPlatform(true);
-            AddMapEntry(new Color(52, 67, 78));
-            ItemDrop = ModContent.ItemType<ExoPrismPlatform>();
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Platforms };
             AnimationFrameHeight = 18;
         }
 

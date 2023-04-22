@@ -8,13 +8,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 {
     public class BotanicPiano : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpPiano(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Piano");
-            AddMapEntry(new Color(191, 142, 111), name);
-        }
+        public override void SetStaticDefaults() => this.SetUpPiano(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

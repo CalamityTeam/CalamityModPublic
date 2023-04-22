@@ -11,12 +11,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoSinkTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpSink(true, true, true, true);
-            AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Sink"));
-            AdjTiles = new int[] { TileID.Sinks };
-        }
+        public override void SetStaticDefaults() => this.SetUpSink(true, true, true, true);
 
         public override bool CanExplode(int i, int j) => false;
 

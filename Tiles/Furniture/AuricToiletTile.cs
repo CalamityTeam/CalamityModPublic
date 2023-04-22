@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.Furniture
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 
             TileID.Sets.DisableSmartCursor[Type] = true;
-            AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<AuricToilet>());
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Toilet"));
             AdjTiles = new int[] { TileID.Chairs };
         }
 

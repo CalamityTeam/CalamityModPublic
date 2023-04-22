@@ -7,14 +7,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlatePlatform : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpPlatform(true);
-            AddMapEntry(new Color(191, 142, 111));
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlatePlatform>();
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Platforms };
-        }
+        public override void SetStaticDefaults() => this.SetUpPlatform(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

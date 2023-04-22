@@ -8,13 +8,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
 {
     public class WulfrumPiano : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpPiano(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Piano");
-            AddMapEntry(new Color(100, 153, 100), name);
-        }
+        public override void SetStaticDefaults() => this.SetUpPiano(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

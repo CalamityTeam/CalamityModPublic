@@ -10,12 +10,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousSinkTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpSink(true, true, true, true);
-            AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.Sink"));
-            AdjTiles = new int[] { TileID.Sinks };
-        }
+        public override void SetStaticDefaults() => this.SetUpSink(true, true, true, true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

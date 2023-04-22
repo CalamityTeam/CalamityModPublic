@@ -39,10 +39,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 
             // Toilets count as Chairs
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
-
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Exo Toilet");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Toilet"));
             TileID.Sets.CanBeSatOnForNPCs[Type] = true;
             TileID.Sets.CanBeSatOnForPlayers[Type] = true;
             TileID.Sets.HasOutlines[Type] = true;

@@ -10,11 +10,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicBench : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpSofa();
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("Bench"));
-        }
+        public override void SetStaticDefaults() => this.SetUpSofa(false, true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

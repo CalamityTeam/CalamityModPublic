@@ -11,12 +11,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoTableTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpTable(true);
-            AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Table"));
-            AdjTiles = new int[] { TileID.Tables };
-        }
+        public override void SetStaticDefaults() => this.SetUpTable(true);
 
         public override bool CanExplode(int i, int j) => false;
 

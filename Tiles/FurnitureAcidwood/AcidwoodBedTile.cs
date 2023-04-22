@@ -11,15 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodBedTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBed();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bed");
-            AddMapEntry(new Color(191, 142, 111), name);
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Beds };
-        }
+        public override void SetStaticDefaults() => this.SetUpBed();
 
         public override bool CreateDust(int i, int j, ref int type)
         {

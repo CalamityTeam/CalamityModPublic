@@ -10,12 +10,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
 {
     public class WulfrumSink : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpSink();
-            AddMapEntry(new Color(100, 153, 100), Language.GetText("MapObject.Sink"));
-            AdjTiles = new int[] { TileID.Sinks };
-        }
+        public override void SetStaticDefaults() => this.SetUpSink();
 
         public override bool CanExplode(int i, int j) => false;
 

@@ -14,10 +14,6 @@ namespace CalamityMod.Tiles.FurnitureVoid
         {
             this.SetUpClock(true);
             AnimationFrameHeight = 90;
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Void Obelisk");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AdjTiles = new int[] { TileID.GrandfatherClocks };
         }
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;

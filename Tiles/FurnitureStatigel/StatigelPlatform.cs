@@ -7,14 +7,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelPlatform : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpPlatform();
-            AddMapEntry(new Color(191, 142, 111));
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelPlatform>();
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Platforms };
-        }
+        public override void SetStaticDefaults() => this.SetUpPlatform();
 
         public override bool CreateDust(int i, int j, ref int type)
         {

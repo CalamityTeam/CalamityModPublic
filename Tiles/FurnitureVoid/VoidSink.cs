@@ -9,12 +9,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class VoidSink : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpSink(true);
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));
-            AdjTiles = new int[] { TileID.Sinks };
-        }
+        public override void SetStaticDefaults() => this.SetUpSink(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

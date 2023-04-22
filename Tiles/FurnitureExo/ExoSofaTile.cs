@@ -12,11 +12,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoSofaTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpSofa(true);
-            AddMapEntry(new Color(71, 95, 114), Language.GetText("Bench"));
-        }
+        public override void SetStaticDefaults() => this.SetUpSofa(true);
 
         public override bool CanExplode(int i, int j) => false;
 

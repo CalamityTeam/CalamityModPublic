@@ -14,34 +14,23 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();
-            LocalizedText name = CreateMapEntryName();
-            AddMapEntry(new Color(100, 153, 100), name);
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Dressers };
+            AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<Items.Placeables.FurnitureWulfrum.WulfrumDresser>(), CalamityUtils.GetMapChestName);
         }
 
-        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CreateMapEntryName();
-
         public override bool CanExplode(int i, int j) => false;
-
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 107, 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
-
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
-        public override bool RightClick(int i, int j) => CalamityUtils.DresserRightClick();
-
-        public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureWulfrum.WulfrumDresser>();
-
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CalamityUtils.GetItemName<Items.Placeables.FurnitureWulfrum.WulfrumDresser>();
         public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureWulfrum.WulfrumDresser>();
-
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
+        public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureWulfrum.WulfrumDresser>();
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Chest.DestroyChest(i, j);
+        public override bool RightClick(int i, int j) => CalamityUtils.DresserRightClick();
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {

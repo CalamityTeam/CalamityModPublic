@@ -10,14 +10,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelClock : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpClock();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Grandfather Clock");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AdjTiles = new int[] { TileID.GrandfatherClocks };
-        }
+        public override void SetStaticDefaults() => this.SetUpClock();
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 

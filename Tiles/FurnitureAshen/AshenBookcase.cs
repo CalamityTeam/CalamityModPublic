@@ -9,15 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenBookcase : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBookcase(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bookcase");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AnimationFrameHeight = 72;
-            AdjTiles = new int[] { TileID.Bookcases };
-        }
+        public override void SetStaticDefaults() => this.SetUpBookcase(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

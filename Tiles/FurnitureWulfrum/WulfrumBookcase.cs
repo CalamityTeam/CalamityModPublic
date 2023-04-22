@@ -10,15 +10,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
 {
     public class WulfrumBookcase : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBookcase();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bookcase");
-            AddMapEntry(new Color(100, 153, 100), name);
-            AnimationFrameHeight = 54;
-            AdjTiles = new int[] { TileID.Bookcases };
-        }
+        public override void SetStaticDefaults() => this.SetUpBookcase();
 
         public override bool CanExplode(int i, int j) => false;
 

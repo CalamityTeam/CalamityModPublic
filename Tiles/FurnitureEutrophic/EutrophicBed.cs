@@ -10,14 +10,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicBed : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBed();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bed");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AdjTiles = new int[] { TileID.Beds };
-        }
+        public override void SetStaticDefaults() => this.SetUpBed();
 
         public override bool CreateDust(int i, int j, ref int type)
         {

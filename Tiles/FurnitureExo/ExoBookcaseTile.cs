@@ -11,15 +11,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoBookcaseTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpBookcase(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Bookcase");
-            AddMapEntry(new Color(71, 95, 114), name);
-            AnimationFrameHeight = 54;
-            AdjTiles = new int[] { TileID.Bookcases };
-        }
+        public override void SetStaticDefaults() => this.SetUpBookcase(true);
 
         public override bool CanExplode(int i, int j) => false;
 

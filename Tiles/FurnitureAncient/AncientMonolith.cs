@@ -10,15 +10,8 @@ namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientMonolith : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpClock(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Ancient Monolith");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AdjTiles = new int[] { TileID.GrandfatherClocks };
-        }
         int animationFrameWidth = 36;
+        public override void SetStaticDefaults() => this.SetUpClock(true);
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 

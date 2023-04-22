@@ -7,13 +7,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicPiano : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpPiano();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Piano");
-            AddMapEntry(new Color(191, 142, 111), name);
-        }
+        public override void SetStaticDefaults() => this.SetUpPiano();
 
         public override bool CreateDust(int i, int j, ref int type)
         {

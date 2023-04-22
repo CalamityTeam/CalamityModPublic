@@ -8,14 +8,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class OccultPlatformTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpPlatform(true);
-            AddMapEntry(new Color(85, 98, 99));
-            ItemDrop = ModContent.ItemType<OccultPlatformItem>();
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Platforms };
-        }
+        public override void SetStaticDefaults() => this.SetUpPlatform(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

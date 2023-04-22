@@ -9,14 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusStarPlatform : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpPlatform(true);
-            AddMapEntry(new Color(191, 142, 111));
-            ItemDrop = ModContent.ItemType<StratusStarPlatformItem>();
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Platforms };
-        }
+        public override void SetStaticDefaults() => this.SetUpPlatform(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

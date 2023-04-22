@@ -10,15 +10,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousWorkBenchTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpWorkBench(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Work Bench");
-            AddMapEntry(new Color(43, 19, 42), name);
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.WorkBenches };
-        }
+        public override void SetStaticDefaults() => this.SetUpWorkBench(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

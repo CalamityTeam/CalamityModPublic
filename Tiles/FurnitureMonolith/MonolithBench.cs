@@ -12,11 +12,7 @@ namespace CalamityMod.Tiles.FurnitureMonolith
 {
     public class MonolithBench : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpSofa(true);
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("Bench"));
-        }
+        public override void SetStaticDefaults() => this.SetUpSofa(true, true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

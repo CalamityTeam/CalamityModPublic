@@ -10,11 +10,6 @@ namespace CalamityMod.Tiles.Furniture.BossTrophies
     [LegacyName("CalamitasTrophyTile")]
     public class CalamitasCloneTrophyTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpTrophy();
-            AddMapEntry(new Color(120, 85, 60), Language.GetText("MapObject.Trophy"));
-            DustType = 7;
-        }
+        public override void SetStaticDefaults() => this.SetUpTrophy();
     }
 }

@@ -8,13 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
     [LegacyName("AbyssPiano")]
     public class AbyssSynth : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpPiano(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Abyss Synth");
-            AddMapEntry(new Color(191, 142, 111), name);
-        }
+        public override void SetStaticDefaults() => this.SetUpPiano(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

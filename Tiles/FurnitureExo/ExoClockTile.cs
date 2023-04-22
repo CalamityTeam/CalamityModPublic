@@ -12,14 +12,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoClockTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpClock(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Grandfather Clock");
-            AddMapEntry(new Color(71, 95, 114), name);
-            AdjTiles = new int[] { TileID.GrandfatherClocks };
-        }
+        public override void SetStaticDefaults() => this.SetUpClock(true);
 
         public override bool CanExplode(int i, int j) => false;
 

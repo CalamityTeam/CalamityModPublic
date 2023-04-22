@@ -7,13 +7,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlatePiano : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpPiano(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Piano");
-            AddMapEntry(new Color(191, 142, 111), name);
-        }
+        public override void SetStaticDefaults() => this.SetUpPiano(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

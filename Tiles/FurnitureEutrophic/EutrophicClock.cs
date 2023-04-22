@@ -10,14 +10,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicClock : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpClock();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Grandfather Clock");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AdjTiles = new int[] { TileID.GrandfatherClocks };
-        }
+        public override void SetStaticDefaults() => this.SetUpClock();
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 

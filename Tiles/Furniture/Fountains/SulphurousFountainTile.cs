@@ -13,12 +13,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 {
     public class SulphurousFountainTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpFountain();
-            AddMapEntry(new Color(141, 121, 77), Language.GetText("MapObject.WaterFountain"));
-            AnimationFrameHeight = 72;
-        }
+        public override void SetStaticDefaults() => this.SetUpFountain(new Color(141, 121, 77));
 
         public override void NearbyEffects(int i, int j, bool closer)
         {

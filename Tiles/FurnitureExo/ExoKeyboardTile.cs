@@ -9,13 +9,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoKeyboardTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpPiano(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Exo Keyboard");
-            AddMapEntry(new Color(71, 95, 114), name);
-        }
+        public override void SetStaticDefaults() => this.SetUpPiano(true);
 
         public override bool CanExplode(int i, int j) => false;
 

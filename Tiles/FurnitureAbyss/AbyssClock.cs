@@ -13,10 +13,6 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         public override void SetStaticDefaults()
         {
             this.SetUpClock(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Grandfather Clock");
-            AddMapEntry(new Color(191, 142, 111), name);
-            AdjTiles = new int[] { TileID.GrandfatherClocks };
             AnimationFrameHeight = 90;
         }
 

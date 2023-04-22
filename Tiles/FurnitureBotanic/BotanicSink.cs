@@ -10,11 +10,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 {
     public class BotanicSink : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpSink(true, false, false, true);
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));
-        }
+        public override void SetStaticDefaults() => this.SetUpSink(true, false, false, true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

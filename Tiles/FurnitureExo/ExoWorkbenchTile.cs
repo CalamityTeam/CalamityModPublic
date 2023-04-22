@@ -11,15 +11,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoWorkbenchTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpWorkBench(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Work Bench");
-            AddMapEntry(new Color(71, 95, 114), name);
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.WorkBenches };
-        }
+        public override void SetStaticDefaults() => this.SetUpWorkBench(true);
 
         public override bool CanExplode(int i, int j) => false;
 

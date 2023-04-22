@@ -11,12 +11,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelChair : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpChair();
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chair"));
-            AdjTiles = new int[] { TileID.Chairs };
-        }
+        public override void SetStaticDefaults() => this.SetUpChair();
 
         public override bool CreateDust(int i, int j, ref int type)
         {
