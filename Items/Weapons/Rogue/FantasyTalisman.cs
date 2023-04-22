@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 30;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.value = Item.buyPrice(0, 0, 60, 0);
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<FantasyTalismanProj>();

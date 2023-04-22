@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Placeables
             Item.consumable = true;
             Item.width = 13;
             Item.height = 10;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.ammo = AmmoID.Sand;
             Item.shoot = ModContent.ProjectileType<SulphurousSandBallGun>();
             Item.notAmmo = true;

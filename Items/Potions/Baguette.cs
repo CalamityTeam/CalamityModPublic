@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Potions
             Item.width = 52;
             Item.height = 38;
             Item.useTurn = true;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.useAnimation = 17;
             Item.useTime = 17;
             Item.useStyle = ItemUseStyleID.EatFood;

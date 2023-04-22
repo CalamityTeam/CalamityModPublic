@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 5f;
             Item.value = Item.buyPrice(0, 0, 0, 50);
             Item.rare = ItemRarityID.White;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.UseSound = SoundID.Item1;
             Item.consumable = true;
             Item.noMelee = true;

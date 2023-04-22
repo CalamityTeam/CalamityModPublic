@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 34;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.value = Item.sellPrice(copper: 30);
             Item.shoot = ModContent.ProjectileType<TarragonThrowingDartProjectile>();
             Item.shootSpeed = 15f;

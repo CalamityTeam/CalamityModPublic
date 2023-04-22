@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 		{
 			Item.width = 96;
 			Item.height = 64;
-			Item.maxStack = Item.CommonMaxStack;
+			Item.maxStack = 9999;
 			Item.useTurn = true;
 			Item.autoReuse = true;
 			Item.useAnimation = 15;

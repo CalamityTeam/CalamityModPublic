@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         {
             Item.width = 44;
             Item.height = 36;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.value = Item.sellPrice(gold: 10);
             Item.rare = ItemRarityID.Orange;
         }

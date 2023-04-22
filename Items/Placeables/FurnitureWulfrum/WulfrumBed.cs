@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Placeables.FurnitureWulfrum
         {
             Item.width = 34;
             Item.height = 20;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

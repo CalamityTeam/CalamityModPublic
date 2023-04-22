@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Ammo
             Item.DamageType = DamageClass.Ranged;
             Item.width = 20;
             Item.height = 14;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.consumable = true;
             Item.knockBack = 7.5f;
             Item.value = Item.sellPrice(copper: 20);

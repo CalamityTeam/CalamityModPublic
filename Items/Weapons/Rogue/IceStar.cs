@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.width = Item.height = 66;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.value = Item.buyPrice(0, 0, 5, 0);
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<IceStarProjectile>();

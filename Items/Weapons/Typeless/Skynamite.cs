@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void SetDefaults()
         {
             Item.useTime = Item.useAnimation = 40;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.consumable = true;
             Item.shootSpeed = 5f;
             Item.shoot = ModContent.ProjectileType<AeroExplosive>();

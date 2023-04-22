@@ -23,7 +23,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.width = 28;
             Item.height = 28;
             Item.rare = ItemRarityID.Red;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.useAnimation = 30;
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;

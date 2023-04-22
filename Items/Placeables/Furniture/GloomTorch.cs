@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         {
             Item.width = 14;
             Item.height = 18;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.holdStyle = 1;
             Item.noWet = true;
             Item.useTurn = true;

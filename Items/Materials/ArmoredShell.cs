@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Materials
         {
             Item.width = 46;
             Item.height = 34;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.value = Item.buyPrice(0, 7, 0, 0);
             Item.rare = ModContent.RarityType<Turquoise>();
         }    }

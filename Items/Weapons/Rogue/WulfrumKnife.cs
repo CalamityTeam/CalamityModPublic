@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = Throw3Sound;
             Item.autoReuse = true;
             Item.height = 38;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.value = Item.sellPrice(0, 0, 0, 5);
             Item.rare = ItemRarityID.Blue;
             Item.shoot = ModContent.ProjectileType<WulfrumKnifeProj>();

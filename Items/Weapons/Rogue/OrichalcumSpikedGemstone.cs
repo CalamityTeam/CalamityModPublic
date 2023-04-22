@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 2f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.value = 1200;
             Item.rare = ItemRarityID.LightRed;
             Item.shoot = ModContent.ProjectileType<OrichalcumSpikedGemstoneProjectile>();

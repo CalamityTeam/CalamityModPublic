@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Materials
         {
             Item.width = 32;
             Item.height = 54;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.rare = ModContent.RarityType<DarkBlue>();
             Item.value = Item.sellPrice(gold: 40);
         }

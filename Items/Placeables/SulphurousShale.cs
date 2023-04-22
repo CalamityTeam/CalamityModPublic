@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Placeables
             Item.consumable = true;
             Item.width = 16;
             Item.height = 16;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
         }
 
         public override void AddRecipes()

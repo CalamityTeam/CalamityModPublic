@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables
 			Item.useTime = 10;
 			Item.useAnimation = 15;
 			Item.useStyle = ItemUseStyleID.Swing;
-			Item.maxStack = Item.CommonMaxStack;
+			Item.maxStack = 9999;
 		}
 
         public override bool? UseItem(Player player)

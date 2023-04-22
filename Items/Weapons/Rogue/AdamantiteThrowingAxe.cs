@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 40;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.value = 1600;
             Item.rare = ItemRarityID.LightRed;
             Item.shoot = ModContent.ProjectileType<AdamantiteThrowingAxeProjectile>();

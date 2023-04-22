@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             Item.SetNameOverride("Effulgent Manipulator");
             Item.width = 28;
             Item.height = 20;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

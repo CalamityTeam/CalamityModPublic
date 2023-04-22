@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Placeables
         {
             Item.width = 16;
             Item.height = 16;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.ammo = AmmoID.Sand;
             Item.shoot = ModContent.ProjectileType<AstralSandBallGun>();
             Item.notAmmo = true;

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
 
         public override void SetDefaults()
         {
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.consumable = true;
             Item.width = 32;
             Item.height = 32;

@@ -27,7 +27,7 @@ namespace CalamityMod.Items.DraedonMisc
         {
             Item.width = 52;
             Item.height = 52;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.consumable = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.Yellow;

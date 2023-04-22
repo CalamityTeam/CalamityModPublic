@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.LightPurple;
             Item.shoot = ModContent.ProjectileType<FrostyFlareProj>();
             Item.shootSpeed = 22f;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.consumable = true;
             Item.DamageType = RogueDamageClass.Instance;
         }

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void SetDefaults()
         {
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.consumable = true;
             Item.width = 24;
             Item.height = 24;

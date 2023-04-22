@@ -20,7 +20,7 @@ namespace CalamityMod.Items.SummonItems
         {
             Item.width = 28;
             Item.height = 28;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.rare = ModContent.RarityType<PureGreen>();
             Item.bait = 4444;
             Item.useStyle = ItemUseStyleID.Swing;

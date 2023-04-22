@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Ammo
             Item.damage = 1;
             Item.width = 22;
             Item.height = 24;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.consumable = true;
             Item.knockBack = 10f;
             Item.value = Item.buyPrice(gold: 1);

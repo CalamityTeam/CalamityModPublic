@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Placeables
         {
             Item.width = 24;
             Item.height = 25;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.value = 0;
             Item.rare = ItemRarityID.Blue;
             Item.useTurn = true;

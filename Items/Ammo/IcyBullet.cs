@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<IcyBulletProj>();
             Item.shootSpeed = 5f;
             Item.ammo = AmmoID.Bullet;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
         }
     }
 }

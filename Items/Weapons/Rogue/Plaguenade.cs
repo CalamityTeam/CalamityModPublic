@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 15;
             Item.knockBack = 1.5f;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 28;

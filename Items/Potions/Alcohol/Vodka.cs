@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.width = 28;
             Item.height = 18;
             Item.useTurn = true;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.rare = ItemRarityID.LightPurple;
             Item.useAnimation = 17;
             Item.useTime = 17;

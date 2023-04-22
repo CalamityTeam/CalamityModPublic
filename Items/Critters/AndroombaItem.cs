@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Critters
             Item.useTurn = true;
             Item.useAnimation = 25;
             Item.useTime = 25;
-            Item.maxStack = Item.CommonMaxStack;
+            Item.maxStack = 9999;
             Item.consumable = true;
             Item.noUseGraphic = true;
             Item.value = Item.buyPrice(0, 0, 30, 0);
