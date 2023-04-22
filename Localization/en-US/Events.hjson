@@ -1,0 +1,22 @@
+Mods : {
+	CalamityMod : {
+		Events : {
+            AcidRainEvent: {
+                AcidRainStart: A toxic downpour falls over the wasteland seas!
+                AcidRainEnd: The sulphuric skies begin to clear...
+            }
+            BossRushEvent: {
+                BossRushTierOneEndText: Hmm? Oh, you're still alive. Unexpected, but don't get complacent just yet.
+                BossRushTierTwoEndText: Hmm? Persistent aren't you? Perhaps you have some hope of prosperity, unlike past challengers.
+                BossRushTierThreeEndText: Hmm? Your perseverance is truly a trait to behold. You've come further than even the demigods in a short time.
+                BossRushTierThreeEndText2: May your skills remain sharp for the last challenges."
+                BossRushTierFourEndText: Hmm? So you've made it to the final tier, a remarkable feat enviable by even the mightiest of the gods.
+                BossRushTierFourEndText2: Go forth and conquer 'til the ritual's end!
+            }
+        Projectiles:{
+            BossRushEffectThing.BossRushStartText: Hmm? Ah, another contender. Very well, may the ritual commence!
+            BossRushEndEffectThing.BossRushTierFiveEndText: Hmm? You expected a reward beyond this mere pebble? Patience, the true reward will come apparent in time...
+            }
+        }
+    }
+}

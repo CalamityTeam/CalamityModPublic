@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             BossRushEvent.BossRushStage = 0;
             BossRushEvent.BossRushActive = true;
-            string key = "Mods.CalamityMod.BossRushStartText";
+            string key = "Mods.CalamityMod.BossRushStartText"; // "Hmm? Ah, another contender. Very well, may the ritual commence!"
             CalamityUtils.DisplayLocalizedText(key, BossRushEvent.XerocTextColor);
 
             CalamityNetcode.SyncWorld();

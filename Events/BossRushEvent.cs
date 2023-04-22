@@ -295,7 +295,7 @@ namespace CalamityMod.Events
 
                 new Boss(ModContent.NPCType<ProfanedGuardianCommander>(), TimeChangeContext.Day, type =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText2", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText2", XerocTextColor); // "May your skills remain sharp for the last challenges."
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, permittedNPCs: new int[] { ModContent.NPCType<ProfanedGuardianDefender>(), ModContent.NPCType<ProfanedGuardianHealer>(), ModContent.NPCType<ProfanedRocks>() }),
 
@@ -372,7 +372,7 @@ namespace CalamityMod.Events
 
                 new Boss(ModContent.NPCType<Yharon>(), spawnContext: type =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText2", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText2", XerocTextColor); // "Go forth and conquer 'til the ritual's end!"
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
                     SoundEngine.PlaySound(Yharon.FireSound, player.Center);
@@ -404,7 +404,7 @@ namespace CalamityMod.Events
             {
                 [NPCID.WallofFlesh] = npc =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierOneEndText", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierOneEndText", XerocTextColor); // "Hmm? Oh, you're still alive. Unexpected, but don't get complacent just yet."
                     CreateTierAnimation(2);
 
                     // Teleport players to where they came from
@@ -425,17 +425,17 @@ namespace CalamityMod.Events
                 },
                 [NPCID.Plantera] = npc =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierTwoEndText", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierTwoEndText", XerocTextColor); // "Hmm? Persistent aren't you? Perhaps you have some hope of prosperity, unlike past challengers."
                     CreateTierAnimation(3);
                 },
                 [NPCID.MoonLordCore] = npc =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText", XerocTextColor); // "Hmm? Your perseverance is truly a trait to behold. You've come further than even the demigods in a short time."
                     CreateTierAnimation(4);
                 },
                 [ModContent.NPCType<DevourerofGodsHead>()] = npc =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText", XerocTextColor); // "Hmm? So you've made it to the final tier, a remarkable feat enviable by even the mightiest of the gods."
                     CreateTierAnimation(5);
                 },
                 [ModContent.NPCType<SupremeCalamitas>()] = npc =>
