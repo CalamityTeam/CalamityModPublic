@@ -11,14 +11,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoLampTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpLamp(true);
-            AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
-
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Lamps };
-        }
+        public override void SetStaticDefaults() => this.SetUpLamp(true);
 
         public override bool CanExplode(int i, int j) => false;
 

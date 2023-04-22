@@ -11,16 +11,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedCandle : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpCandle(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Candle");
-            AddMapEntry(new Color(253, 221, 3), name);
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Candles };
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedCandle>();
-        }
+        public override void SetStaticDefaults() => this.SetUpCandle(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

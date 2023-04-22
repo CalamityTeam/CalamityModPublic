@@ -9,16 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelCandle : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpCandle();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Candle");
-            AddMapEntry(new Color(253, 221, 3), name);
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Candles };
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelCandle>();
-        }
+        public override void SetStaticDefaults() => this.SetUpCandle();
 
         public override bool CreateDust(int i, int j, ref int type)
         {

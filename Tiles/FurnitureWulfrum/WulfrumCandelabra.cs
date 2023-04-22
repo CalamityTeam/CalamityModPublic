@@ -10,15 +10,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
 {
     public class WulfrumCandelabra : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpCandelabra();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Candelabra");
-            AddMapEntry(new Color(100, 153, 100), name);
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Candelabras };
-        }
+        public override void SetStaticDefaults() => this.SetUpCandelabra();
 
         public override bool CanExplode(int i, int j) => false;
 

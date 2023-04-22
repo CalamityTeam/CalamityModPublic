@@ -10,16 +10,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodCandleTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpCandle();
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Candle");
-            AddMapEntry(new Color(253, 221, 3), name);
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Candles };
-            ItemDrop = ModContent.ItemType<AcidwoodCandle>();
-        }
+        public override void SetStaticDefaults() => this.SetUpCandle();
 
         public override bool CreateDust(int i, int j, ref int type)
         {

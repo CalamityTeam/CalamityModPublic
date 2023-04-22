@@ -10,16 +10,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousCandleTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpCandle(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Candle");
-            AddMapEntry(new Color(43, 19, 42), name);
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Candles };
-            ItemDrop = ModContent.ItemType<SacrilegiousCandle>();
-        }
+        public override void SetStaticDefaults() => this.SetUpCandle(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

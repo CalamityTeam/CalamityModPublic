@@ -14,9 +14,8 @@ namespace CalamityMod.Tiles.Furniture
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpCandle();
+            this.SetUpCandle(false, false);
             AddMapEntry(new Color(238, 145, 105), CalamityUtils.GetItemName<Items.Placeables.Furniture.TranquilityCandle>());
-            AdjTiles = new int[] { TileID.Candles };
         }
 
         public override void MouseOver(int i, int j)

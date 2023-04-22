@@ -10,14 +10,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
 {
     public class WulfrumLamp : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpLamp();
-            AddMapEntry(new Color(100, 153, 100), Language.GetText("MapObject.FloorLamp"));
-
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Lamps };
-        }
+        public override void SetStaticDefaults() => this.SetUpLamp();
 
         public override bool CanExplode(int i, int j) => false;
 

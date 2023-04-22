@@ -11,14 +11,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SacrilegiousLampTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpLamp(true);
-            AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.FloorLamp"));
-
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Lamps };
-        }
+        public override void SetStaticDefaults() => this.SetUpLamp(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

@@ -11,15 +11,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoCandelabraTile : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpCandelabra(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Candelabra");
-            AddMapEntry(new Color(253, 221, 3), name);
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Candelabras };
-        }
+        public override void SetStaticDefaults() => this.SetUpCandelabra(true);
 
         public override bool CanExplode(int i, int j) => false;
 

@@ -752,7 +752,7 @@ namespace CalamityMod
         /// <param name="mt">The ModTile which is being initialized.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
         /// <param name="solidTop">Whether this tile is supposed to have a solid top. Defaults to true.</param>
-        /// <param name="solidTop">Whether this tile counts as a table for housing. Defaults to true.</param>
+        /// <param name="table">Whether this tile counts as a table for housing. Defaults to true.</param>
         internal static void SetUpBookcase(this ModTile mt, bool lavaImmune = false, bool solidTop = true, bool table = true)
         {
             Main.tileSolidTop[mt.Type] = solidTop;
@@ -781,12 +781,15 @@ namespace CalamityMod
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = true;
             Main.tileWaterDeath[mt.Type] = false;
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(mt.Type);
 
             // All candelabras count as light sources.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
+            mt.AddMapEntry(new Color(253, 221, 3), Language.GetText("ItemName.Candelabra"));
+            mt.AdjTiles = new int[] { TileID.Candelabras };
         }
 
         /// <summary>
@@ -794,12 +797,15 @@ namespace CalamityMod
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-        internal static void SetUpCandle(this ModTile mt, bool lavaImmune = false, int offset = -4)
+        /// <param name="autoMapEntry">Whether this tile is supposed to use normal map entries. Defaults to true.</param>
+        /// <param name="offset">The vertical offset of the tile. Defaults to -4.</param>
+        internal static void SetUpCandle(this ModTile mt, bool lavaImmune = false, bool autoMapEntry = true, int offset = -4)
         {
             Main.tileLighted[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
             Main.tileWaterDeath[mt.Type] = false;
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 20 };
             TileObjectData.newTile.LavaDeath = !lavaImmune;
@@ -808,6 +814,10 @@ namespace CalamityMod
 
             // All candles count as light sources.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
+            if (autoMapEntry)
+                mt.AddMapEntry(new Color(253, 221, 3), Language.GetText("ItemName.Candle"));
+            
+            mt.AdjTiles = new int[] { TileID.Candles };
         }
 
         /// <summary>
@@ -1064,12 +1074,15 @@ namespace CalamityMod
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
             Main.tileWaterDeath[mt.Type] = false;
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(mt.Type);
 
             // All floor lamps count as light sources.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
+            mt.AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
+            mt.AdjTiles = new int[] { TileID.Lamps };
         }
 
         /// <summary>

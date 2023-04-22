@@ -15,12 +15,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
         public override void SetStaticDefaults()
         {
             this.SetUpCandelabra(true);
-            LocalizedText name = CreateMapEntryName();
-            // name.SetDefault("Candelabra");
-            AddMapEntry(new Color(253, 221, 3), name);
             AnimationFrameHeight = 36;
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Candelabras };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

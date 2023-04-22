@@ -10,14 +10,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
 {
     public class SilvaLamp : ModTile
     {
-        public override void SetStaticDefaults()
-        {
-            this.SetUpLamp(true);
-            AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
-
-            TileID.Sets.DisableSmartCursor[Type] = true;
-            AdjTiles = new int[] { TileID.Lamps };
-        }
+        public override void SetStaticDefaults() => this.SetUpLamp(true);
 
         public override bool CreateDust(int i, int j, ref int type)
         {

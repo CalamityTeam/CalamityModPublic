@@ -13,10 +13,8 @@ namespace CalamityMod.Tiles.Furniture
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpCandle();
-            ItemDrop = ModContent.ItemType<Items.Placeables.Furniture.ChaosCandle>();
-            AddMapEntry(new Color(238, 145, 105), CreateMapEntryName());
-            AdjTiles = new int[] { TileID.Candles };
+            this.SetUpCandle(false, false);
+            AddMapEntry(new Color(238, 145, 105), CalamityUtils.GetItemName<Items.Placeables.Furniture.ChaosCandle>());
         }
 
         public override void MouseOver(int i, int j)
