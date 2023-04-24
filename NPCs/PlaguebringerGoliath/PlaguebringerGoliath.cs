@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();
 
-            //drawcode adjustments for the new sprite
+            // Drawcode adjustments for the new sprite
             NPC.gfxOffY = charging ? -40 : -50;
             NPC.width = NPC.frame.Width / 2;
             NPC.height = (int)(NPC.frame.Height * (charging ? 1.5f : 1.8f));
@@ -197,7 +197,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
             // Missile countdown
             if (halfLife && MissileCountdown == 0)
-                MissileCountdown = 600;
+                MissileCountdown = (CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 300 : 600;
             if (MissileCountdown > 1)
                 MissileCountdown--;
 
@@ -525,6 +525,28 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         if (calamityGlobalNPC.newAI[0] > 90f)
                             NPC.velocity *= 1.01f;
 
+                        // Spawn honey in legendary rev+
+                        if (CalamityWorld.LegendaryMode && CalamityWorld.revenge && calamityGlobalNPC.newAI[0] % 6f == 0f)
+                        {
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                try
+                                {
+                                    int num430 = (int)(NPC.Center.X / 16f);
+                                    int num431 = (int)(NPC.Center.Y / 16f);
+                                    if (!WorldGen.SolidTile(num430, num431) && Main.tile[num430, num431].LiquidAmount == 0)
+                                    {
+                                        Main.tile[num430, num431].LiquidAmount = (byte)Main.rand.Next(50, 150);
+                                        Main.tile[num430, num431].Get<LiquidData>().LiquidType = LiquidID.Honey;
+                                        WorldGen.SquareTileFrame(num430, num431);
+                                    }
+                                }
+                                catch
+                                {
+                                }
+                            }
+                        }
+
                         NPC.netUpdate = true;
                         return;
                     }
@@ -739,7 +761,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 NPC.direction = playerLocation < 0 ? 1 : -1;
                 NPC.spriteDirection = NPC.direction;
 
-                if (NPC.ai[2] > 5f)
+                if (NPC.ai[2] > ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 3f : 5f))
                 {
                     NPC.ai[0] = -1f;
                     NPC.ai[1] = 2f;
@@ -1110,7 +1132,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= 100f;
+            return minDist <= 100f * NPC.scale;
         }
 
         public override void HitEffect(NPC.HitInfo hit)
