@@ -213,7 +213,7 @@ namespace CalamityMod.Tiles.Crags.Tree
         }
 
         //this checks the entire tree from bottom to top
-        private void CheckEntireTree(ref int x, ref int y)
+        /*private void CheckEntireTree(ref int x, ref int y)
         {
             while (Main.tile[x, y].TileType == Type)
 			{
@@ -239,17 +239,17 @@ namespace CalamityMod.Tiles.Crags.Tree
                 //this is where you can make stuff happen when the tree is shaken like in vanilla
                 //for example, when trees drop a fruit when you begin to break it
             }
-        }
+        }*/
 
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             Tile tile = Framing.GetTileSafely(i, j);
 
-            if (fail && !effectOnly && !noItem)
+            /*if (fail && !effectOnly && !noItem)
             {
                 (int x, int y) = (i, j);
                 CheckEntireTree(ref x, ref y);
-            }
+            }*/
 
             if (fail)
             {
