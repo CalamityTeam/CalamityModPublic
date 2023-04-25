@@ -652,8 +652,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Despawn if Plantera is gone
             if (NPC.plantBoss < 0)
             {
-                npc.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
-                npc.netUpdate = true;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    npc.StrikeInstantKill();
+
                 return false;
             }
 
@@ -820,8 +821,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Despawn if Plantera is gone
             if (NPC.plantBoss < 0)
             {
-                npc.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
-                npc.netUpdate = true;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    npc.StrikeInstantKill();
+
                 return false;
             }
 

@@ -639,7 +639,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.CelestialSigil)
             {
                 NPC.MoonLordCountdown = 1;
-                NetMessage.SendData(MessageID.MoonlordCountdown, -1, -1, null, NPC.MoonLordCountdown);
+                NetMessage.SendData(MessageID.MoonlordHorror, -1, -1, null, NPC.MoonLordCountdown);
             }
 
             return base.UseItem(item, player);

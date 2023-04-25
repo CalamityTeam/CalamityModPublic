@@ -405,8 +405,6 @@ namespace CalamityMod.Tiles
                         Item.NewItem(new EntitySource_TileBreak(i, j), pos, ModContent.ItemType<EvilSmasher>());
                 }
             }
-
-            return true;
         }
 
         // TODO: Make this a data set or smth?

@@ -480,7 +480,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             if (NPC.golemBoss < 0)
             {
-                npc.StrikeNPCNoInteraction(9999, 0f, 0);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    npc.StrikeInstantKill();
+
                 return false;
             }
 
@@ -756,7 +758,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Die if body is gone
             if (NPC.golemBoss < 0)
             {
-                npc.StrikeNPCNoInteraction(9999, 0f, 0);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    npc.StrikeInstantKill();
+
                 return false;
             }
 
@@ -1004,7 +1008,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 calamityGlobalNPC.DR = 0.25f;
                 calamityGlobalNPC.unbreakableDR = false;
                 calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = false;
-                npc.StrikeNPCNoInteraction(9999, 0f, 0);
+
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    npc.StrikeInstantKill();
+
                 return false;
             }
 

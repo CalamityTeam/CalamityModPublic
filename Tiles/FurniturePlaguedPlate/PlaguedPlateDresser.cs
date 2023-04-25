@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         public override void SetStaticDefaults()
         {
             this.SetUpDresser();
-            AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>(), CalamityUtils.GetMapChestName);
+            AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>(), CalamityUtils.GetMapChestName);
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -24,9 +24,9 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
-        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CalamityUtils.GetItemName<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>();
-        public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>();
-        public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>();
+        public override LocalizedText DefaultContainerName(int frameX, int frameY) => CalamityUtils.GetItemName<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>();
+        public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>();
+        public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>();
         public override void KillMultiTile(int i, int j, int frameX, int frameY) => Chest.DestroyChest(i, j);
         public override bool RightClick(int i, int j) => CalamityUtils.DresserRightClick();
     }

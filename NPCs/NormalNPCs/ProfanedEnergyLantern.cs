@@ -39,8 +39,9 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (CalamityGlobalNPC.energyFlame < 0 || !Main.npc[CalamityGlobalNPC.energyFlame].active)
             {
-                NPC.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
-                NPC.netUpdate = true;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    NPC.StrikeInstantKill();
+
                 return;
             }
             int num750 = CalamityGlobalNPC.energyFlame;

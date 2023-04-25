@@ -544,8 +544,8 @@ namespace CalamityMod.NPCs.AcidRain
                     }
                     NPC.frame.Y = frameHeight * 8;
                 }
-                if (NPC.frame.Y >= frameHeight * Main.npcFrameCount[NPC.type])
-                    NPC.StrikeNPCNoInteraction(9999, 0f, 0);
+                if (NPC.frame.Y >= frameHeight * Main.npcFrameCount[NPC.type] && Main.netMode != NetmodeID.MultiplayerClient)
+                    NPC.StrikeInstantKill();
             }
             else if (NPC.frame.Y >= (Walking ? 8 : 4) * frameHeight)
                 NPC.frame.Y = Walking ? 4 * frameHeight : 0;

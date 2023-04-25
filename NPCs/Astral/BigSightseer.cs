@@ -232,7 +232,8 @@ namespace CalamityMod.NPCs.Astral
             //kill on tile collide
             if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
             {
-                NPC.StrikeNPCNoInteraction(9999, 0, 0);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    NPC.StrikeInstantKill();
             }
         }
 
@@ -240,7 +241,8 @@ namespace CalamityMod.NPCs.Astral
         {
             if (modifiers.GetDamage(NPC.damage, false) > 0)
             {
-                NPC.StrikeNPCNoInteraction(9999, 0, 0);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    NPC.StrikeInstantKill();
             }
         }
 
@@ -255,7 +257,9 @@ namespace CalamityMod.NPCs.Astral
 					else
 						modifiers.IncomingDamageMultiplier *= 0.75f;
 				}
-                NPC.StrikeNPCNoInteraction(9999, 0, 0);
+
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    NPC.StrikeInstantKill();
             }
         }
 

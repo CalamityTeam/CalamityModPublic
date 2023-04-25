@@ -225,7 +225,9 @@ namespace CalamityMod.NPCs.Astral
             NPC.ai[3] = -20000f;
             NPC.value = 0f;
             NPC.extraValue = 0;
-            NPC.StrikeNPCNoInteraction(9999, 1f, 1);
+
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.StrikeInstantKill();
 
             int size = 30;
             Vector2 off = new Vector2(size / -2f);
