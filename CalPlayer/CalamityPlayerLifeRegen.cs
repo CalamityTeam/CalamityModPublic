@@ -926,7 +926,7 @@ namespace CalamityMod.CalPlayer
                 // Vanilla base regen rate which gets boosted when resting
                 // The first 6 boosts increment every 300 frames, up to 6 at 1800
                 // Then, the last 3 boosts increment every 600 frames, up to 9 at 3600 which is the cap
-                int baseRegenRate = Math.Clamp(Player.lifeRegenTime / 300, 0, 6) + Math.Clamp((Player.lifeRegenTime - 1800) / 600, 0, 3);
+                int baseRegenRate = (int)(Math.Clamp(Player.lifeRegenTime / 300f, 0f, 6f) + Math.Clamp((Player.lifeRegenTime - 1800f) / 600f, 0f, 3f));
                 // Normally 1.25 while resting and 0.5 while not
                 Player.lifeRegen += (int)(baseRegenRate * 0.75f);
 
