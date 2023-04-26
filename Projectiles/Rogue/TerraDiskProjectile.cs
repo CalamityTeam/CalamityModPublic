@@ -172,7 +172,6 @@ namespace CalamityMod.Projectiles.Rogue
                         float spread = 60f * 0.0174f;
                         double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 6f;
-                        double offsetAngle;
                         for (int i = 0; i < 6; i++)
                         {
                             Vector2 velocity = ((MathHelper.TwoPi * i / 6f) - MathHelper.PiOver2).ToRotationVector2() * 6f;

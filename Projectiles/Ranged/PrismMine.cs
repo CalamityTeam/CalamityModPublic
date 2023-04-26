@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Ranged
         public ref float Time => ref Projectile.ai[0];
         public const float DamageFactorLowerBound = 0.425f;
         public const float MineConnectDistanceMax = 1200f;
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Mine");
 
         public override void SetDefaults()
         {

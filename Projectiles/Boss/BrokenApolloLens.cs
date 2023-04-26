@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -7,7 +7,6 @@ namespace CalamityMod.Projectiles.Boss
     public class BrokenApolloLens : ModProjectile
     {
         public ref float Time => ref Projectile.ai[0];
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Lens");
 
         public override void SetDefaults()
         {

@@ -15,8 +15,6 @@ namespace CalamityMod.Projectiles.Ranged
         private const float LaserGateValue = 180f;
         private const float LaserLargeGateValue = 660f;
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Freedom Star");
-
         public override void SetDefaults()
         {
             Projectile.width = 54;

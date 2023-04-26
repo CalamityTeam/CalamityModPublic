@@ -36,8 +36,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public const float MaxLaserLength = 3330f;
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("The Angy Beam");
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 32;

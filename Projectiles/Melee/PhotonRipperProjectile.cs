@@ -23,9 +23,6 @@ namespace CalamityMod.Projectiles.Melee
         public ref float ToothDamage => ref Projectile.ai[1];
         public float ChargeUpPower => MathHelper.Clamp((float)Math.Pow(Time / ChargeUpTime, 1.6D), 0f, 1f);
 
-        // Seriously though Draedon this seems a bit over the top lmfao.
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Extraordinarily Cost-Inefficient Chainsaw");
-
         public override void SetDefaults()
         {
             Projectile.width = 132;

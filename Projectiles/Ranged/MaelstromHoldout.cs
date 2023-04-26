@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Ranged
         private ref float FramesToLoadNextArrow => ref Projectile.localAI[0];
 
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/TheMaelstrom";
-        public override void SetStaticDefaults() => DisplayName.SetDefault("The Maelstrom");
 
         public override void SetDefaults()
         {

@@ -9,8 +9,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ExobeamSlash : ModProjectile
     {
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Exobeam Slash");
-
         public override void SetDefaults()
         {
             Projectile.width = 512;

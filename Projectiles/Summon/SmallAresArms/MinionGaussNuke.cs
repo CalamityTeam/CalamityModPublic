@@ -9,8 +9,6 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
     public class MinionGaussNuke : ModProjectile
     {
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Gauss Nuke");
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 76;

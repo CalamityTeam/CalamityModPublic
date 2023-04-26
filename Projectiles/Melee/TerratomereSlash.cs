@@ -10,8 +10,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/ExobeamSlash";
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Terratomere Slash");
-
         public override void SetDefaults()
         {
             Projectile.width = 512;

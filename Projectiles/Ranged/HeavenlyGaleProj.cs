@@ -43,8 +43,6 @@ namespace CalamityMod.Projectiles.Ranged
         public override int AssociatedItemID => ModContent.ItemType<HeavenlyGale>();
         public override int IntendedProjectileType => ModContent.ProjectileType<HeavenlyGaleProj>();
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Heavenly Gale");
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 176;

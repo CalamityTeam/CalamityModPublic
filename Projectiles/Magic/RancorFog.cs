@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Magic
     public class RancorFog : ModProjectile
     {
         public ref float LightPower => ref Projectile.ai[0];
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Fog");
 
         public override void SetDefaults()
         {

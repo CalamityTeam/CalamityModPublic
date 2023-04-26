@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             // Ensure that the hit direction is correct when hitting enemies.
-            hitDirection = (Projectile.Center.X < target.Center.X).ToDirectionInt();
+            modifiers.HitDirectionOverride = (Projectile.Center.X < target.Center.X).ToDirectionInt();
             float targetPolarity = target.PolarityNPC().CurPolarity;
             //If a polarity beam hits the target with the opposite polarity, the damage dealt increases by 20%
             if (polarity * targetPolarity < 0)

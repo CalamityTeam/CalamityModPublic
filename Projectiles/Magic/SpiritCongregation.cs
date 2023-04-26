@@ -300,7 +300,8 @@ namespace CalamityMod.Projectiles.Magic
             else if (Main.expertMode) fullPowerDamage = 450;
             else fullPowerDamage = 360;
 
-            damage = (int)(damageFactor * fullPowerDamage);
+            modifiers.SourceDamage *= 0f;
+            modifiers.SourceDamage += (int)(damageFactor * fullPowerDamage);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

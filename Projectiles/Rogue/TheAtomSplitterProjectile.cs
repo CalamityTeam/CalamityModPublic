@@ -18,8 +18,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/TheAtomSplitter";
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Atom Splitter");
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 124;

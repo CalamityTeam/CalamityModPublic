@@ -9,8 +9,6 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MoonFistTeleportVisual : ModProjectile
     {
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Light");
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 2;

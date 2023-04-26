@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override bool UsesScreenshake => true;
         public override float GetScreenshakePower(float pulseCompletionRatio) => CalamityUtils.Convert01To010(pulseCompletionRatio) * 3f;
         public override Color GetCurrentExplosionColor(float pulseCompletionRatio) => Color.Lerp(Color.Blue, Color.CornflowerBlue, MathHelper.Clamp(pulseCompletionRatio * 2.2f, 0f, 1f));
-        public override void SetStaticDefaults() => DisplayName.SetDefault("MPFB Explosion");
 
         public override void SetDefaults()
         {

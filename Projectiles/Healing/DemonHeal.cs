@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Healing
@@ -7,8 +7,6 @@ namespace CalamityMod.Projectiles.Healing
     {
         public Player Owner => Main.player[Projectile.owner];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Heal");
 
         public override void SetDefaults()
         {

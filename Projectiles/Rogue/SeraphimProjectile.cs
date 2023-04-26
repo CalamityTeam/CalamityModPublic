@@ -18,8 +18,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Seraphim";
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Seraphim");
-
         public override void SetDefaults()
         {
             Projectile.width = 82;

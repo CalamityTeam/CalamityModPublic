@@ -11,8 +11,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TerratomereExplosion : ModProjectile, IAdditiveDrawer
     {
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Explosion");
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 520;

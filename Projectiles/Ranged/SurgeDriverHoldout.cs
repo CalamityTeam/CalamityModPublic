@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Ranged
         public Player Owner => Main.player[Projectile.owner];
         public bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
         public ref float ShootCountdown => ref Projectile.ai[0];
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Surge Driver");
 
         public override void SetDefaults()
         {

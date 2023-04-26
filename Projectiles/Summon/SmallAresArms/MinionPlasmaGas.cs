@@ -14,8 +14,6 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public ref float Time => ref Projectile.ai[1];
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Superheated Plasma Cloud");
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 50;

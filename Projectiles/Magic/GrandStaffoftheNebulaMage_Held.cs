@@ -30,8 +30,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public Player Owner => Main.player[Projectile.owner];
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Grand Staff of the Nebula Mage");
-
         public override void SetDefaults()
         {
             Projectile.width = 120;

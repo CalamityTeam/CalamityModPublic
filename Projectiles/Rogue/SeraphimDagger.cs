@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Rogue
         public const int SlowdownTime = 45;
         public const int AimTime = 25;
         public ref float Time => ref Projectile.ai[0];
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Seraphim");
 
         public override void SetDefaults()
         {

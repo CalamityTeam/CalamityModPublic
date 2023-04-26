@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Magic
         public ref float BurstIntensity => ref Projectile.ai[0];
         public ref float Time => ref Projectile.ai[1];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Fire");
 
         public override void SetDefaults()
         {

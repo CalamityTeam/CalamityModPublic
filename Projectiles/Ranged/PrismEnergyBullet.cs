@@ -14,8 +14,6 @@ namespace CalamityMod.Projectiles.Ranged
         public ref float Time => ref Projectile.ai[1];
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Prism Rocket");
-
         public override void SetDefaults()
         {
             Projectile.scale = 1.7f;

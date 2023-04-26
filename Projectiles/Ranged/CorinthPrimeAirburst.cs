@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool UsesScreenshake => Projectile.damage > 1;
         public override float GetScreenshakePower(float pulseCompletionRatio) => CalamityUtils.Convert01To010(pulseCompletionRatio) * 16f;
         public override Color GetCurrentExplosionColor(float pulseCompletionRatio) => Color.Lerp(Color.Blue * 1.6f, Color.Cyan, MathHelper.Clamp(pulseCompletionRatio * 2.2f, 0f, 1f));
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Airburst");
 
         public override void SetDefaults()
         {

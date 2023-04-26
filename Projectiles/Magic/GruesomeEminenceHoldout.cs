@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Magic
     public class GruesomeEminenceHoldout : ModProjectile
     {
         public Player Owner => Main.player[Projectile.owner];
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Gruesome Eminence");
 
         public override void SetDefaults()
         {

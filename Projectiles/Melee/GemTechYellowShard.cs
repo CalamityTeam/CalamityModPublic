@@ -14,8 +14,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override string Texture => "CalamityMod/Projectiles/Typeless/GemTechYellowGem";
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Trireme's Yellow Gem");
-
         public override void SetDefaults()
         {
             Projectile.width = 12;

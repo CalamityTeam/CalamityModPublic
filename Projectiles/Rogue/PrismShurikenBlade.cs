@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
@@ -7,8 +7,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PrismShurikenBlade : ModProjectile
     {
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Blade");
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 22;

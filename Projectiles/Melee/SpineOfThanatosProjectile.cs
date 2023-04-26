@@ -29,7 +29,6 @@ namespace CalamityMod.Projectiles.Melee
         public const int FinalWhipRayShootRate = 10;
         public const int LaserRayCount = 12;
         public const float MaximumBendFactor = 42f;
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Spine of Thanatos");
 
         public override void SetDefaults()
         {

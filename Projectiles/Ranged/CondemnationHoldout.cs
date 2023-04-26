@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Ranged
         public const float velocityMultiplier = 1.5f;
 
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Condemnation";
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Condemnation");
 
         public override void SetDefaults()
         {

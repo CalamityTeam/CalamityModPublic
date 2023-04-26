@@ -28,8 +28,6 @@ namespace CalamityMod.Projectiles.Magic
         public float ChargeupCompletion => MathHelper.Clamp(Time / ChargeupTime, 0f, 1f);
         public const int ChargeupTime = 240;
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Magic Circle");
-
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 114;
