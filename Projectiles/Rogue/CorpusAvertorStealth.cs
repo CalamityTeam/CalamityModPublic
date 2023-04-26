@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatBuffs;
+﻿using CalamityMod.Buffs.StatBuffs;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -55,12 +55,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            OnHitEffects(damage);
+            OnHitEffects(hit.Damage);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            OnHitEffects(damage);
+            OnHitEffects(info.Damage);
         }
 
         private void OnHitEffects(int damage)

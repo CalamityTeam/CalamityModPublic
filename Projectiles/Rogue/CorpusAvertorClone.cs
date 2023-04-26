@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            float heal = damage * 0.05f;
+            float heal = hit.Damage * 0.05f;
             if ((int)heal == 0)
                 return;
 
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            float heal = damage * 0.05f;
+            float heal = info.Damage * 0.05f;
             if ((int)heal == 0)
                 return;
 

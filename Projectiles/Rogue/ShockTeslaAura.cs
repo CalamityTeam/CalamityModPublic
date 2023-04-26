@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (CalamityGlobalNPC.ShouldAffectNPC(target))
             {
-                float knockbackMultiplier = knockback - (1f - target.knockBackResist);
+                float knockbackMultiplier = hit.Knockback - (1f - target.knockBackResist);
                 if (knockbackMultiplier < 0)
                 {
                     knockbackMultiplier = 0;
