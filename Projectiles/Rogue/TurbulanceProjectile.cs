@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            OnHitEffects(crit);
+            OnHitEffects(hit.Crit);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)

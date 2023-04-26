@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             SoundEngine.PlaySound(SoundID.Item4, Projectile.position);
 
-            float healAmt = damage * 0.075f;
+            float healAmt = hit.Damage * 0.075f;
             if ((int)healAmt == 0)
                 return;
 

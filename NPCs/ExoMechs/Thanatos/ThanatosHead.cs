@@ -1052,9 +1052,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
             if (NPC.localAI[3] < immunityTime)
-                damage *= 0.01;
-
-            return true;
+                modifiers.SourceDamage *= 0.01f;
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

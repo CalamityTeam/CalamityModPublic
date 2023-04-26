@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Melee
             bool screwRegained = false;
 
             //50% chance to gain back the screw on kill.
-            if (target.life - damage <= 0)
+            if (target.life - hit.Damage <= 0)
             {
                 if (Main.rand.NextBool() && Main.myPlayer == Owner.whoAmI)
                 {

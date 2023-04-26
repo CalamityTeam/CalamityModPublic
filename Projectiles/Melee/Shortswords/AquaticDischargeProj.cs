@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
             Player player = Main.player[Projectile.owner];
             var source = Projectile.GetSource_FromThis();
             int sparkDamage = player.CalcIntDamage<MeleeDamageClass>(0.5f * Projectile.damage);
-            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), sparkDamage, knockback, Main.myPlayer);
+            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), sparkDamage, hit.Knockback, Main.myPlayer);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)

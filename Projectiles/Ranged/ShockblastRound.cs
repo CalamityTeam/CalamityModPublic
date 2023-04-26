@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Main.player[Projectile.owner].moonLeech)
                 return;
 
-            float healAmt = damage * 0.05f;
+            float healAmt = hit.Damage * 0.05f;
             if ((int)healAmt == 0)
                 return;
 

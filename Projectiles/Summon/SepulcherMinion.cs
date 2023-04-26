@@ -676,9 +676,10 @@ namespace CalamityMod.Projectiles.Summon
         // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            if (Main.masterMode) damage = 450;
-            else if (Main.expertMode) damage = 375;
-            else damage = 300;
+            modifiers.SourceDamage *= 0f;
+            if (Main.masterMode) modifiers.SourceDamage += 450f;
+            else if (Main.expertMode) modifiers.SourceDamage += 375f;
+            else modifiers.SourceDamage += 300f;
         }
 
         public override bool? CanHitNPC(NPC target)

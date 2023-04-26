@@ -1030,13 +1030,12 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
-            if (phase2timer < 0 && damage > 1)
+            if (phase2timer < 0)
             {
                 NPC.velocity *= -4f;
                 ReelBack();
                 NPC.netUpdate = true;
             }
-            return true;
         }
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)

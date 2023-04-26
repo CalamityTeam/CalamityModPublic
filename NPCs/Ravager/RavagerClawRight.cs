@@ -59,10 +59,9 @@ namespace CalamityMod.NPCs.Ravager
             //Main.NewText(NPC.ai[0]);
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
-                NPC.life = 0;
-                NPC.HitEffect();
-                NPC.active = false;
-                NPC.netUpdate = true;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    NPC.StrikeInstantKill();
+
                 return;
             }
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;

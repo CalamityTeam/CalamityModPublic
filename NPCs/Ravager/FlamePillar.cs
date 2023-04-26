@@ -56,9 +56,9 @@ namespace CalamityMod.NPCs.Ravager
 
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
-                NPC.life = 0;
-                HitEffect(NPC.direction, 9999);
-                NPC.netUpdate = true;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    NPC.StrikeInstantKill();
+
                 return;
             }
 
@@ -129,9 +129,8 @@ namespace CalamityMod.NPCs.Ravager
                 }
                 else
                 {
-                    NPC.life = 0;
-                    HitEffect(NPC.direction, 9999);
-                    NPC.netUpdate = true;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        NPC.StrikeInstantKill();
                 }
             }
         }

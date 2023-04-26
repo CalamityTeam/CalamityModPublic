@@ -209,9 +209,10 @@ namespace CalamityMod.Projectiles.Typeless
         // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            if (Main.masterMode) damage = 540;
-            else if (Main.expertMode) damage = 450;
-            else damage = 360;
+            modifiers.SourceDamage *= 0f;
+            if (Main.masterMode) modifiers.SourceDamage += 540f;
+            else if (Main.expertMode) modifiers.SourceDamage += 450f;
+            else modifiers.SourceDamage += 360f;
         }
 
         public float FlameTrailWidthFunction(float completionRatio) => MathHelper.SmoothStep(21f, 8f, completionRatio);

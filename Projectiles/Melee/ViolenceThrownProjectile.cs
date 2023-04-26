@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Melee
                 // Play a splatter and impact sound.
                 SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact, Projectile.Center);
 
-                float damageInterpolant = Utils.GetLerpValue(950f, 2000f, damage, true);
+                float damageInterpolant = Utils.GetLerpValue(950f, 2000f, hit.Damage, true);
                 float impactAngularVelocity = MathHelper.Lerp(0.08f, 0.2f, damageInterpolant);
                 float impactParticleScale = MathHelper.Lerp(0.6f, 1f, damageInterpolant);
                 impactAngularVelocity *= Main.rand.NextBool().ToDirectionInt() * Main.rand.NextFloat(0.75f, 1.25f);

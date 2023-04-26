@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlanarRipperExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
-                if (crit)
+                if (hit.Crit)
                 {
                     if (modPlayer.planarSpeedBoost < 20)
                     {
@@ -79,12 +79,9 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlanarRipperExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
-                if (crit)
+                if (modPlayer.planarSpeedBoost < 20)
                 {
-                    if (modPlayer.planarSpeedBoost < 20)
-                    {
-                        modPlayer.planarSpeedBoost++;
-                    }
+                    modPlayer.planarSpeedBoost++;
                 }
             }
         }

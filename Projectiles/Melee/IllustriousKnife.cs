@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
-            float healAmt = damage * 0.015f;
+            float healAmt = hit.Damage * 0.015f;
             if ((int)healAmt == 0)
                 return;
 
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
-            float healAmt = damage * 0.015f;
+            float healAmt = info.Damage * 0.015f;
             if ((int)healAmt == 0)
                 return;
 

@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 
-            if (crit)
+            if (hit.Crit)
                 target.Calamity().miscDefenseLoss = Math.Min(target.defense, 15);
 
             if (Projectile.Calamity().stealthStrike)

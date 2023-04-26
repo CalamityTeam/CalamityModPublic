@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
                     target.Center, Vector2.Zero,
-                    ModContent.ProjectileType<BansheeHookBoom>(), (int)(damage * 0.25),
+                    ModContent.ProjectileType<BansheeHookBoom>(), (int)(hit.Damage * 0.25),
                     10f, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }
         }

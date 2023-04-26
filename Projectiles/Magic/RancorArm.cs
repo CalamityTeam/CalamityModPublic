@@ -140,9 +140,10 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (Projectile.friendly)
             {
-                if (Main.masterMode) damage = 450;
-                else if (Main.expertMode) damage = 375;
-                else damage = 300;
+                modifiers.SourceDamage *= 0f;
+                if (Main.masterMode) modifiers.SourceDamage += 450f;
+                else if (Main.expertMode) modifiers.SourceDamage += 375f;
+                else modifiers.SourceDamage += 300f;
             }
         }
 

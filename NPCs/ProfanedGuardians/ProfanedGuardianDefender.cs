@@ -908,11 +908,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             {
                 if (projectile.penetrate <= -1 || projectile.penetrate > 5)
                 {
-                    damage = (int)(damage * 2.5f);
+                    modifiers.SourceDamage *= 2.5f;
                 }
                 else
                 {
-                    damage *= projectile.penetrate / 2;
+                    modifiers.SourceDamage *= projectile.penetrate / 2f;
                 }
                 projectile.active = false;
             }

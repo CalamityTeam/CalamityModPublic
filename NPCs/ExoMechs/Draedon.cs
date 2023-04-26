@@ -831,11 +831,9 @@ namespace CalamityMod.NPCs.ExoMechs
         // Always instantly kill Draedon when he's vulnerable
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
-            damage *= 56D;
-            if (damage < NPC.lifeMax)
-                damage = NPC.lifeMax + Main.rand.NextFloat(50f, 750f);
-            crit = true;
-            return true;
+            modifiers.SourceDamage *= 56f;
+            modifiers.SourceDamage += NPC.lifeMax + Main.rand.NextFloat(50f, 750f);
+            modifiers.SetCrit();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

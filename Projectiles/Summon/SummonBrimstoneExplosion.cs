@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             // Prevent absurd quantities of damage to the player.
-            damage = (int)(damage * 0.018);
+            modifiers.SourceDamage *= 0.018f;
         }
     }
 }

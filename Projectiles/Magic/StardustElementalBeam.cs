@@ -70,12 +70,12 @@ namespace CalamityMod.Projectiles.Magic
             float spawnOffsetSpread = Main.rand.NextFloat(MathHelper.ToRadians(36f), MathHelper.ToRadians(64f));
             float baseOffsetAngle = Main.rand.NextFloat(-0.6f, 0.6f);
             int type = ModContent.ProjectileType<BeamStar>();
-            damage = (int)(Projectile.damage * 0.7);
+            hit.Damage = (int)(Projectile.damage * 0.7);
             for (int i = 0; i < 4; i++)
             {
                 float spawnOffsetAngle = MathHelper.Lerp(spawnOffsetSpread * -0.5f, spawnOffsetSpread * 0.5f, i / 4f) + baseOffsetAngle;
                 Vector2 spawnPosition = target.Top - Vector2.UnitY.RotatedBy(spawnOffsetAngle) * 65f;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, -Vector2.UnitY.RotatedBy(spawnOffsetAngle) * 2f, type, damage, knockback, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, -Vector2.UnitY.RotatedBy(spawnOffsetAngle) * 2f, type, hit.Damage, hit.Knockback, Projectile.owner);
             }
         }
     }

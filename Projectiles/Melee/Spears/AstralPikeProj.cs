@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
-            if (crit)
+            if (hit.Crit)
             {
                 var source = Projectile.GetSource_FromThis();
                 for (int i = 0; i < 3; i++)

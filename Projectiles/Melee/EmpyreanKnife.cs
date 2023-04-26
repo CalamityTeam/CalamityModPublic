@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            float healAmt = damage * 0.005f;
+            float healAmt = hit.Damage * 0.005f;
             if ((int)healAmt == 0)
                 return;
 
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            float healAmt = damage * 0.005f;
+            float healAmt = info.Damage * 0.005f;
             if ((int)healAmt == 0)
                 return;
 

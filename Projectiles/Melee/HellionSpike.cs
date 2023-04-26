@@ -56,13 +56,13 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            OnHitEffects(target.Center, crit);
+            OnHitEffects(target.Center, hit.Crit);
             target.AddBuff(BuffID.Venom, 180);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            OnHitEffects(target.Center, crit);
+            OnHitEffects(target.Center, true);
             target.AddBuff(BuffID.Venom, 180);
         }
 

@@ -549,9 +549,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
             if (NPC.Calamity().newAI[2] < ThanatosHead.immunityTime)
-                damage *= 0.01;
-
-            return true;
+                modifiers.SourceDamage *= 0.01f;
         }
 
         public override void FindFrame(int frameHeight) // 5 total frames

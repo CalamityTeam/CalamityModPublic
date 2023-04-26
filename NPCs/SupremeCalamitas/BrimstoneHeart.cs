@@ -63,10 +63,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
-                NPC.life = 0;
-                NPC.HitEffect();
-                NPC.active = false;
-                NPC.netUpdate = true;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    NPC.StrikeInstantKill();
+
                 return;
             }
 
@@ -164,7 +163,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             if (projectile.type == ModContent.ProjectileType<CelestusMiniScythe>())
-                damage = (int)(damage * 0.66);
+                modifiers.SourceDamage *= 0.66f;
         }
 
         public override bool CheckActive() => false;

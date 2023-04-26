@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             if (Projectile.owner == Main.myPlayer)
             {
                 if (Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<BrimlanceHellfireExplosion>()] < 3)
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)(Projectile.damage * 0.65), knockback, Main.myPlayer);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)(Projectile.damage * 0.65), hit.Knockback, Main.myPlayer);
 
                 for (int i = 0; i < 2; i++)
                 {

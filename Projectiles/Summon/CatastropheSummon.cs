@@ -76,9 +76,10 @@ namespace CalamityMod.Projectiles.Summon
         // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            if (Main.masterMode) damage = 320;
-            else if (Main.expertMode) damage = 260;
-            else damage = 200;
+            modifiers.SourceDamage *= 0f;
+            if (Main.masterMode) modifiers.SourceDamage += 320f;
+            else if (Main.expertMode) modifiers.SourceDamage += 260f;
+            else modifiers.SourceDamage += 200f;
         }
 
         public override bool? CanDamage() => Projectile.Opacity >= 1f;

@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
             if (Main.myPlayer == Projectile.owner && Projectile.numHits == 0)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneSwordExplosion>(), (int)(Projectile.damage * 0.5), knockback, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneSwordExplosion>(), (int)(Projectile.damage * 0.5), hit.Knockback, Projectile.owner);
             }
             if (Projectile.damage > 1)
                 Projectile.damage = (int)(Projectile.damage * 0.6);

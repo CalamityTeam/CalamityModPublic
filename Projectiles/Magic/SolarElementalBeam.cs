@@ -73,8 +73,8 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             int type = ModContent.ProjectileType<FuckYou>();
-            int boomDamage = (int)(damage * 1.1);
-            int boom = Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, type, boomDamage, knockback, Projectile.owner, 0f, Main.rand.NextFloat(0.85f, 2f));
+            int boomDamage = (int)(hit.Damage * 1.1);
+            int boom = Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, type, boomDamage, hit.Knockback, Projectile.owner, 0f, Main.rand.NextFloat(0.85f, 2f));
             Main.projectile[boom].DamageType = DamageClass.Magic;
         }
     }
