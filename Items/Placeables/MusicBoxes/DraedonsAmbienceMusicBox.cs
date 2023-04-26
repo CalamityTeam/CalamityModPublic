@@ -6,13 +6,6 @@ namespace CalamityMod.Items.Placeables.MusicBoxes
 {
     public class DraedonsAmbienceMusicBox : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 1;
-            // DisplayName.SetDefault("Music Box (Draedon's Ambience)");
-            // Tooltip.SetDefault("Plays high tech ambience by PinpinNeon");
-        }
-
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Swing;
