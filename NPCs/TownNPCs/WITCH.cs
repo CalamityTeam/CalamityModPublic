@@ -165,8 +165,6 @@ namespace CalamityMod.NPCs.TownNPCs
                     Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemType<BrimstoneLocus>());
                     Main.LocalPlayer.Calamity().GivenBrimstoneLocus = true;
                 }
-
-                shop = false;
             }
         }
 

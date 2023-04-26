@@ -212,10 +212,13 @@ namespace CalamityMod.Projectiles.Boss
         {
             // In GFB, "real damage" is replaced with negative healing
             if (Projectile.maxPenetrate >= (int)Providence.BossMode.Red)
-                damage = 0;
+                modifiers.SourceDamage *= 0f;
+        }
 
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
             // If the player is dodging, don't apply debuffs
-            if (damage <= 0 && Projectile.maxPenetrate < (int)Providence.BossMode.Red || target.creativeGodMode)
+            if ((info.Damage <= 0 && Projectile.maxPenetrate < (int)Providence.BossMode.Red) || target.creativeGodMode)
                 return;
 
             ProvUtils.ApplyHitEffects(target, Projectile.maxPenetrate, 600, 20);

@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
 
                 int projDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
-                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), projDamage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), projDamage, hit.Knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
 
             if (target.Calamity().miscDefenseLoss < target.defense)

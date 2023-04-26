@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
-            YeetEnemies(player, target, crit);
+            YeetEnemies(player, target, hit.Crit);
         }
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)

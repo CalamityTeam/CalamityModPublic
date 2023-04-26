@@ -38,13 +38,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (player.whoAmI == Main.myPlayer)
-                SpawnFlares(player, Item.knockBack, Item.damage, crit);
+                SpawnFlares(player, Item.knockBack, Item.damage, hit.Crit);
         }
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             if (player.whoAmI == Main.myPlayer)
-                SpawnFlares(player, Item.knockBack, Item.damage, crit);
+                SpawnFlares(player, Item.knockBack, Item.damage, true);
         }
 
         private void SpawnFlares(Player player, float knockback, int damage, bool crit)

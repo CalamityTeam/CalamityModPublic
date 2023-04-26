@@ -210,11 +210,11 @@ namespace CalamityMod.Projectiles.Pets
                     SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
                     if (Main.rand.NextBool(2))
                     {
-                        player.Hurt(PlayerDeathReason.ByOther(6), 500, 0, false, false, false, -1);
+                        player.Hurt(PlayerDeathReason.ByOther(6), 500, 0);
                     }
                     else
                     {
-                        player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " couldn't stand the sharp objects."), 500, 0, false, false, false, -1);
+                        player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " couldn't stand the sharp objects."), 500, 0);
                     }
                     player.RemoveAllIFrames();
                 }

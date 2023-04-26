@@ -123,7 +123,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(BuffID.ShadowFlame, 150);
             target.AddBuff(BuffID.OnFire, 300);
-            if (crit)
+            if (hit.Crit)
             {
                 target.AddBuff(BuffID.ShadowFlame, 450);
                 target.AddBuff(BuffID.OnFire, 900);
@@ -167,14 +167,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
-            target.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
-            target.AddBuff(BuffID.OnFire, 300);
-            if (crit)
-            {
-                target.AddBuff(ModContent.BuffType<Shadowflame>(), 450);
-                target.AddBuff(BuffID.OnFire, 900);
-                SoundEngine.PlaySound(SoundID.Item14, target.Center);
-            }
+            target.AddBuff(ModContent.BuffType<Shadowflame>(), 450);
+            target.AddBuff(BuffID.OnFire, 900);
+            SoundEngine.PlaySound(SoundID.Item14, target.Center);
         }
 
         public override void AddRecipes()

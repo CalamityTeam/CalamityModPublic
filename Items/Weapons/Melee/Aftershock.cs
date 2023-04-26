@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Weapons.Melee
             float speedX4 = num78;
             float speedY5 = num79 + (float)Main.rand.Next(-10, 11) * 0.02f;
             int rockDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
-            Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AftershockRock>(), rockDamage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
+            Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AftershockRock>(), rockDamage, hit.Knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
         }
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)

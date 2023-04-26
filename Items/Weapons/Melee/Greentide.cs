@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
             var source = player.GetSource_ItemUse(Item);
             int i = Main.myPlayer;
             float num72 = Item.shootSpeed;
-            float num74 = knockback;
+            float num74 = hit.Knockback;
             num74 = player.GetWeaponKnockback(Item, num74);
             player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);

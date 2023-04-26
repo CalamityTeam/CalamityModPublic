@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.life > 0 || !target.IsAnEnemy(allowStatues: false))
                 return;
-            OnHitEffects(player, target, knockback);
+            OnHitEffects(player, target, hit.Knockback);
         }
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
