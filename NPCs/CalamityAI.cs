@@ -1960,6 +1960,14 @@ namespace CalamityMod.NPCs
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
+            if (CalamityGlobalNPC.calamitas < 0 || !Main.npc[CalamityGlobalNPC.calamitas].active)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    npc.StrikeInstantKill();
+
+                return;
+            }
+
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
@@ -2023,26 +2031,17 @@ namespace CalamityMod.NPCs
             if (npc.rotation > num842 - num843 && npc.rotation < num842 + num843)
                 npc.rotation = num842;
 
-            bool calCloneActive = false;
-            if (CalamityGlobalNPC.calamitas != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.calamitas].active)
-                    calCloneActive = true;
-            }
-
-            if (!player.active || player.dead || !calCloneActive)
+            if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
-                if (!player.active || player.dead || !calCloneActive)
+                if (!player.active || player.dead)
                 {
                     if (npc.velocity.Y > 3f)
                         npc.velocity.Y = 3f;
                     npc.velocity.Y -= 0.1f;
                     if (npc.velocity.Y < -12f)
                         npc.velocity.Y = -12f;
-
-                    calamityGlobalNPC.newAI[0] = 1f;
 
                     if (npc.timeLeft > 60)
                         npc.timeLeft = 60;
@@ -2054,11 +2053,10 @@ namespace CalamityMod.NPCs
                         npc.ai[3] = 0f;
                         npc.netUpdate = true;
                     }
+
                     return;
                 }
             }
-            else
-                calamityGlobalNPC.newAI[0] = 0f;
 
             if (npc.ai[1] == 0f)
             {
@@ -2269,6 +2267,14 @@ namespace CalamityMod.NPCs
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
+            if (CalamityGlobalNPC.calamitas < 0 || !Main.npc[CalamityGlobalNPC.calamitas].active)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                    npc.StrikeInstantKill();
+
+                return;
+            }
+
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
@@ -2332,26 +2338,17 @@ namespace CalamityMod.NPCs
             if (npc.rotation > num842 - num843 && npc.rotation < num842 + num843)
                 npc.rotation = num842;
 
-            bool calCloneActive = false;
-            if (CalamityGlobalNPC.calamitas != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.calamitas].active)
-                    calCloneActive = true;
-            }
-
-            if (!player.active || player.dead || !calCloneActive)
+            if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
-                if (!player.active || player.dead || !calCloneActive)
+                if (!player.active || player.dead)
                 {
                     if (npc.velocity.Y > 3f)
                         npc.velocity.Y = 3f;
                     npc.velocity.Y -= 0.1f;
                     if (npc.velocity.Y < -12f)
                         npc.velocity.Y = -12f;
-
-                    calamityGlobalNPC.newAI[0] = 1f;
 
                     if (npc.timeLeft > 60)
                         npc.timeLeft = 60;
@@ -2363,11 +2360,10 @@ namespace CalamityMod.NPCs
                         npc.ai[3] = 0f;
                         npc.netUpdate = true;
                     }
+
                     return;
                 }
             }
-            else
-                calamityGlobalNPC.newAI[0] = 0f;
 
             if (npc.ai[1] == 0f)
             {

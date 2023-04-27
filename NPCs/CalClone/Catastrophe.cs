@@ -155,10 +155,7 @@ namespace CalamityMod.NPCs.CalClone
             return false;
         }
 
-        public override bool CheckActive()
-        {
-            return NPC.Calamity().newAI[0] == 1f;
-        }
+        public override bool CheckActive() => false;
 
         public override void OnKill()
         {
