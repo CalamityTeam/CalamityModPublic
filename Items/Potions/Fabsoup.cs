@@ -10,13 +10,7 @@ namespace CalamityMod.Items.Potions
     public class Fabsoup : ModItem
     {
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/SoupConsumption");
-        public override void SetStaticDefaults()
-        {
-            /*DisplayName.SetDefault("Pot of Pain");
-            Tooltip.SetDefault("{$CommonItemTooltip.MajorStats}\n'hrngh, soup'");*/
-            SacrificeTotal = 1;
-        }
-
+        
         public override void SetDefaults()
         {
             Item.width = 56;

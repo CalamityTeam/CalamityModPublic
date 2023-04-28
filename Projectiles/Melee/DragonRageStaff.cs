@@ -220,7 +220,7 @@ namespace CalamityMod.Projectiles.Melee
                             }
                             if (canHit)
                             {
-                                modifiers.HitDirection = (player.Center.X < npc.Center.X) ? 1 : -1;
+                                modifiers.HitDirectionOverride = (player.Center.X < npc.Center.X) ? 1 : -1;
                             }
                         }
                     }

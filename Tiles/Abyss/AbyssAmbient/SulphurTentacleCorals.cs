@@ -6,7 +6,6 @@ using System;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.GameContent.Metadata;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 

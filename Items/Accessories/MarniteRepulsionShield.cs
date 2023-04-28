@@ -149,7 +149,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            modifiers.HitDirection = Math.Sign(-Owner.direction);
+            modifiers.HitDirectionOverride = Math.Sign(-Owner.direction);
         }
 
         public override bool? CanCutTiles() => false;
