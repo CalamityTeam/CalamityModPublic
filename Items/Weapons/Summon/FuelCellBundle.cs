@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Fuel Cell Bundle");
             // Tooltip.SetDefault("Releases a small, special variant of the plaguebringers");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

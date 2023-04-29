@@ -27,7 +27,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Belladonna Spirit Staff");
             // Tooltip.SetDefault("Summons a cute forest spirit that flings magical toxic petals");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

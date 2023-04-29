@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.FathomSwarmer
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Fathom Swarmer Breastplate");
             /* Tooltip.SetDefault("6% increased damage reduction\n" +
                 "6% increased minion damage\n" +

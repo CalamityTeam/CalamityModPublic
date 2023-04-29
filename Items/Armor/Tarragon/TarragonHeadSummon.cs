@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Armor.Tarragon
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Tarragon Horned Helm");
             // Tooltip.SetDefault("5% increased minion damage and damage reduction");
         }

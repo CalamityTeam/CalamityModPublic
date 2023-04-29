@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "Over time the bolts are replaced with powerful lasers\n" +
                 "Bolts power up into solid beams as you continue shooting\n" +
                 "90% chance to not consume ammo"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

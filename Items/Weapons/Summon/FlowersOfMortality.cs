@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Summon
             // DisplayName.SetDefault("Flowers of Mortality");
             /* Tooltip.SetDefault("Summons five rainbow flowers over your head\n" +
                                "The combined flowers consume three minion slots"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

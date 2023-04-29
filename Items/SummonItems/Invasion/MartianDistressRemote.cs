@@ -13,7 +13,6 @@ namespace CalamityMod.Items.SummonItems.Invasion
         public int frame = 0;
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Martian Distress Remote");
             /* Tooltip.SetDefault("Summons the Martian Madness\n" +
                 "Not consumable"); */

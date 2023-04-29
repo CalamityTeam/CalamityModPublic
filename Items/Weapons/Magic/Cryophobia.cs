@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Cryophobia");
             /* Tooltip.SetDefault("Chill\n" +
                 "Fires an icy wave that splits multiple times and explodes into shards"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

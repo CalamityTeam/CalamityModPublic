@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Fungal Clump");
             /* Tooltip.SetDefault("Summons a fungal clump to fight for you\n" +
                        "The clump latches onto enemies and steals their life for you"); */

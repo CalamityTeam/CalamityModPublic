@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Helstorm");
             /* Tooltip.SetDefault("Fires two bullets at once\n" +
                 "The gun also deals damage to enemies that touch it"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

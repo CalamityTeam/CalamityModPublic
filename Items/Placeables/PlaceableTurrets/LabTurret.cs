@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             /* Tooltip.SetDefault("Shoots laser beams at nearby enemies\n" +
                 "Cannot attack while a boss is alive"); */
         }

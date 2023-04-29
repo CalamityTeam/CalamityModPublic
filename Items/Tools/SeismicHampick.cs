@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Seismic Hampick");
             // Tooltip.SetDefault(@"Capable of mining Lihzahrd Bricks
 //Left click to use as a pickaxe

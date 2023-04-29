@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Gleaming Magnolia");
             // Tooltip.SetDefault("Casts a gleaming flower that explodes into petals");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

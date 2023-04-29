@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Void of Calamity");
             /* Tooltip.SetDefault("12% increase to all damage\n" +
             "Brimstone fire rains down after getting hit"); */

@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Life Jelly");
             /* Tooltip.SetDefault("+20 max life\n" +
                 "Standing still boosts life regen"); */

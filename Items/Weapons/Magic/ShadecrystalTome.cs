@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Shadecrystal Barrage");
             // Tooltip.SetDefault("Summons rapid fire shadecrystals, can shoot two crystals at once");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

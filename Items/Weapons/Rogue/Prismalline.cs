@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Prismalline");
             /* Tooltip.SetDefault("Throws daggers that split after a while\n" +
             "Stealth strikes additionally explode into prism shards and briefly stun enemies"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

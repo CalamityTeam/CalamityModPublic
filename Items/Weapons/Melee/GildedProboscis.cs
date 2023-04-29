@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Gilded Proboscis");
             // Tooltip.SetDefault("Heals the player on hit");
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

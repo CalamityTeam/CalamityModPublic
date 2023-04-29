@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Bloodflare Hydra Hood");
             // Tooltip.SetDefault("20% increased magic damage, 10% increased magic critical strike chance, +100 max mana and 17% reduced mana usage");
         }

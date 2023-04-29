@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Hypothermia");
             /* Tooltip.SetDefault("Throws a constant barrage of black ice shards\n" +
                                "Stealth strikes hurl a set of razor sharp ice chunks that shatter on impact"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

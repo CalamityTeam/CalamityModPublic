@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Soul Harvester");
             /* Tooltip.SetDefault("Shoots a soul scythe\n" +
                 "Enemies explode when on low health, spreading the plague"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

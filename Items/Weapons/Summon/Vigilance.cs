@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Vigilance");
             // Tooltip.SetDefault("Summons a soul seeker to fight for you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

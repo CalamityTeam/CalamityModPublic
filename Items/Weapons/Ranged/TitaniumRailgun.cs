@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             /* Tooltip.SetDefault("Hold down to charge up a decimating titanium blast\n" +
                 "Longer hold time increases power, leading to more damage, size, and knockback\n" +
                 "Power is capped when the cannon's sights have fully converged"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

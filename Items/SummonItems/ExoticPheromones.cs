@@ -13,7 +13,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Exotic Pheromones");
             /* Tooltip.SetDefault("Specifically formulated to attract draconic hybrids\n" +
                 "Summons The Dragonfolly when used in the Jungle\n" +

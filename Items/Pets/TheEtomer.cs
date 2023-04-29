@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("The Etomer");
             /* Tooltip.SetDefault("Summons an electric troublemaker\n" +
                 "A little note is attached:\n" +

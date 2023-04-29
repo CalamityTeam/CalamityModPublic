@@ -103,7 +103,6 @@ namespace CalamityMod.Items.Weapons.Melee
                                "Using RMB for a shorter period of time switches your active and passive attunements around\n" +
                                "Active Attunement : None\n" +
                                "Passive Attunement: None\n"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         #region tooltip editing

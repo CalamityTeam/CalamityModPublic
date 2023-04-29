@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Ocean Crest");
             // Tooltip.SetDefault("Most ocean enemies become friendly and provides waterbreathing");
         }

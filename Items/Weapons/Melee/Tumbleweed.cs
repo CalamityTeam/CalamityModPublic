@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Tumbleweed");
             // Tooltip.SetDefault("Releases a rolling tumbleweed on hit");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

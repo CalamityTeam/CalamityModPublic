@@ -27,7 +27,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Phaseslayer");
             /* Tooltip.SetDefault("A rough prototype of the Murasama blade, it is formed entirely from laser energy\n" +
                                "Wield a colossal laser blade which is controlled by the cursor\n" +

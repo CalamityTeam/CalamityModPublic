@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Chaos Candle");
             // Tooltip.SetDefault("The mere presence of this candle enrages surrounding enemies drastically");
         }

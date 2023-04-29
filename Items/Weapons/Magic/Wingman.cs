@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Wingman");
             // Tooltip.SetDefault("Fires a concentrated laser beam");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

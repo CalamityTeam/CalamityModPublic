@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("The Sevens Striker");
             /* Tooltip.SetDefault("Left click to consume 1 coin and play a slot machine\n" +
                 "Quality of the outcome depends on the coin used\n" +

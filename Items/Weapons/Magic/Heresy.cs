@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Magic
                 "As the book is held the power of both increases"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

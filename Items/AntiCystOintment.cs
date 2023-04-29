@@ -10,7 +10,6 @@ namespace CalamityMod.Items
         {
             // DisplayName.SetDefault("Anti-Cyst Ointment");
             // Tooltip.SetDefault("Favorite this item to prevent perforator cysts from spawning near you");
-            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

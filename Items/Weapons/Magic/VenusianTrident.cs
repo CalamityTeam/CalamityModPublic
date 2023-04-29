@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Venusian Trident");
             // Tooltip.SetDefault("Casts an infernal trident that erupts into a gigantic explosion of fire and magma shards");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Darklight Greatsword");
             // Tooltip.SetDefault("Fires darklight blades that split on death");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

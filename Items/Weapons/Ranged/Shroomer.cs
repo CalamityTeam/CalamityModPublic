@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Shroomer");
             // Tooltip.SetDefault("Fires bullets and an extremely powerful homing mushroom");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

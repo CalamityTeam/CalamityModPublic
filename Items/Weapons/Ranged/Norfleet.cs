@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Norfleet");
             // Tooltip.SetDefault("Fire everything!");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Statis' Ninja Belt");
             /* Tooltip.SetDefault("6% increased jump speed and allows constant jumping\n" +
                 "Grants the ability to swim\n" +

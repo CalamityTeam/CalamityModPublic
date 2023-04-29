@@ -12,7 +12,6 @@ namespace CalamityMod.Items.PermanentBoosters
             // DisplayName.SetDefault("Electrolyte Gel Pack");
             /* Tooltip.SetDefault("Permanently increases Adrenaline Mode damage by 15% and damage reduction by 5%\n" +
                 "Revengeance drop"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

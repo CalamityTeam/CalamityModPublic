@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Aquatic Discharge");
             // Tooltip.SetDefault("Enemies release electric sparks on hit");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

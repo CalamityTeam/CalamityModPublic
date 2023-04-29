@@ -27,7 +27,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Left click to shoot several rock shards\n" +
                 "Right click to dive downwards and bounce off enemies\n" +
                 "Diving into blocks creates a shockwave"); */
-            Item.ResearchUnlockCount = 1;
 
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }

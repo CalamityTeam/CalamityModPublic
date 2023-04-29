@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Storm Dragoon");
             /* Tooltip.SetDefault("Fires a spray of bullets\n" +
             "90% chance to not consume ammo"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

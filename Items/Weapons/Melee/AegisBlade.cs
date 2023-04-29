@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Aegis Blade");
             /* Tooltip.SetDefault("Striking an enemy with the blade causes an earthen eruption\n" +
                 "Right click to fire an aegis bolt"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

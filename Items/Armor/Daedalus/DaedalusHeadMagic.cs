@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Armor.Daedalus
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Daedalus Hood");
             /* Tooltip.SetDefault("13% increased magic damage and 7% increased magic critical strike chance\n" +
                 "10% decreased mana usage and +60 max mana"); */

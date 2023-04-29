@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Godspawn Helix Staff");
             // Tooltip.SetDefault("Summons astral probes to protect you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

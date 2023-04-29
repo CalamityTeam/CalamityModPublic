@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Armor.Brimflame
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Brimflame Boots");
             /* Tooltip.SetDefault("5% increased magic damage\n" +
                 "5% increased movement speed"); */

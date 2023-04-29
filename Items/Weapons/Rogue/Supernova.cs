@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // Tooltip.SetDefault(@"Creates a massive explosion on impact
 //Explodes into spikes and homing energy
 //Stealth strikes release energy as they fly");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

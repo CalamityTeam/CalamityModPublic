@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Serpentine");
             // Tooltip.SetDefault("Casts a serpent that follows the mouse cursor");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

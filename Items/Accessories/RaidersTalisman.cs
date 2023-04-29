@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Raider's Talisman");
             /* Tooltip.SetDefault($"Landing a stealth strike grants a {(int)RaiderBonus}% crit bonus to non-stealth strikes\n" +
                 $"This crit bonus decays over {RaiderCooldown} seconds"); */

@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Up to 10 spiky balls can exist at a time\n" +
                 "Stealth strikes cause all spiky balls and orbs to be thrown at once\n" +
                 "Right click to recall all existing spiky balls"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

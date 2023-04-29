@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Astral Scythe");
             // Tooltip.SetDefault("Shoots a scythe ring that accelerates over time");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

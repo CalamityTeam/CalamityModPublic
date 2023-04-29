@@ -85,7 +85,6 @@ namespace CalamityMod.Items.Weapons.Melee
                                "Using RMB otherwise switches between the current attunement and an extra stored one\n" +
                                "Main Attunement : [None]\n" +
                                "Secondary Attunement: [None]\n"); */ //Theres potential for flavor text as well but im not a writer
-            Item.ResearchUnlockCount = 1;
         }
 
         #region tooltip editing

@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Auric Toilet");
             /* Tooltip.SetDefault("This was used by the gods \n" +
                 "Sitting on such a throne would be a disgrace to all"); */

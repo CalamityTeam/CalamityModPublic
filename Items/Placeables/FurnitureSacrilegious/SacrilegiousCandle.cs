@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Sacrilegious Candle");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

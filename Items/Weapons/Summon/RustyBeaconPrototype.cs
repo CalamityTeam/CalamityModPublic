@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Weapons.Summon
             // DisplayName.SetDefault("Rusty Beacon Prototype");
             /* Tooltip.SetDefault("Summons a long-abandoned drone to support you\n" +
                                "The drone hovers in place and releases toxic waves that inflict irradiated and poisoned"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

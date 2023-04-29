@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("SHPC");
             /* Tooltip.SetDefault("Fires plasma orbs that linger and emit massive explosions\n" +
                 "Right click to fire powerful energy beams"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

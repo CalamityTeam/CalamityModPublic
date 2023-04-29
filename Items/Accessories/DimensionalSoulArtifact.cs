@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Dimensional Soul Artifact");
             /* Tooltip.SetDefault("Power\n" +
                 "Boosts all damage by 25%, but at what cost?\n" +

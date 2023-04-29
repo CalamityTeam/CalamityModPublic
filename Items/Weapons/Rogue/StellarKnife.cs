@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Throws knives that stop middair and then home into enemies\n" +
                                "Stealth strikes throw a volley of " + knifeCount + " knives in a spread\n" +
                                "Za Warudo"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

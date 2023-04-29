@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Vulcanite Lance");
             // Tooltip.SetDefault("Explodes on enemy hits and summons homing flares on critical hits");
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

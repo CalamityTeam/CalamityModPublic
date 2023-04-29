@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Marksman Bow");
             /* Tooltip.SetDefault("Fires three arrows at once\n" +
             "Wooden arrows are converted into Jester's arrows"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

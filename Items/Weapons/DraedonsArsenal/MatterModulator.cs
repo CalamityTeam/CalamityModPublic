@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Matter Modulator");
             /* Tooltip.SetDefault("Using extra mass gained from collision with solid materials, it causes extra damage\n" +
             "Fires a burst of unstable matter that does significant damage after striking a tile\n" +

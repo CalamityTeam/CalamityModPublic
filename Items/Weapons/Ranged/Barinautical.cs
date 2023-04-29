@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Barinautical");
             // Tooltip.SetDefault("Converts wooden arrows into strings of 3 electric bolt arrows that explode");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Plagued Door");
         }
 

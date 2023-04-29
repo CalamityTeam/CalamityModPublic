@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Daemon's Flame");
             /* Tooltip.SetDefault("Shoots daemon flame fireballs as well as 4 regular arrows\n" +
                             "66% chance to not consume ammo"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

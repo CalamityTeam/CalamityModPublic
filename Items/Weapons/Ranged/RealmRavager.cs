@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Realm Ravager");
             /* Tooltip.SetDefault("Shoots a burst of 3 to 4 bullets\n" +
                 "Converts musket balls into explosive bullets"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

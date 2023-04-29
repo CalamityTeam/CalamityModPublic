@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Bear's Eye");
             // Tooltip.SetDefault("Summons a pet guardian angel");
         }

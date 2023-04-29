@@ -19,7 +19,6 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Encrypted Schematic (Planetoid)");
             // Tooltip.SetDefault("Requires a Codebreaker with a basic decryption computer to decrypt");
         }

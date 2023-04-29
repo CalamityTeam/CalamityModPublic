@@ -40,7 +40,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Right click to instead swing the sword and fire rainbow colored waves\n" +
                 "The sword is boosted by both melee and ranged damage"); */
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
 
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }

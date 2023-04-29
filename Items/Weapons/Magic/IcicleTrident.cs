@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Icicle Trident");
             // Tooltip.SetDefault("Shoots piercing icicles");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

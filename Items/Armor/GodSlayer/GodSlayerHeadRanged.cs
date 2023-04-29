@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Armor.GodSlayer
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("God Slayer Helmet");
             // Tooltip.SetDefault("14% increased ranged damage and critical strike chance");
         }

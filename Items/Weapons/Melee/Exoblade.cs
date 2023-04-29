@@ -58,7 +58,6 @@ namespace CalamityMod.Items.Weapons.Melee
                                "Right clicks make you dash in the direction of the cursor with the blade\n" +
                                "Enemy hits from the blade during the dash result in massive damage and a rebound\n" +
                                "Left clicks briefly after a rebound are far stronger and create explosions on enemy hits"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

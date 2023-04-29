@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Summon
                                "Requires three minion slots to use\n" +
                                "Only one may exist\n" +
                                "Right click to launch a black hole that grows in size"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

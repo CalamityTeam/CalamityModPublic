@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Romajeda Orchid");
             // Tooltip.SetDefault("Summons a never forgotten friend");
         }

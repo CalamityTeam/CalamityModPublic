@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Aftershock");
             // Tooltip.SetDefault("Summons boulders from the sky on enemy hits");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

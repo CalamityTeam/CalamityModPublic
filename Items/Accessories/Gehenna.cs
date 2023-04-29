@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Gehenna");
             // Tooltip.SetDefault("Drops brimstone fireballs from the sky occasionally");
         }

@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Vehemence");
             // Tooltip.SetDefault("Casts intense bolts of hellish power that explode into skulls");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

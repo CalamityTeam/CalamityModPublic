@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Leviathan Teeth");
             /* Tooltip.SetDefault("Rapidly throws a variety of poisonous fangs that stick to enemies\n" +
                 "Stealth strikes cause 6 very fast teeth to be thrown, ignoring gravity and inflicting extreme knockback"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

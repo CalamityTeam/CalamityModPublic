@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Thorn Blossom");
             // Tooltip.SetDefault("Every rose has its thorn");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

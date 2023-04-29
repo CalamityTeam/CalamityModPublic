@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Anti-materiel Rifle");
             /* Tooltip.SetDefault("Converts musket balls into .50 caliber sniper rounds that rip apart enemy defense and DR\n" +
                 "If you crit the target a second swarm of bullets will fire"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

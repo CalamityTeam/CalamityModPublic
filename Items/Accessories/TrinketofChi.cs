@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Trinket of Chi");
             /* Tooltip.SetDefault("Provides 10% damage reduction after not being hit for 15 seconds, this is removed when you are hit\n" +
                 "Provides 2 life regen for you and everyone on your team"); */

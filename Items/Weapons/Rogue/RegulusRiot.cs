@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Regulus Riot");
             // Tooltip.SetDefault(@"Fires a swift homing disk
 //Stealth strikes explode into energy stars");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

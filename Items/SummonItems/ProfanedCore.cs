@@ -13,7 +13,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Profaned Core");
             /* Tooltip.SetDefault("The core of the unholy flame\n" +
                 "Summons Providence when used in the Hallow or Underworld\n" +

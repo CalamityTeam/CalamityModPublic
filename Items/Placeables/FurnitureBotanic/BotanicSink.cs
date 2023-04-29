@@ -7,7 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // Tooltip.SetDefault("Counts as a honey source");
         }
 

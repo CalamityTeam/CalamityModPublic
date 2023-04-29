@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Effigy of Decay");
             /* Tooltip.SetDefault("When placed down, nearby players can breathe underwater\n" +
                                "This effect does not work in the abyss\n" +

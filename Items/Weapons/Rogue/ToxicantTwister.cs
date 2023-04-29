@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Throws a slow moving boomerang\n" +
                 "After a few moments, the boomerang chooses a target and rapidly homes in\n" +
                 "Stealth strikes home in faster and rapidly release sand"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

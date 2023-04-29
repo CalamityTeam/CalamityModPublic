@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Polaris Parrotfish");
             /* Tooltip.SetDefault("It carries the mark of the Northern Star\n" +
                 "Projectile hits grant buffs to the weapon\n" +

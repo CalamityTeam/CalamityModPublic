@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Elemental Blaster");
             /* Tooltip.SetDefault("Does not consume ammo\n" +
                 "Fires a storm of rainbow blasts"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

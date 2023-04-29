@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Enchanted Butterfly");
             /* Tooltip.SetDefault("Feed him butterflies to keep him strong!\n" +
                 "Summons a mysterious dragonfly light pet\n" +

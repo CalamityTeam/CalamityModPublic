@@ -11,7 +11,6 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Marine Biology Log");
             // Tooltip.SetDefault("[Bioform Research] - Aquatic Life of Ilmeris\nClick to view its contents");
         }

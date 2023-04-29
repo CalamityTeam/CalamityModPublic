@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Melee
             /* Tooltip.SetDefault("Fires homing blazing blades\n" +
                 "Gives the player the tyrant's fury buff on enemy hits\n" +
                 "This buff increases melee damage by 30% and melee crit chance by 10%"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

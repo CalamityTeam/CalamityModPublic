@@ -24,7 +24,6 @@ namespace CalamityMod.Items.Weapons.Typeless
                                $"This reformation can only happen {ArtifactOfResilienceBulwark.MaxReformations} times.\n" +
                                "You gain a small cooldown when summoning a new bulwark.\n" +
                                "If a bulwark already exists, using this item will relocate it"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 

@@ -60,7 +60,6 @@ namespace CalamityMod.Items.Weapons.Melee
             "[c/83B87E:\"Who makes flatheads this large?? The hell am I supposed to use it for?!\"]\n" +
             "[c/83B87E:\"This thing could take an eye out!\"]\n" +
             "[c/83B87E:\"…Ah.\"]"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override float UseSpeedMultiplier(Player player)

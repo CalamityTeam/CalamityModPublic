@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Wrath of the Ancients");
             // Tooltip.SetDefault("Summons an energy pulse at the cursor to periodically summon homing spirits");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

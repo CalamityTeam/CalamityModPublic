@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Hellion Flower Spear");
             /* Tooltip.SetDefault("Shoots a flower spear tip\n" +
                 "Summons petals from the sky on critical hits"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

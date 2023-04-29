@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Armor.Auric
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Auric Tesla Hooded Facemask");
             // Tooltip.SetDefault("30% increased ranged damage and critical strike chance");
         }

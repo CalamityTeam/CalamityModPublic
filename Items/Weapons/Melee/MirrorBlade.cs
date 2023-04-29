@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Mirror Blade");
             /* Tooltip.SetDefault("The amount of contact damage an enemy does is added to this weapons' damage\n" +
                 "You must hit an enemy with the blade to trigger this effect"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

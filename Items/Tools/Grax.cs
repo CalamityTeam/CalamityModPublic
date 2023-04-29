@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Grax");
             /* Tooltip.SetDefault("Hitting an enemy will greatly boost your defense, melee damage and melee crit for a short time\n" +
                 "Right click to use without hammering down walls or chopping down trees"); */

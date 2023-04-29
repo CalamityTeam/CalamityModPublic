@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Briny Baron");
             /* Tooltip.SetDefault("Striking an enemy with the blade causes a briny typhoon to appear\n" +
                 "Right click to fire a razorwind aqua blade"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

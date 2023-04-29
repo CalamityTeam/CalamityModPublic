@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Ethereal Talisman");
             /* Tooltip.SetDefault("15% increased magic damage, 5% increased magic critical strike chance and 10% decreased mana usage\n" +
                 "+150 max mana\n" +

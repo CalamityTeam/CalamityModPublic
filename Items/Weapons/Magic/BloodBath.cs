@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Blood Bath");
             // Tooltip.SetDefault("Drenches your foes in blood");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

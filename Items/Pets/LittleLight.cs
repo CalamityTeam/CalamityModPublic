@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Little Light");
             /* Tooltip.SetDefault("It's been looking for you for a long time.\n" +
                 "Summons a small construct that follows you and provides a great amount of light\n" +

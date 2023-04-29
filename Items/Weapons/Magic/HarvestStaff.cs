@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Harvest Staff");
             // Tooltip.SetDefault("Casts flaming pumpkins");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Typeless
                 "A knife from an unknown world\n" +
                 "An owner whose heart is pure and free of taint\n" +
                 "A heart of iron and valor"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

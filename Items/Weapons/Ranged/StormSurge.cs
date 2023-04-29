@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Storm Surge");
             /* Tooltip.SetDefault("Fear the storm\n" +
                 "Does not consume ammo"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

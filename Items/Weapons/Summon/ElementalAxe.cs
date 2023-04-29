@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Elemental Axe");
             // Tooltip.SetDefault("Summons an elemental axe to fight for you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

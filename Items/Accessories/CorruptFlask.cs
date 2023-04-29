@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Corrupt Flask");
             /* Tooltip.SetDefault("4% increased damage reduction and +6 defense while in the corruption\n" +
                 "Grants immunity to the Cursed Inferno debuff"); */

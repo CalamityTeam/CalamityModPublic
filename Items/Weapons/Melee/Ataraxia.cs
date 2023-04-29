@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Ataraxia");
             // Tooltip.SetDefault("Equanimity");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

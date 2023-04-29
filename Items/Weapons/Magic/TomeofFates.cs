@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Tome of Fates");
             /* Tooltip.SetDefault("Casts cosmic tentacles to spear your enemies\n" +
                 "Can randomly fire a red tentacle for immense damage"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

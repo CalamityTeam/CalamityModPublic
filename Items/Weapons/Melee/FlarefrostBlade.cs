@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Flarefrost Blade");
             // Tooltip.SetDefault("Fires a homing flarefrost orb");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

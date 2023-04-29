@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Eternal Blizzard");
             // Tooltip.SetDefault("Fires an additional icicle arrow that shatters on impact");
-            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

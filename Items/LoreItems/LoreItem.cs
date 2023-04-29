@@ -27,7 +27,6 @@ namespace CalamityMod.Items.LoreItems
             string basicLine = ShortTooltipColor.ColorMessage(ShortTooltip, true);
             string leftShift = LeftShiftExpandColor.ColorMessage(LeftShiftExpandTooltip, false);
             // Tooltip.SetDefault(basicLine + leftShift);
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 

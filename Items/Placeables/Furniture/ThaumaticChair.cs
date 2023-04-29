@@ -24,7 +24,6 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Thaumatic Chair"); // for Deallly#3625 who apparently deleted their account.  how do I contact them??????
             // Tooltip.SetDefault("One of Chloe's finest creations"); // who is Chloe?
         }

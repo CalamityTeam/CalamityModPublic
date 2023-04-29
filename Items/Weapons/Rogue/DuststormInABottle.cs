@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Duststorm in a Bottle");
             /* Tooltip.SetDefault("Explodes into a dust cloud\n" +
             "Stealth strikes form a more intense and longer lasting dust cloud"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

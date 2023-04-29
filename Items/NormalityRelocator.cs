@@ -22,7 +22,6 @@ namespace CalamityMod.Items
                 "Works while in the inventory"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Megalodon");
             /* Tooltip.SetDefault("50% chance to not consume ammo\n" +
                 "Fires streams of water every other shot"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

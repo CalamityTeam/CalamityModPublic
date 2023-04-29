@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Accessories.Vanity
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Abandoned Wulfrum Helmet");
             /* Tooltip.SetDefault("A worn and rusty helmet resembling older models of wulfrum armor\n" +
                 "Transforms the holder into a wulfrum robot\n" +

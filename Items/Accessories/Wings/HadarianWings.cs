@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Hadarian Wings");
             /* Tooltip.SetDefault("Powered by the Astral Infection\n" +
                 "This line gets modified below\n" +

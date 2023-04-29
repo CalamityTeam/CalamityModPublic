@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Comet Quasher");
             // Tooltip.SetDefault("Summons a swarm of meteors from the sky on enemy hits");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

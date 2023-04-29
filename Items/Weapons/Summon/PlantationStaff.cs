@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Summon
             "Fires seeds, spiky balls, and spore clouds from afar to poison targets\n" +
             "Enrages when you get under 75% health and begins ramming enemies\n" +
             "Occupies 3 minion slots and there can only be one"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Armor.TitanHeart
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Titan Heart Mask");
             /* Tooltip.SetDefault("5% increased rogue damage and knockback\n" +
             "Rogue weapons inflict the Astral Infection debuff"); */

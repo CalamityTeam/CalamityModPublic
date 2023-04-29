@@ -14,7 +14,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Blessed Phoenix Egg");
             /* Tooltip.SetDefault("An effigy of a Phoenix Dragon egg, used in worship\n" +
                                "Summons Yharon, Dragon of Rebirth\n" +

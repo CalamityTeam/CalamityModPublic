@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Soul Piercer");
             // Tooltip.SetDefault("Casts a powerful ray that summons extra rays on its first hit");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

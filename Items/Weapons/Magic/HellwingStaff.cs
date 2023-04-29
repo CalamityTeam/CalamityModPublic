@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Hellwing Staff");
             // Tooltip.SetDefault("Casts flaming bats");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

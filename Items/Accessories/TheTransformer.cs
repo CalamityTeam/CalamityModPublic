@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("The Transformer");
             /* Tooltip.SetDefault("Multiplies all electricity-based debuff damage by 1.5\n" +
                                 "Taking damage releases a blast of sparks\n" +

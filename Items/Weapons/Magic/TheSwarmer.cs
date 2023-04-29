@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("The Swarmer");
             // Tooltip.SetDefault("Fires a swarm of bees and wasps");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

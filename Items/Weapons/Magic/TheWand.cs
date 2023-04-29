@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("The Wand");
             // Tooltip.SetDefault("The ultimate wand");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

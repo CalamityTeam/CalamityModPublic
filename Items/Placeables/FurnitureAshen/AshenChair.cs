@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             //Tooltip.SetDefault("This is a modded chair.");
         }
 

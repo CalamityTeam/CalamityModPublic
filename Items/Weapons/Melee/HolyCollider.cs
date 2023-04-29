@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Holy Collider");
             // Tooltip.SetDefault("Striking enemies will cause them to explode into holy fire");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

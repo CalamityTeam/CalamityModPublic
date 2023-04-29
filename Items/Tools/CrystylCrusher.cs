@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Crystyl Crusher");
             /* Tooltip.SetDefault("Gotta dig faster, gotta go deeper\n" +
                 "Right click to swing normally"); */

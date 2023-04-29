@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Essence Flayer");
             // Tooltip.SetDefault("Shoots an essence scythe that generates healing spirits on enemy kills");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

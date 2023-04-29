@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Summon
             // DisplayName.SetDefault("Daedalus Golem Staff");
             /* Tooltip.SetDefault("Summons a Daedalus Golem soldier that fires pellets and electricity\n" +
                                "Shining god of greed"); */ // Funny Hollow Knight reference.
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

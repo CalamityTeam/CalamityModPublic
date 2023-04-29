@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Mirage Mirror");
             /* Tooltip.SetDefault("Bend light around you\n" +
                 "Reduces enemy aggression outside of the abyss\n" +

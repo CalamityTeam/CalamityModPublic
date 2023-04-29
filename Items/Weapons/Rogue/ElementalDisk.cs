@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Elemental Disk");
             /* Tooltip.SetDefault("Throws a disk that has a chance to generate several disks if enemies are near it\n" +
             "Stealth strikes fly slower but travel farther, pierce through enemies, and spawn extra disks more frequently"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

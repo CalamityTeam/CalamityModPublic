@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Astral Blade");
             // Tooltip.SetDefault("Deals more damage the more life an enemy has left");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

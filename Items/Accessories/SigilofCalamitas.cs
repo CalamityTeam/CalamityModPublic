@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Sigil of Calamitas");
             /* Tooltip.SetDefault("15% increased magic damage and 10% decreased mana usage\n" +
                 "+100 max mana\n" +

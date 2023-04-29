@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Bladedge Railbow");
             // Tooltip.SetDefault("Fires a spread of 4 arrows and 2 leaves at once");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

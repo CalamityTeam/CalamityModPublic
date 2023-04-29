@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Barinade");
             // Tooltip.SetDefault("Converts wooden arrows into electric bolt arrows that explode");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

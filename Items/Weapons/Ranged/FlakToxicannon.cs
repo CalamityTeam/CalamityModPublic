@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             /* Tooltip.SetDefault("Fires angled shots in the direction of the cursor\n" +
                                "Can only be shot in a cone direction above the player\n" +
                                "High IQ required"); */
-            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("SDFMG");
             /* Tooltip.SetDefault("It came from the edge of Terraria\n" +
                 "50% chance to not consume ammo"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

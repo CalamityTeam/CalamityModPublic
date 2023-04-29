@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "[c/5C95A1:Though the evaporating Sea Kingdom fought a losing battle, its proud inhabitants did not go down easily.]\n" +
                 "[c/5C95A1:As a last resort, they had to fashion weapons from the skeletons of dead animals.]"
                 ); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

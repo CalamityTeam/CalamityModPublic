@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Mourningstar");
             // Tooltip.SetDefault("Launches two solar whip swords that explode on hit");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

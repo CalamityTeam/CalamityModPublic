@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Ethereal Subjugator");
             // Tooltip.SetDefault("Summons a phantom to protect you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

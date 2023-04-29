@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Mana Polarizer");
             /* Tooltip.SetDefault("Increases max mana by 50 and magic damage by 6%\n" +
                                "Life regen lowered by 3 if mana is above 50% of its maximum\n" +

@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Typeless
                                "The spear requires a charge-up. The longer the charge, the stronger the lunge\n" +
                                "The spear disappears immediately if you are not holding this item while charging\n" +
                                "If enough time has passed or the spear collides into a wall, the spear dies and the lunge ends"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

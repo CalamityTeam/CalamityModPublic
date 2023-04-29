@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Plaguebringer Goliath Mask");
 
             if (Main.netMode != NetmodeID.Server)

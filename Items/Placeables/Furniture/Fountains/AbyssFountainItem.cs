@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Fountains
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Abyss Water Fountain");
         }
 

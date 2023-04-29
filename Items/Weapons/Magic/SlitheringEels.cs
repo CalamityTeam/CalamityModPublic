@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Slithering Eels");
             // Tooltip.SetDefault("Casts a magical acid eel that releases acid drops as it moves");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

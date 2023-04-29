@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Anahita's Arpeggio");
             // Tooltip.SetDefault("Casts slow-moving treble clefs that confuse enemies");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

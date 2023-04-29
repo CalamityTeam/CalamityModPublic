@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Kylie");
             // Tooltip.SetDefault("Stealth strikes throws three shorter ranged kylies instead of a single long range one\n" + "'Also known as Dowak'");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

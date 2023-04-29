@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Firestorm Cannon");
             /* Tooltip.SetDefault("70% chance to not consume flares\n" +
                 "Right click to fire a spread of flares"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

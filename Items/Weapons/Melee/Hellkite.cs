@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Hellkite");
             /* Tooltip.SetDefault("Contains the power of an ancient drake\n" +
                 "Summons flame geyser explosions on enemy hits"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

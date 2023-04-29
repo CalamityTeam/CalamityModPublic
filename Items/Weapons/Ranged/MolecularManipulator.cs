@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Molecular Manipulator");
             /* Tooltip.SetDefault("Is it nullable or not? Let's find out!\n" +
                 "Fires a fast null bullet that distorts NPC stats"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

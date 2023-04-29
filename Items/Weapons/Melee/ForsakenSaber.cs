@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Forsaken Saber");
             // Tooltip.SetDefault("Shoots two sand blades that alter their velocity as they travel");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Hadal Urn");
             // Tooltip.SetDefault("Fires a random assortment of ocean creatures\n"+ "'There's no telling how long it was down there... or what lurks inside'");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

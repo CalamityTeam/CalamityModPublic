@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Eldritch Tome");
             // Tooltip.SetDefault("Casts eldritch tentacles to spear your enemies");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

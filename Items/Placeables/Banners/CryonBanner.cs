@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Cryon");
         }
 

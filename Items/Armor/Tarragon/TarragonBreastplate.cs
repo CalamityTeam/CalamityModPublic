@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Tarragon
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Tarragon Breastplate");
             /* Tooltip.SetDefault("10% increased damage and 5% increased critical strike chance\n" +
                     "+2 life regen and +40 max life"); */

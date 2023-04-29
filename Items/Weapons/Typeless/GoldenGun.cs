@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             // DisplayName.SetDefault("Golden Gun");
             // Tooltip.SetDefault("Shoots a straight line of ichor");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

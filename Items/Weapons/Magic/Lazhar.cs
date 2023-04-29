@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Lazhar");
             // Tooltip.SetDefault("Fires a highly volatile concentrated solar beam");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

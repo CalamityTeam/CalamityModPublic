@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Telluric Glare");
             // Tooltip.SetDefault("Fires volleys of four colossal radiant arrows which can pass through walls");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

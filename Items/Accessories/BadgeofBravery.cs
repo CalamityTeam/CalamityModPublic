@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Badge of Bravery");
             /* Tooltip.SetDefault("15% increased melee speed\n" +
                                "Increases melee damage and melee crit by 5%\n" +

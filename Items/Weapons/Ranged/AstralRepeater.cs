@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Astral Bow");
             // Tooltip.SetDefault("Fires a burst of three arrows");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

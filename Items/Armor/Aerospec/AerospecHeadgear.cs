@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Aerospec
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Aerospec Headgear");
             // Tooltip.SetDefault("8% increased rogue damage and 5% increased movement speed");
 

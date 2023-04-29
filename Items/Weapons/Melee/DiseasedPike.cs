@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Diseased Pike");
             // Tooltip.SetDefault("Fires plague seekers on hit");
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

@@ -24,7 +24,6 @@ namespace CalamityMod.Items.Armor
         
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Cirrus' Dress");
             /* Tooltip.SetDefault("Here, this should help you drink a lot more than usual!\n" +
                 "5% increased magic damage and critical strike chance\n" +

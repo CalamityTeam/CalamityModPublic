@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Urchin Mace");
             // Tooltip.SetDefault("Throws out a whirlpool when released at full charge");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

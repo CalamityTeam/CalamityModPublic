@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Melee
             /* Tooltip.SetDefault("A synthesis of jungle flora\n" +
                 "Throws a powerful rose flail\n" +
                 "Right click to stab with a flower spear"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

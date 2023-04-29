@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Dynamo Stem Cells");
             // Tooltip.SetDefault(@"10% increased movement speed
 //Ranged weapons have a chance to fire mini swarmers

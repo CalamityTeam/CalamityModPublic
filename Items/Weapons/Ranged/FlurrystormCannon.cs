@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             /* Tooltip.SetDefault("Fires a chain of snowballs that become faster over time\n" +
             "Has a chance to also fire an ice chunk that shatters into shards\n" +
             "50% chance to not consume snowballs"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

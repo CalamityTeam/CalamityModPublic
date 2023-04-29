@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Wulfrum Battery");
             /* Tooltip.SetDefault( "Empowers your summons with wulfrum energy, letting them emit light around them\n" + 
                 "7% increased summon damage\n" +

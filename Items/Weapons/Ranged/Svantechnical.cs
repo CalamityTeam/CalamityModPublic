@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Svantechnical");
             /* Tooltip.SetDefault("Fires several barrages of bullets\n" +
                 "Right click to zoom out"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

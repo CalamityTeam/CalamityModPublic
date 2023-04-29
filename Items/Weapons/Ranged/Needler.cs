@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Needler");
             // Tooltip.SetDefault("Converts musket balls into needles that stick to enemies and explode");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

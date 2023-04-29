@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Leviathan Ambergris");
             /* Tooltip.SetDefault("You leave behind poisonous seawater as you move\n" +
                                "30% increased movement speed, 10% increase to all damage and plus 10 defense while submerged in liquid\n" +

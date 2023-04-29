@@ -6,7 +6,6 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // Tooltip.SetDefault("Counts as a water source");
         }
 

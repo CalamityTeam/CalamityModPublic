@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Armor.Silva
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Silva Horned Hood");
             // Tooltip.SetDefault("10% increased minion damage");
         }

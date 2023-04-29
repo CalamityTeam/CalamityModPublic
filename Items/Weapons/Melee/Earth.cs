@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Ice meteors freeze enemies\n" +
                 "Flame meteors explode\n" +
                 "Green meteors spawn healing orbs"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

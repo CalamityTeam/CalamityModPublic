@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             "Stealth strikes spawn a flood of bats and falling skulls when destroyed\n"+
             "Inflicts cursed flames and confusion\n"+
             "'A dapper skeleton's weapon of choice'"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

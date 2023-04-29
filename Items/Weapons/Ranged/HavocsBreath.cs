@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Havoc's Breath");
             // Tooltip.SetDefault("50% chance to not consume gel");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

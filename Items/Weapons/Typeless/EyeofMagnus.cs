@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Typeless
             /* Tooltip.SetDefault("Fires powerful beams that reduce enemy protection\n" +
                 "This weapon scales with all your damage stats at once\n" +
                 "Heals mana and health on hit"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

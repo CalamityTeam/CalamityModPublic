@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Corruption Effigy");
             /* Tooltip.SetDefault("When placed down, nearby players have their movement speed and crit chance increased by 10%\n" +
                 "Nearby players also suffer a 5% decrease to their damage reduction"); */

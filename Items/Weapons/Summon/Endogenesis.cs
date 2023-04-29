@@ -27,7 +27,6 @@ namespace CalamityMod.Items.Weapons.Summon
                 "Requires 10 minion slots to be summoned \n" +
                 "There can only be one \n" +
                 "[c/B0FBFF:Ice puns not included]"); */ //Icy no problems with that
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

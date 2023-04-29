@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
             // DisplayName.SetDefault("Monolith of the Accursed");
             /* Tooltip.SetDefault("Let the sky burn a blazing red\n" +
 			"The monolith has two different modes"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

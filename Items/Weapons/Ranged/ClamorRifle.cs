@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Clamor Rifle");
             // Tooltip.SetDefault("Converts musket balls into homing energy bolts");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

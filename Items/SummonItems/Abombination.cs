@@ -14,7 +14,6 @@ namespace CalamityMod.Items.SummonItems
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PBGSummon");
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Abombination");
             /* Tooltip.SetDefault("Calls in the airborne abomination\n" +
                 "Summons the Plaguebringer Goliath when used in the Jungle\n" +

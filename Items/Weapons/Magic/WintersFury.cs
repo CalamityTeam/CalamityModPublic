@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Winter's Fury");
             // Tooltip.SetDefault("The pages are freezing to the touch");
-            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

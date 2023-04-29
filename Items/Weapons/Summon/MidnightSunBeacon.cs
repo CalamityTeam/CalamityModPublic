@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Midnight Sun Beacon");
             // Tooltip.SetDefault("Summons a UFO to vaporize enemies");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

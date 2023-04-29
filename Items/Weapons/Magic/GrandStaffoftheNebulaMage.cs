@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Grand Staff of the Nebula Mage");
             // Tooltip.SetDefault("The true power of the Nebula Mage rests in your hands...");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

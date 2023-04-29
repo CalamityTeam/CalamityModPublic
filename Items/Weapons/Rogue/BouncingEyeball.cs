@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Throws an eyeball that bounces off of surfaces.\n" +
                                "Knockback is much stronger during a blood moon\n" +
                                "Stealth strikes cause the eyeballs to move much faster and bounce more energetically"); */
-            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

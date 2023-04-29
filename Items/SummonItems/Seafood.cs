@@ -13,7 +13,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Seafood");
             /* Tooltip.SetDefault("Summons the Aquatic Scourge when used in the Sulphurous Sea\n" +
                 "Enrages outside the Sulphurous Sea\n" +

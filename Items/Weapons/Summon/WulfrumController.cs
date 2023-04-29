@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Summon
                 "Supercharged droids will stop attacking and focus wulfrum energy onto you\n" +
                 "The beam provides extra regeneration and defense\n" +
                 "Can also be used to heal other players by keeping your mouse cursor close enough to them"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

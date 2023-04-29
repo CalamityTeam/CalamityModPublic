@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // Tooltip.SetDefault(@"Each shot casts a radiant beam of holy light from the sky
 //Converts musket balls into illuminated bullets
 //Fighting 'til the war's won");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

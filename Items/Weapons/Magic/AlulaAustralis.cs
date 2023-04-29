@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Alula Australis");
             // Tooltip.SetDefault("Fires a beautiful aurora trailed by a star shower");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

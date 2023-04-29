@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Fires a stream of short-range fungal roots\n" +
                 "Stealth strikes spawn an explosion of fungi spores\n" +
 				"and grant you and all other players the Mushy buff for 15 seconds"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

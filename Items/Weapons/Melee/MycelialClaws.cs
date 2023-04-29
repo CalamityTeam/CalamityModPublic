@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Mycelial Claws");
             // Tooltip.SetDefault("Grants the Mushy buff for 6 seconds on enemy hits");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Deific Amulet");
             /* Tooltip.SetDefault("Causes stars to fall and grants increased immune time when damaged\n" +
                 "Provides life regeneration and reduces the cooldown of healing potions\n"); */

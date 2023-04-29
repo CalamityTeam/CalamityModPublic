@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Forbidden Circlet");
             // Tooltip.SetDefault("10% increased summon damage and 15% increased rogue velocity");
         }

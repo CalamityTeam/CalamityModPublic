@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Rem's Revenge");
             /* Tooltip.SetDefault("Wielded by the most powerful fighter.\n" +
             "Summons blood explosions and lowers enemy defense on hit"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Supreme Bait Tackle Box Fishing Station");
             /* Tooltip.SetDefault("The ultimate fishing accessory\n" +
                 "Increases fishing skill by 80\n" +

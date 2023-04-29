@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Cosmic Kunai");
             /* Tooltip.SetDefault("Fires a stream of short-range kunai\n" +
                 "Stealth strikes spawn 5 Cosmic Scythes which home and explode"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

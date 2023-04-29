@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Brimstone Fury");
             // Tooltip.SetDefault("Converts wooden arrows into spreads of 3 brimstone bolts");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

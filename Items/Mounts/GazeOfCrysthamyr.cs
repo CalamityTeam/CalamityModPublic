@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Mounts
             // DisplayName.SetDefault("Gaze of Crysthamyr");
             /* Tooltip.SetDefault("Summons a shadow dragon\n" +
                 "Hold W to ascend faster"); */
-            Item.ResearchUnlockCount = 1;
 
         }
 

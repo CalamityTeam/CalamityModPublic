@@ -30,7 +30,6 @@ namespace CalamityMod.Items.Tools
             /* Tooltip.SetDefault("Helps you find metal that's hopefully more valuable than wulfrum\n" +
             "This contraption seems incredibly shoddy. [c/fc4903:It'll break sooner than later for sure]"
             ); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

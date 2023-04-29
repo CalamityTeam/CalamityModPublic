@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.Summon
                                "50% chance to not consume ammo\n" +
                                "Alternates firing rockets and bullets\n" +
                                "Rockets do not consume ammo"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

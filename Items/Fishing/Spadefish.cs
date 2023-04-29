@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Fishing
             // DisplayName.SetDefault("Spadefish");
             /* Tooltip.SetDefault("How can a fish be used to dig through the ground?\n" +
                 "Some questions are best left unanswered."); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

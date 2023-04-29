@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Flame-Licked Shell");
             /* Tooltip.SetDefault("35% decreased movement speed\n" +
                                 "Enemies take damage when they hit you\n" +

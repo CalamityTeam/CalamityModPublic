@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Pestilent Defiler");
             // Tooltip.SetDefault("Converts musket balls into plague rounds that explode and split apart on death");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

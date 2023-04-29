@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Magic
                 "Shooting a tile will cause several bolts with increased damage to fire\n" +
                 "Shooting an enemy will inflict shadowflame"); */
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

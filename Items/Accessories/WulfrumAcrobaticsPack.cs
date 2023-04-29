@@ -26,7 +26,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Wulfrum Acrobatics Pack");
             /* Tooltip.SetDefault("Transforms equipped hooks into a wulfrum slingshot\n" +
             "The slingshot allows for advanced rope-swinging physics\n" +

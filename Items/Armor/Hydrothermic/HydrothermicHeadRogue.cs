@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Hydrothermic Hood");
             /* Tooltip.SetDefault("12% increased rogue damage and 10% increased rogue critical strike chance\n" +
                 "50% chance to not consume rogue items and 5% increased movement speed\n" +

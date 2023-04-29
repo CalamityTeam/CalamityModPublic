@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                               +"Throws a stardust javelin trailed by rising stardust shards\n"
                               +"Explodes into additional stardust shards upon hitting enemies\n"
                               +"Stealth strikes cause the stardust shards to fly alongside the javelin instead of rising"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

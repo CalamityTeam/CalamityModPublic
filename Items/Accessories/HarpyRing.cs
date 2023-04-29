@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Harpy Ring");
             /* Tooltip.SetDefault("10% increased movement speed\n" +
                 "Boosts your maximum flight time by 20%"); */

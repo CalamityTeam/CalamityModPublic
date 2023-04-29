@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Kelvin Catalyst");
             /* Tooltip.SetDefault("Throws an icy blade that splits into multiple ice stars on enemy hits\n" +
             "Stealth strikes will briefly gain sentience and ram nearby enemies before returning to the player"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

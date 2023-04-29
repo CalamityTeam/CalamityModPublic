@@ -25,7 +25,6 @@ namespace CalamityMod.Items.Weapons.Summon
                 " - A lavender rifle to snipe those who stand in your way\n" +
                 "Best of all, you get to wear a top hat\n" +
                 "Requires 5 minion slots to use and there can only be one set of tools"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

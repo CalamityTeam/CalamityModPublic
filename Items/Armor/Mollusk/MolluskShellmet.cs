@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Armor.Mollusk
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Mollusk Shellmet");
             /* Tooltip.SetDefault("5% increased damage and 4% increased critical strike chance\n" +
                                "You can move freely through liquids"); */

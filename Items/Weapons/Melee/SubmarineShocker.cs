@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Submarine Shocker");
             // Tooltip.SetDefault("Enemies release electric sparks on hit");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

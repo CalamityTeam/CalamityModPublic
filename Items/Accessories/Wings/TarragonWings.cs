@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Tarragon Wings");
             /* Tooltip.SetDefault("Born of the jungle\n" +
                 "Horizontal speed: 9.50\n" +

@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Wind Blade");
             // Tooltip.SetDefault("Fires cyclones that suck enemies in");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

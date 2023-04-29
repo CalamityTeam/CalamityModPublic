@@ -27,7 +27,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "Right click fires full auto and mixes the bullets randomly, but does 20% less damage\n" +
                 "This weapon has no randomness to its spread pattern\n" +
                 "66% chance to not consume ammo"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

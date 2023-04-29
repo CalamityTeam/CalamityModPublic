@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "This stacks up to 20 percent bonus movement speed and acceleration\n" +
                 "The boost will reset if the player holds a different item\n" +
                 "33% chance to not consume ammo"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

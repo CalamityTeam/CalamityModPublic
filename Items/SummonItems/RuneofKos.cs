@@ -21,7 +21,6 @@ namespace CalamityMod.Items.SummonItems
         public static readonly SoundStyle StormSound = new("CalamityMod/Sounds/Item/StormWeaverSpawn");
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Rune of Kos");
             /* Tooltip.SetDefault("A relic of the profaned flame\n" +
                 "Contains the power hunted relentlessly by the sentinels of the cosmic devourer\n" +

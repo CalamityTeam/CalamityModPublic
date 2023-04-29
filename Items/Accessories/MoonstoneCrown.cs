@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Moonstone Crown");
             /* Tooltip.SetDefault("15% increased rogue projectile velocity\n" +
                 "Stealth strikes summon lunar flares on enemy hits\n" +

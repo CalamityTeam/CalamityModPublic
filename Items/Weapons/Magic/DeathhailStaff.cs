@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Magic
             /* Tooltip.SetDefault("Rain death upon your foes!\n" +
                 "Casts a storm of nebula lasers from the sky"); */
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

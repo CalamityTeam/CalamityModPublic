@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Mounts
             /* Tooltip.SetDefault("Materializes a quite cozy and extremely nimble flying Exo throne\n" +
                 "Replaced\n" +
                 "A comfortable gamer is a dangerous gamer"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

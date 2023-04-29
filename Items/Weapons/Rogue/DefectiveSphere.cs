@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // Tooltip.SetDefault(@"Fires a variety of deadly spheres with different effects
 //Up to five spheres can be thrown at a time
 //Stealth strikes launch all 4 sphere types at once");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

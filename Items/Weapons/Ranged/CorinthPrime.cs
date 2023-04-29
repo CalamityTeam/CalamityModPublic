@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 //Right click to fire a grenade
 //The grenade emits a massive explosion if it doesn't touch anything for 2 seconds
 //Otherwise, the grenade emits an extremely weak explosion");
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

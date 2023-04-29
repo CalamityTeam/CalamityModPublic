@@ -17,7 +17,6 @@ namespace CalamityMod.Items.DraedonMisc
         public static readonly SoundStyle InstallSound = new("CalamityMod/Sounds/Custom/Codebreaker/AdvancedDisplayInstall");
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Advanced Display");
             /* Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
                 "Allows you to decrypt the Underworld schematic"); */

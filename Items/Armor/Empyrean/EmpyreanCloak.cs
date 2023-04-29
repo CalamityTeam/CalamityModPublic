@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Armor.Empyrean
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Empyrean Cloak");
             /* Tooltip.SetDefault("Armor of the cosmos\n" +
                 "+20 max life\n" +

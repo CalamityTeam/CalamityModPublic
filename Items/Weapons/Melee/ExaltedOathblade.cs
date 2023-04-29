@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Exalted Oathblade");
             // Tooltip.SetDefault("Fires a spread of demonic scythes and critical hits cause shadowflame explosions");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

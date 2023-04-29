@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Hellfire Flamberge");
             // Tooltip.SetDefault("Fires a spread of volcanic fireballs");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

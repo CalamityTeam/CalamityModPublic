@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Shadowbolt Staff");
             // Tooltip.SetDefault("The more tiles and enemies the beam bounces off of or travels through the more damage the beam does");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

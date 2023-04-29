@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Galaxy Smasher");
             // Tooltip.SetDefault("Explodes and summons death lasers on enemy hits");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

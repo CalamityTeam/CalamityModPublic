@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Alpha Virus");
             /* Tooltip.SetDefault("Throws a giant plague cell with a lethal aura that splits into 6 plague seekers on death\n" +
                                "Stealth strikes cause the plague cell to move slower, accumulating an aura of swirling plague seekers as it flies"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

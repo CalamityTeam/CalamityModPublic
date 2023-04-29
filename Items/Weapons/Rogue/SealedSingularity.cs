@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Sealed Singularity");
             /* Tooltip.SetDefault("Shatters on impact, summoning a black hole that sucks in nearby enemies\n" +
             "Stealth strikes summon a black hole that lasts longer and sucks enemies with stronger force"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

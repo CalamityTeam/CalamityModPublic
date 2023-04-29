@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Melee
             /* Tooltip.SetDefault("Forged with the fury of nuclear chaos\n" +
                 "Launches a barrage of comets from the sky\n" +
                 "Receives 33% benefit from melee speed bonuses"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 

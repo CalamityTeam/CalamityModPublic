@@ -7,7 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // Tooltip.SetDefault("Counts as a water source");
         }
 

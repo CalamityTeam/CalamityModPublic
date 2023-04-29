@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.TitanHeart
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Titan Heart Boots");
             // Tooltip.SetDefault("4% increased rogue damage, 10% increased rogue velocity, and 5% increased rogue knockback");
         }

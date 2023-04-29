@@ -27,7 +27,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "The aurora reduces the damage of the next projectile hit by a flat 100\n" +
                 "This effect lasts up to 20 seconds and has a 30 second cooldown\n" +
                 "50% chance to not consume bullets"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

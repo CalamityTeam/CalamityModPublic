@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Deepsea Staff");
             // Tooltip.SetDefault("Summons an aquatic star to fight for you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

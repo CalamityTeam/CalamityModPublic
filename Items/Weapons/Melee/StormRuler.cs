@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Melee
             /* Tooltip.SetDefault("Only a storm can fell a greatwood\n" +
                 "Fires beams that generate tornadoes on death\n" +
                 "Tornadoes suck enemies in"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

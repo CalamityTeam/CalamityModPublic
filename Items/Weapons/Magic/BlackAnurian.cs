@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Black Anurian");
             // Tooltip.SetDefault("Spews bubbles and homing plankton");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

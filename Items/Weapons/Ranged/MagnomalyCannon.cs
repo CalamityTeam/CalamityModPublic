@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             /* Tooltip.SetDefault("Launches a powerful exo rocket to nuke anything and everything\n" +
                 "Rockets are surrounded by an invisible damaging aura and split into damaging beams on hit\n" +
                 "66% chance to not consume rockets"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

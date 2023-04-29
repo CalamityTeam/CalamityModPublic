@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Red Sun");
             /* Tooltip.SetDefault("Over paradise\n" +
                 "Drops a barrage of solar flares from the sky"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

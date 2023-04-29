@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Summon
                                "Firing another brimseeker when all minion slots are filled summons a brimstone aura\n" +
                                "The aura empowers your brimseeker summons and produces damaging fireballs\n" +
                                "Only one aura can persist at a time"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

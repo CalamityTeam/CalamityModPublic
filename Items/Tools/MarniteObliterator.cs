@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Marnite Obliterator");
             // Tooltip.SetDefault("Uses a diamond focus to project a long-range digging beam of light\n" + "Ignores 5 points of enemy Defense");
         }

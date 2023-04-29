@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Voltaic Jelly");
             // Tooltip.SetDefault("Minion attacks inflict Electrified");
         }

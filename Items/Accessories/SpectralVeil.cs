@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Accessories
         public const float TeleportRange = 845f;
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Spectral Veil");
             /* Tooltip.SetDefault("The inside of the cloak is full of teeth...\n" +
                 "TOOLTIP LINE HERE\n" +

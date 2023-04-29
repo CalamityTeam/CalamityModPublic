@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Mantis Claws");
             /* Tooltip.SetDefault("Explodes on enemy hit\n" +
                 "It's just that shrimple"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

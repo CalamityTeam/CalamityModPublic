@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Scab Ripper");
             // Tooltip.SetDefault("Summons a baby blood crawler to protect you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

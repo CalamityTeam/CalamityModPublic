@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Forgotten Dragon Egg");
             // Tooltip.SetDefault("Calls Akato, son of Yharon, to your side");
         }

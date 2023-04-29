@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Shield of the High Ruler");
             /* Tooltip.SetDefault("For the fate of the kingdom\n" +
                 "Grants immunity to knockback\n" +

@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Summon
             /* Tooltip.SetDefault("Summons a skeletal dragon and her two children\n" +
                                "Requires 6 minion slots to be summoned\n" +
                                "There can only be one family"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

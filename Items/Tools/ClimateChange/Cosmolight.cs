@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Tools.ClimateChange
         
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Cosmolight");
             /* Tooltip.SetDefault("Advances time immediately to the next dawn, noon, dusk or midnight\n" +
                 "Does not work while a boss is alive"); */

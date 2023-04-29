@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Armor.Daedalus
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Daedalus Helm");
             /* Tooltip.SetDefault("10% increased melee damage and critical strike chance\n" +
                 "15% increased melee speed"); */

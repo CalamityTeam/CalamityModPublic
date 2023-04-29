@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Excelsus");
             /* Tooltip.SetDefault("Fires a spread of spinning blades\n" +
                 "Summons laser fountains on hit"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

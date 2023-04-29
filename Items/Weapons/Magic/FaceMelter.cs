@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Magic
             /* Tooltip.SetDefault("WOOO!! FAAAAAAANTASYY WORLDDDDD!\n" +
                 "Fires music notes\n" +
                 "Right click summons an amplifier that shoots towards your mouse"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

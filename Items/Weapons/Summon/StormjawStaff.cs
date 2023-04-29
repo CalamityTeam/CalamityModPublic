@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Stormjaw Staff");
             // Tooltip.SetDefault("Summons a baby stormlion to fight for you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

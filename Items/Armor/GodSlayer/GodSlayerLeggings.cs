@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.GodSlayer
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("God Slayer Leggings");
             /* Tooltip.SetDefault("5% increased movement speed\n" +
                 "10% increased damage and critical strike chance"); */

@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Handheld Tank");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

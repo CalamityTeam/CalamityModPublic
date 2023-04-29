@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Prism-Back Banner");
             // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Prism-Back");
         }

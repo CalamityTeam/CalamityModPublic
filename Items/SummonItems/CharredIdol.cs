@@ -13,7 +13,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Charred Idol");
             /* Tooltip.SetDefault("Use at your own risk\n" +
                "Summons the Brimstone Elemental when used in the Brimstone Crags\n" +

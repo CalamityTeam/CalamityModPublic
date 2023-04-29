@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Profaned Guardian Mask");
 
             if (Main.netMode != NetmodeID.Server)

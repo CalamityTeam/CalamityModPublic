@@ -52,7 +52,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Daawnlight Spirit Origin");
             /* Tooltip.SetDefault("All nearby enemies and bosses are marked with bullseyes\n" +
                 "Ranged attacks that strike a bullseye always critically strike and deal massive damage\n" +

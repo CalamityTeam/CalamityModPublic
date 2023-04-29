@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Tesla Cannon");
             /* Tooltip.SetDefault("Lightweight energy cannon that blasts an intense electrical beam that explodes\n" +
                 "Beams can arc to nearby targets"); */

@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Melee
             /* Tooltip.SetDefault("Hitting enemies will inflict the crush depth debuff\n" +
                 "The lower the enemies' defense, the more damage they take from this debuff\n" +
                 "Right click to use without hammering down walls"); */
-            Item.ResearchUnlockCount = 1;
 
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }

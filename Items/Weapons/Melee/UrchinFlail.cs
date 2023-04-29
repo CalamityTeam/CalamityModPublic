@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Urchin Flail");
             // Tooltip.SetDefault("Launch an urchin ball, which shoots a spike on contact with an enemy");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

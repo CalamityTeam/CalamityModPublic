@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Eye of the Accursed Banner");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

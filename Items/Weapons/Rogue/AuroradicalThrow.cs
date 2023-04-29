@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Launches a star that splits after a short period of time\n" +
                             "Split stars home in on nearby enemies after a few seconds\n" +
                             "Stealth strikes summon a meteor upon enemy impact"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

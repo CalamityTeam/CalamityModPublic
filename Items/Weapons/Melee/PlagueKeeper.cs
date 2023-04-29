@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Plague Keeper");
             // Tooltip.SetDefault("Fires a plague and bee cloud");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

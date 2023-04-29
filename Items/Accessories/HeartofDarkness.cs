@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Heart of Darkness");
             /* Tooltip.SetDefault("You constantly gain rage over time\n" +
                 "Rage does not fade away when out of combat\n" +

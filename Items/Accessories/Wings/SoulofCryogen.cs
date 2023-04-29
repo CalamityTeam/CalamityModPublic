@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Soul of Cryogen");
             /* Tooltip.SetDefault("Counts as wings\n" +
                 "Horizontal speed: 6.25\n" +

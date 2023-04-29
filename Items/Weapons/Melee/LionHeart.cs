@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Melee
             /* Tooltip.SetDefault("Summons an energy explosion on enemy hits\n" +
             "Right click to summon an energy shell for a few seconds that halves all damage sources\n" +
             "This has a 45 second cooldown"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

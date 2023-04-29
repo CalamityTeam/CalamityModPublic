@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Brimblade");
             /* Tooltip.SetDefault("Throws a blade that splits on enemy hits\n" +
             "Stealth strikes split further and cause the player to launch a barrage of brimstone darts"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

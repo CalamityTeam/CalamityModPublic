@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Bloodflare Body Armor");
             /* Tooltip.SetDefault("12% increased damage and 8% increased critical strike chance\n" +
                        "+40 max life"); */

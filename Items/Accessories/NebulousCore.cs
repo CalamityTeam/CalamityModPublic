@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Nebulous Core");
             /* Tooltip.SetDefault("10% increased damage\n" +
                                "Summons floating nebula stars to protect you\n" +

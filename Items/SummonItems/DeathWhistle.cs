@@ -13,7 +13,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Death Whistle");
             /* Tooltip.SetDefault("A very old temple whistle\n" +
                 "Summons the Ravager\n" +

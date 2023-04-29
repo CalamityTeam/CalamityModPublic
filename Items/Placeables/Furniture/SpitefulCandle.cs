@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Spiteful Candle");
             /* Tooltip.SetDefault("When placed, nearby enemies take 5% more damage.\n" +
                 "This extra damage bypasses enemy damage reduction and defense\n" +

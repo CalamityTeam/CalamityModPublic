@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Armor.Victide
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Victide Headcrab");
             // Tooltip.SetDefault("5% increased rogue damage");
         }

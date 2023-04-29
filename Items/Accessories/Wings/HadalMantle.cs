@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Hadal Mantle");
             /* Tooltip.SetDefault("Fueled by the fury of the depths\n" +
                 "Horizontal speed: 7.75\n" +

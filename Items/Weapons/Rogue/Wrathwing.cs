@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Wrathwing");
             /* Tooltip.SetDefault("Throws an agile, homing winged spear that constantly spits fire\n" +
             "Stealth strikes create an eruption of cinders on hit"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -28,7 +28,6 @@ namespace CalamityMod.Items.Armor.Auric
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Auric Tesla Body Armor");
             /* Tooltip.SetDefault("+100 max life\n" +
                        "8% increased damage and 5% increased critical strike chance\n" +

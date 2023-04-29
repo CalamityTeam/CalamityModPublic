@@ -64,7 +64,6 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Desert Prowler Hat");
             // Tooltip.SetDefault("4% increased ranged critical strike chance and 20% chance to not consume ammo");
         }
@@ -217,7 +216,6 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Desert Prowler Shirt");
             // Tooltip.SetDefault("5% increased ranged critical strike chance");
 
@@ -262,7 +260,6 @@ namespace CalamityMod.Items.Armor.DesertProwler
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Desert Prowler Pants");
             // Tooltip.SetDefault("10% increased movement speed and immunity to the Mighty Wind debuff");
         }

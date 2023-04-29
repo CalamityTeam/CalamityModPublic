@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Valediction");
             /* Tooltip.SetDefault("Throws a homing reaper scythe\n" +
                 "Stealth strikes spawn razorblade typhoons on enemy hits"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

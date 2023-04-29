@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Profaned Soul Artifact");
             /* Tooltip.SetDefault("Purity\n" +
                 "Summons a healer guardian, which heals for a certain amount of health every few seconds\n" +

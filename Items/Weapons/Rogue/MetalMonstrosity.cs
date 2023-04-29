@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("This has to hurt\n" +
                                "Hurls a heavy metal ball that shatters on impact\n" +
                                "Stealth strikes cause the ball to release spikes as it travels"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

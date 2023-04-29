@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Press up and attack to throw the scythe \n" +
                 "Stealth strikes perform a horizontal swing that leaves a lingering fire aura\n" +
                 "Stealth strikes performed while pressing up fling yourself at the enemy and slice through them, causing homing fireballs to emerge"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

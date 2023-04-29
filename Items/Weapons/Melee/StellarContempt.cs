@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Stellar Contempt");
             // Tooltip.SetDefault("Lunar flares rain down on enemy hits");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

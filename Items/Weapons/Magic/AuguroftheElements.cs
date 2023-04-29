@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Augur of the Elements");
             // Tooltip.SetDefault("Casts a burst of elemental tentacles to spear your enemies");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

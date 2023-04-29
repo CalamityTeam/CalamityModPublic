@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             /* Tooltip.SetDefault("75% chance to not consume ammo\n" +
                 "Fires void blasts that explode every other shot\n" +
                 "Shoots demon flame tentacles alongside every shot"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

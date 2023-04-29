@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Hood of Calamity");
 
             if (Main.netMode != NetmodeID.Server)

@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Magic
                 "Vortex beams act like fast lightning and electrify enemies on hit\n" +
                 "Stardust beams release small stars that home on enemy hits"); */
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

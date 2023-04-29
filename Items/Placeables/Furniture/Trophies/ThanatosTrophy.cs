@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Thanatos Trophy");
         }
 

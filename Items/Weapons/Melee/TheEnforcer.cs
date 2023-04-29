@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("The Enforcer");
             // Tooltip.SetDefault("Spawns essence flames on hit");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

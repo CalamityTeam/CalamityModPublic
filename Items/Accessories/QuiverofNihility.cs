@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Quiver of Nihility");
             // Tooltip.SetDefault("'Filled with a substance darker than the night sky'\n"+"5% increased ranged critical strike chance\n"+"Summons a ring of four void fields to orbit you\n" + "Arrows that pass through these fields gain a 100% damage boost and double the speed");
         }

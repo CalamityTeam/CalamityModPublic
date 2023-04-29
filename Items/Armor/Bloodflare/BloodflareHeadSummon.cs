@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Bloodflare Wyvern Helm");
             // Tooltip.SetDefault("5% increased minion damage");
         }

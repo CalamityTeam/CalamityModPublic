@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Magic
                                "or split into energy orbs\n" +
                                "Its majesty inspires a stroke of unparalleled genius"); */
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

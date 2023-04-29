@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Sand Cloak");
             /* Tooltip.SetDefault("5% increased movement speed\n" +
                 "TOOLTIP LINE HERE\n" +

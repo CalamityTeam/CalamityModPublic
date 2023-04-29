@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 //Damage ticks of Shred can also critically strike or supercrit
 //Replaces standard bullets with High Velocity Bullets
 //80% chance to not consume ammo");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

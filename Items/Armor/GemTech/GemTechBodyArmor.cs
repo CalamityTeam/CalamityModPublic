@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Armor.GemTech
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Gem Tech Body Armor");
             // Tooltip.SetDefault("You sunk low enough for me to reach.");
         }

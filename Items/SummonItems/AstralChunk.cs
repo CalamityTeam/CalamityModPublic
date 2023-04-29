@@ -13,7 +13,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Astral Chunk");
             /* Tooltip.SetDefault("Summons Astrum Aureus when used in the Astral Infection during nighttime\n" +
                 "Enrages during the day\n" +

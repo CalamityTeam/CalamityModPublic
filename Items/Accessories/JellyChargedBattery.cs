@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Jelly-Charged Battery");
             /* Tooltip.SetDefault("7% increased minion damage\n" +
                                "Minion attacks spawn orbs of energy and inflict Electrified"); */

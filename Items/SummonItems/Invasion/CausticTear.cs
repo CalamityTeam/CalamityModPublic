@@ -10,7 +10,6 @@ namespace CalamityMod.Items.SummonItems.Invasion
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Caustic Tear");
             /* Tooltip.SetDefault("Causes an acidic downpour in the Sulphurous Sea\n" +
                 "Not consumable"); */

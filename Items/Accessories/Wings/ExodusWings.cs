@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Exodus Wings");
             /* Tooltip.SetDefault("Pulsing with an alien heartbeat\n" +
                 "Horizontal speed: 9.00\n" +

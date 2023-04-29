@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Magic
             /* Tooltip.SetDefault("The power of an ancient cultist resonates within this staff\n" +
                 "Fires a spread of ancient light and a spinning ice cluster"); */
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

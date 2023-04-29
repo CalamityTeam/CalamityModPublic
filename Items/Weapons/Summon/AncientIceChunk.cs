@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Ancient Ice Chunk");
             // Tooltip.SetDefault("Summons an ice clasper to fight for you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

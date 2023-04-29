@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Blissful Bombardier");
             /* Tooltip.SetDefault("Fires flare rockets\n" +
                 "Rockets will destroy tiles with tile-destroying ammo"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

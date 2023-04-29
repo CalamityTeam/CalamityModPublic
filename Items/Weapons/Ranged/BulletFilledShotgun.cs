@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             /* Tooltip.SetDefault("Fires a massive spread of bouncing bullets\n" +
                                "Consumes five bullets per-use\n" +
                                "Aim? What's that?"); */
-            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

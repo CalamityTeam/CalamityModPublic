@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Titan Arm");
             /* Tooltip.SetDefault("Slap Hand but better\n" +
             "Sends enemies straight to the stars at the speed of light"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

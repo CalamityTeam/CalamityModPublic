@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Toxibow");
             // Tooltip.SetDefault("Converts wooden arrows into slow arrows that inflict irradiated");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

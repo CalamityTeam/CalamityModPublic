@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Melee
             /* Tooltip.SetDefault("Releases rapid sulphurous punches\n" +
                 "On use, you lunge in the direction of the mouse\n" +
                 "On collision, you are knocked back"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

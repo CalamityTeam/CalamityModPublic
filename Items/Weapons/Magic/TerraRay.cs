@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Magic
             /* Tooltip.SetDefault("Casts an energy ray that splits into energy on enemy hits\n" +
                 "More energy is created the farther along the ray the hit enemy is"); */
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

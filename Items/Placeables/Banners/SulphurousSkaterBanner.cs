@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Sulphurous Skater Banner");
             // Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Sulphurous Skater");
         }

@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Opal Striker");
             /* Tooltip.SetDefault("50% chance to not consume ammo\n" + 
                 "Fires a string of opal strikes"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

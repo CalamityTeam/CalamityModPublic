@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Cosmic Anvil");
             /* Tooltip.SetDefault("An otherworldly anvil capable of withstanding the pressures of stellar collapse\n" +
                 "Also functions as every previous tier of anvil"); */

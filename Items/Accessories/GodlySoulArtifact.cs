@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Auric Soul Artifact");
             /* Tooltip.SetDefault("Loyalty\n" +
                 "For each Fiery Draconid you have summoned, you gain 1 minion slot"); */

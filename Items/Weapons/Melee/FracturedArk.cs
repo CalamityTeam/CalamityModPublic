@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Fractured Ark");
             /* Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
                 "A worn down and rusty blade once wielded against the evil of this world, ready to be of use once more"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

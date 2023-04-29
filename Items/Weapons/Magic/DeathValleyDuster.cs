@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Death Valley Duster");
             // Tooltip.SetDefault("Casts a large blast of dust");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

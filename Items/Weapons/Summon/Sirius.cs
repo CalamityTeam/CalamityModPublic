@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Summon
             /* Tooltip.SetDefault("Summons the brightest star in the night sky to shine upon your foes\n" +
                 "Can only be summoned once\n" +
                 "Uses 6 minion slots"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

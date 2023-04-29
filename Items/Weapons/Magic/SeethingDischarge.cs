@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Seething Discharge");
             // Tooltip.SetDefault("Fires a barrage of brimstone blasts");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

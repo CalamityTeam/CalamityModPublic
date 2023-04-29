@@ -11,7 +11,6 @@ namespace CalamityMod.Items
         {
             // DisplayName.SetDefault("Bleach Ball");
             // Tooltip.SetDefault("Favorite this item to prevent the Aquatic Scourge from naturally spawning near you");
-            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Starmada");
             /* Tooltip.SetDefault("Fires a barrage of stars and plasma blasts\n" +
                             "66% chance to not consume ammo"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "The spear creates a Scarlet Blast upon hitting an enemy\n" +
                 "Stealth strikes grant you lifesteal and summon a star of projectiles upon hitting an enemy\n" +
                 "'Divine Spear \"Spear the Gungnir\"'"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

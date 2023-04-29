@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
         {
             // DisplayName.SetDefault("Ritual Candle");
             // Tooltip.SetDefault("Right click to place in a different style");
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

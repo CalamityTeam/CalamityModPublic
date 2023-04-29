@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             /* Tooltip.SetDefault("Fires a chain of comets\n" +
             "Fires a bigger, more powerful comet every four rounds\n" +
             "Look to the stars for a galaxy far, far away"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

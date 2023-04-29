@@ -26,7 +26,6 @@ namespace CalamityMod.Items.Weapons.Summon
                                "This is a terrible idea, but it isn't yours anyways... right?"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 14));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

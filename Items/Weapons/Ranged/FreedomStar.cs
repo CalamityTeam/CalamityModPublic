@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Freedom Star");
             // Tooltip.SetDefault(@"Tap to fire energy orbs
 //Hold to charge and fire a beam that explodes on hit");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

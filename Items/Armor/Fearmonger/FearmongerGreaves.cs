@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Armor.Fearmonger
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Fearmonger Greaves");
             /* Tooltip.SetDefault("6% increased damage\n" +
             "50% increased minion knockback\n" +

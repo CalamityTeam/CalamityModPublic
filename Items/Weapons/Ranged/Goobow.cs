@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Goobow");
             // Tooltip.SetDefault("Fires two streams of slime");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

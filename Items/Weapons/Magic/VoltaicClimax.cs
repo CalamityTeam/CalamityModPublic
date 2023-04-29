@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Voltaic Climax");
             // Tooltip.SetDefault("Conjures an octagon of supercharged magnet spheres around the cursor");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

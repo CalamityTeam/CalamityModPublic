@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Armor.Reaver
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Reaver Cuisses");
             /* Tooltip.SetDefault("5% increased critical strike chance\n" +
                 "12% increased movement speed"); */

@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Armor.Statigel
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Statigel Cap");
             /* Tooltip.SetDefault("10% increased magic damage and 10% decreased mana cost\n" +
                 "7% increased magic critical strike chance and +30 max mana"); */

@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Charred Relic");
             // Tooltip.SetDefault("Contains a small amount of brimstone");
         }

@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Staff of Blushie");
             // Tooltip.SetDefault("Hold your mouse, wait, wait, wait, and put your trust in the power of blue magic");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

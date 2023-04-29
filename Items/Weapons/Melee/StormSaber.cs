@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Storm Saber");
             /* Tooltip.SetDefault("Fires two homing storm beams\n" +
             "One from blade and one from the sky"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

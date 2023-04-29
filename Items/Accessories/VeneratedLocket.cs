@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Venerated Locket");
             /* Tooltip.SetDefault("10% increased rogue damage\n" +
                 "Using a rogue weapon summons a copy of the projectile that falls from the sky\n" +

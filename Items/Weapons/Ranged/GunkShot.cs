@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Gunk Shot");
             // Tooltip.SetDefault("Shoots a spread of bullets");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

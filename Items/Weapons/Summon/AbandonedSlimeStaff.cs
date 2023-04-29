@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Summon
                 "Must be used from the hotbar\n" +
                 "Increased power and size based on the number of minion slots used\n" +
                 "Holding this weapon grants 10% increased jump speed"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

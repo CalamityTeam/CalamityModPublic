@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Ashen Horns");
 
             if (Main.netMode != NetmodeID.Server)

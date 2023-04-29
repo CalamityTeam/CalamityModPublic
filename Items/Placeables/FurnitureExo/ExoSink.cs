@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // Tooltip.SetDefault("Counts as a water, honey, and lava source");
         }
 

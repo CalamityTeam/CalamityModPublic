@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Unstable Granite Core");
             /* Tooltip.SetDefault("Periodically gain an unstable energy field that repeatedly zaps nearby enemies with arcing energy\n" +
                 "The arcing energy ignores a substantial amount of enemy defense"); */

@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Armor.Prismatic
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Prismatic Regalia");
             /* Tooltip.SetDefault("12% increased magic damage and 15% increased magic crit\n" +
                 "20% decreased non-magic damage\n" +

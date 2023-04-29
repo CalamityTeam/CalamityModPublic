@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Eye of Night");
             // Tooltip.SetDefault("Summons a diseased eyeball that fires cells which attach to enemies");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

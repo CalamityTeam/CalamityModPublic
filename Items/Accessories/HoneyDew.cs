@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Honey Dew");
             /* Tooltip.SetDefault("5% increased damage reduction, +9 defense and increased life regen while in the Jungle\n" +
             "Poison and Venom immunity\n" +

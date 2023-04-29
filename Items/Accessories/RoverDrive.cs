@@ -151,7 +151,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Rover Drive");
             /* Tooltip.SetDefault($"Activates a protective matrix that can absorb {ProtectionMatrixDurabilityMax} damage and grants {ProtectionMatrixDefenseBoost} defense\n" +
             $"However, the systems are fickle and the shield will need {ProtectionMatrixRechargeTime / 60} seconds to charge up fully\n" +

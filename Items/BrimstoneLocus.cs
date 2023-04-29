@@ -13,7 +13,6 @@ namespace CalamityMod.Items
             /* Tooltip.SetDefault("Not only can I enhance your equipment with potent magic, I can also draw out the true strength and ascend\n" +
                 "some of your weaponry to entirely new forms\n" +
                 "Such items are revealed while this item is in your inventory"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public const int HitsRequiredForFlux = 2;
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Gauss Dagger");
             /* Tooltip.SetDefault("Slicing foes, it causes a flux of energy to form on the area tearing at them with turbulent forces\n" +
             "Repeat strikes envelop foes in magnetic flux"); */

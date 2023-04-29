@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Dark God's Sheath");
             /* Tooltip.SetDefault("+10 maximum stealth\n" +
                 "Mobile stealth generation accelerates while not attacking\n" +

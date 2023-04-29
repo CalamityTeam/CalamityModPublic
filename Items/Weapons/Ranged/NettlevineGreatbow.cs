@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Nettlevine Greatbow");
             /* Tooltip.SetDefault("Shoots 4 arrows at once\n" +
                 "Fires 2 additional venom or chlorophyte arrows"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

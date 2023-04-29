@@ -7,7 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // Tooltip.SetDefault("Counts as a lava source");
         }
 

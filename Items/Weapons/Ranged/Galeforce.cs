@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Galeforce");
             // Tooltip.SetDefault("Fires a spread of low-damage feathers");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

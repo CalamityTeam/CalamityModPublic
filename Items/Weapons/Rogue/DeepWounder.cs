@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Deep Wounder");
             /* Tooltip.SetDefault("Throws an abyssal hatchet that inflicts Armor Crunch and Crush Depth to the enemies it hits\n" +
                 "Stealth strikes cause the hatchet to be thrown faster and trail water, inflicting Marked for Death in addition to the other debuffs"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

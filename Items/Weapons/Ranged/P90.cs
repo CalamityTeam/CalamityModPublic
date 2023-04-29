@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("P90");
             /* Tooltip.SetDefault("50% chance to not consume ammo\n" +
                 "It's a bullet hose"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

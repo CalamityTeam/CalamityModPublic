@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 //Taking damage while firing the stream will interrupt it and reduce your wing flight time.
 //Right click to fire two devastating barrages of five empowered fireballs.
 //'Just don't get hit'");
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

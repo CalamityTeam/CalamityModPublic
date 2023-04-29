@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Scourge of the Seas");
             /* Tooltip.SetDefault("Snaps apart into a venomous cloud upon striking an enemy\n" +
             "Stealth strikes are coated with vile toxins, afflicting enemies with a powerful debuff"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

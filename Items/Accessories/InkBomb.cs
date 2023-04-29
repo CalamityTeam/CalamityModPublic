@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Ink Bomb");
             /* Tooltip.SetDefault("Throws several ink bombs when hit that explode in a confusing cloud of ink\n" +
                 "Gain a lot of stealth when struck\n" +

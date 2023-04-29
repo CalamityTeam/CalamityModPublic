@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
             // DisplayName.SetDefault("Forgotten Apex Wand");
             /* Tooltip.SetDefault("Summons ancient mineral sharks to take on your foes. \n" +
                                "Seems to have lost its jaw some time in the past"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

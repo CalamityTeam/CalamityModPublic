@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Regenator");
             /* Tooltip.SetDefault("Greatly improves life regeneration\n" +
                                 "However, your health cannot exceed 50% of its maximum"); */

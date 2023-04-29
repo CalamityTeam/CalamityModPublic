@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Minigun");
             // Tooltip.SetDefault("80% chance to not consume ammo");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

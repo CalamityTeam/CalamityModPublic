@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 		{
 			// DisplayName.SetDefault("Ceaseless Void Relic");
             // Tooltip.SetDefault("A glimpse into what could have been...");
-            Item.ResearchUnlockCount = 1;
 		}
 
 		public override void SetDefaults()

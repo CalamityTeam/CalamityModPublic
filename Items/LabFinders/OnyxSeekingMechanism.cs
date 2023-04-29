@@ -12,7 +12,6 @@ namespace CalamityMod.Items.LabFinders
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Onyx Seeking Mechanism");
             // Tooltip.SetDefault("Moves swiftly towards a lab within the caverns");
         }

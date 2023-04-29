@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Crimson Flask");
             /* Tooltip.SetDefault("4% increased damage reduction and +6 defense while in the crimson\n" +
                 "Grants immunity to the Burning Blood debuff"); */

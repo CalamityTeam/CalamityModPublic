@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Old Die");
             /* Tooltip.SetDefault("Lucky for you, the curse doesn't affect you. Mostly.\n" +
                                "Increases luck by 20%"); */

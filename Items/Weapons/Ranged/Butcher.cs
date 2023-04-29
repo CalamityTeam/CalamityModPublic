@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Butcher");
             /* Tooltip.SetDefault("Fires bullets faster and more accurately the longer you hold the trigger\n" +
                             "25% chance to not consume ammo"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

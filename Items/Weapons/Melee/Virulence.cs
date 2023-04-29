@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Virulence");
             // Tooltip.SetDefault("Fires a plague cloud");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

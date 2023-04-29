@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
         internal const float StealthStrikeDamageMultiplier = 0.1f;
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Rotten Dogtooth");
             // Tooltip.SetDefault($"Makes Stealth strikes inflict Armor Crunch and deal {(int)(StealthStrikeDamageMultiplier * 100)}% more damage");
         }

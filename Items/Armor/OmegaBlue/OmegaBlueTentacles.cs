@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Armor.OmegaBlue
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Omega Blue Tentacles");
             // Tooltip.SetDefault(@"12% increased movement speed
 //12% increased damage and critical strike chance");

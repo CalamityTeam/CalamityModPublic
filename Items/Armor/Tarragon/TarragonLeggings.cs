@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Tarragon
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Tarragon Leggings");
             /* Tooltip.SetDefault("10% increased movement speed\n" +
                 "8% increased damage and critical strike chance"); */

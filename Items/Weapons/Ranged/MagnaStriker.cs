@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Magna Striker");
             // Tooltip.SetDefault("Fires a string of opal and magna strikes");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

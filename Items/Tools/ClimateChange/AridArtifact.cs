@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Tools.ClimateChange
             /* Tooltip.SetDefault("Summons a sandstorm\n" +
                                "The sandstorm will happen shortly after the item is used\n" +
                                "If used during a sandstorm, the sandstorm will stop some time afterward."); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

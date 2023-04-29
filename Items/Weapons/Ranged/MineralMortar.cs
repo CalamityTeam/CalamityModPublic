@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Mineral Mortar");
             // Tooltip.SetDefault("Shoots an onyx bomb that explodes into sand sharks on death");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

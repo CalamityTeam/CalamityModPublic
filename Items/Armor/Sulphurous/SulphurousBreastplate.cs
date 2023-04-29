@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Armor.Sulphurous
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Sulphurous Breastplate");
             // Tooltip.SetDefault("8% increased rogue damage and 5% increased rogue critical strike chance");
         }

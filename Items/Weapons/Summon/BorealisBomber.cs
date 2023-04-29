@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Summon
             "Aureus bombers explode on enemy impact\n" +
             "Does not consume minion slots"); */
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

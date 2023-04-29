@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Stat Meter");
             // TODO -- On April 1st, rename this item to "Pasta Strainer"
             // Tooltip.SetDefault("Displays almost all player stats");

@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Gauss Rifle");
             /* Tooltip.SetDefault("A large and slow weapon, the concussive force of its projectiles do well in clearing large groups\n" +
             "Fires a devastating high velocity blast with absurd knockback"); */

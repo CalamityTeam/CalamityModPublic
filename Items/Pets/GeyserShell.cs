@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Geyser Shell");
             // Tooltip.SetDefault("Summons a little flak hermit");
         }

@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Throws an ancient spear that shatters enemy armor\n" +
                 "Spears rain fossil shards as they travel\n" +
                 "Stealth strikes travel slower but further, raining more fossil shards"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

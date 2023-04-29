@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Melee
             /* Tooltip.SetDefault("Fires short-range tridents\n" +
                 "Hitting enemies will inflict the crush depth debuff\n" +
                 "The lower the enemies' defense, the more damage they take from this debuff"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

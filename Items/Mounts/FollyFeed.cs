@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Mounts
         {
             // DisplayName.SetDefault("Folly Feed");
             // Tooltip.SetDefault("Summons a monstrosity");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

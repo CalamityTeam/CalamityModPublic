@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Rose Stone");
             /* Tooltip.SetDefault("One of the ancient relics\n" +
                "Summons a brimstone elemental to fight for you"); */

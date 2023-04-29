@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Ichor Spear");
             /* Tooltip.SetDefault("Throws an ichor tipped trident\n" +
             "Stealth strikes are showered in splashes of ichor"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

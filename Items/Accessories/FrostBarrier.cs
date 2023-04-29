@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Frost Barrier");
             /* Tooltip.SetDefault("You will freeze enemies near you when you are struck\n" +
                                "You are immune to the chilled debuff"); */

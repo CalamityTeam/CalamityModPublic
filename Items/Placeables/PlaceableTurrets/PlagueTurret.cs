@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             /* Tooltip.SetDefault("Ejects homing plague missiles towards nearby enemies\n" +
                 "Cannot attack while a boss is alive"); */
         }

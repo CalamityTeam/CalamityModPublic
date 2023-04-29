@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Swordsplosion");
             /* Tooltip.SetDefault("Sword swarm\n" +
                 "Receives 33% benefit from melee speed bonuses"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 

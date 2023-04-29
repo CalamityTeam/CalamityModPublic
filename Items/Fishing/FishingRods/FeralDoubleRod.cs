@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Feral Double Rod");
             /* Tooltip.SetDefault("Fires two lines at once.\n" +
                 "Just as you have tamed the jungle monster, you can now tame the fish in the sea."); */

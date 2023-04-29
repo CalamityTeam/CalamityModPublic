@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Aerospec
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Aerospec Helm");
             // Tooltip.SetDefault("8% increased melee damage");
         }

@@ -81,7 +81,6 @@ namespace CalamityMod.Items.Weapons.Melee
             "Use right click to cycle the sword's attunement depending on the cursor's position\n" +
             "Active Attunement : None\n" +
             "Passive Blessing : None\n"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         #region tooltip editing

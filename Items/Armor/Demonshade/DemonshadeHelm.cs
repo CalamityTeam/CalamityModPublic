@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Armor.Demonshade
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Demonshade Helm");
             // Tooltip.SetDefault("30% increased damage and 15% increased critical strike chance");
         }

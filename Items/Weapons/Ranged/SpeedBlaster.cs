@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Speed Blaster");
             // Tooltip.SetDefault("Shoots a string of paint blasts");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

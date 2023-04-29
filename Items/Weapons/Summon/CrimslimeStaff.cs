@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Crimslime Staff");
             // Tooltip.SetDefault("Summons a crim slime to fight for you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

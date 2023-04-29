@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Celestial Tracers");
             /* Tooltip.SetDefault("Taking speed EVEN FURTHER BEYOND!\n" +
                 "Counts as wings\n" +

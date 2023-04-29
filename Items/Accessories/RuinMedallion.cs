@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Ruin Medallion");
             /* Tooltip.SetDefault("Stealth strikes only expend 75% of your max stealth\n" +
                 "6% increased rogue damage, and 6% increased rogue crit chance"); */

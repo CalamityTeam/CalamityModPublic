@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Rusty Medallion");
             /* Tooltip.SetDefault("Causes most ranged weapons to release acid droplets from the sky\n" +
                 "Grants immunity to Irradiated"); */

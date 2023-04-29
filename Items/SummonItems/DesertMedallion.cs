@@ -14,7 +14,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Desert Medallion");
             /* Tooltip.SetDefault("Summons the Desert Scourge when used in the Desert\n" +
                 "Enrages outside the Desert\n" +

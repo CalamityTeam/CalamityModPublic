@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Victide
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Victide Greaves");
             /* Tooltip.SetDefault("Movement speed increased by 8%\n" +
                 "Movement speed increased by 30% while submerged in liquid"); */

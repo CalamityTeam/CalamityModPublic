@@ -11,7 +11,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Eidolon Tablet");
             /* Tooltip.SetDefault("Summons the Lunatic Cultist\n" +
                 "Not consumable"); */

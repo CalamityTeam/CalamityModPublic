@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "[c/5C95A1:However, they had a perfect track record of repelling any invasions, thanks to their insurmountable advantage in the water.]"
                 ); */
 
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

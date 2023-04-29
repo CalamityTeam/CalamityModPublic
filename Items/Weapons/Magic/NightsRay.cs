@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Magic
             /* Tooltip.SetDefault("Fires a dark ray\n" +
                 "When hitting enemies, they are hit by several new beams from their sides"); */
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

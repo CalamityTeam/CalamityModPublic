@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Relic of Ruin");
             // Tooltip.SetDefault("Casts a spread of sand blades");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

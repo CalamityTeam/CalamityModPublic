@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Nanotech");
             /* Tooltip.SetDefault("Rogue projectiles create nanoblades as they travel\n" +
                 "Stealth strikes summon nanobeams and sparks on enemy hits\n" +

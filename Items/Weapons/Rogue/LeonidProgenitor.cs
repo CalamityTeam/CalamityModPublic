@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Throws a bombshell that explodes, summoning a meteor to impact the site\n" +
                 "Right click to throw a spread of gravity affected comets that explode, leaving behind a star\n" +
                 "Stealth strikes lob a bombshell that additionally splits into comets on hit"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

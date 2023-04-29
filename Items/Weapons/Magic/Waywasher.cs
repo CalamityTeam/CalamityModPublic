@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Waywasher");
             // Tooltip.SetDefault("Casts inaccurate water bolts");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

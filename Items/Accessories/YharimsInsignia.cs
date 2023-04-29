@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Yharim's Insignia");
             /* Tooltip.SetDefault("10% increased damage when under 50% life\n" +
                 "10% increased melee speed\n" +

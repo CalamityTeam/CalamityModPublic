@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Tactician's Trump Card");
             /* Tooltip.SetDefault("Faint memories of a Princess from the future cross your mind...\n" +
                 "Fires a sword beam that electrifies enemies on hit"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

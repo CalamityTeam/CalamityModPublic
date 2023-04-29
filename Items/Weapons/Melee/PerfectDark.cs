@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Perfect Dark");
             // Tooltip.SetDefault("Fires a vile ball that sticks to tiles and explodes");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

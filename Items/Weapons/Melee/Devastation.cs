@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Devastation");
             /* Tooltip.SetDefault("Fires galaxy blasts that explode\n" +
                 "Receives 33% benefit from melee speed bonuses"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 

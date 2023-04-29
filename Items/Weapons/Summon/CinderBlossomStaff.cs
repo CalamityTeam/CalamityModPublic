@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
             // DisplayName.SetDefault("Cinder Blossom Staff");
             /* Tooltip.SetDefault("Summons scorching flower over your head\n" +
                 "There can only be one flower"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

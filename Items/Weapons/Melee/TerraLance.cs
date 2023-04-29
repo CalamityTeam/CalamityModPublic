@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Terra Lance");
             // Tooltip.SetDefault("Fires a lance beam");
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

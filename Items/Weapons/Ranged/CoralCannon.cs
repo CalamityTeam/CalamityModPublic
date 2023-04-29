@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Coral Cannon");
             /* Tooltip.SetDefault("Has a 20% chance to shoot a big coral that stuns enemies\n" +
                                 "Does not consume ammo"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Deadshot Brooch");
             /* Tooltip.SetDefault("10% increased ranged damage, 5% increased ranged critical strike chance and 20% reduced ammo usage\n" +
                 "Greatly increases all ranged projectile velocity"); */

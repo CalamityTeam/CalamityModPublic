@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Magic
             /* Tooltip.SetDefault("Casts a star that follows the mouse that creates a rainbow trail as it moves\n" +
                 "Once a full shape is created with the trail all enemies within it take damage proportional to how long it took to draw the shape\n" +
                 "And the audience goes wild!"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Summon
             /* Tooltip.SetDefault("Remembering the melancholy of human existence\n" +
                 "Even ghosts stray from the path of righteousness\n" +
                 "Summons a pair of butterflies to fight for you"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

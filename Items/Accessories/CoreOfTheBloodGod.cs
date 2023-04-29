@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Core of the Blood God");
             /* Tooltip.SetDefault("Boosts your max HP by 15%\n" +
                 "Healing Potions are 25% more effective\n" +

@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Crimson Effigy");
             /* Tooltip.SetDefault("When placed down nearby players have their damage increased by 15% and defense by 10\n" +
                 "Nearby players also suffer a 10% decrease to their maximum health"); */

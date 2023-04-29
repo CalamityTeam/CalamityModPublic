@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Undine's Retribution");
             // Tooltip.SetDefault("Casts a swarm of homing spears");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Umbraphile
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Umbraphile Hood");
             // Tooltip.SetDefault("8% increased rogue damage and 10% increased rogue velocity");
         }

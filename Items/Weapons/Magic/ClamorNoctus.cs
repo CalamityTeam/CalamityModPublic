@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // Tooltip.SetDefault(@"Let the sky fall
 //Fires night wyverns and stars from the sky that stick to enemies and tiles and explode");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

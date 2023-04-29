@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Brackish Flask");
             /* Tooltip.SetDefault("Explodes into poisonous seawater blasts\n" +
             "Stealth strikes summon a brackish spear spike"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

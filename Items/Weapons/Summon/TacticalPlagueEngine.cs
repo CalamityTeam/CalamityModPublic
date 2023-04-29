@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Summon
                                "50% chance to not consume ammo\n" +
                                "Sometimes shoots a missile instead of a bullet\n" +
                                "Missiles do not consume ammo"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -18,7 +18,6 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Decryption Computer");
             /* Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
                 "Allows you to decrypt the Planetoid schematic\n" +

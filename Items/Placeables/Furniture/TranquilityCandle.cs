@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Tranquility Candle");
             // Tooltip.SetDefault("The mere presence of this candle calms surrounding enemies drastically");
         }

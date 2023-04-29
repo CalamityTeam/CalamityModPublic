@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Armor.Umbraphile
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Umbraphile Boots");
             /* Tooltip.SetDefault("9% increased rogue damage and 6% increased rogue crit\n" +
                                "20% increased movement speed"); */

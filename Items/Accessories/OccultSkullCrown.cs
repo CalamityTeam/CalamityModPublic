@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Occult Skull Crown");
             /* Tooltip.SetDefault("Only a fool would ever wear this...\n" +
                                "You constantly gain rage over time and rage does not fade away when out of combat\n" +

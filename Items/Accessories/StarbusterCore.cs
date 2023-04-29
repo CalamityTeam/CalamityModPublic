@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Starbuster Core");
             // Tooltip.SetDefault("Summons release an astral explosion on enemy hits");
         }

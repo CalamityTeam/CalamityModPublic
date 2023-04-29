@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Armor.Victide
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Victide Breastplate");
             /* Tooltip.SetDefault("5% increased damage reduction and critical strike chance\n" +
                 "+5 defense and 10% increased damage reduction while submerged in liquid"); */

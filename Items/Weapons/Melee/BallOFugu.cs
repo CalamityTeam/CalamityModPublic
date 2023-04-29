@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Ball O' Fugu");
             // Tooltip.SetDefault("Throws a fish that spews homing spikes");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

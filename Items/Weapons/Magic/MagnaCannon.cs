@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Magna Cannon");
             // Tooltip.SetDefault("Fires a concentrated blast of energy");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

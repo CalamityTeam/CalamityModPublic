@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Armor.Auric
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Auric Tesla Wire-Hemmed Visage");
             // Tooltip.SetDefault("30% increased magic damage, 20% increased magic critical strike chance, +100 max mana and 20% reduced mana usage");
         }

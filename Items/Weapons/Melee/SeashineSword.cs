@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Seashine Sword");
             // Tooltip.SetDefault("Shoots an aqua sword beam");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

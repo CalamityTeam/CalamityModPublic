@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Void of Extinction");
             /* Tooltip.SetDefault("Drops brimstone fireballs from the sky occasionally\n" +
                 "12% increase to all damage\n" +

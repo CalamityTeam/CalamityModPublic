@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Corroded Caustibow");
             // Tooltip.SetDefault("Converts wooden arrows into slow, powerful shells that trail an irradiated aura");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -28,7 +28,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             /* Tooltip.SetDefault("'Welcome to the party, pal'\n" +
                 "Left click to charge up 5 rapid-fire plasma beams\n" +
                 "Right click to launch 3 fission bombs"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

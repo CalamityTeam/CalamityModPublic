@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Hematemesis");
             // Tooltip.SetDefault("Casts a barrage of blood geysers from below");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

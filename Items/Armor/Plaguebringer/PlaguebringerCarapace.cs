@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Armor.Plaguebringer
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Plaguebringer Carapace");
             /* Tooltip.SetDefault("Grants immunity to the Plague\n" +
                 "12% increased minion damage\n" +

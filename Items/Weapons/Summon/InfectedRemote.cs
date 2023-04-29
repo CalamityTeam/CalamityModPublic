@@ -40,7 +40,6 @@ namespace CalamityMod.Items.Weapons.Summon
                 "All attacks spread the plague, as was her original design intention\n" +
                 "'A single note graces the back:'\n" +
                 "'WARNING: Subject is extremely corrosive and contagious. Avoid direct contact.'"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

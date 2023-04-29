@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Fungal Symbiote");
             /* Tooltip.SetDefault("You grow mushrooms on the grass beneath you\n" +
                 "Consuming mushrooms provides the Mushy buff, increasing defense by 6 and life regen by 2\n" +

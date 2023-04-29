@@ -24,7 +24,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Draedon's Heart");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 11));
             ItemID.Sets.AnimatesAsSoul[Type] = true;

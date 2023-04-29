@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 		{
 			// DisplayName.SetDefault("Draedon Relic");
 
-			Item.ResearchUnlockCount = 1;
 		}
 
 		public override void SetDefaults()

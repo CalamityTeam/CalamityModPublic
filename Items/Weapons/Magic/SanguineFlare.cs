@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Sanguine Flare");
             // Tooltip.SetDefault("Fires a blast of sanguine flares that drain enemy life");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

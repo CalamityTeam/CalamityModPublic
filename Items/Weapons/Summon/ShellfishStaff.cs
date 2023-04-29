@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
             // DisplayName.SetDefault("Shellfish Staff");
             /* Tooltip.SetDefault("Summons a shellfish to fight for you\n" +
                                "Takes up 2 minion slots"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

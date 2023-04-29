@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Bloody Vein");
             // Tooltip.SetDefault("Summons an amalgamated pile of flesh");
         }

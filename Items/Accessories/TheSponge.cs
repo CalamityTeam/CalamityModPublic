@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("The Sponge");
             /* Tooltip.SetDefault("10% increased damage reduction\n" +
                 "+30 max life and mana\n" +

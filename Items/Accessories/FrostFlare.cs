@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Frost Flare");
             /* Tooltip.SetDefault("All attacks and projectiles inflict frostbite\n" +
                 "Immunity to frostburn, chilled and frozen\n" +

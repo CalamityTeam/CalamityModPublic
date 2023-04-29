@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Plaguebringer
         public int counter = 0;
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Plaguebringer Pistons");
             /* Tooltip.SetDefault("13% increased minion damage and 15% increased movement speed\n" +
                 "You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt\n" +

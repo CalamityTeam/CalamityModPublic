@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("The Storm");
             /* Tooltip.SetDefault("Fires a spread of arrows from the sky\n" +
                 "Converts wooden arrows into lightning bolts"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

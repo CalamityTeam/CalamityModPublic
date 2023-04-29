@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Omniblade");
             // Tooltip.SetDefault("An ancient blade forged by the legendary Omnir");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

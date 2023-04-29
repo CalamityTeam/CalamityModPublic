@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Armor.Empyrean
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Empyrean Mask");
             // Tooltip.SetDefault("11% increased rogue damage and critical strike chance, 5% increased movement speed");
 

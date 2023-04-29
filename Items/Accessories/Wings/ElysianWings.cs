@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Elysian Wings");
             /* Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
                 "Horizontal speed: 9.50\n" +

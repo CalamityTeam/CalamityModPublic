@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
         public override string Texture => "CalamityMod/Items/Placeables/PlaceableTurrets/OnyxTurret";
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // Tooltip.SetDefault("Shoots a shotgun spread of bullets at nearby players");
         }
 

@@ -29,7 +29,6 @@ namespace CalamityMod.Items.Weapons.Magic
                 ModContent.ProjectileType<MadAlchemistsCocktailPurple>(),
                 ModContent.ProjectileType<MadAlchemistsCocktailAlt>()
             };
-            Item.ResearchUnlockCount = 1;
         }
 
         // Rest in peace Mad Cock, you will not be missed.

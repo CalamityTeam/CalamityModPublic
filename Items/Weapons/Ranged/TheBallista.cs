@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("The Ballista");
             // Tooltip.SetDefault("Converts wooden arrows into greatarrows that crush enemy armor and break into shards on death");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

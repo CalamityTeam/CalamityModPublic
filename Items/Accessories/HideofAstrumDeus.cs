@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Hide of Astrum Deus");
             /* Tooltip.SetDefault("Taking damage, or inflicting a true melee strike, drops an immense amount of astral stars from the sky\n" +
                                 "Taking damage boosts true melee damage by 50%\n" +

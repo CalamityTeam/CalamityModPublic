@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Bloody Worm Tooth");
             // Tooltip.SetDefault("7% increased melee damage and speed");
         }

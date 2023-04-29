@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Flak Kraken");
             // Tooltip.SetDefault("Fires an energy reticle that becomes more powerful over time");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

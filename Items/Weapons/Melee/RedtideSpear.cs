@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Melee
                                //Lore tooltip time. Dark souls.
                                "[c/5C95A1:The people of the sea were adept hunters, but they abhorred unnecessary violence.]\n" +
                                "[c/5C95A1:Unfortunately, neighboring nations were brutish, so they fashioned their tools for war.]"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

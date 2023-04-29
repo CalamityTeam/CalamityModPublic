@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             "Fires a flaming comet\n" +
             "50% chance to not consume gel\n" +
             "Right click to zoom out"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

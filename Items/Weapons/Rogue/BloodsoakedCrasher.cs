@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Slows down when hitting an enemy. Speeds up otherwise\n" +
             "Heals on enemy hits\n" +
             "Stealth strikes spawn homing blood on enemy hits"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

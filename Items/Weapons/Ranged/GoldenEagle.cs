@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Golden Eagle");
             // Tooltip.SetDefault("Fires 5 bullets at once");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

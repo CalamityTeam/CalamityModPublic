@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Flesh Totem");
             /* Tooltip.SetDefault("Halves enemy contact damage\n" +
                 "When you take contact damage this effect has a 20 second cooldown"); */

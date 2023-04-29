@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Nadir");
             /* Tooltip.SetDefault("Fires void essences which flay nearby enemies with tentacles\n" + "Ignores immunity frames\n" +
                 "'The abyss has stared back at you long enough. It now speaks, and it does not speak softly.'"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.Spears[Item.type] = true;
         }
 

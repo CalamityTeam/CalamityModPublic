@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Cursed Capper");
             // Tooltip.SetDefault("Fires cursed bullets");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

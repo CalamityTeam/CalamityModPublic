@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Staff of the Mechworm");
             // Tooltip.SetDefault("Summons an aerial mechworm to fight for you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

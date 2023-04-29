@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                             "Left-click to command any existing heads to fire\n" +
                             "Right-click to launch the heads for powerful explosive damage\n" +
                             "[c/9D80B0:Fusion of heavy machinery and Lernaean blood]"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

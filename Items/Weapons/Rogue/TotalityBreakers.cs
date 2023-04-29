@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // Tooltip.SetDefault(@"Explodes into highly flammable black tar
 //Tar oils enemies and sets them alight
 //Stealth strikes leak tar as they fly");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

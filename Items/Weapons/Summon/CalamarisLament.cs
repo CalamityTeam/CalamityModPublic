@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Calamari's Lament");
             // Tooltip.SetDefault("Summons a squid to fight for you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

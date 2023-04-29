@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 $"Once dissipation has ended, {SplitDaggerCount} fast, splitting blades that aim at and slice nearby targets are released, along\n" +
                 "with a large laserbeam\n" +
                 $"Stealth strikes release a volley of {StealthStrikeLightCount} lights which explode into smaller laser beams along with the dagger"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

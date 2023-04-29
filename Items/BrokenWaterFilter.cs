@@ -11,7 +11,6 @@ namespace CalamityMod.Items
         {
             // DisplayName.SetDefault("Broken Water Filter");
             // Tooltip.SetDefault("Favorite this item to disable natural Acid Rain spawns");
-            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

@@ -54,7 +54,6 @@ namespace CalamityMod.Items.Weapons.Summon
                 int equipSlotHead = EquipLoader.GetEquipSlot(Mod, "HeadlessEquipTexture", EquipType.Head);
                 ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
             }
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

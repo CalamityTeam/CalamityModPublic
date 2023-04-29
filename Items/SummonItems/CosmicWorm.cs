@@ -14,7 +14,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Cosmic Worm");
             /* Tooltip.SetDefault("Summons the Devourer of Gods\n" +
                 "Not consumable"); */

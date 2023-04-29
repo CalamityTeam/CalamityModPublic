@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Carnage");
             // Tooltip.SetDefault("Slain enemies erupt into homing blood");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

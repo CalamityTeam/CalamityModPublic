@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Eutrophic Scimitar");
             // Tooltip.SetDefault("Fires two beams that stun enemies");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

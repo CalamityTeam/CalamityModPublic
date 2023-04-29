@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Cinquedea");
             // Tooltip.SetDefault("Stealth strikes home in after hitting an enemy");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

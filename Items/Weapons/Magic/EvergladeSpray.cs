@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Everglade Spray");
             // Tooltip.SetDefault("Fires a stream of burning green ichor");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

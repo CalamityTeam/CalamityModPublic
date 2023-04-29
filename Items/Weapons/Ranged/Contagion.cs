@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Contagion");
             // Tooltip.SetDefault("Fires contagion arrows that leave exploding orbs behind as they travel");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

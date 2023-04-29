@@ -11,7 +11,6 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Plague Nanomachine Log");
             // Tooltip.SetDefault("[Nanomachine Experimentation Results] - 'The Plague'\nClick to view its contents");
         }

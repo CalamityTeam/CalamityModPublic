@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Astral Blaster");
             // Tooltip.SetDefault("Converts musket balls into homing astral rounds");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

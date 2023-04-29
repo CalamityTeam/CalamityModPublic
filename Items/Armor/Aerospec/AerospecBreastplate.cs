@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Armor.Aerospec
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Aerospec Breastplate");
             // Tooltip.SetDefault("3% increased critical strike chance");
         }

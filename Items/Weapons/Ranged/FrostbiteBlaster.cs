@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Frostbite Blaster");
             /* Tooltip.SetDefault("Fires a spread of 6 bullets\n" +
                 "Converts musket balls into icicles"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

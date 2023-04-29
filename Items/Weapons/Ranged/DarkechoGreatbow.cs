@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Darkecho Greatbow");
             /* Tooltip.SetDefault("Fires two arrows at once\n" +
                 "Fires an additional crystal dart"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Greatbay Pickaxe");
             // Tooltip.SetDefault("Can mine Demonite, Crimtane, Meteorite, Sea Prisms and Sea Prism Crystals");
         }

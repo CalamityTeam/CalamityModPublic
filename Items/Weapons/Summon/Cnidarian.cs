@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Weapons.Summon
             "[c/5C95A1:From looking at their less sapient brethren, the Old Kingdom's inhabitants adapted tools and weapons designed for underwater efficiency.]\n" +
             "[c/5C95A1:The electric properties of ghost bells remain useful even after death, having been commonly used as conduits.]"
             ); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

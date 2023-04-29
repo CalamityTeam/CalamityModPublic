@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Draconic Destruction");
             /* Tooltip.SetDefault("Fires a draconic sword beam that explodes into additional beams\n" +
                 "Additional beams fly up and down to shred enemies"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

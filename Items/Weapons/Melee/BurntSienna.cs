@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Burnt Sienna");
             // Tooltip.SetDefault("Causes enemies to erupt into healing projectiles on death");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

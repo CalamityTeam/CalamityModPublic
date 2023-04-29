@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Nano Purge");
             // Tooltip.SetDefault("Fires a barrage of nano lasers");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

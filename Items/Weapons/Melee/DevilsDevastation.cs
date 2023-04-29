@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Pitchforks rise from the underworld to skewer your foes\n" +
                 "Critical hits cause shadowflame explosions\n" +
                 "Receives 33% benefit from melee speed bonuses"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 

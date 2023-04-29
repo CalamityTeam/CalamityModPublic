@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("The Old Reaper");
             /* Tooltip.SetDefault("Slice 'n dice\n" +
                 "Stealth strikes throw four at once"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Throws a fast homing scythe\n" +
                                "The scythe will bounce after hitting an enemy up to six times\n" +
                                "Stealth strikes create damaging afterimages"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

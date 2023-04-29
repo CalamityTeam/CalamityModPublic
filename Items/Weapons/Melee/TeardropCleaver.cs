@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Teardrop Cleaver");
             // Tooltip.SetDefault("Makes your enemies cry");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

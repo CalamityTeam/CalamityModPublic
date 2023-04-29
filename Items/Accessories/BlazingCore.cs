@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Blazing Core");
             /* Tooltip.SetDefault("The searing core of the profaned goddess\n" +
                                "Being hit creates a miniature sun that lingers, dealing damage to nearby enemies\n" +

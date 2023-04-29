@@ -9,7 +9,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Bloodworm");
             /* Tooltip.SetDefault("Summons The Old Duke if used as bait in the Sulphurous Sea\n" +
                 "Enrages outside the Sulphurous Sea"); */

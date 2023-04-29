@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Rampart of Deities");
             /* Tooltip.SetDefault("Causes stars to fall and gives increased immune time when damaged\n" +
                 "Provides life regeneration and reduces the cooldown of healing potions\n" +

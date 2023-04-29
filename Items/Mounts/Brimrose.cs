@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Mounts
         {
             // DisplayName.SetDefault("Brimrose");
             // Tooltip.SetDefault("Summons a brimrose mount");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

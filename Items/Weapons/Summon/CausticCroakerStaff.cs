@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Caustic Croaker Staff");
             // Tooltip.SetDefault("Summons a toad that explodes if enemies are nearby");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

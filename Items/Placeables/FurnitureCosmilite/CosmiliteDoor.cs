@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

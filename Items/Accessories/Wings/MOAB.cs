@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("MOAB");
             /* Tooltip.SetDefault("The mother of all balloons\n" +
                 "Counts as wings\n" +

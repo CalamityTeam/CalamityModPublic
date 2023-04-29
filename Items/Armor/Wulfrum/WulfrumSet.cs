@@ -117,7 +117,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Wulfrum Hat & Goggles");
             /* Tooltip.SetDefault("10% increased minion damage\n"+
                 "Comes equipped with hair extensions" ); */
@@ -288,7 +287,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Wulfrum Jacket");
             // Tooltip.SetDefault("5% increased damage reduction"); //Increases to 10 with the wulfrum bastion active
 
@@ -329,7 +327,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Wulfrum Overalls");
             // Tooltip.SetDefault("Movement speed increased by 5%");
         }

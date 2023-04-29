@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Astrum Aureus Mask");
 
             if (Main.netMode != NetmodeID.Server)

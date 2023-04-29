@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Forbidden Oathblade");
             // Tooltip.SetDefault("Fires a demonic scythe and critical hits cause shadowflame explosions");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

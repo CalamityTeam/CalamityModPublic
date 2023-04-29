@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Yharim's Gift");
             /* Tooltip.SetDefault("The power of a god pulses from within this artifact\n" +
                                "Flaming meteors rain down after getting hit\n" +

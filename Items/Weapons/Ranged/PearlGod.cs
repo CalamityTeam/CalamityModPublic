@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             /* Tooltip.SetDefault("Your life is mine...\n" +
                 "Fires shockblast rounds that emit massive explosions and steal enemy life as well as additional bullets\n" +
                 "Every seventh shot fires a massive shockblast"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

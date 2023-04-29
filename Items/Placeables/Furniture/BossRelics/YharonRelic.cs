@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 		{
 			// DisplayName.SetDefault("Yharon Relic");
             // Tooltip.SetDefault("A glimpse into what will be...");
-            Item.ResearchUnlockCount = 1;
 		}
 
 		public override void SetDefaults()

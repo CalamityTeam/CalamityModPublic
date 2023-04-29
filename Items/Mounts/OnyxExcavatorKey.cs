@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Mounts
                 "with complete disregard for all the creatures that inhabit these lands. I am sure the EPA and PETA would like\n" +
                 "to have a word with you afterwards.\n" +
                 "The power of the destruction scales with the highest powered pickaxe in your inventory"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

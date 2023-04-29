@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Fires a huge prismatic disk shuriken\n" +
                 "The shuriken shatters moments after impact into homing rockets\n" +
                 "Stealth strikes shatter into many more rockets"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

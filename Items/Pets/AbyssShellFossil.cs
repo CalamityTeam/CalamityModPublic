@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Abyss Shell Fossil");
             /* Tooltip.SetDefault("A fossil of a prehistoric creature, long forgotten in the deep abyss"
             + "\nSummons a pet Escargidolon Snail to follow you"

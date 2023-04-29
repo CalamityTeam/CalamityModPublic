@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Ashen Stalactite");
             /* Tooltip.SetDefault("Throws a fast, small stalactite that crumbles to dust after travelling a short distance\n" +
                 "Stealth strikes cause a larger, more damaging stalagmite to be thrown which travels slower and further before crumbling to damaging dust"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

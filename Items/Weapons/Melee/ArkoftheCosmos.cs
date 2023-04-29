@@ -59,7 +59,6 @@ namespace CalamityMod.Items.Weapons.Melee
             "This line also gets set in ModifyTooltips\n" +
             "This line also gets set in ModifyTooltips\n" +
             "The physical culmination of your journey, capable of rending gods asunder"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Poseidon");
             // Tooltip.SetDefault("Casts a poseidon typhoon");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             // DisplayName.SetDefault("Mangrove Chakram");
             // Tooltip.SetDefault("Stealth strikes leave a trail of lingering flowers");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Armor.Fearmonger
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Fearmonger Greathelm");
             /* Tooltip.SetDefault("Pure terror radiates from your eyes\n" +
             "+60 max mana and 10% decreased mana usage\n" +

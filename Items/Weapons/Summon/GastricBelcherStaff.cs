@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Summon
             // DisplayName.SetDefault("Gastric Belcher Staff");
             /* Tooltip.SetDefault("Summons aquatic aberrations to protect you\n" +
             "Aberrations fire vomit at nearby enemies with every third attack firing bubbles"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

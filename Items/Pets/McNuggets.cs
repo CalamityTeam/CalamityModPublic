@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("McNuggets");
             // Tooltip.SetDefault("These chicken nuggets aren't for you to eat!");
         }

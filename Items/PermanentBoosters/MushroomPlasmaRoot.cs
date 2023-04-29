@@ -12,7 +12,6 @@ namespace CalamityMod.Items.PermanentBoosters
             // DisplayName.SetDefault("Mushroom Plasma Root");
             /* Tooltip.SetDefault("Permanently increases the duration of Rage Mode by 1 second\n" +
                 "Revengeance drop"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

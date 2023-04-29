@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Monstrous Knives");
             // Tooltip.SetDefault("Throws a spread of knives that can heal the user");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

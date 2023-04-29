@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Burning Sea");
             // Tooltip.SetDefault("Fires a bouncing brimstone fireball that splits into homing fireballs upon collision with water");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

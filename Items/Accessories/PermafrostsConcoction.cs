@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Permafrost's Concoction");
             // Tooltip.SetDefault(@"Increases maximum mana by 50 and reduces mana cost by 15%
 //Increases life regen as life decreases

@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Armor.SnowRuffian
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Snow Ruffian Mask");
             // Tooltip.SetDefault("2% increased rogue damage");
         }

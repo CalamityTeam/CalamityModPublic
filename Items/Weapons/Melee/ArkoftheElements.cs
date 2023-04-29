@@ -49,7 +49,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 "This line also gets set in ModifyTooltips\n" +
                 "This line also gets set in ModifyTooltips\n" +
                 "A heavenly pair of blades infused with the essence of Terraria, powerful enough to cut through the fabric of reality"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

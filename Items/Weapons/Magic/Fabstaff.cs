@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Fabstaff");
             // Tooltip.SetDefault("Casts a bouncing beam that splits when enemies are near it");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

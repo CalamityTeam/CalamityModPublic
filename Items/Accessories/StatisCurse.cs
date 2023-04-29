@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Statis' Curse");
             /* Tooltip.SetDefault("Increases max minions by 1 and minion damage by 10%\n" +
                 "Increased minion knockback\n" +

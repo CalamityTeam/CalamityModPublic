@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Gravistar Sabaton");
             /* Tooltip.SetDefault("Tap the DOWN key to increase your fall speed for 5 seconds\n" +
                                "This has an 8 second cooldown\n" +

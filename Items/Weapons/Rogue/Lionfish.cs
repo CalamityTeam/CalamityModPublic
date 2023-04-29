@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Lionfish");
             /* Tooltip.SetDefault("Sticks to enemies and injects a potent toxin\n" +
             "Stealth strikes are trailed by homing urchin spikes"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

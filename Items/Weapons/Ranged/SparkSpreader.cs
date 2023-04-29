@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Spark Spreader");
             // Tooltip.SetDefault("70% chance to not consume gel");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

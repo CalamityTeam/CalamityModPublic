@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Nebulash");
             // Tooltip.SetDefault("Fires a whip sword that emits particle explosions on hit");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

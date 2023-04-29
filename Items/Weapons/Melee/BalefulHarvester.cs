@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Baleful Harvester");
             // Tooltip.SetDefault("Summons flaming pumpkins and skulls that split into homing fire orbs on enemy hits");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

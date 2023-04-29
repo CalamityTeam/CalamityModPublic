@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Scuttler's Jewel");
             /* Tooltip.SetDefault("Stealth strike projectiles spawn a jewel spike when destroyed\n" +
                 "Can also be broken down at an extractinator"); */

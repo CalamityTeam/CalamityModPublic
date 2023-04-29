@@ -13,7 +13,6 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Old Power Cell");
             /* Tooltip.SetDefault("Summons the Golem when used in the Jungle Temple\n" +
                 "Enrages outside the Jungle Temple\n" +

@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Hydrothermic Helmet");
             /* Tooltip.SetDefault("5% increased minion damage and increased minion knockback\n" +
                 "Grants immunity to lava and On Fire! debuff"); */

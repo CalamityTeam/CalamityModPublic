@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Biofusillade");
             // Tooltip.SetDefault("Unleashes a concentrated beam of life energy");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

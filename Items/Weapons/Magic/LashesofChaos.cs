@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Lashes of Chaos");
             // Tooltip.SetDefault("Watch the world burn...");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

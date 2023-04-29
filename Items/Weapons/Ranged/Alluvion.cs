@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Alluvion");
             /* Tooltip.SetDefault("Converts wooden arrows into sharks, torrential and typhoon arrows\n" +
                        "Fires a torrent of six arrows at once"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

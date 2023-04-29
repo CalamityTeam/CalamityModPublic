@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Plague Staff");
             // Tooltip.SetDefault("Fires a tight spread of 4 plague fangs");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

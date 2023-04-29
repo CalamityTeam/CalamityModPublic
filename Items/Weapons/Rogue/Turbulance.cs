@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // Tooltip.SetDefault(@"Fires a cloudy javelin that bursts into wind slashes on hit
 //Wind slashes home if the javelin crits
 //Stealth strikes are trailed by homing wind slashes");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

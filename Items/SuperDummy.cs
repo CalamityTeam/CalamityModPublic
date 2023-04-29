@@ -15,7 +15,6 @@ namespace CalamityMod.Items
                 "Regenerates 1 million life per second\n" +
                 "Will not die when taking damage over time from debuffs\n" +
                 "Right click to kill all super dummies"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

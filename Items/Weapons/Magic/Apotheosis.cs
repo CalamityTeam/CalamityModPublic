@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Apotheosis");
             /* Tooltip.SetDefault("Eat worms\n" +
                 "Unleashes interdimensional projection magic"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

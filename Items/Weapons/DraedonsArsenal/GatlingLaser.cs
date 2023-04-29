@@ -25,7 +25,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Gatling Laser");
             // Tooltip.SetDefault("Large laser cannon used primarily by Yharim's fleet and base defense force");
         }

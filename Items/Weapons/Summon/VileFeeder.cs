@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Vile Feeder");
             // Tooltip.SetDefault("Summons a baby eater of souls to protect you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

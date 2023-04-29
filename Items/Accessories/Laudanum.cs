@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Laudanum");
             /* Tooltip.SetDefault("Converts certain debuffs into buffs and extends their durations\n" +
                                "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak,\n" +

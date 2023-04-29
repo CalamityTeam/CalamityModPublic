@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                                "Throws a fuel container with trace amounts of plutonium that causes a nuclear explosion\n" +
                                "The explosion does not occur if there are no tiles below it\n" +
                                "Stealth strikes leave a lingering irradiated zone after the explosion dissipates"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

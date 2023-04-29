@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Tools.ClimateChange
             /* Tooltip.SetDefault("Summons the rain\n" +
                 "Rain will start some time after this item is used\n" +
                 "If used while it's raining, the rain will stop some time afterward"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

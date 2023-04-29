@@ -15,7 +15,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Profaned Shard");
             /* Tooltip.SetDefault("A shard of the unholy flame\n" +
                 "Summons the Profaned Guardians when used in the Hallow or Underworld during daytime\n" +

@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Hoarfrost Bow");
             /* Tooltip.SetDefault("Fires two arrows at once\n" +
                 "Converts wooden arrows into mist arrows"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

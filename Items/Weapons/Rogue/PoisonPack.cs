@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Throws up to 3 poisonous spiky balls\n" +
                 "Stealth strikes cause the balls to release spore clouds\n" +
                 "Right click to delete all existing spiky balls"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

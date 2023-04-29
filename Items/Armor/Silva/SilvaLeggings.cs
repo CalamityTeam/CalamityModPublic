@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Armor.Silva
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Silva Leggings");
             /* Tooltip.SetDefault("10% increased movement speed\n" +
                 "12% increased damage and critical strike chance"); */

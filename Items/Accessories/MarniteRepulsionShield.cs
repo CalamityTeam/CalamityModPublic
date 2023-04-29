@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Marnite Repulsion Shield");
             /* Tooltip.SetDefault("Enemies behind you are struck by high-knockback hardlight quills\n" +
                 "[c/FFF191:Backstabbers Beware!]"); */

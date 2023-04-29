@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Shadethrower");
             // Tooltip.SetDefault("66% chance to not consume gel");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

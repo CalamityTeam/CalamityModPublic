@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Weapons.Melee
             /* Tooltip.SetDefault("Freezes enemies and heals the player on hit\n" +
                 "Fires rainbow beams that change their behavior based on their color\n" +
                 "Right click for true melee"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

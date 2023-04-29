@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Thief's Dime");
             /* Tooltip.SetDefault("Once worthless treasure, now a relic of a thief's companionship\n" +
             "Summons Goldie the coin to light your way and collects nearby coins\n" +

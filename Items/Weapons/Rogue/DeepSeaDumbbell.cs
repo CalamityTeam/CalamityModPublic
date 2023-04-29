@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Throws a dumbbell that bounces and flings weights with each bounce\n" +
                 "Right click to flex, increasing the damage of your next attack up to 5 times damage\n" +
                 "Flexes can hit enemies directly"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

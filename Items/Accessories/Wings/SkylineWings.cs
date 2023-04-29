@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Skyline Wings");
             /* Tooltip.SetDefault("Horizontal speed: 6.25\n" +
                 "Acceleration multiplier: 1.0\n" +

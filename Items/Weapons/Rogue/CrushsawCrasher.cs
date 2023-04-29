@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Crushsaw Crasher");
             /* Tooltip.SetDefault("Throws bouncing axes\n" +
             "Stealth strikes throw five at once"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

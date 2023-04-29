@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.CanFishInLava[Item.type] = true;
 
             // DisplayName.SetDefault("The Devourer of Cods");

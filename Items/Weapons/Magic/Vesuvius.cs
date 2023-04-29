@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Magic
                 "Right click to fire a spread of molten asteroids from the staff"); */
             Item.staff[Item.type] = true;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

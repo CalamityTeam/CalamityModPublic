@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Snake Eyes");
             /* Tooltip.SetDefault("Surveillance drones equipped with a strong electric field which can be directed at enemies\n" +
             "Summons a mechanical watcher that zaps and flies around enemies"); */

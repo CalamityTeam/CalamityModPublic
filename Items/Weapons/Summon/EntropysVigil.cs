@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Summon
             // DisplayName.SetDefault("Entropy's Vigil");
             /* Tooltip.SetDefault("Summons Calamitas and her brothers to protect you\n" +
             "One minion trio takes two minion slots"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

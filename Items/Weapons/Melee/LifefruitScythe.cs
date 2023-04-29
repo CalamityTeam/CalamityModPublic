@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Lifehunt Scythe");
             // Tooltip.SetDefault("Heals you on hit and shoots an energy scythe");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

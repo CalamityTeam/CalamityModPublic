@@ -24,7 +24,6 @@ namespace CalamityMod.Items.Dyes.HairDye
             Item.useAnimation = 17;
             Item.useTime = 17;
             Item.consumable = true;
-            Item.ResearchUnlockCount = 1;
         }
     }
 }

@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Summon
             /* Tooltip.SetDefault("Summons an orbiting blade\n" +
                                "Right click to launch all blades towards the cursor"); */
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

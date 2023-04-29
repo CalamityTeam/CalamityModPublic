@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Critical hits tear away enemy defense\n" +
                 "Stealth strikes shatter and briefly stun enemies"); */
             // DisplayName.SetDefault("Apoctolith");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

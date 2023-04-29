@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             /* Tooltip.SetDefault("Fires powerful scarlet bolts suffused with hateful magics\n" +
                 "Hold left click to load up to eight bolts for powerful burst fire\n" +
                 "Hold right click to use the repeater full auto"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

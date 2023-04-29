@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Magic
             /* Tooltip.SetDefault("The power of a galaxy, if only for mere moments\n" +
             "Launches volatile star cores which erupt into colossal fusion blasts"); */
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Terra Flameburster");
             // Tooltip.SetDefault("80% chance to not consume gel");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Light God's Brilliance");
             // Tooltip.SetDefault("Casts small, homing light beads along with explosive light balls");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

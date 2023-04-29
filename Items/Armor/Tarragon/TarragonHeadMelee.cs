@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Armor.Tarragon
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Tarragon Helm");
             /* Tooltip.SetDefault("10% increased melee damage and critical strike chance\n" +
                 "5% increased damage reduction"); */

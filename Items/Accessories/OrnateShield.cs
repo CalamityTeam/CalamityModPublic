@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Ornate Shield");
             /* Tooltip.SetDefault("8% increased damage reduction and +20 health while wearing the Daedalus armor\n" +
                 "Grants a frost dash"); */

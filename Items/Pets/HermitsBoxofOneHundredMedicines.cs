@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Hermit's Box of One Hundred Medicines");
             /* Tooltip.SetDefault("As the ice melts in the springs\n" +
                 "And waves wash the old moss' hair...\n" +

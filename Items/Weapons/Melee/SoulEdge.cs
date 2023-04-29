@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Soul Edge");
             // Tooltip.SetDefault("Fires the ghastly souls of long-deceased abyss dwellers");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

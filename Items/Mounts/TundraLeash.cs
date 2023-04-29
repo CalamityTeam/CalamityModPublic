@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Mounts
         {
             // DisplayName.SetDefault("Tundra Leash");
             // Tooltip.SetDefault("Summons a Rimehound mount");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

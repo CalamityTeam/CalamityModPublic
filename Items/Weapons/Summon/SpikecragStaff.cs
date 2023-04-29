@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Spikecrag Staff");
             // Tooltip.SetDefault("Summons a spikecrag to protect you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Necklace of Vexation");
             /* Tooltip.SetDefault("Revenge\n" +
             "20% increased damage when under 50% life\n" +

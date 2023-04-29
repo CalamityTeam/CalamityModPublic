@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Mounts
         {
             // DisplayName.SetDefault("Suspicious Looking Jelly Bean");
             // Tooltip.SetDefault("JELLY BEAN");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Ballistic Poison Bomb");
             /* Tooltip.SetDefault("Throws a sticky bomb that explodes into spikes and poison clouds\n" +
             "Stealth strikes throw three at once"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

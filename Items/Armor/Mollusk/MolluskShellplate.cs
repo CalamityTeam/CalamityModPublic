@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Mollusk
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Mollusk Shellplate");
             /* Tooltip.SetDefault("10% increased damage and 6% increased critical strike chance\n" +
                                "15% decreased movement speed"); */

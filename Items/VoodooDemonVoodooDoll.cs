@@ -10,7 +10,6 @@ namespace CalamityMod.Items
         {
             // DisplayName.SetDefault("Voodoo Demon Voodoo Doll");
             // Tooltip.SetDefault("Favorite this item to prevent voodoo demons from spawning near you");
-            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

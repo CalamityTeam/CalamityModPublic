@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Cosmic Discharge");
             /* Tooltip.SetDefault("Striking an enemy with the whip causes glacial explosions and grants the player the cosmic freeze buff\n" +
                 "This buff gives the player increased life regen while standing still and freezes enemies near the player"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

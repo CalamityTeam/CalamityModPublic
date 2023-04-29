@@ -12,7 +12,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Bloody Worm Food");
             /* Tooltip.SetDefault("Summons the Perforator Hive when used in the Crimson\n" +
                 "Enrages outside the Underground Crimson\n" +

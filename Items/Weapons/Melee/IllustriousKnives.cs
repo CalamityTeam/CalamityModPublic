@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Illustrious Knives");
             // Tooltip.SetDefault("Throws a flurry of homing knives that can heal the user");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

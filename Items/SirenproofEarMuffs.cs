@@ -11,7 +11,6 @@ namespace CalamityMod.Items
         {
             // DisplayName.SetDefault("Sirenproof Earmuffs");
             // Tooltip.SetDefault("Favorite this item to prevent Anahita from spawning near you");
-            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

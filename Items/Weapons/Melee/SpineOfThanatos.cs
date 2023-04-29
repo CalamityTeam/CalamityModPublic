@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Melee
             /* Tooltip.SetDefault("Releases 3 fast metallic whips outward\n" +
                                "Once all three collide, a prism of light is shot outward\n" +
                                "If an enemy is within the line of sight of the whips on collision, the light will fire towards it"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

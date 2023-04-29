@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Drew's Wings");
             /* Tooltip.SetDefault("Absolutely Fabulous\n" +
                 "Horizontal speed: 12.00\n" +

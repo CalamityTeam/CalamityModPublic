@@ -72,7 +72,6 @@ namespace CalamityMod.Items.Weapons.Summon
             "Clicking one of the choices and then clicking one of the slots summons a cannon of that type\n" +
             "Clicking on a slot that's already occupied destroys its associated cannon and clears the slot\n" +
             $"Cannons take {MinionSlotsPerCannon} minion slots each"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

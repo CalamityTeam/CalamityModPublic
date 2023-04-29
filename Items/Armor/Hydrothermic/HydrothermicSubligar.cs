@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Hydrothermic Subligar");
             /* Tooltip.SetDefault("5% increased critical strike chance\n" +
                 "10% increased movement speed"); */

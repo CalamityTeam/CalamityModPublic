@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
             // DisplayName.SetDefault("True Caustic Edge");
             /* Tooltip.SetDefault("Fires a bouncing caustic beam\n" +
                 "Inflicts poison and venom"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

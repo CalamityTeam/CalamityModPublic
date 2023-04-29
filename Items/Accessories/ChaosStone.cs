@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Chaos Stone");
             /* Tooltip.SetDefault("One of the ancient relics\n" +
                 "Mana Sickness from drinking mana potions is replaced by Mana Burn\n" +

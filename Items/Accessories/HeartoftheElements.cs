@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Heart of the Elements");
             /* Tooltip.SetDefault("The heart of the world\n" +
                 "Summons all elementals to protect you"); */

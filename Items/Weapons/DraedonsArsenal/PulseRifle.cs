@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Pulse Rifle");
             /* Tooltip.SetDefault("Draedon's former pulse rifle, used in emergencies for creations which turned against him\n" +
                 "When the pulse hits a target it will arc to another nearby target"); */

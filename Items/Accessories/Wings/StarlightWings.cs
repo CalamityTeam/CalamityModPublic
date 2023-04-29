@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Starlight Wings");
             /* Tooltip.SetDefault("Wings of the Nightingale\n" +
                 "Horizontal speed: 7.50\n" +

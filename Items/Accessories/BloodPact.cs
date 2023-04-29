@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Blood Pact");
             /* Tooltip.SetDefault("Doubles your max HP\n" +
                 "Allows you to be critically hit 25% of the time\n" +

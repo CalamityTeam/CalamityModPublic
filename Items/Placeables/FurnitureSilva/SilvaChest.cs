@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

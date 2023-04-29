@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Ethereal Extorter");
             // Tooltip.SetDefault(@"Rogue projectiles explode into homing souls on death
 //8% increased rogue damage and +10 maximum stealth");

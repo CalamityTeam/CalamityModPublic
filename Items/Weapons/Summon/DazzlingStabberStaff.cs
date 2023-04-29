@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Dazzling Stabber Staff");
             // Tooltip.SetDefault("Summons a holy blade to fight for you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Fox Drive");
             // Tooltip.SetDefault("'It contains 1 file on it'\n'Fox.cs'");
         }

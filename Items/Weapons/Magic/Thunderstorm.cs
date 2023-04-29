@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Thunderstorm");
             // Tooltip.SetDefault("Make it rain");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

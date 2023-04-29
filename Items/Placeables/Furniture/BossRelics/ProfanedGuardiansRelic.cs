@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 		public override void SetStaticDefaults()
 		{
 			// DisplayName.SetDefault("Profaned Guardians Relic");
-            Item.ResearchUnlockCount = 1;
 		}
 
 		public override void SetDefaults()

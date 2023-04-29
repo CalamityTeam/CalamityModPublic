@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Cranium Smasher");
             /* Tooltip.SetDefault("Throws disks that roll on the ground, occasionally launches an explosive disk\n" +
             "Stealth strikes launch an explosive disk that can pierce several enemies"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

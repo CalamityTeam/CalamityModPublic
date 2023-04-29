@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Aureate Booster");
             /* Tooltip.SetDefault("Mach speed with style!\n" +
                 "Horizontal speed: 8.00\n" +

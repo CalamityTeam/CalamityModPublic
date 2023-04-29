@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Karasawa");
             // Tooltip.SetDefault("...This is heavy... too heavy.");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

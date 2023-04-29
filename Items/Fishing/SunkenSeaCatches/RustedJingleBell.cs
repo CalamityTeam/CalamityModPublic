@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             // DisplayName.SetDefault("Rusted Jingle Bell");
             /* Tooltip.SetDefault("Summons a baby ghost bell light pet\n" +
                 "Provides a moderate amount of light while underwater"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

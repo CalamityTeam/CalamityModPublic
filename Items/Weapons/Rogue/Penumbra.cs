@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Penumbra");
             /* Tooltip.SetDefault("Throws a shadow bomb that explodes into homing souls\n" +
                                "Stealth strikes make the bomb manifest on the cursor and explode into more souls"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

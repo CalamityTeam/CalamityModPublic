@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Keelhaul");
             /* Tooltip.SetDefault("Summons a geyser upon hitting an enemy\n" +
                 "Crumple 'em like paper"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

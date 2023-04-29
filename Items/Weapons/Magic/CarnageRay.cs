@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Magic
             /* Tooltip.SetDefault("Fires a blood ray\n" +
                 "The farther along the ray hit enemies are, the more damage they take"); */
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Melee
             "Holding right click rapidly absorbs energy into the blade until it is charged\n" +
             "Pressing left click while charged causes you to fly in the direction of the cursor\n" +
             "After flying, the amount of charge the blade has is reduced to zero"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

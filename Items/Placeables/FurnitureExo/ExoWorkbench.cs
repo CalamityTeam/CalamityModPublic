@@ -8,7 +8,6 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

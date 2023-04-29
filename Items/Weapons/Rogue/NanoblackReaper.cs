@@ -25,7 +25,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Blades target bosses whenever possible\n" +
                 "Stealth strikes cause the scythe to create a large amount of homing afterimages instead of energy blades\n" +
                 "'She smothered them in Her hatred'"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

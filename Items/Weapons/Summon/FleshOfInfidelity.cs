@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Flesh of Infidelity");
             // Tooltip.SetDefault("Summons a tentacled ball of flesh that splashes blood onto enemies");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

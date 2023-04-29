@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Chromatic Orb");
             /* Tooltip.SetDefault("It glows warmly in your hand\n" +
                 "Summons an ancient dragon light pet that highlights nearby enemies and danger sources\n" +

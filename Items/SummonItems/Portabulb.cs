@@ -12,7 +12,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Portabulb");
             /* Tooltip.SetDefault("Summons Plantera when used in the Jungle\n" +
                 "Enrages outside the Underground Jungle\n" +

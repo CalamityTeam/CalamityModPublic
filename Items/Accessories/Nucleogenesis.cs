@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Nucleogenesis");
             /* Tooltip.SetDefault("Increases max minions by 2\n" +
                 "Grants immunity to Shadowflame and Irradiated\n" +

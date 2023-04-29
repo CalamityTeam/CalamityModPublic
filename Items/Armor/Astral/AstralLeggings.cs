@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Armor.Astral
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Astral Leggings");
             /* Tooltip.SetDefault("10% increased movement speed\n" +
                                "Treasure and ore detection"); */

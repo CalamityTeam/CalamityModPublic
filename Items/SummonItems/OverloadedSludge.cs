@@ -12,7 +12,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Overloaded Sludge");
             /* Tooltip.SetDefault("It looks corrupted\n" +
                 "Summons the Slime God\n" +

@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Bloodflare Cuisses");
             // Tooltip.SetDefault("17% increased movement speed, 10% increased damage and 7% increased critical strike chance");
         }

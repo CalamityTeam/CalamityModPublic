@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Armor.Statigel
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Statigel Headgear");
             /* Tooltip.SetDefault("10% increased ranged damage\n" +
                 "7% increased ranged critical strike chance"); */

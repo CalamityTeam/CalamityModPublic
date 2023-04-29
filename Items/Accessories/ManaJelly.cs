@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Mana Jelly");
             /* Tooltip.SetDefault("+20 max mana\n" +
                 "Standing still boosts mana regen"); */

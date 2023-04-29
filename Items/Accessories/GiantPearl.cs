@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Giant Pearl");
             /* Tooltip.SetDefault("You have a light aura around you\n" +
                 "Enemies within the aura are slowed down\n" +

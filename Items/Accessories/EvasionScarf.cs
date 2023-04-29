@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Evasion Scarf");
             /* Tooltip.SetDefault("15% increased true melee damage\n" +
                 "Grants the ability to dash; dashing into an attack will cause you to dodge it\n" +

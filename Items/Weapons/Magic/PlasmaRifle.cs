@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Magic
             // DisplayName.SetDefault("Plasma Rifle");
             /* Tooltip.SetDefault("Fires a plasma blast that explodes\n" +
                 "Right click to rapidly fire plasma bolts"); */
-            Item.ResearchUnlockCount = 1;
 
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }

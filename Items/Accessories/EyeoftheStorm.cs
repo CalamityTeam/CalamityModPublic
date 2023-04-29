@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Eye of the Storm");
             // Tooltip.SetDefault("Summons a cloud elemental to fight for you");
         }

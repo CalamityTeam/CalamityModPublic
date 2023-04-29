@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Dynamic Pursuer");
             /* Tooltip.SetDefault("A weapon that, as it flies, processes calculations and fires electricity\n" +
                                "Releases a flying disk that fires electricity at nearby enemies\n" +

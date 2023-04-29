@@ -55,7 +55,6 @@ namespace CalamityMod.Items.Armor.GemTech
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Gem Tech Headgear");
             // Tooltip.SetDefault("The Devil said: Revel in your victory; You've earned your damning. Pack your things and leave.");
         }

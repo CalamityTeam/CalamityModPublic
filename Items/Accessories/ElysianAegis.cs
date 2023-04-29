@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Elysian Aegis");
             /* Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
                                "Grants immunity to knockback and the Burning, On Fire!, and Holy Flames debuffs\n" +

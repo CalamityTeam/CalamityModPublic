@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Melee
                                "'No matter where you may be you are never alone\n" +
                                "I shall always be at your side, my lord'\n" +
                                "Fires a rainbow blade that emits rainbow rain on death for a time"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

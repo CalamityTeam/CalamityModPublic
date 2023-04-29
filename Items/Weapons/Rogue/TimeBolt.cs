@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Time Bolt");
             /* Tooltip.SetDefault("There should be no boundary to human endeavor.\n" +
             "Stealth strikes can hit more enemies and create a larger time field"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

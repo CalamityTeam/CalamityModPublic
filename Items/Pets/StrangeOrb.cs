@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Strange Orb");
             /* Tooltip.SetDefault("Summons a miniature Ocean Spirit light pet\n" +
                 "Provides a large amount of light while underwater"); */

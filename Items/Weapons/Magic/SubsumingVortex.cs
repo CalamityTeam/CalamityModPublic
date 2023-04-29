@@ -44,7 +44,6 @@ namespace CalamityMod.Items.Weapons.Magic
                                "Right clicking casts a gigantic vortex in front of you with a bias towards the mouse\n" +
                                "When enemies are near the vortex, it sends multiple fast-moving smaller vortices towards them\n" +
                                "After enough time has passed the vortex stops shooting, and releasing the right mouse button fires the vortex towards the mouse"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 

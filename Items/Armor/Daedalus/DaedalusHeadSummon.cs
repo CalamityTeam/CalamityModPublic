@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Armor.Daedalus
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Daedalus Mask");
             // Tooltip.SetDefault("5% increased minion damage");
         }

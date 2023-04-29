@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Greentide");
             // Tooltip.SetDefault("Summons teeth from the sky on hit");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

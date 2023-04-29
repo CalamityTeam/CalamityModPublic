@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Eclipse Mirror");
             /* Tooltip.SetDefault("Its reflection shows naught but darkness\n" +
                 "+10 maximum stealth\n" +

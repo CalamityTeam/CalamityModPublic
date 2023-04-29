@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Cosmic Rainbow");
             // Tooltip.SetDefault("Launches a barrage of rainbows");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

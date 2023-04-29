@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("Adamantite Particle Accelerator");
             // Tooltip.SetDefault("Charges and fires 2 beams of opposite polarities. Hitting with the opposite polarity increases the damage");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Meowthrower");
             /* Tooltip.SetDefault("85% chance to not consume gel\n" +
                 "Fires blue and pink flames that emit meows on enemy hits"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

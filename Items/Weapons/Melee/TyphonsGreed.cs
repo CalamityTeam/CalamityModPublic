@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Typhon's Greed");
             // Tooltip.SetDefault("Summons water spirits while in use");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

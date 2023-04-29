@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Corroslime Staff");
             // Tooltip.SetDefault("Summons a corro slime to fight for you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

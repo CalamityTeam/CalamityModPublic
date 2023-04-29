@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Statis' Void Sash");
             /* Tooltip.SetDefault("12% increased jump speed and allows constant jumping\n" +
                 "Grants immunity to fall damage\n" +

@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Magic
             /* Tooltip.SetDefault("Summons liquidation blades that summon more blades on enemy hits\n" +
                                "The blades inflict ichor, cursed inferno and brimstone flames"); */
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

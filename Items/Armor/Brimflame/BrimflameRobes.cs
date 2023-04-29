@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Armor.Brimflame
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Brimflame Robes");
             // Tooltip.SetDefault("5% increased magic damage and critical strike chance");
 

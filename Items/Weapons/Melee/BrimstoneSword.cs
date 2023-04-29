@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Melee
             /* Tooltip.SetDefault("Summons brimstone geysers on hit\n" +
                 "Right click to throw like a javelin that explodes on hit\n" +
                 "Receives 33% benefit from melee speed bonuses"); */
-            Item.ResearchUnlockCount = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }

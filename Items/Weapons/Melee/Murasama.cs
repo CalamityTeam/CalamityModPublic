@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Prove your strength or have the correct user ID to wield this sword"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 13));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

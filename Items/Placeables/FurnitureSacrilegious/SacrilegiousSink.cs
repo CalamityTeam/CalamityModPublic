@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Sacrilegious Sink");
-            Item.ResearchUnlockCount = 1;
             // Tooltip.SetDefault("Counts as a water, honey, and lava source");
         }
 

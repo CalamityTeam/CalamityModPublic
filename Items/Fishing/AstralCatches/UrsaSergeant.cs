@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             /* Tooltip.SetDefault("15% decreased movement speed\n" +
                 "Immune to Astral Infection and Feral Bite\n" +
                 "Increased regeneration at lower health"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

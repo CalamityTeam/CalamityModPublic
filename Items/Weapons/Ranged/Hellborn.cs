@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "Enemies that touch the gun while it's being fired trigger a massive explosion\n" +
                 "After the explosion, this gun gains a massive boost to damage, fire rate and knockback for 10 seconds\n" +
                 "These stat bonuses slowly decay over time"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

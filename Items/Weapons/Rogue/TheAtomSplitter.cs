@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("The Atom Splitter");
             /* Tooltip.SetDefault("Throws a quantum-superimposed javelin that strikes from numerous timelines at once\n" +
                 "Stealth strikes perform far more simultaneous strikes"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

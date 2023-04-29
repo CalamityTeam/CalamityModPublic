@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories
         
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Dragon Scales");
             /* Tooltip.SetDefault("Only a living dragon holds true treasure\n" +
                                "Rogue projectiles create slow fireballs as they travel\n" +

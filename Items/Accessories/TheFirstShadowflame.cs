@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("The First Shadowflame");
             /* Tooltip.SetDefault("Increases max minions by 1 and minions inflict the Shadowflame debuff on enemies\n" +
                 "Grants immunity to Shadowflame"); */

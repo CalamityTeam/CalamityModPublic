@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Bloodflare Core");
             // Tooltip.SetDefault("You lose up to half your defense after taking damage\n" + "Lost defense regenerates over time\n" + "You gain 1 health for every 1 defense gained as it regenerates");
         }

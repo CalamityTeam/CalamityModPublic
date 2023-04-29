@@ -14,7 +14,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Sandstorm's Core");
             /* Tooltip.SetDefault("Summons the Great Sand Shark when used in the desert\n" +
                 "Not consumable"); */

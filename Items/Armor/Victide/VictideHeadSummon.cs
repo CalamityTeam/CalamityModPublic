@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Armor.Victide
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Victide Mask");
             // Tooltip.SetDefault("10% increased minion damage");
         }

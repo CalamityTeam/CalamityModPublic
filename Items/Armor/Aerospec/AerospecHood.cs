@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Aerospec
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Aerospec Hood");
             // Tooltip.SetDefault("8% increased ranged damage");
         }

@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             /* Tooltip.SetDefault("Fires a burst of four fuel-air rockets which explode into cluster bombs\n" +
             "Each burst consumes two rockets each\n" +
             "Burns your targets to a fine crisp"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

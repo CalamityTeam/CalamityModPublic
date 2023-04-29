@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Axe of Purity");
             /* Tooltip.SetDefault("Left click to use as a tool\n" +
                 "Right click to cleanse evil"); */

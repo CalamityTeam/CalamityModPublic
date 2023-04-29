@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("The Bee");
             /* Tooltip.SetDefault("When at full HP, your damage is increased based on your damage reduction\n" +
                             "Damage taken at full HP is halved\n" +

@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Armor.Hydrothermic
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Hydrothermic Armor");
             /* Tooltip.SetDefault("+20 max life\n" +
                 "8% increased damage and 4% increased critical strike chance"); */

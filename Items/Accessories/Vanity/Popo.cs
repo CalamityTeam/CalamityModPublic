@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Accessories.Vanity
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Magic Scarf and Hat");
             /* Tooltip.SetDefault("Don't let the demons steal your nose\n" +
                 "Transforms the holder into a snowman"); */

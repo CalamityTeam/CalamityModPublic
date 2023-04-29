@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Throws a stardisk upwards which then launches itself towards your mouse cursor\n" +
                                "Explodes into 5 astral energy bolts if the thrower is moving vertically when throwing it\n" +
                                "Stealth strikes rain astral energy bolts from the sky"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

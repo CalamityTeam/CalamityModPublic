@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Armor.Demonshade
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Demonshade Breastplate");
             /* Tooltip.SetDefault("20% increased melee speed, 15% increased damage and critical strike chance\n" +
                 "Enemies take ungodly damage when they touch you\n" +

@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Abyssal Tome");
             // Tooltip.SetDefault("Casts a slow-moving ball of dark energy");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

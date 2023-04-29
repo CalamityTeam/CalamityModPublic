@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Giant Tortoise Shell");
             /* Tooltip.SetDefault("10% decreased movement speed\n" +
                 "Enemies take damage when they hit you\n" +

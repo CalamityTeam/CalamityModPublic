@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Silva Wings");
             /* Tooltip.SetDefault("The purest of nature\n" +
                 "Horizontal speed: 11.00\n" +

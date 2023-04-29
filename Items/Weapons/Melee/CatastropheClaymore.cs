@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Catastrophe Claymore");
             // Tooltip.SetDefault("Fires sparkles which inflict Frostbite, Hellfire, or Ichor");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

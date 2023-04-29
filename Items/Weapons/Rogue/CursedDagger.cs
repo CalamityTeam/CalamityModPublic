@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Cursed Dagger");
             /* Tooltip.SetDefault("Throws bouncing daggers\n" +
             "Stealth strikes are showered in cursed fireballs"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

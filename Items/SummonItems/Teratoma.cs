@@ -12,7 +12,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Teratoma");
             /* Tooltip.SetDefault("Summons the Hive Mind when used in the Corruption\n" +
                 "Enrages outside the Underground Corruption\n" +

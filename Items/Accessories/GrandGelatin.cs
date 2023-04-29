@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Grand Gelatin");
             /* Tooltip.SetDefault("10% increased movement and jump speed\n" +
                 "+20 max life and mana\n" +

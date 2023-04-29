@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Rouge Slash");
             // Tooltip.SetDefault("Fires a wave of 3 rouge air slashes");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Frigidflash Bolt");
             // Tooltip.SetDefault("Casts a slow-moving ball of flash-freezing magma");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

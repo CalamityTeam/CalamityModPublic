@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Summon
                                "The orb will fire swarms of homing energy bolts when enemies are detected by it\n" +
                                "Requires 10 minion slots to use and there can only be one energy spiral\n" +
                                "Without a summoner armor set bonus this minion will deal less damage"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

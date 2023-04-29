@@ -12,7 +12,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Decapodita Sprout");
             /* Tooltip.SetDefault("Summons Crabulon when used in the Mushroom biome\n" +
                 "Enrages outside the Underground Mushroom biome\n" +

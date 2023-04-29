@@ -37,7 +37,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Constantly generates rage when in use\n" +
                 "Swings leave behind exploding blood trails when below 50% health\n" +
                 "Replaces Rage Mode with an enormous barrage of skulls"); */
-            Item.ResearchUnlockCount = 1;
         }
         //NOTE: GetWeaponDamage is in the CalamityPlayer file
         public override void SetDefaults()

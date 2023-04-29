@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             /* Tooltip.SetDefault("Throws a rolling barrel that explodes on wall collision\n" +
                                "Stealth strikes makes the barrel bounce twice before disappearing with varied effects after each bounce\n" +
                                "'Some people used to jump over these'"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

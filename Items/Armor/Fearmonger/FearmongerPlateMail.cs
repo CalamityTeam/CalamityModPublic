@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Armor.Fearmonger
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Fearmonger Plate Mail");
             /* Tooltip.SetDefault("+100 max life and 8% increased damage reduction\n" +
             "5% increased damage and critical strike chance"); */

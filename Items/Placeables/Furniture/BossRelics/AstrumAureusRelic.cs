@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 		{
 			// DisplayName.SetDefault("Astrum Aureus Relic");
 
-			Item.ResearchUnlockCount = 1;
 		}
 
 		public override void SetDefaults()

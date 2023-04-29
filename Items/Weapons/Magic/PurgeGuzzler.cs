@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Purge Guzzler");
             // Tooltip.SetDefault("Emits three beams of holy energy in a tight spread");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -10,7 +10,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Starcore");
             /* Tooltip.SetDefault("May the stars guide your way\n" +
                 "Summons Astrum Deus at the Astral Beacon, but is not consumed\n" +

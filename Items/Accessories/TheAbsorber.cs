@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("The Absorber");
             /* Tooltip.SetDefault("5% increased movement and jump speed\n" +
                 "+20 max life and mana\n" +

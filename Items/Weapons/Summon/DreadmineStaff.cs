@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Dreadmine Staff");
             // Tooltip.SetDefault("Summons a dreadmine turret to fight for you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

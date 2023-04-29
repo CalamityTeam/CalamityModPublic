@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 //The brimstone sac appears to contain fuel
 //Revenge is a dish best served flaming hot");
             Item.staff[Item.type] = true; //so it doesn't look weird af when holding it
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

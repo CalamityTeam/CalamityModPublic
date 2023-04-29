@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Frequency Manipulator");
             /* Tooltip.SetDefault("A long device, used in the tuning of some rather... original machines\n" +
                                "Swings a spear around and then throws it\n" +

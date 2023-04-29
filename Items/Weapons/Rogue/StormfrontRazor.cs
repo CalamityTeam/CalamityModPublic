@@ -24,7 +24,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                                "[c/24c7f0:Strike and stem the flow]"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

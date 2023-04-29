@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Brimlash");
             // Tooltip.SetDefault("Fires a brimstone bolt that explodes into more bolts on death");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

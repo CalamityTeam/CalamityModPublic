@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Radiant Ooze");
             // Tooltip.SetDefault("You emit light and regen life more quickly at night");
         }

@@ -15,7 +15,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Necroplasmic Beacon");
             /* Tooltip.SetDefault("It's spooky\n" +
                 "Summons Polterghast when used in the Dungeon\n" +

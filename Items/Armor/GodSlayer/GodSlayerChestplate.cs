@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Armor.GodSlayer
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("God Slayer Chestplate");
             /* Tooltip.SetDefault("+60 max life\n" +
                        "Enemies take damage when they hit you\n" +

@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 "These bonuses stack until a cap is reached\n" +
                 "The bonus stacks will reset if you select a different item\n" +
                 "The bonus stacks will be reduced by 1 every time you get hit"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

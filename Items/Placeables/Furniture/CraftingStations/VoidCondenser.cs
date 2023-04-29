@@ -7,7 +7,6 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // Tooltip.SetDefault("Used for special crafting");
         }
 

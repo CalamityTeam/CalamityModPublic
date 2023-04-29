@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // DisplayName.SetDefault("The Jailor");
             // Tooltip.SetDefault("Releases electric mines outward that connect to each-other via arcs");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

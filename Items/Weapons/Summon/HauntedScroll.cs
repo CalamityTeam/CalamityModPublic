@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Haunted Scroll");
             // Tooltip.SetDefault("Summons a stack of haunted dishes to fight for you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

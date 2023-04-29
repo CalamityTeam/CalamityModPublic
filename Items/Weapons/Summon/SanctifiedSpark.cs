@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Summon
             // DisplayName.SetDefault("Sanctified Spark");
             // Tooltip.SetDefault("Summons a profaned energy turret to fight for you");
             Item.staff[Item.type] = true;
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

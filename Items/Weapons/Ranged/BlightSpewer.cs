@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Blight Spewer");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

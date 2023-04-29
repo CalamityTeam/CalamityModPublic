@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Tradewinds");
             // Tooltip.SetDefault("Casts fast moving sunlight feathers");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Acid Gun");
             // Tooltip.SetDefault("Releases three streams of acid");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Shatters into glass and plague cinders on impact\n" +
                 "Stealth strikes also shatter into plague bees\n" +
                 "'I'm pretty sure this isn't healthy'"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

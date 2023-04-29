@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Bloodflare Horned Helm");
             // Tooltip.SetDefault("10% increased ranged damage and critical strike chance");
         }

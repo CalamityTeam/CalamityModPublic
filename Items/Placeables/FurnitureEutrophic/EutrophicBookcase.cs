@@ -7,7 +7,6 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

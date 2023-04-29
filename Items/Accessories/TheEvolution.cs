@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("The Evolution");
             /* Tooltip.SetDefault("You reflect projectiles when they hit you\n" +
                                 "Reflected projectiles deal no damage to you\n" +

@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Fetid Emesis");
             /* Tooltip.SetDefault("40% chance to not consume ammo\n" +
             "Has a chance to release rotten chunks instead of bullets"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

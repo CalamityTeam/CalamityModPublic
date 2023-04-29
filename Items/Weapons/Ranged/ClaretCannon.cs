@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Claret Cannon");
             /* Tooltip.SetDefault("Fires strings of 3 bullets\n" +
                 "Converts musket balls into bloody tears that drain enemy health"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

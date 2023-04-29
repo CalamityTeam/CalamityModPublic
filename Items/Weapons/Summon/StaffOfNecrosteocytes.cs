@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
             // DisplayName.SetDefault("Staff of Necrosteocytes");
             /* Tooltip.SetDefault("Summons small skeletons to fight for you\n" +
                                "The skeletons leave behind bone cells as they move"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

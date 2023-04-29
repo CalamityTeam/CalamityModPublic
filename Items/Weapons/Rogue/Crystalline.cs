@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             // DisplayName.SetDefault("Crystalline");
             /* Tooltip.SetDefault("Splits into several projectiles as it travels\n" +
                                "Stealth strikes make the blade split more and create crystals when destroyed"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

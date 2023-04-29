@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Plague Hive");
             /* Tooltip.SetDefault("All attacks inflict the Plague and grants immunity to the Plague\n" +
                    "Releases bees when damaged that inflict the Plague\n" +

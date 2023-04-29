@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Clothier's Wrath");
             // Tooltip.SetDefault("Shoots 3 shadowflame skulls");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

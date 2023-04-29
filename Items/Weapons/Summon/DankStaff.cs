@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             // DisplayName.SetDefault("Dank Staff");
             // Tooltip.SetDefault("Summons a dank creeper to fight for you");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

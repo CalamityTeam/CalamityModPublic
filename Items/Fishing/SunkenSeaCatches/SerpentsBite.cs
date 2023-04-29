@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 //Launch Velocity: {SerpentsBiteHook.LaunchSpeed}
 //Reelback Velocity: {SerpentsBiteHook.ReelbackSpeed}
 //Pull Velocity: {SerpentsBiteHook.PullSpeed}");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

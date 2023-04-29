@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Clockwork Bow");
             /* Tooltip.SetDefault("Hold to load up to six homing precision bolts\n" +
                             "Loads slightly faster when continuously used"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

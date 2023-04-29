@@ -39,7 +39,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                                "[c/83B87E:\"The good thing about Wulfrum is that while it breaks fast, it can be reused even faster\"]\n" +
                                "[c/83B87E:\"In fact, it is quite common for a robot to be turned into ammo right after it stops functioning\"]"); */
             //Funny lore quip about how it can perform ecgologically be recyling the scrap parts of the faulty robots youre forced to shoot at as new ammo.
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

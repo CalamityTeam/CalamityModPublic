@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Summon
             // DisplayName.SetDefault("Corvid Harbinger Staff");
             /* Tooltip.SetDefault("Nevermore.\n" +
                                "Summons a powerful raven which teleports and dashes"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

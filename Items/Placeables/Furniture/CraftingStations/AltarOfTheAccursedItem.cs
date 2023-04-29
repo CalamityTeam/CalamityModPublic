@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Altar of the Accursed");
             /* Tooltip.SetDefault("Offer Ashes of Calamity at this altar to summon the Witch\n" +
                 "Doing so will create a square arena of blocks, with the altar at its center\n" +

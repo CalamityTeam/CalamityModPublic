@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Summon
             // DisplayName.SetDefault("Warloks' Moon Fist");
             /* Tooltip.SetDefault("Summons a celestial fist to punch enemies for you\n" +
                                $"Takes up {SlotCount} minion slots"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

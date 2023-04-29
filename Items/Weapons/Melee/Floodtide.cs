@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Floodtide");
             // Tooltip.SetDefault("Launches sharks, because sharks are awesome!");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

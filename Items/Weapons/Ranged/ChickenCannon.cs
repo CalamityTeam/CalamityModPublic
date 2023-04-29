@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Chicken Cannon");
             /* Tooltip.SetDefault("Fires chicken flares which create enormous incendiary explosions\n" +
                 "Right click to detonate all airborne rockets"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Shellshooter");
             /* Tooltip.SetDefault("Fires slow but powerful arrows\n" +
                                 "Converts wooden arrows into heavy piercing seashells"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

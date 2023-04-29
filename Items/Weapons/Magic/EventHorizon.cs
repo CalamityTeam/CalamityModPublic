@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Magic
             /* Tooltip.SetDefault("Nothing, not even light, can return.\n" +
             "Fires a ring of stars to home in on nearby enemies\n" +
             "Stars spawn black holes on enemy hits"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

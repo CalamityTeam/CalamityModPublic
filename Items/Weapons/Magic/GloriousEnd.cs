@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Magic
             "This explosion hurts both enemies and the player\n" +
             "Releasing the cursor before the star explodes will cause it to explode prematurely for less damage\n" +
             "Mounts are disabled while this weapon is in use"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

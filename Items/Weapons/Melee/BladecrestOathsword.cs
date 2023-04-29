@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Bladecrest Oathsword");
             // Tooltip.SetDefault("Fires bursts of demonic blades that exponentially decelerate and explode");
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

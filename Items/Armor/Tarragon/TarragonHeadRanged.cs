@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Armor.Tarragon
     {
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Tarragon Visage");
             /* Tooltip.SetDefault("10% increased ranged damage and critical strike chance\n" +
                 "5% increased damage reduction"); */

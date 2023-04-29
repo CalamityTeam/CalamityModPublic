@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Magic
             /* Tooltip.SetDefault("Fires ion blasts that speed up and then explode\n" +
                 "Damage scales with how full your mana is\n" +
                 "Using Astral Injection reduces the effectiveness of the mana boost"); */
-            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

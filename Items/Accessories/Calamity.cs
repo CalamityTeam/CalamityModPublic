@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 1;
             // DisplayName.SetDefault("Calamity");
             /* Tooltip.SetDefault("Lights your cursor ablaze with the Witch's flames, engulfing it in a blazing aura\n" +
                 "Enemies touching the blaze take immense damage and are inflicted with Vulnerability Hex\n" +
