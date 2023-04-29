@@ -16,6 +16,16 @@ namespace CalamityMod
             return Language.GetOrRegister("Mods.CalamityMod." + key);
         }
 
+        /// <param name="key">The language key. This will have "Mods.CalamityMod." appended behind it.</param>
+        /// <returns>
+        /// A <see cref="string"/> instance found using the provided key with "Mods.CalamityMod." appended behind it.
+        /// <para>NOTE: Modded translations are not loaded until after PostSetupContent.</para>Caching the result is suggested.
+        /// </returns>
+        public static string GetTextValue(string key)
+        {
+            return Language.GetTextValue("Mods.CalamityMod." + key);
+        }
+
         /// <param name="itemID">The item's ID.</param>
         /// <returns>
         /// A <see cref="LocalizedText"/> instance for an item's name. 

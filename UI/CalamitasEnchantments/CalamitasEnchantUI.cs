@@ -174,7 +174,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             int cost = CurrentlyHeldItem.value * 4;
 
             // Increase the cost of enchanting significantly if doing so would upgrade the item directly.
-            if (SelectedEnchantment.HasValue && SelectedEnchantment.Value.Name == EnchantmentManager.UpgradeEnchantName)
+            if (SelectedEnchantment.HasValue && SelectedEnchantment.Value.Name == CalamityUtils.GetTextValue(EnchantmentManager.ExhumedNamePath))
                 cost = (int)MathHelper.Min(cost, Item.buyPrice(5)) * 5;
 
             // Make it 20% cheaper if the player has the Discount Card or Greedy Ring
@@ -375,7 +375,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             CurrentlyHeldItem.Prefix(oldPrefix);
             CurrentlyHeldItem = CurrentlyHeldItem.CloneWithModdedDataFrom(originalItem)/* tModPorter Note: Removed. Use Clone, ResetPrefix or Refresh */;
 
-            if (SelectedEnchantment.Value.Name == EnchantmentManager.UpgradeEnchantName)
+            if (SelectedEnchantment.Value.Name == CalamityUtils.GetTextValue(EnchantmentManager.ExhumedNamePath))
             {
                 CurrentlyHeldItem.SetDefaults(EnchantmentManager.ItemUpgradeRelationship[CurrentlyHeldItem.type]);
                 CurrentlyHeldItem.Prefix(oldPrefix);
@@ -393,7 +393,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                 Main.tooltipPrefixComparisonItem = new Item();
             Main.tooltipPrefixComparisonItem.SetDefaults(Main.tooltipPrefixComparisonItem.type);
 
-            if (SelectedEnchantment.Value.Name != EnchantmentManager.UpgradeEnchantName)
+            if (SelectedEnchantment.Value.Name != CalamityUtils.GetTextValue(EnchantmentManager.ExhumedNamePath))
             {
                 Main.tooltipPrefixComparisonItem.Calamity().AppliedEnchantment = SelectedEnchantment.Value;
                 SelectedEnchantment.Value.CreationEffect?.Invoke(Main.tooltipPrefixComparisonItem);
@@ -405,7 +405,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             // Reset the enchantment index to prevent index problems on a different item.
             EnchantIndex = 0;
 
-            if (SelectedEnchantment.Value.Name == EnchantmentManager.UpgradeEnchantName)
+            if (SelectedEnchantment.Value.Name == CalamityUtils.GetTextValue(EnchantmentManager.ExhumedNamePath))
                 SoundEngine.PlaySound(EXSound, Main.LocalPlayer.Center);
             else
                 SoundEngine.PlaySound(EnchSound, Main.LocalPlayer.Center);

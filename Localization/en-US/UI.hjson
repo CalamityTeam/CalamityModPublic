@@ -14,33 +14,33 @@ Mods: {
 			SmallWorldWarning: "[c/ff00000:SMALL WORLDS NOT SUPPORTED BY CALAMITY]"
 
             /* Enchantments */
-            UpgradeEnchantName: Exhumed
-            Exhumed: Transforms this item into something significantly stronger.
-            Indignant: Indignant
-            Indignant2: Summons demons that harm you but drop healing items on death on item usage.
-            Aflame: Aflame
-            Aflame2: Lights enemies ablaze on hit but also causes the user to take damage over time when holding this item.
-            Oblatory: Oblatory
-            Oblatory2: Reduces mana cost and greatly increases damage but sometimes causes this item to use your life.
-            Resentful: Resentful
-            Resentful2: Makes the damage of projectiles vary based on how far the hit target is from you. The farther, the more damage, and vice versa.
-            Bloodthirsty: Bloodthirsty
-            Bloodthirsty2: Makes the damage of projectiles vary based on how far the hit target is from you. The closer, the more damage, and vice versa.
-            Ephemeral: Ephemeral
-            Ephemeral2: Causes the damage output of this item to discharge from exhaustive use.\nIts damage returns naturally when not being used. It starts off with more damage than it normally would have.
-            Hellbound: Hellbound
-            Hellbound2: Causes minions to be created with a 40 second timer.\nOnce it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.
-            TrueMeleeEnchant: Tainted
-            Tainted: Removes projectile shooting capabilities of this item. In exchange, two skeletal arms are released on use that slice at the mouse position.
-            Traitorous: Traitorous
-            Traitorous2: Using this item below 25% mana instantly consumes your remaining mana, unleashing a monster that harms both you and enemies.
-            Withering: Withering
-            Withering2: When hurt, you heal a percentage of the damage taken based on how much accumulated damage you did overall beforehand, up to 100%.\nAfter this, you gain a damage boost while holding this item but also take exponential damage over time the longer you hold it.
-            Persecuted: Persecuted
-            Persecuted2: When attacked, or over time, demon portals appear near you.\nIf sufficiently damaged they are friendly; otherwise they attack you. They become angered if a portal is damaged.
-            Lecherous: Lecherous
-            Lecherous2: Spawns a resilient brimstone monster that stays between you and your mouse that interferes with your homing weapons. It releases a bunch of hearts on death.
-            Disenchant: Disenchant
+            Exhumed.DisplayName: Exhumed
+            Exhumed.Description: Transforms this item into something significantly stronger.
+            Indignant.DisplayName: Indignant
+            Indignant.Description: Summons demons that harm you but drop healing items on death on item usage.
+            Aflame.DisplayName: Aflame
+            Aflame.Description: Lights enemies ablaze on hit but also causes the user to take damage over time when holding this item.
+            Oblatory.DisplayName: Oblatory
+            Oblatory.Description: Reduces mana cost and greatly increases damage but sometimes causes this item to use your life.
+            Resentful.DisplayName: Resentful
+            Resentful.Description: Makes the damage of projectiles vary based on how far the hit target is from you. The farther, the more damage, and vice versa.
+            Bloodthirsty.DisplayName: Bloodthirsty
+            Bloodthirsty.Description: Makes the damage of projectiles vary based on how far the hit target is from you. The closer, the more damage, and vice versa.
+            Ephemeral.DisplayName: Ephemeral
+            Ephemeral.Description: Causes the damage output of this item to discharge from exhaustive use.\nIts damage returns naturally when not being used. It starts off with more damage than it normally would have.
+            Hellbound.DisplayName: Hellbound
+            Hellbound.Description: Causes minions to be created with a 40 second timer.\nOnce it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.
+            Tainted.DisplayName: Tainted
+            Tainted.Description: Removes projectile shooting capabilities of this item. In exchange, two skeletal arms are released on use that slice at the mouse position.
+            Traitorous.DisplayName: Traitorous
+            Traitorous.Description: Using this item below 25% mana instantly consumes your remaining mana, unleashing a monster that harms both you and enemies.
+            Withering.DisplayName: Withering
+            Withering.Description: When hurt, you heal a percentage of the damage taken based on how much accumulated damage you did overall beforehand, up to 100%.\nAfter this, you gain a damage boost while holding this item but also take exponential damage over time the longer you hold it.
+            Persecuted.DisplayName: Persecuted
+            Persecuted.Description: When attacked, or over time, demon portals appear near you.\nIf sufficiently damaged they are friendly; otherwise they attack you. They become angered if a portal is damaged.
+            Lecherous.DisplayName: Lecherous
+            Lecherous.Description: Spawns a resilient brimstone monster that stays between you and your mouse that interferes with your homing weapons. It releases a bunch of hearts on death.
+			Disenchant: Disenchant
 		}
 	}
 }
