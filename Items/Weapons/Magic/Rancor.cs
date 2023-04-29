@@ -10,18 +10,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Rancor : ModItem
     {
-        public const string PoeticTooltipLine = "Forgiveness can only heal so much,\n" +
-            "If the recipient has not yet forgiven themselves.";
-
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Rancor");
-            /* Tooltip.SetDefault("Casts a magic circle that charges energy and eventually releases a powerful laser burst of controlled maleficent magic\n" +
-                "The laser causes arms and searing lava to appear on surfaces it touches which harm both you and enemies\n" +
-                CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor)); */
-            Item.ResearchUnlockCount = 1;
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 250;
