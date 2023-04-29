@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             modifiers.SourceDamage *= 0f;
-            modifiers.SourceDamage += Main.rand.Next(80, 90);
+            modifiers.SourceDamage.Flat += Main.rand.Next(80, 90);
         }
 
         public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;

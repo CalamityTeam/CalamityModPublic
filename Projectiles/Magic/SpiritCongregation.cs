@@ -290,7 +290,6 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
         // Damage scales up over time as it grows
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
@@ -301,7 +300,7 @@ namespace CalamityMod.Projectiles.Magic
             else fullPowerDamage = 360;
 
             modifiers.SourceDamage *= 0f;
-            modifiers.SourceDamage += (int)(damageFactor * fullPowerDamage);
+            modifiers.SourceDamage.Flat += (int)(damageFactor * fullPowerDamage);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

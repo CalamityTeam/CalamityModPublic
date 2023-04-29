@@ -1662,12 +1662,11 @@ namespace CalamityMod.Items
 
         #region Reforge Mechanic Rework
         private static int storedPrefix = -1;
-        public override bool PreReforge(Item item)
+        public override void PreReforge(Item item)
         {
             StealthGenBonus = 1f;
             StealthStrikePrefixBonus = 0f;
             storedPrefix = item.prefix;
-            return true;
         }
 
         // Ozzatron 31AUG2022: total rework to the reforge rework for mod compatibility

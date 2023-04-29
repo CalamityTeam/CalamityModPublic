@@ -206,13 +206,12 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool? CanDamage() => Projectile.Opacity >= 1f ? null : false;
 
-        // TODO -- this damage should be after Terraria vanilla multipliers, so it won't one shot people
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             modifiers.SourceDamage *= 0f;
-            if (Main.masterMode) modifiers.SourceDamage += 540f;
-            else if (Main.expertMode) modifiers.SourceDamage += 450f;
-            else modifiers.SourceDamage += 360f;
+            if (Main.masterMode) modifiers.SourceDamage.Flat += 540f;
+            else if (Main.expertMode) modifiers.SourceDamage.Flat += 450f;
+            else modifiers.SourceDamage.Flat += 360f;
         }
 
         public float FlameTrailWidthFunction(float completionRatio) => MathHelper.SmoothStep(21f, 8f, completionRatio);

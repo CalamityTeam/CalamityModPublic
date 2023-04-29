@@ -832,7 +832,7 @@ namespace CalamityMod.NPCs.ExoMechs
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
             modifiers.SourceDamage *= 56f;
-            modifiers.SourceDamage += NPC.lifeMax + Main.rand.NextFloat(50f, 750f);
+            modifiers.SourceDamage.Flat += NPC.lifeMax + Main.rand.NextFloat(50f, 750f);
             modifiers.SetCrit();
         }
 
