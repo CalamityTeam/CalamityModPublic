@@ -9,13 +9,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class FrostbiteBlaster : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Frostbite Blaster");
-            /* Tooltip.SetDefault("Fires a spread of 6 bullets\n" +
-                "Converts musket balls into icicles"); */
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 50;
@@ -50,7 +43,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 if (type == ProjectileID.Bullet)
                 {
                     int p = Projectile.NewProjectile(source, position.X, position.Y, newSpeedX, newSpeedY, ProjectileID.Blizzard, damage, knockback, player.whoAmI);
-                    // Main.projectile[p].magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                     Main.projectile[p].DamageType = DamageClass.Ranged;
                 }
                 else

@@ -1003,7 +1003,7 @@ namespace CalamityMod.NPCs.HiveMind
             }
         }
 
-        public override bool CanHitNPC(NPC target)/* tModPorter Suggestion: Return true instead of null */ => NPC.alpha == 0; // Can only be hit while fully visible
+        public override bool CanHitNPC(NPC target) => NPC.alpha == 0; // Can only be hit while fully visible
 
         // Can only hit the target if within certain distance
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

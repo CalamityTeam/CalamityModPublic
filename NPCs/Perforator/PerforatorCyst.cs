@@ -99,11 +99,7 @@ namespace CalamityMod.NPCs.Perforator
             return Main.hardMode ? 0.05f : 0.5f;
         }
 
-        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
-        {
-            NPC.lifeMax = 2000;
-            NPC.damage = 0;
-        }
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment) => NPC.lifeMax = 2000;
 
         public override void HitEffect(NPC.HitInfo hit)
         {

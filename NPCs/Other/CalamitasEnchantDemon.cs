@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.Other
             NPC.Calamity().VulnerableToWater = true;
         }
 
-        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */ => NPC.lifeMax = 100000;
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment) => NPC.lifeMax = 100000;
 
         public override void AI()
         {

@@ -13,18 +13,12 @@ namespace CalamityMod.Projectiles.Magic
 
         private const float AimResponsiveness = 0.66f;
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Valkyrie Ray");
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 54;
             Projectile.height = 52;
             // This projectile has no hitboxes and no damage type.
             Projectile.friendly = false;
-            // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 900;

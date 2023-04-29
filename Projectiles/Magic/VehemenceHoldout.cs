@@ -13,16 +13,11 @@ namespace CalamityMod.Projectiles.Magic
         public ref float ChargeTime => ref Projectile.ai[1];
 
         public override string Texture => "CalamityMod/Items/Weapons/Magic/Vehemence";
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Vehemence");
-        }
 
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 114;
             Projectile.friendly = false;
-            // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 91;

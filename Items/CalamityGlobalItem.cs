@@ -1674,7 +1674,7 @@ namespace CalamityMod.Items
         // removed data saved on items; reforging is now a coalescing flowchart that has no RNG
         public override int ChoosePrefix(Item item, UnifiedRandom rand)
         {
-			if (storedPrefix == -1 && item.CountsAsClass<RogueDamageClass>() && item.IsCandidateForReforge/* tModPorter Note: Removed. Use `maxStack == 1 || Item.AllowReforgeForStackableItem` or `Item.Prefix(-3)` to check whether an item is reforgeable */)
+			if (storedPrefix == -1 && item.CountsAsClass<RogueDamageClass>() && (item.maxStack == 1 || item.AllowReforgeForStackableItem))
 			{
 				// Crafting (or first reforge of) a rogue weapon has a 75% chance for a random modifier, this check is done by vanilla
 				// Negative modifiers have a 66.66% chance of being voided, Annoying modifier is intentionally ignored by vanilla
