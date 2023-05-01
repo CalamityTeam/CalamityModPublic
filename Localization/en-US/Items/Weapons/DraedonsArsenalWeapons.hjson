@@ -5,10 +5,10 @@ Mods : {
 				DisplayName: Frequency Manipulator
 				Tooltip:
 					'''
-					A long device, used in the tuning of some rather... original machines
 					Swings a spear around and then throws it
 					On collision, the spear releases a burst of homing energy
 					Stealth strikes release more energy and explode on collision
+					A long device, used in the tuning of some rather... original machines
 					'''
 			}
 
@@ -16,10 +16,10 @@ Mods : {
 				DisplayName: Galvanizing Glaive
 				Tooltip:
 					'''
-					Its use as a tool is to quickly separate a single object into two
-					That is also its use as a weapon
 					Swings a spear which envelops struck foes in an energy field
-					When done swinging, the spear discharges an extra pulse of energy
+					When finished, the spear discharges an extra pulse of energy
+					A tool, used to quickly seperate one object into two
+					That also makes it a potent weapon
 					'''
 			}
 
