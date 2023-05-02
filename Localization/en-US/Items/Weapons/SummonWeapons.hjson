@@ -5,11 +5,11 @@ Mods: {
                 DisplayName: Abandoned Slime Staff
                 Tooltip:
                     '''
-                    Cast down from the heavens in disgust, this relic sings a song of quiet tragedy...
                     Consumes all of the remaining minion slots on use
                     Must be used from the hotbar
                     Increased power and size based on the number of minion slots used
                     Holding this weapon grants 10% increased jump speed
+					Cast down from the heavens in disgust, this relic sings a song of quiet tragedy...
                     '''
             }
 
@@ -42,17 +42,17 @@ Mods: {
                 DisplayName: Atlas Munitions Beacon
                 Tooltip:
                     '''
-                    Drops down a crate from the sky that houses a mounted, stationary cannon
-                    The cannon will fire at any enemies within its range
-                    If an enemy is in close proximity, it will enter Overdrive mode
-                    When in Overdrive mode the cannon uses three barrels that each collectively fire
-                    The cannon also heats up the more it fires in overdrive mode
-                    Press right click while holding this item to pick up the cannon and use it for yourself
-                    When held, the cannon will always be in Overdrive mode
-                    If the held cannon overheats due to Overdrive mode, you are forced to drop it
-                    Pressing right click allows you to drop it manually
-                    If the held cannon is dropped near the mount, it will re-attach automatically
-                    It's surprisingly easy to pick up
+                    [c/F2B629:Drops down a crate from the sky that houses a mounted, stationary cannon]
+                    [c/F2B629:The cannon will fire at any enemies within its range]
+                    [c/F27049:If an enemy is in close proximity, it will enter Overdrive mode]
+                    [c/F27049:When in Overdrive mode the cannon uses three barrels that each collectively fire]
+                    [c/F27049:The cannon also heats up the more it fires in overdrive mode]
+                    [c/69F0DC:Press right click while holding this item to pick up the cannon and use it for yourself]
+                    [c/69F0DC:When held, the cannon will always be in Overdrive mode]
+                    [c/69F0DC:If the held cannon overheats due to Overdrive mode, you are forced to drop it]
+                    [c/9AA4AE:Pressing right click allows you to drop it manually]
+                    [c/9AA4AE:If the held cannon is dropped near the mount, it will re-attach automatically]
+                    'It's surprisingly easy to pick up'
                     '''
             }
 
@@ -80,20 +80,20 @@ Mods: {
                 DisplayName: Borealis Bomber
                 Tooltip:
                     '''
-                    Summons aureus bombers to fight for you
-                    Aureus bombers explode on enemy impact
+                    Summons aureus bombers to chase down your enemies
+                    Aureus bombers explode violently on enemy impact
                     Does not consume minion slots
                     '''
             }
 
             CadaverousCarrion: {
                 DisplayName: Cadaverous Carrion
-                Tooltip: Summons a gross Old Duke head on the ground
+                Tooltip: Summons a gross, shark-puking Old Duke head on the ground
             }
 
             CalamarisLament: {
                 DisplayName: Calamari's Lament
-                Tooltip: Summons a squid to fight for you
+                Tooltip: Summons a squid that viciously inks enemies
             }
 
             CausticCroakerStaff: {
@@ -106,7 +106,8 @@ Mods: {
                 Tooltip:
                     '''
                     Summons a mini dragon to fight for you
-                    The dragon can inflict several debilitating debuffs if you hold a summon weapon or tool
+                    The dragon inflicts several debilitating debuffs
+					The debuffs are only applied if you are holding a summon weapon or tool
                     '''
             }
 
@@ -126,8 +127,8 @@ Mods: {
                     Summons either Cataclysm or Catastrophe at the mouse position
                     They will look at you for a moment before charging at you
                     They can do damage to both you and enemies
-                    [c/c61b40:The Witch, a sinner of her own making,]
-                    [c/c61b40:Within her mind her demon lies, ever patient, until the end of time.]
+                    [c/c61b40:'The Witch, a sinner of her own making,]
+                    [c/c61b40:Within her mind her demon lies, ever patient, until the end of time.']
                     '''
             }
 
@@ -137,8 +138,8 @@ Mods: {
                     '''
                     Fishes up an electric jellyfish
                     Periodically sends out sparks to electrocute nearby enemies.
-                    [c/5C95A1:From looking at their less sapient brethren, the Old Kingdom's inhabitants adapted tools and weapons designed for underwater efficiency.]
-                    [c/5C95A1:The electric properties of ghost bells remain useful even after death, having been commonly used as conduits.]
+                    [c/5C95A1:'From looking at their less sapient brethren, the Old Kingdom's inhabitants adapted tools and weapons designed for underwater efficiency.]
+                    [c/5C95A1:The electric properties of ghost bells remain useful even after death, having been commonly used as conduits.']
                     '''
             }
 
@@ -163,8 +164,8 @@ Mods: {
                 DisplayName: Corvid Harbinger Staff
                 Tooltip:
                     '''
-                    Nevermore.
                     Summons a powerful raven which teleports and dashes
+					'Nevermore'
                     '''
             }
 
@@ -185,8 +186,8 @@ Mods: {
                     '''
                     Summons a cosmic gunship to shoot down your foes
                     Gunships will fire bullets from your inventory
-                    50% chance to not consume ammo
                     Alternates firing rockets and bullets
+					50% chance to not consume ammo
                     Rockets do not consume ammo
                     '''
             }
@@ -219,7 +220,7 @@ Mods: {
                 Tooltip:
                     '''
                     Summons a Daedalus Golem soldier that fires pellets and electricity
-                    Shining god of greed
+                    'Shining god of greed'
                     '''
             }
 
@@ -238,7 +239,7 @@ Mods: {
                 Tooltip:
                     '''
                     Summons an eye above your head that watches you and shoots at enemies
-                    There can only be one eye
+                    There can only be one eye at a time
                     '''
             }
 
@@ -251,11 +252,11 @@ Mods: {
                 DisplayName: Dormant Brimseeker
                 Tooltip:
                     '''
-                    You could've sworn that they turned even scarier when you looked at their reflections in a mirror
                     Summons a brimseeker to keep you company
                     Firing another brimseeker when all minion slots are filled summons a brimstone aura
                     The aura empowers your brimseeker summons and produces damaging fireballs
                     Only one aura can persist at a time
+					You could've sworn that they turned even scarier when you looked at their reflections in a mirror
                     '''
             }
 
@@ -265,7 +266,7 @@ Mods: {
                     '''
                     Summons a skeletal dragon and her two children
                     Requires 6 minion slots to be summoned
-                    There can only be one family
+                    There can only be one family at a time
                     '''
             }
 
@@ -295,8 +296,8 @@ Mods: {
                     The third mode allows it to agressively tackle its enemies 
                     The fourth mode makes the limbs function as endothermic flamethrowers 
                     Requires 10 minion slots to be summoned 
-                    There can only be one 
-                    [c/B0FBFF:Ice puns not included]
+                    There can only be one construct at a time
+                    [c/B0FBFF:'Ice puns not included']
                     '''
             }
 
@@ -304,7 +305,7 @@ Mods: {
                 DisplayName: Endo Hydra Staff
                 Tooltip:
                     '''
-                    Summons a frigid entity with a head
+                    Summons a frigid endothermic entity with one head
                     If the entity already exists, using this item again will cause it to gain more heads
                     '''
             }
@@ -313,7 +314,7 @@ Mods: {
                 DisplayName: Entropy's Vigil
                 Tooltip:
                     '''
-                    Summons Calamitas and her brothers to protect you
+                    Summons a mini Calamitas Clone and her brothers to protect you
                     One minion trio takes two minion slots
                     '''
             }
@@ -335,13 +336,13 @@ Mods: {
                     Summons a colossal controllable mech
                     Right click to display the mech's control panel
                     The panel has 3 configurations, selected using the brackets on the edges of the UI
-                    Each bracket powers 2 out of 3 possible functions, represented by the circular icons.
-                    The bottom left icon miniaturizes the mech to the size of a player, but weakens its weapons.
-                    The bottom right icon is a powerful jet booster which greatly enhances movement.
-                    The top icon is the mech's weaponry. It must be powered in order to attack.
-                    Click the top icon to switch between Regicide, an enormous energy blade, and a powerful Gauss rifle.
+                    Each bracket powers 2 out of 3 possible functions, represented by the circular icons
+                    The bottom left icon miniaturizes the mech to the size of a player, but weakens its weapons
+                    The bottom right icon is a powerful jet booster which greatly enhances movement
+                    The top icon is the mech's weaponry. It must be powered in order to attack
+                    Click the top icon to switch between Regicide, an enormous energy blade, and a powerful Gauss rifle
                     Exiting the mount while a boss is alive will temporarily hinder your movement
-                    [c/87ceeb:Now, make them pay.]
+                    [c/87ceeb:'Now, make them pay']
                     '''
             }
 
@@ -364,7 +365,7 @@ Mods: {
                 Tooltip:
                     '''
                     Summons ancient mineral sharks to take on your foes. 
-                    Seems to have lost its jaw some time in the past
+                    'Seems to have lost its jaw some time in the past'
                     '''
             }
 
@@ -373,7 +374,7 @@ Mods: {
                 Tooltip:
                     '''
                     Summons a frozen flower over your head
-                    There can only be one flower
+                    There can only be one flower at a time
                     '''
             }
 
@@ -405,8 +406,8 @@ Mods: {
                 DisplayName: Guidelight of Oblivion
                 Tooltip:
                     '''
-                    Shadows dream of endless fire, flames devour and embers swoop
                     Summons a lantern turret to fight for you
+					'Shadows dream of endless fire, flames devour and embers swoop'
                     '''
             }
 
@@ -433,7 +434,7 @@ Mods: {
                 DisplayName: Igneous Exaltation
                 Tooltip:
                     '''
-                    Summons an orbiting blade
+                    Summons an Igneous blade that orbits around you
                     Right click to launch all blades towards the cursor
                     '''
             }
@@ -446,8 +447,8 @@ Mods: {
                     Virili requires 3 minion slots to summon, and can only be summoned once
                     Virili uses a variety of attacks which she cycles through on a timer
                     All attacks spread the plague, as was her original design intention
-                    'A single note graces the back:'
-                    'WARNING: Subject is extremely corrosive and contagious. Avoid direct contact.'
+					'There's a single label on the back:
+                    [c/1FFBFF:WARNING: Subject is extremely corrosive and contagious. Avoid direct contact.']
                     '''
             }
 
@@ -455,8 +456,8 @@ Mods: {
                 DisplayName: Metastasis
                 Tooltip:
                     '''
-                    Summons a sepulcher to fight for you
-                    While the sepulcher is active brimstone hearts will begin to appear and orbit you
+                    Summons a Sepulcher to fight for you
+                    While the Sepulcher is active brimstone hearts will begin to appear and orbit you
                     It will attempt to attack you more and more frequently depending on how many hearts are present
                     It takes up 4 minion slots and it can only be summoned once
                     [c/c61b40:A contemplated possible future of the cosmic serpent,]
@@ -489,10 +490,10 @@ Mods: {
                 DisplayName: Plantation Staff
                 Tooltip:
                     '''
-                    Summons a miniature plantera to protect you
+                    Summons a miniature Plantera to protect you
                     Fires seeds, spiky balls, and spore clouds from afar to poison targets
                     Enrages when you get under 75% health and begins ramming enemies
-                    Occupies 3 minion slots and there can only be one
+                    Occupies 3 minion slots and there can only be one Plantera at a time
                     '''
             }
 
@@ -510,9 +511,9 @@ Mods: {
                 DisplayName: Resurrection Butterfly
                 Tooltip:
                     '''
-                    Remembering the melancholy of human existence
-                    Even ghosts stray from the path of righteousness
                     Summons a pair of butterflies to fight for you
+					'Remembering the melancholy of human existence
+                    Even ghosts stray from the path of righteousness'
                     '''
             }
 
@@ -539,9 +540,10 @@ Mods: {
                 DisplayName: Saros Possession
                 Tooltip:
                     '''
-                    Gain absolute control over light itself
-                    Can only be summoned once
-                    Uses 8 minion slots
+                    Summons a radiant aura that gives absolute control of light itself
+					The aura will annihilate enemies with orbs of radiance
+                    There can only be one aura at a time
+                    Requires 8 minion slots
                     '''
             }
 
@@ -560,7 +562,7 @@ Mods: {
                 Tooltip:
                     '''
                     Summons a shellfish to fight for you
-                    Takes up 2 minion slots
+                    Each shellfish takes 2 minion slots
                     '''
             }
 
@@ -569,8 +571,8 @@ Mods: {
                 Tooltip:
                     '''
                     Summons the brightest star in the night sky to shine upon your foes
-                    Can only be summoned once
-                    Uses 6 minion slots
+                    There can only be one star at a time
+                    Requires 6 minion slots
                     '''
             }
 
@@ -618,7 +620,7 @@ Mods: {
                 Tooltip:
                     '''
                     Summons a solar god spirit to protect you
-                    There can only be one spirit
+                    There can only be one spirit at a time
                     '''
             }
 
@@ -627,7 +629,7 @@ Mods: {
                 Tooltip:
                     '''
                     Summons a solar spirit to protect you
-                    There can only be one spirit
+                    There can only be one spirit at a time
                     '''
             }
 
@@ -637,8 +639,8 @@ Mods: {
                     '''
                     Summons a plague jet to pummel your enemies into submission
                     Jets will fire bullets from your inventory
-                    50% chance to not consume ammo
                     Sometimes shoots a missile instead of a bullet
+					50% chance to not consume ammo
                     Missiles do not consume ammo
                     '''
             }
@@ -647,7 +649,6 @@ Mods: {
                 DisplayName: Temporal Umbrella
                 Tooltip:
                     '''
-                    Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow
                     Summons a variety of tools to assist you in battle:
                         - A vermilion arrow to pierce your adversaries
                         - A marmalade hammer to bonk enemies in style
@@ -655,7 +656,8 @@ Mods: {
                         - A cyan umbrella to beat down your foes with grace
                         - A lavender rifle to snipe those who stand in your way
                     Best of all, you get to wear a top hat
-                    Requires 5 minion slots to use and there can only be one set of tools
+                    Requires 5 minion slots to use and there can only be one set of tools at a time
+					'Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow'
                     '''
             }
 
@@ -676,9 +678,9 @@ Mods: {
                     After the field has been deployed, it begins to summon multiple small beams
                     After several seconds have passed, an enormous laser beam appears at the field's position
                     This effect has a cooldown
-                    Attempting to use this item during the cooldown will cause it to short circuit and do damage to you.
-                    An ancient artifact from a previous age, it waits for your command...
-                    This is a terrible idea, but it isn't yours anyways... right?
+                    Attempting to use this item during the cooldown will cause it to short circuit and do damage to you
+                    [c/BB57FF:'An ancient artifact from a previous age, it waits for your command.]
+                    [c/BB57FF:This is a terrible idea, but it isn't yours anyways... right?']
                     '''
             }
 
@@ -713,7 +715,7 @@ Mods: {
                     Summons a foreboding aura that attacks by firing void orbs
                     Minion damage is increased by 5% while the aura is active
                     Requires three minion slots to use
-                    Only one may exist
+                    There can only be one aura at a time
                     Right click to launch a black hole that grows in size
                     '''
             }
@@ -723,7 +725,7 @@ Mods: {
                 Tooltip:
                     '''
                     Summons a celestial fist to punch enemies for you
-                    Takes up 4 minion slots
+                    Requires 4 minion slots to use
                     '''
             }
 
