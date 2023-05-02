@@ -18,7 +18,7 @@ Mods : {
 
 			AetherfluxCannon: {
 				DisplayName: Aetherflux Cannon
-				Tooltip: Fires a barrage of phased god rays that pass through terrain
+				Tooltip: Fires a barrage of phased crepuscular rays that pass through terrain
 			}
 
 			AethersWhisper: {
@@ -35,7 +35,7 @@ Mods : {
 				Tooltip:
 					'''
 					Disintegrates everything with a tri-beam of energy and lasers
-					Right click to fire a Y-shaped beam of destructive energy and a spread of lasers
+					Press <right> to fire a Y-shaped beam of destructive energy and a spread of lasers
 					'''
 			}
 
@@ -126,8 +126,8 @@ Mods : {
 				DisplayName: Belching Saxophone
 				Tooltip:
 					'''
+					Fires an array of dirty reeds, music notes, and sulphuric bubbles\
 					Doot
-					Fires an array of dirty reeds, music notes, and sulphuric bubbles
 					'''
 			}
 
@@ -169,8 +169,8 @@ Mods : {
 				DisplayName: Clamor Noctus
 				Tooltip:
 					'''
-					Let the sky fall
 					Fires night wyverns and stars from the sky that stick to enemies and tiles and explode
+					Let the sky fall
 					'''
 			}
 
@@ -202,8 +202,8 @@ Mods : {
 				DisplayName: Cryophobia
 				Tooltip:
 					'''
-					Chill
 					Fires an icy wave that splits multiple times and explodes into shards
+					Chill
 					'''
 			}
 
@@ -220,8 +220,8 @@ Mods : {
 				DisplayName: Deathhail Staff
 				Tooltip:
 					'''
-					Rain death upon your foes!
 					Casts a storm of nebula lasers from the sky
+					Rain death upon your foes!
 					'''
 			}
 
@@ -249,8 +249,8 @@ Mods : {
 				DisplayName: Eidolic Wail
 				Tooltip:
 					'''
-					Earrape
 					Fires a string of bouncing sound waves that become stronger as they travel
+					RIP headphone users
 					'''
 			}
 
@@ -258,7 +258,6 @@ Mods : {
 				DisplayName: Eidolon Staff
 				Tooltip:
 					'''
-					The power of an ancient cultist resonates within this staff
 					Fires a spread of ancient light and a spinning ice cluster
 					'''
 			}
@@ -293,9 +292,9 @@ Mods : {
 				DisplayName: Event Horizon
 				Tooltip:
 					'''
-					Nothing, not even light, can return.
 					Fires a ring of stars to home in on nearby enemies
 					Stars spawn black holes on enemy hits
+					Nothing, not even light, can return.
 					'''
 			}
 
@@ -313,9 +312,9 @@ Mods : {
 				DisplayName: Face Melter
 				Tooltip:
 					'''
-					WOOO!! FAAAAAAANTASYY WORLDDDDD!
 					Fires music notes
-					Right click summons an amplifier that shoots towards your mouse
+					Press <right> to summon an amplifier that shoots towards your mouse
+					WOOO!! FAAAAAAANTASYY WORLDDDDD!
 					'''
 			}
 
@@ -406,8 +405,8 @@ Mods : {
 				DisplayName: Helium Flash
 				Tooltip:
 					'''
-					The power of a galaxy, if only for mere moments
 					Launches volatile star cores which erupt into colossal fusion blasts
+					The power of a galaxy, if only for mere moments
 					'''
 			}
 
@@ -439,10 +438,10 @@ Mods : {
 				DisplayName: Ice Barrage
 				Tooltip:
 					'''
-					Oh dear, you are dead!
 					Casts a deadly and powerful ice spell in the location of the cursor
 					This ice spell locks itself to the position of nearby enemies
 					Consumes 2 Blood Runes every time it's used
+					Oh dear, you are dead!
 					'''
 			}
 
@@ -500,9 +499,11 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a variety of high-velocity flasks
-					Right click to throw a prismatic flask that inflicts many debuffs
-					Red flasks explode violently, blue flasks contain poison gas,
-					green flasks summon lunar flares and purple flasks explode into homing shrapnel
+					Press <right> to throw a prismatic flask that inflicts many debuffs
+					Red flasks explode violently
+					Blue flasks contain poison gas					
+					Green flasks summon lunar flares 
+					Purple flasks explode into homing shrapnel
 					'''
 			}
 
@@ -540,7 +541,7 @@ Mods : {
 				DisplayName: Night's Ray
 				Tooltip:
 					'''
-					Fires a dark ray
+					Fires a ray of pure, concentrated darkness
 					When hitting enemies, they are hit by several new beams from their sides
 					'''
 			}
@@ -552,7 +553,7 @@ Mods : {
 
 			ParasiticSceptor: {
 				DisplayName: Parasitic Scepter
-				Tooltip: Fires a spread of water leeches that latch onto enemies, dealing a stacking damage over time
+				Tooltip: Fires a spread of radioactive water leeches that latch onto enemies, increasing damage over time per leech
 			}
 
 			PhantasmalFury: {
@@ -564,8 +565,8 @@ Mods : {
 				DisplayName: Phoenix Flame Barrage
 				Tooltip:
 					'''
-					Baptism by draconic fire
 					Casts a barrage of fire from the sky
+					Baptism by draconic fire
 					'''
 			}
 
@@ -579,7 +580,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a plasma blast that explodes
-					Right click to rapidly fire plasma bolts
+					Press <right> to rapidly fire plasma bolts
 					'''
 			}
 
@@ -600,11 +601,7 @@ Mods : {
 
 			PrimordialAncient: {
 				DisplayName: Primordial Ancient
-				Tooltip:
-					'''
-					An ancient relic from an ancient land
-					Casts a gigantic blast of dust
-					'''
+				Tooltip: Casts a gigantic blast of dust
 			}
 
 			PrimordialEarth: {
@@ -637,7 +634,6 @@ Mods : {
 				DisplayName: Recitation of the Beast
 				Tooltip:
 					'''
-					A thousand years sealed in the demon's realm will teach you a thing or two
 					Summons beast scythes around the player in a small circle,
 					before firing toward the cursor and home in to nearby enemies
 					'''
@@ -693,7 +689,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires plasma orbs that linger and emit massive explosions
-					Right click to fire powerful energy beams
+					Press <right> to fire powerful energy beams
 					'''
 			}
 
@@ -736,10 +732,10 @@ Mods : {
 				DisplayName: Subsuming Vortex
 				Tooltip:
 					'''
-					Left clicking releases a barrage of vortices that race towards enemies
-					Right clicking casts a gigantic vortex in front of you with a bias towards the mouse
+					Press {InputTrigger_UseOrAttack} to release a barrage of vortices that race towards enemies
+					Press <right> to cast a gigantic vortex in front of you with a bias towards the mouse
 					When enemies are near the vortex, it sends multiple fast-moving smaller vortices towards them
-					After enough time has passed the vortex stops shooting, and releasing the right mouse button fires the vortex towards the mouse
+					After enough time has passed the vortex stops shooting, and releasing <right> fires the vortex towards the mouse
 					'''
 			}
 
@@ -747,8 +743,8 @@ Mods : {
 				DisplayName: Tactician's Trump Card
 				Tooltip:
 					'''
-					Faint memories of a Princess from the future cross your mind...
 					Fires a sword beam that electrifies enemies on hit
+					Faint memories of a Princess from the future cross your mind...
 					'''
 			}
 
@@ -761,7 +757,7 @@ Mods : {
 				DisplayName: Terra Ray
 				Tooltip:
 					'''
-					Casts an energy ray that splits into energy on enemy hits
+					Casts a brilliant ray that dissolves into energy on enemy hits
 					More energy is created the farther along the ray the hit enemy is
 					'''
 			}
@@ -797,12 +793,21 @@ Mods : {
 
 			ThornBlossom: {
 				DisplayName: Thorn Blossom
-				Tooltip: Every rose has its thorn
+				Tooltip:
+					''' 
+					Casts a beaming flower that explodes into homing petals alongisde a deadly thorn
+					Costs 3 HP to fire
+					Every rose has its thorn
+					'''
 			}
 
 			Thunderstorm: {
 				DisplayName: Thunderstorm
-				Tooltip: Make it rain
+				Tooltip: 
+					''' 
+					Fires a stream of exploding green plasma bullets that rain down additional plasma from the sky
+					Make it rain
+					'''
 			}
 
 			TomeofFates: {
@@ -853,7 +858,7 @@ Mods : {
 				Tooltip:
 					'''
 					Calls down a swarm of molten asteroids
-					Right click to fire a spread of molten asteroids from the staff
+					Press <right> to fire a spread of molten asteroids from the staff
 					'''
 			}
 
@@ -895,7 +900,7 @@ Mods : {
 
 			Waywasher: {
 				DisplayName: Waywasher
-				Tooltip: Casts inaccurate water bolts
+				Tooltip: Casts a deluge of inaccurate water bolts
 			}
 
 			Wingman: {
@@ -905,7 +910,11 @@ Mods : {
 
 			WintersFury: {
 				DisplayName: Winter's Fury
-				Tooltip: The pages are freezing to the touch
+				Tooltip: 
+					'''
+					Fires a stream of ice orbs and a barrage of ice shards towards the cursor
+					The pages are freezing to the touch
+					'''
 			}
 
 			WrathoftheAncients: {
@@ -918,7 +927,7 @@ Mods : {
 				Tooltip:
 					'''
 					Casts a wulfrum bolt
-					Right click to drain mana from creatures in front of you
+					Press <right> to drain mana from creatures in front of you
 					[c/83B87E:Technology and magic have been forever locked in an arms race of imitation and retaliation]
 					[c/83B87E:At times they work in tandem, as seen in certain prosthetic limbs]
 					'''
@@ -928,8 +937,8 @@ Mods : {
 				DisplayName: Wyvern's Call
 				Tooltip:
 					'''
-					I call upon the mythical Wyvern to shower the lands with its grace
 					Fires wyverns and colored feathers from the sky that stick to enemies and tiles and explode
+					I call upon the mythical Wyvern to shower the lands with its grace
 					'''
 			}
 
