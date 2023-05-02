@@ -265,7 +265,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a whip sword that summons homing crescent moons
-					People wanted the moon, let's bring the moon to them.
+					'People wanted the moon, let's bring the moon to them.'
 					'''
 			}
 
@@ -387,7 +387,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a lance beam that splits multiple times as it travels
-					Rend the cosmos asunder!
+					'Rend the cosmos asunder!'
 					'''
 			}
 
@@ -428,7 +428,7 @@ Mods : {
 					These bonuses stack until a cap is reached
 					The bonus stacks will reset if you select a different item
 					The bonus stacks will be reduced by 1 every time you get hit
-					EViL! sMaSH eVIl! SmAsh... ER!
+					'EViL! sMaSH eVIl! SmAsh... ER!'
 					'''
 			}
 
@@ -530,7 +530,7 @@ Mods : {
 					Constantly generates rage when in use
 					Swings leave behind exploding blood trails when below 50% health
 					Replaces Rage Mode with an enormous barrage of skulls
-					Hand it over, that thing. Your dark soul.
+					'Hand it over, that thing. Your dark soul.'
 					'''
 			}
 
@@ -556,7 +556,7 @@ Mods : {
 					Shoots a homing crescent moon
 					Spawns planetoids on enemy hits
 					Receives 33% benefit from melee speed bonuses
-					Don't underestimate the power of small space swords
+					'Don't underestimate the power of small space swords'
 					'''
 			}
 
@@ -729,7 +729,7 @@ Mods : {
 					'''
 					A high-frequency blade that can cleanly slice through even the mightiest foe
 					Prove your worth by slaying Yharon, Dragon of Rebirth to unsheath this sword
-					[c/F41A31:There will be blood!]
+					[c/F41A31:'There will be blood!']
 					'''
 			}
 
@@ -808,7 +808,7 @@ Mods : {
 					Emits an aura of red lightning which charges up when hitting enemies
 					Fires auric orbs when supercharged
 					An exceptionally agile yoyo
-					Gaze into the past, the present, the future... and the circumstances of your inevitable demise
+					'Gaze into the past, the present, the future... and the circumstances of your inevitable demise'
 
 					'''
 			}
@@ -882,7 +882,7 @@ Mods : {
 				Tooltip:
 					'''
 					Drops a barrage of solar flares from the sky
-					Over paradise
+					'Over paradise'
 					'''
 			}
 
@@ -948,7 +948,7 @@ Mods : {
 				Tooltip:
 					'''
 					Throws a holy boomerang that seeks out up to four enemies before returning to the player
-					May your enemies burn in hell for the sins they have committed
+					'May your enemies burn in hell for the sins they have committed'
 					'''
 			}
 
@@ -1033,7 +1033,7 @@ Mods : {
 					'''
 					Fires beams that generate tornadoes on death
 					Tornadoes suck enemies in
-					Only a storm can fell a greatwood
+					'Only a storm can fell a greatwood'
 					'''
 			}
 
@@ -1093,7 +1093,7 @@ Mods : {
 					Shoots a water spear that pierces enemies and terrain
 					Striking enemies summon liquid blades and spears to assault the struck foe
 					Receives 33% benefit from melee speed bonuses
-					Inundatio ex Laminis
+					'Inundatio ex Laminis'
 					'''
 			}
 

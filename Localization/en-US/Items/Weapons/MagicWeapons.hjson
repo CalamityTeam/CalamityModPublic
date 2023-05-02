@@ -170,7 +170,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires night wyverns and stars from the sky that stick to enemies and tiles and explode
-					Let the sky fall
+					'Let the sky fall'
 					'''
 			}
 
@@ -203,7 +203,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires an icy wave that splits multiple times and explodes into shards
-					Chill
+					'Chill.'
 					'''
 			}
 
@@ -221,7 +221,7 @@ Mods : {
 				Tooltip:
 					'''
 					Casts a storm of nebula lasers from the sky
-					Rain death upon your foes!
+					'Rain death upon your foes!'
 					'''
 			}
 
@@ -294,7 +294,7 @@ Mods : {
 					'''
 					Fires a ring of stars to home in on nearby enemies
 					Stars spawn black holes on enemy hits
-					Nothing, not even light, can return.
+					'Nothing, not even light, can return.'
 					'''
 			}
 
@@ -314,7 +314,7 @@ Mods : {
 					'''
 					Fires music notes
 					Press <right> to summon an amplifier that shoots towards your mouse
-					WOOO!! FAAAAAAANTASYY WORLDDDDD!
+					'WOOO!! FAAAAAAANTASYY WORLDDDDD!'
 					'''
 			}
 
@@ -406,7 +406,7 @@ Mods : {
 				Tooltip:
 					'''
 					Launches volatile star cores which erupt into colossal fusion blasts
-					The power of a galaxy, if only for mere moments
+					'The power of a galaxy, if only for mere moments'
 					'''
 			}
 
@@ -441,7 +441,7 @@ Mods : {
 					Casts a deadly and powerful ice spell in the location of the cursor
 					This ice spell locks itself to the position of nearby enemies
 					Consumes 2 Blood Runes every time it's used
-					Oh dear, you are dead!
+					'Oh dear, you are dead!'
 					'''
 			}
 
@@ -797,7 +797,7 @@ Mods : {
 					''' 
 					Casts a beaming flower that explodes into homing petals alongisde a deadly thorn
 					Costs 3 HP to fire
-					Every rose has its thorn
+					'Every rose has its thorn'
 					'''
 			}
 
@@ -806,7 +806,7 @@ Mods : {
 				Tooltip: 
 					''' 
 					Fires a stream of exploding green plasma bullets that rain down additional plasma from the sky
-					Make it rain
+					'Make it rain'
 					'''
 			}
 
@@ -938,7 +938,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires wyverns and colored feathers from the sky that stick to enemies and tiles and explode
-					I call upon the mythical Wyvern to shower the lands with its grace
+					'I call upon the mythical Wyvern to shower the lands with its grace'
 					'''
 			}
 
