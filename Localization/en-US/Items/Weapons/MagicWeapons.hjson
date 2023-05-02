@@ -18,7 +18,7 @@ Mods : {
 
 			AetherfluxCannon: {
 				DisplayName: Aetherflux Cannon
-				Tooltip: Fires a barrage of phased crepuscular rays that pass through terrain
+				Tooltip: Fires a focused photon helix that phases through everything
 			}
 
 			AethersWhisper: {
