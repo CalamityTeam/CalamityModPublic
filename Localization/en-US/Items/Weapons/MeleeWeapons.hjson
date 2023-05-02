@@ -5,9 +5,9 @@ Mods : {
 				DisplayName: Absolute Zero
 				Tooltip:
 					'''
-					Ancient blade imbued with the Archmage of Ice's magic
 					Shoots dark ice crystals
 					The blade creates frost explosions on direct hits
+					Ancient blade imbued with the Archmage of Ice's magic
 					'''
 			}
 
@@ -55,7 +55,7 @@ Mods : {
 					'''
 					The lower your life the more damage this blade does
 					Your hits will generate a large explosion
-					If you're below 50% life your hits have a chance to instantly kill regular enemies
+					While below 50% life your hits have a chance to instantly kill regular enemies
 					'''
 			}
 
@@ -175,7 +175,7 @@ Mods : {
 				Tooltip:
 					'''
 					Summons brimstone geysers on hit
-					Right click to throw like a javelin that explodes on hit
+					Press <right> to throw the sword like a javelin that explodes on hit
 					Receives 33% benefit from melee speed bonuses
 					'''
 			}
@@ -185,7 +185,7 @@ Mods : {
 				Tooltip:
 					'''
 					Striking an enemy with the blade causes a briny typhoon to appear
-					Right click to fire a razorwind aqua blade
+					Press <right> to fire a razorwind aqua blade
 					'''
 			}
 
@@ -194,8 +194,8 @@ Mods : {
 				Tooltip:
 					'''
 					FUNCTION_DESC
-					Hold down RMB while standing still on flat ground to attune the weapon to the powers of the surrounding biome
-					Using RMB otherwise switches between the current attunement and an extra stored one
+					Hold down <right> while standing still on flat ground to attune the weapon to the powers of the surrounding biome
+					Pressing <right> otherwise switches between the current attunement and an extra stored one
 					Main Attunement : [None]
 					Secondary Attunement: [None]
 
@@ -264,8 +264,8 @@ Mods : {
 				DisplayName: Crescent Moon
 				Tooltip:
 					'''
-					People wanted the moon, let's bring the moon to them.
 					Fires a whip sword that summons homing crescent moons
+					People wanted the moon, let's bring the moon to them.
 					'''
 			}
 
@@ -278,8 +278,8 @@ Mods : {
 				DisplayName: Death's Ascension
 				Tooltip:
 					'''
+					Press <right> to launch a barrage of homing scythes
 					You can feel the hands of Death himself onto yours
-					Right click to launch a barrage of homing scythes
 					'''
 			}
 
@@ -289,7 +289,7 @@ Mods : {
 					'''
 					Hitting enemies will inflict the crush depth debuff
 					The lower the enemies' defense, the more damage they take from this debuff
-					Right click to use without hammering down walls
+					Press <right> to use without hammering down walls
 					'''
 			}
 
@@ -367,8 +367,8 @@ Mods : {
 				DisplayName: Earthen Pike
 				Tooltip:
 					'''
+					Sprays fossil shards on swing
 					Crushes enemy defenses
-					Sprays fossil shards on use
 					'''
 			}
 
@@ -378,7 +378,7 @@ Mods : {
 					'''
 					Freezes enemies and heals the player on hit
 					Fires rainbow beams that change their behavior based on their color
-					Right click for true melee
+					Press <right> for true melee
 					'''
 			}
 
@@ -386,8 +386,8 @@ Mods : {
 				DisplayName: Elemental Lance
 				Tooltip:
 					'''
-					Rend the cosmos asunder!
 					Fires a lance beam that splits multiple times as it travels
+					Rend the cosmos asunder!
 					'''
 			}
 
@@ -424,11 +424,11 @@ Mods : {
 				DisplayName: Evil Smasher
 				Tooltip:
 					'''
-					EViL! sMaSH eVIl! SmAsh... ER!
 					For every enemy you kill this hammer gains stat bonuses
 					These bonuses stack until a cap is reached
 					The bonus stacks will reset if you select a different item
 					The bonus stacks will be reduced by 1 every time you get hit
+					EViL! sMaSH eVIl! SmAsh... ER!
 					'''
 			}
 
@@ -450,10 +450,10 @@ Mods : {
 				DisplayName: Exoblade
 				Tooltip:
 					'''
-					Left clicks release multiple energy beams that home in on enemies and slice them on hit
-					Right clicks make you dash in the direction of the cursor with the blade
+					Press {InputTrigger_UseOrAttack} to release multiple energy beams that home in on enemies and slice them on hit
+					Press <right> to dash in the direction of the cursor with the blade
 					Enemy hits from the blade during the dash result in massive damage and a rebound
-					Left clicks briefly after a rebound are far stronger and create explosions on enemy hits
+					Press {InputTrigger_UseOrAttack} immediately after a rebound to perform a powerful slash that explodes on enemy hits
 					'''
 			}
 
@@ -504,7 +504,7 @@ Mods : {
 					FUNCTION_PASSIVE
 					Freed from earthly shackles and coursing with cosmic power
 					Has access to all of the attunements at all times
-					Use right click to cycle the sword's attunement depending on the cursor's position
+					Press <right> to cycle the sword's attunement depending on the cursor's position
 					Active Attunement : None
 					Passive Blessing : None
 
@@ -524,13 +524,13 @@ Mods : {
 				DisplayName: Gael's Greatsword
 				Tooltip:
 					'''
-					Hand it over, that thing. Your dark soul.
 					First swing fires homing skulls
 					Second swing fires a giant, powerful skull
 					Third swing has no projectiles
 					Constantly generates rage when in use
 					Swings leave behind exploding blood trails when below 50% health
 					Replaces Rage Mode with an enormous barrage of skulls
+					Hand it over, that thing. Your dark soul.
 					'''
 			}
 
@@ -538,9 +538,9 @@ Mods : {
 				DisplayName: Galactus Blade
 				Tooltip:
 					'''
-					Forged with the fury of nuclear chaos
 					Launches a barrage of comets from the sky
 					Receives 33% benefit from melee speed bonuses
+					Forged with the fury of nuclear chaos
 					'''
 			}
 
@@ -553,10 +553,10 @@ Mods : {
 				DisplayName: Galileo Gladius
 				Tooltip:
 					'''
-					Don't underestimate the power of small space swords
 					Shoots a homing crescent moon
 					Spawns planetoids on enemy hits
 					Receives 33% benefit from melee speed bonuses
+					Don't underestimate the power of small space swords
 					'''
 			}
 
@@ -591,11 +591,11 @@ Mods : {
 				DisplayName: Greatsword of Blah
 				Tooltip:
 					'''
+					Fires a rainbow blade that emits rainbow rain on death for a time
 					A pale white sword from a forgotten land
 					You can hear faint yet comforting whispers emanating from the blade
 					'No matter where you may be you are never alone
 					I shall always be at your side, my lord'
-					Fires a rainbow blade that emits rainbow rain on death for a time
 					'''
 			}
 
@@ -603,11 +603,11 @@ Mods : {
 				DisplayName: Greatsword of Judgement
 				Tooltip:
 					'''
+					Fires a white orb that emits white rain on death for a time
 					A pale white sword from a forgotten land
 					You can hear faint yet comforting whispers emanating from the blade
 					'No matter where you may be you are never alone
 					I shall always be at your side, my lord'
-					Fires a white orb that emits white rain on death for a time
 					'''
 			}
 
@@ -634,8 +634,8 @@ Mods : {
 				DisplayName: Hellkite
 				Tooltip:
 					'''
-					Contains the power of an ancient drake
 					Summons flame geyser explosions on enemy hits
+					Contains the power of an ancient drake
 					'''
 			}
 
@@ -674,7 +674,7 @@ Mods : {
 				Tooltip:
 					'''
 					Summons an energy explosion on enemy hits
-					Right click to summon an energy shell for a few seconds that halves all damage sources
+					Press <right> to summon an energy shell for a few seconds that halves all damage sources
 					This has a 45 second cooldown
 					'''
 			}
@@ -683,10 +683,10 @@ Mods : {
 				DisplayName: Lucrecia
 				Tooltip:
 					'''
-					Finesse
 					Striking an enemy makes you immune for a short time
 					Fires a DNA chain
 					Receives 33% benefit from melee speed bonuses
+					Finesse
 					'''
 			}
 
@@ -727,9 +727,9 @@ Mods : {
 				DisplayName: Murasama
 				Tooltip:
 					'''
-					There will be blood!
-					ID and power-level locked
-					Prove your strength or have the correct user ID to wield this sword
+					A high-frequency blade that can cleanly slice through even the mightiest foe
+					Prove your worth by slaying Yharon, Dragon of Rebirth to unsheath this sword
+					[c/F41A31:There will be blood!]
 					'''
 			}
 
@@ -776,9 +776,8 @@ Mods : {
 				DisplayName: Old Lord Claymore
 				Tooltip:
 					'''
-					A relic of the ancient underworld
-					Holding right click rapidly absorbs energy into the blade until it is charged
-					Pressing left click while charged causes you to fly in the direction of the cursor
+					Holding <right> rapidly absorbs energy into the blade until it is charged
+					Press {InputTrigger_UseOrAttack} while charged to fly in the direction of the cursor
 					After flying, the amount of charge the blade has is reduced to zero
 					'''
 			}
@@ -789,8 +788,8 @@ Mods : {
 					'''
 					FUNCTION_DESC
 					FUNCTION_PASSIVE
-					Holding down RMB for 2 seconds attunes the weapon to the powers of the surrounding biome
-					Using RMB for a shorter period of time switches your active and passive attunements around
+					Holding down <right> for 2 seconds attunes the weapon to the powers of the surrounding biome
+					Pressing <right> for a shorter period of time switches your active and passive attunements around
 					Active Attunement : None
 					Passive Attunement: None
 
@@ -806,10 +805,10 @@ Mods : {
 				DisplayName: The Oracle
 				Tooltip:
 					'''
-					Gaze into the past, the present, the future... and the circumstances of your inevitable demise
 					Emits an aura of red lightning which charges up when hitting enemies
 					Fires auric orbs when supercharged
 					An exceptionally agile yoyo
+					Gaze into the past, the present, the future... and the circumstances of your inevitable demise
 
 					'''
 			}
@@ -856,10 +855,10 @@ Mods : {
 				DisplayName: Prismatic Breaker
 				Tooltip:
 					'''
-					Seems to belong to a certain magical girl. Radiates with intense cosmic energy.
 					Fire to charge for a powerful rainbow laser
-					Right click to instead swing the sword and fire rainbow colored waves
+					Press <right> to instead swing the sword and fire rainbow colored waves
 					The sword is boosted by both melee and ranged damage
+					Seems to belong to a certain magical girl. Radiates with intense cosmic energy.
 					'''
 			}
 
@@ -882,8 +881,8 @@ Mods : {
 				DisplayName: Red Sun
 				Tooltip:
 					'''
-					Over paradise
 					Drops a barrage of solar flares from the sky
+					Over paradise
 					'''
 			}
 
@@ -903,8 +902,8 @@ Mods : {
 				DisplayName: Rem's Revenge
 				Tooltip:
 					'''
-					Wielded by the most powerful fighter.
 					Summons blood explosions and lowers enemy defense on hit
+					Wielded by the most powerful fighter
 					'''
 			}
 
@@ -921,11 +920,11 @@ Mods : {
 				DisplayName: Roxcalibur
 				Tooltip:
 					'''
-					You couldn't get it out of the rock, so you just brought the rock instead
-					A hellish entity of flesh holds the key to this weapon's power
-					Left click to shoot several rock shards
-					Right click to dive downwards and bounce off enemies
+					The hellish Wall of Flesh holds the key to this weapon's power
+					Press {InputTrigger_UseOrAttack} to shoot several rock shards
+					Press <right> to dive downwards and bounce off enemies
 					Diving into blocks creates a shockwave
+					You couldn't get it out of the rock, so you just brought the rock instead
 					'''
 			}
 
@@ -948,8 +947,8 @@ Mods : {
 				DisplayName: Seeking Scorcher
 				Tooltip:
 					'''
-					May your enemies burn in hell for the sins they have committed
 					Throws a holy boomerang that seeks out up to four enemies before returning to the player
+					May your enemies burn in hell for the sins they have committed
 					'''
 			}
 
@@ -1015,7 +1014,7 @@ Mods : {
 
 			StarnightLance: {
 				DisplayName: Starnight Lance
-				Tooltip: Shoots a starnight beam
+				Tooltip: Shoots a frigid starnight beam
 			}
 
 			StellarContempt: {
@@ -1032,9 +1031,9 @@ Mods : {
 				DisplayName: Storm Ruler
 				Tooltip:
 					'''
-					Only a storm can fell a greatwood
 					Fires beams that generate tornadoes on death
 					Tornadoes suck enemies in
+					Only a storm can fell a greatwood
 					'''
 			}
 
@@ -1076,8 +1075,9 @@ Mods : {
 				DisplayName: Swordsplosion
 				Tooltip:
 					'''
-					Sword swarm
+					Fires multiple rainbow beam swords that rain from the sky
 					Receives 33% benefit from melee speed bonuses
+					Sword swarm
 					'''
 			}
 
@@ -1090,25 +1090,25 @@ Mods : {
 				DisplayName: Tenebreus Tides
 				Tooltip:
 					'''
-					Inundatio ex Laminis
 					Shoots a water spear that pierces enemies and terrain
 					Striking enemies summon liquid blades and spears to assault the struck foe
 					Receives 33% benefit from melee speed bonuses
+					Inundatio ex Laminis
 					'''
 			}
 
 			TerraLance: {
 				DisplayName: Terra Lance
-				Tooltip: Fires a lance beam
+				Tooltip: Fires a terra energy beam
 			}
 
 			Terratomere: {
 				DisplayName: Terratomere
 				Tooltip:
 					'''
-					Linked to the essence of Terraria
 					Heals the player on true melee hits
 					Fires a piercing energy bolt that causes hit targets to explode and be slashed
+					Linked to the essence of Terraria
 					'''
 			}
 
@@ -1123,7 +1123,11 @@ Mods : {
 
 			TheBurningSky: {
 				DisplayName: The Burning Sky
-				Tooltip: Hold the blade to the sky, and witness Armageddon
+				Tooltip:
+					'''
+					Rains down a stream of draconic fire at the cursor
+					Hold the blade to the sky, and witness Armageddon
+					'''
 			}
 
 			TheEnforcer: {
@@ -1177,8 +1181,8 @@ Mods : {
 				DisplayName: Titan Arm
 				Tooltip:
 					'''
-					Slap Hand but better
 					Sends enemies straight to the stars at the speed of light
+					Slap Hand but better
 					'''
 			}
 
@@ -1201,8 +1205,8 @@ Mods : {
 				Tooltip:
 					'''
 					FUNCTION_DESC
-					Hold down RMB while standing still on flat ground to attune the weapon to the powers of the surrounding biome
-					Using RMB otherwise switches between the current attunement and an extra stored one
+					Hold down <right> while standing still on flat ground to attune the weapon to the powers of the surrounding biome
+					Pressing <right> otherwise switches between the current attunement and an extra stored one
 					Main Attunement : [None]
 					Secondary Attunement: [None]
 
@@ -1302,11 +1306,11 @@ Mods : {
 				Tooltip:
 					'''
 					Can be used to rapidly and royally screw over foes
-					Striking an enemy sometimes gives you a wulfrum screw that you can throw with RMB
+					Striking an enemy sometimes gives you a wulfrum screw that you can throw with <right>
 					Hit a thrown screw with the screwdriver to launch it forward at high speed
-					[c/83B87E:"Who makes flatheads this large?? The hell am I supposed to use it for?!"]
-					[c/83B87E:"This thing could take an eye out!"]
-					[c/83B87E:"…Ah."]
+					[c/83B87E:'Who makes flatheads this large?? The hell am I supposed to use it for?!]
+					[c/83B87E:This thing could take an eye out!']
+					[c/83B87E:'...Ah.']
 					'''
 			}
 
@@ -1316,7 +1320,7 @@ Mods : {
 					'''
 					A synthesis of jungle flora
 					Throws a powerful rose flail
-					Right click to stab with a flower spear
+					Press <right> to stab with a flower spear
 					'''
 			}
 
