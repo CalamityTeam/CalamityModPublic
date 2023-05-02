@@ -116,7 +116,7 @@ Mods : {
 					'''
 					Throws a grenade that explodes into plasma on collision
 					Stealth strikes explode violently on collision into a vaporizing blast
-					[c/1FFBFF:Each grenade contains a heavily condensed and heated unit of plasma. Use with extreme caution.]
+					[c/1FFBFF:'Each grenade contains a heavily condensed and heated unit of plasma. Use with extreme caution.']
 					'''
 			}
 
