@@ -199,6 +199,10 @@ namespace CalamityMod.CalPlayer
             if (proj.CountsAsClass<MeleeDamageClass>())
                 GemTechState.MeleeOnHitEffects(target);
 
+            // Handle on-hit ranged effects for the gem tech armor set.
+            if (proj.CountsAsClass<RangedDamageClass>() && proj.type != ModContent.ProjectileType<GemTechGreenFlechette>())
+                GemTechState.RangedOnHitEffects(target, proj.damage);
+
             // Handle on-hit projectiles effects for the mythril armor set.
             if (proj.type != ModContent.ProjectileType<MythrilFlare>())
                 MythrilArmorSetChange.OnHitEffects(target, damageDone, Player);

@@ -39,7 +39,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Virili");
             Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 8;

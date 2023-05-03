@@ -92,7 +92,6 @@ namespace CalamityMod.CalPlayer
         public static int chaosStateDuration = 900;
         public static int chaosStateDuration_NR = 1200;
         public bool killSpikyBalls = false;
-        public double acidRoundMultiplier = 1D;
         public float KameiTrailXScale = 0.1f;
         public int KameiBladeUseDelay = 0;
         public Vector2[] OldPositions = new Vector2[4];
@@ -2139,7 +2138,6 @@ namespace CalamityMod.CalPlayer
             tarraRangedCooldown = 0;
             tarraMageHealCooldown = 0;
             hideOfDeusMeleeBoostTimer = 0;
-            acidRoundMultiplier = 1D;
             externalAbyssLight = 0;
             externalColdImmunity = externalHeatImmunity = false;
             polarisBoostCounter = 0;
@@ -4051,11 +4049,6 @@ namespace CalamityMod.CalPlayer
             if (fungalSymbiote && CalamityLists.MushroomWeaponIDs.Contains(item.type))
                 damage += 0.1f;
 
-            if (item.CountsAsClass<RangedDamageClass>())
-                acidRoundMultiplier = item.useTime / 20D;
-            else
-                acidRoundMultiplier = 1D;
-
             if (item.CountsAsClass<RogueDamageClass>())
             {
                 // Apply weapon modifier stealth strike damage bonus
@@ -4262,60 +4255,67 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Modify Hit NPC
-        public override void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)/* tModPorter If you don't need the Item, consider using ModifyHitNPC instead */
+        public override void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)
         {
-            #region MultiplierBoosts
-            double damageMult = 1.0;
-
-            if (enraged)
-                damageMult += 1.25;
-
-            if (witheredDebuff && witheringWeaponEnchant)
-                damageMult += 0.6;
+            // All Calamity multipliers are added together to prevent insane exponential stacking
+            float totalDamageMult = 1f;
 
             // Rippers are always checked for application, because there are ways to get rippers outside of Rev now
-            CalamityUtils.ApplyRippersToDamage(this, item.IsTrueMelee(), ref damageMult);
+            CalamityUtils.ApplyRippersToDamage(this, item.IsTrueMelee(), ref totalDamageMult);
 
-            modifiers.SourceDamage *= (float)damageMult;
-            #endregion
+            // Demonshade enrage
+            if (enraged)
+                totalDamageMult += 1.25f;
+            // Withering enchantment when it's draining your HP
+            if (witheredDebuff && witheringWeaponEnchant)
+                totalDamageMult += 0.6f;
 
-            #region AdditiveBoosts
+            // Apply all Calamity multipliers as a sum total to TML New Damage in a single step
+            modifiers.SourceDamage *= totalDamageMult;
+
+            // Excalibur and True Excalibur deal +100% damage to targets above 75% HP.
             if (item.type == ItemID.Excalibur || item.type == ItemID.TrueExcalibur)
             {
                 if (target.life > (int)(target.lifeMax * 0.75))
-                    modifiers.SourceDamage *= 2;
+                    modifiers.ScalingBonusDamage += 1f;
             }
+
+            // Titanium Sword deals up to +15% damage based on the target's knockback resistance.
             if (item.type == ItemID.TitaniumSword)
             {
-                int knockbackAdd = (int)(modifiers.GetDamage(item.damage, false) * 0.15 * (1f - target.knockBackResist));
-                modifiers.FlatBonusDamage += knockbackAdd;
+                float knockbackResistBonus = 0.15f * (1f - target.knockBackResist);
+                modifiers.ScalingBonusDamage += knockbackResistBonus;
             }
+
+            // Antlion Claw, Bone Sword and Breaker Blade ignore 50% of the enemy's defense.
             if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
             {
-                int defenseAdd = (int)(target.defense * 0.25);
-                modifiers.FlatBonusDamage += defenseAdd;
+                modifiers.ScalingArmorPenetration += 0.5f;
             }
+
+            // Stylish Scissors, all Phaseblades and all Phasesabers ignore 100% of the enemy's defense.
             if (item.type == ItemID.StylistKilLaKillScissorsIWish || (item.type >= ItemID.BluePhaseblade && item.type <= ItemID.YellowPhaseblade) || (item.type >= ItemID.BluePhasesaber && item.type <= ItemID.YellowPhasesaber) || item.type == ItemID.OrangePhaseblade || item.type == ItemID.OrangePhasesaber)
             {
-                int defenseAdd = (int)(target.defense * 0.5);
-                modifiers.FlatBonusDamage += defenseAdd;
+                modifiers.ScalingArmorPenetration += 1f;
             }
+
+            // Frost Armor's rework gives +X% melee damage and +Y% ranged damage based on distance, where X+Y = 15.
             if (frostSet)
             {
+                // 0f = point blank, 1f = max range or further
                 float DistanceInterpolant = Utils.GetLerpValue(FrostArmorSetChange.MinDistance, FrostArmorSetChange.MaxDistance, target.Distance(Main.player[Main.myPlayer].Center), true);
+
                 if (item.CountsAsClass<MeleeDamageClass>())
                 {
-                    float MeleeDamageFactor = MathHelper.Lerp(1f, FrostArmorSetChange.ProximityBoost, 1 - DistanceInterpolant);
-                    modifiers.SourceDamage *= MeleeDamageFactor;
+                    float meleeBoost = MathHelper.Lerp(0f, FrostArmorSetChange.ProximityBoost, 1 - DistanceInterpolant);
+                    modifiers.SourceDamage += meleeBoost;
                 }
-                // Works with bayonets too... for the few that exists
                 else if (item.CountsAsClass<RangedDamageClass>())
                 {
-                    float RangedDamageFactor = MathHelper.Lerp(1f, FrostArmorSetChange.ProximityBoost, DistanceInterpolant);
-                    modifiers.SourceDamage *= RangedDamageFactor;
+                    float rangedBoost = MathHelper.Lerp(0f, FrostArmorSetChange.ProximityBoost, DistanceInterpolant);
+                    modifiers.SourceDamage += rangedBoost;
                 }
             }
-            #endregion
         }
 
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)/* tModPorter If you don't need the Projectile, consider using ModifyHitNPC instead */
@@ -4323,142 +4323,110 @@ namespace CalamityMod.CalPlayer
             if (proj.npcProj || proj.trap)
                 return;
 
-            bool isSummon = proj.CountsAsClass<SummonDamageClass>();
-            Item heldItem = Player.ActiveItem();
+            // All Calamity multipliers are added together to prevent insane exponential stacking
+            float totalDamageMult = 1f;
 
-            #region MultiplierBoosts
-            double damageMult = 1D;
+            // Rippers are always checked for application, because there are ways to get rippers outside of Rev now
+            CalamityUtils.ApplyRippersToDamage(this, proj.IsTrueMelee(), ref totalDamageMult);
 
+            // Demonshade enrage
+            if (enraged)
+                totalDamageMult += 1.25f;
+            // Withering enchantment when it's draining your HP
+            if (witheredDebuff && witheringWeaponEnchant)
+                totalDamageMult += 0.6f;
+
+            // Apply all Calamity multipliers as a sum total to TML New Damage in a single step
+            modifiers.SourceDamage *= totalDamageMult;
+
+            // Stealth strike damage multipliers are applied here.
+            // TODO -- stealth should be its own damage class and this should be applied as player StealthDamage *= XYZ
+            if (proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
+                modifiers.SourceDamage *= (float)bonusStealthDamage;
+
+            // Screwdriver adds 5% bonus damage to all piercing projectiles.
             if (screwdriver)
             {
                 if (proj.penetrate > 1 || proj.penetrate == -1)
-                    damageMult += 0.05;
+                    modifiers.ScalingBonusDamage += 0.05f;
             }
 
-            if (enraged)
-                damageMult += 1.25;
-
-            // Calamity buffs Inferno Fork by 33%.
+            // Calamity buffs Inferno Fork by 33%. This is multiplicative because it's supposed to be a buff to the weapon's base damage.
             // However, because the weapon is coded like spaghetti, you have to multiply the explosion's damage too.
             if (proj.type == ProjectileID.InfernoFriendlyBlast)
-                damageMult += 0.33;
+                modifiers.SourceDamage *= 1.33f;
 
-            if (brimflameFrenzy && brimflameSet)
-            {
-                if (proj.CountsAsClass<MagicDamageClass>())
-                    damageMult += 0.3;
-            }
-
-            if (witheredDebuff)
-                damageMult += 0.6;
-
-            // Rippers are always checked for application, because there are ways to get rippers outside of Rev now
-            CalamityUtils.ApplyRippersToDamage(this, proj.IsTrueMelee(), ref damageMult);
-
-            if (proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
-            {
-                damageMult += bonusStealthDamage;
-            }
-
+            // Gungnir deals +100% damage to targets above 75% HP.
             if (proj.type == ProjectileID.Gungnir)
             {
                 if (target.life > (int)(target.lifeMax * 0.75))
-                    damageMult += 1D;
+                    modifiers.ScalingBonusDamage += 1f;
             }
 
-            // Adjust damage based on the damage multiplier
-            modifiers.SourceDamage *= (float)damageMult;
-            #endregion
-
-            #region AdditiveBoosts
+            // Titanium Trident deals up to +15% damage based on the target's knockback resistance.
             if (proj.type == ProjectileID.TitaniumTrident)
             {
-                int knockbackAdd = (int)(proj.damage * 0.15 * (1f - target.knockBackResist));
-                modifiers.FlatBonusDamage += knockbackAdd;
+                float knockbackResistBonus = 0.15f * (1f - target.knockBackResist);
+                modifiers.ScalingBonusDamage += knockbackResistBonus;
             }
-            if (proj.type == ModContent.ProjectileType<BubonicRoundProj>())
-            {
-                int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
-                modifiers.FlatBonusDamage += defenseAdd;
-            }
-            if (plaguebringerPatronSummon)
-            {
-                if (isSummon && proj.active && proj.friendly && !proj.npcProj && !proj.trap && proj.damage > 0)
-                {
-                    if (proj.type != ModContent.ProjectileType<DirectStrike>() && proj.type != ModContent.ProjectileType<PlaguebringerSummon>())
-                    {
-                        for (int j = 0; j < Main.maxProjectiles; j++)
-                        {
-                            Projectile miniPBG = Main.projectile[j];
-                            if (miniPBG.type == ModContent.ProjectileType<PlaguebringerSummon>() && Vector2.Distance(proj.Center, miniPBG.Center) <= PlaguebringerSummon.auraRange && miniPBG.owner == proj.owner)
-                            {
-                                modifiers.FlatBonusDamage += Main.rand.Next(10, 21);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+
+            // Frost Armor's rework gives +X% melee damage and +Y% ranged damage based on distance, where X+Y = 15.
             if (frostSet)
             {
-                float DistanceInterpolant = Utils.GetLerpValue(FrostArmorSetChange.MinDistance, FrostArmorSetChange.MaxDistance, target.Distance(Main.player[proj.owner].Center), true);
+                // 0f = point blank, 1f = max range or further
+                float DistanceInterpolant = Utils.GetLerpValue(FrostArmorSetChange.MinDistance, FrostArmorSetChange.MaxDistance, target.Distance(Main.player[Main.myPlayer].Center), true);
+
                 if (proj.CountsAsClass<MeleeDamageClass>())
                 {
-                    float MeleeDamageFactor = MathHelper.Lerp(1f, FrostArmorSetChange.ProximityBoost, 1 - DistanceInterpolant);
-                    modifiers.SourceDamage *= MeleeDamageFactor;
+                    float meleeBoost = MathHelper.Lerp(0f, FrostArmorSetChange.ProximityBoost, 1 - DistanceInterpolant);
+                    modifiers.SourceDamage += meleeBoost;
                 }
                 else if (proj.CountsAsClass<RangedDamageClass>())
                 {
-                    float RangedDamageFactor = MathHelper.Lerp(1f, FrostArmorSetChange.ProximityBoost, DistanceInterpolant);
-                    modifiers.SourceDamage *= RangedDamageFactor;
+                    float rangedBoost = MathHelper.Lerp(0f, FrostArmorSetChange.ProximityBoost, DistanceInterpolant);
+                    modifiers.SourceDamage += rangedBoost;
                 }
             }
-            #endregion
 
-            #region MultiplicativeReductions
-
-            // Fearmonger armor reduces the summoner cross-class nerf
-            // Forbidden armor reduces said nerf when holding the respective helmet's preferred weapon type
-            // Profaned Soul Crystal encourages use of other weapons, nerfing the damage would not make sense.
-            // Having the Old One's Army event active also disables this during the duration of the event
-
-            bool forbidden = Player.armor[0].type == ItemID.AncientBattleArmorHat && Player.armor[1].type == ItemID.AncientBattleArmorShirt && Player.armor[2].type == ItemID.AncientBattleArmorPants;
-            bool penaltyNegation = fearmongerSet || (forbidden && heldItem.CountsAsClass<MagicDamageClass>()) || (GemTechSet && GemTechState.IsBlueGemActive);
-
-            float summonNerfMult = 0.75f;
-            if (isSummon && heldItem.type > ItemID.None && !profanedCrystalBuffs && !penaltyNegation && !DD2Event.Ongoing)
+            // SUMMONER CROSS CLASS NERF IS APPLIED HERE
+            //
+            // There are several ways to negate the summoner cross class nerf:
+            // - Wearing Forbidden armor and using a magic weapon
+            // - Wearing Fearmonger armor
+            // - Wearing Gem Tech armor and having the Blue Gem active
+            // - Using Profaned Soul Crystal
+            // - During the Old One's Army event it's disabled by default
+            bool isSummon = proj.CountsAsClass<SummonDamageClass>();
+            if (isSummon)
             {
-                bool classCheck = !heldItem.CountsAsClass<SummonDamageClass>() && 
-                    (heldItem.CountsAsClass<MeleeDamageClass>() || heldItem.CountsAsClass<RangedDamageClass>() || heldItem.CountsAsClass<MagicDamageClass>() || 
-                    heldItem.CountsAsClass<ThrowingDamageClass>());
-                bool toolCheck = heldItem.pick == 0 && heldItem.axe == 0 && heldItem.hammer == 0;
-                bool itemCanBeUsed = heldItem.useStyle != ItemUseStyleID.None;
-                bool notAccessoryOrAmmo = !heldItem.accessory && heldItem.ammo == AmmoID.None;
-                bool nerfNotDisabledByCalls = !CalamityLists.DisabledSummonerNerfItems.Contains(heldItem.type) && !CalamityLists.DisabledSummonerNerfMinions.Contains(proj.type);
-                if (classCheck && itemCanBeUsed && toolCheck && notAccessoryOrAmmo && nerfNotDisabledByCalls)
-                    modifiers.SourceDamage *= summonNerfMult;
-            }
+                Item heldItem = Player.ActiveItem();
 
-            if (proj.CountsAsClass<RangedDamageClass>())
-            {
-                switch (proj.type)
+                bool wearingForbiddenSet = Player.armor[0].type == ItemID.AncientBattleArmorHat && Player.armor[1].type == ItemID.AncientBattleArmorShirt && Player.armor[2].type == ItemID.AncientBattleArmorPants;
+                bool forbiddenWithMagicWeapon = wearingForbiddenSet && heldItem.CountsAsClass<MagicDamageClass>();
+                bool gemTechBlueGem = GemTechSet && GemTechState.IsBlueGemActive;
+
+                bool crossClassNerfDisabled = forbiddenWithMagicWeapon || fearmongerSet || gemTechBlueGem || profanedCrystalBuffs || DD2Event.Ongoing;
+                crossClassNerfDisabled |= CalamityLists.DisabledSummonerNerfMinions.Contains(proj.type);
+
+                // If this projectile is a summon, its owner is holding an item, and the cross class nerf isn't disabled from equipment:
+                if (isSummon && heldItem.type > ItemID.None && !crossClassNerfDisabled)
                 {
-                    case ProjectileID.MoonlordArrowTrail:
-                        modifiers.SourceDamage *= 0.5f;
-                        break;
-                    case ProjectileID.CrystalShard:
-                        modifiers.SourceDamage *= 0.6f;
-                        break;
-                    case ProjectileID.HallowStar:
-                        modifiers.SourceDamage *= 0.7f;
-                        break;
+                    bool heldItemIsClassedWeapon = !heldItem.CountsAsClass<SummonDamageClass>() && (
+                        heldItem.CountsAsClass<MeleeDamageClass>() ||
+                        heldItem.CountsAsClass<RangedDamageClass>() ||
+                        heldItem.CountsAsClass<MagicDamageClass>() ||
+                        heldItem.CountsAsClass<ThrowingDamageClass>()
+                    );
+
+                    bool heldItemIsTool = heldItem.pick > 0 || heldItem.axe > 0 || heldItem.hammer > 0;
+                    bool heldItemCanBeUsed = heldItem.useStyle != ItemUseStyleID.None;
+                    bool heldItemIsAccessoryOrAmmo = heldItem.accessory || heldItem.ammo != AmmoID.None;
+                    bool heldItemIsExcludedByModCall = CalamityLists.DisabledSummonerNerfItems.Contains(heldItem.type);
+
+                    if (heldItemIsClassedWeapon && heldItemCanBeUsed && !heldItemIsTool && !heldItemIsAccessoryOrAmmo && !heldItemIsExcludedByModCall)
+                        modifiers.FinalDamage *= BalancingConstants.SummonerCrossClassNerf;
                 }
             }
-            #endregion
-
-            // Handle on-hit ranged effects for the gem tech armor set.
-            if (proj.CountsAsClass<RangedDamageClass>() && proj.type != ModContent.ProjectileType<GemTechGreenFlechette>())
-                GemTechState.RangedOnHitEffects(target, proj.damage);
         }
         #endregion
 

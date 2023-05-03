@@ -48,7 +48,7 @@ Mods : {
 				Tooltip:
 					'''
 					Bursts into virulent plague on contact
-					Does more damage the higher the target's defense
+					Ignores 25% of enemy defense
 					'''
 			}
 

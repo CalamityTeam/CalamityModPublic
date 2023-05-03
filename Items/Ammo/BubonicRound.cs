@@ -9,13 +9,7 @@ namespace CalamityMod.Items.Ammo
     [LegacyName("AcidBullet", "AcidRound")]
     public class BubonicRound : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 99;
-            // DisplayName.SetDefault("Bubonic Round");
-            /* Tooltip.SetDefault("Bursts into virulent plague on contact\n" +
-                "Does more damage the higher the target's defense"); */
-        }
+        public override void SetStaticDefaults() => Item.ResearchUnlockCount = 99;
 
         public override void SetDefaults()
         {
