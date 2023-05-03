@@ -261,7 +261,7 @@ Mods : {
 				Tooltip:
 					'''
 					Throws a dumbbell that bounces and flings weights with each bounce
-					Right click to flex, increasing the damage of your next attack up to 5 times damage
+					Press <right> to flex, increasing the damage of your next attack up to 5 times damage
 					Flexes can hit enemies directly
 					'''
 			}
@@ -535,7 +535,7 @@ Mods : {
 					Hurls up to 10 speedy homing spiky balls
 					Attaches to enemies and summons a localized storm of god slayer kunai
 					Stealth strikes home in faster and summon kunai at a faster rate
-					Right click to delete all existing spiky balls
+					Press <right> to delete all existing spiky balls
 					'''
 			}
 
@@ -578,7 +578,7 @@ Mods : {
 					Hurls up to 10 gravity-defying spiky balls
 					Once stationary, periodically emit small suns that explode on hit
 					Stealth strikes emit suns at a faster rate and last for a longer amount of time
-					Right click to delete all existing spiky balls
+					Press <right> to delete all existing spiky balls
 					'The Subterranean Sun in the palm of your hand'
 					'''
 			}
@@ -684,7 +684,7 @@ Mods : {
 				Tooltip:
 					'''
 					Throws a bombshell that explodes, summoning a meteor to impact the site
-					Right click to throw a spread of gravity affected comets that explode, leaving behind a star
+					Press <right> to throw a spread of gravity affected comets that explode, leaving behind a star
 					Stealth strikes lob a bombshell that additionally splits into comets on hit
 					'''
 			}
@@ -733,7 +733,7 @@ Mods : {
 				Tooltip:
 					'''
 					Throws a stream of kunai that stick to enemies and explode
-					Right click to throw a single kunai that pierces, after piercing an enemy it emits a massive explosion on the next enemy hit
+					Press <right> to throw a single kunai that pierces, after piercing an enemy it emits a massive explosion on the next enemy hit
 					Stealth strikes fire three kunai that home in, stick to enemies, and explode
 					'''
 			}
@@ -835,7 +835,7 @@ Mods : {
 					Once the spiky ball disappears the orbs will home in on the nearest target
 					Up to 10 spiky balls can exist at a time
 					Stealth strikes cause all spiky balls and orbs to be thrown at once
-					Right click to recall all existing spiky balls
+					Press <right> to recall all existing spiky balls
 					'''
 			}
 
@@ -894,7 +894,7 @@ Mods : {
 					'''
 					Throws up to 3 poisonous spiky balls
 					Stealth strikes cause the balls to release spore clouds
-					Right click to delete all existing spiky balls
+					Press <right> to delete all existing spiky balls
 					'''
 			}
 
@@ -954,7 +954,7 @@ Mods : {
 				Tooltip:
 					'''
 					Throws sacrificial daggers that lodge themselves in enemies
-					Right click causes all stuck daggers to fly back at you and give you life
+					Press <right> to cause all stuck daggers to fly back at you and give you life
 					Daggers stuck to enemies release bloodsplosions over time
 					Stealth strikes lodge for longer and provide much more life when returning to you
 					'''
@@ -1098,7 +1098,7 @@ Mods : {
 					'''
 					Throws up to 4 gravity-defying spiky balls
 					Stealth strikes make the balls rain feathers onto enemies when they hit
-					Right click to delete all existing spiky balls
+					Press <right> to delete all existing spiky balls
 					'''
 			}
 
@@ -1388,7 +1388,7 @@ Mods : {
 					'''
 					Fires wulfrum knives in bursts of 3
 					Stealth strikes make the knife fly further and hit several times at once
-					Hold right click to magnetize all nearby fallen knives back to you
+					Hold <right> to magnetize all nearby fallen knives back to you
 					'''
 			}
 		}
