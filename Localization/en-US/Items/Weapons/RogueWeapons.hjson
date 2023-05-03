@@ -311,7 +311,7 @@ Mods : {
 					'''
 					Throws a hydro axe which shreds enemies when it comes into contact with them
 					The faster the axe is spinning, the more times it hits before disappearing
-					Stealth strikes make it emit short-ranged bubbles.
+					Stealth strikes emit short-ranged bubbles
 					'''
 			}
 

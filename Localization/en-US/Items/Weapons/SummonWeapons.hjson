@@ -9,7 +9,7 @@ Mods: {
                     Must be used from the hotbar
                     Increased power and size based on the number of minion slots used
                     Holding this weapon grants 10% increased jump speed
-					Cast down from the heavens in disgust, this relic sings a song of quiet tragedy...
+                    Cast down from the heavens in disgust, this relic sings a song of quiet tragedy...
                     '''
             }
 
@@ -107,7 +107,7 @@ Mods: {
                     '''
                     Summons a mini dragon to fight for you
                     The dragon inflicts several debilitating debuffs
-					The debuffs are only applied if you are holding a summon weapon or tool
+                    The debuffs are only applied if you are holding a summon weapon or tool
                     '''
             }
 
@@ -165,7 +165,7 @@ Mods: {
                 Tooltip:
                     '''
                     Summons a powerful raven which teleports and dashes
-					'Nevermore'
+                    'Nevermore'
                     '''
             }
 
@@ -187,7 +187,7 @@ Mods: {
                     Summons a cosmic gunship to shoot down your foes
                     Gunships will fire bullets from your inventory
                     Alternates firing rockets and bullets
-					50% chance to save ammo
+                    50% chance to save ammo
                     Rockets do not consume ammo
                     '''
             }
@@ -256,7 +256,7 @@ Mods: {
                     Firing another brimseeker when all minion slots are filled summons a brimstone aura
                     The aura empowers your brimseeker summons and produces damaging fireballs
                     Only one aura can persist at a time
-					You could've sworn that they turned even scarier when you looked at their reflections in a mirror
+                    You could've sworn that they turned even scarier when you looked at their reflections in a mirror
                     '''
             }
 
@@ -407,7 +407,7 @@ Mods: {
                 Tooltip:
                     '''
                     Summons a lantern turret to fight for you
-					'Shadows dream of endless fire, flames devour and embers swoop'
+                    'Shadows dream of endless fire, flames devour and embers swoop'
                     '''
             }
 
@@ -447,7 +447,7 @@ Mods: {
                     Virili requires 3 minion slots to summon, and can only be summoned once
                     Virili uses a variety of attacks which she cycles through on a timer
                     All attacks spread the plague, as was her original design intention
-					'There's a single label on the back:
+                    'There's a single label on the back:
                     [c/1FFBFF:WARNING: Subject is extremely corrosive and contagious. Avoid direct contact.']
                     '''
             }
@@ -512,7 +512,7 @@ Mods: {
                 Tooltip:
                     '''
                     Summons a pair of butterflies to fight for you
-					'Remembering the melancholy of human existence
+                    'Remembering the melancholy of human existence
                     Even ghosts stray from the path of righteousness'
                     '''
             }
@@ -541,7 +541,7 @@ Mods: {
                 Tooltip:
                     '''
                     Summons a radiant aura that gives absolute control of light itself
-					The aura will annihilate enemies with orbs of radiance
+                    The aura will annihilate enemies with orbs of radiance
                     There can only be one aura at a time
                     Requires 8 minion slots
                     '''
@@ -640,7 +640,7 @@ Mods: {
                     Summons a plague jet to pummel your enemies into submission
                     Jets will fire bullets from your inventory
                     Sometimes shoots a missile instead of a bullet
-					50% chance to save ammo
+                    50% chance to save ammo
                     Missiles do not consume ammo
                     '''
             }
@@ -657,7 +657,7 @@ Mods: {
                         - A lavender rifle to snipe those who stand in your way
                     Best of all, you get to wear a top hat
                     Requires 5 minion slots to use and there can only be one set of tools at a time
-					'Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow'
+                    'Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow'
                     '''
             }
 
