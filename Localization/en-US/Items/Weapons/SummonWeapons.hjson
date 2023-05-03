@@ -67,7 +67,7 @@ Mods: {
                     '''
                     Summons a Black Hawk jet to fight for you
                     Jets will fire bullets from your inventory
-                    50% chance to not consume ammo
+                    50% chance to save ammo
                     '''
             }
 
@@ -187,7 +187,7 @@ Mods: {
                     Summons a cosmic gunship to shoot down your foes
                     Gunships will fire bullets from your inventory
                     Alternates firing rockets and bullets
-					50% chance to not consume ammo
+					50% chance to save ammo
                     Rockets do not consume ammo
                     '''
             }
@@ -640,7 +640,7 @@ Mods: {
                     Summons a plague jet to pummel your enemies into submission
                     Jets will fire bullets from your inventory
                     Sometimes shoots a missile instead of a bullet
-					50% chance to not consume ammo
+					50% chance to save ammo
                     Missiles do not consume ammo
                     '''
             }
