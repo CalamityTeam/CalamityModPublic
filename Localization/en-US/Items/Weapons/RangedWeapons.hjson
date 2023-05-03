@@ -6,8 +6,10 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a string of cards with varying effects based on card type
-					Hearts grant lifesteal. Spades pierce and ignore immunity frames.
-					Diamonds explode. Clubs split into three.
+					Hearts grant lifesteal 
+					Spades pierce and ignore immunity frames
+					Diamonds violently explode 
+					Clubs split into three
 					'''
 			}
 
@@ -20,8 +22,8 @@ Mods : {
 				DisplayName: Alluvion
 				Tooltip:
 					'''
-					Converts wooden arrows into sharks, torrential and typhoon arrows
-					Fires a torrent of six arrows at once
+					Unleashes a torrent of six arrows at once
+					Converts wooden arrows into a combination of sharks, torrential and typhoon arrows
 					'''
 			}
 
@@ -31,7 +33,7 @@ Mods : {
 					'''
 					Each shot casts a radiant beam of holy light from the sky
 					Converts musket balls into illuminated bullets
-					Fighting 'til the war's won
+					'Fighting 'til the war's won'
 					'''
 			}
 
@@ -39,9 +41,9 @@ Mods : {
 				DisplayName: Animosity
 				Tooltip:
 					'''
-					50% chance to not consume ammo
 					Fires a powerful sniper round
-					Right click to fire a burst of bullets
+					Press <right> to fire a burst of bullets
+					50% chance to save ammo
 					'''
 			}
 
@@ -50,7 +52,7 @@ Mods : {
 				Tooltip:
 					'''
 					Converts musket balls into .50 caliber sniper rounds that rip apart enemy defense and DR
-					If you crit the target a second swarm of bullets will fire
+					Critical hits unleash a second swarm of bullets
 					'''
 			}
 
@@ -103,12 +105,12 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a high speed glowing bullet that inflicts debilitating debuffs
-					Right click to zoom out
+					Press <right> to zoom out
 					Standing still provides increasing damage bonuses up to 25%
 					Standing still for 5 or more seconds while using the scope ability will summon an aurora
-					The aurora reduces the damage of the next projectile hit by a flat 100
+					The aurora reduces the damage of the next projectile hit by 100 
 					This effect lasts up to 20 seconds and has a 30 second cooldown
-					50% chance to not consume bullets
+					50% chance to save ammo
 					'''
 			}
 
@@ -117,7 +119,7 @@ Mods : {
 				Tooltip:
 					'''
 					Spews astral flames that travel in a star-shaped patterns
-					60% chance to not consume gel
+					60% chance to save ammo
 					'''
 			}
 
@@ -133,7 +135,7 @@ Mods : {
 
 			BarracudaGun: {
 				DisplayName: Barracuda Gun
-				Tooltip: Fires two barracudas that latch onto enemies
+				Tooltip: Fires two barracudas that latch onto enemies and shred them
 			}
 
 			BladedgeGreatbow: {
@@ -158,7 +160,7 @@ Mods : {
 					'''
 					Fires a stream of lifestealing bloodfire
 					Uses your health as ammo
-					25% chance to not consume ammo
+					25% chance to save ammo
 					'''
 			}
 
@@ -167,7 +169,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a stream of leaves
-					Right click to fire a spore orb that explodes into a cloud of spore gas
+					Press <right> to fire a spore orb that explodes into a cloud of spore gas
 					'''
 			}
 
@@ -182,7 +184,7 @@ Mods : {
 					'''
 					Fires a massive spread of bouncing bullets
 					Consumes five bullets per-use
-					Aim? What's that?
+					'Aim? What's that?'
 					'''
 			}
 
@@ -191,7 +193,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires bullets faster and more accurately the longer you hold the trigger
-					25% chance to not consume ammo
+					25% chance to save ammo
 					'''
 			}
 
@@ -200,7 +202,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires chicken flares which create enormous incendiary explosions
-					Right click to detonate all airborne rockets
+					Press <right> to detonate all airborne rockets
 					'''
 			}
 
@@ -220,15 +222,15 @@ Mods : {
 
 			CleansingBlaze: {
 				DisplayName: Cleansing Blaze
-				Tooltip: 90% chance to not consume gel
+				Tooltip: 90% chance to save ammo
 			}
 
 			ClockGatlignum: {
 				DisplayName: Clock Gatlignum
 				Tooltip:
 					'''
-					33% chance to not consume ammo
 					Converts musket balls into strings of 3 high velocity bullets
+					33% chance to save ammo
 					'''
 			}
 
@@ -246,8 +248,8 @@ Mods : {
 				Tooltip:
 					'''
 					Fires powerful scarlet bolts suffused with hateful magics
-					Hold left click to load up to eight bolts for powerful burst fire
-					Hold right click to use the repeater full auto
+					Hold {InputTrigger_UseOrAttack} to load up to eight bolts for powerful burst fire
+					Hold <right> to use the repeater full auto
 					'''
 			}
 
@@ -255,8 +257,9 @@ Mods : {
 				DisplayName: Conference Call
 				Tooltip:
 					'''
-					@everyone
-					50% chance to not consume ammo
+					Fires a tight spread of bullets that call more bullets from the sky
+					50% chance to save ammo
+					[c/768EE6:@everyone]
 					'''
 			}
 
@@ -289,10 +292,10 @@ Mods : {
 				Tooltip:
 					'''
 					Shoots a tight burst of 6 high velocity bullets
-					Converts musket balls into high velocity explosive bullets
-					Right click to fire a grenade
+					Press <right> to fire a grenade
 					The grenade emits a massive explosion if it doesn't touch anything for 2 seconds
 					Otherwise, the grenade emits an extremely weak explosion
+					Converts musket balls into high velocity explosive bullets
 					'''
 			}
 
@@ -314,10 +317,10 @@ Mods : {
 				DisplayName: Crackshot Colt
 				Tooltip:
 					'''
-					Right click to toss a Copper Coin in the air
+					Press <right> to toss a Copper Coin in the air
 					Striking a coin with a bullet causes it to ricochet into the nearest enemy
 					Up to 4 coins can be tossed simultaneously, and shots will ricochet off multiple coins if possible
-					Ricocheted bullets always critically strike and do bonus damage based on the coins used
+					Ricocheted bullets always critically strike
 					'''
 			}
 
@@ -331,7 +334,7 @@ Mods : {
 				Tooltip:
 					'''
 					Shoots daemon flame fireballs as well as 4 regular arrows
-					66% chance to not consume ammo
+					66% chance to save ammo
 					'''
 			}
 
@@ -357,8 +360,9 @@ Mods : {
 				DisplayName: Disseminator
 				Tooltip:
 					'''
-					@everyone
-					50% chance to not consume ammo
+					Fires a tight spread of bullets that call a great number of bullets from the sky
+					50% chance to save ammo
+					[c/768EE6:@everyone]
 					'''
 			}
 
@@ -366,8 +370,8 @@ Mods : {
 				DisplayName: Dodu's Handcannon
 				Tooltip:
 					'''
-					The power of the nut rests in your hands
 					Fires high explosive peanut shells, literally
+					'The power of the nut rests in your hands'
 					'''
 			}
 
@@ -375,12 +379,12 @@ Mods : {
 				DisplayName: Dragon's Breath
 				Tooltip:
 					'''
-					Left click fires in two-shot bursts
+					Press {InputTrigger_UseOrAttack} to fire in two-shot bursts
 					The first shot is a spread of 6 normal bullets
 					The second shot is a tight spread of 6 Dragon's Breath rounds
-					Right click fires full auto and mixes the bullets randomly, but does 20% less damage
+					Press <right> to fire full auto and mix the bullets randomly, but deal 20% less damage
 					This weapon has no randomness to its spread pattern
-					66% chance to not consume ammo
+					66% chance to save ammo
 					'''
 			}
 
@@ -388,10 +392,10 @@ Mods : {
 				DisplayName: Drataliornus
 				Tooltip:
 					'''
-					Fires an escalating stream of fireballs.
-					Fireballs rain meteors, leave dragon dust trails, and launch additional bolts at max speed.
-					Taking damage while firing the stream will interrupt it and reduce your wing flight time.
-					Right click to fire two devastating barrages of five empowered fireballs.
+					Fires an escalating stream of fireballs
+					Fireballs rain meteors, leave dragon dust trails, and launch additional bolts at max speed
+					Taking damage while firing the stream will interrupt it and reduce your wing flight time
+					Press <right> to fire two devastating barrages of five empowered fireballs
 					'Just don't get hit'
 					'''
 			}
@@ -400,8 +404,8 @@ Mods : {
 				DisplayName: Elemental Blaster
 				Tooltip:
 					'''
-					Does not consume ammo
 					Fires a storm of rainbow blasts
+					Does not consume ammo
 					'''
 			}
 
@@ -409,8 +413,8 @@ Mods : {
 				DisplayName: Elemental Eruption
 				Tooltip:
 					'''
-					90% chance to not consume gel
 					Fires a spread of rainbow flames
+					90% chance to save ammo
 					'''
 			}
 
@@ -428,8 +432,8 @@ Mods : {
 				DisplayName: Fetid Emesis
 				Tooltip:
 					'''
-					40% chance to not consume ammo
 					Has a chance to release rotten chunks instead of bullets
+					40% chance to save ammo
 					'''
 			}
 
@@ -437,8 +441,9 @@ Mods : {
 				DisplayName: Firestorm Cannon
 				Tooltip:
 					'''
-					70% chance to not consume flares
-					Right click to fire a spread of flares
+					Releases an constant stream of weaponized flares
+					Press <right> to fire a condensed spread of flares
+					70% chance to save ammo
 					'''
 			}
 
@@ -453,7 +458,7 @@ Mods : {
 					'''
 					Fires angled shots in the direction of the cursor
 					Can only be shot in a cone direction above the player
-					High IQ required
+					'High IQ required'
 					'''
 			}
 
@@ -472,7 +477,7 @@ Mods : {
 					'''
 					Fires a chain of snowballs that become faster over time
 					Has a chance to also fire an ice chunk that shatters into shards
-					50% chance to not consume snowballs
+					50% chance to save ammo
 					'''
 			}
 
@@ -480,8 +485,8 @@ Mods : {
 				DisplayName: Freedom Star
 				Tooltip:
 					'''
-					Tap to fire energy orbs
-					Hold to charge and fire a beam that explodes on hit
+					Tap {InputTrigger_UseOrAttack} to fire energy orbs
+					Hold {InputTrigger_UseOrAttack} to charge and fire a beam that explodes on hit
 					'''
 			}
 
@@ -506,7 +511,7 @@ Mods : {
 
 			GodsBellows: {
 				DisplayName: God's Bellows
-				Tooltip: 70% chance to not consume gel
+				Tooltip: 70% chance to save ammo
 			}
 
 			GoldenEagle: {
@@ -526,17 +531,17 @@ Mods : {
 
 			HalibutCannon: {
 				DisplayName: Halibut Cannon
-				Tooltip: Yes, it's still overpowered
+				Tooltip: 'Yes, it's still overpowered'
 			}
 
 			HalleysInferno: {
 				DisplayName: Halley's Inferno
 				Tooltip:
 					'''
-					Halley came sooner than expected
-					Fires a flaming comet
-					50% chance to not consume gel
-					Right click to zoom out
+					Fires a flaming blue comet
+					Press <right> to zoom out
+					50% chance to save ammo
+					'Halley came sooner than expected'
 					'''
 			}
 
@@ -544,7 +549,7 @@ Mods : {
 
 			HavocsBreath: {
 				DisplayName: Havoc's Breath
-				Tooltip: 50% chance to not consume gel
+				Tooltip: 50% chance to save ammo
 			}
 
 			HeavenlyGale: {
@@ -562,10 +567,10 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a spread of 3 bullets
-					Converts musket balls into explosive bullets
 					Enemies that touch the gun while it's being fired trigger a massive explosion
 					After the explosion, this gun gains a massive boost to damage, fire rate and knockback for 10 seconds
 					These stat bonuses slowly decay over time
+					Converts musket balls into explosive bullets
 					'''
 			}
 
@@ -593,8 +598,8 @@ Mods : {
 					'''
 					Fires a spread of 4 toxic bullets
 					Grows a gun-head every 3 seconds, up to a maximum of 3 heads
-					Left-click to command any existing heads to fire
-					Right-click to launch the heads for powerful explosive damage
+					Press {InputTrigger_UseOrAttack} to command any existing heads to fire
+					Press <right> to launch the heads for powerful explosive damage
 					[c/9D80B0:Fusion of heavy machinery and Lernaean blood]
 					'''
 			}
@@ -604,14 +609,14 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a barrage of energy bolts that split and bounce
-					Right click to fire a barrage of normal bullets
-					They say infinity is neverending, yet you hold it in your hands
+					Press <right> to fire a barrage of normal bullets
+					'They say infinity is neverending, yet you hold it in your hands'
 					'''
 			}
 
 			Karasawa: {
 				DisplayName: Karasawa
-				Tooltip: ...This is heavy... too heavy.
+				Tooltip: '...This is heavy... too heavy'
 			}
 
 			Leviatitan: {
@@ -639,7 +644,7 @@ Mods : {
 					'''
 					Launches a powerful exo rocket to nuke anything and everything
 					Rockets are surrounded by an invisible damaging aura and split into damaging beams on hit
-					66% chance to not consume rockets
+					66% chance to save ammo
 					'''
 			}
 
@@ -665,8 +670,9 @@ Mods : {
 				DisplayName: Megalodon
 				Tooltip:
 					'''
-					50% chance to not consume ammo
+					Rapidly fires a storm of bullets
 					Fires streams of water every other shot
+					50% chance to save ammo
 					'''
 			}
 
@@ -674,8 +680,8 @@ Mods : {
 				DisplayName: Meowthrower
 				Tooltip:
 					'''
-					85% chance to not consume gel
 					Fires blue and pink flames that emit meows on enemy hits
+					85% chance to save ammo
 					'''
 			}
 
@@ -683,7 +689,7 @@ Mods : {
 				DisplayName: Midas Prime
 				Tooltip:
 					'''
-					Right click to coss a Gold Coin or Silver Coin in the air
+					Press <right> to coss a Gold Coin or Silver Coin in the air
 					Striking a coin with a bullet causes it to ricochet into the nearest enemy
 					Up to 4 coins can be tossed simultaneously, and shots will ricochet off multiple coins if possible
 					Ricocheted bullets always critically strike and do bonus damage based on the coins used
@@ -697,15 +703,15 @@ Mods : {
 
 			Minigun: {
 				DisplayName: Minigun
-				Tooltip: 80% chance to not consume ammo
+				Tooltip: 80% chance to save ammo
 			}
 
 			MolecularManipulator: {
 				DisplayName: Molecular Manipulator
 				Tooltip:
 					'''
-					Is it nullable or not? Let's find out!
 					Fires a fast null bullet that distorts NPC stats
+					'Is it nullable or not? Let's find out!'
 					'''
 			}
 
@@ -734,15 +740,15 @@ Mods : {
 
 			Norfleet: {
 				DisplayName: Norfleet
-				Tooltip: Fire everything!
+				Tooltip: 'Fire everything!'
 			}
 
 			NullificationRifle: {
 				DisplayName: Nullification Pistol
 				Tooltip:
 					'''
-					Is it nullable or not? Let's find out!
 					Fires a fast null bullet that distorts NPC stats
+					'Is it nullable or not? Let's find out!'
 					'''
 			}
 
@@ -750,8 +756,8 @@ Mods : {
 				DisplayName: Onyx Chain Blaster
 				Tooltip:
 					'''
-					50% chance to not consume ammo
 					Fires a spread of bullets and an onyx shard
+					50% chance to save ammo
 					'''
 			}
 
@@ -759,8 +765,8 @@ Mods : {
 				DisplayName: Onyxia
 				Tooltip:
 					'''
-					50% chance to not consume ammo
 					Fires a storm of bullets and onyx shards
+					50% chance to save ammo
 					'''
 			}
 
@@ -768,8 +774,8 @@ Mods : {
 				DisplayName: Opal Striker
 				Tooltip:
 					'''
-					50% chance to not consume ammo
 					Fires a string of opal strikes
+					50% chance to save ammo
 					'''
 			}
 
@@ -777,8 +783,8 @@ Mods : {
 				DisplayName: Overloaded Blaster
 				Tooltip:
 					'''
-					33% chance to not consume gel
 					Fires a large spread of bouncing slime
+					33% chance to save ammo
 					'''
 			}
 
@@ -786,8 +792,9 @@ Mods : {
 				DisplayName: P90
 				Tooltip:
 					'''
-					50% chance to not consume ammo
-					It's a bullet hose
+					Unleashes a stream of bullets at an incredible rate
+					50% chance to save ammo
+					'It's a bullet hose'
 					'''
 			}
 
@@ -795,9 +802,9 @@ Mods : {
 				DisplayName: Pearl God
 				Tooltip:
 					'''
-					Your life is mine...
 					Fires shockblast rounds that emit massive explosions and steal enemy life as well as additional bullets
 					Every seventh shot fires a massive shockblast
+					'Your life is mine...'
 					'''
 			}
 
@@ -811,7 +818,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a spread of 5 arrows and emits phantom arrows on enemy hits
-					66% chance to not consume ammo
+					66% chance to save ammo
 					'''
 			}
 
@@ -819,9 +826,9 @@ Mods : {
 				DisplayName: Photoviscerator
 				Tooltip:
 					'''
-					90% chance to not consume gel
 					Fires a stream of exo flames and light that explodes into homing sparks
-					Right click to fire homing flares which stick to enemies and incinerate them
+					Press <right> to fire homing flares which stick to enemies and incinerate them
+					90% chance to save ammo
 					'''
 			}
 
@@ -838,9 +845,9 @@ Mods : {
 				DisplayName: Polaris Parrotfish
 				Tooltip:
 					'''
-					It carries the mark of the Northern Star
 					Projectile hits grant buffs to the weapon
 					Buffs are removed on hit
+					'It carries the mark of the Northern Star'
 					'''
 			}
 
@@ -854,7 +861,7 @@ Mods : {
 					Lightning bolt crits grant a stacking speed boost to the player
 					This stacks up to 20 percent bonus movement speed and acceleration
 					The boost will reset if the player holds a different item
-					33% chance to not consume ammo
+					33% chance to save ammo
 					'''
 			}
 
@@ -863,13 +870,13 @@ Mods : {
 				Tooltip:
 					'''
 					Fires an intense helix of flames that explode into a column of fire
-					Right click to fire a short ranged cloud of lingering flames
+					Press <right> to fire a short ranged cloud of lingering flames
 					'''
 			}
 
 			Pumpler: {
 				DisplayName: Pumpler
-				Tooltip: Hold left click to load up to five pumpkin grenades into the gun
+				Tooltip: Hold {InputTrigger_UseOrAttack} to load up to five pumpkin grenades at once
 			}
 
 			RealmRavager: {
@@ -886,8 +893,8 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a high-pressure stream of bubbles
-					[c/5C95A1:The Old Sea Kingdom never truly sought to expand beyond its initial borders.]
-					[c/5C95A1:However, they had a perfect track record of repelling any invasions, thanks to their insurmountable advantage in the water.]
+					[c/5C95A1:'The Old Sea Kingdom never truly sought to expand beyond its initial borders.]
+					[c/5C95A1:However, they had a perfect track record of repelling any invasions, thanks to their insurmountable advantage in the water.']
 					'''
 			}
 
@@ -905,7 +912,8 @@ Mods : {
 				Tooltip:
 					'''
 					Fires sand bullets that explode and slow enemies on hit
-					50% chance to not consume sand
+					Uses sand as ammo
+					50% chance to save ammo
 					'''
 			}
 
@@ -915,7 +923,7 @@ Mods : {
 					'''
 					Fires a burst of four fuel-air rockets which explode into cluster bombs
 					Each burst consumes two rockets each
-					Burns your targets to a fine crisp
+					'Burns your targets to a fine crisp'
 					'''
 			}
 
@@ -923,9 +931,9 @@ Mods : {
 				DisplayName: Scorpio
 				Tooltip:
 					'''
-					BOOM
-					Right click to fire a nuke
+					Press <right> to fire a nuke
 					Rockets will destroy tiles with tile-destroying ammo
+					'BOOM'
 					'''
 			}
 
@@ -933,8 +941,8 @@ Mods : {
 				DisplayName: SDFMG
 				Tooltip:
 					'''
-					It came from the edge of Terraria
-					50% chance to not consume ammo
+					50% chance to save ammo
+					'It came from the edge of Terraria'
 					'''
 			}
 
@@ -942,9 +950,10 @@ Mods : {
 				DisplayName: Seadragon
 				Tooltip:
 					'''
-					50% chance to not consume ammo
+					Unleashes a rapid deluge of bullets
 					Fires streams of water every other shot
 					Fires a homing rocket every 18 shots, which explodes into fire shards on death
+					50% chance to save ammo
 					'''
 			}
 
@@ -953,7 +962,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a string of bubbles summoning a shower of bubbles on hit
-					Right click to fire a slower, larger water blast that summons a water spout
+					Press <right> to fire a slower, larger water blast that summons a water spout
 					'''
 			}
 
@@ -968,7 +977,7 @@ Mods : {
 
 			Shadethrower: {
 				DisplayName: Shadethrower
-				Tooltip: 66% chance to not consume gel
+				Tooltip: 66% chance to save ammo
 			}
 
 			Shellshooter: {
@@ -984,9 +993,9 @@ Mods : {
 				DisplayName: Shredder
 				Tooltip:
 					'''
-					The myth, the legend, the weapon that drops more frames than any other
 					Fires a barrage of energy bolts that split and bounce
-					Right click to fire a barrage of normal bullets
+					Press <right> to fire a barrage of normal bullets instead
+					'The myth, the legend, the weapon that drops more frames than any other'
 					'''
 			}
 
@@ -1008,22 +1017,22 @@ Mods : {
 					All bullets fired inflict Shred, a stacking bleed debuff
 					Shred deals 150 DPS per stack and scales with your ranged stats
 					Damage ticks of Shred can also critically strike or supercrit
-					Replaces standard bullets with High Velocity Bullets
-					80% chance to not consume ammo
+					Replaces musket balls with enhanced High Velocity Bullets
+					80% chance to save ammo
 					'''
 			}
 
 			SparkSpreader: {
 				DisplayName: Spark Spreader
-				Tooltip: 70% chance to not consume gel
+				Tooltip: 70% chance to save ammo
 			}
 
 			SpectralstormCannon: {
 				DisplayName: Spectralstorm Cannon
 				Tooltip:
 					'''
-					70% chance to not consume flares
 					Fires a storm of lost souls and flares
+					70% chance to save ammo
 					'''
 			}
 
@@ -1047,7 +1056,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a barrage of stars and plasma blasts
-					66% chance to not consume ammo
+					66% chance to save ammo
 					'''
 			}
 
@@ -1057,7 +1066,7 @@ Mods : {
 					'''
 					Fires a chain of comets
 					Fires a bigger, more powerful comet every four rounds
-					Look to the stars for a galaxy far, far away
+					'Look to the stars for a galaxy far, far away'
 					'''
 			}
 
@@ -1071,7 +1080,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a spray of bullets
-					90% chance to not consume ammo
+					90% chance to save ammo
 					'''
 			}
 
@@ -1079,8 +1088,9 @@ Mods : {
 				DisplayName: Storm Surge
 				Tooltip:
 					'''
-					Fear the storm
+					Fires a blue shockwave that passes through blocks
 					Does not consume ammo
+					'Fear the storm'
 					'''
 			}
 
@@ -1093,8 +1103,8 @@ Mods : {
 				DisplayName: Surge Driver
 				Tooltip:
 					'''
-					Left clicks release a laser ray that explodes on collision
-					Right clicks release a barrage of laser beams that release homing energy on enemy hits
+					Press {InputTrigger_UseOrAttack} to release a laser ray that explodes on collision
+					Press <right> to release a barrage of laser beams that release homing energy on enemy hits
 					'''
 			}
 
@@ -1103,7 +1113,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires several barrages of bullets
-					Right click to zoom out
+					Press <right> to zoom out
 					'''
 			}
 
@@ -1114,19 +1124,19 @@ Mods : {
 
 			TerraFlameburster: {
 				DisplayName: Terra Flameburster
-				Tooltip: 80% chance to not consume gel
+				Tooltip: 80% chance to save ammo
 			}
 
 			TheBallista: {
 				DisplayName: The Ballista
-				Tooltip: Converts wooden arrows into greatarrows that crush enemy armor and break into shards on death
+				Tooltip: Converts wooden arrows into greatarrows that crush enemy armor and break into shards
 			}
 
 			TheHive: {
 				DisplayName: The Hive
 				Tooltip:
 					'''
-					Launches a variety of rockets that explode into bees on death
+					Launches a variety of rockets that explode into friendly bees
 					Rockets will destroy tiles with tile-destroying ammo
 					'''
 			}
@@ -1150,10 +1160,10 @@ Mods : {
 				DisplayName: The Sevens Striker
 				Tooltip:
 					'''
-					Left click to consume 1 coin and play a slot machine
-					Quality of the outcome depends on the coin used
-					Right click to rapidly fire a barrage of coins
-					Right click has an 80% chance to not consume coins and will not fire platinum coins
+					Press {InputTrigger_UseOrAttack} to consume 1 coin and play a slot machine
+					The quality of the outcome depends on the coin used
+					Press <right> to rapidly fire a barrage of coins
+					The coin barrage has an 80% chance to save ammo and will not fire platinum coins
 					'A gun given to a great gunslinger
 					Forged by the arms of a man given no name'
 					'''
@@ -1187,9 +1197,10 @@ Mods : {
 				DisplayName: Tyranny's End
 				Tooltip:
 					'''
-					Pierce the heart of even the most heavily-armored foe
-					Converts musket balls into .70 caliber sniper rounds that bypass enemy defense and DR
-					Rounds mark enemies for death and summon a swarm of additional bullets on crits
+					Converts musket balls into .70 caliber sniper rounds that bypass enemy Defense and DR
+					Inflicts Marked for Death on enemy hits
+					Critical hits summon a swarm of 10 additional bullets
+					'Pierce the heart of even the most heavily-armored foe'
 					'''
 			}
 
@@ -1200,7 +1211,7 @@ Mods : {
 					Casts a continuous stream of plasma bolts
 					Over time the bolts are replaced with powerful lasers
 					Bolts power up into solid beams as you continue shooting
-					90% chance to not consume ammo
+					90% chance to save ammo
 					'''
 			}
 
@@ -1208,10 +1219,10 @@ Mods : {
 				DisplayName: Universal Genesis
 				Tooltip:
 					'''
-					Let the starry sky fall upon your enemies
 					Fires a spread of bullets from the gun and a flurry of stars to rain down on the cursor
 					Converts musket balls into starcaller shots that summon additional stars on enemy hits
-					50% chance to not consume ammo
+					50% chance to save ammo
+					'Let the starry sky fall upon your enemies'
 					'''
 			}
 
@@ -1219,9 +1230,9 @@ Mods : {
 				DisplayName: Voidragon
 				Tooltip:
 					'''
-					75% chance to not consume ammo
 					Fires void blasts that explode every other shot
 					Shoots demon flame tentacles alongside every shot
+					75% chance to save ammo
 					'''
 			}
 
@@ -1237,8 +1248,8 @@ Mods : {
 					Consumes wulfrum scrap or silver coins to fire
 					The shot's spread can be diminished by aiming further away, at the cost of less damage
 					Ignores 3 points of enemy Defense
-					[c/83B87E:"The good thing about Wulfrum is that while it breaks fast, it can be reused even faster"]
-					[c/83B87E:"In fact, it is quite common for a robot to be turned into ammo right after it stops functioning"]
+					[c/83B87E:'The good thing about Wulfrum is that while it breaks fast, it can be reused even faster.]
+					[c/83B87E:In fact, it is quite common for a robot to be turned into ammo right after it stops functioning.']
 					'''
 			}
 		}
