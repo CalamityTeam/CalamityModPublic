@@ -172,9 +172,9 @@ Mods : {
 				DisplayName: Bloody Mary
 				Tooltip:
 					'''
-					Boosts damage and movement speed by 10% during a Blood Moon
+					10% increased damage and movement speed during a Blood Moon
 					Reduces life regen by 4 and defense by 4%
-					'Extra spicy... and bloody!'
+					[c/B00BA5:'Extra spicy... and bloody!']
 					'''
 			}
 
@@ -182,9 +182,9 @@ Mods : {
 				DisplayName: Caribbean Rum
 				Tooltip:
 					'''
-					Boosts life regen by 2, movement speed by 10% and wing flight time by 20%
+					Increases life regen by 2, movement speed by 10% and wing flight time by 20%
 					Makes you floaty and reduces defense by 10%
-					'Why is the rum gone?'
+					[c/B00BA5:'Why is the rum gone?']
 					'''
 			}
 
@@ -192,9 +192,9 @@ Mods : {
 				DisplayName: Cinnamon Roll
 				Tooltip:
 					'''
-					Boosts mana regeneration rate and multiplies all fire-based debuff damage by 1.5
+					Increases mana regeneration rate and multiplies all fire-based debuff damage by 1.5x
 					Reduces defense by 10%
-					'A great-tasting cinnamon whiskey with a touch of cream soda'
+					[c/B00BA5:'A great-tasting cinnamon whiskey with a touch of cream soda.']
 					'''
 			}
 
@@ -202,9 +202,9 @@ Mods : {
 				DisplayName: Everclear
 				Tooltip:
 					'''
-					Boosts damage by 25%
+					25% increased damage
 					Reduces life regen by 10 and defense by 30%
-					'This is the most potent booze I have, be careful with it'
+					[c/B00BA5:'This is the most potent booze I have, be careful with it.']
 					'''
 			}
 
@@ -212,9 +212,9 @@ Mods : {
 				DisplayName: Evergreen Gin
 				Tooltip:
 					'''
-					Multiplies all sickness and water-related debuff damage by 1.25
+					Multiplies all sickness and water-related debuff damage by 1.25x
 					Reduces life regen by 1
-					'It tastes like a Christmas tree, if you can imagine that'
+					[c/B00BA5:'It tastes like a Christmas tree, if you can imagine that.']
 					'''
 			}
 
@@ -222,7 +222,7 @@ Mods : {
 				DisplayName: Fabsol's Vodka
 				Tooltip:
 					'''
-					Boosts all damage stats by 8% but lowers defense by 10%
+					8% increased damage, but lowers defense by 10%
 					Increases immune time after being struck
 					This magical liquor is highly sought by those with a refined palate
 					'''
@@ -232,9 +232,9 @@ Mods : {
 				DisplayName: Fireball
 				Tooltip:
 					'''
-					Multiplies all fire-based debuff damage by 1.25
+					Multiplies all fire-based debuff damage by 1.25x
 					Reduces life regen by 1
-					'A great-tasting cinnamon whiskey'
+					[c/B00BA5:'A great-tasting cinnamon whiskey.']
 					'''
 			}
 
@@ -242,8 +242,8 @@ Mods : {
 				DisplayName: Grape Beer
 				Tooltip:
 					'''
-					Reduces defense by 3%
-					'This crap is abhorrent, but you might like it'
+					Reduces defense by 3% for 15 seconds
+					[c/B00BA5:'This crap is abhorrent, but you might like it.']
 					'''
 			}
 
@@ -251,10 +251,10 @@ Mods : {
 				DisplayName: Margarita
 				Tooltip:
 					'''
-					Reduces the duration of most debuffs
+					Halves the duration of most harmful debuffs
 					Reduces defense by 6% and life regen by 1
 					3 minute duration
-					'One of the best drinks ever created, enjoy it while it lasts'
+					[c/B00BA5:'One of the best drinks ever created, enjoy it while it lasts.']
 					'''
 			}
 
@@ -264,7 +264,7 @@ Mods : {
 					'''
 					Increases defense by 10 and damage reduction by 3%
 					Reduces life regen by 1
-					'This stuff is pretty strong, but I'm sure you can handle it'
+					[c/B00BA5:'This stuff is pretty strong, but I'm sure you can handle it.']
 					'''
 			}
 
@@ -272,9 +272,9 @@ Mods : {
 				DisplayName: Moscow Mule
 				Tooltip:
 					'''
-					Boosts damage by 9%, knockback by 50% and critical strike chance by 3%
+					Increases damage by 9%, knockback by 50% and critical strike chance by 3%
 					Reduces life regen by 4
-					'I once heard the copper mug can be toxic and I told 'em, 'listen dummy, I'm already poisoning myself''
+					[c/B00BA5:'I once heard the copper mug can be toxic and I told 'em, 'listen dummy, I'm already poisoning myself!'']
 					'''
 			}
 
@@ -283,7 +283,7 @@ Mods : {
 				Tooltip:
 					'''
 					Causes you to see many fake, vibrant copies of all nearby entities
-					These visual effects may be nauseating or otherwise bad for some
+					[c/C4232C:These visual effects may be nauseating or otherwise bad for some]
 					'Trippy'
 					'''
 			}
@@ -292,8 +292,8 @@ Mods : {
 				DisplayName: Red Wine
 				Tooltip:
 					'''
-					Reduces life regen by 1
-					'Too dry for my taste'
+					Reduces life regen by 1 for 15 seconds
+					[c/B00BA5:'Too dry for my taste.']
 					'''
 			}
 
@@ -301,9 +301,9 @@ Mods : {
 				DisplayName: Rum
 				Tooltip:
 					'''
-					Boosts life regen by 2 and movement speed by 10%
+					Increases life regen by 2 and movement speed by 10%
 					Reduces defense by 5%
-					'Sweet and potent, just how I like it'
+					[c/B00BA5:'Sweet and potent, just how I like it.']
 					'''
 			}
 
@@ -311,9 +311,9 @@ Mods : {
 				DisplayName: Screwdriver
 				Tooltip:
 					'''
-					Multiplies piercing projectile damage by 1.05
+					Multiplies piercing projectile damage by 1.05x
 					Reduces life regen by 1
-					'Do you have a screw loose?'
+					[c/B00BA5:'Do you have a screw loose?']
 					'''
 			}
 
@@ -321,10 +321,10 @@ Mods : {
 				DisplayName: Star Beam Rye
 				Tooltip:
 					'''
-					Boosts max mana by 50, magic damage by 8%,
+					Increases max mana by 50, magic damage by 8%,
 					and reduces mana usage by 10%
 					Reduces defense by 6% and life regen by 2
-					'Made from some stuff I found near the Astral Meteor crash site. Don't worry, it's safe, trust me'
+					[c/B00BA5:'Made from some stuff I found near the Astral Meteor crash site. Don't worry, it's safe, trust me...']
 					'''
 			}
 
@@ -332,9 +332,9 @@ Mods : {
 				DisplayName: Tequila
 				Tooltip:
 					'''
-					Boosts knockback by 10%, crit chance by 4% and defense by 5 during daytime
+					Increases knockback by 10%, crit chance by 4% and defense by 5 during daytime
 					Reduces life regen by 1
-					'Great for mixing up daytime drinks'
+					[c/B00BA5:'Great for mixing up daytime drinks.']
 					'''
 			}
 
@@ -342,9 +342,9 @@ Mods : {
 				DisplayName: Tequila Sunrise
 				Tooltip:
 					'''
-					Boosts knockback by 20%, crit chance by 8% and defense by 10 during daytime
+					Increases knockback by 20%, crit chance by 8% and defense by 10 during daytime
 					Reduces life regen by 2
-					'The greatest daytime drink I've ever had'
+					[c/B00BA5:'The greatest daytime drink I've ever had.']
 					'''
 			}
 
@@ -352,9 +352,9 @@ Mods : {
 				DisplayName: Vodka
 				Tooltip:
 					'''
-					Boosts damage by 6% and critical strike chance by 2%
+					Increases damage by 6% and critical strike chance by 2%
 					Reduces life regen by 1 and defense by 5%
-					'The number one alcohol for creating great mixed drinks'
+					[c/B00BA5:'The number one alcohol for creating great mixed drinks.']
 					'''
 			}
 
@@ -362,9 +362,9 @@ Mods : {
 				DisplayName: Whiskey
 				Tooltip:
 					'''
-					Boosts damage by 4%, knockback by 20% and critical strike chance by 2%
+					Increases damage by 4%, knockback by 20% and critical strike chance by 2%
 					Reduces defense by 5%
-					'The burning sensation makes it tastier'
+					[c/B00BA5:'The burning sensation makes it tastier.']
 					'''
 			}
 
@@ -372,9 +372,9 @@ Mods : {
 				DisplayName: White Wine
 				Tooltip:
 					'''
-					Boosts magic damage by 8%
+					Increases magic damage by 8%
 					Reduces defense by 6% and life regen by 1
-					'I drank a full barrel of this stuff once in one night, I couldn't remember who I was the next day'
+					[c/B00BA5:'I drank a full barrel of this stuff once in one night, I couldn't remember who I was the next day.']
 					'''
 			}
 		}

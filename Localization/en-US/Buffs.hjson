@@ -8,27 +8,27 @@ Mods : {
 
 			BloodyMaryBuff: {
 				DisplayName: Bloody Mary
-				Description: Damage and movement speed boosted during a Blood Moon, life regen and defense reduced
+				Description: Damage and movement speed increased during a Blood Moon, life regen and defense reduced
 			}
 
 			CaribbeanRumBuff: {
 				DisplayName: Caribbean Rum
-				Description: Life regen, movement speed, and wing flight time boosted, you are floaty and defense is reduced
+				Description: Life regen, movement speed, and wing flight time increased, you are floaty and defense is reduced
 			}
 
 			CinnamonRollBuff: {
 				DisplayName: Cinnamon Roll
-				Description: Mana regen rate and fire debuff damage boosted, defense reduced
+				Description: Mana regen rate and fire debuff damage increased, defense reduced
 			}
 
 			EverclearBuff: {
 				DisplayName: Everclear
-				Description: Damage boosted, life regen and defense reduced
+				Description: Damage increased, life regen and defense reduced
 			}
 
 			EvergreenGinBuff: {
 				DisplayName: Evergreen Gin
-				Description: Sickness and water debuff damage boosted, life regen reduced
+				Description: Sickness and water debuff damage increased, life regen reduced
 			}
 
 			FabsolVodkaBuff: {
@@ -38,7 +38,7 @@ Mods : {
 
 			FireballBuff: {
 				DisplayName: Fireball
-				Description: Fire debuff damage boosted, life regen reduced
+				Description: Fire debuff damage increased, life regen reduced
 			}
 
 			GrapeBeerBuff: {
@@ -53,12 +53,12 @@ Mods : {
 
 			MoonshineBuff: {
 				DisplayName: Moonshine
-				Description: Defense and damage reduction boosted, life regen reduced
+				Description: Defense and damage reduction increased, life regen reduced
 			}
 
 			MoscowMuleBuff: {
 				DisplayName: Moscow Mule
-				Description: Damage, critical strike chance, and knockback boosted, life regen reduced
+				Description: Damage, critical strike chance, and knockback increased, life regen reduced
 			}
 
 			RedWineBuff: {
@@ -68,12 +68,12 @@ Mods : {
 
 			RumBuff: {
 				DisplayName: Rum
-				Description: Movement speed and life regen boosted, defense reduced
+				Description: Movement speed and life regen increased, defense reduced
 			}
 
 			ScrewdriverBuff: {
 				DisplayName: Screwdriver
-				Description: Piercing projectile damage boosted, life regen reduced
+				Description: Piercing projectile damage increased, life regen reduced
 			}
 
 			StarBeamRyeBuff: {
@@ -83,12 +83,12 @@ Mods : {
 
 			TequilaBuff: {
 				DisplayName: Tequila
-				Description: Critical strike chance, defense, and knockback boosted during daytime, life regen reduced
+				Description: Critical strike chance, defense, and knockback increased during daytime, life regen reduced
 			}
 
 			TequilaSunriseBuff: {
 				DisplayName: Tequila Sunrise
-				Description: Critical strike chance, defense, and knockback boosted during daytime, life regen reduced
+				Description: Critical strike chance, defense, and knockback increased during daytime, life regen reduced
 			}
 
 			Trippy: {
@@ -98,17 +98,17 @@ Mods : {
 
 			VodkaBuff: {
 				DisplayName: Vodka
-				Description: Damage and critical stike chance boosted, defense and life regen reduced
+				Description: Damage and critical stike chance increased, defense and life regen reduced
 			}
 
 			WhiskeyBuff: {
 				DisplayName: Whiskey
-				Description: Damage, critical strike chance, and knockback boosted, defense reduced
+				Description: Damage, critical strike chance, and knockback increased, defense reduced
 			}
 
 			WhiteWineBuff: {
 				DisplayName: White Wine
-				Description: Magic damage boosted, life regen and defense reduced
+				Description: Magic damage increased, life regen and defense reduced
 			}
 
 			Withered: {
@@ -508,7 +508,7 @@ Mods : {
 
 			BaguetteBuff: {
 				DisplayName: Baguette
-				Description: If only I knew... ~Cirrus
+				Description: [c/B00BA5:'If only I knew...' ~Cirrus]
 			}
 
 			BloodfinBoost: {
