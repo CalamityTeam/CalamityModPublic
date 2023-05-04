@@ -37,7 +37,7 @@ Mods : {
 
 			BoundingPotion: {
 				DisplayName: Bounding Potion
-				Tooltip: Grants 5% increased jump speed, 25 extra blocks of fall damage resistance, and increased jump height
+				Tooltip: 5% increased jump speed, 25 extra blocks of fall damage resistance, and increased jump height
 			}
 
 			CalciumPotion: {
@@ -124,7 +124,7 @@ Mods : {
 					'''
 					Turns the player into a shadow with glowing eyes
 					Rogue weapons spawn projectiles on hit
-					Stealth generation is increased by 8%
+					8% increased stealth generation
 					Visual effects can be disabled with the Stealth Invisibility config
 					'''
 			}
@@ -133,7 +133,7 @@ Mods : {
 				DisplayName: Soaring Potion
 				Tooltip:
 					'''
-					Increases flight time and horizontal flight speed by 10%
+					10% increased flight time and horizontal flight speed
 					Restores a fraction of your wing flight time after a true melee strike
 					The amount of flight time restored scales with your melee stats and weapon swing speed
 					'''

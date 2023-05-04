@@ -8,7 +8,7 @@ Mods : {
 					Summons the Plaguebringer Goliath when used in the Jungle
 					Enrages outside the Jungle
 					Not consumable
-					'Calls in the airborne abomination'
+					Calls in the airborne abomination
 					'''
 			}
 
@@ -86,7 +86,7 @@ Mods : {
 					'''
 					Summons the Ravager
 					Not consumable
-					'A very old temple whistle'
+					A very old temple whistle
 					'''
 			}
 
@@ -126,7 +126,7 @@ Mods : {
 					Summons The Dragonfolly when used in the Jungle
 					Enrages outside the Jungle
 					Not consumable
-					'Specifically formulated to attract draconic hybrids'
+					Specifically formulated to attract draconic hybrids
 					'''
 			}
 
@@ -208,7 +208,7 @@ Mods : {
 					Unique drop changes depending on the biome fought in
 					Enrages when fought during nighttime or when outside the Hallow or Underworld
 					Not consumable
-					'The core of the profaned flame'
+					The core of the profaned flame
 					'''
 			}
 
@@ -219,7 +219,7 @@ Mods : {
 					Summons the Profaned Guardians when used in the Hallow or Underworld during daytime
 					Enrage when not in the Hallow or Underworld
 					Not consumable
-					'A shard of the profaned flame'
+					A shard of the profaned flame
 					'''
 			}
 
@@ -230,7 +230,7 @@ Mods : {
 					Contains the power hunted relentlessly by the sentinels of the cosmic devourer
 					When used in certain areas of the world, it will unleash them
 					Not consumable
-					'A relic of the profaned flame'
+					A relic of the profaned flame
 					'''
 			}
 
@@ -289,7 +289,7 @@ Mods : {
 					Summons Yharon, Dragon of Rebirth
 					Enrages outside the fire walls
 					Not consumable
-					'An effigy of a Phoenix Dragon egg, used in worship'
+					An effigy of a Phoenix Dragon egg, used in worship
 					'''
 			}
 		}

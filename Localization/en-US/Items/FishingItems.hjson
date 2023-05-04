@@ -192,7 +192,7 @@ Mods : {
 				Tooltip:
 					'''
 					'How can a fish be used to dig through the ground?
-					Some questions are best left unanswered'
+					Some questions are best left unanswered...'
 					'''
 			}
 
@@ -245,7 +245,7 @@ Mods : {
 				Tooltip:
 					'''
 					While held, slowly electrifies nearby enemies
-					'The sea is a city
+					'The sea is a city.
 					Just below are highways, boulevards, streets and roundabouts bustling with submarine traffic.'
 					'''
 			}
@@ -290,7 +290,7 @@ Mods : {
 
 			WulfrumRod: {
 				DisplayName: Wulfrum Fishing Pole
-				Tooltip: 'This barely works, but it's better than nothing'
+				Tooltip: 'This barely works, but it's better than nothing...'
 			}
 		}
 	}

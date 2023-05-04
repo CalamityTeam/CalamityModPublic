@@ -548,14 +548,19 @@ Mods : {
 
 			ShadowBuff: {
 				DisplayName: Shadow
-				Description: You are a shadow, rogue weapons spawn projectiles on hit, and stealth generation is boosted by 8%
+				Description: 
+					'''
+					You are a shadow
+					Rogue weapons spawn projectiles on hit
+					8% boosted stealth generation
+					'''
 			}
 
 			Soaring: {
 				DisplayName: Soaring
 				Description:
 					'''
-					Increased wing flight time and speed by 10%
+					10% increased wing flight time and speed
 					True melee hits restore some wing flight time
 					'''
 			}
@@ -607,7 +612,7 @@ Mods : {
 
 			AbyssalDivingSuitPlates: {
 				DisplayName: Abyssal Diving Suit Plates
-				Description: The plates will absorb 15% damage
+				Description: 15% increased damage reduction
 			}
 
 			AbyssalMadness: {
@@ -617,7 +622,7 @@ Mods : {
 
 			AdrenalineMode: {
 				DisplayName: Adrenaline Mode
-				Description: 200% damage boost. Can be boosted by other items up to 245%
+				Description: 200% increased damage. Can be boosted by other items up to 245%
 			}
 
 			Afflicted: {
@@ -642,7 +647,7 @@ Mods : {
 
 			AquaticHeartWaterSpeed: {
 				DisplayName: Ocean's Blessing
-				Description: Increased max speed and acceleration by 15%
+				Description: 15% increased max speed and acceleration
 			}
 
 			AvertorBonus: {
@@ -716,7 +721,7 @@ Mods : {
 
 			Encased: {
 				DisplayName: Encased
-				Description: 30 defense and +30% damage reduction, but...
+				Description: Increased defense by 30 and damage reduction by 30%, but...
 			}
 
 			GraxBoost: {
@@ -726,12 +731,12 @@ Mods : {
 
 			HallowedRuneDefense: {
 				DisplayName: Hallowed Defense
-				Description: Defense boosted by 8 and damage reduction boosted by 4%
+				Description: Increased defense by 8 and damage reduction by 4%
 			}
 
 			HallowedRunePower: {
 				DisplayName: Hallowed Power
-				Description: Minion damage boosted by 10%
+				Description: 10% increased minion damage
 			}
 
 			HallowedRuneRegeneration: {
@@ -746,17 +751,17 @@ Mods : {
 
 			KamiBuff: {
 				DisplayName: Kami Injection
-				Description: Increased max movement speed, acceleration and damage by 15%
+				Description: 15% increased max movement speed, acceleration and damage
 			}
 
 			Mushy: {
 				DisplayName: Mushy
-				Description: Increased defense and life regen
+				Description: Increased defense by 6 and life regen by 2
 			}
 
 			PhantomicEmpowerment: {
 				DisplayName: Phantomic Empowerment
-				Description: Empowering minion damage by 10%
+				Description: 10% increased minion damage
 			}
 
 			PhantomicRegen: {
@@ -768,7 +773,7 @@ Mods : {
 				DisplayName: Phantomic Shield
 				Description:
 					'''
-					Defense boosted by 10 and damage reduction boosted by 5%
+					Defense increased by 10 and damage reduction increased by 5%
 					An ephemeral bulwark protects you
 					'''
 			}
@@ -782,7 +787,7 @@ Mods : {
 
 			RageMode: {
 				DisplayName: Rage Mode
-				Description: 35% damage boost
+				Description: 35% increased damage
 			}
 
 			ReaverRage: {
@@ -802,12 +807,12 @@ Mods : {
 
 			SpiritDefense: {
 				DisplayName: Spirit Defense
-				Description: Defense boosted by 6 and damage reduction boosted by 3%
+				Description: Defense increased by 6 and damage reduction increased by 3%
 			}
 
 			SpiritPower: {
 				DisplayName: Spirit Power
-				Description: Minion damage boosted by 10%
+				Description: 10% increased minion damage
 			}
 
 			SpiritRegen: {
@@ -817,7 +822,7 @@ Mods : {
 
 			TarragonCloak: {
 				DisplayName: Tarragon Cloak
-				Description: Contact damage is reduced by 50%
+				Description: 50% reduced contact damage
 			}
 
 			TarragonImmunity: {
@@ -852,12 +857,16 @@ Mods : {
 
 			DoGExtremeGravity: {
 				DisplayName: Extreme Gravity
-				Description: Your wing time is reduced by 25%, infinite flight is disabled
+				Description: 
+					'''
+					25% decreased wing time
+					Infinite flight is disabled
+					'''
 			}
 
 			Enraged: {
 				DisplayName: Enraged
-				Description: All damage taken is increased by 25%
+				Description: 25% increased damage
 			}
 
 			Eutrophication: {
@@ -892,7 +901,11 @@ Mods : {
 
 			IcarusFolly: {
 				DisplayName: Icarus' Folly
-				Description: Your wing time is reduced by 33%, infinite flight is disabled
+				Description: 
+				'''
+				33% decreased wing time
+				Infinite flight is disabled
+				'''
 			}
 
 			Irradiated: {
@@ -950,7 +963,7 @@ Mods : {
 				Description:
 					'''
 					Withered...
-					Defense reduced by 20
+					Defense decreased by 20
 					'''
 			}
 

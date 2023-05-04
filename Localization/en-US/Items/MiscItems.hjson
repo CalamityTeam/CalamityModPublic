@@ -37,7 +37,7 @@ Mods : {
 				DisplayName: Celestial Onion
 				Tooltip:
 					'''
-					Consuming it does something that cannot be reversed
+					Permanently increases the number of accessory slots
 					This item does nothing in Master Mode
 					Alien power pulses inside its layers
 					'''
@@ -187,9 +187,9 @@ Mods : {
 				DisplayName: Brimstone Locus
 				Tooltip:
 					'''
-					[c/c61b40:Not only can I enhance your equipment with potent magic,]
-					[c/c61b40:I can also transcend some of your weaponry to entirely new forms]
-					[c/c61b40:Such items are revealed while this item is in your inventory]
+					[c/c61b40:'Not only can I enhance your equipment with potent magic,]
+					[c/c61b40:I can also transcend some of your weaponry to entirely new forms.]
+					[c/c61b40:Such items are revealed while this item is in your inventory.']
 					'''
 			}
 			
