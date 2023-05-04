@@ -622,7 +622,7 @@ Mods : {
 
 			AdrenalineMode: {
 				DisplayName: Adrenaline Mode
-				Description: 200% increased damage. Can be boosted by other items up to 245%
+				Description: Total damage multiplied by 3x. Can be boosted by other items up to 3.45x
 			}
 
 			Afflicted: {
@@ -787,7 +787,7 @@ Mods : {
 
 			RageMode: {
 				DisplayName: Rage Mode
-				Description: 35% increased damage
+				Description: Total damage multiplied by 1.35x
 			}
 
 			ReaverRage: {
@@ -866,7 +866,7 @@ Mods : {
 
 			Enraged: {
 				DisplayName: Enraged
-				Description: 25% increased damage
+				Description: Total damage multiplied by 2.25x, but you take 1.25x damage
 			}
 
 			Eutrophication: {
