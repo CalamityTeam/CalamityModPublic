@@ -89,7 +89,7 @@ Mods : {
 				Tooltip:
 					'''
 					Summons the Third Sage
-					Use the item with right click in the hotbar to toggle the Third Sage's blessing
+					Use the item by pressing <right> in the hotbar to toggle the Third Sage's blessing
 					With the blessing, the player will spawn with full health rather than half
 					'As the ice melts in the springs
 					And waves wash the old moss' hair...
