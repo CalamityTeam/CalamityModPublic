@@ -72,7 +72,7 @@ Mods : {
 			DraedonAresEnrageText: How foolish. You cannot escape.
 			
 			/* Draedon (ending) */
-			DraedonEndText1: An unknown factor-a catalyst is what you are.
+			DraedonEndText1: An unknown factor - a catalyst is what you are.
 			DraedonEndText2: Nearly as alien as I, to this land and its history.
 			DraedonEndText3: ...Excuse my introspection. I must gather my thoughts after that display.
 			DraedonEndText4: This land has become stale and stiff with blood that has been spilled until now.
@@ -85,7 +85,7 @@ Mods : {
 			
 			/* Draedon (GFB) */
 			DraedonMechdusaBeginText: ...Die.
-			DraedonMechdusaEndText1: Wait what? How?
+			DraedonMechdusaEndText1: Wait, what? How?
 			DraedonMechdusaEndText2: No
 			
 			/* SCal (First Battle) */

@@ -89,7 +89,7 @@ Mods : {
 
 			EssenceofHavoc: {
 				DisplayName: Essence of Havoc
-				Tooltip: The essence of chaotic creatures
+				Tooltip: The essence of desolate creatures
 			}
 
 			EssenceofSunlight: {
@@ -203,7 +203,7 @@ Mods : {
 
 			TitanHeart: {
 				DisplayName: Titan Heart
-				Tooltip: Also used at the Astral Beacon
+				Tooltip: Can be offered up at the Astral Beacon
 			}
 
 			TrapperBulb.DisplayName: Trapper Bulb

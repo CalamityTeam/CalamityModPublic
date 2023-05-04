@@ -128,7 +128,7 @@ Mods : {
 
 			BrimstoneFlames: {
 				DisplayName: Brimstone Flames
-				Description: Rapid health loss
+				Description: Incinerating both body and mind
 			}
 
 			BurningBlood: {
@@ -138,7 +138,7 @@ Mods : {
 
 			CrushDepth: {
 				DisplayName: Crush Depth
-				Description: Aquatic pressure
+				Description: Crushed by aquatic pressure
 			}
 
 			Dragonfire: {
@@ -223,12 +223,12 @@ Mods : {
 
 			VulnerabilityHex: {
 				DisplayName: Vulnerability Hex
-				Description: You are weak
+				Description: Your mental fortitude is fading
 			}
 
 			WeakBrimstoneFlames: {
 				DisplayName: Weak Brimstone Flames
-				Description: Health loss
+				Description: Using the Supreme Witch's power causes you to suffer, but makes your weapons strong
 			}
 
 			AlicornBuff: {
@@ -313,7 +313,7 @@ Mods : {
 
 			BearBuff: {
 				DisplayName: Bear
-				Description: A guardian angel is following you.
+				Description: A guardian angel is following you
 			}
 
 			BloodBound: {
@@ -338,7 +338,7 @@ Mods : {
 
 			DannyDevito: {
 				DisplayName: Danny Devito
-				Description: The trash man is following you.
+				Description: The trash man is following you
 			}
 
 			Dreamfog: {
@@ -378,7 +378,7 @@ Mods : {
 
 			Kendra: {
 				DisplayName: Kendra
-				Description: A loyal friend accompanies you.
+				Description: A loyal friend accompanies you
 			}
 
 			LadBuff: {
@@ -433,7 +433,7 @@ Mods : {
 
 			ThirdSageBuff: {
 				DisplayName: Third Sage
-				Description: Eh? No way it's an oni.
+				Description: Eh? No way it's an oni
 			}
 
 			YharonSonBuff: {
@@ -555,8 +555,8 @@ Mods : {
 				DisplayName: Soaring
 				Description:
 					'''
-					Increased wing flight time and speed
-					True melee hits restore wing flight time
+					Increased wing flight time and speed by 10%
+					True melee hits restore some wing flight time
 					'''
 			}
 
@@ -582,17 +582,17 @@ Mods : {
 
 			WeaponImbueHolyFlames: {
 				DisplayName: Weapon Imbue: Holy Flames
-				Description: Melee, Whip, and Rogue attacks ignite enemies with holy flames
+				Description: Melee, Whip, and Rogue attacks dissolve enemies with holy flames
 			}
 
 			Zen: {
 				DisplayName: Zen
-				Description: Spawn rates are reduced
+				Description: Spawn rates are greatly reduced
 			}
 
 			Zerg: {
 				DisplayName: Zerg
-				Description: Spawn rates are boosted
+				Description: Spawn rates are greatly boosted
 			}
 
 			RancorBurn: {
@@ -612,12 +612,12 @@ Mods : {
 
 			AbyssalMadness: {
 				DisplayName: Abyssal Madness
-				Description: Increased damage, critical strike chance, and tentacle aggression/range
+				Description: Increased damage, critical strike chance, and tentacle aggression and range
 			}
 
 			AdrenalineMode: {
 				DisplayName: Adrenaline Mode
-				Description: 200% damage boost. Can be boosted by other items up to 245%.
+				Description: 200% damage boost. Can be boosted by other items up to 245%
 			}
 
 			Afflicted: {
@@ -642,7 +642,7 @@ Mods : {
 
 			AquaticHeartWaterSpeed: {
 				DisplayName: Ocean's Blessing
-				Description: 15% increased max speed and acceleration
+				Description: Increased max speed and acceleration by 15%
 			}
 
 			AvertorBonus: {
@@ -746,7 +746,7 @@ Mods : {
 
 			KamiBuff: {
 				DisplayName: Kami Injection
-				Description: Increased max movement speed, acceleration and damage
+				Description: Increased max movement speed, acceleration and damage by 15%
 			}
 
 			Mushy: {
@@ -782,7 +782,7 @@ Mods : {
 
 			RageMode: {
 				DisplayName: Rage Mode
-				Description: 35% damage boost.
+				Description: 35% damage boost
 			}
 
 			ReaverRage: {
@@ -817,7 +817,7 @@ Mods : {
 
 			TarragonCloak: {
 				DisplayName: Tarragon Cloak
-				Description: Contact damage is reduced
+				Description: Contact damage is reduced by 50%
 			}
 
 			TarragonImmunity: {
@@ -981,7 +981,7 @@ Mods : {
 
 			BabySlimeGodBuff: {
 				DisplayName: Baby Slime God
-				Description: The slime god will protect you
+				Description: The Slime God will protect you
 			}
 
 			BabyStormlionBuff: {
@@ -1011,7 +1011,7 @@ Mods : {
 
 			BrimstoneWaifu: {
 				DisplayName: Brimstone Elemental
-				Description: The brimstone elemental will protect you
+				Description: The Brimstone Elemental will protect you
 			}
 
 			BrittleStar: {
@@ -1036,7 +1036,7 @@ Mods : {
 
 			CloudyWaifu: {
 				DisplayName: Cloud Elemental
-				Description: The cloud elemental will protect you
+				Description: The Cloud Elemental will protect you
 			}
 
 			ColdDivinityBuff: {
@@ -1076,7 +1076,7 @@ Mods : {
 
 			DaedalusCrystalBuff: {
 				DisplayName: Daedalus Crystal
-				Description: The daedalus crystal will protect you
+				Description: The Daedalus crystal will protect you
 			}
 
 			DaedalusGolemBuff: {
@@ -1091,7 +1091,7 @@ Mods : {
 
 			DazzlingStabberBuff: {
 				DisplayName: Dazzling Stabber
-				Description: En garde
+				Description: En garde!
 			}
 
 			DemonshadeSetDevilBuff: {
@@ -1206,7 +1206,7 @@ Mods : {
 
 			LilPlaguebringerBuff: {
 				DisplayName: Lil' Plaguebringer
-				Description: The plaguebringer will protect you
+				Description: The Plaguebringer will protect you
 			}
 
 			MagicHatBuff: {
@@ -1261,7 +1261,7 @@ Mods : {
 
 			PlantationBuff: {
 				DisplayName: Plantation
-				Description: The miniature plantera will protect you
+				Description: The miniature Plantera will protect you
 			}
 
 			PoleWarperBuff: {
@@ -1296,12 +1296,12 @@ Mods : {
 
 			SandyHealingWaifu: {
 				DisplayName: Rare Sand Elemental
-				Description: The sand elemental will heal you
+				Description: The Sand Elemental will heal you
 			}
 
 			SandyWaifu: {
 				DisplayName: Sand Elemental
-				Description: The sand elemental will protect you
+				Description: The Sand Elemental will protect you
 			}
 
 			SarosPossessionBuff: {

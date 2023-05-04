@@ -25,8 +25,8 @@ Mods : {
 				DisplayName: Brimstone Jewel
 				Tooltip:
 					'''
-					The ultimate reward for defeating such a beast...
-					Who knew she'd be so darn cute!
+					'The ultimate reward for defeating such a beast...
+					Who knew she'd be so darn cute!'
 					'''
 			}
 
@@ -39,9 +39,9 @@ Mods : {
 				DisplayName: Chromatic Orb
 				Tooltip:
 					'''
-					It glows warmly in your hand
 					Summons an ancient dragon light pet that highlights nearby enemies and danger sources
 					Provides a small amount of light in the abyss
+					'It glows warmly in your hand'
 					'''
 			}
 
@@ -50,8 +50,8 @@ Mods : {
 				Tooltip:
 					'''
 					Summons the devourer of the cosmos...?
-					Sharp objects possibly included
 					Suppresses friendly red devils
+					'Sharp objects possibly included'
 					'''
 			}
 
@@ -59,9 +59,9 @@ Mods : {
 				DisplayName: Enchanted Butterfly
 				Tooltip:
 					'''
-					Feed him butterflies to keep him strong!
 					Summons a mysterious dragonfly light pet
 					Provides a small amount of light in the abyss
+					'Feed him butterflies to keep him strong!'
 					'''
 			}
 
@@ -74,7 +74,7 @@ Mods : {
 				DisplayName: Fox Drive
 				Tooltip:
 					'''
-					'It contains 1 file on it'
+					It contains 1 file on it:
 					'Fox.cs'
 					'''
 			}
@@ -88,18 +88,18 @@ Mods : {
 				DisplayName: Hermit's Box of One Hundred Medicines
 				Tooltip:
 					'''
-					As the ice melts in the springs
-					And waves wash the old moss' hair...
-					Thank you, Goodbye.
 					Summons the Third Sage
-					Use the item with right click in the hotbar to toggle the Third Sage's blessing.
-					With the blessing, the player will spawn with full health rather than half.
+					Use the item with right click in the hotbar to toggle the Third Sage's blessing
+					With the blessing, the player will spawn with full health rather than half
+					'As the ice melts in the springs
+					And waves wash the old moss' hair...
+					Thank you, Goodbye'
 					'''
 			}
 
 			JoyfulHeart: {
 				DisplayName: Joyful Heart
-				Tooltip: It's oddly warm. Attracts the forbidden one.
+				Tooltip: It's oddly warm. Attracts the forbidden one
 			}
 
 			Levi: {
@@ -111,15 +111,15 @@ Mods : {
 				DisplayName: Little Light
 				Tooltip:
 					'''
-					It's been looking for you for a long time.
 					Summons a small construct that follows you and provides a great amount of light
 					Provides a large amount of light in the abyss
+					'It's been looking for you for a long time'
 					'''
 			}
 
 			McNuggets: {
 				DisplayName: McNuggets
-				Tooltip: These chicken nuggets aren't for you to eat!
+				Tooltip: 'These chicken nuggets aren't for you to eat!'
 			}
 
 			PineapplePet: {
@@ -141,9 +141,9 @@ Mods : {
 				DisplayName: Radiating Crystal
 				Tooltip:
 					'''
-					The crystal contains traces of holothurin
 					Summons a radiator light pet
 					Provides a small amount of light in the abyss
+					'The crystal contains traces of holothurin'
 					'''
 			}
 
@@ -172,7 +172,7 @@ Mods : {
 					'''
 					Summons an electric troublemaker
 					A little note is attached:
-					Thank you, Aloe! Very much appreciated from Ben
+					'Thank you, Aloe! Very much appreciated from Ben'
 					'''
 			}
 
@@ -180,9 +180,9 @@ Mods : {
 				DisplayName: Thief's Dime
 				Tooltip:
 					'''
-					Once worthless treasure, now a relic of a thief's companionship
 					Summons Goldie the coin to light your way and collects nearby coins
 					Provides a small amount of light in the abyss
+					'Once worthless treasure, now a relic of a thief's companionship'
 					'''
 			}
 

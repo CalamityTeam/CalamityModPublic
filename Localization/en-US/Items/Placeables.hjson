@@ -1172,7 +1172,7 @@ Mods : {
 				Tooltip:
 					'''
 					An Ashen Slab variant that merges differently with nearby blocks
-					Favored by advanced builders
+					'Favored by advanced builders'
 					'''
 			}
 
@@ -1424,7 +1424,7 @@ Mods : {
 
 			LargeRitualCandle: {
 				DisplayName: Large Ritual Candle
-				Tooltip: Right click to place in a different style
+				Tooltip: Press <right> to place in a different style
 			}
 
 			MonolithOfTheAccursed: {
@@ -1442,7 +1442,7 @@ Mods : {
 
 			RitualCandle: {
 				DisplayName: Ritual Candle
-				Tooltip: Right click to place in a different style
+				Tooltip: Press <right> to place in a different style
 			}
 
 			SacrilegiousBathtub.DisplayName: Sacrilegious Bathtub
@@ -1614,7 +1614,7 @@ Mods : {
 
 			ExodiumCluster: {
 				DisplayName: Exodium Cluster
-				Tooltip: A cold cluster from the great unknown.
+				Tooltip: A cold cluster from the great unknown
 			}
 
 			HallowedOre.DisplayName: Hallowed Ore
@@ -1627,32 +1627,32 @@ Mods : {
 
 			Cinderplate: {
 				DisplayName: Cinderplate
-				Tooltip: It resonates with otherworldly energy.
+				Tooltip: It resonates with otherworldly energy
 			}
 
 			Elumplate: {
 				DisplayName: Elumplate
-				Tooltip: It resonates with otherworldly energy.
+				Tooltip: It resonates with otherworldly energy
 			}
 
 			Havocplate: {
 				DisplayName: Havocplate
-				Tooltip: It resonates with otherworldly energy.
+				Tooltip: It resonates with otherworldly energy
 			}
 
 			Navyplate: {
 				DisplayName: Navyplate
-				Tooltip: It resonates with otherworldly energy.
+				Tooltip: It resonates with otherworldly energy
 			}
 
 			Onyxplate: {
 				DisplayName: Onyxplate
-				Tooltip: It resonates with otherworldly energy.
+				Tooltip: It resonates with otherworldly energy
 			}
 
 			Plagueplate: {
 				DisplayName: Plagueplate
-				Tooltip: It resonates with otherworldly energy.
+				Tooltip: It resonates with otherworldly energy
 			}
 
 			PrismShard: {

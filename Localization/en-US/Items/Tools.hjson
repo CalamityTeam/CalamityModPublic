@@ -68,8 +68,8 @@ Mods : {
 				DisplayName: Crystyl Crusher
 				Tooltip:
 					'''
-					Gotta dig faster, gotta go deeper
-					Right click to swing normally
+					Press <right> to swing normally
+					'Gotta dig faster, gotta go deeper'
 					'''
 			}
 
@@ -86,7 +86,7 @@ Mods : {
 				Tooltip:
 					'''
 					Hitting an enemy will greatly boost your defense, melee damage and melee crit for a short time
-					Right click to use without hammering down walls or chopping down trees
+					Press <right> to use without hammering down walls or chopping down trees
 					'''
 			}
 
@@ -129,8 +129,8 @@ Mods : {
 				Tooltip:
 					'''
 					Capable of mining Lihzahrd Bricks
-					Left click to use as a pickaxe
-					Right click to use as a hammer
+					Press {InputTrigger_UseOrAttack} to use as a pickaxe
+					Press <right> to use as a hammer
 					'''
 			}
 
@@ -148,7 +148,7 @@ Mods : {
 				Tooltip:
 					'''
 					Throws a rickety mining contraption to dig out a small tunnel
-					In case of an emergency, right click to instantly detonate all your digging turtles
+					In case of an emergency, press <right> to instantly detonate all your digging turtles
 					'''
 			}
 
@@ -158,9 +158,9 @@ Mods : {
 				DisplayName: Wulfrum Scaffold Kit
 				Tooltip:
 					'''
-					"For when you need something built fast and don't need it to last."
 					Places down temporary metal scaffolding. Uses up one wulfrum metal scrap for 40 tiles built
 					Scaffold needs to be adjacent to a solid tile to be placed down
+					'For when you need something built fast and don't need it to last.'
 					'''
 			}
 
@@ -168,7 +168,7 @@ Mods : {
 				DisplayName: Wulfrum Treasure Pinger
 				Tooltip:
 					'''
-					Helps you find metal that's hopefully more valuable than wulfrum
+					Locates nearby metal that's hopefully more valuable than wulfrum
 					This contraption seems incredibly shoddy. [c/fc4903:It'll break sooner than later for sure]
 					'''
 			}

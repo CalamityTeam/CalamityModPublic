@@ -28,13 +28,13 @@ Mods : {
 				DislikeBiome: This dry air and heat isn't good for my hair, or my drinks.
 				HateBiome: This place is awful! The musty air spoils the taste and aroma of everything I'm selling!
 				LoveNPC_Stylist: "{NPCName} works wonders for my hair... among other things, hehe."
-				LoveNPC_BestiaryGirl: "{NCPName} is so fluffy and squishy! She also says my alicorn form is 'mega rad'."
-				LikeNPC_Truffle: "{NCPName} makes me so hungry... I wonder how great of a trip he'd give..."
-				LikeNPC_PartyGirl: "{NCPName} would make for a great bartender some day. She really knows how to liven the mood!"
-				DislikeNPC_DD2Bartender: "{NCPName} is so bald. Maybe if he'd stop trying to date me he'd finally grow some hair."
-				DislikeNPC_TaxCollector: "{NCPName} had best keep his distance... he wouldn't want to wake up one morning with a pipe bomb in his mailbox."
-				HateNPC_GoblinTinkerer: "{NCPName} was so terrible that I had to FORCE him to have a better reforge system. Why would you house me next to him? Do you enjoy watching me relive the stress he gave me!?"
-				HateNPC_Angler: "{NCPName} never stops blabbering about his inane fishing quests. Get me away from him before I stomp him into the ground!"
+				LoveNPC_BestiaryGirl: "{NPCName} is so fluffy and squishy! She also says my alicorn form is 'mega rad'."
+				LikeNPC_Truffle: "{NPCName} makes me so hungry... I wonder how great of a trip he'd give..."
+				LikeNPC_PartyGirl: "{NPCName} would make for a great bartender some day. She really knows how to liven the mood!"
+				DislikeNPC_DD2Bartender: "{NPCName} is so bald. Maybe if he'd stop trying to date me he'd finally grow some hair."
+				DislikeNPC_TaxCollector: "{NPCName} had best keep his distance... he wouldn't want to wake up one morning with a pipe bomb in his mailbox."
+				HateNPC_GoblinTinkerer: "{NPCName} was so terrible that I had to FORCE him to have a better reforge system. Why would you house me next to him? Do you enjoy watching me relive the stress he gave me!?"
+				HateNPC_Angler: "{NPCName} never stops blabbering about his inane fishing quests. Get me away from him before I stomp him into the ground!"
 				LikeNPC_Princess: You think I'd dislike {NPCName} because we're too different? Quite the contrary, there's a lot we like to talk about, over non-alcoholic drinks of course.
 			}
 
@@ -70,7 +70,7 @@ Mods : {
 			}
 
 			WITCH: {
-				Content: I can't complain really.
+				Content: I can't complain, really.
 				NoHome: Anywhere would be better than a cave with no bed or lighting.
 				LoveSpace: The quieter, the better. This is good.
 				FarFromHome: After being used to having people around for a bit, I miss it again.
@@ -81,7 +81,7 @@ Mods : {
 				HateBiome: The spirits are unrestful here. It's really not a good feeling.
 				LikeNPC: "{NPCName} is someone who's had a terrible experience being cursed. He's put up with it quite well all that time, it's quite impressive honestly."
 				DislikeNPC: Such a racket! All {NPCName} does is make noise, day in and day out! I can't stand her!
-				LikeNPC_Princess: What a strangely pleasant kid, {NPCName} is to be around.
+				LikeNPC_Princess: What a strangely pleasant kid {NPCName} is to be around.
 			}
 		}
 	}

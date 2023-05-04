@@ -19,7 +19,7 @@ Mods: {
             Indignant.DisplayName: Indignant
             Indignant.Description: Summons demons that harm you but drop healing items on death on item usage.
             Aflame.DisplayName: Aflame
-            Aflame.Description: Lights enemies ablaze on hit but also causes the user to take damage over time when holding this item.
+            Aflame.Description: Ignites enemies with the Supreme Witch's power on hit but also causes the user to take damage over time when holding this item.
             Oblatory.DisplayName: Oblatory
             Oblatory.Description: Reduces mana cost and greatly increases damage but sometimes causes this item to use your life.
             Resentful.DisplayName: Resentful
