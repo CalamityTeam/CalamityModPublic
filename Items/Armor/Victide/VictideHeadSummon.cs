@@ -36,12 +36,12 @@ namespace CalamityMod.Items.Armor.Victide
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "+3 life regen and 10% increased minion damage while submerged in liquid\n" +
+            player.setBonus = "+1 max minion\n" +
                 "Summons a sea snail to protect you\n" +
                 "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
                 "This seashell does true damage and does not benefit from any damage class\n" +
                 "Provides increased underwater mobility and slightly reduces breath loss in the abyss\n" +
-                "+1 max minion";
+                "+3 life regen and 10% increased minion damage while submerged in liquid";
             var modPlayer = player.Calamity();
             modPlayer.victideSet = true;
             modPlayer.victideSummoner = true;
