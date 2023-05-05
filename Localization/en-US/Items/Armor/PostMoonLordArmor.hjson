@@ -159,7 +159,7 @@ Mods : {
 				Tooltip:
 					'''
 					Pure terror radiates from your eyes
-					+60 max mana and 10% decreased mana usage
+					+60 max mana and 10% reduced mana usage
 					10% increased minion damage
 					'''
 			}
@@ -171,7 +171,7 @@ Mods : {
 					6% increased damage
 					50% increased minion knockback
 					10% increased movement speed
-					Taking damage makes you move very fast for a short time
+					Taking damage increases your movement speed by 40% for 4 seconds
 					'''
 			}
 
@@ -186,17 +186,17 @@ Mods : {
 
 			GemTechBodyArmor: {
 				DisplayName: Gem Tech Body Armor
-				Tooltip: You sunk low enough for me to reach.
+				Tooltip: 'You sunk low enough for me to reach.'
 			}
 
 			GemTechHeadgear: {
 				DisplayName: Gem Tech Headgear
-				Tooltip: The Devil said: Revel in your victory; You've earned your damning. Pack your things and leave.
+				Tooltip: 'The Devil said: Revel in your victory; You've earned your damning. Pack your things and leave.'
 			}
 
 			GemTechSchynbaulds: {
 				DisplayName: Gem Tech Schynbaulds
-				Tooltip: If they hurt you, kick them down.
+				Tooltip: 'If they hurt you, kick them down.'
 			}
 
 			GodSlayerChestplate: {
@@ -349,8 +349,8 @@ Mods : {
 				Tooltip:
 					'''
 					Can move freely through liquids
-					5% increased damage reduction
 					10% increased melee damage and critical strike chance
+					5% increased damage reduction
 					'''
 			}
 

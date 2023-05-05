@@ -56,9 +56,10 @@ Mods : {
 				DisplayName: Cirrus' Dress
 				Tooltip:
 					'''
-					Here, this should help you drink a lot more than usual!
 					5% increased magic damage and critical strike chance
-					You feel thick...
+					20% decreased movement speed and increases maximum fall speed to 61 mph
+					[c/b00ba5:'Here, this should help you drink a lot more than usual!']
+					'You feel thick...'
 					'''
 			}
 
@@ -72,7 +73,7 @@ Mods : {
 				Tooltip:
 					'''
 					13% increased magic damage and 7% increased magic critical strike chance
-					10% decreased mana usage and +60 max mana
+					10% reduced mana usage and +60 max mana
 					'''
 			}
 
@@ -149,7 +150,7 @@ Mods : {
 	
 			ForbiddenCirclet: {
 				DisplayName: Forbidden Circlet
-				Tooltip: 10% increased summon damage and 15% increased rogue velocity
+				Tooltip: 10% increased minion damage and 15% increased rogue velocity
 			}
 	
 			HydrothermicArmor: {

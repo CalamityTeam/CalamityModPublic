@@ -90,7 +90,7 @@ Mods : {
 				DisplayName: Statigel Cap
 				Tooltip:
 					'''
-					10% increased magic damage and 10% decreased mana cost
+					10% increased magic damage and 10% reduced mana usage
 					7% increased magic critical strike chance and +30 max mana
 					'''
 			}
@@ -200,7 +200,7 @@ Mods : {
 					'''
 					Fires quick bursts of medium-range pellets
 					Ignores 10 points of enemy Defense
-					[c/878787:"Who needs whips when you can simply become the summon yourself?"]
+					[c/878787:'Who needs whips when you can simply become the summon yourself?']
 					'''
 			}
 
