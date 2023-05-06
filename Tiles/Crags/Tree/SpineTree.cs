@@ -86,49 +86,21 @@ namespace CalamityMod.Tiles.Crags.Tree
                 }
             }
 
-            if (height < 4 || height < minSize) 
+            if (height < minSize) 
             {
                 return false;
             }
 
-            //this places the base, probably a bit weird looking here but it works
-            //problem is messing around with this completely broke the hell out of the tree so i refuse to modify it for now
-            //if someone else by some miracle can figure out how to change it, please let me know :)
-            bool[] extraPlaces = new bool[5];
-            for (int k = -2; k <= 2; k++)
+            //make sure the block is valid for the tree to place on
+            if ((SolidTopTile(i, j + 1) || SolidTile(i, j + 1)) && !Framing.GetTileSafely(i, j).HasTile)
             {
-                extraPlaces[k + 2] = false;
-
-                if ((SolidTopTile(i + k, j + 1) || SolidTile(i + k, j + 1)) && !Framing.GetTileSafely(i + k, j).HasTile)
-                {
-                    extraPlaces[k + 2] = true;
-                }
+                WorldGen.PlaceTile(i, j, ModContent.TileType<SpineTree>(), true);
+                Framing.GetTileSafely(i, j).TileFrameY = (short)(WorldGen.genRand.Next(3) * 18);
             }
-
-            if (!extraPlaces[1]) extraPlaces[0] = false;
-            if (!extraPlaces[3]) extraPlaces[4] = false;
-
-            if (!extraPlaces[2]) 
+            //otherwise dont allow the tree to grow
+            else
             {
                 return false;
-            }
-
-            extraPlaces = new bool[5] { false, false, true, false, false };
-
-            //place the actual base
-            for (int k = -2; k <= 2; k++)
-            {
-                if (extraPlaces[k + 2])
-                {
-                    WorldGen.PlaceTile(i + k, j, ModContent.TileType<SpineTree>(), true);
-
-                    Framing.GetTileSafely(i + k, j).TileFrameX = 0;
-                    Framing.GetTileSafely(i, j - k).TileFrameY = (short)(Main.rand.Next(3) * 18);
-                }
-                else
-                {
-                    continue;
-                }
             }
 
             int branchSegmentDelay = 0;

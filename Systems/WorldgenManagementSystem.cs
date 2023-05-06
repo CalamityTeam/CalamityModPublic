@@ -35,7 +35,8 @@ namespace CalamityMod.Systems
             {
                 tasks.Insert(islandIndex + 2, new PassLegacy("Evil Island", (progress, config) =>
                 {
-                    progress.Message = WorldGen.crimson ? "Adding a putrid floating island" : "Adding a grotesque floating island";
+                    LocalizedText Description = WorldGen.crimson ? Language.GetOrRegister("Mods.Calamity.UI.EvilIslandCrimson") : Language.GetOrRegister("Mods.Calamity.UI.EvilIslandCrimson");
+                    progress.Message = Description.Value;
                     WorldEvilIsland.PlaceEvilIsland();
                 }));
             }
@@ -51,7 +52,7 @@ namespace CalamityMod.Systems
             int JungleTempleIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Temple"));
             tasks[JungleTempleIndex] = new PassLegacy("Jungle Temple", (progress, config) =>
             {
-                progress.Message = "Building a bigger jungle temple";
+                progress.Message = Language.GetOrRegister("Mods.Calamity.UI.BetterJungleTemple").Value;
                 CustomTemple.NewJungleTemple();
             });
 
@@ -59,7 +60,7 @@ namespace CalamityMod.Systems
             int JungleTempleIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Temple"));
             tasks[JungleTempleIndex2] = new PassLegacy("Temple", (progress, config) =>
             {
-                progress.Message = "Building a better jungle temple";
+                progress.Message = Language.GetOrRegister("Mods.Calamity.UI.BetterJungleTemple").Value;
                 Main.tileSolid[162] = false;
                 Main.tileSolid[226] = true;
                 CustomTemple.NewJungleTemplePart2();
@@ -70,7 +71,7 @@ namespace CalamityMod.Systems
             int LihzahrdAltarIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Lihzahrd Altars"));
             tasks[LihzahrdAltarIndex] = new PassLegacy("Lihzahrd Altars", (progress, config) =>
             {
-                progress.Message = "Placing the Lihzahrd altar";
+                progress.Message = Language.GetOrRegister("Mods.Calamity.UI.JungleTempleAltar").Value;
                 CustomTemple.NewJungleTempleLihzahrdAltar();
             });
 
@@ -80,7 +81,7 @@ namespace CalamityMod.Systems
             {
                 tasks.Insert(giantHiveIndex + 1, new PassLegacy("Giant Hive", (progress, config) =>
                 {
-                    progress.Message = "Building a giant beehive";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.GiantBeehive").Value;
                     int attempts = 0;
                     while (attempts < 1000)
                     {
@@ -98,7 +99,7 @@ namespace CalamityMod.Systems
             {
                 tasks.Insert(mechanicIndex + 1, new PassLegacy("Mechanic Shed", (progress, config) =>
                 {
-                    progress.Message = "Placing mechanic shed";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.MechanicShed").Value;
                     MechanicShed.PlaceMechanicShed(GenVars.structures);
                 }));
             }
@@ -109,7 +110,7 @@ namespace CalamityMod.Systems
             {
                 tasks.Insert(vernalIndex + 1, new PassLegacy("Vernal Pass", (progress, config) =>
                 {
-                    progress.Message = "Blessing a flourishing jungle grove";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.VernalPass").Value;
                     VernalPass.PlaceVernalPass(GenVars.structures);
                 }));
             }
@@ -120,7 +121,7 @@ namespace CalamityMod.Systems
             {
                 tasks.Insert(SunkenSeaIndex + 1, new PassLegacy("Sunken Sea", (progress, config) =>
                 {
-                    progress.Message = "Partially flooding an overblown desert";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.SunkenSea").Value;
 
                     int sunkenSeaX = GenVars.UndergroundDesertLocation.Left;
                     int sunkenSeaY = Main.maxTilesY - 400;
@@ -137,14 +138,16 @@ namespace CalamityMod.Systems
                 int currentFinalIndex = FinalIndex;
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Gem Depth Adjustment", (progress, config) =>
                 {
-                    progress.Message = "Sensibly shuffling gem depth";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.GemAdjustment").Value;
+
                     MiscWorldgenRoutines.SmartGemGen();
                 }));
 
                 //Forsaken Archive structure in the Dungeon
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Forsaken Archive", (progress, config) =>
                 {
-                    progress.Message = "Entombing occult literature";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.DungeonArchive").Value;
+
                     DungeonArchive.PlaceArchive();
                 }));
 
@@ -157,7 +160,8 @@ namespace CalamityMod.Systems
                 {
                     tasks.Insert(SulphurIndex + 1, new PassLegacy("Sulphur Sea", (progress, config) =>
                     {
-                        progress.Message = "Polluting one of the oceans";
+                        progress.Message = Language.GetOrRegister("Mods.Calamity.UI.SulphurSea").Value;
+
                         SulphurousSea.PlaceSulphurSea();
                     }));
                 }
@@ -165,44 +169,44 @@ namespace CalamityMod.Systems
                 //Brimstone Crags
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Brimstone Crag", (progress, config) =>
                 {
-                    progress.Message = "Incinerating Azafure";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.BrimstoneCrags").Value;
                     BrimstoneCrag.GenAllCragsStuff();
                 }));
 
                 //Biome shrines
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Special Shrines", (progress, config) =>
                 {
-                    progress.Message = "Hiding forbidden shrines";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.HiddenShrines").Value;
 
                     //Cuts down on worldgen time to process the right one.
                     //TODO -- Possible Both Evils compat whenever
                     if (WorldGen.crimson)
                     {
-                        progress.Message = "Slaying a vengeful god";
+                        progress.Message = Language.GetOrRegister("Mods.Calamity.UI.CrimsonShrine").Value;
                         UndergroundShrines.PlaceCrimsonShrine(GenVars.structures);
                     }
                     else
                     {
-                        progress.Message = "Rotting a god's grave";
+                        progress.Message = Language.GetOrRegister("Mods.Calamity.UI.CorruptShrine").Value;
                         UndergroundShrines.PlaceCorruptionShrine(GenVars.structures);
                     }                    
 
-                    progress.Message = "Burrowing an artifact from Osiris";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.DesertShrine").Value;
                     UndergroundShrines.PlaceDesertShrine(GenVars.structures);
 
-                    progress.Message = "Crystallizing a deep blue geode";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.GraniteShrine").Value;
                     UndergroundShrines.PlaceGraniteShrine(GenVars.structures);
 
-                    progress.Message = "Hiding a beast tamer's igloo";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.IceShrine").Value;
                     UndergroundShrines.PlaceIceShrine(GenVars.structures);
 
-                    progress.Message = "Recovering a piece of the Parthenon";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.MarbleShrine").Value;
                     UndergroundShrines.PlaceMarbleShrine(GenVars.structures);
 
-                    progress.Message = "Planting a mushroom rich of hyphae";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.MushroomShrine").Value;
                     UndergroundShrines.PlaceMushroomShrine(GenVars.structures);
 
-                    progress.Message = "Assembling a shinobi hideout";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.SurfaceShrine").Value;
                     UndergroundShrines.PlaceSurfaceShrine(GenVars.structures);
                 }));
 
@@ -210,14 +214,14 @@ namespace CalamityMod.Systems
                 //this MUST generate after the evil island, otherwise the ores keep getting painted from the evil island gen
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Aerialite", (progress, config) =>
                 {
-                    progress.Message = "Hiding wyvern's gold in plain sight";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.Aerialite").Value;
                     AerialiteOreGen.Generate(false);
                 }));
 
                 //Draedon Labs
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Draedon Structures", (progress, config) =>
                 {
-                    progress.Message = "Rust and Dust";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.DraedonLabs").Value;
                     List<Point> workshopPositions = new List<Point>();
 
                     // Small: 4, Normal: 7, Large: 9
@@ -228,33 +232,33 @@ namespace CalamityMod.Systems
                     // Tries to scale up reasonably for XL worlds
                     int labCount = Main.maxTilesX / 1500;
 
-                    progress.Message = "Forging with the fires of hell";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.HellLab").Value;
                     DraedonStructures.PlaceHellLab(out Point hellPlacementPosition, workshopPositions, GenVars.structures);
                     workshopPositions.Add(hellPlacementPosition);
 
-                    progress.Message = "Studying marine biology";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.SunkenLab").Value;
                     DraedonStructures.PlaceSunkenSeaLab(out Point sunkenSeaPlacementPosition, workshopPositions, GenVars.structures);
                     workshopPositions.Add(sunkenSeaPlacementPosition);
 
-                    progress.Message = "Prototyping quantum supercooling";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.IceLab").Value;
                     DraedonStructures.PlaceIceLab(out Point icePlacementPosition, workshopPositions, GenVars.structures);
                     workshopPositions.Add(icePlacementPosition);
 
-                    progress.Message = "Developing abhorrent bioweaponry";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.PlagueLab").Value;
                     DraedonStructures.PlacePlagueLab(out Point plaguePlacementPosition, workshopPositions, GenVars.structures);
                     workshopPositions.Add(plaguePlacementPosition);
 
-                    progress.Message = "Strip mining for minerals";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.CavernLab").Value;
                     DraedonStructures.PlaceCavernLab(out Point cavernPlacementPosition, workshopPositions, GenVars.structures);
                     workshopPositions.Add(cavernPlacementPosition);
 
-                    progress.Message = "Abandoned engineering projects";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.DraedonWorkshop").Value;
                     for (int i = 0; i < workshopCount; i++)
                     {
                         DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions, GenVars.structures);
                         workshopPositions.Add(placementPosition);
                     }
-                    progress.Message = "Other minor research projects";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.DraedonFacility").Value;
                     for (int i = 0; i < labCount; i++)
                     {
                         DraedonStructures.PlaceResearchFacility(out Point placementPosition, workshopPositions, GenVars.structures);
@@ -265,21 +269,21 @@ namespace CalamityMod.Systems
                 //Abyss
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Abyss", (progress, config) =>
                 {
-                    progress.Message = "Disposing of Silva's remains";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.Abyss").Value;
                     Abyss.PlaceAbyss();
                 }));
 
                 //Sulphurous Sea (Part 2, after Abyss)
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Sulphur Sea 2", (progress, config) =>
                 {
-                    progress.Message = "Irradiating one of the oceans";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.SulphurSea2").Value;
                     SulphurousSea.SulphurSeaGenerationAfterAbyss();
                 }));
 
                 //Roxcalibur
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Roxcalibur", (progress, config) =>
                 {
-                    progress.Message = "I wanna rock";
+                    progress.Message = Language.GetOrRegister("Mods.Calamity.UI.Roxcalibur").Value;
                     MiscWorldgenRoutines.PlaceRoxShrine();
                 }));
             }
