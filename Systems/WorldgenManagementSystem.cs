@@ -35,8 +35,7 @@ namespace CalamityMod.Systems
             {
                 tasks.Insert(islandIndex + 2, new PassLegacy("Evil Island", (progress, config) =>
                 {
-                    LocalizedText Description = WorldGen.crimson ? Language.GetOrRegister("Mods.Calamity.UI.EvilIslandCrimson") : Language.GetOrRegister("Mods.Calamity.UI.EvilIslandCrimson");
-                    progress.Message = Description.Value;
+                    progress.Message = Language.GetOrRegister(WorldGen.crimson ? "Mods.Calamity.UI.EvilIslandCrimson" : "Mods.Calamity.UI.EvilIslandCorrupt");
                     WorldEvilIsland.PlaceEvilIsland();
                 }));
             }
