@@ -5,11 +5,11 @@ Mods : {
 				DisplayName: Aureate Booster
 				Tooltip:
 					'''
-					Mach speed with style!
 					Horizontal speed: 8.00
 					Acceleration multiplier: 1.5
 					Good vertical speed
 					Flight time: 120
+					'Mach speed with style!'
 					'''
 			}
 
@@ -17,7 +17,6 @@ Mods : {
 				DisplayName: Celestial Tracers
 				Tooltip:
 					'''
-					Taking speed EVEN FURTHER BEYOND!
 					Counts as wings
 					Horizontal speed: 12.00
 					Acceleration multiplier: 3.0
@@ -29,6 +28,7 @@ Mods : {
 					Immunity to the On Fire! debuff
 					Temporary immunity to lava
 					Being hit for over 200 damage will make you immune for an extended period of time
+					'Taking speed EVEN FURTHER BEYOND!'
 					'''
 			}
 
@@ -36,11 +36,11 @@ Mods : {
 				DisplayName: Drew's Wings
 				Tooltip:
 					'''
-					Absolutely Fabulous
 					Horizontal speed: 12.00
 					Acceleration multiplier: 3.0
 					Excellent vertical speed
 					Flight time: 361
+					'Absolutely Fabulous'
 					'''
 			}
 
@@ -48,7 +48,6 @@ Mods : {
 				DisplayName: Elysian Tracers
 				Tooltip:
 					'''
-					Ludicrous speed!
 					Counts as wings
 					Horizontal speed: 10.50
 					Acceleration multiplier: 2.75
@@ -59,6 +58,7 @@ Mods : {
 					Water and lava walking
 					Immunity to the On Fire! debuff
 					Temporary immunity to lava
+					'Ludicrous speed!'
 					'''
 			}
 
@@ -66,12 +66,12 @@ Mods : {
 				DisplayName: Elysian Wings
 				Tooltip:
 					'''
-					Blessed by the Profaned Flame
 					Horizontal speed: 9.50
 					Acceleration multiplier: 2.7
 					Great vertical speed
 					Flight time: 240
 					Temporary immunity to lava and 10% increased movement speed
+					Blessed by the Profaned Flame
 					'''
 			}
 
@@ -79,12 +79,12 @@ Mods : {
 				DisplayName: Exodus Wings
 				Tooltip:
 					'''
-					Pulsing with an alien heartbeat
 					Horizontal speed: 9.00
 					Acceleration multiplier: 2.5
 					Great vertical speed
 					Flight time: 180
 					5% increased rogue damage and critical strike chance while wearing the Empyrean Armor
+					Pulsing with an alien heartbeat
 					'''
 			}
 
@@ -92,12 +92,12 @@ Mods : {
 				DisplayName: Hadal Mantle
 				Tooltip:
 					'''
-					Fueled by the fury of the depths
 					Horizontal speed: 7.75
 					Acceleration multiplier: 1.5
 					Average vertical speed
 					Flight time: 180
 					5% increased damage while wearing the Hydrothermic Armor
+					Fueled by the fury of the depths
 					'''
 			}
 
@@ -105,12 +105,12 @@ Mods : {
 				DisplayName: Hadarian Wings
 				Tooltip:
 					'''
-					Powered by the Astral Infection
 					This line gets modified below
 					Horizontal speed: 9.00
 					Acceleration multiplier: 1.75
 					Good vertical speed
 					Flight time: 90
+					Powered by the Astral Infection
 					'''
 			}
 
@@ -118,7 +118,6 @@ Mods : {
 				DisplayName: MOAB
 				Tooltip:
 					'''
-					The mother of all balloons
 					Counts as wings
 					Horizontal speed: 6.50
 					Acceleration multiplier: 1.0
@@ -126,6 +125,7 @@ Mods : {
 					Flight time: 75
 					10% increased jump speed and allows constant jumping
 					Grants the player cloud, blizzard, and sandstorm mid-air jumps
+					'The Mother Of All Balloons'
 					'''
 			}
 
@@ -133,7 +133,6 @@ Mods : {
 				DisplayName: Seraph Tracers
 				Tooltip:
 					'''
-					Ludicrous speed!
 					Counts as wings
 					Horizontal speed: 9.00
 					Acceleration multiplier: 2.5
@@ -144,6 +143,7 @@ Mods : {
 					Water and lava walking
 					Immunity to the On Fire! debuff
 					Temporary immunity to lava
+					'Ludicrous speed!'
 					'''
 			}
 
@@ -151,12 +151,12 @@ Mods : {
 				DisplayName: Silva Wings
 				Tooltip:
 					'''
-					The purest of nature
 					Horizontal speed: 11.00
 					Acceleration multiplier: 2.8
 					Excellent vertical speed
 					Flight time: 270
 					The Silva revive heals you to half health while wearing the Silva armor
+					'The purest of nature'
 					'''
 			}
 
@@ -190,12 +190,12 @@ Mods : {
 				DisplayName: Starlight Wings
 				Tooltip:
 					'''
-					Wings of the Nightingale
 					Horizontal speed: 7.50
 					Acceleration multiplier: 1.0
 					Average vertical speed
 					Flight time: 150
 					5% increased damage and critical strike chance while wearing the Daedalus Armor
+					Wings of the Nightingale
 					'''
 			}
 
@@ -203,12 +203,12 @@ Mods : {
 				DisplayName: Tarragon Wings
 				Tooltip:
 					'''
-					Born of the jungle
 					Horizontal speed: 9.50
 					Acceleration multiplier: 2.5
 					Great vertical speed
 					Flight time: 250
 					+15 defense and +2 life regen while wearing the Tarragon Armor
+					'Born of the jungle'
 					'''
 			}
 		}

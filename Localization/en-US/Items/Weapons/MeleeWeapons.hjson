@@ -126,7 +126,7 @@ Mods : {
 					'''
 					Fires cosmic orbs that blast nearby enemies with lasers
 					A very agile yoyo
-					Destroy the universe in the blink of an eye
+					'Destroy the universe in the blink of an eye'
 					'''
 			}
 
@@ -265,7 +265,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a whip sword that summons homing crescent moons
-					'People wanted the moon, let's bring the moon to them.'
+					'People wanted the moon, let's bring the moon to them'
 					'''
 			}
 
@@ -530,7 +530,7 @@ Mods : {
 					Constantly generates rage when in use
 					Swings leave behind exploding blood trails when below 50% health
 					Replaces Rage Mode with an enormous barrage of skulls
-					'Hand it over, that thing. Your dark soul.'
+					'Hand it over, that thing. Your dark soul'
 					'''
 			}
 
@@ -744,7 +744,7 @@ Mods : {
 					'''
 					Fires void essences which flay nearby enemies with tentacles
 					Ignores immunity frames
-					'The abyss has stared back at you long enough. It now speaks, and it does not speak softly.'
+					'The abyss has stared back at you long enough. It now speaks, and it does not speak softly'
 					'''
 			}
 
@@ -858,7 +858,7 @@ Mods : {
 					Fire to charge for a powerful rainbow laser
 					Press <right> to instead swing the sword and fire rainbow colored waves
 					The sword is boosted by both melee and ranged damage
-					Seems to belong to a certain magical girl. Radiates with intense cosmic energy.
+					Seems to belong to a certain magical girl. Radiates with intense cosmic energy
 					'''
 			}
 
@@ -893,8 +893,8 @@ Mods : {
 					Poisons enemies on hit
 					Aiming the spear in front of you while running holds it down with increased knockback
 					Releasing the attack button after the charge makes an upwards slash, sending enemies flying into the air
-					[c/5C95A1:The people of the sea were adept hunters, but they abhorred unnecessary violence.]
-					[c/5C95A1:Unfortunately, neighboring nations were brutish, so they fashioned their tools for war.]
+					[c/5C95A1:'The people of the sea were adept hunters, but they abhorred unnecessary violence.]
+					[c/5C95A1:Unfortunately, neighboring nations were brutish, so they fashioned their tools for war.']
 					'''
 			}
 
@@ -1108,7 +1108,7 @@ Mods : {
 					'''
 					Heals the player on true melee hits
 					Fires a piercing energy bolt that causes hit targets to explode and be slashed
-					Linked to the essence of Terraria
+					'Linked to the essence of Terraria'
 					'''
 			}
 
@@ -1126,7 +1126,7 @@ Mods : {
 				Tooltip:
 					'''
 					Rains down a stream of draconic fire at the cursor
-					Hold the blade to the sky, and witness Armageddon
+					'Hold the blade to the sky, and witness Armageddon'
 					'''
 			}
 
@@ -1155,7 +1155,7 @@ Mods : {
 					'''
 					Fries nearby enemies with radiation
 					A very agile yoyo
-					Cooking, Astral Infection style
+					'Cooking, Astral Infection style'
 					'''
 			}
 

@@ -5,10 +5,10 @@ Mods : {
 				DisplayName: Abombination
 				Tooltip:
 					'''
-					Calls in the airborne abomination
 					Summons the Plaguebringer Goliath when used in the Jungle
 					Enrages outside the Jungle
 					Not consumable
+					Calls in the airborne abomination
 					'''
 			}
 
@@ -54,10 +54,10 @@ Mods : {
 				DisplayName: Charred Idol
 				Tooltip:
 					'''
-					Use at your own risk
 					Summons the Brimstone Elemental when used in the Brimstone Crags
 					Enrages outside the Brimstone Crags
 					Not consumable
+					'Use at your own risk'
 					'''
 			}
 
@@ -84,9 +84,9 @@ Mods : {
 				DisplayName: Death Whistle
 				Tooltip:
 					'''
-					A very old temple whistle
 					Summons the Ravager
 					Not consumable
+					A very old temple whistle
 					'''
 			}
 
@@ -123,10 +123,10 @@ Mods : {
 				DisplayName: Exotic Pheromones
 				Tooltip:
 					'''
-					Specifically formulated to attract draconic hybrids
 					Summons The Dragonfolly when used in the Jungle
 					Enrages outside the Jungle
 					Not consumable
+					Specifically formulated to attract draconic hybrids
 					'''
 			}
 
@@ -134,10 +134,10 @@ Mods : {
 				DisplayName: Eye of Desolation
 				Tooltip:
 					'''
-					Tonight is going to be a horrific night...
 					Summons the Calamitas Clone when used during nighttime
 					Enrages during the day
 					Not consumable
+					'Tonight is going to be a horrific night...'
 					'''
 			}
 
@@ -163,10 +163,10 @@ Mods : {
 				DisplayName: Necroplasmic Beacon
 				Tooltip:
 					'''
-					It's spooky
 					Summons Polterghast when used in the Dungeon
 					Enrages in large spaces
 					Not consumable
+					'It's spooky'
 					'''
 			}
 
@@ -184,9 +184,9 @@ Mods : {
 				DisplayName: Overloaded Sludge
 				Tooltip:
 					'''
-					It looks corrupted
 					Summons the Slime God
 					Not consumable
+					'It looks corrupted'
 					'''
 			}
 
@@ -204,11 +204,11 @@ Mods : {
 				DisplayName: Profaned Core
 				Tooltip:
 					'''
-					The core of the unholy flame
 					Summons Providence when used in the Hallow or Underworld
 					Unique drop changes depending on the biome fought in
 					Enrages when fought during nighttime or when outside the Hallow or Underworld
 					Not consumable
+					The core of the profaned flame
 					'''
 			}
 
@@ -216,10 +216,10 @@ Mods : {
 				DisplayName: Profaned Shard
 				Tooltip:
 					'''
-					A shard of the unholy flame
 					Summons the Profaned Guardians when used in the Hallow or Underworld during daytime
 					Enrage when not in the Hallow or Underworld
 					Not consumable
+					A shard of the profaned flame
 					'''
 			}
 
@@ -227,10 +227,10 @@ Mods : {
 				DisplayName: Rune of Kos
 				Tooltip:
 					'''
-					A relic of the profaned flame
 					Contains the power hunted relentlessly by the sentinels of the cosmic devourer
 					When used in certain areas of the world, it will unleash them
 					Not consumable
+					A relic of the profaned flame
 					'''
 			}
 
@@ -257,9 +257,9 @@ Mods : {
 				DisplayName: Starcore
 				Tooltip:
 					'''
-					May the stars guide your way
 					Summons Astrum Deus at the Astral Beacon, but is not consumed
 					Enrages during the day
+					'May the stars guide your way'
 					'''
 			}
 
@@ -286,10 +286,10 @@ Mods : {
 				DisplayName: Blessed Phoenix Egg
 				Tooltip:
 					'''
-					An effigy of a Phoenix Dragon egg, used in worship
 					Summons Yharon, Dragon of Rebirth
 					Enrages outside the fire walls
 					Not consumable
+					An effigy of a Phoenix Dragon egg, used in worship
 					'''
 			}
 		}

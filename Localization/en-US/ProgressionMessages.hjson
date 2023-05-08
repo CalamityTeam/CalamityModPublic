@@ -18,7 +18,7 @@ Mods : {
 			/* Mechanical Bosses */
 			HardmodeOreTier2Text: Your world has been blessed with Mythril and Orichalcum!
 			HardmodeOreTier3Text: Your world has been blessed with Adamantite and Titanium!
-			HardmodeOreTier4Text: The hallow has been blessed with consecrated stone!
+			HardmodeOreTier4Text: The underground Hallow has been blessed with consecrated stone!
 			
 			/* Cryogen */
 			IceOreText: The ice caves are crackling with frigid energy.
@@ -27,7 +27,7 @@ Mods : {
 			WetWormBossText: The sulphuric sky darkens...
 			
 			/* Cal Clone */
-			PlantBossText: The ocean depths are trembling.
+			PlantBossText: The Sulphurous Sea's depths are trembling.
 			
 			/* Plantera */
 			PlantOreText: Energized plant matter has formed in the underground.
@@ -66,7 +66,7 @@ Mods : {
 			DoGBossText2: The harvest moon glows eerily.
 			
 			/* Yharon */
-			AuricOreText: Ancient draconic power manifests in the caverns, lacing itself through the rock
+			AuricOreText: Ancient draconic power manifests in the caverns, lacing itself through the rock.
 		}
 	}
 }

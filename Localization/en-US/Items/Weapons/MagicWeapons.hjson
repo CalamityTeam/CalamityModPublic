@@ -63,8 +63,8 @@ Mods : {
 				DisplayName: Apotheosis
 				Tooltip:
 					'''
-					Eat worms
 					Unleashes interdimensional projection magic
+					Eat worms
 					'''
 			}
 
@@ -82,8 +82,8 @@ Mods : {
 				DisplayName: Arctic Bear Paw
 				Tooltip:
 					'''
-					The savage mauling that fits in your pocket
 					Fires spiritual claws that ignore walls
+					'The savage mauling that fits in your pocket'
 					'''
 			}
 
@@ -93,7 +93,7 @@ Mods : {
 					'''
 					Casts a star that follows the mouse that creates a rainbow trail as it moves
 					Once a full shape is created with the trail all enemies within it take damage proportional to how long it took to draw the shape
-					And the audience goes wild!
+					'And the audience goes wild!'
 					'''
 			}
 
@@ -160,7 +160,7 @@ Mods : {
 				DisplayName: Carnage Ray
 				Tooltip:
 					'''
-					Fires a blood ray
+					Fires a wretched, bloody ray
 					The farther along the ray hit enemies are, the more damage they take
 					'''
 			}
@@ -188,8 +188,8 @@ Mods : {
 					Fully charging the attack releases a single, bigger chunk of coral that sticks to enemies
 					Grabbing the chunk of coral after it falls from the enemy replenishes 150 mana
 					The mana-charged coral also provides a buff that increases the coral's damage and the convergence speed
-					[c/5C95A1:Knowledge is important, and the Old Sea Kingdom's many scribes knew it had to be preserved at any cost.]
-					[c/5C95A1:Their libraries were much larger than most, because of the water-proof stone tablets occupying them.]
+					[c/5C95A1:'Knowledge is important, and the Old Sea Kingdom's many scribes knew it had to be preserved at any cost.]
+					[c/5C95A1:Their libraries were much larger than most, because of the water-proof stone tablets occupying them.']
 					'''
 			}
 
@@ -203,7 +203,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires an icy wave that splits multiple times and explodes into shards
-					'Chill.'
+					'Chill'
 					'''
 			}
 
@@ -211,8 +211,8 @@ Mods : {
 				DisplayName: Dark Spark
 				Tooltip:
 					'''
-					And everything under the sun is in tune,
-					But the sun is eclipsed by the moon.
+					'And everything under the sun is in tune,
+					But the sun is eclipsed by the moon.'
 					'''
 			}
 
@@ -256,10 +256,7 @@ Mods : {
 
 			EidolonStaff: {
 				DisplayName: Eidolon Staff
-				Tooltip:
-					'''
-					Fires a spread of ancient light and a spinning ice cluster
-					'''
+				Tooltip: Fires a spread of ancient light and a spinning ice cluster
 			}
 
 			EldritchTome: {
@@ -294,7 +291,7 @@ Mods : {
 					'''
 					Fires a ring of stars to home in on nearby enemies
 					Stars spawn black holes on enemy hits
-					'Nothing, not even light, can return.'
+					'Nothing, not even light, can return'
 					'''
 			}
 
@@ -372,7 +369,7 @@ Mods : {
 
 			GrandStaffoftheNebulaMage: {
 				DisplayName: Grand Staff of the Nebula Mage
-				Tooltip: The true power of the Nebula Mage rests in your hands...
+				Tooltip: 'The true power of the Nebula Mage rests in your hands...'
 			}
 
 			GruesomeEminence: {
@@ -382,8 +379,8 @@ Mods : {
 					Summons a gaseous conglomeration of spirits near the cursor
 					At first, the spirits will fly wildly. This can hurt enemies and players
 					However, over time they will begin to accumulate to create a single, controllable monstrosity
-					[c/c61b40:The spirits of the amalgam could never pass on to their desired afterlife,]
-					[c/c61b40:Tainted and melded by rage as they were.]
+					[c/c61b40:'The spirits of the amalgam could never pass on to their desired afterlife,]
+					[c/c61b40:Tainted and melded by rage as they were.']
 					'''
 			}
 
@@ -475,13 +472,13 @@ Mods : {
 				Tooltip:
 					'''
 					Summons a geyser upon hitting an enemy
-					Crumple 'em like paper
+					'Crumple 'em like paper'
 					'''
 			}
 
 			LashesofChaos: {
 				DisplayName: Lashes of Chaos
-				Tooltip: Watch the world burn...
+				Tooltip: 'Watch the world burn...'
 			}
 
 			Lazhar: {
@@ -566,7 +563,7 @@ Mods : {
 				Tooltip:
 					'''
 					Casts a barrage of fire from the sky
-					Baptism by draconic fire
+					'Baptism by draconic fire'
 					'''
 			}
 
@@ -616,7 +613,7 @@ Mods : {
 
 			RainbowPartyCannon: {
 				DisplayName: Rainbow Party Cannon
-				Tooltip: Let the rainbow remind you that together we will always shine...
+				Tooltip: 'Let the rainbow remind you that together we will always shine...'
 			}
 
 			Rancor: {
@@ -625,8 +622,8 @@ Mods : {
 					'''
 					Casts a magic circle that charges energy and eventually releases a powerful laser burst of controlled maleficent magic
 					The laser causes arms and searing lava to appear on surfaces it touches which harm both you and enemies
-					[c/c61b40:Forgiveness can only heal so much,]
-					[c/c61b40:If the recipient has not yet forgiven themselves.]
+					[c/c61b40:'Forgiveness can only heal so much,]
+					[c/c61b40:If the recipient has not yet forgiven themselves.']
 					'''
 			}
 
@@ -744,7 +741,7 @@ Mods : {
 				Tooltip:
 					'''
 					Fires a sword beam that electrifies enemies on hit
-					Faint memories of a Princess from the future cross your mind...
+					'Faint memories of a Princess from the future cross your mind...'
 					'''
 			}
 
@@ -776,7 +773,7 @@ Mods : {
 				Tooltip:
 					'''
 					Casts a holy fireball that explodes into 6 flames
-					So you're telling me that the prince exploded, and then turned into a flower?
+					'So you're telling me that the prince exploded, and then turned into a flower?'
 					-Dain, the sailor druid
 					'''
 			}
@@ -884,7 +881,7 @@ Mods : {
 					On enemy and tile hits, beams either explode into a big flash,
 					summon an additonal laser from the sky,
 					or split into energy orbs
-					Its majesty inspires a stroke of unparalleled genius
+					'Its majesty inspires a stroke of unparalleled genius'
 					'''
 			}
 
@@ -913,7 +910,7 @@ Mods : {
 				Tooltip: 
 					'''
 					Fires a stream of ice orbs and a barrage of ice shards towards the cursor
-					The pages are freezing to the touch
+					'The pages are freezing to the touch'
 					'''
 			}
 
@@ -928,8 +925,8 @@ Mods : {
 					'''
 					Casts a wulfrum bolt
 					Press <right> to drain mana from creatures in front of you
-					[c/83B87E:Technology and magic have been forever locked in an arms race of imitation and retaliation]
-					[c/83B87E:At times they work in tandem, as seen in certain prosthetic limbs]
+					[c/83B87E:'Technology and magic have been forever locked in an arms race of imitation and retaliation.]
+					[c/83B87E:At times they work in tandem, as seen in certain prosthetic limbs.']
 					'''
 			}
 

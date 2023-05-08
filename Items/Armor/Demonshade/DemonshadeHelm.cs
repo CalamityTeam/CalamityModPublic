@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Armor.Demonshade
                 "Shadowbeams and demon scythes will fire down when you are hit\n" +
                 "A friendly red devil follows you around\n" +
                 "Press " + hotkey + " to enrage nearby enemies with a dark magic spell for 10 seconds\n" +
-                "This makes them do 25% more damage but they also take 125% more damage";
+                "This makes them take 2.25x total damage, but they will deal 1.25x damage to you";
             var modPlayer = player.Calamity();
             modPlayer.dsSetBonus = true;
             modPlayer.wearingRogueArmor = true;

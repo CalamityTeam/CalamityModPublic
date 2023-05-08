@@ -19,7 +19,7 @@ Mods: {
             Indignant.DisplayName: Indignant
             Indignant.Description: Summons demons that harm you but drop healing items on death on item usage.
             Aflame.DisplayName: Aflame
-            Aflame.Description: Lights enemies ablaze on hit but also causes the user to take damage over time when holding this item.
+            Aflame.Description: Ignites enemies with the Supreme Witch's power on hit but also causes the user to take damage over time when holding this item.
             Oblatory.DisplayName: Oblatory
             Oblatory.Description: Reduces mana cost and greatly increases damage but sometimes causes this item to use your life.
             Resentful.DisplayName: Resentful
@@ -41,6 +41,41 @@ Mods: {
             Lecherous.DisplayName: Lecherous
             Lecherous.Description: Spawns a resilient brimstone monster that stays between you and your mouse that interferes with your homing weapons. It releases a bunch of hearts on death.
 			Disenchant: Disenchant
+
+            /* Worldgen Tasks */
+            EvilIslandCorrupt: Adding a putrid floating island
+            EvilIslandCrimson: Adding a grotesque floating island
+            BetterJungleTemple: Building a bigger jungle temple
+            JungleTempleAltar: Placing the Lihzahrd altar
+            GiantBeehive: Building a giant beehive
+            MechanicShed: Placing mechanic shed
+            VernalPass: Blessing a flourishing jungle grove
+            SunkenSea: Partially flooding an overblown desert
+            GemAdjustment: Sensibly shuffling gem depth
+            DungeonArchive: Entombing occult literature
+            SulphurSea: Polluting one of the oceans
+            BrimstoneCrags: Incinerating Azafure
+            HiddenShrines: Hiding forbidden shrines
+            CrimsonShrine: Slaying a vengeful god
+            CorruptShrine: Rotting a god's grave
+            DesertShrine: Burrowing an artifact from Osiris
+            GraniteShrine: Crystallizing a deep blue geode
+            IceShrine: Hiding a beast tamer's igloo
+            MarbleShrine: Recovering a piece of the Parthenon
+            MushroomShrine: Planting a mushroom rich of hyphae
+            SurfaceShrine: Assembling a shinobi hideout
+            Aerialite: Hiding wyvern's gold in plain sight
+            DraedonLabs: Rust and Dust
+            HellLab: Forging with the fires of hell
+            SunkenLab: Studying marine biology
+            IceLab: Prototyping quantum supercooling
+            PlagueLab: Developing abhorrent bioweaponry
+            CavernLab: Strip mining for minerals
+            DraedonWorkshop: Abandoned engineering projects
+            DraedonFacility: Other minor research projects
+            Abyss: Disposing of Silva's remains
+            SulphurSea2: Irradiating one of the oceans
+            Roxcalibur: I wanna rock
 		}
 	}
 }

@@ -6,7 +6,7 @@ Mods : {
 				DisplayName: "{$Mods.CalamityMod.NPCs.Androomba.DisplayName}"
 				Tooltip:
 					'''
-					Right click the roomba with a solution to insert it
+					Press <right> on the roomba with a solution to insert it
 					While a solution is inserted, the roomba will start spreading its contents
 					'''
 			}
@@ -27,9 +27,9 @@ Mods : {
 				DisplayName: Blood Orange
 				Tooltip:
 					'''
-					It has a distinctly sweet flavor and a strong aroma
 					Permanently increases maximum life by 25
 					Can only be used if the max amount of life fruit has been consumed
+					It has a distinctly sweet flavor and a strong aroma
 					'''
 			}
 
@@ -37,9 +37,9 @@ Mods : {
 				DisplayName: Celestial Onion
 				Tooltip:
 					'''
-					Alien power pulses inside its layers
-					Consuming it does something that cannot be reversed
+					Permanently increases the number of accessory slots
 					This item does nothing in Master Mode
+					Alien power pulses inside its layers
 					'''
 			}
 
@@ -52,9 +52,9 @@ Mods : {
 				DisplayName: Dragonfruit
 				Tooltip:
 					'''
-					Though somewhat bland, what taste can be described is unlike any other experienced
 					Permanently increases maximum life by 25
 					Can only be used if the max amount of life fruit has been consumed
+					Though somewhat bland, what taste can be described is unlike any other experienced
 					'''
 			}
 
@@ -71,9 +71,9 @@ Mods : {
 				DisplayName: Elderberry
 				Tooltip:
 					'''
-					A tangy, tart flavor with a somewhat earthen touch
 					Permanently increases maximum life by 25
 					Can only be used if the max amount of life fruit has been consumed
+					A tangy, tart flavor with a somewhat earthen touch
 					'''
 			}
 
@@ -104,9 +104,9 @@ Mods : {
 				DisplayName: Miracle Fruit
 				Tooltip:
 					'''
-					Refreshing and cool, perhaps even a bit minty
 					Permanently increases maximum life by 25
 					Can only be used if the max amount of life fruit has been consumed
+					Refreshing and cool, perhaps even a bit minty
 					'''
 			}
 
@@ -178,8 +178,8 @@ Mods : {
 				DisplayName: Ball and Chain
 				Tooltip:
 					'''
-					So heavy...
-					Favorite this item to disable any dashes granted by equipment.
+					Favorite this item to disable any dashes granted by equipment
+					'So heavy...'
 					'''
 			}
 
@@ -187,9 +187,9 @@ Mods : {
 				DisplayName: Brimstone Locus
 				Tooltip:
 					'''
-					Not only can I enhance your equipment with potent magic, I can also draw out the true strength and ascend
-					some of your weaponry to entirely new forms
-					Such items are revealed while this item is in your inventory
+					[c/c61b40:'Not only can I enhance your equipment with potent magic,]
+					[c/c61b40:I can also transcend some of your weaponry to entirely new forms.]
+					[c/c61b40:Such items are revealed while this item is in your inventory.']
 					'''
 			}
 			
@@ -207,11 +207,11 @@ Mods : {
 				DisplayName: Normality Relocator
 				Tooltip:
 					'''
-					I'll be there in the blink of an eye
 					This line is modified below
 					Fall speed is doubled for 30 frames after teleporting
 					Teleportation is disabled while Chaos State is active
 					Works while in the inventory
+					'I'll be there in the blink of an eye'
 					'''
 			}
 			

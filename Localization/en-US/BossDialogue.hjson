@@ -49,7 +49,7 @@ Mods : {
 			/* Draedon (introduction) */
 			DraedonIntroductionText1: I have waited long for this moment.
 			DraedonIntroductionText2: Your nature fascinates me, for I do not understand it.
-			DraedonIntroductionText3: You will face my creations which have surpassed gods.
+			DraedonIntroductionText3: You will face my creations, which have surpassed gods.
 			DraedonIntroductionText4: And you will show me your disposition through battle.
 			DraedonIntroductionText5: Now, choose.
 			DraedonResummonText: Make your choice.
@@ -72,8 +72,8 @@ Mods : {
 			DraedonAresEnrageText: How foolish. You cannot escape.
 			
 			/* Draedon (ending) */
-			DraedonEndText1: An unknown factor-a catalyst is what you are.
-			DraedonEndText2: Nearly as alien as I, to this land and its history.
+			DraedonEndText1: An unknown factor--a catalyst is what you are.
+			DraedonEndText2: Nearly as disconnected to this land and its history as I am.
 			DraedonEndText3: ...Excuse my introspection. I must gather my thoughts after that display.
 			DraedonEndText4: This land has become stale and stiff with blood that has been spilled until now.
 			DraedonEndText5: You have also spilled blood, but it may be enough to usher a new age... Of what, I do not know. But it is something I am eager to see.
@@ -85,7 +85,7 @@ Mods : {
 			
 			/* Draedon (GFB) */
 			DraedonMechdusaBeginText: ...Die.
-			DraedonMechdusaEndText1: Wait what? How?
+			DraedonMechdusaEndText1: Wait, what? How?
 			DraedonMechdusaEndText2: No
 			
 			/* SCal (First Battle) */

@@ -33,7 +33,7 @@ Mods : {
 				DisplayName: Ursa Sergeant
 				Tooltip:
 					'''
-					15% decreased movement speed
+					Decreased movement speed by 15%
 					Immune to Astral Infection and Feral Bite
 					Increased regeneration at lower health
 					'''
@@ -44,10 +44,10 @@ Mods : {
 				DisplayName: Bloodfin
 				Tooltip:
 					'''
-					The wonders of angiogenesis
 					Grants a buff that boosts life regen for 10 seconds
 					The life regen boost is stronger if below 75% health
 					10 second duration
+					'The wonders of angiogenesis'
 					'''
 			}
 
@@ -79,17 +79,13 @@ Mods : {
 					'''
 					Fires an inaccurate spread of fireballs
 					The brimstone sac appears to contain fuel
-					Revenge is a dish best served flaming hot
+					'Revenge is a dish best served flaming hot'
 					'''
 			}
 
 			Havocfish: {
 				DisplayName: Havocfish
-				Tooltip:
-					'''
-					The horns lay a curse on those who touch it
-					<right> to extract essence
-					'''
+				Tooltip: Press <right> to extract essence
 			}
 
 			Shadowfish: {
@@ -163,46 +159,46 @@ Mods : {
 
 			FishofEleum: {
 				DisplayName: Fish of Eleum
-				Tooltip: <right> to extract essence
+				Tooltip: Press <right> to extract essence
 			}
 
 			FishofFlight: {
 				DisplayName: Fish of Flight
-				Tooltip: <right> to extract souls
+				Tooltip: Press <right> to extract souls
 			}
 
 			FishofLight: {
 				DisplayName: Fish of Light
-				Tooltip: <right> to extract souls
+				Tooltip: Press <right> to extract souls
 			}
 
 			FishofNight: {
 				DisplayName: Fish of Night
-				Tooltip: <right> to extract souls
+				Tooltip: Press <right> to extract souls
 			}
 
 			GlimmeringGemfish: {
 				DisplayName: Glimmering Gemfish
-				Tooltip: <right> to extract gems
+				Tooltip: Press <right> to extract gems
 			}
 
 			Gorecodile: {
 				DisplayName: Gorecodile
-				Tooltip: <right> to extract blood orbs
+				Tooltip: Press <right> to extract blood orbs
 			}
 
 			Spadefish: {
 				DisplayName: Spadefish
 				Tooltip:
 					'''
-					How can a fish be used to dig through the ground?
-					Some questions are best left unanswered.
+					'How can a fish be used to dig through the ground?
+					Some questions are best left unanswered...'
 					'''
 			}
 
 			StuffedFish: {
 				DisplayName: Stuffed Fish
-				Tooltip: <right> to extract herbs and seeds
+				Tooltip: Press <right> to extract herbs and seeds
 			}
 
 			SulphurousCrate: {
@@ -212,7 +208,7 @@ Mods : {
 
 			SunbeamFish: {
 				DisplayName: Sunbeam Fish
-				Tooltip: <right> to extract essence
+				Tooltip: Press <right> to extract essence
 			}
 			
 			/* Fishing Rods */
@@ -220,8 +216,8 @@ Mods : {
 				DisplayName: Early Bloom Rod
 				Tooltip:
 					'''
-					Fires six lines at once. Line never snaps.
-					The early bird catches the fish.
+					Fires six lines at once. Line never snaps
+					'The early bird catches the fish'
 					'''
 			}
 
@@ -229,8 +225,8 @@ Mods : {
 				DisplayName: Feral Double Rod
 				Tooltip:
 					'''
-					Fires two lines at once.
-					Just as you have tamed the jungle monster, you can now tame the fish in the sea.
+					Fires two lines at once
+					Just as you have tamed the jungle monster, you can now tame the fish in the sea
 					'''
 			}
 
@@ -238,9 +234,9 @@ Mods : {
 				DisplayName: Heron Rod
 				Tooltip:
 					'''
-					Increased fishing power in space.
-					A silent head and beak lanced down and plucked it out by the head,
-					and the beak swallowed the little fish while its tail waved frantically.
+					Increased fishing power in space
+					'A silent head and beak lanced down and plucked it out by the head,
+					and the beak swallowed the little fish while its tail waved frantically.'
 					'''
 			}
 
@@ -248,9 +244,9 @@ Mods : {
 				DisplayName: Navy Fishing Rod
 				Tooltip:
 					'''
-					While held, slowly electrifies nearby enemies.
-					The sea is a city.
-					Just below are highways, boulevards, streets and roundabouts bustling with submarine traffic.
+					While held, slowly electrifies nearby enemies
+					'The sea is a city.
+					Just below are highways, boulevards, streets and roundabouts bustling with submarine traffic.'
 					'''
 			}
 
@@ -258,9 +254,10 @@ Mods : {
 				DisplayName: Rift Reeler
 				Tooltip:
 					'''
-					Fires three to five lines at once. Can fish in lava.
-					The battlefield is a scene of constant chaos.
-					The winner will be the one who controls that chaos, both the pole and the fish.
+					Fires three to five lines at once
+					Can fish in lava
+					'The battlefield is a scene of constant chaos.
+					The winner will be the one who controls that chaos, both the pole and the fish.'
 					'''
 			}
 
@@ -268,8 +265,8 @@ Mods : {
 				DisplayName: Slurper Pole
 				Tooltip:
 					'''
-					Can fish in lava.
-					It is the burning lava of the soul that has a furnace within--a very volcano of grief and sorrow.
+					Can fish in lava
+					'It is the burning lava of the soul that has a furnace within--a very volcano of grief and sorrow.'
 					'''
 			}
 
@@ -277,8 +274,8 @@ Mods : {
 				DisplayName: The Devourer of Cods
 				Tooltip:
 					'''
-					Fires ten lines at once. Line never snaps and can fish from lava.
-					The devourer was once just an Eater of Shoals.
+					Fires ten lines at once. Line never snaps and can fish from lava
+					'The devourer was once just an Eater of Shoals'
 					'''
 			}
 
@@ -293,7 +290,7 @@ Mods : {
 
 			WulfrumRod: {
 				DisplayName: Wulfrum Fishing Pole
-				Tooltip: This barely works, but it's better than nothing
+				Tooltip: 'This barely works, but it's better than nothing...'
 			}
 		}
 	}
