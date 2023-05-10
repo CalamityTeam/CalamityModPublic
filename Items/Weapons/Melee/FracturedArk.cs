@@ -23,10 +23,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float beamDamageMultiplier = 0.8f; //Damage multiplier for the charged shots (remember it applies ontop of the charge damage multiplied
 
 
-        const string ParryTooltip = "Using RMB will extend the Ark out in front of you\n" +
+        const string ParryTooltip = "Pressing right click will extend the Ark out in front of you\n" +
         "Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
         "You can also parry projectiles and temporarily make them deal 100 less damage\n" +
-        "Parrying will empower the next 10 swings of the sword, boosting their damage and letting them throw projectiles out";
+        "Parrying empowers the next 10 swings of the sword, boosting damage and letting them throw projectiles";
 
         public override void SetStaticDefaults()
         {

@@ -126,7 +126,7 @@ namespace CalamityMod.Items.Weapons.Melee
             //Default stuff
             if (effectDescTooltip != null)
             {
-                effectDescTooltip.Text = "Does nothing..yet\nIt seems that upgrading the blade expanded the scope of the previous attunements";
+                effectDescTooltip.Text = "Does nothing... yet\nIt seems that upgrading the blade expanded the scope of the previous attunements";
                 effectDescTooltip.OverrideColor = new Color(163, 163, 163);
             }
 
