@@ -39,16 +39,16 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float SwirlBoltAmount = 6f; //The amount of cosmic bolts produced during hte swirl attack
         public static float SwirlBoltDamageMultiplier = 0.7f; //This is the damage multiplier for ALL THE BOLTS: Aka, said damage multiplier is divided by the amount of bolts in a swirl and the full damage multiplier is gotten if you hit all the bolts
 
-        const string ComboTooltip = "Using left click performs a 5-swing combo that ends by throwing the blade\n" +
+        const string ComboTooltip = "Pressing left click performs a 5-swing combo that ends by throwing the blade\n" +
         "The thrown blade will follow your cursor\n" +
         "Releasing left click while the blade is out will cause an exploding snap";
 
-        const string ParryTooltip = "Using right click will snip out the scissor blades in front of you\n" +
+        const string ParryTooltip = "Pressing right click will snip out the scissor blades in front of you\n" +
         "Hitting an enemy with it will parry them, granting you brief invulnerability\n" +
         "You can parry projectiles to make them deal 200 less damage for a short period\n" +
         "Parrying anything will empower the next 10 swings of the sword";
 
-        const string BlastTooltip = "Using right click while pressing UP with empowered charges will provoke a Big Rip in spacetime and use all charges\n" +
+        const string BlastTooltip = "Pressing right click while holding UP with empowered charges will provoke a Big Rip in spacetime and use all charges\n" +
         "If more than 5 charges were used, you can dash across the rip by holding UP";
 
 

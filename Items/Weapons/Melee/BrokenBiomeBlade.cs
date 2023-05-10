@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Weapons.Melee
             //Default stuff
             if (effectDescTooltip != null)
             {
-                effectDescTooltip.Text = "Does nothing..yet";
+                effectDescTooltip.Text = "Does nothing... yet";
                 effectDescTooltip.OverrideColor = new Color(163, 163, 163);
             }
 
