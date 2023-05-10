@@ -242,7 +242,10 @@ namespace CalamityMod.NPCs
 		{
 			"Riley", // <@!260875558592708619> (potion pal#9979)
 		};
-        private static readonly string[] TownDogPitBullNames = null;
+        private static readonly string[] TownDogPitBullNames =
+		{
+			"Splinter", // <@!320320801213775873> (Kaimonick#1738)
+		};
         private static readonly string[] TownDogBeagleNames =
         {
             "Kendra", // <@!237247188005158912> (LordMetarex#6407)
