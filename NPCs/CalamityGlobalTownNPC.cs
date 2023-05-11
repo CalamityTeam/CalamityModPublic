@@ -122,6 +122,7 @@ namespace CalamityMod.NPCs
             "Danmaku", // <@!756259562268524555> (Danmaku#2659)
             "Grylken", // <@!299970404435361802> (Grylken#1569)
             "Outlaw", // <@!918311619480657922> (TheChosenOutlaw#8746)
+			"Alfred Rend", // <@!606301806481375255> (Deadsqurp300#0907)
         };
         private static readonly string[] MechanicNames =
         {
