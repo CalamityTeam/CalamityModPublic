@@ -27,7 +27,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             StringBuilder sb = new StringBuilder(256);
-            sb.Append("\nReduces damage taken by 3%\n+1 life regen\nGrants immunity to knockback");
+            sb.Append("\nIncreases damage reduction by 3%\n+1 life regen\nGrants immunity to knockback");
             setBonusText += sb.ToString();
         }
 

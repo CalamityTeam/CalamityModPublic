@@ -702,11 +702,11 @@ namespace CalamityMod.Items
 
             // Iron
             if (item.type == ItemID.IronHelmet || item.type == ItemID.AncientIronHelmet || item.type == ItemID.IronChainmail || item.type == ItemID.IronGreaves)
-                AddTooltip("Reduces damage taken by 3%");
+                AddTooltip("Increases damage reduction by 3%");
 
             // Lead
             if (item.type == ItemID.LeadHelmet || item.type == ItemID.LeadChainmail || item.type == ItemID.LeadGreaves)
-                AddTooltip("Reduces damage taken by 3%");
+                AddTooltip("Increases damage reduction by 3%");
 
             // Silver
             if (item.type == ItemID.SilverHelmet)
@@ -728,7 +728,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.GoldHelmet || item.type == ItemID.AncientGoldHelmet)
                 AddTooltip("6% increased damage");
             if (item.type == ItemID.GoldChainmail)
-                AddTooltip("Reduces damage taken by 5%");
+                AddTooltip("Increases damage reduction by 5%");
             if (item.type == ItemID.GoldGreaves)
                 AddTooltip("10% increased movement speed");
 
