@@ -835,10 +835,6 @@ namespace CalamityMod.Items
             {
                 return player.ownedProjectileCounts[item.shoot] <= 0;
             }
-            if ((item.type == ItemID.SuperAbsorbantSponge || item.type == ItemID.EmptyBucket) && modPlayer.ZoneAbyss)
-            {
-                return false;
-            }
             if (item.type == ItemID.RodofDiscord)
             {
                 if (player.chaosState)
