@@ -107,7 +107,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (effectDescTooltip != null)
             {
                 //Default stuff
-                effectDescTooltip.Text = "Does nothing..yet\nRepairing the blade seems to have improved its attuning capacities";
+                effectDescTooltip.Text = "Does nothing... yet\nRepairing the blade seems to have improved its attuning capacities";
                 effectDescTooltip.OverrideColor = new Color(163, 163, 163);
             }
 
