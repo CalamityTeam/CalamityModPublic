@@ -1677,7 +1677,6 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ItemID.ManaRegenerationPotion, CalamityConfig.Instance.PotionSelling && happy, Item.buyPrice(0, goldCost, 0, 0));
                 SetShopItem(ref shop, ItemID.MagicPowerPotion, CalamityConfig.Instance.PotionSelling && happy, Item.buyPrice(0, goldCost, 0, 0));
                 SetShopItem(ref shop, ItemID.GravitationPotion, CalamityConfig.Instance.PotionSelling && happy, Item.buyPrice(0, 4, 0, 0));
-                SetShopItem(ref shop, ItemID.PotionOfReturn, CalamityConfig.Instance.PotionSelling && happy, Item.buyPrice(0, goldCost, 0, 0));
                 SetShopItem(ref shop, ItemType<HowlsHeart>());
                 SetShopItem(ref shop, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ItemID.RodofDiscord, Main.hardMode && Main.LocalPlayer.ZoneHallow, price: Item.buyPrice(10));
