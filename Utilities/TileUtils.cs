@@ -680,7 +680,7 @@ namespace CalamityMod
 
             //Getting the item drop of a modded tile is pretty easy.
             if (moddedTile != null)
-                item = moddedTile.ItemDrop;
+                item = TileLoader.GetItemDropFromTypeAndStyle(moddedTile.Type);
 
             //There is no easy way for getting vanilla item drops :(
             else

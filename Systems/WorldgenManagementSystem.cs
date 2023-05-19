@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 using CalamityMod.Items.SummonItems;
 using static CalamityMod.World.CalamityWorld;
+using Terraria.Localization;
 
 namespace CalamityMod.Systems
 {
@@ -35,7 +36,7 @@ namespace CalamityMod.Systems
             {
                 tasks.Insert(islandIndex + 2, new PassLegacy("Evil Island", (progress, config) =>
                 {
-                    progress.Message = Language.GetOrRegister(WorldGen.crimson ? "Mods.Calamity.UI.EvilIslandCrimson" : "Mods.Calamity.UI.EvilIslandCorrupt");
+                    progress.Message = Language.GetOrRegister(WorldGen.crimson ? "Mods.Calamity.UI.EvilIslandCrimson" : "Mods.Calamity.UI.EvilIslandCorrupt").Value;
                     WorldEvilIsland.PlaceEvilIsland();
                 }));
             }
