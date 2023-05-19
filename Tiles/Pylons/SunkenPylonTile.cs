@@ -16,9 +16,10 @@ namespace CalamityMod.Tiles.Pylons
         public override Color PylonMapColor => Color.Turquoise;
         public override Color DustColor => Color.Cyan;
 
-        public override NPCShop.Entry GetNPCShopEntry()/* tModPorter See ExamplePylonTile for an example. To register to specific NPC shops, use the new shop system directly in ModNPC.AddShop, GlobalNPC.ModifyShop or ModSystem.PostAddRecipes */
+        public override NPCShop.Entry GetNPCShopEntry()
         {
-            return isNPCHappyEnough && player.Calamity().ZoneSunkenSea ? AssociatedItem : null;
+            Condition biomeCondition = new Condition("While in the Sunken Sea", () => Main.LocalPlayer.Calamity().ZoneSunkenSea);
+            return new NPCShop.Entry(AssociatedItem, Condition.AnotherTownNPCNearby, biomeCondition);
         }
 
         public override bool ValidTeleportCheck_BiomeRequirements(TeleportPylonInfo pylonInfo, SceneMetrics sceneData) => BiomeTileCounterSystem.SunkenSeaTiles >= 100;

@@ -17,12 +17,10 @@ namespace CalamityMod.Tiles.Pylons
         public override Color PylonMapColor => Color.OrangeRed;
         public override Color DustColor => Color.OrangeRed;
 
-        public override NPCShop.Entry GetNPCShopEntry()/* tModPorter See ExamplePylonTile for an example. To register to specific NPC shops, use the new shop system directly in ModNPC.AddShop, GlobalNPC.ModifyShop or ModSystem.PostAddRecipes */
+        public override NPCShop.Entry GetNPCShopEntry()
         {
-            //Purchaseable regardless of happiness, therefore, these NPCs need to be checked
-			if (npcType == NPCID.TravellingMerchant || npcType == NPCID.SkeletonMerchant)
-				return null;
-            return player.Calamity().ZoneCalamity ? AssociatedItem : null;
+            Condition biomeCondition = new Condition("While in the Brimstone Crags", () => Main.LocalPlayer.Calamity().ZoneCalamity);
+            return new NPCShop.Entry(AssociatedItem, biomeCondition);
         }
 
         //Doesnt require npcs to function

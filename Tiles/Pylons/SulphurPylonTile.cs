@@ -16,9 +16,10 @@ namespace CalamityMod.Tiles.Pylons
         public override Color DustColor => Color.GreenYellow;
         public override Color LightColor => new Color(1f, 0.8f, 0f);
 
-        public override NPCShop.Entry GetNPCShopEntry()/* tModPorter See ExamplePylonTile for an example. To register to specific NPC shops, use the new shop system directly in ModNPC.AddShop, GlobalNPC.ModifyShop or ModSystem.PostAddRecipes */
+        public override NPCShop.Entry GetNPCShopEntry()
         {
-            return isNPCHappyEnough && player.Calamity().ZoneSulphur ? AssociatedItem : null;
+            Condition biomeCondition = new Condition("While in the Sulphurous Sea", () => Main.LocalPlayer.Calamity().ZoneSulphur);
+            return new NPCShop.Entry(AssociatedItem, Condition.AnotherTownNPCNearby, biomeCondition);
         }
 
         public override bool ValidTeleportCheck_BiomeRequirements(TeleportPylonInfo pylonInfo, SceneMetrics sceneData) => BiomeTileCounterSystem.SulphurTiles >= 100;
