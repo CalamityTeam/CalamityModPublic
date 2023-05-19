@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
                 AddIngredient<DubiousPlating>(20).
                 AddIngredient<Plagueplate>(10).
                 AddIngredient<InfectedArmorPlating>(12).
-                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(3, out Predicate<Recipe> condition), condition).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(3, out Func<bool> condition), condition).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

@@ -87,7 +87,7 @@ namespace CalamityMod.Items.DraedonMisc
                 AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).
                 AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).
                 AddIngredient(ItemID.Glass, 50).
-                AddCondition(SchematicRecipe.ConstructRecipeCondition("Planetoid", out Predicate<Recipe> condition), condition).
+                AddCondition(SchematicRecipe.ConstructRecipeCondition("Planetoid", out Func<bool> condition), condition).
                 AddTile(TileID.Anvils).
                 Register();
         }

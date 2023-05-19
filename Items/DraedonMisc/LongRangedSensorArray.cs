@@ -66,7 +66,7 @@ namespace CalamityMod.Items.DraedonMisc
                 AddIngredient<DubiousPlating>(10).
                 AddRecipeGroup("AnyMythrilBar", 10).
                 AddIngredient(ItemID.Wire, 50).
-                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(2, out Predicate<Recipe> condition), condition).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(2, out Func<bool> condition), condition).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

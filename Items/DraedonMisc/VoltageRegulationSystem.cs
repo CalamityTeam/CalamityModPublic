@@ -67,7 +67,7 @@ namespace CalamityMod.Items.DraedonMisc
                 AddIngredient<DubiousPlating>(10).
                 AddIngredient<UelibloomBar>(5).
                 AddIngredient(ItemID.LunarBar, 5).
-                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(4, out Predicate<Recipe> condition), condition).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(4, out Func<bool> condition), condition).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }
