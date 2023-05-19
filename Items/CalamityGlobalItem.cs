@@ -1279,9 +1279,9 @@ namespace CalamityMod.Items
                     {
                         player.bulletDamage += 0.05f;
                     }
-                    else if (player.head == ArmorIDs.Head.ShroomiteHelmet) //rockets
+                    else if (player.head == ArmorIDs.Head.ShroomiteHelmet) //specialists (non-arrow/bullet)
                     {
-                        player.rocketDamage += 0.05f;
+                        player.specialistDamage += 0.05f;
                     }
                 }
             }
