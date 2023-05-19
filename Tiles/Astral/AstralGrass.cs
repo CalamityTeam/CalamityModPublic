@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.Astral
             CalamityUtils.SetMerge(Type, TileID.CrimsonGrass);
 
             DustType = ModContent.DustType<AstralBasic>();
-            RegisterItemDrop(ModContent.ItemType<AstralDirt>());
+            RegisterItemDrop(ModContent.ItemType<Items.Placeables.AstralDirt>());
 
             AddMapEntry(new Color(133, 109, 140));
 
@@ -32,7 +32,7 @@ namespace CalamityMod.Tiles.Astral
 
             //Grass framing (<3 terraria devs)
             TileID.Sets.NeedsGrassFraming[Type] = true;
-            TileID.Sets.NeedsGrassFramingDirt[Type] = ModContent.TileType<Items.Placeables.AstralDirt>();
+            TileID.Sets.NeedsGrassFramingDirt[Type] = ModContent.TileType<AstralDirt>();
             TileID.Sets.CanBeDugByShovel[Type] = true;
         }
         int animationFrameWidth = 288;
