@@ -17,8 +17,7 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(29, 37, 58), CalamityUtils.GetItemName<AbyssShellFossil>());
             DustType = 33;
-
-            ItemDrop = ModContent.ItemType<AbyssShellFossil>();
+            RegisterItemDrop(ModContent.ItemType<AbyssShellFossil>());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.OpenDoor };
             DustType = 8;
-            ItemDrop = ModContent.ItemType<ExoDoor>();
+            RegisterItemDrop(ModContent.ItemType<ExoDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<ExoDoorClosed>();
         }
 

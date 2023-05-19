@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            ItemDrop = ModContent.ItemType<OtherworldlyDoor>();
+            RegisterItemDrop(ModContent.ItemType<OtherworldlyDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<OtherworldlyDoorClosed>();
         }
 

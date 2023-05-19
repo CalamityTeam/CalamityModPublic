@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            ItemDrop = ModContent.ItemType<StratusDoor>();
+            RegisterItemDrop(ModContent.ItemType<StratusDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<StratusDoorClosed>();
         }
 

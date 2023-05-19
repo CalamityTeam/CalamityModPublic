@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            ItemDrop = ModContent.ItemType<VoidDoor>();
+            RegisterItemDrop(ModContent.ItemType<VoidDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<VoidDoorClosed>();
         }
 

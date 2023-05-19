@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen();
-            ItemDrop = ModContent.ItemType<EutrophicDoor>();
+            RegisterItemDrop(ModContent.ItemType<EutrophicDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<EutrophicDoorClosed>();
         }
 

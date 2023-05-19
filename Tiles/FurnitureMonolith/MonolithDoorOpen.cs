@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureMonolith
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            ItemDrop = ModContent.ItemType<MonolithDoor>();
+            RegisterItemDrop(ModContent.ItemType<MonolithDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<MonolithDoorClosed>();
         }
 

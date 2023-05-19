@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles.Crags
             HitSound = SoundID.Dig;
             MineResist = 1f;
             MinPick = 100;
-            ItemDrop = ModContent.ItemType<Items.Placeables.ScorchedRemains>();
+            RegisterItemDrop(ModContent.ItemType<Items.Placeables.ScorchedRemains>());
             AddMapEntry(new Color(212, 82, 227));
 
             TileFraming.SetUpUniversalMerge(Type, ModContent.TileType<BrimstoneSlag>(), out tileAdjacency);

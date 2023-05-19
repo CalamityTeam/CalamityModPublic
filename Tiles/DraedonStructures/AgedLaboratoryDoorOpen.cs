@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.OpenDoor };
             DustType = 8;
-            ItemDrop = ModContent.ItemType<AgedLaboratoryDoorItem>();
+            RegisterItemDrop(ModContent.ItemType<AgedLaboratoryDoorItem>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<AgedLaboratoryDoorClosed>();
         }
 

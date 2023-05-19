@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            ItemDrop = ModContent.ItemType<PlaguedPlateDoor>();
+            RegisterItemDrop(ModContent.ItemType<PlaguedPlateDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<PlaguedPlateDoorClosed>();
         }
 

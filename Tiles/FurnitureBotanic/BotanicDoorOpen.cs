@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            ItemDrop = ModContent.ItemType<BotanicDoor>();
+            RegisterItemDrop(ModContent.ItemType<BotanicDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<BotanicDoorClosed>();
         }
 

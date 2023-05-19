@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.FurnitureAncient;
+﻿using CalamityMod.Items.Placeables.FurnitureAncient;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            ItemDrop = ModContent.ItemType<AncientDoor>();
+            RegisterItemDrop(ModContent.ItemType<AncientDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<AncientDoorClosed>();
         }
 
