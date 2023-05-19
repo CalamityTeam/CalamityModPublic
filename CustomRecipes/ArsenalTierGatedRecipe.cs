@@ -8,11 +8,11 @@ namespace CalamityMod.CustomRecipes
     {
         public static LocalizedText ConstructRecipeCondition(int tier, out Func<bool> condition)
         {
-            condition = r => HasTierBeenLearned(tier);
+            condition = new Func<bool>(()=>HasBeenLearned(tier));
             return Language.GetOrRegister($"Mods.CalamityMod.Misc.Tier{tier}ArsenalRecipeCondition");
         }
 
-        public static bool HasTierBeenLearned(int tier)
+        public static bool HasBeenLearned(int tier)
         {
             return tier switch
             {
