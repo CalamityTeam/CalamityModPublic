@@ -141,6 +141,18 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             if (NPC.ai[2] > 0f)
                 NPC.realLife = (int)NPC.ai[2];
+            
+            // Trigger the death animation
+            if (NPC.realLife > 0 && NPC.life == 1)
+            {
+                Main.npc[NPC.realLife].ModNPC<DevourerofGodsHead>().Dying = true;
+                Main.npc[NPC.realLife].dontTakeDamage = true;
+                Main.npc[NPC.realLife].life = 1;
+                Main.npc[NPC.realLife].netUpdate = true;
+                NPC.dontTakeDamage = true;
+                NPC.netUpdate = true;
+                return;
+            }
 
             if (NPC.life > Main.npc[(int)NPC.ai[1]].life)
                 NPC.life = Main.npc[(int)NPC.ai[1]].life;
@@ -404,27 +416,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
         }
 
-        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
-        {
-            if ((damage * (crit ? 2D : 1D)) >= NPC.life || (NPC.realLife >= 0 && Main.npc[NPC.realLife].ModNPC<DevourerofGodsHead>().Dying))
-            {
-                if (NPC.realLife >= 0)
-                {
-                    modifiers.SourceDamage *= 0f;
-                    NPC.dontTakeDamage = true;
-                    Main.npc[NPC.realLife].dontTakeDamage = true;
-                    Main.npc[NPC.realLife].life = 1;
-
-                    if (!Main.npc[NPC.realLife].ModNPC<DevourerofGodsHead>().Dying)
-                    {
-                        Main.npc[NPC.realLife].ModNPC<DevourerofGodsHead>().Dying = true;
-                        Main.npc[NPC.realLife].dontTakeDamage = true;
-                        Main.npc[NPC.realLife].active = true;
-                        Main.npc[NPC.realLife].netUpdate = true;
-                    }
-                }
-            }
-        }
+        // This will always put the boss to 1 health before dying, which makes external checks work.
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers) => modifiers.SetMaxDamage(NPC.life - 1);
 
         public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
@@ -433,14 +426,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 modifiers.SourceDamage *= 40f;
             }
-        }
-
-        public override bool CheckDead()
-        {
-            if (NPC.realLife >= 0)
-                Main.npc[NPC.realLife].checkDead();
-
-            return base.CheckDead();
         }
 
         public override bool CheckActive()

@@ -629,6 +629,14 @@ namespace CalamityMod.NPCs.DevourerofGods
                         DoDeathAnimation();
                         return;
                     }
+                    // Trigger the death animation
+                    else if (NPC.life == 1)
+                    {
+                        Dying = true;
+                        NPC.dontTakeDamage = true;
+                        NPC.netUpdate = true;
+                        return;
+                    }
 
                     // Laser walls
                     if (phase4 && !spawnedGuardians3 && postTeleportTimer <= 0)
@@ -2534,14 +2542,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             return minDist <= (Phase2Started ? 80f : 55f) * NPC.scale && (NPC.Opacity >= 1f || postTeleportTimer > 0);
         }
 
-        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
-        {
-            if (!Dying && (damage * (crit ? 2D : 1D)) >= NPC.life)
-            {
-                modifiers.SourceDamage *= 0f;
-                CheckDead();
-            }
-        }
+        // This will always put the boss to 1 health before dying, which makes external checks work.
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers) => modifiers.SetMaxDamage(NPC.life - 1);
 
         public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
