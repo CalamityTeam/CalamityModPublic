@@ -32,7 +32,7 @@ namespace CalamityMod.Tiles.AstralDesert
 
             AddMapEntry(new Color(187, 220, 237));
 
-            TileID.Sets.TouchDamageSands/* tModPorter Suggestion: Suffocate */[Type] = 15;
+            TileID.Sets.Suffocate[Type] = true;
             TileID.Sets.CanBeDugByShovel[Type] = true;
             TileID.Sets.Conversion.Sand[Type] = true;
             TileID.Sets.ForAdvancedCollision.ForSandshark[Type] = true;

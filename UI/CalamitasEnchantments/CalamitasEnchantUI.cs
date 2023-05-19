@@ -366,7 +366,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                 return;
 
             // If there is no cost or the player cannot afford it, do nothing.
-            if (cost <= 0 || !Main.LocalPlayer.CanBuyItem(cost))
+            if (cost <= 0 || !Main.LocalPlayer.CanAfford(cost))
                 return;
 
             Item originalItem = CurrentlyHeldItem.Clone();

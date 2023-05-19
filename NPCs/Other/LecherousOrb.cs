@@ -178,8 +178,6 @@ namespace CalamityMod.NPCs.Other
         {
             if (Main.myPlayer == NPC.target)
                 NPC.SyncMotionToServer();
-
-            return base.ModifyIncomingHit(ref modifiers);
         }
 
         public override void OnKill()
