@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (distanceTo < distance && npc.CanBeChasedBy(Projectile, false) && k != Projectile.localAI[0])
                     {
                         float alldamage = Projectile.damage * 1.25f;
-                        double damage = npc.StrikeNPC((int)alldamage, Projectile.knockBack, Projectile.velocity.X > 0f ? 1 : -1);
+                        double damage = npc.StrikeNPC(npc.CalculateHitInfo((int)alldamage, Projectile.velocity.X > 0f ? 1 : -1, knockBack: Projectile.knockBack));
                         player.addDPS((int)damage);
                     }
                 }
@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (distanceTo < distance && npc.CanBeChasedBy(Projectile, false) && k != Projectile.localAI[0])
                     {
                         float alldamage = Projectile.damage * 0.75f;
-                        double damage = npc.StrikeNPC((int)alldamage, Projectile.knockBack, Projectile.velocity.X > 0f ? 1 : -1);
+                        double damage = npc.StrikeNPC(npc.CalculateHitInfo((int)alldamage, Projectile.velocity.X > 0f ? 1 : -1, knockBack: Projectile.knockBack));
                         player.addDPS((int)damage);
                     }
                 }
