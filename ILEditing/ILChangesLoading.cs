@@ -134,7 +134,6 @@ namespace CalamityMod.ILEditing
 
             // Fix vanilla bugs exposed by Calamity mechanics
             Terraria.IL_NPC.NPCLoot += FixSplittingWormBannerDrops;
-            Terraria.On_Item.Prefix += LetRogueItemsBeReforgeable;
             // Should not be necessary in 1.4
             // IL.Terraria.Main.DoUpdate += FixProjectileUpdatePriorityProblems;
 

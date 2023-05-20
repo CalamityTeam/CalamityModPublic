@@ -135,19 +135,6 @@ namespace CalamityMod.ILEditing
         }
         #endregion Fixing Splitting Worm Banner Spam in Deathmode
 
-        #region Let Rogue Items Be Reforgeable
-        private static bool LetRogueItemsBeReforgeable(Terraria.On_Item.orig_Prefix orig, Item self, int pre)
-        {
-            if (self.CountsAsClass<RogueDamageClass>() && self.maxStack == 1 && pre == -3)
-            {
-                PrefixLoader.Roll(self, ref pre, 40, WorldGen.gen ? WorldGen.genRand : Main.rand, PrefixCategory.AnyWeapon);
-                return true;
-            }
-
-            return orig(self, pre);
-        }
-        #endregion Let Rogue Items Be Reforgeable
-
         #region Fix Projectile Update Priority Problems
 
         // This IL edit is commented out because it seems to be causing issues, sometimes creating errors preventing Terraria from updating

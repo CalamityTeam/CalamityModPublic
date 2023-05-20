@@ -7,6 +7,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public abstract class RogueWeapon : ModItem
     {
+        // Apparently custom damage classes for weapons still don't allow for generic weapon prefixes
+        public override bool WeaponPrefix() => true;
+
         public override bool RangedPrefix() => false;
 
         public override void ModifyResearchSorting(ref ItemGroup itemGroup) => itemGroup = (ItemGroup)CalamityResearchSorting.RogueWeapon;

@@ -127,7 +127,8 @@ namespace CalamityMod.Prefixes
         internal float shootSpeedMult = 1f;
         internal float stealthDmgMult = 1f;
 
-        public override PrefixCategory Category => PrefixCategory.Custom;
+        // The part where it can only be rolled by rogue weapons is done by CanRoll below
+        public override PrefixCategory Category => PrefixCategory.AnyWeapon;
 
         public RogueWeaponPrefix() { }
 
@@ -152,7 +153,7 @@ namespace CalamityMod.Prefixes
             valueMult *= extraValue;
         }
 
-        public override bool CanRoll(Item item) => item.CountsAsClass<RogueDamageClass>() && (item.maxStack == 1 || item.AllowReforgeForStackableItem) && GetType() != typeof(RogueWeaponPrefix);
+        public override bool CanRoll(Item item) => item.CountsAsClass<ThrowingDamageClass>() && (item.maxStack == 1 || item.AllowReforgeForStackableItem) && GetType() != typeof(RogueWeaponPrefix);
 
         public override void SetStats(ref float damageMult, ref float knockbackMult, ref float useTimeMult, ref float scaleMult, ref float shootSpeedMult, ref float manaMult, ref int critBonus)
         {
