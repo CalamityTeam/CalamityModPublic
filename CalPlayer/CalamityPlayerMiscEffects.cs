@@ -499,7 +499,10 @@ namespace CalamityMod.CalPlayer
             int auricRejectionDamage = 300;
             float auricRejectionKB = Player.noKnockback ? 20f : 40f;
 
-            foreach (Point touchedTile in Collision.GetEntityEdgeTiles(Player))
+            // Get a list of tiles that are colliding with the player.
+            List<Point> EdgeTiles = new List<Point>();
+            Collision.GetEntityEdgeTiles(EdgeTiles, Player);
+            foreach (Point touchedTile in EdgeTiles)
             {
                 Tile tile = Main.tile[touchedTile];
                 if (!tile.HasTile || !tile.HasUnactuatedTile)

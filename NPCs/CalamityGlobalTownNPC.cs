@@ -1488,10 +1488,10 @@ namespace CalamityMod.NPCs
             }
         }
 
-        public void MakeTownNPCsTakeMoreDamage(NPC npc, Projectile projectile, Mod mod, ref int damage)
+        public void MakeTownNPCsTakeMoreDamage(NPC npc, Projectile projectile, Mod mod, ref NPC.HitModifiers modifiers)
         {
             if (npc.townNPC && projectile.hostile)
-                damage *= 2;
+                modifiers.SourceDamage *= 2f;
         }
 
         public override void BuffTownNPC(ref float damageMult, ref int defense)
