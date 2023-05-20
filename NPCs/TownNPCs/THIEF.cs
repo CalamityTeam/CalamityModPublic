@@ -29,6 +29,7 @@ namespace CalamityMod.NPCs.TownNPCs
             "Calder", // <@!601897959176798228> (Paltham#8859)
             "Hunter Jinx", // <@!757401399783850134> (Jinx_enthusiast#1580)
             "Goose", // <@!591421917706321962> (DullElili#8016)
+			"Jackson", // <@!525827730646892549> (ChowChow, Sin of Sleep Schedules#1235)
 
             // Original names
             "Laura", "Mie", "Bonnie",
