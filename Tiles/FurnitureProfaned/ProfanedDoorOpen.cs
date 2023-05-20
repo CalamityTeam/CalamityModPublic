@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            ItemDrop = ModContent.ItemType<ProfanedDoor>();
+            RegisterItemDrop(ModContent.ItemType<ProfanedDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<ProfanedDoorClosed>();
         }
 

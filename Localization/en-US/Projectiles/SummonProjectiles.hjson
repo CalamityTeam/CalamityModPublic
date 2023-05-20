@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Projectiles : {
+Mods: {
+	CalamityMod: {
+		Projectiles: {
 			AndromedaDeathRay.DisplayName: Beam
 			AndromedaRegislash.DisplayName: Regislash
 			AndromedaUI_Background.DisplayName: UI

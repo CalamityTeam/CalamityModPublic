@@ -417,7 +417,7 @@ namespace CalamityMod.Balancing
             NPCSpecificBalancingChanges = null;
         }
 
-        public static void ApplyFromProjectile(NPC npc, ref int damage, Projectile proj)
+        public static void ApplyFromProjectile(NPC npc, ref NPC.HitModifiers modifiers, Projectile proj)
         {
             NPCHitContext hitContext = NPCHitContext.ConstructFromProjectile(proj);
 
@@ -427,7 +427,7 @@ namespace CalamityMod.Balancing
                 foreach (IBalancingRule balancingRule in balancingRules)
                 {
                     if (balancingRule.AppliesTo(npc, hitContext))
-                        balancingRule.ApplyBalancingChange(npc, ref damage);
+                        balancingRule.ApplyBalancingChange(npc, ref modifiers);
                 }
             }
 
@@ -440,7 +440,7 @@ namespace CalamityMod.Balancing
                 foreach (IBalancingRule balancingRule in balanceChange.BalancingRules)
                 {
                     if (balancingRule.AppliesTo(npc, hitContext))
-                        balancingRule.ApplyBalancingChange(npc, ref damage);
+                        balancingRule.ApplyBalancingChange(npc, ref modifiers);
                 }
             }
         }

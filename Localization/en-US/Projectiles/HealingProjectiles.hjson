@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Projectiles : {
+Mods: {
+	CalamityMod: {
+		Projectiles: {
 			BurntSiennaProj.DisplayName: Sienna
 			CactusHealOrb.DisplayName: Heal
 			DemonHeal.DisplayName: Heal

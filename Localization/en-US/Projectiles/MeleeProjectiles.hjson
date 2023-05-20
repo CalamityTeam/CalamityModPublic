@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Projectiles : {
+Mods: {
+	CalamityMod: {
+		Projectiles: {
 			AegisBeam.DisplayName: Aegis Beam
 			AegisBlast.DisplayName: Aegis Blast
 			AegisBlast2.DisplayName: Aegis Blast

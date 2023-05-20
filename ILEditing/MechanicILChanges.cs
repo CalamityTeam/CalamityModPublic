@@ -146,18 +146,6 @@ namespace CalamityMod.ILEditing
             // Replace vanilla's base damage of 150 with Calamity's custom base damage.
             cursor.Next.Operand = BalancingConstants.SolarFlareBaseDamage;
 
-            // Now that the new base damage has been applied to the direct contact strike, also apply it to the Solar Counter projectile.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(150)))
-            {
-                LogFailure("Vanilla Dash Fixes", "Could not locate Solar Flare Armor \"Solar Counter\" base damage.");
-                return;
-            }
-
-            // Replace vanilla's flat 150 damage (doesn't even scale with melee stats!) with the already-calculated base damage, then cast it to int.
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldloc, 13);
-            cursor.Emit(OpCodes.Conv_I4);
-
             // Move to the immunity frame setting code for the Solar Flare set bonus. Find the constant 4 given as iframes.
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(4)))
             {

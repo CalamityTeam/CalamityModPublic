@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            ItemDrop = ModContent.ItemType<CosmiliteDoor>();
+            RegisterItemDrop(ModContent.ItemType<CosmiliteDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<CosmiliteDoorClosed>();
         }
 

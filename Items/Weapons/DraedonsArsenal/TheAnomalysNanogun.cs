@@ -109,7 +109,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                 .AddIngredient<DubiousPlating>(20)
                 .AddIngredient<CosmiliteBar>(8)
                 .AddIngredient<AscendantSpiritEssence>(2)
-                .AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(5, out Predicate<Recipe> condition), condition)
+                .AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(5, out Func<bool> condition), condition)
                 .AddTile<CosmicAnvil>()
                 .Register();
         }

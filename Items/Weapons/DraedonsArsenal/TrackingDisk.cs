@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                 AddIngredient<DubiousPlating>(7).
                 AddIngredient<AerialiteBar>(4).
                 AddIngredient<SeaPrism>(7).
-                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(1, out Predicate<Recipe> condition), condition).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(1, out Func<bool> condition), condition).
                 AddTile(TileID.Anvils).
                 Register();
         }

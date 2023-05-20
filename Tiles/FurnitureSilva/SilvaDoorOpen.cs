@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            ItemDrop = ModContent.ItemType<SilvaDoor>();
+            RegisterItemDrop(ModContent.ItemType<SilvaDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<SilvaDoorClosed>();
         }
 

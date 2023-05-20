@@ -1,4 +1,4 @@
-using CalamityMod.Items.Mounts;
+﻿using CalamityMod.Items.Mounts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Enums;
@@ -28,8 +28,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 			TileObjectData.newTile.DrawYOffset = 2;
 			TileObjectData.addTile(Type);
             AddMapEntry(new Color(128, 0, 128), CreateMapEntryName());
-            
-            ItemDrop = ModContent.ItemType<OnyxExcavatorKey>();
+            RegisterItemDrop(ModContent.ItemType<OnyxExcavatorKey>());
         }
     }
 }

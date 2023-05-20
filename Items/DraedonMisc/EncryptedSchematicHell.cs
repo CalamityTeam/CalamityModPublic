@@ -89,7 +89,7 @@ namespace CalamityMod.Items.DraedonMisc
                 AddIngredient<MysteriousCircuitry>(10).
                 AddIngredient<DubiousPlating>(10).
                 AddIngredient(ItemID.Glass, 50).
-                AddCondition(SchematicRecipe.ConstructRecipeCondition("Hell", out Predicate<Recipe> condition), condition).
+                AddCondition(SchematicRecipe.ConstructRecipeCondition("Hell", out Func<bool> condition), condition).
                 AddTile(TileID.Anvils).
                 Register();
         }

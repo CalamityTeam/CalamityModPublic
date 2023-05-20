@@ -21,8 +21,7 @@ namespace CalamityMod.Tiles
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(240, 77, 7), CalamityUtils.GetItemName<Roxcalibur>());
             TileID.Sets.DisableSmartCursor[Type] = true;
-
-            ItemDrop = ModContent.ItemType<Roxcalibur>();
+            RegisterItemDrop(ModContent.ItemType<Roxcalibur>());
         }
     }
 }

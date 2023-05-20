@@ -985,7 +985,7 @@ namespace CalamityMod.Items
                 AddWingStats(7.5f, 1f, 1, 180, "Increased minion knockback and 5% increased minion damage while wearing the Spooky Armor");
 
             if (item.type == ItemID.Hoverboard)
-                AddWingStats(6.5f, 1f, 1, 170, "10% increased weapon-type damage while wearing the Shroomite Armor\n" +
+                AddWingStats(6.5f, 1f, 1, 170, "5% increased weapon-type damage while wearing the Shroomite Armor\n" +
                     "The weapon type boosted matches which Shroomite helmet is worn");
 
             if (item.type == ItemID.FestiveWings)

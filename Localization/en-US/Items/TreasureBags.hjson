@@ -1,5 +1,5 @@
-Mods : {
-	CalamityMod : {
+Mods: {
+	CalamityMod: {
 		Items: {
 			/* Boss Bags */
 			AquaticScourgeBag: {
@@ -126,7 +126,7 @@ Mods : {
 				DisplayName: Treasure Bag (Yharon)
 				Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
 			}
-			
+
 			/* Miscellaneous Bags */
 			AbyssalTreasure: {
 				DisplayName: Abyssal Treasure
@@ -160,7 +160,7 @@ Mods : {
 					{$CommonItemTooltip.RightClickToOpen}
 					'''
 			}
-			
+
 			StarterBag: {
 				DisplayName: Starter Bag
 				Tooltip: "{$CommonItemTooltip.RightClickToOpen}"

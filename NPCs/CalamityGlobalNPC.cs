@@ -2577,54 +2577,13 @@ namespace CalamityMod.NPCs
         // Incoming defense to this function is already affected by the vanilla debuffs Ichor (-15) and Betsy's Curse (-40), and cannot be below zero.
         public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
         {
-            // Don't bother tampering with the damage if it is already zero.
-            // Zero damage does not happen in the base game; if something has been set to zero damage by another mod, it's really not intended to do damage.
-            if (damage == 0D)
-                return;
-
-            // Safety for ML's eyes on Rev+ so that the boss doesn't remain invulnerable forever
-            // TODO -- this is very old, is it still needed?
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
-            {
-                if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
-                {
-                    if (npc.life - (int)damage <= 0)
-                    {
-                        if (newAI[0] != 1f)
-                        {
-                            newAI[0] = 1f;
-                            npc.life = npc.lifeMax;
-                            npc.netUpdate = true;
-                            npc.dontTakeDamage = true;
-                        }
-                    }
-                }
-            }
-
-            // Armor penetration has already been applied as bonus damage.
-            // Yellow Candle provides +5% damage which ignores both DR and defense.
-            // This means Yellow Candle is buffing armor penetration and technically not ignoring defense,
-            // but it's small enough to let it slide.
-            double yellowCandleDamage = 0.05 * damage;
-
-            // Apply modifications to enemy's current defense based on Calamity debuffs.
-            // As with defense and DR, flat reductions apply first, then multiplicative reductions.
-            //
+            // Apply armor penetration based on Calamity debuffs. The hit system manages the sequencing.
             // Ozzatron 05JAN2023: fixed doubled armor pen, this time for real
-            int effectiveDefense = defense -
-                    (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0) -
-                    (wither > 0 ? WitherDebuff.DefenseReduction : 0) -
-                    miscDefenseLoss;
-
-            // Defense can never be negative and has a minimum value of zero.
-            if (effectiveDefense < 0)
-                effectiveDefense = 0;
-
-            // Apply vanilla-style defense before DR, using Calamity's reduced defense.
-            damage = Main.CalculateDamageNPCsTake((int)damage, effectiveDefense);
+            int defenseReduction = (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0) + (wither > 0 ? WitherDebuff.DefenseReduction : 0) + miscDefenseLoss;
+            modifiers.ArmorPenetration += defenseReduction;
 
             // DR applies after vanilla defense.
-            damage = ApplyDR(npc, damage, yellowCandleDamage);
+            ApplyDR(npc, modifiers);
 
             // Damage reduction on spawn for certain worm bosses.
             bool destroyerResist = CalamityLists.DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || BossRushEvent.BossRushActive);
@@ -2633,42 +2592,24 @@ namespace CalamityMod.NPCs
             {
                 float resistanceGateValue = (CalamityLists.AstrumDeusIDs.Contains(npc.type) && newAI[0] != 0f) ? 300f : 600f;
                 if (newAI[1] < resistanceGateValue || (newAI[2] > 0f && CalamityLists.DestroyerIDs.Contains(npc.type)))
-                    modifiers.SourceDamage *= 0.01f;
+                    modifiers.FinalDamage *= 0.01f;
             }
 
             // Large Deus worm takes reduced damage to last a long enough time.
             // TODO -- WHY DOES DEUS HAVE THIS UNDOCUMENTED MULTIPLIER HERE??
             // this should be in ModifyHitNPC for deus himself
             if (CalamityLists.AstrumDeusIDs.Contains(npc.type) && newAI[0] == 0f)
-                modifiers.SourceDamage *= 0.8f;
-
-            // Inflict 0 damage if it's below 0.5
-            damage = damage < 0.5 ? 0D : damage < 1D ? 1D : damage;
-
-            // Disable vanilla damage method if damage is less than 0.5
-            if (damage == 0D)
-                return;
-
-            // Immediately after StrikeNPC runs, vanilla does the following 3 things:
-            // 1 - Reduces damage by vanilla effective defense
-            // 2 - Doubles damage if it's a crit
-            // 3 - Multiplies by vanilla takenDamageMultiplier if it's over 1.0
-            //
-            // The following line cancels out vanilla defense calculations, since we just did our own above.
-            // We return true to allow all 3 to run, but cancel out #1, meaning crits and Crawltipede still work.
-            damage = Main.CalculateDamageNPCsTake((int)damage, -defense);
+                modifiers.FinalDamage *= 0.8f;
         }
 
-        /// <summary>
-        /// Modifies damage incoming to an NPC based on their DR (damage reduction) stat added by Calamity.<br></br>
-        /// This is entirely separate from vanilla's takenDamageMultiplier.
-        /// </summary>
-        /// <param name="damage">Incoming damage. Has been modified by Main.DamageVar and boosted by armor penetration, but nothing else.</param>
-        /// <returns></returns>
-        private double ApplyDR(NPC npc, double damage, double yellowCandleDamage)
+        // Directly modifies final damage incoming to an NPC based on their DR (damage reduction) stat added by Calamity.
+        // This is entirely separate from vanilla's takenDamageMultiplier.
+        private void ApplyDR(NPC npc, NPC.HitModifiers modifiers)
         {
-            if ((DR <= 0f && KillTime == 0) || damage <= 1.0)
-                return damage;
+            if (DR <= 0f && KillTime == 0)
+                return;
+            
+            float finalMultiplier = 1f;
 
             // If the NPC currently has unbreakable DR, it cannot be reduced by any means.
             // If custom DR is enabled, use that instead of normal DR.
@@ -2679,8 +2620,12 @@ namespace CalamityMod.NPCs
                 effectiveDR = 0f;
 
             // Add Yellow Candle damage if the NPC isn't supposed to be "near invincible"
+            // Armor penetration has already been applied as bonus damage.
+            // Yellow Candle provides +5% damage which ignores both DR and defense.
+            // This means Yellow Candle is buffing armor penetration and technically not ignoring defense,
+            // but it's small enough to let it slide.
             if (yellowCandle > 0 && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
-                damage += yellowCandleDamage;
+                finalMultiplier += 0.05f;
 
             // Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
             bool nightProvi = npc.type == NPCType<Providence.Providence>() && !Main.dayTime;
@@ -2708,8 +2653,10 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            double newDamage = (1f - effectiveDR) * damage;
-            return newDamage;
+            // Final DR calculation
+            finalMultiplier -= effectiveDR;
+
+            modifiers.FinalDamage *= finalMultiplier;
         }
 
         private float DefaultDRMath(NPC npc, float DR)
@@ -4536,7 +4483,7 @@ namespace CalamityMod.NPCs
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-            MakeTownNPCsTakeMoreDamage(npc, projectile, Mod, ref damage);
+            MakeTownNPCsTakeMoreDamage(npc, projectile, Mod, ref modifiers);
 
             // Block natural falling stars from killing boss spawners randomly
             if ((projectile.type == ProjectileID.FallingStar && projectile.damage >= 1000) && (npc.type == NPCType<PerforatorCyst>() || npc.type == NPCType<HiveTumor>() || npc.type == NPCType<LeviathanStart>()))
@@ -4627,16 +4574,10 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-                // TODO -- Use the 1.4 spawn context system for this.
-                // This suffers from the same issues as current crit logic in vanilla, but I have no idea how to do this better without said system.
-                if (crit)
-                {
-                    // Crits have their damage doubled after ModifyHitNPC, in the StrikeNPC function.
-                    // Here, damage is divded by 2 to compensate for that.
-                    // This means that the bonus provided by Daawnlight Spirit Origin can be computed as a complete replacement to regular crits.
-                    float mult = DaawnlightSpiritOrigin.GetDamageMultiplier(player, modPlayer, hitBullseye, cgp.forcedCrit) / 2f;
-                    modifiers.SourceDamage *= mult;
-                }
+                // The bonus provided by Daawnlight Spirit Origin can be computed as a complete replacement to regular crits.
+                // As such, it is subtracted by the base critical strike damage boost of 200%
+                float bonus = DaawnlightSpiritOrigin.GetDamageMultiplier(player, modPlayer, hitBullseye, cgp.forcedCrit) - 2f;
+                modifiers.CritDamage += bonus;
             }
 
             // Plague Reaper deals 1.1x damage to Plagued enemies
@@ -4658,7 +4599,7 @@ namespace CalamityMod.NPCs
             }
 
             // Apply balancing resists/vulnerabilities.
-            BalancingChangesManager.ApplyFromProjectile(npc, ref damage, projectile);
+            BalancingChangesManager.ApplyFromProjectile(npc, ref modifiers, projectile);
 
             if (CalamityLists.GrenadeResistIDs.Contains(projectile.type))
             {
@@ -4672,7 +4613,7 @@ namespace CalamityMod.NPCs
             }
 
             if (CalamityLists.pierceResistList.Contains(npc.type))
-                PierceResistGlobal(projectile, npc, ref damage);
+                PierceResistGlobal(projectile, npc, ref modifiers);
 
             if (modPlayer.camper && !player.StandingStill())
                 modifiers.SourceDamage *= 0.1f;
@@ -4680,7 +4621,7 @@ namespace CalamityMod.NPCs
 
         // Generalized pierce resistance that stacks with all other resistances for some specific bosses defined in a list.
         // The actual resistance formula isn't really a problem, but the implementation of this desperately needs refactoring.
-        private void PierceResistGlobal(Projectile projectile, NPC npc, ref int damage)
+        private void PierceResistGlobal(Projectile projectile, NPC npc, ref NPC.HitModifiers modifiers)
         {
             // Thanatos segments do not trigger pierce resistance if they are closed
             if (CalamityLists.ThanatosIDs.Contains(npc.type) && unbreakableDR)
@@ -4690,7 +4631,7 @@ namespace CalamityMod.NPCs
             if (damageReduction > CalamityGlobalProjectile.PierceResistCap)
                 damageReduction = CalamityGlobalProjectile.PierceResistCap;
 
-            damage -= (int)(damage * damageReduction);
+            modifiers.FinalDamage *= 1f - damageReduction;
 
             if ((projectile.penetrate > 1 || projectile.penetrate == -1) && !CalamityLists.pierceResistExceptionList.Contains(projectile.type) && !projectile.CountsAsClass<SummonDamageClass>() && projectile.aiStyle != 15 && projectile.aiStyle != 39 && projectile.aiStyle != 99)
                 projectile.Calamity().timesPierced++;

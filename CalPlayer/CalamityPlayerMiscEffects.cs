@@ -499,7 +499,10 @@ namespace CalamityMod.CalPlayer
             int auricRejectionDamage = 300;
             float auricRejectionKB = Player.noKnockback ? 20f : 40f;
 
-            foreach (Point touchedTile in Collision.GetEntityEdgeTiles(Player))
+            // Get a list of tiles that are colliding with the player.
+            List<Point> EdgeTiles = new List<Point>();
+            Collision.GetEntityEdgeTiles(EdgeTiles, Player);
+            foreach (Point touchedTile in EdgeTiles)
             {
                 Tile tile = Main.tile[touchedTile];
                 if (!tile.HasTile || !tile.HasUnactuatedTile)
@@ -890,12 +893,12 @@ namespace CalamityMod.CalPlayer
                 {
                     // Thorn and spike effects
                     // 10 = crimson/corruption thorns, 17 = jungle thorns, 80 = temple spikes
-                    Vector2 tileType;
+                    Collision.HurtTile collidedTile;
                     if (!Player.mount.Active || !Player.mount.Cart)
-                        tileType = Collision.HurtTiles(Player.position, Player.velocity, Player.width, Player.height, Player.fireWalk);
+                        collidedTile = Collision.HurtTiles(Player.position, Player.width, Player.height, Player);
                     else
-                        tileType = Collision.HurtTiles(Player.position, Player.velocity, Player.width, Player.height - 16, Player.fireWalk);
-                    switch ((int)tileType.Y)
+                        collidedTile = Collision.HurtTiles(Player.position, Player.width, Player.height - 16, Player);
+                    switch (collidedTile.type)
                     {
                         case 10:
                             Player.AddBuff(BuffID.Weak, 300, false);

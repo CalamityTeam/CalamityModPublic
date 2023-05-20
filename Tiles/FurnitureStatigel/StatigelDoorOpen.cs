@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen();
-            ItemDrop = ModContent.ItemType<StatigelDoor>();
+            RegisterItemDrop(ModContent.ItemType<StatigelDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<StatigelDoorClosed>();
         }
 

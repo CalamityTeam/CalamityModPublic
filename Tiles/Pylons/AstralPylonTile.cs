@@ -16,9 +16,10 @@ namespace CalamityMod.Tiles.Pylons
         public override Color DustColor => Main.rand.NextBool() ? Color.Coral : Color.MediumTurquoise;
 
 
-        public override NPCShop.Entry GetNPCShopEntry()/* tModPorter See ExamplePylonTile for an example. To register to specific NPC shops, use the new shop system directly in ModNPC.AddShop, GlobalNPC.ModifyShop or ModSystem.PostAddRecipes */
+        public override NPCShop.Entry GetNPCShopEntry()
         {
-            return isNPCHappyEnough && player.Calamity().ZoneAstral ? AssociatedItem : null;
+            Condition biomeCondition = new Condition("While in the Astral Infection", () => Main.LocalPlayer.Calamity().ZoneAstral);
+            return new NPCShop.Entry(AssociatedItem, Condition.AnotherTownNPCNearby, biomeCondition);
         }
 
 

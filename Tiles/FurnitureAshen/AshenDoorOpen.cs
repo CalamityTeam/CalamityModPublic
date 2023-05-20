@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.FurnitureAshen;
+﻿using CalamityMod.Items.Placeables.FurnitureAshen;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            ItemDrop = ModContent.ItemType<AshenDoor>();
+            RegisterItemDrop(ModContent.ItemType<AshenDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<AshenDoorClosed>();
         }
 

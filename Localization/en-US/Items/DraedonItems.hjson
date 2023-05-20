@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			DraedonPowerCell: {
 				DisplayName: Draedon Power Cell
 				Tooltip:
@@ -9,7 +9,7 @@ Mods : {
 					Also can be processed by the Extractinator for spare parts
 					'''
 			}
-			
+
 			/* Codebreaker Pieces */
 			AdvancedDisplay: {
 				DisplayName: Advanced Display
@@ -43,7 +43,7 @@ Mods : {
 					Doing so allows you to learn how to craft new things
 					'''
 			}
-			
+
 			LongRangedSensorArray: {
 				DisplayName: Long Ranged Sensor Array
 				Tooltip:
@@ -63,7 +63,7 @@ Mods : {
 					Doing so allows you to learn how to craft new things
 					'''
 			}
-			
+
 			/* Draedon Logs */
 			DraedonsLogHell: {
 				DisplayName: Environmental Pollution Log
@@ -109,7 +109,7 @@ Mods : {
 					Click to view its contents
 					'''
 			}
-			
+
 			/* Lab Finders */
 			CyanSeekingMechanism: {
 				DisplayName: Cyan Seeking Mechanism
@@ -145,7 +145,7 @@ Mods : {
 				DisplayName: Yellow Seeking Mechanism
 				Tooltip: Moves swiftly towards a lab within the sky
 			}
-			
+
 			/* Schematics */
 			EncryptedSchematicHell: {
 				DisplayName: Encrypted Schematic (Underworld)

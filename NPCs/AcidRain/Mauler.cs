@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath60;
             NPC.knockBackResist = 0f;
-            NPC.RemoveWaterSlowness();
+            NPC.waterMovementSpeed = 1f;
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;

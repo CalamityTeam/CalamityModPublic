@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     int damage = (int)(Projectile.damage * explosionDamageMultiplier);
                     bool crit = Main.rand.Next(100) <= owner.GetCritChance<MeleeDamageClass>() + 4;
-                    target.StrikeNPC(damage, 0f, 0, crit, false, false);
+                    target.StrikeNPC(target.CalculateHitInfo(damage, 0, crit, 0));
 
                     if (Main.netMode != NetmodeID.SinglePlayer)
                         NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, i, damage, 0f, 0f, crit ? 1 : 0, 0, 0);

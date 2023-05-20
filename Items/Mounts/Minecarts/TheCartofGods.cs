@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Mounts.Minecarts
     [LegacyName("DoGCart")]
     public class TheCartofGods : ModItem
     {
-        public override void SetStaticDefaults() => DisplayName.SetDefault("The Cart of Gods");
-
         public override void SetDefaults()
         {
             Item.width = 34;

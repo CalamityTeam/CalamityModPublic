@@ -6,10 +6,10 @@ namespace CalamityMod.CustomRecipes
 {
     public static class ArsenalTierGatedRecipe
     {
-        public static NetworkText ConstructRecipeCondition(int tier, out Predicate<Recipe> condition)
+        public static LocalizedText ConstructRecipeCondition(int tier, out Func<bool> condition)
         {
-            condition = r => HasTierBeenLearned(tier);
-            return NetworkText.FromKey($"Mods.CalamityMod.Misc.Tier{tier}ArsenalRecipeCondition");
+            condition = new Func<bool>(()=>HasTierBeenLearned(tier));
+            return Language.GetOrRegister($"Mods.CalamityMod.Misc.Tier{tier}ArsenalRecipeCondition");
         }
 
         public static bool HasTierBeenLearned(int tier)

@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			AbyssShellFossil: {
 				DisplayName: Abyss Shell Fossil
 				Tooltip:
@@ -119,7 +119,7 @@ Mods : {
 
 			McNuggets: {
 				DisplayName: McNuggets
-				Tooltip: 'These chicken nuggets aren't for you to eat!'
+				Tooltip: "'These chicken nuggets aren't for you to eat!'"
 			}
 
 			PineapplePet: {

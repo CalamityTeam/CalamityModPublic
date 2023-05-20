@@ -19,7 +19,6 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(0, 150, 200), CalamityUtils.GetItemName<Lumenyl>());
             HitSound = SoundID.Item27;
             DustType = 67;
-            ItemDrop = ModContent.ItemType<Lumenyl>();
             Main.tileSpelunker[Type] = true;
         }
 

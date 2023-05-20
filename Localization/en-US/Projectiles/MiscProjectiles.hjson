@@ -1,9 +1,8 @@
-Mods : {
-	CalamityMod : {
-		Projectiles : {
+Mods: {
+	CalamityMod: {
+		Projectiles: {
 			MarniteRepulsionHitbox.DisplayName: Repulsion Matrix
 			ArtifactOfResilienceBulwark.DisplayName: Artifact of Resilience
-		
 			/* Draedon's Arsenal */
 			AnomalysNanogunHoldout.DisplayName: The Anomaly's Nanogun
 			AnomalysNanogunMPFBBoom.DisplayName: MPFB Explosion
@@ -48,7 +47,6 @@ Mods : {
 			VoltageStream.DisplayName: Voltage Stream
 			WavePounderBoom.DisplayName: Explosion
 			WavePounderProjectile.DisplayName: Wave Pounder
-	
 			/* Environmental */
 			AcidDrop.DisplayName: Acid
 			BrimstoneGeyser.DisplayName: Smoke

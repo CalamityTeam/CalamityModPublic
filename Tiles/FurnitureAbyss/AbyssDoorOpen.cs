@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.FurnitureAbyss;
+﻿using CalamityMod.Items.Placeables.FurnitureAbyss;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            ItemDrop = ModContent.ItemType<AbyssDoor>();
+            RegisterItemDrop(ModContent.ItemType<AbyssDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<AbyssDoorClosed>();
         }
 

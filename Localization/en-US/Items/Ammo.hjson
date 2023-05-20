@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			AccelerationRound: {
 				DisplayName: Acceleration Round
 				Tooltip: Gains speed over time

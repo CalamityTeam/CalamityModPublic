@@ -7,7 +7,7 @@ namespace CalamityMod.Balancing
     {
         bool AppliesTo(NPC npc, NPCHitContext hitContext);
 
-        void ApplyBalancingChange(NPC npc, ref int damage);
+        void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers);
     }
 
     public class ClassResistBalancingRule : IBalancingRule
@@ -25,7 +25,7 @@ namespace CalamityMod.Balancing
             return hitContext.Class == ApplicableClass;
         }
 
-        public void ApplyBalancingChange(NPC npc, ref int damage) => damage = (int)(damage * DamageMultiplier);
+        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers) => modifiers.FinalDamage *= DamageMultiplier;
     }
 
     public class NPCSpecificRequirementBalancingRule : IBalancingRule
@@ -41,7 +41,7 @@ namespace CalamityMod.Balancing
 
         // This "balancing" rule doesn't actually perform any changes. It simply serves as a means of enforcing NPC-specific requirements, and should be used only as a filter.
         // As such, this method is empty.
-        public void ApplyBalancingChange(NPC npc, ref int damage) { }
+        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers) { }
     }
 
     public class PierceResistBalancingRule : IBalancingRule
@@ -51,7 +51,7 @@ namespace CalamityMod.Balancing
 
         public bool AppliesTo(NPC npc, NPCHitContext hitContext) => hitContext.Pierce > 1 || hitContext.Pierce == -1;
 
-        public void ApplyBalancingChange(NPC npc, ref int damage) => damage = (int)(damage * DamageMultiplier);
+        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers) => modifiers.FinalDamage *= DamageMultiplier;
     }
 
     public class ProjectileResistBalancingRule : IBalancingRule
@@ -74,7 +74,7 @@ namespace CalamityMod.Balancing
             return true;
         }
 
-        public void ApplyBalancingChange(NPC npc, ref int damage) => damage = (int)(damage * DamageMultiplier);
+        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers) => modifiers.FinalDamage *= DamageMultiplier;
     }
 
     public class ProjectileSpecificRequirementBalancingRule : IBalancingRule
@@ -96,7 +96,7 @@ namespace CalamityMod.Balancing
             return Requirement(Main.projectile[hitContext.ProjectileIndex.Value]);
         }
 
-        public void ApplyBalancingChange(NPC npc, ref int damage) => damage = (int)(damage * DamageMultiplier);
+        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers) => modifiers.FinalDamage *= DamageMultiplier;
     }
 
     public class StealthStrikeBalancingRule : IBalancingRule
@@ -119,7 +119,7 @@ namespace CalamityMod.Balancing
             return hitContext.IsStealthStrike;
         }
 
-        public void ApplyBalancingChange(NPC npc, ref int damage) => damage = (int)(damage * DamageMultiplier);
+        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers) => modifiers.FinalDamage *= DamageMultiplier;
     }
 
     public class TrueMeleeResistBalancingRule : IBalancingRule
@@ -138,6 +138,6 @@ namespace CalamityMod.Balancing
             return hitContext.DamageSource == DamageSourceType.TrueMeleeSwing;
         }
 
-        public void ApplyBalancingChange(NPC npc, ref int damage) => damage = (int)(damage * DamageMultiplier);
+        public void ApplyBalancingChange(NPC npc, ref NPC.HitModifiers modifiers) => modifiers.FinalDamage *= DamageMultiplier;
     }
 }

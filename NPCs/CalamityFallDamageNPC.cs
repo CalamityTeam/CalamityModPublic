@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs
                 if (newVerticalVelocity == 0 && oldVerticalVelocity > 0)
                 {
                     //I don't think a tile check below the npc is necessary but if we find weird edge cases ill add it
-                    npc.StrikeNPC((int)(PotentialEnergyDamage * Math.Clamp(olderVerticalVelocity / terminalVelocityForFullFallDamage, 0f, 1f)), 0f, 1, fromNet: true);
+                    npc.StrikeNPC(npc.CalculateHitInfo((int)(PotentialEnergyDamage * Math.Clamp(olderVerticalVelocity / terminalVelocityForFullFallDamage, 0f, 1f)), 1), true);
                     PotentialEnergyDamage = 0;
                 }
 

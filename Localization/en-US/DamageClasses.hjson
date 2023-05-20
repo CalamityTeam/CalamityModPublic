@@ -1,5 +1,5 @@
-Mods : {
-	CalamityMod : {
+Mods: {
+	CalamityMod: {
 		DamageClasses: {
 			AverageDamageClass.DisplayName: average damage
 			RogueDamageClass.DisplayName: rogue damage

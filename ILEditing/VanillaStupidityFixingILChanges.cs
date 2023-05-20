@@ -424,9 +424,9 @@ namespace CalamityMod.ILEditing
         #endregion Color Blighted Gel
 
         #region Improve Angler Quest Rewards
-        private static void ImproveAnglerRewards(Terraria.On_Player.orig_GetAnglerReward orig, Player self, NPC angler)
+        private static void ImproveAnglerRewards(Terraria.On_Player.orig_GetAnglerReward orig, Player self, NPC angler, int questItemType)
         {
-            orig(self, angler);
+            orig(self, angler, questItemType);
 
             EntitySource_Gift source = new EntitySource_Gift(angler);
             int questsDone = self.anglerQuestsFinished + Main.rand.Next(101);

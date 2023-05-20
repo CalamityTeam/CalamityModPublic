@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Magic
             // TODO -- why does Eternity directly StrikeNPC with its own damage variance instead of using a DirectStrike
             int damage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(Eternity.ExplosionDamage * Main.rand.NextFloat(0.9f, 1.1f));
             player.addDPS(damage);
-            target.StrikeNPC(damage, 0f, 0, false);
+            target.StrikeNPC(target.CalculateHitInfo(damage, 0, false, 0f));
 
             Vector2 randomCirclePointVector = Vector2.UnitY.RotatedBy(Projectile.rotation);
 

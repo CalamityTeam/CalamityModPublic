@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			AcesHigh: {
 				DisplayName: Ace's High
 				Tooltip:
@@ -531,7 +531,7 @@ Mods : {
 
 			HalibutCannon: {
 				DisplayName: Halibut Cannon
-				Tooltip: 'Yes, it's still overpowered'
+				Tooltip: "'Yes, it's still overpowered'"
 			}
 
 			HalleysInferno: {
@@ -616,7 +616,7 @@ Mods : {
 
 			Karasawa: {
 				DisplayName: Karasawa
-				Tooltip: '...This is heavy... too heavy'
+				Tooltip: ...This is heavy... too heavy
 			}
 
 			Leviatitan: {
@@ -740,7 +740,7 @@ Mods : {
 
 			Norfleet: {
 				DisplayName: Norfleet
-				Tooltip: 'Fire everything!'
+				Tooltip: Fire everything!
 			}
 
 			NullificationRifle: {

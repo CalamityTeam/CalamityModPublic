@@ -19,7 +19,6 @@ namespace CalamityMod.Tiles.SunkenSea
             AddMapEntry(new Color(0, 150, 200), CalamityUtils.GetItemName<PrismShard>());
             HitSound = SoundID.Item27;
             DustType = 67;
-            ItemDrop = ModContent.ItemType<PrismShard>();
             Main.tileSpelunker[Type] = true;
             MinPick = 55;
         }

@@ -125,7 +125,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Add);
 
             // Find the Soaring Insignia jump speed bonus and reduce it to 0.5f.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(2.4f)))
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.8f)))
             {
                 LogFailure("Jump Height Boost Fixes", "Could not locate Soaring Insignia jump speed boost value.");
                 return;

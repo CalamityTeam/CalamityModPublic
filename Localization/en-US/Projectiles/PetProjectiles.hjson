@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Projectiles : {
+Mods: {
+	CalamityMod: {
+		Projectiles: {
 			Akato.DisplayName: Akato
 			Astrophage.DisplayName: Astrophage
 			BabyGhostBell.DisplayName: Baby Ghost Bell

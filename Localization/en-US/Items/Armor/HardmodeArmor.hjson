@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			AstralBreastplate: {
 				DisplayName: Astral Breastplate
 				Tooltip:
@@ -23,7 +23,7 @@ Mods : {
 					Treasure and ore detection
 					'''
 			}
-	
+
 			BrimflameBoots: {
 				DisplayName: Brimflame Boots
 				Tooltip:
@@ -117,7 +117,7 @@ Mods : {
 					10% increased movement speed
 					'''
 			}
-	
+
 			FathomSwarmerBoots: {
 				DisplayName: Fathom Swarmer Greaves
 				Tooltip:
@@ -147,12 +147,12 @@ Mods : {
 					Provides breathing and light underwater
 					'''
 			}
-	
+
 			ForbiddenCirclet: {
 				DisplayName: Forbidden Circlet
 				Tooltip: 10% increased minion damage and 15% increased rogue velocity
 			}
-	
+
 			HydrothermicArmor: {
 				DisplayName: Hydrothermic Armor
 				Tooltip:
@@ -218,7 +218,7 @@ Mods : {
 					10% increased movement speed
 					'''
 			}
-	
+
 			MolluskShelleggings: {
 				DisplayName: Mollusk Shelleggings
 				Tooltip:
@@ -245,7 +245,7 @@ Mods : {
 					15% decreased movement speed
 					'''
 			}
-	
+
 			PlaguebringerCarapace: {
 				DisplayName: Plaguebringer Carapace
 				Tooltip:
@@ -297,7 +297,7 @@ Mods : {
 					15% increased ranged damage and 5% increased ranged critical strike chance
 					'''
 			}
-		
+
 			ReaverCuisses: {
 				DisplayName: Reaver Cuisses
 				Tooltip:
@@ -339,7 +339,7 @@ Mods : {
 					+20 max life
 					'''
 			}
-	
+
 			TitanHeartBoots: {
 				DisplayName: Titan Heart Boots
 				Tooltip: 4% increased rogue damage, 10% increased rogue velocity, and 5% increased rogue knockback

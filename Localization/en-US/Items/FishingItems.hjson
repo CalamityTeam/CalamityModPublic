@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			/* Astral Infection Catches */
 			AldebaranAlewife: {
 				DisplayName: Aldebaran Alewife
@@ -38,7 +38,7 @@ Mods : {
 					Increased regeneration at lower health
 					'''
 			}
-			
+
 			/* Brimstone Crag Catches */
 			Bloodfin: {
 				DisplayName: Bloodfin
@@ -94,7 +94,6 @@ Mods : {
 			}
 
 			Slurpfish.DisplayName: Slurpfish
-			
 			/* Sunken Sea Catches */
 			EutrophicSandfish.DisplayName: Eutrophic Sandfish
 
@@ -150,7 +149,7 @@ Mods : {
 			}
 
 			SurfClam.DisplayName: Surf Clam
-			
+
 			/* Other Catches */
 			EnchantedStarfish: {
 				DisplayName: Enchanted Starfish
@@ -210,7 +209,7 @@ Mods : {
 				DisplayName: Sunbeam Fish
 				Tooltip: Press <right> to extract essence
 			}
-			
+
 			/* Fishing Rods */
 			EarlyBloomRod: {
 				DisplayName: Early Bloom Rod
@@ -290,7 +289,7 @@ Mods : {
 
 			WulfrumRod: {
 				DisplayName: Wulfrum Fishing Pole
-				Tooltip: 'This barely works, but it's better than nothing...'
+				Tooltip: "'This barely works, but it's better than nothing...'"
 			}
 		}
 	}

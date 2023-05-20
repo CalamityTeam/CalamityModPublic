@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.Crags.Tree
             AddMapEntry(new Color(38, 25, 27), CreateMapEntryName());
             DustType = 155;
 			HitSound = SoundID.DD2_SkeletonHurt;
-            ItemDrop = ModContent.ItemType<Items.Placeables.ScorchedBone>();
+            RegisterItemDrop(ModContent.ItemType<Items.Placeables.ScorchedBone>());
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)

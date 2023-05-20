@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.DraedonStructures;
+﻿using CalamityMod.Items.Placeables.DraedonStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -33,8 +33,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(67, 72, 81), CreateMapEntryName());
-            
-            ItemDrop = ModContent.ItemType<PowerCellFactoryItem>();
+
+            RegisterItemDrop(ModContent.ItemType<PowerCellFactoryItem>());
         }
 
         public override bool CanExplode(int i, int j) => false;

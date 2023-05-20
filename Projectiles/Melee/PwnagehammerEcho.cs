@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (distanceTo < distance && npc.CanBeChasedBy(Projectile, false) && k != Projectile.localAI[0])
                 {
                     float alldamage = Projectile.damage * 0.5f;
-                    double damage = npc.StrikeNPC((int)alldamage, Projectile.knockBack, Projectile.velocity.X > 0f ? 1 : -1, true);
+                    double damage = npc.StrikeNPC(npc.CalculateHitInfo((int)alldamage, Projectile.velocity.X > 0f ? 1 : -1, true, Projectile.knockBack));
                     player.addDPS((int)damage);
                 }
             }

@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			AbyssalWarhammer.DisplayName: Abyssal Warhammer
 			AerialHamaxe.DisplayName: Aerial Hamaxe
 			AstralHamaxe.DisplayName: Astral Hamaxe

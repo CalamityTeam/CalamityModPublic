@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Placeables.PlaceableTurrets
                 AddIngredient<MysteriousCircuitry>(14).
                 AddIngredient<DubiousPlating>(20).
                 AddIngredient<Navyplate>(10).
-                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(1, out Predicate<Recipe> condition), condition).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(1, out Func<bool> condition), condition).
                 AddTile(TileID.Anvils).
                 Register();
         }

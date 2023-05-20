@@ -260,7 +260,6 @@ namespace CalamityMod
             SetupVanillaDR();
             SetupBossKillTimes();
             SetupBossVelocityScalingValues();
-            CalamityConfig.RegisterDynamicLocalization();
             SchematicManager.Load();
             CustomLavaManagement.Load();
             Attunement.Load();

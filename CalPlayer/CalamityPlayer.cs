@@ -5522,7 +5522,7 @@ namespace CalamityMod.CalPlayer
             {
                 justHitByDefenseDamage = false;
                 defenseDamageToTake = 0;
-                return false;
+                return;
             }
 
             // If Armageddon is active, instantly kill the player.
@@ -6019,8 +6019,8 @@ namespace CalamityMod.CalPlayer
                 }
 
                 // Give bonus immunity frames based on the type of damage dealt
-                if (cooldownCounter != -1)
-                    Player.hurtCooldowns[cooldownCounter] += iFramesToAdd;
+                if (hurtInfo.CooldownCounter != -1)
+                    Player.hurtCooldowns[hurtInfo.CooldownCounter] += iFramesToAdd;
                 else
                     Player.immuneTime += iFramesToAdd;
 

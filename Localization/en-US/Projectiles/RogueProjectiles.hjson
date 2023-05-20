@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Projectiles : {
+Mods: {
+	CalamityMod: {
+		Projectiles: {
 			AbyssalMirrorProjectile.DisplayName: Lumenyl Fluid
 			AcidBarrelDrop.DisplayName: Acid
 			AcidShrapnel.DisplayName: Shrapnel
@@ -321,7 +321,6 @@ Mods : {
 			Valaricicle2.DisplayName: Valaricicle
 			ValedictionBoomerang.DisplayName: Valediction
 			VeneratedKnife.DisplayName: Venerated Knife
-            WavePounderBoom.DisplayName: Explosion
 			WebBallBol.DisplayName: Web Ball
 			WrathwingCinder.DisplayName: Wrathwing Eruption
 			WrathwingFireball.DisplayName: Wrathwing Fireball

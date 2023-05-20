@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen(true);
-            ItemDrop = ModContent.ItemType<SacrilegiousDoor>();
+            RegisterItemDrop(ModContent.ItemType<SacrilegiousDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<SacrilegiousDoorClosed>();
         }
 

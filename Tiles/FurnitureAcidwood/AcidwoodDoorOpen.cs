@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen();
-            ItemDrop = ModContent.ItemType<AcidwoodDoor>();
+            RegisterItemDrop(ModContent.ItemType<AcidwoodDoor>());
             TileID.Sets.CloseDoorID[Type] = ModContent.TileType<AcidwoodDoorClosed>();
         }
 

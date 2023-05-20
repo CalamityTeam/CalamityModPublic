@@ -542,12 +542,20 @@ namespace CalamityMod.NPCs.Providence
 
             // Take damage or not
             bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
-            NPC.dontTakeDamage = Dying;
 
             // Do the death animation once killed.
             if (Dying)
             {
                 DoDeathAnimation();
+                return;
+            }
+            // Trigger the death animation
+            else if (NPC.life == 1)
+            {
+                DespawnSpecificProjectiles(true);
+                Dying = true;
+                NPC.dontTakeDamage = true;
+                NPC.netUpdate = true;
                 return;
             }
 
@@ -2411,34 +2419,8 @@ namespace CalamityMod.NPCs.Providence
             }
         }
 
-        public override bool CheckDead()
-        {
-            if (!Dying)
-            {
-                DespawnSpecificProjectiles(true);
-                Dying = true;
-                NPC.active = true;
-                NPC.netUpdate = true;
-            }
-            return false;
-        }
-
-        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
-        {
-            if ((damage * (crit ? 2D : 1D)) >= NPC.life)
-            {
-                damage = 0D;
-
-                NPC.life = 1;
-                NPC.dontTakeDamage = true;
-                if (!Dying)
-                    CheckDead();
-
-                return false;
-            }
-
-            return base.ModifyIncomingHit(ref modifiers);
-        }
+        // This will always put the boss to 1 health before dying, which makes external checks work.
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers) => modifiers.SetMaxDamage(NPC.life - 1);
 
         public override void HitEffect(NPC.HitInfo hit)
         {
