@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			/* Critters */
 			AndroombaItem: {
 				DisplayName: "{$Mods.CalamityMod.NPCs.Androomba.DisplayName}"
@@ -10,7 +10,7 @@ Mods : {
 					While a solution is inserted, the roomba will start spreading its contents
 					'''
 			}
-			
+
 			BabyFlakCrabItem.DisplayName: "{$Mods.CalamityMod.NPCs.BabyFlakCrab.DisplayName}"
 			BabyGhostBellItem.DisplayName: "{$Mods.CalamityMod.NPCs.BabyGhostBell.DisplayName}"
 			NanodroidDysfunctionalItem.DisplayName: Dysfunctional Nanodroid
@@ -21,7 +21,7 @@ Mods : {
 			RepairUnitItem.DisplayName: "{$Mods.CalamityMod.NPCs.RepairUnitCritter.DisplayName}"
 			SeaMinnowItem.DisplayName: "{$Mods.CalamityMod.NPCs.SeaMinnow.DisplayName}"
 			TwinklerItem.DisplayName: "{$Mods.CalamityMod.NPCs.Twinkler.DisplayName}"
-			
+
 			/* Permanent Boosters */
 			BloodOrange: {
 				DisplayName: Blood Orange
@@ -141,7 +141,7 @@ Mods : {
 					Revengeance drop
 					'''
 			}
-			
+
 			/* Spawn Blockers */
 			AntiCystOintment: {
 				DisplayName: Anti-Cyst Ointment
@@ -152,27 +152,27 @@ Mods : {
 				DisplayName: Anti-Tumor Ointment
 				Tooltip: Favorite this item to prevent hive tumors from spawning near you
 			}
-	
+
 			BleachBall: {
 				DisplayName: Bleach Ball
 				Tooltip: Favorite this item to prevent the Aquatic Scourge from naturally spawning near you
 			}
-			
+
 			BrokenWaterFilter: {
 				DisplayName: Broken Water Filter
 				Tooltip: Favorite this item to disable natural Acid Rain spawns
 			}
-			
+
 			SirenproofEarMuffs: {
 				DisplayName: Sirenproof Earmuffs
 				Tooltip: Favorite this item to prevent Anahita from spawning near you
 			}
-			
+
 			VoodooDemonVoodooDoll: {
 				DisplayName: Voodoo Demon Voodoo Doll
 				Tooltip: Favorite this item to prevent voodoo demons from spawning near you
 			}
-			
+
 			/* Uncategorized */
 			BallAndChain: {
 				DisplayName: Ball and Chain
@@ -192,7 +192,7 @@ Mods : {
 					[c/c61b40:Such items are revealed while this item is in your inventory.']
 					'''
 			}
-			
+
 			MomentumCapacitor: {
 				DisplayName: Momentum Capacitor
 				Tooltip:
@@ -202,7 +202,7 @@ Mods : {
 					This effect only works if there are no bosses alive
 					'''
 			}
-			
+
 			NormalityRelocator: {
 				DisplayName: Normality Relocator
 				Tooltip:
@@ -214,7 +214,7 @@ Mods : {
 					'I'll be there in the blink of an eye'
 					'''
 			}
-			
+
 			RelicOfConvergence: {
 				DisplayName: Relic of Convergence
 				Tooltip:

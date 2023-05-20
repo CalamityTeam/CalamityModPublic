@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			AbyssalTome: {
 				DisplayName: Abyssal Tome
 				Tooltip: Casts a slow-moving ball of dark energy
@@ -369,7 +369,7 @@ Mods : {
 
 			GrandStaffoftheNebulaMage: {
 				DisplayName: Grand Staff of the Nebula Mage
-				Tooltip: 'The true power of the Nebula Mage rests in your hands...'
+				Tooltip: "'The true power of the Nebula Mage rests in your hands...'"
 			}
 
 			GruesomeEminence: {
@@ -478,7 +478,7 @@ Mods : {
 
 			LashesofChaos: {
 				DisplayName: Lashes of Chaos
-				Tooltip: 'Watch the world burn...'
+				Tooltip: "'Watch the world burn...'"
 			}
 
 			Lazhar: {
@@ -613,7 +613,7 @@ Mods : {
 
 			RainbowPartyCannon: {
 				DisplayName: Rainbow Party Cannon
-				Tooltip: 'Let the rainbow remind you that together we will always shine...'
+				Tooltip: "'Let the rainbow remind you that together we will always shine...'"
 			}
 
 			Rancor: {
@@ -791,7 +791,7 @@ Mods : {
 			ThornBlossom: {
 				DisplayName: Thorn Blossom
 				Tooltip:
-					''' 
+					'''
 					Casts a beaming flower that explodes into homing petals alongisde a deadly thorn
 					Costs 3 HP to fire
 					'Every rose has its thorn'
@@ -800,8 +800,8 @@ Mods : {
 
 			Thunderstorm: {
 				DisplayName: Thunderstorm
-				Tooltip: 
-					''' 
+				Tooltip:
+					'''
 					Fires a stream of exploding green plasma bullets that rain down additional plasma from the sky
 					'Make it rain'
 					'''
@@ -907,7 +907,7 @@ Mods : {
 
 			WintersFury: {
 				DisplayName: Winter's Fury
-				Tooltip: 
+				Tooltip:
 					'''
 					Fires a stream of ice orbs and a barrage of ice shards towards the cursor
 					'The pages are freezing to the touch'

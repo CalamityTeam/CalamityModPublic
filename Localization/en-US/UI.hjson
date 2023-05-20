@@ -13,69 +13,107 @@ Mods: {
 			ChangingTheRules: You cannot change the rules now!
 			SmallWorldWarning: "[c/ff00000:SMALL WORLDS NOT SUPPORTED BY CALAMITY]"
 
-            /* Enchantments */
-            Exhumed.DisplayName: Exhumed
-            Exhumed.Description: Transforms this item into something significantly stronger.
-            Indignant.DisplayName: Indignant
-            Indignant.Description: Summons demons that harm you but drop healing items on death on item usage.
-            Aflame.DisplayName: Aflame
-            Aflame.Description: Ignites enemies with the Supreme Witch's power on hit but also causes the user to take damage over time when holding this item.
-            Oblatory.DisplayName: Oblatory
-            Oblatory.Description: Reduces mana cost and greatly increases damage but sometimes causes this item to use your life.
-            Resentful.DisplayName: Resentful
-            Resentful.Description: Makes the damage of projectiles vary based on how far the hit target is from you. The farther, the more damage, and vice versa.
-            Bloodthirsty.DisplayName: Bloodthirsty
-            Bloodthirsty.Description: Makes the damage of projectiles vary based on how far the hit target is from you. The closer, the more damage, and vice versa.
-            Ephemeral.DisplayName: Ephemeral
-            Ephemeral.Description: Causes the damage output of this item to discharge from exhaustive use.\nIts damage returns naturally when not being used. It starts off with more damage than it normally would have.
-            Hellbound.DisplayName: Hellbound
-            Hellbound.Description: Causes minions to be created with a 40 second timer.\nOnce it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.
-            Tainted.DisplayName: Tainted
-            Tainted.Description: Removes projectile shooting capabilities of this item. In exchange, two skeletal arms are released on use that slice at the mouse position.
-            Traitorous.DisplayName: Traitorous
-            Traitorous.Description: Using this item below 25% mana instantly consumes your remaining mana, unleashing a monster that harms both you and enemies.
-            Withering.DisplayName: Withering
-            Withering.Description: When hurt, you heal a percentage of the damage taken based on how much accumulated damage you did overall beforehand, up to 100%.\nAfter this, you gain a damage boost while holding this item but also take exponential damage over time the longer you hold it.
-            Persecuted.DisplayName: Persecuted
-            Persecuted.Description: When attacked, or over time, demon portals appear near you.\nIf sufficiently damaged they are friendly; otherwise they attack you. They become angered if a portal is damaged.
-            Lecherous.DisplayName: Lecherous
-            Lecherous.Description: Spawns a resilient brimstone monster that stays between you and your mouse that interferes with your homing weapons. It releases a bunch of hearts on death.
-			Disenchant: Disenchant
+			Exhumed: {
+				/* Enchantments */
+				DisplayName: Exhumed
+				Description: Transforms this item into something significantly stronger.
+			}
 
-            /* Worldgen Tasks */
-            EvilIslandCorrupt: Adding a putrid floating island
-            EvilIslandCrimson: Adding a grotesque floating island
-            BetterJungleTemple: Building a bigger jungle temple
-            JungleTempleAltar: Placing the Lihzahrd altar
-            GiantBeehive: Building a giant beehive
-            MechanicShed: Placing mechanic shed
-            VernalPass: Blessing a flourishing jungle grove
-            SunkenSea: Partially flooding an overblown desert
-            GemAdjustment: Sensibly shuffling gem depth
-            DungeonArchive: Entombing occult literature
-            SulphurSea: Polluting one of the oceans
-            BrimstoneCrags: Incinerating Azafure
-            HiddenShrines: Hiding forbidden shrines
-            CrimsonShrine: Slaying a vengeful god
-            CorruptShrine: Rotting a god's grave
-            DesertShrine: Burrowing an artifact from Osiris
-            GraniteShrine: Crystallizing a deep blue geode
-            IceShrine: Hiding a beast tamer's igloo
-            MarbleShrine: Recovering a piece of the Parthenon
-            MushroomShrine: Planting a mushroom rich of hyphae
-            SurfaceShrine: Assembling a shinobi hideout
-            Aerialite: Hiding wyvern's gold in plain sight
-            DraedonLabs: Rust and Dust
-            HellLab: Forging with the fires of hell
-            SunkenLab: Studying marine biology
-            IceLab: Prototyping quantum supercooling
-            PlagueLab: Developing abhorrent bioweaponry
-            CavernLab: Strip mining for minerals
-            DraedonWorkshop: Abandoned engineering projects
-            DraedonFacility: Other minor research projects
-            Abyss: Disposing of Silva's remains
-            SulphurSea2: Irradiating one of the oceans
-            Roxcalibur: I wanna rock
+			Indignant: {
+				DisplayName: Indignant
+				Description: Summons demons that harm you but drop healing items on death on item usage.
+			}
+
+			Aflame: {
+				DisplayName: Aflame
+				Description: Ignites enemies with the Supreme Witch's power on hit but also causes the user to take damage over time when holding this item.
+			}
+
+			Oblatory: {
+				DisplayName: Oblatory
+				Description: Reduces mana cost and greatly increases damage but sometimes causes this item to use your life.
+			}
+
+			Resentful: {
+				DisplayName: Resentful
+				Description: Makes the damage of projectiles vary based on how far the hit target is from you. The farther, the more damage, and vice versa.
+			}
+
+			Bloodthirsty: {
+				DisplayName: Bloodthirsty
+				Description: Makes the damage of projectiles vary based on how far the hit target is from you. The closer, the more damage, and vice versa.
+			}
+
+			Ephemeral: {
+				DisplayName: Ephemeral
+				Description: Causes the damage output of this item to discharge from exhaustive use.\nIts damage returns naturally when not being used. It starts off with more damage than it normally would have.
+			}
+
+			Hellbound: {
+				DisplayName: Hellbound
+				Description: Causes minions to be created with a 40 second timer.\nOnce it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.
+			}
+
+			Tainted: {
+				DisplayName: Tainted
+				Description: Removes projectile shooting capabilities of this item. In exchange, two skeletal arms are released on use that slice at the mouse position.
+			}
+
+			Traitorous: {
+				DisplayName: Traitorous
+				Description: Using this item below 25% mana instantly consumes your remaining mana, unleashing a monster that harms both you and enemies.
+			}
+
+			Withering: {
+				DisplayName: Withering
+				Description: When hurt, you heal a percentage of the damage taken based on how much accumulated damage you did overall beforehand, up to 100%.\nAfter this, you gain a damage boost while holding this item but also take exponential damage over time the longer you hold it.
+			}
+
+			Persecuted: {
+				DisplayName: Persecuted
+				Description: When attacked, or over time, demon portals appear near you.\nIf sufficiently damaged they are friendly; otherwise they attack you. They become angered if a portal is damaged.
+			}
+
+			Lecherous: {
+				DisplayName: Lecherous
+				Description: Spawns a resilient brimstone monster that stays between you and your mouse that interferes with your homing weapons. It releases a bunch of hearts on death.
+			}
+
+			Disenchant: Disenchant
+			/* Worldgen Tasks */
+			EvilIslandCorrupt: Adding a putrid floating island
+			EvilIslandCrimson: Adding a grotesque floating island
+			BetterJungleTemple: Building a bigger jungle temple
+			JungleTempleAltar: Placing the Lihzahrd altar
+			GiantBeehive: Building a giant beehive
+			MechanicShed: Placing mechanic shed
+			VernalPass: Blessing a flourishing jungle grove
+			SunkenSea: Partially flooding an overblown desert
+			GemAdjustment: Sensibly shuffling gem depth
+			DungeonArchive: Entombing occult literature
+			SulphurSea: Polluting one of the oceans
+			BrimstoneCrags: Incinerating Azafure
+			HiddenShrines: Hiding forbidden shrines
+			CrimsonShrine: Slaying a vengeful god
+			CorruptShrine: Rotting a god's grave
+			DesertShrine: Burrowing an artifact from Osiris
+			GraniteShrine: Crystallizing a deep blue geode
+			IceShrine: Hiding a beast tamer's igloo
+			MarbleShrine: Recovering a piece of the Parthenon
+			MushroomShrine: Planting a mushroom rich of hyphae
+			SurfaceShrine: Assembling a shinobi hideout
+			Aerialite: Hiding wyvern's gold in plain sight
+			DraedonLabs: Rust and Dust
+			HellLab: Forging with the fires of hell
+			SunkenLab: Studying marine biology
+			IceLab: Prototyping quantum supercooling
+			PlagueLab: Developing abhorrent bioweaponry
+			CavernLab: Strip mining for minerals
+			DraedonWorkshop: Abandoned engineering projects
+			DraedonFacility: Other minor research projects
+			Abyss: Disposing of Silva's remains
+			SulphurSea2: Irradiating one of the oceans
+			Roxcalibur: I wanna rock
 		}
 	}
 }

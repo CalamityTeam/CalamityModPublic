@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Projectiles : {
+Mods: {
+	CalamityMod: {
+		Projectiles: {
 			ApolloChargeTelegraph.DisplayName: Apollo Charge Telegraph
 			ApolloFireball.DisplayName: Volatile Plasma Blast
 			ApolloRocket.DisplayName: High Explosive Plasma Rocket

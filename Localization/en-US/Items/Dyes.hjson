@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			AerialiteDye.DisplayName: Aerialite Dye
 			AstralBlueDye.DisplayName: Astral Blue Dye
 			AstralDye.DisplayName: Astral Flesh Dye

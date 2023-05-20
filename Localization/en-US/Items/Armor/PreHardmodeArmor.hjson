@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			AerospecBreastplate: {
 				DisplayName: Aerospec Breastplate
 				Tooltip: 3% increased critical strike chance
@@ -35,7 +35,7 @@ Mods : {
 				DisplayName: Aerospec Leggings
 				Tooltip: 12% increased movement speed
 			}
-	
+
 			DesertProwlerHat: {
 				DisplayName: Desert Prowler Hat
 				Tooltip: 4% increased ranged critical strike chance and 20% chance to not consume ammo
@@ -50,7 +50,7 @@ Mods : {
 				DisplayName: Desert Prowler Shirt
 				Tooltip: 5% increased ranged critical strike chance
 			}
-	
+
 			MarniteArchitectHeadgear: {
 				DisplayName: Marnite Architect Headgear
 				Tooltip: Increases block placement range by 5
@@ -60,7 +60,7 @@ Mods : {
 				DisplayName: Marnite Architect Toga
 				Tooltip: Increases tile placement speed by 50%
 			}
-	
+
 			SnowRuffianChestplate: {
 				DisplayName: Snow Ruffian Chestplate
 				Tooltip: 3% increased rogue critical strike chance
@@ -150,7 +150,7 @@ Mods : {
 					Movement speed increased by 35% while submerged in liquid
 					'''
 			}
-			
+
 			VictideBreastplate: {
 				DisplayName: Victide Breastplate
 				Tooltip:

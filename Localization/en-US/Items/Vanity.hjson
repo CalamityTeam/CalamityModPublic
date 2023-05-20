@@ -1,9 +1,9 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			AcesApronOfAffection: {
 				DisplayName: Ace's Apron of Affection
-				Tooltip: 'Great for hugging people'
+				Tooltip: "'Great for hugging people'"
 			}
 
 			AnahitaMask.DisplayName: Anahita Mask
@@ -35,17 +35,17 @@ Mods : {
 
 			OldHunterHat: {
 				DisplayName: Old Hunter Hat
-				Tooltip: 'Attire fashioned after the appearance of hunters from a faraway land'
+				Tooltip: "'Attire fashioned after the appearance of hunters from a faraway land'"
 			}
 
 			OldHunterPants: {
 				DisplayName: Old Hunter Pants
-				Tooltip: 'Attire fashioned after the appearance of hunters from a faraway land'
+				Tooltip: "'Attire fashioned after the appearance of hunters from a faraway land'"
 			}
 
 			OldHunterShirt: {
 				DisplayName: Old Hunter Shirt
-				Tooltip: 'Attire fashioned after the appearance of hunters from a faraway land'
+				Tooltip: "'Attire fashioned after the appearance of hunters from a faraway land'"
 			}
 
 			PerforatorMask.DisplayName: Perforator Mask

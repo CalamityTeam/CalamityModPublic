@@ -1,20 +1,18 @@
 Mods: {
-    CalamityMod: {
-        Tiles: {
-            /* Common entries shared by multiple tiles */
+	CalamityMod: {
+		Tiles: {
+			/* Common entries shared by multiple tiles */
 			/* Ambient Objects */
-            Fossil: Fossil
-            Column: Column
-            Ribs: Ribs
-            Stalagmite: Stalagmite
-            Stalactite: Stalactite
+			Fossil: Fossil
+			Column: Column
+			Ribs: Ribs
+			Stalagmite: Stalagmite
+			Stalactite: Stalactite
 			PirateCrate: Abandoned Crate
-			
 			/* Basic Calamity Furniture */
 			Basin: Basin
 			PipeOrgan: Pipe Organ
 			Sconce: Sconce
-			
 			/* Draedon Lab Furniture */
 			Console: Console
 			ContainmentBox: Containment Box
@@ -24,46 +22,44 @@ Mods: {
 			Screen: Screen
 			Server: Server
 			Terminal: Terminal
-
-            /* Individual entries */
-            /* Sulphurous Sea & Abyss */
-            SteamGeyser1.MapEntry: Geyser
-            AbyssVent1.MapEntry: Steam Vent
-            ThermalVent1.MapEntry: Thermal Vent
-
-            /* Brimstone Crags */
-            SpineSapling.MapEntry: Spine Sapling
-            SpineTree.MapEntry: Giant Spine
-
-            /* Draedon */
-	        InactivePowerCellFactory.MapEntry: Inactive Power Cell Factory
-            OnyxExcavatorTile.MapEntry: Onyx Excavator
-	        CodebreakerTile.MapEntry: The Codebreaker
-
-            /* Ores */
-            AerialiteOre.MapEntry: Aerialite
-	        AerialiteOreDisenchanted.MapEntry: Disenchanted Aerialite
-	        AstralOre.MapEntry: Astral Ore
-	        AuricOre.MapEntry: Auric
-	        CryonicOre.MapEntry: Cryonic
-	        ExodiumOre.MapEntry: Exodium
-	        HallowedOre.MapEntry: Hallowed Ore
-	        InfernalSuevite.MapEntry: Infernal Suevite
-	        PerennialOre.MapEntry: Perennial
-	        ScoriaOre.MapEntry: Scoria
-	        UelibloomOre.MapEntry: Uelibloom
-			
+			/* Individual entries */
+			/* Sulphurous Sea & Abyss */
+			SteamGeyser1.MapEntry: Geyser
+			AbyssVent1.MapEntry: Steam Vent
+			ThermalVent1.MapEntry: Thermal Vent
+			/* Brimstone Crags */
+			SpineSapling.MapEntry: Spine Sapling
+			SpineTree.MapEntry: Giant Spine
+			/* Draedon */
+			InactivePowerCellFactory.MapEntry: Inactive Power Cell Factory
+			OnyxExcavatorTile.MapEntry: Onyx Excavator
+			CodebreakerTile.MapEntry: The Codebreaker
+			/* Ores */
+			AerialiteOre.MapEntry: Aerialite
+			AerialiteOreDisenchanted.MapEntry: Disenchanted Aerialite
+			AstralOre.MapEntry: Astral Ore
+			AuricOre.MapEntry: Auric
+			CryonicOre.MapEntry: Cryonic
+			ExodiumOre.MapEntry: Exodium
+			HallowedOre.MapEntry: Hallowed Ore
+			InfernalSuevite.MapEntry: Infernal Suevite
+			PerennialOre.MapEntry: Perennial
+			ScoriaOre.MapEntry: Scoria
+			UelibloomOre.MapEntry: Uelibloom
 			/* Misc */
 			ArenaTile.MapEntry: Arena
+
 			AshenChest: {
 				MapEntry0: "{$ItemName.AshenChest}"
 				MapEntry1: Locked Ashen Chest
 			}
+
 			AstralChestLocked: {
-		        MapEntry0: "{$ItemName.AstralChest}"
-		        MapEntry1: "Locked Astral Chest"
-	        }
+				MapEntry0: "{$ItemName.AstralChest}"
+				MapEntry1: Locked Astral Chest
+			}
+
 			PlaguedPlateBed.MapEntry: "'Bed'"
-        }
-    }
+		}
+	}
 }

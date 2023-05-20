@@ -38,11 +38,18 @@ namespace CalamityMod.ILEditing
             Terraria.On_Main.SetDisplayMode += ResetRenderTargetSizes;
             Terraria.On_Main.SortDrawCacheWorms += DrawFusableParticles;
             Terraria.On_Main.DrawInfernoRings += DrawForegroundParticles;
+            
+            // ERROR
             Terraria.IL_Main.DrawInterface_40_InteractItemIcon += MakeMouseHoverItemsSupportAnimations;
+            // ERROR
             Terraria.GameContent.Drawing.On_TileDrawing.DrawPartialLiquid += DrawCustomLava;
+            // ERROR
             Terraria.IL_WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
+            // ERROR
             Terraria.GameContent.Liquid.IL_LiquidRenderer.InternalDraw += ChangeWaterQuadColors;
+            // ERROR
             Terraria.IL_Main.oldDrawWater += DrawCustomLava3;
+            
             Terraria.Graphics.Light.On_TileLightScanner.GetTileLight += MakeSulphSeaWaterBetter;
             Terraria.GameContent.Drawing.On_TileDrawing.PreDrawTiles += ClearForegroundStuff;
             Terraria.GameContent.Drawing.On_TileDrawing.Draw += ClearTilePings;
@@ -58,7 +65,10 @@ namespace CalamityMod.ILEditing
             // Mechanics / features
             Terraria.On_NPC.ApplyTileCollision += AllowTriggeredFallthrough;
             Terraria.IL_Player.ApplyEquipFunctional += ScopesRequireVisibilityToZoom;
+            
+            // ERROR
             Terraria.IL_Player.Hurt += RemoveRNGFromDodges;
+            
             Terraria.IL_Player.DashMovement += FixAllDashMechanics;
             Terraria.On_Player.DoCommonDashHandle += ApplyDashKeybind;
             Terraria.IL_Player.GiveImmuneTimeForCollisionAttack += MakeShieldSlamIFramesConsistent;
@@ -73,9 +83,7 @@ namespace CalamityMod.ILEditing
             Terraria.On_Player.UpdateItemDye += FindCalamityItemDyeShader;
 
             // Mana Burn
-            Terraria.IL_Player.QuickHeal += ConditionallyReplaceManaSickness;
-            Terraria.IL_Player.QuickMana += ConditionallyReplaceManaSickness;
-            Terraria.IL_Player.ItemCheck_Inner += ConditionallyReplaceManaSickness;
+            Terraria.IL_Player.ApplyLifeAndOrMana += ConditionallyReplaceManaSickness;
 
             // Custom grappling
             Terraria.On_Player.GrappleMovement += CustomGrappleMovementCheck;
@@ -84,7 +92,10 @@ namespace CalamityMod.ILEditing
             Terraria.On_Player.SlopeDownMovement += CustomGrapplePreStepUp;
 
             // Damage and health balance
+            
+            // ERROR
             Terraria.IL_Main.DamageVar += AdjustDamageVariance;
+            
             Terraria.IL_Projectile.Damage += MakeTagDamageMultiplicative;
             Terraria.IL_NPC.ScaleStats_ApplyExpertTweaks += RemoveExpertHardmodeScaling;
             Terraria.IL_Projectile.AI_001 += AdjustChlorophyteBullets;
@@ -121,7 +132,10 @@ namespace CalamityMod.ILEditing
             Terraria.GameContent.Events.IL_Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
             Terraria.IL_Item.Prefix += RelaxPrefixRequirements;
             Terraria.On_NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
+            
+            // ERROR
             Terraria.IL_NPC.SpawnNPC += MakeVoodooDemonDollWork;
+            
             // TODO -- Beat Lava Slimes once and for all
             // IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
             Terraria.IL_Player.IsTileTypeInInteractionRange += IncreasePylonInteractionRange;

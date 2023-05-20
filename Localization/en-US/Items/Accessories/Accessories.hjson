@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			Abaddon: {
 				DisplayName: Abaddon
 				Tooltip: Grants immunity to Brimstone Flames and Searing Lava

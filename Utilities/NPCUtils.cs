@@ -49,12 +49,6 @@ namespace CalamityMod
             return count;
         }
 
-        private static readonly FieldInfo waterSpeedField = typeof(NPC).GetField("waterMovementSpeed", BindingFlags.NonPublic | BindingFlags.Instance);
-        public static void RemoveWaterSlowness(this NPC npc)
-        {
-            waterSpeedField.SetValue(npc, 1f);
-        }
-
         /// <summary>
         /// Hides an NPC from the bestiary. This should be called in SetStaticDefaults.
         /// </summary>

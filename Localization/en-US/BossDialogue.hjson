@@ -1,36 +1,28 @@
-Mods : {
-	CalamityMod : {
-		BossMessages : {
+Mods: {
+	CalamityMod: {
+		BossMessages: {
 			/* Slime God */
 			SlimeGodRun: The Slime God flees to fight another day...
-			
 			/* Cryogen */
 			CryogenBossText: Cryogen is derping out!
 			PyrogenBossText: Pyrogen is derping out!
-			
 			/* Calamitas Clone */
 			CalamitasBossText: You underestimate my power...
 			CalamitasBossText2: The brothers have been reborn!
 			CalamitasBossText3: Impressive child, most impressive...
-			
 			/* Great Sand Shark */
 			SandSharkText: Something stirs in the warm desert sands...
 			SandSharkText2: An enormous apex predator approaches...
-			
 			/* Plaguebringer Goliath */
 			PlagueBossText: PLAGUE NUKE BARRAGE ARMED, PREPARING FOR LAUNCH!!!
 			PlagueBossText2: MISSILES LAUNCHED, TARGETING ROUTINE INITIATED!!!
-			
 			/* Astrum Deus */
 			DeusAltarRejectNightText: The god of the stars rejects your offering. The ritual can only be performed at night.
-			
 			/* Providence */
 			ProfanedBossText: Holy flames burn away at your wings...
-
 			/* Polterghast */
 			GhostBossText2: Wails echo through the dilapidated dungeon halls...
 			GhostBossText3: Long-dead prisoners seek their zealous revenge...
-			
 			/* Devourer of Gods */
 			EdgyBossText: Don't get cocky!
 			EdgyBossText2: A fatal mistake!
@@ -39,13 +31,11 @@ Mods : {
 			EdgyBossText5: It's not over yet!
 			EdgyBossText6: A GOD DOES NOT FEAR DEATH!
 			EdgyBossText7: You are no god... but I shall feast upon your essence regardless!
-			
 			/* Yharon */
 			FlameText: The air is getting warmer around you.
 			/* Yharon (now unused) */
 			DargonBossText: The dark sun awaits.
 			DargonBossText2: My dragon deems you an unworthy opponent. You must acquire the power of the dark sun to witness his true power.
-			
 			/* Draedon (introduction) */
 			DraedonIntroductionText1: I have waited long for this moment.
 			DraedonIntroductionText2: Your nature fascinates me, for I do not understand it.
@@ -54,7 +44,6 @@ Mods : {
 			DraedonIntroductionText5: Now, choose.
 			DraedonResummonText: Make your choice.
 			DraedonBossRushText: Make your choice. You have 20 seconds.
-			
 			/* Draedon (Exo Mechs mid-battle dialogue) */
 			DraedonExoPhase1Text1: Designs improved with time and knowledge are the essence of my work.
 			DraedonExoPhase1Text2: Through no other method can I approach perfection.
@@ -70,7 +59,6 @@ Mods : {
 			DraedonExoPhase6Text2: I will no longer let my calculations impede my observation of this battle.
 			DraedonExoPhase6Text3: I shall show you the full fury of my final machine.
 			DraedonAresEnrageText: How foolish. You cannot escape.
-			
 			/* Draedon (ending) */
 			DraedonEndText1: An unknown factor--a catalyst is what you are.
 			DraedonEndText2: Nearly as disconnected to this land and its history as I am.
@@ -82,12 +70,10 @@ Mods : {
 			DraedonEndText8: But you have managed before. You will find a way eventually.
 			DraedonEndText9: I must acknowledge your triumph, but I will return now to my machinery.
 			DraedonEndKillAttemptText: ...Quite unnecessary.
-			
 			/* Draedon (GFB) */
 			DraedonMechdusaBeginText: ...Die.
 			DraedonMechdusaEndText1: Wait, what? How?
 			DraedonMechdusaEndText2: No
-			
 			/* SCal (First Battle) */
 			SCalSummonText: Do you enjoy going through hell?
 			SCalStartText: You should have just died...
@@ -106,7 +92,6 @@ Mods : {
 			SCalAcceptanceText1: Even if he has thrown all else away, his power remains.
 			SCalAcceptanceText2: I have no more energy left to resent him, or you...
 			SCalAcceptanceText3: It will all be in your hands now.
-			
 			/* SCal (Rematch) */
 			SCalSummonTextRematch: If you're looking for some fourth-degree burns, you've got the right person.
 			SCalStartTextRematch: When the time comes, would you like to join my creation?
@@ -122,7 +107,6 @@ Mods : {
 			SCalDesparationText2Rematch: No doubt you will face enemies stronger than I.
 			SCalDesparationText3Rematch: I trust you will not make the same mistakes he did.
 			SCalDesparationText4Rematch: I can't imagine what your future holds now.
-			
 			/* April Fools */
 			AprilFools: The LORDE is approaching...
 			AprilFoolsGFB: La Ruga is approaching...

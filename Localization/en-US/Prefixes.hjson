@@ -1,10 +1,9 @@
-Mods : {
-	CalamityMod : {
+Mods: {
+	CalamityMod: {
 		Prefixes: {
 			/* idk what is this */
 			RogueAccessoryPrefix.DisplayName: Rogue Accessory Prefix
 			RogueWeaponPrefix.DisplayName: Rogue Weapon Prefix
-			
 			Atrocious.DisplayName: Atrocious
 			Blunt.DisplayName: Blunt
 			Camouflaged.DisplayName: Camouflaged

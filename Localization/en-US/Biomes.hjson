@@ -1,5 +1,5 @@
-Mods : {
-	CalamityMod : {
+Mods: {
+	CalamityMod: {
 		Biomes: {
 			AbovegroundAstralBiome.DisplayName: Astral Surface Fog
 			AbovegroundAstralDesertBiome.DisplayName: Astral Desert Surface

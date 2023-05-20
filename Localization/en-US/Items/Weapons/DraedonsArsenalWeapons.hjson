@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			FrequencyManipulator: {
 				DisplayName: Frequency Manipulator
 				Tooltip:
@@ -170,7 +170,7 @@ Mods : {
 					Summons a mechanical surveillance drone that flies around enemies and mercilessly zaps them with electricity
 					[c/1FFBFF:'Equipped with high-end sensors, little can evade them. Even less are able to escape their ever watchful eyes.]
 					[c/1FFBFF:An excellent bridge between my experiments with the sight-based soul powered machines and my latest project.']
-					''' 
+					'''
 			}
 
 			StarSwallowerContainmentUnit: {

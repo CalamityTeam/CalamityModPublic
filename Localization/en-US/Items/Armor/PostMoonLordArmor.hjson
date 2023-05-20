@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			AuricTeslaBodyArmor: {
 				DisplayName: Auric Tesla Body Armor
 				Tooltip:
@@ -186,17 +186,17 @@ Mods : {
 
 			GemTechBodyArmor: {
 				DisplayName: Gem Tech Body Armor
-				Tooltip: 'You sunk low enough for me to reach.'
+				Tooltip: "'You sunk low enough for me to reach.'"
 			}
 
 			GemTechHeadgear: {
 				DisplayName: Gem Tech Headgear
-				Tooltip: 'The Devil said: Revel in your victory; You've earned your damning. Pack your things and leave.'
+				Tooltip: "'The Devil said: Revel in your victory; You've earned your damning. Pack your things and leave.'"
 			}
 
 			GemTechSchynbaulds: {
 				DisplayName: Gem Tech Schynbaulds
-				Tooltip: 'If they hurt you, kick them down.'
+				Tooltip: "'If they hurt you, kick them down.'"
 			}
 
 			GodSlayerChestplate: {

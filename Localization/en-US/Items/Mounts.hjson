@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			Brimrose: {
 				DisplayName: Brimrose
 				Tooltip: Summons a brimrose mount

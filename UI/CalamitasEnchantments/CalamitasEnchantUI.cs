@@ -369,11 +369,10 @@ namespace CalamityMod.UI.CalamitasEnchants
             if (cost <= 0 || !Main.LocalPlayer.CanAfford(cost))
                 return;
 
-            Item originalItem = CurrentlyHeldItem.Clone();
             int oldPrefix = CurrentlyHeldItem.prefix;
             CurrentlyHeldItem.SetDefaults(CurrentlyHeldItem.type);
             CurrentlyHeldItem.Prefix(oldPrefix);
-            CurrentlyHeldItem = CurrentlyHeldItem.CloneWithModdedDataFrom(originalItem)/* tModPorter Note: Removed. Use Clone, ResetPrefix or Refresh */;
+            CurrentlyHeldItem = CurrentlyHeldItem.Clone();
 
             if (SelectedEnchantment.Value.Name == CalamityUtils.GetTextValue(EnchantmentManager.ExhumedNamePath))
             {

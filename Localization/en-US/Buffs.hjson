@@ -1,5 +1,5 @@
-Mods : {
-	CalamityMod : {
+Mods: {
+	CalamityMod: {
 		Buffs: {
 			AlcoholPoisoning: {
 				DisplayName: Alcohol Poisoning
@@ -508,7 +508,7 @@ Mods : {
 
 			BaguetteBuff: {
 				DisplayName: Baguette
-				Description: [c/B00BA5:'If only I knew...' ~Cirrus]
+				Description: "[c/B00BA5:'If only I knew...' ~Cirrus]"
 			}
 
 			BloodfinBoost: {
@@ -548,7 +548,7 @@ Mods : {
 
 			ShadowBuff: {
 				DisplayName: Shadow
-				Description: 
+				Description:
 					'''
 					You are a shadow
 					Rogue weapons spawn projectiles on hit
@@ -857,7 +857,7 @@ Mods : {
 
 			DoGExtremeGravity: {
 				DisplayName: Extreme Gravity
-				Description: 
+				Description:
 					'''
 					25% decreased wing time
 					Infinite flight is disabled
@@ -901,11 +901,11 @@ Mods : {
 
 			IcarusFolly: {
 				DisplayName: Icarus' Folly
-				Description: 
-				'''
-				33% decreased wing time
-				Infinite flight is disabled
-				'''
+				Description:
+					'''
+					33% decreased wing time
+					Infinite flight is disabled
+					'''
 			}
 
 			Irradiated: {

@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             BannerItem = ModContent.ItemType<AquaticUrchinBanner>();
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.RemoveWaterSlowness();
+            NPC.waterMovementSpeed = 1f;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

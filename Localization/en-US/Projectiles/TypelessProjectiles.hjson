@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Projectiles : {
+Mods: {
+	CalamityMod: {
+		Projectiles: {
 			AeroExplosive.DisplayName: Aeroboom
 			AllianceTriangle.DisplayName: Alliance Triangle
 			ArcZap.DisplayName: Arc Zap

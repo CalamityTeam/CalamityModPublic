@@ -1,6 +1,6 @@
-Mods : {
-	CalamityMod : {
-		Items : {
+Mods: {
+	CalamityMod: {
+		Items: {
 			AnechoicCoating: {
 				DisplayName: Anechoic Coating
 				Tooltip: Reduces creatures' ability to detect you in the abyss
@@ -166,7 +166,7 @@ Mods : {
 				DisplayName: Zerg Potion
 				Tooltip: Vastly increases enemy spawn rate
 			}
-			
+
 			/* Drunk Princess Shop Items */
 			BloodyMary: {
 				DisplayName: Bloody Mary
