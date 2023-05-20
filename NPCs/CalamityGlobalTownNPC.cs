@@ -139,6 +139,7 @@ namespace CalamityMod.NPCs
         {
             "Farsni",
             "Fanny", // <@!799749125720637460> (zombiewolf511#4581)
+			"Mausi", // <@!194156349347594241> (Sadouken | Daniel#3996)
         };
         private static readonly string[] PainterNames =
         {
