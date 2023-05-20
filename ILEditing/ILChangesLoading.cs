@@ -66,7 +66,7 @@ namespace CalamityMod.ILEditing
             Terraria.On_WorldGen.OpenDoor += OpenDoor_LabDoorOverride;
             Terraria.On_WorldGen.CloseDoor += CloseDoor_LabDoorOverride;
             Terraria.On_Item.AffixName += IncorporateEnchantmentInAffix;
-            Terraria.On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += IncorporateMinionExplodingCountdown;
+            Terraria.On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float += IncorporateMinionExplodingCountdown;
             // TODO -- This should be unnecessary. There is now a TML hook for platform collision for ModNPCs.
             Terraria.On_NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
             Terraria.IL_Wiring.HitWireSingle += AddTwinklersToStatue;
