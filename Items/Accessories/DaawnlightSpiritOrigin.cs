@@ -50,21 +50,6 @@ namespace CalamityMod.Items.Accessories
             return baseCritMult * (1f + convertedCritBonus + slowWeaponBonus);
         }
 
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Daawnlight Spirit Origin");
-            /* Tooltip.SetDefault("All nearby enemies and bosses are marked with bullseyes\n" +
-                "Ranged attacks that strike a bullseye always critically strike and deal massive damage\n" +
-                "When a bullseye is struck, it vanishes and a new one appears elsewhere\n" +
-                "Explosions or large projectiles cannot strike bullseyes\n" +
-                "Shots ricocheted off of tossed coins will target bullseyes, but use a lower crit multiplier\n" +
-                "Converts all ranged critical strike chance boosts into extra critical strike damage\n" +
-                "All ranged weapons will deal even more critical strike damage the slower they are\n" +
-                "Summons a heroic spirit from another world if accessory visibility is enabled\n" +
-                "The heroic spirit is also summoned when this accessory is placed in vanity slots\n" +
-                "'A strand of a lost cosmos remains, waiting for its master'"); */
-        }
-
         public override void SetDefaults()
         {
             Item.width = 22;

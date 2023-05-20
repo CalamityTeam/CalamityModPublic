@@ -2577,32 +2577,6 @@ namespace CalamityMod.NPCs
         // Incoming defense to this function is already affected by the vanilla debuffs Ichor (-15) and Betsy's Curse (-40), and cannot be below zero.
         public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
         {
-            // With the new system, these should be safe to remove, maybe?
-
-            // Don't bother tampering with the damage if it is already zero.
-            // Zero damage does not happen in the base game; if something has been set to zero damage by another mod, it's really not intended to do damage.
-            if (damage == 0D)
-                return;
-
-            // Safety for ML's eyes on Rev+ so that the boss doesn't remain invulnerable forever
-            // TODO -- this is very old, is it still needed?
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
-            {
-                if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
-                {
-                    if (npc.life - (int)damage <= 0)
-                    {
-                        if (newAI[0] != 1f)
-                        {
-                            newAI[0] = 1f;
-                            npc.life = npc.lifeMax;
-                            npc.netUpdate = true;
-                            npc.dontTakeDamage = true;
-                        }
-                    }
-                }
-            }
-
             // Apply armor penetration based on Calamity debuffs. The hit system manages the sequencing.
             // Ozzatron 05JAN2023: fixed doubled armor pen, this time for real
             int defenseReduction = (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0) + (wither > 0 ? WitherDebuff.DefenseReduction : 0) + miscDefenseLoss;
@@ -4600,16 +4574,10 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-                // TODO -- Use the 1.4 spawn context system for this.
-                // This suffers from the same issues as current crit logic in vanilla, but I have no idea how to do this better without said system.
-                if (crit)
-                {
-                    // Crits have their damage doubled after ModifyHitNPC, in the StrikeNPC function.
-                    // Here, damage is divded by 2 to compensate for that.
-                    // This means that the bonus provided by Daawnlight Spirit Origin can be computed as a complete replacement to regular crits.
-                    float mult = DaawnlightSpiritOrigin.GetDamageMultiplier(player, modPlayer, hitBullseye, cgp.forcedCrit) / 2f;
-                    modifiers.SourceDamage *= mult;
-                }
+                // The bonus provided by Daawnlight Spirit Origin can be computed as a complete replacement to regular crits.
+                // As such, it is subtracted by the base critical strike damage boost of 200%
+                float bonus = DaawnlightSpiritOrigin.GetDamageMultiplier(player, modPlayer, hitBullseye, cgp.forcedCrit) - 2f;
+                modifiers.CritDamage += bonus;
             }
 
             // Plague Reaper deals 1.1x damage to Plagued enemies
