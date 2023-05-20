@@ -1743,24 +1743,14 @@ namespace CalamityMod.NPCs
             }
         }
 
-        public static NPCShop AddScalingPotion(ref NPCShop shop, int itemID, params Condition[] extraConditions)
+        public static NPCShop AddScalingPotion(ref NPCShop shop, int itemID, Condition extraCondition = null)
         {
             Condition potionSells = new("While the Town NPC Potion Selling configuration option is enabled", () => CalamityConfig.Instance.PotionSelling);
 
-            Condition[] happyEnough = extraConditions;
-            happyEnough[happyEnough.Length] = Condition.HappyEnough;
-            happyEnough[happyEnough.Length] = potionSells;
-
-            Condition[] preHardMode = happyEnough, hardMode = happyEnough, postML = happyEnough;
-            preHardMode[preHardMode.Length] = Condition.PreHardmode;
-            preHardMode[hardMode.Length] = Condition.Hardmode;
-            preHardMode[hardMode.Length] = Condition.NotDownedMoonLord;
-            preHardMode[postML.Length] = Condition.DownedMoonLord;
-
             return shop
-            .AddWithCustomValue(itemID, Item.buyPrice(gold: 4), extraConditions)
-            .AddWithCustomValue(itemID, Item.buyPrice(gold: 8), extraConditions)
-            .AddWithCustomValue(itemID, Item.buyPrice(gold: 12), extraConditions);
+            .AddWithCustomValue(itemID, Item.buyPrice(gold: 4), extraCondition, potionSells, Condition.HappyEnough, Condition.PreHardmode)
+            .AddWithCustomValue(itemID, Item.buyPrice(gold: 8), extraCondition, potionSells, Condition.HappyEnough, Condition.Hardmode, Condition.NotDownedMoonLord)
+            .AddWithCustomValue(itemID, Item.buyPrice(gold: 12), extraCondition, potionSells, Condition.HappyEnough, Condition.DownedMoonLord);
         }
         #endregion
     }
