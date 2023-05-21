@@ -2625,7 +2625,7 @@ namespace CalamityMod.NPCs
             Player player = Main.player[npc.target];
 
             float enrageScale = bossRush ? 1f : 0f;
-            if (Main.dayTime || bossRush)
+            if ((Main.dayTime && !player.Calamity().ZoneAstral) || bossRush)
             {
                 npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;

@@ -13,10 +13,6 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Astral Chunk");
-            /* Tooltip.SetDefault("Summons Astrum Aureus when used in the Astral Infection during nighttime\n" +
-                "Enrages during the day\n" +
-                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 14; // Frost Moon
         }
 
@@ -38,7 +34,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !Main.dayTime && player.Calamity().ZoneAstral && !NPC.AnyNPCs(ModContent.NPCType<AstrumAureus>()) && !BossRushEvent.BossRushActive;
+            return player.Calamity().ZoneAstral && !NPC.AnyNPCs(ModContent.NPCType<AstrumAureus>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool? UseItem(Player player)

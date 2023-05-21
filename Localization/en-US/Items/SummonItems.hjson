@@ -16,8 +16,8 @@ Mods: {
 				DisplayName: Astral Chunk
 				Tooltip:
 					'''
-					Summons Astrum Aureus when used in the Astral Infection during nighttime
-					Enrages during the day
+					Summons Astrum Aureus when used in the Astral Infection
+					Enrages during the day while outside the Astral Infection
 					Not consumable
 					'''
 			}
