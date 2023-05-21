@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bubonic Round");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
@@ -66,10 +65,12 @@ namespace CalamityMod.Projectiles.Ranged
             return new Color(1f, 1f, 1f, 0f);
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(ModContent.BuffType<Plague>(), 180);
-        }
+        // Ignores 25% of armor
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => modifiers.ScalingArmorPenetration += 0.25f;
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers) => modifiers.ScalingArmorPenetration += 0.25f;
+
+        // Inflicts Plague for 3 seconds
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<Plague>(), 180);
 
         public override void Kill(int timeLeft)
         {

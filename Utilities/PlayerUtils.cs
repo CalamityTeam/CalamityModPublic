@@ -449,10 +449,10 @@ namespace CalamityMod
         /// </summary>
         /// <param name="mp">The CalamityPlayer who may or may not be using Rage or Adrenaline.</param>
         /// <param name="damageMult">A reference to the current in-use damage multiplier. This will be increased in-place.</param>
-        public static void ApplyRippersToDamage(CalamityPlayer mp, bool trueMelee, ref double damageMult)
+        public static void ApplyRippersToDamage(CalamityPlayer mp, bool trueMelee, ref float damageMult)
         {
             // Reduce how much true melee benefits from Rage and Adrenaline.
-            double rageAndAdrenalineTrueMeleeDamageMult = 0.5;
+            float rageAndAdrenalineTrueMeleeDamageMult = 0.5f;
 
             // Rage and Adrenaline now stack additively with no special cases.
             if (mp.rageModeActive)

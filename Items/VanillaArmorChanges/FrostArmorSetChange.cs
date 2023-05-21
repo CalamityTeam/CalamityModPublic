@@ -15,7 +15,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override string ArmorSetName => "Frost";
 
-        public const float ProximityBoost = 1.15f;
+        public const float ProximityBoost = 0.15f;
         public const float MinDistance = 160f;
         public const float MaxDistance = 800f;
 
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             player.Calamity().frostSet = true;
 
-            // Cancel out the old bonuses
+            // Cancel out the vanilla damage boosts
             player.GetDamage<MeleeDamageClass>() -= 0.1f;
             player.GetDamage<RangedDamageClass>() -= 0.1f;
         }

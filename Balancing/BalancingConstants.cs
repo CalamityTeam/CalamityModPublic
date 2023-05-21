@@ -49,6 +49,9 @@
         internal static readonly float MorningStarTagDamageMultiplier = 1.11f;
         internal static readonly float KaleidoscopeTagDamageMultiplier = 1.12f;
 
+        // Summoner cross class nerf
+        internal static readonly float SummonerCrossClassNerf = 0.75f;
+
         // Rogue stealth
         // If stealth is too weak, increase this number. If stealth is too strong, decrease this number.
         // This value is intentionally not readonly.

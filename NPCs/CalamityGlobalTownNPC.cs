@@ -122,6 +122,7 @@ namespace CalamityMod.NPCs
             "Danmaku", // <@!756259562268524555> (Danmaku#2659)
             "Grylken", // <@!299970404435361802> (Grylken#1569)
             "Outlaw", // <@!918311619480657922> (TheChosenOutlaw#8746)
+			"Alfred Rend", // <@!606301806481375255> (Deadsqurp300#0907)
         };
         private static readonly string[] MechanicNames =
         {
@@ -138,6 +139,7 @@ namespace CalamityMod.NPCs
         {
             "Farsni",
             "Fanny", // <@!799749125720637460> (zombiewolf511#4581)
+			"Mausi", // <@!194156349347594241> (Sadouken | Daniel#3996)
         };
         private static readonly string[] PainterNames =
         {
@@ -160,6 +162,7 @@ namespace CalamityMod.NPCs
             "Nyapano", // <@!120976656826368003> (Emi - Nyapano She/Her#4040)
             "Jade", // <@!187395834625785869> (VeryMasterNinja#7728)
             "Nyavi Aceso", // <@!270260920888852480> (Navigator#8739)
+			"Octo", // <@!796112889353994281> (OctolingGrimm#8888)
         };
         private static readonly string[] SkeletonMerchantNames =
         {
@@ -241,7 +244,10 @@ namespace CalamityMod.NPCs
 		{
 			"Riley", // <@!260875558592708619> (potion pal#9979)
 		};
-        private static readonly string[] TownDogPitBullNames = null;
+        private static readonly string[] TownDogPitBullNames =
+		{
+			"Splinter", // <@!320320801213775873> (Kaimonick#1738)
+		};
         private static readonly string[] TownDogBeagleNames =
         {
             "Kendra", // <@!237247188005158912> (LordMetarex#6407)

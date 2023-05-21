@@ -59,11 +59,9 @@ namespace CalamityMod.Balancing
 
             UniversalBalancingChanges = new List<IBalancingRule[]>()
             {
-                // Nerf Sky Dragon's Fury's alt fire projectiles due to its strong primary fire buff.
-                // TODO -- Vanilla 1.4 already nerfs the projectiles to 0.5x, so this nerf is disabled for now.
-                // The multiplier can be changed as needed.
-                // Do(new ProjectileSpecificRequirementBalancingRule(0.25f, MonkStaffT3Filter)),
-
+                // Nerf Luminite Arrow trails by 50%.
+                Do(new ProjectileResistBalancingRule(0.5f, ProjectileID.MoonlordArrowTrail)),
+                
                 // Nerf Seedler seeds by 66.6%.
                 Do(new ProjectileResistBalancingRule(1f / 3f, ProjectileID.SeedlerNut, ProjectileID.SeedlerThorn)),
 
