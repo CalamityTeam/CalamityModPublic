@@ -294,6 +294,7 @@ namespace CalamityMod.Items
                 { ItemID.MechanicalEye, nonConsumableBossSummon },
                 { ItemID.MechanicalSkull, nonConsumableBossSummon },
                 { ItemID.MechanicalWorm, nonConsumableBossSummon },
+                { ItemID.MechdusaSummon, nonConsumableBossSummon },
                 { ItemID.MedusaHead, Do(ManaExact(6), DamageRatio(1.2f)) },
                 { ItemID.Megashark, pointBlank },
                 { ItemID.Meowmere, Do(UseMeleeSpeed/*, DamageRatio(1.33f) */) },
