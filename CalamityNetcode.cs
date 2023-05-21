@@ -47,9 +47,6 @@ namespace CalamityMod
                     case CalamityModMessageType.SyncCooldownDictionary:
                         Main.player[reader.ReadInt32()].Calamity().HandleCooldownDictionary(reader);
                         break;
-                    case CalamityModMessageType.DeathCountSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleDeathCount(reader);
-                        break;
 
                     //
                     // Syncs for specific bosses or entities
@@ -318,7 +315,6 @@ namespace CalamityMod
         CooldownAddition,
         CooldownRemoval,
         SyncCooldownDictionary,
-        DeathCountSync, // TODO -- this is synced in numerous incorrect places, Armageddon deaths count twice, and it supposedly counts every time you log in
 
         // Syncs for specific bosses or entities
         SyncCalamityNPCAIArray,

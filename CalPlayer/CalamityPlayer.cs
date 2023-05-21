@@ -87,7 +87,6 @@ namespace CalamityMod.CalPlayer
         public int projTypeJustHitBy;
         public int sCalDeathCount = 0;
         public int sCalKillCount = 0;
-        public int deathCount = 0;
         public int actualMaxLife = 0;
         public static int chaosStateDuration = 900;
         public static int chaosStateDuration_NR = 1200;
@@ -1345,7 +1344,6 @@ namespace CalamityMod.CalPlayer
                 aquaticBoost = tag.GetFloat("aquaticBoostPower");
             sCalDeathCount = tag.GetInt("sCalDeathCount");
             sCalKillCount = tag.GetInt("sCalKillCount");
-            deathCount = tag.GetInt("deathCount");
 
             if (tag.ContainsKey("moveSpeedBonus"))
                 moveSpeedBonus = tag.GetFloat("moveSpeedBonus");
@@ -3988,12 +3986,6 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            deathCount++;
-            if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
-            {
-                SyncDeathCount(false);
-            }
-
             return true;
         }
         #endregion
@@ -6265,11 +6257,6 @@ namespace CalamityMod.CalPlayer
         #region Kill Player
         public void KillPlayer()
         {
-            deathCount++;
-            if (Player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
-            {
-                SyncDeathCount(false);
-            }
             var source = Player.GetSource_Death();
             Player.lastDeathPostion = Player.Center;
             Player.lastDeathTime = DateTime.Now;

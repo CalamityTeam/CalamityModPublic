@@ -250,10 +250,9 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public string Death()
         {
-            int deaths = Main.player[Main.myPlayer].Calamity().deathCount;
+            int deaths = Main.player[Main.myPlayer].numberOfDeathsPVE;
 
-            string text = "You have failed " + Main.player[Main.myPlayer].Calamity().deathCount +
-                (Main.player[Main.myPlayer].Calamity().deathCount == 1 ? " time." : " times.");
+            string text = "You have failed " + deaths + (deaths == 1 ? " time." : " times.");
 
             if (deaths > 10000)
                 text += " Congratulations! You are now, officially, the biggest loser in Terraria's history! Who was number two? Hell if I know.";
