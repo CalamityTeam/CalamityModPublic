@@ -34,7 +34,7 @@ namespace CalamityMod.ILEditing
                 LogFailure("Soaring Insignia Mobility Nerf", "Could not locate the Soaring Insignia bool.");
                 return;
             }
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(2f)))
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.75f)))
             {
                 LogFailure("Soaring Insignia Mobility Nerf", "Could not locate the Soaring Insignia run acceleration multiplier.");
                 return;
