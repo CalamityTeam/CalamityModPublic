@@ -533,7 +533,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             for (int k = 0; k < totalDustPerProjectile; k++)
                                 Dust.NewDust(shootFrom, 30, 30, (int)CalamityDusts.ProfanedFire, finalProjectileVelocity.X, finalProjectileVelocity.Y, 0, default, 1f);
 
-                            if (fireExtraProjectiles)
+                            if (fireExtraProjectiles && shootSpear)
                             {
                                 int baseProjectileAmt = (bossRush || biomeEnraged) ? 4 : 2;
                                 int spread = (bossRush || biomeEnraged) ? 18 : 10;
