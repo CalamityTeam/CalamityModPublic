@@ -153,10 +153,6 @@ namespace CalamityMod.Items
             ArmorIDs.Wing.Sets.Stats[(int)VanillaWingID.LongRainbowTrailWings] = new WingStats(180, 8f, 2.75f, true, 11.6f, 11.6f);
             #endregion
 
-            // Having more than this causes integer overflow
-            if (item.type == ItemID.PlatinumCoin)
-                item.maxStack = 2147;
-
             // Shield of Cthulhu cannot be enchanted (it is an accessory with a damage value).
             // TODO -- there are better ways to do this. Just stop letting accessories be enchanted, even if they do have a damage value.
             if (item.type == ItemID.EoCShield)
@@ -177,10 +173,6 @@ namespace CalamityMod.Items
             // Soaring Insignia is post-Golem so it should use the yellow rarity.
             if (item.type == ItemID.EmpressFlightBooster)
                 item.rare = ItemRarityID.Yellow;
-
-            // Let every accessory be equipped in vanity slots.
-            if (item.accessory)
-                item.hasVanityEffects = true;
 
             // Make most expert items no longer expert because they drop in all modes now.
             switch (item.type)

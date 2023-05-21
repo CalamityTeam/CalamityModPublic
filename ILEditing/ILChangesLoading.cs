@@ -138,7 +138,6 @@ namespace CalamityMod.ILEditing
             
             // TODO -- Beat Lava Slimes once and for all
             // IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
-            Terraria.IL_Player.IsTileTypeInInteractionRange += IncreasePylonInteractionRange;
             Terraria.IL_Projectile.CanExplodeTile += MakeMeteoriteExplodable;
             Terraria.IL_Main.UpdateWindyDayState += MakeWindyDayMusicPlayLessOften;
             Terraria.IL_Main.UpdateTime_StartNight += BloodMoonsRequire200MaxLife;
