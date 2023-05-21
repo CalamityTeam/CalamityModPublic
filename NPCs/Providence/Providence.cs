@@ -85,7 +85,6 @@ namespace CalamityMod.NPCs.Providence
         private int biomeType = 0;
         private int flightPath = 0;
         private int phaseChange = 0;
-        private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
         private int frameUsed = 0;
         private int healTimer = 0;
         internal bool challenge = Main.expertMode/* && Main.netMode == NetmodeID.SinglePlayer*/; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
@@ -179,7 +178,6 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(currentMode);
             writer.Write(colorShiftTimer);
             writer.Write(phaseChange);
-            writer.Write(biomeEnrageTimer);
             writer.Write(frameUsed);
             writer.Write(healTimer);
             writer.Write(flightPath);
@@ -206,7 +204,6 @@ namespace CalamityMod.NPCs.Providence
             currentMode = reader.ReadInt32();
             colorShiftTimer = reader.ReadInt32();
             phaseChange = reader.ReadInt32();
-            biomeEnrageTimer = reader.ReadInt32();
             frameUsed = reader.ReadInt32();
             healTimer = reader.ReadInt32();
             flightPath = reader.ReadInt32();
@@ -322,7 +319,7 @@ namespace CalamityMod.NPCs.Providence
             if (nightAI)
                 projectileDamageMult = 2;
 
-            NPC.Calamity().CurrentlyEnraged = (!bossRush && nightAI) || biomeEnrageTimer <= 0;
+            NPC.Calamity().CurrentlyEnraged = !bossRush && nightAI;
 
             // Projectile damage values
             int holyLaserDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<ProvidenceHolyRay>()) * projectileDamageMult;
@@ -531,24 +528,13 @@ namespace CalamityMod.NPCs.Providence
                     biomeType = 1;
             }
 
-            // Become immune over time if target isn't in hell or hallow
-            if (!isHoly && !isHell && !bossRush)
-            {
-                if (biomeEnrageTimer > 0)
-                    biomeEnrageTimer--;
-            }
-            else
-                biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
-
-            // Take damage or not
-            bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
-
             // Do the death animation once killed.
             if (Dying)
             {
                 DoDeathAnimation();
                 return;
             }
+
             // Trigger the death animation
             else if (NPC.life == 1)
             {
@@ -762,7 +748,7 @@ namespace CalamityMod.NPCs.Providence
 
                     // Velocity and acceleration
                     float speedIncreaseTimer = nightAI ? 75f : death ? 120f : 150f;
-                    bool increaseSpeed = calamityGlobalNPC.newAI[0] > speedIncreaseTimer || biomeEnraged;
+                    bool increaseSpeed = calamityGlobalNPC.newAI[0] > speedIncreaseTimer || bossRush;
                     float accelerationBoost = death ? 0.3f * (1f - lifeRatio) : 0.2f * (1f - lifeRatio);
                     float velocityBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
                     float acceleration = (expertMode ? 1.1f : 1.05f) + accelerationBoost;
@@ -780,9 +766,9 @@ namespace CalamityMod.NPCs.Providence
                     else if (increaseSpeed)
                     {
                         velocity += (calamityGlobalNPC.newAI[0] - speedIncreaseTimer) * 0.04f;
-                        if (velocity > 30f || biomeEnraged)
+                        if (velocity > 30f || bossRush)
                             velocity = 30f;
-                        if (biomeEnraged)
+                        if (bossRush)
                             acceleration = 2f;
                     }
 
@@ -1032,7 +1018,7 @@ namespace CalamityMod.NPCs.Providence
                         NPC.ai[3] += 1f;
 
                         int shootBoost = death ? (int)Math.Round(5f * (1f - lifeRatio)) : (int)Math.Round(4f * (1f - lifeRatio));
-                        int projectileShootGateValue = (biomeEnraged ? 18 : expertMode ? 24 : 26) - shootBoost;
+                        int projectileShootGateValue = (bossRush ? 18 : expertMode ? 24 : 26) - shootBoost;
 
                         projectileShootGateValue = (int)(projectileShootGateValue * attackRateMult);
 
@@ -1087,7 +1073,7 @@ namespace CalamityMod.NPCs.Providence
 
                         int shootBoost = death ? (int)Math.Round(6f * (1f - lifeRatio)) : (int)Math.Round(5f * (1f - lifeRatio));
                         int projectileShootGateValue = (expertMode ? 36 : 39) - shootBoost;
-                        if (bossRush || biomeEnraged)
+                        if (bossRush)
                             projectileShootGateValue = 27;
 
                         projectileShootGateValue = (int)(projectileShootGateValue * attackRateMult);
@@ -1135,7 +1121,7 @@ namespace CalamityMod.NPCs.Providence
                     }
 
                     float divisor = (expertMode ? 2f : 3f) + (float)Math.Floor(3f * lifeRatio) + (attackRateMult > 1D ? (float)Math.Ceiling(attackRateMult * 1.6) : 0f);
-                    int totalFlameProjectiles = biomeEnraged ? 45 : 36;
+                    int totalFlameProjectiles = bossRush ? 45 : 36;
                     int chains = 4;
                     float interval = totalFlameProjectiles / chains * divisor;
                     double patternInterval = Math.Floor(NPC.ai[3] / interval);
@@ -1197,7 +1183,7 @@ namespace CalamityMod.NPCs.Providence
                     {
                         NPC.ai[2] = 0f;
 
-                        totalFlameProjectiles = biomeEnraged ? 20 : 16;
+                        totalFlameProjectiles = bossRush ? 20 : 16;
                         if (NPC.ai[3] % (divisor * totalFlameProjectiles) == 0f)
                         {
                             calamityGlobalNPC.newAI[1] += 1f;
@@ -1362,7 +1348,7 @@ namespace CalamityMod.NPCs.Providence
 
                         int shootBoost = death ? (int)Math.Round(5f * (1f - lifeRatio)) : (int)Math.Round(4f * (1f - lifeRatio));
                         int projectileShootGateValue = (expertMode ? 24 : 26) - shootBoost;
-                        if (bossRush || biomeEnraged)
+                        if (bossRush)
                             projectileShootGateValue = 18;
 
                         projectileShootGateValue = (int)(projectileShootGateValue * attackRateMult);
@@ -1419,7 +1405,7 @@ namespace CalamityMod.NPCs.Providence
                         NPC.ai[3] += 1f;
 
                         int shootBoost = death ? (int)Math.Round(12f * (1f - lifeRatio)) : (int)Math.Round(10f * (1f - lifeRatio));
-                        int projectileShootGateValue = (biomeEnraged ? 54 : expertMode ? 73 : 77) - shootBoost;
+                        int projectileShootGateValue = (bossRush ? 54 : expertMode ? 73 : 77) - shootBoost;
 
                         projectileShootGateValue = (int)(projectileShootGateValue * attackRateMult);
 
@@ -1478,7 +1464,7 @@ namespace CalamityMod.NPCs.Providence
 
                         if (calamityGlobalNPC.newAI[2] % 2f == 0f)
                         {
-                            int totalSpearProjectiles = biomeEnraged ? 15 : 12;
+                            int totalSpearProjectiles = bossRush ? 15 : 12;
                             double radians = MathHelper.TwoPi / totalSpearProjectiles;
                             Vector2 spinningPoint = Vector2.Normalize(new Vector2(-calamityGlobalNPC.newAI[1], -cocoonProjVelocity));
 
