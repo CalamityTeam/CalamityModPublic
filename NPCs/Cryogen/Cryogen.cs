@@ -1205,7 +1205,7 @@ namespace CalamityMod.NPCs.Cryogen
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            NPC.DrawBackglow(BackglowColor, 4f, spriteEffects, NPC.frame, screenPos);
+            NPC.DrawBackglow(CalamityWorld.getFixedBoi ? Color.Red : BackglowColor, 4f, spriteEffects, NPC.frame, screenPos);
 
             Vector2 origin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
             Vector2 drawPos = NPC.Center - screenPos;

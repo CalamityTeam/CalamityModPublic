@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs.Cryogen
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Cryogen/CryogenShield").Value;
 
-            NPC.DrawBackglow(Cryogen.BackglowColor, 4f, SpriteEffects.None, NPC.frame, screenPos);
+            NPC.DrawBackglow(CalamityWorld.getFixedBoi ? Color.Red : Cryogen.BackglowColor, 4f, SpriteEffects.None, NPC.frame, screenPos);
 
             Vector2 origin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
             Vector2 drawPos = NPC.Center - screenPos;
