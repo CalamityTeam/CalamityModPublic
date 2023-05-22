@@ -645,7 +645,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (npc.ai[2] % 45f == 0f)
                     {
-                        Vector2 servantSpawnVelocity = Vector2.Normalize(npc.Center - Main.player[npc.target].Center) * 5f;
+                        Vector2 servantSpawnVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 5f;
                         Vector2 servantSpawnCenter = npc.Center + servantSpawnVelocity * 10f;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
