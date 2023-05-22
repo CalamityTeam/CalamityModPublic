@@ -235,7 +235,7 @@ namespace CalamityMod.NPCs.Perforator
             if (NPC.ai[3] == 0f && NPC.life > 0)
                 NPC.ai[3] = NPC.lifeMax;
 
-            bool canSpawnWorms = !small || !medium || !large;
+            bool canSpawnWorms = !small || !medium || !large || Main.getGoodWorld;
             if (NPC.life > 0 && canSpawnWorms)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
