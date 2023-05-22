@@ -65,7 +65,7 @@ namespace CalamityMod.Tiles.Abyss
 
                 if (steamTimer >= 180 && Main.rand.NextBool(3))
                 {
-                    Projectile.NewProjectile(new EntitySource_WorldEvent(), spawnPosition, smokeVelocity, ModContent.ProjectileType<HotSteam>(), Main.expertMode ? 30 : 45, 0f);
+                    Projectile.NewProjectile(new EntitySource_WorldEvent(), spawnPosition, smokeVelocity, ModContent.ProjectileType<HotSteam>(), Main.expertMode ? 15 : 23, 0f);
                 }
             }
         }
