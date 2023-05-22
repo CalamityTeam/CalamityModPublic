@@ -14,11 +14,6 @@ namespace CalamityMod.Items.SummonItems
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PBGSummon");
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Abombination");
-            /* Tooltip.SetDefault("Calls in the airborne abomination\n" +
-                "Summons the Plaguebringer Goliath when used in the Jungle\n" +
-                "Enrages outside the Jungle\n" +
-                "Not consumable"); */
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 16; // Solar Tablet / Bloody Tear
         }
 
