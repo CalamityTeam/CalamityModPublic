@@ -56,12 +56,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             Lighting.AddLight((int)((Item.position.X + Item.width / 2) / 16f), (int)((Item.position.Y + Item.height / 2) / 16f), 0.5f, 0.5f, 2f);
         }
 
-		// This function doesn't even work....
-        public override void AutoLightSelect(ref bool dryTorch, ref bool wetTorch, ref bool glowstick)
-        {
-            wetTorch = true;
-        }
-
         public override void AddRecipes()
         {
             CreateRecipe(3).AddIngredient(ItemID.Torch, 3).AddIngredient(ModContent.ItemType<AbyssGravel>()).Register();
