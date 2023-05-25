@@ -1254,7 +1254,7 @@ namespace CalamityMod.NPCs
             if (CalamityLists.DeathModeSplittingWormIDs.Contains(npc.type))
             {
                 if (CalamityWorld.death)
-                    npc.lifeMax = (int)(npc.lifeMax * 0.25);
+                    npc.lifeMax = (int)(npc.lifeMax * 0.15);
             }
 
             if (npc.type == NPCID.Mothron)
