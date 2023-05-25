@@ -49,11 +49,6 @@ namespace CalamityMod.Items.Placeables.Furniture
             Lighting.AddLight((int)((Item.position.X + Item.width / 2) / 16f), (int)((Item.position.Y + Item.height / 2) / 16f), 1f, 0.55f, 1f);
         }
 
-        public override void AutoLightSelect(ref bool dryTorch, ref bool wetTorch, ref bool glowstick)
-        {
-            wetTorch = true;
-        }
-
         public override void AddRecipes()
         {
             CreateRecipe(1).AddIngredient(ItemID.PeaceCandle, 3).AddIngredient(ItemID.SoulofLight, 3).AddIngredient(ModContent.ItemType<CoreofEleum>(), 2).AddIngredient(ModContent.ItemType<ZenPotion>()).AddTile(TileID.WorkBenches).Register();

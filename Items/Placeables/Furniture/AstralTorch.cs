@@ -58,9 +58,6 @@ namespace CalamityMod.Items.Placeables.Furniture
                 Lighting.AddLight((int)((Item.position.X + Item.width / 2) / 16f), (int)((Item.position.Y + Item.height / 2) / 16f), 1.6f, 0.6f, 0.3f);
         }
 
-		// This function doesn't even work....
-        public override void AutoLightSelect(ref bool dryTorch, ref bool wetTorch, ref bool glowstick) => dryTorch = true;
-
         public override void AddRecipes()
         {
             CreateRecipe(3).

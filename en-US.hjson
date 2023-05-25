@@ -18,20 +18,75 @@ Mods: {
 		}
 
 		Biomes: {
-			AbovegroundAstralBiome.DisplayName: Aboveground Astral Biome
-			AbovegroundAstralBiomeSurface.DisplayName: Aboveground Astral Biome Surface
-			AbovegroundAstralDesertBiome.DisplayName: Aboveground Astral Desert Biome
-			AbovegroundAstralSnowBiome.DisplayName: Aboveground Astral Snow Biome
-			AbyssLayer1Biome.DisplayName: Abyss Layer1 Biome
-			AbyssLayer2Biome.DisplayName: Abyss Layer2 Biome
-			AbyssLayer3Biome.DisplayName: Abyss Layer3 Biome
-			AbyssLayer4Biome.DisplayName: Abyss Layer4 Biome
-			AcidRainBiome.DisplayName: Acid Rain Biome
-			ArsenalLabBiome.DisplayName: Arsenal Lab Biome
-			BrimstoneCragsBiome.DisplayName: Brimstone Crags Biome
-			SulphurousSeaBiome.DisplayName: Sulphurous Sea Biome
-			SunkenSeaBiome.DisplayName: Sunken Sea Biome
-			UndergroundAstralBiome.DisplayName: Underground Astral Biome
+			AbovegroundAstralBiome: {
+				DisplayName: Aboveground Astral Biome
+				TownNPCDialogueName: the Aboveground Astral Biome
+			}
+
+			AbovegroundAstralBiomeSurface: {
+				DisplayName: Aboveground Astral Biome Surface
+				TownNPCDialogueName: the Aboveground Astral Biome Surface
+			}
+
+			AbovegroundAstralDesertBiome: {
+				DisplayName: Aboveground Astral Desert Biome
+				TownNPCDialogueName: the Aboveground Astral Desert Biome
+			}
+
+			AbovegroundAstralSnowBiome: {
+				DisplayName: Aboveground Astral Snow Biome
+				TownNPCDialogueName: the Aboveground Astral Snow Biome
+			}
+
+			AbyssLayer1Biome: {
+				DisplayName: Abyss Layer1 Biome
+				TownNPCDialogueName: the Abyss Layer1 Biome
+			}
+
+			AbyssLayer2Biome: {
+				DisplayName: Abyss Layer2 Biome
+				TownNPCDialogueName: the Abyss Layer2 Biome
+			}
+
+			AbyssLayer3Biome: {
+				DisplayName: Abyss Layer3 Biome
+				TownNPCDialogueName: the Abyss Layer3 Biome
+			}
+
+			AbyssLayer4Biome: {
+				DisplayName: Abyss Layer4 Biome
+				TownNPCDialogueName: the Abyss Layer4 Biome
+			}
+
+			AcidRainBiome: {
+				DisplayName: Acid Rain Biome
+				TownNPCDialogueName: the Acid Rain Biome
+			}
+
+			ArsenalLabBiome: {
+				DisplayName: Arsenal Lab Biome
+				TownNPCDialogueName: the Arsenal Lab Biome
+			}
+
+			BrimstoneCragsBiome: {
+				DisplayName: Brimstone Crags Biome
+				TownNPCDialogueName: the Brimstone Crags Biome
+			}
+
+			SulphurousSeaBiome: {
+				DisplayName: Sulphurous Sea Biome
+				TownNPCDialogueName: the Sulphurous Sea Biome
+			}
+
+			SunkenSeaBiome: {
+				DisplayName: Sunken Sea Biome
+				TownNPCDialogueName: the Sunken Sea Biome
+			}
+
+			UndergroundAstralBiome: {
+				DisplayName: Underground Astral Biome
+				TownNPCDialogueName: the Underground Astral Biome
+			}
 		}
 
 		Tiles: {
@@ -13650,12 +13705,145 @@ Mods: {
 			SupremeCalamitas.DisplayName: Supreme Calamitas
 			SupremeCataclysm.DisplayName: Supreme Cataclysm
 			SupremeCatastrophe.DisplayName: Supreme Catastrophe
-			AndroombaFriendly.DisplayName: Androomba Friendly
-			DILF.DisplayName: D I L F
-			FAP.DisplayName: F A P
-			SEAHOE.DisplayName: S E A H O E
-			THIEF.DisplayName: T H I E F
-			WITCH.DisplayName: W I T C H
+
+			AndroombaFriendly: {
+				DisplayName: Androomba Friendly
+
+				TownNPCMood: {
+					Content: I am content.
+					NoHome: I hate not having a home.
+					FarFromHome: I am too far from home.
+					LoveSpace: I love having so much space.
+					DislikeCrowded: I dislike how crowded I am.
+					HateCrowded: I hate how crowded I am.
+					LoveBiome: I love {BiomeName}.
+					LikeBiome: I like {BiomeName}.
+					DislikeBiome: I dislike {BiomeName}.
+					HateBiome: I hate {BiomeName}.
+					LoveNPC: I love {NPCName}.
+					LikeNPC: I like {NPCName}.
+					DislikeNPC: I dislike {NPCName}.
+					HateNPC: I hate {NPCName}.
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+			}
+
+			DILF: {
+				DisplayName: D I L F
+
+				TownNPCMood: {
+					Content: I am content.
+					NoHome: I hate not having a home.
+					FarFromHome: I am too far from home.
+					LoveSpace: I love having so much space.
+					DislikeCrowded: I dislike how crowded I am.
+					HateCrowded: I hate how crowded I am.
+					LoveBiome: I love {BiomeName}.
+					LikeBiome: I like {BiomeName}.
+					DislikeBiome: I dislike {BiomeName}.
+					HateBiome: I hate {BiomeName}.
+					LoveNPC: I love {NPCName}.
+					LikeNPC: I like {NPCName}.
+					DislikeNPC: I dislike {NPCName}.
+					HateNPC: I hate {NPCName}.
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+			}
+
+			FAP: {
+				DisplayName: F A P
+
+				TownNPCMood: {
+					Content: I am content.
+					NoHome: I hate not having a home.
+					FarFromHome: I am too far from home.
+					LoveSpace: I love having so much space.
+					DislikeCrowded: I dislike how crowded I am.
+					HateCrowded: I hate how crowded I am.
+					LoveBiome: I love {BiomeName}.
+					LikeBiome: I like {BiomeName}.
+					DislikeBiome: I dislike {BiomeName}.
+					HateBiome: I hate {BiomeName}.
+					LoveNPC: I love {NPCName}.
+					LikeNPC: I like {NPCName}.
+					DislikeNPC: I dislike {NPCName}.
+					HateNPC: I hate {NPCName}.
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+			}
+
+			SEAHOE: {
+				DisplayName: S E A H O E
+
+				TownNPCMood: {
+					Content: I am content.
+					NoHome: I hate not having a home.
+					FarFromHome: I am too far from home.
+					LoveSpace: I love having so much space.
+					DislikeCrowded: I dislike how crowded I am.
+					HateCrowded: I hate how crowded I am.
+					LoveBiome: I love {BiomeName}.
+					LikeBiome: I like {BiomeName}.
+					DislikeBiome: I dislike {BiomeName}.
+					HateBiome: I hate {BiomeName}.
+					LoveNPC: I love {NPCName}.
+					LikeNPC: I like {NPCName}.
+					DislikeNPC: I dislike {NPCName}.
+					HateNPC: I hate {NPCName}.
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+			}
+
+			THIEF: {
+				DisplayName: T H I E F
+
+				TownNPCMood: {
+					Content: I am content.
+					NoHome: I hate not having a home.
+					FarFromHome: I am too far from home.
+					LoveSpace: I love having so much space.
+					DislikeCrowded: I dislike how crowded I am.
+					HateCrowded: I hate how crowded I am.
+					LoveBiome: I love {BiomeName}.
+					LikeBiome: I like {BiomeName}.
+					DislikeBiome: I dislike {BiomeName}.
+					HateBiome: I hate {BiomeName}.
+					LoveNPC: I love {NPCName}.
+					LikeNPC: I like {NPCName}.
+					DislikeNPC: I dislike {NPCName}.
+					HateNPC: I hate {NPCName}.
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+			}
+
+			WITCH: {
+				DisplayName: W I T C H
+
+				TownNPCMood: {
+					Content: I am content.
+					NoHome: I hate not having a home.
+					FarFromHome: I am too far from home.
+					LoveSpace: I love having so much space.
+					DislikeCrowded: I dislike how crowded I am.
+					HateCrowded: I hate how crowded I am.
+					LoveBiome: I love {BiomeName}.
+					LikeBiome: I like {BiomeName}.
+					DislikeBiome: I dislike {BiomeName}.
+					HateBiome: I hate {BiomeName}.
+					LoveNPC: I love {NPCName}.
+					LikeNPC: I like {NPCName}.
+					DislikeNPC: I dislike {NPCName}.
+					HateNPC: I hate {NPCName}.
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+			}
+
 			Yharon.DisplayName: Yharon
 		}
 
