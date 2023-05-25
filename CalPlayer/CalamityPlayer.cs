@@ -4748,12 +4748,20 @@ namespace CalamityMod.CalPlayer
             else if (proj.type == ProjectileID.RollingCactus || proj.type == ProjectileID.RollingCactusSpike)
                 modifiers.SourceDamage *= (Main.expertMode ? 0.3f : 0.5f);
 
-            // Boulders
+            // Normal Boulders and Temple traps
             if (Main.expertMode)
             {
-                // 140 in normal, 182 in expert
-                if (proj.type == ProjectileID.Boulder)
+                // 140 in normal, 182 in expert, 273 in master
+                if (proj.type == ProjectileID.Boulder || proj.type == ProjectileID.MiniBoulder)
                     modifiers.SourceDamage *= 0.65f;
+
+                // 80 in normal, 100 in expert, 150 in master
+                else if (proj.type == ProjectileID.SpikyBallTrap || proj.type == ProjectileID.FlamethrowerTrap || proj.type == ProjectileID.PoisonDartTrap)
+                    modifiers.SourceDamage *= 0.625f;
+
+                // 120 in normal, 144 in expert, 216 in master
+                else if (proj.type == ProjectileID.SpearTrap)
+                    modifiers.SourceDamage *= 0.6f;
             }
 
             if (CalamityWorld.revenge)
