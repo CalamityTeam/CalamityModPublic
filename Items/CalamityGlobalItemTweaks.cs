@@ -1346,5 +1346,16 @@ namespace CalamityMod.Items
         #endregion
         #endregion
         #endregion
+
+        #region Shimmer Transmutations
+        private void SetStaticDefaults_ShimmerRecipes()
+        {
+            var shimmerTransmute = ItemID.Sets.ShimmerTransformToItem;
+
+            shimmerTransmute[ItemID.AmberHook] = ItemID.SandstorminaBottle;
+            shimmerTransmute[ItemID.SandstorminaBottle] = ItemID.FlyingCarpet;
+            shimmerTransmute[ItemID.FlyingCarpet] = ItemID.AmberHook;
+        }
+        #endregion
     }
 }

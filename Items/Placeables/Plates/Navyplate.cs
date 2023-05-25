@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Walls;
+﻿using CalamityMod.Items.Placeables.Walls;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Placeables.Plates
             // DisplayName.SetDefault("Navyplate");
             // Tooltip.SetDefault("It resonates with otherworldly energy.");
             Item.ResearchUnlockCount = 100;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<Cinderplate>();
         }
 
         public override void SetDefaults()

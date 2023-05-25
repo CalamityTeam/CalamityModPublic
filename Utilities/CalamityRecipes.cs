@@ -530,7 +530,8 @@ namespace CalamityMod
             Recipe.Create(ItemID.FallenStar).
                 AddIngredient<Stardust>(5).
                 AddTile(TileID.Anvils).
-                Register();
+                Register()
+                .DisableDecraft();
 
             // Black Lens
             Recipe.Create(ItemID.BlackLens).
@@ -567,14 +568,16 @@ namespace CalamityMod
                 AddIngredient<PlantyMush>(10).
                 AddIngredient<LivingShard>().
                 AddTile(TileID.MythrilAnvil).
-                Register();
+                Register()
+                .DisableDecraft();
 
             // Ultrabright Torch
             Recipe.Create(ItemID.UltrabrightTorch, 33).
                 AddIngredient(ItemID.Torch, 33).
                 AddIngredient<SeaPrism>().
                 AddTile(TileID.Anvils).
-                Register();
+                Register()
+                .DisableDecraft();
 
             // Money Trough
             Recipe.Create(ItemID.MoneyTrough).
@@ -604,121 +607,141 @@ namespace CalamityMod
                 AddIngredient(ItemID.Vilethorn).
                 AddTile(TileID.Anvils).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.Vilethorn).
                 AddIngredient(ItemID.CrimsonRod).
                 AddTile(TileID.Anvils).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.TheRottedFork).
                 AddIngredient(ItemID.BallOHurt).
                 AddTile(TileID.Anvils).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.BallOHurt).
                 AddIngredient(ItemID.TheRottedFork).
                 AddTile(TileID.Anvils).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.TheUndertaker).
                 AddIngredient(ItemID.Musket).
                 AddTile(TileID.Anvils).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.Musket).
                 AddIngredient(ItemID.TheUndertaker).
                 AddTile(TileID.Anvils).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.CrimsonHeart).
                 AddIngredient(ItemID.ShadowOrb).
                 AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.ShadowOrb).
                 AddIngredient(ItemID.CrimsonHeart).
                 AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.BrainOfConfusion).
                 AddIngredient(ItemID.WormScarf).
                 AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.WormScarf).
                 AddIngredient(ItemID.BrainOfConfusion).
                 AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.TendonHook).
                 AddIngredient(ItemID.WormHook).
                 AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.WormHook).
                 AddIngredient(ItemID.TendonHook).
                 AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.DartPistol).
                 AddIngredient(ItemID.DartRifle).
                 AddTile(TileID.Anvils).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.DartRifle).
                 AddIngredient(ItemID.DartPistol).
                 AddTile(TileID.Anvils).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.ChainGuillotines).
                 AddIngredient(ItemID.FetidBaghnakhs).
                 AddTile(TileID.Anvils).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.FetidBaghnakhs).
                 AddIngredient(ItemID.ChainGuillotines).
                 AddTile(TileID.Anvils).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.ClingerStaff).
                 AddIngredient(ItemID.SoulDrain).
                 AddTile(TileID.Anvils).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.SoulDrain).
                 AddIngredient(ItemID.ClingerStaff).
                 AddTile(TileID.Anvils).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.PutridScent).
                 AddIngredient(ItemID.FleshKnuckles).
                 AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             Recipe.Create(ItemID.FleshKnuckles).
                 AddIngredient(ItemID.PutridScent).
                 AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Condition.InGraveyard).
-                Register();
+                Register()
+                .DisableDecraft();
 
             AddAstralClayRecipes();
             AddBloodOrbPotionRecipes();
@@ -1344,7 +1367,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.FallenStar, 10);
             r.AddIngredient(ModContent.ItemType<PearlShard>(), 3);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Starfury w/ Platinum Broadsword
             r = Recipe.Create(ItemID.Starfury);
@@ -1352,7 +1375,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.FallenStar, 10);
             r.AddIngredient(ModContent.ItemType<PearlShard>(), 3);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Enchanted Boomerang
             r = Recipe.Create(ItemID.EnchantedBoomerang);
@@ -1360,7 +1383,7 @@ namespace CalamityMod
             r.AddIngredient(ModContent.ItemType<PearlShard>(), 6);
             r.AddRecipeGroup(AnyGoldBar, 8);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Enchanted Sword
             r = Recipe.Create(ItemID.EnchantedSword);
@@ -1369,14 +1392,14 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Diamond);
             r.AddIngredient(ItemID.Ruby);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Muramasa
             r = Recipe.Create(ItemID.Muramasa);
             r.AddIngredient(ModContent.ItemType<AerialiteBar>(), 7);
             r.AddIngredient(ItemID.Bone, 10);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Water Bolt w/ Hardmode Spell Tome
             r = Recipe.Create(ItemID.WaterBolt);
@@ -1384,7 +1407,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Waterleaf, 3);
             r.AddIngredient(ItemID.WaterCandle);
             r.AddTile(TileID.Bookcases);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Slime Staff
             r = Recipe.Create(ItemID.SlimeStaff);
@@ -1457,7 +1480,7 @@ namespace CalamityMod
             r.AddIngredient(ModContent.ItemType<DesertFeather>(), 3);
             r.AddIngredient(ModContent.ItemType<PearlShard>(), 5);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Aglet
             r = Recipe.Create(ItemID.Aglet);
@@ -1637,7 +1660,7 @@ namespace CalamityMod
             Recipe r = Recipe.Create(ItemID.CobaltShield);
             r.AddRecipeGroup(AnyCobaltBar, 10);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Armor Polish (broken armor)
             r = Recipe.Create(ItemID.ArmorPolish);
@@ -1666,7 +1689,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.SoulofNight, 15);
             r.AddIngredient(ItemID.Lens, 3);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Vitamins (weakness)
             r = Recipe.Create(ItemID.Vitamins);
@@ -1676,7 +1699,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Daybloom, 5);
             r.AddIngredient(ModContent.ItemType<BeetleJuice>(), 3);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Blindfold (darkness)
             r = Recipe.Create(ItemID.Blindfold);
@@ -1691,7 +1714,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.SoulofLight, 3);
             r.AddIngredient(ItemID.SoulofNight, 3);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Fast Clock (slow)
             r = Recipe.Create(ItemID.FastClock);
@@ -1699,7 +1722,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.PixieDust, 15);
             r.AddIngredient(ItemID.SoulofLight, 5);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Megaphone (silence)
             r = Recipe.Create(ItemID.Megaphone);
@@ -1707,7 +1730,7 @@ namespace CalamityMod
             r.AddRecipeGroup(AnyCobaltBar, 5);
             r.AddIngredient(ItemID.Ruby, 3);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Pocket Mirror (petrification)
             r = Recipe.Create(ItemID.PocketMirror);
@@ -1716,7 +1739,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.CrystalShard, 2);
             r.AddIngredient(ItemID.SoulofNight, 2);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
         }
         #endregion
 
@@ -1764,7 +1787,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.TreasureMagnet);
             r.AddIngredient(ItemID.FallenStar, 5);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Frozen Turtle Shell
             r = Recipe.Create(ItemID.FrozenTurtleShell);
@@ -1791,14 +1814,14 @@ namespace CalamityMod
             r = Recipe.Create(ItemID.PulseBow);
             r.AddIngredient(ItemID.ShroomiteBar, 16);
             r.AddTile(TileID.MythrilAnvil);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Sergeant United Shield
             r = Recipe.Create(ItemID.BouncingShield);
             r.AddRecipeGroup(AnyCobaltBar, 12);
             r.AddIngredient(ItemID.SoulofLight, 4);
             r.AddTile(TileID.Anvils);
-            r.Register();
+            r.Register().DisableDecraft();
 
             // Mechanical Glove directly from correct class emblem for cheaper (compromise)
             r = Recipe.Create(ItemID.MechanicalGlove);

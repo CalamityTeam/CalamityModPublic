@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Placeables
         {
             Item.ResearchUnlockCount = 100;
             // DisplayName.SetDefault("Navystone");
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<EutrophicSand>();
         }
 
         public override void SetDefaults()

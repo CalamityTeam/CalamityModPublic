@@ -13,6 +13,7 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
             /* Tooltip.SetDefault("Has a chance to contain various fishing gear\n" +
             "{$CommonItemTooltip.RightClickToOpen}"); */
             Item.ResearchUnlockCount = 10;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<SandyAnglingKit>();
         }
 
         public override void SetDefaults()

@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Placeables.Plates
             // DisplayName.SetDefault("Onyxplate");
             // Tooltip.SetDefault("It resonates with otherworldly energy.");
             Item.ResearchUnlockCount = 100;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<Navyplate>();
         }
 
         public override void SetDefaults()

@@ -33,6 +33,7 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
             // DisplayName.SetDefault("Abyssal Treasure");
             // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
             Item.ResearchUnlockCount = 10;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<SulphuricTreasure>();
         }
 
         public override void SetDefaults()

@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Placeables
         {
             Item.ResearchUnlockCount = 100;
             // DisplayName.SetDefault("Astral Ice");
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<AstralSnow>();
         }
 
         public override void SetDefaults()
