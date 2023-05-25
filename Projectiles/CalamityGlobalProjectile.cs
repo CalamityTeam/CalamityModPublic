@@ -2086,6 +2086,34 @@ namespace CalamityMod.Projectiles
             // Setting this in SetDefaults didn't work
             switch (projectile.type)
             {
+                // GFB traps, boulders and explosives go hard
+                case ProjectileID.SpikyBallTrap:
+                case ProjectileID.FlamethrowerTrap:
+                case ProjectileID.SpearTrap:
+                case ProjectileID.PoisonDartTrap:
+                case ProjectileID.VenomDartTrap:
+                case ProjectileID.Dynamite:
+                case ProjectileID.BouncyDynamite:
+                case ProjectileID.StickyDynamite:
+                case ProjectileID.Bomb:
+                case ProjectileID.BombFish:
+                case ProjectileID.BouncyBomb:
+                case ProjectileID.DirtBomb:
+                case ProjectileID.DirtStickyBomb:
+                case ProjectileID.DryBomb:
+                case ProjectileID.HoneyBomb:
+                case ProjectileID.LavaBomb:
+                case ProjectileID.ScarabBomb:
+                case ProjectileID.StickyBomb:
+                case ProjectileID.WetBomb:
+                case ProjectileID.Boulder:
+                case ProjectileID.MiniBoulder:
+                case ProjectileID.BouncyBoulder:
+                case ProjectileID.LifeCrystalBoulder:
+                case ProjectileID.MoonBoulder:
+                    projectile.extraUpdates = CalamityWorld.getFixedBoi ? 1 : 0;
+                    break;
+
                 case ProjectileID.RockGolemRock:
                 case ProjectileID.BloodShot:
                 case ProjectileID.DandelionSeed:
@@ -2099,6 +2127,14 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.Bat:
                     projectile.extraUpdates = 1;
                     break;
+            }
+
+            // Random velocities for Bouncy Boulders in GFB
+            if (projectile.type == ProjectileID.BouncyBoulder && CalamityWorld.getFixedBoi)
+            {
+                // 5% chance every frame to get a random velocity multiplier (this is actually rolled twice per frame, due to the extra update in GFB)
+                if (Main.rand.Next(100) >= 95)
+                    projectile.velocity *= Main.rand.NextFloat(0.9f, 1.1f);
             }
 
             // Accelerate for 1.5 seconds to full velocity
