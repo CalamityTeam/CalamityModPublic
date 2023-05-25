@@ -132,6 +132,11 @@ namespace CalamityMod.Items
         }
 
         #region SetDefaults
+        public override void SetStaticDefaults()
+        {
+            SetStaticDefaults_ShimmerRecipes();
+        }
+
         public override void SetDefaults(Item item)
         {
             #region Vanilla Wing Tweaks

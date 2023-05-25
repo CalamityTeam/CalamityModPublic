@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         {
             Item.ResearchUnlockCount = 100;
 			ItemID.Sets.Torches[Item.type] = true;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ItemID.ShimmerTorch;
         }
 
         public override void SetDefaults()

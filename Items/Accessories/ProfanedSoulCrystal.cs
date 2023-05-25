@@ -47,6 +47,7 @@ namespace CalamityMod.Items.Accessories
                 "This tooltip gets modified"); */
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<ProfanedSoulArtifact>();
 
             if (Main.netMode == NetmodeID.Server)
                 return;

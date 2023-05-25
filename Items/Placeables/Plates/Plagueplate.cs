@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Placeables.Plates
             // DisplayName.SetDefault("Plagueplate");
             // Tooltip.SetDefault("It resonates with otherworldly energy.");
             Item.ResearchUnlockCount = 100;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<Havocplate>();
         }
 
         public override void SetDefaults()

@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 			ItemID.Sets.Torches[Item.type] = true;
 			// Right now this causes some Cursed Inferno dust until tmod fixes AutoLightSelect, it's a small sacrifice
 			ItemID.Sets.WaterTorches[Item.type] = true;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ItemID.ShimmerTorch;
         }
 
         public override void SetDefaults()

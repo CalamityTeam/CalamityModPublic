@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Placeables
         {
             Item.ResearchUnlockCount = 100;
             // DisplayName.SetDefault("Astral Sandstone");
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<AstralSand>();
         }
 
         public override void SetDefaults()

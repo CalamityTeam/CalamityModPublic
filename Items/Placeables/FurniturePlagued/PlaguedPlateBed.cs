@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
         {
             // DisplayName.SetDefault("Plagued 'Bed'");
             // Tooltip.SetDefault("Counts as a bed");
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<BrokenPlaguedBed>();
         }
 
         public override void SetDefaults()

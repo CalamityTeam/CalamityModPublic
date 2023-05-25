@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Broken Plagued 'Bed'");
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<PlaguedPlateBed>();
         }
 
         public override void SetDefaults()
