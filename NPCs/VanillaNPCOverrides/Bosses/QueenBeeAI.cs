@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 enrageScale = 1f;
 
             if (Main.getGoodWorld)
-                enrageScale += 0.5f;
+                enrageScale += ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 1f : 0.5f);
 
             if (bossRush)
                 enrageScale = 2f;
@@ -471,7 +471,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int spawnType = phase3 ? NPCID.Bee : Main.rand.Next(NPCID.Bee, NPCID.BeeSmall + 1);
-                        if (CalamityWorld.LegendaryMode)
+                        if (CalamityWorld.getFixedBoi)
                         {
                             if (phase3)
                                 spawnType = Main.rand.NextBool(3) ? ModContent.NPCType<PlagueChargerLarge>() : ModContent.NPCType<PlagueCharger>();
@@ -483,7 +483,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Main.npc[spawn].velocity = Main.player[npc.target].Center - npc.Center;
                         Main.npc[spawn].velocity.Normalize();
                         Main.npc[spawn].velocity *= 5f;
-                        if (!CalamityWorld.LegendaryMode)
+                        if (!CalamityWorld.getFixedBoi)
                             Main.npc[spawn].localAI[0] = 60f;
                         Main.npc[spawn].netUpdate = true;
                     }
@@ -576,8 +576,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num627 = num624 / num627;
                         num625 *= num627;
                         num626 *= num627;
-                        int type = CalamityWorld.LegendaryMode ? (phase3 ? ModContent.ProjectileType<PlagueStingerGoliathV2>() : ProjectileID.FlamingWood) : ProjectileID.QueenBeeStinger;
-                        int projectile = Projectile.NewProjectile(npc.GetSource_FromAI(), vector78.X, vector78.Y, num625, num626, type, CalamityWorld.LegendaryMode ? 25 : npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, (CalamityWorld.LegendaryMode && phase3) ? Main.player[npc.target].position.Y : 0f);
+                        int type = CalamityWorld.getFixedBoi ? (phase3 ? ModContent.ProjectileType<PlagueStingerGoliathV2>() : ProjectileID.FlamingWood) : ProjectileID.QueenBeeStinger;
+                        int projectile = Projectile.NewProjectile(npc.GetSource_FromAI(), vector78.X, vector78.Y, num625, num626, type, CalamityWorld.getFixedBoi ? 25 : npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, (CalamityWorld.getFixedBoi && phase3) ? Main.player[npc.target].position.Y : 0f);
                         Main.projectile[projectile].timeLeft = 600;
                         Main.projectile[projectile].extraUpdates = 1;
                     }

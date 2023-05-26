@@ -2872,6 +2872,12 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            if (CalamityWorld.getFixedBoi)
+            {
+                if (npc.type == NPCID.QueenBee)
+                    return QueenBeeAI.BuffedQueenBeeAI(npc, Mod);
+            }
+
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 switch (npc.type)
@@ -5491,7 +5497,7 @@ namespace CalamityMod.NPCs
             if (Main.LocalPlayer.Calamity().trippy || (npc.type == NPCID.KingSlime && CalamityWorld.LegendaryMode && CalamityWorld.revenge))
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
 
-            if (npc.type == NPCID.QueenBee && CalamityWorld.LegendaryMode && CalamityWorld.revenge)
+            if (npc.type == NPCID.QueenBee && CalamityWorld.getFixedBoi)
             {
                 if (npc.life / (float)npc.lifeMax < 0.5f)
                     return new Color(0, 255, 0, npc.alpha);
