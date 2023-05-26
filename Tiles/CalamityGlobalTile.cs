@@ -26,16 +26,6 @@ namespace CalamityMod.Tiles
 {
     public class CalamityGlobalTile : GlobalTile
     {
-        internal static readonly MethodInfo ActiveFountainColorMethod = typeof(SceneMetrics).GetMethod("set_ActiveFountainColor", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        public static void SetActiveFountainColor(int fountainID)
-        {
-            ActiveFountainColorMethod.Invoke(Main.SceneMetrics, new object[]
-            {
-                fountainID
-            });
-        }
-
         public static ushort[] PlantTypes = new ushort[]
         {
             TileID.Plants,
