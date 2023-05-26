@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
         {
             string waterColor = CalamityWorld.getFixedBoi ? "CalamityMod/PissWater" : "CalamityMod/SulphuricWater";
             if (Main.tile[i, j].TileFrameX >= 36)
-                CalamityGlobalTile.SetActiveFountainColor(ModContent.Find<ModWaterStyle>(waterColor).Slot);
+                Main.SceneMetrics.ActiveFountainColor = ModContent.Find<ModWaterStyle>(waterColor).Slot;
         }
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
