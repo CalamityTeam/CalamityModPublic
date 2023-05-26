@@ -108,6 +108,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 num823 = 4f;
             }
+            if (CalamityWorld.getFixedBoi)
+            {
+                num823 = 8f;
+            }
             if (NPC.ai[0] == 0f)
             {
                 NPC.ai[1] += 1f;

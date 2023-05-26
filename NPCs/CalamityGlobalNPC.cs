@@ -2810,7 +2810,7 @@ namespace CalamityMod.NPCs
             }
 
             // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
-            if (CalamityLists.ZeroContactDamageNPCList.Contains(npc.type))
+            if (CalamityLists.ZeroContactDamageNPCList.Contains(npc.type) && (npc.type != NPCID.RuneWizard || !CalamityWorld.getFixedBoi))
                 npc.damage = npc.defDamage = 0;
 
             // Don't do damage for 42 frames after spawning in

@@ -6409,6 +6409,23 @@ namespace CalamityMod.CalPlayer
         #region Nurse Modifications
         public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
         {
+            if (CalamityWorld.getFixedBoi)
+            {
+                var source = new ProjectileSource_GFBNurseHealLeviathanMeteor(Player);
+                if (Player.whoAmI == Main.myPlayer)
+                {
+                    int proj = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<LeviathanBomb>(), 9999, 10f, Player.whoAmI);
+                    if (Main.projectile[proj].whoAmI.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[proj].scale = 6f;
+                        Main.projectile[proj].friendly = true;
+                        Main.projectile[proj].netUpdate = true;
+                    }
+                }
+
+                return false;
+            }
+
             if ((CalamityWorld.death || BossRushEvent.BossRushActive) && areThereAnyDamnBosses)
             {
                 chatText = "Now is not the time!";

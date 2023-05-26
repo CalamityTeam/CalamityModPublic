@@ -559,6 +559,9 @@ namespace CalamityMod
         // The text is a separate rule so it doesn't show up on the non-Trasher Fishing Rod drop which only occurs if the Angler is not fed to a Trasher
         public static IItemDropRuleCondition TrasherText = If((info) => true, true, "Drops if fed to a Trasher");
 
+        // Get Fixed Boi seed drop rule
+        public static IItemDropRuleCondition GFB = If((info) => CalamityWorld.getFixedBoi, () => CalamityWorld.getFixedBoi, "This is a Get Fixed Boi seed drop rate");
+
         public static IItemDropRuleCondition RevNoMaster = If((info) => !Main.masterMode && CalamityWorld.revenge, () => !Main.masterMode && CalamityWorld.revenge, "This is a Revengeance Mode drop rate");
         public static IItemDropRuleCondition RevAndMaster = If((info) => Main.masterMode || CalamityWorld.revenge, () => Main.masterMode || CalamityWorld.revenge, () =>
 		{

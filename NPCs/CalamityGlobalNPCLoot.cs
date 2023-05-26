@@ -63,6 +63,9 @@ namespace CalamityMod.NPCs
             // Convenient shortcut for all Master drops moved to Revengeance
             LeadingConditionRule rev = npcLoot.DefineConditionalDropSet(DropHelper.RevNoMaster);
 
+            // Convenient shortcut for all GFB drops
+            LeadingConditionRule GFB = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
+
             LeadingConditionRule pMoon = new LeadingConditionRule(new Conditions.PumpkinMoonDropGatingChance());
             LeadingConditionRule fMoon = new LeadingConditionRule(new Conditions.FrostMoonDropGatingChance());
 
@@ -897,6 +900,9 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.KingSlimeMasterTrophy);
                     rev.Add(ItemID.KingSlimePetItem, 4);
 
+                    // GFB Purified Gel drop
+                    GFB.Add(ModContent.ItemType<PurifiedGel>(), 1, 45, 55);
+
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedSlimeKing, ModContent.ItemType<LoreKingSlime>(), desc: DropHelper.FirstKillText);
                     break;
@@ -913,6 +919,9 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.EyeofCthulhuMasterTrophy);
                     rev.Add(ItemID.EyeOfCthulhuPetItem, 4);
+
+                    // GFB Optic Staff drop
+                    GFB.Add(ItemID.OpticStaff);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedBoss1, ModContent.ItemType<LoreEyeofCthulhu>(), desc: DropHelper.FirstKillText);
@@ -933,6 +942,9 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.AddIf((info) => info.npc.boss, ItemID.EaterofWorldsMasterTrophy);
                     rev.AddIf((info) => info.npc.boss, ItemID.EaterOfWorldsPetItem, 4);
+
+                    // GFB Light Disc drop
+                    GFB.Add(ItemID.LightDisc);
 
                     // Corruption World OR Drunk World: Corruption Lore
                     LeadingConditionRule eowCorruptionLore = new(DropHelper.If((info) => info.npc.boss && (!WorldGen.crimson || WorldGen.drunkWorldGen) && !NPC.downedBoss2, desc: DropHelper.FirstKillText));
@@ -957,6 +969,9 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.BrainofCthulhuMasterTrophy);
                     rev.Add(ItemID.BrainOfCthulhuPetItem, 4);
+
+                    // GFB Occult Skull Crown drop
+                    GFB.Add(ModContent.ItemType<OccultSkullCrown>());
 
                     // Corruption World OR Drunk World: Corruption Lore
                     LeadingConditionRule bocCorruptionLore = new(DropHelper.If(() => (!WorldGen.crimson || WorldGen.drunkWorldGen) && !NPC.downedBoss2, desc: DropHelper.FirstKillText));
@@ -1033,6 +1048,10 @@ namespace CalamityMod.NPCs
                     rev.Add(ItemID.QueenBeeMasterTrophy);
                     rev.Add(ItemID.QueenBeePetItem, 4);
 
+                    // GFB Lavaproof Bug Net and Alchemical Flask drop
+                    GFB.Add(ItemID.FireproofBugNet);
+                    GFB.Add(ModContent.ItemType<AlchemicalFlask>());
+
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedQueenBee, ModContent.ItemType<LoreQueenBee>(), desc: DropHelper.FirstKillText);
                     break;
@@ -1059,6 +1078,9 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.SkeletronMasterTrophy);
                     rev.Add(ItemID.SkeletronPetItem, 4);
+
+                    // GFB Flamethrower drop
+                    GFB.Add(ItemID.Flamethrower);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedBoss3, ModContent.ItemType<LoreSkeletron>(), desc: DropHelper.FirstKillText);
